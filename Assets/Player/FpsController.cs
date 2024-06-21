@@ -15,6 +15,9 @@ public class FpsController : MonoBehaviour
 
     private float xRotation = 0f;
 
+    private float mouseX;
+    private float mouseY;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -23,6 +26,13 @@ public class FpsController : MonoBehaviour
 
     void Update()
     {
+       Movement();
+       AddGravity();
+       
+    }
+    private void Movement() 
+    {
+        Mouselook();
         // Handle movement
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
@@ -41,20 +51,30 @@ public class FpsController : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-
+    }
+    private void AddGravity() 
+    {
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
+    }
+    private void Mouselook() 
+    {
         // Handle mouse look
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        CameraController();
         transform.Rotate(Vector3.up * mouseX);
+    }
+    public void CameraController() 
+    {
+        playerCamera.localRotation = Quaternion.Euler(xRotation,0,0);
     }
 }
 
