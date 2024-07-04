@@ -1,0 +1,89 @@
+{
+    "name": "PlayerInput",
+    "maps": [
+        {
+            "name": "PlayerAction",
+            "id": "8f1883ef-652d-4a9f-bb8d-eb2198624eee",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "1205a688-0ec8-4226-a833-c9df8d2969f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Horizontal",
+                    "id": "653cf65b-ae5c-4dac-ac7a-a23d7abdb030",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "46f284a6-7544-44a9-81a0-e7759bbe610f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "eb6db22d-9e95-4413-b3b5-204f358b683b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Vertical",
+                    "id": "12bb994f-b496-4021-8c8e-c90555a89e8d",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "dfeef6f0-507c-4012-a56c-baa3116cb50d",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "392b3dd1-e7fe-4040-80c4-e77fcbb26cea",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
