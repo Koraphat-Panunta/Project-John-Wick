@@ -17,10 +17,18 @@ public class StateManager : MonoBehaviour
     {
         Current_state.PhysicUpdateState();
     }
-    public void ChangeState(State Nextstate)
+    public virtual void ChangeState(State Nextstate)
     {
-        Current_state.ExitState();
-        Current_state = Nextstate;
-        Current_state.EnterState();
+        if (Current_state == null)
+        {
+            Current_state = Nextstate;
+            Current_state.EnterState();
+        }
+        else
+        {
+            Current_state.ExitState();
+            Current_state = Nextstate;
+            Current_state.EnterState();
+        }
     }
 }
