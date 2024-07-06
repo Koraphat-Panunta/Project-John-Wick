@@ -6,6 +6,7 @@ public class CharacterState : State
 {
     public Animator characterAnimator { get; protected set; }
     public GameObject Character { get; protected set; }
+   
     public CharacterState(Animator animator, GameObject Char) 
     {
         characterAnimator = animator;
@@ -30,4 +31,6 @@ public class CharacterState : State
     {
         base.PhysicUpdateState();
     }
+
+   
 }
