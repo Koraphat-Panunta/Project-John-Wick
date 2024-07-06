@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveState : CharacterState
+public class MoveState : CharacterState 
 {
-    Vector2 Movement;
-    public MoveState(Animator animator, GameObject Char) : base(animator, Char)
+    Vector2 MovementInput;
+    Vector2 CurentMovement;
+  
+    public MoveState(Animator animator, GameObject Char,PlayerStateManager stateManager) : base(animator, Char, stateManager)
     {
     }
     public override void EnterState()
     {
-        base.characterAnimator.Play("Movement");
+        //base.characterAnimator.Play("Movement");
+        CurentMovement = new Vector2(characterAnimator.GetFloat("Side_LR"), characterAnimator.GetFloat("ForBack_Ward"));
         base.EnterState();
     }
 
@@ -21,11 +24,13 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState()
     {
+        this.CurentMovement = Vector2.Lerp(this.CurentMovement, base.StateManager.GetComponent<PlayerController>().Movement, 0.01f);     
         base.FrameUpdateState();
     }
-
     public override void PhysicUpdateState()
     {
+        base.characterAnimator.SetFloat("ForBack_Ward", this.CurentMovement.y);
+        base.characterAnimator.SetFloat("Side_LR", this.CurentMovement.x);
         base.PhysicUpdateState();
     }
 
@@ -41,5 +46,6 @@ public class MoveState : CharacterState
         // Smoothly rotate towards the target rotation
         Character.transform.rotation = Quaternion.Slerp(Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
-    
+
+   
 }

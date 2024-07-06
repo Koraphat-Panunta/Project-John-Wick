@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SprintState : CharacterState
 {
-    public SprintState(Animator animator, GameObject Char) : base(animator, Char)
+    public SprintState(Animator animator, GameObject Char,PlayerStateManager stateManager) : base(animator, Char, stateManager)
     {
     }
 
