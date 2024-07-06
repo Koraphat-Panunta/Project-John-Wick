@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Subject
 {
     // Start is called before the first frame update
     public InputAction Move;
@@ -21,14 +21,17 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
        playerState = GetComponent<PlayerStateManager>();
-       playerState.ChangeState(playerState.idle);
     }
 
     // Update is called once per frame
     void Update()
     {
         Movement = Move.ReadValue<Vector2>();
-        if (Move.ReadValue<Vector2>().x != 0||Move.ReadValue<Vector2>().y!=0)
+       
+    }
+    private void FixedUpdate()
+    {
+        if (Movement.x != 0 || Movement.y != 0)
         {
             playerState.ChangeState(playerState.move);
         }
@@ -37,5 +40,5 @@ public class PlayerController : MonoBehaviour
             playerState.ChangeState(playerState.idle);
         }
     }
-  
+
 }

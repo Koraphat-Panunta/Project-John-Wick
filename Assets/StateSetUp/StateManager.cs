@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class StateManager : MonoBehaviour
 {
@@ -9,26 +10,20 @@ public class StateManager : MonoBehaviour
     {
         Current_state = StartState;
     }
-    public virtual void UpdateState()
+    protected virtual void Update()
     {
         Current_state.FrameUpdateState();
     }
-    public virtual void FixedStateUpdate()
+    protected virtual void FixedUpdate()
     {
         Current_state.PhysicUpdateState();
     }
     public virtual void ChangeState(State Nextstate)
     {
-        if (Current_state == null)
-        {
-            Current_state = Nextstate;
-            Current_state.EnterState();
-        }
-        else
-        {
+       
             Current_state.ExitState();
             Current_state = Nextstate;
             Current_state.EnterState();
-        }
+      
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public abstract class State
+public abstract class State: MonoBehaviour
 {
     public bool IsEnter = false;
     public bool IsExit = false;

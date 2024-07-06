@@ -6,11 +6,13 @@ public class CharacterState : State
 {
     public Animator characterAnimator { get; protected set; }
     public GameObject Character { get; protected set; }
+    protected PlayerStateManager StateManager;
    
-    public CharacterState(Animator animator, GameObject Char) 
+    public CharacterState(Animator animator, GameObject Char,PlayerStateManager stateManager) 
     {
         characterAnimator = animator;
         Character = Char;
+        this.StateManager = stateManager;
     }
     public override void EnterState()
     {
