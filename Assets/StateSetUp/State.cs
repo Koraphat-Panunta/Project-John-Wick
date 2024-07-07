@@ -49,4 +49,5 @@ public abstract class State: MonoBehaviour
         IsExit = true;
         timerState = 0;
     }
+
 }

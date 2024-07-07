@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerStateManager : StateManager 
 {
-    public IdleState idle { get; private set; }
-    public MoveState move { get; private set; }
-    public SprintState sprint { get; private set; }
+    [SerializeField] private IdleState idle;
+    [SerializeField] private MoveState move;
+    [SerializeField] private SprintState sprint;
     [SerializeField] private Animator PlayerAnimator;
     public PlayerController playerController { get; private set; }
     public PlayerStateManager(State StartState) : base(StartState)
@@ -14,10 +14,8 @@ public class PlayerStateManager : StateManager
     }
     private void Start()
     {
-        playerController = GetComponent<PlayerController>();
-        idle = new IdleState(PlayerAnimator,gameObject,this);
-        move = new MoveState(PlayerAnimator,gameObject,this);
-        sprint = new SprintState(PlayerAnimator,gameObject, this);
+       playerController = GetComponent<PlayerController>();
+        
         Current_state = idle;
     }
    
@@ -35,4 +33,5 @@ public class PlayerStateManager : StateManager
     {
         base.FixedUpdate();
     }
+   
 }

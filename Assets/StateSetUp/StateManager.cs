@@ -26,4 +26,8 @@ public class StateManager : MonoBehaviour
             Current_state.EnterState();
       
     }
+    public State GetState(State state)
+    {
+        return state;
+    }
 }
