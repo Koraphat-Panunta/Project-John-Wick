@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class StateManager : MonoBehaviour
+public abstract class StateManager : MonoBehaviour
 {
     public State Current_state { get; protected set; }
-    public StateManager(State StartState)
+    protected virtual void Start()
     {
-        Current_state = StartState;
+        SetUpState();
     }
     protected virtual void Update()
     {
@@ -19,15 +20,11 @@ public class StateManager : MonoBehaviour
         Current_state.PhysicUpdateState();
     }
     public virtual void ChangeState(State Nextstate)
-    {
-       
+    {   
             Current_state.ExitState();
             Current_state = Nextstate;
             Current_state.EnterState();
-      
     }
-    public State GetState(State state)
-    {
-        return state;
-    }
+    protected abstract void SetUpState();
+   
 }

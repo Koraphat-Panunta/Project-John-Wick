@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SprintState : CharacterState
 {
-    public SprintState(Animator animator, GameObject Char,PlayerStateManager stateManager) : base(animator, Char, stateManager)
-    {
-    }
-
     public override void EnterState()
     {
         base.EnterState();

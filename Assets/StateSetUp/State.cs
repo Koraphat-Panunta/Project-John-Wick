@@ -11,11 +11,6 @@ public abstract class State: MonoBehaviour
 
 
 
-    public State()
-    {
-        
-
-    }
     public virtual void EnterState()
     {
         IsEnter = true;

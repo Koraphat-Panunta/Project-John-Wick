@@ -33,11 +33,11 @@ public class PlayerController : Subject
     {
         if (Movement.x != 0 || Movement.y != 0)
         {
-            //playerState.ChangeState(playerState.move);
+            playerState.ChangeState(playerState.move);
         }
         else
         {
-            //playerState.ChangeState(playerState.idle);
+            playerState.ChangeState(playerState.idle);
         }
     }
 

@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class MoveState : CharacterState 
 {
-    Vector2 MovementInput;
-    Vector2 CurentMovement;
+    
+ 
   
-    public MoveState(Animator animator, GameObject Char,PlayerStateManager stateManager) : base(animator, Char, stateManager)
-    {
-    }
+   
     public override void EnterState()
     {
         //base.characterAnimator.Play("Movement");
-        CurentMovement = new Vector2(characterAnimator.GetFloat("Side_LR"), characterAnimator.GetFloat("ForBack_Ward"));
         base.EnterState();
     }
 
@@ -24,13 +21,14 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState()
     {
-        this.CurentMovement = Vector2.Lerp(this.CurentMovement, base.StateManager.GetComponent<PlayerController>().Movement, 0.01f);     
+             
         base.FrameUpdateState();
     }
     public override void PhysicUpdateState()
     {
-        base.characterAnimator.SetFloat("ForBack_Ward", this.CurentMovement.y);
-        base.characterAnimator.SetFloat("Side_LR", this.CurentMovement.x);
+        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 0.1f);
+        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
+        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
         base.PhysicUpdateState();
     }
 

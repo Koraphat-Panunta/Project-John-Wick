@@ -8,11 +8,11 @@ public class CharacterState : State
     public GameObject Character { get; protected set; }
     protected PlayerStateManager StateManager;
    
-    public CharacterState(Animator animator, GameObject Char,PlayerStateManager stateManager) 
+    public void SetUp(Animator animator, GameObject Char, PlayerStateManager stateManager)
     {
         characterAnimator = animator;
         Character = Char;
-        this.StateManager = stateManager;
+        StateManager = stateManager;
     }
     public override void EnterState()
     {

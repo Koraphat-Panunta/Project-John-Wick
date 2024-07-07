@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class PlayerStateManager : StateManager 
 {
-    [SerializeField] private IdleState idle;
-    [SerializeField] private MoveState move;
-    [SerializeField] private SprintState sprint;
+    [SerializeField] public IdleState idle;
+    [SerializeField] public MoveState move;
+    [SerializeField] public SprintState sprint;
     [SerializeField] private Animator PlayerAnimator;
     public PlayerController playerController { get; private set; }
-    public PlayerStateManager(State StartState) : base(StartState)
+    public Vector2 Movement = Vector2.zero;
+    protected override void Start()
     {
-    }
-    private void Start()
-    {
-       playerController = GetComponent<PlayerController>();
-        
+
+        playerController = GetComponent<PlayerController>();
         Current_state = idle;
+        base.Start();
     }
-   
+
     public override void ChangeState(State Nextstate)
     {
         base.ChangeState(Nextstate);
@@ -33,5 +32,11 @@ public class PlayerStateManager : StateManager
     {
         base.FixedUpdate();
     }
-   
+
+    protected override void SetUpState()
+    {
+        idle.SetUp(PlayerAnimator, gameObject, this);
+        move.SetUp(PlayerAnimator, gameObject, this);
+        sprint.SetUp(PlayerAnimator, gameObject, this);
+    }
 }

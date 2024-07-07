@@ -6,15 +6,9 @@ using UnityEngine;
 
 public class IdleState : CharacterState 
 {
-
-    Vector2 CurentMovement;
-    public IdleState(Animator animator, GameObject Char,PlayerStateManager stateManager) : base(animator, Char,stateManager)
-    {
-
-    }
+   
     public override void EnterState()
     {
-        CurentMovement = new Vector2(characterAnimator.GetFloat("Side_LR"), characterAnimator.GetFloat("ForBack_Ward"));
         base.EnterState();
     }
 
@@ -25,15 +19,15 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState()
     {
-        this.CurentMovement = Vector2.Lerp(this.CurentMovement, Vector2.zero, 0.01f);
+        
         base.FrameUpdateState();
     }
 
     public override void PhysicUpdateState()
     {
- 
-        base.characterAnimator.SetFloat("ForBack_Ward", this.CurentMovement.y);
-        base.characterAnimator.SetFloat("Side_LR", this.CurentMovement.x);
+        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, Vector2.zero, 0.1f);
+        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
+        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
         base.PhysicUpdateState();
     }
 }
