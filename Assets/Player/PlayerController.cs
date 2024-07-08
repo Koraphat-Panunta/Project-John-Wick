@@ -33,7 +33,14 @@ public class PlayerController : Subject
     {
         if (Movement.x != 0 || Movement.y != 0)
         {
-            playerState.ChangeState(playerState.move);
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                playerState.ChangeState(playerState.sprint);
+            }
+            else
+            {
+                playerState.ChangeState(playerState.move);
+            }
         }
         else
         {

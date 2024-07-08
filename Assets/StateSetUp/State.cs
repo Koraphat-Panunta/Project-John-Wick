@@ -4,12 +4,16 @@ using UnityEngine;
 
 public abstract class State: MonoBehaviour
 {
-    public bool IsEnter = false;
-    public bool IsExit = false;
-    
+    public bool IsEnter { get; protected set; }
+    public bool IsExit { get; protected set; }
+
     public float timerState { get; private set; }
 
-
+    private void Start()
+    {
+        IsEnter = false;
+        IsExit = false;
+    }
 
     public virtual void EnterState()
     {
@@ -18,6 +22,11 @@ public abstract class State: MonoBehaviour
     }
     private bool nextframeIsExit = false;
     public virtual void FrameUpdateState()
+    {
+       
+        timerState += Time.deltaTime;
+    }
+    public virtual void PhysicUpdateState() 
     {
         if (IsEnter == true)
         {
@@ -35,9 +44,7 @@ public abstract class State: MonoBehaviour
                 nextframeIsExit = true;
             }
         }
-        timerState += Time.deltaTime;
     }
-    public virtual void PhysicUpdateState() { }
     public virtual void ExitState()
     {
         IsEnter = false;

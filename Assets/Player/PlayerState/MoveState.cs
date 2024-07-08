@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class MoveState : CharacterState 
 {
+    [SerializeField] private Camera main_camera;
+    public float Speed = 100;
     
- 
-  
-   
     public override void EnterState()
     {
         //base.characterAnimator.Play("Movement");
@@ -21,7 +20,6 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState()
     {
-             
         base.FrameUpdateState();
     }
     public override void PhysicUpdateState()
@@ -29,6 +27,10 @@ public class MoveState : CharacterState
         base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 0.1f);
         base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
         base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
+        base.characterController.SimpleMove(base.Character.transform.forward * Speed * Time.deltaTime);
+        RotateTowards(main_camera.transform.forward);
+     
+        //character.velocity = base.Character.transform.forward.normalized*Speed;
         base.PhysicUpdateState();
     }
 
@@ -38,11 +40,18 @@ public class MoveState : CharacterState
         // Ensure the direction is normalized
         direction.Normalize();
 
-        // Calculate the target rotation based on the direction
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        // Flatten the direction vector to the XZ plane to only rotate around the Y axis
+        direction.y = 0;
 
-        // Smoothly rotate towards the target rotation
-        Character.transform.rotation = Quaternion.Slerp(Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // Check if the direction is not zero to avoid setting a NaN rotation
+        if (direction != Vector3.zero)
+        {
+            // Calculate the target rotation based on the direction
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+            // Smoothly rotate towards the target rotation
+            base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
    

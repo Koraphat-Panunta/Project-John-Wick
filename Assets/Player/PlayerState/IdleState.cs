@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class IdleState : CharacterState 
 {
-   
     public override void EnterState()
     {
         base.EnterState();
