@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861745961f41b564886da6b0ed423ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraForward: {x: 0, y: 0, z: 0}
 --- !u!1 &525173946
 GameObject:
   m_ObjectHideFlags: 3
@@ -1816,7 +1817,7 @@ PrefabInstance:
     - target: {fileID: 9142967028807642514, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: Move.m_ExpectedControlType
-      value: Analog
+      value: Axis
       objectReference: {fileID: 0}
     - target: {fileID: 9142967028807642514, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -2272,7 +2273,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5bcf561ef20ae8544a6a54f741929716, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

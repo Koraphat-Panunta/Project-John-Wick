@@ -27,6 +27,7 @@ public class PlayerController : Subject
     void Update()
     {
         Movement = Move.ReadValue<Vector2>();
+        Movement = new Vector2(Movement.y,Movement.x);
        
     }
     private void FixedUpdate()

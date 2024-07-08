@@ -25,17 +25,11 @@ public class SprintState : CharacterState
 
     public override void PhysicUpdateState()
     {
-        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 0.1f);
-        if (base.StateManager.Movement.x == 0)
-        {   
-            RotateTowards(main_camera.transform.forward.normalized);
-        }
-        else
-        {
-            Vector3 Direction = main_camera.transform.forward + new Vector3(base.StateManager.Movement.x, base.StateManager.Movement.y, 0);
-            RotateTowards(Direction);
-        }
-        base.characterController.SimpleMove(base.Character.transform.forward * speed * Time.deltaTime);
+        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 1f);
+
+        Vector3 Direction = new Vector3(main_camera.transform.forward.x+base.StateManager.Movement.y, 0, main_camera.transform.forward.z+base.StateManager.Movement.x);
+        RotateTowards(Direction);
+        //base.characterController.SimpleMove(base.Character.transform.forward * speed * Time.deltaTime);
         base.PhysicUpdateState();
     }
     protected float rotationSpeed = 5.0f;

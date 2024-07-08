@@ -25,8 +25,8 @@ public class IdleState : CharacterState
     public override void PhysicUpdateState()
     {
         base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, Vector2.zero, 0.1f);
-        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
-        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
+        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.x);
+        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.y);
         base.PhysicUpdateState();
     }
 }

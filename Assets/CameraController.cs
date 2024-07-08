@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    
 
+    [SerializeField] Vector3 cameraForward;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;    
@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-       
+       cameraForward = gameObject.transform.forward;
     }
 
     
