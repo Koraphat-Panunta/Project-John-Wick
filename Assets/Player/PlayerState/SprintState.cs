@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SprintState : CharacterState
 {
-    [SerializeField] Camera main_camera;
-    public float speed = 250;
     public override void EnterState()
     {
         base.characterAnimator.SetBool("IsSprinting", true);
@@ -25,11 +23,6 @@ public class SprintState : CharacterState
 
     public override void PhysicUpdateState()
     {
-        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 1f);
-
-        Vector3 Direction = new Vector3(main_camera.transform.forward.x+base.StateManager.Movement.y, 0, main_camera.transform.forward.z+base.StateManager.Movement.x);
-        RotateTowards(Direction);
-        //base.characterController.SimpleMove(base.Character.transform.forward * speed * Time.deltaTime);
         base.PhysicUpdateState();
     }
     protected float rotationSpeed = 5.0f;
