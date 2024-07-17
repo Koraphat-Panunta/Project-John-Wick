@@ -18,15 +18,23 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState()
     {
-        
+       
         base.FrameUpdateState();
     }
 
     public override void PhysicUpdateState()
     {
-        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, Vector2.zero, 0.1f);
-        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.x);
-        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.y);
+        InputPerformed();
+        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
+        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
         base.PhysicUpdateState();
+    }
+    protected override void InputPerformed()
+    {
+        if (playerController.movementInput != Vector2.zero)
+        {
+            base.StateManager.ChangeState(base.StateManager.move);
+        }
+        base.InputPerformed();
     }
 }

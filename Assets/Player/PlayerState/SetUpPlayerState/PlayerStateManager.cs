@@ -30,13 +30,14 @@ public class PlayerStateManager : StateManager
 
     protected override void FixedUpdate()
     {
+        this.Movement = Vector2.Lerp(this.Movement, playerController.movementInput, 0.1f);
         base.FixedUpdate();
     }
 
     protected override void SetUpState()
     {
-        idle.SetUp(PlayerAnimator, gameObject, this);
-        move.SetUp(PlayerAnimator, gameObject, this);
-        sprint.SetUp(PlayerAnimator, gameObject, this);
+        idle.SetUp(PlayerAnimator, gameObject, this,playerController);
+        move.SetUp(PlayerAnimator, gameObject, this,playerController);
+        sprint.SetUp(PlayerAnimator, gameObject, this, playerController);
     }
 }

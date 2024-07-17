@@ -9,12 +9,14 @@ public class CharacterState : State
     public GameObject Character { get; protected set; }
     public CharacterController characterController { get; protected set; }
     protected PlayerStateManager StateManager;
+    protected PlayerController playerController;
    
-    public void SetUp(Animator animator, GameObject Char, PlayerStateManager stateManager)
+    public void SetUp(Animator animator, GameObject Char, PlayerStateManager stateManager,PlayerController playerController)
     {
         characterAnimator = animator;
         Character = Char;
         StateManager = stateManager;
+        this.playerController = playerController;
         characterController = characterAnimator.GetComponent<CharacterController>();
     }
     public override void EnterState()
@@ -35,6 +37,10 @@ public class CharacterState : State
     public override void PhysicUpdateState()
     {
         base.PhysicUpdateState();
+    }
+    protected virtual void InputPerformed()
+    {
+
     }
 
    

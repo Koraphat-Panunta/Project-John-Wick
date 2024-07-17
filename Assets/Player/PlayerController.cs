@@ -6,47 +6,37 @@ using UnityEngine.InputSystem;
 public class PlayerController : Subject
 {
     // Start is called before the first frame update
-    public InputAction Move;
-    public Vector2 Movement;
-    private PlayerStateManager playerState;
+    public Vector2 movementInput;
+    public Vector2 lookInput;
+    public bool sprintInput;
+    public InputAction.CallbackContext sprintInputX;
     
-    private void OnEnable()
-    {
-        Move.Enable();
-    }
-    private void OnDisable()
-    {
-        Move.Disable();
-    }
+    
     void Start()
     {
-       playerState = GetComponent<PlayerStateManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movement = Move.ReadValue<Vector2>();
-        Movement = new Vector2(Movement.y,Movement.x);
        
     }
     private void FixedUpdate()
     {
-        if (Movement.x != 0 || Movement.y != 0)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                playerState.ChangeState(playerState.sprint);
-            }
-            else
-            {
-                playerState.ChangeState(playerState.move);
-            }
-        }
-        else
-        {
-            playerState.ChangeState(playerState.idle);
-        }
+       
+    }
+    public void OnMove(InputAction.CallbackContext Value)
+    {
+        movementInput = Value.ReadValue<Vector2>();
+    }
+    public void OnLook(InputAction.CallbackContext Value)
+    {
+        lookInput = Value.ReadValue<Vector2>();
+    }
+    public void OnSprint(InputAction.CallbackContext Value)
+    {
+        sprintInput = Value.phase.IsInProgress();
+        sprintInputX = Value;
     }
 
 }

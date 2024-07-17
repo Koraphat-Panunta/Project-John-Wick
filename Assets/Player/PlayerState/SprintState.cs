@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SprintState : CharacterState
 {
+    [SerializeField] Transform cameraTrans;
     public override void EnterState()
     {
         base.characterAnimator.SetBool("IsSprinting", true);
@@ -23,6 +26,11 @@ public class SprintState : CharacterState
 
     public override void PhysicUpdateState()
     {
+        InputPerformed();
+
+
+
+        RotateTowards(TransformDirectionObject(new Vector3(base.playerController.movementInput.x,0,base.playerController.movementInput.y),cameraTrans.forward));
         base.PhysicUpdateState();
     }
     protected float rotationSpeed = 5.0f;
@@ -44,6 +52,33 @@ public class SprintState : CharacterState
             base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+    Vector3 Camera;
+    Vector3 Input;
+    Vector3 InputOfCam;
+    float Zeta;
+    private Vector3 TransformDirectionObject(Vector3 dirWolrd,Vector3 dirObjectLocal)
+    {
+        float zeta;
+        Camera = dirObjectLocal.normalized;
+        Input = dirWolrd;
+        Vector3 Direction;
+        zeta = Mathf.Atan2(dirObjectLocal.z , dirObjectLocal.x)-Mathf.Deg2Rad*90;
+        Direction.x = dirWolrd.x*Mathf.Cos(zeta)-dirWolrd.z*Mathf.Sin(zeta);
+        Direction.z = dirWolrd.x*Mathf.Sin(zeta)+dirWolrd.z*Mathf.Cos(zeta);
+        Direction.y = 0;
+        InputOfCam = Direction;
+        Zeta = Mathf.Rad2Deg*zeta;
+        return Direction;
+    }
+    protected override void InputPerformed()
+    {
+        if (base.playerController.sprintInputX.phase.IsInProgress() == false)
+        {
+            base.StateManager.ChangeState(base.StateManager.move);
+        }
+        base.InputPerformed();
+    }
+
 
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
@@ -20,13 +21,14 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState()
     {
+        
         base.FrameUpdateState();
     }
     public override void PhysicUpdateState()
     {
-        base.StateManager.Movement = Vector2.Lerp(base.StateManager.Movement, base.StateManager.GetComponent<PlayerController>().Movement, 0.1f);
-        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.x);
-        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.y);
+        InputPerformed();
+        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
+        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
         //base.characterController.SimpleMove(base.Character.transform.forward * Speed * Time.deltaTime);
         RotateTowards(main_camera.transform.forward);
      
@@ -53,6 +55,18 @@ public class MoveState : CharacterState
             base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
+    protected override void InputPerformed()
+    {
+        if (base.playerController.movementInput == Vector2.zero)
+        {
+            base.StateManager.ChangeState(base.StateManager.idle);
+        }
+        if (base.playerController.sprintInputX.phase.IsInProgress())
+        {
+            base.StateManager.ChangeState(base.StateManager.sprint);
+        }
+        base.InputPerformed();
+    }
 
-   
+
 }
