@@ -38,5 +38,8 @@ public class PlayerController : Subject
         sprintInput = Value.phase.IsInProgress();
         sprintInputX = Value;
     }
-
+    public void AimDownSight(InputAction.CallbackContext Value)
+    {
+        
+    }
 }
