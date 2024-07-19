@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-
-    [SerializeField] Vector3 cameraForward;
+    bool aimDownSight = false;
+    [SerializeField] private CinemachineFreeLook CinemachineFreeLook;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;    
@@ -15,8 +15,20 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-       cameraForward = gameObject.transform.forward;
+        if(aimDownSight == true)
+        {
+            CinemachineFreeLook.m_Lens.FieldOfView = 40;
+        }
+        else if(aimDownSight == false)
+        {
+            CinemachineFreeLook.m_Lens.FieldOfView = 65;
+        }
+     
+    }
+    public void AimDownSight(InputAction.CallbackContext Value)
+    {
+        aimDownSight = Value.phase.IsInProgress();
     }
 
-    
+
 }
