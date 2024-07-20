@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LowReady : WeaponStance
+public class None : WeaponState
 {
     public override void EnterState()
     {
@@ -16,8 +16,6 @@ public class LowReady : WeaponStance
 
     public override void FrameUpdateState()
     {
-        Debug.Log("LowReady");
-        base.animator.SetLayerWeight(1,0);
         base.FrameUpdateState();
     }
 
@@ -26,8 +24,15 @@ public class LowReady : WeaponStance
         base.PhysicUpdateState();
     }
 
-    protected override void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        base.Start();
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

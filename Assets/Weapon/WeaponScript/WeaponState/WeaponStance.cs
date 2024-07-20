@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class WeaponStance : State
 {
-
+    protected WeaponSocket weaponSocket;
+    public Animator animator { get; private set;}
+    protected virtual void Start()
+    {
+        weaponSocket = GetComponentInParent<WeaponSocket>();
+        animator = weaponSocket.GetAnimator();
+    }
     public override void EnterState()
     {
         base.EnterState();

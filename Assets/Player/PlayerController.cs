@@ -10,8 +10,7 @@ public class PlayerController : Subject
     public Vector2 lookInput;
     public bool sprintInput;
     public InputAction.CallbackContext sprintInputX;
-    
-    
+    public bool isAiming = false;
     void Start()
     {
     }
@@ -40,6 +39,6 @@ public class PlayerController : Subject
     }
     public void AimDownSight(InputAction.CallbackContext Value)
     {
-        
+        isAiming = Value.phase.IsInProgress();
     }
 }
