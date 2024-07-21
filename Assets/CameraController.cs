@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     bool aimDownSight = false;
-    [SerializeField] private CinemachineFreeLook CinemachineFreeLook;
+    [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;    
@@ -15,14 +15,14 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(aimDownSight == true)
-        {
-            CinemachineFreeLook.m_Lens.FieldOfView = 40;
-        }
-        else if(aimDownSight == false)
-        {
-            CinemachineFreeLook.m_Lens.FieldOfView = 65;
-        }
+        //if(aimDownSight == true)
+        //{
+        //    CinemachineFreeLook.m_Lens.FieldOfView = 40;
+        //}
+        //else if(aimDownSight == false)
+        //{
+        //    CinemachineFreeLook.m_Lens.FieldOfView = 65;
+        //}
      
     }
     public void AimDownSight(InputAction.CallbackContext Value)

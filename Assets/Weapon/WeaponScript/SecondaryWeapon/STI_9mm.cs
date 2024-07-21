@@ -5,40 +5,47 @@ using UnityEngine;
 public class STI_9mm : SecondaryWeapon
 {
     //SetUpStats
+    private int _magazineCapacity = 15;
+    private float _rateOfFire;
+    private float _reloadSpeed;
+    private float _accuracy;
+    private BulletType _bulletType;
+    private float _recoil;
+    private float _aimDownSightSpeed = 3f;
     public override int Magazine_capacity
     {
-        get { return Magazine_capacity; }
-        protected set { Magazine_capacity = 15; }
+        get { return _magazineCapacity; }
+        protected set { _magazineCapacity = value; }
     }
     public override float rate_of_fire
     {
-        get { return rate_of_fire; }
-        protected set { rate_of_fire = value; }
+        get { return _rateOfFire; }
+        protected set { _rateOfFire = value; }
     }
     public override float reloadSpeed
     {
-        get { return reloadSpeed; }
-        protected set { reloadSpeed = value; }
+        get { return _reloadSpeed; }
+        protected set { _reloadSpeed = value; }
     }
     public override float Accuracy
     {
-        get { return Accuracy; }
-        protected set { Accuracy = value; }
+        get { return _accuracy; }
+        protected set { _accuracy = value; }
     }
     public override BulletType bulletType
     {
-        get { return bulletType; }
-        protected set { bulletType = value; }
+        get { return _bulletType; }
+        protected set { _bulletType = value; }
     }
     public override float Recoil
     {
-        get { return Recoil; }
-        protected set { Recoil = value; }
+        get { return _recoil; }
+        protected set { _recoil = value; }
     }
     public override float aimDownSight_speed
     {
-        get { return aimDownSight_speed; }
-        protected set { aimDownSight_speed = 0.3f; }
+        get { return _aimDownSightSpeed; }
+        protected set { _aimDownSightSpeed = value; }
     }
 
 }

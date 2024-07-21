@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LowReady : WeaponStance
 {
+    [SerializeField] private WeaponSingleton weaponSingleton;
+    CameraController cameraController;
     public override void EnterState()
     {
         base.EnterState();
@@ -17,7 +19,9 @@ public class LowReady : WeaponStance
     public override void FrameUpdateState()
     {
         Debug.Log("LowReady");
-        base.animator.SetLayerWeight(1,0);
+        weaponSingleton.GetStanceManager().AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        cameraController.CinemachineFreeLook.m_Lens.FieldOfView = 65 - weaponSingleton.GetStanceManager().AimingWeight * 15;
+        base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         base.FrameUpdateState();
     }
 
@@ -28,6 +32,14 @@ public class LowReady : WeaponStance
 
     protected override void Start()
     {
+        
         base.Start();
+    }
+    private void Update()
+    {
+        if (cameraController == null)
+        {
+            cameraController = weaponSingleton.Camera.GetComponent<CameraController>();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class WeaponStanceManager : StateManager
@@ -7,6 +8,7 @@ public class WeaponStanceManager : StateManager
 
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
+    public float AimingWeight = 0;
 
     protected override void Start()
     {
@@ -27,6 +29,7 @@ public class WeaponStanceManager : StateManager
 
     protected override void Update()
     {
+        AimingWeight = Mathf.Clamp(AimingWeight, 0, 1);
         base.Update();
     }
 }

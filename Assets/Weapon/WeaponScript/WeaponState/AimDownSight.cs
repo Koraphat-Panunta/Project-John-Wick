@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,8 @@ using UnityEngine;
 public class AimDownSight : WeaponStance
 {
     [SerializeField] WeaponSingleton weaponSingleton;
-    Camera camera;
+    private Camera camera;
+    private CameraController cameraController;
     GameObject WeaponUserCharacter;
     public override void EnterState()
     {
@@ -20,7 +22,9 @@ public class AimDownSight : WeaponStance
     public override void FrameUpdateState()
     {
         Debug.Log("Aim");
-        base.animator.SetLayerWeight(1, 1);
+        weaponSingleton.GetStanceManager().AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed*Time.deltaTime;
+        cameraController.CinemachineFreeLook.m_Lens.FieldOfView =65 - weaponSingleton.GetStanceManager().AimingWeight * 15;
+        base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         RotateTowards(camera.transform.forward);
         base.FrameUpdateState();
     }
@@ -33,8 +37,7 @@ public class AimDownSight : WeaponStance
     // Start is called before the first frame update
     protected override void Start()
     {
-        camera = Camera.main;
-        WeaponUserCharacter = weaponSingleton.UserWeapon;
+       
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
@@ -54,6 +57,21 @@ public class AimDownSight : WeaponStance
 
             // Smoothly rotate towards the target rotation
             WeaponUserCharacter.transform.rotation = Quaternion.Slerp(WeaponUserCharacter.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+    }
+    private void Update()
+    {
+        if(camera == null)
+        {
+            camera = weaponSingleton.Camera;
+        }
+        if(WeaponUserCharacter == null)
+        {
+            WeaponUserCharacter = weaponSingleton.UserWeapon;
+        }
+        if(cameraController == null)
+        {
+            cameraController = camera.GetComponent<CameraController>();
         }
     }
 
