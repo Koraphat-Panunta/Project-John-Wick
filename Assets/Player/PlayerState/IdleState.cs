@@ -18,7 +18,6 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState()
     {
-       
         base.FrameUpdateState();
     }
 

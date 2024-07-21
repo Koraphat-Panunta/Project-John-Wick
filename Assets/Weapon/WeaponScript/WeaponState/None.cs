@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class None : WeaponState
+public class None : State
 {
     public override void EnterState()
     {

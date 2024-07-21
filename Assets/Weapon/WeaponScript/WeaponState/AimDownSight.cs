@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AimDownSight : WeaponStance
 {
-
+    [SerializeField] WeaponSingleton weaponSingleton;
     Camera camera;
-    [SerializeField] GameObject Character;
+    GameObject WeaponUserCharacter;
     public override void EnterState()
     {
         base.EnterState();
@@ -34,6 +34,7 @@ public class AimDownSight : WeaponStance
     protected override void Start()
     {
         camera = Camera.main;
+        WeaponUserCharacter = weaponSingleton.UserWeapon;
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
@@ -52,7 +53,7 @@ public class AimDownSight : WeaponStance
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
             // Smoothly rotate towards the target rotation
-            Character.transform.rotation = Quaternion.Slerp(Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            WeaponUserCharacter.transform.rotation = Quaternion.Slerp(WeaponUserCharacter.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 

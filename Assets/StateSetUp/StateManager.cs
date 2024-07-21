@@ -21,17 +21,16 @@ public abstract class StateManager : MonoBehaviour
     }
     public virtual void ChangeState(State Nextstate)
     {
-        if (Current_state == Nextstate)
-        {
-
-        }
-        else
-        {
+       
             Current_state.ExitState();
             Current_state = Nextstate;
-            Current_state.EnterState();
-        }
+           Current_state.EnterState();
+        
     }
-    protected abstract void SetUpState();
+    protected virtual void SetUpState() 
+    {
+        
+    }
+
    
 }

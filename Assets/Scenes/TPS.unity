@@ -278,9 +278,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21cb7298240e9d7488bb0fda5fb02b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 0}
-  playerStateManager: {fileID: 0}
+  playerController: {fileID: 34333501}
+  playerStateManager: {fileID: 34333515}
   WeaponSocket: {fileID: 1220748251}
+--- !u!114 &34333515 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5021838664417885795, guid: 7610df03b6259ea409d446dc8358715b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1799983639}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34333498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45535022fbfe76540b5b650ccf67364b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &132049103
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,19 +859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05cd5b892e6e904fb360f1236d3ed8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 34333498}
---- !u!114 &742155814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742155810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e46fdee3990fb04db38e95c36b0db8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  weaponSingleton: {fileID: 742155828}
 --- !u!114 &742155815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799f340aca930904985c30ea915bee01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  none: {fileID: 742155822}
 --- !u!114 &742155822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,6 +908,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b507c90707d831d4fa8398ab754525ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &742155827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742155810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e46fdee3990fb04db38e95c36b0db8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &742155828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742155810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89dfa3746e689bf4e83546afb1263fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateManager: {fileID: 742155817}
+  stanceManager: {fileID: 742155827}
 --- !u!1001 &847763779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -996,10 +1021,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 742155814}
-    - targetCorrespondingSourceObject: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 742155813}
     - targetCorrespondingSourceObject: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
@@ -1009,6 +1030,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 742155822}
+    - targetCorrespondingSourceObject: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 742155827}
+    - targetCorrespondingSourceObject: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 742155828}
   m_SourcePrefab: {fileID: 100100000, guid: e08ae2fdefb857443b186d66db18d1fb, type: 3}
 --- !u!4 &1150829203 stripped
 Transform:
@@ -1042,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UserAnimator: {fileID: 34333506}
   CurWeapon: {fileID: 0}
+  WeaponUser: {fileID: 34333498}
 --- !u!1 &1429544135
 GameObject:
   m_ObjectHideFlags: 3
@@ -1995,7 +2025,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089690560}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06887384, y: 0.0000000042913806, z: 2.9626734e-10, w: 0.9976254}
+  m_LocalRotation: {x: -0.06887384, y: -0.000000004291381, z: -2.9626737e-10, w: 0.9976254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

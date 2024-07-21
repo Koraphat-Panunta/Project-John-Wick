@@ -23,7 +23,6 @@ public abstract class State: MonoBehaviour
     private bool nextframeIsExit = false;
     public virtual void FrameUpdateState()
     {
-       
         timerState += Time.deltaTime;
     }
     public virtual void PhysicUpdateState() 

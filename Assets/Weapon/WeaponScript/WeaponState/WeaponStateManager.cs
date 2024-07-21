@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class WeaponStateManager :StateManager
 {
-    public WeaponStanceManager stanceManager { get; protected set; }
+    
     public Fire fireState { get; protected set; }
     public Reload reloadState { get; protected set; }
-    public None none;
+    public None none { get; protected set; }
     protected override void Start()
     {
-        stanceManager = GetComponent<WeaponStanceManager>();
+   
+        fireState = GetComponent<Fire>();
+        reloadState = GetComponent<Reload>();
+        none = GetComponent<None>();
         base.Current_state = none;
         base.Start();
     }
@@ -23,7 +26,10 @@ public class WeaponStateManager :StateManager
     {
         base.FixedUpdate();
     }
-
+    protected override void Update()
+    {
+        base.Update();
+    }
     protected override void SetUpState()
     {
         

@@ -7,6 +7,7 @@ public class WeaponStanceManager : StateManager
 
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
+
     protected override void Start()
     {
         lowReady = gameObject.GetComponent<LowReady>();
@@ -14,11 +15,7 @@ public class WeaponStanceManager : StateManager
         base.Current_state = lowReady;
         base.Start();
     }
-    public override void ChangeState(State Nextstate)
-    {
-        base.ChangeState(Nextstate);
-    }
-
+   
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -28,4 +25,8 @@ public class WeaponStanceManager : StateManager
     {
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
 }

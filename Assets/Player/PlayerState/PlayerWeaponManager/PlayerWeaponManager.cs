@@ -5,16 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerWeaponManager : MonoBehaviour
 {
-    public PlayerController playerController;
-    public PlayerStateManager playerStateManager;
-    public WeaponSocket WeaponSocket;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerStateManager playerStateManager;
+    [SerializeField] private WeaponSocket WeaponSocket;
     public Weapon CurrentWeapon { get; private set; }
     public SecondaryWeapon secondaryWeapon { get; private set; }
     public PrimaryWeapon primaryWeapon { get; private set; }
     private void Start()
     {
-        playerController = GetComponent<PlayerController>();
-        playerStateManager = GetComponent<PlayerStateManager>();
+       
        
     }
     private void Update()
@@ -40,11 +39,11 @@ public class PlayerWeaponManager : MonoBehaviour
         if (Value.phase.IsInProgress())
         {
             Debug.Log("AimInput");
-            CurrentWeapon.weapon_stateManager.ChangeState(CurrentWeapon.weapon_stateManager.stanceManager.aimDownSight);
+            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.aimDownSight);
         }
         else
         {
-            CurrentWeapon.weapon_stateManager.ChangeState(CurrentWeapon.weapon_stateManager.stanceManager.lowReady);
+            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
         }
     }
 

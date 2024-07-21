@@ -6,6 +6,7 @@ public class WeaponSocket : MonoBehaviour
 {
     [SerializeField] private Animator UserAnimator;
     public Weapon CurWeapon;
+    [SerializeField] private GameObject WeaponUser;
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -20,5 +21,9 @@ public class WeaponSocket : MonoBehaviour
     public Animator GetAnimator()
     {
         return UserAnimator;
+    }
+    public GameObject GetWeaponUser()
+    {
+        return WeaponUser;
     }
 }

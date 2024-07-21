@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponStance : State
+public abstract class WeaponStance : State
 {
     protected WeaponSocket weaponSocket;
     public Animator animator { get; private set;}
