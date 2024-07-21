@@ -20,7 +20,7 @@ public class LowReady : WeaponStance
     {
         Debug.Log("LowReady");
         weaponSingleton.GetStanceManager().AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
-        cameraController.CinemachineFreeLook.m_Lens.FieldOfView = 65 - weaponSingleton.GetStanceManager().AimingWeight * 15;
+        cameraController.CinemachineFreeLook.m_Lens.FieldOfView = 65 - weaponSingleton.GetStanceManager().AimingWeight * 25;
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         base.FrameUpdateState();
     }

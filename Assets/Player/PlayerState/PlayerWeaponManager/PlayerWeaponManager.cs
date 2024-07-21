@@ -36,14 +36,17 @@ public class PlayerWeaponManager : MonoBehaviour
     }
     public void Aim(InputAction.CallbackContext Value)
     {
-        if (Value.phase.IsInProgress())
+        if (CurrentWeapon != null)
         {
-            Debug.Log("AimInput");
-            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.aimDownSight);
-        }
-        else
-        {
-            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
+            if (Value.phase.IsInProgress())
+            {
+                Debug.Log("AimInput");
+                CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.aimDownSight);
+            }
+            else
+            {
+                CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
+            }
         }
     }
 
