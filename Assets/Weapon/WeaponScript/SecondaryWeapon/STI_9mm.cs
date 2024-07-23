@@ -6,11 +6,11 @@ public class STI_9mm : SecondaryWeapon
 {
     //SetUpStats
     private int _magazineCapacity = 15;
-    private float _rateOfFire;
+    private float _rateOfFire = 260;
     private float _reloadSpeed;
     private float _accuracy;
     private BulletType _bulletType;
-    private float _recoil;
+    private float _recoil = 0.2f;
     private float _aimDownSightSpeed = 3f;
     public override int Magazine_capacity
     {

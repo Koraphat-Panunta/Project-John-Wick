@@ -27,9 +27,9 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         
     }
-    public void Fire()
+    public void Fire(InputAction.CallbackContext Value)
     {
-        if (CurrentWeapon != null)
+        if (CurrentWeapon != null && Value.phase == InputActionPhase.Started)
         {
             CurrentWeapon.weapon_stateManager.ChangeState(CurrentWeapon.weapon_stateManager.fireState);
         }
