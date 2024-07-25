@@ -971,6 +971,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448097853}
   m_CullTransparentMesh: 1
+--- !u!114 &878144747 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6644928209187988423, guid: 7610df03b6259ea409d446dc8358715b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1799983639}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cb7298240e9d7488bb0fda5fb02b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916099110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d26168af3786a44bd6ca1c01e49496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CrosshairSpread: 1
+  MinAccuracy: 17.2
+  MaxAccuracy: 23
   Crosshair_lineUp: {fileID: 448097854}
   Crosshair_lineDown: {fileID: 1889976581}
   Crosshair_lineLeft: {fileID: 118423441}
@@ -1095,6 +1110,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1220748250}
     m_Modifications:
+    - target: {fileID: 6287137376191654520, guid: e08ae2fdefb857443b186d66db18d1fb,
+        type: 3}
+      propertyPath: CrosshairController
+      value: 
+      objectReference: {fileID: 916099114}
     - target: {fileID: 7074491356039985985, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1150,6 +1170,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8187147563397046076, guid: e08ae2fdefb857443b186d66db18d1fb,
+        type: 3}
+      propertyPath: weaponSingleton
+      value: 
+      objectReference: {fileID: 1341365348}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1159,6 +1184,18 @@ PrefabInstance:
       addedObject: {fileID: 318689038}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e08ae2fdefb857443b186d66db18d1fb, type: 3}
+--- !u!114 &1341365348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6287137376191654520, guid: e08ae2fdefb857443b186d66db18d1fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1262103262}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89dfa3746e689bf4e83546afb1263fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1429544135
 GameObject:
   m_ObjectHideFlags: 3
@@ -1932,9 +1969,59 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: cc0c1395-9e31-4bcc-8368-92fd7ae265da
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: PlayerAction/PullTrigger[/Mouse/leftButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
       propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1761695694}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 878144747}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerWeaponManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1937536168038193953, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: camera
@@ -2316,7 +2403,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089690560}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06887384, y: 0.0000000042913806, z: 2.9626734e-10, w: 0.9976254}
+  m_LocalRotation: {x: -0.06887384, y: -0.000000004291381, z: -2.9626737e-10, w: 0.9976254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

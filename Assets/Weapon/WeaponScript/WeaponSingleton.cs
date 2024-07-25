@@ -10,6 +10,7 @@ public class WeaponSingleton : MonoBehaviour
     public State CurStance { get; private set; }
     public State CurState { get; private set; }
     public Camera Camera { get; private set; }
+    [SerializeField] private CrosshairController CrosshairController;
     [SerializeField] private Weapon MyWeapon;
     [SerializeField] private WeaponStateManager stateManager;
     [SerializeField] private WeaponStanceManager stanceManager;
@@ -36,5 +37,9 @@ public class WeaponSingleton : MonoBehaviour
     public Weapon GetWeapon()
     {
         return MyWeapon;
+    }
+    public CrosshairController GetCrosshair()
+    {
+        return CrosshairController;
     }
 }
