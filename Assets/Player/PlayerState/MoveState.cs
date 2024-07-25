@@ -19,12 +19,12 @@ public class MoveState : CharacterState
         base.ExitState();
     }
 
-    public override void FrameUpdateState()
+    public override void FrameUpdateState(StateManager stateManager)
     {
         
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
-    public override void PhysicUpdateState()
+    public override void PhysicUpdateState(StateManager stateManager)
     {
         InputPerformed();
         base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
@@ -33,7 +33,7 @@ public class MoveState : CharacterState
         RotateTowards(main_camera.transform.forward);
      
         //character.velocity = base.Character.transform.forward.normalized*Speed;
-        base.PhysicUpdateState();
+        base.PhysicUpdateState(stateManager);
     }
 
     protected float rotationSpeed = 5.0f;

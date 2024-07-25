@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponState : State
+public abstract class Stance : StatePattern
 {
     public override void EnterState()
     {
@@ -14,13 +14,13 @@ public class WeaponState : State
         base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void FrameUpdateState()
     {
-        base.FrameUpdateState(stateManager);
+        base.FrameUpdateState();
     }
 
-    public override void PhysicUpdateState(StateManager stateManager)
+    public override void PhysicUpdateState()
     {
-        base.PhysicUpdateState(stateManager);
+        base.PhysicUpdateState();
     }
 }

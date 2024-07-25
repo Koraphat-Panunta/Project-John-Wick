@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public abstract class State: MonoBehaviour
+public abstract class StatePattern : MonoBehaviour
 {
     public bool IsEnter { get; protected set; }
     public bool IsExit { get; protected set; }
@@ -21,14 +21,12 @@ public abstract class State: MonoBehaviour
         IsExit = false;
     }
     private bool nextframeIsExit = false;
-    public virtual void FrameUpdateState(StateManager stateManager)
+    public virtual void FrameUpdateState()
     {
-        
         timerState += Time.deltaTime;
     }
-    public virtual void PhysicUpdateState(StateManager stateManager) 
+    public virtual void PhysicUpdateState() 
     {
-       
         if (IsEnter == true)
         {
             IsEnter = false;

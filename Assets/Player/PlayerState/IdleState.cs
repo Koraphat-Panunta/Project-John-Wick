@@ -16,17 +16,17 @@ public class IdleState : CharacterState
         base.ExitState();
     }
 
-    public override void FrameUpdateState()
+    public override void FrameUpdateState(StateManager stateManager)
     {
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
 
-    public override void PhysicUpdateState()
+    public override void PhysicUpdateState(StateManager stateManager)
     {
         InputPerformed();
         base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
         base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
-        base.PhysicUpdateState();
+        base.PhysicUpdateState(stateManager);
     }
     protected override void InputPerformed()
     {

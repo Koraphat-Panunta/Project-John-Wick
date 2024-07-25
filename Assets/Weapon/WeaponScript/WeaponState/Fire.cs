@@ -26,7 +26,7 @@ public class Fire : WeaponState
         base.ExitState();
     }
 
-    public override void FrameUpdateState()
+    public override void FrameUpdateState(StateManager stateManager)
     {
         Recover_Time -= Time.deltaTime;
         Recover_Time = Mathf.Clamp(Recover_Time, 0, 15);
@@ -34,11 +34,11 @@ public class Fire : WeaponState
         {
             weaponSingleton.GetStateManager().ChangeState(weaponSingleton.GetStateManager().none);
         }
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
 
-    public override void PhysicUpdateState()
+    public override void PhysicUpdateState(StateManager stateManager)
     {
-        base.PhysicUpdateState();
+        base.PhysicUpdateState(stateManager);
     }
 }

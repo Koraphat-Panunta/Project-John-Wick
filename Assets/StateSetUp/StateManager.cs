@@ -13,11 +13,11 @@ public abstract class StateManager : MonoBehaviour
     }
     protected virtual void Update()
     {
-        Current_state.FrameUpdateState();
+        Current_state.FrameUpdateState(this);
     }
     protected virtual void FixedUpdate()
     {
-        Current_state.PhysicUpdateState();
+        Current_state.PhysicUpdateState(this);
     }
     public virtual void ChangeState(State Nextstate)
     {

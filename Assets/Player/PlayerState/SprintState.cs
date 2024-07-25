@@ -19,19 +19,16 @@ public class SprintState : CharacterState
         base.ExitState();
     }
 
-    public override void FrameUpdateState()
+    public override void FrameUpdateState(StateManager stateManager)
     {
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
 
-    public override void PhysicUpdateState()
+    public override void PhysicUpdateState(StateManager stateManager)
     {
         InputPerformed();
-
-
-
         RotateTowards(TransformDirectionObject(new Vector3(base.playerController.movementInput.x,0,base.playerController.movementInput.y),cameraTrans.forward));
-        base.PhysicUpdateState();
+        base.PhysicUpdateState(stateManager);
     }
     protected float rotationSpeed = 5.0f;
     protected void RotateTowards(Vector3 direction)
