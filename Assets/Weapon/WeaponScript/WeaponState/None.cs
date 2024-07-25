@@ -14,14 +14,14 @@ public class None : State
         base.ExitState();
     }
 
-    public override void FrameUpdateState()
+    public override void FrameUpdateState(StateManager stateManager)
     {
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
 
-    public override void PhysicUpdateState()
+    public override void PhysicUpdateState(StateManager stateManager)
     {
-        base.PhysicUpdateState();
+        base.PhysicUpdateState(stateManager);
     }
 
     // Start is called before the first frame update
