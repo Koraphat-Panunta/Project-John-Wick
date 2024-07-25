@@ -34,7 +34,7 @@ public class Fire : WeaponState
         {
             weaponSingleton.GetStateManager().ChangeState(weaponSingleton.GetStateManager().none);
         }
-        base.FrameUpdateState();
+        base.FrameUpdateState(stateManager);
     }
 
     public override void PhysicUpdateState(StateManager stateManager)

@@ -13,6 +13,7 @@ public class CrosshairController : MonoBehaviour
     public RectTransform Crosshair_lineLeft;
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_Position;
+    [SerializeField] private GameObject TargetAim;
     void Start()
     {
         
@@ -34,7 +35,23 @@ public class CrosshairController : MonoBehaviour
         {
             CrosshairSpread = Mathf.Lerp(CrosshairSpread, 0, 2f*Time.deltaTime);   
         }
+        Vector3 CrosshairPos;
+        CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
+        Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Vector3 worldPosition = hit.point;
+            TargetAim.transform.position = worldPosition;   
+        }      
+        else if(Physics.Raycast(ray ,out hit)==false)
+        {
+            Vector3 worldPosition = ray.GetPoint(100);
+            TargetAim.transform.position = worldPosition;
+        }
     }
+   
     public void ShootSpread(float spreadrate)
     {
         this.CrosshairSpread += 1;
