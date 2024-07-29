@@ -9,7 +9,7 @@ public class STI_9mm : SecondaryWeapon
     private float _rateOfFire = 260;
     private float _reloadSpeed;
     private float _accuracy;
-    private BulletType _bulletType;
+   [SerializeField] private GameObject _bulletType;
     private float _recoil = 0.2f;
     private float _aimDownSightSpeed = 3f;
     public override int Magazine_capacity
@@ -32,7 +32,7 @@ public class STI_9mm : SecondaryWeapon
         get { return _accuracy; }
         protected set { _accuracy = value; }
     }
-    public override BulletType bulletType
+    public override GameObject bullet
     {
         get { return _bulletType; }
         protected set { _bulletType = value; }

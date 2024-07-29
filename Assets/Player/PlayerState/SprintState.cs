@@ -75,6 +75,10 @@ public class SprintState : CharacterState
         }
         base.InputPerformed();
     }
+    private void Start()
+    {
+        
+    }
 
 
 

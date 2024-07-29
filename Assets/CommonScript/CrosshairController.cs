@@ -40,21 +40,30 @@ public class CrosshairController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit,1000,1))
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;   
         }      
-        else if(Physics.Raycast(ray ,out hit)==false)
+        else /*if(Physics.Raycast(ray ,out hit)==false)*/
         {
             Vector3 worldPosition = ray.GetPoint(100);
             TargetAim.transform.position = worldPosition;
         }
     }
    
-    public void ShootSpread(float spreadrate)
+    private void ShootSpread(Weapon weapon)
     {
-        this.CrosshairSpread += 1;
+        this.CrosshairSpread += weapon.Recoil;
+        Debug.Log("ShootSpread");
+    }
+    private void OnEnable()
+    {
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Fire,ShootSpread);
+    }
+    private void OnDisable()
+    {
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Fire,ShootSpread);
     }
 
 }

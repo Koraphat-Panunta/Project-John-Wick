@@ -14,7 +14,7 @@ public abstract class Weapon : MonoBehaviour
     public abstract float Accuracy { get; protected set; }
     public abstract float Recoil { get; protected set; }
     public abstract float aimDownSight_speed { get; protected set; }
-    public abstract BulletType bulletType { get; protected set; }
+    public abstract GameObject bullet { get; protected set; }
 
   
     void Start()

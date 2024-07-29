@@ -26,6 +26,7 @@ public class MoveState : CharacterState
     }
     public override void PhysicUpdateState(StateManager stateManager)
     {
+        main_camera = Camera.main;
         InputPerformed();
         base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
         base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
@@ -66,6 +67,10 @@ public class MoveState : CharacterState
             base.StateManager.ChangeState(base.StateManager.sprint);
         }
         base.InputPerformed();
+    }
+    private void Start()
+    {
+        main_camera = Camera.main;
     }
 
 

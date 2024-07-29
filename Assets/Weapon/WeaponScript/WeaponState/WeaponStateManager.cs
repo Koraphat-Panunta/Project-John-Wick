@@ -24,11 +24,11 @@ public class WeaponStateManager :StateManager
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
+        Current_state.PhysicUpdateState(this);
     }
     protected override void Update()
     {
-        base.Update();
+        Current_state.FrameUpdateState(this);
     }
     protected override void SetUpState()
     {

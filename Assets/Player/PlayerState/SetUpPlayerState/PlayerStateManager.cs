@@ -30,7 +30,7 @@ public class PlayerStateManager : StateManager
 
     protected override void FixedUpdate()
     {
-        this.Movement = Vector2.Lerp(this.Movement, playerController.movementInput, 0.1f);
+        this.Movement = Vector2.Lerp(this.Movement, playerController.movementInput, 10*Time.deltaTime);
         base.FixedUpdate();
     }
 

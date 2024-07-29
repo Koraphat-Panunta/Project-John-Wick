@@ -9,6 +9,7 @@ public class LowReady : WeaponStance
     public override void EnterState()
     {
         base.EnterState();
+        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady, weaponSingleton.GetWeapon());
     }
 
     public override void ExitState()
@@ -18,7 +19,6 @@ public class LowReady : WeaponStance
 
     public override void FrameUpdateState(StateManager stateManager)
     {
-        Debug.Log("LowReady");
         weaponSingleton.GetStanceManager().AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
         cameraController.CinemachineFreeLook.m_Lens.FieldOfView = 65 - weaponSingleton.GetStanceManager().AimingWeight * 25;
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
