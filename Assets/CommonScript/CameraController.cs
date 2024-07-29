@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    bool aimDownSight = false;
     [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
     void Start()
     {
@@ -15,19 +14,20 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        //if(aimDownSight == true)
-        //{
-        //    CinemachineFreeLook.m_Lens.FieldOfView = 40;
-        //}
-        //else if(aimDownSight == false)
-        //{
-        //    CinemachineFreeLook.m_Lens.FieldOfView = 65;
-        //}
-     
+        
     }
-    public void AimDownSight(InputAction.CallbackContext Value)
+    private void VisualRecoil(Weapon weapon)
     {
-        aimDownSight = Value.phase.IsInProgress();
+        this.CinemachineFreeLook.m_XAxis.Value += weapon.Recoil;
+        this.CinemachineFreeLook.m_YAxis.Value -= weapon.Recoil;
+    }
+    private void VisualRecoilUpdate()
+    {
+        
+    }
+    private void OnEnable()
+    {
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Fire, VisualRecoil);
     }
 
 

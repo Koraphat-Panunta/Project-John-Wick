@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class RightHandController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    TwoBoneIKConstraint RightHand;
     void Start()
     {
-        
+        RightHand = GetComponent<TwoBoneIKConstraint>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
