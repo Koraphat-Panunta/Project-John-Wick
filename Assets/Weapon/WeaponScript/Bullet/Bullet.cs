@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     Vector3 originalPos;
     float mass = 1f;
-    float velocity = 1f;
+    float velocity = 10f;
 
     void Start()
     {

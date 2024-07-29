@@ -23,6 +23,11 @@ public class UpperBodyController : MonoBehaviour
         WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, UpperBodyTurn);
         WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, UpperBodyTurn);
     }
+    private void OnDisable()
+    {
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, UpperBodyTurn);
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, UpperBodyTurn);
+    }
     private void UpperBodyTurn(Weapon weapon)
     {
         if(weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.aimDownSight)

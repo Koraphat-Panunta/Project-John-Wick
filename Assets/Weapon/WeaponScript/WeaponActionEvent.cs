@@ -38,10 +38,15 @@ public class WeaponActionEvent
     }
     public static void Publish(WeaponEvent weaponEvent,Weapon weapon)
     {
-        if (EventDictionary[weaponEvent] != null)
+      
+        if (EventDictionary.TryGetValue(weaponEvent ,out var Event))
         {
-            EventDictionary[weaponEvent].Invoke(weapon);
+            if (EventDictionary[weaponEvent] != null)
+            {
+                EventDictionary[weaponEvent].Invoke(weapon);
+            }
         }
+       
     }
     
 }

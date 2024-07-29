@@ -11,8 +11,11 @@ public class PlayerController : Subject
     public bool sprintInput;
     public InputAction.CallbackContext sprintInputX;
     public bool isAiming = false;
+    [SerializeField] private PlayerWeaponCommand weaponCommand;
+    [SerializeField] private PlayerStateManager stateManager;
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -37,8 +40,22 @@ public class PlayerController : Subject
         sprintInput = Value.phase.IsInProgress();
         sprintInputX = Value;
     }
-    public void AimDownSight(InputAction.CallbackContext Value)
+    public void Pulltriger(InputAction.CallbackContext Value)
     {
-        isAiming = Value.phase.IsInProgress();
+        if(Value.phase == InputActionPhase.Started)
+        {
+            weaponCommand.Pulltriger(stateManager);
+        }
+    }
+    public void Aim(InputAction.CallbackContext Value)
+    {   
+        if (Value.phase.IsInProgress())            
+        {
+            weaponCommand.Aim(stateManager);
+        }            
+        else    
+        {
+            weaponCommand.LowWeapon(stateManager.Current_state);
+        }        
     }
 }

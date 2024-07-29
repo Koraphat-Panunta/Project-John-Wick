@@ -12,7 +12,7 @@ public class AimDownSight : WeaponStance
     public override void EnterState()
     {
         base.EnterState();
-        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
+        //WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
     }
 
     public override void ExitState()
