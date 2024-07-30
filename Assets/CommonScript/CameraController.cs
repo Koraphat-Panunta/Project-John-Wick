@@ -25,10 +25,31 @@ public class CameraController : MonoBehaviour
     {
         
     }
+    private void ADS(Weapon weapon)
+    {
+        if(weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.aimDownSight)
+        {
+            CinemachineFreeLook.m_Lens.FieldOfView = 65 - (weapon.weapon_StanceManager.AimingWeight * 25);
+        }
+        if (weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.lowReady)
+        {
+            CinemachineFreeLook.m_Lens.FieldOfView = 65 - weapon.weapon_StanceManager.AimingWeight * 25;  
+        }
+    }
     private void OnEnable()
     {
         WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Fire, VisualRecoil);
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, ADS);
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, ADS);
+
     }
+    private void OnDisable()
+    {
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Fire, VisualRecoil);
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, ADS);
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, ADS);
+    }
+
 
 
 }

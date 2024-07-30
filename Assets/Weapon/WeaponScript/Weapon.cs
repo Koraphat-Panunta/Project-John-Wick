@@ -6,7 +6,7 @@ public abstract class Weapon : MonoBehaviour
 {
     public WeaponStateManager weapon_stateManager { get; protected set; }
     public WeaponStanceManager weapon_StanceManager { get; protected set; }
-    public int Magazine_count { get; protected set; }
+    public int Magazine_count;
 
     public abstract int Magazine_capacity { get; protected set; }
     public abstract float rate_of_fire { get; protected set; }
@@ -17,14 +17,15 @@ public abstract class Weapon : MonoBehaviour
     public abstract GameObject bullet { get; protected set; }
 
   
-    void Start()
+    protected virtual void Start()
     {
         weapon_stateManager = GetComponent<WeaponStateManager>();
         weapon_StanceManager = GetComponent<WeaponStanceManager>();
+        Magazine_count = Magazine_capacity;
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         
     }

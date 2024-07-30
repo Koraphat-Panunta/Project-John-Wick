@@ -12,6 +12,7 @@ public class STI_9mm : SecondaryWeapon
    [SerializeField] private GameObject _bulletType;
     private float _recoil = 0.2f;
     private float _aimDownSightSpeed = 3f;
+   
     public override int Magazine_capacity
     {
         get { return _magazineCapacity; }

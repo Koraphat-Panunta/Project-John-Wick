@@ -15,7 +15,15 @@ public class Fire : WeaponState
     {
         if(weaponSingleton.CurState != this)
         {
-            WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Fire,weaponSingleton.GetWeapon());
+            if (weaponSingleton.GetWeapon().Magazine_count > 0)
+            {
+                WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Fire, weaponSingleton.GetWeapon());
+            }
+            else
+            {
+                weaponSingleton.GetStateManager().ChangeState(weaponSingleton.GetStateManager().none);
+            }
+            
         }
         
         base.EnterState();
@@ -44,8 +52,11 @@ public class Fire : WeaponState
     private void SetRateoffire(Weapon weapon)
     {
         Recover_Time = (float)60 / weaponSingleton.GetWeapon().rate_of_fire;
-        Debug.Log("Setrate of fire");
-  
+        MinusBullet(weapon);
+    }
+    private void MinusBullet(Weapon weapon)
+    {
+        weapon.Magazine_count -= 1;
     }
     private void OnEnable()
     {

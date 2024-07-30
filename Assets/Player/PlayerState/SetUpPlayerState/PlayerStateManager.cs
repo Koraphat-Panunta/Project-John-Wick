@@ -8,6 +8,7 @@ public class PlayerStateManager : StateManager
     [SerializeField] public MoveState move;
     [SerializeField] public SprintState sprint;
     [SerializeField] private Animator PlayerAnimator;
+
     public PlayerController playerController { get; private set; }
     public Vector2 Movement = Vector2.zero;
     protected override void Start()
