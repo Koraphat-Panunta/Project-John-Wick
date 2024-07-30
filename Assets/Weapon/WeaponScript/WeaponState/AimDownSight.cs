@@ -7,7 +7,6 @@ public class AimDownSight : WeaponStance
 {
     [SerializeField] WeaponSingleton weaponSingleton;
     private Camera camera;
-    private CameraController cameraController;
     GameObject WeaponUserCharacter;
     public override void EnterState()
     {
@@ -23,7 +22,7 @@ public class AimDownSight : WeaponStance
     public override void FrameUpdateState(StateManager stateManager)
     {
         weaponSingleton.GetStanceManager().AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed*Time.deltaTime;
-        cameraController.CinemachineFreeLook.m_Lens.FieldOfView =65 - (weaponSingleton.GetStanceManager().AimingWeight * 25);
+        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         RotateTowards(camera.transform.forward);
         base.FrameUpdateState(stateManager);
@@ -37,7 +36,8 @@ public class AimDownSight : WeaponStance
     // Start is called before the first frame update
     protected override void Start()
     {
-       
+        InvokeRepeating("GetCamera",0, Time.deltaTime);
+        InvokeRepeating("GetWeaponUser", 0, Time.deltaTime);
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
@@ -59,19 +59,20 @@ public class AimDownSight : WeaponStance
             WeaponUserCharacter.transform.rotation = Quaternion.Slerp(WeaponUserCharacter.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
-    private void Update()
+    private void GetCamera()
     {
-        if(camera == null)
+        camera = weaponSingleton.Camera;
+        if(camera != null)
         {
-            camera = weaponSingleton.Camera;
+            CancelInvoke("GetCamera");
         }
-        if(WeaponUserCharacter == null)
+    }
+    private void GetWeaponUser()
+    {
+        WeaponUserCharacter = weaponSingleton.UserWeapon;
+        if(WeaponUserCharacter != null)
         {
-            WeaponUserCharacter = weaponSingleton.UserWeapon;
-        }
-        if(cameraController == null)
-        {
-            cameraController = camera.GetComponent<CameraController>();
+            CancelInvoke("GetWeaponUser");
         }
     }
 

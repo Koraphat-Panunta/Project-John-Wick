@@ -20,7 +20,7 @@ public class LowReady : WeaponStance
     public override void FrameUpdateState(StateManager stateManager)
     {
         weaponSingleton.GetStanceManager().AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
-        cameraController.CinemachineFreeLook.m_Lens.FieldOfView = 65 - weaponSingleton.GetStanceManager().AimingWeight * 25;
+        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady,weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         base.FrameUpdateState(stateManager);
     }
