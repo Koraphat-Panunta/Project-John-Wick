@@ -21,8 +21,8 @@ public class AimDownSight : WeaponStance
 
     public override void FrameUpdateState(StateManager stateManager)
     {
-        weaponSingleton.GetStanceManager().AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed*Time.deltaTime;
         WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
+        weaponSingleton.Aim.Invoke(weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         RotateTowards(camera.transform.forward);
         base.FrameUpdateState(stateManager);
@@ -75,6 +75,4 @@ public class AimDownSight : WeaponStance
             CancelInvoke("GetWeaponUser");
         }
     }
-
-
 }

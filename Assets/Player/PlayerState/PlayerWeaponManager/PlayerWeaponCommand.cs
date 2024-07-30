@@ -49,6 +49,10 @@ public class PlayerWeaponCommand : MonoBehaviour
     {
         CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
     }
+    public void SwitchWeapon(PlayerStateManager playerState)
+    {
+       
+    }
     private void GetWeapon()
     {
         CurrentWeapon = WeaponSocket.CurWeapon;
@@ -57,6 +61,4 @@ public class PlayerWeaponCommand : MonoBehaviour
             CancelInvoke("GetWeapon");
         }
     }
-
-
 }

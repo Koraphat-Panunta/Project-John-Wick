@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class WeaponSingleton : MonoBehaviour
     [SerializeField] private Weapon MyWeapon;
     [SerializeField] private WeaponStateManager stateManager;
     [SerializeField] private WeaponStanceManager stanceManager;
+    public Action<Weapon> FireEvent;
+    public Action<Weapon> Aim;
+    public Action<Weapon> Reload;
+    public Action<Weapon> LowReady;
     private void Start()
     {
         weaponSocket = GetComponentInParent<WeaponSocket>();
@@ -41,5 +46,9 @@ public class WeaponSingleton : MonoBehaviour
     public CrosshairController GetCrosshair()
     {
         return CrosshairController;
+    }
+    public void UnsubAllEvent()
+    {
+
     }
 }

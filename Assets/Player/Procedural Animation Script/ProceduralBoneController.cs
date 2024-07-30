@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -19,9 +20,23 @@ public class ProceduralBoneController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void SetWeight(Weapon weapon)
     {
-        
+        float w = Mathf.Clamp(weapon.weapon_StanceManager.AimingWeight, 0.0f, 1.0f);
+        Spine.weight = w;
+        Head.weight = w;
+        RightArm.weight = w;
+        RightHand.weight = w;
+    }
+    private void OnEnable()
+    {
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
+        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
+    }
+    private void OnDisable()
+    {
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
+        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
     }
 
 }

@@ -174,6 +174,51 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &4152936242715084652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3022661863309610859}
+  - component: {fileID: 483720375782013187}
+  m_Layer: 3
+  m_Name: BulletSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3022661863309610859
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4152936242715084652}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.506, y: 0.069, z: 0}
+  m_LocalScale: {x: 4.0330057, y: 4.033004, z: 4.033001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7074491356039985985}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &483720375782013187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4152936242715084652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cfd74983524fb3459621cfd69d27cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSingleton: {fileID: 6287137376191654520}
 --- !u!1 &5809435225469683062
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,14 +471,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7594886238610776571}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.49795, y: 0.49795, z: 0.49795026}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5292361071233376216}
+  - {fileID: 3022661863309610859}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6161627920597693668
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -518,6 +564,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f46b8cbeadb0cc48bb4022f63b96052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Magazine_count: 0
+  _bulletType: {fileID: 8484765704080718728, guid: 7ee4249b36f782e47bba97d3dc546fbf,
+    type: 3}
 --- !u!114 &1041090671024533396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e46fdee3990fb04db38e95c36b0db8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSingleton: {fileID: 6287137376191654520}
   AimingWeight: 0
 --- !u!114 &6287137376191654520
 MonoBehaviour:
@@ -715,6 +765,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d26168af3786a44bd6ca1c01e49496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSingleton: {fileID: 6287137376191654520}
   CrosshairSpread: 1
   MinAccuracy: 17.2
   MaxAccuracy: 23

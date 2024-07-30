@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class WeaponSocket : MonoBehaviour
 {
+    public enum Socket
+    {
+        InHand,
+        Holster
+    }
+    public Socket Thissocket;
     [SerializeField] private Animator UserAnimator;
     public Weapon CurWeapon;
     [SerializeField] private GameObject WeaponUser;

@@ -18,14 +18,13 @@ public class Fire : WeaponState
             if (weaponSingleton.GetWeapon().Magazine_count > 0)
             {
                 WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Fire, weaponSingleton.GetWeapon());
+                weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
             }
             else
             {
                 weaponSingleton.GetStateManager().ChangeState(weaponSingleton.GetStateManager().none);
             }
-            
-        }
-        
+        }        
         base.EnterState();
     }
 
@@ -50,9 +49,9 @@ public class Fire : WeaponState
         base.PhysicUpdateState(stateManager);
     }
     private void SetRateoffire(Weapon weapon)
-    {
-        Recover_Time = (float)60 / weaponSingleton.GetWeapon().rate_of_fire;
-        MinusBullet(weapon);
+    {    
+         Recover_Time = (float)60 / weaponSingleton.GetWeapon().rate_of_fire;
+         MinusBullet(weapon);
     }
     private void MinusBullet(Weapon weapon)
     {
@@ -60,6 +59,6 @@ public class Fire : WeaponState
     }
     private void OnEnable()
     {
-        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Fire, SetRateoffire);
+        weaponSingleton.FireEvent += SetRateoffire;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WeaponStanceManager : StateManager
 {
-
+    [SerializeField] WeaponSingleton weaponSingleton;
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
     public float AimingWeight = 0;
@@ -29,7 +29,26 @@ public class WeaponStanceManager : StateManager
 
     protected override void Update()
     {
-        AimingWeight = Mathf.Clamp(AimingWeight, 0, 1);
+        
         base.Update();
+    }
+    public void AimingWeightUpdate(Weapon weapon)
+    {
+        if (weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.aimDownSight)
+        {
+            AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        }
+        if(weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.lowReady)
+        {
+            AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        }
+      
+        AimingWeight = Mathf.Clamp(AimingWeight, 0, 1);
+
+    }
+    private void OnEnable()
+    {
+        weaponSingleton.Aim += AimingWeightUpdate;
+        weaponSingleton.LowReady += AimingWeightUpdate;
     }
 }

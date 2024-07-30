@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
+    [SerializeField] WeaponSingleton weaponSingleton;
     private void OnEnable()
     {
-        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Fire, SpawnBullet);
+        weaponSingleton.FireEvent += SpawnBullet;
     }
     private void OnDisable()
     {

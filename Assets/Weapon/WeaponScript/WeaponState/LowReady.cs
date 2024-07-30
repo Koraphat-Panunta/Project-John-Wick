@@ -19,8 +19,8 @@ public class LowReady : WeaponStance
 
     public override void FrameUpdateState(StateManager stateManager)
     {
-        weaponSingleton.GetStanceManager().AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
         WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady,weaponSingleton.GetWeapon());
+        weaponSingleton.LowReady.Invoke(weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
         base.FrameUpdateState(stateManager);
     }
