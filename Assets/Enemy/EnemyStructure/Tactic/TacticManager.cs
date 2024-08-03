@@ -2,17 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticManager : MonoBehaviour
+public class TacticManager 
 {
+    public EnemyTactic _currentTactic;
+    public Flanking _flanking { get; private set; }
+    public Enemy _enemy;
     // Start is called before the first frame update
-    void Start()
+    public TacticManager()
     {
-        
+        _flanking = new Flanking();
+        _currentTactic = _flanking;
+        _currentTactic.TacticEnter(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FixedUpdate(EnemyBrain enemyBrain)
     {
-        
+        _currentTactic.TacticFixedUpdate(enemyBrain);
+    }
+    public void Update(EnemyBrain enemyBrain)
+    {
+        _currentTactic.TacticUpdate(enemyBrain);
+    }
+    public void ChangeRole(EnemyTactic nextTac)
+    {
+        if (_currentTactic != null)
+        {
+            _currentTactic.TacticExit(this);
+        }
+        _currentTactic = nextTac;
+        _currentTactic.TacticEnter(this);
     }
 }

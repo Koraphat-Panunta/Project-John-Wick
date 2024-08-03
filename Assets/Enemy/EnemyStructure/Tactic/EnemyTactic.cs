@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyTactic : MonoBehaviour
+public abstract class EnemyTactic 
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    public EnemyTactic()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void TacticEnter(TacticManager tacticManager)
     {
-        
+
+    }
+    public virtual void TacticExit(TacticManager tacticManager)
+    {
+
+    }
+    public virtual void TacticUpdate(EnemyBrain enemyBrain)
+    {
+    }
+    public virtual void TacticFixedUpdate(EnemyBrain enemyBrain)
+    {
+
     }
 }

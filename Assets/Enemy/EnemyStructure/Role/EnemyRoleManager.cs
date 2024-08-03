@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyRoleManager : MonoBehaviour
+public class EnemyRoleManager 
 {
     public EnemyRole _currentRole;
-    public Enemy _enemy;
+    public ChasingRole _chasing { get; private set; }
+    public EnemyBrain _brain { get; private set; }
     // Start is called before the first frame update
-    public EnemyRoleManager()
+    public EnemyRoleManager(EnemyBrain enemyBrain)
     {
-
+        _brain = enemyBrain;
+        _chasing = new ChasingRole();
+        _currentRole = _chasing;
+        _currentRole.RoleEnter(this);
     }
 
-   public void FixedUpdate()
+   public void FixedUpdate(EnemyBrain enemyBrain)
     {
-        _currentRole.RoleFixedUpdate(this);
+        _currentRole.RoleFixedUpdate(enemyBrain);
     }
-    public void Update()
+    public void Update(EnemyBrain enemyBrain)
     {
-        _currentRole.RoleUpdate(this);
+        _currentRole.RoleUpdate(enemyBrain);
     }
     public void ChangeRole(EnemyRole NextRole)
     {

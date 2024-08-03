@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class ChasingRole : EnemyRole
 {
+    public TacticManager tacticManager { get;private set; }
     public ChasingRole()
     {
+        tacticManager = new TacticManager();
     }
-    public override void RoleEnter(EnemyRoleManager roleManager)
+    public override void RoleEnter(EnemyRoleManager enemyBrain)
     {
         
     }
-    public override void RoleExit(EnemyRoleManager roleManager)
+    public override void RoleExit(EnemyRoleManager enemyBrain)
     {
        
     }
 
-    public override void RoleFixedUpdate(EnemyRoleManager roleManager)
+    public override void RoleFixedUpdate(EnemyBrain enemyBrain)
     {
-        
     }
-
-    public override void RoleUpdate(EnemyRoleManager roleManager)
+    public override void RoleUpdate(EnemyBrain enemyBrain)
     {
         
     }

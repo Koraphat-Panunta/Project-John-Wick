@@ -2,22 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyBrain : MonoBehaviour
 {
-    [SerializeField] public Animator animator;
     // Start is called before the first frame update
+    public EnemyRoleManager roleManager;
+    public TacticManager tacticManager;
+    public Enemy enemy;
     void Start()
     {
-        
+        roleManager = new EnemyRoleManager(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-      
-    }
-    private void FixedUpdate()
-    {
-
+        roleManager.Update(this);
     }
 }
