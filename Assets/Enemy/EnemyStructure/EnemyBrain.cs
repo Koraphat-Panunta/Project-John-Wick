@@ -8,6 +8,8 @@ public class EnemyBrain : MonoBehaviour
     public EnemyRoleManager roleManager;
     public TacticManager tacticManager;
     public Enemy enemy;
+    public GameObject Target;
+    public EnemyAction _enemyAction;
     void Start()
     {
         roleManager = new EnemyRoleManager(this);
@@ -16,6 +18,7 @@ public class EnemyBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _enemyAction.Target = this.Target;
         roleManager.Update(this);
     }
 }

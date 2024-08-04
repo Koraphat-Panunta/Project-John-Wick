@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAction : MonoBehaviour
 {
     public Animator m_Animator;
-    // Start is called before the first frame update
+    public Enemy _enemy;
+    public EnemyStateManager _enemyStateManager;
+    public GameObject Target;
     void Start()
     {
-        
+        _enemyStateManager = new EnemyStateManager(this);
     }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        _enemyStateManager.Update(this);
+    }
+    private void FixedUpdate()
+    {
+        _enemyStateManager.FixedUpdate(this);
     }
 }

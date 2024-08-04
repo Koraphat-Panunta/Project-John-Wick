@@ -62,15 +62,16 @@ public class MyEnemyController : MonoBehaviour
             }
 
         }
+        if (agent.hasPath)
+        {
+            for (int i = 0; i < agent.path.corners.Length - 1; i++)
+            {
+                Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.green);
+            }
+        }
     }
     private void OnDrawGizmos()
     {
-        if (agent.hasPath)
-        {
-            for(int i = 0; i < agent.path.corners.Length - 1; i++)
-            {
-                Debug.DrawLine(agent.path.corners[i], agent.path.corners[i+1],Color.green);
-            }
-        }
+       
     }
 }
