@@ -51,6 +51,7 @@ public class MyEnemyController : MonoBehaviour
         {
             animator.SetFloat("Vertical",math.lerp(animator.GetFloat("Vertical"),0,2*Time.deltaTime));
             animator.SetFloat("Horizontal",math.lerp(animator.GetFloat("Horizontal"),0,2*Time.deltaTime));
+            Debug.Log(agent.destination);
         }
         if (Input.GetMouseButtonDown(0))
         {

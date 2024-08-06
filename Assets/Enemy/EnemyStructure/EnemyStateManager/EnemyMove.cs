@@ -57,21 +57,30 @@ public class EnemyMove : EnemyState
             MyEnemy.transform.rotation = Quaternion.RotateTowards(MyEnemy.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
             //If Enemy reach destination of NavmeshAgent
             CheckReachDestination(MyEnemy,agent,animator,enemyState);
+            
         }
-        else
+        else if(enemyPath._markPoint.Count<=0)
         {
+            Debug.Log("Change to idle form move");
             enemyState.ChangeState(enemyState._idle);
+        }
+        else if (agent.hasPath == false && agent.destination != null)
+        {
+            Debug.Log("ss");
+            enemyPath.SetNavDestinationNext(agent);
         }
         //else
         //{
         //    animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
         //    animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
         //}    
+        EnemyDebuger.curPos = agent.destination;
     }
     private void CheckReachDestination(GameObject MyEnemy, NavMeshAgent agent, Animator animator, EnemyStateManager enemyState)
     {
         if (Vector3.Distance(MyEnemy.transform.position, agent.destination) <= agent.radius)
         {
+            Debug.Log("Reach Destination");
             enemyPath.SetNavDestinationNext(agent);
             //if (agent.SetDestination(enemyPath._markPoint[0])) { enemyPath._markPoint.RemoveAt(0);}
             //if (enemyPath._markPoint.Count > 0)
