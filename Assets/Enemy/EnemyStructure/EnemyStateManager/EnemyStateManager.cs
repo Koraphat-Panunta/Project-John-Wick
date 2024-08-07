@@ -14,7 +14,7 @@ public class EnemyStateManager
         EnemyAction = enemyAction;
         _move = new EnemyMove();
         _idle = new EnemyIdle();
-        _currentState = _move;
+        _currentState = _idle;
         _currentState.StateEnter(this);
     }
 

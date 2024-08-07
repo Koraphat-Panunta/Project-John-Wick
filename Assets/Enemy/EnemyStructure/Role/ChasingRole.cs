@@ -7,22 +7,26 @@ public class ChasingRole : EnemyRole
     public TacticManager tacticManager { get;private set; }
     public ChasingRole()
     {
-        tacticManager = new TacticManager();
     }
-    public override void RoleEnter(EnemyRoleManager enemyBrain)
+    public override void RoleEnter(EnemyRoleManager enemyRoleManager)
     {
-        
+        if (tacticManager == null)
+        {
+            tacticManager = enemyRoleManager._enemyBrain.tacticManager;
+        }
+        tacticManager.ChangeTactic(tacticManager._flanking);
     }
-    public override void RoleExit(EnemyRoleManager enemyBrain)
+    public override void RoleExit(EnemyRoleManager enemyRoleManager)
     {
        
     }
 
-    public override void RoleFixedUpdate(EnemyBrain enemyBrain)
+    public override void RoleFixedUpdate(EnemyBrain enemyRoleManager)
     {
+        tacticManager.FixedUpdate(enemyRoleManager);
     }
-    public override void RoleUpdate(EnemyBrain enemyBrain)
+    public override void RoleUpdate(EnemyBrain enemyRoleManager)
     {
-        
+        tacticManager.Update(enemyRoleManager);
     }
 }

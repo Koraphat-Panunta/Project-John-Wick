@@ -32,12 +32,13 @@ public class EnemyPath
             IsPositionOnNavMesh(markPos, 2f);
         }
         targetAnchor = target;
-        _markPoint.Add(targetAnchor);
+       
         Debug.Log("GenPath");
     }
     public void ResetPath()
     {
         _markPoint.Clear();
+        
     }
     public void SetNavDestinationNext(NavMeshAgent agent)
     {
@@ -46,6 +47,10 @@ public class EnemyPath
             Debug.Log("Set agent");
             Vector3 nextDestination = _markPoint[0];
             agent.destination = nextDestination;
+            if (agent.hasPath)
+            {
+                Debug.Log("haspath");
+            }
             _markPoint.RemoveAt(0);
         }
         else

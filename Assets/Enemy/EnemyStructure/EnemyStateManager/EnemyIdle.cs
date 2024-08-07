@@ -11,7 +11,7 @@ public class EnemyIdle : EnemyState
 
     public override void StateEnter(EnemyStateManager enemyState)
     {
-       
+        Debug.Log("Idle Enter");
     }
 
     public override void StateExit(EnemyStateManager enemyState)
@@ -31,10 +31,6 @@ public class EnemyIdle : EnemyState
         GameObject MyEnemy = enemyState.EnemyAction._enemy.gameObject;
         animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
         animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
-        if (Vector3.Distance(enemyState.EnemyAction.Target.transform.position, MyEnemy.transform.position) > 10)
-        {
-            enemyState.ChangeState(enemyState._move);
-        }
         Debug.Log("Idle");
     }
 

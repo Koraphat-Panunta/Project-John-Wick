@@ -5,14 +5,19 @@ using UnityEngine.AI;
 
 public class EnemyMove : EnemyState
 {
-    public EnemyPath enemyPath;
+    EnemyPath enemyPath;
     public EnemyMove()
     {
-        enemyPath = new EnemyPath();
+
     }
     public override void StateEnter(EnemyStateManager enemyState)
     {
-        if (enemyState.EnemyAction._enemy.agent.hasPath == false)
+        Debug.Log("Move Enter");
+        if (enemyPath == null)
+        {
+            enemyPath = enemyState.EnemyAction.e_nemyPath;
+        }
+        if (enemyPath._markPoint.Count<=0)
         {
             enemyPath.GenaratePath(enemyState.EnemyAction.Target.transform.position,enemyState.EnemyAction._enemy.gameObject.transform.position);
             enemyPath.SetNavDestinationNext(enemyState.EnemyAction._enemy.agent);
@@ -31,49 +36,35 @@ public class EnemyMove : EnemyState
         Animator animator = enemyState.EnemyAction._enemy.animator;
         NavMeshAgent agent = enemyState.EnemyAction._enemy.agent;
         GameObject MyEnemy = enemyState.EnemyAction._enemy.gameObject;
-        enemyPath.UpdateTargetPos(enemyState.EnemyAction.Target.transform.position);
-        //if (Vector3.Distance(enemyPath.targetAnchor, enemyPath.targetPos) > 10)
-        //{
-        //    enemyPath.RegenaratePath(enemyState.EnemyAction.Target.transform.position, enemyState.EnemyAction._enemy.gameObject.transform.position,agent);
-        //}
-        if (agent.hasPath)
+        EnemyPath enemyPath = enemyState.EnemyAction.e_nemyPath;
+        if (enemyPath._markPoint.Count > 0)
         {
-            Vector3 dir = agent.steeringTarget - MyEnemy.transform.position;
-            Vector3 animDir = MyEnemy.transform.InverseTransformDirection(dir);
-            //float dot = Vector3.Dot(MyEnemy.transform.position, dir);
-            //bool isFacingDir;
-            //if (dot > 0.65f)
-            //{
-            //    isFacingDir = true;
-            //}
-            //else
-            //{
-            //    isFacingDir = false;
-            //}
+            if (agent.hasPath == false && agent.destination != null)//Reapeat Set agent destination
+            {
+                enemyPath.SetNavDestinationNext(agent);
+            }
+            enemyPath.UpdateTargetPos(enemyState.EnemyAction.Target.transform.position);
+            if (agent.hasPath)//Move Enemy
+            {
+                Vector3 dir = agent.steeringTarget - MyEnemy.transform.position;
+                Vector3 animDir = MyEnemy.transform.InverseTransformDirection(dir);
+                animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
+                animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
+                MyEnemy.transform.rotation = Quaternion.RotateTowards(MyEnemy.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
+                //If Enemy reach destination of NavmeshAgent
+                CheckReachDestination(MyEnemy, agent, animator, enemyState);
 
-            animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
-            animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
-
-            MyEnemy.transform.rotation = Quaternion.RotateTowards(MyEnemy.transform.rotation, Quaternion.LookRotation(dir), 180 * Time.deltaTime);
-            //If Enemy reach destination of NavmeshAgent
-            CheckReachDestination(MyEnemy,agent,animator,enemyState);
-            
+            }
+            if (Vector3.Distance(enemyPath.targetPos, enemyPath.targetAnchor) > 5)
+            {
+                enemyPath.RegenaratePath(enemyState.EnemyAction.Target.transform.position,MyEnemy.transform.position,agent);
+            }
         }
-        else if(enemyPath._markPoint.Count<=0)
+        else if (enemyPath._markPoint.Count <= 0)
         {
             Debug.Log("Change to idle form move");
             enemyState.ChangeState(enemyState._idle);
         }
-        else if (agent.hasPath == false && agent.destination != null)
-        {
-            Debug.Log("ss");
-            enemyPath.SetNavDestinationNext(agent);
-        }
-        //else
-        //{
-        //    animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
-        //    animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
-        //}    
         EnemyDebuger.curPos = agent.destination;
     }
     private void CheckReachDestination(GameObject MyEnemy, NavMeshAgent agent, Animator animator, EnemyStateManager enemyState)
@@ -82,22 +73,6 @@ public class EnemyMove : EnemyState
         {
             Debug.Log("Reach Destination");
             enemyPath.SetNavDestinationNext(agent);
-            //if (agent.SetDestination(enemyPath._markPoint[0])) { enemyPath._markPoint.RemoveAt(0);}
-            //if (enemyPath._markPoint.Count > 0)
-            //{
-            //    agent.ResetPath();
-            //    agent.SetDestination(enemyPath._markPoint[0]);
-            //}
-            //else if (agent.SetDestination(enemyState.EnemyAction.Target.transform.position) == false)
-            //{
-            //    agent.ResetPath();
-            //    agent.SetDestination(enemyState.EnemyAction.Target.transform.position);
-            //}
-            //else
-            //{
-            //    agent.ResetPath();
-            //    enemyState.ChangeState(enemyState._idle);
-            //}
         }
     }
 }

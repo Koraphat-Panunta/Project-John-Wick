@@ -9,11 +9,10 @@ public class TacticManager
     public EnemyBrain _enemyBrain { get; private set; }
     public Enemy _enemy;
     // Start is called before the first frame update
-    public TacticManager()
+    public TacticManager(EnemyBrain enemyBrain)
     {
+        _enemyBrain = enemyBrain;
         _flanking = new Flanking();
-        _currentTactic = _flanking;
-        _currentTactic.TacticEnter(this);
     }
 
     public void FixedUpdate(EnemyBrain enemyBrain)
@@ -23,13 +22,9 @@ public class TacticManager
     }
     public void Update(EnemyBrain enemyBrain)
     {
-        if (_enemyBrain == null)
-        {
-            _enemyBrain = enemyBrain;
-        }
         _currentTactic.TacticUpdate(enemyBrain);
     }
-    public void ChangeRole(EnemyTactic nextTac)
+    public void ChangeTactic(EnemyTactic nextTac)
     {
         if (_currentTactic != null)
         {

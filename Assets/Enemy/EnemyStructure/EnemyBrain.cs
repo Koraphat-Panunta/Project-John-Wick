@@ -13,6 +13,9 @@ public class EnemyBrain : MonoBehaviour
     void Start()
     {
         roleManager = new EnemyRoleManager(this);
+        tacticManager = new TacticManager(this);
+        roleManager._currentRole = roleManager._chasing;
+        roleManager._currentRole.RoleEnter(roleManager);
     }
 
     // Update is called once per frame

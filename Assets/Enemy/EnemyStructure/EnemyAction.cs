@@ -9,8 +9,10 @@ public class EnemyAction : MonoBehaviour
     public Enemy _enemy;
     public EnemyStateManager _enemyStateManager;
     public GameObject Target;
+    public EnemyPath e_nemyPath;
     void Start()
     {
+        e_nemyPath = new EnemyPath();
         _enemyStateManager = new EnemyStateManager(this);
     }
     void Update()

@@ -6,14 +6,12 @@ public class EnemyRoleManager
 {
     public EnemyRole _currentRole;
     public ChasingRole _chasing { get; private set; }
-    public EnemyBrain _brain { get; private set; }
+    public EnemyBrain _enemyBrain { get; private set; }
     // Start is called before the first frame update
     public EnemyRoleManager(EnemyBrain enemyBrain)
     {
-        _brain = enemyBrain;
+        _enemyBrain = enemyBrain;
         _chasing = new ChasingRole();
-        _currentRole = _chasing;
-        _currentRole.RoleEnter(this);
     }
 
    public void FixedUpdate(EnemyBrain enemyBrain)

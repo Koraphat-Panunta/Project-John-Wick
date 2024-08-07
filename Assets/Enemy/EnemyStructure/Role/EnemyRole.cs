@@ -12,7 +12,7 @@ public abstract class EnemyRole
 
     public virtual void RoleEnter(EnemyRoleManager enemyRole)
     {
-
+        
     }
     public virtual void RoleExit(EnemyRoleManager enemyRole)
     {
