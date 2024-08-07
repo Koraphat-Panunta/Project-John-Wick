@@ -30,7 +30,7 @@ public class Flanking : EnemyTactic
     public override void TacticUpdate(EnemyBrain enemyBrain)
     {
         Debug.Log("TacticUpdate");
-        if(Vector3.Distance(EnemyAction.e_nemyPath.targetAnchor,enemyBrain.enemy.gameObject.transform.position)<1.5f)
+        if(Vector3.Distance(enemyBrain.Target.transform.position,enemyBrain.enemy.gameObject.transform.position)<2.5f)
         {
             EnemyAction._enemyStateManager.ChangeState(EnemyAction._enemyStateManager._idle);
         }

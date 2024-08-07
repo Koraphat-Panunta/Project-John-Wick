@@ -11,6 +11,10 @@ public class EnemyIdle : EnemyState
 
     public override void StateEnter(EnemyStateManager enemyState)
     {
+        if (enemyState.EnemyAction.e_nemyPath.agent.hasPath)
+        {
+            enemyState.EnemyAction.e_nemyPath.ResetPath();  
+        }
         Debug.Log("Idle Enter");
     }
 
