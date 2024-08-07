@@ -1,13 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class DebugGizmos : MonoBehaviour
 {
-    [SerializeField] public Animator animator;
-    [SerializeField] public WeaponSocket weaponSocket;
-    [SerializeField] public NavMeshAgent agent;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +14,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+        
     }
-    private void FixedUpdate()
+    private void OnDrawGizmos()
     {
-
     }
 }

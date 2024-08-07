@@ -41,11 +41,11 @@ public class PlayerWeaponManager : MonoBehaviour
             if (Value.phase.IsInProgress())
             {
                 Debug.Log("AimInput");
-                CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.aimDownSight);
+                CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.aimDownSight);
             }
             else
             {
-                CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
+                CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.lowReady);
             }
         }
     }

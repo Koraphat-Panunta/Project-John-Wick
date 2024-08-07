@@ -9,6 +9,7 @@ public class MyEnemyController : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
+    public int frame = 0;
     private void OnValidate()
     {
         if(agent!) agent = GetComponent<NavMeshAgent>();
@@ -23,8 +24,10 @@ public class MyEnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        frame++;
         if (agent.hasPath)
         {
+            Debug.Log("Has path frame = " + frame);
             Vector3 dir = agent.steeringTarget - transform.position;
             Vector3 animDir = transform.InverseTransformDirection(dir);
             float dot = Vector3.Dot(transform.position, dir);
@@ -51,6 +54,7 @@ public class MyEnemyController : MonoBehaviour
         {
             animator.SetFloat("Vertical",math.lerp(animator.GetFloat("Vertical"),0,2*Time.deltaTime));
             animator.SetFloat("Horizontal",math.lerp(animator.GetFloat("Horizontal"),0,2*Time.deltaTime));
+            Debug.Log(agent.destination);
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -59,18 +63,24 @@ public class MyEnemyController : MonoBehaviour
             if (Hitray == true)
             {
                 agent.destination = hit.point;
+                Debug.Log("Click frame = "+frame);
+                if(agent.hasPath)
+                {
+                    Debug.Log("has path");
+                }
             }
 
+        }
+        if (agent.hasPath)
+        {
+            for (int i = 0; i < agent.path.corners.Length - 1; i++)
+            {
+                Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.green);
+            }
         }
     }
     private void OnDrawGizmos()
     {
-        if (agent.hasPath)
-        {
-            for(int i = 0; i < agent.path.corners.Length - 1; i++)
-            {
-                Debug.DrawLine(agent.path.corners[i], agent.path.corners[i+1],Color.green);
-            }
-        }
+       
     }
 }

@@ -3,42 +3,37 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class WeaponStanceManager : StateManager
+public class WeaponStanceManager : MonoBehaviour
 {
     [SerializeField] WeaponSingleton weaponSingleton;
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
+    public WeaponStance _currentStance { get; private set; }
     public float AimingWeight = 0;
 
-    protected override void Start()
+    public void Start()
     {
-        lowReady = gameObject.GetComponent<LowReady>();
-        aimDownSight = gameObject.GetComponent<AimDownSight>();
-        base.Current_state = lowReady;
-        base.Start();
+       aimDownSight = new AimDownSight();
+        lowReady = new LowReady();
+       _currentStance = lowReady;
     }
    
-    protected override void FixedUpdate()
+    public void FixedUpdate()
     {
-        base.FixedUpdate();
+        _currentStance.WeaponStanceFixedUpdate(this);
     }
 
-    protected override void SetUpState()
+    public void Update()
     {
-    }
-
-    protected override void Update()
-    {
-        
-        base.Update();
+        _currentStance.WeaponStanceUpdate(this);
     }
     public void AimingWeightUpdate(Weapon weapon)
     {
-        if (weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.aimDownSight)
+        if (weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.aimDownSight)
         {
             AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
         }
-        if(weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.lowReady)
+        if(weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.lowReady)
         {
             AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
         }
@@ -50,5 +45,14 @@ public class WeaponStanceManager : StateManager
     {
         weaponSingleton.Aim += AimingWeightUpdate;
         weaponSingleton.LowReady += AimingWeightUpdate;
+    }
+    public void ChangeStance(WeaponStance Nextstance)
+    {
+        if (_currentStance != Nextstance)
+        {
+            _currentStance.ExitState();
+        }
+        _currentStance = Nextstance;
+        _currentStance.EnterState();
     }
 }

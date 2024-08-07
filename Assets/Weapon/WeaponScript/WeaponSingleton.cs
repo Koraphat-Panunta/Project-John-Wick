@@ -8,13 +8,13 @@ public class WeaponSingleton : MonoBehaviour
     public Animator animator { get; private set; }
     public GameObject UserWeapon { get; private set; }
     public WeaponSocket weaponSocket { get; private set; }
-    public State CurStance { get; private set; }
-    public State CurState { get; private set; }
+    public WeaponStance CurStance { get; private set; }
+    public WeaponState CurState { get; private set; }
     public Camera Camera { get; private set; }
     [SerializeField] private CrosshairController CrosshairController;
     [SerializeField] private Weapon MyWeapon;
-    [SerializeField] private WeaponStateManager stateManager;
-    [SerializeField] private WeaponStanceManager stanceManager;
+    [SerializeField] private WeaponStateManager _weaponStateManager;
+    [SerializeField] private WeaponStanceManager _weaponStanceManager;
     public Action<Weapon> FireEvent;
     public Action<Weapon> Aim;
     public Action<Weapon> Reload;
@@ -28,16 +28,16 @@ public class WeaponSingleton : MonoBehaviour
     }
     private void Update()
     {
-        CurStance = stanceManager.Current_state;
-        CurState = stateManager.Current_state;
+        CurStance = _weaponStanceManager._currentStance;
+        CurState = _weaponStateManager._currentState;
     }
     public WeaponStanceManager GetStanceManager()
     {
-        return stanceManager;
+        return _weaponStanceManager;
     }
     public WeaponStateManager GetStateManager() 
     { 
-        return stateManager; 
+        return _weaponStateManager; 
     }
     public Weapon GetWeapon()
     {

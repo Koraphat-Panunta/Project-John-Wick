@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class CrosshairController : MonoBehaviour
 {
-    [SerializeField] WeaponSingleton weaponSingleton;
+    [SerializeField] WeaponSocket weaponSocket;
 
     [SerializeField] [Range(0,1)] private float CrosshairSpread = 0;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
@@ -61,11 +61,19 @@ public class CrosshairController : MonoBehaviour
     }
     private void OnEnable()
     {
-        weaponSingleton.FireEvent += ShootSpread;
+        InvokeRepeating("AddEvent", 0, Time.deltaTime);
     }
     private void OnDisable()
     {
        
+    }
+    private void AddEvent()
+    {
+        if (weaponSocket.weaponSingleton != null)
+        {
+            weaponSocket.weaponSingleton.FireEvent += ShootSpread;
+            CancelInvoke();
+        }
     }
 
 }

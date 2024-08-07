@@ -2,32 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponStance : State
+public abstract class WeaponStance 
 {
     protected WeaponSocket weaponSocket;
     public Animator animator { get; private set;}
+    public WeaponStance()
+    {
+
+    }
     protected virtual void Start()
     {
-        weaponSocket = GetComponentInParent<WeaponSocket>();
         animator = weaponSocket.GetAnimator();
     }
-    public override void EnterState()
+    public virtual void EnterState()
     {
-        base.EnterState();
+
     }
 
-    public override void ExitState()
+    public virtual void ExitState()
     {
-        base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public virtual void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base.FrameUpdateState(stateManager);
+
     }
 
-    public override void PhysicUpdateState(StateManager stateManager)
+    public virtual void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base.PhysicUpdateState(stateManager);
+
     }
 }

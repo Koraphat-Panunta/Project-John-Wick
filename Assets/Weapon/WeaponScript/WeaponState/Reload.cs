@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Reload : WeaponState
 {
+    public Reload() 
+    {
+        
+    }
     public override void EnterState()
     {
         base.EnterState();
@@ -14,15 +18,14 @@ public class Reload : WeaponState
         base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
-    {
-        base.FrameUpdateState(stateManager);
-    }
-
-    public override void PhysicUpdateState(StateManager stateManager)
-    {
-        base.PhysicUpdateState(stateManager);
-    }
-
     
+    public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
+    {
+        
+    }
+    public override void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)
+    {
+       
+    }
+
 }
