@@ -23,7 +23,7 @@ public class PlayerWeaponCommand : MonoBehaviour
     }
     public void Pulltriger(PlayerStateManager playerstate)
     {
-        if(CurrentWeapon.weapon_StanceManager.Current_state == CurrentWeapon.weapon_StanceManager.aimDownSight
+        if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight
             &&playerstate.Current_state != playerstate.sprint)
         {
             CurrentWeapon.weapon_stateManager.ChangeState(CurrentWeapon.weapon_stateManager.fireState);
@@ -34,11 +34,11 @@ public class PlayerWeaponCommand : MonoBehaviour
     {
         if(playerstate.Current_state != playerstate.sprint)
         {
-            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.aimDownSight);
+            CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.aimDownSight);
         }
         else
         {
-            CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
+            CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.lowReady);
         }
     }
     public void Reload(State playerstate)
@@ -47,7 +47,7 @@ public class PlayerWeaponCommand : MonoBehaviour
     }
     public void LowWeapon(State playerstate)
     {
-        CurrentWeapon.weapon_StanceManager.ChangeState(CurrentWeapon.weapon_StanceManager.lowReady);
+        CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.lowReady);
     }
     public void SwitchWeapon(PlayerStateManager playerState)
     {

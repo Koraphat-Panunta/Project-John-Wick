@@ -5,7 +5,10 @@ using UnityEngine;
 public class LowReady : WeaponStance
 {
     [SerializeField] private WeaponSingleton weaponSingleton;
-    CameraController cameraController;
+    public LowReady()
+    {
+
+    }
     public override void EnterState()
     {
         base.EnterState();
@@ -16,30 +19,21 @@ public class LowReady : WeaponStance
     {
         base.ExitState();
     }
-
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady,weaponSingleton.GetWeapon());
+
+        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady, weaponSingleton.GetWeapon());
         weaponSingleton.LowReady.Invoke(weaponSingleton.GetWeapon());
-        base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
-        base.FrameUpdateState(stateManager);
+        base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
     }
-
-    public override void PhysicUpdateState(StateManager stateManager)
+    
+    public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base.PhysicUpdateState(stateManager);
     }
-
     protected override void Start()
     {
         
         base.Start();
     }
-    private void Update()
-    {
-        if (cameraController == null)
-        {
-            cameraController = weaponSingleton.Camera.GetComponent<CameraController>();
-        }
-    }
+   
 }

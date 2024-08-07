@@ -8,7 +8,10 @@ public class Fire : WeaponState
 {
     float Recover_Time;
     [SerializeField] WeaponSingleton weaponSingleton;
-    
+
+    public Fire()
+    {
+    }
 
     public event Action<Weapon> WeaponFire;
     public override void EnterState()
@@ -33,20 +36,20 @@ public class Fire : WeaponState
         base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+   
+    public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
         Recover_Time -= Time.deltaTime;
         Recover_Time = Mathf.Clamp(Recover_Time, 0, 15);
-        if(Recover_Time <= 0)
+        if (Recover_Time <= 0)
         {
-            stateManager.ChangeState(weaponSingleton.GetStateManager().none);
+            weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none);
         }
-        base.FrameUpdateState(stateManager);
     }
-
-    public override void PhysicUpdateState(StateManager stateManager)
+   
+    public override void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)
     {
-        base.PhysicUpdateState(stateManager);
+        
     }
     private void SetRateoffire(Weapon weapon)
     {    

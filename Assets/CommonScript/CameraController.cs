@@ -27,11 +27,11 @@ public class CameraController : MonoBehaviour
     }
     private void ADS(Weapon weapon)
     {
-        if(weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.aimDownSight)
+        if(weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.aimDownSight)
         {
             CinemachineFreeLook.m_Lens.FieldOfView = 65 - (weapon.weapon_StanceManager.AimingWeight * 25);
         }
-        if (weapon.weapon_StanceManager.Current_state == weapon.weapon_StanceManager.lowReady)
+        if (weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.lowReady)
         {
             CinemachineFreeLook.m_Lens.FieldOfView = 65 - weapon.weapon_StanceManager.AimingWeight * 25;  
         }

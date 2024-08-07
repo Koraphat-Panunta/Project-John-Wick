@@ -8,6 +8,9 @@ public class AimDownSight : WeaponStance
     [SerializeField] WeaponSingleton weaponSingleton;
     private Camera camera;
     GameObject WeaponUserCharacter;
+    public AimDownSight()
+    {
+    }
     public override void EnterState()
     {
         base.EnterState();
@@ -19,28 +22,27 @@ public class AimDownSight : WeaponStance
         base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
+        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim, weaponSingleton.GetWeapon());
         weaponSingleton.Aim.Invoke(weaponSingleton.GetWeapon());
-        base.animator.SetLayerWeight(1,weaponSingleton.GetStanceManager().AimingWeight);
+        base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
         RotateTowards(camera.transform.forward);
-        base.FrameUpdateState(stateManager);
     }
-
-    public override void PhysicUpdateState(StateManager stateManager)
+    public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base.PhysicUpdateState(stateManager);
     }
 
     // Start is called before the first frame update
     protected override void Start()
     {
-        InvokeRepeating("GetCamera",0, Time.deltaTime);
-        InvokeRepeating("GetWeaponUser", 0, Time.deltaTime);
+        
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
+
+   
+
     protected void RotateTowards(Vector3 direction)
     {
         // Ensure the direction is normalized
@@ -57,22 +59,6 @@ public class AimDownSight : WeaponStance
 
             // Smoothly rotate towards the target rotation
             WeaponUserCharacter.transform.rotation = Quaternion.Slerp(WeaponUserCharacter.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-    }
-    private void GetCamera()
-    {
-        camera = weaponSingleton.Camera;
-        if(camera != null)
-        {
-            CancelInvoke("GetCamera");
-        }
-    }
-    private void GetWeaponUser()
-    {
-        WeaponUserCharacter = weaponSingleton.UserWeapon;
-        if(WeaponUserCharacter != null)
-        {
-            CancelInvoke("GetWeaponUser");
         }
     }
 }
