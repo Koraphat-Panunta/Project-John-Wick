@@ -10,7 +10,9 @@ public class ProceduralBoneController : MonoBehaviour
     [SerializeField] MultiAimConstraint Head;
     [SerializeField] MultiAimConstraint RightArm;
     [SerializeField] MultiAimConstraint RightHand;
+    [SerializeField] PlayerWeaponCommand weaponCommand;
     public GameObject sourceTarget;
+    private float weight = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,16 +20,18 @@ public class ProceduralBoneController : MonoBehaviour
         Head.weight = 0;
         RightArm.weight = 0;
         RightHand.weight = 0;
+        weaponCommand.weaponAim += SetWeight;
+        weaponCommand.weaponLow += SetWeight;
     }
 
     // Update is called once per frame
     private void SetWeight(Weapon weapon)
     {
-        float w = Mathf.Clamp(weapon.weapon_StanceManager.AimingWeight, 0.0f, 1.0f);
-        Spine.weight = w;
-        Head.weight = w;
-        RightArm.weight = w;
-        RightHand.weight = w;
+        weight = weapon.weapon_StanceManager.AimingWeight;
+        Spine.weight = weight;
+        Head.weight = weight;
+        RightArm.weight = weight;
+        RightHand.weight = weight;
     }
     public void SetSourceTarget(GameObject gameObject)
     {
@@ -48,15 +52,16 @@ public class ProceduralBoneController : MonoBehaviour
         // Apply the updated source objects
         constraint.data.sourceObjects = data;
     }
-    private void OnEnable()
-    {
-        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
-        WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
-    }
-    private void OnDisable()
-    {
-        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
-        WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
-    }
+   
+    //private void OnEnable()
+    //{
+    //    WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
+    //    WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
+    //}
+    //private void OnDisable()
+    //{
+    //    WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
+    //    WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
+    //}
 
 }

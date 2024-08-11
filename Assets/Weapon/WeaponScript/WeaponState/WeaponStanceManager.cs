@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WeaponStanceManager : MonoBehaviour
 {
-    [SerializeField] WeaponSingleton weaponSingleton;
+    [SerializeField] public WeaponSingleton weaponSingleton;
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
     public WeaponStance _currentStance { get; private set; }
@@ -13,8 +13,8 @@ public class WeaponStanceManager : MonoBehaviour
 
     public void Start()
     {
-       aimDownSight = new AimDownSight();
-        lowReady = new LowReady();
+       aimDownSight = new AimDownSight(weaponSingleton);
+        lowReady = new LowReady(weaponSingleton);
        _currentStance = lowReady;
     }
    
@@ -51,8 +51,9 @@ public class WeaponStanceManager : MonoBehaviour
         if (_currentStance != Nextstance)
         {
             _currentStance.ExitState();
+            _currentStance = Nextstance;
+            _currentStance.EnterState();
         }
-        _currentStance = Nextstance;
-        _currentStance.EnterState();
+       
     }
 }

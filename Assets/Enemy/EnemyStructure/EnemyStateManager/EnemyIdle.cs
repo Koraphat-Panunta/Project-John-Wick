@@ -8,7 +8,6 @@ public class EnemyIdle : EnemyState
     public EnemyIdle()
     {
     }
-
     public override void StateEnter(EnemyStateManager enemyState)
     {
         if (enemyState.EnemyAction.e_nemyPath.agent.hasPath)

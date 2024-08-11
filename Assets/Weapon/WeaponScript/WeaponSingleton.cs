@@ -15,6 +15,7 @@ public class WeaponSingleton : MonoBehaviour
     [SerializeField] private Weapon MyWeapon;
     [SerializeField] private WeaponStateManager _weaponStateManager;
     [SerializeField] private WeaponStanceManager _weaponStanceManager;
+    [SerializeField] AnimatorOverrideController _weaponOverrideController;
     public Action<Weapon> FireEvent;
     public Action<Weapon> Aim;
     public Action<Weapon> Reload;
@@ -46,6 +47,10 @@ public class WeaponSingleton : MonoBehaviour
     public CrosshairController GetCrosshair()
     {
         return CrosshairController;
+    }
+    public AnimatorOverrideController GetOverrideController()
+    {
+        return _weaponOverrideController;
     }
     public void UnsubAllEvent()
     {

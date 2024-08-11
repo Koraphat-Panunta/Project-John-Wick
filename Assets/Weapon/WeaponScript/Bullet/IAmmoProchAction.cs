@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IObserver 
+public interface IAmmoProchAction 
 {
-    public void OnNotify();
-    
-
-    
 }

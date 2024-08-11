@@ -6,28 +6,31 @@ using UnityEngine;
 
 public class Fire : WeaponState
 {
-    float Recover_Time;
-    [SerializeField] WeaponSingleton weaponSingleton;
+    private WeaponSingleton weaponSingleton;
+    private WeaponStateManager weaponStateManager;
 
-    public Fire()
+    public Fire(WeaponSingleton weaponSingleton)
     {
+        this.weaponSingleton = weaponSingleton;
+        this.weaponStateManager = weaponSingleton.GetStateManager();
     }
 
     public event Action<Weapon> WeaponFire;
     public override void EnterState()
     {
-        if(weaponSingleton.CurState != this)
+        if(weaponSingleton.UserWeapon.TryGetComponent<PlayerWeaponCommand>(out PlayerWeaponCommand playerWeaponCommand))
         {
-            if (weaponSingleton.GetWeapon().Magazine_count > 0)
-            {
-                WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Fire, weaponSingleton.GetWeapon());
-                weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
-            }
-            else
-            {
-                weaponSingleton.GetStateManager().ChangeState(weaponSingleton.GetStateManager().none);
-            }
-        }        
+            playerWeaponCommand.cameraKickBack.Performed(weaponSingleton.GetWeapon());
+        }
+        if (weaponSingleton.GetWeapon().Chamber_Count > 0)
+        {
+            weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
+            weaponStateManager.StartCoroutine(AfterShoot());
+        }
+        else
+        {
+            weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none);
+        }
         base.EnterState();
     }
 
@@ -39,29 +42,27 @@ public class Fire : WeaponState
    
     public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
-        Recover_Time -= Time.deltaTime;
-        Recover_Time = Mathf.Clamp(Recover_Time, 0, 15);
-        if (Recover_Time <= 0)
-        {
-            weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none);
-        }
+       
     }
    
     public override void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)
     {
         
     }
-    private void SetRateoffire(Weapon weapon)
-    {    
-         Recover_Time = (float)60 / weaponSingleton.GetWeapon().rate_of_fire;
-         MinusBullet(weapon);
+    IEnumerator AfterShoot()
+    {
+        MinusBullet(weaponSingleton.GetWeapon());
+        yield return new WaitForSeconds((float)(60/weaponSingleton.GetWeapon().rate_of_fire));
+        weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none); 
     }
     private void MinusBullet(Weapon weapon)
     {
-        weapon.Magazine_count -= 1;
+        weapon.Chamber_Count -= 1;
+        if (weapon.Magazine_count > 0)
+        {
+            weapon.Magazine_count -= 1;
+            weapon.Chamber_Count += 1;
+        }
     }
-    private void OnEnable()
-    {
-        weaponSingleton.FireEvent += SetRateoffire;
-    }
+
 }

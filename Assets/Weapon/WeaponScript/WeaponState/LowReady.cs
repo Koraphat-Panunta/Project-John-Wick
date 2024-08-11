@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class LowReady : WeaponStance
 {
-    [SerializeField] private WeaponSingleton weaponSingleton;
-    public LowReady()
+    private WeaponSingleton weaponSingleton;
+    public LowReady(WeaponSingleton weaponSingleton)
     {
-
+        this.weaponSingleton = weaponSingleton;
+        base.animator = this.weaponSingleton.animator;
     }
     public override void EnterState()
     {
         base.EnterState();
-        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady, weaponSingleton.GetWeapon());
+
     }
 
     public override void ExitState()
@@ -22,7 +23,6 @@ public class LowReady : WeaponStance
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
 
-        WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.LowReady, weaponSingleton.GetWeapon());
         weaponSingleton.LowReady.Invoke(weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
     }
