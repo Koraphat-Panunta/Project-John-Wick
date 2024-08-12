@@ -26,13 +26,13 @@ public class CameraKickBack : ICameraAction
     {
         yield return new WaitForFixedUpdate();
         float kickResult = (kickForce - kickController)/kickForce;
-        kickResult = kickResult * 0.65f;
+        kickResult = kickResult * 0.2f;
         yAxisReposition = cameraFreeLook.m_YAxis.Value;
         cameraFreeLook.m_YAxis.Value -= kickResult;
         repositionTime = 0.25f;
         while (cameraFreeLook.m_YAxis.Value < yAxisReposition&&repositionTime>0)
         {
-            cameraFreeLook.m_YAxis.Value += 0.5f*Time.deltaTime;
+            cameraFreeLook.m_YAxis.Value += 0.25f*Time.deltaTime;
             repositionTime -= Time.deltaTime;
             yield return null;
         }
