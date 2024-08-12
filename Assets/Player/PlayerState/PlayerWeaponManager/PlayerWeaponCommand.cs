@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,58 +8,97 @@ public class PlayerWeaponCommand : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
     [SerializeField] private WeaponSocket WeaponSocket;
+    [SerializeField] private Animator playerAnimator;
+
+    public event Action<Weapon> weaponAim;
+    public event Action<Weapon> weaponLow;
+    public event Action<Weapon> weaponShoot;
     public Weapon CurrentWeapon { get; private set; }
     public SecondaryWeapon secondaryWeapon { get; private set; }
     public PrimaryWeapon primaryWeapon { get; private set; }
+    public CameraZoom cameraZoom { get; private set; }
+    public CameraKickBack cameraKickBack { get; private set; }
+
+    public AmmoProuch ammoProuch { get; private set; }
     private void Start()
     {
-        InvokeRepeating("GetWeapon", 0.1f, 1f);
+        StartCoroutine(GetWeapon());
+        ammoProuch = new AmmoProuch(60, 0, 0, 0);
+        ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
     }
     private void Update()
     {
-        //if(CurrentWeapon == null)
-        //{
-        //    CurrentWeapon = WeaponSocket.CurWeapon;
-        //}
+        if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.lowReady)
+        {
+            weaponLow.Invoke(CurrentWeapon);
+        }
+        else if (CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight)
+        {
+            weaponAim.Invoke(CurrentWeapon);
+            
+        }
+        
     }
-    public void Pulltriger(PlayerStateManager playerstate)
+    public void Pulltriger(PlayerStateManager playerstate,InputAction.CallbackContext Value)
     {
         if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight
             &&playerstate.Current_state != playerstate.sprint)
         {
-            CurrentWeapon.weapon_stateManager.ChangeState(CurrentWeapon.weapon_stateManager.fireState);
-            Debug.Log("PullTriger");
+            PullTriggerCommand pullTrigger = new PullTriggerCommand(CurrentWeapon);
+            if (Value.phase == InputActionPhase.Started || Value.phase == InputActionPhase.Performed)
+            {
+                pullTrigger.Execute();
+            }
+            else if(Value.phase == InputActionPhase.Canceled)
+            {
+                pullTrigger.TriggerCancel();
+            }
         }
     }
     public void Aim(PlayerStateManager playerstate)
     {
         if(playerstate.Current_state != playerstate.sprint)
         {
-            CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.aimDownSight);
+            AimDownSightCommand Aim = new AimDownSightCommand(CurrentWeapon);
+            Aim.Execute();
         }
         else
         {
-            CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.lowReady);
+            LowReadyCommand lowReady = new LowReadyCommand(CurrentWeapon);
+            lowReady.Execute();
         }
     }
     public void Reload(State playerstate)
     {
-
+        if (ammoProuch.amountOf_ammo[CurrentWeapon.bullet.GetComponent<Bullet>().type] > 0) 
+        {
+            ReloadCommand reload = new ReloadCommand(CurrentWeapon);
+            reload.Execute();
+            ammoProuch.prochReload.Performed(CurrentWeapon);
+        }
     }
     public void LowWeapon(State playerstate)
     {
-        CurrentWeapon.weapon_StanceManager.ChangeStance(CurrentWeapon.weapon_StanceManager.lowReady);
+        LowReadyCommand lowReady = new LowReadyCommand(CurrentWeapon);
+        lowReady.Execute();
+        
     }
-    public void SwitchWeapon(PlayerStateManager playerState)
+    public void SwitchWeapon()
     {
        
     }
-    private void GetWeapon()
+    private IEnumerator GetWeapon()
     {
-        CurrentWeapon = WeaponSocket.CurWeapon;
-       if(CurrentWeapon == null)
+        CurrentWeapon = null;
+        while(CurrentWeapon == null)
         {
-            CancelInvoke("GetWeapon");
+            CurrentWeapon = WeaponSocket.CurWeapon;
+            yield return null;
         }
+        cameraZoom = new CameraZoom(WeaponSocket.GetCamera().GetComponent<CameraController>(), CurrentWeapon);
+        cameraKickBack = new CameraKickBack(WeaponSocket.GetCamera().GetComponent<CameraController>());
+        weaponAim += cameraZoom.ZoomIn;
+        weaponLow += cameraZoom.ZoomOut;
+        playerAnimator.runtimeAnimatorController = WeaponSocket.weaponSingleton.GetOverrideController();
     }
 }

@@ -10,6 +10,7 @@ public class None : WeaponState
     }
     public override void EnterState()
     {
+        Debug.Log("NoneEnter");
         base.EnterState();
     }
 

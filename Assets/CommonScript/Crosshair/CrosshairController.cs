@@ -6,8 +6,6 @@ using UnityEngine.UIElements;
 public class CrosshairController : MonoBehaviour
 {
     [SerializeField] WeaponSocket weaponSocket;
-
-    [SerializeField] [Range(0,1)] private float CrosshairSpread = 0;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
     [SerializeField] [Range(0,100)] private float MaxAccuracy = 0;
     public RectTransform Crosshair_lineUp;
@@ -16,9 +14,13 @@ public class CrosshairController : MonoBehaviour
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_Position;
     [SerializeField] private GameObject TargetAim;
+    public bool isVisable = false;
+
+    public CrosshairSpread CrosshairSpread { get; private set; }
     void Start()
     {
-        
+        CrosshairSpread = new CrosshairSpread(this);
+        StartCoroutine(SetSpreadEvent(CrosshairSpread));
     }
 
     // Update is called once per frame
@@ -28,15 +30,6 @@ public class CrosshairController : MonoBehaviour
     }
     void CrosshairUpdate()
     {
-       
-        Crosshair_lineUp.anchoredPosition = new Vector2(0, MinAccuracy + (MaxAccuracy * CrosshairSpread));
-        Crosshair_lineDown.anchoredPosition = new Vector2(0, -MinAccuracy - (MaxAccuracy * CrosshairSpread));
-        Crosshair_lineLeft.anchoredPosition = new Vector2(-MinAccuracy - (MaxAccuracy * CrosshairSpread), 0);
-        Crosshair_lineRight.anchoredPosition = new Vector2(MinAccuracy + (MaxAccuracy * CrosshairSpread), 0);
-        if(CrosshairSpread > 0)
-        {
-            CrosshairSpread = Mathf.Lerp(CrosshairSpread, 0, 2f*Time.deltaTime);   
-        }
         Vector3 CrosshairPos;
         CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
         Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
@@ -53,27 +46,20 @@ public class CrosshairController : MonoBehaviour
             TargetAim.transform.position = worldPosition;
         }
     }
-   
-    private void ShootSpread(Weapon weapon)
+    IEnumerator SetSpreadEvent(CrosshairSpread crosshairSpread)
     {
-        this.CrosshairSpread += weapon.Recoil;
-        Debug.Log("ShootSpread");
+        while (weaponSocket.weaponSingleton == null)
+        {
+            yield return null;
+        }
+        weaponSocket.weaponSingleton.FireEvent += crosshairSpread.Performed;
     }
     private void OnEnable()
     {
-        InvokeRepeating("AddEvent", 0, Time.deltaTime);
+        
     }
     private void OnDisable()
     {
        
     }
-    private void AddEvent()
-    {
-        if (weaponSocket.weaponSingleton != null)
-        {
-            weaponSocket.weaponSingleton.FireEvent += ShootSpread;
-            CancelInvoke();
-        }
-    }
-
 }

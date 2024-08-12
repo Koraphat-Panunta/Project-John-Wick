@@ -8,11 +8,11 @@ public class Bullet : MonoBehaviour
     Vector3 originalPos;
     float mass = 1f;
     float velocity = 10f;
+    public BulletType type = BulletType._9mm;
 
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-
         // Set Rigidbody properties
         rb.mass = mass;
         rb.drag = 0.01f;

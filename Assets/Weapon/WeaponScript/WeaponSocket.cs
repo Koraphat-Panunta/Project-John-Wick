@@ -18,14 +18,11 @@ public class WeaponSocket : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        InvokeRepeating("GetWeaponSingleton", 0, Time.deltaTime);
+        weaponSingleton = GetComponentInChildren<WeaponSingleton>();
+        StartCoroutine(GetWeaponSingleton());
     }
 
     // Update is called once per frame
-    protected virtual void Update()
-    {
-        CurWeapon = GetComponentInChildren<Weapon>();
-    }
     public Animator GetAnimator()
     {
         return UserAnimator;
@@ -38,10 +35,13 @@ public class WeaponSocket : MonoBehaviour
     {
         return camera;
     }
-    private void GetWeaponSingleton()
+    IEnumerator GetWeaponSingleton()
     {
-        weaponSingleton = GetComponentInChildren<WeaponSingleton>();
-        CurWeapon = weaponSingleton.GetWeapon();
-        CancelInvoke();
+       
+        while(CurWeapon == null)
+        {
+            CurWeapon = weaponSingleton.GetWeapon();
+            yield return null;
+        }
     }
 }
