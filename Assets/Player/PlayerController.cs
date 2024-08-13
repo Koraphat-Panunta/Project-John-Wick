@@ -13,7 +13,7 @@ public class PlayerController : SubjectPlayer
     public bool isAiming = false;
     [SerializeField] private PlayerWeaponCommand weaponCommand;
     [SerializeField] private PlayerStateManager stateManager;
-
+    [SerializeField] public CrosshairController crosshairController;
     public RotateObjectToward rotateObjectToward { get; private set; }
     void Start()
     {

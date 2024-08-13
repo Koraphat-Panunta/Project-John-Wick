@@ -6,13 +6,21 @@ public class CrosshairSpread : ICrosshairAction
 {
     private CrosshairController _crosshairController;
     float spread_rate = 0;
+    private Coroutine _coroutine;
+    bool isRecovery = false;
     public CrosshairSpread(CrosshairController crosshairController)
     {
         this._crosshairController = crosshairController;
+       
     }
     public void Performed(Weapon weapon)
     {
-       _crosshairController.StartCoroutine(ShootSpread(weapon));
+        spread_rate += weapon.RecoilKickBack;
+        spread_rate = Mathf.Clamp(spread_rate, 0, weapon.max_Precision - weapon.min_Precision);
+        if (isRecovery == false)
+        {
+            _crosshairController.StartCoroutine(ShootSpread(weapon));
+        }
     }
 
     public void Performed(PlayerStateManager playerStateManager)
@@ -21,8 +29,7 @@ public class CrosshairSpread : ICrosshairAction
     }
     IEnumerator ShootSpread(Weapon weapon)
     {
-        spread_rate += weapon.RecoilKickBack;
-        spread_rate = Mathf.Clamp(spread_rate, 0, weapon.max_Precision - weapon.min_Precision);
+        isRecovery = true;
         while (spread_rate > 0)
         {
             _crosshairController.Crosshair_lineUp.anchoredPosition = new Vector2(0, weapon.min_Precision + spread_rate);
@@ -33,5 +40,6 @@ public class CrosshairSpread : ICrosshairAction
             spread_rate = Mathf.Clamp(spread_rate, 0, weapon.max_Precision - weapon.min_Precision);
             yield return null;
         }
+        isRecovery = false;
     }
 }

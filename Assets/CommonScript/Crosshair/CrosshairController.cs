@@ -12,14 +12,17 @@ public class CrosshairController : MonoBehaviour
     public RectTransform Crosshair_lineDown;
     public RectTransform Crosshair_lineLeft;
     public RectTransform Crosshair_lineRight;
-    public RectTransform Crosshair_Position;
-    [SerializeField] private GameObject TargetAim;
+    public RectTransform Crosshair_CenterPosition;
+    public RectTransform PointPosition;
+    [SerializeField] public GameObject TargetAim;
     public bool isVisable = false;
 
     public CrosshairSpread CrosshairSpread { get; private set; }
+    public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
     void Start()
     {
         CrosshairSpread = new CrosshairSpread(this);
+        CrosshiarShootpoint = new CrosshiarShootpoint(this);
         StartCoroutine(SetSpreadEvent(CrosshairSpread));
     }
 
@@ -31,16 +34,17 @@ public class CrosshairController : MonoBehaviour
     void CrosshairUpdate()
     {
         Vector3 CrosshairPos;
-        CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
+        //CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
+        CrosshairPos = Crosshair_CenterPosition.position;
         Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit,1000,1))
+        if (Physics.Raycast(ray, out hit, 1000, 1))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = worldPosition;   
-        }      
-        else /*if(Physics.Raycast(ray ,out hit)==false)*/
+            TargetAim.transform.position = worldPosition;
+        }
+        else
         {
             Vector3 worldPosition = ray.GetPoint(100);
             TargetAim.transform.position = worldPosition;

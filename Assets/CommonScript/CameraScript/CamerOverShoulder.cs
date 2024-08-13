@@ -24,7 +24,7 @@ public class CamerOverShoulder:ICameraAction
     
     private IEnumerator ChangeCameraLeftSide()
     {
-        while(_cameraOffset.m_Offset.x > -originalOffset.x && curSide == Side.left)
+        while(_cameraOffset.m_Offset.x > -originalOffset.x )
         {
             if(curSide != Side.left)
             {
@@ -36,7 +36,7 @@ public class CamerOverShoulder:ICameraAction
     }
     IEnumerator ChangeCameraRightSide()
     {
-        while (_cameraOffset.m_Offset.x < originalOffset.x && curSide == Side.right)
+        while (_cameraOffset.m_Offset.x < originalOffset.x )
         {
             if (curSide != Side.right)
             {

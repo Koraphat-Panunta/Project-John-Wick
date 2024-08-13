@@ -18,13 +18,14 @@ public class Fire : WeaponState
     public event Action<Weapon> WeaponFire;
     public override void EnterState()
     {
-        if(weaponSingleton.UserWeapon.TryGetComponent<PlayerWeaponCommand>(out PlayerWeaponCommand playerWeaponCommand))
-        {
-            playerWeaponCommand.cameraKickBack.Performed(weaponSingleton.GetWeapon());
-        }
+       
         if (weaponSingleton.GetWeapon().Chamber_Count > 0)
         {
             weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
+            if (weaponSingleton.UserWeapon.TryGetComponent<PlayerWeaponCommand>(out PlayerWeaponCommand playerWeaponCommand))
+            {
+                playerWeaponCommand.cameraKickBack.Performed(weaponSingleton.GetWeapon());
+            }
             weaponStateManager.StartCoroutine(AfterShoot());
         }
         else

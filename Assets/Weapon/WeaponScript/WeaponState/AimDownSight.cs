@@ -16,9 +16,7 @@ public class AimDownSight : WeaponStance
     }
     public override void EnterState()
     {
-        Debug.Log("EnterAim");
         base.EnterState();
-        //WeaponActionEvent.Publish(WeaponActionEvent.WeaponEvent.Aim,weaponSingleton.GetWeapon());
     }
 
     public override void ExitState()
@@ -30,10 +28,7 @@ public class AimDownSight : WeaponStance
     {
         weaponSingleton.Aim.Invoke(weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
-        if(weaponSingleton.UserWeapon.TryGetComponent<PlayerController>(out PlayerController player))
-        {
-            player.rotateObjectToward.RotateTowards(weaponSingleton.Camera.transform.forward, player.gameObject, 6);
-        }
+        RotateUser(weaponSingleton.UserWeapon);
     }
     public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
@@ -45,7 +40,17 @@ public class AimDownSight : WeaponStance
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
+    private void RotateUser(GameObject userWeapon)
+    {
+        if (userWeapon.TryGetComponent<PlayerController>(out PlayerController player))
+        {
+            player.rotateObjectToward.RotateTowards(weaponSingleton.Camera.transform.forward, player.gameObject, 6);
+        }
+        else if (userWeapon.TryGetComponent<Enemy>(out Enemy enemy))
+        {
 
+        }
+    }
    
 
     
