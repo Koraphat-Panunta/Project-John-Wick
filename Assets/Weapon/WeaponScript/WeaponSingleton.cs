@@ -6,7 +6,7 @@ using UnityEngine;
 public class WeaponSingleton : MonoBehaviour
 {
     public Animator animator { get; private set; }
-    public GameObject UserWeapon { get; private set; }
+    public Character UserWeapon { get; private set; }
     public WeaponSocket weaponSocket { get; private set; }
     public WeaponStance CurStance { get; private set; }
     public WeaponState CurState { get; private set; }

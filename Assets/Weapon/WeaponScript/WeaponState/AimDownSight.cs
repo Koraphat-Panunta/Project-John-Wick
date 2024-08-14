@@ -7,7 +7,7 @@ public class AimDownSight : WeaponStance
 {
     [SerializeField] WeaponSingleton weaponSingleton;
     private Camera camera;
-    GameObject WeaponUserCharacter;
+    Character WeaponUserCharacter;
     public AimDownSight(WeaponSingleton weaponSingleton)
     {
         this.weaponSingleton = weaponSingleton;
@@ -28,7 +28,7 @@ public class AimDownSight : WeaponStance
     {
         weaponSingleton.Aim.Invoke(weaponSingleton.GetWeapon());
         base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
-        RotateUser(weaponSingleton.UserWeapon);
+        RotateUser(weaponSingleton.UserWeapon.gameObject);
     }
     public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
@@ -48,7 +48,7 @@ public class AimDownSight : WeaponStance
         }
         else if (userWeapon.TryGetComponent<Enemy>(out Enemy enemy))
         {
-
+            //Enemy Aiming Logic
         }
     }
    

@@ -26,6 +26,10 @@ public class Fire : WeaponState
             {
                 playerWeaponCommand.cameraKickBack.Performed(weaponSingleton.GetWeapon());
             }
+            else
+            {
+                //Enemy Fire Logic
+            }
             weaponStateManager.StartCoroutine(AfterShoot());
         }
         else
