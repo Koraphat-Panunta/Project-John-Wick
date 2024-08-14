@@ -2,37 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponStateManager :StateManager
+public class WeaponStateManager : MonoBehaviour
 {
-    
+    public WeaponState _currentState { get; private set; }
     public Fire fireState { get; protected set; }
     public Reload reloadState { get; protected set; }
     public None none { get; protected set; }
-    protected override void Start()
+    [SerializeField] public WeaponSingleton _weaponSingleton;
+    protected void Start()
     {
-   
-        fireState = GetComponent<Fire>();
-        reloadState = GetComponent<Reload>();
-        none = GetComponent<None>();
-        base.Current_state = none;
-        base.Start();
+        fireState = new Fire(_weaponSingleton);
+        reloadState = new Reload(_weaponSingleton);
+        none = new None();
+        _currentState = none;
+        _currentState.EnterState();
     }
-    public override void ChangeState(State Nextstate)
+    
+    public void ChangeState(WeaponState Nextstate)
     {
-        base.ChangeState(Nextstate);
+        if(_currentState != Nextstate) 
+        {
+            _currentState.ExitState();
+            _currentState = Nextstate;
+            _currentState.EnterState();
+        }
     }
 
-    protected override void FixedUpdate()
+    protected void FixedUpdate()
     {
-        Current_state.PhysicUpdateState(this);
+        _currentState.WeaponStateFixedUpdate(this);
     }
-    protected override void Update()
+    protected void Update()
     {
-        Current_state.FrameUpdateState(this);
+        _currentState.WeaponStateUpdate(this);
     }
-    protected override void SetUpState()
-    {
-        
-    }
+    
 
 }

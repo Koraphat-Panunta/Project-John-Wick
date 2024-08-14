@@ -2,25 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponState : State
+public abstract class WeaponState 
 {
-    public override void EnterState()
+    public WeaponState() 
     {
-        base.EnterState();
+        
+    }
+    public virtual void EnterState()
+    {
     }
 
-    public override void ExitState()
+    public virtual void ExitState()
     {
-        base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public virtual void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
-        base.FrameUpdateState(stateManager);
     }
 
-    public override void PhysicUpdateState(StateManager stateManager)
+    public virtual void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)
     {
-        base.PhysicUpdateState(stateManager);
     }
 }

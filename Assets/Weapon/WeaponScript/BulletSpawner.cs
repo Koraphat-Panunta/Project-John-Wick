@@ -16,7 +16,16 @@ public class BulletSpawner : MonoBehaviour
     private void SpawnBullet(Weapon weapon)
     {
         Transform transform = gameObject.transform;
-        Instantiate(weapon.bullet,transform.position,gameObject.transform.rotation);
+        GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
+        WeaponSingleton weaponSingleton = weapon.GetComponent<WeaponSingleton>();
+        if(weaponSingleton.UserWeapon.TryGetComponent<PlayerController>(out PlayerController playerController))
+        {
+            Bullet.GetComponent<Bullet>().ShootDirection(playerController.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
+        }
+        else if(weaponSingleton.UserWeapon.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            
+        }
         Debug.Log("Spawn");
     }
 }

@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class None : State
+public class None : WeaponState
 {
+    public None()
+    {
+
+    }
     public override void EnterState()
     {
+        Debug.Log("NoneEnter");
         base.EnterState();
     }
 
@@ -14,25 +19,13 @@ public class None : State
         base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
-    {
-        base.FrameUpdateState(stateManager);
-    }
-
-    public override void PhysicUpdateState(StateManager stateManager)
-    {
-        base.PhysicUpdateState(stateManager);
-    }
-
-    // Start is called before the first frame update
-    void Start()
+    public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+   
+    public override void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)
     {
-        
+    
     }
 }

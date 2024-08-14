@@ -5,24 +5,24 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update
-    Vector3 originalPos;
     float mass = 1f;
     float velocity = 10f;
+    public BulletType type = BulletType._9mm;
 
     void Start()
     {
+    }
+    public void ShootDirection(Vector3 Dir)
+    {
         Rigidbody rb = GetComponent<Rigidbody>();
-
         // Set Rigidbody properties
         rb.mass = mass;
         rb.drag = 0.01f;
         rb.angularDrag = 0.05f;
-        originalPos = gameObject.transform.position;
         // Calculate and apply impulse force
-        Vector3 force = transform.forward * mass * velocity;
+        Vector3 force = Dir * mass * velocity;
         rb.AddForce(force, ForceMode.Impulse);
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -31,11 +31,11 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Bullet Hit :" + collision.gameObject.name);
-        //DrawBulletLine.DrawLine(originalPos,gameObject.transform.position);
+        DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
+
         Destroy(gameObject);
-   
+
     }
-   
     private void OnDrawGizmos()
     {
         

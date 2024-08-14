@@ -12,19 +12,17 @@ public class WeaponSocket : MonoBehaviour
     public Socket Thissocket;
     [SerializeField] private Animator UserAnimator;
     public Weapon CurWeapon;
+    public WeaponSingleton weaponSingleton;
     [SerializeField] private GameObject WeaponUser;
     [SerializeField] private Camera camera;
     // Start is called before the first frame update
     protected virtual void Start()
     {
-
+        weaponSingleton = GetComponentInChildren<WeaponSingleton>();
+        StartCoroutine(GetWeaponSingleton());
     }
 
     // Update is called once per frame
-    protected virtual void Update()
-    {
-        CurWeapon = GetComponentInChildren<Weapon>();
-    }
     public Animator GetAnimator()
     {
         return UserAnimator;
@@ -36,5 +34,14 @@ public class WeaponSocket : MonoBehaviour
     public Camera GetCamera()
     {
         return camera;
+    }
+    IEnumerator GetWeaponSingleton()
+    {
+       
+        while(CurWeapon == null)
+        {
+            CurWeapon = weaponSingleton.GetWeapon();
+            yield return null;
+        }
     }
 }
