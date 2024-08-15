@@ -14,10 +14,9 @@ public class PlayerController : SubjectPlayer
     [SerializeField] private PlayerWeaponCommand weaponCommand;
     [SerializeField] private PlayerStateManager stateManager;
     [SerializeField] public CrosshairController crosshairController;
-    public RotateObjectToward rotateObjectToward { get; private set; }
     void Start()
     {
-        rotateObjectToward = new RotateObjectToward();
+        
     }
 
     // Update is called once per frame

@@ -17,8 +17,6 @@ public class PlayerWeaponCommand : MonoBehaviour
     public SecondaryWeapon secondaryWeapon { get; private set; }
     public PrimaryWeapon primaryWeapon { get; private set; }
     public CameraZoom cameraZoom { get; private set; }
-    public CameraKickBack cameraKickBack { get; private set; }
-
     public AmmoProuch ammoProuch { get; private set; }
     private void Start()
     {
@@ -95,10 +93,6 @@ public class PlayerWeaponCommand : MonoBehaviour
             CurrentWeapon = WeaponSocket.CurWeapon;
             yield return null;
         }
-        cameraZoom = new CameraZoom(WeaponSocket.GetCamera().GetComponent<CameraController>(), CurrentWeapon);
-        cameraKickBack = new CameraKickBack(WeaponSocket.GetCamera().GetComponent<CameraController>());
-        weaponAim += cameraZoom.ZoomIn;
-        weaponLow += cameraZoom.ZoomOut;
-        playerAnimator.runtimeAnimatorController = WeaponSocket.weaponSingleton.GetOverrideController();
+        playerAnimator.runtimeAnimatorController = WeaponSocket.weaponSingleton.GetOverride_Player_Controller();
     }
 }

@@ -8,7 +8,6 @@ public class LowReady : WeaponStance
     public LowReady(WeaponSingleton weaponSingleton)
     {
         this.weaponSingleton = weaponSingleton;
-        base.animator = this.weaponSingleton.animator;
     }
     public override void EnterState()
     {
@@ -22,9 +21,9 @@ public class LowReady : WeaponStance
     }
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-
-        weaponSingleton.LowReady.Invoke(weaponSingleton.GetWeapon());
-        base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
+        weaponSingleton.UserWeapon.LowReadying(weaponSingleton.GetWeapon());
+        weaponStanceManager.AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        weaponStanceManager.AimingWeight = Mathf.Clamp(weaponStanceManager.AimingWeight, 0, 1);
     }
     
     public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)

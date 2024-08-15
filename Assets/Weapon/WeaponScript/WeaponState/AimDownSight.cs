@@ -6,13 +6,9 @@ using UnityEngine;
 public class AimDownSight : WeaponStance
 {
     [SerializeField] WeaponSingleton weaponSingleton;
-    private Camera camera;
-    Character WeaponUserCharacter;
     public AimDownSight(WeaponSingleton weaponSingleton)
     {
         this.weaponSingleton = weaponSingleton;
-        base.animator = this.weaponSingleton.animator;
-        WeaponUserCharacter = weaponSingleton.UserWeapon;
     }
     public override void EnterState()
     {
@@ -26,9 +22,9 @@ public class AimDownSight : WeaponStance
 
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        weaponSingleton.Aim.Invoke(weaponSingleton.GetWeapon());
-        base.animator.SetLayerWeight(1, weaponSingleton.GetStanceManager().AimingWeight);
-        RotateUser(weaponSingleton.UserWeapon.gameObject);
+        weaponSingleton.UserWeapon.Aiming(weaponSingleton.GetWeapon());
+        weaponStanceManager.AimingWeight += weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        weaponStanceManager.AimingWeight = Mathf.Clamp(weaponStanceManager.AimingWeight, 0, 1);
     }
     public override void WeaponStanceFixedUpdate(WeaponStanceManager weaponStanceManager)
     {
@@ -40,18 +36,5 @@ public class AimDownSight : WeaponStance
         base.Start();
     }
     protected float rotationSpeed = 5.0f;
-    private void RotateUser(GameObject userWeapon)
-    {
-        if (userWeapon.TryGetComponent<PlayerController>(out PlayerController player))
-        {
-            player.rotateObjectToward.RotateTowards(weaponSingleton.Camera.transform.forward, player.gameObject, 6);
-        }
-        else if (userWeapon.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-            //Enemy Aiming Logic
-        }
-    }
    
-
-    
 }

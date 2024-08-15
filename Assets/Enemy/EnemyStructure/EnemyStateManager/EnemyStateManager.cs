@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyStateManager 
+public class EnemyStateManager : MonoBehaviour
 {
     public EnemyState _currentState;
     public EnemyMove _move { get; private set; }
-    public EnemyIdle _idle { get; private set; }    
-    public EnemyAction EnemyAction { get; private set; }
+    public EnemyIdle _idle { get; private set; }
+    public Enemy enemy;
     // Start is called before the first frame update
-    public EnemyStateManager(EnemyAction enemyAction)
+    
+    private void Start()
     {
-        EnemyAction = enemyAction;
         _move = new EnemyMove();
         _idle = new EnemyIdle();
         _currentState = _idle;
         _currentState.StateEnter(this);
     }
-
-    public void FixedUpdate(EnemyAction enemyAction)
+    public void FixedUpdate()
     {
         _currentState.StateFixedUpdate(this);
     }
-    public void Update(EnemyAction enemyAction)
+    public void Update()
     {
         _currentState.StateUpdate(this);
     }

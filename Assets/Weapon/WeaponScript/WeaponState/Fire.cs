@@ -22,14 +22,7 @@ public class Fire : WeaponState
         if (weaponSingleton.GetWeapon().Chamber_Count > 0)
         {
             weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
-            if (weaponSingleton.UserWeapon.TryGetComponent<PlayerWeaponCommand>(out PlayerWeaponCommand playerWeaponCommand))
-            {
-                playerWeaponCommand.cameraKickBack.Performed(weaponSingleton.GetWeapon());
-            }
-            else
-            {
-                //Enemy Fire Logic
-            }
+            weaponSingleton.UserWeapon.Firing(weaponSingleton.GetWeapon());
             weaponStateManager.StartCoroutine(AfterShoot());
         }
         else

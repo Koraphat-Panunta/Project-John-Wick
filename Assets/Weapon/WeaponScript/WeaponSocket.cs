@@ -14,7 +14,6 @@ public class WeaponSocket : MonoBehaviour
     public Weapon CurWeapon;
     public WeaponSingleton weaponSingleton;
     [SerializeField] private Character WeaponUser;
-    [SerializeField] private Camera camera;
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -30,10 +29,6 @@ public class WeaponSocket : MonoBehaviour
     public Character GetWeaponUser()
     {
         return WeaponUser;
-    }
-    public Camera GetCamera()
-    {
-        return camera;
     }
     IEnumerator GetWeaponSingleton()
     {

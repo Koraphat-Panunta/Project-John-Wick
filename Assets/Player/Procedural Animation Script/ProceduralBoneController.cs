@@ -53,15 +53,5 @@ public class ProceduralBoneController : MonoBehaviour
         constraint.data.sourceObjects = data;
     }
    
-    //private void OnEnable()
-    //{
-    //    WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
-    //    WeaponActionEvent.Scubscibtion(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
-    //}
-    //private void OnDisable()
-    //{
-    //    WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.Aim, SetWeight);
-    //    WeaponActionEvent.UnSubscirbe(WeaponActionEvent.WeaponEvent.LowReady, SetWeight);
-    //}
 
 }

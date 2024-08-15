@@ -2,42 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flanking : EnemyTactic
+public class Flanking : IEnemyTactic
 {
-    private EnemyAction EnemyAction;
-    public Flanking()
+    private Enemy enemy;
+    private EnemyStateManager enemyStateManager;
+    public Flanking(Enemy enemy)
     {
-
-    }
-    public override void TacticEnter(TacticManager tacticManager)
-    {
-        if (EnemyAction == null)
+        this.enemy = enemy;
+        if (enemy.enemyPath._markPoint.Count <= 0)
         {
-            EnemyAction = tacticManager._enemyBrain._enemyAction;
+            enemy.enemyPath.GenaratePath(enemy.Target.transform.position, enemy.gameObject.transform.position);
         }
-        EnemyAction._enemyStateManager.ChangeState(EnemyAction._enemyStateManager._move);
+        enemyStateManager = enemy.enemyStateManager;
+        enemyStateManager.ChangeState(enemyStateManager._move);
     }
-    public override void TacticExit(TacticManager tacticManager)
+    public void Manufacturing()
     {
-       
-    }
-
-    public override void TacticFixedUpdate(EnemyBrain enemyBrain)
-    {
-        
-    }
-
-    public override void TacticUpdate(EnemyBrain enemyBrain)
-    {
-        Debug.Log("TacticUpdate");
-        if(Vector3.Distance(enemyBrain.Target.transform.position,enemyBrain.enemy.gameObject.transform.position)<2.5f)
+        if (Vector3.Distance(enemy.Target.transform.position,enemy.gameObject.transform.position) < 2.5f)
         {
-            EnemyAction._enemyStateManager.ChangeState(EnemyAction._enemyStateManager._idle);
+            enemyStateManager.ChangeState(enemyStateManager._idle);
         }
         else
         {
-            EnemyAction._enemyStateManager.ChangeState(EnemyAction._enemyStateManager._move);
+            enemyStateManager.ChangeState(enemyStateManager._move);
         }
-
+        enemy.enemyPath.UpdateTargetPos(enemy.Target.transform.position,enemy.gameObject.transform.position);
     }
 }

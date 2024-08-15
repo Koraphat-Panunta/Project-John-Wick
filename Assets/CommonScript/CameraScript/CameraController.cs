@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
     [SerializeField] public PlayerController playerController;
     [SerializeField] public CinemachineCameraOffset cameraOffset;
+    [SerializeField] public Player Player;
     private ICameraAction cameraOverShoulder;
     
     
@@ -18,6 +19,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         Cursor.lockState = CursorLockMode.Locked;    
         playerController.AddObserver(this);
         cameraOverShoulder = new CamerOverShoulder(this);
+        Player.cameraKickBack = new CameraKickBack(this);
+        Player.cameraZoom = new CameraZoom(this);
     }
 
     void Update()

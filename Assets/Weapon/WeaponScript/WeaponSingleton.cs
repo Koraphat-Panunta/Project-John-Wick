@@ -10,12 +10,12 @@ public class WeaponSingleton : MonoBehaviour
     public WeaponSocket weaponSocket { get; private set; }
     public WeaponStance CurStance { get; private set; }
     public WeaponState CurState { get; private set; }
-    public Camera Camera { get; private set; }
     [SerializeField] private CrosshairController CrosshairController;
     [SerializeField] private Weapon MyWeapon;
     [SerializeField] private WeaponStateManager _weaponStateManager;
     [SerializeField] private WeaponStanceManager _weaponStanceManager;
-    [SerializeField] AnimatorOverrideController _weaponOverrideController;
+    [SerializeField] AnimatorOverrideController _weaponOverrideControllerPlayer;
+    [SerializeField] AnimatorOverrideController _weaponOverrideControllerEnemy;
     public Action<Weapon> FireEvent;
     public Action<Weapon> Aim;
     public Action<Weapon> Reload;
@@ -25,7 +25,6 @@ public class WeaponSingleton : MonoBehaviour
         weaponSocket = GetComponentInParent<WeaponSocket>();
         UserWeapon = weaponSocket.GetWeaponUser();
         animator = weaponSocket.GetAnimator();
-        Camera = weaponSocket.GetCamera();
     }
     private void Update()
     {
@@ -48,9 +47,13 @@ public class WeaponSingleton : MonoBehaviour
     {
         return CrosshairController;
     }
-    public AnimatorOverrideController GetOverrideController()
+    public AnimatorOverrideController GetOverride_Player_Controller()
     {
-        return _weaponOverrideController;
+        return _weaponOverrideControllerPlayer;
+    }
+    public AnimatorOverrideController GetOverride_Enemy_Controller()
+    {
+        return _weaponOverrideControllerEnemy;
     }
     public void UnsubAllEvent()
     {

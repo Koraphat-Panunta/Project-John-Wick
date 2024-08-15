@@ -11,7 +11,8 @@ public class Reload : WeaponState
     public enum ReloadType
     {
         ReloadMagOut,
-        TacticalReload
+        TacticalReload,
+        ReloadFinished
     }
     ReloadType reloadType { get; set; }
     public Reload(WeaponSingleton weaponSingleton) 
@@ -32,14 +33,12 @@ public class Reload : WeaponState
         else if (weaponSingleton.GetWeapon().Magazine_count > 0)
         {
             reloadType = ReloadType.TacticalReload;
-            ReloadAnimator.SetTrigger("TacticalReload");
-            ReloadAnimator.SetLayerWeight(2, 1);
+            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(),reloadType);
         }
         else if(weaponSingleton.GetWeapon().Magazine_count <= 0)
         {
             reloadType=ReloadType.ReloadMagOut;
-            ReloadAnimator.SetTrigger("Reloading");
-            ReloadAnimator.SetLayerWeight(2, 1);
+            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
         }
        
         base.EnterState();
@@ -47,7 +46,8 @@ public class Reload : WeaponState
 
     public override void ExitState()
     {
-        ReloadAnimator.SetLayerWeight(2, 0);
+        reloadType = ReloadType.ReloadFinished;
+        weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
     }
     public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {

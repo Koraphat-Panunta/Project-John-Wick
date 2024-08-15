@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoProuch : MonoBehaviour
+public class AmmoProuch 
 {
     
     public Dictionary<BulletType,int> amountOf_ammo = new Dictionary<BulletType,int>();

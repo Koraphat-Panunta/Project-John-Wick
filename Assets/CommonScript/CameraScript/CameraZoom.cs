@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class CameraZoom : ICameraAction
 {
-    private Weapon weapon;
-    private CameraController cameraController;
     private CinemachineCameraOffset cameraOffset;
-    public CameraZoom(CameraController cameraController,Weapon weapon)
+    public CameraZoom(CameraController cameraController)
     {
-        this.cameraController = cameraController;
-        this.weapon = weapon;
         this.cameraOffset = cameraController.cameraOffset;
     }
     public void Performed()
