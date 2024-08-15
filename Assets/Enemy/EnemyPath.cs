@@ -55,21 +55,14 @@ public class EnemyPath
         {
             if (_markPoint.Count > 0)
             {
-                Debug.Log("Set agent");
                 Vector3 nextDestination = _markPoint[0];
                 agent.destination = nextDestination;
-                if (agent.hasPath)
-                {
-                    Debug.Log("haspath");
-                }
                 _markPoint.RemoveAt(0);
             }
             else if (agent.hasPath)
             {
-                Debug.Log("Clear agent");
                 _markPoint.Clear();
                 agent.ResetPath();
-                Debug.Log("Agent still has path" + agent.destination == null);
             }
         }
        

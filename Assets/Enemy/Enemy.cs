@@ -8,20 +8,25 @@ public class Enemy : Character
     [SerializeField] public Animator animator;
     [SerializeField] public WeaponSocket weaponSocket;
     [SerializeField] public NavMeshAgent agent;
-    [SerializeField] public GameObject Target;
+    public GameObject Target;
     [SerializeField] public EnemyStateManager enemyStateManager;
     [SerializeField] public EnemyWeaponCommand enemyWeaponCommand;
     [SerializeField] public EnemyPath enemyPath;
-    public IEnemyTactic currentTactic;
 
-    private RotateObjectToward rotateObjectToward;
+    public LayerMask targetMask;
+    public IEnemyTactic currentTactic;
+    public FieldOfView enemyFieldOfView { get; private set; }
+    public EnemyLookForPlayer enemyLookForPlayer;
     // Start is called before the first frame update
     void Start()
     {
+        Target = new GameObject();
         enemyStateManager.enemy = this;
         enemyWeaponCommand.enemy = this;
         enemyPath = new EnemyPath(agent);
         currentTactic = new Flanking(this);
+        enemyFieldOfView = new FieldOfView(20, 137,this.gameObject);
+        enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        
     }
 
@@ -38,7 +43,6 @@ public class Enemy : Character
     public override void Aiming(Weapon weapon)
     {
         //Weapon Send Sensing
-        rotateObjectToward.RotateTowards(Target, gameObject, 6);
     }
 
     public override void Firing(Weapon weapon)

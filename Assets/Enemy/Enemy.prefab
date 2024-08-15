@@ -214,6 +214,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8158715927577884789}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a55c286e84ec214dba59554d5c04070,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2762661166374311674}
   m_SourcePrefab: {fileID: 100100000, guid: 3a55c286e84ec214dba59554d5c04070, type: 3}
 --- !u!95 &1113618680042977909 stripped
 Animator:
@@ -267,6 +271,9 @@ MonoBehaviour:
   Target: {fileID: 0}
   enemyStateManager: {fileID: 3755267478254302551}
   enemyWeaponCommand: {fileID: 4918335654448891005}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &4918335654448891005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +346,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pos: []
+--- !u!114 &2762661166374311674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd156791879fe714faa0cad6557499a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjView: {fileID: 5971669966833777333}
+  DirecviewLeft: {x: 0, y: 0, z: 0}
+  DirecviewRight: {x: 0, y: 0, z: 0}
 --- !u!4 &6454910191179571215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3a55c286e84ec214dba59554d5c04070,

@@ -14,7 +14,6 @@ public class EnemyIdle : EnemyState
         {
             enemyState.enemy.agent.ResetPath();
         }
-        Debug.Log("Idle Enter");
     }
 
     public override void StateExit(EnemyStateManager enemyState)
