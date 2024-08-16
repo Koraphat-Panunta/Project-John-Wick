@@ -12,6 +12,7 @@ public class EnemyWeaponCommand : MonoBehaviour
     void Start()
     {
         ammoProuch = new AmmoProuch(9999, 9999, 9999, 9999);
+        ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
         StartCoroutine(GetWeapon());
     }
     // Update is called once per frame

@@ -30,7 +30,11 @@ public class EnemyPath
         targetAnchor = target;
         UpdateTargetPos(target,curPos);
         float distance = Vector3.Distance(target, curPos);
-        Vector3 _conP_1 = new Vector3(target.x + Random.Range(-distance * 0.7f, distance * 0.7f), target.y, target.z + Random.Range(-distance * 0.7f, distance * 0.7f));
+        Vector3 _conP_1 = Vector3.Lerp(curPos, target, 0.5f);
+        Vector3 dir = (target - curPos).normalized;
+        dir = Quaternion.AngleAxis(90,Vector3.up)*dir;
+        dir = dir * Random.Range(-6, 6);
+        _conP_1 = _conP_1 + dir;
         for (float T = 0; T <= 1; T = T + 0.2f)
         {
             Vector3 markPos;

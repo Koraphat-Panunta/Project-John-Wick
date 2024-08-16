@@ -10,7 +10,7 @@ public class ProceduralBoneController : MonoBehaviour
     [SerializeField] MultiAimConstraint Head;
     [SerializeField] MultiAimConstraint RightArm;
     [SerializeField] MultiAimConstraint RightHand;
-    [SerializeField] PlayerWeaponCommand weaponCommand;
+    [SerializeField] Character character;
     public GameObject sourceTarget;
     private float weight = 0;
     // Start is called before the first frame update
@@ -20,8 +20,8 @@ public class ProceduralBoneController : MonoBehaviour
         Head.weight = 0;
         RightArm.weight = 0;
         RightHand.weight = 0;
-        weaponCommand.weaponAim += SetWeight;
-        weaponCommand.weaponLow += SetWeight;
+        character.Aim += SetWeight;
+        character.LowWeapon += SetWeight;
     }
 
     // Update is called once per frame

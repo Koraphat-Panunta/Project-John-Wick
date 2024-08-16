@@ -14,7 +14,7 @@ public class EnemyGetShootDirection
     public Vector3 GetDir()
     {
         Vector3 dir = enemy.transform.forward;
-        return new Vector3(dir.x+Random.Range(-1,1), dir.y+ Random.Range(-1, 1), dir.z);
+        return new Vector3(dir.x + Random.Range(-0.1f, 0.1f), dir.y + Random.Range(-0.1f, 0.1f), dir.z);
         
     }
 

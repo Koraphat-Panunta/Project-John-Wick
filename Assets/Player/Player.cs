@@ -20,17 +20,20 @@ public class Player : Character
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         animator.SetLayerWeight(1,weapon.weapon_StanceManager.AimingWeight);
         cameraZoom.ZoomIn(weapon);
+        base.Aiming(weapon);
     }
 
     public override void Firing(Weapon weapon)
     {
         cameraKickBack.Performed(weapon);
+        base.Firing(weapon);
     }
 
     public override void LowReadying(Weapon weapon)
     {
         animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
         cameraZoom.ZoomOut(weapon);
+        base.LowReadying(weapon);
     }
 
     public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
@@ -49,13 +52,14 @@ public class Player : Character
         {
             StartCoroutine(RecoveryReloadLayerWeight());
         }
+        base.Reloading(weapon, reloadType);
     }
     IEnumerator RecoveryReloadLayerWeight()
     {
         float RecoveryWeight = 10;
         while(animator.GetLayerWeight(2) > 0)
         {
-            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (10 * Time.deltaTime));
+            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
             yield return null;
         }
     }

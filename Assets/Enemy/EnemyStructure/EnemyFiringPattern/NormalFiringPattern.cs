@@ -9,8 +9,8 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private AmmoProuch ammoProuch;
     private double deltaFireTiming;
     private double randomFireTiming = 0;
-    private const float MAXRANG_TIMING_FIRE = 3;
-    private const float MINRANG_TIMING_FIRE = 1;
+    private const float MAXRANG_TIMING_FIRE = 1.7f;
+    private const float MINRANG_TIMING_FIRE = 0.5f;
     public NormalFiringPattern(Enemy enemy)
     {
         this.weaponCommand = enemy.enemyWeaponCommand;
@@ -24,11 +24,11 @@ public class NormalFiringPattern : IEnemyFiringPattern
         deltaFireTiming += Time.deltaTime;
         if(deltaFireTiming >= randomFireTiming)
         {
-            if(curWeapon.Magazine_count <= 0)
+            if(curWeapon.Magazine_count <= 0&&curWeapon.Chamber_Count<=0)
             {
                 weaponCommand.Reload();
             }
-            else
+            else if(curWeapon.weapon_stateManager._currentState != curWeapon.weapon_stateManager.reloadState)
             {
                 weaponCommand.Fire();
             }
