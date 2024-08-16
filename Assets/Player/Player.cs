@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Reload;
 
@@ -46,7 +47,16 @@ public class Player : Character
         }
         else if(reloadType == ReloadType.ReloadFinished)
         {
-            animator.SetLayerWeight(2, 0);
+            StartCoroutine(RecoveryReloadLayerWeight());
+        }
+    }
+    IEnumerator RecoveryReloadLayerWeight()
+    {
+        float RecoveryWeight = 10;
+        while(animator.GetLayerWeight(2) > 0)
+        {
+            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (10 * Time.deltaTime));
+            yield return null;
         }
     }
 }

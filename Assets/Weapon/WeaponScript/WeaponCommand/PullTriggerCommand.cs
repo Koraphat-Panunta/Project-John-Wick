@@ -9,17 +9,20 @@ public class PullTriggerCommand : WeaponCommand
     }
     public override void Execute()
     {
-        if(weapon.triggerPull == Weapon.TriggerPull.Up)
+        if (weapon.weapon_stateManager._currentState != weapon.weapon_stateManager.reloadState)
         {
-            weapon.triggerPull = Weapon.TriggerPull.IsDown;
+            if (weapon.triggerPull == Weapon.TriggerPull.Up)
+            {
+                weapon.triggerPull = Weapon.TriggerPull.IsDown;
+            }
+            else if (weapon.triggerPull == Weapon.TriggerPull.IsDown)
+            {
+                weapon.triggerPull = Weapon.TriggerPull.Down;
+            }
+            weapon.Fire();
         }
-        else if(weapon.triggerPull == Weapon.TriggerPull.IsDown)
-        {
-            weapon.triggerPull = Weapon.TriggerPull.Down;
-        }
-        weapon.Fire();
     }
-    public void TriggerCancel ()
+    public void TriggerCancel()
     {
         weapon.triggerPull = Weapon.TriggerPull.Up;
     }

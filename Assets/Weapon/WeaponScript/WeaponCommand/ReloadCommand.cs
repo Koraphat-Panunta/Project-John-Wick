@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ReloadCommand : WeaponCommand
 {
-    public ReloadCommand(Weapon weapon) : base(weapon)
+    AmmoProuch ammoProuch;
+    public ReloadCommand(Weapon weapon,AmmoProuch ammoProuch) : base(weapon)
     {
+        this.ammoProuch = ammoProuch;
     }
 
     public override void Execute()
     {
        weapon.Reload();
+       this.ammoProuch.prochReload.Performed(base.weapon);
     }
 }

@@ -8,6 +8,8 @@ public class Reload : WeaponState
     private Animator ReloadAnimator { get; set; }
     private WeaponStateManager weaponStateManager { get; set; }
     private AmmoProuch ammoProuch { get; set; }
+    private float reloadTime;
+    private float tacTicalReloadTime;
     public enum ReloadType
     {
         ReloadMagOut,
@@ -15,32 +17,36 @@ public class Reload : WeaponState
         ReloadFinished
     }
     ReloadType reloadType { get; set; }
-    public Reload(WeaponSingleton weaponSingleton) 
+    public Reload(WeaponSingleton weaponSingleton)
     {
         this.weaponSingleton = weaponSingleton;
         weaponStateManager = weaponSingleton.GetStateManager();
     }
     public override void EnterState()
     {
-        if(ReloadAnimator == null)
+        if (ReloadAnimator == null)
         {
             ReloadAnimator = weaponSingleton.UserWeapon.GetComponent<Animator>();
+            reloadTime = 3;
+            tacTicalReloadTime = 3;
         }
-        if(weaponSingleton.GetWeapon().Magazine_count == weaponSingleton.GetWeapon().Magazine_capacity)
+        if (weaponSingleton.GetWeapon().Magazine_count == weaponSingleton.GetWeapon().Magazine_capacity)
         {
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
         else if (weaponSingleton.GetWeapon().Magazine_count > 0)
         {
             reloadType = ReloadType.TacticalReload;
-            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(),reloadType);
-        }
-        else if(weaponSingleton.GetWeapon().Magazine_count <= 0)
-        {
-            reloadType=ReloadType.ReloadMagOut;
             weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
+            weaponStateManager.StartCoroutine(Reloading());
         }
-       
+        else if (weaponSingleton.GetWeapon().Magazine_count <= 0)
+        {
+            reloadType = ReloadType.ReloadMagOut;
+            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
+            weaponStateManager.StartCoroutine(Reloading());
+        }
+
         base.EnterState();
     }
 
@@ -51,21 +57,20 @@ public class Reload : WeaponState
     }
     public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
-        if (reloadType == ReloadType.ReloadMagOut)
+    }
+    IEnumerator Reloading()
+    {
+        if(reloadType == ReloadType.ReloadMagOut)
         {
-            if (ReloadAnimator.GetCurrentAnimatorStateInfo(2).IsName("Reloading") && ReloadAnimator.GetCurrentAnimatorStateInfo(2).normalizedTime >= 0.95f)
-            {
-                weaponSingleton.GetWeapon().Chamber_Count += 1;
-                weaponSingleton.GetWeapon().Magazine_count -= 1;
-                weaponStateManager.ChangeState(weaponStateManager.none);
-            }
+            yield return new WaitForSeconds(3);
+            weaponSingleton.GetWeapon().Chamber_Count += 1;
+            weaponSingleton.GetWeapon().Magazine_count -= 1;
+            weaponStateManager.ChangeState(weaponStateManager.none);
         }
         else
         {
-            if (ReloadAnimator.GetCurrentAnimatorStateInfo(2).IsName("TacticalReload") && ReloadAnimator.GetCurrentAnimatorStateInfo(2).normalizedTime >= 0.95f)
-            {
-                weaponStateManager.ChangeState(weaponStateManager.none);
-            }
+            yield return new WaitForSeconds(3);
+            weaponStateManager.ChangeState(weaponStateManager.none);
         }
     }
     public override void WeaponStateFixedUpdate(WeaponStateManager weaponStateManager)

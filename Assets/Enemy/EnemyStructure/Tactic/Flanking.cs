@@ -7,6 +7,8 @@ public class Flanking : IEnemyTactic
     private Enemy enemy;
     private EnemyStateManager enemyStateManager;
     private RotateObjectToward enemyRot;
+    private EnemyWeaponCommand enemyWeaponCommand;
+    private IEnemyFiringPattern enemyFiringPattern;
     public Flanking(Enemy enemy)
     {
         this.enemy = enemy;
@@ -17,10 +19,21 @@ public class Flanking : IEnemyTactic
         enemyStateManager = enemy.enemyStateManager;
         enemyStateManager.ChangeState(enemyStateManager._move);
         enemyRot = new RotateObjectToward();
+        enemyWeaponCommand = enemy.enemyWeaponCommand;
+        this.enemyFiringPattern = new NormalFiringPattern(enemy);
     }
     public void Manufacturing()
     {
         enemy.enemyLookForPlayer.Recived();
+        if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
+        {
+            enemyWeaponCommand.Aiming();
+            enemyFiringPattern.Performing();
+        }
+        else
+        {
+            enemyWeaponCommand.LowReady();
+        }
         enemyRot.RotateTowards(enemy.Target, enemy.gameObject, 6);
         if (Vector3.Distance(enemy.Target.transform.position,enemy.gameObject.transform.position) < 2.5f)
         {

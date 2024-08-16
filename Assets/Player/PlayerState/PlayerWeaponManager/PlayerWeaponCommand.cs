@@ -70,9 +70,9 @@ public class PlayerWeaponCommand : MonoBehaviour
     {
         if (ammoProuch.amountOf_ammo[CurrentWeapon.bullet.GetComponent<Bullet>().type] > 0) 
         {
-            ReloadCommand reload = new ReloadCommand(CurrentWeapon);
+     
+            ReloadCommand reload = new ReloadCommand(CurrentWeapon,ammoProuch);
             reload.Execute();
-            ammoProuch.prochReload.Performed(CurrentWeapon);
         }
     }
     public void LowWeapon(State playerstate)

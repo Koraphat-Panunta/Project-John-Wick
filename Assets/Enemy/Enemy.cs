@@ -17,6 +17,7 @@ public class Enemy : Character
     public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView { get; private set; }
     public EnemyLookForPlayer enemyLookForPlayer;
+    public EnemyGetShootDirection enemyGetShootDirection;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +28,7 @@ public class Enemy : Character
         currentTactic = new Flanking(this);
         enemyFieldOfView = new FieldOfView(20, 137,this.gameObject);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
-       
+       enemyGetShootDirection = new EnemyGetShootDirection(this);
     }
 
     // Update is called once per frame
@@ -43,6 +44,7 @@ public class Enemy : Character
     public override void Aiming(Weapon weapon)
     {
         //Weapon Send Sensing
+        animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
     }
 
     public override void Firing(Weapon weapon)
@@ -52,7 +54,7 @@ public class Enemy : Character
 
     public override void LowReadying(Weapon weapon)
     {
-        
+        animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
     }
 
     public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)

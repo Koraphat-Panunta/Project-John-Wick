@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AmmoProchInfinite 
+public class AmmoProchInfinite
 {
    public AmmoProchInfinite(AmmoProuch ammoProuch)
    {
