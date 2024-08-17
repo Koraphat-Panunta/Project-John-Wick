@@ -26,7 +26,7 @@ public class Enemy : Character
         enemyStateManager.enemy = this;
         enemyWeaponCommand.enemy = this;
         enemyPath = new EnemyPath(agent);
-        currentTactic = new Flanking(this);
+        currentTactic = new SerchingTactic(this);
         enemyFieldOfView = new FieldOfView(120, 137,this.gameObject);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);

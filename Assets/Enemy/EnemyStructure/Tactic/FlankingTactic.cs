@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flanking : IEnemyTactic
+public class FlankingTactic : IEnemyTactic
 {
     private Enemy enemy;
     private EnemyStateManager enemyStateManager;
     private RotateObjectToward enemyRot;
     private EnemyWeaponCommand enemyWeaponCommand;
     private IEnemyFiringPattern enemyFiringPattern;
-    public Flanking(Enemy enemy)
+    private float backToSerchTiming = 2;
+    public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
         if (enemy.enemyPath._markPoint.Count <= 0)
@@ -33,6 +34,15 @@ public class Flanking : IEnemyTactic
         else
         {
             enemyWeaponCommand.LowReady();
+            if (enemy.enemyPath._markPoint.Count<=0)
+            {
+                backToSerchTiming -= Time.deltaTime;
+                if (backToSerchTiming <= 0)
+                {
+                    backToSerchTiming = 2;
+                    enemy.currentTactic = new SerchingTactic(enemy);
+                }
+            }
         }
         enemyRot.RotateTowards(enemy.Target, enemy.gameObject, 6);
         if (Vector3.Distance(enemy.Target.transform.position,enemy.gameObject.transform.position) < 2.5f)

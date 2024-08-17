@@ -7,7 +7,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private EnemyWeaponCommand weaponCommand;
     private Weapon curWeapon;
     private AmmoProuch ammoProuch;
-    private double deltaFireTiming;
+    private double deltaFireTiming = 0;
     private double randomFireTiming = 0;
     private const float MAXRANG_TIMING_FIRE = 1.7f;
     private const float MINRANG_TIMING_FIRE = 0.5f;
@@ -16,7 +16,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
         this.weaponCommand = enemy.enemyWeaponCommand;
         this.curWeapon = enemy.enemyWeaponCommand.curWeapon;
         this.ammoProuch = enemy.enemyWeaponCommand.ammoProuch;
-        randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+        randomFireTiming = MAXRANG_TIMING_FIRE;
     }
     public void Performing()
     {

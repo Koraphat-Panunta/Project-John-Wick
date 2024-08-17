@@ -20,7 +20,7 @@ public class EnemyPath
         _curPos = CurPos;
         EnemyDebuger._markPos = _markPoint;
         SetNavDestinationNext();
-        if (Vector3.Distance(targetAnchor, targetPos) > 6 && _markPoint.Count>0)
+        if (Vector3.Distance(targetAnchor, targetPos) > 6)
         {
             RegenaratePath();
         }
@@ -33,7 +33,7 @@ public class EnemyPath
         Vector3 _conP_1 = Vector3.Lerp(curPos, target, 0.5f);
         Vector3 dir = (target - curPos).normalized;
         dir = Quaternion.AngleAxis(90,Vector3.up)*dir;
-        dir = dir * Random.Range(-6, 6);
+        dir = dir * Random.Range(Random.Range(-8,-5), Random.Range(5,8));
         _conP_1 = _conP_1 + dir;
         for (float T = 0; T <= 1; T = T + 0.2f)
         {
@@ -47,7 +47,7 @@ public class EnemyPath
         SetNavDestinationNext();
         Debug.Log("GenPath");
     }
-    public void ResetPath()
+    private void ResetPath()
     {
         _markPoint.Clear();
         agent.ResetPath();
@@ -55,7 +55,7 @@ public class EnemyPath
     }
     private void SetNavDestinationNext()
     {
-        if (Vector3.Distance(_curPos, agent.destination) <= agent.radius)
+        if (Vector3.Distance(_curPos, agent.destination) <= agent.radius+0.5f)
         {
             if (_markPoint.Count > 0)
             {
@@ -71,8 +71,9 @@ public class EnemyPath
         }
        
     }
-    public void RegenaratePath()
+    private void RegenaratePath()
     {
+        Debug.Log("ReGenPath");
         ResetPath();
         GenaratePath(targetPos,this._curPos);
         SetNavDestinationNext();

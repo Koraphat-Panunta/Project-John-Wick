@@ -28,13 +28,12 @@ public class Bullet : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         Debug.Log("Bullet Hit :" + collision.gameObject.name);
         DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
 
         Destroy(gameObject);
-
     }
     private void OnDrawGizmos()
     {

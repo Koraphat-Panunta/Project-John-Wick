@@ -28,11 +28,12 @@ public class EnemyStateManager : MonoBehaviour
     }
     public void ChangeState(EnemyState nextState)
     {
-        if (_currentState != null)
+        if (_currentState != nextState)
         {
             _currentState.StateExit(this);
+            _currentState = nextState;
+            _currentState.StateEnter(this);
         }
-        _currentState = nextState;
-        _currentState.StateEnter(this);
+       
     }
 }
