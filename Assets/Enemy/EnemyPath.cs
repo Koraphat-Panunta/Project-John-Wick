@@ -27,8 +27,11 @@ public class EnemyPath
     }
     public void GenaratePath(Vector3 target, Vector3 curPos)
     {
+        ResetPath();
+        targetPos = target;
         targetAnchor = target;
-        UpdateTargetPos(target,curPos);
+        _curPos = curPos;
+        //
         float distance = Vector3.Distance(target, curPos);
         Vector3 _conP_1 = Vector3.Lerp(curPos, target, 0.5f);
         Vector3 dir = (target - curPos).normalized;
@@ -44,34 +47,41 @@ public class EnemyPath
             markPos = Vector3.Lerp(A, B, T);
             IsPositionOnNavMesh(markPos, 2f);
         }
-        SetNavDestinationNext();
-        Debug.Log("GenPath");
+        agent.destination = _markPoint[0];
     }
-    private void ResetPath()
+    public void ResetPath()
     {
-        _markPoint.Clear();
-        agent.ResetPath();
+        if (_markPoint.Count > 0)
+        {
+            _markPoint.Clear();
+        }
+        if (agent.hasPath)
+        {
+            agent.ResetPath();
+        }
         
     }
     private void SetNavDestinationNext()
     {
-        if (Vector3.Distance(_curPos, agent.destination) <= agent.radius+0.5f)
+        if (Vector3.Distance(_curPos, agent.destination) <= agent.radius+1.25f)
         {
             if (_markPoint.Count > 0)
             {
-                Vector3 nextDestination = _markPoint[0];
-                agent.destination = nextDestination;
-                _markPoint.RemoveAt(0);
+                _markPoint.RemoveAt(0);            
             }
-            else if (agent.hasPath)
+
+            if(_markPoint.Count > 0)
             {
-                _markPoint.Clear();
+                agent.destination = new Vector3(0, 0, 0) + _markPoint[0];
+            }
+            else
+            {
                 agent.ResetPath();
             }
         }
        
     }
-    private void RegenaratePath()
+    public void RegenaratePath()
     {
         Debug.Log("ReGenPath");
         ResetPath();

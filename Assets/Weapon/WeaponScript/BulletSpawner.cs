@@ -25,7 +25,6 @@ public class BulletSpawner : MonoBehaviour
         else if(weaponSingleton.UserWeapon.TryGetComponent<Enemy>(out Enemy enemy))
         {
             Bullet.GetComponent<Bullet>().ShootDirection(enemy.enemyGetShootDirection.GetDir());
-            Debug.Log("Out Enemy");
         }
     }
 }

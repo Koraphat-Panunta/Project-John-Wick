@@ -16,10 +16,9 @@ public class CameraZoom : ICameraAction
 
     public void ZoomIn(Weapon weapon)
     {
-        Debug.Log("ZoomIn");
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 1, 10*Time.deltaTime);
+            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 1.6f, 10*Time.deltaTime);
         }
         else
         {
@@ -29,7 +28,6 @@ public class CameraZoom : ICameraAction
     
     public void ZoomOut(Weapon weapon)
     {
-        Debug.Log("ZoomOut");
         if (weapon == null)
         {
             cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 0, 10 * Time.deltaTime);

@@ -16,9 +16,13 @@ public class Enemy : Character
 
     public LayerMask targetMask;
     public IEnemyTactic currentTactic;
-    public FieldOfView enemyFieldOfView { get; private set; }
+    public FieldOfView enemyFieldOfView;
     public EnemyLookForPlayer enemyLookForPlayer;
     public EnemyGetShootDirection enemyGetShootDirection;
+
+    public IEnemyHitReaction enemyHitReaction;
+
+    [SerializeField] private bool isImortal;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,19 +31,29 @@ public class Enemy : Character
         enemyWeaponCommand.enemy = this;
         enemyPath = new EnemyPath(agent);
         currentTactic = new SerchingTactic(this);
-        enemyFieldOfView = new FieldOfView(120, 137,this.gameObject);
+        enemyFieldOfView = new FieldOfView(120, 137,this.gameObject.transform);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
+        base.HP = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentTactic.Manufacturing();
+        
     }
     private void FixedUpdate()
     {
 
+    }
+
+    public override void TakeDamage(float Damage)
+    {
+        base.TakeDamage(Damage);
+        if(base.HP <= 0 && isImortal == false)
+        {
+            enemyStateManager.ChangeState(enemyStateManager.enemyDead);
+        }
     }
 
     public override void Aiming(Weapon weapon)

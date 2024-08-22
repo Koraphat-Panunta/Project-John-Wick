@@ -6,13 +6,13 @@ using UnityEngine.AI;
 public class EnemyMove : EnemyState
 {
     EnemyPath enemyPath;
+
     public EnemyMove()
     {
 
     }
     public override void StateEnter(EnemyStateManager enemyState)
     {
-        Debug.Log("Move Enter");
         if (enemyPath == null)
         {
             enemyPath = enemyState.enemy.enemyPath;
@@ -36,6 +36,7 @@ public class EnemyMove : EnemyState
         NavMeshAgent agent = this.enemyPath.agent;
         GameObject MyEnemy = enemyState.gameObject;
         EnemyPath enemyPath = enemyState.enemy.enemyPath;
+        enemyState.enemy.currentTactic.Manufacturing();
         if (enemyPath._markPoint.Count > 0)
         {
             if (agent.hasPath)//Move Enemy

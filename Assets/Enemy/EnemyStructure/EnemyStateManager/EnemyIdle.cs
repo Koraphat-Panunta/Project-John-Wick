@@ -10,9 +10,9 @@ public class EnemyIdle : EnemyState
     }
     public override void StateEnter(EnemyStateManager enemyState)
     {
-        if (enemyState.enemy.agent.hasPath)
+        if(enemyState.enemy.enemyPath != null)
         {
-            enemyState.enemy.agent.ResetPath();
+            enemyState.enemy.enemyPath.ResetPath();
         }
     }
 
@@ -31,9 +31,9 @@ public class EnemyIdle : EnemyState
         Animator animator = enemyState.enemy.animator;
         NavMeshAgent agent = enemyState.enemy.agent;
         GameObject MyEnemy = enemyState.enemy.gameObject;
+        enemyState.enemy.currentTactic.Manufacturing();
         animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
         animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
-        Debug.Log("Idle");
     }
 
    

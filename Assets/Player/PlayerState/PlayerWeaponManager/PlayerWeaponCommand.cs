@@ -26,15 +26,15 @@ public class PlayerWeaponCommand : MonoBehaviour
     }
     private void Update()
     {
-        if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.lowReady)
-        {
-            weaponLow.Invoke(CurrentWeapon);
-        }
-        else if (CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight)
-        {
-            weaponAim.Invoke(CurrentWeapon);
+        //if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.lowReady)
+        //{
+        //    weaponLow.Invoke(CurrentWeapon);
+        //}
+        //else if (CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight)
+        //{
+        //    weaponAim.Invoke(CurrentWeapon);
             
-        }
+        //}
         
     }
     public void Pulltriger(PlayerStateManager playerstate,InputAction.CallbackContext Value)

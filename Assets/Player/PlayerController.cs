@@ -53,7 +53,6 @@ public class PlayerController : SubjectPlayer
         if (Value.phase == InputActionPhase.Performed|| Value.phase == InputActionPhase.Started)            
         {
             weaponCommand.Aim(stateManager);
-            Debug.Log("Aim");
         }            
         else    
         {

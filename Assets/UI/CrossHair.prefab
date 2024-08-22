@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 19142100857624798}
   - component: {fileID: 4204110707812658812}
   m_Layer: 5
-  m_Name: Crosshair_point
+  m_Name: Crosshair_CenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,6 +144,78 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!1 &2466394108656123989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 983203679442393619}
+  - component: {fileID: 8569450897072487056}
+  - component: {fileID: 395416671583783456}
+  m_Layer: 5
+  m_Name: Crosshair_ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &983203679442393619
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466394108656123989}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1159572690104349872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3.6, y: 3.6}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8569450897072487056
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466394108656123989}
+  m_CullTransparentMesh: 1
+--- !u!114 &395416671583783456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2466394108656123989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &2778191630914975056
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +324,7 @@ RectTransform:
   - {fileID: 6162715994432497807}
   - {fileID: 8444928108445122129}
   - {fileID: 7451990184376099941}
+  - {fileID: 983203679442393619}
   m_Father: {fileID: 1225149894965950858}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -309,16 +382,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d26168af3786a44bd6ca1c01e49496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSingleton: {fileID: 0}
-  CrosshairSpread: 1
+  weaponSocket: {fileID: 0}
   MinAccuracy: 17.2
   MaxAccuracy: 23
   Crosshair_lineUp: {fileID: 4323395440233007960}
   Crosshair_lineDown: {fileID: 6018192137527193194}
   Crosshair_lineLeft: {fileID: 6162715994432497807}
   Crosshair_lineRight: {fileID: 8444928108445122129}
-  Crosshair_Position: {fileID: 1159572690104349872}
+  Crosshair_CenterPosition: {fileID: 7451990184376099941}
+  PointPosition: {fileID: 983203679442393619}
   TargetAim: {fileID: 0}
+  isVisable: 0
 --- !u!1 &4385371112779362987
 GameObject:
   m_ObjectHideFlags: 0

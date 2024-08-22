@@ -6,8 +6,9 @@ public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update
     float mass = 1f;
-    float velocity = 60f;
+    float velocity = 40f;
     public BulletType type = BulletType._9mm;
+    public float damage = 40;
 
     void Start()
     {
@@ -28,11 +29,15 @@ public class Bullet : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Bullet Hit :" + collision.gameObject.name);
+        if (collision.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
+        {
+            bodyPart.GotHit(damage);
+            Debug.Log("BodyPartHit");
+        }
+        Debug.Log("BulletDestroyed");
         DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
-
         Destroy(gameObject);
     }
     private void OnDrawGizmos()

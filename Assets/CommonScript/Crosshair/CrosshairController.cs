@@ -19,6 +19,7 @@ public class CrosshairController : MonoBehaviour
 
     public CrosshairSpread CrosshairSpread { get; private set; }
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
+    [SerializeField] private LayerMask layerMask;
     void Start()
     {
         CrosshairSpread = new CrosshairSpread(this);
@@ -39,7 +40,12 @@ public class CrosshairController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, 1))
+        if (Physics.Raycast(ray, out hit, 1000, layerMask))
+        {
+            Vector3 worldPosition = hit.point;
+            TargetAim.transform.position = worldPosition;
+        }
+        else if(Physics.Raycast(ray, out hit, 1000,1))
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;

@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class FieldOfView
 {
     private float Radiant;
     private float AngelInDegree;
-    private GameObject objView;
-
-    public FieldOfView(float radiant, float angelInDegree, GameObject objView)
+    private Transform objView;
+    public FieldOfView(float radiant, float angelInDegree, Transform objView)
     {
         Radiant = radiant;
         AngelInDegree = angelInDegree;
@@ -18,23 +18,46 @@ public class FieldOfView
     {
         Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
         GameObject returnObj = null;
-        if (obj.Length > 0)
+        if (obj[0] != null)
         {
-            foreach (Collider tarObj in obj)
+            Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
+            Objdirection.Normalize();
+            if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
             {
-                Vector3 Objdirection = tarObj.transform.position - objView.transform.position;
-                Objdirection.Normalize();
-                if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
+
+                if (Physics.Raycast(objView.transform.position, (obj[0].transform.position-objView.transform.position).normalized, out RaycastHit hit, 1000))
                 {
-                    Debug.Log("Finded Object");
-                    //if (Physics.Raycast(objView.transform.position, tarObj.transform.position, out RaycastHit hit, 1000))
-                    //{
-                    //    if (hit.collider.gameObject == tarObj.gameObject)
-                    //    {
-                    //        returnObj = tarObj.gameObject;
-                    //    }
-                    //}
-                    returnObj = tarObj.gameObject;
+                    Debug.DrawLine(objView.transform.position, hit.point);
+                    //Debug.Log("Ray hit" + hit.collider.gameObject.name);
+                    if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
+                    {
+                        //Debug.Log("Finded Object");
+                        returnObj = obj[0].gameObject;
+                    }
+                }
+            }
+        }
+        return returnObj;
+    }
+    public GameObject FindSingleObjectInView(LayerMask targetMask,Vector3 offsetView)
+    {
+        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
+        GameObject returnObj = null;
+        if (obj[0] != null)
+        {
+            Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
+            Objdirection.Normalize();
+            if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
+            {
+                if (Physics.Raycast(objView.transform.position+offsetView, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000))
+                {
+                    Debug.DrawLine(objView.transform.position + offsetView, hit.point);
+                    //Debug.Log("Ray hit" + hit.collider.gameObject.name);
+                    if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
+                    {
+                        //Debug.Log("Finded Object");
+                        returnObj = obj[0].gameObject;
+                    }
                 }
             }
         }

@@ -13,10 +13,7 @@ public class FlankingTactic : IEnemyTactic
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
-        if (enemy.enemyPath._markPoint.Count <= 0)
-        {
-            enemy.enemyPath.GenaratePath(enemy.Target.transform.position, enemy.gameObject.transform.position);
-        }
+        enemy.enemyPath.GenaratePath(enemy.Target.transform.position, enemy.gameObject.transform.position);
         enemyStateManager = enemy.enemyStateManager;
         enemyStateManager.ChangeState(enemyStateManager._move);
         enemyRot = new RotateObjectToward();
@@ -33,14 +30,21 @@ public class FlankingTactic : IEnemyTactic
         }
         else
         {
-            enemyWeaponCommand.LowReady();
             if (enemy.enemyPath._markPoint.Count<=0)
             {
+                enemyWeaponCommand.LowReady();
                 backToSerchTiming -= Time.deltaTime;
                 if (backToSerchTiming <= 0)
                 {
                     backToSerchTiming = 2;
                     enemy.currentTactic = new SerchingTactic(enemy);
+                }
+            }
+            else
+            {
+                if (enemy.enemyLookForPlayer.lostSightTiming < 4f)
+                {
+                    enemyFiringPattern.Performing();
                 }
             }
         }

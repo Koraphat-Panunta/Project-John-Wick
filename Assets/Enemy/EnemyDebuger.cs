@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyDebuger : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class EnemyDebuger : MonoBehaviour
     public static Vector3 curPos;
     public static Vector3 cp1;
     public static Vector3 cp2;
+    public NavMeshAgent agent;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,11 @@ public class EnemyDebuger : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(_markPos[i], .5f);
         }
+        //for(int i =0; i < agent.path.corners.Length; i++)
+        //{
+
+        //}
+        
         Gizmos.color = Color.white;
         Gizmos.DrawSphere(curPos, .6f);
         Gizmos.color = Color.magenta;

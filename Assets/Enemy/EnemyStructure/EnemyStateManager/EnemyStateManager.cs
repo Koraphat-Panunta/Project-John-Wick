@@ -8,6 +8,8 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyState _currentState;
     public EnemyMove _move { get; private set; }
     public EnemyIdle _idle { get; private set; }
+    public EnemyPainState _painState { get; private set; }
+    public EnemyDead enemyDead { get; private set; }
     public Enemy enemy;
     // Start is called before the first frame update
     
@@ -15,6 +17,8 @@ public class EnemyStateManager : MonoBehaviour
     {
         _move = new EnemyMove();
         _idle = new EnemyIdle();
+        _painState = new EnemyPainState();
+        enemyDead = new EnemyDead();
         _currentState = _idle;
         _currentState.StateEnter(this);
     }
@@ -34,6 +38,14 @@ public class EnemyStateManager : MonoBehaviour
             _currentState = nextState;
             _currentState.StateEnter(this);
         }
-       
+    }
+    public void ChangeState(EnemyPainState painState,IEnemyHitReaction hitReaction)
+    {
+        if(_currentState != painState)
+        {
+            _currentState.StateExit(this);
+        }
+        _currentState = painState;
+        painState.StateEnter(this,hitReaction);
     }
 }

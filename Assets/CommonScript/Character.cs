@@ -41,8 +41,9 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     }
     
 
-    public void TakeDamage(float Damage)
+    public virtual void TakeDamage(float Damage)
     {
         HP -= Damage;
+        Debug.Log("HP = " + HP);
     }
 }
