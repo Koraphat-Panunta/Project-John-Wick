@@ -10,10 +10,10 @@ public class EnemyIdle : EnemyState
     }
     public override void StateEnter(EnemyStateManager enemyState)
     {
-        if(enemyState.enemy.enemyPath != null)
-        {
-            enemyState.enemy.enemyPath.ResetPath();
-        }
+        //if(enemyState.enemy.enemyPath != null)
+        //{
+        //    enemyState.enemy.enemyPath.ResetPath();
+        //}
     }
 
     public override void StateExit(EnemyStateManager enemyState)

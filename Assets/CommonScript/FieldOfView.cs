@@ -49,7 +49,7 @@ public class FieldOfView
             Objdirection.Normalize();
             if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
             {
-                if (Physics.Raycast(objView.transform.position+offsetView, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000))
+                if (Physics.Raycast(objView.transform.position + offsetView, (obj[0].transform.position - (objView.transform.position+ offsetView)).normalized, out RaycastHit hit, 1000))
                 {
                     Debug.DrawLine(objView.transform.position + offsetView, hit.point);
                     //Debug.Log("Ray hit" + hit.collider.gameObject.name);

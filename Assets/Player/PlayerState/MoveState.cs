@@ -5,26 +5,30 @@ using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
-    [SerializeField] private Camera main_camera;
+    private Camera main_camera;
     public float Speed = 100;
-    
+    public MoveState(PlayerStateManager playerStateManager)
+    {
+        base.playerController = playerStateManager.playerController;
+        base.Character = playerStateManager.gameObject;
+        base.StateManager = playerStateManager;
+        base.characterAnimator = playerStateManager.PlayerAnimator;
+    }
     public override void EnterState()
     {
         //base.characterAnimator.Play("Movement");
-        base.EnterState();
     }
 
     public override void ExitState()
     {
-        base.ExitState();
+
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void FrameUpdateState(PlayerStateManager stateManager)
     {
         
-        base.FrameUpdateState(stateManager);
     }
-    public override void PhysicUpdateState(StateManager stateManager)
+    public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         main_camera = Camera.main;
         InputPerformed();
@@ -34,7 +38,6 @@ public class MoveState : CharacterState
         RotateTowards(main_camera.transform.forward);
      
         //character.velocity = base.Character.transform.forward.normalized*Speed;
-        base.PhysicUpdateState(stateManager);
     }
 
     protected float rotationSpeed = 5.0f;

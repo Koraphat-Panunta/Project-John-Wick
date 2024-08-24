@@ -6,27 +6,33 @@ using UnityEngine;
 
 public class IdleState : CharacterState 
 {
+    public IdleState(PlayerStateManager playerStateManager)
+    {
+        base.playerController = playerStateManager.playerController;
+        base.Character = playerStateManager.gameObject;
+        base.StateManager = playerStateManager;
+        base.characterAnimator = playerStateManager.PlayerAnimator;
+    }
     public override void EnterState()
     {
-        base.EnterState();
+       
     }
 
     public override void ExitState()
     { 
-        base.ExitState();
+        
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-        base.FrameUpdateState(stateManager);
+       
     }
 
-    public override void PhysicUpdateState(StateManager stateManager)
+    public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
         base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
         base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
-        base.PhysicUpdateState(stateManager);
     }
     protected override void InputPerformed()
     {

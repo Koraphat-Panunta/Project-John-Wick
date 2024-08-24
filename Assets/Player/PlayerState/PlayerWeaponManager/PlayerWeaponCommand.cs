@@ -18,6 +18,7 @@ public class PlayerWeaponCommand : MonoBehaviour
     public PrimaryWeapon primaryWeapon { get; private set; }
     public CameraZoom cameraZoom { get; private set; }
     public AmmoProuch ammoProuch { get; private set; }
+
     private void Start()
     {
         StartCoroutine(GetWeapon());
@@ -66,7 +67,7 @@ public class PlayerWeaponCommand : MonoBehaviour
             lowReady.Execute();
         }
     }
-    public void Reload(State playerstate)
+    public void Reload(CharacterState playerstate)
     {
         if (ammoProuch.amountOf_ammo[CurrentWeapon.bullet.GetComponent<Bullet>().type] > 0) 
         {
@@ -75,7 +76,7 @@ public class PlayerWeaponCommand : MonoBehaviour
             reload.Execute();
         }
     }
-    public void LowWeapon(State playerstate)
+    public void LowWeapon(CharacterState playerstate)
     {
         LowReadyCommand lowReady = new LowReadyCommand(CurrentWeapon);
         lowReady.Execute();

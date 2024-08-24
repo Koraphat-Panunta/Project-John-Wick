@@ -1,43 +1,50 @@
+using RealtimeCSG.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateManager : StateManager 
+public class PlayerStateManager : MonoBehaviour 
 {
-    [SerializeField] public IdleState idle;
-    [SerializeField] public MoveState move;
-    [SerializeField] public SprintState sprint;
-    [SerializeField] private Animator PlayerAnimator;
-    public PlayerController playerController { get; private set; }
+    public IdleState idle;
+    public MoveState move;
+    public SprintState sprint;
+    public Animator PlayerAnimator;
+    public PlayerController playerController;
     public Vector2 Movement = Vector2.zero;
-    protected override void Start()
-    {
 
-        playerController = GetComponent<PlayerController>();
+    public CharacterState Current_state;
+    public void Start()
+    {
+        idle = new IdleState(this);
+        move = new MoveState(this);
+        sprint = new SprintState(this);
         Current_state = idle;
-        base.Start();
     }
 
-    public override void ChangeState(State Nextstate)
+    public void ChangeState(CharacterState Nextstate)
     {
-        base.ChangeState(Nextstate);
+        if(Current_state != Nextstate)
+        {
+            Current_state.ExitState();
+            Current_state = Nextstate;
+            Current_state.EnterState();
+        }
+       
     }
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update();
+        Current_state.FrameUpdateState(this);
     }
 
-    protected override void FixedUpdate()
+    protected void FixedUpdate()
     {
         this.Movement = Vector2.Lerp(this.Movement, playerController.movementInput, 10*Time.deltaTime);
-        base.FixedUpdate();
+        Current_state.PhysicUpdateState(this);
     }
 
-    protected override void SetUpState()
+    protected void SetUpState()
     {
-        idle.SetUp(PlayerAnimator, gameObject, this,playerController);
-        move.SetUp(PlayerAnimator, gameObject, this,playerController);
-        sprint.SetUp(PlayerAnimator, gameObject, this, playerController);
+        
     }
 }

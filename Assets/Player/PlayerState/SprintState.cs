@@ -6,29 +6,37 @@ using UnityEngine.InputSystem;
 
 public class SprintState : CharacterState
 {
-    [SerializeField] Transform cameraTrans;
+     Transform cameraTrans;
+    public SprintState(PlayerStateManager playerStateManager)
+    {
+        base.playerController = playerStateManager.playerController;
+        base.Character = playerStateManager.gameObject;
+        base.StateManager = playerStateManager;
+        base.characterAnimator = playerStateManager.PlayerAnimator;
+    }
     public override void EnterState()
     {
+        if(cameraTrans == null)
+        {
+            cameraTrans = Camera.main.transform;
+        }
         base.characterAnimator.SetBool("IsSprinting", true);
-        base.EnterState();
     }
 
     public override void ExitState()
     {
         base.characterAnimator.SetBool("IsSprinting", false);
-        base.ExitState();
     }
 
-    public override void FrameUpdateState(StateManager stateManager)
+    public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-        base.FrameUpdateState(stateManager);
+
     }
 
-    public override void PhysicUpdateState(StateManager stateManager)
+    public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
         RotateTowards(TransformDirectionObject(new Vector3(base.playerController.movementInput.x,0,base.playerController.movementInput.y),cameraTrans.forward));
-        base.PhysicUpdateState(stateManager);
     }
     protected float rotationSpeed = 5.0f;
     protected void RotateTowards(Vector3 direction)
@@ -49,14 +57,14 @@ public class SprintState : CharacterState
             base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
-    Vector3 Camera;
+    Vector3 CameraVector;
     Vector3 Input;
     Vector3 InputOfCam;
     float Zeta;
     private Vector3 TransformDirectionObject(Vector3 dirWolrd,Vector3 dirObjectLocal)
     {
         float zeta;
-        Camera = dirObjectLocal.normalized;
+        CameraVector = dirObjectLocal.normalized;
         Input = dirWolrd;
         Vector3 Direction;
         zeta = Mathf.Atan2(dirObjectLocal.z , dirObjectLocal.x)-Mathf.Deg2Rad*90;
@@ -75,11 +83,6 @@ public class SprintState : CharacterState
         }
         base.InputPerformed();
     }
-    private void Start()
-    {
-        
-    }
-
 
 
 }
