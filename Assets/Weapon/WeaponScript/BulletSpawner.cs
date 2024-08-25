@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
     [SerializeField] WeaponSingleton weaponSingleton;
+    [SerializeField] Transform targerPos;
     private void OnEnable()
     {
         weaponSingleton.FireEvent += SpawnBullet;

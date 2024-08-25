@@ -36,7 +36,6 @@ public class Bullet : MonoBehaviour
             bodyPart.GotHit(damage);
             Debug.Log("BodyPartHit");
         }
-        Debug.Log("BulletDestroyed");
         DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
         Destroy(gameObject);
     }

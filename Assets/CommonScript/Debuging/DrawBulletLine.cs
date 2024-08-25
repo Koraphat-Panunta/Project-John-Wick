@@ -5,6 +5,8 @@ using UnityEngine;
 public class DrawBulletLine : MonoBehaviour
 {
     public static List<Vector3> bulletHitPos = new List<Vector3>();
+    public Transform bulletPos;
+    public Transform tarPos;
     void Start()
     {
 
@@ -21,5 +23,6 @@ public class DrawBulletLine : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(bullet, 0.1f);
         }
+        Gizmos.DrawLine(bulletPos.position, tarPos.position);
     }
 }

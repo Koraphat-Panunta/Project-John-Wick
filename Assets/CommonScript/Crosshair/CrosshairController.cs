@@ -19,7 +19,7 @@ public class CrosshairController : MonoBehaviour
 
     public CrosshairSpread CrosshairSpread { get; private set; }
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] public LayerMask layerMask;
     void Start()
     {
         CrosshairSpread = new CrosshairSpread(this);

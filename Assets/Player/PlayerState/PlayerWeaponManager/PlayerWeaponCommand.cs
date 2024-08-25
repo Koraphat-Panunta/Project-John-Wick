@@ -22,7 +22,7 @@ public class PlayerWeaponCommand : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GetWeapon());
-        ammoProuch = new AmmoProuch(60, 0, 0, 0);
+        ammoProuch = new AmmoProuch(120, 0, 0, 0);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
     }
     private void Update()
