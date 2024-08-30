@@ -35,8 +35,6 @@ public class EnemyPainState : EnemyState
 
     public override void StateUpdate(EnemyStateManager enemyState)
     {
-        Timeimg += Time.deltaTime;
-        Debug.Log(Timeimg);
         this.hitReaction.Performed(enemyState);
     }
 }

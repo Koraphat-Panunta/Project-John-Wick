@@ -31,15 +31,7 @@ public class MyEnemyController : MonoBehaviour
             Vector3 dir = agent.steeringTarget - transform.position;
             Vector3 animDir = transform.InverseTransformDirection(dir);
             float dot = Vector3.Dot(transform.position, dir);
-            bool isFacingDir;
-            if(dot > 0.65f)
-            {
-                isFacingDir = true;
-            }
-            else
-            {
-                isFacingDir= false;
-            }
+            
 
             animator.SetFloat("Vertical",animDir.z,0.5f,Time.deltaTime);
             animator.SetFloat("Horizontal", animDir.x,0.1f,Time.deltaTime);

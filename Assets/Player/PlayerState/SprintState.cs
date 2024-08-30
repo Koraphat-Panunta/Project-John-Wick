@@ -57,22 +57,16 @@ public class SprintState : CharacterState
             base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
-    Vector3 CameraVector;
-    Vector3 Input;
-    Vector3 InputOfCam;
-    float Zeta;
     private Vector3 TransformDirectionObject(Vector3 dirWolrd,Vector3 dirObjectLocal)
     {
         float zeta;
-        CameraVector = dirObjectLocal.normalized;
-        Input = dirWolrd;
+        
         Vector3 Direction;
         zeta = Mathf.Atan2(dirObjectLocal.z , dirObjectLocal.x)-Mathf.Deg2Rad*90;
         Direction.x = dirWolrd.x*Mathf.Cos(zeta)-dirWolrd.z*Mathf.Sin(zeta);
         Direction.z = dirWolrd.x*Mathf.Sin(zeta)+dirWolrd.z*Mathf.Cos(zeta);
         Direction.y = 0;
-        InputOfCam = Direction;
-        Zeta = Mathf.Rad2Deg*zeta;
+        
         return Direction;
     }
     protected override void InputPerformed()

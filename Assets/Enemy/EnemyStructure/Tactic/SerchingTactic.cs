@@ -27,13 +27,11 @@ public class SerchingTactic : IEnemyTactic
         enemyWeaponCommand.LowReady();
         if(agent.hasPath == false )
         {
-            Debug.Log("Agent has path false");
             agent.destination = RandomPosInNavmesh();
             enemy.StartCoroutine(PerformedAction());
         }
         else if(agent.hasPath && (Vector3.Distance(agent.destination,enemy.transform.position)<agent.radius+0.5f))
         {
-            Debug.Log("Agent des < distance");
             agent.ResetPath();
             agent.destination = RandomPosInNavmesh();
             enemy.StartCoroutine(PerformedAction());
@@ -54,18 +52,15 @@ public class SerchingTactic : IEnemyTactic
         float maxDistance = 100f;
         if (NavMesh.SamplePosition(position, out hit, maxDistance, NavMesh.AllAreas))
         {
-            Debug.Log("Return Hit Pos");
             return hit.position;
         }
         else
         {
-            Debug.Log("Return cur Pos");
             return enemy.transform.position;
         }
     }
     IEnumerator PerformedAction()
     {
-        Debug.Log("Performed called");
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
         yield return new WaitForSeconds(2);
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);

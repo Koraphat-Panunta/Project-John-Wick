@@ -14,6 +14,12 @@ public class PlayerController : SubjectPlayer
     [SerializeField] private PlayerWeaponCommand weaponCommand;
     [SerializeField] private PlayerStateManager stateManager;
     [SerializeField] public CrosshairController crosshairController;
+
+    public PlayerInput inputPlayer;
+    private void Awake()
+    {
+        inputPlayer = new PlayerInput();
+    }
     void Start()
     {
         
