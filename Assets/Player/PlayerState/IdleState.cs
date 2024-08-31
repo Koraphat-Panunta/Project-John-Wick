@@ -34,9 +34,11 @@ public class IdleState : CharacterState
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
+        PlayerMovement playerMovement = base.player.playerMovement;
         InputPerformed();
-        characterAnimator.SetFloat("ForBack_Ward",stateManager.playerController.input.movement.ReadValue<Vector2>().y);
-        characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
+        playerMovement.FreezingCharacter();
+        //characterAnimator.SetFloat("ForBack_Ward",stateManager.playerController.input.movement.ReadValue<Vector2>().y);
+        //characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
     }
     protected override void InputPerformed()
     {

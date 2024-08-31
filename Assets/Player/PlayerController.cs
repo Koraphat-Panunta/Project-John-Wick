@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
         inputPlayer.PlayerAction.AimDownSight.canceled += Aim;
 
         inputPlayer.PlayerAction.Reload.started += Reload;
+
+        inputPlayer.PlayerAction.SwapShoulder.started += SwapShoulder;
     }
     private void OnEnable()
     {

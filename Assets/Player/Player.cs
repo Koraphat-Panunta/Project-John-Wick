@@ -12,6 +12,7 @@ public class Player : SubjectPlayer
     //C# Component
     public PlayerController playerController;
     public WeaponSocket weaponSocket;
+    public PlayerAnimation playerAnimation;
 
     //Class coposition
     public PlayerWeaponCommand playerWeaponCommand;
@@ -33,8 +34,8 @@ public class Player : SubjectPlayer
     }
     private void FixedUpdate()
     {
-        playerMovement.MovementUpdate();
         playerStateManager.FixedUpdate();
+        playerMovement.MovementUpdate();
     }
     public override void Aiming(Weapon weapon)
     {

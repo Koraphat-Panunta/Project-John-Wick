@@ -27,18 +27,16 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-        
+        player.playerAnimation.AnimateMove(player.playerMovement);
     }
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
-        
+        PlayerMovement playerMovement = base.player.playerMovement;
         InputPerformed();
-        characterAnimator.SetFloat("ForBack_Ward", stateManager.playerController.input.movement.ReadValue<Vector2>().y);
-        characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
-
-        RotateTowards(Camera.main.transform.forward);
-     
-
+        //characterAnimator.SetFloat("ForBack_Ward", stateManager.playerController.input.movement.ReadValue<Vector2>().y);
+        //characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
+        playerMovement.OMNI_DirMovingCharacter();
+        playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
     }
 
     protected float rotationSpeed = 5.0f;
