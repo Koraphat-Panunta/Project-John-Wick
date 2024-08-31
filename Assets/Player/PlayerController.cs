@@ -6,16 +6,21 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Vector2 movementInput;
-    public Vector2 lookInput;
-    public bool sprintInput;
-    public bool isAiming = false;
-    [SerializeField] private PlayerWeaponCommand weaponCommand;
-    [SerializeField] private PlayerStateManager stateManager;
-    [SerializeField] public CrosshairController crosshairController;
-
+  
     public PlayerInput inputPlayer;
     public Player player;
+
+    public struct Input
+    {
+        public InputAction.CallbackContext movement;
+        public InputAction.CallbackContext look;
+        public InputAction.CallbackContext sprint;
+        public InputAction.CallbackContext aiming;
+        public InputAction.CallbackContext firing;
+        public InputAction.CallbackContext reloading;
+        public InputAction.CallbackContext swapShoulder;
+    }
+    public Input input;
     private void Awake()
     {
         inputPlayer = new PlayerInput();
@@ -48,43 +53,30 @@ public class PlayerController : MonoBehaviour
     }
     public void OnMove(InputAction.CallbackContext Value)
     {
-        movementInput = Value.ReadValue<Vector2>();
+        input.movement = Value;
     }
     public void OnLook(InputAction.CallbackContext Value)
     {
-        lookInput = Value.ReadValue<Vector2>();
+        input.look = Value;
     }
     public void OnSprint(InputAction.CallbackContext Value)
     {
-        sprintInput = Value.phase.IsInProgress();
+        input.sprint = Value;
     }
     public void Pulltriger(InputAction.CallbackContext Value)
     {
-        if (Value.phase == InputActionPhase.Started || Value.phase == InputActionPhase.Performed||Value.phase == InputActionPhase.Canceled)
-        {
-            weaponCommand.Pulltriger(stateManager,Value);
-        }
+       input.firing = Value;
     }
     public void Aim(InputAction.CallbackContext Value)
-    {   
-        if (Value.phase == InputActionPhase.Performed|| Value.phase == InputActionPhase.Started)            
-        {
-            weaponCommand.Aim(stateManager);
-        }            
-        else    
-        {
-            weaponCommand.LowWeapon(stateManager.Current_state);
-        }        
+    {
+        input.aiming = Value; 
     }
     public void Reload(InputAction.CallbackContext Value)
     {
-        weaponCommand.Reload(stateManager.Current_state); 
+        input.reloading = Value;
     }
     public void SwapShoulder(InputAction.CallbackContext Value)
     {
-        if(Value.phase == InputActionPhase.Started)
-        {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
-        }
+        input.swapShoulder = Value;
     }
 }

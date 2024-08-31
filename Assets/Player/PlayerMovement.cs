@@ -31,7 +31,7 @@ public class PlayerMovement
     }
     private void DirectionUpdate()
     {
-        inputDirection = TransformDirectionObject(new Vector3(playerController.movementInput.x,0,playerController.movementInput.y), Camera.main.transform.forward);
+        inputDirection = TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
         forwardDirection = player.transform.forward;
         velocityDirection = characterController.velocity.normalized;
         curVelocity = characterController.velocity.magnitude;

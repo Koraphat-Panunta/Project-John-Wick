@@ -19,7 +19,7 @@ public class PlayerWeaponCommand
     public PrimaryWeapon primaryWeapon { get; private set; }
     public CameraZoom cameraZoom { get; private set; }
     public AmmoProuch ammoProuch { get; private set; }
-
+    public CrosshairController crosshairController;
     public PlayerWeaponCommand(Player player)
     {
         this.player = player;
@@ -27,6 +27,7 @@ public class PlayerWeaponCommand
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
         this.WeaponSocket = player.weaponSocket;
         this.playerAnimator = player.animator;
+        this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
         Start();
     }
     private void Start()

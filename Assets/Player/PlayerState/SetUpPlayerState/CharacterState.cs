@@ -5,10 +5,7 @@ using UnityEngine.TextCore.Text;
 
 public abstract class CharacterState 
 {
-    public Animator characterAnimator { get; protected set; }
-    public GameObject Character { get; protected set; }
-    protected PlayerStateManager StateManager;
-    protected PlayerController playerController;
+    protected Player player;
 
     public abstract void EnterState();
 

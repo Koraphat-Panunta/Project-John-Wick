@@ -3,15 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class IdleState : CharacterState 
 {
-    public IdleState(PlayerStateManager playerStateManager)
+    private Animator characterAnimator;
+    private PlayerController playerController;
+    private PlayerStateManager playerStateManager;
+    public IdleState(Player player)
     {
-        base.playerController = playerStateManager.playerController;
-        base.Character = playerStateManager.gameObject;
-        base.StateManager = playerStateManager;
-        base.characterAnimator = playerStateManager.PlayerAnimator;
+        base.player = player;
+        this.characterAnimator = player.animator;
+        this.playerController = player.playerController;
+        this.playerStateManager = player.playerStateManager;
     }
     public override void EnterState()
     {
@@ -31,15 +35,14 @@ public class IdleState : CharacterState
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
-        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
-        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
+        characterAnimator.SetFloat("ForBack_Ward",stateManager.playerController.input.movement.ReadValue<Vector2>().y);
+        characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
     }
     protected override void InputPerformed()
     {
-        if (playerController.movementInput != Vector2.zero)
+        if(playerController.player.playerController.input.movement.phase == InputActionPhase.Started)
         {
-            base.StateManager.ChangeState(base.StateManager.move);
+            this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-        base.InputPerformed();
     }
 }

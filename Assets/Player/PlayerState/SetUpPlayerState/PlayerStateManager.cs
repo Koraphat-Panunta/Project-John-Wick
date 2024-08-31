@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateManager : MonoBehaviour 
+public class PlayerStateManager 
 {
     public IdleState idle;
     public MoveState move;
     public SprintState sprint;
-    public Animator PlayerAnimator;
-    public PlayerController playerController;
-    public Vector2 Movement = Vector2.zero;
-
     public CharacterState Current_state;
-    public void Start()
+
+    public Player player;
+    public PlayerController playerController;
+
+    public Animator PlayerAnimator;
+    
+
+
+    public PlayerStateManager(Player player)
     {
-        idle = new IdleState(this);
-        move = new MoveState(this);
-        sprint = new SprintState(this);
-        Current_state = idle;
+        this.player = player;
+        this.playerController = player.playerController;
+        this.PlayerAnimator = player.animator;
     }
 
     public void ChangeState(CharacterState Nextstate)
@@ -31,20 +34,20 @@ public class PlayerStateManager : MonoBehaviour
         }
        
     }
-
-    protected void Update()
+    public void Update()
     {
         Current_state.FrameUpdateState(this);
     }
 
-    protected void FixedUpdate()
+    public void FixedUpdate()
     {
-        this.Movement = Vector2.Lerp(this.Movement, playerController.movementInput, 10*Time.deltaTime);
         Current_state.PhysicUpdateState(this);
     }
-
-    protected void SetUpState()
+    public void SetupState(Player player)
     {
-        
+        idle = new IdleState(player);
+        move = new MoveState(player);
+        sprint = new SprintState(player);
+        Current_state = idle;
     }
 }

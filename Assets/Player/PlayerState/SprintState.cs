@@ -6,13 +6,16 @@ using UnityEngine.InputSystem;
 
 public class SprintState : CharacterState
 {
-     Transform cameraTrans;
-    public SprintState(PlayerStateManager playerStateManager)
+    Transform cameraTrans;
+    private Animator characterAnimator;
+    private PlayerController playerController;
+    private PlayerStateManager playerStateManager;
+    public SprintState(Player player)
     {
-        base.playerController = playerStateManager.playerController;
-        base.Character = playerStateManager.gameObject;
-        base.StateManager = playerStateManager;
-        base.characterAnimator = playerStateManager.PlayerAnimator;
+        base.player = player;
+        this.characterAnimator = player.animator;
+        this.playerController = player.playerController;
+        this.playerStateManager = player.playerStateManager;
     }
     public override void EnterState()
     {
@@ -20,12 +23,12 @@ public class SprintState : CharacterState
         {
             cameraTrans = Camera.main.transform;
         }
-        base.characterAnimator.SetBool("IsSprinting", true);
+        characterAnimator.SetBool("IsSprinting", true);
     }
 
     public override void ExitState()
     {
-        base.characterAnimator.SetBool("IsSprinting", false);
+        characterAnimator.SetBool("IsSprinting", false);
     }
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
@@ -36,7 +39,7 @@ public class SprintState : CharacterState
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
-        RotateTowards(TransformDirectionObject(new Vector3(base.playerController.movementInput.x,0,base.playerController.movementInput.y),cameraTrans.forward));
+        RotateTowards(TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y),Camera.main.transform.forward));
     }
     protected float rotationSpeed = 5.0f;
     protected void RotateTowards(Vector3 direction)
@@ -54,7 +57,7 @@ public class SprintState : CharacterState
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
             // Smoothly rotate towards the target rotation
-            base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            base.player.transform.rotation = Quaternion.Slerp(base.player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
     private Vector3 TransformDirectionObject(Vector3 dirWolrd,Vector3 dirObjectLocal)
@@ -71,9 +74,9 @@ public class SprintState : CharacterState
     }
     protected override void InputPerformed()
     {
-        if (base.playerController.sprintInput == false)
+        if (playerController.input.sprint.phase == InputActionPhase.Canceled|| playerController.input.sprint.phase == InputActionPhase.Waiting)
         {
-            base.StateManager.ChangeState(base.StateManager.move);
+            this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
         base.InputPerformed();
     }

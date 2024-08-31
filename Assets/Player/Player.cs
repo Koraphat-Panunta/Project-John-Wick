@@ -6,25 +6,39 @@ using static Reload;
 
 public class Player : SubjectPlayer
 {
-    private RotateObjectToward rotateObjectToward;
+    //Unity Component
     public Animator animator;
-    public PlayerWeaponCommand playerWeaponCommand;
-  
-    public PlayerMovement playerMovement;
+
+    //C# Component
+    public PlayerController playerController;
     public WeaponSocket weaponSocket;
+
+    //Class coposition
+    public PlayerWeaponCommand playerWeaponCommand;
+    public PlayerMovement playerMovement;
+    public PlayerStateManager playerStateManager;
+
     private void Start()
     {
-        rotateObjectToward = new RotateObjectToward();
         animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         playerWeaponCommand = new PlayerWeaponCommand(this);
+
+        playerStateManager = new PlayerStateManager(this);
+        playerStateManager.SetupState(this);
     }
     private void Update()
     {
+        playerStateManager.Update();
+    }
+    private void FixedUpdate()
+    {
         playerMovement.MovementUpdate();
+        playerStateManager.FixedUpdate();
     }
     public override void Aiming(Weapon weapon)
     {
+        RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         animator.SetLayerWeight(1,weapon.weapon_StanceManager.AimingWeight);
         NotifyObserver(this, PlayerAction.Aim);

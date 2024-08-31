@@ -5,14 +5,15 @@ using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
-    private Camera main_camera;
-    public float Speed = 100;
-    public MoveState(PlayerStateManager playerStateManager)
+    private Animator characterAnimator;
+    private PlayerController playerController;
+    private PlayerStateManager playerStateManager;
+    public MoveState(Player player)
     {
-        base.playerController = playerStateManager.playerController;
-        base.Character = playerStateManager.gameObject;
-        base.StateManager = playerStateManager;
-        base.characterAnimator = playerStateManager.PlayerAnimator;
+        base.player = player;
+        this.characterAnimator = player.animator;
+        this.playerController = player.playerController;
+        this.playerStateManager = player.playerStateManager;
     }
     public override void EnterState()
     {
@@ -30,14 +31,14 @@ public class MoveState : CharacterState
     }
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
-        main_camera = Camera.main;
+        
         InputPerformed();
-        base.characterAnimator.SetFloat("ForBack_Ward", base.StateManager.Movement.y);
-        base.characterAnimator.SetFloat("Side_LR", base.StateManager.Movement.x);
-        //base.characterController.SimpleMove(base.Character.transform.forward * Speed * Time.deltaTime);
-        RotateTowards(main_camera.transform.forward);
+        characterAnimator.SetFloat("ForBack_Ward", stateManager.playerController.input.movement.ReadValue<Vector2>().y);
+        characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
+
+        RotateTowards(Camera.main.transform.forward);
      
-        //character.velocity = base.Character.transform.forward.normalized*Speed;
+
     }
 
     protected float rotationSpeed = 5.0f;
@@ -56,25 +57,22 @@ public class MoveState : CharacterState
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
             // Smoothly rotate towards the target rotation
-            base.Character.transform.rotation = Quaternion.Slerp(base.Character.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            base.player.gameObject.transform.rotation = Quaternion.Slerp(base.player.gameObject.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
     protected override void InputPerformed()
     {
-        if (base.playerController.movementInput == Vector2.zero)
+        if (playerController.input.movement.phase == InputActionPhase.Canceled)
         {
-            base.StateManager.ChangeState(base.StateManager.idle);
+            this.playerStateManager.ChangeState(this.playerStateManager.idle);
         }
-        if (base.playerController.sprintInput)
+        if (playerController.input.sprint.phase == InputActionPhase.Started||playerController.input.sprint.phase == InputActionPhase.Performed)
         {
-            base.StateManager.ChangeState(base.StateManager.sprint);
+            this.playerStateManager.ChangeState(this.playerStateManager.sprint);
         }
         base.InputPerformed();
     }
-    private void Start()
-    {
-        main_camera = Camera.main;
-    }
+    
 
 
 }
