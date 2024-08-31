@@ -65,7 +65,7 @@ public class MoveState : CharacterState
         {
             base.StateManager.ChangeState(base.StateManager.idle);
         }
-        if (base.playerController.sprintInputX.phase.IsInProgress())
+        if (base.playerController.sprintInput)
         {
             base.StateManager.ChangeState(base.StateManager.sprint);
         }

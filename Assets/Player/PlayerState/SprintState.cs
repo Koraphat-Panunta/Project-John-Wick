@@ -71,7 +71,7 @@ public class SprintState : CharacterState
     }
     protected override void InputPerformed()
     {
-        if (base.playerController.sprintInputX.phase.IsInProgress() == false)
+        if (base.playerController.sprintInput == false)
         {
             base.StateManager.ChangeState(base.StateManager.move);
         }

@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerWeaponCommand : MonoBehaviour
+public class PlayerWeaponCommand 
 {
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private WeaponSocket WeaponSocket;
-    [SerializeField] private Animator playerAnimator;
+    private WeaponSocket WeaponSocket;
+    private Animator playerAnimator;
+
+    private Player player;
 
     public event Action<Weapon> weaponAim;
     public event Action<Weapon> weaponLow;
@@ -19,24 +20,18 @@ public class PlayerWeaponCommand : MonoBehaviour
     public CameraZoom cameraZoom { get; private set; }
     public AmmoProuch ammoProuch { get; private set; }
 
-    private void Start()
+    public PlayerWeaponCommand(Player player)
     {
-        StartCoroutine(GetWeapon());
+        this.player = player;
         ammoProuch = new AmmoProuch(120, 0, 0, 0);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
+        this.WeaponSocket = player.weaponSocket;
+        this.playerAnimator = player.animator;
+        Start();
     }
-    private void Update()
+    private void Start()
     {
-        //if(CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.lowReady)
-        //{
-        //    weaponLow.Invoke(CurrentWeapon);
-        //}
-        //else if (CurrentWeapon.weapon_StanceManager._currentStance == CurrentWeapon.weapon_StanceManager.aimDownSight)
-        //{
-        //    weaponAim.Invoke(CurrentWeapon);
-            
-        //}
-        
+        player.StartCoroutine(GetWeapon());
     }
     public void Pulltriger(PlayerStateManager playerstate,InputAction.CallbackContext Value)
     {
@@ -71,7 +66,6 @@ public class PlayerWeaponCommand : MonoBehaviour
     {
         if (ammoProuch.amountOf_ammo[CurrentWeapon.bullet.GetComponent<Bullet>().type] > 0) 
         {
-     
             ReloadCommand reload = new ReloadCommand(CurrentWeapon,ammoProuch);
             reload.Execute();
         }

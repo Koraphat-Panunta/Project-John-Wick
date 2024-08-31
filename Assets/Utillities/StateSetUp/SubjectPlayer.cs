@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SubjectPlayer : MonoBehaviour
+public abstract class SubjectPlayer : Character
 {
     public enum PlayerAction
     {
         SwapShoulder,
+        Aim,
+        LowReady,
+        Firing,
+        Reloading,
     }
     private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)
@@ -18,7 +22,7 @@ public abstract class SubjectPlayer : MonoBehaviour
     {
         this.Observers.Remove(observer);
     }
-    protected void NotifyObserver(PlayerController playerController,PlayerAction playerAction)
+    public void NotifyObserver(Player playerController,PlayerAction playerAction)
     {
         foreach (IObserverPlayer observer in Observers)
         {

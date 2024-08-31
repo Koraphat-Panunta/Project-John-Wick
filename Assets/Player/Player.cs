@@ -4,35 +4,43 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static Reload;
 
-public class Player : Character
+public class Player : SubjectPlayer
 {
     private RotateObjectToward rotateObjectToward;
-    private Animator animator;
-    public CameraKickBack cameraKickBack;
-    public CameraZoom cameraZoom;
+    public Animator animator;
+    public PlayerWeaponCommand playerWeaponCommand;
+  
+    public PlayerMovement playerMovement;
+    public WeaponSocket weaponSocket;
     private void Start()
     {
         rotateObjectToward = new RotateObjectToward();
         animator = GetComponent<Animator>();
+        playerMovement = new PlayerMovement(this);
+        playerWeaponCommand = new PlayerWeaponCommand(this);
+    }
+    private void Update()
+    {
+        playerMovement.MovementUpdate();
     }
     public override void Aiming(Weapon weapon)
     {
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         animator.SetLayerWeight(1,weapon.weapon_StanceManager.AimingWeight);
-        cameraZoom.ZoomIn(weapon);
+        NotifyObserver(this, PlayerAction.Aim);
         base.Aiming(weapon);
     }
 
     public override void Firing(Weapon weapon)
     {
-        cameraKickBack.Performed(weapon);
+        NotifyObserver(this, PlayerAction.Firing);
         base.Firing(weapon);
     }
 
     public override void LowReadying(Weapon weapon)
     {
         animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-        cameraZoom.ZoomOut(weapon);
+        NotifyObserver(this,PlayerAction.LowReady);
         base.LowReadying(weapon);
     }
 
