@@ -29,9 +29,9 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void AnimateMove(PlayerMovement playerMovement)
     {
-        float var = (playerMovement.curVelocity.z * 2) / playerMovement.move_MaxSpeed;
-        animator.SetFloat(animationParameter[parameterName.ForBack_Ward], -1+var);
-        var = (playerMovement.curVelocity.x * 2) / playerMovement.move_MaxSpeed;
-        animator.SetFloat(animationParameter[parameterName.Side_LR], -1+var);
+        float var = (playerMovement.curVelocity_Local.z) / playerMovement.move_MaxSpeed;
+        animator.SetFloat(animationParameter[parameterName.ForBack_Ward],var);
+        var = (playerMovement.curVelocity_Local.x) / playerMovement.move_MaxSpeed;
+        animator.SetFloat(animationParameter[parameterName.Side_LR],var);
     }
 }

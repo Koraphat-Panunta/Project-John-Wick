@@ -10,6 +10,7 @@ public class IdleState : CharacterState
     private Animator characterAnimator;
     private PlayerController playerController;
     private PlayerStateManager playerStateManager;
+    
     public IdleState(Player player)
     {
         base.player = player;
@@ -42,9 +43,21 @@ public class IdleState : CharacterState
     }
     protected override void InputPerformed()
     {
-        if(playerController.player.playerController.input.movement.phase == InputActionPhase.Started)
+        PlayerController.Input input = this.playerController.input;
+        if (input.movement.phase == InputActionPhase.Started)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
+
+        if(input.aiming.phase == InputActionPhase.Performed||input.aiming.phase == InputActionPhase.Started)
+        {
+            player.playerWeaponCommand.Aim(playerStateManager);
+        }
+        else
+        {
+            player.playerWeaponCommand.LowWeapon(playerStateManager.Current_state);
+        }
+
+        player.playerWeaponCommand.Pulltriger(playerStateManager, input.firing);
     }
 }

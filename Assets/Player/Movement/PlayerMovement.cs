@@ -6,15 +6,18 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement 
 {
-    private Vector3 inputDirection;
-    private Vector3 forwardDirection;
-    private Vector3 velocityDirection;
+    public Vector3 inputDirection_World { get; private set; }
+    public Vector3 forwardDirection_World { get; private set; }
+    public Vector3 velocityDirection_World { get; private set; }
+    public Vector3 velocityDirection_Local { get; private set; }
 
     public float move_MaxSpeed = 3.7f;
-    private float move_Acceleration = 0.4f;
-    private float sprint_MaxSpeed;
-    private float sprint_Acceleration;
-    public Vector3 curVelocity;
+    public float move_Acceleration = 0.4f;
+    public float sprint_MaxSpeed;
+    public float sprint_Acceleration;
+
+    public Vector3 curVelocity_World { get; set; }
+    public Vector3 curVelocity_Local { get; private set; }
 
 
     private Player player;
@@ -28,7 +31,7 @@ public class PlayerMovement
         this.characterController = player.GetComponent<CharacterController>();
         this.playerController = player.GetComponent<PlayerController>();
         this.movementComponents.Add(new GravityMovement(this.characterController));
-        curVelocity = Vector3.zero;
+        curVelocity_World = Vector3.zero;
     }
     public void MovementUpdate()
     {
@@ -37,22 +40,25 @@ public class PlayerMovement
         {
             movement.MovementUpdate(this);
         }
-        characterController.Move(curVelocity*Time.deltaTime);
+        curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
+        velocityDirection_Local = curVelocity_Local.normalized;
+        Debug.Log(curVelocity_Local);
+        characterController.Move(curVelocity_World * Time.deltaTime);
     }
     private void DirectionUpdate()
     {
-        inputDirection = TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
-        forwardDirection = player.transform.forward;
-        velocityDirection = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).normalized;
+        inputDirection_World = TransformLocalToWorldVector(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
+        forwardDirection_World = player.transform.forward;
+        velocityDirection_World = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).normalized;
         DrawDirLine();
     }
     public void OMNI_DirMovingCharacter()
     {
-        curVelocity = Vector3.MoveTowards(curVelocity, inputDirection * move_MaxSpeed, move_Acceleration );
+        curVelocity_World = Vector3.MoveTowards(curVelocity_World, inputDirection_World * move_MaxSpeed, move_Acceleration );
     }
     public void ONE_DirMovingCharacter()
     {
-        curVelocity = Vector3.MoveTowards(velocityDirection, forwardDirection, move_Acceleration);
+        curVelocity_World = Vector3.MoveTowards(velocityDirection_World, forwardDirection_World, move_Acceleration);
     }
     public void RotateCharacter(Vector3 dir,float rotateSpeed)
     {
@@ -73,25 +79,39 @@ public class PlayerMovement
     }
     public void FreezingCharacter()
     {
-        curVelocity = Vector3.MoveTowards(curVelocity, Vector3.zero, move_Acceleration);
+        curVelocity_World = Vector3.MoveTowards(curVelocity_World, Vector3.zero, move_Acceleration);
     }
-    private Vector3 TransformDirectionObject(Vector3 dirWolrd, Vector3 dirObjectLocal)
+    private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {
         float zeta;
 
         Vector3 Direction;
-        zeta = Mathf.Atan2(dirObjectLocal.z, dirObjectLocal.x) - Mathf.Deg2Rad * 90;
-        Direction.x = dirWolrd.x * Mathf.Cos(zeta) - dirWolrd.z * Mathf.Sin(zeta);
-        Direction.z = dirWolrd.x * Mathf.Sin(zeta) + dirWolrd.z * Mathf.Cos(zeta);
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+    private Vector3 TransformWorldToLocalVector(Vector3 dirChild,Vector3 dirParent)
+    {
+        Vector3 Direction = Vector3.zero;
+        float zeta;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        zeta = -zeta;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
         Direction.y = 0;
 
         return Direction;
     }
     private void DrawDirLine()
     {
-        Debug.DrawLine(player.transform.position, player.transform.position + inputDirection,Color.green);
-        Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection, Color.blue);
-        Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection, Color.yellow);
+        Debug.DrawLine(player.transform.position, player.transform.position + inputDirection_World,Color.green);
+        Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection_World, Color.blue);
+        Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection_World, Color.yellow);
+
+       
     }
 
     
