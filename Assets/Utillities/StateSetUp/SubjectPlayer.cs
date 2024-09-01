@@ -12,6 +12,10 @@ public abstract class SubjectPlayer : Character
         LowReady,
         Firing,
         Reloading,
+        Idle,
+        Move,
+        Sprint,
+        GetWeapon
     }
     private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)
@@ -22,11 +26,11 @@ public abstract class SubjectPlayer : Character
     {
         this.Observers.Remove(observer);
     }
-    public void NotifyObserver(Player playerController,PlayerAction playerAction)
+    public void NotifyObserver(Player player,PlayerAction playerAction)
     {
         foreach (IObserverPlayer observer in Observers)
         {
-            observer.OnNotify(playerController,playerAction);
+            observer.OnNotify(player,playerAction);
         }
     }
 

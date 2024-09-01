@@ -13,8 +13,10 @@ public class PlayerMovement
 
     public float move_MaxSpeed = 3.7f;
     public float move_Acceleration = 0.4f;
-    public float sprint_MaxSpeed;
-    public float sprint_Acceleration;
+    public float sprint_MaxSpeed = 6.8f;
+    public float sprint_Acceleration = 0.5f;
+
+    public float rotate_Speed = 6;
 
     public Vector3 curVelocity_World { get; set; }
     public Vector3 curVelocity_Local { get; private set; }
@@ -42,7 +44,7 @@ public class PlayerMovement
         }
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         velocityDirection_Local = curVelocity_Local.normalized;
-        Debug.Log(curVelocity_Local);
+        //Debug.Log(curVelocity_Local);
         characterController.Move(curVelocity_World * Time.deltaTime);
     }
     private void DirectionUpdate()
@@ -58,25 +60,9 @@ public class PlayerMovement
     }
     public void ONE_DirMovingCharacter()
     {
-        curVelocity_World = Vector3.MoveTowards(velocityDirection_World, forwardDirection_World, move_Acceleration);
+        curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed, sprint_Acceleration);
     }
-    public void RotateCharacter(Vector3 dir,float rotateSpeed)
-    {
-        dir.Normalize();
-
-        // Flatten the direction vector to the XZ plane to only rotate around the Y axis
-        dir.y = 0;
-
-        // Check if the direction is not zero to avoid setting a NaN rotation
-        if (dir != Vector3.zero)
-        {
-            // Calculate the target rotation based on the direction
-            Quaternion targetRotation = Quaternion.LookRotation(dir);
-
-            // Smoothly rotate towards the target rotation
-            player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-        }
-    }
+   
     public void FreezingCharacter()
     {
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, Vector3.zero, move_Acceleration);
@@ -104,6 +90,23 @@ public class PlayerMovement
         Direction.y = 0;
 
         return Direction;
+    }
+    public void RotateCharacter(Vector3 dir, float rotateSpeed)
+    {
+        dir.Normalize();
+
+        // Flatten the direction vector to the XZ plane to only rotate around the Y axis
+        dir.y = 0;
+
+        // Check if the direction is not zero to avoid setting a NaN rotation
+        if (dir != Vector3.zero)
+        {
+            // Calculate the target rotation based on the direction
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+            // Smoothly rotate towards the target rotation
+            player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        }
     }
     private void DrawDirLine()
     {

@@ -5,13 +5,11 @@ using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
-    private Animator characterAnimator;
     private PlayerController playerController;
     private PlayerStateManager playerStateManager;
     public MoveState(Player player)
     {
         base.player = player;
-        this.characterAnimator = player.animator;
         this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
     }
@@ -27,14 +25,12 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-        player.playerAnimation.AnimateMove(player.playerMovement);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
     }
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         PlayerMovement playerMovement = base.player.playerMovement;
         InputPerformed();
-        //characterAnimator.SetFloat("ForBack_Ward", stateManager.playerController.input.movement.ReadValue<Vector2>().y);
-        //characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
         playerMovement.OMNI_DirMovingCharacter();
         playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
     }
@@ -60,6 +56,7 @@ public class MoveState : CharacterState
     }
     protected override void InputPerformed()
     {
+        PlayerController.Input input = this.playerController.input;
         if (playerController.input.movement.phase == InputActionPhase.Canceled)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.idle);
@@ -67,6 +64,30 @@ public class MoveState : CharacterState
         if (playerController.input.sprint.phase == InputActionPhase.Started||playerController.input.sprint.phase == InputActionPhase.Performed)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.sprint);
+        }
+
+        if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
+        {
+            Debug.Log("Aim Move");
+            player.playerWeaponCommand.Aim();
+        }
+        else
+        {
+            player.playerWeaponCommand.LowWeapon();
+        }
+        if (input.firing.phase == InputActionPhase.Performed)
+        {
+            Debug.Log("Pull Trigger Move");
+            player.playerWeaponCommand.Pulltriger();
+        }
+        else
+        {
+            player.playerWeaponCommand.CancelTrigger();
+        }
+
+        if (input.reloading.phase == InputActionPhase.Performed)
+        {
+            player.playerWeaponCommand.Reload();
         }
         base.InputPerformed();
     }

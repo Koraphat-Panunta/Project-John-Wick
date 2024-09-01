@@ -7,15 +7,15 @@ using UnityEngine.InputSystem;
 public class SprintState : CharacterState
 {
     Transform cameraTrans;
-    private Animator characterAnimator;
     private PlayerController playerController;
     private PlayerStateManager playerStateManager;
+    private PlayerMovement playerMovement;
     public SprintState(Player player)
     {
         base.player = player;
-        this.characterAnimator = player.animator;
         this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
+        this.playerMovement = player.playerMovement;
     }
     public override void EnterState()
     {
@@ -23,23 +23,23 @@ public class SprintState : CharacterState
         {
             cameraTrans = Camera.main.transform;
         }
-        characterAnimator.SetBool("IsSprinting", true);
     }
 
     public override void ExitState()
     {
-        characterAnimator.SetBool("IsSprinting", false);
-    }
 
+    }
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
     }
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
-        RotateTowards(TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y),Camera.main.transform.forward));
+        playerMovement.RotateCharacter(playerMovement.inputDirection_World,playerMovement.rotate_Speed);
+        playerMovement.ONE_DirMovingCharacter();
+        //RotateTowards(TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y),Camera.main.transform.forward));
     }
     protected float rotationSpeed = 5.0f;
     protected void RotateTowards(Vector3 direction)

@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
         public InputAction.CallbackContext reloading;
         public InputAction.CallbackContext swapShoulder;
     }
-    public Input input;
+    public Input input = new Input();
     private void Awake()
     {
         inputPlayer = new PlayerInput();
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Pulltriger(InputAction.CallbackContext Value)
     {
-       input.firing = Value;
+        input.firing = Value;
     }
     public void Aim(InputAction.CallbackContext Value)
     {

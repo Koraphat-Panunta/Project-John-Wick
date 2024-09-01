@@ -18,8 +18,8 @@ public class GravityMovement : IMovementComponent
             _velocityY += GRAVITY * gravitySclae;
             _velocityY = Mathf.Clamp(_velocityY, 0, 1.3f);
             playerMovement.curVelocity_World -= new Vector3(0, _velocityY, 0);
-            Debug.Log("IsGround == false");
-            Debug.Log("Fall v =" + _velocityY);
+            //Debug.Log("IsGround == false");
+            //Debug.Log("Fall v =" + _velocityY);
         }
         else
         {

@@ -21,7 +21,6 @@ public class PlayerStateManager
     {
         this.player = player;
         this.playerController = player.playerController;
-        this.PlayerAnimator = player.animator;
     }
 
     public void ChangeState(CharacterState Nextstate)

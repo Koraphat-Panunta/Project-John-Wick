@@ -7,14 +7,12 @@ using UnityEngine.InputSystem;
 
 public class IdleState : CharacterState 
 {
-    private Animator characterAnimator;
     private PlayerController playerController;
     private PlayerStateManager playerStateManager;
     
     public IdleState(Player player)
     {
         base.player = player;
-        this.characterAnimator = player.animator;
         this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
     }
@@ -30,16 +28,15 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-       
+       player.NotifyObserver(player,SubjectPlayer.PlayerAction.Idle);
     }
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         PlayerMovement playerMovement = base.player.playerMovement;
         InputPerformed();
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         playerMovement.FreezingCharacter();
-        //characterAnimator.SetFloat("ForBack_Ward",stateManager.playerController.input.movement.ReadValue<Vector2>().y);
-        //characterAnimator.SetFloat("Side_LR", stateManager.playerController.input.movement.ReadValue<Vector2>().x);
     }
     protected override void InputPerformed()
     {
@@ -48,16 +45,29 @@ public class IdleState : CharacterState
         {
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-
         if(input.aiming.phase == InputActionPhase.Performed||input.aiming.phase == InputActionPhase.Started)
         {
-            player.playerWeaponCommand.Aim(playerStateManager);
+            Debug.Log("Aim Idle");
+            player.playerWeaponCommand.Aim();
         }
         else
         {
-            player.playerWeaponCommand.LowWeapon(playerStateManager.Current_state);
+            player.playerWeaponCommand.LowWeapon();
         }
 
-        player.playerWeaponCommand.Pulltriger(playerStateManager, input.firing);
+        if(input.firing.phase == InputActionPhase.Performed)
+        {
+            Debug.Log("Pull Trigger Idle");
+            player.playerWeaponCommand.Pulltriger();
+        }
+        else
+        {
+            player.playerWeaponCommand.CancelTrigger();
+        }
+
+        if(input.reloading.phase == InputActionPhase.Performed)
+        {
+            player.playerWeaponCommand.Reload();
+        }
     }
 }

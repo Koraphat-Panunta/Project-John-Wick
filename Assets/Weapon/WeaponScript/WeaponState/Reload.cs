@@ -16,7 +16,7 @@ public class Reload : WeaponState
         TacticalReload,
         ReloadFinished
     }
-    ReloadType reloadType { get; set; }
+    public ReloadType reloadType { get; set; }
     public Reload(WeaponSingleton weaponSingleton)
     {
         this.weaponSingleton = weaponSingleton;

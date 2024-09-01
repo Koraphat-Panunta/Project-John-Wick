@@ -12,10 +12,6 @@ public class ReloadCommand : WeaponCommand
 
     public override void Execute()
     {
-        if(weapon == null)
-        {
-            
-        }
        weapon.Reload();
        this.ammoProuch.prochReload.Performed(base.weapon);
     }

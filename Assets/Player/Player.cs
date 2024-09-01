@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using static Reload;
 
 public class Player : SubjectPlayer
 {
-    //Unity Component
-    public Animator animator;
-
     //C# Component
     public PlayerController playerController;
     public WeaponSocket weaponSocket;
@@ -21,7 +15,6 @@ public class Player : SubjectPlayer
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         playerWeaponCommand = new PlayerWeaponCommand(this);
 
@@ -41,7 +34,6 @@ public class Player : SubjectPlayer
     {
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
-        animator.SetLayerWeight(1,weapon.weapon_StanceManager.AimingWeight);
         NotifyObserver(this, PlayerAction.Aim);
         base.Aiming(weapon);
     }
@@ -54,36 +46,22 @@ public class Player : SubjectPlayer
 
     public override void LowReadying(Weapon weapon)
     {
-        animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-        NotifyObserver(this,PlayerAction.LowReady);
-        base.LowReadying(weapon);
+        if (weapon != null)
+        {
+            NotifyObserver(this, PlayerAction.LowReady);
+            base.LowReadying(weapon);
+        }
+        else
+        {
+            //animator.SetLayerWeight(1,Mathf.Lerp(animator.GetLayerWeight\));
+            NotifyObserver(this, PlayerAction.LowReady);
+        }
     }
 
     public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
     {
-        if (reloadType == ReloadType.TacticalReload)
-        {
-            animator.SetTrigger("TacticalReload");
-            animator.SetLayerWeight(2, 1);
-        }
-        else if(reloadType == ReloadType.ReloadMagOut)
-        {
-            animator.SetTrigger("Reloading");
-            animator.SetLayerWeight(2, 1);
-        }
-        else if(reloadType == ReloadType.ReloadFinished)
-        {
-            StartCoroutine(RecoveryReloadLayerWeight());
-        }
+        NotifyObserver(this, PlayerAction.Reloading);
         base.Reloading(weapon, reloadType);
     }
-    IEnumerator RecoveryReloadLayerWeight()
-    {
-        float RecoveryWeight = 10;
-        while(animator.GetLayerWeight(2) > 0)
-        {
-            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
-            yield return null;
-        }
-    }
+   
 }
