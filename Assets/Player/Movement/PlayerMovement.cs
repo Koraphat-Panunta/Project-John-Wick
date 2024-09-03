@@ -11,9 +11,9 @@ public class PlayerMovement
     public Vector3 velocityDirection_World { get; private set; }
     public Vector3 velocityDirection_Local { get; private set; }
 
-    public float move_MaxSpeed = 3.7f;
+    public float move_MaxSpeed = 3.2f;
     public float move_Acceleration = 0.4f;
-    public float sprint_MaxSpeed = 6.8f;
+    public float sprint_MaxSpeed = 6.2f;
     public float sprint_Acceleration = 0.5f;
 
     public float rotate_Speed = 6;

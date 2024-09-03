@@ -10,6 +10,7 @@ public class ProceduralBoneController : MonoBehaviour
     [SerializeField] MultiAimConstraint Head;
     [SerializeField] MultiAimConstraint RightArm;
     [SerializeField] MultiAimConstraint RightHand;
+    [SerializeField] TwoBoneIKConstraint LeftHandIK;
     [SerializeField] Character character;
     public GameObject sourceTarget;
     private float weight = 0;
@@ -20,6 +21,7 @@ public class ProceduralBoneController : MonoBehaviour
         Head.weight = 0;
         RightArm.weight = 0;
         RightHand.weight = 0;
+        LeftHandIK.weight = 0;
         character.Aim += SetWeight;
         character.LowWeapon += SetWeight;
     }
@@ -32,6 +34,7 @@ public class ProceduralBoneController : MonoBehaviour
         Head.weight = weight;
         RightArm.weight = weight;
         RightHand.weight = weight;
+        LeftHandIK.weight = weight;
     }
     public void SetSourceTarget(GameObject gameObject)
     {

@@ -22,7 +22,7 @@ public class CameraZoom : ICameraAction
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight;
+            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight*1.6f;
         }
     }
     
@@ -34,7 +34,7 @@ public class CameraZoom : ICameraAction
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight;
+            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight * 1.6f;
         }
     }
     
