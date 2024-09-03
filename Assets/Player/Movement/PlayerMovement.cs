@@ -44,7 +44,6 @@ public class PlayerMovement
         }
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         velocityDirection_Local = curVelocity_Local.normalized;
-        //Debug.Log(curVelocity_Local);
         characterController.Move(curVelocity_World * Time.deltaTime);
     }
     private void DirectionUpdate()

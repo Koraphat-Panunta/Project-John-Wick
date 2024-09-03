@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
             cameraZoom.ZoomIn(player.playerWeaponCommand.CurrentWeapon);
+            Debug.Log("ZoomIn");
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
