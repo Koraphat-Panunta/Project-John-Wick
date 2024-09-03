@@ -9,7 +9,6 @@ public class IdleState : CharacterState
 {
     private PlayerController playerController;
     private PlayerStateManager playerStateManager;
-    
     public IdleState(Player player)
     {
         base.player = player;
@@ -28,13 +27,13 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-       player.NotifyObserver(player,SubjectPlayer.PlayerAction.Idle);
+        InputPerformed();
+        player.NotifyObserver(player,SubjectPlayer.PlayerAction.Idle);
     }
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        InputPerformed();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         playerMovement.FreezingCharacter();
     }
@@ -43,31 +42,15 @@ public class IdleState : CharacterState
         PlayerController.Input input = this.playerController.input;
         if (input.movement.phase == InputActionPhase.Started)
         {
+            Debug.Log("Move Start");
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-        if(input.aiming.phase == InputActionPhase.Performed||input.aiming.phase == InputActionPhase.Started)
+        new WeaponInput().InputWeaponUpdate(input, player);
+        if(input.swapShoulder.phase == InputActionPhase.Started||Input.GetKeyDown(KeyCode.LeftAlt))
         {
-            Debug.Log("Aim Idle");
-            player.playerWeaponCommand.Aim();
+            player.NotifyObserver(player,SubjectPlayer.PlayerAction.SwapShoulder);
         }
-        else
-        {
-            player.playerWeaponCommand.LowWeapon();
-        }
-
-        if(input.firing.phase == InputActionPhase.Performed)
-        {
-            Debug.Log("Pull Trigger Idle");
-            player.playerWeaponCommand.Pulltriger();
-        }
-        else
-        {
-            player.playerWeaponCommand.CancelTrigger();
-        }
-
-        if(input.reloading.phase == InputActionPhase.Performed)
-        {
-            player.playerWeaponCommand.Reload();
-        }
+        
     }
+  
 }

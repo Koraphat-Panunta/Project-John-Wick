@@ -31,7 +31,7 @@ public class PlayerMovement
     {
         this.player = player;
         this.characterController = player.GetComponent<CharacterController>();
-        this.playerController = player.GetComponent<PlayerController>();
+        this.playerController = player.playerController;
         this.movementComponents.Add(new GravityMovement(this.characterController));
         curVelocity_World = Vector3.zero;
     }
@@ -49,7 +49,7 @@ public class PlayerMovement
     }
     private void DirectionUpdate()
     {
-        inputDirection_World = TransformLocalToWorldVector(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
+        inputDirection_World = TransformLocalToWorldVector(new Vector3(this.playerController.input.movement.ReadValue<Vector2>().x,0,this.playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
         forwardDirection_World = player.transform.forward;
         velocityDirection_World = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).normalized;
         DrawDirLine();

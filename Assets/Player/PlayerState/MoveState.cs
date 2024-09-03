@@ -25,12 +25,12 @@ public class MoveState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
+        InputPerformed();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
     }
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        InputPerformed();
         playerMovement.OMNI_DirMovingCharacter();
         playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
     }
@@ -57,7 +57,7 @@ public class MoveState : CharacterState
     protected override void InputPerformed()
     {
         PlayerController.Input input = this.playerController.input;
-        if (playerController.input.movement.phase == InputActionPhase.Canceled)
+        if (playerController.input.movement.phase == InputActionPhase.Waiting)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.idle);
         }
@@ -65,33 +65,12 @@ public class MoveState : CharacterState
         {
             this.playerStateManager.ChangeState(this.playerStateManager.sprint);
         }
-
-        if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
+        new WeaponInput().InputWeaponUpdate(input, player);
+        if (input.swapShoulder.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.LeftAlt))
         {
-            Debug.Log("Aim Move");
-            player.playerWeaponCommand.Aim();
+            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }
-        else
-        {
-            player.playerWeaponCommand.LowWeapon();
-        }
-        if (input.firing.phase == InputActionPhase.Performed)
-        {
-            Debug.Log("Pull Trigger Move");
-            player.playerWeaponCommand.Pulltriger();
-        }
-        else
-        {
-            player.playerWeaponCommand.CancelTrigger();
-        }
-
-        if (input.reloading.phase == InputActionPhase.Performed)
-        {
-            player.playerWeaponCommand.Reload();
-        }
-        base.InputPerformed();
     }
-    
 
 
 }

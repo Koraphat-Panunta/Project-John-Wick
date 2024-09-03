@@ -15,11 +15,12 @@ public class Player : SubjectPlayer
 
     private void Start()
     {
+        playerController = new PlayerController(this);
         playerMovement = new PlayerMovement(this);
         playerWeaponCommand = new PlayerWeaponCommand(this);
-
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
+        playerController.Awake();
     }
     private void Update()
     {

@@ -119,6 +119,11 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
                 this.animator.SetTrigger(animationParameter[parameterName.TacticalReload]);
                 StartCoroutine(ReloadTiming());
             }
+            if(reloadType == Reload.ReloadType.ReloadMagOut)
+            {
+                this.animator.SetTrigger(animationParameter[parameterName.Reloading]);
+                StartCoroutine(ReloadTiming());
+            }
         }
        
     }

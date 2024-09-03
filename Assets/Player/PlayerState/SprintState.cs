@@ -74,11 +74,19 @@ public class SprintState : CharacterState
     }
     protected override void InputPerformed()
     {
+
         if (playerController.input.sprint.phase == InputActionPhase.Canceled|| playerController.input.sprint.phase == InputActionPhase.Waiting)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-        base.InputPerformed();
+        if(playerController.input.reloading.phase == InputActionPhase.Started||Input.GetKeyDown(KeyCode.R))
+        {
+            player.playerWeaponCommand.Reload();
+        }
+        if(playerController.input.swapShoulder.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
+        }
     }
 
 

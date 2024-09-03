@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController 
 {
     // Start is called before the first frame update
   
-    public PlayerInput inputPlayer;
+    public PlayerInput inputPlayer = new PlayerInput();
     public Player player;
-
     public struct Input
     {
         public InputAction.CallbackContext movement;
@@ -20,12 +19,17 @@ public class PlayerController : MonoBehaviour
         public InputAction.CallbackContext reloading;
         public InputAction.CallbackContext swapShoulder;
     }
-    public Input input = new Input();
-    private void Awake()
+    public Input input;
+    public PlayerController(Player player)
     {
-        inputPlayer = new PlayerInput();
+        this.player = player;
+        input = new Input();
+        inputPlayer.Enable();
+    }
+    
+    public void Awake()
+    {
         inputPlayer.PlayerAction.Look.performed += OnLook;
-
         inputPlayer.PlayerAction.Move.performed += OnMove;
         inputPlayer.PlayerAction.Move.started += OnMove;
         inputPlayer.PlayerAction.Move.canceled += OnMove;
@@ -45,14 +49,6 @@ public class PlayerController : MonoBehaviour
 
         inputPlayer.PlayerAction.SwapShoulder.started += SwapShoulder;
     }
-    private void OnEnable()
-    {
-        inputPlayer.PlayerAction.Enable();
-    }
-    private void OnDisable()
-    {
-        inputPlayer.PlayerAction.Disable();
-    }
     public void OnMove(InputAction.CallbackContext Value)
     {
         input.movement = Value;
@@ -64,10 +60,12 @@ public class PlayerController : MonoBehaviour
     public void OnSprint(InputAction.CallbackContext Value)
     {
         input.sprint = Value;
+        
     }
     public void Pulltriger(InputAction.CallbackContext Value)
     {
         input.firing = Value;
+        
     }
     public void Aim(InputAction.CallbackContext Value)
     {
