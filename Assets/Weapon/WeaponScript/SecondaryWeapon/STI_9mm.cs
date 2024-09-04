@@ -15,6 +15,7 @@ public class STI_9mm : SecondaryWeapon
     private float _recoilKickBack = 20;
     private float min_percision = 20;
     private float max_percision = 65;
+
     public override int Magazine_capacity
     {
         get { return _magazineCapacity; }

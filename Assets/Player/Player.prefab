@@ -491,10 +491,10 @@ MonoBehaviour:
   m_Data:
     m_ConstrainedObject: {fileID: 4455471983991026112}
     m_SourceObjects:
-      m_Length: 0
+      m_Length: 1
       m_Item0:
-        transform: {fileID: 0}
-        weight: 0
+        transform: {fileID: 5384363235951534084}
+        weight: 0.87
       m_Item1:
         transform: {fileID: 0}
         weight: 0
@@ -3902,6 +3902,11 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 3508049754622093220}
+    - target: {fileID: 4426363536678191205, guid: f586df017dd6828448205d8d7319952b,
+        type: 3}
+      propertyPath: LeftHandIK
+      value: 
+      objectReference: {fileID: 815234467969235790}
     - target: {fileID: 6038606946174149999, guid: f586df017dd6828448205d8d7319952b,
         type: 3}
       propertyPath: m_Data.m_ConstrainedObject

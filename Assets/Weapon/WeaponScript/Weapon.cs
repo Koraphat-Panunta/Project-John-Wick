@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour
     public WeaponStanceManager weapon_StanceManager { get; protected set; }
     public int Magazine_count;
     public int Chamber_Count;
+    public Transform bulletSpawnerPos;
     public abstract int Magazine_capacity { get; protected set; }
     public abstract float rate_of_fire { get; protected set; }
     public abstract float reloadSpeed { get; protected set; }

@@ -18,11 +18,11 @@ public class DrawBulletLine : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        foreach (Vector3 bullet in bulletHitPos)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(bullet, 0.1f);
-        }
-        Gizmos.DrawLine(bulletPos.position, tarPos.position);
+        //foreach (Vector3 bullet in bulletHitPos)
+        //{
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawSphere(bullet, 0.1f);
+        //}
+        //Gizmos.DrawLine(bulletPos.position, tarPos.position);
     }
 }

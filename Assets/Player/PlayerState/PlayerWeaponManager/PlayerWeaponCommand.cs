@@ -8,7 +8,6 @@ public class PlayerWeaponCommand
 {
     private WeaponSocket WeaponSocket;
     private Player player;
-
     
     public Weapon CurrentWeapon { get; private set; }
     public SecondaryWeapon secondaryWeapon { get; private set; }
@@ -16,6 +15,8 @@ public class PlayerWeaponCommand
     public AmmoProuch ammoProuch { get; private set; }
 
     public CrosshairController crosshairController;//Set Bullet Direction When Player Shoot
+    public LeanCover leanCover { get; private set; }
+
     public PlayerWeaponCommand(Player player)
     {
         this.player = player;
@@ -24,6 +25,7 @@ public class PlayerWeaponCommand
         this.WeaponSocket = player.weaponSocket;
         this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
         Start();
+        this.leanCover = new LeanCover(player.rotationConstraint, crosshairController);
     }
     private void Start()
     {
@@ -48,6 +50,7 @@ public class PlayerWeaponCommand
         {
             AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(CurrentWeapon);
             aimDownSightCommand.Execute();
+            leanCover.LeaningUpdate(CurrentWeapon.bulletSpawnerPos);
         }
     }
     public void Reload()
@@ -69,6 +72,7 @@ public class PlayerWeaponCommand
         {
             player.LowReadying(CurrentWeapon);
         }
+       leanCover.LeanRecovery();
     }
     public void SwitchWeapon()
     {

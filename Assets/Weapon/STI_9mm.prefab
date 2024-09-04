@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSingleton: {fileID: 6287137376191654520}
+  targerPos: {fileID: 0}
 --- !u!1 &7594886238610776571
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Magazine_count: 0
   Chamber_Count: 0
+  bulletSpawnerPos: {fileID: 3022661863309610859}
   triggerPull: 0
   _bulletType: {fileID: 8484765704080718728, guid: 7ee4249b36f782e47bba97d3dc546fbf,
     type: 3}

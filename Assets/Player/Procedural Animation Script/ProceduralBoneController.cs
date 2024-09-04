@@ -14,6 +14,7 @@ public class ProceduralBoneController : MonoBehaviour
     [SerializeField] Character character;
     public GameObject sourceTarget;
     private float weight = 0;
+    public Transform rotTranform;
     // Start is called before the first frame update
     void Start()
     {

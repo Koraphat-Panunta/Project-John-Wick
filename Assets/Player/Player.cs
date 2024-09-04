@@ -1,5 +1,7 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer
 {
@@ -12,6 +14,8 @@ public class Player : SubjectPlayer
     public PlayerWeaponCommand playerWeaponCommand;
     public PlayerMovement playerMovement;
     public PlayerStateManager playerStateManager;
+
+    public MultiRotationConstraint rotationConstraint;
 
     private void Start()
     {
