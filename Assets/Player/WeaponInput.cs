@@ -10,7 +10,7 @@ public class WeaponInput
     {
 
     }
-    public void InputWeaponUpdate(PlayerController.Input input,Player player)
+    public void InputWeaponUpdate(PlayerController.Input input, Player player)
     {
         if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
         {

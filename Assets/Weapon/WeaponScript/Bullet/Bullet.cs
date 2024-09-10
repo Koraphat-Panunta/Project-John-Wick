@@ -36,6 +36,10 @@ public class Bullet : MonoBehaviour
             bodyPart.GotHit(damage);
             Debug.Log("BodyPartHit");
         }
+        if(collision.collider.TryGetComponent<Player>(out Player player))
+        {
+            player.TakeDamage(damage);
+        }
         DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
         Destroy(gameObject);
     }

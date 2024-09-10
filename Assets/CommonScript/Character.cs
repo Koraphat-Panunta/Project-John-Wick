@@ -10,7 +10,12 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     public event Action<Weapon> Fire;
     public event Action<Weapon> Reload;
     public event Action<Weapon> LowWeapon;
-    //Call When Weapon performed Event
+
+    public Environment My_environment;
+    private void Awake()
+    {
+        My_environment = FindAnyObjectByType<Environment>();
+    }
     public virtual void Aiming(Weapon weapon)
     {
         if (Aim != null)
@@ -45,5 +50,17 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     {
         HP -= Damage;
         Debug.Log("HP = " + HP);
+    }
+    public float GetHP()
+    {
+        return HP;
+    }
+    public void SetHP(float HP)
+    {
+        this.HP = HP;
+    }
+    public void AddHP(float HP)
+    {
+        this.HP += HP;
     }
 }

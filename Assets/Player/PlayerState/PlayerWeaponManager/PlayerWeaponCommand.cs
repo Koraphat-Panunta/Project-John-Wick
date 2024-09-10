@@ -34,7 +34,7 @@ public class PlayerWeaponCommand
     public void Pulltriger()
     {
         if (CurrentWeapon != null)
-        {   
+        {
             PullTriggerCommand pullTriggerCommand = new PullTriggerCommand(CurrentWeapon);
             pullTriggerCommand.Execute();
         }

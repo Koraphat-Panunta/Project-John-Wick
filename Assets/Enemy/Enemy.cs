@@ -18,6 +18,7 @@ public class Enemy : Character
     public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView;
     public EnemyLookForPlayer enemyLookForPlayer;
+    public EnemyHearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
 
     public IEnemyHitReaction enemyHitReaction;
@@ -34,6 +35,9 @@ public class Enemy : Character
         enemyFieldOfView = new FieldOfView(120, 137,this.gameObject.transform);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
+        enemyHearingSensing = new EnemyHearingSensing(this);
+       
+        
         base.HP = 100;
     }
 

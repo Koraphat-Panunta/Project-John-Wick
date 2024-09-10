@@ -3061,6 +3061,7 @@ GameObject:
   - component: {fileID: 1706874585930265392}
   - component: {fileID: 5397646546792058823}
   - component: {fileID: 73656811904172418}
+  - component: {fileID: 3216584989555536869}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -3097,8 +3098,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1046c632cb273049831c79840123d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  My_environment: {fileID: 0}
   weaponSocket: {fileID: 1937536168038193953}
   playerAnimation: {fileID: 73656811904172418}
+  rotationConstraint: {fileID: 0}
+  MyHP: 0
 --- !u!143 &6726992041350314495
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3322,6 +3326,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1968153037591969261}
+--- !u!136 &3216584989555536869
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.29
+  m_Height: 1.41
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.69, z: 0}
 --- !u!1 &8426077785132515177
 GameObject:
   m_ObjectHideFlags: 0

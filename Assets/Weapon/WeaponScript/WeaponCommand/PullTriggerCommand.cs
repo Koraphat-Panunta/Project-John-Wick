@@ -9,7 +9,8 @@ public class PullTriggerCommand : WeaponCommand
     }
     public override void Execute()
     {
-        if (weapon.weapon_stateManager._currentState != weapon.weapon_stateManager.reloadState)
+        if (weapon.weapon_stateManager._currentState != weapon.weapon_stateManager.reloadState
+            &&weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.aimDownSight )
         {
             if (weapon.triggerPull == Weapon.TriggerPull.Up)
             {

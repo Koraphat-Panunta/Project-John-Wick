@@ -14,8 +14,11 @@ public class Player : SubjectPlayer
     public PlayerWeaponCommand playerWeaponCommand;
     public PlayerMovement playerMovement;
     public PlayerStateManager playerStateManager;
+    public HpRegenarate hpRegenarate;
 
     public MultiRotationConstraint rotationConstraint;
+
+    public float MyHP;
 
     private void Start()
     {
@@ -25,10 +28,14 @@ public class Player : SubjectPlayer
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
         playerController.Awake();
+        hpRegenarate = new HpRegenarate(this);
+        base.SetHP(100);
     }
     private void Update()
     {
         playerStateManager.Update();
+        hpRegenarate.Regenarate();
+        MyHP = base.HP;
     }
     private void FixedUpdate()
     {
@@ -68,5 +75,10 @@ public class Player : SubjectPlayer
         NotifyObserver(this, PlayerAction.Reloading);
         base.Reloading(weapon, reloadType);
     }
-   
+    public override void TakeDamage(float Damage)
+    {
+        hpRegenarate.regenarate_countDown = 3;
+        base.TakeDamage(Damage);
+    }
+
 }
