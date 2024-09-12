@@ -7,6 +7,6 @@ public class HeadBodyPart : BodyPart
     public override void GotHit(float damage)
     {
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damage*6);
     }
 }

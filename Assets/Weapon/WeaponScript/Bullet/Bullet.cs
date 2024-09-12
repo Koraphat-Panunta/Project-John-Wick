@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update
     float mass = 1f;
-    float velocity = 40f;
+    float velocity = 120;
     public BulletType type = BulletType._9mm;
     public float damage = 40;
 

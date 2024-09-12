@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -12,9 +13,23 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public CameraKickBack cameraKickBack;
     public CameraZoom cameraZoom;
 
+    public enum CameraKickbackPreset
+    {
+        N1,
+        N2, 
+        N3,
+        N4,
+    }
+    public CameraKickbackPreset cameraKickbackPreset;
+    public Dictionary<CameraKickbackPreset,float> Kickback = new Dictionary<CameraKickbackPreset, float>();
+
 
     void Start()
     {
+        Kickback.Add(CameraKickbackPreset.N1 , 0.02f);
+        Kickback.Add(CameraKickbackPreset.N2, 0.04f);
+        Kickback.Add(CameraKickbackPreset.N3, 0.06f);
+        Kickback.Add(CameraKickbackPreset.N4, 0.08f);
         Cursor.lockState = CursorLockMode.Locked;    
         Player.AddObserver(this);
         cameraOverShoulder = new CamerOverShoulder(this);

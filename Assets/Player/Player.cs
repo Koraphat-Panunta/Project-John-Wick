@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -18,6 +19,8 @@ public class Player : SubjectPlayer
 
     public MultiRotationConstraint rotationConstraint;
 
+    public MovementTest movementTest;
+    
     public float MyHP;
 
     private void Start()

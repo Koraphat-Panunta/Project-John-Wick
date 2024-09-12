@@ -5,6 +5,7 @@ using UnityEngine;
 public class STI_9mm : SecondaryWeapon
 {
     //SetUpStats
+    public PistolModel Model;
     private int _magazineCapacity = 15;
     private float _rateOfFire = 260;
     private float _reloadSpeed;
@@ -15,7 +16,6 @@ public class STI_9mm : SecondaryWeapon
     private float _recoilKickBack = 20;
     private float min_percision = 20;
     private float max_percision = 65;
-
     public override int Magazine_capacity
     {
         get { return _magazineCapacity; }
@@ -71,7 +71,18 @@ public class STI_9mm : SecondaryWeapon
 
     protected override void Start()
     {
-        fireMode = FireMode.Single;
+        _magazineCapacity = Model._magazineCapacity;
+        _rateOfFire = Model._rateOfFire;
+        _reloadSpeed = Model._reloadSpeed;
+        _accuracy = Model._accuracy;
+        _bulletType = Model._bulletType;
+        _recoilController = Model._recoilController;
+        _aimDownSightSpeed = Model._aimDownSightSpeed;
+         _recoilKickBack = Model._recoilKickBack;
+        min_percision = Model.min_percision;
+         max_percision = Model.max_percision;
+
+    fireMode = FireMode.Single;
         Chamber_Count = 1;
         Magazine_count = Magazine_capacity;
         base.Start();

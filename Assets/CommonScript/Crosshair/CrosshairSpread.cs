@@ -15,7 +15,7 @@ public class CrosshairSpread : ICrosshairAction
     }
     public void Performed(Weapon weapon)
     {
-        spread_rate += weapon.RecoilKickBack;
+        spread_rate += Mathf.Abs(weapon.RecoilKickBack-weapon.RecoilController);
         spread_rate = Mathf.Clamp(spread_rate, 0, weapon.max_Precision - weapon.min_Precision);
         if (isRecovery == false)
         {
