@@ -37,37 +37,37 @@ public class LeanCover
     private void leaningCheck(Transform shootpoint)
     {
         Vector3 CrosshairScreenPos = Camera.main.WorldToScreenPoint(crosshairController.TargetAim.transform.position);
-        Debug.Log("CrosshairScreenPos :" + CrosshairScreenPos);
+        //Debug.Log("CrosshairScreenPos :" + CrosshairScreenPos);
         Vector3 ImpactpointScreenPos = Vector2.zero;
         if(Physics.SphereCast(shootpoint.position,0.45f,(crosshairController.TargetAim.transform.position-shootpoint.position).normalized,out RaycastHit hitInfo, 1000))
         {
             Debug.DrawLine(shootpoint.position, hitInfo.point);
-            Debug.Log("Hit point =" + hitInfo.point);
+            //Debug.Log("Hit point =" + hitInfo.point);
             ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
             if (Vector3.Distance(hitInfo.point, shootpoint.position)<3)
             {
                 if (ImpactpointScreenPos.x > CrosshairScreenPos.x + 5f)
                 {
-                    Debug.Log("LeanLeft");
+                    //Debug.Log("LeanLeft");
                     leandir = LeanDir.Left;
                     leanWeight = Mathf.Lerp(leanWeight, 1, Time.deltaTime * leanSpeed);
                 }
                 else if (ImpactpointScreenPos.x < CrosshairScreenPos.x - 5f)
                 {
-                    Debug.Log("LeanRight");
+                    //Debug.Log("LeanRight");
                     leandir = LeanDir.Right;
                     leanWeight = Mathf.Lerp(leanWeight, 0, Time.deltaTime * leanSpeed);
                 }
                 else
                 {
-                    Debug.Log("LeanNone");
+                    //Debug.Log("LeanNone");
                     leandir = LeanDir.None;
                     leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
                 }
             }
             else
             {
-                Debug.Log("LeanNone");
+                //Debug.Log("LeanNone");
                 leandir = LeanDir.None;
                 leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
             }
@@ -75,16 +75,16 @@ public class LeanCover
         else
         {
             Debug.DrawLine(shootpoint.position, hitInfo.point);
-            Debug.Log("Hit point =" + hitInfo.point);
+            //Debug.Log("Hit point =" + hitInfo.point);
             ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
         }
        
-        Debug.Log("ImpactpointScreenPos :" + ImpactpointScreenPos);
+        //Debug.Log("ImpactpointScreenPos :" + ImpactpointScreenPos);
         
     }
     public void LeanRecovery() 
     {
-        Debug.Log("LeanNone");
+        //Debug.Log("LeanNone");
         leandir = LeanDir.None;
         leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
         var source = multiRotationConstraint.data.sourceObjects;
