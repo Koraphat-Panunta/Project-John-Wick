@@ -12,6 +12,7 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     public event Action<Weapon> LowWeapon;
 
     public Environment My_environment;
+    public bool isDead { get; set; }
     private void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();

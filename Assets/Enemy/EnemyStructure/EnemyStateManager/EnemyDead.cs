@@ -11,6 +11,7 @@ public class EnemyDead : EnemyState
     public override void StateEnter(EnemyStateManager enemyState)
     {
         enemyState.enemy.GetComponent<RagdollAnimation>().EnableRagdoll();
+        enemyState.enemy.isDead = true;
         base.StateEnter(enemyState);
     }
 
