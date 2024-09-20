@@ -6,7 +6,7 @@ using UnityEngine;
 public class HpRegenarate
 {
     private Player player;
-    private float regenarate_rate = 1;
+    private float regenarate_rate = 20;
     public float regenarate_countDown = 3;
     public HpRegenarate(Player player) 
     {

@@ -8,11 +8,13 @@ public class FieldOfView
     private float Radiant;
     private float AngelInDegree;
     private Transform objView;
+    private LayerMask defualtLayerMask;
     public FieldOfView(float radiant, float angelInDegree, Transform objView)
     {
         Radiant = radiant;
         AngelInDegree = angelInDegree;
         this.objView = objView;
+        defualtLayerMask = LayerMask.GetMask("Default");
     }
     public GameObject FindSingleObjectInView(LayerMask targetMask)
     {
@@ -25,7 +27,7 @@ public class FieldOfView
             if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
             {
 
-                if (Physics.Raycast(objView.transform.position, (obj[0].transform.position-objView.transform.position).normalized, out RaycastHit hit, 1000))
+                if (Physics.Raycast(objView.transform.position, (obj[0].transform.position-objView.transform.position).normalized, out RaycastHit hit, 1000,defualtLayerMask+targetMask))
                 {
                     Debug.DrawLine(objView.transform.position, hit.point);
                     //Debug.Log("Ray hit" + hit.collider.gameObject.name);
@@ -49,7 +51,7 @@ public class FieldOfView
             Objdirection.Normalize();
             if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
             {
-                if (Physics.Raycast(objView.transform.position + offsetView, (obj[0].transform.position - (objView.transform.position+ offsetView)).normalized, out RaycastHit hit, 1000))
+                if (Physics.Raycast(objView.transform.position + offsetView, (obj[0].transform.position - (objView.transform.position+ offsetView)).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
                 {
                     Debug.DrawLine(objView.transform.position + offsetView, hit.point);
                     //Debug.Log("Ray hit" + hit.collider.gameObject.name);
@@ -75,7 +77,7 @@ public class FieldOfView
                 Objdirection.Normalize();
                 if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
                 {
-                    if (Physics.Raycast(objView.transform.position, tarObj.transform.position, out RaycastHit hit, 1000))
+                    if (Physics.Raycast(objView.transform.position, tarObj.transform.position, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
                     {
                         if (hit.collider.gameObject == tarObj.gameObject)
                         {

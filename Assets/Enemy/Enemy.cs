@@ -42,7 +42,7 @@ public class Enemy : SubjectEnemy
 
     void Update()
     {
-        
+        Debug.Log("targetMask" + targetMask.value);
     }
     private void FixedUpdate()
     {
