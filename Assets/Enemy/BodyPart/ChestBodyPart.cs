@@ -8,5 +8,6 @@ public class ChestBodyPart : BodyPart
     {
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
         enemy.TakeDamage(damage);
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Chest);
     }
 }

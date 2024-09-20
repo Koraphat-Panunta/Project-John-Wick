@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static Reload;
 
-public class Enemy : Character
+public class Enemy : SubjectEnemy
 {
     [SerializeField] public Animator animator;
     [SerializeField] public WeaponSocket weaponSocket;
@@ -24,8 +24,7 @@ public class Enemy : Character
     public IEnemyHitReaction enemyHitReaction;
 
     [SerializeField] private bool isImortal;
-    // Start is called before the first frame update
-    void Start()
+     void Start()
     {
         Target = new GameObject();
         enemyStateManager.enemy = this;
@@ -41,7 +40,6 @@ public class Enemy : Character
         base.HP = 100;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -57,6 +55,7 @@ public class Enemy : Character
         if(base.HP <= 0 && isImortal == false)
         {
             enemyStateManager.ChangeState(enemyStateManager.enemyDead);
+            NotifyObserver(this, EnemyEvent.Dead);
         }
     }
 

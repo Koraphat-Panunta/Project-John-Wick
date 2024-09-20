@@ -6,9 +6,11 @@ public class Level1 : LevelManager
 {
     [SerializeField] protected List<Character> targetEliminate;
     public Elimination elimination;
+    public Score score;
     protected override void Start()
     {
         elimination = new Elimination(targetEliminate);
+
         base.levelObjective.Add(elimination);
         base.Start();
     }
@@ -23,5 +25,25 @@ public class Level1 : LevelManager
     protected override void ObjectiveUpdate()
     {
         base.ObjectiveUpdate();
+    }
+    private void OnEnable()
+    {
+        if(score == null)
+        {
+            score = new Score();
+        }
+        foreach (Enemy enemy in Resources.FindObjectsOfTypeAll(typeof(Enemy) ) as Enemy[])
+        {
+            Debug.Log(enemy.name);
+            enemy.AddObserver(score);
+        } 
+        
+    }
+    private void OnDisable()
+    {
+        foreach (Enemy enemy in Resources.FindObjectsOfTypeAll(typeof(Enemy)) as Enemy[])
+        {
+            enemy.RemoveObserver(score);
+        }
     }
 }

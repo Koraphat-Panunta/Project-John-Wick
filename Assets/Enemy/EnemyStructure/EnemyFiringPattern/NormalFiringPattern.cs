@@ -20,7 +20,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
     }
     public void Performing()
     {
-        Debug.Log("FiringUpdatePattern");
         deltaFireTiming += Time.deltaTime;
         if(deltaFireTiming >= randomFireTiming)
         {

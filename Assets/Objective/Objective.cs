@@ -12,6 +12,7 @@ public class Objective
         Failed
     }
     public ObjectiveStatus status;
+    public string ObjDescribe;
     public Objective()
     {
         status = ObjectiveStatus.Hold;

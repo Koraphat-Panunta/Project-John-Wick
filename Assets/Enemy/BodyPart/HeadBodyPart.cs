@@ -8,5 +8,6 @@ public class HeadBodyPart : BodyPart
     {
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
         enemy.TakeDamage(damage*6);
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Head);
     }
 }
