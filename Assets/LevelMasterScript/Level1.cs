@@ -10,7 +10,6 @@ public class Level1 : LevelManager
     protected override void Start()
     {
         elimination = new Elimination(targetEliminate);
-
         base.levelObjective.Add(elimination);
         base.Start();
     }

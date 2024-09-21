@@ -393,6 +393,9 @@ MonoBehaviour:
   PointPosition: {fileID: 983203679442393619}
   TargetAim: {fileID: 0}
   isVisable: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4385371112779362987
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +553,7 @@ GameObject:
   - component: {fileID: 1392175823519093556}
   - component: {fileID: 2952097923134337874}
   m_Layer: 5
-  m_Name: CrossHair
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
