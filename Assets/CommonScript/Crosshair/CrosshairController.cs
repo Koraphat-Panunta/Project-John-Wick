@@ -15,6 +15,7 @@ public class CrosshairController : MonoBehaviour
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
     [SerializeField] public GameObject TargetAim;
+    [SerializeField] private Player player;
     public bool isVisable = false;
 
     public CrosshairSpread CrosshairSpread { get; private set; }
@@ -25,6 +26,9 @@ public class CrosshairController : MonoBehaviour
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
         StartCoroutine(SetSpreadEvent(CrosshairSpread));
+        player = FindAnyObjectByType<Player>().GetComponent<Player>();
+        weaponSocket = player.weaponSocket;
+
     }
 
     // Update is called once per frame

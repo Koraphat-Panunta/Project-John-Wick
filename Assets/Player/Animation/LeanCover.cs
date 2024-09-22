@@ -9,7 +9,7 @@ public class LeanCover
 {
     private MultiRotationConstraint multiRotationConstraint;
     private CrosshairController crosshairController;
-
+    private LayerMask layerMask;
     public enum LeanDir
     {
         Left,
@@ -25,6 +25,7 @@ public class LeanCover
         multiRotationConstraint.weight = 1;
         this.crosshairController = crosshairController;
         leanWeight = 0.5f;
+        layerMask = LayerMask.GetMask("Default");
     }
     public void LeaningUpdate(Transform shootPoint)
     {
@@ -39,7 +40,7 @@ public class LeanCover
         Vector3 CrosshairScreenPos = Camera.main.WorldToScreenPoint(crosshairController.TargetAim.transform.position);
         //Debug.Log("CrosshairScreenPos :" + CrosshairScreenPos);
         Vector3 ImpactpointScreenPos = Vector2.zero;
-        if(Physics.SphereCast(shootpoint.position,0.45f,(crosshairController.TargetAim.transform.position-shootpoint.position).normalized,out RaycastHit hitInfo, 1000))
+        if(Physics.SphereCast(shootpoint.position,0.45f,(crosshairController.TargetAim.transform.position-shootpoint.position).normalized,out RaycastHit hitInfo, 1000,layerMask))
         {
             Debug.DrawLine(shootpoint.position, hitInfo.point);
             //Debug.Log("Hit point =" + hitInfo.point);

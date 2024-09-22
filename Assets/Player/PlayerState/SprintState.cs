@@ -87,6 +87,7 @@ public class SprintState : CharacterState
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }
+        player.playerWeaponCommand.LowWeapon();
     }
 
 
