@@ -7,7 +7,7 @@ public class LevelSubject : MonoBehaviour
     private List<IObseverLevel> _levelObsevers = new List<IObseverLevel>();
     public enum LevelEvent
     {
-        ObjectiveComplete,ObjectiveFialed,LevelClear
+        ObjectiveComplete,ObjectiveFialed,LevelClear,ObjectiveUpdate
     }
     public void AddObserver(IObseverLevel obsever)
     {

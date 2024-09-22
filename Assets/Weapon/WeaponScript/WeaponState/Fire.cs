@@ -22,8 +22,8 @@ public class Fire : WeaponState
         if (weaponSingleton.GetWeapon().Chamber_Count > 0)
         {
             weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
-            weaponSingleton.UserWeapon.Firing(weaponSingleton.GetWeapon());
             weaponStateManager.StartCoroutine(AfterShoot());
+            weaponSingleton.UserWeapon.Firing(weaponSingleton.GetWeapon());
         }
         else
         {

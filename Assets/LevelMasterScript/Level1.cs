@@ -9,7 +9,7 @@ public class Level1 : LevelManager
     public Score score;
     protected override void Start()
     {
-        elimination = new Elimination(targetEliminate);
+        elimination = new Elimination(targetEliminate,this);
         base.levelObjective.Add(elimination);
         base.Start();
     }

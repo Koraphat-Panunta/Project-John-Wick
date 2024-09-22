@@ -82,6 +82,7 @@ public class Player : SubjectPlayer
     {
         hpRegenarate.regenarate_countDown = 3;
         base.TakeDamage(Damage);
+        NotifyObserver(this,PlayerAction.GetShoot);
     }
 
 }

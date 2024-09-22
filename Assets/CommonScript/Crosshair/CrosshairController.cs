@@ -25,9 +25,9 @@ public class CrosshairController : MonoBehaviour
     {
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
-        StartCoroutine(SetSpreadEvent(CrosshairSpread));
         player = FindAnyObjectByType<Player>().GetComponent<Player>();
         weaponSocket = player.weaponSocket;
+        StartCoroutine(SetSpreadEvent(CrosshairSpread));
 
     }
 

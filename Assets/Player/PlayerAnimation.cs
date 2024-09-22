@@ -106,7 +106,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         }
 
         //Animator Override
-        if(playerAction == SubjectPlayer.PlayerAction.GetWeapon)
+        if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
         {
             this.animator.runtimeAnimatorController = player.weaponSocket.weaponSingleton.GetOverride_Player_Controller();
         }

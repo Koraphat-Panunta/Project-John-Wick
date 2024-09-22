@@ -86,6 +86,6 @@ public class PlayerWeaponCommand
             CurrentWeapon = WeaponSocket.CurWeapon;
             yield return null;
         }
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GetWeapon);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.PickUpWeapon);
     }
 }

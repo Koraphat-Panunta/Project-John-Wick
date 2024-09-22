@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Objective 
 {
+    protected LevelManager Level;
     public enum ObjectiveStatus
     {
         Hold,
@@ -13,9 +14,10 @@ public class Objective
     }
     public ObjectiveStatus status;
     public string ObjDescribe;
-    public Objective()
+    public Objective(LevelManager level)
     {
         status = ObjectiveStatus.Hold;
+        this.Level = level;
     }
     public virtual bool PerformedDone(Player player)
     {

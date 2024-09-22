@@ -15,7 +15,9 @@ public abstract class SubjectPlayer : Character
         Idle,
         Move,
         Sprint,
-        GetWeapon
+        PickUpWeapon,
+        GetShoot,
+        HealthRegen
     }
     private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)

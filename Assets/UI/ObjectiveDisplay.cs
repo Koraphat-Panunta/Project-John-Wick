@@ -63,6 +63,10 @@ public class ObjectiveDisplay : MonoBehaviour,IObseverLevel
                 //All objective done.
             }
         }
+        if(levelEvent == LevelSubject.LevelEvent.ObjectiveUpdate)
+        {
+            SetTextObjective(this.m_TextMeshProUGUI, currentObjective);
+        }
        
     }
 }
