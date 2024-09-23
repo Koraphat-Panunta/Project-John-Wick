@@ -12,20 +12,20 @@ public class Elimination : Objective
         this.targets = targets;
         this.targetRemain = targets.Count;
         ObjDescribe = "Eliminate All target" + "There is " + targetRemain + " target remain";
-        foreach (Character target in this.targets)
-        {
-            var targetUI = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            targetUI.transform.SetParent(target.transform);
-            targetUI.transform.localPosition = Vector3.zero + new Vector3(0,2f,0);
-            targetUI.transform.localScale = Vector3.one*0.4f;
-            targetUI.GetComponent<MeshRenderer>().material.color = Color.red;
-            targetUI.GetComponent<SphereCollider>().enabled = false;
-        }
+        //foreach (Character target in this.targets)
+        //{
+        //    var targetUI = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //    targetUI.transform.SetParent(target.transform);
+        //    targetUI.transform.localPosition = Vector3.zero + new Vector3(0,2f,0);
+        //    targetUI.transform.localScale = Vector3.one*0.4f;
+        //    targetUI.GetComponent<MeshRenderer>().material.color = Color.red;
+        //    targetUI.GetComponent<SphereCollider>().enabled = false;
+        //}
     }
     public override bool PerformedDone(Player player)
     {
-  
-        foreach (Character target in targets) 
+
+        foreach (Character target in targets)
         {
             if (target.GetHP() <= 0)
             {
@@ -39,7 +39,7 @@ public class Elimination : Objective
                 targetRemain = this.targets.Count;
             }
         }
-        
+
         // Return Objective status
         if (targets.Count <= 0)
         {

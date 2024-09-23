@@ -28,10 +28,7 @@ public class SubjectEnemy : Character
         {
             foreach (IObserverEnemy observer in Observers)
             {
-                if (enemy != null)
-                {
-                    observer.Notify(enemy, enemyEvent);
-                }
+                observer.Notify(enemy, enemyEvent);
             }
         }
     }

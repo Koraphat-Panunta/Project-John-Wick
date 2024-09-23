@@ -9,6 +9,10 @@ public class Level1 : LevelManager
     public Score score;
     protected override void Start()
     {
+        //foreach (Character target in Resources.FindObjectsOfTypeAll(typeof(Enemy)) as Enemy[]) 
+        //{
+        //    targetEliminate.Add(target);
+        //}
         elimination = new Elimination(targetEliminate,this);
         base.levelObjective.Add(elimination);
         base.Start();
@@ -27,16 +31,16 @@ public class Level1 : LevelManager
     }
     private void OnEnable()
     {
-        if(score == null)
+        if (score == null)
         {
             score = new Score();
         }
-        foreach (Enemy enemy in Resources.FindObjectsOfTypeAll(typeof(Enemy) ) as Enemy[])
+        foreach (Enemy enemy in Resources.FindObjectsOfTypeAll(typeof(Enemy)) as Enemy[])
         {
             Debug.Log(enemy.name);
             enemy.AddObserver(score);
-        } 
-        
+        }
+
     }
     private void OnDisable()
     {

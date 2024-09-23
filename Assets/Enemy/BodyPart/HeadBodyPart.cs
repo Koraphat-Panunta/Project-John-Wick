@@ -7,7 +7,8 @@ public class HeadBodyPart : BodyPart
     public override void GotHit(float damage)
     {
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
-        enemy.TakeDamage(damage*6);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Head);
+        enemy.TakeDamage(damage*6);
+
     }
 }

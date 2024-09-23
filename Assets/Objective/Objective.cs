@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Objective 
+public abstract class Objective 
 {
     protected LevelManager Level;
     public enum ObjectiveStatus
@@ -13,7 +13,7 @@ public class Objective
         Failed
     }
     public ObjectiveStatus status;
-    public string ObjDescribe;
+    public string ObjDescribe { get; set; }
     public Objective(LevelManager level)
     {
         status = ObjectiveStatus.Hold;
@@ -30,6 +30,5 @@ public class Objective
         {
             return false;
         }
-    }
-    
+    }    
 }

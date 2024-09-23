@@ -11,6 +11,7 @@ public class Score : IObserverEnemy
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
+        Debug.Log("NotifyEvent :" + enemyEvent);
         if (enemyEvent == SubjectEnemy.EnemyEvent.GetShoot_Head)
         {
             score += 100;

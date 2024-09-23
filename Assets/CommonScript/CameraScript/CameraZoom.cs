@@ -15,8 +15,7 @@ public class CameraZoom : ICameraAction
         this.cameraOffset = cameraController.cameraOffset;
         this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
         fovZoomOut = this.cinemachineFreeLook.m_Lens.FieldOfView;
-        Debug.Log("fovZoomOut = " + fovZoomOut);
-        fovZoomIn = fovZoomOut - ((16 * fovZoomOut) / 100);
+        fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);
 
     }
     public void Performed()
@@ -33,7 +32,6 @@ public class CameraZoom : ICameraAction
         else
         {
             cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight*1.6f;
-            Debug.Log("AimingWeight = " + weapon.weapon_StanceManager.AimingWeight);
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.weapon_StanceManager.AimingWeight);
         }
     }
@@ -47,7 +45,6 @@ public class CameraZoom : ICameraAction
         else
         {
             cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight * 1.6f;
-            Debug.Log("AimingWeight = " + weapon.weapon_StanceManager.AimingWeight);
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.weapon_StanceManager.AimingWeight);
         }
     }

@@ -34,7 +34,6 @@ public class Bullet : MonoBehaviour
         if (collision.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
         {
             bodyPart.GotHit(damage);
-            Debug.Log("BodyPartHit");
         }
         if(collision.collider.TryGetComponent<Player>(out Player player))
         {

@@ -35,7 +35,7 @@ public class Enemy : SubjectEnemy
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
-       base.isDead = false;
+       //base.isDead = false;
         
         base.HP = 100;
     }

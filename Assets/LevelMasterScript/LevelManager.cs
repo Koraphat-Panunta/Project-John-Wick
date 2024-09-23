@@ -18,10 +18,13 @@ public class LevelManager : LevelSubject
     {    
         if (levelObjective.Count > 0)
         {
-            if (levelObjective[0].PerformedDone(player))
+            foreach (Objective objective in levelObjective)
             {
-                levelObjective.RemoveAt(0);
-                NotifyObserver(this, LevelEvent.ObjectiveComplete);
+                if (objective.PerformedDone(player))
+                {
+                    levelObjective.Remove(objective);
+                    NotifyObserver(this, LevelEvent.ObjectiveComplete);
+                }
             }
         }
         else
