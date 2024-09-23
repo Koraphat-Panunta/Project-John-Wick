@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class Objective 
 {
@@ -24,6 +25,7 @@ public abstract class Objective
         //Check Player is dead
         if (player.GetHP() <= 0)
         {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             return true;
         }
         else

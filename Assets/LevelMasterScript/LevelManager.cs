@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : LevelSubject
+public class LevelManager : LevelSubject,IObserverPlayer
 {
     protected List<Objective> levelObjective = new List<Objective>();
     protected Player player;
     protected virtual void Start()
     {
         player = FindAnyObjectByType<Player>();
+        player.AddObserver(this);
     }
     protected virtual void Update()
     {
@@ -40,5 +41,13 @@ public class LevelManager : LevelSubject
     public List<Objective> GetListObjective()
     {
         return levelObjective;
+    }
+
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if(playerAction == SubjectPlayer.PlayerAction.Dead)
+        {
+
+        }
     }
 }
