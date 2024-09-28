@@ -42,7 +42,6 @@ public class IdleState : CharacterState
         PlayerController.Input input = this.playerController.input;
         if (input.movement.phase == InputActionPhase.Started)
         {
-            Debug.Log("Move Start");
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
         new WeaponInput().InputWeaponUpdate(input, player);

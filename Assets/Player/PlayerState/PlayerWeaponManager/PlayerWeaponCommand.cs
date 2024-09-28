@@ -50,7 +50,8 @@ public class PlayerWeaponCommand
         {
             AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(CurrentWeapon);
             aimDownSightCommand.Execute();
-            leanCover.LeaningUpdate(CurrentWeapon.bulletSpawnerPos);
+            GameObject playerRayCastPost = GameObject.Find("RayCastPos");
+            leanCover.LeaningUpdate(playerRayCastPost.transform);
         }
     }
     public void Reload()

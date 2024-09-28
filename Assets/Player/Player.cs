@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer
+public class Player : SubjectPlayer,IObserverPlayer
 {
     //C# Component
     public PlayerController playerController;
@@ -20,7 +20,16 @@ public class Player : SubjectPlayer
     public MultiRotationConstraint rotationConstraint;
 
     public MovementTest movementTest;
-    
+    public CoverDetection coverDetection;
+
+    public Transform RayCastPos;
+
+    public enum ShoulderSide
+    {
+        Left,
+        Right
+    }
+    private ShoulderSide curShoulderSide;
     public float MyHP;
 
     private void Start()
@@ -32,10 +41,17 @@ public class Player : SubjectPlayer
         playerStateManager.SetupState(this);
         playerController.Awake();
         hpRegenarate = new HpRegenarate(this);
+        coverDetection = new CoverDetection();
+        curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
+        AddObserver(this);
     }
     private void Update()
     {
+        if(coverDetection.CheckingObstacleToward(RayCastPos.transform.position,RayCastPos.transform.forward))
+        {
+
+        }
         playerStateManager.Update();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
@@ -50,6 +66,10 @@ public class Player : SubjectPlayer
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         NotifyObserver(this, PlayerAction.Aim);
+        if (coverDetection.GetAimPos(curShoulderSide))
+        {
+
+        }
         base.Aiming(weapon);
     }
 
@@ -89,4 +109,18 @@ public class Player : SubjectPlayer
         }
     }
 
+    public void OnNotify(Player player, PlayerAction playerAction)
+    {
+        if(playerAction == PlayerAction.SwapShoulder)
+        {
+            if(curShoulderSide == ShoulderSide.Left)
+            {
+                curShoulderSide = ShoulderSide.Right;
+            }
+            else if(curShoulderSide == ShoulderSide.Right)
+            {
+                curShoulderSide = ShoulderSide.Left;
+            }
+        }
+    }
 }
