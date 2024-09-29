@@ -7,8 +7,8 @@ using UnityEngine.InputSystem;
 
 public class IdleState : CharacterState 
 {
-    private PlayerController playerController;
-    private PlayerStateManager playerStateManager;
+    protected PlayerController playerController;
+    protected PlayerStateManager playerStateManager;
     public IdleState(Player player)
     {
         base.player = player;
@@ -31,8 +31,11 @@ public class IdleState : CharacterState
         player.NotifyObserver(player,SubjectPlayer.PlayerAction.Idle);
     }
 
+   
+
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
+        Debug.Log("idle");
         PlayerMovement playerMovement = base.player.playerMovement;
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         playerMovement.FreezingCharacter();

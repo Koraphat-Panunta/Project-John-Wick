@@ -6,16 +6,12 @@ public class CoverDetection
 {
     public Vector3 coverPos { get;private set; }
     public Vector3 aimPos { get; private set; }
-    private GameObject BallAimPos;
     private Vector3 detecEdgeOri;
     private Vector3 detecEdgeDes;
-    private Vector3 obstacleSurfaceDir;
+    public Vector3 obstacleSurfaceDir { get; protected set; }
     public CoverDetection() 
     {
-        //BallAimPos = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        //BallAimPos.GetComponent<Collider>().enabled = false;   
-        //BallAimPos.transform.localScale = Vector3.one*0.1f;
-        //BallAimPos.GetComponent<Material>().color = Color.green;
+        
     }
    
     public bool CheckingObstacleToward(Vector3 oriPos,Vector3 dir)
@@ -23,17 +19,13 @@ public class CoverDetection
         LayerMask decObstacle = LayerMask.GetMask("Default");
         if (Physics.Raycast(oriPos,dir,out RaycastHit hit, 1f, decObstacle))
         {
-            Debug.Log("DetecObstacle");
             obstacleSurfaceDir = hit.normal;
             detecEdgeOri = hit.point + (obstacleSurfaceDir * 0.4f);
             Debug.DrawLine(hit.point, detecEdgeOri, Color.gray);
            
             Debug.DrawLine(detecEdgeOri, detecEdgeOri + Vector3.Cross(Vector3.up, obstacleSurfaceDir), Color.blue);
             Debug.DrawLine(detecEdgeOri, detecEdgeOri + Vector3.Cross(Vector3.down, obstacleSurfaceDir), Color.red);
-            //go.transform.position = hit.point;
-            //go.transform.localScale = Vector3.one*0.1f;
-            //go.GetComponent<Collider>().enabled = false;
-            //coverPos = hit.normal;
+            
             return true;
         }
         else
@@ -43,7 +35,7 @@ public class CoverDetection
     }
     public bool GetAimPos(Player.ShoulderSide shoulderSide)
     {
-        float sphereCastRaduis = 0.08f;
+        float sphereCastRaduis = 0.06f;
         List<Vector3> sphereCastPos = new List<Vector3>();
         Vector3 CastDir = obstacleSurfaceDir * -1;
         //SphereCast
@@ -84,26 +76,12 @@ public class CoverDetection
         if (shoulderSide == Player.ShoulderSide.Left)
         {
             detecEdgeDes = detecEdgeOri + Vector3.Cross(Vector3.up, obstacleSurfaceDir);
-            for (float i = 0; i <= 1; i = i + sphereRaduis*2)
-            {
-                Vector3 castPos = Vector3.Lerp(detecEdgeOri, detecEdgeDes, i);
-                if (Physics.SphereCast(castPos, sphereRaduis, castDir, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
-                {   
-                    sphereCast.Add(hit.point);
-                }
-            }
+            sphereCast = new ObstacleDetection().GetSphereCast(sphereRaduis, castDir,detecEdgeOri,detecEdgeDes);
         }
         else
         {
             detecEdgeDes = detecEdgeOri + Vector3.Cross(Vector3.down, obstacleSurfaceDir);
-            for (float i = 0; i <= 1; i = i + sphereRaduis*2)
-            {
-                Vector3 castPos = Vector3.Lerp(detecEdgeOri, detecEdgeDes, i);
-                if (Physics.SphereCast(castPos, sphereRaduis, castDir, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
-                {
-                    sphereCast.Add(hit.point);
-                }
-            }
+            sphereCast = new ObstacleDetection().GetSphereCast(sphereRaduis, castDir, detecEdgeOri, detecEdgeDes);
         }
         return sphereCast;
     }

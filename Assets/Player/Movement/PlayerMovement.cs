@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerMovement 
+public class PlayerMovement
 {
+    public bool isOverride = false;
     public Vector3 inputDirection_World { get; private set; }
     public Vector3 forwardDirection_World { get; private set; }
     public Vector3 velocityDirection_World { get; private set; }
@@ -46,7 +47,10 @@ public class PlayerMovement
         }
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         velocityDirection_Local = curVelocity_Local.normalized;
-        characterController.Move(curVelocity_World * Time.deltaTime);
+        if (isOverride == false)
+        {
+            characterController.Move(curVelocity_World * Time.deltaTime);
+        }
     }
     private void DirectionUpdate()
     {

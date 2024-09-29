@@ -15,6 +15,7 @@ public abstract class CharacterState
 
     public abstract void FrameUpdateState(PlayerStateManager stateManager);
 
+    
     public abstract void PhysicUpdateState(PlayerStateManager stateManager);
    
     protected virtual void InputPerformed()

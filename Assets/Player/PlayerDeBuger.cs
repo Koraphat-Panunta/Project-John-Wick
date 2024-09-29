@@ -7,6 +7,7 @@ public class PlayerDeBuger : MonoBehaviour
     public static List<Vector3> sphereCastPos = new List<Vector3>();
     public static Vector3 dirCast;
     public static float sphereRaduis;
+
     LayerMask layerMask ;
     // Start is called before the first frame update
     void Start()

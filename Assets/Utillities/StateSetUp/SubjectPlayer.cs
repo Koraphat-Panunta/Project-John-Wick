@@ -31,9 +31,20 @@ public abstract class SubjectPlayer : Character
     }
     public void NotifyObserver(Player player,PlayerAction playerAction)
     {
-        foreach (IObserverPlayer observer in Observers)
+        //foreach (IObserverPlayer observer in Observers)
+        //{
+        //    observer.OnNotify(player,playerAction);
+        //}
+        for (int i = Observers.Count - 1; i >= 0; i--)
         {
-            observer.OnNotify(player,playerAction);
+            if (Observers[i] == null)
+            {
+                Observers.RemoveAt(i);
+            }
+            else
+            {
+                Observers[i].OnNotify(player, playerAction);
+            }
         }
     }
 

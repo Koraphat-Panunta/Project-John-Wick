@@ -28,31 +28,15 @@ public class MoveState : CharacterState
         InputPerformed();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
     }
+
+  
+
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
+        Debug.Log("Move");
         PlayerMovement playerMovement = base.player.playerMovement;
         playerMovement.OMNI_DirMovingCharacter();
         playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
-    }
-
-    protected float rotationSpeed = 5.0f;
-    protected void RotateTowards(Vector3 direction)
-    {
-        // Ensure the direction is normalized
-        direction.Normalize();
-
-        // Flatten the direction vector to the XZ plane to only rotate around the Y axis
-        direction.y = 0;
-
-        // Check if the direction is not zero to avoid setting a NaN rotation
-        if (direction != Vector3.zero)
-        {
-            // Calculate the target rotation based on the direction
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-            // Smoothly rotate towards the target rotation
-            base.player.gameObject.transform.rotation = Quaternion.Slerp(base.player.gameObject.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
     }
     protected override void InputPerformed()
     {

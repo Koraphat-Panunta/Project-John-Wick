@@ -14,7 +14,6 @@ public class WeaponInput
     {
         if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
         {
-            Debug.Log("Aim Idle");
             player.playerWeaponCommand.Aim();
         }
         else

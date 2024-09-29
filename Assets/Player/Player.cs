@@ -34,24 +34,38 @@ public class Player : SubjectPlayer,IObserverPlayer
 
     private void Start()
     {
+        //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
+
         playerController = new PlayerController(this);
         playerMovement = new PlayerMovement(this);
         playerWeaponCommand = new PlayerWeaponCommand(this);
+        coverDetection = new CoverDetection();
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
         playerController.Awake();
         hpRegenarate = new HpRegenarate(this);
-        coverDetection = new CoverDetection();
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
         AddObserver(this);
     }
     private void Update()
     {
+        //Detect Cover
         if(coverDetection.CheckingObstacleToward(RayCastPos.transform.position,RayCastPos.transform.forward))
         {
-
+            Debug.Log("DetectCover");
+            playerStateManager.ChangeState(playerStateManager.idle);
+            playerStateManager.idle = playerStateManager.idleInCover;
+            playerStateManager.move = playerStateManager.moveInCover;
         }
+        else
+        {
+            Debug.Log("Non DetectCover");
+            playerStateManager.ChangeState(playerStateManager.idle);
+            playerStateManager.idle = playerStateManager.normalIdle;
+            playerStateManager.move = playerStateManager.normalMove;
+        }
+        Debug.Log("CurIdle =" + playerStateManager.idle);
         playerStateManager.Update();
         hpRegenarate.Regenarate();
         MyHP = base.HP;

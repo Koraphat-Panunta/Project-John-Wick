@@ -6,7 +6,13 @@ using UnityEngine;
 public class PlayerStateManager 
 {
     public IdleState idle;
+    public IdleInCover idleInCover;
+    public IdleState normalIdle;
+
     public MoveState move;
+    public MoveInCover moveInCover;
+    public MoveState normalMove;
+
     public SprintState sprint;
     public CharacterState Current_state;
 
@@ -25,13 +31,21 @@ public class PlayerStateManager
 
     public void ChangeState(CharacterState Nextstate)
     {
-        if(Current_state != Nextstate)
-        {
             Current_state.ExitState();
             Current_state = Nextstate;
             Current_state.EnterState();
+    }
+    public void ChangeEncapsulationState(CharacterState curState,CharacterState encapState)
+    {
+        if(Current_state == curState)
+        {
+            curState = encapState;
+            ChangeState(curState);
         }
-       
+        else
+        {
+            curState = encapState;
+        }
     }
     public void Update()
     {
@@ -45,8 +59,17 @@ public class PlayerStateManager
     public void SetupState(Player player)
     {
         idle = new IdleState(player);
+        idleInCover = new IdleInCover(player);
+        player.AddObserver(idleInCover);
+        normalIdle = new IdleState(player);
+
         move = new MoveState(player);
+        moveInCover = new MoveInCover(player);
+        player.AddObserver(moveInCover);
+        normalMove = new MoveState(player);
+
         sprint = new SprintState(player);
+
         Current_state = idle;
     }
 }

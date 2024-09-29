@@ -89,6 +89,4 @@ public class SprintState : CharacterState
         }
         player.playerWeaponCommand.LowWeapon();
     }
-
-
 }
