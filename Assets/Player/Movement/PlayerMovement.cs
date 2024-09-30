@@ -6,7 +6,6 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement
 {
-    public bool isOverride = false;
     public Vector3 inputDirection_World { get; private set; }
     public Vector3 forwardDirection_World { get; private set; }
     public Vector3 velocityDirection_World { get; private set; }
@@ -26,6 +25,9 @@ public class PlayerMovement
     private Player player;
     private PlayerController playerController;
     private CharacterController characterController;
+    public MovementWarping movementWarping;
+
+    public bool isOverride;
 
     private List<IMovementComponent> movementComponents = new List<IMovementComponent>();
     public PlayerMovement(Player player)
@@ -37,6 +39,7 @@ public class PlayerMovement
         curVelocity_World = Vector3.zero;
         move_Acceleration = player.movementTest.move_Acceleration;
         sprint_Acceleration = player.movementTest.sprint_Acceleration;
+        movementWarping = new MovementWarping();
     }
     public void MovementUpdate()
     {
@@ -51,6 +54,7 @@ public class PlayerMovement
         {
             characterController.Move(curVelocity_World * Time.deltaTime);
         }
+        
     }
     private void DirectionUpdate()
     {

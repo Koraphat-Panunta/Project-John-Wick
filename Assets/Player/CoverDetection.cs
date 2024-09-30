@@ -35,7 +35,7 @@ public class CoverDetection
     }
     public bool GetAimPos(Player.ShoulderSide shoulderSide)
     {
-        float sphereCastRaduis = 0.06f;
+        float sphereCastRaduis = 0.02f;
         List<Vector3> sphereCastPos = new List<Vector3>();
         Vector3 CastDir = obstacleSurfaceDir * -1;
         //SphereCast
@@ -49,22 +49,23 @@ public class CoverDetection
             Debug.Log("Cast num =" + i);
             if (i > 0)
             {
-                if (Vector3.Dot(sphereCastPos[i], sphereCastPos[i - 1]) * Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) > 1.3f)
+                if (Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) > sphereCastRaduis*2+0.01f)
                 {
-                    coverPos = sphereCastPos[i];
                     if (shoulderSide == Player.ShoulderSide.Left)
                     {
-                        aimPos = sphereCastPos[i] + (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized;
+                        coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*0.5f;
+                        aimPos = sphereCastPos[i-1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*0.1f;
+                        PlayerDeBuger.AimPos = aimPos;
+                        PlayerDeBuger.CoverPos = coverPos;
                     }
                     else if(shoulderSide == Player.ShoulderSide.Right)
                     {
-                        aimPos = sphereCastPos[i] + (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized;
+                        coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.5f;
+                        aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.1f;
+                        PlayerDeBuger.AimPos = aimPos;
+                        PlayerDeBuger.CoverPos = coverPos;
                     }
                     return true;
-                }
-                else
-                {
-                    return false;
                 }
             }
         }

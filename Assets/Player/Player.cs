@@ -29,7 +29,7 @@ public class Player : SubjectPlayer,IObserverPlayer
         Left,
         Right
     }
-    private ShoulderSide curShoulderSide;
+    public ShoulderSide curShoulderSide;
     public float MyHP;
 
     private void Start()
@@ -67,10 +67,6 @@ public class Player : SubjectPlayer,IObserverPlayer
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         NotifyObserver(this, PlayerAction.Aim);
-        if (coverDetection.GetAimPos(curShoulderSide))
-        {
-
-        }
         base.Aiming(weapon);
     }
 

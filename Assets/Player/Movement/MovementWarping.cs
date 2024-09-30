@@ -10,6 +10,7 @@ public class MovementWarping
     }
     public void Warping(GameObject obj,Vector3 DesPos,Vector3 offset,float lerpNum)
     {
+        Debug.Log("warping " +lerpNum);
         Vector3 finalDes = DesPos+ offset;
         obj.transform.position = Vector3.Lerp(obj.transform.position, finalDes, lerpNum);
     }

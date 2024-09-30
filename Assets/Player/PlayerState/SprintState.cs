@@ -31,6 +31,7 @@ public class SprintState : CharacterState
     }
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
+        player.playerMovement.isOverride = false;
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
     }
 

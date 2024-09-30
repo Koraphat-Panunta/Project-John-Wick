@@ -9,6 +9,9 @@ public class PlayerDeBuger : MonoBehaviour
     public static float sphereRaduis;
 
     LayerMask layerMask ;
+
+    public static Vector3 CoverPos;
+    public static Vector3 AimPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +33,17 @@ public class PlayerDeBuger : MonoBehaviour
                
                     Gizmos.color = Color.red;
                     Gizmos.DrawSphere(p,sphereRaduis);  
-                
             } 
+        }
+        if(CoverPos != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(CoverPos, sphereRaduis*1.2f);
+        }
+        if(AimPos != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(AimPos, sphereRaduis * 1.2f);
         }
     }
 }
