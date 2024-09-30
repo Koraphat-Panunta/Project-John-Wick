@@ -19,7 +19,7 @@ public class EnemyMove : EnemyState
         }
         if (enemyPath._markPoint.Count <= 0)
         {
-            enemyPath.GenaratePath(enemyState.enemy.Target.transform.position, enemyState.gameObject.gameObject.transform.position);
+            enemyPath.GenaratePath(enemyState.enemy.Target.transform.position, enemyState.enemy.gameObject.gameObject.transform.position);
         }
     }
     public override void StateExit(EnemyStateManager enemyState)
@@ -34,7 +34,7 @@ public class EnemyMove : EnemyState
     {
         Animator animator = enemyState.enemy.animator;
         NavMeshAgent agent = this.enemyPath.agent;
-        GameObject MyEnemy = enemyState.gameObject;
+        GameObject MyEnemy = enemyState.enemy.gameObject;
         EnemyPath enemyPath = enemyState.enemy.enemyPath;
         enemyState.enemy.currentTactic.Manufacturing();
         if (enemyPath._markPoint.Count > 0)
@@ -49,5 +49,6 @@ public class EnemyMove : EnemyState
             }
         }
         EnemyDebuger.curPos = agent.destination;
+        base.StateUpdate(enemyState);
     } 
 }

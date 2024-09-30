@@ -26,11 +26,12 @@ public class EnemyPainState : EnemyState
 
     public override void StateExit(EnemyStateManager enemyState)
     {
+        base.StateExit(enemyState);
     }
 
     public override void StateFixedUpdate(EnemyStateManager enemyState)
     {
-       
+       base.StateUpdate(enemyState);
     }
 
     public override void StateUpdate(EnemyStateManager enemyState)

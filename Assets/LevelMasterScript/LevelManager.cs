@@ -19,14 +19,26 @@ public class LevelManager : LevelSubject,IObserverPlayer
     {    
         if (levelObjective.Count > 0)
         {
-            foreach (Objective objective in levelObjective)
+            for(int i = levelObjective.Count - 1; i >= 0; i--)
             {
-                if (objective.PerformedDone(player))
+                if (levelObjective[i] == null)
                 {
-                    levelObjective.Remove(objective);
+                    levelObjective.RemoveAt(i);
+                }
+                else if (levelObjective[i].PerformedDone(player))
+                {
+                    levelObjective.RemoveAt(i);
                     NotifyObserver(this, LevelEvent.ObjectiveComplete);
                 }
             }
+            //foreach (Objective objective in levelObjective)
+            //{
+            //    if (objective.PerformedDone(player))
+            //    {
+            //        levelObjective.Remove(objective);
+            //        NotifyObserver(this, LevelEvent.ObjectiveComplete);
+            //    }
+            //}
         }
         else
         {

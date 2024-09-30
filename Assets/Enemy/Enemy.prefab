@@ -721,14 +721,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a55c286e84ec214dba59554d5c04070,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4918335654448891005}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a55c286e84ec214dba59554d5c04070,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3755267478254302551}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a55c286e84ec214dba59554d5c04070,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 126658592357307735}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3a55c286e84ec214dba59554d5c04070,
         type: 3}
@@ -1791,40 +1783,10 @@ MonoBehaviour:
   weaponSocket: {fileID: 9136850266637985085}
   agent: {fileID: 7890612989017240957}
   Target: {fileID: 0}
-  enemyStateManager: {fileID: 3755267478254302551}
-  enemyWeaponCommand: {fileID: 4918335654448891005}
   targetMask:
     serializedVersion: 2
     m_Bits: 256
   isImortal: 0
---- !u!114 &4918335654448891005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8374423d115858743a5bcff98244a5c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _primaryWeaponSocket: {fileID: 9136850266637985085}
-  curWeapon: {fileID: 0}
-  enemy: {fileID: 2619394019457856660}
---- !u!114 &3755267478254302551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f82dd5623384fc468ea8bbd05d52480, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 2619394019457856660}
 --- !u!114 &126658592357307735
 MonoBehaviour:
   m_ObjectHideFlags: 0

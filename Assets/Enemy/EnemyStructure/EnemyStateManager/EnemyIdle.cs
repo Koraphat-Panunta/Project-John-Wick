@@ -34,6 +34,7 @@ public class EnemyIdle : EnemyState
         enemyState.enemy.currentTactic.Manufacturing();
         animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
         animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
+        base.StateUpdate(enemyState);
     }
 
    

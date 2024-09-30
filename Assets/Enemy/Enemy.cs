@@ -10,8 +10,8 @@ public class Enemy : SubjectEnemy
     [SerializeField] public WeaponSocket weaponSocket;
     [SerializeField] public NavMeshAgent agent;
     public GameObject Target;
-    [SerializeField] public EnemyStateManager enemyStateManager;
-    [SerializeField] public EnemyWeaponCommand enemyWeaponCommand;
+    public EnemyStateManager enemyStateManager;
+    public EnemyWeaponCommand enemyWeaponCommand;
     [SerializeField] public EnemyPath enemyPath;
 
     public LayerMask targetMask;
@@ -21,32 +21,38 @@ public class Enemy : SubjectEnemy
     public EnemyHearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
 
+
     public IEnemyHitReaction enemyHitReaction;
 
     [SerializeField] private bool isImortal;
      void Start()
     {
         Target = new GameObject();
-        enemyStateManager.enemy = this;
-        enemyWeaponCommand.enemy = this;
+        enemyStateManager = new EnemyStateManager(this);    
+        enemyWeaponCommand = new EnemyWeaponCommand(this);
         enemyPath = new EnemyPath(agent);
-        currentTactic = new SerchingTactic(this);
+        
         enemyFieldOfView = new FieldOfView(120, 137,this.gameObject.transform);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
-       //base.isDead = false;
-        
+
+        enemyStateManager._currentState = enemyStateManager._idle;
+        enemyStateManager._currentState.StateEnter(enemyStateManager);
+
+        currentTactic = new SerchingTactic(this);
+        //base.isDead = false;
+
         base.HP = 100;
     }
 
     void Update()
     {
-        Debug.Log("targetMask" + targetMask.value);
+        enemyStateManager.Update();
     }
     private void FixedUpdate()
     {
-
+        enemyStateManager.FixedUpdate();
     }
 
     public override void TakeDamage(float Damage)

@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
-    private PlayerController playerController;
-    private PlayerStateManager playerStateManager;
+    protected PlayerController playerController;
+    protected PlayerStateManager playerStateManager;
     public MoveState(Player player)
     {
         base.player = player;
@@ -26,6 +26,13 @@ public class MoveState : CharacterState
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
+        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward))
+        {
+            Debug.Log("DetectCover");
+            playerStateManager.move = playerStateManager.moveInCover;
+            playerStateManager.ChangeState(playerStateManager.move);
+
+        }
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
     }
 

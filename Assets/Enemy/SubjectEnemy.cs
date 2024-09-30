@@ -26,10 +26,23 @@ public class SubjectEnemy : Character
         
         if (Observers.Count > 0)
         {
-            foreach (IObserverEnemy observer in Observers)
+            for(int i = Observers.Count - 1; i >= 0; i--)
             {
-                observer.Notify(enemy, enemyEvent);
+                if (Observers[i] == null)
+                {
+                    Observers.RemoveAt(i);
+                }
+                else
+                {
+                    Observers[i].Notify(enemy, enemyEvent);
+                }
+                
             }
+            //foreach (IObserverEnemy observer in Observers)
+            //{
+            //    if()
+            //    observer.Notify(enemy, enemyEvent);
+            //}
         }
     }
 }

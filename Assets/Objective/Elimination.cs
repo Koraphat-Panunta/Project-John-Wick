@@ -25,19 +25,34 @@ public class Elimination : Objective
     public override bool PerformedDone(Player player)
     {
 
-        foreach (Character target in targets)
+        //foreach (Character target in targets)
+        //{
+        //    if (target.GetHP() <= 0)
+        //    {
+        //        this.targets.Remove(target);
+        //        targetRemain = this.targets.Count;
+        //        UpdateObjectiveDescription();
+        //        base.Level.NotifyObserver(base.Level, LevelSubject.LevelEvent.ObjectiveUpdate);
+        //    }
+        //    else
+        //    {
+        //        targetRemain = this.targets.Count;
+        //    }
+        //}
+        for (int i = targets.Count - 1; i >= 0; i--)
         {
-            if (target.GetHP() <= 0)
+            if (targets[i].GetHP() <= 0)
             {
-                this.targets.Remove(target);
-                targetRemain = this.targets.Count;
+                targets.RemoveAt(i);
+                targetRemain -= 1;
                 UpdateObjectiveDescription();
                 base.Level.NotifyObserver(base.Level, LevelSubject.LevelEvent.ObjectiveUpdate);
             }
-            else
-            {
-                targetRemain = this.targets.Count;
-            }
+            //else
+            //{
+            //    targetRemain = this.targets.Count;
+            //}
+            targetRemain = this.targets.Count;
         }
 
         // Return Objective status

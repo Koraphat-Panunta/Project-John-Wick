@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyStateManager : MonoBehaviour
+public class EnemyStateManager 
 {
     public EnemyState _currentState;
     public EnemyMove _move { get; private set; }
@@ -12,15 +12,17 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyDead enemyDead { get; private set; }
     public Enemy enemy;
     // Start is called before the first frame update
-    
-    private void Start()
+    public EnemyStateManager(Enemy enemy)
     {
+        this.enemy = enemy;
         _move = new EnemyMove();
         _idle = new EnemyIdle();
         _painState = new EnemyPainState();
         enemyDead = new EnemyDead();
-        _currentState = _idle;
-        _currentState.StateEnter(this);
+    }
+    private void Start()
+    {
+      
     }
     public void FixedUpdate()
     {

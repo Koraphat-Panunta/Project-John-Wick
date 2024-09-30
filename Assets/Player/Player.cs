@@ -51,20 +51,7 @@ public class Player : SubjectPlayer,IObserverPlayer
     private void Update()
     {
         //Detect Cover
-        if(coverDetection.CheckingObstacleToward(RayCastPos.transform.position,RayCastPos.transform.forward))
-        {
-            Debug.Log("DetectCover");
-            playerStateManager.ChangeState(playerStateManager.idle);
-            playerStateManager.idle = playerStateManager.idleInCover;
-            playerStateManager.move = playerStateManager.moveInCover;
-        }
-        else
-        {
-            Debug.Log("Non DetectCover");
-            playerStateManager.ChangeState(playerStateManager.idle);
-            playerStateManager.idle = playerStateManager.normalIdle;
-            playerStateManager.move = playerStateManager.normalMove;
-        }
+       
         Debug.Log("CurIdle =" + playerStateManager.idle);
         playerStateManager.Update();
         hpRegenarate.Regenarate();

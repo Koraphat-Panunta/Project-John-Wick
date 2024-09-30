@@ -19,6 +19,10 @@ public abstract class EnemyState
     }
     public virtual void StateUpdate(EnemyStateManager enemyState)
     {
+        if (enemyState.enemy.GetHP() <= 0)
+        {
+            enemyState.ChangeState(enemyState.enemyDead);
+        }
     }
     public virtual void StateFixedUpdate(EnemyStateManager enemyState)
     {

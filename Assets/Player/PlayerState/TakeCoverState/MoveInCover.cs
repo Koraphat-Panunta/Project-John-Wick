@@ -22,6 +22,13 @@ public class MoveInCover : MoveState,IObserverPlayer
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
+        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward) == false)
+        {
+            Debug.Log("DetectCover");
+            playerStateManager.move = playerStateManager.normalMove;
+            playerStateManager.ChangeState(playerStateManager.move);
+
+        }
         base.FrameUpdateState(stateManager);
     }
 

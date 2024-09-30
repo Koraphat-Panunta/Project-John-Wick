@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyWeaponCommand : MonoBehaviour
+public class EnemyWeaponCommand 
 {
-    [SerializeField] public WeaponSocket _primaryWeaponSocket;
+    public WeaponSocket _primaryWeaponSocket;
     public Weapon curWeapon;
     public WeaponCommand weaponCommand;
     public Enemy enemy;
     public AmmoProuch ammoProuch;
-    void Start()
+    public EnemyWeaponCommand(Enemy enemy)
     {
+        this.enemy = enemy;
+        _primaryWeaponSocket = enemy.weaponSocket;
         ammoProuch = new AmmoProuch(9999, 9999, 9999, 9999);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
-        StartCoroutine(GetWeapon());
+        this.enemy.StartCoroutine(GetWeapon());
+    }
+    void Start()
+    {
+       
     }
     // Update is called once per frame
     void Update()
