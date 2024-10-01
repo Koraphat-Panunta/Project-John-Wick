@@ -54,25 +54,47 @@ public class MoveInCover : MoveState,IObserverPlayer
         playerMovement.OMNI_DirMovingCharacter();
         if (isAiming == false)
         {
-            playerMovement.isOverride = false;
             playerMovement.RotateCharacter(coverDetection.obstacleSurfaceDir * -1, 6);
-        }
-        else
-        {
-            //movementWarping.Warping(player.gameObject, new Vector3(player.coverDetection.aimPos.x, 0, player.coverDetection.aimPos.z), Vector3.zero, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
             if (player.playerWeaponCommand.CurrentWeapon != null)
             {
                 if (warping == true)
                 {
-                    playerMovement.isOverride = true;
-                    movementWarping.Warping(player.gameObject, new Vector3(player.coverDetection.aimPos.x, player.transform.position.y, player.coverDetection.aimPos.z), player.coverDetection.obstacleSurfaceDir.normalized*0.6f, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
-                    if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight == 1)
+                    Vector3 warpDesPos = new Vector3(player.coverDetection.coverPos.x, player.transform.position.y, player.coverDetection.coverPos.z);
+                    Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
+                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputDirection_World != Vector3.zero)
                     {
                         warping = false;
-                        playerMovement.isOverride = false;
                     }
                 }
-                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight < 1)
+                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight > 0
+                    && playerMovement.inputDirection_World == Vector3.zero
+                    && coverDetection.GetAimPos(player.curShoulderSide))
+                {
+                    warping = true;
+                }
+            }
+        }
+        else
+        {
+            
+            if (player.playerWeaponCommand.CurrentWeapon != null)
+            {
+                if (warping == true)
+                {
+                    Vector3 warpDesPos = new Vector3(player.coverDetection.aimPos.x, player.transform.position.y, player.coverDetection.aimPos.z);
+                    Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
+                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+                    
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f||playerMovement.inputDirection_World != Vector3.zero)
+                    {
+                        warping = false;
+                    }
+                }
+                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight < 1
+                    && playerMovement.inputDirection_World == Vector3.zero
+                    && coverDetection.GetAimPos(player.curShoulderSide))
                 {
                     warping = true;
                 }

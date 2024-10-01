@@ -27,7 +27,6 @@ public class PlayerMovement
     private CharacterController characterController;
     public MovementWarping movementWarping;
 
-    public bool isOverride;
 
     private List<IMovementComponent> movementComponents = new List<IMovementComponent>();
     public PlayerMovement(Player player)
@@ -50,11 +49,7 @@ public class PlayerMovement
         }
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         velocityDirection_Local = curVelocity_Local.normalized;
-        if (isOverride == false)
-        {
-            characterController.Move(curVelocity_World * Time.deltaTime);
-        }
-        
+        characterController.Move(curVelocity_World * Time.deltaTime);
     }
     private void DirectionUpdate()
     {
@@ -71,7 +66,16 @@ public class PlayerMovement
     {
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed, sprint_Acceleration);
     }
-   
+    public void WarpingMovementCharacter(Vector3 Destination,Vector3 offset,float speed)
+    {
+        Vector3 finalDestination = Destination + offset;
+        if (Vector3.Distance(player.transform.position, finalDestination) > 0)
+        {
+            curVelocity_World = Vector3.zero;
+            characterController.Move((finalDestination - player.transform.position).normalized*speed*Time.deltaTime);
+        }
+        
+    }
     public void FreezingCharacter()
     {
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, Vector3.zero, move_Acceleration);
