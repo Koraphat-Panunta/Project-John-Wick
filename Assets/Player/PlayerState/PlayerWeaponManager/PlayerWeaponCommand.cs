@@ -52,17 +52,17 @@ public class PlayerWeaponCommand
             aimDownSightCommand.Execute();
             GameObject playerRayCastPost = GameObject.Find("RayCastPos");
 
-            if (player.coverDetection.CheckingObstacleToward(player.RayCastPos.transform.position, player.RayCastPos.transform.forward))
-            {
-                if (player.coverDetection.GetAimPos(player.curShoulderSide))
-                {
+            //if (player.coverDetection.CheckingObstacleToward(player.RayCastPos.transform.position, player.RayCastPos.transform.forward))
+            //{
+            //    if (player.coverDetection.GetAimPos(player.curShoulderSide))
+            //    {
 
-                }
-            }
-            else
-            {
+            //    }
+            //}
+            //else
+            //{
                 
-            }
+            //}
             leanCover.LeaningUpdate(playerRayCastPost.transform);
         }
     }

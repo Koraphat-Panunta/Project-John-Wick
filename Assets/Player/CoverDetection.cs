@@ -44,12 +44,13 @@ public class CoverDetection
         PlayerDeBuger.dirCast = CastDir;
         PlayerDeBuger.sphereCastPos = sphereCastPos;
         PlayerDeBuger.sphereRaduis = sphereCastRaduis;
-        for (int i = 0; i <= sphereCastPos.Count; i++)
+        for (int i = 0; i <= sphereCastPos.Count-1; i++)
         {
-            Debug.Log("Cast num =" + i);
+            Debug.Log("Cast num ="+ i);
+            Debug.Log("Cast count =" + sphereCastPos.Count);
             if (i > 0)
             {
-                if (Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) > sphereCastRaduis*2+0.01f)
+                if (Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) > sphereCastRaduis*2+0.1f)
                 {
                     if (shoulderSide == Player.ShoulderSide.Left)
                     {
@@ -66,6 +67,10 @@ public class CoverDetection
                         PlayerDeBuger.CoverPos = coverPos;
                     }
                     return true;
+                }
+                else
+                {
+                    Debug.Log("Egde not found");
                 }
             }
         }
