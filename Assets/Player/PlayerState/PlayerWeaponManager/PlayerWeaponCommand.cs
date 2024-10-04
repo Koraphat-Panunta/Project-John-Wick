@@ -25,7 +25,7 @@ public class PlayerWeaponCommand
         this.WeaponSocket = player.weaponSocket;
         this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
         Start();
-        this.leanCover = new LeanCover(player.rotationConstraint, crosshairController);
+        //this.leanCover = new LeanCover(player.rotationConstraint, crosshairController);
     }
     private void Start()
     {
@@ -51,19 +51,7 @@ public class PlayerWeaponCommand
             AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(CurrentWeapon);
             aimDownSightCommand.Execute();
             GameObject playerRayCastPost = GameObject.Find("RayCastPos");
-
-            //if (player.coverDetection.CheckingObstacleToward(player.RayCastPos.transform.position, player.RayCastPos.transform.forward))
-            //{
-            //    if (player.coverDetection.GetAimPos(player.curShoulderSide))
-            //    {
-
-            //    }
-            //}
-            //else
-            //{
-                
-            //}
-            leanCover.LeaningUpdate(playerRayCastPost.transform);
+            //leanCover.LeaningUpdate(playerRayCastPost.transform);
         }
     }
     public void Reload()
@@ -85,7 +73,7 @@ public class PlayerWeaponCommand
         {
             player.LowReadying(CurrentWeapon);
         }
-       leanCover.LeanRecovery();
+       //leanCover.LeanRecovery();
     }
     public void SwitchWeapon()
     {
