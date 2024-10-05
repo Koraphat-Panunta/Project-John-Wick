@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outline
-  m_Shader: {fileID: -6465566751694194690, guid: aaac8e32cc74bdd4bab7a834235923fe,
+  m_Name: WhiteToon 1
+  m_Shader: {fileID: -6465566751694194690, guid: cb1c16140869d6249a5a78059b035b59,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -38,13 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Max: 1.37
+    - _Min: 0.12
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Thickness: 0.0004
+    - _Shade: 0.36
     m_Colors:
-    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.9245283, g: 0.9245283, b: 0.9245283, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6747182184703010347
+--- !u!114 &6442940642856140207
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
