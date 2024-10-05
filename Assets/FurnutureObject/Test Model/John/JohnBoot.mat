@@ -7,10 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outline
-  m_Shader: {fileID: -6465566751694194690, guid: aaac8e32cc74bdd4bab7a834235923fe,
-    type: 3}
-  m_Parent: {fileID: 0}
+  m_Name: JohnBoot
+  m_Shader: {fileID: -6465566751694194690, guid: e546a481906719647ad63cb849c7ea61, type: 3}
+  m_Parent: {fileID: 2100000, guid: 84bb65d3b713ceb4caf3ba5c93c82251, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -24,27 +23,22 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 39e04a81a1f2d3447a8b707886c31350, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 5f957478e6f3f474893a5cab0d66e148, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _Thickness: 0.0005
-    m_Colors:
-    - _Outline_Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Max: 2.18
+    - _Min: 0.8
+    - _Shade: 1
+    m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &6747182184703010347
+--- !u!114 &5053897010204378389
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
