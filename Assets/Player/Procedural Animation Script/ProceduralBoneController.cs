@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class ProceduralBoneController : MonoBehaviour
 {
+    [SerializeField] RigBuilder rigBuilder;
     [SerializeField] MultiAimConstraint Spine;
     [SerializeField] MultiAimConstraint Head;
     [SerializeField] MultiAimConstraint RightArm;
@@ -43,6 +44,8 @@ public class ProceduralBoneController : MonoBehaviour
         SetConstraintSource(Head, gameObject);
         SetConstraintSource(RightArm, gameObject);
         SetConstraintSource(RightHand, gameObject);
+        
+        rigBuilder.Build();
     }
     private void SetConstraintSource(MultiAimConstraint constraint, GameObject source)
     {
