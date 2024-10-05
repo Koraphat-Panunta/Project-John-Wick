@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class ProceduralBoneController : MonoBehaviour
+public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
 {
     [SerializeField] MultiAimConstraint Spine;
     [SerializeField] MultiAimConstraint Head;
@@ -23,13 +23,16 @@ public class ProceduralBoneController : MonoBehaviour
         RightArm.weight = 0;
         RightHand.weight = 0;
         LeftHandIK.weight = 0;
-        character.Aim += SetWeight;
-        character.LowWeapon += SetWeight;
+       if(character.TryGetComponent<Player>(out Player player))
+        {
+            player.AddObserver(this);
+        }
     }
 
     // Update is called once per frame
     private void SetWeight(Weapon weapon)
     {
+        Debug.Log("SetWeight");
         weight = weapon.weapon_StanceManager.AimingWeight;
         Spine.weight = weight;
         Head.weight = weight;
@@ -56,6 +59,13 @@ public class ProceduralBoneController : MonoBehaviour
         // Apply the updated source objects
         constraint.data.sourceObjects = data;
     }
-   
-
+    
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if(playerAction == SubjectPlayer.PlayerAction.Aim||playerAction == SubjectPlayer.PlayerAction.LowReady)
+        {
+            SetWeight(player.playerWeaponCommand.CurrentWeapon);
+        }
+        
+    }
 }
