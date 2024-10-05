@@ -13,6 +13,7 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
     [SerializeField] MultiAimConstraint RightHand;
     [SerializeField] TwoBoneIKConstraint LeftHandIK;
     [SerializeField] Character character;
+    [SerializeField] MultiRotationConstraint leanRotate;
     public GameObject sourceTarget;
     private float weight = 0;
     public Transform rotTranform;
@@ -24,9 +25,11 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
         RightArm.weight = 0;
         RightHand.weight = 0;
         LeftHandIK.weight = 0;
+
        if(character.TryGetComponent<Player>(out Player player))
         {
             player.AddObserver(this);
+           
         }
     }
 
@@ -37,9 +40,9 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
         weight = weapon.weapon_StanceManager.AimingWeight;
         Spine.weight = weight;
         Head.weight = weight;
-        RightArm.weight = weight;
-        RightHand.weight = weight;
-        LeftHandIK.weight = weight;
+        //RightArm.weight = weight;
+        //RightHand.weight = weight;
+        //LeftHandIK.weight = weight;
     }
     public void SetSourceTarget(GameObject gameObject)
     {
@@ -68,6 +71,7 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Aim||playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
             SetWeight(player.playerWeaponCommand.CurrentWeapon);
+           
         }
         
     }

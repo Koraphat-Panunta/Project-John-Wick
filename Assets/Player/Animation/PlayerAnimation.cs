@@ -74,13 +74,39 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(player.curShoulderSide == Player.ShoulderSide.Left)
+        {
+            
+            animator.SetFloat("SholderSide", Mathf.Clamp(animator.GetFloat("SholderSide") - 2*Time.deltaTime,-1,1));
+        }
+        else if(player.curShoulderSide == Player.ShoulderSide.Right)
+        {
+            animator.SetFloat("SholderSide", Mathf.Clamp(animator.GetFloat("SholderSide") + 2 * Time.deltaTime, -1, 1));
+        }
         if(playerAction == SubjectPlayer.PlayerAction.Move)
         {
             AnimateMove(player.playerMovement);
+            if (player.playerStateManager.move == player.playerStateManager.moveInCover)
+            {
+                animator.SetBool("IsTakeCover", true);
+            }
+            else
+            {
+                animator.SetBool("IsTakeCover", false);
+            }
+
         }
         if(playerAction == SubjectPlayer.PlayerAction.Idle)
         {
             AnimateMove(player.playerMovement);
+            if (player.playerStateManager.idle == player.playerStateManager.idleInCover)
+            {
+                animator.SetBool("IsTakeCover", true);
+            }
+            else
+            {
+                animator.SetBool("IsTakeCover", false);
+            }
         }
         if(playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
@@ -95,10 +121,12 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
             animator.SetLayerWeight(1,player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
             animator.SetLayerWeight(1, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
@@ -125,7 +153,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
                 StartCoroutine(ReloadTiming());
             }
         }
-       
+  
     }
     IEnumerator ReloadTiming()
     {
