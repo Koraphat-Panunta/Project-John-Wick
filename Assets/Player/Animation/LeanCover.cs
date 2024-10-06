@@ -22,7 +22,6 @@ public class LeanCover
     public LeanCover(MultiRotationConstraint multiRotationConstraint,CrosshairController crosshairController)
     {
        this.multiRotationConstraint = multiRotationConstraint;
-        multiRotationConstraint.weight = 1;
         this.crosshairController = crosshairController;
         leanWeight = 0.5f;
         layerMask = LayerMask.GetMask("Default");

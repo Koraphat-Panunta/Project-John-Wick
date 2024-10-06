@@ -17,7 +17,8 @@ public class CoverDetection
     public bool CheckingObstacleToward(Vector3 oriPos,Vector3 dir)
     {
         LayerMask decObstacle = LayerMask.GetMask("Default");
-        if (Physics.Raycast(oriPos,dir,out RaycastHit hit, 1f, decObstacle))
+       
+        if (Physics.BoxCast(oriPos,new Vector3(0.5f,0.5f,0.5f),dir,out RaycastHit hit, Quaternion.identity, 0.7f, decObstacle))
         {
             obstacleSurfaceDir = hit.normal;
             detecEdgeOri = hit.point + (obstacleSurfaceDir * 0.4f);
@@ -32,6 +33,7 @@ public class CoverDetection
         {
             return false;
         }
+       
     }
     public bool GetAimPos(Player.ShoulderSide shoulderSide)
     {
@@ -55,14 +57,14 @@ public class CoverDetection
                     if (shoulderSide == Player.ShoulderSide.Left)
                     {
                         coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*0.5f;
-                        aimPos = sphereCastPos[i-1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*0.1f;
+                        aimPos = sphereCastPos[i-1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*-0.1f;
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
                     else if(shoulderSide == Player.ShoulderSide.Right)
                     {
                         coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.5f;
-                        aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.1f;
+                        aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * -0.1f;
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
