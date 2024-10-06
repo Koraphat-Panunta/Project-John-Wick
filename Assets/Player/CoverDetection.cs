@@ -57,14 +57,14 @@ public class CoverDetection
                     if (shoulderSide == Player.ShoulderSide.Left)
                     {
                         coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*0.5f;
-                        aimPos = sphereCastPos[i-1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized*-0.1f;
+                        aimPos = sphereCastPos[i-1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized* 0.1f;
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
                     else if(shoulderSide == Player.ShoulderSide.Right)
                     {
                         coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.5f;
-                        aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * -0.1f;
+                        aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.1f;
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
