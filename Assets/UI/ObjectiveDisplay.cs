@@ -59,7 +59,8 @@ public class ObjectiveDisplay : MonoBehaviour,IObseverLevel
             }
             else
             {
-                RemoveTextObjective(this.m_TextMeshProUGUI);
+                this.m_TextMeshProUGUI.text = "Level Clear !";
+                //RemoveTextObjective(this.m_TextMeshProUGUI);
                 //All objective done.
             }
         }

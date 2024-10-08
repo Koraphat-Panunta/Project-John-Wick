@@ -23,6 +23,7 @@ public class Level1 : LevelManager
     }
     protected override void LevelClear()
     {
+
         base.LevelClear();
     }
     protected override void ObjectiveUpdate()
