@@ -9,7 +9,10 @@ public class Environment : MonoBehaviour,IObserverPlayer
     private void Start()
     {
         Player player = FindAnyObjectByType<Player>();
-        player.AddObserver(this);
+        if (player != null)
+        {
+            player.AddObserver(this);
+        }
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
