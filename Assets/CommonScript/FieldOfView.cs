@@ -45,6 +45,10 @@ public class FieldOfView
     {
         Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
         GameObject returnObj = null;
+        if(obj.Length <= 0)
+        {
+            return null;
+        }
         if (obj[0] != null)
         {
             Vector3 Objdirection = obj[0].transform.position - objView.transform.position;

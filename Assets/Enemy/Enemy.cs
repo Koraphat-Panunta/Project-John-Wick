@@ -20,6 +20,7 @@ public class Enemy : SubjectEnemy
     public EnemyLookForPlayer enemyLookForPlayer;
     public EnemyHearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
+    public EnemyComunicate enemyComunicate;
 
 
     public IEnemyHitReaction enemyHitReaction;
@@ -36,6 +37,8 @@ public class Enemy : SubjectEnemy
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
+        enemyComunicate = new EnemyComunicate(this);
+
 
         enemyStateManager._currentState = enemyStateManager._idle;
         enemyStateManager._currentState.StateEnter(enemyStateManager);

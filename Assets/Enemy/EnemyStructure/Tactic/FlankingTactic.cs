@@ -27,6 +27,7 @@ public class FlankingTactic : IEnemyTactic
         {
             enemyWeaponCommand.Aiming();
             enemyFiringPattern.Performing();
+            enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
         }
         else
         {

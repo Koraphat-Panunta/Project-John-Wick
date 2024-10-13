@@ -41,6 +41,7 @@ public class SerchingTactic : IEnemyTactic
         if(enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
             enemy.StopCoroutine(PerformedAction());
+            enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             enemy.currentTactic = new FlankingTactic(enemy);
         }
     }
