@@ -55,5 +55,9 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         {
             cameraZoom.ZoomOut(player.playerWeaponCommand.CurrentWeapon);
         }
+        if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        {
+
+        }
     }
 }

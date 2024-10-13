@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class EnemyMove : EnemyState
 {
     EnemyPath enemyPath;
+    float moveSpeed = 1.3f; //By defualt
 
     public EnemyMove()
     {
@@ -21,10 +22,11 @@ public class EnemyMove : EnemyState
         {
             enemyPath.GenaratePath(enemyState.enemy.Target.transform.position, enemyState.enemy.gameObject.gameObject.transform.position);
         }
+        enemyState.enemy.animator.speed = moveSpeed;
     }
     public override void StateExit(EnemyStateManager enemyState)
     {
-        
+        enemyState.enemy.animator.speed = 1; // Set back to defualt
     }
     public override void StateFixedUpdate(EnemyStateManager enemyState)
     {
