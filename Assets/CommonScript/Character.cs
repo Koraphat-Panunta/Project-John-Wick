@@ -19,11 +19,12 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+       
     }
     private void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();
+        animator = GetComponent<Animator>();
     }
     public virtual void Aiming(Weapon weapon)
     {

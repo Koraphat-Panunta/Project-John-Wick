@@ -41,7 +41,7 @@ public abstract class Weapon : MonoBehaviour
         IsUp,
     }
     public TriggerPull triggerPull = TriggerPull.Up;
-
+   
     protected virtual void Start()
     {
         weapon_stateManager = GetComponent<WeaponStateManager>();

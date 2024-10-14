@@ -100,6 +100,12 @@ MonoBehaviour:
   Magazine_count: 0
   Chamber_Count: 0
   bulletSpawnerPos: {fileID: 3022661863309610859}
+  parentConstraint: {fileID: 0}
+  rb: {fileID: 0}
+  _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 87a65ca05a1dd6542b758e2acea85e8f,
+    type: 2}
+  _weaponOverrideControllerEnemy: {fileID: 22100000, guid: a1fb493b42ba44c4894985d4a431ec21,
+    type: 2}
   triggerPull: 0
   Model: {fileID: 11400000, guid: 588205285d738e4499716c4114bf0874, type: 2}
   _bulletType: {fileID: 8484765704080718728, guid: 7ee4249b36f782e47bba97d3dc546fbf,
@@ -143,7 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dfa3746e689bf4e83546afb1263fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrosshairController: {fileID: 0}
   MyWeapon: {fileID: 521215783090903122}
   _weaponStateManager: {fileID: 1041090671024533396}
   _weaponStanceManager: {fileID: 3608217944824643028}
