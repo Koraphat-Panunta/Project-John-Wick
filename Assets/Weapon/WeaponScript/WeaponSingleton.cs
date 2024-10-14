@@ -10,7 +10,6 @@ public class WeaponSingleton : MonoBehaviour
     public WeaponSocket weaponSocket { get; private set; }
     public WeaponStance CurStance { get; private set; }
     public WeaponState CurState { get; private set; }
-    [SerializeField] private CrosshairController CrosshairController;
     [SerializeField] private Weapon MyWeapon;
     [SerializeField] private WeaponStateManager _weaponStateManager;
     [SerializeField] private WeaponStanceManager _weaponStanceManager;
@@ -43,10 +42,7 @@ public class WeaponSingleton : MonoBehaviour
     {
         return MyWeapon;
     }
-    public CrosshairController GetCrosshair()
-    {
-        return CrosshairController;
-    }
+   
     public AnimatorOverrideController GetOverride_Player_Controller()
     {
         return _weaponOverrideControllerPlayer;

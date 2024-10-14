@@ -10,6 +10,9 @@ public class CancelTriggerCommand : WeaponCommand
     }
     public override void Execute()
     {
-        weapon.triggerPull = Weapon.TriggerPull.Up;
+        if (weapon != null)
+        {
+            weapon.triggerPull = Weapon.TriggerPull.Up;
+        }
     }
 }

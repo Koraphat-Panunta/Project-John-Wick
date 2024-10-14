@@ -18,7 +18,10 @@ public class WeaponSocket : MonoBehaviour
     protected virtual void Start()
     {
         weaponSingleton = GetComponentInChildren<WeaponSingleton>();
-        StartCoroutine(GetWeaponSingleton());
+        if (weaponSingleton != null)
+        {
+            StartCoroutine(GetWeaponSingleton());
+        }
     }
 
     // Update is called once per frame

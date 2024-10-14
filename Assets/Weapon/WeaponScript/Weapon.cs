@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public abstract class Weapon : MonoBehaviour 
 {
@@ -19,6 +20,12 @@ public abstract class Weapon : MonoBehaviour
     public abstract float RecoilKickBack { get; protected set; }
     public abstract float min_Precision { get; protected set; }
     public abstract float max_Precision { get; protected set; }
+
+    public IWeaponSenses userWeapon;
+    public ParentConstraint parentConstraint;
+    public Rigidbody rb;
+    public AnimatorOverrideController _weaponOverrideControllerPlayer;
+    public AnimatorOverrideController _weaponOverrideControllerEnemy;
     public enum FireMode
     {
         Single,
@@ -39,13 +46,9 @@ public abstract class Weapon : MonoBehaviour
     {
         weapon_stateManager = GetComponent<WeaponStateManager>();
         weapon_StanceManager = GetComponent<WeaponStanceManager>();
+        parentConstraint = GetComponent<ParentConstraint>();
+        rb = GetComponent<Rigidbody>();
         Magazine_count = Magazine_capacity;
-    }
-
-    // Update is called once per frame
-    protected virtual void Update()
-    {
-        
     }
     public virtual void Aim()
     {
@@ -75,6 +78,36 @@ public abstract class Weapon : MonoBehaviour
     public virtual void LowWeapon()
     {
         weapon_StanceManager.ChangeStance(weapon_StanceManager.lowReady);
+    }
+    public void AttatchWeaponTo(Character WeaponUser)
+    {
+        this.userWeapon = WeaponUser;
+        WeaponUser.curentWeapon = this;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = WeaponUser.weaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+        parentConstraint.constraintActive = true;
+        if(WeaponUser.TryGetComponent<Player>(out Player p))
+        {
+            p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
+        }
+        if(WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
+        }
+    }
+    public void DropWeapon()
+    {
+        rb.isKinematic = false;
     }
 
 }

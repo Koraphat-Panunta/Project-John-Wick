@@ -36,13 +36,21 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
     // Update is called once per frame
     private void SetWeight(Weapon weapon)
     {
-        Debug.Log("SetWeight");
-        weight = weapon.weapon_StanceManager.AimingWeight;
-        Spine.weight = weight;
-        Head.weight = weight;
-        //RightArm.weight = weight;
-        //RightHand.weight = weight;
-        //LeftHandIK.weight = weight;
+        if (weapon != null)
+        {
+            Debug.Log("SetWeight");
+            weight = weapon.weapon_StanceManager.AimingWeight;
+            Spine.weight = weight;
+            Head.weight = weight;
+            //RightArm.weight = weight;
+            //RightHand.weight = weight;
+            //LeftHandIK.weight = weight;
+        }
+        else
+        {
+            Spine.weight = 0;
+            Head.weight = 0;
+        }
     }
     public void SetSourceTarget(GameObject gameObject)
     {

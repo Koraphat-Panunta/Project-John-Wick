@@ -125,8 +125,16 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            animator.SetLayerWeight(1, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+            if (player.playerWeaponCommand.CurrentWeapon != null)
+            {
+                animator.SetLayerWeight(1, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+            }
+            else
+            {
+                animator.SetLayerWeight(1,0);
+                animator.SetFloat("AimingWeigth",0);
+            }
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {

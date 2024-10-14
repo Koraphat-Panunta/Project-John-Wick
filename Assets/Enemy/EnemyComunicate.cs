@@ -26,11 +26,11 @@ public class EnemyComunicate
         {
             foreach (Collider collider in colliders)
             {
-                if (collider.TryGetComponent<Enemy>(out Enemy enemy))
+                if (collider.TryGetComponent<ChestBodyPart>(out ChestBodyPart enemy))
                 {
-                    if (enemy != this._enemy)
+                    if (enemy.enemy != this._enemy&&enemy.enemy.GetHP()>0)
                     {
-                        SendNotify(notifyType, enemy);
+                        SendNotify(notifyType, enemy.enemy);
                     }
                 }
             }

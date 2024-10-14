@@ -13,6 +13,14 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
 
     public Environment My_environment;
     public bool isDead { get; set; }
+    public Weapon curentWeapon { get; set; }
+    public Transform weaponSocket { get; set; }
+    public Animator animator { get; set; }
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();

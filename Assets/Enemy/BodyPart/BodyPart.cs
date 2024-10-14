@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour
 {
-    [SerializeField] protected Enemy enemy;
+    [SerializeField] public Enemy enemy;
     public abstract void GotHit(float damage);
    
 }
