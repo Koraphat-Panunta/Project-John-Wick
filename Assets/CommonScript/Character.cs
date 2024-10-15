@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     private void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();
-        animator = GetComponent<PlayerAnimation>().animator;
+
     }
     public virtual void Aiming(Weapon weapon)
     {

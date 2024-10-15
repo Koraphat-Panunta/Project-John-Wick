@@ -34,7 +34,7 @@ public class Player : SubjectPlayer,IObserverPlayer
     private void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
-
+        animator = GetComponent<PlayerAnimation>().animator;
         playerController = new PlayerController(this);
         playerMovement = new PlayerMovement(this);
         playerWeaponCommand = new PlayerWeaponCommand(this);

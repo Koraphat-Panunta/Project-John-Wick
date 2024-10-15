@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyWeaponCommand 
 {
     public WeaponSocket _primaryWeaponSocket;
-    public Weapon curWeapon;
     public WeaponCommand weaponCommand;
     public Enemy enemy;
     public AmmoProuch ammoProuch;
@@ -17,34 +16,25 @@ public class EnemyWeaponCommand
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
         //this.enemy.StartCoroutine(GetWeapon());
     }
-    void Start()
-    {
-       
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Aiming()
     {
-        AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(curWeapon);
+        AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(enemy.curentWeapon);
         aimDownSightCommand.Execute();
     }
     public void LowReady()
     {
-        LowReadyCommand lowReadyCommand = new LowReadyCommand(curWeapon);
+        LowReadyCommand lowReadyCommand = new LowReadyCommand(enemy.curentWeapon);
         lowReadyCommand.Execute();
     }
     public void Fire()
     {
-        PullTriggerCommand pullTriggerCommand = new PullTriggerCommand(curWeapon);
+        PullTriggerCommand pullTriggerCommand = new PullTriggerCommand(enemy.curentWeapon);
         pullTriggerCommand.Execute();
         pullTriggerCommand.TriggerCancel();
     }
     public void Reload()
     {
-        ReloadCommand reloadCommand = new ReloadCommand(curWeapon,ammoProuch);
+        ReloadCommand reloadCommand = new ReloadCommand(enemy.curentWeapon,ammoProuch);
         reloadCommand.Execute();
     }
     //IEnumerator GetWeapon()

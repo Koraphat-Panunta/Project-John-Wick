@@ -14,7 +14,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
     public NormalFiringPattern(Enemy enemy)
     {
         this.weaponCommand = enemy.enemyWeaponCommand;
-        this.curWeapon = enemy.enemyWeaponCommand.curWeapon;
+        this.curWeapon = enemy.curentWeapon;
         this.ammoProuch = enemy.enemyWeaponCommand.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
     }

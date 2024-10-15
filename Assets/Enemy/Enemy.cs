@@ -42,6 +42,7 @@ public class Enemy : SubjectEnemy
         enemyStateManager._currentState.StateEnter(enemyStateManager);
 
         currentTactic = new SerchingTactic(this);
+        new WeaponFactorySTI9mm().CreateWeapon(this);
         //base.isDead = false;
 
         base.HP = 100;
