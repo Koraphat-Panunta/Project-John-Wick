@@ -30,7 +30,7 @@ public class MoveState : CharacterState
         {
             Debug.Log("DetectCover");
             playerStateManager.move = playerStateManager.moveInCover;
-            playerStateManager.ChangeState(playerStateManager.move);
+            playerStateManager.ChangeState(playerStateManager.moveInCover);
 
         }
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
@@ -48,7 +48,7 @@ public class MoveState : CharacterState
     protected override void InputPerformed()
     {
         PlayerController.Input input = this.playerController.input;
-        if (playerController.input.movement.phase == InputActionPhase.Waiting)
+        if (playerController.input.movement.phase == InputActionPhase.Waiting || playerController.input.movement.phase == InputActionPhase.Canceled)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.idle);
         }

@@ -13,9 +13,9 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
 
     public Environment My_environment;
     public bool isDead { get; set; }
-    public Weapon curentWeapon { get; set; }
-    public Transform weaponSocket { get; set; }
-    public Animator animator { get; set; }
+    public Weapon curentWeapon;
+    public Transform weaponSocket;
+    public Animator animator;
 
     private void Start()
     {
@@ -24,7 +24,7 @@ public abstract class Character : MonoBehaviour, IWeaponSenses,IDamageAble
     private void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();
-        animator = GetComponent<Animator>();
+        animator = GetComponent<PlayerAnimation>().animator;
     }
     public virtual void Aiming(Weapon weapon)
     {

@@ -15,10 +15,10 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
         base.playerInfo = player;
         base.hud = hud;
         this.AmmoDisplay = textMeshProUGUI;
-        if (base.playerInfo.playerWeaponCommand.CurrentWeapon != null)
+        if (base.playerInfo.curentWeapon != null)
         {
-            MagazineCount = base.playerInfo.playerWeaponCommand.CurrentWeapon.Magazine_count + base.playerInfo.playerWeaponCommand.CurrentWeapon.Chamber_Count;
-            AmmoCount = playerInfo.playerWeaponCommand.ammoProuch.amountOf_ammo[playerInfo.playerWeaponCommand.CurrentWeapon.bullet.GetComponent<Bullet>().type];
+            MagazineCount = base.playerInfo.curentWeapon.Magazine_count + base.playerInfo.curentWeapon.Chamber_Count;
+            AmmoCount = playerInfo.playerWeaponCommand.ammoProuch.amountOf_ammo[playerInfo.curentWeapon.bullet.GetComponent<Bullet>().type];
             SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
         }
     }
@@ -26,16 +26,16 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
     {
        if(playerAction == SubjectPlayer.PlayerAction.Firing)
        {
-            if (base.playerInfo.playerWeaponCommand.CurrentWeapon != null)
+            if (base.playerInfo.curentWeapon != null)
             {
-                MagazineCount = base.playerInfo.playerWeaponCommand.CurrentWeapon.Magazine_count + base.playerInfo.playerWeaponCommand.CurrentWeapon.Chamber_Count;
+                MagazineCount = base.playerInfo.curentWeapon.Magazine_count + base.playerInfo.curentWeapon.Chamber_Count;
                 SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
             }
        }
        if(playerAction == SubjectPlayer.PlayerAction.Reloading)
        {
-            AmmoCount = player.playerWeaponCommand.ammoProuch.amountOf_ammo[playerInfo.playerWeaponCommand.CurrentWeapon.bullet.GetComponent<Bullet>().type];
-            MagazineCount = base.playerInfo.playerWeaponCommand.CurrentWeapon.Magazine_count + base.playerInfo.playerWeaponCommand.CurrentWeapon.Chamber_Count;
+            AmmoCount = player.playerWeaponCommand.ammoProuch.amountOf_ammo[playerInfo.curentWeapon.bullet.GetComponent<Bullet>().type];
+            MagazineCount = base.playerInfo.curentWeapon.Magazine_count + base.playerInfo.curentWeapon.Chamber_Count;
             SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
        }
        if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)

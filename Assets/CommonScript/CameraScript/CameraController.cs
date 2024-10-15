@@ -44,16 +44,16 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            cameraKickBack.Performed(player.playerWeaponCommand.CurrentWeapon);
+            cameraKickBack.Performed(player.curentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            cameraZoom.ZoomIn(player.playerWeaponCommand.CurrentWeapon);
+            cameraZoom.ZoomIn(player.curentWeapon);
             Debug.Log("ZoomIn");
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            cameraZoom.ZoomOut(player.playerWeaponCommand.CurrentWeapon);
+            cameraZoom.ZoomOut(player.curentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {

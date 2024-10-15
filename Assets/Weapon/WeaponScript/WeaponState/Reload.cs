@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Reload : WeaponState
 {
-    private WeaponSingleton weaponSingleton { get; set; }
     private Animator ReloadAnimator { get; set; }
     private WeaponStateManager weaponStateManager { get; set; }
     private AmmoProuch ammoProuch { get; set; }
     private float reloadTime;
     private float tacTicalReloadTime;
+
+    public Reload(Weapon weapon) : base(weapon)
+    {
+    }
     public enum ReloadType
     {
         ReloadMagOut,
@@ -17,34 +20,34 @@ public class Reload : WeaponState
         ReloadFinished
     }
     public ReloadType reloadType { get; set; }
-    public Reload(WeaponSingleton weaponSingleton)
-    {
-        this.weaponSingleton = weaponSingleton;
-        weaponStateManager = weaponSingleton.GetStateManager();
-    }
+    
     public override void EnterState()
     {
+        if(weaponStateManager == null)
+        {
+            weaponStateManager = base._weapon.weapon_stateManager;
+        }
         if (ReloadAnimator == null)
         {
-            ReloadAnimator = weaponSingleton.UserWeapon.GetComponent<Animator>();
+            ReloadAnimator = base._weapon.userWeapon.animator;
             reloadTime = 3;
             tacTicalReloadTime = 3;
         }
-        if (weaponSingleton.GetWeapon().Magazine_count == weaponSingleton.GetWeapon().Magazine_capacity)
+        if (base._weapon.Magazine_count == base._weapon.Magazine_capacity)
         {
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
-        else if (weaponSingleton.GetWeapon().Magazine_count > 0)
+        else if (base._weapon.Magazine_count > 0)
         {
             reloadType = ReloadType.TacticalReload;
-            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
-            weaponStateManager.StartCoroutine(Reloading());
+            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            base._weapon.StartCoroutine(Reloading());
         }
-        else if (weaponSingleton.GetWeapon().Magazine_count <= 0)
+        else if (base._weapon.Magazine_count <= 0)
         {
             reloadType = ReloadType.ReloadMagOut;
-            weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
-            weaponStateManager.StartCoroutine(Reloading());
+            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            this._weapon.StartCoroutine(Reloading());
         }
 
         base.EnterState();
@@ -53,7 +56,7 @@ public class Reload : WeaponState
     public override void ExitState()
     {
         reloadType = ReloadType.ReloadFinished;
-        weaponSingleton.UserWeapon.Reloading(weaponSingleton.GetWeapon(), reloadType);
+        base._weapon.userWeapon.Reloading(base._weapon, reloadType);
     }
     public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
@@ -63,8 +66,8 @@ public class Reload : WeaponState
         if(reloadType == ReloadType.ReloadMagOut)
         {
             yield return new WaitForSeconds(3);
-            weaponSingleton.GetWeapon().Chamber_Count += 1;
-            weaponSingleton.GetWeapon().Magazine_count -= 1;
+            base._weapon.Chamber_Count += 1;
+            base._weapon.Magazine_count -= 1;
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
         else

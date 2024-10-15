@@ -10,6 +10,7 @@ public class IdleInCover : IdleState,IObserverPlayer
     public IdleInCover(Player player) : base(player)
     {
         coverDetection = player.coverDetection;
+        player.AddObserver(this);
     }
 
     public override void EnterState()
@@ -39,6 +40,7 @@ public class IdleInCover : IdleState,IObserverPlayer
         MovementWarping movementWarping = stateManager.player.playerMovement.movementWarping;
         if (isAiming == false)
         {
+            Debug.Log("Is Aiming = true");
             if (warping == true)
             {
                 Vector3 warpDesPos = new Vector3(player.coverDetection.coverPos.x, player.transform.position.y, player.coverDetection.coverPos.z);
@@ -50,7 +52,7 @@ public class IdleInCover : IdleState,IObserverPlayer
                     warping = false;
                 }
             }
-            else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight > 0
+            else if (player.curentWeapon.weapon_StanceManager.AimingWeight > 0
                 && playerMovement.inputDirection_World == Vector3.zero
                 && coverDetection.GetAimPos(player.curShoulderSide))
             {
@@ -60,21 +62,21 @@ public class IdleInCover : IdleState,IObserverPlayer
         }
         else
         {
-         
-            if (player.playerWeaponCommand.CurrentWeapon != null)
+            Debug.Log("Is Aiming = true");
+            if (player.curentWeapon != null)
             {
                 if (warping == true)
                 {
                     Vector3 warpDesPos = new Vector3(player.coverDetection.aimPos.x, player.transform.position.y, player.coverDetection.aimPos.z);
                     Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
-                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos,2f);
-                    
-                    if(Vector3.Distance(player.transform.position,warpDesPos+warpDesOffsetPos)<0.07f)
+                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f)
                     {
                         warping = false;
                     }
                 }
-                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight < 1
+                else if (player.curentWeapon.weapon_StanceManager.AimingWeight < 1
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {
                     warping = true;
@@ -93,10 +95,12 @@ public class IdleInCover : IdleState,IObserverPlayer
     {
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
+            Debug.Log("Notify ADS");
             isAiming = true;
         }
         else if (playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
+            Debug.Log("Notify LowReady");
             isAiming = false;
         }
     }

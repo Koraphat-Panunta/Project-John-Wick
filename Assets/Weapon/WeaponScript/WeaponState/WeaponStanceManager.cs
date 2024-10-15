@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class WeaponStanceManager : MonoBehaviour
+public class WeaponStanceManager 
 {
-    [SerializeField] public WeaponSingleton weaponSingleton;
     public LowReady lowReady { get;protected set; }
     public AimDownSight aimDownSight { get;protected set; }
     public WeaponStance _currentStance { get; private set; }
     public float AimingWeight = 0;
+    public Weapon _weapon;
 
-    public void Start()
+    public WeaponStanceManager(Weapon weapon)
     {
-       aimDownSight = new AimDownSight(weaponSingleton);
-        lowReady = new LowReady(weaponSingleton);
-       _currentStance = lowReady;
+        aimDownSight = new AimDownSight(weapon);
+        lowReady = new LowReady(weapon);
+        _currentStance = lowReady;
     }
+   
    
     public void FixedUpdate()
     {

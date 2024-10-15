@@ -5,26 +5,24 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
-    [SerializeField] WeaponSingleton weaponSingleton;
-    [SerializeField] Transform targerPos;
+
+
     private void OnEnable()
     {
-        weaponSingleton.FireEvent += SpawnBullet;
     }
     private void OnDisable()
     {
         
     }
-    private void SpawnBullet(Weapon weapon)
+    public void SpawnBullet(Weapon weapon)
     {
         Transform transform = gameObject.transform;
         GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
-        WeaponSingleton weaponSingleton = weapon.GetComponent<WeaponSingleton>();
-        if(weaponSingleton.UserWeapon.TryGetComponent<Player>(out Player player))
+        if(weapon.userWeapon.TryGetComponent<Player>(out Player player))
         {
             Bullet.GetComponent<Bullet>().ShootDirection(player.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
         }
-        else if(weaponSingleton.UserWeapon.TryGetComponent<Enemy>(out Enemy enemy))
+        else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy enemy)))
         {
             Bullet.GetComponent<Bullet>().ShootDirection(enemy.enemyGetShootDirection.GetDir());
         }

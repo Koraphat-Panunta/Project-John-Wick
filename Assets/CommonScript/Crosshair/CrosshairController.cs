@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour
+public class CrosshairController : MonoBehaviour,IObserverPlayer
 {
     [SerializeField] WeaponSocket weaponSocket;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
@@ -26,9 +26,7 @@ public class CrosshairController : MonoBehaviour
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
         player = FindAnyObjectByType<Player>().GetComponent<Player>();
-        weaponSocket = player.weaponSocket;
-        StartCoroutine(SetSpreadEvent(CrosshairSpread));
-
+        player.AddObserver(this);
     }
 
     // Update is called once per frame
@@ -60,14 +58,6 @@ public class CrosshairController : MonoBehaviour
             TargetAim.transform.position = worldPosition;
         }
     }
-    IEnumerator SetSpreadEvent(CrosshairSpread crosshairSpread)
-    {
-        while (weaponSocket.weaponSingleton == null)
-        {
-            yield return null;
-        }
-        weaponSocket.weaponSingleton.FireEvent += crosshairSpread.Performed;
-    }
     private void OnEnable()
     {
         
@@ -75,5 +65,13 @@ public class CrosshairController : MonoBehaviour
     private void OnDisable()
     {
        
+    }
+
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if(playerAction == SubjectPlayer.PlayerAction.Firing)
+        {
+            CrosshairSpread.Performed(player.curentWeapon);
+        }
     }
 }

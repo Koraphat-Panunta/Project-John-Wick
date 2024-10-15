@@ -21,11 +21,12 @@ public abstract class Weapon : MonoBehaviour
     public abstract float min_Precision { get; protected set; }
     public abstract float max_Precision { get; protected set; }
 
-    public IWeaponSenses userWeapon;
+    public Character userWeapon;
     public ParentConstraint parentConstraint;
     public Rigidbody rb;
     public AnimatorOverrideController _weaponOverrideControllerPlayer;
     public AnimatorOverrideController _weaponOverrideControllerEnemy;
+    public BulletSpawner bulletSpawner;
     public enum FireMode
     {
         Single,
@@ -44,11 +45,27 @@ public abstract class Weapon : MonoBehaviour
    
     protected virtual void Start()
     {
-        weapon_stateManager = GetComponent<WeaponStateManager>();
-        weapon_StanceManager = GetComponent<WeaponStanceManager>();
+        weapon_stateManager = new WeaponStateManager(this);
+        weapon_StanceManager = new WeaponStanceManager(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         Magazine_count = Magazine_capacity;
+    }
+    protected virtual void Update()
+    {
+        if (userWeapon != null)
+        {
+            weapon_StanceManager.Update();
+            weapon_stateManager.Update();
+        }
+    }
+    protected virtual void FixedUpdate()
+    {
+        if (userWeapon != null)
+        {
+            weapon_StanceManager.FixedUpdate();
+            weapon_stateManager.FixedUpdate();
+        }
     }
     public virtual void Aim()
     {

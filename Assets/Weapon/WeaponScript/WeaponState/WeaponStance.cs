@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class WeaponStance 
 {
-    public Animator animator { get; protected set;}
-    public WeaponStance()
+    protected Weapon _weapon;
+    public WeaponStance(Weapon weapon)
     {
-
+        this._weapon = weapon;
     }
     protected virtual void Start()
     {

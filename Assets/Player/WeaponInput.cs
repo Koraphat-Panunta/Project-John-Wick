@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponInput 
+public class WeaponInput : MonoBehaviour
 {
     public WeaponInput()
     {
@@ -15,10 +15,12 @@ public class WeaponInput
         if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
         {
             player.playerWeaponCommand.Aim();
+            Debug.Log("AimDownSight");
         }
         else
         {
             player.playerWeaponCommand.LowWeapon();
+            Debug.Log("LowReady");
         }
 
         if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0))

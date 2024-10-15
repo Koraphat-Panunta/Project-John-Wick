@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class LowReady : WeaponStance
 {
-    private WeaponSingleton weaponSingleton;
-    public LowReady(WeaponSingleton weaponSingleton)
+    public LowReady(Weapon weapon) : base(weapon)
     {
-        this.weaponSingleton = weaponSingleton;
     }
     public override void EnterState()
     {
@@ -21,8 +19,8 @@ public class LowReady : WeaponStance
     }
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        weaponSingleton.UserWeapon.LowReadying(weaponSingleton.GetWeapon());
-        weaponStanceManager.AimingWeight -= weaponSingleton.GetWeapon().aimDownSight_speed * Time.deltaTime;
+        base._weapon.userWeapon.LowReadying(base._weapon);
+        weaponStanceManager.AimingWeight -= base._weapon.aimDownSight_speed * Time.deltaTime;
         weaponStanceManager.AimingWeight = Mathf.Clamp(weaponStanceManager.AimingWeight, 0, 1);
     }
     

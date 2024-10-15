@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class None : WeaponState
 {
-    public None()
+    public None(Weapon weapon) : base(weapon)
     {
-
     }
+
     public override void EnterState()
     {
         base.EnterState();

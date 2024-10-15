@@ -48,8 +48,8 @@ public class CoverDetection
         PlayerDeBuger.sphereRaduis = sphereCastRaduis;
         for (int i = 0; i <= sphereCastPos.Count-1; i++)
         {
-            Debug.Log("Cast num ="+ i);
-            Debug.Log("Cast count =" + sphereCastPos.Count);
+            //Debug.Log("Cast num =" + i);
+            //Debug.Log("Cast count =" + sphereCastPos.Count);
             if (i > 0)
             {
                 if (Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) > sphereCastRaduis*2+0.1f)
@@ -68,6 +68,7 @@ public class CoverDetection
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
+                    Debug.Log("Egde found");
                     return true;
                 }
                 else

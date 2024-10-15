@@ -36,30 +36,61 @@ public class MoveInCover : MoveState,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+        Debug.Log("Notify in Move in cover Action ="+playerAction.ToString());
+        if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
+            Debug.Log("Notify ADS");
             isAiming = true;
         }
         else if (playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
+            Debug.Log("Notify LowReady");
             isAiming = false;
         }
     }
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
-        Debug.Log("Move in Cover");
         PlayerMovement playerMovement = base.player.playerMovement;
         MovementWarping movementWarping = stateManager.player.playerMovement.movementWarping;
         playerMovement.OMNI_DirMovingCharacter();
         if (isAiming == false)
         {
+            Debug.Log("Is Aiming = false");
+            //Debug.Log("Move in Cover Aiming = false");
             playerMovement.RotateCharacter(coverDetection.obstacleSurfaceDir * -1, 6);
-            if (player.playerWeaponCommand.CurrentWeapon != null)
+            if (player.curentWeapon != null)
             {
                 if (warping == true)
                 {
+                    //Debug.Log("Move in Cover Warping = true");
                     Vector3 warpDesPos = new Vector3(player.coverDetection.coverPos.x, player.transform.position.y, player.coverDetection.coverPos.z);
+                    Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
+                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputDirection_World != Vector3.zero)
+                    {
+                        //Debug.Log("Move in Cover Warping finish or cancle");
+                        warping = false;
+                    }
+                }
+                else if (player.curentWeapon.weapon_StanceManager.AimingWeight > 0
+                    && playerMovement.inputDirection_World == Vector3.zero
+                    && coverDetection.GetAimPos(player.curShoulderSide))
+                {
+                    //Debug.Log("Move in Cover Warping ");
+                    warping = true;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Is Aiming = true");
+            if (player.curentWeapon != null)
+            {
+                if (warping == true)
+                {
+                    Vector3 warpDesPos = new Vector3(player.coverDetection.aimPos.x, player.transform.position.y, player.coverDetection.aimPos.z);
                     Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
                     playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
 
@@ -68,31 +99,7 @@ public class MoveInCover : MoveState,IObserverPlayer
                         warping = false;
                     }
                 }
-                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight > 0
-                    && playerMovement.inputDirection_World == Vector3.zero
-                    && coverDetection.GetAimPos(player.curShoulderSide))
-                {
-                    warping = true;
-                }
-            }
-        }
-        else
-        {
-            
-            if (player.playerWeaponCommand.CurrentWeapon != null)
-            {
-                if (warping == true)
-                {
-                    Vector3 warpDesPos = new Vector3(player.coverDetection.aimPos.x, player.transform.position.y, player.coverDetection.aimPos.z);
-                    Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
-                    playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
-                    
-                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f||playerMovement.inputDirection_World != Vector3.zero)
-                    {
-                        warping = false;
-                    }
-                }
-                else if (player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight < 1
+                else if (player.curentWeapon.weapon_StanceManager.AimingWeight < 1
                     && playerMovement.inputDirection_World == Vector3.zero
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {

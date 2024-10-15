@@ -4,9 +4,10 @@ using UnityEngine;
 
 public abstract class WeaponState 
 {
-    public WeaponState() 
+    protected Weapon _weapon;
+    public WeaponState(Weapon weapon) 
     {
-        
+        this._weapon = weapon;
     }
     public virtual void EnterState()
     {

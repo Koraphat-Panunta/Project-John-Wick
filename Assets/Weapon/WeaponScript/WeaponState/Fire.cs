@@ -6,28 +6,28 @@ using UnityEngine;
 
 public class Fire : WeaponState
 {
-    private WeaponSingleton weaponSingleton;
+   
     private WeaponStateManager weaponStateManager;
-
-    public Fire(WeaponSingleton weaponSingleton)
+    public Fire(Weapon weapon) : base(weapon)
     {
-        this.weaponSingleton = weaponSingleton;
-        this.weaponStateManager = weaponSingleton.GetStateManager();
     }
 
     public event Action<Weapon> WeaponFire;
     public override void EnterState()
     {
-       
-        if (weaponSingleton.GetWeapon().Chamber_Count > 0)
+       if(weaponStateManager == null)
         {
-            weaponSingleton.FireEvent.Invoke(weaponSingleton.GetWeapon());
-            weaponStateManager.StartCoroutine(AfterShoot());
-            weaponSingleton.UserWeapon.Firing(weaponSingleton.GetWeapon());
+            weaponStateManager = base._weapon.weapon_stateManager;
+        }
+        if (base._weapon.Chamber_Count > 0)
+        {
+            base._weapon.bulletSpawner.SpawnBullet(_weapon);
+            _weapon.StartCoroutine(AfterShoot());
+            base._weapon.userWeapon.Firing(base._weapon);
         }
         else
         {
-            weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none);
+            weaponStateManager.ChangeState(weaponStateManager.none);
         }
         base.EnterState();
     }
@@ -49,9 +49,9 @@ public class Fire : WeaponState
     }
     IEnumerator AfterShoot()
     {
-        MinusBullet(weaponSingleton.GetWeapon());
-        yield return new WaitForSeconds((float)(60/weaponSingleton.GetWeapon().rate_of_fire));
-        weaponStateManager.ChangeState(weaponSingleton.GetStateManager().none); 
+        MinusBullet(base._weapon);
+        yield return new WaitForSeconds((float)(60/base._weapon.rate_of_fire));
+        weaponStateManager.ChangeState(weaponStateManager.none); 
     }
     private void MinusBullet(Weapon weapon)
     {

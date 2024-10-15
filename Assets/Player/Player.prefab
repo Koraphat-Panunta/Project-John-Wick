@@ -180,7 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   My_environment: {fileID: 0}
-  weaponSocket: {fileID: 1937536168038193953}
+  curentWeapon: {fileID: 0}
+  weaponSocket: {fileID: 6816325332925578607}
+  animator: {fileID: 1968153037591969261}
   playerAnimation: {fileID: 73656811904172418}
   rotationConstraint: {fileID: 907063113625849728}
   movementTest: {fileID: 11400000, guid: cfeeda6d84812f24c859f1dcd7ddd111, type: 2}
@@ -475,18 +477,6 @@ PrefabInstance:
       addedObject: {fileID: 2365643280051619748}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87cba2b59823c2e498807517d66f02a3, type: 3}
---- !u!114 &1937536168038193953 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2013878341642873245, guid: 87cba2b59823c2e498807517d66f02a3,
-    type: 3}
-  m_PrefabInstance: {fileID: 76905682742981308}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ce2320b24141848b83c7561aeb6c13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6816325332925578607 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,

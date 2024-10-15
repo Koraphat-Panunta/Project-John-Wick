@@ -6,7 +6,6 @@ using static Reload;
 
 public class Enemy : SubjectEnemy
 {
-    [SerializeField] public WeaponSocket weaponSocket;
     [SerializeField] public NavMeshAgent agent;
     public GameObject Target;
     public EnemyStateManager enemyStateManager;

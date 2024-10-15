@@ -8,7 +8,6 @@ public class Player : SubjectPlayer,IObserverPlayer
 {
     //C# Component
     public PlayerController playerController;
-    public WeaponSocket weaponSocket;
     public PlayerAnimation playerAnimation;
 
     //Class coposition
@@ -52,8 +51,6 @@ public class Player : SubjectPlayer,IObserverPlayer
     private void Update()
     {
         //Detect Cover
-       
-        Debug.Log("CurIdle =" + playerStateManager.idle);
         playerStateManager.Update();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
@@ -65,6 +62,7 @@ public class Player : SubjectPlayer,IObserverPlayer
     }
     public override void Aiming(Weapon weapon)
     {
+        Debug.Log("PlayerRecieved Aiming");
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         NotifyObserver(this, PlayerAction.Aim);
@@ -86,7 +84,6 @@ public class Player : SubjectPlayer,IObserverPlayer
         }
         else
         {
-            //animator.SetLayerWeight(1,Mathf.Lerp(animator.GetLayerWeight\));
             NotifyObserver(this, PlayerAction.LowReady);
         }
     }

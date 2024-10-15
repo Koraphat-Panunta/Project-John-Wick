@@ -12,10 +12,10 @@ public class EnemyWeaponCommand
     public EnemyWeaponCommand(Enemy enemy)
     {
         this.enemy = enemy;
-        _primaryWeaponSocket = enemy.weaponSocket;
+        //_primaryWeaponSocket = enemy.weaponSocket;
         ammoProuch = new AmmoProuch(9999, 9999, 9999, 9999);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
-        this.enemy.StartCoroutine(GetWeapon());
+        //this.enemy.StartCoroutine(GetWeapon());
     }
     void Start()
     {
@@ -47,14 +47,14 @@ public class EnemyWeaponCommand
         ReloadCommand reloadCommand = new ReloadCommand(curWeapon,ammoProuch);
         reloadCommand.Execute();
     }
-    IEnumerator GetWeapon()
-    {
-        curWeapon = null;
-        while (curWeapon == null)
-        {
-            curWeapon = _primaryWeaponSocket.CurWeapon;
-            yield return null;
-        }
-        enemy.animator.runtimeAnimatorController = _primaryWeaponSocket.weaponSingleton.GetOverride_Enemy_Controller();
-    }
+    //IEnumerator GetWeapon()
+    //{
+    //    curWeapon = null;
+    //    while (curWeapon == null)
+    //    {
+    //        curWeapon = _primaryWeaponSocket.CurWeapon;
+    //        yield return null;
+    //    }
+    //    enemy.animator.runtimeAnimatorController = _primaryWeaponSocket.weaponSingleton.GetOverride_Enemy_Controller();
+    //}
 }

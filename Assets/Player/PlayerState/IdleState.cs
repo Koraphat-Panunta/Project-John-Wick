@@ -29,9 +29,8 @@ public class IdleState : CharacterState
     {
         if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward))
         {
-            Debug.Log("DetectCover");
             playerStateManager.idle = playerStateManager.idleInCover;
-            playerStateManager.ChangeState(playerStateManager.idle);
+            playerStateManager.ChangeState(playerStateManager.idleInCover);
 
         }
         InputPerformed();

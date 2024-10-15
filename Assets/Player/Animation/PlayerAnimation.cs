@@ -120,15 +120,15 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animate Weapon Animation
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            animator.SetLayerWeight(1,player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(1,player.curentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            if (player.playerWeaponCommand.CurrentWeapon != null)
+            if (player.curentWeapon != null)
             {
-                animator.SetLayerWeight(1, player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
-                animator.SetFloat("AimingWeigth", player.playerWeaponCommand.CurrentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(1, player.curentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
             }
             else
             {
@@ -144,12 +144,12 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animator Override
         if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
         {
-            this.animator.runtimeAnimatorController = player.weaponSocket.weaponSingleton.GetOverride_Player_Controller();
+            this.animator.runtimeAnimatorController = player.curentWeapon._weaponOverrideControllerPlayer;
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.Reloading)
         {
-            Reload.ReloadType reloadType = player.weaponSocket.CurWeapon.weapon_stateManager.reloadState.reloadType;
+            Reload.ReloadType reloadType = player.curentWeapon.weapon_stateManager.reloadState.reloadType;
             if (reloadType == Reload.ReloadType.TacticalReload)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.TacticalReload]);
