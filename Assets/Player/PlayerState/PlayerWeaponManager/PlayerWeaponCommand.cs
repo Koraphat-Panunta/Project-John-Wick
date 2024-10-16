@@ -51,7 +51,7 @@ public class PlayerWeaponCommand
         {
             AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(player.curentWeapon);
             aimDownSightCommand.Execute();
-            GameObject playerRayCastPost = GameObject.Find("RayCastPos");
+            GameObject playerRayCastPost = player.RayCastPos.gameObject;
             leanCover.LeaningUpdate(playerRayCastPost.transform);
         }
         

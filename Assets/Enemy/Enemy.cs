@@ -19,11 +19,12 @@ public class Enemy : SubjectEnemy
     public EnemyHearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
-
+    public float cost;
 
     public IEnemyHitReaction enemyHitReaction;
 
     [SerializeField] private bool isImortal;
+    public Transform rayCastPos;
      void Start()
     {
         Target = new GameObject();
@@ -43,6 +44,7 @@ public class Enemy : SubjectEnemy
 
         currentTactic = new SerchingTactic(this);
         new WeaponFactorySTI9mm().CreateWeapon(this);
+        cost = Random.Range(64, 100);
         //base.isDead = false;
 
         base.HP = 100;
@@ -54,6 +56,11 @@ public class Enemy : SubjectEnemy
     }
     private void FixedUpdate()
     {
+        //EnemyFindingCover enemyFindingCover = new EnemyFindingCover();
+        //if (enemyFindingCover.FindingCover(this))
+        //{
+        //    Debug.Log("FoundCover");
+        //}
         enemyStateManager.FixedUpdate();
     }
 

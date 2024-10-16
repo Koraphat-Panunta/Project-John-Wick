@@ -10,6 +10,7 @@ public class FlankingTactic : IEnemyTactic
     private EnemyWeaponCommand enemyWeaponCommand;
     private IEnemyFiringPattern enemyFiringPattern;
     private float backToSerchTiming = 2;
+    private float cost_DrainRate = 4;
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
@@ -23,11 +24,16 @@ public class FlankingTactic : IEnemyTactic
     public void Manufacturing()
     {
         enemy.enemyLookForPlayer.Recived();
+        if (enemy.cost < 34&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*10)
+        {
+            //Change state to TakeCover
+        }
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
             enemyWeaponCommand.Aiming();
             enemyFiringPattern.Performing();
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
+            enemy.cost -= cost_DrainRate*Time.deltaTime;
         }
         else
         {
@@ -46,6 +52,7 @@ public class FlankingTactic : IEnemyTactic
                 if (enemy.enemyLookForPlayer.lostSightTiming < 4f)
                 {
                     enemyFiringPattern.Performing();
+                    enemy.cost -= cost_DrainRate * Time.deltaTime;
                 }
             }
         }
