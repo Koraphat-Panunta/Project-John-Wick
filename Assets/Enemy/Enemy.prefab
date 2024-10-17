@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1113618680042977909}
   - component: {fileID: 7890612989017240957}
   - component: {fileID: 2619394019457856660}
+  - component: {fileID: 1345616770146797532}
   - component: {fileID: 6226671452450718800}
   - component: {fileID: 7629015908999961714}
   m_Layer: 7
@@ -136,6 +137,18 @@ MonoBehaviour:
   cost: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
+--- !u!114 &1345616770146797532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c268ee4222d157c4d8427ce83e0d3ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6226671452450718800
 MonoBehaviour:
   m_ObjectHideFlags: 0

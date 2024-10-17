@@ -20,20 +20,24 @@ public class NormalFiringPattern : IEnemyFiringPattern
     }
     public void Performing()
     {
+        
         deltaFireTiming += Time.deltaTime;
-        if(deltaFireTiming >= randomFireTiming)
+        Debug.Log("Normal Firing Pattern Performing deltaFireTiming : " + deltaFireTiming);
+        if (deltaFireTiming >= randomFireTiming)
         {
+            Debug.Log("DeltaTiming reset");
             if(curWeapon.Magazine_count <= 0&&curWeapon.Chamber_Count<=0)
             {
                 weaponCommand.Reload();
+                Debug.Log("Enemy Reload");
             }
             else if(curWeapon.weapon_stateManager._currentState != curWeapon.weapon_stateManager.reloadState)
             {
                 weaponCommand.Fire();
+                Debug.Log("Enemy Firing");
             }
             deltaFireTiming = 0;
-            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
-            
+            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);   
         }
     }
 }

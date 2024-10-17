@@ -42,7 +42,6 @@ public class EnemyComunicate
         if(notifyType == NotifyType.SendTargetLocation)
         {
             _enemy.Target.transform.position = enemySender.Target.transform.position;
-            _enemy.currentTactic = new FlankingTactic(_enemy);
         }
     }
 }

@@ -23,6 +23,15 @@ public class FlankingTactic : IEnemyTactic
     }
     public void Manufacturing()
     {
+        EnemyFindingCover enemyFindingCover = new EnemyFindingCover();
+        if (enemyFindingCover.FindingCover(enemy))
+        {
+            Debug.Log("FoundCover");
+        }
+        else
+        {
+            Debug.Log("NOT FoundCover");
+        }
         enemy.enemyLookForPlayer.Recived();
         if (enemy.cost < 34&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*10)
         {

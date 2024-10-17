@@ -56,11 +56,7 @@ public class Enemy : SubjectEnemy
     }
     private void FixedUpdate()
     {
-        //EnemyFindingCover enemyFindingCover = new EnemyFindingCover();
-        //if (enemyFindingCover.FindingCover(this))
-        //{
-        //    Debug.Log("FoundCover");
-        //}
+       
         enemyStateManager.FixedUpdate();
     }
 
