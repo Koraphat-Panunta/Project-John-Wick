@@ -127,4 +127,12 @@ public class Enemy : SubjectEnemy
             yield return null;
         }
     }
+    private void OnDrawGizmos()
+    {
+        if (Target != null)
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
+        }
+    }
 }
