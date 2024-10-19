@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class Weapon : MonoBehaviour 
+public abstract class Weapon : WeaponSubject 
 {
     public WeaponStateManager weapon_stateManager { get; protected set; }
     public WeaponStanceManager weapon_StanceManager { get; protected set; }

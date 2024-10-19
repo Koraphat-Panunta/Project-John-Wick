@@ -153,20 +153,31 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
             if (reloadType == Reload.ReloadType.TacticalReload)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.TacticalReload]);
-                StartCoroutine(ReloadTiming());
+                StartCoroutine(ReloadTiming(player.curentWeapon.reloadSpeed));
             }
             if(reloadType == Reload.ReloadType.ReloadMagOut)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.Reloading]);
-                StartCoroutine(ReloadTiming());
+                StartCoroutine(ReloadTiming(player.curentWeapon.reloadSpeed));
             }
         }
   
     }
-    IEnumerator ReloadTiming()
+    IEnumerator ReloadTiming(float reloadTime)
     {
+        Debug.Log("ReloadSpeed" + reloadTime);
+        while (this.animator.GetLayerWeight(2) < 1)
+        {
+            this.animator.SetLayerWeight(2, this.animator.GetLayerWeight(2)+Time.deltaTime*8);
+            yield return null;
+        }
         this.animator.SetLayerWeight(2, 1);
-        yield return new WaitForSeconds(2.6f);
+        yield return new WaitForSeconds(reloadTime);
+        while (this.animator.GetLayerWeight(2) > 0)
+        {
+            this.animator.SetLayerWeight(2, this.animator.GetLayerWeight(2) - Time.deltaTime * 8);
+            yield return null;
+        }
         this.animator.SetLayerWeight(2, 0);
        
     }

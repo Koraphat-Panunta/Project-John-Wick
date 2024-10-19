@@ -13,7 +13,7 @@ public class WeaponStateManager
     {
         this._weapon = weapon;
         fireState = new Fire(this._weapon);
-        reloadState = new Reload(this._weapon);
+        reloadState = new Reload(this._weapon,weapon.reloadSpeed);
         none = new None(this._weapon);
         _currentState = none;
         _currentState.EnterState();

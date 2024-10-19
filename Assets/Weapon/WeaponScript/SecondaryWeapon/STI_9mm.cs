@@ -8,7 +8,7 @@ public class STI_9mm : SecondaryWeapon
     public PistolModel Model;
     private int _magazineCapacity = 15;
     private float _rateOfFire = 260;
-    private float _reloadSpeed;
+    private float _reloadSpeed = 3 ;
     private float _accuracy = 50;
    [SerializeField] private GameObject _bulletType;
     private float _recoilController = 18.56f;
@@ -86,6 +86,7 @@ public class STI_9mm : SecondaryWeapon
         Chamber_Count = 1;
         Magazine_count = Magazine_capacity;
         base.Start();
+        
     }
 
 }

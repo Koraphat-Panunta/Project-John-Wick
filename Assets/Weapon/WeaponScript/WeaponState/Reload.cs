@@ -10,8 +10,10 @@ public class Reload : WeaponState
     private float reloadTime;
     private float tacTicalReloadTime;
 
-    public Reload(Weapon weapon) : base(weapon)
+    public Reload(Weapon weapon,float reloadTime) : base(weapon)
     {
+        this.reloadTime =  reloadTime;
+        this.tacTicalReloadTime = reloadTime;
     }
     public enum ReloadType
     {
@@ -30,8 +32,6 @@ public class Reload : WeaponState
         if (ReloadAnimator == null)
         {
             ReloadAnimator = base._weapon.userWeapon.animator;
-            reloadTime = 3;
-            tacTicalReloadTime = 3;
         }
         if (base._weapon.Magazine_count == base._weapon.Magazine_capacity)
         {
@@ -40,12 +40,14 @@ public class Reload : WeaponState
         else if (base._weapon.Magazine_count > 0)
         {
             reloadType = ReloadType.TacticalReload;
+            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
             base._weapon.userWeapon.Reloading(base._weapon, reloadType);
             base._weapon.StartCoroutine(Reloading());
         }
         else if (base._weapon.Magazine_count <= 0)
         {
             reloadType = ReloadType.ReloadMagOut;
+            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Reloading);
             base._weapon.userWeapon.Reloading(base._weapon, reloadType);
             this._weapon.StartCoroutine(Reloading());
         }
@@ -65,14 +67,14 @@ public class Reload : WeaponState
     {
         if(reloadType == ReloadType.ReloadMagOut)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(reloadTime);
             base._weapon.Chamber_Count += 1;
             base._weapon.Magazine_count -= 1;
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(tacTicalReloadTime);
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
     }
