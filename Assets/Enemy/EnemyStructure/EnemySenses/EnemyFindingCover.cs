@@ -110,17 +110,26 @@ public class EnemyFindingCover
                         Bounds bounds = collider.bounds;
                         if (bounds.Contains(CoverPos) || bounds.Contains(AimPos))
                         {
-
+                            coverPositionEnemies.RemoveAt(i);
                         }
                     }
                     else
                     {
-                       
+                        Vector3 closestPointToCoverPos = collider.ClosestPoint(CoverPos);
+                        Vector3 closestPointToAimPos = collider.ClosestPoint(AimPos);
+                        if (closestPointToCoverPos == CoverPos||closestPointToAimPos == AimPos)
+                        {
+                            coverPositionEnemies.RemoveAt(i);
+                        }
                     }
                 }
                 else
                 {
-                   
+                    Bounds bounds = collider.bounds;
+                    if (bounds.Contains(CoverPos) || bounds.Contains(AimPos))
+                    {
+                        coverPositionEnemies.RemoveAt(i);
+                    }
                 }
             }
         }
