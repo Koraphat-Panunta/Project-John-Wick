@@ -18,6 +18,8 @@ public class SerchingTactic : IEnemyTactic
         this.enemyRot = new RotateObjectToward();
         this.enemyWeaponCommand = enemy.enemyWeaponCommand;
         this.agent = enemy.agent;
+        agent.speed = 0;
+        agent.acceleration = 0;
         agent.ResetPath();
         agent.destination = RandomPosInNavmesh();
         enemy.StartCoroutine(PerformedAction());

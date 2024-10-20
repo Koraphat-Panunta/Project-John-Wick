@@ -11,11 +11,13 @@ public class EnemyFindingCover
     private float raduisDetection = 12;
 
     public List<CoverPositionEnemy> coverPositionEnemies = new List<CoverPositionEnemy>();
+    public CoverPositionEnemy coverPositionEnemy;
     public EnemyFindingCover()
     {
         enemyCoverObstacles = new List<EnemyCoverObstacle>();
+        coverPositionEnemy = null;
     }
-    public bool FindingCover(Enemy enemy)
+    public bool FindingCover(Enemy enemy )
     {
         // Step 1 เช็คObstacleว่าอยู่ในระยะและมองเห็นได้ //
         Collider[] col = Physics.OverlapSphere(enemy.transform.position, raduisDetection, LayerMask.GetMask("Default"));
@@ -137,16 +139,19 @@ public class EnemyFindingCover
         for (int i = 0; i <= coverPositionEnemies.Count - 1; i++)
         {
             Collider[] nearColEnemy = Physics.OverlapSphere(coverPositionEnemies[i].coverPos, 1f, LayerMask.GetMask("Enemy"));
-            foreach (Collider n in nearColEnemy)
+            if (nearColEnemy.Length > 0)
             {
-                Enemy enemyInCol = n.GetComponent<ChestBodyPart>().enemy;
-                if (enemyInCol.GetHP() > 0)
+                foreach (Collider n in nearColEnemy)
                 {
-                    Vector3 coverPos = coverPositionEnemies[i].coverPos;
-                    if (Vector3.Distance(enemyInCol.transform.position, new Vector3(coverPos.x, enemyInCol.transform.position.y, coverPos.z)) < 0.7f)
+                    Enemy enemyInCol = n.GetComponent<ChestBodyPart>().enemy;
+                    if (enemyInCol.GetHP() > 0 && enemyInCol != enemy)
                     {
-                        coverPositionEnemies.RemoveAt(i);
-                        break;
+                        Vector3 coverPos = coverPositionEnemies[i].coverPos;
+                        if (Vector3.Distance(enemyInCol.transform.position, new Vector3(coverPos.x, enemyInCol.transform.position.y, coverPos.z)) < 0.7f)
+                        {
+                            coverPositionEnemies.RemoveAt(i);
+                            break;
+                        }
                     }
                 }
             }
@@ -158,6 +163,7 @@ public class EnemyFindingCover
         else
         {
             EnemyCoverDebug.coverPositionEnemies = coverPositionEnemies;
+            this.coverPositionEnemy = coverPositionEnemies[0];
             return true ;
         }
 

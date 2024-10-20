@@ -72,7 +72,6 @@ public class EnemyCoverObstacle
         if (collider.bounds.IntersectRay(rayToCenter, out float distance))
         {
             Vector3 hitPoint = rayToCenter.GetPoint(distance);
-            Debug.Log("Ray hit the bounds of the collider at: " + hitPoint);
 
             // Calculate the surface normal based on the side of the bounds hit
             Vector3 boundsCenter = collider.bounds.center;
@@ -118,11 +117,11 @@ public class EnemyCoverObstacle
         {
             if (Vector3.Dot(normalVertical, (coverPivotPos[i] - centerPosBound).normalized) > 0)
             {
-                coverPos[i] = coverPivotPos[i] - normalVertical * 0.3f;
+                coverPos[i] = coverPivotPos[i] - normalVertical * 0.6f;
             }
             else
             {
-                coverPos[i] = coverPivotPos[i] + normalVertical * 0.3f;
+                coverPos[i] = coverPivotPos[i] + normalVertical * 0.6f;
             }
         }
     }

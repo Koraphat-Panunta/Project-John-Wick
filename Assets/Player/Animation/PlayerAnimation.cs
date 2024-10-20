@@ -120,19 +120,22 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animate Weapon Animation
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            animator.SetLayerWeight(1,player.curentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(2,player.curentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(1,1- player.curentWeapon.weapon_StanceManager.AimingWeight);
             animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
             if (player.curentWeapon != null)
             {
-                animator.SetLayerWeight(1, player.curentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(2, player.curentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(1, 1 - player.curentWeapon.weapon_StanceManager.AimingWeight);
                 animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
             }
             else
             {
-                animator.SetLayerWeight(1,0);
+                animator.SetLayerWeight(2,0);
+                animator.SetLayerWeight(1, 1 );
                 animator.SetFloat("AimingWeigth",0);
             }
         }
@@ -166,19 +169,19 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
     IEnumerator ReloadTiming(float reloadTime)
     {
         Debug.Log("ReloadSpeed" + reloadTime);
-        while (this.animator.GetLayerWeight(2) < 1)
+        while (this.animator.GetLayerWeight(3) < 1)
         {
-            this.animator.SetLayerWeight(2, this.animator.GetLayerWeight(2)+Time.deltaTime*8);
+            this.animator.SetLayerWeight(3, this.animator.GetLayerWeight(3)+Time.deltaTime*8);
             yield return null;
         }
-        this.animator.SetLayerWeight(2, 1);
+        this.animator.SetLayerWeight(3, 1);
         yield return new WaitForSeconds(reloadTime);
-        while (this.animator.GetLayerWeight(2) > 0)
+        while (this.animator.GetLayerWeight(3) > 0)
         {
-            this.animator.SetLayerWeight(2, this.animator.GetLayerWeight(2) - Time.deltaTime * 8);
+            this.animator.SetLayerWeight(3, this.animator.GetLayerWeight(3) - Time.deltaTime * 8);
             yield return null;
         }
-        this.animator.SetLayerWeight(2, 0);
+        this.animator.SetLayerWeight(3, 0);
        
     }
 }

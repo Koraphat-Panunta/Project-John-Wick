@@ -11,6 +11,11 @@ public class SubjectEnemy : Character
         GetShoot_Head,
         GetShoot_Leg,
         Dead,
+        Flanking,
+        TakeCover,
+        Holding,
+        Searching,
+        WarpingMotion
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
     public void AddObserver(IObserverEnemy observer)

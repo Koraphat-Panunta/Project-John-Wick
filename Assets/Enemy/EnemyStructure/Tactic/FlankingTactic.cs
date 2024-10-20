@@ -10,7 +10,7 @@ public class FlankingTactic : IEnemyTactic
     private EnemyWeaponCommand enemyWeaponCommand;
     private IEnemyFiringPattern enemyFiringPattern;
     private float backToSerchTiming = 2;
-    private float cost_DrainRate = 4;
+    private float cost_DrainRate;
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
@@ -20,22 +20,15 @@ public class FlankingTactic : IEnemyTactic
         enemyRot = new RotateObjectToward();
         enemyWeaponCommand = enemy.enemyWeaponCommand;
         this.enemyFiringPattern = new NormalFiringPattern(enemy);
+        cost_DrainRate = Random.Range(9,15);
+
     }
     public void Manufacturing()
     {
-        EnemyFindingCover enemyFindingCover = new EnemyFindingCover();
-        if (enemyFindingCover.FindingCover(enemy))
-        {
-            Debug.Log("FoundCover");
-        }
-        else
-        {
-            Debug.Log("NOT FoundCover");
-        }
         enemy.enemyLookForPlayer.Recived();
-        if (enemy.cost < 34&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*10)
+        if (enemy.cost < 34&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*2)
         {
-            //Change state to TakeCover
+            enemy.currentTactic = new TakeCoverTactic(enemy);
         }
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {

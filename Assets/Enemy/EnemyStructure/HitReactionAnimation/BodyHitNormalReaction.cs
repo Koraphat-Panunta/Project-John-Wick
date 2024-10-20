@@ -38,7 +38,6 @@ public class BodyHitNormalReaction : IEnemyHitReaction
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(this.GetType().Name) == false && animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + this.GetType().Name) == false)
             {
-                Debug.Log("PainEnd");
                 End(enemyState);
             }
         }

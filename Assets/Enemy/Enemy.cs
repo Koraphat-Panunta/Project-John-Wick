@@ -22,6 +22,7 @@ public class Enemy : SubjectEnemy
     public float cost;
 
     public IEnemyHitReaction enemyHitReaction;
+    public EnemyAgentMovementOverride enemyAgentMovementOverride;
 
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
@@ -37,7 +38,7 @@ public class Enemy : SubjectEnemy
        enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
-
+        enemyAgentMovementOverride = new EnemyAgentMovementOverride(agent);
 
         enemyStateManager._currentState = enemyStateManager._idle;
         enemyStateManager._currentState.StateEnter(enemyStateManager);
@@ -52,11 +53,11 @@ public class Enemy : SubjectEnemy
 
     void Update()
     {
+        enemyAgentMovementOverride.Update();
         enemyStateManager.Update();
     }
     private void FixedUpdate()
     {
-       
         enemyStateManager.FixedUpdate();
     }
 
@@ -135,4 +136,7 @@ public class Enemy : SubjectEnemy
             Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
         }
     }
+   
+
+   
 }

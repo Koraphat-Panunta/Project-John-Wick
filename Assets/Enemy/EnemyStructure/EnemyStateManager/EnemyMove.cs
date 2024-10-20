@@ -52,5 +52,6 @@ public class EnemyMove : EnemyState
         }
         EnemyDebuger.curPos = agent.destination;
         base.StateUpdate(enemyState);
-    } 
+    }
+    
 }

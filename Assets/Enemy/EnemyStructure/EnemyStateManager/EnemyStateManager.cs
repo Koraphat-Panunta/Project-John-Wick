@@ -8,6 +8,7 @@ public class EnemyStateManager
     public EnemyState _currentState;
     public EnemyMove _move { get; private set; }
     public EnemyIdle _idle { get; private set; }
+    public EnemySprint _sprint { get; private set; }
     public EnemyPainState _painState { get; private set; }
     public EnemyDead enemyDead { get; private set; }
     public Enemy enemy;
@@ -18,6 +19,7 @@ public class EnemyStateManager
         _move = new EnemyMove();
         _idle = new EnemyIdle();
         _painState = new EnemyPainState();
+        _sprint = new EnemySprint(enemy);
         enemyDead = new EnemyDead();
     }
     private void Start()

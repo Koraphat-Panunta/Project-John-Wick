@@ -83,7 +83,6 @@ public class EnemyPath
     }
     public void RegenaratePath()
     {
-        Debug.Log("ReGenPath");
         ResetPath();
         GenaratePath(targetPos,this._curPos);
         SetNavDestinationNext();

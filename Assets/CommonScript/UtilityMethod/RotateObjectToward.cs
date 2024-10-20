@@ -49,4 +49,9 @@ public class RotateObjectToward : IUtilityMethod
             _rotObject.transform.rotation = Quaternion.Slerp(_rotObject.transform.rotation, targetRotation, rotationSpeed_NoNeedDeltaTime * Time.deltaTime);
         }
     }
+    public void RotateTowardsObject(GameObject target,GameObject rotObject,float rotSpeed)
+    {
+        Vector3 dir = (target.transform.position - rotObject.transform.position).normalized;
+        RotateTowards(dir, rotObject, rotSpeed);
+    }
 }
