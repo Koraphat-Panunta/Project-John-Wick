@@ -33,7 +33,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
             else if(curWeapon.weapon_stateManager._currentState != curWeapon.weapon_stateManager.reloadState)
             {
                 Ray ray = new Ray(enemy.rayCastPos.position,enemy.Target.transform.position);
-                if (Physics.SphereCast(ray, 0.2f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Enemy")))
+                if (Physics.SphereCast(ray, 0.5f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Enemy")))
                 {
                     if(hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body))
                     {

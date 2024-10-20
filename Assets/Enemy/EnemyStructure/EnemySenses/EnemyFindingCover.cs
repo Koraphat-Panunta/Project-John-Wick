@@ -88,7 +88,7 @@ public class EnemyFindingCover
                     }
                     else
                     {
-                        Debug.DrawLine(CoverPos, (targetPos - CoverPos).normalized* Vector3.Distance(CoverPos, targetPos), Color.green);
+                        //Debug.DrawLine(CoverPos, (targetPos - CoverPos).normalized* Vector3.Distance(CoverPos, targetPos), Color.green);
                     }
                 }
             }
@@ -187,7 +187,21 @@ public class EnemyFindingCover
         else
         {
             EnemyCoverDebug.coverPositionEnemies = coverPositionEnemies;
-            this.coverPositionEnemy = coverPositionEnemies[0];
+            foreach(CoverPositionEnemy coverPositionEnemy in coverPositionEnemies)
+            {
+                if(this.coverPositionEnemy == null)
+                {
+                    this.coverPositionEnemy = coverPositionEnemy;
+                }
+                Vector3 DirTTE = enemy.Target.transform.position.normalized- enemy.transform.position.normalized;
+                Vector3 DirTTC = enemy.Target.transform.position.normalized - coverPositionEnemy.coverPos.normalized;
+
+                Vector3 DirTTc = enemy.Target.transform.position.normalized - this.coverPositionEnemy.coverPos.normalized;
+                if (Vector3.Dot(DirTTC, DirTTE)>Vector3.Dot(DirTTE,DirTTc))
+                {
+                    this.coverPositionEnemy = coverPositionEnemy;
+                }
+            }
             return true ;
         }
 
