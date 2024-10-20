@@ -26,7 +26,7 @@ public class MoveInCover : MoveState,IObserverPlayer
     {
         if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward) == false)
         {
-            Debug.Log("DetectCover");
+         
             playerStateManager.move = playerStateManager.normalMove;
             playerStateManager.ChangeState(playerStateManager.move);
 
@@ -36,15 +36,15 @@ public class MoveInCover : MoveState,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        Debug.Log("Notify in Move in cover Action ="+playerAction.ToString());
+       
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            Debug.Log("Notify ADS");
+      
             isAiming = true;
         }
         else if (playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            Debug.Log("Notify LowReady");
+     
             isAiming = false;
         }
     }
@@ -56,7 +56,7 @@ public class MoveInCover : MoveState,IObserverPlayer
         playerMovement.OMNI_DirMovingCharacter();
         if (isAiming == false)
         {
-            Debug.Log("Is Aiming = false");
+        
             //Debug.Log("Move in Cover Aiming = false");
             playerMovement.RotateCharacter(coverDetection.obstacleSurfaceDir * -1, 6);
             if (player.curentWeapon != null)
@@ -85,7 +85,7 @@ public class MoveInCover : MoveState,IObserverPlayer
         }
         else
         {
-            Debug.Log("Is Aiming = true");
+           
             if (player.curentWeapon != null)
             {
                 if (warping == true)

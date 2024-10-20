@@ -26,7 +26,7 @@ public class FlankingTactic : IEnemyTactic
     public void Manufacturing()
     {
         enemy.enemyLookForPlayer.Recived();
-        if (enemy.cost < 34&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*2)
+        if (enemy.cost < 34/*&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*2*/)
         {
             enemy.currentTactic = new TakeCoverTactic(enemy);
         }

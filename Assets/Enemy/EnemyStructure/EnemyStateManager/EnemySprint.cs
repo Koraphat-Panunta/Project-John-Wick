@@ -19,12 +19,14 @@ public class EnemySprint : EnemyState
     public override void StateEnter(EnemyStateManager enemyState)
     {
         animator.SetBool("IsSprinting",true);
+        animator.speed = 0.6f;
         base.StateEnter(enemyState);
     }
 
     public override void StateExit(EnemyStateManager enemyState)
     {
         animator.SetBool("IsSprinting", false);
+        animator.speed = 1f;
         base.StateExit(enemyState);
     }
 

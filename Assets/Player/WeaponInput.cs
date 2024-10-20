@@ -15,12 +15,10 @@ public class WeaponInput : MonoBehaviour
         if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started)
         {
             player.playerWeaponCommand.Aim();
-            Debug.Log("AimDownSight");
         }
         else
         {
             player.playerWeaponCommand.LowWeapon();
-            Debug.Log("LowReady");
         }
 
         if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0))

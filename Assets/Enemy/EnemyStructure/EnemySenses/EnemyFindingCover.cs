@@ -15,11 +15,14 @@ public class EnemyFindingCover
     public EnemyFindingCover()
     {
         enemyCoverObstacles = new List<EnemyCoverObstacle>();
+        enemyCoverObstacles.Clear();
         coverPositionEnemy = null;
     }
     public bool FindingCover(Enemy enemy )
     {
         // Step 1 เช็คObstacleว่าอยู่ในระยะและมองเห็นได้ //
+        enemyCoverObstacles.Clear();
+        coverPositionEnemies.Clear();
         Collider[] col = Physics.OverlapSphere(enemy.transform.position, raduisDetection, LayerMask.GetMask("Default"));
         if (col.Length <= 0)
         {
@@ -45,12 +48,9 @@ public class EnemyFindingCover
                 }
             }
         }
-        if (enemyCoverObstacles.Count > 0)
-        {
-            EnemyCoverDebug.enemyCoverObstacle.Clear();
-            EnemyCoverDebug.enemyCoverObstacle = this.enemyCoverObstacles;
-        }
-        else
+        EnemyCoverDebug.enemyCoverObstacle = enemyCoverObstacles;
+        Debug.Log("Step 1 enemyCoverObstacles.Count "+ enemyCoverObstacles.Count);
+        if(enemyCoverObstacles.Count <= 0)
         {
             return false;
         }
@@ -88,52 +88,75 @@ public class EnemyFindingCover
                     }
                     else
                     {
-                        //Debug.DrawLine(CoverPos, hit.point, Color.green);
+                        Debug.DrawLine(CoverPos, (targetPos - CoverPos).normalized* Vector3.Distance(CoverPos, targetPos), Color.green);
                     }
                 }
             }
         }
-        if (coverPositionEnemies.Count < 0)
+        if (coverPositionEnemies.Count <= 0)
         {
             return false;
         }
+        Debug.Log("Step 2 coverPositionEnemies.Count " + coverPositionEnemies.Count);
         // Step 3 เช็คCoverPosและAimPosOverlap
-        for (int i = 0; i <= coverPositionEnemies.Count - 1; i++)
+        for (int i = 0; i <= coverPositionEnemies.Count-1 ; i++)
         {
             Vector3 CoverPos = coverPositionEnemies[i].coverPos;
             Vector3 AimPos = coverPositionEnemies[i].aimPos;
+            Vector3 CoverPosPivot = coverPositionEnemies[i].coverPivotPos;
             Collider[] colnearBy = Physics.OverlapSphere(coverPositionEnemies[i].coverPos, 1f, LayerMask.GetMask("Default"));
             foreach(Collider collider in colnearBy)
             {
-                if (collider.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
+                if (coverPositionEnemies.Count > 0)
                 {
-                    if (boxCollider.transform.rotation.x % 360 != 0 || boxCollider.transform.rotation.z % 360 != 0)
+                    if (collider.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
                     {
-                        Bounds bounds = collider.bounds;
-                        if (bounds.Contains(CoverPos) || bounds.Contains(AimPos))
+                        if (boxCollider.transform.rotation.x % 360 != 0 || boxCollider.transform.rotation.z % 360 != 0)
                         {
-                            coverPositionEnemies.RemoveAt(i);
+                            Bounds bounds = collider.bounds;
+                            if (bounds.Contains(CoverPos) || bounds.Contains(AimPos)||bounds.Contains(CoverPosPivot))
+                            {
+                                Debug.Log("I =" + i);
+                                Debug.Log("coverPositionEnemies count" + coverPositionEnemies.Count);
+                                coverPositionEnemies.RemoveAt(i);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Vector3 closestPointToCoverPos = collider.ClosestPoint(CoverPos);
+                            Vector3 closestPointToAimPos = collider.ClosestPoint(AimPos);
+                            if (closestPointToCoverPos == CoverPos || closestPointToAimPos == AimPos|| closestPointToAimPos == CoverPosPivot)
+                            {
+                                Debug.Log("I =" + i);
+                                Debug.Log("coverPositionEnemies count" + coverPositionEnemies.Count);
+                                coverPositionEnemies.RemoveAt(i);
+                                break;
+                            }
                         }
                     }
                     else
                     {
-                        Vector3 closestPointToCoverPos = collider.ClosestPoint(CoverPos);
-                        Vector3 closestPointToAimPos = collider.ClosestPoint(AimPos);
-                        if (closestPointToCoverPos == CoverPos||closestPointToAimPos == AimPos)
+                        Bounds bounds = collider.bounds;
+                        if (bounds.Contains(CoverPos) || bounds.Contains(AimPos) || bounds.Contains(CoverPosPivot))
                         {
+                            Debug.Log("I =" + i);
+                            Debug.Log("coverPositionEnemies count" + coverPositionEnemies.Count);
                             coverPositionEnemies.RemoveAt(i);
+                            break;
                         }
                     }
                 }
                 else
                 {
-                    Bounds bounds = collider.bounds;
-                    if (bounds.Contains(CoverPos) || bounds.Contains(AimPos))
-                    {
-                        coverPositionEnemies.RemoveAt(i);
-                    }
+                    break;
                 }
             }
+        }
+        Debug.Log("Step 3 coverPositionEnemies.Count " + coverPositionEnemies.Count);
+        if (coverPositionEnemies.Count <= 0)
+        {
+            return false;
         }
         // Step 4 เช็คจุดกำบังมีใครไปใช้แล้วหรือ
         for (int i = 0; i <= coverPositionEnemies.Count - 1; i++)
@@ -143,7 +166,7 @@ public class EnemyFindingCover
             {
                 foreach (Collider n in nearColEnemy)
                 {
-                    Enemy enemyInCol = n.GetComponent<ChestBodyPart>().enemy;
+                    Enemy enemyInCol = n.GetComponent<BodyPart>().enemy;
                     if (enemyInCol.GetHP() > 0 && enemyInCol != enemy)
                     {
                         Vector3 coverPos = coverPositionEnemies[i].coverPos;
@@ -156,6 +179,7 @@ public class EnemyFindingCover
                 }
             }
         }
+        Debug.Log("Step 4 coverPositionEnemies.Count " + coverPositionEnemies.Count);
         if (coverPositionEnemies.Count <= 0)
         {
             return false ;

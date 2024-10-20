@@ -95,12 +95,10 @@ public class IdleInCover : IdleState,IObserverPlayer
     {
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            Debug.Log("Notify ADS");
             isAiming = true;
         }
         else if (playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            Debug.Log("Notify LowReady");
             isAiming = false;
         }
     }

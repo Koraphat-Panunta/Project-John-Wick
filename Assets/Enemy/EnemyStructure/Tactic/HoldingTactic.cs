@@ -9,14 +9,14 @@ public class HoldingTactic : IEnemyTactic
     private IEnemyFiringPattern enemyFiringPattern;
     private EnemyFindingCover findingCover;
     private float costRate;
-    private float exitStateCost = 86;
+    private float exitStateCost = 70;
     private float findCoverFrequency = 2;
     public HoldingTactic(Enemy enemy)
     {
         this.enemy = enemy;
         enemyFiringPattern = new NormalFiringPattern(enemy);
         findingCover = new EnemyFindingCover();
-        costRate = Random.Range(2, 4f);
+        costRate = Random.Range(8, 15f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Holding);
     }
     public void Manufacturing()
@@ -25,22 +25,26 @@ public class HoldingTactic : IEnemyTactic
         if (enemy.enemyLookForPlayer.IsSeeingPlayer)
         {
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
-        }
-        Ray ray = new Ray(enemy.rayCastPos.position,(enemy.Target.transform.position-enemy.rayCastPos.position).normalized);
-        if (Physics.Raycast(ray,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Default")+enemy.targetMask))
-        {
-            if (hitInfo.collider.gameObject.layer == enemy.targetMask)
-            {
-                isSeeTargetPos = true;
-            }
-            else
-            {
-                isSeeTargetPos = false;
-            }
+            isSeeTargetPos = true;
         }
         else
         {
-            isSeeTargetPos = true;
+            Ray ray = new Ray(enemy.rayCastPos.position, (enemy.Target.transform.position - enemy.rayCastPos.position).normalized);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Default") + enemy.targetMask))
+            {
+                if (hitInfo.collider.gameObject.layer == enemy.targetMask)
+                {
+                    isSeeTargetPos = true;
+                }
+                else
+                {
+                    isSeeTargetPos = false;
+                }
+            }
+            else
+            {
+                isSeeTargetPos = true;
+            }
         }
         if(isSeeTargetPos == true)
         {
@@ -52,18 +56,22 @@ public class HoldingTactic : IEnemyTactic
         }
         else if(isSeeTargetPos == false)
         {
-            enemy.enemyWeaponCommand.Aiming();
-            enemy.agent.destination = enemy.Target.transform.position;
+            enemy.enemyWeaponCommand.LowReady();
+            enemy.agent.destination = Vector3.Cross(enemy.Target.transform.position - enemy.transform.position, Vector3.up);
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
             new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
         }
         if(findCoverFrequency <=0)
         {
-            if (findingCover.FindingCover(enemy))
-            {
-                enemy.currentTactic = new TakeCoverTactic(enemy);
-            }
+            //if (findingCover.FindingCover(enemy))
+            //{
+            //    enemy.currentTactic = new TakeCoverTactic(enemy);
+            //}
             findCoverFrequency = 2;
+        }
+        if (findingCover.FindingCover(enemy))
+        {
+            enemy.currentTactic = new TakeCoverTactic(enemy);
         }
         findCoverFrequency -= Time.deltaTime;
         if(enemy.cost >= exitStateCost)

@@ -24,7 +24,10 @@ public class EnemyCoverDebug : MonoBehaviour
                 }
                 Gizmos.color = Color.white;
                 Gizmos.DrawSphere(enemyCover.collider.bounds.center, sphereRaduis);
-                Gizmos.DrawWireCube(enemyCover.collider.bounds.center, enemyCover.collider.bounds.size);
+                if (enemyCover.obstacleType == EnemyCoverObstacle.ObstacleType.Bound)
+                {
+                    Gizmos.DrawWireCube(enemyCover.collider.bounds.center, enemyCover.collider.bounds.size);
+                }
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(enemyCover.collider.bounds.center, enemyCover.collider.bounds.center + enemyCover.normalBound * 3.5f);
                 foreach (Vector3 CoverPos in enemyCover.coverPos)

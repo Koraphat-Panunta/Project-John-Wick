@@ -45,7 +45,7 @@ public class Enemy : SubjectEnemy
 
         currentTactic = new SerchingTactic(this);
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(64, 100);
+        cost = Random.Range(10, 40);
         //base.isDead = false;
 
         base.HP = 100;

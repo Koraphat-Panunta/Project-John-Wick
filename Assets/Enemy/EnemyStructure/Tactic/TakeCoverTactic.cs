@@ -23,7 +23,7 @@ public class TakeCoverTactic : IEnemyTactic
         agent.acceleration = 0;
         isInCover = false;
         coverPositionEnemy = null;
-        costRate = Random.Range(3f, 5f);
+        costRate = Random.Range(1f, 2.5f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
     }
     public void Manufacturing()
@@ -38,10 +38,12 @@ public class TakeCoverTactic : IEnemyTactic
             if (enemyFindingCover.FindingCover(enemy))
             {
                 this.coverPositionEnemy = enemyFindingCover.coverPositionEnemy;
+                Debug.Log("FindCoverComplete");
             }
             else
             {
                 enemy.currentTactic = new HoldingTactic(enemy);
+                Debug.Log("FindCoverFaild");
             }
         }
         else if(coverPositionEnemy != null)
@@ -82,6 +84,10 @@ public class TakeCoverTactic : IEnemyTactic
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
         enemyFiringPattern.Performing();
         new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
+        if (enemy.enemyLookForPlayer.IsSeeingPlayer == false)
+        {
+            enemy.cost += 3*costRate * Time.deltaTime;
+        }
     }
     private void BackToCover(Vector3 CoverPos, NavMeshAgent agent) 
     {

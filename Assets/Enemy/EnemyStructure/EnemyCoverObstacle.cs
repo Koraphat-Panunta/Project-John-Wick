@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,22 +28,24 @@ public class EnemyCoverObstacle
         this.hitInfo = hitInfo;
         this.enemyPos = enemyPos;
 
-        
-
         if (collider.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
         {
-            if(boxCollider.transform.rotation.x%360 != 0 || boxCollider.transform.rotation.z % 360 != 0)
+            if (Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x) % 360 != 0 || Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z) % 360 != 0)
             {
+                Debug.Log("BoxCollider rot = " + boxCollider.transform.rotation.eulerAngles);
+                Debug.Log("BoxCollider rot x = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x));
+                Debug.Log("BoxCollider rot z = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z));
                 SetCoverPivotPosition_Bound();
                 SetCoverNormalDir_Bound();
                 obstacleType = ObstacleType.Bound;
             }
             else
             {
-                SetCoverPivotPosition_BoxCollider(boxCollider);
-                normalBound = hitInfo.normal.normalized * Vector3.Distance(collider.bounds.center, hitInfo.point);
-                obstacleType= ObstacleType.BoxCollider;
+
             }
+            SetCoverPivotPosition_BoxCollider(boxCollider);
+            normalBound = hitInfo.normal.normalized * Vector3.Distance(collider.bounds.center, hitInfo.point);
+            obstacleType = ObstacleType.BoxCollider;
         }
         else
         {

@@ -42,7 +42,6 @@ public class IdleState : CharacterState
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
-        Debug.Log("idle");
         PlayerMovement playerMovement = base.player.playerMovement;
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         playerMovement.FreezingCharacter();

@@ -38,7 +38,6 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
     {
         if (weapon != null)
         {
-            Debug.Log("SetWeight");
             weight = weapon.weapon_StanceManager.AimingWeight;
             Spine.weight = weight;
             Head.weight = weight;
