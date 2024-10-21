@@ -16,11 +16,21 @@ public class EnemyAgentMovementOverride
     }
     public void Update()
     {
+        isOverride = false;
         this.agent.speed = 0;
         this.agent.acceleration = 0;
     }
+    public void LateUpdate()
+    {
+        if(isOverride == false)
+        {
+            this.agent.speed = 0;
+            this.agent.acceleration = 0;
+        }
+    }
     public void OverrideAgentInFrame(float speed,float acceleration)
     {
+        isOverride = true;
         this.agent.speed = speed;
         this.agent.acceleration = acceleration;
     }

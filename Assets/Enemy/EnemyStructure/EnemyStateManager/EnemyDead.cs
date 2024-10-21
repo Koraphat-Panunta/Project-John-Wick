@@ -27,6 +27,8 @@ public class EnemyDead : EnemyState
 
     public override void StateUpdate(EnemyStateManager enemyState)
     {
+        enemyState.enemy.agent.speed = 0;
+        enemyState.enemy.agent.acceleration = 0;
         base.StateUpdate(enemyState);
     }
 }

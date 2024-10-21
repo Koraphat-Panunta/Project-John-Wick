@@ -123,6 +123,31 @@ public abstract class Weapon : WeaponSubject
         }
         parentConstraint.weight = 1;
     }
+    public void AttachWeaponTo(Transform weaponSocket)
+    {
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = weaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+        parentConstraint.constraintActive = true;
+        //if (WeaponUser.TryGetComponent<Player>(out Player p))
+        //{
+        //    p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
+        //}
+        //if (WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
+        //{
+        //    enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
+        //}
+        parentConstraint.weight = 1;
+    }
     public void DropWeapon()
     {
         rb.isKinematic = false;

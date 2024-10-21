@@ -36,6 +36,8 @@ public class EnemyPainState : EnemyState
 
     public override void StateUpdate(EnemyStateManager enemyState)
     {
+        enemyState.enemy.agent.speed = 0;
+        enemyState.enemy.agent.acceleration = 0;
         this.hitReaction.Performed(enemyState);
     }
 }

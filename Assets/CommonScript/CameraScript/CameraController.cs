@@ -8,10 +8,12 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
     [SerializeField] public PlayerController playerController;
     [SerializeField] public CinemachineCameraOffset cameraOffset;
+    [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player Player;
     private CamerOverShoulder cameraOverShoulder;
     public CameraKickBack cameraKickBack;
     public CameraZoom cameraZoom;
+    public CameraHandShake cameraHandShake;
 
     public enum CameraKickbackPreset
     {
@@ -35,6 +37,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         cameraOverShoulder = new CamerOverShoulder(this);
         cameraKickBack = new CameraKickBack(this);
         cameraZoom = new CameraZoom(this);
+        cameraHandShake = new CameraHandShake(this);
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
@@ -58,6 +61,10 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
 
+        }
+        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
+        {
+            cameraHandShake.Performed();
         }
     }
 }

@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 using static Reload;
 
 public class Enemy : SubjectEnemy
 {
     [SerializeField] public NavMeshAgent agent;
+    [SerializeField] public MultiRotationConstraint rotationConstraint;
     public GameObject Target;
     public EnemyStateManager enemyStateManager;
     public EnemyWeaponCommand enemyWeaponCommand;
@@ -20,9 +22,12 @@ public class Enemy : SubjectEnemy
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
     public float cost;
+    public float pressure;
 
     public IEnemyHitReaction enemyHitReaction;
     public EnemyAgentMovementOverride enemyAgentMovementOverride;
+
+    public EnemyMiniFlinch enemyMiniFlinch;
 
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
@@ -39,6 +44,7 @@ public class Enemy : SubjectEnemy
         enemyHearingSensing = new EnemyHearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
         enemyAgentMovementOverride = new EnemyAgentMovementOverride(agent);
+        enemyMiniFlinch = new EnemyMiniFlinch(this);
 
         enemyStateManager._currentState = enemyStateManager._idle;
         enemyStateManager._currentState.StateEnter(enemyStateManager);
@@ -46,6 +52,7 @@ public class Enemy : SubjectEnemy
         currentTactic = new SerchingTactic(this);
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(10, 40);
+        pressure = 100;
         //base.isDead = false;
 
         base.HP = 100;
@@ -55,6 +62,7 @@ public class Enemy : SubjectEnemy
     {
         enemyAgentMovementOverride.Update();
         enemyStateManager.Update();
+        enemyAgentMovementOverride.LateUpdate();
     }
     private void FixedUpdate()
     {

@@ -6,8 +6,12 @@ public class LegBodyPart : BodyPart
 {
     public override void GotHit(float damage)
     {
+        if (enemy.pressure > 0)
+        {
+            enemy.pressure -= damage * Random.Range(1, 2);
+        }
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damage*0.5f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Leg);
     }
 }
