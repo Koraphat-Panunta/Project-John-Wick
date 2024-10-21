@@ -46,7 +46,8 @@ public class Player : SubjectPlayer,IObserverPlayer
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
         AddObserver(this);
-        new WeaponFactorySTI9mm().CreateWeapon(this);
+        new WeaponFactoryAR15().CreateWeapon(this);
+        //new WeaponFactorySTI9mm().CreateWeapon(this);
     }
     private void Update()
     {

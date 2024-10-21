@@ -108,6 +108,7 @@ public class TakeCoverTactic : IEnemyTactic
         agent.SetDestination(CoverPos);
         if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1f)
         {
+            enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
             return true;
         }
         else

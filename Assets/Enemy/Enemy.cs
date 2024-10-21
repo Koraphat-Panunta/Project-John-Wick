@@ -33,7 +33,7 @@ public class Enemy : SubjectEnemy
         enemyWeaponCommand = new EnemyWeaponCommand(this);
         enemyPath = new EnemyPath(agent);
         
-        enemyFieldOfView = new FieldOfView(120, 137,this.gameObject.transform);
+        enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
         enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
        enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);

@@ -21,8 +21,10 @@ public class WeaponInput : MonoBehaviour
             player.playerWeaponCommand.LowWeapon();
         }
 
-        if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0))
+        if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0)|| input.firing.phase == InputActionPhase.Performed
+            ||Input.GetKey(KeyCode.Mouse0))
         {
+            Debug.Log("PullTrigger");
             player.playerWeaponCommand.Pulltriger();
         }
         else

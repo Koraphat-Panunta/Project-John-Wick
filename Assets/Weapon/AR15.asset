@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da43b7b4c29a30d4e8e78adb32812667, type: 3}
+  m_Name: AR15
+  m_EditorClassIdentifier: 
+  _magazineCapacity: 30
+  _rateOfFire: 670
+  _reloadSpeed: 2.3
+  _accuracy: 98
+  _bulletType: {fileID: 8484765704080718728, guid: daf6f40f72bfa1d46844376a11acc808,
+    type: 3}
+  _recoilController: 30
+  _aimDownSightSpeed: 3
+  _recoilKickBack: 60
+  min_percision: 11.31
+  max_percision: 74

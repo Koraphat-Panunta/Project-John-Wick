@@ -5,15 +5,15 @@ using UnityEngine;
 public class AR15 : PrimaryWeapon
 {
     //SetUpStats
-    public PistolModel Model;
+    [SerializeField] PrimaryWeaponModel Model;
     private int _magazineCapacity = 30;
     private float _rateOfFire = 550;
-    private float _reloadSpeed;
-    private float _accuracy = 50;
+    private float _reloadSpeed = 3;
+    private float _accuracy = 30;
     [SerializeField] private GameObject _bulletType;
     private float _recoilController = 18.56f;
     private float _aimDownSightSpeed = 3f;
-    private float _recoilKickBack = 20;
+    private float _recoilKickBack = 50;
     private float min_percision = 20;
     private float max_percision = 65;
     public override int Magazine_capacity
@@ -71,6 +71,19 @@ public class AR15 : PrimaryWeapon
 
     protected override void Start()
     {
+        if(Model != null)
+        {
+            _magazineCapacity = Model._magazineCapacity;
+            _rateOfFire = Model._rateOfFire;
+            _reloadSpeed = Model._reloadSpeed;
+            _accuracy = Model._accuracy;
+            _bulletType = Model._bulletType;
+            _recoilController = Model._recoilController;
+            _aimDownSightSpeed = Model._aimDownSightSpeed;
+            _recoilKickBack = Model._recoilKickBack;
+            min_percision = Model.min_percision;
+            max_percision = Model.max_percision;
+        }
         fireMode = FireMode.FullAuto;
         Chamber_Count = 1;
         Magazine_count = Magazine_capacity;

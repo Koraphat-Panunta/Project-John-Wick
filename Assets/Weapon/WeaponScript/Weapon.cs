@@ -121,6 +121,7 @@ public abstract class Weapon : WeaponSubject
         {
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
         }
+        parentConstraint.weight = 1;
     }
     public void DropWeapon()
     {

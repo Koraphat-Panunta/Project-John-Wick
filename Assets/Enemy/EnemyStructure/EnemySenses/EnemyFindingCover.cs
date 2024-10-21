@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -111,7 +112,7 @@ public class EnemyFindingCover
                 {
                     if (collider.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
                     {
-                        if (boxCollider.transform.rotation.x % 360 != 0 || boxCollider.transform.rotation.z % 360 != 0)
+                        if (Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x) % 360 != 0 ||Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z) % 360 != 0)
                         {
                             Bounds bounds = collider.bounds;
                             if (bounds.Contains(CoverPos) || bounds.Contains(AimPos)||bounds.Contains(CoverPosPivot))
@@ -170,7 +171,7 @@ public class EnemyFindingCover
                     if (enemyInCol.GetHP() > 0 && enemyInCol != enemy)
                     {
                         Vector3 coverPos = coverPositionEnemies[i].coverPos;
-                        if (Vector3.Distance(enemyInCol.transform.position, new Vector3(coverPos.x, enemyInCol.transform.position.y, coverPos.z)) < 0.7f)
+                        if (Vector3.Distance(enemyInCol.transform.position, new Vector3(coverPos.x, enemyInCol.transform.position.y, coverPos.z)) < 0.13f)
                         {
                             coverPositionEnemies.RemoveAt(i);
                             break;
@@ -187,7 +188,7 @@ public class EnemyFindingCover
         else
         {
             EnemyCoverDebug.coverPositionEnemies = coverPositionEnemies;
-            foreach(CoverPositionEnemy coverPositionEnemy in coverPositionEnemies)
+            foreach (CoverPositionEnemy coverPositionEnemy in coverPositionEnemies)
             {
                 if(this.coverPositionEnemy == null)
                 {

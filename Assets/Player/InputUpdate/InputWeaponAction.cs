@@ -22,7 +22,7 @@ public class InputWeaponAction : IInputUpdate
             player.playerWeaponCommand.LowWeapon();
         }
 
-        if (input.firing.phase == InputActionPhase.Performed)
+        if (input.firing.phase == InputActionPhase.Performed/*||Input.GetKey(KeyCode.Mouse0*/)
         {
             Debug.Log("Pull Trigger Idle");
             player.playerWeaponCommand.Pulltriger();
