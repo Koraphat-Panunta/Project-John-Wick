@@ -22,10 +22,6 @@ public class EnemyStateManager
         _sprint = new EnemySprint(enemy);
         enemyDead = new EnemyDead();
     }
-    private void Start()
-    {
-      
-    }
     public void FixedUpdate()
     {
         _currentState.StateFixedUpdate(this);

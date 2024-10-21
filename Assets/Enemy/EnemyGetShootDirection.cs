@@ -13,8 +13,9 @@ public class EnemyGetShootDirection
     }
     public Vector3 GetDir()
     {
+        float accuracy = Random.Range(0, 0.1f);
         Vector3 dir = enemy.transform.forward;
-        return new Vector3(dir.x + Random.Range(-0.1f, 0.1f), dir.y + Random.Range(-0.1f, 0.1f), dir.z);
+        return new Vector3(dir.x + Random.Range(-accuracy, accuracy), dir.y + Random.Range(-accuracy, accuracy), dir.z);
         
     }
 

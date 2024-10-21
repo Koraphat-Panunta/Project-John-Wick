@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6287137376191654520}
   - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
-  - component: {fileID: -431072087934581022}
+  - component: {fileID: 4530450250701556535}
   - component: {fileID: 6533016776398317003}
   m_Layer: 9
   m_Name: AR15_556
@@ -204,7 +204,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-431072087934581022
+--- !u!114 &4530450250701556535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7594886238610776571}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3f87f461428e141909973f4427ef36, type: 3}
+  m_Script: {fileID: 11500000, guid: cd31c89bb74249643adcbee66250c845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 2761170129473076366}
@@ -272,12 +272,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.71
+      value: -2.76
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.1
+      value: -1.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
         type: 3}

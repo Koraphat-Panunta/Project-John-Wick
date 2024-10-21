@@ -37,7 +37,7 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     {
         weapon.Remove(this);
     }
-    public void SpawnMagDrop()
+    public virtual void SpawnMagDrop()
     {
         if (magazine != null)
         {
@@ -48,7 +48,7 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
             StartCoroutine(Removemag(mag));
         }
     }
-    IEnumerator Removemag(GameObject mag)
+    protected IEnumerator Removemag(GameObject mag)
     {
         yield return new WaitForSeconds(3);
         GameObject.Destroy(mag);

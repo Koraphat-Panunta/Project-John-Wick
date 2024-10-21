@@ -103,12 +103,18 @@ public class TakeCoverTactic : IEnemyTactic
         enemy.enemyWeaponCommand.LowReady();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
     }
+    bool isSetMovePos = false;
     private bool MoveToCover(Vector3 CoverPos, NavMeshAgent agent)
     {
-        agent.SetDestination(CoverPos);
+        if (isSetMovePos == false)
+        {
+            agent.SetDestination(CoverPos);
+            isSetMovePos = true;
+        }
         if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1f)
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
+            isSetMovePos = false;
             return true;
         }
         else

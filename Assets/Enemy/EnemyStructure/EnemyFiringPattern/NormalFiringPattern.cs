@@ -9,8 +9,8 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private AmmoProuch ammoProuch;
     private double deltaFireTiming = 0;
     private double randomFireTiming = 0;
-    private const float MAXRANG_TIMING_FIRE = 1f;
-    private const float MINRANG_TIMING_FIRE = 0.3f;
+    private const float MAXRANG_TIMING_FIRE = 0.6f;
+    private const float MINRANG_TIMING_FIRE = 0.2f;
     private Enemy enemy;
     public NormalFiringPattern(Enemy enemy)
     {
