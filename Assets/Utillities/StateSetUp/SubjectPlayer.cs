@@ -18,7 +18,8 @@ public abstract class SubjectPlayer : Character
         PickUpWeapon,
         GetShoot,
         HealthRegen,
-        Dead
+        Dead,
+        SwitchWeapon
     }
     private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)

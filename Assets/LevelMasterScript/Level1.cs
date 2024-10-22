@@ -38,7 +38,6 @@ public class Level1 : LevelManager
         }
         foreach (Enemy enemy in Resources.FindObjectsOfTypeAll(typeof(Enemy)) as Enemy[])
         {
-            Debug.Log(enemy.name);
             enemy.AddObserver(score);
         }
 

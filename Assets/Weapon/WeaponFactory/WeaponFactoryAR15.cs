@@ -10,4 +10,12 @@ public class WeaponFactoryAR15 : WeaponFactory
         Weapon Weapon = GameObject.Instantiate(prefabWeapon, weaponUser.transform.position, Quaternion.identity);
         Weapon.AttatchWeaponTo(weaponUser);
     }
+    public override Weapon GetCreateWeapon(Character weaponUser)
+    {
+        prefabWeapon = Resources.Load<Weapon>("AR15_556");
+        Weapon Weapon = GameObject.Instantiate(prefabWeapon, weaponUser.transform.position, Quaternion.identity);
+        Weapon.AttatchWeaponTo(weaponUser);
+        return Weapon;
+    }
+
 }

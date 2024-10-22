@@ -23,6 +23,12 @@ public class Player : SubjectPlayer,IObserverPlayer
 
     public Transform RayCastPos;
 
+    public PrimaryWeapon primaryWeapon;
+    public SecondaryWeapon secondaryWeapon;
+
+    public Transform primaryHolster;
+    public Transform secondaryHolster;
+
     public enum ShoulderSide
     {
         Left,
@@ -46,8 +52,18 @@ public class Player : SubjectPlayer,IObserverPlayer
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
         AddObserver(this);
+        new WeaponFactorySTI9mm().CreateWeapon(this);
+        if (curentWeapon.TryGetComponent<SecondaryWeapon>(out SecondaryWeapon s))
+        {
+            secondaryWeapon = s;
+        }
         new WeaponFactoryAR15().CreateWeapon(this);
-        //new WeaponFactorySTI9mm().CreateWeapon(this);
+        if (curentWeapon.TryGetComponent<PrimaryWeapon>(out PrimaryWeapon p))
+        {
+            primaryWeapon = p;
+        }
+        secondaryWeapon.AttachWeaponTo(secondaryHolster);
+        primaryWeapon.AttatchWeaponTo(this);
     }
     private void Update()
     {
@@ -63,7 +79,6 @@ public class Player : SubjectPlayer,IObserverPlayer
     }
     public override void Aiming(Weapon weapon)
     {
-        Debug.Log("PlayerRecieved Aiming");
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward,gameObject,6);
         NotifyObserver(this, PlayerAction.Aim);
@@ -78,6 +93,7 @@ public class Player : SubjectPlayer,IObserverPlayer
 
     public override void LowReadying(Weapon weapon)
     {
+        Debug.Log("NotifyLowReady");
         if (weapon != null)
         {
             NotifyObserver(this, PlayerAction.LowReady);
@@ -91,6 +107,10 @@ public class Player : SubjectPlayer,IObserverPlayer
 
     public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
     {
+        if (reloadType == global::Reload.ReloadType.ReloadFinished)
+        {
+            playerWeaponCommand.ammoProuch.prochReload.Performed(weapon);
+        }
         NotifyObserver(this, PlayerAction.Reloading);
         base.Reloading(weapon, reloadType);
     }

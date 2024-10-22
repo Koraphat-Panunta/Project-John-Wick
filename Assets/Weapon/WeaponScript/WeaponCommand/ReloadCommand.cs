@@ -12,7 +12,9 @@ public class ReloadCommand : WeaponCommand
 
     public override void Execute()
     {
-       weapon.Reload();
-       this.ammoProuch.prochReload.Performed(base.weapon);
+        if (ammoProuch.amountOf_ammo[weapon.bullet.GetComponent<Bullet>().type] > 0)
+        {
+            weapon.Reload();
+        }
     }
 }

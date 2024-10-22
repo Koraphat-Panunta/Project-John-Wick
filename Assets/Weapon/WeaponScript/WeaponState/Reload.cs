@@ -9,7 +9,7 @@ public class Reload : WeaponState
     private AmmoProuch ammoProuch { get; set; }
     private float reloadTime;
     private float tacTicalReloadTime;
-
+    private Coroutine currentReload;
     public Reload(Weapon weapon,float reloadTime) : base(weapon)
     {
         this.reloadTime =  reloadTime;
@@ -42,14 +42,14 @@ public class Reload : WeaponState
             reloadType = ReloadType.TacticalReload;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
             base._weapon.userWeapon.Reloading(base._weapon, reloadType);
-            base._weapon.StartCoroutine(Reloading());
+            currentReload = base._weapon.StartCoroutine(Reloading());
         }
         else if (base._weapon.Magazine_count <= 0)
         {
             reloadType = ReloadType.ReloadMagOut;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Reloading);
             base._weapon.userWeapon.Reloading(base._weapon, reloadType);
-            this._weapon.StartCoroutine(Reloading());
+            currentReload = this._weapon.StartCoroutine(Reloading());
         }
 
         base.EnterState();
@@ -57,8 +57,10 @@ public class Reload : WeaponState
 
     public override void ExitState()
     {
-        reloadType = ReloadType.ReloadFinished;
-        base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+        if(currentReload != null)
+        {
+            this._weapon.StopCoroutine(currentReload);
+        }
     }
     public override void WeaponStateUpdate(WeaponStateManager weaponStateManager)
     {
@@ -68,6 +70,8 @@ public class Reload : WeaponState
         if(reloadType == ReloadType.ReloadMagOut)
         {
             yield return new WaitForSeconds(reloadTime);
+            reloadType = ReloadType.ReloadFinished;
+            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
             base._weapon.Chamber_Count += 1;
             base._weapon.Magazine_count -= 1;
             weaponStateManager.ChangeState(weaponStateManager.none);
@@ -75,6 +79,8 @@ public class Reload : WeaponState
         else
         {
             yield return new WaitForSeconds(tacTicalReloadTime);
+            reloadType = ReloadType.ReloadFinished;
+            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
     }

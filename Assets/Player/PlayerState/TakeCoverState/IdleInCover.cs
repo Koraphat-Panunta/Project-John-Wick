@@ -25,6 +25,7 @@ public class IdleInCover : IdleState,IObserverPlayer
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
+        Debug.Log("IdleinCover");
         if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward) == false)
         {
             Debug.Log("DetectCover");

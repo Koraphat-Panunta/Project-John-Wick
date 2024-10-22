@@ -42,6 +42,12 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
         {
             //
         }
+        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
+        {
+            AmmoCount = player.playerWeaponCommand.ammoProuch.amountOf_ammo[playerInfo.curentWeapon.bullet.GetComponent<Bullet>().type];
+            MagazineCount = base.playerInfo.curentWeapon.Magazine_count + base.playerInfo.curentWeapon.Chamber_Count;
+            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+        }
     } 
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {

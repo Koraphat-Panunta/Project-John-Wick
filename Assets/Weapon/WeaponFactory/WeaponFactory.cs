@@ -6,5 +6,7 @@ public abstract class WeaponFactory
 {
     public Weapon prefabWeapon;
     public abstract void CreateWeapon(Character weaponUser);
-    
+    public abstract Weapon GetCreateWeapon(Character weaponUser);
+
+
 }

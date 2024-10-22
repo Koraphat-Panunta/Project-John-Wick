@@ -50,7 +50,6 @@ public class EnemyFindingCover
             }
         }
         EnemyCoverDebug.enemyCoverObstacle = enemyCoverObstacles;
-        Debug.Log("Step 1 enemyCoverObstacles.Count "+ enemyCoverObstacles.Count);
         if(enemyCoverObstacles.Count <= 0)
         {
             return false;

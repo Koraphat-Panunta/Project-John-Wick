@@ -32,9 +32,9 @@ public class EnemyCoverObstacle
         {
             if (Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x) % 360 != 0 || Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z) % 360 != 0)
             {
-                Debug.Log("BoxCollider rot = " + boxCollider.transform.rotation.eulerAngles);
-                Debug.Log("BoxCollider rot x = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x));
-                Debug.Log("BoxCollider rot z = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z));
+                //Debug.Log("BoxCollider rot = " + boxCollider.transform.rotation.eulerAngles);
+                //Debug.Log("BoxCollider rot x = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x));
+                //Debug.Log("BoxCollider rot z = " + Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z));
                 SetCoverPivotPosition_Bound();
                 SetCoverNormalDir_Bound();
                 obstacleType = ObstacleType.Bound;

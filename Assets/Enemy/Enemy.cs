@@ -114,15 +114,16 @@ public class Enemy : SubjectEnemy
         }
         else if (reloadType == ReloadType.ReloadFinished)
         {
-            StartCoroutine(RecoveryReloadLayerWeight());
+            StartCoroutine(RecoveryReloadLayerWeight(weapon));
         }
         base.Reloading(weapon, reloadType);
     }
-    IEnumerator RecoveryReloadLayerWeight()
+    IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
     {
         float RecoveryWeight = 10;
         while (animator.GetLayerWeight(2) > 0)
         {
+            enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
             animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
             yield return null;
         }

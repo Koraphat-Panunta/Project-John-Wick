@@ -89,6 +89,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""22b9003e-4e2d-4fe5-b479-ada290ad0692"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +265,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0b874c3-5654-4d62-97d7-d92ca2609b37"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dc8a4662-8ac1-4d1f-b2dd-3786fe4f7ed5"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +302,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerAction_PullTrigger = m_PlayerAction.FindAction("PullTrigger", throwIfNotFound: true);
         m_PlayerAction_SwapShoulder = m_PlayerAction.FindAction("SwapShoulder", throwIfNotFound: true);
         m_PlayerAction_Reload = m_PlayerAction.FindAction("Reload", throwIfNotFound: true);
+        m_PlayerAction_SwitchWeapon = m_PlayerAction.FindAction("SwitchWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -339,6 +371,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_PullTrigger;
     private readonly InputAction m_PlayerAction_SwapShoulder;
     private readonly InputAction m_PlayerAction_Reload;
+    private readonly InputAction m_PlayerAction_SwitchWeapon;
     public struct PlayerActionActions
     {
         private @PlayerInput m_Wrapper;
@@ -350,6 +383,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @PullTrigger => m_Wrapper.m_PlayerAction_PullTrigger;
         public InputAction @SwapShoulder => m_Wrapper.m_PlayerAction_SwapShoulder;
         public InputAction @Reload => m_Wrapper.m_PlayerAction_Reload;
+        public InputAction @SwitchWeapon => m_Wrapper.m_PlayerAction_SwitchWeapon;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -380,6 +414,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @SwitchWeapon.started += instance.OnSwitchWeapon;
+            @SwitchWeapon.performed += instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled += instance.OnSwitchWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -405,6 +442,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @SwitchWeapon.started -= instance.OnSwitchWeapon;
+            @SwitchWeapon.performed -= instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled -= instance.OnSwitchWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -431,5 +471,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnPullTrigger(InputAction.CallbackContext context);
         void OnSwapShoulder(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnSwitchWeapon(InputAction.CallbackContext context);
     }
 }

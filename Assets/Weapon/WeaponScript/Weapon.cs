@@ -125,6 +125,7 @@ public abstract class Weapon : WeaponSubject
     }
     public void AttachWeaponTo(Transform weaponSocket)
     {
+        userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = weaponSocket;
