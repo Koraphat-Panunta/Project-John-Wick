@@ -29,6 +29,8 @@ public class EnemyDead : EnemyState
     {
         enemyState.enemy.agent.speed = 0;
         enemyState.enemy.agent.acceleration = 0;
+        Debug.Log("agent speed =" + enemyState.enemy.agent.speed);
+        Debug.Log("agent acceleration =" + enemyState.enemy.agent.acceleration);
         base.StateUpdate(enemyState);
     }
 }

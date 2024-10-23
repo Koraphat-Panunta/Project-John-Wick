@@ -93,7 +93,6 @@ public class Player : SubjectPlayer,IObserverPlayer
 
     public override void LowReadying(Weapon weapon)
     {
-        Debug.Log("NotifyLowReady");
         if (weapon != null)
         {
             NotifyObserver(this, PlayerAction.LowReady);
@@ -117,7 +116,7 @@ public class Player : SubjectPlayer,IObserverPlayer
     public override void TakeDamage(float Damage)
     {
         hpRegenarate.regenarate_countDown = 3;
-        base.TakeDamage(Damage);
+        base.TakeDamage(Damage*0.6f);
         NotifyObserver(this,PlayerAction.GetShoot);
         if (GetHP() <= 0)
         {

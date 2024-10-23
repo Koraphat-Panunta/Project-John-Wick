@@ -18,6 +18,8 @@ public class HoldingTactic : IEnemyTactic
         findingCover = new EnemyFindingCover();
         costRate = Random.Range(8, 15f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Holding);
+        Debug.Log(enemy + " EnterHolding");
+        enemy.isIncombat = true;
     }
     public void Manufacturing()
     {

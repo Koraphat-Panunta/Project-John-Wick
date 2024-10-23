@@ -23,6 +23,7 @@ public class SerchingTactic : IEnemyTactic
         agent.ResetPath();
         agent.destination = RandomPosInNavmesh();
         enemy.StartCoroutine(PerformedAction());
+        enemy.isIncombat = false;
     }
     public void Manufacturing()
     {

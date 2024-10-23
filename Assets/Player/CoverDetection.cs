@@ -68,12 +68,10 @@ public class CoverDetection
                         PlayerDeBuger.AimPos = aimPos;
                         PlayerDeBuger.CoverPos = coverPos;
                     }
-                    Debug.Log("Egde found");
                     return true;
                 }
                 else
                 {
-                    Debug.Log("Egde not found");
                 }
             }
         }

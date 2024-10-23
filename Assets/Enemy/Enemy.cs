@@ -31,6 +31,7 @@ public class Enemy : SubjectEnemy
 
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
+    public bool isIncombat;
      void Start()
     {
         Target = new GameObject();
@@ -51,8 +52,9 @@ public class Enemy : SubjectEnemy
 
         currentTactic = new SerchingTactic(this);
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(10, 40);
+        cost = Random.Range(36, 40);
         pressure = 100;
+        this.isIncombat = false;
         //base.isDead = false;
 
         base.HP = 100;

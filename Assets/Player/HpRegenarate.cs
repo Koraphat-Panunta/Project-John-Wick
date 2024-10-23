@@ -6,7 +6,7 @@ using UnityEngine;
 public class HpRegenarate
 {
     private Player player;
-    private float regenarate_rate = 20;
+    private float regenarate_rate = 30;
     public float regenarate_countDown = 3;
     public HpRegenarate(Player player) 
     {
@@ -20,7 +20,7 @@ public class HpRegenarate
         }
         else
         {
-            if(player.GetHP() < 40)
+            if(player.GetHP() < 50)
             {
                 player.NotifyObserver(player, SubjectPlayer.PlayerAction.HealthRegen);
                 player.SetHP(Mathf.Clamp(player.GetHP() + regenarate_rate * Time.deltaTime, 0, 100));

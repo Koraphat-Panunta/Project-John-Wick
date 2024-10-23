@@ -19,7 +19,7 @@ public class EnemySprint : EnemyState
     public override void StateEnter(EnemyStateManager enemyState)
     {
         animator.SetBool("IsSprinting",true);
-        animator.speed = 0.78f;
+        animator.speed = 1.3f;
         base.StateEnter(enemyState);
     }
 

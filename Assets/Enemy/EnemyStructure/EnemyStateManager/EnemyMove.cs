@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyMove : EnemyState
 {
     EnemyPath enemyPath;
-    float moveSpeed = 1.3f; //By defualt
+    float moveSpeed = 1.5f; //By defualt
 
     public EnemyMove()
     {

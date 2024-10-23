@@ -12,7 +12,6 @@ public class WeaponInput
     }
     public void InputWeaponUpdate(PlayerController.Input input, Player player)
     {
-        Debug.Log("InputUpdate");
         if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2))
         {
             player.playerWeaponCommand.SwitchWeapon();
@@ -23,7 +22,6 @@ public class WeaponInput
         }
         else
         {
-            Debug.Log("LowReadyInput");
             player.playerWeaponCommand.LowWeapon();
         }
 

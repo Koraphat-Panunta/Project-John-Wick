@@ -21,7 +21,8 @@ public class FlankingTactic : IEnemyTactic
         enemyWeaponCommand = enemy.enemyWeaponCommand;
         this.enemyFiringPattern = new NormalFiringPattern(enemy);
         cost_DrainRate = Random.Range(9,15);
-
+        enemy.isIncombat = true;
+        Debug.Log(enemy+" EnterFlanking");
     }
     public void Manufacturing()
     {

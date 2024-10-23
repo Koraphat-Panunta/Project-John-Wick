@@ -28,7 +28,6 @@ public class MoveState : CharacterState
         InputPerformed();
         if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward))
         {
-            Debug.Log("DetectCover");
             playerStateManager.move = playerStateManager.moveInCover;
             playerStateManager.ChangeState(playerStateManager.moveInCover);
 
@@ -40,7 +39,6 @@ public class MoveState : CharacterState
 
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
-        Debug.Log("Move");
         PlayerMovement playerMovement = base.player.playerMovement;
         playerMovement.OMNI_DirMovingCharacter();
         playerMovement.RotateCharacter(Camera.main.transform.forward, 6);

@@ -59,11 +59,11 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
-
+            cameraHandShake.Performed();
         }
         if(playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
-            cameraHandShake.Performed();
+            
         }
     }
 }

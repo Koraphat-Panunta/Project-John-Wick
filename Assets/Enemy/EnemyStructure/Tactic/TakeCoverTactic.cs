@@ -25,6 +25,8 @@ public class TakeCoverTactic : IEnemyTactic
         coverPositionEnemy = null;
         costRate = Random.Range(1f, 2.5f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
+        Debug.Log(enemy + " EnterTakeCover");
+        enemy.isIncombat = true;
     }
     public void Manufacturing()
     {
@@ -35,6 +37,7 @@ public class TakeCoverTactic : IEnemyTactic
         }
         if (coverPositionEnemy == null)
         {
+            Debug.Log(enemy + " EnterTakeCover");
             if (enemyFindingCover.FindingCover(enemy))
             {
                 this.coverPositionEnemy = enemyFindingCover.coverPositionEnemy;
@@ -129,15 +132,22 @@ public class TakeCoverTactic : IEnemyTactic
     bool IsPeeking;
     private void CoverUsingPattern()
     {
-        if (IsPeeking == true)
+        if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
             PeekAndShoot(coverPositionEnemy.aimPos, agent);
         }
-        else if (IsPeeking == false)
+        else
         {
-           BackToCover(coverPositionEnemy.coverPos, agent);
+            if (IsPeeking == true)
+            {
+                PeekAndShoot(coverPositionEnemy.aimPos, agent);
+            }
+            else if (IsPeeking == false)
+            {
+                BackToCover(coverPositionEnemy.coverPos, agent);
+            }
+            timimgCoverPattern -= Time.deltaTime;
         }
-        timimgCoverPattern -= Time.deltaTime;
         if(timimgCoverPattern <= 0)
         {
             timimgCoverPattern = Random.Range(2f, 4.5f);

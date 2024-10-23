@@ -39,9 +39,11 @@ public class EnemyComunicate
     }
     public void RecievdNotify(NotifyType notifyType, Enemy enemySender)
     {
+        
         if (notifyType == NotifyType.SendTargetLocation)
         {
-            _enemy.Target.transform.position = enemySender.Target.transform.position;
+            Vector3 targetPos = enemySender.Target.transform.position;
+            _enemy.Target.transform.position = new Vector3(targetPos.x,targetPos.y,targetPos.z);
         }
     }
 }
