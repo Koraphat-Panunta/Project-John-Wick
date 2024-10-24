@@ -11,6 +11,7 @@ public class PistolModel : ScriptableObject
     public float _accuracy /*= 50*/;
     public GameObject _bulletType;
     public float _recoilController /*= 18.56f*/;
+    public float _recoilCameraKickBack;/*= 19.96*/
     public float _aimDownSightSpeed /*= 3f*/;
     public float _recoilKickBack /*= 20*/;
     public float min_percision /*= 20*/;

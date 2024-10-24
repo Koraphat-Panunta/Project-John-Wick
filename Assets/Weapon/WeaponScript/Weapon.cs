@@ -15,6 +15,7 @@ public abstract class Weapon : WeaponSubject
     public abstract float reloadSpeed { get; protected set; }
     public abstract float Accuracy { get; protected set; }
     public abstract float RecoilController { get; protected set; }
+    public abstract float RecoilCameraKickBack {  get; protected set; }
     public abstract float aimDownSight_speed { get; protected set; }
     public abstract GameObject bullet { get; protected set; }
     public abstract float RecoilKickBack { get; protected set; }

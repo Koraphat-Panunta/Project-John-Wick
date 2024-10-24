@@ -16,7 +16,7 @@ public class PlayerWeaponCommand
     public PlayerWeaponCommand(Player player)
     {
         this.player = player;
-        ammoProuch = new AmmoProuch(120, 120, 60, 120);
+        ammoProuch = new AmmoProuch(60, 120, 150, 120);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
         this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
         leanCover = new LeanCover(player.rotationConstraint, crosshairController);
@@ -106,10 +106,10 @@ public class PlayerWeaponCommand
         }
         Animator animator = player.animator;
         animator.SetTrigger("HolsterPrimary");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         curWeapon.AttachWeaponTo(player.primaryHolster);
         animator.SetTrigger("DrawSecondary");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.13f);
         secondaryWeapon.AttatchWeaponTo(player);
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
         isSwitchingWeapon = false;
@@ -129,10 +129,10 @@ public class PlayerWeaponCommand
         }
         Animator animator = player.animator;
         animator.SetTrigger("HolsterSecondary");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
         curWeapon.AttachWeaponTo(player.secondaryHolster);
         animator.SetTrigger("DrawPrimary");
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         primaryWeapon.AttatchWeaponTo(player);
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
         isSwitchingWeapon = false;

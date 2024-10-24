@@ -12,9 +12,10 @@ public class STI_9mm : SecondaryWeapon
     private float _accuracy = 50;
    [SerializeField] private GameObject _bulletType;
     private float _recoilController = 18.56f;
+    private float _recoilCameraKickBack = 0.04f;
     private float _aimDownSightSpeed = 3f;
     private float _recoilKickBack = 20;
-    private float min_percision = 20;
+    private float min_percision = 29;
     private float max_percision = 65;
     public override int Magazine_capacity
     {
@@ -56,7 +57,11 @@ public class STI_9mm : SecondaryWeapon
         get { return _recoilKickBack; }
         protected set { _recoilKickBack = value; }
     }
-
+    public override float RecoilCameraKickBack 
+    {
+        get { return _recoilCameraKickBack; }
+        protected set { _recoilCameraKickBack = value; }
+    }
     public override float min_Precision
     {
         get { return min_percision; }
@@ -68,7 +73,6 @@ public class STI_9mm : SecondaryWeapon
         get { return max_percision; }
         protected set { max_percision = value; }
     }
-
     protected override void Start()
     {
         _magazineCapacity = Model._magazineCapacity;
@@ -77,12 +81,13 @@ public class STI_9mm : SecondaryWeapon
         _accuracy = Model._accuracy;
         _bulletType = Model._bulletType;
         _recoilController = Model._recoilController;
+        _recoilCameraKickBack = Model._recoilCameraKickBack;
         _aimDownSightSpeed = Model._aimDownSightSpeed;
-         _recoilKickBack = Model._recoilKickBack;
+        _recoilKickBack = Model._recoilKickBack;
         min_percision = Model.min_percision;
-         max_percision = Model.max_percision;
+        max_percision = Model.max_percision;
 
-    fireMode = FireMode.Single;
+        fireMode = FireMode.Single;
         Chamber_Count = 1;
         Magazine_count = Magazine_capacity;
         base.Start();

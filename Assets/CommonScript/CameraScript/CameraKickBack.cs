@@ -18,18 +18,16 @@ public class CameraKickBack : ICameraAction
     }
     public void Performed(Weapon weapon)
     {
-        cameraController.StartCoroutine(KickUp(weapon.RecoilKickBack,weapon.RecoilController));
+        cameraController.StartCoroutine(KickUp(weapon.RecoilCameraKickBack));
     }
     float yAxisReposition;
     float repositionTime;
-    IEnumerator KickUp(float kickForce,float kickController)
+    IEnumerator KickUp(float kickForce)
     {
         yield return new WaitForFixedUpdate();
-        float kickResult = (kickForce - kickController)/kickForce;
-        kickResult = kickResult * 0.3f;
-        kickResult = cameraController.Kickback[cameraController.cameraKickbackPreset];
+ 
         yAxisReposition = cameraFreeLook.m_YAxis.Value;
-        cameraFreeLook.m_YAxis.Value -= kickResult;
+        cameraFreeLook.m_YAxis.Value -= kickForce;
         repositionTime = 0.22f;
         while (cameraFreeLook.m_YAxis.Value < yAxisReposition&&repositionTime>0)
         {

@@ -5,34 +5,38 @@ using UnityEngine.Animations.Rigging;
 
 public class EnemyMiniFlinch 
 {
-     Coroutine currentCoroutine;
+    Coroutine currentCoroutine;
     private Enemy enemy;
     private MultiRotationConstraint rotationConstraintFlinch;
+    private float flinchRate;
     public EnemyMiniFlinch(Enemy enemy)
     {
         this.enemy = enemy;
         this.rotationConstraintFlinch = enemy.rotationConstraint;
         this.rotationConstraintFlinch.weight = 0;
+        flinchRate = 0;
     }
     public void TriggerFlich()
     {
-        // If there is an already running coroutine, stop it
+        Debug.Log("Trigger Flinch");
         if (currentCoroutine != null)
         {
             this.enemy.StopCoroutine(currentCoroutine);
+            Debug.Log("Cancel Weight");
         }
-
-        // Start the new coroutine and store the reference
         currentCoroutine = this.enemy.StartCoroutine(ExampleCoroutine());
     }
 
     IEnumerator ExampleCoroutine()
     {
-       rotationConstraintFlinch.weight = 1.0f;
-       while(rotationConstraintFlinch.weight > 0)
+        flinchRate = 1;
+
+        while (flinchRate > 0)
         {
-            rotationConstraintFlinch.weight -= Time.deltaTime*1.8f;
+            rotationConstraintFlinch.weight = flinchRate;
+            flinchRate -= Time.deltaTime*2;
             yield return null;
         }
+        
     }
 }

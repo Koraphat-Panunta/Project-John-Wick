@@ -43,8 +43,8 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
         {
             GameObject mag = GameObject.Instantiate(magazine);
             mag.transform.position = gameObject.transform.position + Vector3.down * 0.1f;
-            mag.GetComponent<Rigidbody>().AddForce(gameObject.transform.right * 4 + gameObject.transform.up * 3, ForceMode.Impulse);
-            mag.GetComponent<Rigidbody>().AddForceAtPosition(mag.transform.right * 5, magazine.transform.position - magazine.transform.up * magazine.transform.localScale.y);
+            mag.GetComponent<Rigidbody>().AddForce(gameObject.transform.right * 5 + gameObject.transform.up * 4, ForceMode.Impulse);
+            mag.GetComponent<Rigidbody>().AddForceAtPosition(mag.transform.right * 4, magazine.transform.position - magazine.transform.up * magazine.transform.localScale.y);
             StartCoroutine(Removemag(mag));
         }
     }

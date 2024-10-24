@@ -82,7 +82,6 @@ public class TakeCoverTactic : IEnemyTactic
         //   agent.SetDestination(hit.position);  
         //}
         agent.SetDestination(peekPos);
-        enemy.enemyAgentMovementOverride.OverrideAgentInFrame(3, 3);
         enemy.enemyWeaponCommand.Aiming();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
         enemyFiringPattern.Performing();
@@ -102,7 +101,6 @@ public class TakeCoverTactic : IEnemyTactic
         //    agent.SetDestination(hit.position);
         //}
         agent.SetDestination(CoverPos);
-        enemy.enemyAgentMovementOverride.OverrideAgentInFrame(3, 3);
         enemy.enemyWeaponCommand.LowReady();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
     }

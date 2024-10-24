@@ -73,5 +73,9 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         {
             CrosshairSpread.Performed(player.curentWeapon);
         }
+        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
+        {
+            CrosshairSpread.Performed(player.curentWeapon);
+        }
     }
 }

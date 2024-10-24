@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: STI9mm_4
   m_EditorClassIdentifier: 
   _magazineCapacity: 15
-  _rateOfFire: 360
-  _reloadSpeed: 2
+  _rateOfFire: 500
+  _reloadSpeed: 1.2
   _accuracy: 136
   _bulletType: {fileID: 8484765704080718728, guid: 7ee4249b36f782e47bba97d3dc546fbf,
     type: 3}
-  _recoilController: 20
+  _recoilController: 1
+  _recoilCameraKickBack: 0.04
   _aimDownSightSpeed: 3.6
-  _recoilKickBack: 50
-  min_percision: 11.31
+  _recoilKickBack: 30
+  min_percision: 30
   max_percision: 65

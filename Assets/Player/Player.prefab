@@ -1153,6 +1153,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1363326749364742272, guid: a0b722bc8d729d241a25ecad2bc504dd,
         type: 3}
+      propertyPath: m_RotationAtRest.x
+      value: 56.738426
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363326749364742272, guid: a0b722bc8d729d241a25ecad2bc504dd,
+        type: 3}
+      propertyPath: m_RotationOffsets.Array.data[0].x
+      value: 54.1941
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363326749364742272, guid: a0b722bc8d729d241a25ecad2bc504dd,
+        type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform
       value: 
       objectReference: {fileID: 1029269609147164369}
@@ -2012,6 +2022,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player Detected Point
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795631607308746047, guid: 62d68a04d0ca8764c902f6519610a634,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795631607308746047, guid: 62d68a04d0ca8764c902f6519610a634,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

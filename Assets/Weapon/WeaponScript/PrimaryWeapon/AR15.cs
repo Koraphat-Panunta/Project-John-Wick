@@ -12,6 +12,7 @@ public class AR15 : PrimaryWeapon
     private float _accuracy = 30;
     [SerializeField] private GameObject _bulletType;
     private float _recoilController = 18.56f;
+    private float _recoilCameraKickBack = 0.02f;
     private float _aimDownSightSpeed = 3f;
     private float _recoilKickBack = 50;
     private float min_percision = 20;
@@ -68,6 +69,11 @@ public class AR15 : PrimaryWeapon
         get { return max_percision; }
         protected set { max_percision = value; }
     }
+    public override float RecoilCameraKickBack 
+    {
+        get { return _recoilCameraKickBack; }
+        protected set { _recoilCameraKickBack = value; }
+    }
 
     protected override void Start()
     {
@@ -79,6 +85,7 @@ public class AR15 : PrimaryWeapon
             _accuracy = Model._accuracy;
             _bulletType = Model._bulletType;
             _recoilController = Model._recoilController;
+            _recoilCameraKickBack = Model._recoilCameraKickBack;    
             _aimDownSightSpeed = Model._aimDownSightSpeed;
             _recoilKickBack = Model._recoilKickBack;
             min_percision = Model.min_percision;

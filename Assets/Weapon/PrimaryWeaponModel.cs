@@ -11,6 +11,7 @@ public class PrimaryWeaponModel : ScriptableObject
     public float _accuracy = 136;
     public GameObject _bulletType;
     public float _recoilController = 20;
+    public float _recoilCameraKickBack;
     public float _aimDownSightSpeed = 3f;
     public float _recoilKickBack = 50;
     public float min_percision = 11.31f;
