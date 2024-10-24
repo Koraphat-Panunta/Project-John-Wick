@@ -14,7 +14,7 @@ public class PlayerMovement
     public float move_MaxSpeed = 2.8f;
     public float move_Acceleration = 0.4f;
     public float sprint_MaxSpeed = 5.6f;
-    public float sprint_Acceleration = 0.6f;
+    public float sprint_Acceleration = 0.08f;
 
     public float rotate_Speed = 6;
 

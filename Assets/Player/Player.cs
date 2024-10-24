@@ -50,7 +50,7 @@ public class Player : SubjectPlayer,IObserverPlayer
         playerController.Awake();
         hpRegenarate = new HpRegenarate(this);
         curShoulderSide = ShoulderSide.Right;
-        base.SetHP(100);
+        base.SetHP(100 );
         AddObserver(this);
         new WeaponFactorySTI9mm().CreateWeapon(this);
         if (curentWeapon.TryGetComponent<SecondaryWeapon>(out SecondaryWeapon s))

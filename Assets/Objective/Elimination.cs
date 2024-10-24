@@ -41,6 +41,10 @@ public class Elimination : Objective
         //}
         for (int i = targets.Count - 1; i >= 0; i--)
         {
+            if (targets[i] == null)
+            {
+                continue;
+            }
             if (targets[i].GetHP() <= 0)
             {
                 targets.RemoveAt(i);

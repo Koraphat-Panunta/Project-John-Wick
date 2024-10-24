@@ -10,7 +10,7 @@ public class LegBodyPart : BodyPart
         {
             enemy.pressure -= damage * Random.Range(1, 2);
         }
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new BodyHitNormalReaction(enemy));
+        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._painState, new LegHitNormalReaction(enemy));
         enemy.TakeDamage(damage*0.5f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Leg);
     }

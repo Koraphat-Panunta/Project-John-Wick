@@ -22,6 +22,7 @@ public class Fire : WeaponState
         if (base._weapon.Chamber_Count > 0)
         {
             base._weapon.bulletSpawner.SpawnBullet(_weapon);
+            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Firing);
             _weapon.StartCoroutine(AfterShoot());
             base._weapon.userWeapon.Firing(base._weapon);
         }

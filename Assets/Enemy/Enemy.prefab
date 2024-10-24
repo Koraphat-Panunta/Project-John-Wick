@@ -241,7 +241,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: ee4115cd4ee31824d900136e7171a98e, type: 3}
   m_Controller: {fileID: 9100000, guid: 09efa8a2deb954145a76ebe0d70400d1, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -298,6 +298,7 @@ MonoBehaviour:
   pressure: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
+  isIncombat: 0
 --- !u!114 &1345616770146797532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2604,7 +2605,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0012939067
+  m_Radius: 0.0008
   m_Height: 0.0043130224
   m_Direction: 1
   m_Center: {x: 0, y: 0.0021565112, z: 0}
@@ -2647,7 +2648,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0008322918, y: -0.00049698283, z: -0.00012319881}
+  m_ConnectedAnchor: {x: -0.0008322916, y: -0.00049698283, z: -0.00012319881}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2985,7 +2986,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0013137443
+  m_Radius: 0.0006
   m_Height: 0.0052549774
   m_Direction: 1
   m_Center: {x: 0, y: 0.0026274887, z: 0}
@@ -3348,7 +3349,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0013075277
+  m_Radius: 0.0006
   m_Height: 0.0052301106
   m_Direction: 1
   m_Center: {x: 0, y: 0.0026150553, z: 0}
@@ -3391,7 +3392,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -5.1386437e-11, y: 0.0043130224, z: -1.6007105e-10}
+  m_ConnectedAnchor: {x: -5.8207647e-11, y: 0.004313027, z: 0.0000000011641531}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3697,7 +3698,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.0012943957
+  m_Radius: 0.0008
   m_Height: 0.004314652
   m_Direction: 1
   m_Center: {x: 0, y: 0.002157326, z: 0}
