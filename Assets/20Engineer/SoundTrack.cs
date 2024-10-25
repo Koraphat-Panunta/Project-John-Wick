@@ -29,7 +29,7 @@ public class SoundTrack : MonoBehaviour,IObseverLevel
     }
     private void OnDisable()
     {
-        FindObjectOfType<LevelManager>().RemoveObserver(this);
+        //FindObjectOfType<LevelManager>().RemoveObserver(this);
     }
     // Update is called once per frame
     void Update()
