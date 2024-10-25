@@ -79,7 +79,7 @@ public class TakeCoverTactic : IEnemyTactic
         float maxDistance = 1;
         //if (NavMesh.SamplePosition(peekPos, out hit, maxDistance, NavMesh.AllAreas))
         //{
-        //   agent.SetDestination(hit.position);  
+        //    agent.SetDestination(hit.position);
         //}
         agent.SetDestination(peekPos);
         enemy.enemyWeaponCommand.Aiming();

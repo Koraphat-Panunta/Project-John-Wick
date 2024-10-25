@@ -76,8 +76,8 @@ public class Enemy : SubjectEnemy
         base.TakeDamage(Damage);
         if(base.HP <= 0 && isImortal == false)
         {
-            enemyStateManager.ChangeState(enemyStateManager.enemyDead);
             NotifyObserver(this, EnemyEvent.Dead);
+            enemyStateManager.ChangeState(enemyStateManager.enemyDead);
         }
     }
 

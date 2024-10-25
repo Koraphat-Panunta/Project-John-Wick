@@ -37,8 +37,8 @@ public class AR15_WeaponSound : WeaponAudio
     protected override void Start()
     {
         reloadSoundWait_0 = 0.26f;
-        ReloadSoundWait_1 = 0.54f - reloadSoundWait_0;
-        ReloadSoundWait_2 = 0.38f;
+        ReloadSoundWait_1 = 0.64f - reloadSoundWait_0;
+        ReloadSoundWait_2 = 0.58f;
         base.Start();
     }
 }

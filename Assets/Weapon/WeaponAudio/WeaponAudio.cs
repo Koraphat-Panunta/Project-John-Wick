@@ -34,7 +34,7 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon
         {
             StopCoroutine(ReloadSoundEvent());
         }
-        source_Sound.PlayOneShot(firing);
+        source_Sound.PlayOneShot(firing,0.8f);
     }
     private void TriggerReloadSound()
     {

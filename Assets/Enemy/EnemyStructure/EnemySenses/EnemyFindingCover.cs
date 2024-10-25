@@ -45,7 +45,10 @@ public class EnemyFindingCover
                 if (hitInfo.collider == col[i] &&Vector3.Dot(Vector3.up, hitInfo.normal) < 0.9f)
                 {
                     //Debug.DrawLine(enemy.rayCastPos.position, hitInfo.point,Color.green);
-                    enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo,enemy.transform.position));
+                    if (col[i].CompareTag("IgnoreCover") == false)
+                    {
+                        enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo, enemy.transform.position));
+                    }
                 }
             }
         }
@@ -158,6 +161,7 @@ public class EnemyFindingCover
         {
             return false;
         }
+        EnemyCoverDebug.coverPositionEnemies = coverPositionEnemies;
         // Step 4 เช็คจุดกำบังมีใครไปใช้แล้วหรือ
         for (int i = 0; i <= coverPositionEnemies.Count - 1; i++)
         {
@@ -186,7 +190,6 @@ public class EnemyFindingCover
         }
         else
         {
-            EnemyCoverDebug.coverPositionEnemies = coverPositionEnemies;
             foreach (CoverPositionEnemy coverPositionEnemy in coverPositionEnemies)
             {
                 if(this.coverPositionEnemy == null)
@@ -202,6 +205,7 @@ public class EnemyFindingCover
                     this.coverPositionEnemy = coverPositionEnemy;
                 }
             }
+            EnemyCoverDebug.CurcoverPositionEnemy = this.coverPositionEnemy;
             return true ;
         }
 

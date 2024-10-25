@@ -8,6 +8,7 @@ public class EnemyCoverDebug : MonoBehaviour
     // Start is called before the first frame update
     public static List<EnemyCoverObstacle> enemyCoverObstacle = new List<EnemyCoverObstacle>();
     public static List<CoverPositionEnemy> coverPositionEnemies = new List<CoverPositionEnemy>();
+    public static CoverPositionEnemy CurcoverPositionEnemy;
     [SerializeField] private Enemy enemy;
  
     float sphereRaduis = 0.1f;
@@ -55,6 +56,15 @@ public class EnemyCoverDebug : MonoBehaviour
                     Gizmos.color = Color.blue;
                     Gizmos.DrawSphere(coverPosition.coverPivotPos, sphereRaduis);
                 }
+            }
+            if(CurcoverPositionEnemy != null)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(CurcoverPositionEnemy.aimPos, sphereRaduis);
+                Gizmos.color = Color.green;
+                Gizmos.DrawSphere(CurcoverPositionEnemy.coverPos, sphereRaduis);
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(CurcoverPositionEnemy.coverPivotPos, sphereRaduis);
             }
             if (enemy.agent.hasPath)
             {

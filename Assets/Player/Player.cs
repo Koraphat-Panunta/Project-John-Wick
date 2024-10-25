@@ -116,7 +116,7 @@ public class Player : SubjectPlayer,IObserverPlayer
     public override void TakeDamage(float Damage)
     {
         hpRegenarate.regenarate_countDown = 3;
-        base.TakeDamage(Damage*0.6f);
+        base.TakeDamage(Damage*0.35f);
         NotifyObserver(this,PlayerAction.GetShoot);
         if (GetHP() <= 0)
         {
