@@ -112,7 +112,7 @@ public class TakeCoverTactic : IEnemyTactic
             agent.SetDestination(CoverPos);
             isSetMovePos = true;
         }
-        if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1f)
+        if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1.6f)
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
             isSetMovePos = false;
@@ -122,6 +122,7 @@ public class TakeCoverTactic : IEnemyTactic
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
             enemy.enemyWeaponCommand.LowReady();
+            enemy.cost += 3 * costRate * Time.deltaTime;
             return false;
         }
     }

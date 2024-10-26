@@ -11,12 +11,14 @@ public class EnemyStateManager
     public EnemySprint _sprint { get; private set; }
     public EnemyPainState _painState { get; private set; }
     public EnemyDead enemyDead { get; private set; }
+    public EnemyMoveAgent _moveWithAgent { get; private set; }
     public Enemy enemy;
     // Start is called before the first frame update
     public EnemyStateManager(Enemy enemy)
     {
         this.enemy = enemy;
         _move = new EnemyMove();
+        _moveWithAgent = new EnemyMoveAgent();
         _idle = new EnemyIdle();
         _painState = new EnemyPainState();
         _sprint = new EnemySprint(enemy);

@@ -62,9 +62,7 @@ public class Enemy : SubjectEnemy
 
     void Update()
     {
-        enemyAgentMovementOverride.Update();
         enemyStateManager.Update();
-        enemyAgentMovementOverride.LateUpdate();
     }
     private void FixedUpdate()
     {

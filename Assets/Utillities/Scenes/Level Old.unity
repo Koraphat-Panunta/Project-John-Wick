@@ -108,7 +108,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.1
+    agentRadius: 0.32
     agentHeight: 0.33
     agentSlope: 45.5
     agentClimb: 0.4
@@ -116,7 +116,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.033333335
+    cellSize: 0.10666666
     manualTileSize: 0
     tileSize: 256
     buildHeightMesh: 0
@@ -124,7 +124,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 6574084ac50733640ac9fb4b582c917b, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e0d79358f2d6bd841881ed9736d92c12, type: 2}
 --- !u!1001 &1768911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,6 +315,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (122)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -544,6 +549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -676,7 +686,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &22042097
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -695,7 +705,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &22042098
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -710,7 +720,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &22042099
 MeshRenderer:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -752,7 +762,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &22042100
 MeshFilter:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -779,7 +789,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 29902
+    surfaceParameter: 29904
     meshQueryIndex: 0
     subMeshQueryIndex: 0
     geometryHashValue: 3358255298560633022
@@ -3116,6 +3126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -3517,7 +3532,7 @@ BoxCollider:
   m_Center: {x: -0.005586078, y: 0.029165072, z: -0.0058309175}
 --- !u!1 &63308913
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3536,7 +3551,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &63308914
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3551,7 +3566,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &63308915
 MeshRenderer:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3593,7 +3608,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &63308916
 MeshFilter:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3620,7 +3635,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 29924
+    surfaceParameter: 29926
     meshQueryIndex: 7
     subMeshQueryIndex: 0
     geometryHashValue: -9011646483404348507
@@ -4165,6 +4180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -4651,6 +4671,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -5401,53 +5426,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &132713823
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 132713824}
-  - component: {fileID: 132713825}
-  m_Layer: 0
-  m_Name: '[generated-meshes]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &132713824
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132713823}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 423946102}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &132713825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 132713823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3643d4978096d4880d7edbf4f65a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Version: 1
-  owner: {fileID: 423946101}
-  helperSurfaces: []
 --- !u!1001 &135772861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5484,7 +5462,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -32.25
+      value: -59.17
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -5494,7 +5472,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.652569
+      value: -14.96
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -9804,6 +9782,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -10500,6 +10483,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (58)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -11966,6 +11954,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -12204,6 +12197,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -12398,6 +12396,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (79)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -13600,6 +13603,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (107)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -18078,6 +18086,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -18372,75 +18385,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 857232599}
   m_SourcePrefab: {fileID: 100100000, guid: d96772d9de32cbb4b9153e42944a0f5c, type: 3}
---- !u!1 &423946100
-GameObject:
-  m_ObjectHideFlags: 17
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 423946102}
-  - component: {fileID: 423946101}
-  m_Layer: 0
-  m_Name: '[default-CSGModel]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 124
-  m_IsActive: 1
---- !u!114 &423946101
-MonoBehaviour:
-  m_ObjectHideFlags: 17
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423946100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8672dcc90e16b0a489a41edf56e016f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PrefabBehaviour: 0
-  PrefabSourceAlignment: 4
-  PrefabDestinationAlignment: 0
-  Version: 1.1
-  infiniteBrush: {fileID: 0}
-  Settings: 1025
-  VertexChannels: 14
-  ReceiveGI: 2
-  MeshColliderCookingOptions: 14
-  ShowGeneratedMeshes: 0
-  DefaultPhysicsMaterial: {fileID: 13400000, guid: 0c5fdfb44d6f19646a41a0720fbf751a,
-    type: 2}
-  exportType: 0
-  originType: 0
-  exportColliders: 0
-  exportPath: 
-  angleError: 1
-  areaError: 1
-  hardAngle: 60
-  packMargin: 20
-  scaleInLightmap: 1
-  autoUVMaxDistance: 0.5
-  autoUVMaxAngle: 89
-  minimumChartSize: 4
---- !u!4 &423946102
-Transform:
-  m_ObjectHideFlags: 17
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423946100}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 132713824}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &426318391 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dd5bdc86757680c4eb4dde453f1f72c0,
@@ -18650,6 +18594,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -18853,6 +18802,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (80)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -21866,6 +21820,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -22636,7 +22595,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -47.132416
+      value: -52.539
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -22646,7 +22605,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.487789
+      value: -16.339
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -23551,6 +23510,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -23858,6 +23822,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -23971,6 +23940,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -24076,6 +24050,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -24194,6 +24173,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (77)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -25199,6 +25183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -25252,7 +25241,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.197845
+      value: -50.94
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -25262,7 +25251,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.412724
+      value: -14.58
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -25954,6 +25943,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -27711,7 +27705,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -53.49031
+      value: -57.023
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -27721,7 +27715,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.61
+      value: -14.083
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -30383,6 +30377,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -30520,6 +30519,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (135)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -32890,7 +32894,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 995a15a3c3d0cbd458abb0680313dd6b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.562
+      value: 17.01
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 995a15a3c3d0cbd458abb0680313dd6b,
         type: 3}
@@ -33769,6 +33773,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -34487,6 +34496,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -36322,6 +36336,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -37263,6 +37282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (139)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -39033,6 +39057,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -39604,6 +39633,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -42031,6 +42065,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -42395,7 +42434,7 @@ MeshCollider:
   m_Mesh: {fileID: 6596421120192813242, guid: 995a15a3c3d0cbd458abb0680313dd6b, type: 3}
 --- !u!1 &981736049
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -42409,11 +42448,11 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &981736050
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -42428,7 +42467,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &981736051
 MeshCollider:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -42469,7 +42508,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 29918
+    surfaceParameter: 29920
     meshQueryIndex: 2
     subMeshQueryIndex: 0
     geometryHashValue: 6084887620789720582
@@ -43069,7 +43108,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 6f5955847f70cc641be8605f657f452a, type: 3}
 --- !u!1 &1005609177
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -43088,7 +43127,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1005609178
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -43103,7 +43142,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1005609179
 MeshRenderer:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -43145,7 +43184,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1005609180
 MeshFilter:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -43173,7 +43212,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 33488
+    surfaceParameter: 33500
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: 6785125340512821971
@@ -44079,6 +44118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -44664,6 +44708,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -44866,6 +44915,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -45233,6 +45287,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -45379,6 +45438,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -45517,6 +45581,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -46509,7 +46578,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -47.8694
+      value: -53.87
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -46519,7 +46588,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.2469673
+      value: 4.09
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -46918,6 +46987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (116)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -47718,6 +47792,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -47875,6 +47954,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (121)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -49013,6 +49097,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -51021,6 +51110,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84c69ff9c82bc70449b7e18c9854f0cb, type: 3}
+--- !u!1 &1225721366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1225721367}
+  - component: {fileID: 1225721368}
+  m_Layer: 0
+  m_Name: '[generated-meshes]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1225721367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225721366}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1719404073}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1225721368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225721366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3643d4978096d4880d7edbf4f65a50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Version: 1
+  owner: {fileID: 1719404072}
+  helperSurfaces: []
 --- !u!1001 &1226274310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51202,6 +51338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (87)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -52364,7 +52505,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 4c20d44a64ce7d241ac7ec99efbbe495, type: 3}
 --- !u!1 &1265723512
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -52381,7 +52522,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1265723513
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -52403,7 +52544,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1265723514
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 27
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -52737,6 +52878,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (92)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -53082,6 +53228,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -53187,6 +53338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -53586,6 +53742,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -53789,6 +53950,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (50)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -57085,6 +57251,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -57735,6 +57906,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (88)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -59100,7 +59276,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -37.92
+      value: -60.88
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -59110,7 +59286,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.86
+      value: -10.34
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -60489,6 +60665,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -60937,6 +61118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -61318,6 +61504,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -61693,6 +61884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -61906,6 +62102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (42)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -64976,6 +65177,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -65423,6 +65629,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -65811,6 +66022,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -65916,6 +66132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (43)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -68662,6 +68883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -70213,6 +70439,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (109)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -72440,6 +72671,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -72717,6 +72953,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (112)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -73446,6 +73687,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -73648,6 +73894,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (136)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -73988,6 +74239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (115)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -74486,7 +74742,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1715210392
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -74505,7 +74761,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1715210393
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -74520,7 +74776,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1715210394
 MeshRenderer:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -74562,7 +74818,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1715210395
 MeshFilter:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -74590,7 +74846,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 34086
+    surfaceParameter: 34102
     meshQueryIndex: 6
     subMeshQueryIndex: 0
     geometryHashValue: 3599082657097123136
@@ -74715,6 +74971,103 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 496464634}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1719404070
+GameObject:
+  m_ObjectHideFlags: 17
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719404073}
+  - component: {fileID: 1719404072}
+  - component: {fileID: 1719404071}
+  m_Layer: 0
+  m_Name: '[default-CSGModel]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 124
+  m_IsActive: 1
+--- !u!54 &1719404071
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719404070}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1719404072
+MonoBehaviour:
+  m_ObjectHideFlags: 17
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719404070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8672dcc90e16b0a489a41edf56e016f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabBehaviour: 0
+  PrefabSourceAlignment: 4
+  PrefabDestinationAlignment: 0
+  Version: 1.1
+  infiniteBrush: {fileID: 0}
+  Settings: 1025
+  VertexChannels: 14
+  ReceiveGI: 2
+  MeshColliderCookingOptions: 14
+  ShowGeneratedMeshes: 0
+  DefaultPhysicsMaterial: {fileID: 13400000, guid: 0c5fdfb44d6f19646a41a0720fbf751a,
+    type: 2}
+  exportType: 0
+  originType: 0
+  exportColliders: 0
+  exportPath: 
+  angleError: 1
+  areaError: 1
+  hardAngle: 60
+  packMargin: 20
+  scaleInLightmap: 1
+  autoUVMaxDistance: 0.5
+  autoUVMaxAngle: 89
+  minimumChartSize: 4
+--- !u!4 &1719404073
+Transform:
+  m_ObjectHideFlags: 17
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719404070}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1225721367}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1720437021 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
@@ -75762,6 +76115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -76133,6 +76491,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (27)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -78245,6 +78608,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -78935,6 +79303,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -79116,7 +79489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1851685605
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -79130,11 +79503,11 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1851685606
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -79149,7 +79522,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1851685607
 MeshCollider:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -79190,7 +79563,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 29918
+    surfaceParameter: 29920
     meshQueryIndex: 2
     subMeshQueryIndex: 0
     geometryHashValue: 6084887620789720582
@@ -79386,6 +79759,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (130)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -80079,6 +80457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -80295,6 +80678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (61)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -82122,7 +82510,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 23eb8d16d053f9e40bbc75733d3ec48e, type: 3}
 --- !u!1 &1952801957
 GameObject:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -82141,7 +82529,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1952801958
 Transform:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -82156,7 +82544,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1952801959
 MeshRenderer:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -82198,7 +82586,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1952801960
 MeshFilter:
-  m_ObjectHideFlags: 16
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -82225,7 +82613,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 29866
+    surfaceParameter: 29868
     meshQueryIndex: 8
     subMeshQueryIndex: 0
     geometryHashValue: -9033022401845107885
@@ -83883,6 +84271,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -84894,6 +85287,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -85009,6 +85407,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (83)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -85149,6 +85552,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (131)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -86433,7 +86841,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -49.49031
+      value: -53.32
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -86443,7 +86851,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.165
+      value: 5.66
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -87768,6 +88176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -88298,6 +88711,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -88408,6 +88826,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DoubleWall (67)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreCover
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9e67f42ca7a2fc8419f93e2b40031208,
         type: 3}
@@ -89395,4 +89818,4 @@ SceneRoots:
   - {fileID: 498048259}
   - {fileID: 177260813}
   - {fileID: 1304085063}
-  - {fileID: 423946102}
+  - {fileID: 1719404073}
