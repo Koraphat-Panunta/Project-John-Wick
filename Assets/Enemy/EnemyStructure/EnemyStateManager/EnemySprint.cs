@@ -19,7 +19,7 @@ public class EnemySprint : EnemyState
     public override void StateEnter(EnemyStateManager enemyState)
     {
         animator.SetBool("IsSprinting",true);
-        animator.speed = 1f;
+        animator.speed = 0.78f;
         base.StateEnter(enemyState);
     }
 
@@ -38,7 +38,7 @@ public class EnemySprint : EnemyState
 
     public override void StateUpdate(EnemyStateManager enemyState)
     {
-        float rotSpeed = 8;
+        float rotSpeed = 9.7f;
         Vector3 dir = (agent.steeringTarget - enemy.transform.position).normalized;
         objectToward.RotateTowards(dir, enemy.gameObject, rotSpeed);
         enemy.currentTactic.Manufacturing();

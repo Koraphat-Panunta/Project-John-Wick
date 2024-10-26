@@ -45,8 +45,9 @@ public class EnemyFindingCover
                 if (hitInfo.collider == col[i] &&Vector3.Dot(Vector3.up, hitInfo.normal) < 0.9f)
                 {
                     //Debug.DrawLine(enemy.rayCastPos.position, hitInfo.point,Color.green);
-                    if (col[i].CompareTag("IgnoreCover") == false)
+                    if (col[i].gameObject.tag != "IgnoreCover")
                     {
+                        Debug.Log(col[i].tag);
                         enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo, enemy.transform.position));
                     }
                 }
