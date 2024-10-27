@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMoveAgent : EnemyMove
 {
+    float agentMoveSpeed = 2;
     public override void StateEnter(EnemyStateManager enemyState)
     {
-        enemyState.enemy.agent.speed = 5;
-        enemyState.enemy.agent.acceleration = 5;
+       
         base.StateEnter(enemyState);
     }
 
     public override void StateExit(EnemyStateManager enemyState)
     {
-        enemyState.enemy.agent.speed = 0;
-        enemyState.enemy.agent.acceleration = 0;
+        
         base.StateExit(enemyState);
     }
 
@@ -25,7 +25,11 @@ public class EnemyMoveAgent : EnemyMove
 
     public override void StateUpdate(EnemyStateManager enemyState)
     {
-        Debug.Log("MoveWithAgent"+ enemyState.enemy.agent.speed+"||"+enemyState.enemy.agent.acceleration);
+        Enemy enemy = enemyState.enemy;
+        NavMeshAgent agent = enemy.agent;
+
+        Vector3 moveDir = (agent.steeringTarget - enemy.transform.position).normalized * Time.deltaTime* agentMoveSpeed;
+        agent.Move(moveDir);
         base.StateUpdate(enemyState);
     }
 }

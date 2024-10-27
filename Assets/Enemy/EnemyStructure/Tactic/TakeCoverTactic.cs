@@ -75,15 +75,16 @@ public class TakeCoverTactic : IEnemyTactic
     }
     private void PeekAndShoot(Vector3 peekPos,NavMeshAgent agent) 
     {
-        NavMeshHit hit;
-        float maxDistance = 1;
+        //NavMeshHit hit;
+        //float maxDistance = 1;
         //if (NavMesh.SamplePosition(peekPos, out hit, maxDistance, NavMesh.AllAreas))
         //{
         //    agent.SetDestination(hit.position);
         //}
+       
         agent.SetDestination(peekPos);
         enemy.enemyWeaponCommand.Aiming();
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
+        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
         enemyFiringPattern.Performing();
         new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == false)
@@ -102,7 +103,8 @@ public class TakeCoverTactic : IEnemyTactic
         //}
         agent.SetDestination(CoverPos);
         enemy.enemyWeaponCommand.LowReady();
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
+        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
+        
     }
     bool isSetMovePos = false;
     private bool MoveToCover(Vector3 CoverPos, NavMeshAgent agent)
@@ -141,6 +143,7 @@ public class TakeCoverTactic : IEnemyTactic
     {
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
+            new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
             enemy.enemyWeaponCommand.Aiming();
             enemyFiringPattern.Performing();
         }

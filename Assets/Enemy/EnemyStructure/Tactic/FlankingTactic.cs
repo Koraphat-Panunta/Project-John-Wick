@@ -36,7 +36,8 @@ public class FlankingTactic : IEnemyTactic
             enemyWeaponCommand.Aiming();
             enemyFiringPattern.Performing();
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
-            enemy.cost -= cost_DrainRate*Time.deltaTime;
+            enemy.cost -= cost_DrainRate * Time.deltaTime;
+
         }
         else
         {
