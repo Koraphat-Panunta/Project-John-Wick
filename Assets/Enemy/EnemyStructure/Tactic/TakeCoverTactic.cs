@@ -23,7 +23,7 @@ public class TakeCoverTactic : IEnemyTactic
         agent.acceleration = 0;
         isInCover = false;
         coverPositionEnemy = null;
-        costRate = Random.Range(1f, 2.5f);
+        costRate = Random.Range(1f, 2f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
         Debug.Log(enemy + " EnterTakeCover");
         enemy.isIncombat = true;
@@ -88,7 +88,7 @@ public class TakeCoverTactic : IEnemyTactic
         new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == false)
         {
-            enemy.cost += 3*costRate * Time.deltaTime;
+            enemy.cost += costRate * Time.deltaTime;
         }
     }
     private void BackToCover(Vector3 CoverPos, NavMeshAgent agent) 
@@ -109,8 +109,16 @@ public class TakeCoverTactic : IEnemyTactic
     {
         if (isSetMovePos == false)
         {
-            agent.SetDestination(CoverPos);
-            isSetMovePos = true;
+            float maxDistance = 1.8f;
+            if (NavMesh.SamplePosition(CoverPos, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                isSetMovePos = true;
+            }
+            else 
+            {
+                enemy.currentTactic = new HoldingTactic(enemy);
+            }
         }
         if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1.6f)
         {
@@ -122,7 +130,7 @@ public class TakeCoverTactic : IEnemyTactic
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
             enemy.enemyWeaponCommand.LowReady();
-            enemy.cost += 3 * costRate * Time.deltaTime;
+            enemy.cost +=   costRate * Time.deltaTime;
             return false;
         }
     }
@@ -133,7 +141,8 @@ public class TakeCoverTactic : IEnemyTactic
     {
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
-            PeekAndShoot(coverPositionEnemy.aimPos, agent);
+            enemy.enemyWeaponCommand.Aiming();
+            enemyFiringPattern.Performing();
         }
         else
         {
