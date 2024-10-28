@@ -20,7 +20,7 @@ public class HpRegenarate
         }
         else
         {
-            if(player.GetHP() < 30)
+            if(player.GetHP() < 45)
             {
                 player.NotifyObserver(player, SubjectPlayer.PlayerAction.HealthRegen);
                 player.SetHP(Mathf.Clamp(player.GetHP() + regenarate_rate * Time.deltaTime, 0, 100));

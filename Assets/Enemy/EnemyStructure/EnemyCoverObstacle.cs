@@ -41,11 +41,11 @@ public class EnemyCoverObstacle
             }
             else
             {
-
+                SetCoverPivotPosition_BoxCollider(boxCollider);
+                normalBound = hitInfo.normal.normalized * Vector3.Distance(collider.bounds.center, hitInfo.point);
+                obstacleType = ObstacleType.BoxCollider;
             }
-            SetCoverPivotPosition_BoxCollider(boxCollider);
-            normalBound = hitInfo.normal.normalized * Vector3.Distance(collider.bounds.center, hitInfo.point);
-            obstacleType = ObstacleType.BoxCollider;
+           
         }
         else
         {
