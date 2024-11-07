@@ -25,11 +25,17 @@ public class ObjectiveDisplay : MonoBehaviour,IObseverLevel
     // Update is called once per frame
     private void OnEnable()
     {
-        level.AddObserver(this);
+        if (level != null)
+        {
+            level.AddObserver(this);
+        }
     }
     private void OnDisable()
     {
-        level.RemoveObserver(this);
+        if (level != null)
+        {
+            level.RemoveObserver(this);
+        }
     }
     void Update()
     {

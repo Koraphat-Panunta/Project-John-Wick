@@ -28,6 +28,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     void Start()
     {
+        Player = FindAnyObjectByType<Player>();
         Kickback.Add(CameraKickbackPreset.N1 , 0.02f);
         Kickback.Add(CameraKickbackPreset.N2, 0.04f);
         Kickback.Add(CameraKickbackPreset.N3, 0.06f);

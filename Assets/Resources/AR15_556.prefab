@@ -357,6 +357,7 @@ MonoBehaviour:
   reload_1: {fileID: 8300000, guid: e7e5934352627ee4893b01f0d6f9e215, type: 3}
   reload_2: {fileID: 8300000, guid: e8ca3a79335f0bf47a59089d06ea344e, type: 3}
   reload_3: {fileID: 8300000, guid: d293ca5060cf60641a224ac0981935b3, type: 3}
+  weapon: {fileID: 0}
 --- !u!1001 &8101920667274786206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -433,6 +434,11 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 805564053615298844, guid: 3fdc4e4155898c54e875cbffc2193a19,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3fdc4e4155898c54e875cbffc2193a19,
