@@ -49,7 +49,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""041ab9e3-480e-413e-942a-257e79245e52"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -58,7 +58,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Aim Down Sight"",
                     ""type"": ""Button"",
                     ""id"": ""b30a0627-0674-43da-a2a1-fcbc38ba2d54"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
@@ -67,7 +67,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""PullTrigger"",
                     ""type"": ""Button"",
                     ""id"": ""cc0c1395-9e31-4bcc-8368-92fd7ae265da"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -76,7 +76,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""SwapShoulder"",
                     ""type"": ""Button"",
                     ""id"": ""8d017601-b7c4-4ae2-bc0d-d80cf8024d09"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -85,7 +85,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""91ac3259-d801-4dec-942a-ec85d85d3939"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -94,7 +94,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""SwitchWeapon"",
                     ""type"": ""Button"",
                     ""id"": ""22b9003e-4e2d-4fe5-b479-ada290ad0692"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
