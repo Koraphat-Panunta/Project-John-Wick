@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5964026285245096123}
   - component: {fileID: 6865243977658963699}
   - component: {fileID: 6424261375681497480}
-  - component: {fileID: 6187685236114462713}
+  - component: {fileID: 8522622513793723404}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -182,8 +182,8 @@ MonoBehaviour:
     type: 3}
   cameraOffset: {fileID: 5769738234189915672, guid: c9f04462c4406d14b824ee6dd868a918,
     type: 3}
-  impulseSource: {fileID: 6187685236114462713}
-  Player: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b, type: 3}
+  impulseSource: {fileID: 8522622513793723404}
+  Player: {fileID: 0}
   cameraKickbackPreset: 1
 --- !u!114 &6424261375681497480
 MonoBehaviour:
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPos: {fileID: 0}
   tarPos: {fileID: 0}
---- !u!114 &6187685236114462713
+--- !u!114 &8522622513793723404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

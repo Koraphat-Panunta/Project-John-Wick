@@ -26,7 +26,7 @@ public class MoveState : CharacterState
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
-        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward))
+        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward*0.3f))
         {
             playerStateManager.move = playerStateManager.moveInCover;
             playerStateManager.ChangeState(playerStateManager.moveInCover);

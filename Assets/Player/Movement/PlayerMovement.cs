@@ -126,6 +126,7 @@ public class PlayerMovement
         Debug.DrawLine(player.transform.position, player.transform.position + inputDirection_World,Color.green);
         Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection_World, Color.blue);
         Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection_World, Color.yellow);
+        //Debug.DrawLine(player.transform.position, player.transform.position + curVelocity_World, Color.red);
 
        
     }

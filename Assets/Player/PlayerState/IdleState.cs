@@ -27,7 +27,7 @@ public class IdleState : CharacterState
 
     public override void FrameUpdateState(PlayerStateManager stateManager)
     {
-        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward))
+        if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward*0.3f))
         {
             playerStateManager.idle = playerStateManager.idleInCover;
             playerStateManager.ChangeState(playerStateManager.idleInCover);
