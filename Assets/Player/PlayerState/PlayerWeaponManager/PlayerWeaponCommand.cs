@@ -16,7 +16,7 @@ public class PlayerWeaponCommand
     public PlayerWeaponCommand(Player player)
     {
         this.player = player;
-        ammoProuch = new AmmoProuch(60, 120, 150, 120);
+        ammoProuch = new AmmoProuch(60, 120, 210, 120);
         ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
         this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
         leanCover = new LeanCover(player.rotationConstraint, crosshairController);

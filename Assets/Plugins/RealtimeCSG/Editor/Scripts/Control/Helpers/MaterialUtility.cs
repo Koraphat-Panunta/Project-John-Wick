@@ -241,7 +241,7 @@ namespace RealtimeCSG
 		internal static Material GetRuntimeMaterial(string materialName)
 		{
 			Material defaultMaterial = null;
-			var renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset;
+			var renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline;
 			if (renderPipelineAsset)
 				defaultMaterial = DefaultMaterial;
 
@@ -264,10 +264,10 @@ namespace RealtimeCSG
 		}
 
 
-        internal static PhysicMaterial GetRuntimePhysicMaterial(string materialName)
+        internal static PhysicsMaterial GetRuntimePhysicMaterial(string materialName)
         {
             var defaultFilename = string.Format("{0}{1}.physicMaterial", DefaultMaterialPath, materialName);
-            return AssetDatabase.LoadAssetAtPath<PhysicMaterial>(defaultFilename);
+            return AssetDatabase.LoadAssetAtPath<PhysicsMaterial>(defaultFilename);
         }
 
 
@@ -278,7 +278,7 @@ namespace RealtimeCSG
 			{
 				if (!_defaultMaterial)
 				{
-					var renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset;
+					var renderPipelineAsset = UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline;
 					if (renderPipelineAsset)
 					{
 #if UNITY_2019_1_OR_NEWER
@@ -296,8 +296,8 @@ namespace RealtimeCSG
 			}
 		}
 
-        private static PhysicMaterial _defaultPhysicsMaterial;
-        public static PhysicMaterial DefaultPhysicsMaterial
+        private static PhysicsMaterial _defaultPhysicsMaterial;
+        public static PhysicsMaterial DefaultPhysicsMaterial
         {
             get
             {

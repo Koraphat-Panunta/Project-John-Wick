@@ -20,8 +20,8 @@ public class Bullet : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         // Set Rigidbody properties
         rb.mass = mass;
-        rb.drag = 0.01f;
-        rb.angularDrag = 0.05f;
+        rb.linearDamping = 0.01f;
+        rb.angularDamping = 0.05f;
         // Calculate and apply impulse force
         Vector3 force = Dir * mass * velocity;
         rb.AddForce(force, ForceMode.Impulse);
