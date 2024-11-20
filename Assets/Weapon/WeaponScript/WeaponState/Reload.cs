@@ -15,12 +15,7 @@ public class Reload : WeaponState
         this.reloadTime =  reloadTime;
         this.tacTicalReloadTime = reloadTime;
     }
-    public enum ReloadType
-    {
-        ReloadMagOut,
-        TacticalReload,
-        ReloadFinished
-    }
+    
     public ReloadType reloadType { get; set; }
     
     public override void EnterState()

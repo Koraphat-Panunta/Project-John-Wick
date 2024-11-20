@@ -17,6 +17,8 @@ public class AR15 : PrimaryWeapon
     private float _recoilKickBack = 50;
     private float min_percision = 20;
     private float max_percision = 65;
+   
+       
     public override int Magazine_capacity
     {
         get { return _magazineCapacity; }

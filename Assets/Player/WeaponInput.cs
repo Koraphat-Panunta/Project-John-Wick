@@ -14,30 +14,30 @@ public class WeaponInput
     {
         if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2))
         {
-            player.playerWeaponCommand.SwitchWeapon();
+            player.weaponCommand.SwitchWeapon();
         }
         if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started||Input.GetKey(KeyCode.Mouse1))
         {
-            player.playerWeaponCommand.Aim();
+            player.weaponCommand.AimDownSight();
         }
         else
         {
-            player.playerWeaponCommand.LowWeapon();
+            player.weaponCommand.LowReady();
         }
 
         if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0)|| input.firing.phase == InputActionPhase.Performed
             ||Input.GetKey(KeyCode.Mouse0))
         {
-            player.playerWeaponCommand.Pulltriger();
+            player.weaponCommand.PullTrigger();
         }
         else
         {
-            player.playerWeaponCommand.CancelTrigger();
+            player.weaponCommand.CancleTrigger();
         }
 
         if (input.reloading.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.R))
         {
-            player.playerWeaponCommand.Reload();
+            player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
         }
     }
 }

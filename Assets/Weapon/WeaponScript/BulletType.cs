@@ -7,4 +7,5 @@ public enum BulletType
    _9mm,
    _45mm,
    _556mm,
+   _762mm
 }

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LowReadyCommand : WeaponCommand
+public class LowReadyCommand 
 {
-    public LowReadyCommand(Weapon weapon) : base(weapon)
-    {
-    }
-    public override void Execute()
-    {
-        weapon.LowWeapon();
-    }
+    //public LowReadyCommand(Weapon weapon) : base(weapon)
+    //{
+    //}
+    //public override void Execute()
+    //{
+    //    weapon.LowWeapon();
+    //}
 }

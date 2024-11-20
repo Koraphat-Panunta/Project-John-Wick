@@ -71,11 +71,11 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     {
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            CrosshairSpread.Performed(player.curentWeapon);
+            CrosshairSpread.Performed(player.currentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            CrosshairSpread.Performed(player.curentWeapon);
+            CrosshairSpread.Performed(player.currentWeapon);
         }
     }
 }

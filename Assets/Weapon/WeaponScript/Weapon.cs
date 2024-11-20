@@ -22,7 +22,7 @@ public abstract class Weapon : WeaponSubject
     public abstract float min_Precision { get; protected set; }
     public abstract float max_Precision { get; protected set; }
 
-    public Character userWeapon;
+    public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
     public Rigidbody rb;
     public AnimatorOverrideController _weaponOverrideControllerPlayer;
@@ -97,13 +97,13 @@ public abstract class Weapon : WeaponSubject
     {
         weapon_StanceManager.ChangeStance(weapon_StanceManager.lowReady);
     }
-    public void AttatchWeaponTo(Character WeaponUser)
+    public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
         this.userWeapon = WeaponUser;
-        WeaponUser.curentWeapon = this;
+        WeaponUser.currentWeapon = this;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
-        source.sourceTransform = WeaponUser.weaponSocket;
+        source.sourceTransform = WeaponUser.currentWeaponSocket;
         source.weight = 1;
         if (parentConstraint.sourceCount > 0)
         {
@@ -114,12 +114,14 @@ public abstract class Weapon : WeaponSubject
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-        if(WeaponUser.TryGetComponent<Player>(out Player p))
+        if(WeaponUser is Player)
         {
+            Player p = WeaponUser as Player;
             p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
         }
-        if(WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
+        if(WeaponUser is Enemy)
         {
+            Enemy enemy = WeaponUser as Enemy;
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
         }
         parentConstraint.weight = 1;

@@ -5,11 +5,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class LeanCover 
+public class LeanCover: IPlayerComponent
 {
     private MultiRotationConstraint multiRotationConstraint;
     private CrosshairController crosshairController;
     private LayerMask layerMask;
+    private Transform shootPoint;
     public enum LeanDir
     {
         Left,
@@ -93,4 +94,13 @@ public class LeanCover
         multiRotationConstraint.data.sourceObjects = source;
     }
 
+    public void UpdateComponent()
+    {
+       
+    }
+
+    public void FixedUpdateComponent()
+    {
+        LeaningUpdate(shootPoint);
+    }
 }

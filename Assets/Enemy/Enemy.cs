@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy
+public class Enemy : SubjectEnemy,IWeaponAdvanceUser
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -32,7 +32,10 @@ public class Enemy : SubjectEnemy
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
     public bool isIncombat;
-     void Start()
+
+   
+
+    void Start()
     {
         Target = new GameObject();
         enemyStateManager = new EnemyStateManager(this);    
@@ -100,34 +103,34 @@ public class Enemy : SubjectEnemy
         base.LowReadying(weapon);
     }
 
-    public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
-    {
-        if (reloadType == ReloadType.TacticalReload)
-        {
-            animator.SetTrigger("TacticalReload");
-            animator.SetLayerWeight(2, 1);
-        }
-        else if (reloadType == ReloadType.ReloadMagOut)
-        {
-            animator.SetTrigger("Reloading");
-            animator.SetLayerWeight(2, 1);
-        }
-        else if (reloadType == ReloadType.ReloadFinished)
-        {
-            StartCoroutine(RecoveryReloadLayerWeight(weapon));
-        }
-        base.Reloading(weapon, reloadType);
-    }
-    IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
-    {
-        float RecoveryWeight = 10;
-        while (animator.GetLayerWeight(2) > 0)
-        {
-            enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
-            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
-            yield return null;
-        }
-    }
+    //public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
+    //{
+    //    if (reloadType == ReloadType.TacticalReload)
+    //    {
+    //        animator.SetTrigger("TacticalReload");
+    //        animator.SetLayerWeight(2, 1);
+    //    }
+    //    else if (reloadType == ReloadType.ReloadMagOut)
+    //    {
+    //        animator.SetTrigger("Reloading");
+    //        animator.SetLayerWeight(2, 1);
+    //    }
+    //    else if (reloadType == ReloadType.ReloadFinished)
+    //    {
+    //        StartCoroutine(RecoveryReloadLayerWeight(weapon));
+    //    }
+    //    base.Reloading(weapon, reloadType);
+    //}
+    //IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
+    //{
+    //    float RecoveryWeight = 10;
+    //    while (animator.GetLayerWeight(2) > 0)
+    //    {
+    //        enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
+    //        animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
+    //        yield return null;
+    //    }
+    //}
     IEnumerator RecoveryFiringLayerWeight()
     {
         float RecoveryWeight = 10;
@@ -145,7 +148,24 @@ public class Enemy : SubjectEnemy
             Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
         }
     }
-   
 
-   
+    [SerializeField]private Transform weaponMainSocket;
+    [SerializeField] private Transform primaryWeaponHoster;
+    [SerializeField] private Transform secondaryWeaponHoster;
+    public Animator weaponUserAnimator { get; set; }
+    public Weapon currentWeapon { get; set; }
+    public Transform currentWeaponSocket { get; set; }
+    public Transform leftHandSocket { get; set; }
+    public Vector3 pointingPos { get; set; }
+    public WeaponBelt weaponBelt { get; set; }
+    public WeaponAfterAction weaponAfterAction { get; set; }
+    public WeaponCommand weaponCommand { get; set; }
+    public void Initialized_IWeaponAdvanceUser()
+    {
+        weaponUserAnimator = animator;
+        currentWeaponSocket = weaponMainSocket;
+        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(90, 90, 360, 360));
+        weaponAfterAction = new WeaponAfterActionEnemy(this);
+        weaponCommand = new WeaponCommand(this);
+    }
 }
