@@ -33,7 +33,7 @@ public class FlankingTactic : IEnemyTactic
         }
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
-            enemyWeaponCommand.Aiming();
+            enemy.weaponCommand.AimDownSight();
             enemyFiringPattern.Performing();
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             enemy.cost -= cost_DrainRate * Time.deltaTime;
@@ -43,7 +43,7 @@ public class FlankingTactic : IEnemyTactic
         {
             if (enemy.enemyPath._markPoint.Count<=0)
             {
-                enemyWeaponCommand.LowReady();
+                enemy.weaponCommand.LowReady();
                 backToSerchTiming -= Time.deltaTime;
                 if (backToSerchTiming <= 0)
                 {

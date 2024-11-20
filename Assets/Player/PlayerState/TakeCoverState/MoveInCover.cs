@@ -61,7 +61,7 @@ public class MoveInCover : MoveState,IObserverPlayer
         
             //Debug.Log("Move in Cover Aiming = false");
             playerMovement.RotateCharacter(coverDetection.obstacleSurfaceDir * -1, 6);
-            if (player.curentWeapon != null)
+            if (player.currentWeapon != null)
             {
                 if (warping == true)
                 {
@@ -76,7 +76,7 @@ public class MoveInCover : MoveState,IObserverPlayer
                         warping = false;
                     }
                 }
-                else if (player.curentWeapon.weapon_StanceManager.AimingWeight > 0
+                else if (player.currentWeapon.weapon_StanceManager.AimingWeight > 0
                     && playerMovement.inputDirection_World == Vector3.zero
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {
@@ -88,7 +88,7 @@ public class MoveInCover : MoveState,IObserverPlayer
         else
         {
            
-            if (player.curentWeapon != null)
+            if (player.currentWeapon != null)
             {
                 if (warping == true)
                 {
@@ -101,7 +101,7 @@ public class MoveInCover : MoveState,IObserverPlayer
                         warping = false;
                     }
                 }
-                else if (player.curentWeapon.weapon_StanceManager.AimingWeight < 1
+                else if (player.currentWeapon.weapon_StanceManager.AimingWeight < 1
                     && playerMovement.inputDirection_World == Vector3.zero
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {

@@ -5,16 +5,17 @@ using UnityEngine;
 public class WeaponFactorySTI9mm : WeaponFactory
 {
 
-    public override void CreateWeapon(Character weaponUser)
+    public override void CreateWeapon(IWeaponAdvanceUser weaponUser)
     {
         prefabWeapon = Resources.Load<Weapon>("STI_9mm");
-        Weapon Weapon = GameObject.Instantiate(prefabWeapon,weaponUser.transform.position,Quaternion.identity);
+        
+        Weapon Weapon = GameObject.Instantiate(prefabWeapon,weaponUser.weaponUserAnimator.transform.position,Quaternion.identity);
         Weapon.AttatchWeaponTo(weaponUser);
     }
-    public override Weapon GetCreateWeapon(Character weaponUser)
+    public override Weapon GetCreateWeapon(IWeaponAdvanceUser weaponUser)
     {
         prefabWeapon = Resources.Load<Weapon>("STI_9mm");
-        Weapon Weapon = GameObject.Instantiate(prefabWeapon, weaponUser.transform.position, Quaternion.identity);
+        Weapon Weapon = GameObject.Instantiate(prefabWeapon, weaponUser.weaponUserAnimator.transform.position, Quaternion.identity);
         Weapon.AttatchWeaponTo(weaponUser);
         return Weapon;
     }

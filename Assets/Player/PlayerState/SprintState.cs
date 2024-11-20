@@ -81,12 +81,12 @@ public class SprintState : CharacterState
         }
         if(playerController.input.reloading.phase == InputActionPhase.Started||Input.GetKeyDown(KeyCode.R))
         {
-            player.playerWeaponCommand.Reload();
+            player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
         }
         if(playerController.input.swapShoulder.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.LeftAlt))
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }
-        player.playerWeaponCommand.LowWeapon();
+        player.weaponCommand.LowReady();
     }
 }

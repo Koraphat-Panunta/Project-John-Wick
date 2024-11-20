@@ -119,7 +119,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
-    public Vector3 pointingPos { get; set; }
+    public Vector3 pointingPos { get; set ;}
     public Animator weaponUserAnimator { get; set; }
 
     public void Initialized_IWeaponAdvanceUser()

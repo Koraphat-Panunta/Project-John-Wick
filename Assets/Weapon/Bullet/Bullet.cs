@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     {
 
     }
-    public void ShootDirection(Vector3 Dir)
+    public void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
     {
         Rigidbody rb = GetComponent<Rigidbody>();
         // Set Rigidbody properties
@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
         rb.linearDamping = 0.01f;
         rb.angularDamping = 0.05f;
         // Calculate and apply impulse force
-        Vector3 force = Dir * mass * velocity;
+        Vector3 force = (pointPos-spawnerPosition) * mass * velocity;
         rb.AddForce(force, ForceMode.Impulse);
     }
     // Update is called once per frame

@@ -50,7 +50,7 @@ public class HoldingTactic : IEnemyTactic
         }
         if(isSeeTargetPos == true)
         {
-            enemy.enemyWeaponCommand.Aiming();
+            enemy.weaponCommand.AimDownSight();
             enemyFiringPattern.Performing();
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
             Vector3 targetDir = enemy.Target.transform.position.normalized - enemy.transform.position.normalized;
@@ -58,7 +58,7 @@ public class HoldingTactic : IEnemyTactic
         }
         else if(isSeeTargetPos == false)
         {
-            enemy.enemyWeaponCommand.LowReady();
+            enemy.weaponCommand.LowReady();
             enemy.agent.destination = Vector3.Cross(enemy.Target.transform.position - enemy.transform.position, Vector3.up);
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
             new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);

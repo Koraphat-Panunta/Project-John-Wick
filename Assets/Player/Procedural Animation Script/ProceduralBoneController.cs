@@ -77,7 +77,7 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
     {
         if(playerAction == SubjectPlayer.PlayerAction.Aim||playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            SetWeight(player.curentWeapon);
+            SetWeight(player.currentWeapon);
         }
         
     }

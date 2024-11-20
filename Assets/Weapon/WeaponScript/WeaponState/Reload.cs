@@ -26,7 +26,7 @@ public class Reload : WeaponState
         }
         if (ReloadAnimator == null)
         {
-            ReloadAnimator = base._weapon.userWeapon.animator;
+            ReloadAnimator = base._weapon.userWeapon.weaponUserAnimator;
         }
         if (base._weapon.Magazine_count == base._weapon.Magazine_capacity)
         {
@@ -34,16 +34,16 @@ public class Reload : WeaponState
         }
         else if (base._weapon.Magazine_count > 0)
         {
-            reloadType = ReloadType.TacticalReload;
+            reloadType = ReloadType.MAGAZINE_TACTICAL_RELOAD;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
-            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             currentReload = base._weapon.StartCoroutine(Reloading());
         }
         else if (base._weapon.Magazine_count <= 0)
         {
-            reloadType = ReloadType.ReloadMagOut;
+            reloadType = ReloadType.MAGAZINE_RELOAD;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Reloading);
-            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             currentReload = this._weapon.StartCoroutine(Reloading());
         }
 
@@ -62,20 +62,20 @@ public class Reload : WeaponState
     }
     IEnumerator Reloading()
     {
-        if(reloadType == ReloadType.ReloadMagOut)
+        if(reloadType == ReloadType.MAGAZINE_RELOAD)
         {
             yield return new WaitForSeconds(reloadTime);
-            reloadType = ReloadType.ReloadFinished;
-            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            reloadType = ReloadType.MAGAZINE_RELOAD_SUCCESS;
+            base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             base._weapon.Chamber_Count += 1;
             base._weapon.Magazine_count -= 1;
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
-        else
+        else if(reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
         {
             yield return new WaitForSeconds(tacTicalReloadTime);
-            reloadType = ReloadType.ReloadFinished;
-            base._weapon.userWeapon.Reloading(base._weapon, reloadType);
+            reloadType = ReloadType.MAGAZINE_RELOAD_SUCCESS;
+            base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
     }

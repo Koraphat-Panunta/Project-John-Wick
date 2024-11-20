@@ -120,17 +120,17 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animate Weapon Animation
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            animator.SetLayerWeight(2,player.curentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetLayerWeight(1,1- player.curentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(2,player.currentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(1,1- player.currentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetFloat("AimingWeigth", player.currentWeapon.weapon_StanceManager.AimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            if (player.curentWeapon != null)
+            if (player.currentWeapon != null)
             {
-                animator.SetLayerWeight(2, player.curentWeapon.weapon_StanceManager.AimingWeight);
-                animator.SetLayerWeight(1, 1 - player.curentWeapon.weapon_StanceManager.AimingWeight);
-                animator.SetFloat("AimingWeigth", player.curentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(2, player.currentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(1, 1 - player.currentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetFloat("AimingWeigth", player.currentWeapon.weapon_StanceManager.AimingWeight);
             }
             else
             {
@@ -147,21 +147,21 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animator Override
         if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
         {
-            this.animator.runtimeAnimatorController = player.curentWeapon._weaponOverrideControllerPlayer;
+            this.animator.runtimeAnimatorController = player.currentWeapon._weaponOverrideControllerPlayer;
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.Reloading)
         {
-            Reload.ReloadType reloadType = player.curentWeapon.weapon_stateManager.reloadState.reloadType;
-            if (reloadType == Reload.ReloadType.TacticalReload)
+            ReloadType reloadType = player.currentWeapon.weapon_stateManager.reloadState.reloadType;
+            if (reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.TacticalReload]);
-                StartCoroutine(ReloadTiming(player.curentWeapon.reloadSpeed));
+                StartCoroutine(ReloadTiming(player.currentWeapon.reloadSpeed));
             }
-            if(reloadType == Reload.ReloadType.ReloadMagOut)
+            if(reloadType == ReloadType.MAGAZINE_RELOAD)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.Reloading]);
-                StartCoroutine(ReloadTiming(player.curentWeapon.reloadSpeed));
+                StartCoroutine(ReloadTiming(player.currentWeapon.reloadSpeed));
             }
         }
   

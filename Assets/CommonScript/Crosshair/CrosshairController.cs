@@ -15,7 +15,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
     [SerializeField] public GameObject TargetAim;
-    [SerializeField] private Player player;
+    [SerializeField] public Player player;
     public bool isVisable = false;
 
     public CrosshairSpread CrosshairSpread { get; private set; }
@@ -69,6 +69,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
             CrosshairSpread.Performed(player.currentWeapon);

@@ -27,7 +27,7 @@ public class SerchingTactic : IEnemyTactic
     }
     public void Manufacturing()
     {
-        enemyWeaponCommand.LowReady();
+        enemy.weaponCommand.LowReady();
         if(agent.hasPath == false )
         {
             agent.destination = RandomPosInNavmesh();

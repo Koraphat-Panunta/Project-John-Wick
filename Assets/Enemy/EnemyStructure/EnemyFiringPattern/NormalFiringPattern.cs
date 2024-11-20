@@ -15,7 +15,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
     public NormalFiringPattern(Enemy enemy)
     {
         this.weaponCommand = enemy.enemyWeaponCommand;
-        this.curWeapon = enemy.curentWeapon;
+        this.curWeapon = enemy.currentWeapon;
         this.ammoProuch = enemy.enemyWeaponCommand.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
         this.enemy = enemy;
@@ -28,7 +28,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
         {
             if(curWeapon.Magazine_count <= 0&&curWeapon.Chamber_Count<=0)
             {
-                weaponCommand.Reload();
+                enemy.weaponCommand.Reload(enemy.weaponBelt.ammoProuch);
             }
             else if(curWeapon.weapon_stateManager._currentState != curWeapon.weapon_stateManager.reloadState)
             {
@@ -43,13 +43,13 @@ public class NormalFiringPattern : IEnemyFiringPattern
                         }
                         else
                         {
-                            weaponCommand.Fire();
+                            enemy.weaponCommand.PullTrigger();
                         }
                     }
                 }
                 else
                 {
-                    weaponCommand.Fire();
+                    enemy.weaponCommand.PullTrigger();
                 }
             }
             deltaFireTiming = 0;

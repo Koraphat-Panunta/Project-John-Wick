@@ -23,30 +23,25 @@ public class CrosshiarShootpoint : ICrosshairAction
         crosshairController.PointPosition.anchoredPosition = new Vector2(PosX, PosY);
         return crosshairController.PointPosition;
     }
-    public Vector3 GetPointDirection(Vector3 OriginPos)
+    public Vector3 GetPointDirection()
     {
-        Vector3 Dir;
+        Vector3 pointPos;
         Ray ray = Camera.main.ScreenPointToRay(GetPointPosScreen().position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, crosshairController.layerMask))
         {
-            Vector3 worldPosition = hit.point;
-            Dir = worldPosition - OriginPos;
-            Dir = Dir.normalized;
+           pointPos = hit.point;
         }
         else if (Physics.Raycast(ray, out hit, 1000, 1))
         {
-            Vector3 worldPosition = hit.point;
-            Dir = worldPosition - OriginPos;
-            Dir = Dir.normalized;
+            pointPos = hit.point;
         }
         else
         {
-            Vector3 worldPosition = ray.GetPoint(100);
-            Dir = worldPosition - OriginPos;
-            Dir = Dir.normalized;
+            //Vector3 worldPosition = ray.GetPoint(100);
+            pointPos = ray.GetPoint(100);
         }
-        return Dir;
+        return pointPos;
     }
     public void Performed(Weapon weapon)
     {
