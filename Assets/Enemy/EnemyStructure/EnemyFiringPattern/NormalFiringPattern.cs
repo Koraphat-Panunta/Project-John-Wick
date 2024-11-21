@@ -16,13 +16,12 @@ public class NormalFiringPattern : IEnemyFiringPattern
     {
         this.weaponCommand = enemy.enemyWeaponCommand;
         this.curWeapon = enemy.currentWeapon;
-        this.ammoProuch = enemy.enemyWeaponCommand.ammoProuch;
+        this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
         this.enemy = enemy;
     }
     public void Performing()
     {
-        
         deltaFireTiming += Time.deltaTime;
         if (deltaFireTiming >= randomFireTiming)
         {
@@ -44,12 +43,15 @@ public class NormalFiringPattern : IEnemyFiringPattern
                         else
                         {
                             enemy.weaponCommand.PullTrigger();
+                            enemy.weaponCommand.CancleTrigger();
                         }
                     }
                 }
                 else
                 {
                     enemy.weaponCommand.PullTrigger();
+                    Debug.Log("EnemyPullTrigger");
+                    enemy.weaponCommand.CancleTrigger();
                 }
             }
             deltaFireTiming = 0;

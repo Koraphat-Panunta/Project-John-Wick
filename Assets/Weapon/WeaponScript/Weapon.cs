@@ -124,6 +124,12 @@ public abstract class Weapon : WeaponSubject
             Enemy enemy = WeaponUser as Enemy;
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
         }
+        if(this is PrimaryWeapon){
+            WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
+        }
+        else if(this is SecondaryWeapon) { 
+            WeaponUser.weaponBelt.secondaryWeapon = this as SecondaryWeapon;
+        }
         parentConstraint.weight = 1;
     }
     public void AttachWeaponTo(Transform weaponSocket)

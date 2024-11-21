@@ -33,7 +33,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public ShoulderSide curShoulderSide;
     public float MyHP;
 
-    List<IPlayerComponent> playerComponents;
+    List<IPlayerComponent> playerComponents = new List<IPlayerComponent>();
 
     private void Start()
     {
@@ -50,18 +50,18 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100 );
         AddObserver(this);
+        Initialized_IWeaponAdvanceUser();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         //if (curentWeapon.TryGetComponent<SecondaryWeapon>(out SecondaryWeapon s))
         //{
         //    secondaryWeapon = s;
         //}
-        //new WeaponFactoryAR15().CreateWeapon(this);
+        new WeaponFactoryAR15().CreateWeapon(this);
         //if (curentWeapon.TryGetComponent<PrimaryWeapon>(out PrimaryWeapon p))
         //{
         //    primaryWeapon = p;
         //}
-        //secondaryWeapon.AttachWeaponTo(secondaryHolster);
-        //primaryWeapon.AttatchWeaponTo(this);
+        weaponBelt.secondaryWeapon.AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
     }
     private void Update()
     {
@@ -69,6 +69,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         playerStateManager.Update();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
+        if(playerComponents.Count>0)
         foreach(IPlayerComponent P in playerComponents)
             P.UpdateComponent();
     }
@@ -76,6 +77,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     {
         playerStateManager.FixedUpdate();
         playerMovement.MovementUpdate();
+        if (playerComponents.Count > 0)
         foreach (IPlayerComponent P in playerComponents)
             P.FixedUpdateComponent();
     }
@@ -112,6 +114,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     [SerializeField] private Transform secondaryHolster;
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform weaponSecondHandSocket;
+    [SerializeField] private CrosshairController crosshairController;
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
         
@@ -119,13 +122,14 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
-    public Vector3 pointingPos { get; set ;}
+    public Vector3 pointingPos { get 
+        { return crosshairController.CrosshiarShootpoint.GetPointDirection(); } set { } }
     public Animator weaponUserAnimator { get; set; }
 
     public void Initialized_IWeaponAdvanceUser()
     {
-        pointingPos = new Vector3(); 
-        currentWeapon = CurrentWeapon;
+        pointingPos = new Vector3();
+        CurrentWeapon = currentWeapon;
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;

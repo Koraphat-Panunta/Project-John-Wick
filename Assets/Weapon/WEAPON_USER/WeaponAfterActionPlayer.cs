@@ -10,7 +10,6 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     }
     public override void AfterFiringSingleAction(Weapon weapon)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void AimDownSight(Weapon weapon)
@@ -18,25 +17,21 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateTowards(Camera.main.transform.forward, player.gameObject, 6);
         player.NotifyObserver(player, PlayerAction.Aim);
-        throw new System.NotImplementedException();
     }
 
     public override void Firing(Weapon weapon)
     {
         player.NotifyObserver(player, PlayerAction.Firing);
-        throw new System.NotImplementedException();
 
     }
 
     public override void LowReady(Weapon weapon)
     {
         player.NotifyObserver(player, PlayerAction.LowReady);
-        throw new System.NotImplementedException();
     }
 
     public override void PreLoad(Weapon weapon)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void Reload(Weapon weapon, ReloadType reloadType)
@@ -57,21 +52,20 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void ReloadingMagazine(Weapon weapon)
     {
-        throw new System.NotImplementedException();
+      
     }
 
     public override void Reload_ChamberAction(Weapon weapon)
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public override void Reload_SingleAction(Weapon weapon)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void Tactical_ReloadMagazine(Weapon weapon)
     {
-        throw new System.NotImplementedException();
     }
 }

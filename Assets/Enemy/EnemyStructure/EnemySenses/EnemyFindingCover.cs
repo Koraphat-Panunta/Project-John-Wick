@@ -46,7 +46,7 @@ public class EnemyFindingCover
                     //Debug.DrawLine(enemy.rayCastPos.position, hitInfo.point,Color.green);
                     if (col[i].gameObject.tag != "IgnoreCover")
                     {
-                        Debug.Log(col[i].tag);
+                        //Debug.Log(col[i].tag);
                         enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo, enemy.transform.position));
                     }
                 }

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy,IWeaponAdvanceUser
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -39,7 +39,7 @@ public class Enemy : SubjectEnemy,IWeaponAdvanceUser
     {
         Target = new GameObject();
         enemyStateManager = new EnemyStateManager(this);    
-        enemyWeaponCommand = new EnemyWeaponCommand(this);
+        //enemyWeaponCommand = new EnemyWeaponCommand(this);
         enemyPath = new EnemyPath(agent);
         
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
@@ -54,6 +54,7 @@ public class Enemy : SubjectEnemy,IWeaponAdvanceUser
         enemyStateManager._currentState.StateEnter(enemyStateManager);
 
         currentTactic = new SerchingTactic(this);
+        Initialized_IWeaponAdvanceUser();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
@@ -82,26 +83,26 @@ public class Enemy : SubjectEnemy,IWeaponAdvanceUser
         }
     }
 
-    public override void Aiming(Weapon weapon)
-    {
-        //Weapon Send Sensing
-        animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-        base.Aiming(weapon);
-    }
+    //public override void Aiming(Weapon weapon)
+    //{
+    //    //Weapon Send Sensing
+    //    animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
+    //    base.Aiming(weapon);
+    //}
 
-    public override void Firing(Weapon weapon)
-    {
-        animator.SetTrigger("Firing");
-        animator.SetLayerWeight(3, 1);
-        StartCoroutine(RecoveryFiringLayerWeight());
-        base.Firing(weapon);
-    }
+    //public override void Firing(Weapon weapon)
+    //{
+    //    animator.SetTrigger("Firing");
+    //    animator.SetLayerWeight(3, 1);
+    //    StartCoroutine(RecoveryFiringLayerWeight());
+    //    base.Firing(weapon);
+    //}
 
-    public override void LowReadying(Weapon weapon)
-    {
-        animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-        base.LowReadying(weapon);
-    }
+    //public override void LowReadying(Weapon weapon)
+    //{
+    //    animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
+    //    base.LowReadying(weapon);
+    //}
 
     //public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
     //{
@@ -121,17 +122,18 @@ public class Enemy : SubjectEnemy,IWeaponAdvanceUser
     //    }
     //    base.Reloading(weapon, reloadType);
     //}
-    //IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
-    //{
-    //    float RecoveryWeight = 10;
-    //    while (animator.GetLayerWeight(2) > 0)
-    //    {
-    //        enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
-    //        animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
-    //        yield return null;
-    //    }
-    //}
-    IEnumerator RecoveryFiringLayerWeight()
+    public IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
+    {
+        float RecoveryWeight = 10;
+        while (animator.GetLayerWeight(2) > 0)
+        {
+            //enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
+            new AmmoProchReload(weaponBelt.ammoProuch).Performed(weapon);
+            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
+            yield return null;
+        }
+    }
+    public IEnumerator RecoveryFiringLayerWeight()
     {
         float RecoveryWeight = 10;
         while (animator.GetLayerWeight(3) > 0)
@@ -156,7 +158,10 @@ public class Enemy : SubjectEnemy,IWeaponAdvanceUser
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
-    public Vector3 pointingPos { get; set; }
+    public Vector3 pointingPos { 
+        get { return enemyGetShootDirection.GetDir(); }
+        set { } 
+    }
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }

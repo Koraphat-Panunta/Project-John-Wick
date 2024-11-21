@@ -24,26 +24,6 @@ public abstract class Character : MonoBehaviour, IDamageAble
         My_environment = FindAnyObjectByType<Environment>();
 
     }
-    public virtual void Aiming(Weapon weapon)
-    {
-       
-    }
-
-
-    public virtual void Firing(Weapon weapon)
-    {
-       
-    }
-
-    public virtual void LowReadying(Weapon weapon)
-    {
-      
-    }
-
-    public virtual void Reloading(Weapon weapon, ReloadType reloadType)
-    {
-        
-    }
     
 
     public virtual void TakeDamage(float Damage)
