@@ -11,7 +11,7 @@ public class AmmoProchReload : IAmmoProchAction
     }
     public void Performed(Weapon weapon)
     {
-        Debug.Log("Reload finish");
+        //Debug.Log("Reload finish");
         BulletType bulletType = weapon.bullet.GetComponent<Bullet>().type;
         int magCount = weapon.Magazine_count;
         int magCapacity = weapon.Magazine_capacity;

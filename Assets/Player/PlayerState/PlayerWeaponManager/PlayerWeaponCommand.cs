@@ -18,7 +18,7 @@ public class PlayerWeaponCommand
         this.player = player;
         ammoProuch = new AmmoProuch(60, 120, 210, 120);
         this.crosshairController = CrosshairController.FindAnyObjectByType<CrosshairController>();
-        leanCover = new LeanCover(player.rotationConstraint, crosshairController);
+        //leanCover = new LeanCover(player.rotationConstraint, crosshairController);
         isSwitchingWeapon = false;
         Start();
     }

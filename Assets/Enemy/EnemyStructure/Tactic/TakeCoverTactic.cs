@@ -131,7 +131,7 @@ public class TakeCoverTactic : IEnemyTactic
         else
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
-            enemy.weaponCommand.AimDownSight();
+            enemy.weaponCommand.LowReady();
             enemy.cost +=   costRate * Time.deltaTime;
             return false;
         }

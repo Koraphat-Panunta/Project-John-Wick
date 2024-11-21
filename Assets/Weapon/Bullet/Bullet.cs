@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
         rb.linearDamping = 0.01f;
         rb.angularDamping = 0.05f;
         // Calculate and apply impulse force
-        Vector3 force = (pointPos-spawnerPosition) * mass * velocity;
+        Vector3 force = (pointPos-spawnerPosition).normalized * mass * velocity;
         rb.AddForce(force, ForceMode.Impulse);
     }
     // Update is called once per frame

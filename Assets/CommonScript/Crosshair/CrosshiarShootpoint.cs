@@ -6,21 +6,50 @@ public class CrosshiarShootpoint : ICrosshairAction
 {
     private CrosshairController crosshairController;
     private RectTransform CrosshairCenterPosition;
+    private RectTransform CrossRight;
+    private RectTransform CrossLeft;
+    private RectTransform CrossUp;
+    private RectTransform CrossDown;
     public CrosshiarShootpoint(CrosshairController crosshairController)
     {
         this.crosshairController = crosshairController;
         this.CrosshairCenterPosition = crosshairController.Crosshair_CenterPosition;
+        this.CrossRight = crosshairController.Crosshair_lineRight;
+        this.CrossLeft = crosshairController.Crosshair_lineLeft;
+        this.CrossUp = crosshairController.Crosshair_lineUp;
+        this.CrossDown = crosshairController.Crosshair_lineDown;
     }
     public RectTransform GetPointPosScreen()
     {
-       
-        float PosX = Random.Range(crosshairController.Crosshair_lineLeft.anchoredPosition.x + CrosshairCenterPosition.anchoredPosition.x,
-            crosshairController.Crosshair_lineRight.anchoredPosition.x + CrosshairCenterPosition.anchoredPosition.x);
+        Vector2 lineUpPos = CrossUp.anchoredPosition;
+        Vector2 lineDownPos = CrossDown.anchoredPosition;
+        Vector2 lineLeftPos = CrossLeft.anchoredPosition;
+        Vector2 lineRightPos = CrossRight.anchoredPosition;
+        Vector2 CenterPos = CrosshairCenterPosition.anchoredPosition;
 
-        float PosY = CrosshairCenterPosition.anchoredPosition.y;
-        PosY = Random.Range(crosshairController.Crosshair_lineDown.anchoredPosition.y+CrosshairCenterPosition.anchoredPosition.y, 
-            crosshairController.Crosshair_lineUp.anchoredPosition.y + CrosshairCenterPosition.anchoredPosition.y);
+
+        float PosX = Random.Range(lineLeftPos.x + CenterPos.x,
+            lineRightPos.x + CenterPos.x);
+
+        float raduis = Mathf.Abs(Vector2.Distance(CenterPos,lineUpPos));
+
+        float PosYBelow = -(Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX - CenterPos.y, 2)) + CenterPos.x);
+        float PosYAbove =  Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX - CenterPos.y, 2)) + CenterPos.x;
+
+        float PosY = Random.Range(PosYBelow, PosYAbove);
+
+        Debug.Log("R = " + raduis);
+        Debug.Log("CenterPos = "+CenterPos);
+        Debug.Log("Circle X =" + PosX);
+        Debug.Log("Circle Y = "+ PosYAbove);
+
+        //float PosY = CenterPos.y;
+        //PosY = Random.Range(lineDownPos.y + CenterPos.y,
+        //    lineUpPos.y + CenterPos.y);
+
         crosshairController.PointPosition.anchoredPosition = new Vector2(PosX, PosY);
+        
+        
         return crosshairController.PointPosition;
     }
     public Vector3 GetPointDirection()

@@ -43,6 +43,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         playerMovement = new PlayerMovement(this);
         //playerWeaponCommand = new PlayerWeaponCommand(this);
         coverDetection = new CoverDetection();
+        LeanCover leanCover = new LeanCover(rotationConstraint,crosshairController,this);
+        playerComponents.Add(leanCover);
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
         playerController.Awake();
@@ -52,15 +54,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         AddObserver(this);
         Initialized_IWeaponAdvanceUser();
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        //if (curentWeapon.TryGetComponent<SecondaryWeapon>(out SecondaryWeapon s))
-        //{
-        //    secondaryWeapon = s;
-        //}
+        
         new WeaponFactoryAR15().CreateWeapon(this);
-        //if (curentWeapon.TryGetComponent<PrimaryWeapon>(out PrimaryWeapon p))
-        //{
-        //    primaryWeapon = p;
-        //}
         weaponBelt.secondaryWeapon.AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
     }
     private void Update()

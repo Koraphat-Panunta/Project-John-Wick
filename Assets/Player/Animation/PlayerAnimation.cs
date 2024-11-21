@@ -168,7 +168,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
     }
     IEnumerator ReloadTiming(float reloadTime)
     {
-        Debug.Log("ReloadSpeed" + reloadTime);
+        //Debug.Log("ReloadSpeed" + reloadTime);
         while (this.animator.GetLayerWeight(3) < 1)
         {
             this.animator.SetLayerWeight(3, this.animator.GetLayerWeight(3)+Time.deltaTime*8);

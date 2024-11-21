@@ -11,6 +11,7 @@ public class LeanCover: IPlayerComponent
     private CrosshairController crosshairController;
     private LayerMask layerMask;
     private Transform shootPoint;
+    private Player player;
     public enum LeanDir
     {
         Left,
@@ -20,12 +21,14 @@ public class LeanCover: IPlayerComponent
     private LeanDir leandir = LeanDir.None;
     private float leanWeight = 0.5f;
     private float leanSpeed = 5;
-    public LeanCover(MultiRotationConstraint multiRotationConstraint,CrosshairController crosshairController)
+    public LeanCover(MultiRotationConstraint multiRotationConstraint,CrosshairController crosshairController,Player player)
     {
        this.multiRotationConstraint = multiRotationConstraint;
         this.crosshairController = crosshairController;
         leanWeight = 0.5f;
         layerMask = LayerMask.GetMask("Default");
+        this.player = player;
+        player.AddObserver(this);
     }
     public void LeaningUpdate(Transform shootPoint)
     {
@@ -101,6 +104,16 @@ public class LeanCover: IPlayerComponent
 
     public void FixedUpdateComponent()
     {
-        LeaningUpdate(shootPoint);
+        shootPoint = this.player.RayCastPos;
+        //LeaningUpdate(shootPoint);
+    }
+
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if (playerAction == SubjectPlayer.PlayerAction.LowReady
+            || playerAction == SubjectPlayer.PlayerAction.Sprint)
+            LeanRecovery();
+        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+            LeaningUpdate(shootPoint);
     }
 }

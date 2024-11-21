@@ -49,7 +49,20 @@ public class WeaponCommand
     bool isSwitchingWeapon = false;
     public void SwitchWeapon()
     {
-
+        WeaponBelt weaponBelt = weaponUser.weaponBelt;
+        if (isSwitchingWeapon == false)
+        {
+            if (weaponUser.currentWeapon == weaponBelt.primaryWeapon)
+            {
+                Character user = weaponUser as Character;
+                user.StartCoroutine(SwitchPTS());
+            }
+            else
+            {
+                Character user = weaponUser as Character;
+                user.StartCoroutine(SwitchSTP());
+            }
+        }
     }
     IEnumerator SwitchPTS()
     {

@@ -46,6 +46,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                 break;
             case ReloadType.MAGAZINE_RELOAD_SUCCESS
                 :new AmmoProchReload(player.weaponBelt.ammoProuch).Performed(weapon);
+                    player.NotifyObserver(player,PlayerAction.Reloading);
                 break;
         }
     }

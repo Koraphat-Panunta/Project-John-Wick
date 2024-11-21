@@ -19,9 +19,9 @@ public class AmmoProuch
         maximunAmmo.Add(BulletType._762mm, max_762mmDefault);
 
         start9mm = Mathf.Clamp(start9mm, 0, maximunAmmo[BulletType._9mm]);
-        start45mm = Mathf.Clamp(start9mm, 0, maximunAmmo[BulletType._45mm]);
-        start556mm = Mathf.Clamp(start9mm, 0, maximunAmmo[BulletType._556mm]);
-        start762mm = Mathf.Clamp(start9mm, 0, maximunAmmo[BulletType._762mm]);
+        start45mm = Mathf.Clamp(start45mm, 0, maximunAmmo[BulletType._45mm]);
+        start556mm = Mathf.Clamp(start556mm, 0, maximunAmmo[BulletType._556mm]);
+        start762mm = Mathf.Clamp(start762mm, 0, maximunAmmo[BulletType._762mm]);
 
         amountOf_ammo.Add(BulletType._9mm, start9mm);
         amountOf_ammo.Add(BulletType._45mm, start45mm);

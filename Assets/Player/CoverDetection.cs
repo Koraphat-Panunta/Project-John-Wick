@@ -93,4 +93,13 @@ public class CoverDetection
         return sphereCast;
     }
 
+    public void UpdateComponent()
+    {
+       
+    }
+
+    public void FixedUpdateComponent()
+    {
+        
+    }
 }
