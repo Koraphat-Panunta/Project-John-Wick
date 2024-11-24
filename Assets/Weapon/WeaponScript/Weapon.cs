@@ -5,22 +5,28 @@ using UnityEngine.Animations;
 
 public abstract class Weapon : WeaponSubject 
 {
-    public WeaponStateManager weapon_stateManager { get; protected set; }
-    public WeaponStanceManager weapon_StanceManager { get; protected set; }
-    public int Magazine_count;
-    public int Chamber_Count;
+    //public WeaponStateManager weapon_stateManager { get; protected set; }
+    //public WeaponStanceManager weapon_StanceManager { get; protected set; }
+    //public int Magazine_count;
+    //public int Chamber_Count;
     public Transform bulletSpawnerPos;
-    public abstract int Magazine_capacity { get; protected set; }
-    public abstract float rate_of_fire { get; protected set; }
-    public abstract float reloadSpeed { get; protected set; }
-    public abstract float Accuracy { get; protected set; }
-    public abstract float RecoilController { get; protected set; }
-    public abstract float RecoilCameraKickBack {  get; protected set; }
-    public abstract float aimDownSight_speed { get; protected set; }
-    public abstract GameObject bullet { get; protected set; }
-    public abstract float RecoilKickBack { get; protected set; }
-    public abstract float min_Precision { get; protected set; }
-    public abstract float max_Precision { get; protected set; }
+    public abstract int Magazine_capacity { get; set; }
+    public abstract float rate_of_fire { get;  set; }
+    public abstract float reloadSpeed { get;  set; }
+    public abstract float Accuracy { get;  set; }
+    public abstract float RecoilController { get;  set; }
+    public abstract float RecoilCameraKickBack {  get;  set; }
+    public abstract float RecoilKickBack { get;  set; }
+    public abstract float min_Precision { get;  set; }
+    public abstract float max_Precision { get;  set; }
+    public abstract float aimDownSight_speed { get;  set; }
+    public abstract Bullet bullet { get;  set; }
+    public abstract float movementSpeed { get;  set; }
+
+    public Dictionary<string,int> bulletStore = new Dictionary<string,int>();
+    public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
+
+    private const string CHAMBER = "Chamber";
 
     public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
@@ -43,7 +49,8 @@ public abstract class Weapon : WeaponSubject
         IsUp,
     }
     public TriggerPull triggerPull = TriggerPull.Up;
-   
+
+    public Muzzle muzzle;
     protected virtual void Start()
     {
         weapon_stateManager = new WeaponStateManager(this);
@@ -51,6 +58,7 @@ public abstract class Weapon : WeaponSubject
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         Magazine_count = Magazine_capacity;
+        bulletStore.Add(CHAMBER, 1);
     }
     protected virtual void Update()
     {
@@ -59,6 +67,7 @@ public abstract class Weapon : WeaponSubject
             weapon_StanceManager.Update();
             weapon_stateManager.Update();
         }
+        ;
     }
     protected virtual void FixedUpdate()
     {

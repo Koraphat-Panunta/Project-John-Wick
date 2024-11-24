@@ -77,6 +77,8 @@ public class AR15 : PrimaryWeapon
         protected set { _recoilCameraKickBack = value; }
     }
 
+    public override float movementSpeed { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+
     protected override void Start()
     {
         if(Model != null)

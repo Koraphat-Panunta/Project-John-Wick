@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class CrosshairController : MonoBehaviour,IObserverPlayer
 {
-    [SerializeField] WeaponSocket weaponSocket;
+    //[SerializeField] WeaponSocket weaponSocket;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
     [SerializeField] [Range(0,100)] private float MaxAccuracy = 0;
     public RectTransform Crosshair_lineUp;

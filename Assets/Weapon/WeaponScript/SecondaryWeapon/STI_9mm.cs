@@ -73,6 +73,9 @@ public class STI_9mm : SecondaryWeapon
         get { return max_percision; }
         protected set { max_percision = value; }
     }
+
+    public override float movementSpeed { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+
     protected override void Start()
     {
         _magazineCapacity = Model._magazineCapacity;

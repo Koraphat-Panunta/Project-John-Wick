@@ -25,11 +25,18 @@ public class Bullet : MonoBehaviour
         // Calculate and apply impulse force
         Vector3 force = (pointPos-spawnerPosition).normalized * mass * velocity;
         rb.AddForce(force, ForceMode.Impulse);
+        Vector3 rayDir = (pointPos - spawnerPosition).normalized;
+        Ray ray = new Ray(spawnerPosition,rayDir);
+        if(Physics.Raycast(ray,))
     }
     // Update is called once per frame
     void Update()
     {
         
+    }
+    protected void DoDamage()
+    {
+
     }
     private void OnCollisionEnter(Collision collision)
     {

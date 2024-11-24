@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class EnemyWeaponCommand 
 {
-    public WeaponSocket _primaryWeaponSocket;
-    public WeaponCommand weaponCommand;
-    public Enemy enemy;
-    public AmmoProuch ammoProuch;
-    public EnemyWeaponCommand(Enemy enemy)
-    {
-        this.enemy = enemy;
-        //_primaryWeaponSocket = enemy.weaponSocket;
-        ammoProuch = new AmmoProuch(9999, 9999, 9999, 9999);
-        //ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
-        //this.enemy.StartCoroutine(GetWeapon());
-    }
+    //public WeaponSocket _primaryWeaponSocket;
+    //public WeaponCommand weaponCommand;
+    //public Enemy enemy;
+    //public AmmoProuch ammoProuch;
+    //public EnemyWeaponCommand(Enemy enemy)
+    //{
+    //    this.enemy = enemy;
+    //    //_primaryWeaponSocket = enemy.weaponSocket;
+    //    ammoProuch = new AmmoProuch(9999, 9999, 9999, 9999);
+    //    //ammoProuch.prochReload = new AmmoProchReload(ammoProuch);
+    //    //this.enemy.StartCoroutine(GetWeapon());
+    //}
     //public void Aiming()
     //{
     //    AimDownSightCommand aimDownSightCommand = new AimDownSightCommand(enemy.curentWeapon);
