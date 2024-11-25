@@ -14,10 +14,10 @@ public class _556mmBullet : Bullet
         myType = BulletType._556mm;
     }
 
-    public override void ShootDirection(Vector3 spawnerPosition, Vector3 pointPos)
-    {
-        base.ShootDirection(spawnerPosition, pointPos);
-    }
+    //public override void ShootDirection(Vector3 spawnerPosition, Vector3 pointPos,)
+    //{
+    //    base.ShootDirection(spawnerPosition, pointPos);
+    //}
 
     protected override void HitExecute(RaycastHit hit)
     {

@@ -25,7 +25,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
         deltaFireTiming += Time.deltaTime;
         if (deltaFireTiming >= randomFireTiming)
         {
-            if(curWeapon.Magazine_count <= 0&&curWeapon.Chamber_Count<=0)
+            if(curWeapon.bulletStore[BulletStackType.Magazine] <= 0&&curWeapon.bulletStore[BulletStackType.Chamber]<=0)
             {
                 enemy.weaponCommand.Reload(enemy.weaponBelt.ammoProuch);
             }

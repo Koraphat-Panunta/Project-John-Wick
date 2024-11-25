@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class SecondaryWeapon : Weapon
 {
-    
+    protected abstract float quickDrawTime { get; set;} 
 }

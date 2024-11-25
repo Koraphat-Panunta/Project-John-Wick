@@ -85,7 +85,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7074491356039985985}
   - component: {fileID: 2761170129473076366}
-  - component: {fileID: 6287137376191654520}
   - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
   - component: {fileID: 4530450250701556535}
@@ -129,8 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3eccfa7ddfbfd48af8e7be52496a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Magazine_count: 0
-  Chamber_Count: 0
   bulletSpawnerPos: {fileID: 3022661863309610859}
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
@@ -140,21 +137,16 @@ MonoBehaviour:
     type: 2}
   bulletSpawner: {fileID: 483720375782013187}
   triggerPull: 0
-  Model: {fileID: 11400000, guid: 9a64e983cb955de4281cbbfb17895827, type: 2}
+  MuzzleSocket: {fileID: 0}
+  GripSocket: {fileID: 0}
+  Scope: {fileID: 0}
+  Stock: {fileID: 0}
+  Magazine: {fileID: 0}
+  Laser: {fileID: 0}
+  muzzle: {fileID: 0}
+  sight: {fileID: 0}
   _bulletType: {fileID: 8484765704080718728, guid: daf6f40f72bfa1d46844376a11acc808,
     type: 3}
---- !u!114 &6287137376191654520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7594886238610776571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89dfa3746e689bf4e83546afb1263fc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1773428102 &-4776787860471616378
 ParentConstraint:
   m_ObjectHideFlags: 0

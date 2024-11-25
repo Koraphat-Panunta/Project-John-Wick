@@ -32,7 +32,7 @@ public class WeaponCommand
     public void Reload(AmmoProuch ammoProuch)
     {
         Weapon weapon = weaponUser.currentWeapon;
-        if (ammoProuch.amountOf_ammo[weapon.bullet.GetComponent<Bullet>().type] > 0)
+        if (ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0)
         {
             weapon.Reload();
         }

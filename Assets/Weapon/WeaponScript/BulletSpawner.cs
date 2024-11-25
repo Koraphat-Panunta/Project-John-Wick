@@ -17,9 +17,11 @@ public class BulletSpawner : MonoBehaviour
     public void SpawnBullet(Weapon weapon)
     {
         Transform transform = gameObject.transform;
-        GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
+        //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
         Vector3 shootDir = weapon.userWeapon.pointingPos;
-        Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootDir);
+        //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootDir);
+
+        weapon.bullet.ShootDirection(transform.position, shootDir);
         //if(weapon.userWeapon.TryGetComponent<Player>(out Player player))
         //{
         //    Bullet.GetComponent<Bullet>().ShootDirection(player.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));

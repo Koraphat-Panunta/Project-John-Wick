@@ -28,18 +28,18 @@ public class Reload : WeaponState
         {
             ReloadAnimator = base._weapon.userWeapon.weaponUserAnimator;
         }
-        if (base._weapon.Magazine_count == base._weapon.Magazine_capacity)
+        if (base._weapon.bulletStore[BulletStackType.Magazine] == base._weapon.Magazine_capacity)
         {
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
-        else if (base._weapon.Magazine_count > 0)
+        else if (base._weapon.bulletStore[BulletStackType.Magazine] > 0)
         {
             reloadType = ReloadType.MAGAZINE_TACTICAL_RELOAD;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
             base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             currentReload = base._weapon.StartCoroutine(Reloading());
         }
-        else if (base._weapon.Magazine_count <= 0)
+        else if (base._weapon.bulletStore[BulletStackType.Magazine] <= 0)
         {
             reloadType = ReloadType.MAGAZINE_RELOAD;
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Reloading);
@@ -67,8 +67,8 @@ public class Reload : WeaponState
             yield return new WaitForSeconds(reloadTime);
             reloadType = ReloadType.MAGAZINE_RELOAD_SUCCESS;
             base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
-            base._weapon.Chamber_Count += 1;
-            base._weapon.Magazine_count -= 1;
+            base._weapon.bulletStore[BulletStackType.Chamber] += 1;
+            base._weapon.bulletStore[BulletStackType.Magazine] -= 1;
             weaponStateManager.ChangeState(weaponStateManager.none);
         }
         else if(reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)

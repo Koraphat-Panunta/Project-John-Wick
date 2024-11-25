@@ -15,7 +15,7 @@ public abstract class Weapon : WeaponSubject
     public abstract float reloadSpeed { get;  set; }
     public abstract float Accuracy { get;  set; }
     public abstract float RecoilController { get;  set; }
-    public abstract float RecoilCameraKickBack {  get;  set; }
+    public abstract float RecoilCameraController {  get;  set; }
     public abstract float RecoilKickBack { get;  set; }
     public abstract float min_Precision { get;  set; }
     public abstract float max_Precision { get;  set; }
@@ -23,11 +23,9 @@ public abstract class Weapon : WeaponSubject
     public abstract Bullet bullet { get;  set; }
     public abstract float movementSpeed { get;  set; }
 
-    public Dictionary<string,int> bulletStore = new Dictionary<string,int>();
+    public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
     public Dictionary<AttachmentSlot,WeaponAttachment> attachment = new Dictionary<AttachmentSlot,WeaponAttachment>();
-
-    private const string CHAMBER = "Chamber";
 
     public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
@@ -51,7 +49,6 @@ public abstract class Weapon : WeaponSubject
     }
     public TriggerPull triggerPull = TriggerPull.Up;
 
-    public Muzzle muzzle;
     protected virtual void Start()
     {
         weapon_stateManager = new WeaponStateManager(this);
@@ -59,7 +56,7 @@ public abstract class Weapon : WeaponSubject
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         //Magazine_count = Magazine_capacity;
-        bulletStore.Add(CHAMBER, 1);
+        bulletStore.Add(BulletStackType.Chamber, 1);
     }
     protected virtual void Update()
     {

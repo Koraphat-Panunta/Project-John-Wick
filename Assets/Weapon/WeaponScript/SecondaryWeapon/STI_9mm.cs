@@ -5,94 +5,78 @@ using UnityEngine;
 public class STI_9mm : SecondaryWeapon
 {
     //SetUpStats
-    public PistolModel Model;
     private int _magazineCapacity = 15;
-    private float _rateOfFire = 260;
-    private float _reloadSpeed = 3 ;
-    private float _accuracy = 50;
-   [SerializeField] private GameObject _bulletType;
-    private float _recoilController = 18.56f;
-    private float _recoilCameraKickBack = 0.04f;
-    private float _aimDownSightSpeed = 3f;
-    private float _recoilKickBack = 20;
-    private float min_percision = 29;
+    private float _rateOfFire = 500;
+    private float _reloadSpeed = 1.2f ;
+    private float _accuracy = 136;
+    private float _recoilController = 1;
+    private float _recoilCameraController = 5;
+    private float _aimDownSightSpeed = 3.6f;
+    private float _recoilKickBack ;
+    private float min_percision = 18;
     private float max_percision = 65;
     public override int Magazine_capacity
     {
         get { return _magazineCapacity; }
-        protected set { _magazineCapacity = value; }
+        set { _magazineCapacity = value; }
     }
     public override float rate_of_fire
     {
         get { return _rateOfFire; }
-        protected set { _rateOfFire = value; }
+        set { _rateOfFire = value; }
     }
     public override float reloadSpeed
     {
         get { return _reloadSpeed; }
-        protected set { _reloadSpeed = value; }
+        set { _reloadSpeed = value; }
     }
     public override float Accuracy
     {
         get { return _accuracy; }
-        protected set { _accuracy = value; }
-    }
-    public override GameObject bullet
-    {
-        get { return _bulletType; }
-        protected set { _bulletType = value; }
+        set { _accuracy = value; }
     }
     public override float RecoilController
     {
         get { return _recoilController; }
-        protected set { _recoilController = value; }
+        set { _recoilController = value; }
     }
     public override float aimDownSight_speed
     {
         get { return _aimDownSightSpeed; }
-        protected set { _aimDownSightSpeed = value; }
+        set { _aimDownSightSpeed = value; }
     }
     public override float RecoilKickBack 
     {
         get { return _recoilKickBack; }
-        protected set { _recoilKickBack = value; }
+        set { _recoilKickBack = value; }
     }
-    public override float RecoilCameraKickBack 
+    public override float RecoilCameraController 
     {
-        get { return _recoilCameraKickBack; }
-        protected set { _recoilCameraKickBack = value; }
+        get { return _recoilCameraController; }
+        set { _recoilCameraController = value; }
     }
     public override float min_Precision
     {
         get { return min_percision; }
-        protected set { min_percision = value; }
+        set { min_percision = value; }
     }
 
     public override float max_Precision
     {
         get { return max_percision; }
-        protected set { max_percision = value; }
+        set { max_percision = value; }
     }
-
-    public override float movementSpeed { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override Bullet bullet { get; set; }
+    public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    protected override float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     protected override void Start()
     {
-        _magazineCapacity = Model._magazineCapacity;
-        _rateOfFire = Model._rateOfFire;
-        _reloadSpeed = Model._reloadSpeed;
-        _accuracy = Model._accuracy;
-        _bulletType = Model._bulletType;
-        _recoilController = Model._recoilController;
-        _recoilCameraKickBack = Model._recoilCameraKickBack;
-        _aimDownSightSpeed = Model._aimDownSightSpeed;
-        _recoilKickBack = Model._recoilKickBack;
-        min_percision = Model.min_percision;
-        max_percision = Model.max_percision;
-
         fireMode = FireMode.Single;
-        Chamber_Count = 1;
-        Magazine_count = Magazine_capacity;
+        bullet = new _9mmBullet();
+        RecoilKickBack = bullet.recoilKickBack;
+
+        bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
         base.Start();
         
     }

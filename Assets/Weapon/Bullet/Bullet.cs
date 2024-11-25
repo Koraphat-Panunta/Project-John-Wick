@@ -15,13 +15,14 @@ public abstract class Bullet
 
     public Bullet()
     {
+       
+    }
+    public virtual void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
+    {
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("Enemy");
         int PlayerHitMask = LayerMask.GetMask("Player");
         hitLayer = DefaultMask + BodyPartMask + PlayerHitMask;
-    }
-    public virtual void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
-    {
         // Calculate and apply impulse force
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;
@@ -39,6 +40,7 @@ public abstract class Bullet
 
         if (collider.TryGetComponent<Player>(out Player player))
             player.TakeDamage(hpDamage);
+        
     }
     //private void OnCollisionEnter(Collision collision)
     //{
