@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class AR15 : PrimaryWeapon
 {
+    [SerializeField] private Transform MuzzleSocket;
+    [SerializeField] private Transform GripSocket;
+    [SerializeField] private Transform Scope;
+    [SerializeField] private Transform Stock;
+    [SerializeField] private Transform Magazine;
+    [SerializeField] private Transform Laser;
     //SetUpStats
     [SerializeField] PrimaryWeaponModel Model;
     private int _magazineCapacity = 30;
@@ -17,87 +23,34 @@ public class AR15 : PrimaryWeapon
     private float _recoilKickBack = 50;
     private float min_percision = 20;
     private float max_percision = 65;
-   
-       
-    public override int Magazine_capacity
-    {
-        get { return _magazineCapacity; }
-        protected set { _magazineCapacity = value; }
-    }
-    public override float rate_of_fire
-    {
-        get { return _rateOfFire; }
-        protected set { _rateOfFire = value; }
-    }
-    public override float reloadSpeed
-    {
-        get { return _reloadSpeed; }
-        protected set { _reloadSpeed = value; }
-    }
-    public override float Accuracy
-    {
-        get { return _accuracy; }
-        protected set { _accuracy = value; }
-    }
-    public override GameObject bullet
-    {
-        get { return _bulletType; }
-        protected set { _bulletType = value; }
-    }
-    public override float RecoilController
-    {
-        get { return _recoilController; }
-        protected set { _recoilController = value; }
-    }
-    public override float aimDownSight_speed
-    {
-        get { return _aimDownSightSpeed; }
-        protected set { _aimDownSightSpeed = value; }
-    }
-    public override float RecoilKickBack
-    {
-        get { return _recoilKickBack; }
-        protected set { _recoilKickBack = value; }
-    }
 
-    public override float min_Precision
-    {
-        get { return min_percision; }
-        protected set { min_percision = value; }
-    }
 
-    public override float max_Precision
-    {
-        get { return max_percision; }
-        protected set { max_percision = value; }
-    }
-    public override float RecoilCameraKickBack 
-    {
-        get { return _recoilCameraKickBack; }
-        protected set { _recoilCameraKickBack = value; }
-    }
 
-    public override float movementSpeed { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+
+
+    //public override GameObject bullet
+    //{
+    //    get { return _bulletType; }
+    //    set { _bulletType = value; }
+    //}
+
+
 
     protected override void Start()
     {
-        if(Model != null)
-        {
-            _magazineCapacity = Model._magazineCapacity;
-            _rateOfFire = Model._rateOfFire;
-            _reloadSpeed = Model._reloadSpeed;
-            _accuracy = Model._accuracy;
-            _bulletType = Model._bulletType;
-            _recoilController = Model._recoilController;
-            _recoilCameraKickBack = Model._recoilCameraKickBack;    
-            _aimDownSightSpeed = Model._aimDownSightSpeed;
-            _recoilKickBack = Model._recoilKickBack;
-            min_percision = Model.min_percision;
-            max_percision = Model.max_percision;
-        }
+        weaponSlotPos.Add(AttachmentSlot.MUZZLE,MuzzleSocket);
+        weaponSlotPos.Add(AttachmentSlot.GRIP,GripSocket);
+        weaponSlotPos.Add(AttachmentSlot.SCOPE,Scope);
+        weaponSlotPos.Add(AttachmentSlot.STOCK,Stock);
+        weaponSlotPos.Add(AttachmentSlot.MAGAZINE,Magazine);
+        weaponSlotPos.Add(AttachmentSlot.LASER,Laser);
+       
         fireMode = FireMode.FullAuto;
-        Chamber_Count = 1;
-        Magazine_count = Magazine_capacity;
+        
         base.Start();
+    }
+    private void Initialized()
+    {
+
     }
 }

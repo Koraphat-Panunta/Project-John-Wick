@@ -4,5 +4,7 @@ using UnityEngine;
 
 public abstract class PrimaryWeapon : Weapon
 {
+    public abstract Transform forntGrip { get; set; }
+    public abstract Transform slingAnchor { get; set; }
    
 }

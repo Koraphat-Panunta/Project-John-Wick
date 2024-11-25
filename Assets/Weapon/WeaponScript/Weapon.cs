@@ -5,8 +5,8 @@ using UnityEngine.Animations;
 
 public abstract class Weapon : WeaponSubject 
 {
-    //public WeaponStateManager weapon_stateManager { get; protected set; }
-    //public WeaponStanceManager weapon_StanceManager { get; protected set; }
+    public WeaponStateManager weapon_stateManager { get; protected set; }
+    public WeaponStanceManager weapon_StanceManager { get; protected set; }
     //public int Magazine_count;
     //public int Chamber_Count;
     public Transform bulletSpawnerPos;
@@ -25,6 +25,7 @@ public abstract class Weapon : WeaponSubject
 
     public Dictionary<string,int> bulletStore = new Dictionary<string,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
+    public Dictionary<AttachmentSlot,WeaponAttachment> attachment = new Dictionary<AttachmentSlot,WeaponAttachment>();
 
     private const string CHAMBER = "Chamber";
 
@@ -57,7 +58,7 @@ public abstract class Weapon : WeaponSubject
         weapon_StanceManager = new WeaponStanceManager(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
-        Magazine_count = Magazine_capacity;
+        //Magazine_count = Magazine_capacity;
         bulletStore.Add(CHAMBER, 1);
     }
     protected virtual void Update()

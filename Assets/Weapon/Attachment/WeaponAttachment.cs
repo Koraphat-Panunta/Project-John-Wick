@@ -5,10 +5,15 @@ public abstract class WeaponAttachment :MonoBehaviour,IWeaponAttachAble
 {
    
     public abstract Transform anchor { get; set; }
-    protected abstract Vector3 bulletSpawnerPos { get; set; }
     public ParentConstraint constraint { get; set; }
-    public Transform center { get; set ; }
+    public Transform center { get => transform; set { } }
     protected abstract AttachmentSlot myAttachmentSlot { get; set; }
+    private void Awake()
+    {
+        this.constraint = TryGetComponent<ParentConstraint>(out ParentConstraint constraint)
+           ? constraint
+           : gameObject.AddComponent<ParentConstraint>();
+    }
 
     public virtual void Attach(Weapon weapon)
     {
