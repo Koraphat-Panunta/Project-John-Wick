@@ -27,7 +27,6 @@ public class AR15 : PrimaryWeapon,MagazineType
     private float Min_percision = 11;
     private float Max_percision = 74;
     private _556mmBullet _556MmBullet = new _556mmBullet();
-
     public override Transform forntGrip { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public override Transform slingAnchor { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public override int Magazine_capacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
