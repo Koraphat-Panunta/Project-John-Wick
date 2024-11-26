@@ -22,6 +22,9 @@ public abstract class Weapon : WeaponSubject
     public abstract float aimDownSight_speed { get;  set; }
     public abstract Bullet bullet { get;  set; }
     public abstract float movementSpeed { get;  set; }
+    public bool isAiming { get; set; }
+    public bool isReloading;
+    public float aimingWeight { get => weapon_StanceManager.AimingWeight; }
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
@@ -40,14 +43,8 @@ public abstract class Weapon : WeaponSubject
         FullAuto
     }
     public FireMode fireMode { get; protected set; }
-    public enum TriggerPull
-    {
-        Up,
-        IsDown,
-        Down,
-        IsUp,
-    }
-    public TriggerPull triggerPull = TriggerPull.Up;
+   
+    public TriggerState triggerState = TriggerState.Up;
 
     protected virtual void Start()
     {
@@ -83,14 +80,14 @@ public abstract class Weapon : WeaponSubject
     {
         if (fireMode == FireMode.Single)
         {
-            if(triggerPull == TriggerPull.IsDown)
+            if(triggerState == TriggerState.IsDown)
             {
                 weapon_stateManager.ChangeState(weapon_stateManager.fireState);
             }
         }
         if(fireMode == FireMode.FullAuto)
         {
-            if(triggerPull == TriggerPull.IsDown||triggerPull == TriggerPull.Down)
+            if(triggerState == TriggerState.IsDown||triggerState == TriggerState.Down)
             {
                 weapon_stateManager.ChangeState(weapon_stateManager.fireState);
             }

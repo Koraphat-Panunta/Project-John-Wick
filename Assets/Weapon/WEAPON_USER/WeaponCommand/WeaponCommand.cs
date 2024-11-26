@@ -14,20 +14,20 @@ public class WeaponCommand
         if (weapon.weapon_stateManager._currentState != weapon.weapon_stateManager.reloadState
              && weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.aimDownSight && weapon.weapon_StanceManager.AimingWeight >= 1)
         {
-            if (weapon.triggerPull == Weapon.TriggerPull.Up)
+            if (weapon.triggerState == TriggerState.Up)
             {
-                weapon.triggerPull = Weapon.TriggerPull.IsDown;
+                weapon.triggerState = TriggerState.IsDown;
             }
-            else if (weapon.triggerPull == Weapon.TriggerPull.IsDown)
+            else if (weapon.triggerState == TriggerState.IsDown)
             {
-                weapon.triggerPull = Weapon.TriggerPull.Down;
+                weapon.triggerState = TriggerState.Down;
             }
             weapon.Fire();
         }
     }
     public void CancleTrigger()
     {
-        weaponUser.currentWeapon.triggerPull = Weapon.TriggerPull.Up;
+        weaponUser.currentWeapon.triggerState = TriggerState.Up;
     }
     public void Reload(AmmoProuch ammoProuch)
     {

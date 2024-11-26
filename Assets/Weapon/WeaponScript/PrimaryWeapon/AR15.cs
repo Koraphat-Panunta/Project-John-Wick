@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class AR15 : PrimaryWeapon
+public class AR15 : PrimaryWeapon,MagazineType
 {
     [SerializeField] private Transform MuzzleSocket;
     [SerializeField] private Transform GripSocket;
@@ -42,7 +42,7 @@ public class AR15 : PrimaryWeapon
     public override float aimDownSight_speed { get => _AimDownSightSpeed; set => _AimDownSightSpeed = value; }
     public override Bullet bullet { get ; set ; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
+    public bool isMagIn { get; set; }
 
     private void Awake()
     {

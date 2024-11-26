@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class STI_9mm : SecondaryWeapon
+public class STI_9mm : SecondaryWeapon,MagazineType
 {
     //SetUpStats
     private int _magazineCapacity = 15;
@@ -68,6 +68,7 @@ public class STI_9mm : SecondaryWeapon
     }
     public override Bullet bullet { get; set; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool isMagIn { get; set ; }
     protected override float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     protected override void Start()
