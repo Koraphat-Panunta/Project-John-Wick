@@ -43,7 +43,6 @@ public class ReloadMagazineFullStage : WeaponActionNode
         else if (weaponBlackBoard.IsEquip == false
             ||weaponBlackBoard.IsCancle == true)
         {
-            reloadStage = ReloadType.MAGAZINE_RELOAD_CANCLE;
             return true;
         } 
         else return false;
@@ -93,12 +92,15 @@ public class ReloadMagazineFullStage : WeaponActionNode
         yield return new WaitForSeconds(reloadTime);
         reloadStage = ReloadType.MAGAZINE_RELOAD_SUCCESS;
         weapon.userWeapon.weaponAfterAction.Reload(weapon,reloadStage);
-        weapon.bulletStore[BulletStackType.Chamber] += 1;
-        weapon.bulletStore[BulletStackType.Magazine] -= 1;
+        //weapon.bulletStore[BulletStackType.Chamber] += 1;
+        //weapon.bulletStore[BulletStackType.Magazine] -= 1;
         reloadingCoroutine = null;
     }
     public override void Exit()
     {
-
+        if(reloadingCoroutine != null)
+        {
+            weapon.StopCoroutine(reloadingCoroutine);
+        }
     }
 }
