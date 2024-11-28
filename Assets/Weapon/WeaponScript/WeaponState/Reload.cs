@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Reload : WeaponState
 {
-    private Animator ReloadAnimator { get; set; }
+    //private Animator ReloadAnimator { get; set; }
     private WeaponStateManager weaponStateManager { get; set; }
     private AmmoProuch ammoProuch { get; set; }
     private float reloadTime;
@@ -24,10 +24,10 @@ public class Reload : WeaponState
         {
             weaponStateManager = base._weapon.weapon_stateManager;
         }
-        if (ReloadAnimator == null)
-        {
-            ReloadAnimator = base._weapon.userWeapon.weaponUserAnimator;
-        }
+        //if (ReloadAnimator == null)
+        //{
+        //    ReloadAnimator = base._weapon.userWeapon.weaponUserAnimator;
+        //}
         if (base._weapon.bulletStore[BulletStackType.Magazine] == base._weapon.Magazine_capacity)
         {
             weaponStateManager.ChangeState(weaponStateManager.none);

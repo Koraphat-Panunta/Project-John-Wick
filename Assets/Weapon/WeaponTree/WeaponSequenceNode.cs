@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponSequenceNode : WeaponNode
+public class WeaponSequenceNode : WeaponActionNode
 {
     public override List<WeaponNode> childNode { get; set; }
     protected override WeaponTreeManager weaponTree { get; set; }
     protected override WeaponBlackBoard blackBoard { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
     protected Queue<WeaponActionNode> actionNodes { get; set; }
+    public override List<WeaponNode> SubNode { get; set ; }
+
     protected WeaponActionNode curActionNode;
     public WeaponSequenceNode(WeaponTreeManager weaponTreeManager,Func<bool> preCondition) : base(weaponTreeManager)
     {
@@ -40,9 +42,10 @@ public class WeaponSequenceNode : WeaponNode
 
     public override bool IsReset()
     {
-        if (curActionNode == null && actionNodes.Dequeue() == null)
+       if(IsComplete())
             return true;
-        else return false;
+       else 
+            return false;   
     }
 
     public override bool PreCondition()
@@ -59,5 +62,22 @@ public class WeaponSequenceNode : WeaponNode
         if (actionNodes.Count <= 0)
             return null;
         return actionNode;
+    }
+
+    public override void Enter()
+    {
+        
+    }
+
+    public override void Exit()
+    {
+        
+    }
+
+    public override bool IsComplete()
+    {
+        if (curActionNode == null && actionNodes.Dequeue() == null)
+            return true;
+        else return false;
     }
 }

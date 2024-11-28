@@ -6,8 +6,11 @@ public class WeaponBlackBoard : IObserverWeapon
     private Weapon Weapon;
     public TriggerState TriggerState { get => Weapon.triggerState; }
     public Dictionary<BulletStackType, int> BulletStack { get => Weapon.bulletStore; }
+
     public bool IsAiming { get => Weapon.isAiming; }
-    public bool IsReloading { get => Weapon.isReloading; }
+    public bool IsReloadCommand { get => Weapon.isReloadCommand; }
+    public bool IsEquip { get { return Weapon.userWeapon == null? true : false; } }
+    public bool IsCancle { get => Weapon.isCancelAction; }
    public WeaponBlackBoard(Weapon weapon) 
    {
         Weapon = weapon;

@@ -114,6 +114,11 @@ public class WeaponCommand
         }
         isSwitchingWeapon = false;
     }
+    public void CancelWeaponActionEvent()
+    {
+        Weapon weapon = weaponUser.currentWeapon;
+        weapon.isCancelAction = true;
+    }
     private void QuickDraw()
     {
 

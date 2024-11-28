@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class Weapon : WeaponSubject 
+public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
     public WeaponStateManager weapon_stateManager { get; protected set; }
     public WeaponStanceManager weapon_StanceManager { get; protected set; }
-    //public int Magazine_count;
-    //public int Chamber_Count;
     public Transform bulletSpawnerPos;
     public abstract int Magazine_capacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
@@ -22,8 +20,11 @@ public abstract class Weapon : WeaponSubject
     public abstract float aimDownSight_speed { get;  set; }
     public abstract Bullet bullet { get;  set; }
     public abstract float movementSpeed { get;  set; }
-    public bool isAiming { get; set; }
-    public bool isReloading;
+
+    public bool isAiming;
+    public bool isReloadCommand;
+    public bool isCancelAction;
+
     public float aimingWeight { get => weapon_StanceManager.AimingWeight; }
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
@@ -48,12 +49,16 @@ public abstract class Weapon : WeaponSubject
 
     protected virtual void Start()
     {
+        this.AddObserver(this);
+
+       
+
         weapon_stateManager = new WeaponStateManager(this);
         weapon_StanceManager = new WeaponStanceManager(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
-        //Magazine_count = Magazine_capacity;
         bulletStore.Add(BulletStackType.Chamber, 1);
+
     }
     protected virtual void Update()
     {
@@ -62,7 +67,7 @@ public abstract class Weapon : WeaponSubject
             weapon_StanceManager.Update();
             weapon_stateManager.Update();
         }
-        ;
+        isCancelAction = false;
     }
     protected virtual void FixedUpdate()
     {
@@ -74,10 +79,12 @@ public abstract class Weapon : WeaponSubject
     }
     public virtual void Aim()
     {
+  
         weapon_StanceManager.ChangeStance(weapon_StanceManager.aimDownSight);
     }
     public virtual void Fire() 
     {
+ 
         if (fireMode == FireMode.Single)
         {
             if(triggerState == TriggerState.IsDown)
@@ -95,6 +102,7 @@ public abstract class Weapon : WeaponSubject
     }
     public virtual void Reload() 
     {
+    
         weapon_stateManager.ChangeState(weapon_stateManager.reloadState);
     }
     public virtual void LowWeapon()
@@ -152,14 +160,7 @@ public abstract class Weapon : WeaponSubject
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-        //if (WeaponUser.TryGetComponent<Player>(out Player p))
-        //{
-        //    p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
-        //}
-        //if (WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
-        //{
-        //    enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
-        //}
+        
         parentConstraint.weight = 1;
     }
     public void DropWeapon()
@@ -167,4 +168,8 @@ public abstract class Weapon : WeaponSubject
         rb.isKinematic = false;
     }
 
+    public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
+    {
+        
+    }
 }

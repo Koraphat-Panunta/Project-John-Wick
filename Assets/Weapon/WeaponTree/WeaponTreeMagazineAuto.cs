@@ -12,7 +12,15 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
     }
     public override void FixedUpdateTree()
     {
-        
+        if (currentNode.IsReset())
+        {
+            (currentNode as WeaponActionNode).Exit();
+            currentNode = startNode;
+            currentNode.Transition(out WeaponActionNode weaponActionNode);
+            currentNode = weaponActionNode;
+            (currentNode as WeaponActionNode).Enter();
+        }
+        currentNode.FixedUpdate();
     }
 
     public override void InitailizedTree()
@@ -24,9 +32,13 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
     {
         if (currentNode.IsReset())
         {
+            (currentNode as WeaponActionNode).Exit();
             currentNode = startNode;
-            currentNode.Update();
+            currentNode.Transition(out WeaponActionNode weaponActionNode);
+            currentNode = weaponActionNode;
+            (currentNode as WeaponActionNode).Enter();
         }
+        currentNode.Update();
     }
 
 }
