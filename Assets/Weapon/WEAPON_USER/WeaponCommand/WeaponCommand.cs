@@ -11,19 +11,7 @@ public class WeaponCommand
     public void PullTrigger()
     {
         Weapon weapon = this.weaponUser.currentWeapon;
-        if (weapon.weapon_stateManager._currentState != weapon.weapon_stateManager.reloadState
-             && weapon.weapon_StanceManager._currentStance == weapon.weapon_StanceManager.aimDownSight && weapon.weapon_StanceManager.AimingWeight >= 1)
-        {
-            if (weapon.triggerState == TriggerState.Up)
-            {
-                weapon.triggerState = TriggerState.IsDown;
-            }
-            else if (weapon.triggerState == TriggerState.IsDown)
-            {
-                weapon.triggerState = TriggerState.Down;
-            }
-            weapon.Fire();
-        }
+        weapon.Fire();
     }
     public void CancleTrigger()
     {
@@ -67,14 +55,14 @@ public class WeaponCommand
     IEnumerator SwitchPTS()
     {
         isSwitchingWeapon = true;
-        WeaponStateManager weaponStateManager = weaponUser.currentWeapon.weapon_stateManager;
+        //WeaponStateManager weaponStateManager = weaponUser.currentWeapon.weapon_stateManager;
         PrimaryWeapon primaryWeapon = weaponUser.weaponBelt.primaryWeapon;
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
         Weapon curWeapon = weaponUser.currentWeapon;
-        if (weaponStateManager._currentState == weaponStateManager.reloadState)
-        {
-            weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);
-        }
+        //if (weaponStateManager._currentState == weaponStateManager.reloadState)
+        //{
+        //    weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);
+        //}
         Animator animator = weaponUser.weaponUserAnimator;
         animator.SetTrigger("HolsterPrimary");
         yield return new WaitForSeconds(0.3f);
@@ -92,14 +80,14 @@ public class WeaponCommand
     IEnumerator SwitchSTP()
     {
         isSwitchingWeapon = true;
-        WeaponStateManager weaponStateManager = weaponUser.currentWeapon.weapon_stateManager;
+        //WeaponStateManager weaponStateManager = weaponUser.currentWeapon.weapon_stateManager;
         PrimaryWeapon primaryWeapon = weaponUser.weaponBelt.primaryWeapon;
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
         Weapon curWeapon = weaponUser.currentWeapon;
-        if (weaponStateManager._currentState == weaponStateManager.reloadState)
-        {
-            weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);
-        }
+        //if (weaponStateManager._currentState == weaponStateManager.reloadState)
+        //{
+        //    weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);
+        //}
         Animator animator = weaponUser.weaponUserAnimator;
         animator.SetTrigger("HolsterSecondary");
         yield return new WaitForSeconds(0.4f);

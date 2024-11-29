@@ -8,6 +8,7 @@ public abstract class WeaponNode
     public WeaponNode(WeaponTreeManager weaponTree)
     {
         this.weaponTree = weaponTree;
+        childNode = new List<WeaponNode>();
     }
 
     protected abstract WeaponTreeManager weaponTree { get; set; }
@@ -32,6 +33,10 @@ public abstract class WeaponNode
                 break;
             }
         }
+    }
+    public void AddChildNode(WeaponNode weaponNode)
+    {
+        childNode.Add(weaponNode);
     }
     
 

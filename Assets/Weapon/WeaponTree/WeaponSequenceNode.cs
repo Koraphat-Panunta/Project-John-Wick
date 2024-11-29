@@ -9,7 +9,6 @@ public class WeaponSequenceNode : WeaponActionNode
     protected override WeaponBlackBoard blackBoard { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
     protected Queue<WeaponActionNode> actionNodes { get; set; }
-    public override List<WeaponNode> SubNode { get; set ; }
 
     protected WeaponActionNode curActionNode;
     public WeaponSequenceNode(WeaponTreeManager weaponTreeManager,Func<bool> preCondition) : base(weaponTreeManager)
@@ -24,7 +23,7 @@ public class WeaponSequenceNode : WeaponActionNode
         if (curActionNode == null)
             curActionNode = UpdateSequence();
 
-        curActionNode.Update();
+         curActionNode.Update();
 
         if (curActionNode.IsComplete())
             curActionNode = UpdateSequence();

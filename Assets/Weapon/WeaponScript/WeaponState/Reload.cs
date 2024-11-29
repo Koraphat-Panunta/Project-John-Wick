@@ -22,7 +22,7 @@ public class Reload : WeaponState
     {
         if(weaponStateManager == null)
         {
-            weaponStateManager = base._weapon.weapon_stateManager;
+            //weaponStateManager = base._weapon.weapon_stateManager;
         }
         //if (ReloadAnimator == null)
         //{

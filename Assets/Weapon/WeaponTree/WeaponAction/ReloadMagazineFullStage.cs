@@ -7,7 +7,6 @@ public class ReloadMagazineFullStage : WeaponActionNode
     private WeaponBlackBoardMagazineAuto weaponBlackBoard;
     private Weapon weapon;
     private float reloadTime;
-    public override List<WeaponNode> SubNode { get; set; }
     private Coroutine reloadingCoroutine;
     private ReloadType reloadStage;
     public ReloadMagazineFullStage(WeaponTreeManager weaponTree) : base(weaponTree)

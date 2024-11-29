@@ -5,8 +5,9 @@ using UnityEngine.Animations;
 
 public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
-    public WeaponStateManager weapon_stateManager { get; protected set; }
-    public WeaponStanceManager weapon_StanceManager { get; protected set; }
+    //public WeaponStateManager weapon_stateManager { get; protected set; }
+    //public WeaponStanceManager weapon_StanceManager { get; protected set; }
+    protected abstract WeaponTreeManager weaponTree { get; set; }
     public Transform bulletSpawnerPos;
     public abstract int Magazine_capacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
@@ -25,7 +26,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public bool isReloadCommand;
     public bool isCancelAction;
 
-    public float aimingWeight { get => weapon_StanceManager.AimingWeight; }
+    public float aimingWeight;
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
@@ -53,8 +54,8 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
        
 
-        weapon_stateManager = new WeaponStateManager(this);
-        weapon_StanceManager = new WeaponStanceManager(this);
+        //weapon_stateManager = new WeaponStateManager(this);
+        //weapon_StanceManager = new WeaponStanceManager(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         bulletStore.Add(BulletStackType.Chamber, 1);
@@ -62,25 +63,26 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     protected virtual void Update()
     {
-        if (userWeapon != null)
-        {
-            weapon_StanceManager.Update();
-            weapon_stateManager.Update();
-        }
+
+        //if (userWeapon != null)
+        //{
+        //    //weapon_StanceManager.Update();
+        //    //weapon_stateManager.Update();
+        //}
         isCancelAction = false;
     }
     protected virtual void FixedUpdate()
     {
-        if (userWeapon != null)
-        {
-            weapon_StanceManager.FixedUpdate();
-            weapon_stateManager.FixedUpdate();
-        }
+        //if (userWeapon != null)
+        //{
+        //    //weapon_StanceManager.FixedUpdate();
+        //    //weapon_stateManager.FixedUpdate();
+        //}
     }
     public virtual void Aim()
     {
-  
-        weapon_StanceManager.ChangeStance(weapon_StanceManager.aimDownSight);
+        isAiming = true;
+        //weapon_StanceManager.ChangeStance(weapon_StanceManager.aimDownSight);
     }
     public virtual void Fire() 
     {
@@ -89,25 +91,26 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         {
             if(triggerState == TriggerState.IsDown)
             {
-                weapon_stateManager.ChangeState(weapon_stateManager.fireState);
+                //weapon_stateManager.ChangeState(weapon_stateManager.fireState);
             }
         }
         if(fireMode == FireMode.FullAuto)
         {
             if(triggerState == TriggerState.IsDown||triggerState == TriggerState.Down)
             {
-                weapon_stateManager.ChangeState(weapon_stateManager.fireState);
+                //weapon_stateManager.ChangeState(weapon_stateManager.fireState);
             }
         }
     }
     public virtual void Reload() 
     {
-    
-        weapon_stateManager.ChangeState(weapon_stateManager.reloadState);
+        isReloadCommand = true;
+        //weapon_stateManager.ChangeState(weapon_stateManager.reloadState);
     }
     public virtual void LowWeapon()
     {
-        weapon_StanceManager.ChangeStance(weapon_StanceManager.lowReady);
+        isAiming = false;
+        //weapon_StanceManager.ChangeStance(weapon_StanceManager.lowReady);
     }
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {

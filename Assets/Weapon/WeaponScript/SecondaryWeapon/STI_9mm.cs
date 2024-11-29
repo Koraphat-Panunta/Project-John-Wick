@@ -70,9 +70,23 @@ public class STI_9mm : SecondaryWeapon,MagazineType
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public bool isMagIn { get; set ; }
     protected override float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
+    protected override WeaponTreeManager weaponTree { get ; set ; }
+    private WeaponTreeMagazineAuto weaponTreeMagazineAuto;
+    protected override void FixedUpdate()
+    {
+        weaponTreeMagazineAuto.FixedUpdateTree();
+        base.FixedUpdate();
+    }
+    protected override void Update()
+    {
+        weaponTreeMagazineAuto.UpdateTree();
+        base.Update();
+    }
     protected override void Start()
     {
+        weaponTree = new WeaponTreeMagazineAuto(this);
+        weaponTreeMagazineAuto = weaponTree as WeaponTreeMagazineAuto;
+        weaponTreeMagazineAuto.InitailizedTree();
         fireMode = FireMode.Single;
         bullet = new _9mmBullet();
         RecoilKickBack = bullet.recoilKickBack;

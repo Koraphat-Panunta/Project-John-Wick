@@ -53,7 +53,7 @@ public class IdleInCover : IdleState,IObserverPlayer
                     warping = false;
                 }
             }
-            else if (player.currentWeapon.weapon_StanceManager.AimingWeight > 0
+            else if (player.currentWeapon.aimingWeight > 0
                 && playerMovement.inputDirection_World == Vector3.zero
                 && coverDetection.GetAimPos(player.curShoulderSide))
             {
@@ -77,7 +77,7 @@ public class IdleInCover : IdleState,IObserverPlayer
                         warping = false;
                     }
                 }
-                else if (player.currentWeapon.weapon_StanceManager.AimingWeight < 1
+                else if (player.currentWeapon.aimingWeight < 1
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {
                     warping = true;

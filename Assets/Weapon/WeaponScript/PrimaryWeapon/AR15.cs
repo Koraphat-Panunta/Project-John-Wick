@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class AR15 : PrimaryWeapon,MagazineType
 {
+
     [SerializeField] private Transform MuzzleSocket;
     [SerializeField] private Transform GripSocket;
     [SerializeField] private Transform Scope;
@@ -42,6 +43,8 @@ public class AR15 : PrimaryWeapon,MagazineType
     public override Bullet bullet { get ; set ; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public bool isMagIn { get; set; }
+    protected override WeaponTreeManager weaponTree { get ; set; }
+    private WeaponTreeMagazineAuto _weaponTreeMagazineAuto;
 
     private void Awake()
     {
@@ -50,6 +53,9 @@ public class AR15 : PrimaryWeapon,MagazineType
     }
     protected override void Start()
     {
+        weaponTree = new WeaponTreeMagazineAuto(this);
+        _weaponTreeMagazineAuto = weaponTree as WeaponTreeMagazineAuto;
+        _weaponTreeMagazineAuto.InitailizedTree();
 
         weaponSlotPos.Add(AttachmentSlot.MUZZLE,MuzzleSocket);
         weaponSlotPos.Add(AttachmentSlot.GRIP,GripSocket);
@@ -70,6 +76,17 @@ public class AR15 : PrimaryWeapon,MagazineType
         bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
         
         base.Start();
+    }
+    
+    protected override void Update()
+    {
+        _weaponTreeMagazineAuto.UpdateTree();
+        base.Update();
+    }
+    protected override void FixedUpdate()
+    {
+        _weaponTreeMagazineAuto.FixedUpdateTree();
+        base.FixedUpdate();
     }
     private void Initialized()
     {

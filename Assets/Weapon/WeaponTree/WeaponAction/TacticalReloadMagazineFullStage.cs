@@ -15,7 +15,6 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
         weaponMag = weapon as MagazineType;
     }
 
-    public override List<WeaponNode> SubNode { get ; set ; }
 
 
     public override void Enter()

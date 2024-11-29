@@ -120,17 +120,17 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         //Animate Weapon Animation
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            animator.SetLayerWeight(2,player.currentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetLayerWeight(1,1- player.currentWeapon.weapon_StanceManager.AimingWeight);
-            animator.SetFloat("AimingWeigth", player.currentWeapon.weapon_StanceManager.AimingWeight);
+            animator.SetLayerWeight(2,player.currentWeapon.aimingWeight);
+            animator.SetLayerWeight(1,1- player.currentWeapon.aimingWeight);
+            animator.SetFloat("AimingWeigth", player.currentWeapon.aimingWeight);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
             if (player.currentWeapon != null)
             {
-                animator.SetLayerWeight(2, player.currentWeapon.weapon_StanceManager.AimingWeight);
-                animator.SetLayerWeight(1, 1 - player.currentWeapon.weapon_StanceManager.AimingWeight);
-                animator.SetFloat("AimingWeigth", player.currentWeapon.weapon_StanceManager.AimingWeight);
+                animator.SetLayerWeight(2, player.currentWeapon.aimingWeight);
+                animator.SetLayerWeight(1, 1 - player.currentWeapon.aimingWeight);
+                animator.SetFloat("AimingWeigth", player.currentWeapon.aimingWeight);
             }
             else
             {
@@ -152,7 +152,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.Reloading)
         {
-            ReloadType reloadType = player.currentWeapon.weapon_stateManager.reloadState.reloadType;
+            ReloadType reloadType = (player.currentWeapon.bulletStore[BulletStackType.Chamber]>0)?ReloadType.MAGAZINE_TACTICAL_RELOAD:ReloadType.MAGAZINE_RELOAD;
             if (reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
             {
                 this.animator.SetTrigger(animationParameter[parameterName.TacticalReload]);

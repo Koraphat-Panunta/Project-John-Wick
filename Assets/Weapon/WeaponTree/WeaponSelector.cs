@@ -26,7 +26,7 @@ public class WeaponSelector : WeaponNode
 
     public override bool IsReset()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     public override bool PreCondition()

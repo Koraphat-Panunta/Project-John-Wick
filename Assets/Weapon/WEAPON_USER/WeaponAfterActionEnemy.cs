@@ -14,7 +14,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void AimDownSight(Weapon weapon)
     {
-       enemy.animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
+       enemy.animator.SetLayerWeight(1, weapon.aimingWeight);
     }
 
     public override void Firing(Weapon weapon)
@@ -27,7 +27,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void LowReady(Weapon weapon)
     {
-       enemy.animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
+       enemy.animator.SetLayerWeight(1, weapon.aimingWeight);
     }
 
     public override void PreLoad(Weapon weapon)
