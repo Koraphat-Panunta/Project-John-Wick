@@ -19,6 +19,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override void Enter()
     {
+        Debug.Log("Tac Reload Enter");
         weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
         weapon.userWeapon.weaponAfterAction.Tactical_ReloadMagazine(weapon);
     }
@@ -57,15 +58,16 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override bool PreCondition()
     {
-        bool IsMagIn = blackBoardMagazineAuto.IsMagin;
-        int MagCount = blackBoardMagazineAuto.BulletStack[BulletStackType.Magazine];
-        if (
-            IsMagIn == true
-            && MagCount <= 0
-            )
-            return true;
-        else 
-            return false;
+        //bool IsMagIn = blackBoardMagazineAuto.IsMagin;
+        //int MagCount = blackBoardMagazineAuto.BulletStack[BulletStackType.Magazine];
+        //if (
+        //    IsMagIn == true
+        //    && MagCount <= 0
+        //    )
+        //    return true;
+        //else 
+        //    return false;
+        return true;
     }
 
     public override void Update()

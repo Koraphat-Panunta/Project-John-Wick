@@ -17,12 +17,10 @@ public class AutoLoadChamberNode : WeaponActionNode
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void FixedUpdate()
     {
-        throw new System.NotImplementedException();
     }
 
     public override bool IsComplete()
@@ -42,7 +40,6 @@ public class AutoLoadChamberNode : WeaponActionNode
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
     }
     public IEnumerator ReChambering()
     {

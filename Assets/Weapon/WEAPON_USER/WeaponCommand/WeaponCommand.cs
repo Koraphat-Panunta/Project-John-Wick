@@ -11,6 +11,15 @@ public class WeaponCommand
     public void PullTrigger()
     {
         Weapon weapon = this.weaponUser.currentWeapon;
+        switch (weapon.triggerState)
+        {
+            case (TriggerState.Up):weapon.triggerState = TriggerState.IsDown;
+                break;
+            case (TriggerState.IsDown):weapon.triggerState = TriggerState.Down;
+                break;
+             default:weapon.triggerState = TriggerState.Down;
+                break;
+        }
         weapon.Fire();
     }
     public void CancleTrigger()

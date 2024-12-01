@@ -32,15 +32,14 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
     {
         reloadMagazineFullStage = new ReloadMagazineFullStage(this);
         tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
-        startNode = new WeaponSelector(this, () => true);
         stanceSelector = new WeaponSelector(this, 
             () => { return true;}
             );
         reloadStageSelector =new WeaponSelector(this,
-            () => { return weapon.isReloadCommand == true;}
+            () => { return weapon.isReloadCommand == true && WeaponBlackBoard.BulletStack[BulletStackType.Magazine]<weapon.Magazine_capacity;}
             );
         firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return WeaponBlackBoard.BulletStack[BulletStackType.Chamber] > 0; }
+            () => { return WeaponBlackBoard.BulletStack[BulletStackType.Chamber] > 0 && WeaponBlackBoard.TriggerState == TriggerState.Down; }
             );
 
         aimDownSight = new AimDownSightNode(this);
@@ -48,7 +47,7 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
         fire = new FiringNode(this);
         autoLoadChamber = new AutoLoadChamberNode(this);
 
-        startNode.AddChildNode(stanceSelector);
+        startNode = stanceSelector;
 
         stanceSelector.AddChildNode(reloadStageSelector);
         stanceSelector.AddChildNode(aimDownSight);

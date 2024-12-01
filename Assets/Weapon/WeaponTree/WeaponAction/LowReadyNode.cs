@@ -14,7 +14,6 @@ public class LowReadyNode : WeaponActionNode
 
     public override void Exit()
     {
-        
     }
 
     public override void FixedUpdate()
@@ -39,6 +38,7 @@ public class LowReadyNode : WeaponActionNode
 
     public override void Update()
     {
+        if (weaponTree.weapon.userWeapon == null) Debug.Log("User weapon = null");
         weapon.userWeapon.weaponAfterAction.LowReady(weapon);
         weapon.aimingWeight -= weapon.aimDownSight_speed * Time.deltaTime;
         weapon.aimingWeight = Mathf.Clamp(weapon.aimingWeight, 0, 1);

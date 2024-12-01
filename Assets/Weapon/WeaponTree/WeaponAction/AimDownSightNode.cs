@@ -52,11 +52,17 @@ public class AimDownSightNode : WeaponActionNode
             || subCurNode.IsReset()
             )
         {
-            if (subCurNode != null) subCurNode.Exit(); 
-            this.Transition(out subCurNode);
-            if(subCurNode != null) subCurNode.Enter();
+            if (subCurNode != null) subCurNode.Exit();
+            this.Transition(out WeaponActionNode weaponActionNode);
+            subCurNode = weaponActionNode;
+            if (subCurNode != null) subCurNode.Enter();
         }
-        if(subCurNode != null)
-        subCurNode.Update();
+        if (subCurNode != null)
+        {
+            subCurNode.Update();
+            if (subCurNode.IsComplete())
+                subCurNode = null;
+        }
+
     }
 }

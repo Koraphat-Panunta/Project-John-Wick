@@ -37,7 +37,6 @@ public abstract class WeaponTreeManager
 
     public virtual void UpdateTree()
     {
-        if (currentNode != null) Debug.Log("Node Not Null");
         Debug.Log(currentNode);
         if (currentNode.IsReset())
         {
@@ -46,6 +45,7 @@ public abstract class WeaponTreeManager
             currentNode = startNode;
             currentNode.Transition(out WeaponActionNode weaponActionNode);
             currentNode = weaponActionNode;
+            //Debug.Log("Before Enter"+currentNode);
             (currentNode as WeaponActionNode).Enter();
         }
         currentNode.Update();

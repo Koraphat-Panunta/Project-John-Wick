@@ -48,7 +48,7 @@ public class LevelManager : LevelSubject,IObserverPlayer
     }
     protected virtual void LevelClear()
     {
-        Debug.Log("Level Clear");
+        //Debug.Log("Level Clear");
     }
     public List<Objective> GetListObjective()
     {

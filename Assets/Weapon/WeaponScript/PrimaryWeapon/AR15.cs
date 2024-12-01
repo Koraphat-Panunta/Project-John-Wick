@@ -74,6 +74,7 @@ public class AR15 : PrimaryWeapon,MagazineType
         fireMode = FireMode.FullAuto;
 
         bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
+        isMagIn = true;
         
         base.Start();
     }

@@ -5,19 +5,19 @@ public class FiringNode : WeaponActionNode
 {
     //public override List<WeaponNode> SubNode { get; set ; }
     private Weapon weapon;
-    bool isFiring;
+    //bool isFiring;
     public FiringNode(WeaponTreeManager weaponTree):base(weaponTree) 
     {
-        
+        weapon = weaponTree.weapon;
     }
     public override void Enter()
     {
-       isFiring = false;
+
        weapon.bulletStore[BulletStackType.Chamber] -= 1;
        weapon.bulletSpawner.SpawnBullet(weapon);
        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.Firing);
        weapon.userWeapon.weaponAfterAction.Firing(weapon);
-       isFiring = true;
+       //isFiring = true;
     }
 
     public override void Exit()
@@ -32,7 +32,8 @@ public class FiringNode : WeaponActionNode
 
     public override bool IsComplete()
     {
-        return isFiring;
+        //Debug.Log("Is FiringComplete");
+        return true;
     }
 
     public override bool IsReset()
@@ -47,6 +48,6 @@ public class FiringNode : WeaponActionNode
 
     public override void Update()
     {
-        
+        //Debug.Log("Fiing Updare");
     }
 }
