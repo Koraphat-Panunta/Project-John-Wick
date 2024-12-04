@@ -11,7 +11,7 @@ public class AimDownSightNode : WeaponActionNode
 
     public override void Enter()
     {
-        subCurNode = this;
+        subCurNode = null;
     }
 
     public override void Exit()
