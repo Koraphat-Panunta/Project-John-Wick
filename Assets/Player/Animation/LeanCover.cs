@@ -28,10 +28,12 @@ public class LeanCover: IPlayerComponent
         leanWeight = 0.5f;
         layerMask = LayerMask.GetMask("Default");
         this.player = player;
+        shootPoint = player.RayCastPos;
         player.AddObserver(this);
     }
     public void LeaningUpdate(Transform shootPoint)
     {
+
         leaningCheck(shootPoint);
         var source = multiRotationConstraint.data.sourceObjects;
         source.SetWeight(0, leanWeight);
@@ -104,7 +106,7 @@ public class LeanCover: IPlayerComponent
 
     public void FixedUpdateComponent()
     {
-        shootPoint = this.player.RayCastPos;
+        
         //LeaningUpdate(shootPoint);
     }
 

@@ -43,8 +43,7 @@ public class AR15 : PrimaryWeapon,MagazineType
     public override Bullet bullet { get ; set ; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public bool isMagIn { get; set; }
-    protected override WeaponTreeManager weaponTree { get ; set; }
-    private WeaponTreeMagazineAuto _weaponTreeMagazineAuto;
+    public override WeaponSelector startNode { get; set; }
 
     private void Awake()
     {
@@ -53,9 +52,6 @@ public class AR15 : PrimaryWeapon,MagazineType
     }
     protected override void Start()
     {
-        weaponTree = new WeaponTreeMagazineAuto(this);
-        _weaponTreeMagazineAuto = weaponTree as WeaponTreeMagazineAuto;
-        _weaponTreeMagazineAuto.InitailizedTree();
 
         weaponSlotPos.Add(AttachmentSlot.MUZZLE,MuzzleSocket);
         weaponSlotPos.Add(AttachmentSlot.GRIP,GripSocket);
@@ -80,16 +76,56 @@ public class AR15 : PrimaryWeapon,MagazineType
     
     protected override void Update()
     {
-        _weaponTreeMagazineAuto.UpdateTree();
         base.Update();
     }
     protected override void FixedUpdate()
     {
-        _weaponTreeMagazineAuto.FixedUpdateTree();
         base.FixedUpdate();
     }
-    private void Initialized()
+    public WeaponSelector stanceSelector { get; private set; }
+    public ReloadStageSelector reloadStageSelector { get; private set; }
+    public WeaponSequenceNode firingAutoLoad { get; private set; }
+    public ReloadMagazineFullStage reloadMagazineFullStage { get; private set; }
+    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; private set; }
+
+    private AimDownSightNode aimDownSight;
+    private LowReadyNode lowReady;
+    private FiringNode fire;
+    private AutoLoadChamberNode autoLoadChamber;
+    protected override void InitailizedTree()
     {
+        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
+        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
+        startNode = new WeaponSelector(this, () => true);
+
+        reloadStageSelector = new ReloadStageSelector(this);
+        stanceSelector = new WeaponSelector(this,
+            () => { return true; }
+            );
+        firingAutoLoad = new WeaponSequenceNode(this,
+            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.Down; }
+            );
+
+        aimDownSight = new AimDownSightNode(this);
+        lowReady = new LowReadyNode(this);
+        fire = new FiringNode(this);
+        autoLoadChamber = new AutoLoadChamberNode(this);
+
+        startNode.AddChildNode(stanceSelector);
+
+        stanceSelector.AddChildNode(reloadStageSelector);
+        stanceSelector.AddChildNode(aimDownSight);
+        stanceSelector.AddChildNode(lowReady);
+
+        reloadStageSelector.AddChildNode(reloadMagazineFullStage);
+        reloadStageSelector.AddChildNode(tacticalReloadMagazineFullStage);
+
+        aimDownSight.AddChildNode(firingAutoLoad);
+
+        firingAutoLoad.AddChildNode(fire);
+        firingAutoLoad.AddChildNode(autoLoadChamber);
+
+        currentNode = startNode;
 
     }
 }

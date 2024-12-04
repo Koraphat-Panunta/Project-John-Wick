@@ -5,19 +5,19 @@ using UnityEngine;
 public class WeaponSelector : WeaponNode
 {
     public override List<WeaponNode> childNode { get; set; }
-    protected override WeaponTreeManager weaponTree { get ; set; }
-    protected override WeaponBlackBoard blackBoard { get ; set ; }
     protected override Func<bool> preCondidtion { get ; set; }
 
-    public WeaponSelector(WeaponTreeManager weaponTreeManager,Func<bool> preCondition) :base(weaponTreeManager)
+    public WeaponSelector(Weapon weapon,Func<bool> preCondition) :base(weapon)
     {
-        this.weaponTree = weaponTreeManager;
-        this.blackBoard = weaponTreeManager.WeaponBlackBoard;
         this.preCondidtion = preCondition;
+    }
+    public WeaponSelector(Weapon weapon) : base(weapon)
+    {
+       
     }
     public override void Update()
     {
-        weaponTree.currentNode = Selector();
+        Weapon.currentNode = Selector();
     }
     public override void FixedUpdate()
     {

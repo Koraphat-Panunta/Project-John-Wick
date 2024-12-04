@@ -5,38 +5,55 @@ using UnityEngine;
 public class WeaponSequenceNode : WeaponActionNode
 {
     public override List<WeaponNode> childNode { get; set; }
-    protected override WeaponTreeManager weaponTree { get; set; }
-    protected override WeaponBlackBoard blackBoard { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
-    protected Queue<WeaponActionNode> actionNodes { get; set; }
 
     protected WeaponActionNode curActionNode;
-    public WeaponSequenceNode(WeaponTreeManager weaponTreeManager,Func<bool> preCondition) : base(weaponTreeManager)
+    int curNodeIndex;
+    public WeaponSequenceNode(Weapon weapon,Func<bool> preCondition) : base(weapon)
     {
-        this.weaponTree = weaponTreeManager;
-        blackBoard = weaponTreeManager.WeaponBlackBoard;
         this.preCondidtion = preCondition;
     }
-    public override void Update()
+    public override void Enter()
+    {
+        curActionNode = null;
+        curNodeIndex = 0;
+    }
+
+    public override void Exit()
+    {
+        curActionNode = null;
+    }
+    public override void Update() 
     {
         //Begin
         if (curActionNode == null)
-            curActionNode = UpdateSequence();
+        {
+            curActionNode = childNode[curNodeIndex] as WeaponActionNode;
+            if(curActionNode != null)
+                curActionNode.Enter();
+        }
 
-         curActionNode.Update();
-
+         
         if (curActionNode.IsComplete())
-            curActionNode = UpdateSequence();
+        {
+            curNodeIndex += 1;
+            
+            curActionNode.Exit();
+            curActionNode = childNode[curNodeIndex] as WeaponActionNode;
+            if (curActionNode != null)
+            curActionNode.Enter();
+        }
+        curActionNode.Update();
     }
     public override void FixedUpdate()
     {
-        if (curActionNode == null)
-            curActionNode = UpdateSequence();
-
+        //if (curActionNode == null)
+        //    curActionNode = UpdateSequence();
+        if(curActionNode != null)
         curActionNode.FixedUpdate();
 
-        if (curActionNode.IsComplete())
-            curActionNode = UpdateSequence();
+        //if (curActionNode.IsComplete())
+        //    curActionNode = UpdateSequence();
     }
 
     public override bool IsReset()
@@ -49,33 +66,16 @@ public class WeaponSequenceNode : WeaponActionNode
 
     public override bool PreCondition()
     {
+        Debug.Log("Call precondition sequence = "+preCondidtion.Invoke());
         return preCondidtion.Invoke();
     }
-    public void AddQueueActionNode(WeaponActionNode actionNode)
-    {
-        this.actionNodes.Enqueue(actionNode);
-    }
-    public WeaponActionNode UpdateSequence()
-    {
-        WeaponActionNode actionNode = actionNodes.Dequeue();
-        if (actionNodes.Count <= 0)
-            return null;
-        return actionNode;
-    }
+    
 
-    public override void Enter()
-    {
-        
-    }
-
-    public override void Exit()
-    {
-        
-    }
+  
 
     public override bool IsComplete()
     {
-        if (curActionNode == null && actionNodes.Dequeue() == null)
+        if (curNodeIndex == childNode.Count)
             return true;
         else return false;
     }

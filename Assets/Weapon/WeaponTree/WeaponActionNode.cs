@@ -6,16 +6,12 @@ using UnityEngine;
 public abstract class WeaponActionNode : WeaponNode
 {
     public override List<WeaponNode> childNode { get ; set ; }
-    protected override WeaponTreeManager weaponTree { get ; set ; }
-    protected override WeaponBlackBoard blackBoard { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
     public abstract void Enter();
     public abstract void Exit();
-    public WeaponActionNode(WeaponTreeManager weaponTree) : base(weaponTree)
+    public WeaponActionNode(Weapon weapon) : base(weapon)
     {
-        this.weaponTree = weaponTree;
-        blackBoard = weaponTree.WeaponBlackBoard;
-  
+       
     }
     public abstract bool IsComplete();
     //protected bool FindSubNode(out WeaponNode node)

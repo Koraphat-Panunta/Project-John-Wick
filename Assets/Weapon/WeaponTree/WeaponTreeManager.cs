@@ -14,14 +14,7 @@ public abstract class WeaponTreeManager
 
     public virtual void FixedUpdateTree()
     {
-        //if (currentNode.IsReset())
-        //{
-        //    (currentNode as WeaponActionNode).Exit();
-        //    currentNode = startNode;
-        //    currentNode.Transition(out WeaponActionNode weaponActionNode);
-        //    currentNode = weaponActionNode;
-        //    (currentNode as WeaponActionNode).Enter();
-        //}
+       
         if(currentNode != null)
         currentNode.FixedUpdate();
     }
@@ -37,8 +30,6 @@ public abstract class WeaponTreeManager
 
     public virtual void UpdateTree()
     {
-        if (currentNode != null) Debug.Log("Node Not Null");
-        Debug.Log(currentNode);
         if (currentNode.IsReset())
         {
             if(currentNode is WeaponActionNode)

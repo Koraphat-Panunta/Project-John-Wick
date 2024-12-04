@@ -3,20 +3,18 @@ using UnityEngine;
 
 public class FiringNode : WeaponActionNode
 {
-    //public override List<WeaponNode> SubNode { get; set ; }
-    private Weapon weapon;
     bool isFiring;
-    public FiringNode(WeaponTreeManager weaponTree):base(weaponTree) 
+    public FiringNode(Weapon weapon):base(weapon) 
     {
         
     }
     public override void Enter()
     {
        isFiring = false;
-       weapon.bulletStore[BulletStackType.Chamber] -= 1;
-       weapon.bulletSpawner.SpawnBullet(weapon);
-       weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.Firing);
-       weapon.userWeapon.weaponAfterAction.Firing(weapon);
+       Weapon.bulletStore[BulletStackType.Chamber] -= 1;
+       Weapon.bulletSpawner.SpawnBullet(Weapon);
+       Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Firing);
+       Weapon.userWeapon.weaponAfterAction.Firing(Weapon);
        isFiring = true;
     }
 
@@ -42,7 +40,7 @@ public class FiringNode : WeaponActionNode
 
     public override bool PreCondition()
     {
-        return blackBoard.BulletStack[BulletStackType.Chamber] > 0;
+        return Weapon.bulletStore[BulletStackType.Chamber] > 0;
     }
 
     public override void Update()

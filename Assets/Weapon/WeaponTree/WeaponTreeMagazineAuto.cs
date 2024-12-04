@@ -10,7 +10,7 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
         this.WeaponBlackBoard = new WeaponBlackBoardMagazineAuto(weapon);
     }
     public WeaponSelector stanceSelector { get; private set; }
-    public WeaponSelector reloadStageSelector { get; private set; }
+    public ReloadStageSelector reloadStageSelector { get; private set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     public ReloadMagazineFullStage reloadMagazineFullStage { get; private set; }
     public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; private set; }
@@ -30,23 +30,22 @@ public class WeaponTreeMagazineAuto : WeaponTreeManager
     }
     public override void InitailizedTree()
     {
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
-        startNode = new WeaponSelector(this, () => true);
-        stanceSelector = new WeaponSelector(this, 
+        reloadMagazineFullStage = new ReloadMagazineFullStage(weapon);
+        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(weapon);
+        startNode = new WeaponSelector(weapon, () => true);
+
+        reloadStageSelector = new ReloadStageSelector(weapon);
+        stanceSelector = new WeaponSelector(weapon, 
             () => { return true;}
             );
-        reloadStageSelector =new WeaponSelector(this,
-            () => { return weapon.isReloadCommand == true;}
-            );
-        firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return WeaponBlackBoard.BulletStack[BulletStackType.Chamber] > 0; }
+        firingAutoLoad = new WeaponSequenceNode(weapon,
+            () => { return WeaponBlackBoard.BulletStack[BulletStackType.Chamber] > 0 && WeaponBlackBoard.TriggerState == TriggerState.Down; }
             );
 
-        aimDownSight = new AimDownSightNode(this);
-        lowReady = new LowReadyNode(this);
-        fire = new FiringNode(this);
-        autoLoadChamber = new AutoLoadChamberNode(this);
+        aimDownSight = new AimDownSightNode(weapon);
+        lowReady = new LowReadyNode(weapon);
+        fire = new FiringNode(weapon);
+        autoLoadChamber = new AutoLoadChamberNode(weapon);
 
         startNode.AddChildNode(stanceSelector);
 

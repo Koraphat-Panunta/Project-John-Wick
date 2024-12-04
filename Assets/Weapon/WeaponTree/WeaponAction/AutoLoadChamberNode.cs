@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class AutoLoadChamberNode : WeaponActionNode
 {
-    private Weapon weapon;
     private Coroutine reChamber;
-    public AutoLoadChamberNode(WeaponTreeManager weaponTree):base(weaponTree) 
+    public AutoLoadChamberNode(Weapon weapon):base(weapon) 
     {
-        weapon = weaponTree.weapon;
+      
     }
     public override void Enter()
     {
-        reChamber = weapon.StartCoroutine(ReChambering());
+        reChamber = Weapon.StartCoroutine(ReChambering());
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void FixedUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override bool IsComplete()
@@ -42,15 +41,15 @@ public class AutoLoadChamberNode : WeaponActionNode
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
+
     }
     public IEnumerator ReChambering()
     {
-        yield return new WaitForSeconds((float)(60 / blackBoard.Rate_of_fire));
-        if (weapon.bulletStore[BulletStackType.Magazine] > 0)
+        yield return new WaitForSeconds((float)(60 / Weapon.rate_of_fire));
+        if (Weapon.bulletStore[BulletStackType.Magazine] > 0)
         {
-            weapon.bulletStore[BulletStackType.Chamber] += 1;
-            weapon.bulletStore[BulletStackType.Magazine] -= 1;
+            Weapon.bulletStore[BulletStackType.Chamber] += 1;
+            Weapon.bulletStore[BulletStackType.Magazine] -= 1;
         }
         reChamber = null;
     }

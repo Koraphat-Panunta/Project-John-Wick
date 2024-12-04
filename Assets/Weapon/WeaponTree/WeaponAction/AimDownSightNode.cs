@@ -4,16 +4,14 @@ using UnityEngine;
 public class AimDownSightNode : WeaponActionNode
 {
     private WeaponActionNode subCurNode;
-    private Weapon weapon;
-    public AimDownSightNode(WeaponTreeManager weaponTree) : base(weaponTree)
+    public AimDownSightNode(Weapon weapon) : base(weapon)
     {
-        base.weaponTree = weaponTree;
-        weapon = weaponTree.weapon;
+       
     }
 
     public override void Enter()
     {
-        subCurNode = null;
+        subCurNode = this;
     }
 
     public override void Exit()
@@ -23,8 +21,8 @@ public class AimDownSightNode : WeaponActionNode
 
     public override void FixedUpdate()
     {
-        if (subCurNode != null)
-            subCurNode.FixedUpdate();
+        //if (subCurNode != null)
+            //subCurNode.FixedUpdate();
     }
 
     public override bool IsComplete()
@@ -34,19 +32,19 @@ public class AimDownSightNode : WeaponActionNode
 
     public override bool IsReset()
     {
-        return blackBoard.IsAiming == false;
+        return Weapon.isAiming == false;
     }
 
     public override bool PreCondition()
     {
-        return blackBoard.IsAiming;
+        return Weapon.isAiming;
     }
 
     public override void Update()
     {
-        weapon.userWeapon.weaponAfterAction.AimDownSight(weapon);
-        weapon.aimingWeight +=weapon.aimDownSight_speed * Time.deltaTime;
-        weapon.aimingWeight = Mathf.Clamp(weapon.aimingWeight, 0, 1);
+        Weapon.userWeapon.weaponAfterAction.AimDownSight(Weapon);
+        Weapon.aimingWeight += Weapon.aimDownSight_speed * Time.deltaTime;
+        Weapon.aimingWeight = Mathf.Clamp(Weapon.aimingWeight, 0, 1);
         if (
             subCurNode == null
             || subCurNode.IsReset()
@@ -56,7 +54,7 @@ public class AimDownSightNode : WeaponActionNode
             this.Transition(out subCurNode);
             if(subCurNode != null) subCurNode.Enter();
         }
-        if(subCurNode != null)
-        subCurNode.Update();
+        //if(subCurNode != null)
+        //subCurNode.Update();
     }
 }

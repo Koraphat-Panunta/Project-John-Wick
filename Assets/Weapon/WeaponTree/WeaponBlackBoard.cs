@@ -12,13 +12,23 @@ public class WeaponBlackBoard : IObserverWeapon
     public bool IsEquip { get { return Weapon.userWeapon == null? true : false; } }
     public bool IsCancle { get => Weapon.isCancelAction; }
     public float Rate_of_fire { get => Weapon.rate_of_fire; }
+
+   
+    public struct VarAttribute
+    {
+        public Weapon weapon1 { get; set; }
+        public TriggerState trigger { get => weapon1.triggerState; } 
+    }
+    VarAttribute varAttribute = new VarAttribute();
    public WeaponBlackBoard(Weapon weapon) 
    {
-        Weapon = weapon;
+        varAttribute.weapon1 = weapon;
+       
+       
    }
 
     public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
-        
+       
     }
 }

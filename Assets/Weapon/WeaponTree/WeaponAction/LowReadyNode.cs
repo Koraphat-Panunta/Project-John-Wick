@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class LowReadyNode : WeaponActionNode
 {
-    private Weapon weapon;
-    public LowReadyNode(WeaponTreeManager weaponTree) : base(weaponTree)
+    public LowReadyNode(Weapon weapon) : base(weapon)
     {
-        this.weapon = weaponTree.weapon;
     }
     public override void Enter()
     {
@@ -29,7 +27,7 @@ public class LowReadyNode : WeaponActionNode
 
     public override bool IsReset()
     {
-        return blackBoard.IsAiming||blackBoard.IsEquip==false;
+        return Weapon.isAiming||Weapon.isEquip==false;
     }
 
     public override bool PreCondition()
@@ -39,9 +37,10 @@ public class LowReadyNode : WeaponActionNode
 
     public override void Update()
     {
-        weapon.userWeapon.weaponAfterAction.LowReady(weapon);
-        weapon.aimingWeight -= weapon.aimDownSight_speed * Time.deltaTime;
-        weapon.aimingWeight = Mathf.Clamp(weapon.aimingWeight, 0, 1);
+        if(Weapon.userWeapon != null)
+        Weapon.userWeapon.weaponAfterAction.LowReady(Weapon);
+        Weapon.aimingWeight -= Weapon.aimDownSight_speed * Time.deltaTime;
+        Weapon.aimingWeight = Mathf.Clamp(Weapon.aimingWeight, 0, 1);
     }
 
     

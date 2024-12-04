@@ -3,15 +3,9 @@ using UnityEngine;
 
 public class TacticalReloadMagazineFullStage : WeaponActionNode
 {
-    private WeaponTreeMagazineAuto weaponTreeMagazineAuto;
-    private WeaponBlackBoardMagazineAuto blackBoardMagazineAuto;
-    private Weapon weapon;
     private MagazineType weaponMag;
-    public TacticalReloadMagazineFullStage(WeaponTreeManager weaponTreeManager):base(weaponTreeManager)
+    public TacticalReloadMagazineFullStage(Weapon weapon):base(weapon)
     {
-        weaponTreeMagazineAuto = weaponTreeManager as WeaponTreeMagazineAuto;
-        blackBoardMagazineAuto = weaponTreeMagazineAuto.WeaponBlackBoard as WeaponBlackBoardMagazineAuto;
-        weapon = weaponTreeMagazineAuto.weapon;
         weaponMag = weapon as MagazineType;
     }
 
@@ -19,8 +13,8 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override void Enter()
     {
-        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
-        weapon.userWeapon.weaponAfterAction.Tactical_ReloadMagazine(weapon);
+        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
+        Weapon.userWeapon.weaponAfterAction.Tactical_ReloadMagazine(Weapon);
     }
 
     public override void Exit()
@@ -36,8 +30,8 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
     public override bool IsComplete()
     {
         if(
-            blackBoardMagazineAuto.IsMagin == true
-            && blackBoardMagazineAuto.BulletStack[BulletStackType.Magazine] == weapon.Magazine_capacity
+            weaponMag.isMagIn == true
+            && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.Magazine_capacity
             )
             return true;
         else return false;
@@ -48,8 +42,8 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
         if(IsComplete())
             return true;
         else if(
-            blackBoardMagazineAuto.IsEquip == false
-            ||blackBoardMagazineAuto.IsCancle == true
+            Weapon.isEquip == false
+            ||Weapon.isCancelAction == true
             )
             return true;
         else return false ;
@@ -57,8 +51,8 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override bool PreCondition()
     {
-        bool IsMagIn = blackBoardMagazineAuto.IsMagin;
-        int MagCount = blackBoardMagazineAuto.BulletStack[BulletStackType.Magazine];
+        bool IsMagIn = weaponMag.isMagIn;
+        int MagCount = Weapon.bulletStore[BulletStackType.Magazine];
         if (
             IsMagIn == true
             && MagCount <= 0
