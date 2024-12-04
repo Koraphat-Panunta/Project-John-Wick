@@ -196,12 +196,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2719374775337854764}
+  - {fileID: 5507804978276704398}
   - {fileID: 4021954226140438283}
   - {fileID: 8275251998157883282}
   - {fileID: 2196963564602285753}
   - {fileID: 5374884737241893855}
-  - {fileID: 5507804978276704398}
-  - {fileID: 2719374775337854764}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6144872687007888243
@@ -302,12 +302,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 060c49128e5644d478d1b8ab22c39261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigBuilder: {fileID: 0}
   Spine: {fileID: 272596326702100076}
   Head: {fileID: 6874330158913868961}
   RightArm: {fileID: 8867871067603975659}
   RightHand: {fileID: 6038606946174149999}
   LeftHandIK: {fileID: 1552535399199721941}
   character: {fileID: 0}
+  leanRotate: {fileID: 0}
   sourceTarget: {fileID: 0}
   rotTranform: {fileID: 0}
 --- !u!1 &1748200138616465840

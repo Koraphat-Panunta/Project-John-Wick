@@ -26,9 +26,15 @@ public abstract class WeaponNode
             if (weaponNode.PreCondition())
             {
                 if (weaponNode.GetType().IsSubclassOf(typeof(WeaponActionNode)))
+                {
                     weaponActionNode = weaponNode as WeaponActionNode;
+                    Debug.Log("Transition from " + this + " ->" + weaponActionNode);
+                }
                 else
+                {
                     weaponNode.Transition(out weaponActionNode);
+                    Debug.Log("Transition from " + this + " ->" + weaponActionNode);
+                }
                 break;
             }
         }
