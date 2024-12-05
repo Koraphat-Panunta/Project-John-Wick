@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class STI_9mm : SecondaryWeapon,MagazineType
+public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
 {
     //SetUpStats
     private int _magazineCapacity = 15;
@@ -66,10 +66,12 @@ public class STI_9mm : SecondaryWeapon,MagazineType
         get { return max_percision; }
         set { max_percision = value; }
     }
+    public float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public override Bullet bullet { get; set; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public bool isMagIn { get; set ; }
-    protected override float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    
     public override WeaponSelector startNode { get ; set ; }
 
     protected override void FixedUpdate()
@@ -96,13 +98,13 @@ public class STI_9mm : SecondaryWeapon,MagazineType
     public WeaponSelector stanceSelector { get; private set; }
     public ReloadStageSelector reloadStageSelector { get; private set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
-    public ReloadMagazineFullStage reloadMagazineFullStage { get; private set; }
-    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; private set; }
+    public ReloadMagazineFullStage reloadMagazineFullStage { get ; set ; }
+    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get ; set ; }
+    public AutoLoadChamberNode autoLoadChamber { get; set; }
 
     private AimDownSightNode aimDownSight;
     private LowReadyNode lowReady;
     private FiringNode fire;
-    private AutoLoadChamberNode autoLoadChamber;
     protected override void InitailizedTree()
     {
         reloadMagazineFullStage = new ReloadMagazineFullStage(this);

@@ -55,7 +55,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
         int MagCount = Weapon.bulletStore[BulletStackType.Magazine];
         if (
             IsMagIn == true
-            && MagCount <= 0
+            && MagCount >= 0
             )
             return true;
         else 

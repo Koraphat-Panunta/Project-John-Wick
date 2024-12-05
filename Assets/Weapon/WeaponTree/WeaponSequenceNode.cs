@@ -39,11 +39,16 @@ public class WeaponSequenceNode : WeaponActionNode
             curNodeIndex += 1;
             
             curActionNode.Exit();
+            curActionNode=null;
+
+            if(curNodeIndex<childNode.Count)
             curActionNode = childNode[curNodeIndex] as WeaponActionNode;
             if (curActionNode != null)
             curActionNode.Enter();
         }
+        if(curActionNode != null)
         curActionNode.Update();
+        Debug.Log("curActionNode =" + curActionNode);
     }
     public override void FixedUpdate()
     {
@@ -66,7 +71,6 @@ public class WeaponSequenceNode : WeaponActionNode
 
     public override bool PreCondition()
     {
-        Debug.Log("Call precondition sequence = "+preCondidtion.Invoke());
         return preCondidtion.Invoke();
     }
     
@@ -75,6 +79,7 @@ public class WeaponSequenceNode : WeaponActionNode
 
     public override bool IsComplete()
     {
+        //Debug.Log("Sequence Complete");
         if (curNodeIndex == childNode.Count)
             return true;
         else return false;

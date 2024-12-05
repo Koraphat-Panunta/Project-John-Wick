@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SecondaryWeapon : Weapon
+public interface SecondaryWeapon 
 {
-    protected abstract float quickDrawTime { get; set;} 
+    public abstract float quickDrawTime { get; set;} 
 }

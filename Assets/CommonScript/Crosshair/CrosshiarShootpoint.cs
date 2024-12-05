@@ -38,10 +38,10 @@ public class CrosshiarShootpoint : ICrosshairAction
 
         float PosY = Random.Range(PosYBelow, PosYAbove);
 
-        Debug.Log("R = " + raduis);
-        Debug.Log("CenterPos = "+CenterPos);
-        Debug.Log("Circle X =" + PosX);
-        Debug.Log("Circle Y = "+ PosYAbove);
+        //Debug.Log("R = " + raduis);
+        //Debug.Log("CenterPos = "+CenterPos);
+        //Debug.Log("Circle X =" + PosX);
+        //Debug.Log("Circle Y = "+ PosYAbove);
 
         //float PosY = CenterPos.y;
         //PosY = Random.Range(lineDownPos.y + CenterPos.y,

@@ -45,6 +45,7 @@ public class AutoLoadChamberNode : WeaponActionNode
     }
     public IEnumerator ReChambering()
     {
+        Debug.Log("Rechamber");
         yield return new WaitForSeconds((float)(60 / Weapon.rate_of_fire));
         if (Weapon.bulletStore[BulletStackType.Magazine] > 0)
         {

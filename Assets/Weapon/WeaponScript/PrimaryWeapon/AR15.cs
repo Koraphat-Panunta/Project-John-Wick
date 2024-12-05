@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class AR15 : PrimaryWeapon,MagazineType
+public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 {
 
     [SerializeField] private Transform MuzzleSocket;
@@ -13,14 +13,14 @@ public class AR15 : PrimaryWeapon,MagazineType
     [SerializeField] private Transform Magazine;
     [SerializeField] private Transform Laser;
 
-    [SerializeField] private Muzzle muzzle;
-    [SerializeField] private Sight sight;
+    public int ChamberCount;
+    public int MagCount;
+
     //SetUpStats
     private int _MagazineCapacity = 30;
     private float _RateOfFire = 720;
     private float _ReloadSpeed = 2;
     private float _Accuracy = 112;
-    [SerializeField] private GameObject _bulletType;
     private float _RecoilController = 40;
     private float _RecoilCameraController = 30f;
     private float _AimDownSightSpeed = 2.4f;
@@ -28,8 +28,10 @@ public class AR15 : PrimaryWeapon,MagazineType
     private float Min_percision = 11;
     private float Max_percision = 74;
     private _556mmBullet _556MmBullet = new _556mmBullet();
-    public override Transform forntGrip { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public override Transform slingAnchor { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+    public Transform forntGrip { get ; set ; }
+    public Transform slingAnchor { get ; set ; }
+
     public override int Magazine_capacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
     public override float rate_of_fire { get => _RateOfFire; set => _RateOfFire = value; }
     public override float reloadSpeed { get => _ReloadSpeed; set => _ReloadSpeed = value; }
@@ -41,9 +43,10 @@ public class AR15 : PrimaryWeapon,MagazineType
     public override float max_Precision { get => Max_percision; set => Max_percision = value; }
     public override float aimDownSight_speed { get => _AimDownSightSpeed; set => _AimDownSightSpeed = value; }
     public override Bullet bullet { get ; set ; }
-    public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public bool isMagIn { get; set; }
+    public override float movementSpeed { get ; set ; }
     public override WeaponSelector startNode { get; set; }
+
+    public bool isMagIn { get; set; }
 
     private void Awake()
     {
@@ -70,6 +73,7 @@ public class AR15 : PrimaryWeapon,MagazineType
         fireMode = FireMode.FullAuto;
 
         bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
+
         isMagIn = true;
         
         base.Start();
@@ -77,6 +81,8 @@ public class AR15 : PrimaryWeapon,MagazineType
     
     protected override void Update()
     {
+        ChamberCount = bulletStore[BulletStackType.Chamber];
+        MagCount = bulletStore[BulletStackType.Magazine];
         base.Update();
     }
     protected override void FixedUpdate()
@@ -84,22 +90,29 @@ public class AR15 : PrimaryWeapon,MagazineType
         base.FixedUpdate();
     }
     public WeaponSelector stanceSelector { get; private set; }
-    public ReloadStageSelector reloadStageSelector { get; private set; }
+    public WeaponSelector reloadStageSelector { get; private set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
-    public ReloadMagazineFullStage reloadMagazineFullStage { get; private set; }
-    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; private set; }
+    public ReloadMagazineFullStage reloadMagazineFullStage { get ; set ; }
+    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get ; set ; }
+    public AutoLoadChamberNode autoLoadChamber { get ; set; }
 
     private AimDownSightNode aimDownSight;
     private LowReadyNode lowReady;
     private FiringNode fire;
-    private AutoLoadChamberNode autoLoadChamber;
+
     protected override void InitailizedTree()
     {
         reloadMagazineFullStage = new ReloadMagazineFullStage(this);
         tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
         startNode = new WeaponSelector(this, () => true);
 
-        reloadStageSelector = new ReloadStageSelector(this);
+        reloadStageSelector = new WeaponSelector(this,
+            () => {
+                bool reload = isReloadCommand;
+                isReloadCommand = false;
+                return reload&&bulletStore[BulletStackType.Magazine]<Magazine_capacity;
+            }
+            );
         stanceSelector = new WeaponSelector(this,
             () => { return true; }
             );
