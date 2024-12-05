@@ -128,7 +128,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3eccfa7ddfbfd48af8e7be52496a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  muzzle: {fileID: 0}
+  Sight: {fileID: 0}
   bulletSpawnerPos: {fileID: 3022661863309610859}
+  isAiming: 0
+  isReloadCommand: 0
+  isCancelAction: 0
+  aimingWeight: 0
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: c692488bc359b874499edc0d0d36ad47,
@@ -136,17 +142,15 @@ MonoBehaviour:
   _weaponOverrideControllerEnemy: {fileID: 22100000, guid: c692488bc359b874499edc0d0d36ad47,
     type: 2}
   bulletSpawner: {fileID: 483720375782013187}
-  triggerPull: 0
+  triggerState: 0
   MuzzleSocket: {fileID: 0}
   GripSocket: {fileID: 0}
   Scope: {fileID: 0}
   Stock: {fileID: 0}
   Magazine: {fileID: 0}
   Laser: {fileID: 0}
-  muzzle: {fileID: 0}
-  sight: {fileID: 0}
-  _bulletType: {fileID: 8484765704080718728, guid: daf6f40f72bfa1d46844376a11acc808,
-    type: 3}
+  ChamberCount: 0
+  MagCount: 0
 --- !u!1773428102 &-4776787860471616378
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -213,6 +217,8 @@ MonoBehaviour:
   animator: {fileID: 6533016776398317003}
   magazine: {fileID: 5581793166548547914, guid: ff48a0f42d02b9248b1a7fce0fa59380,
     type: 3}
+  muzzleRenderer: {fileID: 1193780991504344009}
+  sightRenderer: {fileID: 3185915590516310069}
 --- !u!95 &6533016776398317003
 Animator:
   serializedVersion: 7
@@ -444,6 +450,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fdc4e4155898c54e875cbffc2193a19, type: 3}
+--- !u!137 &1193780991504344009 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2234097026168662441, guid: 3fdc4e4155898c54e875cbffc2193a19,
+    type: 3}
+  m_PrefabInstance: {fileID: 8101920667274786206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3185915590516310069 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6654465039645652395, guid: 3fdc4e4155898c54e875cbffc2193a19,
+    type: 3}
+  m_PrefabInstance: {fileID: 8101920667274786206}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8639439650826637941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,

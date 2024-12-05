@@ -7,8 +7,8 @@ using UnityEngine.Animations;
 public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
     //protected abstract WeaponTreeManager weaponTree { get; set; }
-    [SerializeField] protected Muzzle muzzle;
-    [SerializeField] protected Sight Sight;
+    [SerializeField] public Muzzle muzzle;
+    [SerializeField] public Sight Sight;
 
     public Transform bulletSpawnerPos;
     public abstract int Magazine_capacity { get; set; }

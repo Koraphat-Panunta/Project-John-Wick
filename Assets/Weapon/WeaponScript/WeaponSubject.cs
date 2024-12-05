@@ -9,7 +9,8 @@ public abstract class WeaponSubject : MonoBehaviour
     {
         Reloading,
         TacticalReload,
-        Firing
+        Firing,
+        AttachmentSetup
     }
     public void Notify(Weapon weapon,WeaponNotifyType weaponNotifyType)
     {
