@@ -39,6 +39,7 @@ public class WeaponSequenceNode : WeaponActionNode
             curNodeIndex += 1;
             
             curActionNode.Exit();
+            if(curNodeIndex < childNode.Count)
             curActionNode = childNode[curNodeIndex] as WeaponActionNode;
             if (curActionNode != null)
             curActionNode.Enter();
@@ -47,13 +48,9 @@ public class WeaponSequenceNode : WeaponActionNode
     }
     public override void FixedUpdate()
     {
-        //if (curActionNode == null)
-        //    curActionNode = UpdateSequence();
+      
         if(curActionNode != null)
         curActionNode.FixedUpdate();
-
-        //if (curActionNode.IsComplete())
-        //    curActionNode = UpdateSequence();
     }
 
     public override bool IsReset()
