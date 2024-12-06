@@ -19,6 +19,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void Firing(Weapon weapon)
     {
+
         enemy.animator.SetTrigger("Firing");
         enemy.animator.SetLayerWeight(3, 1);
         enemy.StartCoroutine(enemy.RecoveryFiringLayerWeight());

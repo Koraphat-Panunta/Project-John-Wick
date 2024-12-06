@@ -116,7 +116,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
             () => { return true; }
             );
         firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.Down; }
+            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.IsDown; }
             );
 
         aimDownSight = new AimDownSightNode(this);
