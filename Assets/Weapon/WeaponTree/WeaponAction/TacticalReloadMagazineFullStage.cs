@@ -24,7 +24,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
     public override void Exit()
     {
         if (reloadCoroutine != null){
-            Weapon.userWeapon.weaponAfterAction.Reload(Weapon, ReloadType.MAGAZINE_RELOAD_CANCLE);
+            //Weapon.userWeapon.weaponAfterAction.Reload(Weapon, ReloadType.MAGAZINE_RELOAD_CANCLE);
             Weapon.StopCoroutine(reloadCoroutine);
         }
     }

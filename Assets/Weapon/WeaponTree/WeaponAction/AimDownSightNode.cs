@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AimDownSightNode : WeaponActionNode
 {
-    private WeaponActionNode subCurNode;
+    //private WeaponActionNode subCurNode;
     public AimDownSightNode(Weapon weapon) : base(weapon)
     {
        
@@ -11,12 +11,12 @@ public class AimDownSightNode : WeaponActionNode
 
     public override void Enter()
     {
-        subCurNode = null;
+        //subCurNode = null;
     }
 
     public override void Exit()
     {
-        subCurNode = null;
+        //subCurNode = null;
     }
 
     public override void FixedUpdate()
@@ -32,35 +32,38 @@ public class AimDownSightNode : WeaponActionNode
 
     public override bool IsReset()
     {
-        return Weapon.isAiming == false;
+        if(Weapon.isAiming == false||Weapon.isEquip == false)
+        return true;
+        else return false;
     }
 
     public override bool PreCondition()
     {
-        return Weapon.isAiming;
+        return Weapon.isAiming && Weapon.isEquip;
     }
 
     public override void Update()
     {
+        Debug.Log("IsEquip = " + Weapon.isEquip);
         Weapon.userWeapon.weaponAfterAction.AimDownSight(Weapon);
         Weapon.aimingWeight += Weapon.aimDownSight_speed * Time.deltaTime;
         Weapon.aimingWeight = Mathf.Clamp(Weapon.aimingWeight, 0, 1);
-        if (
-            subCurNode == null
-            || subCurNode.IsReset()
-            )
-        {
-            if (subCurNode != null) subCurNode.Exit();
-            this.Transition(out WeaponActionNode weaponActionNode);
-            subCurNode = weaponActionNode;
-            if (subCurNode != null) subCurNode.Enter();
-        }
-        if (subCurNode != null)
-        {
-            subCurNode.Update();
-            if (subCurNode.IsComplete())
-                subCurNode = null;
-        }
+        //if (
+        //    subCurNode == null
+        //    || subCurNode.IsReset()
+        //    )
+        //{
+        //    if (subCurNode != null) subCurNode.Exit();
+        //    this.Transition(out WeaponActionNode weaponActionNode);
+        //    subCurNode = weaponActionNode;
+        //    if (subCurNode != null) subCurNode.Enter();
+        //}
+        //if (subCurNode != null)
+        //{
+        //    subCurNode.Update();
+        //    if (subCurNode.IsComplete())
+        //        subCurNode = null;
+        //}
 
     }
 }

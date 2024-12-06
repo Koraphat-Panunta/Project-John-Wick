@@ -44,7 +44,6 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     public override float aimDownSight_speed { get => _AimDownSightSpeed; set => _AimDownSightSpeed = value; }
     public override Bullet bullet { get ; set ; }
     public override float movementSpeed { get ; set ; }
-    public override WeaponSelector startNode { get; set; }
 
     public bool isMagIn { get; set; }
 
@@ -89,57 +88,71 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     {
         base.FixedUpdate();
     }
-    public WeaponSelector stanceSelector { get; private set; }
+    public override WeaponSelector startStanceNode { get ; set ; }
+    public override WeaponSelector startEventNode { get ; set ; }
     public WeaponSelector reloadStageSelector { get; private set; }
+    public ReloadMagazineFullStage reloadMagazineFullStage { get; set; }
+    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
-    public ReloadMagazineFullStage reloadMagazineFullStage { get ; set ; }
-    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get ; set ; }
+    private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get ; set; }
-
     private AimDownSightNode aimDownSight;
     private LowReadyNode lowReady;
-    private FiringNode fire;
+    private RestNode restNode;
+
 
     protected override void InitailizedTree()
     {
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
-        startNode = new WeaponSelector(this, () => true);
+        startStanceNode = new WeaponSelector(this,() => true);
+
+        startEventNode = new WeaponSelector(this,() => true);
 
         reloadStageSelector = new WeaponSelector(this,
-            () => {
-                bool reload = isReloadCommand;
-                isReloadCommand = false;
-                return reload&&bulletStore[BulletStackType.Magazine]<Magazine_capacity;
-            }
-            );
-        stanceSelector = new WeaponSelector(this,
-            () => { return true; }
-            );
+           () => {
+               bool reload = isReloadCommand;
+               isReloadCommand = false;
+               return reload && bulletStore[BulletStackType.Magazine] < Magazine_capacity;
+           }
+           );
+
+        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
+
+        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
+
         firingAutoLoad = new WeaponSequenceNode(this,
             () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.Down; }
             );
 
-        aimDownSight = new AimDownSightNode(this);
-        lowReady = new LowReadyNode(this);
         fire = new FiringNode(this);
+
         autoLoadChamber = new AutoLoadChamberNode(this);
 
-        startNode.AddChildNode(stanceSelector);
+        aimDownSight = new AimDownSightNode(this);
 
-        stanceSelector.AddChildNode(reloadStageSelector);
-        stanceSelector.AddChildNode(aimDownSight);
-        stanceSelector.AddChildNode(lowReady);
+        lowReady = new LowReadyNode(this);
+
+        restNode = new RestNode(this);
+
+
+
+        startEventNode.AddChildNode(reloadStageSelector);
+        startEventNode.AddChildNode(firingAutoLoad);
+        startEventNode.AddChildNode(restNode);
+
+        startStanceNode.AddChildNode(aimDownSight);
+        startStanceNode.AddChildNode(lowReady);
+        startStanceNode.AddChildNode(restNode);
 
         reloadStageSelector.AddChildNode(reloadMagazineFullStage);
         reloadStageSelector.AddChildNode(tacticalReloadMagazineFullStage);
 
-        aimDownSight.AddChildNode(firingAutoLoad);
-
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
 
-        currentNode = startNode;
+        startEventNode.Transition(out WeaponActionNode eventNode);
+        currentEventNode = eventNode;
+        startStanceNode.Transition(out WeaponActionNode stanceNode);
+        currentStanceNode = stanceNode;
 
     }
 }

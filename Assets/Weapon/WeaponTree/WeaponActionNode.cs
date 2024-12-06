@@ -11,7 +11,14 @@ public abstract class WeaponActionNode : WeaponNode
     public abstract void Exit();
     public WeaponActionNode(Weapon weapon) : base(weapon)
     {
-       
+     
+    }
+    public WeaponActionNode(Weapon weapon,
+        Func<bool> preCondition,
+        Func<bool> resetCondition)
+        :base(weapon) 
+    {
+        
     }
     public abstract bool IsComplete();
     //protected bool FindSubNode(out WeaponNode node)

@@ -27,7 +27,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public bool isAiming;
     public bool isReloadCommand;
     public bool isCancelAction;
-    public bool isEquip { get { return userWeapon != null; }}
+    public bool isEquip;
 
     public float aimingWeight;
 
@@ -48,21 +48,20 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         FullAuto
     }
     public FireMode fireMode { get; protected set; }
-   
     public TriggerState triggerState = TriggerState.Up;
 
-    public WeaponNode currentNode { get; set; }
-    public abstract WeaponSelector startNode { get; set; }
+    public  WeaponActionNode currentStanceNode { get; set; }
+    public  WeaponActionNode currentEventNode { get; set; }
+    public abstract WeaponSelector startStanceNode { get; set; }
+    public abstract WeaponSelector startEventNode { get; set; }
 
     protected virtual void Start()
     {
-        InitailizedTree();
         this.AddObserver(this);
-        currentNode = startNode;
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         bulletStore.Add(BulletStackType.Chamber, 1);
-
+        InitailizedTree();
     }
     protected virtual void Update()
     {
@@ -90,6 +89,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
+        isEquip = true;
         this.userWeapon = WeaponUser;
         WeaponUser.currentWeapon = this;
         rb.isKinematic = true;
@@ -125,6 +125,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     public void AttachWeaponTo(Transform weaponSocket)
     {
+        isEquip = false;
         userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
@@ -148,15 +149,25 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     protected virtual void FixedUpdateTree()
     {
+        if(currentStanceNode != null)
+            currentStanceNode.FixedUpdate();
+        if (currentEventNode != null)
+            currentEventNode.FixedUpdate();
 
-        if (currentNode != null)
-            currentNode.FixedUpdate();
     }
-    protected virtual void ChangeTreeManualy(WeaponActionNode weaponActionNode)
+    protected virtual void ChangeStanceManualy(WeaponActionNode weaponStanceNode)
     {
-        (currentNode as WeaponActionNode).Exit();
-        currentNode = weaponActionNode;
-        (currentNode as WeaponActionNode).Enter();
+        if (currentStanceNode != null)
+        currentStanceNode.Exit();
+        currentStanceNode = weaponStanceNode;
+        currentStanceNode.Enter();
+    }
+    protected virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
+    {
+        if (currentEventNode != null)
+        currentEventNode.Exit();
+        currentEventNode = weaponEventNode;
+        currentEventNode.Enter();
     }
 
     protected abstract void InitailizedTree();
@@ -164,17 +175,26 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
     protected virtual void UpdateTree()
     {
-        if (currentNode.IsReset())
+        if (currentStanceNode.IsReset() || currentStanceNode==null)
         {
-            if (currentNode is WeaponActionNode)
-                (currentNode as WeaponActionNode).Exit();
-            currentNode = startNode;
-            currentNode.Transition(out WeaponActionNode weaponActionNode);
-            currentNode = weaponActionNode;
-            Debug.Log("Out Node " + currentNode);
-            (currentNode as WeaponActionNode).Enter();
+            currentStanceNode.Exit();
+            currentStanceNode = null;
+            startStanceNode.Transition(out WeaponActionNode weaponActionNode);
+            currentStanceNode = weaponActionNode;
+            Debug.Log("Out stance Node " + currentStanceNode);
+            currentStanceNode.Enter();
         }
-        currentNode.Update();
+        if (currentEventNode.IsReset() || currentStanceNode == null)
+        {
+            currentEventNode.Exit();
+            currentEventNode = null;
+            startEventNode.Transition(out WeaponActionNode weaponActionNode);
+            currentEventNode = weaponActionNode;
+            Debug.Log("Out Event Node " + currentEventNode);
+            currentEventNode.Enter();
+        }
+        currentStanceNode.Update();
+        currentEventNode?.Update();
     }
     public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
     {
