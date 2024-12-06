@@ -78,7 +78,7 @@ public class WeaponCommand
         curWeapon.AttachWeaponTo(weaponUser.weaponBelt.primaryWeaponSocket);
         animator.SetTrigger("DrawSecondary");
         yield return new WaitForSeconds(0.13f);
-        secondaryWeapon.AttatchWeaponTo(weaponUser);
+        (secondaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
         //
         if(weaponUser is Player) {
             Player player = weaponUser as Player;
@@ -103,7 +103,7 @@ public class WeaponCommand
         curWeapon.AttachWeaponTo(weaponUser.weaponBelt.secondaryWeaponSocket);
         animator.SetTrigger("DrawPrimary");
         yield return new WaitForSeconds(0.5f);
-        primaryWeapon.AttatchWeaponTo(weaponUser);
+        (primaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
         if (weaponUser is Player)
         {
             Player player = weaponUser as Player;

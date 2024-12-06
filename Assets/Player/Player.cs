@@ -53,10 +53,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         base.SetHP(100 );
         AddObserver(this);
         Initialized_IWeaponAdvanceUser();
-        //new WeaponFactorySTI9mm().CreateWeapon(this);
-        
+        new WeaponFactorySTI9mm().CreateWeapon(this);
+        (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
-        //weaponBelt.secondaryWeapon.AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
+
     }
     private void Update()
     {

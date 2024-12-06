@@ -9,8 +9,10 @@ public class ReloadStageSelector : WeaponSelector
     }
     public override bool PreCondition()
     {
+        bool isReload = Weapon.isReloadCommand;
         Weapon.isReloadCommand = false;
-        return Weapon.bulletStore[BulletStackType.Magazine] < Weapon.Magazine_capacity;
+
+        return Weapon.bulletStore[BulletStackType.Magazine] < Weapon.Magazine_capacity && isReload;
     }
 
 }

@@ -27,7 +27,9 @@ public class LowReadyNode : WeaponActionNode
 
     public override bool IsReset()
     {
-        return Weapon.isAiming||Weapon.isEquip==false;
+        return Weapon.isAiming
+            ||Weapon.isEquip==false
+            ||Weapon.isReloadCommand == true;
     }
 
     public override bool PreCondition()

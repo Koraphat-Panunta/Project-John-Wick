@@ -17,7 +17,7 @@ public class WeaponSelector : WeaponNode
     }
     public override void Update()
     {
-        Weapon.currentNode = Selector();
+        //Weapon.currentNode = Selector();
     }
     public override void FixedUpdate()
     {
@@ -33,16 +33,16 @@ public class WeaponSelector : WeaponNode
     {
         return preCondidtion.Invoke();
     }
-    protected WeaponNode Selector()
-    {
-        WeaponNode reTurnNode = null;
-        foreach (WeaponNode node in childNode)
-        {
-            if (node.PreCondition() == true)
-                reTurnNode = node;
-            break;
-        }
-        return reTurnNode;
-    }
+    //protected WeaponNode Selector()
+    //{
+    //    WeaponNode reTurnNode = null;
+    //    foreach (WeaponNode node in childNode)
+    //    {
+    //        if (node.PreCondition() == true)
+    //            reTurnNode = node;
+    //        break;
+    //    }
+    //    return reTurnNode;
+    //}
    
 }

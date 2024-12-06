@@ -32,8 +32,8 @@ public abstract class WeaponNode
                 }
                 else
                 {
+                    Debug.Log("Transition from " + this + " ->" + weaponNode);
                     weaponNode.Transition(out weaponActionNode);
-                    Debug.Log("Transition from " + this + " ->" + weaponActionNode);
                 }
                 break;
             }

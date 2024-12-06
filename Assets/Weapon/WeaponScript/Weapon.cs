@@ -7,6 +7,9 @@ using UnityEngine.Animations;
 public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
     //protected abstract WeaponTreeManager weaponTree { get; set; }
+    [SerializeField] public Muzzle muzzle;
+    [SerializeField] public Sight Sight;
+
     public Transform bulletSpawnerPos;
     public abstract int Magazine_capacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
@@ -168,6 +171,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             currentNode = startNode;
             currentNode.Transition(out WeaponActionNode weaponActionNode);
             currentNode = weaponActionNode;
+            Debug.Log("Out Node " + currentNode);
             (currentNode as WeaponActionNode).Enter();
         }
         currentNode.Update();

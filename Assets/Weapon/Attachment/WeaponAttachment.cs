@@ -17,8 +17,8 @@ public abstract class WeaponAttachment :MonoBehaviour,IWeaponAttachAble
 
     public virtual void Attach(Weapon weapon)
     {
-       
         SetAttachmentPos(weapon.weaponSlotPos[myAttachmentSlot]);
+        weapon.Notify(weapon,WeaponSubject.WeaponNotifyType.AttachmentSetup);
     }
 
     public void SetAttachmentPos(Transform weaponSlotPosition)
@@ -38,5 +38,6 @@ public abstract class WeaponAttachment :MonoBehaviour,IWeaponAttachAble
         constraint.translationAtRest = Vector3.zero + anchorPos;
         constraint.rotationAtRest = Vector3.zero;
         constraint.constraintActive = true;
+        
     }
 }
