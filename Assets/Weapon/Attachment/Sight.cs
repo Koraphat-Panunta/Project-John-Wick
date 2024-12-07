@@ -1,21 +1,28 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
-public abstract class Sight : WeaponAttachment
+public class Sight : WeaponAttachment
 {
-    protected abstract float min_Precision { get; set; }
-    protected abstract float max_Precision { get; set; }
-    protected abstract float accuracy { get; set; }
-    protected abstract float aimDownSightSpeed { get; set; }
-    protected override AttachmentSlot myAttachmentSlot { get => AttachmentSlot.SCOPE;set => throw new System.NotImplementedException(); }
-
+    [SerializeField] private Transform Anchor;
+    public override Transform anchor { get => Anchor ; set { return; } }
+    [SerializeField] protected float min_Precision;
+    [SerializeField] protected float max_Precision;
+    [SerializeField] protected float accuracy;
+    [SerializeField] protected float aimDownSightSpeed;
+    protected override AttachmentSlot myAttachmentSlot { get;set ; }
     public override void Attach(Weapon weapon)
     {
+        myAttachmentSlot = AttachmentSlot.SCOPE;
         weapon.min_Precision += this.min_Precision;
         weapon.max_Precision += this.max_Precision;
         weapon.Accuracy += this.accuracy;
         weapon.aimDownSight_speed += this.aimDownSightSpeed;
 
         base.Attach(weapon);
+    }
+    protected override void Update()
+    {
+        base.Update();
     }
 
 }

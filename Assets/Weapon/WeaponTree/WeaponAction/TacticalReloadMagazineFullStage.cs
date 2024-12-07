@@ -36,7 +36,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override bool IsComplete()
     {
-        if(weaponMag.isMagIn == true && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.Magazine_capacity)
+        if(weaponMag.isMagIn == true && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.bulletCapacity)
             return true;
         else return false;
     }

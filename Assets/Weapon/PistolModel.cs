@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Weapon",menuName ="PistolModel")]
+[CreateAssetMenu(menuName ="PistolModel")]
 public class PistolModel : ScriptableObject
 {
     public int _magazineCapacity /*= 15*/;

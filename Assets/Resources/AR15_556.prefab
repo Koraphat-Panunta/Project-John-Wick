@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &200678024468866321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2483508153401217223}
+  m_Layer: 0
+  m_Name: MuzzlePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2483508153401217223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 200678024468866321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.079, y: 1.2728, z: 0.827}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8639439650826637941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3476371240685208287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7327806260083542802}
+  m_Layer: 0
+  m_Name: Sight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7327806260083542802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476371240685208287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.078, y: 1.298, z: 0.58}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8639439650826637941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4152936242715084652
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,11 +191,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzle: {fileID: 0}
-  Sight: {fileID: 0}
+  Sight: {fileID: -1268388052208644891, guid: 3e8f1c6f73779f8439e8e87444ea52c7, type: 3}
+  weaponAttachments: []
   bulletSpawnerPos: {fileID: 3022661863309610859}
   isAiming: 0
   isReloadCommand: 0
   isCancelAction: 0
+  isEquip: 0
   aimingWeight: 0
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
@@ -143,9 +207,9 @@ MonoBehaviour:
     type: 2}
   bulletSpawner: {fileID: 483720375782013187}
   triggerState: 0
-  MuzzleSocket: {fileID: 0}
+  MuzzleSocket: {fileID: 2483508153401217223}
   GripSocket: {fileID: 0}
-  Scope: {fileID: 0}
+  Scope: {fileID: 7327806260083542802}
   Stock: {fileID: 0}
   Magazine: {fileID: 0}
   Laser: {fileID: 0}
@@ -217,8 +281,8 @@ MonoBehaviour:
   animator: {fileID: 6533016776398317003}
   magazine: {fileID: 5581793166548547914, guid: ff48a0f42d02b9248b1a7fce0fa59380,
     type: 3}
-  muzzleRenderer: {fileID: 1193780991504344009}
-  sightRenderer: {fileID: 3185915590516310069}
+  muzzleRenderer: {fileID: 0}
+  sightRenderer: {fileID: 0}
 --- !u!95 &6533016776398317003
 Animator:
   serializedVersion: 7
@@ -446,22 +510,20 @@ PrefabInstance:
       value: RifleReload_Rifle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2222074009809516466, guid: 3fdc4e4155898c54e875cbffc2193a19, type: 3}
+    - {fileID: -1992186289202216843, guid: 3fdc4e4155898c54e875cbffc2193a19, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2483508153401217223}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7327806260083542802}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fdc4e4155898c54e875cbffc2193a19, type: 3}
---- !u!137 &1193780991504344009 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2234097026168662441, guid: 3fdc4e4155898c54e875cbffc2193a19,
-    type: 3}
-  m_PrefabInstance: {fileID: 8101920667274786206}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &3185915590516310069 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6654465039645652395, guid: 3fdc4e4155898c54e875cbffc2193a19,
-    type: 3}
-  m_PrefabInstance: {fileID: 8101920667274786206}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8639439650826637941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3fdc4e4155898c54e875cbffc2193a19,

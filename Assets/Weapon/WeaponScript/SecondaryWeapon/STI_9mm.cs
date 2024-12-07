@@ -15,7 +15,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     private float _recoilKickBack ;
     private float min_percision = 18;
     private float max_percision = 65;
-    public override int Magazine_capacity
+    public override int bulletCapacity
     {
         get { return _magazineCapacity; }
         set { _magazineCapacity = value; }
@@ -90,7 +90,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         bullet = new _9mmBullet();
         RecoilKickBack = bullet.recoilKickBack;
 
-        bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
+        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
         base.Start();
         
     }
@@ -115,7 +115,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
            () => {
                bool reload = isReloadCommand;
                isReloadCommand = false;
-               return reload && bulletStore[BulletStackType.Magazine] < Magazine_capacity;
+               return reload && bulletStore[BulletStackType.Magazine] < bulletCapacity;
            }
            );
 

@@ -6,5 +6,4 @@ public interface IWeaponAttachAble
     public Transform anchor { get; set; }
     public ParentConstraint constraint { get; set; }
     public Transform center { get; set; }
-    public void SetAttachmentPos(Transform weaponSlotPosition);
 }

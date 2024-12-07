@@ -14,7 +14,7 @@ public class AmmoProchReload : IAmmoProchAction
         //Debug.Log("Reload finish");
         BulletType bulletType = weapon.bullet.myType;
         int magCount = weapon.bulletStore[BulletStackType.Magazine];
-        int magCapacity = weapon.Magazine_capacity;
+        int magCapacity = weapon.bulletCapacity;
         if (ammoProuch.amountOf_ammo[bulletType] > 0)
         {
             int fillamout = magCapacity - magCount;

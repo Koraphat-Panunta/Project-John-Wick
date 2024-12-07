@@ -28,7 +28,7 @@ public class Reload : WeaponState
         //{
         //    ReloadAnimator = base._weapon.userWeapon.weaponUserAnimator;
         //}
-        if (base._weapon.bulletStore[BulletStackType.Magazine] == base._weapon.Magazine_capacity)
+        if (base._weapon.bulletStore[BulletStackType.Magazine] == base._weapon.bulletCapacity)
         {
             weaponStateManager.ChangeState(weaponStateManager.none);
         }

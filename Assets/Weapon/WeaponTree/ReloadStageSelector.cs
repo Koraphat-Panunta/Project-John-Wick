@@ -12,7 +12,7 @@ public class ReloadStageSelector : WeaponSelector
         bool isReload = Weapon.isReloadCommand;
         Weapon.isReloadCommand = false;
 
-        return Weapon.bulletStore[BulletStackType.Magazine] < Weapon.Magazine_capacity && isReload;
+        return Weapon.bulletStore[BulletStackType.Magazine] < Weapon.bulletCapacity && isReload;
     }
 
 }

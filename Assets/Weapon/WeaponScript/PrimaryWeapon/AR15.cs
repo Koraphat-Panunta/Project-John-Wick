@@ -32,7 +32,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     public Transform forntGrip { get ; set ; }
     public Transform slingAnchor { get ; set ; }
 
-    public override int Magazine_capacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
+    public override int bulletCapacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
     public override float rate_of_fire { get => _RateOfFire; set => _RateOfFire = value; }
     public override float reloadSpeed { get => _ReloadSpeed; set => _ReloadSpeed = value; }
     public override float Accuracy { get => _Accuracy; set => _Accuracy = value; }
@@ -47,10 +47,11 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
     public bool isMagIn { get; set; }
 
-    private void Awake()
+    protected override void Awake()
     {
         bullet = _556MmBullet;
         RecoilKickBack = bullet.recoilKickBack;
+        base.Awake();
     }
     protected override void Start()
     {
@@ -61,17 +62,10 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         weaponSlotPos.Add(AttachmentSlot.STOCK,Stock);
         weaponSlotPos.Add(AttachmentSlot.MAGAZINE,Magazine);
         weaponSlotPos.Add(AttachmentSlot.LASER,Laser);
-
-        attachment.Add(AttachmentSlot.MUZZLE, null);
-        attachment.Add(AttachmentSlot.GRIP, null);
-        attachment.Add(AttachmentSlot.SCOPE, null);
-        attachment.Add(AttachmentSlot.STOCK, null);
-        attachment.Add(AttachmentSlot.MAGAZINE, null);
-        attachment.Add(AttachmentSlot.LASER, null);
        
         fireMode = FireMode.FullAuto;
 
-        bulletStore.Add(BulletStackType.Magazine, Magazine_capacity);
+        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
 
         isMagIn = true;
         
@@ -111,7 +105,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
            () => {
                bool reload = isReloadCommand;
                isReloadCommand = false;
-               return reload && bulletStore[BulletStackType.Magazine] < Magazine_capacity;
+               return reload && bulletStore[BulletStackType.Magazine] < bulletCapacity;
            }
            );
 

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Environment : MonoBehaviour,IObserverPlayer
 {
     List<IEnvironmentAware> environmentAwareir = new List<IEnvironmentAware>();
+    
     private void Start()
     {
         Player player = FindAnyObjectByType<Player>();

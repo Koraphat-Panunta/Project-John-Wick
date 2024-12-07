@@ -7,11 +7,13 @@ using UnityEngine.Animations;
 public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
     //protected abstract WeaponTreeManager weaponTree { get; set; }
-    [SerializeField] public Muzzle muzzle;
-    [SerializeField] public Sight Sight;
+    public Muzzle muzzle;
+    public Sight Sight;
+
+    [SerializeField] protected List<WeaponAttachment> weaponAttachments = new List<WeaponAttachment>();
 
     public Transform bulletSpawnerPos;
-    public abstract int Magazine_capacity { get; set; }
+    public abstract int bulletCapacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
     public abstract float reloadSpeed { get;  set; }
     public abstract float Accuracy { get;  set; }
@@ -33,7 +35,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
-    public Dictionary<AttachmentSlot,WeaponAttachment> attachment = new Dictionary<AttachmentSlot,WeaponAttachment>();
 
     public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
@@ -55,13 +56,19 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract WeaponSelector startStanceNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        this.AddObserver(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         bulletStore.Add(BulletStackType.Chamber, 1);
         InitailizedTree();
+
+        weaponAttachments.Add(muzzle);
+        weaponAttachments.Add(Sight);
+    }
+    protected virtual void Start()
+    {
+        this.AddObserver(this);
     }
     protected virtual void Update()
     {
@@ -101,6 +108,8 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             parentConstraint.RemoveSource(0);
         }
         parentConstraint.AddSource(source);
+        Debug.Log("Weapon source =" +source);
+        Debug.Log(source.sourceTransform);
         parentConstraint.constraintActive = true;
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;

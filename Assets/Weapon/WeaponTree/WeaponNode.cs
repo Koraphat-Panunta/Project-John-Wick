@@ -28,11 +28,11 @@ public abstract class WeaponNode
                 if (weaponNode.GetType().IsSubclassOf(typeof(WeaponActionNode)))
                 {
                     weaponActionNode = weaponNode as WeaponActionNode;
-                    Debug.Log("Transition from " + this + " ->" + weaponActionNode);
+                    //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
                 }
                 else
                 {
-                    Debug.Log("Transition from " + this + " ->" + weaponNode);
+                    //Debug.Log("Transition from " + this + " ->" + weaponNode);
                     weaponNode.Transition(out weaponActionNode);
                 }
                 break;
