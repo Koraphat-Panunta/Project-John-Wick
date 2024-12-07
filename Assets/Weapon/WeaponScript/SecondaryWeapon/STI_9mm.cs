@@ -70,7 +70,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     public override Bullet bullet { get; set; }
     public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-    public bool isMagIn { get; set ; }
+    public bool isMagIn { get { return true; } set { } }
     
 
     protected override void FixedUpdate()
@@ -124,7 +124,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
 
         firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.Down; }
+            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.IsDown; }
             );
 
         fire = new FiringNode(this);

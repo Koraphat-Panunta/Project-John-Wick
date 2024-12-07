@@ -11,7 +11,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser
     [SerializeField] public MultiRotationConstraint rotationConstraint;
     public GameObject Target;
     public EnemyStateManager enemyStateManager;
-    public EnemyWeaponCommand enemyWeaponCommand;
     [SerializeField] public EnemyPath enemyPath;
 
     public LayerMask targetMask;

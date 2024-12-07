@@ -8,7 +8,6 @@ public class SerchingTactic : IEnemyTactic
     private Enemy enemy;
     private EnemyStateManager enemyStateManager;
     private RotateObjectToward enemyRot;
-    private EnemyWeaponCommand enemyWeaponCommand;
     private NavMeshAgent agent;
 
     public SerchingTactic(Enemy enemy)
@@ -16,7 +15,6 @@ public class SerchingTactic : IEnemyTactic
         this.enemy = enemy;
         this.enemyStateManager = enemy.enemyStateManager;
         this.enemyRot = new RotateObjectToward();
-        this.enemyWeaponCommand = enemy.enemyWeaponCommand;
         this.agent = enemy.agent;
         agent.speed = 0;
         agent.acceleration = 0;

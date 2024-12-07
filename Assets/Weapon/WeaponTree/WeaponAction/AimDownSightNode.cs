@@ -44,7 +44,6 @@ public class AimDownSightNode : WeaponActionNode
 
     public override void Update()
     {
-        Debug.Log("IsEquip = " + Weapon.isEquip);
         Weapon.userWeapon.weaponAfterAction.AimDownSight(Weapon);
         Weapon.aimingWeight += Weapon.aimDownSight_speed * Time.deltaTime;
         Weapon.aimingWeight = Mathf.Clamp(Weapon.aimingWeight, 0, 1);

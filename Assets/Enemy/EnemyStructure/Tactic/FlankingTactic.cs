@@ -7,7 +7,6 @@ public class FlankingTactic : IEnemyTactic
     private Enemy enemy;
     private EnemyStateManager enemyStateManager;
     private RotateObjectToward enemyRot;
-    private EnemyWeaponCommand enemyWeaponCommand;
     private IEnemyFiringPattern enemyFiringPattern;
     private float backToSerchTiming = 2;
     private float cost_DrainRate;
@@ -18,7 +17,6 @@ public class FlankingTactic : IEnemyTactic
         enemyStateManager = enemy.enemyStateManager;
         enemyStateManager.ChangeState(enemyStateManager._move);
         enemyRot = new RotateObjectToward();
-        enemyWeaponCommand = enemy.enemyWeaponCommand;
         this.enemyFiringPattern = new NormalFiringPattern(enemy);
         cost_DrainRate = Random.Range(9,15);
         enemy.isIncombat = true;

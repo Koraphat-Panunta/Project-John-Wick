@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NormalFiringPattern : IEnemyFiringPattern
 {
-    private EnemyWeaponCommand weaponCommand;
     private Weapon curWeapon;
     private AmmoProuch ammoProuch;
     private double deltaFireTiming = 0;
@@ -14,7 +13,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private Enemy enemy;
     public NormalFiringPattern(Enemy enemy)
     {
-        this.weaponCommand = enemy.enemyWeaponCommand;
         this.curWeapon = enemy.currentWeapon;
         this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
@@ -22,6 +20,10 @@ public class NormalFiringPattern : IEnemyFiringPattern
     }
     public void Performing()
     {
+        if(curWeapon.triggerState == TriggerState.IsDown
+            ||curWeapon.triggerState == TriggerState.Down)
+            enemy.weaponCommand.CancleTrigger();
+
         deltaFireTiming += Time.deltaTime;
         if (deltaFireTiming >= randomFireTiming)
         {
@@ -43,15 +45,12 @@ public class NormalFiringPattern : IEnemyFiringPattern
                         else
                         {
                             enemy.weaponCommand.PullTrigger();
-                            enemy.weaponCommand.CancleTrigger();
                         }
                     }
                 }
                 else
                 {
                     enemy.weaponCommand.PullTrigger();
-                    Debug.Log("EnemyPullTrigger");
-                    enemy.weaponCommand.CancleTrigger();
                 }
             }
             deltaFireTiming = 0;

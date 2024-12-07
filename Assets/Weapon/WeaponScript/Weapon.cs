@@ -175,7 +175,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
     protected virtual void UpdateTree()
     {
-        if (currentStanceNode.IsReset() || currentStanceNode==null)
+        if (currentStanceNode.IsReset() /*|| currentStanceNode==null*/)
         {
             currentStanceNode.Exit();
             currentStanceNode = null;
@@ -184,7 +184,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             Debug.Log("Out stance Node " + currentStanceNode);
             currentStanceNode.Enter();
         }
-        if (currentEventNode.IsReset() || currentStanceNode == null)
+        if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
         {
             currentEventNode.Exit();
             currentEventNode = null;
