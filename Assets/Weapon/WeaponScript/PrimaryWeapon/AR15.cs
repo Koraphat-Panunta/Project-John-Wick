@@ -114,7 +114,9 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
 
         firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.Down; }
+            () => { return bulletStore[BulletStackType.Chamber] > 0 
+                && triggerState == TriggerState.Down 
+                && aimingWeight >= 1; }
             );
 
         fire = new FiringNode(this);

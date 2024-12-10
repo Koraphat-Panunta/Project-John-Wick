@@ -40,6 +40,14 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         cameraZoom = new CameraZoom(this);
         cameraHandShake = new CameraHandShake(this);
     }
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.T)){
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)

@@ -40,7 +40,7 @@ public class FiringNode : WeaponActionNode
 
     public override bool PreCondition()
     {
-        return Weapon.bulletStore[BulletStackType.Chamber] > 0;
+        return Weapon.bulletStore[BulletStackType.Chamber] > 0 ;
     }
 
     public override void Update()
