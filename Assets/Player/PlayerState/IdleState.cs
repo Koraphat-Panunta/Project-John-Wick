@@ -58,7 +58,6 @@ public class IdleState : CharacterState
         {
             player.NotifyObserver(player,SubjectPlayer.PlayerAction.SwapShoulder);
         }
-        
     }
   
 }

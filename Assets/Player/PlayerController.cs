@@ -9,6 +9,18 @@ public class PlayerController
   
     public PlayerInput inputPlayer = new PlayerInput();
     public Player player;
+    
+    public KeyActionPhase sprintAction = KeyActionPhase.Up;
+    public KeyActionPhase aimDownSight = KeyActionPhase.Up;
+    public KeyActionPhase pullTriggerAction = KeyActionPhase.Up;
+    public KeyActionPhase reloadAction = KeyActionPhase.Up;
+    public KeyActionPhase swapShoulderAction = KeyActionPhase.Up;
+    public KeyActionPhase switchWeaponAction = KeyActionPhase.Up;
+    public KeyActionPhase mantleAction = KeyActionPhase.Up;
+    public KeyActionPhase crouchAction = KeyActionPhase.Up;
+    public KeyActionPhase gunFuAction = KeyActionPhase.Up;
+    public List<GunFuCommand> gunFuCommands = new List<GunFuCommand>();
+   
     public struct Input
     {
         public InputAction.CallbackContext movement;
@@ -35,6 +47,7 @@ public class PlayerController
         inputPlayer.PlayerAction.Move.canceled += OnMove;
 
         inputPlayer.PlayerAction.Sprint.performed += OnSprint;
+        inputPlayer.PlayerAction.Sprint.canceled += OnSprint;
         inputPlayer.PlayerAction.SwapShoulder.started += SwapShoulder;
 
         inputPlayer.PlayerAction.PullTrigger.started += Pulltriger;
@@ -52,6 +65,7 @@ public class PlayerController
     public void OnMove(InputAction.CallbackContext Value)
     {
         input.movement = Value;
+        Debug.Log("OnMoveCancle");
     }
     public void OnLook(InputAction.CallbackContext Value)
     {
