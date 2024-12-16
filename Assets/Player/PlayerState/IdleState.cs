@@ -17,7 +17,6 @@ public class IdleState : CharacterState
     }
     public override void EnterState()
     {
-       
     }
 
     public override void ExitState()
