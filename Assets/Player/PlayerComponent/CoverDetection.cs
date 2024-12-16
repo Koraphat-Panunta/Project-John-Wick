@@ -13,7 +13,6 @@ public class CoverDetection
     {
         
     }
-   
     public bool CheckingObstacleToward(Vector3 oriPos,Vector3 dir)
     {
         LayerMask decObstacle = LayerMask.GetMask("Default");
