@@ -23,7 +23,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 
     public Transform RayCastPos;
 
-   
 
     public enum ShoulderSide
     {
