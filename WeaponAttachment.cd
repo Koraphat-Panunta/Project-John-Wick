@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Grip" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAQAAIAAAAAIAAAAAIAAAAg=</HashCode>
+      <FileName>Assets\Weapon\Attachment\Grip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Muzzle" Collapsed="true">
+    <Position X="11" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAIAAAEg=</HashCode>
+      <FileName>Assets\Weapon\Attachment\Muzzle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sight" Collapsed="true">
+    <Position X="6.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAEAAAAAAAgAAAAAAAAAAIAAAAAAAAAACIAAACg=</HashCode>
+      <FileName>Assets\Weapon\Attachment\Sight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponAttachment" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQwAAAAAACAAAAAAAAAAAAAAAIAAIAAAAAAABIAAAEA=</HashCode>
+      <FileName>Assets\Weapon\Attachment\WeaponAttachment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SightAtrribute" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\Attachment\SightAtrribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IWeaponAttachAble" Collapsed="true">
+    <Position X="13.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQgAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\Attachment\IWeaponAttachAble.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AttachmentSlot" Collapsed="true">
+    <Position X="13.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAQAAAAAQAAAQACAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\Attachment\AttachmentSlot.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
