@@ -18,7 +18,7 @@ public class PlayerStateManager
 
     public Player player;
 
-    public Animator PlayerAnimator;
+
     
 
 

@@ -6,8 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 {
-    //C# Component
-    //public PlayerController playerController;
+
     public PlayerAnimation playerAnimation;
     public PlayerMovement playerMovement;
     public PlayerStateManager playerStateManager;
@@ -26,8 +25,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public ShoulderSide curShoulderSide;
     public float MyHP;
 
-    List<IPlayerComponent> playerComponents = new List<IPlayerComponent>();
-
     public Vector2 inputLookDir_Local;
     public Vector2 inputMoveDir_Local;
     public bool isSprint;
@@ -42,24 +39,24 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         isSwapShoulder = false;
         isSwitchWeapon = false;
     }
+
     private void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<PlayerAnimation>().animator;
-        //playerController = new PlayerController(this);
         playerMovement = new PlayerMovement(this);
-        //playerWeaponCommand = new PlayerWeaponCommand(this);
         coverDetection = new CoverDetection();
         LeanCover leanCover = new LeanCover(rotationConstraint,crosshairController,this);
-        playerComponents.Add(leanCover);
+        hpRegenarate = new HpRegenarate(this);
+
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
-        //playerController.Awake();
-        hpRegenarate = new HpRegenarate(this);
+
         curShoulderSide = ShoulderSide.Right;
-        base.SetHP(100 );
+        base.SetHP(100);
         AddObserver(this);
         Initialized_IWeaponAdvanceUser();
+
         new WeaponFactorySTI9mm().CreateWeapon(this);
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
@@ -67,13 +64,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     }
     private void Update()
     {
-        //Detect Cover
         playerStateManager.Update();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
-        if(playerComponents.Count>0)
-        foreach(IPlayerComponent P in playerComponents)
-            P.UpdateComponent();
 
         BlackBoardBufferUpdate();
     }
@@ -81,9 +74,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     {
         playerStateManager.FixedUpdate();
         playerMovement.MovementUpdate();
-        if (playerComponents.Count > 0)
-        foreach (IPlayerComponent P in playerComponents)
-            P.FixedUpdateComponent();
     }
     public override void TakeDamage(float Damage)
     {
@@ -111,8 +101,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         }
     }
 
-    
-
     [SerializeField] private Weapon CurrentWeapon;
     [SerializeField] private PrimaryWeapon primaryWeapon;
     [SerializeField] private SecondaryWeapon secondaryWeapon;
@@ -123,7 +111,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     [SerializeField] private CrosshairController crosshairController;
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
-        
     public Transform leftHandSocket { get; set; }
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
@@ -131,7 +118,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public Vector3 pointingPos { get 
         { return crosshairController.CrosshiarShootpoint.GetPointDirection(); } set { } }
     public Animator weaponUserAnimator { get; set; }
-
     public void Initialized_IWeaponAdvanceUser()
     {
         pointingPos = new Vector3();

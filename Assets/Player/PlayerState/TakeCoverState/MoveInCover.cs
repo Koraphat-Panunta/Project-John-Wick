@@ -70,14 +70,14 @@ public class MoveInCover : MoveState,IObserverPlayer
                     Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
                     playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
 
-                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputDirection_World != Vector3.zero)
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputVelocity_World != Vector3.zero)
                     {
                         Debug.Log("Move in Cover Warping finish or cancle");
                         warping = false;
                     }
                 }
                 else if (player.currentWeapon.aimingWeight > 0
-                    && playerMovement.inputDirection_World == Vector3.zero
+                    && playerMovement.inputVelocity_World == Vector3.zero
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {
                     Debug.Log("Move in Cover Warping ");
@@ -96,13 +96,13 @@ public class MoveInCover : MoveState,IObserverPlayer
                     Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
                     playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
 
-                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputDirection_World != Vector3.zero)
+                    if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f || playerMovement.inputVelocity_World != Vector3.zero)
                     {
                         warping = false;
                     }
                 }
                 else if (player.currentWeapon.aimingWeight < 1
-                    && playerMovement.inputDirection_World == Vector3.zero
+                    && playerMovement.inputVelocity_World == Vector3.zero
                     && coverDetection.GetAimPos(player.curShoulderSide))
                 {
                     warping = true;

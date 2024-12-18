@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class LeanCover: IPlayerComponent
+public class LeanCover:IObserverPlayer
 {
     private MultiRotationConstraint multiRotationConstraint;
     private CrosshairController crosshairController;
@@ -97,17 +97,6 @@ public class LeanCover: IPlayerComponent
         source.SetWeight(0, leanWeight);
         source.SetWeight(1, 1 - leanWeight);
         multiRotationConstraint.data.sourceObjects = source;
-    }
-
-    public void UpdateComponent()
-    {
-       
-    }
-
-    public void FixedUpdateComponent()
-    {
-        
-        //LeaningUpdate(shootPoint);
     }
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)

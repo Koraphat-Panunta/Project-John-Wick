@@ -35,7 +35,7 @@ public class SprintState : CharacterState
     public override void PhysicUpdateState(PlayerStateManager stateManager)
     {
         InputPerformed();
-        playerMovement.RotateCharacter(playerMovement.inputDirection_World,playerMovement.rotate_Speed*0.67f);
+        playerMovement.RotateCharacter(playerMovement.inputVelocity_World.normalized,playerMovement.rotate_Speed*0.67f);
         playerMovement.ONE_DirMovingCharacter();
         //RotateTowards(TransformDirectionObject(new Vector3(playerController.input.movement.ReadValue<Vector2>().x,0,playerController.input.movement.ReadValue<Vector2>().y),Camera.main.transform.forward));
     }
