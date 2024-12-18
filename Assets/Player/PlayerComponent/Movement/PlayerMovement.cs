@@ -6,24 +6,22 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement
 {
-    public Vector3 inputDirection_World { get; private set; }
-    public Vector3 forwardDirection_World { get; private set; }
-    public Vector3 velocityDirection_World { get; private set; }
-    public Vector3 velocityDirection_Local { get; private set; }
+    public Vector3 inputVelocity_World { get; private set; }
+    public Vector3 inputVelocity_Local { get; private set; }
+    public Vector3 curVelocity_World { get; set; }
+    public Vector3 curVelocity_Local { get; private set; }
 
     public float move_MaxSpeed = 2.8f;
     public float move_Acceleration = 0.4f;
     public float sprint_MaxSpeed = 5.6f;
     public float sprint_Acceleration = 0.08f;
-
     public float rotate_Speed = 6;
 
-    public Vector3 curVelocity_World { get; set; }
-    public Vector3 curVelocity_Local { get; private set; }
+   
 
 
     private Player player;
-    private PlayerController playerController;
+    //private PlayerController playerController;
     private CharacterController characterController;
     public MovementWarping movementWarping;
 
@@ -33,7 +31,7 @@ public class PlayerMovement
     {
         this.player = player;
         this.characterController = player.GetComponent<CharacterController>();
-        this.playerController = player.playerController;
+        //this.playerController = player.playerController;
         this.movementComponents.Add(new GravityMovement(this.characterController));
         curVelocity_World = Vector3.zero;
         move_Acceleration = player.movementTest.move_Acceleration;
@@ -48,22 +46,34 @@ public class PlayerMovement
             movement.MovementUpdate(this);
         }
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
-        velocityDirection_Local = curVelocity_Local.normalized;
         characterController.Move(curVelocity_World * Time.deltaTime);
     }
     private void DirectionUpdate()
     {
-        inputDirection_World = TransformLocalToWorldVector(new Vector3(this.playerController.input.movement.ReadValue<Vector2>().x,0,this.playerController.input.movement.ReadValue<Vector2>().y), Camera.main.transform.forward);
-        forwardDirection_World = player.transform.forward;
-        velocityDirection_World = new Vector3(characterController.velocity.x, 0, characterController.velocity.z).normalized;
         DrawDirLine();
     }
     public void OMNI_DirMovingCharacter()
     {
+        Vector3 inputDirection_World = TransformLocalToWorldVector(
+            new Vector3(player.inputMoveDir_Local.x, 
+            0,
+            player.inputMoveDir_Local.y),
+            Camera.main.transform.forward);
+
+        inputVelocity_World = inputDirection_World * move_MaxSpeed;
+
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, inputDirection_World * move_MaxSpeed, move_Acceleration );
     }
     public void ONE_DirMovingCharacter()
     {
+        Vector3 forwardDirection_World = player.transform.forward;
+
+        inputVelocity_World = TransformLocalToWorldVector(
+            new Vector3(player.inputMoveDir_Local.x,
+            0, 
+            player.inputMoveDir_Local.y),
+            Camera.main.transform.forward)*sprint_MaxSpeed;
+
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed, sprint_Acceleration);
     }
     public void WarpingMovementCharacter(Vector3 Destination,Vector3 offset,float speed)
@@ -123,9 +133,9 @@ public class PlayerMovement
     }
     private void DrawDirLine()
     {
-        Debug.DrawLine(player.transform.position, player.transform.position + inputDirection_World,Color.green);
-        Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection_World, Color.blue);
-        Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection_World, Color.yellow);
+        //Debug.DrawLine(player.transform.position, player.transform.position + inputDirection_World,Color.green);
+        //Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection_World, Color.blue);
+        //Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection_World, Color.yellow);
         //Debug.DrawLine(player.transform.position, player.transform.position + curVelocity_World, Color.red);
 
        

@@ -10,13 +10,13 @@ public class WeaponInput
     {
 
     }
-    public void InputWeaponUpdate(PlayerController.Input input, Player player)
+    public void InputWeaponUpdate( Player player)
     {
-        if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2))
+        if (player.isSwitchWeapon)
         {
             player.weaponCommand.SwitchWeapon();
         }
-        if (input.aiming.phase == InputActionPhase.Performed || input.aiming.phase == InputActionPhase.Started||Input.GetKey(KeyCode.Mouse1))
+        if (player.isAiming)
         {
             player.weaponCommand.AimDownSight();
         }
@@ -25,8 +25,7 @@ public class WeaponInput
             player.weaponCommand.LowReady();
         }
 
-        if (input.firing.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.Mouse0)|| input.firing.phase == InputActionPhase.Performed
-            ||Input.GetKey(KeyCode.Mouse0))
+        if (player.isPullTrigger)
         {
             player.weaponCommand.PullTrigger();
         }
@@ -35,7 +34,7 @@ public class WeaponInput
             player.weaponCommand.CancleTrigger();
         }
 
-        if (input.reloading.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.R))
+        if (player.isReload)
         {
             player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
         }
