@@ -1,4 +1,4 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,13 +12,16 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerInfoDisplays.Add(new PlayerWeaponDisplay(FindAnyObjectByType<Player>().GetComponent<Player>(), this,AmmoDisplay));
-        playerInfoDisplays.Add(new PlayerAttributeDisplay(FindAnyObjectByType<Player>().GetComponent<Player>(), this, Hp_barPlayer));
+        Player player = FindAnyObjectByType<Player>();
+        Debug.Log(" player observer count ");
+        playerInfoDisplays.Add(new PlayerWeaponDisplay(player, this,AmmoDisplay));
+        playerInfoDisplays.Add(new PlayerAttributeDisplay(player, this, Hp_barPlayer));
+
         if (playerInfoDisplays.Count > 0)
         {
-            foreach (PlayerInfoDisplay player in playerInfoDisplays)
+            foreach (PlayerInfoDisplay playerInfo in playerInfoDisplays)
             {
-                player.AddPlayerObserver();
+                playerInfo.AddPlayerObserver();
             }
         }
     }
@@ -26,17 +29,17 @@ public class HUD : MonoBehaviour
     {
         if (playerInfoDisplays.Count > 0)
         {
-            foreach (PlayerInfoDisplay player in playerInfoDisplays)
+            foreach (PlayerInfoDisplay playerInfo in playerInfoDisplays)
             {
-                player.AddPlayerObserver();
+                playerInfo.AddPlayerObserver();
             }
         }
     }
     private void OnDisable()
     {
-        foreach (PlayerInfoDisplay player in playerInfoDisplays)
+        foreach (PlayerInfoDisplay playerInfo in playerInfoDisplays)
         {
-            player.RemovePlayerObserver();
+            playerInfo.RemovePlayerObserver();
         }
     }
 }

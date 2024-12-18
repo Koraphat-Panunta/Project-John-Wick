@@ -15,7 +15,7 @@ public class PlayerAttributeDisplay : PlayerInfoDisplay
 
     public override void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-       if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        if (playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
         }

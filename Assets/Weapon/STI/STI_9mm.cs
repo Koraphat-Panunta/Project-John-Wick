@@ -83,14 +83,19 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
       
         base.Update();
     }
-    protected override void Start()
+    protected override void Awake()
     {
-
         fireMode = FireMode.Single;
         bullet = new _9mmBullet();
         RecoilKickBack = bullet.recoilKickBack;
 
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
+        base.Awake();
+    }
+    protected override void Start()
+    {
+
+       
         base.Start();
         
     }
@@ -124,7 +129,9 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
 
         firingAutoLoad = new WeaponSequenceNode(this,
-            () => { return bulletStore[BulletStackType.Chamber] > 0 && triggerState == TriggerState.IsDown; }
+            () => { return bulletStore[BulletStackType.Chamber] > 0 
+                && triggerState == TriggerState.IsDown 
+                && aimingWeight>=1; }
             );
 
         fire = new FiringNode(this);

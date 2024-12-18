@@ -49,26 +49,25 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
     protected override void Awake()
     {
+        weaponSlotPos.Add(AttachmentSlot.MUZZLE, MuzzleSocket);
+        weaponSlotPos.Add(AttachmentSlot.GRIP, GripSocket);
+        weaponSlotPos.Add(AttachmentSlot.SCOPE, Scope);
+        weaponSlotPos.Add(AttachmentSlot.STOCK, Stock);
+        weaponSlotPos.Add(AttachmentSlot.MAGAZINE, Magazine);
+        weaponSlotPos.Add(AttachmentSlot.LASER, Laser);
+
+        fireMode = FireMode.FullAuto;
+
+        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
+
+        isMagIn = true;
+
         bullet = _556MmBullet;
         RecoilKickBack = bullet.recoilKickBack;
         base.Awake();
     }
     protected override void Start()
     {
-
-        weaponSlotPos.Add(AttachmentSlot.MUZZLE,MuzzleSocket);
-        weaponSlotPos.Add(AttachmentSlot.GRIP,GripSocket);
-        weaponSlotPos.Add(AttachmentSlot.SCOPE,Scope);
-        weaponSlotPos.Add(AttachmentSlot.STOCK,Stock);
-        weaponSlotPos.Add(AttachmentSlot.MAGAZINE,Magazine);
-        weaponSlotPos.Add(AttachmentSlot.LASER,Laser);
-       
-        fireMode = FireMode.FullAuto;
-
-        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
-
-        isMagIn = true;
-        
         base.Start();
     }
     

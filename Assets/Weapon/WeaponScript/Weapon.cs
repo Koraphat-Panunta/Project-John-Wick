@@ -108,8 +108,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             parentConstraint.RemoveSource(0);
         }
         parentConstraint.AddSource(source);
-        Debug.Log("Weapon source =" +source);
-        Debug.Log(source.sourceTransform);
         parentConstraint.constraintActive = true;
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
