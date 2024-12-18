@@ -17,7 +17,6 @@ public class PlayerStateManager
     public CharacterState Current_state;
 
     public Player player;
-    public PlayerController playerController;
 
     public Animator PlayerAnimator;
     
@@ -26,7 +25,6 @@ public class PlayerStateManager
     public PlayerStateManager(Player player)
     {
         this.player = player;
-        this.playerController = player.playerController;
     }
 
     public void ChangeState(CharacterState Nextstate)

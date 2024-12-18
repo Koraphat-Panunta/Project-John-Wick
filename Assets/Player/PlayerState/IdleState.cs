@@ -7,12 +7,12 @@ using UnityEngine.InputSystem;
 
 public class IdleState : CharacterState 
 {
-    protected PlayerController playerController;
+    //protected PlayerController playerController;
     protected PlayerStateManager playerStateManager;
     public IdleState(Player player)
     {
         base.player = player;
-        this.playerController = player.playerController;
+        //this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
     }
     public override void EnterState()
@@ -47,13 +47,13 @@ public class IdleState : CharacterState
     }
     protected override void InputPerformed()
     {
-        PlayerController.Input input = this.playerController.input;
-        if (input.movement.phase == InputActionPhase.Started)
+        //PlayerController.Input input = this.playerController.input;
+        if (player.inputMoveDir_Local.magnitude>0)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-        new WeaponInput().InputWeaponUpdate(input, player);
-        if(input.swapShoulder.phase == InputActionPhase.Started||Input.GetKeyDown(KeyCode.LeftAlt))
+        new WeaponInput().InputWeaponUpdate(player);
+        if(player.isSwapShoulder)
         {
             player.NotifyObserver(player,SubjectPlayer.PlayerAction.SwapShoulder);
         }

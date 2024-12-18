@@ -7,13 +7,11 @@ using UnityEngine.InputSystem;
 public class SprintState : CharacterState
 {
     Transform cameraTrans;
-    private PlayerController playerController;
     private PlayerStateManager playerStateManager;
     private PlayerMovement playerMovement;
     public SprintState(Player player)
     {
         base.player = player;
-        this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
         this.playerMovement = player.playerMovement;
     }
@@ -60,30 +58,18 @@ public class SprintState : CharacterState
             base.player.transform.rotation = Quaternion.Slerp(base.player.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
-    private Vector3 TransformDirectionObject(Vector3 dirWolrd,Vector3 dirObjectLocal)
-    {
-        float zeta;
-        
-        Vector3 Direction;
-        zeta = Mathf.Atan2(dirObjectLocal.z , dirObjectLocal.x)-Mathf.Deg2Rad*90;
-        Direction.x = dirWolrd.x*Mathf.Cos(zeta)-dirWolrd.z*Mathf.Sin(zeta);
-        Direction.z = dirWolrd.x*Mathf.Sin(zeta)+dirWolrd.z*Mathf.Cos(zeta);
-        Direction.y = 0;
-        
-        return Direction;
-    }
     protected override void InputPerformed()
     {
 
-        if (playerController.input.sprint.phase == InputActionPhase.Canceled|| playerController.input.sprint.phase == InputActionPhase.Waiting)
+        if (player.isSprint==false)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.move);
         }
-        if(playerController.input.reloading.phase == InputActionPhase.Started||Input.GetKeyDown(KeyCode.R))
+        if(player.isReload)
         {
             player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
         }
-        if(playerController.input.swapShoulder.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.LeftAlt))
+        if(player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }

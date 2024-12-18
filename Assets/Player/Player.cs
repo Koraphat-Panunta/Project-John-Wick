@@ -7,22 +7,16 @@ using UnityEngine.Animations.Rigging;
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 {
     //C# Component
-    public PlayerController playerController;
+    //public PlayerController playerController;
     public PlayerAnimation playerAnimation;
-
-    //Class coposition
-    //public PlayerWeaponCommand playerWeaponCommand;
     public PlayerMovement playerMovement;
     public PlayerStateManager playerStateManager;
     public HpRegenarate hpRegenarate;
-
     public MultiRotationConstraint rotationConstraint;
-
     public MovementTest movementTest;
     public CoverDetection coverDetection;
 
     public Transform RayCastPos;
-
 
     public enum ShoulderSide
     {
@@ -34,11 +28,25 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 
     List<IPlayerComponent> playerComponents = new List<IPlayerComponent>();
 
+    public Vector2 inputLookDir_Local;
+    public Vector2 inputMoveDir_Local;
+    public bool isSprint;
+    public bool isAiming;
+    public bool isPullTrigger;
+    public bool isReload;
+    public bool isSwapShoulder;
+    public bool isSwitchWeapon;
+    private void BlackBoardBufferUpdate()
+    {
+        isReload = false;
+        isSwapShoulder = false;
+        isSwitchWeapon = false;
+    }
     private void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<PlayerAnimation>().animator;
-        playerController = new PlayerController(this);
+        //playerController = new PlayerController(this);
         playerMovement = new PlayerMovement(this);
         //playerWeaponCommand = new PlayerWeaponCommand(this);
         coverDetection = new CoverDetection();
@@ -46,7 +54,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         playerComponents.Add(leanCover);
         playerStateManager = new PlayerStateManager(this);
         playerStateManager.SetupState(this);
-        playerController.Awake();
+        //playerController.Awake();
         hpRegenarate = new HpRegenarate(this);
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100 );
@@ -66,6 +74,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
         if(playerComponents.Count>0)
         foreach(IPlayerComponent P in playerComponents)
             P.UpdateComponent();
+
+        BlackBoardBufferUpdate();
     }
     private void FixedUpdate()
     {
@@ -100,6 +110,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
             }
         }
     }
+
+    
 
     [SerializeField] private Weapon CurrentWeapon;
     [SerializeField] private PrimaryWeapon primaryWeapon;
