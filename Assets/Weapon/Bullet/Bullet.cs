@@ -3,49 +3,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public abstract class Bullet 
 {
-    // Start is called before the first frame update
-    float mass = 1f;
-    float velocity = 240;
-    public BulletType type = BulletType._9mm;
-    public float damage = 40;
+    public abstract float hpDamage { get; set; }
+    public abstract float impactDamage { get; set; }
+    public abstract float recoilKickBack { get; set; }
 
-    void Start()
+    protected LayerMask hitLayer;
+    protected const float MAX_DISTANCE = 1000;
+    public abstract BulletType myType { get; set; } 
+
+    public Bullet()
     {
-
+       
     }
-    public void ShootDirection(Vector3 Dir)
+    public virtual void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        // Set Rigidbody properties
-        rb.mass = mass;
-        rb.linearDamping = 0.01f;
-        rb.angularDamping = 0.05f;
+        int DefaultMask = LayerMask.GetMask("Default");
+        int BodyPartMask = LayerMask.GetMask("Enemy");
+        int PlayerHitMask = LayerMask.GetMask("Player");
+        hitLayer = DefaultMask + BodyPartMask + PlayerHitMask;
         // Calculate and apply impulse force
-        Vector3 force = Dir * mass * velocity;
-        rb.AddForce(force, ForceMode.Impulse);
+        Vector3 force = (pointPos-spawnerPosition).normalized;
+        Vector3 rayDir = (pointPos - spawnerPosition).normalized;
+        Ray ray = new Ray(spawnerPosition,rayDir);
+        if (Physics.Raycast(ray,out RaycastHit hit,MAX_DISTANCE,hitLayer))
+        {
+            HitExecute(hit);
+        }
     }
-    // Update is called once per frame
-    void Update()
+    protected virtual void HitExecute(RaycastHit hit)
     {
+        Collider collider = hit.collider;
+        if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
+            bodyPart.GotHit(hpDamage);
+
+        if (collider.TryGetComponent<Player>(out Player player))
+            player.TakeDamage(hpDamage);
         
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
-        {
-            bodyPart.GotHit(damage);
-        }
-        if(collision.collider.TryGetComponent<Player>(out Player player))
-        {
-            player.TakeDamage(damage);
-        }
-        DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
-        Destroy(gameObject);
-    }
-    private void OnDrawGizmos()
-    {
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
+    //    {
+    //        bodyPart.GotHit(damage);
+    //    }
+    //    if(collision.collider.TryGetComponent<Player>(out Player player))
+    //    {
+    //        player.TakeDamage(damage);
+    //    }
+    //    DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
+    //    Destroy(gameObject);
+    //}
+    //private void OnDrawGizmos()
+    //{
         
-    }
+    //}
 }

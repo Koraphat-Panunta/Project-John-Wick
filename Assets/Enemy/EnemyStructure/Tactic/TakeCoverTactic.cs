@@ -83,7 +83,7 @@ public class TakeCoverTactic : IEnemyTactic
         //}
        
         agent.SetDestination(peekPos);
-        enemy.enemyWeaponCommand.Aiming();
+        enemy.weaponCommand.AimDownSight();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
         enemyFiringPattern.Performing();
         new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
@@ -102,7 +102,7 @@ public class TakeCoverTactic : IEnemyTactic
         //    agent.SetDestination(hit.position);
         //}
         agent.SetDestination(CoverPos);
-        enemy.enemyWeaponCommand.LowReady();
+        enemy.weaponCommand.AimDownSight();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
         
     }
@@ -131,7 +131,7 @@ public class TakeCoverTactic : IEnemyTactic
         else
         {
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
-            enemy.enemyWeaponCommand.LowReady();
+            enemy.weaponCommand.LowReady();
             enemy.cost +=   costRate * Time.deltaTime;
             return false;
         }
@@ -144,7 +144,7 @@ public class TakeCoverTactic : IEnemyTactic
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
             new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
-            enemy.enemyWeaponCommand.Aiming();
+            enemy.weaponCommand.AimDownSight();
             enemyFiringPattern.Performing();
         }
         else

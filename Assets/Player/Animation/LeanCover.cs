@@ -5,11 +5,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class LeanCover 
+public class LeanCover:IObserverPlayer
 {
     private MultiRotationConstraint multiRotationConstraint;
     private CrosshairController crosshairController;
     private LayerMask layerMask;
+    private Transform shootPoint;
+    private Player player;
     public enum LeanDir
     {
         Left,
@@ -19,15 +21,19 @@ public class LeanCover
     private LeanDir leandir = LeanDir.None;
     private float leanWeight = 0.5f;
     private float leanSpeed = 5;
-    public LeanCover(MultiRotationConstraint multiRotationConstraint,CrosshairController crosshairController)
+    public LeanCover(MultiRotationConstraint multiRotationConstraint,CrosshairController crosshairController,Player player)
     {
        this.multiRotationConstraint = multiRotationConstraint;
         this.crosshairController = crosshairController;
         leanWeight = 0.5f;
         layerMask = LayerMask.GetMask("Default");
+        this.player = player;
+        shootPoint = player.RayCastPos;
+        player.AddObserver(this);
     }
     public void LeaningUpdate(Transform shootPoint)
     {
+
         leaningCheck(shootPoint);
         var source = multiRotationConstraint.data.sourceObjects;
         source.SetWeight(0, leanWeight);
@@ -93,4 +99,12 @@ public class LeanCover
         multiRotationConstraint.data.sourceObjects = source;
     }
 
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if (playerAction == SubjectPlayer.PlayerAction.LowReady
+            || playerAction == SubjectPlayer.PlayerAction.Sprint)
+            LeanRecovery();
+        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+            LeaningUpdate(shootPoint);
+    }
 }

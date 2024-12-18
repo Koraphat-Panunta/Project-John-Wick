@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NormalFiringPattern : IEnemyFiringPattern
 {
-    private EnemyWeaponCommand weaponCommand;
     private Weapon curWeapon;
     private AmmoProuch ammoProuch;
     private double deltaFireTiming = 0;
@@ -14,23 +13,25 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private Enemy enemy;
     public NormalFiringPattern(Enemy enemy)
     {
-        this.weaponCommand = enemy.enemyWeaponCommand;
-        this.curWeapon = enemy.curentWeapon;
-        this.ammoProuch = enemy.enemyWeaponCommand.ammoProuch;
+        this.curWeapon = enemy.currentWeapon;
+        this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
         this.enemy = enemy;
     }
     public void Performing()
     {
-        
+        if(curWeapon.triggerState == TriggerState.IsDown
+            ||curWeapon.triggerState == TriggerState.Down)
+            enemy.weaponCommand.CancleTrigger();
+
         deltaFireTiming += Time.deltaTime;
         if (deltaFireTiming >= randomFireTiming)
         {
-            if(curWeapon.Magazine_count <= 0&&curWeapon.Chamber_Count<=0)
+            if(curWeapon.bulletStore[BulletStackType.Magazine] <= 0&&curWeapon.bulletStore[BulletStackType.Chamber]<=0)
             {
-                weaponCommand.Reload();
+                enemy.weaponCommand.Reload(enemy.weaponBelt.ammoProuch);
             }
-            else if(curWeapon.weapon_stateManager._currentState != curWeapon.weapon_stateManager.reloadState)
+            else if (curWeapon.bulletStore[BulletStackType.Chamber]>0)
             {
                 Ray ray = new Ray(enemy.rayCastPos.position,(enemy.Target.transform.position- enemy.rayCastPos.position).normalized);
                 if (Physics.SphereCast(ray, 0.5f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Enemy")))
@@ -43,13 +44,13 @@ public class NormalFiringPattern : IEnemyFiringPattern
                         }
                         else
                         {
-                            weaponCommand.Fire();
+                            enemy.weaponCommand.PullTrigger();
                         }
                     }
                 }
                 else
                 {
-                    weaponCommand.Fire();
+                    enemy.weaponCommand.PullTrigger();
                 }
             }
             deltaFireTiming = 0;

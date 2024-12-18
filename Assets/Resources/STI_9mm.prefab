@@ -86,7 +86,6 @@ GameObject:
   - component: {fileID: 7074491356039985985}
   - component: {fileID: 521215783090903122}
   - component: {fileID: -4894218118900266989}
-  - component: {fileID: 6287137376191654520}
   - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
   - component: {fileID: 1631304176077155450}
@@ -129,10 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f46b8cbeadb0cc48bb4022f63b96052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Magazine_count: 0
-  Chamber_Count: 0
   bulletSpawnerPos: {fileID: 3022661863309610859}
-  userWeapon: {fileID: 0}
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 87a65ca05a1dd6542b758e2acea85e8f,
@@ -141,8 +137,6 @@ MonoBehaviour:
     type: 2}
   bulletSpawner: {fileID: 483720375782013187}
   triggerPull: 0
-  Model: {fileID: 11400000, guid: 588205285d738e4499716c4114bf0874, type: 2}
-  _bulletType: {fileID: 0}
 --- !u!114 &-4894218118900266989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,18 +152,6 @@ MonoBehaviour:
   weapon: {fileID: 521215783090903122}
   animator: {fileID: 1631304176077155450}
   magazine: {fileID: 856348181040088395, guid: eb5b61f2d2c03974484e2b1f4f069ad7, type: 3}
---- !u!114 &6287137376191654520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7594886238610776571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89dfa3746e689bf4e83546afb1263fc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1773428102 &-4776787860471616378
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -222,7 +204,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!95 &1631304176077155450
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -236,6 +218,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -252,6 +235,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

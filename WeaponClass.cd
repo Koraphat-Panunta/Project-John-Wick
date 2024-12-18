@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ReloadStageSelector">
+    <Position X="29.75" Y="11.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\ReloadStageSelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AimDownSightNode">
+    <Position X="18.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAgAABAAAAAAAAAAACQAEgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\AimDownSightNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AutoLoadChamberNode">
+    <Position X="23" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAEAAAgAABAAAAAAAAAAACgAEgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\AutoLoadChamberNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiringNode">
+    <Position X="27.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAEAAAgAABAAAAAAAAAAACAAEgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\FiringNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LowReadyNode">
+    <Position X="14" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAgAABAAAAAAAAAAACAAEgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\LowReadyNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ReloadMagazineFullStage">
+    <Position X="20.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQACAAAIgAABAAAAAAAABAACAAEgAIAIAAAEAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\ReloadMagazineFullStage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TacticalReloadMagazineFullStage">
+    <Position X="25.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAIAgAgBAgAAAAAAAAACAAEgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponAction\TacticalReloadMagazineFullStage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponActionNode">
+    <Position X="20.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAEAAAAAUAAAAAAAAAAAFAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponActionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponBlackBoard" Collapsed="true">
+    <Position X="10.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAQAAQAAAAAAACAAAAAAgAACAAgAAIgAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponBlackBoard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeaponBlackBoardMagazineAuto" Collapsed="true">
+    <Position X="10.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponBlackBoardMagazineAuto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponNode">
+    <Position X="22" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAkAABAAUAAAAAAAAAABBgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponSelector">
+    <Position X="30" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAAkAABAAUAAAAAAAAAAABgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponSelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponSequenceNode">
+    <Position X="16.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQUAAAAAAkAABAAUAAAAAAAAAAAVgAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponSequenceNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponTreeMagazineAuto" Collapsed="true">
+    <Position X="7.75" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAQCAgAACEAAwAAgAAACIAAAAAABQAAAAAQAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponTreeMagazineAuto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeaponTreeManager" Collapsed="true">
+    <Position X="7.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACEAAAAAAAAACIEAAAAAQAAAAAAQAAA=</HashCode>
+      <FileName>Assets\Weapon\WeaponTree\WeaponTreeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

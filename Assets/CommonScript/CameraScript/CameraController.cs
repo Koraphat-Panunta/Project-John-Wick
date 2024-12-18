@@ -40,6 +40,14 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         cameraZoom = new CameraZoom(this);
         cameraHandShake = new CameraHandShake(this);
     }
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.T)){
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
@@ -48,15 +56,15 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            cameraKickBack.Performed(player.curentWeapon);
+            cameraKickBack.Performed(player.currentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            cameraZoom.ZoomIn(player.curentWeapon);
+            cameraZoom.ZoomIn(player.currentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            cameraZoom.ZoomOut(player.curentWeapon);
+            cameraZoom.ZoomOut(player.currentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {

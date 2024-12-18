@@ -8,14 +8,15 @@ public class CameraZoom : ICameraAction
     private CinemachineCameraOffset cameraOffset;
     private CinemachineFreeLook cinemachineFreeLook;
     private float fovZoomOut;
-    private float fovZoomIn;
+    private float fovZoomIn = 60;
     private float fovZoomPercentage = 16;
+    private float distanceZoomIn = 0.85f;
     public CameraZoom(CameraController cameraController)
     {
         this.cameraOffset = cameraController.cameraOffset;
         this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
         fovZoomOut = this.cinemachineFreeLook.m_Lens.FieldOfView;
-        fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);
+        //fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);
 
     }
     public void Performed()
@@ -27,12 +28,12 @@ public class CameraZoom : ICameraAction
     {
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 1.6f, 10*Time.deltaTime);
+            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, distanceZoomIn, 10*Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight*1.6f;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.weapon_StanceManager.AimingWeight);
+            cameraOffset.m_Offset.z = weapon.aimingWeight* distanceZoomIn;
+            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.aimingWeight);
         }
     }
     
@@ -44,8 +45,8 @@ public class CameraZoom : ICameraAction
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.weapon_StanceManager.AimingWeight * 1.6f;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.weapon_StanceManager.AimingWeight);
+            cameraOffset.m_Offset.z = weapon.aimingWeight * distanceZoomIn;
+            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.aimingWeight);
         }
     }
     

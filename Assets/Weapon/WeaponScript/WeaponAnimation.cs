@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     [SerializeField] public Animator animator;
     [SerializeField] public GameObject magazine;
 
+    [SerializeField] protected SkinnedMeshRenderer muzzleRenderer;
+    [SerializeField] protected SkinnedMeshRenderer sightRenderer;
     public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Reloading)
@@ -17,6 +20,10 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
        else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReload)
        {
             animator.SetTrigger("Reloading");
+       }
+       if(weaponNotify == WeaponSubject.WeaponNotifyType.AttachmentSetup)
+        {
+            SetWeaponApprerance(weapon);
         }
     }
 
@@ -52,5 +59,12 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     {
         yield return new WaitForSeconds(3);
         GameObject.Destroy(mag);
+    }
+    protected virtual void SetWeaponApprerance(Weapon weapon)
+    {
+       if(weapon.muzzle != null) muzzleRenderer.enabled = false; 
+        else muzzleRenderer.enabled = true;
+       if(weapon.Sight != null) sightRenderer.enabled = false;
+        else sightRenderer.enabled = true;
     }
 }

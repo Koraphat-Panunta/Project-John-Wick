@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class CrosshairController : MonoBehaviour,IObserverPlayer
 {
-    [SerializeField] WeaponSocket weaponSocket;
+    //[SerializeField] WeaponSocket weaponSocket;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
     [SerializeField] [Range(0,100)] private float MaxAccuracy = 0;
     public RectTransform Crosshair_lineUp;
@@ -15,7 +15,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
     [SerializeField] public GameObject TargetAim;
-    [SerializeField] private Player player;
+    [SerializeField] public Player player;
     public bool isVisable = false;
 
     public CrosshairSpread CrosshairSpread { get; private set; }
@@ -69,13 +69,14 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            CrosshairSpread.Performed(player.curentWeapon);
+            CrosshairSpread.Performed(player.currentWeapon);
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            CrosshairSpread.Performed(player.curentWeapon);
+            CrosshairSpread.Performed(player.currentWeapon);
         }
     }
 }

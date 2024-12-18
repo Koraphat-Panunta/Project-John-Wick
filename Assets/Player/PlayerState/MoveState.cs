@@ -5,12 +5,10 @@ using UnityEngine.InputSystem;
 
 public class MoveState : CharacterState 
 {
-    protected PlayerController playerController;
     protected PlayerStateManager playerStateManager;
     public MoveState(Player player)
     {
         base.player = player;
-        this.playerController = player.playerController;
         this.playerStateManager = player.playerStateManager;
     }
     public override void EnterState()
@@ -45,17 +43,16 @@ public class MoveState : CharacterState
     }
     protected override void InputPerformed()
     {
-        PlayerController.Input input = this.playerController.input;
-        if (playerController.input.movement.phase == InputActionPhase.Waiting || playerController.input.movement.phase == InputActionPhase.Canceled)
+        if (player.inputMoveDir_Local.magnitude<=0)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.idle);
         }
-        if (playerController.input.sprint.phase == InputActionPhase.Started||playerController.input.sprint.phase == InputActionPhase.Performed)
+        if (player.isSprint)
         {
             this.playerStateManager.ChangeState(this.playerStateManager.sprint);
         }
-        new WeaponInput().InputWeaponUpdate(input, player);
-        if (input.swapShoulder.phase == InputActionPhase.Started || Input.GetKeyDown(KeyCode.LeftAlt))
+        new WeaponInput().InputWeaponUpdate(player);
+        if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }

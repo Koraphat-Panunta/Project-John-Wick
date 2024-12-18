@@ -17,14 +17,14 @@ public class Fire : WeaponState
     {
        if(weaponStateManager == null)
         {
-            weaponStateManager = base._weapon.weapon_stateManager;
+            //weaponStateManager = base._weapon.weapon_stateManager;
         }
-        if (base._weapon.Chamber_Count > 0)
+        if (base._weapon.bulletStore[BulletStackType.Chamber] > 0)
         {
             base._weapon.bulletSpawner.SpawnBullet(_weapon);
             base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Firing);
             _weapon.StartCoroutine(AfterShoot());
-            base._weapon.userWeapon.Firing(base._weapon);
+            base._weapon.userWeapon.weaponAfterAction.Firing(base._weapon);
         }
         else
         {
@@ -56,11 +56,11 @@ public class Fire : WeaponState
     }
     private void MinusBullet(Weapon weapon)
     {
-        weapon.Chamber_Count -= 1;
-        if (weapon.Magazine_count > 0)
+        weapon.bulletStore[BulletStackType.Chamber] -= 1;
+        if (weapon.bulletStore[BulletStackType.Magazine] > 0)
         {
-            weapon.Magazine_count -= 1;
-            weapon.Chamber_Count += 1;
+            weapon.bulletStore[BulletStackType.Magazine] -= 1;
+            weapon.bulletStore[BulletStackType.Chamber] += 1;
         }
     }
 

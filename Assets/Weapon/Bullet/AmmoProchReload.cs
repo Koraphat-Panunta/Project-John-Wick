@@ -11,10 +11,10 @@ public class AmmoProchReload : IAmmoProchAction
     }
     public void Performed(Weapon weapon)
     {
-        Debug.Log("Reload finish");
-        BulletType bulletType = weapon.bullet.GetComponent<Bullet>().type;
-        int magCount = weapon.Magazine_count;
-        int magCapacity = weapon.Magazine_capacity;
+        //Debug.Log("Reload finish");
+        BulletType bulletType = weapon.bullet.myType;
+        int magCount = weapon.bulletStore[BulletStackType.Magazine];
+        int magCapacity = weapon.bulletCapacity;
         if (ammoProuch.amountOf_ammo[bulletType] > 0)
         {
             int fillamout = magCapacity - magCount;
@@ -22,12 +22,12 @@ public class AmmoProchReload : IAmmoProchAction
             {
                 int minusAmmo = ammoProuch.amountOf_ammo[bulletType] -= fillamout;
                 ammoProuch.amountOf_ammo[bulletType] = 0;
-                weapon.Magazine_count += fillamout + minusAmmo;
+                weapon.bulletStore[BulletStackType.Magazine] += fillamout + minusAmmo;
             }
             else
             {
                 ammoProuch.amountOf_ammo[bulletType] -= fillamout;
-                weapon.Magazine_count += fillamout;
+                weapon.bulletStore[BulletStackType.Magazine] += fillamout;
             }
            
         }

@@ -1,28 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class Weapon : WeaponSubject 
+public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
-    public WeaponStateManager weapon_stateManager { get; protected set; }
-    public WeaponStanceManager weapon_StanceManager { get; protected set; }
-    public int Magazine_count;
-    public int Chamber_Count;
-    public Transform bulletSpawnerPos;
-    public abstract int Magazine_capacity { get; protected set; }
-    public abstract float rate_of_fire { get; protected set; }
-    public abstract float reloadSpeed { get; protected set; }
-    public abstract float Accuracy { get; protected set; }
-    public abstract float RecoilController { get; protected set; }
-    public abstract float RecoilCameraKickBack {  get; protected set; }
-    public abstract float aimDownSight_speed { get; protected set; }
-    public abstract GameObject bullet { get; protected set; }
-    public abstract float RecoilKickBack { get; protected set; }
-    public abstract float min_Precision { get; protected set; }
-    public abstract float max_Precision { get; protected set; }
+    //protected abstract WeaponTreeManager weaponTree { get; set; }
+    public Muzzle muzzle;
+    public Sight Sight;
 
-    public Character userWeapon;
+    [SerializeField] protected List<WeaponAttachment> weaponAttachments = new List<WeaponAttachment>();
+
+    public Transform bulletSpawnerPos;
+    public abstract int bulletCapacity { get; set; }
+    public abstract float rate_of_fire { get;  set; }
+    public abstract float reloadSpeed { get;  set; }
+    public abstract float Accuracy { get;  set; }
+    public abstract float RecoilController { get;  set; }
+    public abstract float RecoilCameraController {  get;  set; }
+    public abstract float RecoilKickBack { get;  set; }
+    public abstract float min_Precision { get;  set; }
+    public abstract float max_Precision { get;  set; }
+    public abstract float aimDownSight_speed { get;  set; }
+    public abstract Bullet bullet { get;  set; }
+    public abstract float movementSpeed { get;  set; }
+
+    public bool isAiming;
+    public bool isReloadCommand;
+    public bool isCancelAction;
+    public bool isEquip;
+
+    public float aimingWeight;
+
+    public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
+    public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
+
+    public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
     public Rigidbody rb;
     public AnimatorOverrideController _weaponOverrideControllerPlayer;
@@ -35,97 +49,92 @@ public abstract class Weapon : WeaponSubject
         FullAuto
     }
     public FireMode fireMode { get; protected set; }
-    public enum TriggerPull
+    public TriggerState triggerState = TriggerState.Up;
+
+    public  WeaponActionNode currentStanceNode { get; set; }
+    public  WeaponActionNode currentEventNode { get; set; }
+    public abstract WeaponSelector startStanceNode { get; set; }
+    public abstract WeaponSelector startEventNode { get; set; }
+
+    protected virtual void Awake()
     {
-        Up,
-        IsDown,
-        Down,
-        IsUp,
-    }
-    public TriggerPull triggerPull = TriggerPull.Up;
-   
-    protected virtual void Start()
-    {
-        weapon_stateManager = new WeaponStateManager(this);
-        weapon_StanceManager = new WeaponStanceManager(this);
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
-        Magazine_count = Magazine_capacity;
+        bulletStore.Add(BulletStackType.Chamber, 1);
+        InitailizedTree();
+
+        weaponAttachments.Add(muzzle);
+        weaponAttachments.Add(Sight);
+    }
+    protected virtual void Start()
+    {
+        this.AddObserver(this);
     }
     protected virtual void Update()
     {
-        if (userWeapon != null)
-        {
-            weapon_StanceManager.Update();
-            weapon_stateManager.Update();
-        }
+        UpdateTree();
+        isCancelAction = false;
     }
     protected virtual void FixedUpdate()
     {
-        if (userWeapon != null)
-        {
-            weapon_StanceManager.FixedUpdate();
-            weapon_stateManager.FixedUpdate();
-        }
+        FixedUpdateTree();
     }
     public virtual void Aim()
     {
-        weapon_StanceManager.ChangeStance(weapon_StanceManager.aimDownSight);
+        isAiming = true;
     }
     public virtual void Fire() 
     {
-        if (fireMode == FireMode.Single)
-        {
-            if(triggerPull == TriggerPull.IsDown)
-            {
-                weapon_stateManager.ChangeState(weapon_stateManager.fireState);
-            }
-        }
-        if(fireMode == FireMode.FullAuto)
-        {
-            if(triggerPull == TriggerPull.IsDown||triggerPull == TriggerPull.Down)
-            {
-                weapon_stateManager.ChangeState(weapon_stateManager.fireState);
-            }
-        }
     }
     public virtual void Reload() 
     {
-        weapon_stateManager.ChangeState(weapon_stateManager.reloadState);
+        isReloadCommand = true;
     }
     public virtual void LowWeapon()
     {
-        weapon_StanceManager.ChangeStance(weapon_StanceManager.lowReady);
+        isAiming = false;
     }
-    public void AttatchWeaponTo(Character WeaponUser)
+    public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
+        isEquip = true;
         this.userWeapon = WeaponUser;
-        WeaponUser.curentWeapon = this;
+        WeaponUser.currentWeapon = this;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
-        source.sourceTransform = WeaponUser.weaponSocket;
+        source.sourceTransform = WeaponUser.currentWeaponSocket;
         source.weight = 1;
         if (parentConstraint.sourceCount > 0)
         {
             parentConstraint.RemoveSource(0);
         }
         parentConstraint.AddSource(source);
+        Debug.Log("Weapon source =" +source);
+        Debug.Log(source.sourceTransform);
         parentConstraint.constraintActive = true;
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-        if(WeaponUser.TryGetComponent<Player>(out Player p))
+        if(WeaponUser is Player)
         {
+            Player p = WeaponUser as Player;
             p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
         }
-        if(WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
+        if(WeaponUser is Enemy)
         {
+            Enemy enemy = WeaponUser as Enemy;
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
+        }
+        if(this is PrimaryWeapon){
+            WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
+        }
+        else if(this is SecondaryWeapon) { 
+            WeaponUser.weaponBelt.secondaryWeapon = this as SecondaryWeapon;
         }
         parentConstraint.weight = 1;
     }
     public void AttachWeaponTo(Transform weaponSocket)
     {
+        isEquip = false;
         userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
@@ -140,19 +149,64 @@ public abstract class Weapon : WeaponSubject
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-        //if (WeaponUser.TryGetComponent<Player>(out Player p))
-        //{
-        //    p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
-        //}
-        //if (WeaponUser.TryGetComponent<Enemy>(out Enemy enemy))
-        //{
-        //    enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
-        //}
+        
         parentConstraint.weight = 1;
     }
     public void DropWeapon()
     {
         rb.isKinematic = false;
     }
+    protected virtual void FixedUpdateTree()
+    {
+        if(currentStanceNode != null)
+            currentStanceNode.FixedUpdate();
+        if (currentEventNode != null)
+            currentEventNode.FixedUpdate();
 
+    }
+    protected virtual void ChangeStanceManualy(WeaponActionNode weaponStanceNode)
+    {
+        if (currentStanceNode != null)
+        currentStanceNode.Exit();
+        currentStanceNode = weaponStanceNode;
+        currentStanceNode.Enter();
+    }
+    protected virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
+    {
+        if (currentEventNode != null)
+        currentEventNode.Exit();
+        currentEventNode = weaponEventNode;
+        currentEventNode.Enter();
+    }
+
+    protected abstract void InitailizedTree();
+
+
+    protected virtual void UpdateTree()
+    {
+        if (currentStanceNode.IsReset() /*|| currentStanceNode==null*/)
+        {
+            currentStanceNode.Exit();
+            currentStanceNode = null;
+            startStanceNode.Transition(out WeaponActionNode weaponActionNode);
+            currentStanceNode = weaponActionNode;
+            Debug.Log("Out stance Node " + currentStanceNode);
+            currentStanceNode.Enter();
+        }
+        if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
+        {
+            currentEventNode.Exit();
+            currentEventNode = null;
+            startEventNode.Transition(out WeaponActionNode weaponActionNode);
+            currentEventNode = weaponActionNode;
+            Debug.Log("Out Event Node " + currentEventNode);
+            currentEventNode.Enter();
+        }
+        currentStanceNode.Update();
+        currentEventNode?.Update();
+    }
+    public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
+    {
+        
+    }
 }

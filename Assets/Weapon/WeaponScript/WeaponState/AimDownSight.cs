@@ -21,7 +21,7 @@ public class AimDownSight : WeaponStance
 
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base._weapon.userWeapon.Aiming(_weapon);
+        base._weapon.userWeapon.weaponAfterAction.AimDownSight(_weapon);
         weaponStanceManager.AimingWeight += base._weapon.aimDownSight_speed * Time.deltaTime;
         weaponStanceManager.AimingWeight = Mathf.Clamp(weaponStanceManager.AimingWeight, 0, 1);
     }

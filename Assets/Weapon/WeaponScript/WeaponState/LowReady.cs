@@ -19,7 +19,7 @@ public class LowReady : WeaponStance
     }
     public override void WeaponStanceUpdate(WeaponStanceManager weaponStanceManager)
     {
-        base._weapon.userWeapon.LowReadying(base._weapon);
+        base._weapon.userWeapon.weaponAfterAction.LowReady(base._weapon);
         weaponStanceManager.AimingWeight -= base._weapon.aimDownSight_speed * Time.deltaTime;
         weaponStanceManager.AimingWeight = Mathf.Clamp(weaponStanceManager.AimingWeight, 0, 1);
     }
