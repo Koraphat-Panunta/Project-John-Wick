@@ -108,7 +108,8 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
                 animator.SetBool("IsTakeCover", false);
             }
         }
-        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
+
+        if(player.playerStateManager.Current_state == player.playerStateManager.sprint)
         {
             AnimateSprint(player.playerMovement,true);
         }

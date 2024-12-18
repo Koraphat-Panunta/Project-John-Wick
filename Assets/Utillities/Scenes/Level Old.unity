@@ -37029,6 +37029,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1428774212975845543, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428774212975845543, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: rolloffMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1706874585930265392, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -52531,7 +52541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1304085063
 Transform:
   m_ObjectHideFlags: 0
