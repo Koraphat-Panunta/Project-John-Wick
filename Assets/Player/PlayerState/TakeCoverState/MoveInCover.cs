@@ -28,7 +28,7 @@ public class MoveInCover : MoveState,IObserverPlayer
 
         if (base.player.coverDetection.CheckingObstacleToward(base.player.RayCastPos.transform.position, base.player.RayCastPos.transform.forward * 0.3f) == false)
         {
-         
+ 
             playerStateManager.move = playerStateManager.normalMove;
             playerStateManager.ChangeState(playerStateManager.move);
 

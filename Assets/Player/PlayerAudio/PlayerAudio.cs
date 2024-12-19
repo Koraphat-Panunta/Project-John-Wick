@@ -51,7 +51,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     float footStepTiming = 0;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        //if(playerAction == PlayerAction.Move ||playerAction == PlayerAction.Sprint)
+        //if(playerAction == PlayerAction.Move ||playerAction == PlayerAction.PlayerSprintNode)
         //{
         //    MoveSound();
         //}

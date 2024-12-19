@@ -37,14 +37,16 @@ public class PlayerActionNode : PlayerNode
         this.isReset = isReset;
     }
 
-    public void Enter()
+    public virtual void Enter()
     {
+        if(enter!=null)
         enter.Invoke();
     }
 
-    public void Exit()
+    public virtual void Exit()
     {
-        exit.Invoke();
+        if(exit != null)
+            exit.Invoke();
     }
 
     public override bool IsReset()
@@ -59,11 +61,13 @@ public class PlayerActionNode : PlayerNode
 
     public override void Update()
     {
-        update.Invoke();
+        if (update != null)
+            update.Invoke();
     }
 
     public override void FixedUpdate()
     {
+        if(fixedUpdate != null)
         fixedUpdate.Invoke();
     }
 }

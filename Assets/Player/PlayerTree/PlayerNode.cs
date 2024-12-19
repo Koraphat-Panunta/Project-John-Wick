@@ -22,20 +22,20 @@ public abstract class PlayerNode
         playerActionNode = null;
         foreach (PlayerNode playerNode in childNode)
         {
-            if (playerNode.PreCondition())
+            if(playerNode.PreCondition()==false)
+                { continue; }
+
+            if (playerNode.GetType().IsSubclassOf(typeof(PlayerActionNode)))
             {
-                if (playerNode.GetType().IsSubclassOf(typeof(PlayerActionNode)))
-                {
-                    playerActionNode = playerNode as PlayerActionNode;
-                    //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
-                }
-                else
-                {
-                    //Debug.Log("Transition from " + this + " ->" + weaponNode);
-                    playerNode.Transition(out playerActionNode);
-                }
-                break;
+                playerActionNode = playerNode as PlayerActionNode;
+                //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
             }
+            else
+            {
+                //Debug.Log("Transition from " + this + " ->" + weaponNode);
+                playerNode.Transition(out playerActionNode);
+            }
+            break;
         }
     }
     public void AddChildNode(PlayerNode playerNode)
