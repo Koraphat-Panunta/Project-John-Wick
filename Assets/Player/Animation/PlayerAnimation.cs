@@ -86,7 +86,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Move)
         {
             AnimateMove(player.playerMovement);
-            if (player.playerStateManager.move == player.playerStateManager.moveInCover)
+            if (player.isInCover)
             {
                 animator.SetBool("IsTakeCover", true);
             }
@@ -99,7 +99,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Idle)
         {
             AnimateMove(player.playerMovement);
-            if (player.playerStateManager.idle == player.playerStateManager.idleInCover)
+            if (player.isInCover)
             {
                 animator.SetBool("IsTakeCover", true);
             }
@@ -109,7 +109,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
             }
         }
 
-        if(player.playerStateManager.Current_state == player.playerStateManager.sprint)
+        if(player.isSprint)
         {
             AnimateSprint(player.playerMovement,true);
         }

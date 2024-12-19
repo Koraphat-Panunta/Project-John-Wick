@@ -40,8 +40,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     public bool isSwitchWeapon;
     public enum PlayerStance {stand,crouch,prone }
     public PlayerStance playerStance = PlayerStance.stand;
-    public bool isInCover;
-    public bool isGround;
+    public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, RayCastPos.forward); } }
+    //public bool isGround;
     private void BlackBoardBufferUpdate()
     {
         isReload = false;
@@ -155,7 +155,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 
     //Initailized Player Tree node
     public PlayerActionNode curPlayerActionNode { get; private set; }
-    public PlayerSelectorNode startSelectorNode { get; private set; }
 
     public PlayerSelectorNode stanceSelectorNode { get; private set; }
 
@@ -194,13 +193,18 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
 
         standIncoverSelector.AddChildNode(playerInCoverStandMoveNode);
         standIncoverSelector.AddChildNode(playerInCoverStandIdleNode);
+
+        stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
+        curPlayerActionNode = playerActionNode;
+        Debug.Log("Out PlayerNode = " + playerActionNode);
     }
     private void UpdatePlayerTree()
     {
         if (curPlayerActionNode.IsReset()){
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
-            startSelectorNode.Transition(out PlayerActionNode playerActionNode);
+            stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
+            Debug.Log("Out PlayerNode = " + playerActionNode);
             curPlayerActionNode = playerActionNode;
             curPlayerActionNode.Enter();
         }

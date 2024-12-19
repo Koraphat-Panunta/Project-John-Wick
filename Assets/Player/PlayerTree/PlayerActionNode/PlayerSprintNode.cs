@@ -34,7 +34,7 @@ public class PlayerSprintNode : PlayerActionNode
     public override bool IsReset()
     {
         if(player.isSprint == false
-            &&player.playerStance != Player.PlayerStance.stand)
+            ||player.playerStance != Player.PlayerStance.stand)
             return true;
         else
             return false;
@@ -54,6 +54,7 @@ public class PlayerSprintNode : PlayerActionNode
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }
+        player.weaponCommand.CancleTrigger();
         player.weaponCommand.LowReady();
     }
 }

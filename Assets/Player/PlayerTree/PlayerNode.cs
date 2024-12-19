@@ -28,11 +28,11 @@ public abstract class PlayerNode
             if (playerNode.GetType().IsSubclassOf(typeof(PlayerActionNode)))
             {
                 playerActionNode = playerNode as PlayerActionNode;
-                //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
+                Debug.Log("Transition from " + this + " ->" + playerNode);
             }
             else
             {
-                //Debug.Log("Transition from " + this + " ->" + weaponNode);
+                Debug.Log("Transition from " + this + " ->" + playerNode);
                 playerNode.Transition(out playerActionNode);
             }
             break;

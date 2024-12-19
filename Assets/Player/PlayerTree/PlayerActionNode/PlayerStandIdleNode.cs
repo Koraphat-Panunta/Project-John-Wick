@@ -21,8 +21,8 @@ public class PlayerStandIdleNode : PlayerActionNode
     public override bool IsReset()
     {
         if(player.playerStance != Player.PlayerStance.stand
-            &&player.isInCover == true
-            &&player.inputMoveDir_Local.magnitude >0
+            ||player.isInCover == true
+            ||player.inputMoveDir_Local.magnitude > 0
             )
             return true;
         else
@@ -36,6 +36,7 @@ public class PlayerStandIdleNode : PlayerActionNode
 
     public override void Update()
     {
+        InputPerformed();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         base.Update();
     }

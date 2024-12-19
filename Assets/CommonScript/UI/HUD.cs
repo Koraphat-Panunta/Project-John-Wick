@@ -13,7 +13,6 @@ public class HUD : MonoBehaviour
     void Start()
     {
         Player player = FindAnyObjectByType<Player>();
-        Debug.Log(" player observer count ");
         playerInfoDisplays.Add(new PlayerWeaponDisplay(player, this,AmmoDisplay));
         playerInfoDisplays.Add(new PlayerAttributeDisplay(player, this, Hp_barPlayer));
 

@@ -188,7 +188,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             currentStanceNode = null;
             startStanceNode.Transition(out WeaponActionNode weaponActionNode);
             currentStanceNode = weaponActionNode;
-            Debug.Log("Out stance Node " + currentStanceNode);
+            //Debug.Log("Out stance Node " + currentStanceNode);
             currentStanceNode.Enter();
         }
         if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
@@ -197,7 +197,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             currentEventNode = null;
             startEventNode.Transition(out WeaponActionNode weaponActionNode);
             currentEventNode = weaponActionNode;
-            Debug.Log("Out Event Node " + currentEventNode);
+            //Debug.Log("Out Event Node " + currentEventNode);
             currentEventNode.Enter();
         }
         currentStanceNode.Update();

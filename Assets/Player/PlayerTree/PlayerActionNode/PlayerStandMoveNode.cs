@@ -20,8 +20,9 @@ public class PlayerStandMoveNode : PlayerActionNode
     public override bool IsReset()
     {
         if(player.playerStance != Player.PlayerStance.stand
-            &&player.isInCover == true
-            &&player.inputMoveDir_Local.magnitude<=0)
+            ||player.isSprint
+            ||player.isInCover == true
+            ||player.inputMoveDir_Local.magnitude<=0)
             return true;
         return false;
     }
