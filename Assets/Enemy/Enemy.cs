@@ -81,46 +81,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser
             enemyStateManager.ChangeState(enemyStateManager.enemyDead);
         }
     }
-
-    //public override void Aiming(Weapon weapon)
-    //{
-    //    //Weapon Send Sensing
-    //    animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-    //    base.Aiming(weapon);
-    //}
-
-    //public override void Firing(Weapon weapon)
-    //{
-    //    animator.SetTrigger("Firing");
-    //    animator.SetLayerWeight(3, 1);
-    //    StartCoroutine(RecoveryFiringLayerWeight());
-    //    base.Firing(weapon);
-    //}
-
-    //public override void LowReadying(Weapon weapon)
-    //{
-    //    animator.SetLayerWeight(1, weapon.weapon_StanceManager.AimingWeight);
-    //    base.LowReadying(weapon);
-    //}
-
-    //public override void Reloading(Weapon weapon, Reload.ReloadType reloadType)
-    //{
-    //    if (reloadType == ReloadType.TacticalReload)
-    //    {
-    //        animator.SetTrigger("TacticalReload");
-    //        animator.SetLayerWeight(2, 1);
-    //    }
-    //    else if (reloadType == ReloadType.ReloadMagOut)
-    //    {
-    //        animator.SetTrigger("Reloading");
-    //        animator.SetLayerWeight(2, 1);
-    //    }
-    //    else if (reloadType == ReloadType.ReloadFinished)
-    //    {
-    //        StartCoroutine(RecoveryReloadLayerWeight(weapon));
-    //    }
-    //    base.Reloading(weapon, reloadType);
-    //}
     public IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
     {
         float RecoveryWeight = 10;

@@ -63,7 +63,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         isMagIn = true;
 
         bullet = _556MmBullet;
-        RecoilKickBack = bullet.recoilKickBack;
+        _RecoilKickBack = bullet.recoilKickBack;
         base.Awake();
     }
     protected override void Start()
