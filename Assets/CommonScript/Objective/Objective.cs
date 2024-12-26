@@ -25,7 +25,8 @@ public abstract class Objective
         //Check Player is dead
         if (player.GetHP() <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            UnityEngine.SceneManagement.SceneManager.LoadScene
+            (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
             return true;
         }
         else
