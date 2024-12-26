@@ -6,7 +6,7 @@ public abstract class Grip : WeaponAttachment
     protected abstract float aimDownSightSpeed { get; set; }
     protected abstract float movementSpeed  {get; set; }
     protected abstract float accuracy { get; set; }
-    protected override AttachmentSlot myAttachmentSlot { get => AttachmentSlot.GRIP; set => throw new System.NotImplementedException(); }
+    public override AttachmentSlot myAttachmentSlot { get => AttachmentSlot.GRIP;protected set => throw new System.NotImplementedException(); }
     public override void Attach(Weapon weapon)
     {
         weapon.RecoilCameraController += recoilCameraKickBackController;
