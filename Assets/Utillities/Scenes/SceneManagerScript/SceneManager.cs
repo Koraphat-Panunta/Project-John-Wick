@@ -2,18 +2,17 @@ using UnityEngine;
 
 public abstract class SceneManager : MonoBehaviour
 {
-    public SceneState curScene;
-    protected virtual void Start()
+    public SceneState curScene { get; protected set; }
+    protected abstract void Start();
+    protected virtual void Update()
     {
-        
+        if(curScene != null)
+            curScene.Update();
     }
-    protected void Update()
+    protected virtual void FixedUpdate()
     {
-        
-    }
-    protected void FixedUpdate()
-    {
-        
+        if(curScene != null)
+            curScene.FixedUpdate();
     }
     public void ChangeScene(SceneState nextScene)
     {
