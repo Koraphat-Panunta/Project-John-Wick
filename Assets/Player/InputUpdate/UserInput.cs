@@ -46,7 +46,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""PlayerSprintNode"",
+                    ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""6bf75e9b-5587-4dcd-b90d-22dabf150761"",
                     ""expectedControlType"": """",
@@ -328,7 +328,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlayerSprintNode"",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -339,7 +339,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlayerSprintNode"",
+                    ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -462,7 +462,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_Move = m_PlayerAction.FindAction("Move", throwIfNotFound: true);
         m_PlayerAction_Look = m_PlayerAction.FindAction("Look", throwIfNotFound: true);
-        m_PlayerAction_Sprint = m_PlayerAction.FindAction("PlayerSprintNode", throwIfNotFound: true);
+        m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerAction_Aim = m_PlayerAction.FindAction("Aim", throwIfNotFound: true);
         m_PlayerAction_Firing = m_PlayerAction.FindAction("Firing", throwIfNotFound: true);
         m_PlayerAction_Reload = m_PlayerAction.FindAction("Reload", throwIfNotFound: true);
