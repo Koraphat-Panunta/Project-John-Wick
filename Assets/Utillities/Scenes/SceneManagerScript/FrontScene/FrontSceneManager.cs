@@ -4,6 +4,7 @@ public class FrontSceneManager : SceneManager
 {
     public Canvas menuCanvas;
     public Canvas levelSelectCanvas;
+    public Canvas initailizedCanvas;
 
     public MenuSceneState menuSceneState;
     public LevelSceneState levelSceneState;
