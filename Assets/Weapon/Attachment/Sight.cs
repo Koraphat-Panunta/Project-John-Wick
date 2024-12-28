@@ -9,7 +9,7 @@ public class Sight : WeaponAttachment
     [SerializeField] protected float max_Precision;
     [SerializeField] protected float accuracy;
     [SerializeField] protected float aimDownSightSpeed;
-    protected override AttachmentSlot myAttachmentSlot { get;set ; }
+    public override AttachmentSlot myAttachmentSlot { get;protected set ; }
     public override void Attach(Weapon weapon)
     {
         myAttachmentSlot = AttachmentSlot.SCOPE;

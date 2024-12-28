@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         Kickback.Add(CameraKickbackPreset.N2, 0.04f);
         Kickback.Add(CameraKickbackPreset.N3, 0.06f);
         Kickback.Add(CameraKickbackPreset.N4, 0.08f);
-        Cursor.lockState = CursorLockMode.Locked;    
+        //Cursor.lockState = CursorLockMode.Locked;    
         Player.AddObserver(this);
         cameraOverShoulder = new CamerOverShoulder(this);
         cameraKickBack = new CameraKickBack(this);
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             Cursor.lockState = CursorLockMode.None;
             return;
         }
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {

@@ -11,9 +11,9 @@ public abstract class Muzzle :WeaponAttachment
     {
         
     }
-    protected override AttachmentSlot myAttachmentSlot {
+    public override AttachmentSlot myAttachmentSlot {
         get { return AttachmentSlot.MUZZLE; } 
-        set => throw new NotImplementedException(); 
+        protected set => throw new NotImplementedException(); 
     }
 
     public override void Attach(Weapon weapon)

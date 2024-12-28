@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ArmBodyPart" Collapsed="true">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\BodyPart\ArmBodyPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BodyPart" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\BodyPart\BodyPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChestBodyPart" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\BodyPart\ChestBodyPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeadBodyPart" Collapsed="true">
+    <Position X="5.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\BodyPart\HeadBodyPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LegBodyPart" Collapsed="true">
+    <Position X="7.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\BodyPart\LegBodyPart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NormalFiringPattern" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAKAACAAAACAgAAAABAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyFiringPattern\NormalFiringPattern.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyFindingCover" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAESAAAAAAAAAAAAAAAACAgAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemySenses\EnemyFindingCover.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyHearingSensing" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAQAAAAAAAAAAAAAAAAAAAAABBAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemySenses\EnemyHearingSensing.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyLookForPlayer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQAAAAgAAAAAAAAAAAAIAgAAAAAAAAgAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemySenses\EnemyLookForPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EnemyDead" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyDead.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyIdle" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyIdle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyMove" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAEAAAAAAAAAAAQAAAAAAAAAAAQAgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyMoveAgent" Collapsed="true">
+    <Position X="9.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyMoveAgent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyPainState" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAQAAAAAAAAAAAQEgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyPainState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemySprint" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAYAAAAAAQAAAAAAAAAAAQAgAAAAAAgI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemySprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyState" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAQAgAAAAAAgA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyStateManager" Collapsed="true">
+    <Position X="14" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAAAAAgAABAAAAAAIIAAAAAAQAAAAAACAAAAAABI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyStateManager\EnemyStateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BodyHitNormalReaction" Collapsed="true">
+    <Position X="2.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAIAAAAAAAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\HitReactionAnimation\BodyHitNormalReaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IEnemyHitReaction" Collapsed="true">
+    <Position X="1.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAARAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\HitReactionAnimation\IEnemyHitReaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyMiniFlinch" Collapsed="true">
+    <Position X="19.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAQCAAAAAAAAIAAQAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\HitReactionAnimation\EnemyMiniFlinch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LegHitNormalReaction" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAIAAAAAAAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\HitReactionAnimation\LegHitNormalReaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FlankingTactic" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAEAAAAAAAAAAAAEAAAAAAAAAgAAAAAAAEAAAAM=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\Tactic\FlankingTactic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="HoldingTactic" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAIAAAABAAAAIAAAAAAAAAAIAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\Tactic\HoldingTactic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SerchingTactic" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAARAAAAAAAgAAAAAAAAAAAAAAAEAAAAM=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\Tactic\SerchingTactic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="TakeCoverTactic" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAEAAAAAAAYAAAAQACBgAJBAAgAAAAAAAAEAIAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\Tactic\TakeCoverTactic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CoverPositionEnemy" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\CoverPositionEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyAgentMovementOverride" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAAAAQAAAAAAIAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyAgentMovementOverride.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyCoverDebug" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAIAAIAAAAAAAAAAAAAAIAAAAAAAAAAAAAAgAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyCoverDebug.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyCoverObstacle" Collapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAIgAAIAAAAACAAAAECAgAAAAAAAAAAAAAEAAEQCA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyCoverObstacle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyComunicate" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAABAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyComunicate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="5.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIREFgAiAiAgA6CQATACACQgIAQQAAECEBQAgAAABIE=</HashCode>
+      <FileName>Assets\Enemy\Enemy.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EnemyGetShootDirection" Collapsed="true">
+    <Position X="14" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAgAAI=</HashCode>
+      <FileName>Assets\Enemy\EnemyGetShootDirection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyPath" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAgCYAAEAAAkAAAAAAAAAAAAAAUAAAAAAg=</HashCode>
+      <FileName>Assets\Enemy\EnemyPath.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SubjectEnemy" Collapsed="true">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAhAAAAAAAAAAAAAAAAAAAAAAAAAAAAgCAA=</HashCode>
+      <FileName>Assets\Enemy\SubjectEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IEnemyFiringPattern" Collapsed="true">
+    <Position X="12.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemyFiringPattern\IEnemyFiringPattern.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IEnemySensing" Collapsed="true">
+    <Position X="14" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\EnemySenses\IEnemySensing.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IEnemyTactic" Collapsed="true">
+    <Position X="15.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Assets\Enemy\EnemyStructure\Tactic\EnemyTactic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IObserverEnemy" Collapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Enemy\IObserverEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

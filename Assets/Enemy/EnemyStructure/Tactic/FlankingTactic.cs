@@ -31,6 +31,7 @@ public class FlankingTactic : IEnemyTactic
         }
         if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
         {
+            //Shoot
             enemy.weaponCommand.AimDownSight();
             enemyFiringPattern.Performing();
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
@@ -39,7 +40,7 @@ public class FlankingTactic : IEnemyTactic
         }
         else
         {
-            if (enemy.enemyPath._markPoint.Count<=0)
+            if (enemy.enemyPath._markPoint.Count <= 0)
             {
                 enemy.weaponCommand.LowReady();
                 backToSerchTiming -= Time.deltaTime;

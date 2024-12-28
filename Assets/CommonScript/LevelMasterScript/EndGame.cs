@@ -38,9 +38,9 @@ public class EndGame : MonoBehaviour,IObseverLevel
     {
         if(isEndGmae == true)
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (Input.GetKeyDown(KeyCode.R)){
+                UnityEngine.SceneManagement.SceneManager.LoadScene
+                    (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
             }
         }
     }

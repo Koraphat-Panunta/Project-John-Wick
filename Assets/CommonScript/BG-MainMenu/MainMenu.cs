@@ -7,6 +7,6 @@ public class MainMenu : MonoBehaviour
 {
     public void StartScene()
     {
-        SceneManager.LoadScene("Level Old");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level Old");
     }
 }
