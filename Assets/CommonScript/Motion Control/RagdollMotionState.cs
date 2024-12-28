@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class RagdollMotionState : MotionState
 {
-    List<Rigidbody> bones = new List<Rigidbody>();
-    GameObject hips;
+    public List<Rigidbody> bones = new List<Rigidbody>();
+    public GameObject hips;
     public RagdollMotionState(List<GameObject> bones,GameObject hips) 
     {
         foreach (GameObject rbBone in bones) 
