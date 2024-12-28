@@ -94,8 +94,8 @@ public class TakeCoverTactic : IEnemyTactic
     }
     private void BackToCover(Vector3 CoverPos, NavMeshAgent agent) 
     {
-        NavMeshHit hit;
-        float maxDistance = 1;
+        //NavMeshHit hit;
+        //float maxDistance = 1;
 
         //if (NavMesh.SamplePosition(CoverPos, out hit, maxDistance, NavMesh.AllAreas))
         //{

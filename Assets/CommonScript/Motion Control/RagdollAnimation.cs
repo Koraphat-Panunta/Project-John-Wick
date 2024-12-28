@@ -24,9 +24,8 @@ public class RagdollAnimation : MonoBehaviour
     private Rigidbody[] ragdoll = new Rigidbody[11];
 
     private float deltaRoot_Hips;
-    public bool enableRagdoll;
 
-    private Vector3 rootPosRagdoll = Vector3.zero;
+    //private Vector3 rootPosRagdoll = Vector3.zero;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,10 +42,10 @@ public class RagdollAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enableRagdoll == true)
-        {
-            rootPosRagdoll = hip.transform.position;
-        }
+        //if(enableRagdoll == true)
+        //{
+        //    rootPosRagdoll = hip.transform.position;
+        //}
     }
     //private void OnValidate()
     //{

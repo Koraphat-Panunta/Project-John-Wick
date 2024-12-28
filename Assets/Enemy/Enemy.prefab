@@ -202,7 +202,6 @@ GameObject:
   - component: {fileID: 7890612989017240957}
   - component: {fileID: 2619394019457856660}
   - component: {fileID: 1345616770146797532}
-  - component: {fileID: 6226671452450718800}
   - component: {fileID: 6707978067127173200}
   - component: {fileID: -7130791345041273299}
   - component: {fileID: 5275516832316452753}
@@ -303,6 +302,17 @@ MonoBehaviour:
   weaponMainSocket: {fileID: 4230971110914966387}
   primaryWeaponHoster: {fileID: 0}
   secondaryWeaponHoster: {fileID: 0}
+  head: {fileID: 872334984746170177}
+  spline: {fileID: 7314758687150209614}
+  hip: {fileID: 9070863458064552244}
+  right_upperLeg: {fileID: 5493892855488175499}
+  right_lowerLeg: {fileID: 1788903723438321706}
+  left_upperLeg: {fileID: 815434455370539587}
+  left_lowerLeg: {fileID: 2865811544286037006}
+  right_upperArm: {fileID: 2699505569083747641}
+  right_lowerArm: {fileID: 1671559870367208952}
+  left_upperArm: {fileID: 2415856318687098846}
+  left_lowerArm: {fileID: 455147826659365224}
 --- !u!114 &1345616770146797532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,32 +326,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
---- !u!114 &6226671452450718800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5250aebd9055c034f96677112382d6d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 1113618680042977909}
-  head: {fileID: 872334984746170177}
-  spline: {fileID: 7314758687150209614}
-  hip: {fileID: 9070863458064552244}
-  right_upperLeg: {fileID: 5493892855488175499}
-  right_lowerLeg: {fileID: 1788903723438321706}
-  left_upperLeg: {fileID: 815434455370539587}
-  left_lowerLeg: {fileID: 2865811544286037006}
-  right_upperArm: {fileID: 2699505569083747641}
-  right_lowerArm: {fileID: 1671559870367208952}
-  left_upperArm: {fileID: 2415856318687098846}
-  left_lowerArm: {fileID: 455147826659365224}
-  rootPos: {fileID: 6454910191179571215}
-  enableRagdoll: 0
 --- !u!114 &6707978067127173200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4481,7 +4465,8 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2013878341642873245, guid: 87cba2b59823c2e498807517d66f02a3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

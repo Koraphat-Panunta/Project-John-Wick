@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -51,6 +51,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser
 
         enemyStateManager._currentState = enemyStateManager._idle;
         enemyStateManager._currentState.StateEnter(enemyStateManager);
+
+        MotionControlInitailized();
 
         currentTactic = new SerchingTactic(this);
         Initialized_IWeaponAdvanceUser();
@@ -132,4 +134,46 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
     }
+
+    
+
+    #region InitializedMotionControl
+
+    [SerializeField] GameObject head;
+    [SerializeField] GameObject spline;
+    [SerializeField] GameObject hip;
+    [SerializeField] GameObject right_upperLeg;
+    [SerializeField] GameObject right_lowerLeg;
+    [SerializeField] GameObject left_upperLeg;
+    [SerializeField] GameObject left_lowerLeg;
+    [SerializeField] GameObject right_upperArm;
+    [SerializeField] GameObject right_lowerArm;
+    [SerializeField] GameObject left_upperArm;
+    [SerializeField] GameObject left_lowerArm;
+
+    public List<GameObject> bones { get ; set ; }
+    public GameObject hips { get ; set ; }
+    Animator IMotionDriven.animator { get => animator; set => animator = value; }
+    public MotionControlManager motionControlManager { get; set; }
+
+    public void MotionControlInitailized()
+    {
+        hips = this.hip;
+        bones = new List<GameObject>();
+        bones.Add(head);
+        bones.Add(spline);
+        bones.Add(hip);
+        bones.Add(right_upperLeg);
+        bones.Add (right_lowerLeg);
+        bones.Add(left_upperLeg);
+        bones.Add(left_lowerLeg);
+        bones.Add(right_upperArm);
+        bones.Add(right_lowerArm);
+        bones.Add(left_upperArm);
+        bones.Add(left_lowerArm);
+
+        motionControlManager = new MotionControlManager(bones,hips,animator);
+    }
+
+    #endregion
 }
