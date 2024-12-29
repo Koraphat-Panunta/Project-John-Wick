@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class PlayerActionNode : PlayerNode
+public class EnemyActionLeafNode : EnemyActionNode
 {
-  
-    public override List<PlayerNode> childNode { get; set; }
+    public override List<EnemyActionNode> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
     protected Action enter;
     protected Action exit;
@@ -14,18 +13,18 @@ public class PlayerActionNode : PlayerNode
     protected Func<bool> isReset;
     protected Func<bool> isComplete;
 
-    
-    public PlayerActionNode(Player player) : base(player)
+
+    public EnemyActionLeafNode(Enemy enemy) : base(enemy)
     {
     }
-    public PlayerActionNode(Player player
-        ,Func<bool> preCondition
-        ,Action Enter
-        ,Action Exit
-        ,Action Update
-        ,Action FixedUpdate
-        ,Func<bool> isComplete
-        , Func<bool> isReset) : base(player) 
+    public EnemyActionLeafNode(Enemy enemy
+        , Func<bool> preCondition
+        , Action Enter
+        , Action Exit
+        , Action Update
+        , Action FixedUpdate
+        , Func<bool> isComplete
+        , Func<bool> isReset) : base(enemy)
     {
         this.preCondidtion = preCondition;
         this.enter = Enter;
@@ -35,16 +34,23 @@ public class PlayerActionNode : PlayerNode
         this.isComplete = isComplete;
         this.isReset = isReset;
     }
+    public EnemyActionLeafNode(Enemy enemy
+       , Func<bool> preCondition
+       , Func<bool> isReset) : base(enemy)
+    {
+        this.preCondidtion = preCondition;
+        this.isReset = isReset;
+    }
 
     public virtual void Enter()
     {
-        if(enter!=null)
-        enter.Invoke();
+        if (enter != null)
+            enter.Invoke();
     }
 
     public virtual void Exit()
     {
-        if(exit != null)
+        if (exit != null)
             exit.Invoke();
     }
 
@@ -66,7 +72,7 @@ public class PlayerActionNode : PlayerNode
 
     public override void FixedUpdate()
     {
-        if(fixedUpdate != null)
-        fixedUpdate.Invoke();
+        if (fixedUpdate != null)
+            fixedUpdate.Invoke();
     }
 }
