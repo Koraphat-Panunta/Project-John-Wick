@@ -23,8 +23,8 @@ public class HoldingTactic : IEnemyTactic
     }
     public void Manufacturing()
     {
-        enemy.enemyLookForPlayer.Recived();
-        if (enemy.enemyLookForPlayer.IsSeeingPlayer)
+
+        if (enemy.enemyLookForPlayer.Recived(out GameObject target))
         {
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             isSeeTargetPos = true;

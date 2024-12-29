@@ -24,12 +24,11 @@ public class FlankingTactic : IEnemyTactic
     }
     public void Manufacturing()
     {
-        enemy.enemyLookForPlayer.Recived();
         if (enemy.cost < 34/*&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*2*/)
         {
             enemy.currentTactic = new TakeCoverTactic(enemy);
         }
-        if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
+        if (enemy.enemyLookForPlayer.Recived(out GameObject target) == true)
         {
             //Shoot
             enemy.weaponCommand.AimDownSight();
@@ -52,11 +51,11 @@ public class FlankingTactic : IEnemyTactic
             }
             else
             {
-                if (enemy.enemyLookForPlayer.lostSightTiming < 4f)
-                {
-                    enemyFiringPattern.Performing();
-                    enemy.cost -= cost_DrainRate * Time.deltaTime;
-                }
+                //if (enemy.enemyLookForPlayer.lostSightTiming < 4f)
+                //{
+                //    enemyFiringPattern.Performing();
+                //    enemy.cost -= cost_DrainRate * Time.deltaTime;
+                //}
             }
         }
         enemyRot.RotateTowards(enemy.Target, enemy.gameObject, 6);

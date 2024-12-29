@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -42,7 +43,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
         enemyPath = new EnemyPath(agent);
         
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
-        enemyLookForPlayer = new EnemyLookForPlayer(this,targetMask);
+        enemyLookForPlayer = new EnemyLookForPlayer(targetMask,this.enemyFieldOfView,rayCastPos);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
@@ -67,10 +68,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
 
     void Update()
     {
+        GoapUpdate();
         enemyStateManager.Update();
     }
     private void FixedUpdate()
     {
+        GoapFixedUpdate();
         enemyStateManager.FixedUpdate();
     }
 
@@ -112,6 +115,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
         }
     }
 
+    #region Initailized WeaponAdvanceUser
     [SerializeField]private Transform weaponMainSocket;
     [SerializeField] private Transform primaryWeaponHoster;
     [SerializeField] private Transform secondaryWeaponHoster;
@@ -134,8 +138,51 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
     }
+    #endregion
 
-    
+    #region GoapAI
+    private EnemyGoalSelector startSelector { get; set; }
+    private EnemyGoalLeaf curGoal { get; set; }
+    private EncouterGoal encouterGoal { get; set; }
+    private TakeCoverGoal takeCoverGoal { get; set; }
+    private HoldingGoal holdingGoal { get; set; }
+    private PatrolingGoal patrolingGoal { get; set; }
+
+    private void InitailizedGoap()
+    {
+        startSelector = new EnemyGoalSelector(this,()=>true);
+
+        encouterGoal = new EncouterGoal(this);
+        takeCoverGoal = new TakeCoverGoal(this);
+        holdingGoal = new HoldingGoal(this);
+        patrolingGoal = new PatrolingGoal(this);
+
+        startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+        curGoal = enemyGoalLeaf;
+
+    }
+    private void GoapUpdate()
+    {
+        if (curGoal.IsReset()){
+
+            curGoal.Exit();
+            curGoal = null;
+            startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+            //Debug.Log("Out PlayerNode = " + enemyGoalLeaf);
+            curGoal = enemyGoalLeaf;
+            curGoal.Enter();
+        }
+
+        if (curGoal != null)
+            curGoal.Update();
+    }
+    private void GoapFixedUpdate() 
+    {
+        if(curGoal != null)
+            curGoal.FixedUpdate();
+    }
+    #endregion
+
 
     #region InitializedMotionControl
 

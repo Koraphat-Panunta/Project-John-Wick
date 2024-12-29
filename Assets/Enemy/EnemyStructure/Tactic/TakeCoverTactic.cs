@@ -30,8 +30,8 @@ public class TakeCoverTactic : IEnemyTactic
     }
     public void Manufacturing()
     {
-        enemy.enemyLookForPlayer.Recived();
-        if (enemy.enemyLookForPlayer.IsSeeingPlayer)
+        
+        if (enemy.enemyLookForPlayer.Recived(out GameObject target))
         {
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
         }
@@ -87,7 +87,7 @@ public class TakeCoverTactic : IEnemyTactic
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
         enemyFiringPattern.Performing();
         new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
-        if (enemy.enemyLookForPlayer.IsSeeingPlayer == false)
+        if (enemy.enemyLookForPlayer.Recived(out GameObject target) == false)
         {
             enemy.cost += costRate * Time.deltaTime;
         }
@@ -141,7 +141,7 @@ public class TakeCoverTactic : IEnemyTactic
     bool IsPeeking;
     private void CoverUsingPattern()
     {
-        if (enemy.enemyLookForPlayer.IsSeeingPlayer == true)
+        if (enemy.enemyLookForPlayer.Recived(out GameObject target) == true)
         {
             new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
             enemy.weaponCommand.AimDownSight();
