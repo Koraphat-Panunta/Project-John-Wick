@@ -48,7 +48,7 @@ public class WeaponSequenceNode : WeaponActionNode
         }
         if(curActionNode != null)
         curActionNode.Update();
-        Debug.Log("curActionNode =" + curActionNode);
+        //Debug.Log("curActionNode =" + curActionNode);
     }
     public override void FixedUpdate()
     {

@@ -28,12 +28,9 @@ public class FieldOfView
             {
 
                 if (Physics.Raycast(objView.transform.position, (obj[0].transform.position-objView.transform.position).normalized, out RaycastHit hit, 1000,defualtLayerMask+targetMask))
-                {
-                    Debug.DrawLine(objView.transform.position, hit.point);
-                    //Debug.Log("Ray hit" + hit.collider.gameObject.name);
+                {                   
                     if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
                     {
-                        //Debug.Log("Finded Object");
                         returnObj = obj[0].gameObject;
                     }
                 }
@@ -47,7 +44,7 @@ public class FieldOfView
         Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
         targetObj = null;
 
-        if(obj[0]==null)
+        if(obj.Length <=0)
             return false;
 
         Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
@@ -57,8 +54,6 @@ public class FieldOfView
 
         if (Physics.Raycast(objView.transform.position, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
         {
-            Debug.DrawLine(objView.transform.position, hit.point);
-            //Debug.Log("Ray hit" + hit.collider.gameObject.name);
             if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
             {
                 targetObj = obj[0].gameObject;
@@ -84,11 +79,8 @@ public class FieldOfView
             {
                 if (Physics.Raycast(objView.transform.position + offsetView, (obj[0].transform.position - (objView.transform.position+ offsetView)).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
                 {
-                    Debug.DrawLine(objView.transform.position + offsetView, hit.point);
-                    //Debug.Log("Ray hit" + hit.collider.gameObject.name);
                     if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
                     {
-                        //Debug.Log("Finded Object");
                         returnObj = obj[0].gameObject;
                     }
                 }

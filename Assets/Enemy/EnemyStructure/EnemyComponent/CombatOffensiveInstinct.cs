@@ -7,16 +7,19 @@ public class CombatOffensiveInstinct:IEnvironmentAware
     private GameObject target;
     private ICombatOffensiveInstinct offensiveInstinct;
 
-    public CombatOffensiveInstinct(FieldOfView fieldOfView,ICombatOffensiveInstinct OffensiveInstincted)
+    public CombatOffensiveInstinct(FieldOfView fieldOfView,ICombatOffensiveInstinct OffensiveInstincted,Environment environment)
     {
         this.fieldOfView = fieldOfView;
         offensiveInstinct = OffensiveInstincted;
+        environment.Add_Listener(this);
     }
 
     public void UpdateSening()
     {
+        TargetPointingWeaponAware();
         float coolDownOffensiveIntensity = 10;
-        //if(this.fieldOfView.)
+
+        if(offensiveIntensity >0)
         offensiveIntensity -= coolDownOffensiveIntensity*Time.deltaTime;
     }
 
@@ -29,22 +32,29 @@ public class CombatOffensiveInstinct:IEnvironmentAware
             return ;
 
             Vector3 shootingLine = player.pointingPos - player.currentWeapon.bulletSpawnerPos.position;
-            Vector3 referencePoint = offensiveInstinct.objInstict.transform.position;
-        if (IsBulletLineCloseEnough(shootingLine,
+            Vector3 referencePoint = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
+        if (IsLineOfSightCloseEnough(shootingLine,
                 referencePoint,
                 player.currentWeapon.bulletSpawnerPos.position))
         {
             IncreseBulletSuppressIntensity();
         }
     }
-    private bool IsBulletLineCloseEnough(Vector3 bulletLine,Vector3 referencePos,Vector3 startPos)
+    private bool IsLineOfSightCloseEnough(Vector3 bulletLine,Vector3 referencePos,Vector3 startPos)
     {
         float raduisAware = 3;
 
         Vector3 startPosToRefPoint = referencePos - startPos;
-        float t = Vector3.Dot(startPosToRefPoint, bulletLine) / 1;
+        float t = Vector3.Dot(startPosToRefPoint, bulletLine) / Vector3.Dot(bulletLine,bulletLine);
+        if (t >1||t<0)
+            return false;
+       
+        Debug.Log("Dot t =" + t);
 
         Vector3 closestPoint = startPos + t*bulletLine;
+        Debug.DrawLine(closestPoint, referencePos,Color.yellow);
+        Debug.DrawLine(startPos, startPos + bulletLine, Color.red);
+        Debug.Log("Distance LineOfSight =" + Vector3.Distance(closestPoint, referencePos));
         if(Vector3.Distance(closestPoint,referencePos) < raduisAware)
             return true;
 
@@ -58,12 +68,24 @@ public class CombatOffensiveInstinct:IEnvironmentAware
     }
     private void TargetPointingWeaponAware()
     {
+        float lineOfsightAwareIntensity = 20;
+
         if(fieldOfView.FindSingleObjectInView(offensiveInstinct.targetLayer,new Vector3(0, 1.23f, 0),out GameObject target) == false)
         return;
-
+        Debug.Log("Find Target");
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))
         {
-            //if(thisTarget.isA)
+            Debug.Log("Out Target");
+            if (thisTarget.isAiming == false)
+                return ;
+            Vector3 aimingLine = thisTarget.pointingPos - thisTarget.currentWeapon.bulletSpawnerPos.position;
+            Vector3 referencePos = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
+            Vector3 startPos = thisTarget.currentWeapon.bulletSpawnerPos.position;
+
+            if(IsLineOfSightCloseEnough(aimingLine,referencePos,startPos))
+            {
+                offensiveIntensity += lineOfsightAwareIntensity*Time.deltaTime;
+            }
         }
     }
 }

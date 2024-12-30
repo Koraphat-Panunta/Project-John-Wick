@@ -31,6 +31,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public Transform rayCastPos;
     public bool isIncombat;
 
+    public float offensiveIntenstiby;
+
    
 
     void Start()
@@ -38,7 +40,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         Target = new GameObject();
         enemyStateManager = new EnemyStateManager(this);    
         enemyPath = new EnemyPath(agent);
-        
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
         enemyLookForPlayer = new EnemyLookForPlayer(targetMask,this.enemyFieldOfView,rayCastPos);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -50,10 +51,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         enemyStateManager._currentState.StateEnter(enemyStateManager);
 
         MotionControlInitailized();
-        InitailizedGoap();
+        //InitailizedGoap();
 
         currentTactic = new SerchingTactic(this);
         Initialized_IWeaponAdvanceUser();
+        InitailizedCombatOffensiveInstinct();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
@@ -66,6 +68,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     void Update()
     {
         //GoapUpdate();
+        combatOffensiveInstinct.UpdateSening();
+        offensiveIntenstiby = combatOffensiveInstinct.offensiveIntensity;
         enemyStateManager.Update();
     }
     private void FixedUpdate()
@@ -113,7 +117,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
 
     #region Initailized WeaponAdvanceUser
-    [SerializeField]private Transform weaponMainSocket;
+    [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform primaryWeaponHoster;
     [SerializeField] private Transform secondaryWeaponHoster;
     public Animator weaponUserAnimator { get; set; }
@@ -127,6 +131,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
+    public Character userWeapon => this;
+    public bool isAiming { get ; set ; }
+    public bool isPullTrigger { get ; set ; }
+    public bool isReload { get; set; }
+    public bool isSwapShoulder { get; set; }
+    public bool isSwitchWeapon { get; set; }
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;
@@ -222,14 +232,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
     #region InitailizedCombatInstinct
     public CombatOffensiveInstinct combatOffensiveInstinct { get; set ; }
-    public FieldOfView fieldOfView { get => this.fieldOfView; set => this.fieldOfView = value; }
+    public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
     public GameObject objInstict { get ; set ; }
     public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
-
     public void InitailizedCombatOffensiveInstinct()
     {
         objInstict = gameObject;
-        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this);
+        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment);
     }
     #endregion
 }

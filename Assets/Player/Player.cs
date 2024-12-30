@@ -18,6 +18,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     public Transform RayCastPos;
 
+    [SerializeField] private bool isImortal;
 
     public enum ShoulderSide
     {
@@ -83,9 +84,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         hpRegenarate.Regenarate();
         MyHP = base.HP;
 
+
+    }
+    private void LateUpdate()
+    {
         BlackBoardBufferUpdate();
     }
-
 
     private void FixedUpdate()
     {
@@ -97,6 +101,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
+        if (isImortal)
+            return;
         Bullet bulletObj = damageVisitor as Bullet;
         float damage = bulletObj.hpDamage;
 
@@ -108,7 +114,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
             NotifyObserver(this, PlayerAction.Dead);
         }
     }
-
 
     public void OnNotify(Player player, PlayerAction playerAction)
     {
@@ -125,7 +130,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         }
     }
 
-    //Initailized Weapon Advance User
+    #region InitailizedWeaponAdvanceUser
 
     [SerializeField] private Weapon CurrentWeapon;
     [SerializeField] private PrimaryWeapon primaryWeapon;
@@ -144,6 +149,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public Vector3 pointingPos { get 
         { return crosshairController.CrosshiarShootpoint.GetPointDirection(); } set { } }
     public Animator weaponUserAnimator { get; set; }
+    public Character userWeapon { get => this;}
+    bool IWeaponAdvanceUser.isAiming { get => this.isAiming; set => this.isAiming = value; }
+    bool IWeaponAdvanceUser.isPullTrigger { get => this.isPullTrigger; set => this.isPullTrigger = value; }
+    bool IWeaponAdvanceUser.isReload { get => this.isReload; set => isReload = value; }
+    bool IWeaponAdvanceUser.isSwapShoulder { get => this.isSwapShoulder; set => this.isSwapShoulder = value; }
+    bool IWeaponAdvanceUser.isSwitchWeapon { get => this.isSwitchWeapon; set => this.isSwitchWeapon = value; }
     public void Initialized_IWeaponAdvanceUser()
     {
         pointingPos = new Vector3();
@@ -155,8 +166,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
     }
+    #endregion
 
-    //Initailized Player Tree node
+    #region Initailized Player Tree node
     public PlayerActionNode curPlayerActionNode { get; private set; }
 
     public PlayerSelectorNode stanceSelectorNode { get; private set; }
@@ -169,6 +181,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get;private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get;private set; }
+
     private void InitializedPlayerNodeTree()
     {
         stanceSelectorNode = new PlayerSelectorNode(this,
@@ -220,5 +233,5 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         if (curPlayerActionNode != null)
             curPlayerActionNode.FixedUpdate();
     }
-
+    #endregion
 }

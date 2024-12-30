@@ -10,6 +10,11 @@ public interface IWeaponAdvanceUser
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
+    public Character userWeapon { get;}
+    public bool isAiming { get; set; }
+    public bool isPullTrigger { get; set; }
+    public bool isReload { get; set; }
+    public bool isSwapShoulder { get; set; }
+    public bool isSwitchWeapon { get; set; }
     public void Initialized_IWeaponAdvanceUser();
-
 }

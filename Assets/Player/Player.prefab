@@ -189,15 +189,24 @@ MonoBehaviour:
   rotationConstraint: {fileID: 907063113625849728}
   movementTest: {fileID: 11400000, guid: cfeeda6d84812f24c859f1dcd7ddd111, type: 2}
   RayCastPos: {fileID: 515110806482555238}
+  isImortal: 0
   curShoulderSide: 0
   MyHP: 0
+  inputLookDir_Local: {x: 0, y: 0}
+  inputMoveDir_Local: {x: 0, y: 0}
+  isSprint: 0
+  isAiming: 0
+  isPullTrigger: 0
+  isReload: 0
+  isSwapShoulder: 0
+  isSwitchWeapon: 0
+  playerStance: 0
   CurrentWeapon: {fileID: 0}
-  primaryWeapon: {fileID: 0}
-  secondaryWeapon: {fileID: 0}
   primaryHolster: {fileID: 2458408193446765874}
   secondaryHolster: {fileID: 2993268220600484696}
   weaponMainSocket: {fileID: 6816325332925578607}
   weaponSecondHandSocket: {fileID: 0}
+  crosshairController: {fileID: 0}
 --- !u!143 &6726992041350314495
 CharacterController:
   m_ObjectHideFlags: 0
@@ -319,6 +328,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 22b9003e-4e2d-4fe5-b479-ada290ad0692
     m_ActionName: 'PlayerAction/SwitchWeapon[/Keyboard/1,/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef353a64-2dad-4f64-bbb5-c328a8fee9fd
+    m_ActionName: Menu/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerAction
@@ -593,7 +606,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2013878341642873245, guid: 87cba2b59823c2e498807517d66f02a3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2084,8 +2098,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4694104924606252739, guid: 62d68a04d0ca8764c902f6519610a634,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8336456687425929843}
   m_SourcePrefab: {fileID: 100100000, guid: 62d68a04d0ca8764c902f6519610a634, type: 3}
+--- !u!1 &4054602392327077526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4694104924606252739, guid: 62d68a04d0ca8764c902f6519610a634,
+    type: 3}
+  m_PrefabInstance: {fileID: 8746017870687500373}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8336456687425929843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4054602392327077526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ecfd658a6051054a936c220039e7d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3508049754622093220}
 --- !u!4 &8782206332222265129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,

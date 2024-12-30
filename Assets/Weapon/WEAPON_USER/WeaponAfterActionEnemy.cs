@@ -23,7 +23,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         enemy.animator.SetTrigger("Firing");
         enemy.animator.SetLayerWeight(3, 1);
         enemy.StartCoroutine(enemy.RecoveryFiringLayerWeight());
-        Debug.Log("Call Back EnemyFiring");
+        //Debug.Log("Call Back EnemyFiring");
     }
 
     public override void LowReady(Weapon weapon)
