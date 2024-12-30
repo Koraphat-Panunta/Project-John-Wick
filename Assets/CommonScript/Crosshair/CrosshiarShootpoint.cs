@@ -68,7 +68,7 @@ public class CrosshiarShootpoint : ICrosshairAction
         else
         {
             //Vector3 worldPosition = ray.GetPoint(100);
-            pointPos = ray.GetPoint(100);
+            pointPos = ray.GetPoint(1000);
         }
         return pointPos;
     }

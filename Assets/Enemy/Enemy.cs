@@ -223,11 +223,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     #region InitailizedCombatInstinct
     public CombatOffensiveInstinct combatOffensiveInstinct { get; set ; }
     public FieldOfView fieldOfView { get => this.fieldOfView; set => this.fieldOfView = value; }
-    public LayerMask objDomainDetect { get ; set ; }
+    public GameObject objInstict { get ; set ; }
+    public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
+
     public void InitailizedCombatOffensiveInstinct()
     {
-        objDomainDetect = LayerMask.GetMask("Bullet");
-        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,objDomainDetect);
+        objInstict = gameObject;
+        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this);
     }
     #endregion
 }

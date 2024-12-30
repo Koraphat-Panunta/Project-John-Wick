@@ -41,6 +41,33 @@ public class FieldOfView
         }
         return returnObj;
     }
+
+    public bool FindSingleObjectInView(LayerMask targetMask,Vector3 offsetView,out GameObject targetObj)
+    {
+        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
+        targetObj = null;
+
+        if(obj[0]==null)
+            return false;
+
+        Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
+        Objdirection.Normalize();
+        if (Vector3.Angle(objView.transform.forward, Objdirection) >= AngelInDegree / 2)
+            return false;
+
+        if (Physics.Raycast(objView.transform.position, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
+        {
+            Debug.DrawLine(objView.transform.position, hit.point);
+            //Debug.Log("Ray hit" + hit.collider.gameObject.name);
+            if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
+            {
+                targetObj = obj[0].gameObject;
+                return true;
+            }
+        }
+        return false;
+    }
+
     public GameObject FindSingleObjectInView(LayerMask targetMask,Vector3 offsetView)
     {
         Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
