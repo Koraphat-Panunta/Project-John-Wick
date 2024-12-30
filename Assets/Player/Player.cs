@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
+public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble
 {
 
     public PlayerAnimation playerAnimation;
@@ -95,10 +95,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser
     }
 
 
-    public override void TakeDamage(float Damage)
+    public void TakeDamage(IDamageVisitor damageVisitor)
     {
+        Bullet bulletObj = damageVisitor as Bullet;
+        float damage = bulletObj.hpDamage;
+
+        HP -= damage * 0.21f;
         hpRegenarate.regenarate_countDown = 3;
-        base.TakeDamage(Damage*0.21f);
         NotifyObserver(this,PlayerAction.GetShoot);
         if (GetHP() <= 0)
         {

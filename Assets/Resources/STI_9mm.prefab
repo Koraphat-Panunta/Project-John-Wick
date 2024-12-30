@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cfd74983524fb3459621cfd69d27cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletObj: {fileID: 5713276444075625602, guid: 9b0da4973819ec54e8066e1f58317982,
+    type: 3}
 --- !u!1 &5467017110284533840
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +130,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f46b8cbeadb0cc48bb4022f63b96052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  muzzle: {fileID: 0}
+  Sight: {fileID: 0}
+  weaponAttachments: []
   bulletSpawnerPos: {fileID: 3022661863309610859}
+  isAiming: 0
+  isReloadCommand: 0
+  isCancelAction: 0
+  isEquip: 0
+  aimingWeight: 0
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 87a65ca05a1dd6542b758e2acea85e8f,
@@ -136,7 +146,7 @@ MonoBehaviour:
   _weaponOverrideControllerEnemy: {fileID: 22100000, guid: a1fb493b42ba44c4894985d4a431ec21,
     type: 2}
   bulletSpawner: {fileID: 483720375782013187}
-  triggerPull: 0
+  triggerState: 0
 --- !u!114 &-4894218118900266989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +162,8 @@ MonoBehaviour:
   weapon: {fileID: 521215783090903122}
   animator: {fileID: 1631304176077155450}
   magazine: {fileID: 856348181040088395, guid: eb5b61f2d2c03974484e2b1f4f069ad7, type: 3}
+  muzzleRenderer: {fileID: 0}
+  sightRenderer: {fileID: 0}
 --- !u!1773428102 &-4776787860471616378
 ParentConstraint:
   m_ObjectHideFlags: 0

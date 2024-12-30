@@ -5,21 +5,16 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
-
-
-    private void OnEnable()
-    {
-    }
-    private void OnDisable()
-    {
-        
-    }
     public void SpawnBullet(Weapon weapon)
     {
         Transform transform = gameObject.transform;
         //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
         Vector3 shootDir = weapon.userWeapon.pointingPos;
         //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootDir);
+
+        //BulletObj thisBullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
+        //thisBullet.bullet = weapon.bullet;
+        //thisBullet.travelDri = (shootDir - transform.position).normalized ;    
 
         weapon.bullet.ShootDirection(transform.position, shootDir);
         //if(weapon.userWeapon.TryGetComponent<Player>(out Player player))

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Bullet 
+public abstract class Bullet:IDamageVisitor
 {
     public abstract float hpDamage { get; set; }
     public abstract float impactDamage { get; set; }
@@ -35,12 +35,16 @@ public abstract class Bullet
     protected virtual void HitExecute(RaycastHit hit)
     {
         Collider collider = hit.collider;
-        if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
-            bodyPart.GotHit(hpDamage);
+        if(collider.TryGetComponent<IDamageAble>(out IDamageAble damageAble))
+        {
+            damageAble.TakeDamage(this);
+        }
+        //if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
+        //    bodyPart.GotHit(hpDamage);
 
-        if (collider.TryGetComponent<Player>(out Player player))
-            player.TakeDamage(hpDamage);
-        
+        //if (collider.TryGetComponent<Player>(out Player player))
+        //    player.TakeDamage(hpDamage);
+
     }
     //private void OnCollisionEnter(Collision collision)
     //{

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour, IDamageAble
+public abstract class Character : MonoBehaviour
 {
     protected float HP;
 
@@ -23,12 +23,6 @@ public abstract class Character : MonoBehaviour, IDamageAble
     {
         My_environment = FindAnyObjectByType<Environment>();
 
-    }
-    
-
-    public virtual void TakeDamage(float Damage)
-    {
-        HP -= Damage;
     }
     public float GetHP()
     {

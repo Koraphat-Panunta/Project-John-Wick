@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -25,8 +25,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
     public float pressure;
 
     public IEnemyHitReaction enemyHitReaction;
-    public EnemyAgentMovementOverride enemyAgentMovementOverride;
-
     public EnemyMiniFlinch enemyMiniFlinch;
 
     [SerializeField] private bool isImortal;
@@ -39,7 +37,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
     {
         Target = new GameObject();
         enemyStateManager = new EnemyStateManager(this);    
-        //enemyWeaponCommand = new EnemyWeaponCommand(this);
         enemyPath = new EnemyPath(agent);
         
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
@@ -47,13 +44,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
         enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
-        enemyAgentMovementOverride = new EnemyAgentMovementOverride(agent);
         enemyMiniFlinch = new EnemyMiniFlinch(this);
 
         enemyStateManager._currentState = enemyStateManager._idle;
         enemyStateManager._currentState.StateEnter(enemyStateManager);
 
         MotionControlInitailized();
+        InitailizedGoap();
 
         currentTactic = new SerchingTactic(this);
         Initialized_IWeaponAdvanceUser();
@@ -68,18 +65,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
 
     void Update()
     {
-        GoapUpdate();
+        //GoapUpdate();
         enemyStateManager.Update();
     }
     private void FixedUpdate()
     {
-        GoapFixedUpdate();
+        //GoapFixedUpdate();
         enemyStateManager.FixedUpdate();
     }
 
-    public override void TakeDamage(float Damage)
+    public void TakeDamage(float Damage)
     {
-        base.TakeDamage(Damage);
+        HP -= Damage;
         if(base.HP <= 0 && isImortal == false)
         {
             NotifyObserver(this, EnemyEvent.Dead);
@@ -183,7 +180,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
     }
     #endregion
 
-
     #region InitializedMotionControl
 
     [SerializeField] GameObject head;
@@ -202,6 +198,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
     public GameObject hips { get ; set ; }
     Animator IMotionDriven.animator { get => animator; set => animator = value; }
     public MotionControlManager motionControlManager { get; set; }
+   
 
     public void MotionControlInitailized()
     {
@@ -221,6 +218,16 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven
 
         motionControlManager = new MotionControlManager(bones,hips,animator);
     }
+    #endregion
 
+    #region InitailizedCombatInstinct
+    public CombatOffensiveInstinct combatOffensiveInstinct { get; set ; }
+    public FieldOfView fieldOfView { get => this.fieldOfView; set => this.fieldOfView = value; }
+    public LayerMask objDomainDetect { get ; set ; }
+    public void InitailizedCombatOffensiveInstinct()
+    {
+        objDomainDetect = LayerMask.GetMask("Bullet");
+        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,objDomainDetect);
+    }
     #endregion
 }
