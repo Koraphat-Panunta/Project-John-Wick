@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5598567881361913644}
   - component: {fileID: 6134425431571949795}
-  m_Layer: 0
+  - component: {fileID: 7808001844783964005}
+  m_Layer: 12
   m_Name: CoverPointTallDoubleSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 248160162141437757}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -47.38, y: 0.613, z: 0.47}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53,6 +54,27 @@ MonoBehaviour:
   peekPosR: {fileID: 8415837500437247049}
   _fovDistance: 30.2
   _fovAngleDegrees: 90
+--- !u!65 &7808001844783964005
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248160162141437757}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4983920008302562546
 GameObject:
   m_ObjectHideFlags: 0

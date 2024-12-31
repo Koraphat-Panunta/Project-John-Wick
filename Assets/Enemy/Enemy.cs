@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -55,6 +55,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         Initialized_IWeaponAdvanceUser();
         InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
+        InitailizedCoverUsable();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
@@ -250,10 +251,22 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
     public FindingTarget findingTargetComponent { get ; set; }
     public Vector3 targetKnewPos { get ; set ; }
-
     public void InitailizedFindingTarget()
     {
         findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
+    }
+    #endregion
+
+    #region InitailizedCoverUsable
+    public Vector3 peekPos { get ; set ; }
+    public Vector3 coverPos { get ; set ; }
+    public CoverPoint coverPoint { get; set; }
+    public Character userCover { get ; set; }
+    public FindingCover findingCover { get; set; }
+    public void InitailizedCoverUsable()
+    {
+        userCover = this;
+        findingCover = new FindingCover(this, this);
     }
     #endregion
 }

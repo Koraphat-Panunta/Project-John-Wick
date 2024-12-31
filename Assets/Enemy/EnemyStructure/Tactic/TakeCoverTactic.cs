@@ -38,25 +38,25 @@ public class TakeCoverTactic : IEnemyTactic
         if (coverPositionEnemy == null)
         {
             Debug.Log(enemy + " EnterTakeCover");
-            //if (enemyFindingCover.FindingCover(enemy))
-            //{
-            //    this.coverPositionEnemy = enemyFindingCover.coverPositionEnemy;
-            //    Debug.Log("FindCoverComplete");
-            //}
-            //else
-            //{
-            //    enemy.currentTactic = new HoldingTactic(enemy);
-            //    Debug.Log("FindCoverFaild");
-            //}
+            if (enemy.findingCover.FindCoverInRaduis(15,out CoverPoint coverPoint))
+            {
+                this.coverPositionEnemy = coverPoint;
+                Debug.Log("FindCoverComplete");
+            }
+            else
+            {
+                enemy.currentTactic = new HoldingTactic(enemy);
+                Debug.Log("FindCoverFaild");
+            }
         }
         else if(coverPositionEnemy != null)
         {
             if (isInCover == false)
             {
-                //if (MoveToCover(enemyFindingCover.coverPositionEnemy.coverPos, agent))
-                //{
-                //    isInCover = true;
-                //}
+                if (MoveToCover(enemy.coverPos, agent))
+                {
+                    isInCover = true;
+                }
             }
             else if (isInCover == true)
             {
@@ -149,14 +149,14 @@ public class TakeCoverTactic : IEnemyTactic
         }
         else
         {
-            //if (IsPeeking == true)
-            //{
-            //    PeekAndShoot(coverPositionEnemy.aimPos, agent);
-            //}
-            //else if (IsPeeking == false)
-            //{
-            //    BackToCover(coverPositionEnemy.coverPos, agent);
-            //}
+            if (IsPeeking == true)
+            {
+                PeekAndShoot(enemy.peekPos, agent);
+            }
+            else if (IsPeeking == false)
+            {
+                BackToCover(enemy.coverPos, agent);
+            }
             timimgCoverPattern -= Time.deltaTime;
         }
         if(timimgCoverPattern <= 0)

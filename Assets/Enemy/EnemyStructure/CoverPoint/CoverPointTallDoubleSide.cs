@@ -12,12 +12,14 @@ public class CoverPointTallDoubleSide : CoverPoint
     public float _fovAngleDegrees;
     public override float fovAngleDegrees { get => _fovAngleDegrees; set => _fovAngleDegrees = value; }
 
-    public override bool CheckingTargetInCoverView(ICoverUseable coverUser, LayerMask targetMask, Transform peekPos)
+    public override bool CheckingTargetInCoverView(ICoverUseable coverUser, LayerMask targetMask, Transform peekPos,out GameObject target)
     {
+        target = null;
         fieldOfView = new FieldOfView(fovDistance, fovAngleDegrees, peekPos);
 
         if (fieldOfView.FindSingleObjectInView(targetMask, out GameObject targetObj))
         {
+            target = targetObj;
             return true;
         }
         return false;
@@ -31,14 +33,30 @@ public class CoverPointTallDoubleSide : CoverPoint
     public override void TakeThisCover(ICoverUseable coverUser)
     {
         this.coverUser = coverUser;
-        this.coverUser.coverPos = base.coverPos.position;
-        this.coverUser.peekPos = peekPosL.position;
+
+        if (Physics.Raycast(coverPos.position, Vector3.down, out RaycastHit hitCoverPos))
+            this.coverUser.coverPos = hitCoverPos.point;
+        else
+            this.coverUser.coverPos = coverPos.position;
+
+        if (Physics.Raycast(peekPosL.position, Vector3.down, out RaycastHit hitPeekPos))
+            this.coverUser.peekPos = hitPeekPos.point;
+        else
+            this.coverUser.peekPos = peekPosL.position;
     }
     public void TakeThisCover(ICoverUseable coverUser,Transform peekPos)
     {
         this.coverUser = coverUser;
-        this.coverUser.coverPos = base.coverPos.position;
-        this.coverUser.peekPos = peekPos.position;
+
+        if (Physics.Raycast(coverPos.position, Vector3.down, out RaycastHit hitCoverPos))
+            this.coverUser.coverPos = hitCoverPos.point;
+        else
+            this.coverUser.coverPos = coverPos.position;
+
+        if (Physics.Raycast(peekPos.position, Vector3.down, out RaycastHit hitPeekPos))
+            this.coverUser.peekPos = hitPeekPos.point;
+        else
+            this.coverUser.peekPos = peekPos.position;
     }
 
     protected override void Start()

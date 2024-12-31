@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Collider))]
 public abstract class CoverPoint : MonoBehaviour
 {
     [SerializeField] public Transform coverPos;
@@ -17,7 +17,7 @@ public abstract class CoverPoint : MonoBehaviour
     }
     public abstract void TakeThisCover(ICoverUseable coverUser);
     public abstract void OffThisCover();
-    public abstract bool CheckingTargetInCoverView(ICoverUseable coverUser,LayerMask targetMask, Transform peekPos);
+    public abstract bool CheckingTargetInCoverView(ICoverUseable coverUser,LayerMask targetMask, Transform peekPos,out GameObject target);
    
   
   
