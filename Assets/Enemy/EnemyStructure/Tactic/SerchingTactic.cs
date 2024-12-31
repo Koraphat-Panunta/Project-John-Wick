@@ -37,8 +37,8 @@ public class SerchingTactic : IEnemyTactic
             agent.destination = RandomPosInNavmesh();
             enemy.StartCoroutine(PerformedAction());
         }
-        enemyRot.RotateTowards((agent.destination-enemy.transform.position).normalized,enemy.gameObject,6);
-        if(enemy.enemyLookForPlayer.Recived(out GameObject target) == true)
+        enemyRot.RotateToward((agent.destination-enemy.transform.position).normalized,enemy.gameObject,6);
+        if(enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
         {
             enemy.StopCoroutine(PerformedAction());
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);

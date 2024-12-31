@@ -6,18 +6,17 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
-    public GameObject Target;
+    //public GameObject Target;
     public EnemyStateManager enemyStateManager;
     [SerializeField] public EnemyPath enemyPath;
 
     public LayerMask targetMask;
     public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView;
-    public EnemyLookForPlayer enemyLookForPlayer;
     public EnemyHearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
@@ -37,11 +36,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
     void Start()
     {
-        Target = new GameObject();
+        //Target = new GameObject();
         enemyStateManager = new EnemyStateManager(this);    
         enemyPath = new EnemyPath(agent);
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
-        enemyLookForPlayer = new EnemyLookForPlayer(targetMask,this.enemyFieldOfView,rayCastPos);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
         enemyHearingSensing = new EnemyHearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
@@ -56,6 +54,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         currentTactic = new SerchingTactic(this);
         Initialized_IWeaponAdvanceUser();
         InitailizedCombatOffensiveInstinct();
+        InitailizedFindingTarget();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
@@ -109,11 +108,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
     private void OnDrawGizmos()
     {
-        if (Target != null)
-        {
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
-        }
+        //if (Target != null)
+        //{
+        //    Gizmos.color = Color.white;
+        //    Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
+        //}
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(targetKnewPos, 0.5f);
+        Debug.Log("target know position = " + targetKnewPos);
     }
 
     #region Initailized WeaponAdvanceUser
@@ -235,10 +237,24 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
     public GameObject objInstict { get ; set ; }
     public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
+
     public void InitailizedCombatOffensiveInstinct()
     {
         objInstict = gameObject;
         combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment);
+    }
+    #endregion
+
+    #region InitailizedFindingTarget
+    public GameObject userObj { get => gameObject; }
+    FieldOfView IFindingTarget.fieldOfView { get => this.enemyFieldOfView; set => this.enemyFieldOfView = value; }
+    LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
+    public FindingTarget findingTargetComponent { get ; set; }
+    public Vector3 targetKnewPos { get ; set ; }
+
+    public void InitailizedFindingTarget()
+    {
+        findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
     }
     #endregion
 }

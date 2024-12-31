@@ -18,7 +18,7 @@ public class EnemyHearingSensing : IEnemySensing,IEnvironmentAware
         {
             if (Vector3.Distance(sourceFrom.transform.position, enemy.transform.position) <= 30)
             {
-                enemy.Target.transform.position = new Vector3(sourceFrom.transform.position.x,sourceFrom.transform.position.y,sourceFrom.transform.position.z);
+                enemy.targetKnewPos = new Vector3(sourceFrom.transform.position.x,sourceFrom.transform.position.y,sourceFrom.transform.position.z);
                 if(enemy.isIncombat == false)
                 {
                     enemy.currentTactic = new FlankingTactic(enemy);

@@ -20,7 +20,7 @@ public class EnemyMove : EnemyState
         }
         if (enemyPath._markPoint.Count <= 0)
         {
-            enemyPath.GenaratePath(enemyState.enemy.Target.transform.position, enemyState.enemy.gameObject.gameObject.transform.position);
+            enemyPath.GenaratePath(enemyState.enemy.targetKnewPos, enemyState.enemy.gameObject.gameObject.transform.position);
         }
         enemyState.enemy.animator.speed = moveSpeed;
     }

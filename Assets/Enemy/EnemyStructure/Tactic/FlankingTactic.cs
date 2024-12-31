@@ -13,7 +13,7 @@ public class FlankingTactic : IEnemyTactic
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
-        enemy.enemyPath.GenaratePath(enemy.Target.transform.position, enemy.gameObject.transform.position);
+        enemy.enemyPath.GenaratePath(enemy.targetKnewPos, enemy.gameObject.transform.position);
         enemyStateManager = enemy.enemyStateManager;
         enemyStateManager.ChangeState(enemyStateManager._move);
         enemyRot = new RotateObjectToward();
@@ -28,7 +28,7 @@ public class FlankingTactic : IEnemyTactic
         {
             enemy.currentTactic = new TakeCoverTactic(enemy);
         }
-        if (enemy.enemyLookForPlayer.Recived(out GameObject target) == true)
+        if (enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
         {
             //Shoot
             enemy.weaponCommand.AimDownSight();
@@ -58,8 +58,8 @@ public class FlankingTactic : IEnemyTactic
                 //}
             }
         }
-        enemyRot.RotateTowards(enemy.Target, enemy.gameObject, 6);
-        if (Vector3.Distance(enemy.Target.transform.position,enemy.gameObject.transform.position) < 2.5f)
+        enemyRot.RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
+        if (Vector3.Distance(enemy.targetKnewPos,enemy.gameObject.transform.position) < 2.5f)
         {
             enemyStateManager.ChangeState(enemyStateManager._idle);
         }
@@ -67,6 +67,6 @@ public class FlankingTactic : IEnemyTactic
         {
             enemyStateManager.ChangeState(enemyStateManager._move);
         }
-        enemy.enemyPath.UpdateTargetPos(enemy.Target.transform.position,enemy.gameObject.transform.position);
+        enemy.enemyPath.UpdateTargetPos(enemy.targetKnewPos,enemy.gameObject.transform.position);
     }
 }

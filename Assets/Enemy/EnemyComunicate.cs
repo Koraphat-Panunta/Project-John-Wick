@@ -42,8 +42,8 @@ public class EnemyComunicate
         
         if (notifyType == NotifyType.SendTargetLocation)
         {
-            Vector3 targetPos = enemySender.Target.transform.position;
-            _enemy.Target.transform.position = new Vector3(targetPos.x,targetPos.y,targetPos.z);
+            Vector3 targetPos = enemySender.targetKnewPos;
+            _enemy.targetKnewPos = new Vector3(targetPos.x,targetPos.y,targetPos.z);
         }
     }
 }

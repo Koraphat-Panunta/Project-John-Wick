@@ -61,7 +61,7 @@ public class EnemyFindingCover
         // Step 2 เช็คจุดกำบังและตำแหน่งTarget
         if (enemyCoverObstacles.Count > 0)
         {
-            Vector3 targetPos = enemy.Target.transform.position;
+            Vector3 targetPos = enemy.targetKnewPos;
             foreach (EnemyCoverObstacle enemyCoverObstacle in enemyCoverObstacles)
             {
                 for (int i = 0; i < enemyCoverObstacle.coverPivotPos.Length; i++)
@@ -196,10 +196,10 @@ public class EnemyFindingCover
                 {
                     this.coverPositionEnemy = coverPositionEnemy;
                 }
-                Vector3 DirTTE = enemy.Target.transform.position.normalized- enemy.transform.position.normalized;
-                Vector3 DirTTC = enemy.Target.transform.position.normalized - coverPositionEnemy.coverPos.normalized;
+                Vector3 DirTTE = enemy.targetKnewPos.normalized- enemy.transform.position.normalized;
+                Vector3 DirTTC = enemy.targetKnewPos.normalized - coverPositionEnemy.coverPos.normalized;
 
-                Vector3 DirTTc = enemy.Target.transform.position.normalized - this.coverPositionEnemy.coverPos.normalized;
+                Vector3 DirTTc = enemy.targetKnewPos.normalized - this.coverPositionEnemy.coverPos.normalized;
                 if (Vector3.Dot(DirTTC, DirTTE)>Vector3.Dot(DirTTE,DirTTc))
                 {
                     this.coverPositionEnemy = coverPositionEnemy;

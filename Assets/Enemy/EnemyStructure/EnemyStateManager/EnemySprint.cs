@@ -40,7 +40,7 @@ public class EnemySprint : EnemyState
     {
         float rotSpeed = 6f;
         Vector3 dir = (agent.steeringTarget - enemy.transform.position).normalized;
-        objectToward.RotateTowards(dir, enemy.gameObject, rotSpeed);
+        objectToward.RotateToward(dir, enemy.gameObject, rotSpeed);
         enemy.currentTactic.Manufacturing();
         base.StateUpdate(enemyState);
     }

@@ -33,8 +33,8 @@ public class NormalFiringPattern : IEnemyFiringPattern
             }
             else if (curWeapon.bulletStore[BulletStackType.Chamber]>0)
             {
-                Ray ray = new Ray(enemy.rayCastPos.position,(enemy.Target.transform.position- enemy.rayCastPos.position).normalized);
-                if (Physics.SphereCast(ray, 0.5f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Enemy")))
+                Ray ray = new Ray(enemy.rayCastPos.position,(enemy.targetKnewPos- enemy.rayCastPos.position).normalized);
+                if (Physics.SphereCast(ray, 0.5f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy")))
                 {
                     if(hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body))
                     {

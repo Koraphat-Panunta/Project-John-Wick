@@ -24,15 +24,15 @@ public class HoldingTactic : IEnemyTactic
     public void Manufacturing()
     {
 
-        if (enemy.enemyLookForPlayer.Recived(out GameObject target))
+        if (enemy.findingTargetComponent.FindTarget(out GameObject target))
         {
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             isSeeTargetPos = true;
         }
         else
         {
-            Ray ray = new Ray(enemy.rayCastPos.position, (enemy.Target.transform.position - enemy.rayCastPos.position).normalized);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.Target.transform.position), LayerMask.GetMask("Default") + enemy.targetMask))
+            Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Default") + enemy.targetMask))
             {
                 if (hitInfo.collider.gameObject.layer == enemy.targetMask)
                 {
@@ -53,15 +53,15 @@ public class HoldingTactic : IEnemyTactic
             enemy.weaponCommand.AimDownSight();
             enemyFiringPattern.Performing();
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
-            Vector3 targetDir = enemy.Target.transform.position.normalized - enemy.transform.position.normalized;
-            new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
+            Vector3 targetDir = enemy.targetKnewPos.normalized - enemy.transform.position.normalized;
+            new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
         }
         else if(isSeeTargetPos == false)
         {
             enemy.weaponCommand.LowReady();
-            enemy.agent.destination = Vector3.Cross(enemy.Target.transform.position - enemy.transform.position, Vector3.up);
+            enemy.agent.destination = Vector3.Cross(enemy.targetKnewPos - enemy.transform.position, Vector3.up);
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
-            new RotateObjectToward().RotateTowards(enemy.Target, enemy.gameObject, 6);
+            new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
         }
         if(findCoverFrequency <=0)
         {

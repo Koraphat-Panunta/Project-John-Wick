@@ -16,7 +16,7 @@ public class EnemyGetShootDirection
     public Vector3 GetDir()
     {
         float accuracy = Random.Range(0, 0.05f);
-        Vector3 dirTarget = (enemy.Target.transform.position - (enemy.rayCastPos.position+ new Vector3(0,0.2f,0))).normalized;
+        Vector3 dirTarget = (enemy.targetKnewPos - (enemy.rayCastPos.position+ new Vector3(0,0.2f,0))).normalized;
         Vector3 dir = new Vector3(enemy.transform.forward.x,
            dirTarget.y, enemy.transform.forward.z);
          dir = new Vector3(dir.x + Random.Range(-accuracy, accuracy), dir.y + Random.Range(-accuracy, accuracy), dir.z);

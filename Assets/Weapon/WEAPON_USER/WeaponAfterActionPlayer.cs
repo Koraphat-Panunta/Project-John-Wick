@@ -15,7 +15,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     public override void AimDownSight(Weapon weapon)
     {
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
-        rotateObjectToward.RotateTowards(Camera.main.transform.forward, player.gameObject, 6);
+        rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
         player.NotifyObserver(player, PlayerAction.Aim);
     }
 
