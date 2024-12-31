@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,11 +11,7 @@ public class Environment : MonoBehaviour,IObserverPlayer
     
     private void Start()
     {
-        Player player = FindAnyObjectByType<Player>();
-        if (player != null)
-        {
-            player.AddObserver(this);
-        }
+       StartCoroutine(AddObserverPlayer());
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
@@ -40,6 +37,12 @@ public class Environment : MonoBehaviour,IObserverPlayer
                 environmentAwareir.OnAware(source, environmentType);
             }
         }
+    }
+    public IEnumerator AddObserverPlayer()
+    {
+        yield return new WaitForEndOfFrame();
+        Player player = FindAnyObjectByType<Player>();
+        player.AddObserver(this);
     }
 
 }

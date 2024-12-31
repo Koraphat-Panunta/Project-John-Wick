@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -17,7 +17,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public LayerMask targetMask;
     public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView;
-    public EnemyHearingSensing enemyHearingSensing;
+    //public HearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
     public float cost;
@@ -41,7 +41,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         enemyPath = new EnemyPath(agent);
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
-        enemyHearingSensing = new EnemyHearingSensing(this);
+        //enemyHearingSensing = new HearingSensing(this);
         enemyComunicate = new EnemyComunicate(this);
         enemyMiniFlinch = new EnemyMiniFlinch(this);
 
@@ -56,6 +56,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
+        InitailizedHearingComponent();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
@@ -263,10 +264,39 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public CoverPoint coverPoint { get; set; }
     public Character userCover { get ; set; }
     public FindingCover findingCover { get; set; }
+    
     public void InitailizedCoverUsable()
     {
         userCover = this;
         findingCover = new FindingCover(this, this);
+    }
+
+
+    #endregion
+
+    #region InitailizedHearingComponent
+    public GameObject userHearing { get ; set ; }
+    public Environment environment { get => My_environment ; }
+    public HearingSensing hearingSensing { get; set; }
+ 
+    public void InitailizedHearingComponent()
+    {
+        userHearing = gameObject;
+        hearingSensing = new HearingSensing(this, this.environment, 50);
+    }
+    public void GotHearding(GameObject souceSound)
+    {
+        
+
+        if (souceSound.TryGetComponent<Player>(out Player player) == false) 
+        return;
+
+        targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
+        Debug.Log("Got Hearding");
+        if (isIncombat == false)
+        {
+            currentTactic = new FlankingTactic(this);
+        }
     }
     #endregion
 }

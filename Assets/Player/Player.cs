@@ -212,7 +212,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
         stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
         curPlayerActionNode = playerActionNode;
-        Debug.Log("Out PlayerNode = " + playerActionNode);
+
     }
     private void UpdatePlayerTree()
     {
@@ -220,7 +220,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
             stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
-            Debug.Log("Out PlayerNode = " + playerActionNode);
+
             curPlayerActionNode = playerActionNode;
             curPlayerActionNode.Enter();
         }

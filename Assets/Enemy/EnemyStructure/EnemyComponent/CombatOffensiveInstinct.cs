@@ -49,12 +49,12 @@ public class CombatOffensiveInstinct:IEnvironmentAware
         if (t >1||t<0)
             return false;
        
-        Debug.Log("Dot t =" + t);
+
 
         Vector3 closestPoint = startPos + t*bulletLine;
         Debug.DrawLine(closestPoint, referencePos,Color.yellow);
         Debug.DrawLine(startPos, startPos + bulletLine, Color.red);
-        Debug.Log("Distance LineOfSight =" + Vector3.Distance(closestPoint, referencePos));
+
         if(Vector3.Distance(closestPoint,referencePos) < raduisAware)
             return true;
 
