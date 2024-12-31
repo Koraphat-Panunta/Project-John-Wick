@@ -51,10 +51,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public FireMode fireMode { get; protected set; }
     public TriggerState triggerState = TriggerState.Up;
 
-    public  WeaponActionNode currentStanceNode { get; set; }
-    public  WeaponActionNode currentEventNode { get; set; }
-    public abstract WeaponSelector startStanceNode { get; set; }
-    public abstract WeaponSelector startEventNode { get; set; }
 
     protected virtual void Awake()
     {
@@ -154,6 +150,12 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         rb.isKinematic = false;
     }
+
+    #region InitailizedWeaponTree
+    public WeaponActionNode currentStanceNode { get; set; }
+    public WeaponActionNode currentEventNode { get; set; }
+    public abstract WeaponSelector startStanceNode { get; set; }
+    public abstract WeaponSelector startEventNode { get; set; }
     protected virtual void FixedUpdateTree()
     {
         if(currentStanceNode != null)
@@ -178,8 +180,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
 
     protected abstract void InitailizedTree();
-
-
     protected virtual void UpdateTree()
     {
         if (currentStanceNode.IsReset() /*|| currentStanceNode==null*/)
@@ -203,6 +203,8 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         currentStanceNode.Update();
         currentEventNode?.Update();
     }
+    #endregion
+
     public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
     {
         

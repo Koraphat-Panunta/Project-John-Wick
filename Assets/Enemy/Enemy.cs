@@ -115,7 +115,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         //}
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(targetKnewPos, 0.5f);
-        Debug.Log("target know position = " + targetKnewPos);
     }
 
     #region Initailized WeaponAdvanceUser
