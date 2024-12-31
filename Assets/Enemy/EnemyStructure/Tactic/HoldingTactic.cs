@@ -71,10 +71,10 @@ public class HoldingTactic : IEnemyTactic
             //}
             findCoverFrequency = 2;
         }
-        if (findingCover.FindingCover(enemy))
-        {
-            enemy.currentTactic = new TakeCoverTactic(enemy);
-        }
+        //if (findingCover.FindingCover(enemy))
+        //{
+        //    enemy.currentTactic = new TakeCoverTactic(enemy);
+        //}
         findCoverFrequency -= Time.deltaTime;
         if(enemy.cost >= exitStateCost)
         {

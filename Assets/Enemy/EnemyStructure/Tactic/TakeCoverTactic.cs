@@ -10,7 +10,7 @@ public class TakeCoverTactic : IEnemyTactic
     private IEnemyFiringPattern enemyFiringPattern;
     private NavMeshAgent agent;
     private bool isInCover;
-    private CoverPositionEnemy coverPositionEnemy;
+    private CoverPoint coverPositionEnemy;
     private float costRate;
     private float exitStateCost = 86;
     public TakeCoverTactic(Enemy enemy)
@@ -38,25 +38,25 @@ public class TakeCoverTactic : IEnemyTactic
         if (coverPositionEnemy == null)
         {
             Debug.Log(enemy + " EnterTakeCover");
-            if (enemyFindingCover.FindingCover(enemy))
-            {
-                this.coverPositionEnemy = enemyFindingCover.coverPositionEnemy;
-                Debug.Log("FindCoverComplete");
-            }
-            else
-            {
-                enemy.currentTactic = new HoldingTactic(enemy);
-                Debug.Log("FindCoverFaild");
-            }
+            //if (enemyFindingCover.FindingCover(enemy))
+            //{
+            //    this.coverPositionEnemy = enemyFindingCover.coverPositionEnemy;
+            //    Debug.Log("FindCoverComplete");
+            //}
+            //else
+            //{
+            //    enemy.currentTactic = new HoldingTactic(enemy);
+            //    Debug.Log("FindCoverFaild");
+            //}
         }
         else if(coverPositionEnemy != null)
         {
             if (isInCover == false)
             {
-                if (MoveToCover(enemyFindingCover.coverPositionEnemy.coverPos, agent))
-                {
-                    isInCover = true;
-                }
+                //if (MoveToCover(enemyFindingCover.coverPositionEnemy.coverPos, agent))
+                //{
+                //    isInCover = true;
+                //}
             }
             else if (isInCover == true)
             {
@@ -149,14 +149,14 @@ public class TakeCoverTactic : IEnemyTactic
         }
         else
         {
-            if (IsPeeking == true)
-            {
-                PeekAndShoot(coverPositionEnemy.aimPos, agent);
-            }
-            else if (IsPeeking == false)
-            {
-                BackToCover(coverPositionEnemy.coverPos, agent);
-            }
+            //if (IsPeeking == true)
+            //{
+            //    PeekAndShoot(coverPositionEnemy.aimPos, agent);
+            //}
+            //else if (IsPeeking == false)
+            //{
+            //    BackToCover(coverPositionEnemy.coverPos, agent);
+            //}
             timimgCoverPattern -= Time.deltaTime;
         }
         if(timimgCoverPattern <= 0)

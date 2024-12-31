@@ -6,8 +6,8 @@ public class EnemyCoverDebug : MonoBehaviour
 {
     // Start is called before the first frame update
     public static List<EnemyCoverObstacle> enemyCoverObstacle = new List<EnemyCoverObstacle>();
-    public static List<CoverPositionEnemy> coverPositionEnemies = new List<CoverPositionEnemy>();
-    public static CoverPositionEnemy CurcoverPositionEnemy;
+    public static List<CoverPoint> coverPositionEnemies = new List<CoverPoint>();
+    public static CoverPoint CurcoverPositionEnemy;
     [SerializeField] private Enemy enemy;
  
     float sphereRaduis = 0.1f;
@@ -46,7 +46,7 @@ public class EnemyCoverDebug : MonoBehaviour
         //    }
         //    if (coverPositionEnemies.Count > 0)
         //    {
-        //        foreach (CoverPositionEnemy coverPosition in coverPositionEnemies)
+        //        foreach (CoverPoint coverPosition in coverPositionEnemies)
         //        {
         //            Gizmos.color = Color.yellow;
         //            Gizmos.DrawSphere(coverPosition.aimPos, sphereRaduis);
