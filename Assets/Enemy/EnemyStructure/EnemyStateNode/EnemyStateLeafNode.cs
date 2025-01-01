@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class EnemyStateActionNode : EnemyStateNode
+public class EnemyStateLeafNode : EnemyStateNode
 {
     public override List<EnemyStateNode> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
@@ -14,10 +14,11 @@ public class EnemyStateActionNode : EnemyStateNode
     protected Func<bool> isComplete;
 
 
-    public EnemyStateActionNode(Enemy enemy) : base(enemy)
+    public EnemyStateLeafNode(Enemy enemy) : base(enemy)
     {
     }
-    public EnemyStateActionNode(Enemy enemy
+
+    public EnemyStateLeafNode(Enemy enemy
         , Func<bool> preCondition
         , Action Enter
         , Action Exit
@@ -34,12 +35,20 @@ public class EnemyStateActionNode : EnemyStateNode
         this.isComplete = isComplete;
         this.isReset = isReset;
     }
-    public EnemyStateActionNode(Enemy enemy
+
+    public EnemyStateLeafNode(Enemy enemy
        , Func<bool> preCondition
        , Func<bool> isReset) : base(enemy)
     {
         this.preCondidtion = preCondition;
         this.isReset = isReset;
+    }
+
+    public EnemyStateLeafNode(Enemy enemy
+      , Func<bool> preCondition
+      ) : base(enemy)
+    {
+        this.preCondidtion = preCondition;
     }
 
     public virtual void Enter()

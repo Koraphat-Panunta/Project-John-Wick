@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStandTakeAimRightStateNode : EnemyStateActionNode
+public class EnemyStandTakeAimRightStateNode : EnemyStateLeafNode
 {
+    public EnemyStandTakeAimRightStateNode(Enemy enemy) : base(enemy)
+    {
+    }
+
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 

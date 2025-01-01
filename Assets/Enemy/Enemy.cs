@@ -119,6 +119,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         Gizmos.DrawSphere(targetKnewPos, 0.5f);
     }
 
+    #region Initailized State Node
+
+
+
+    #endregion
+
     #region Initailized WeaponAdvanceUser
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform primaryWeaponHoster;
@@ -150,48 +156,48 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
     #endregion
 
-    #region GoapAI
-    private EnemyGoalSelector startSelector { get; set; }
-    private EnemyGoalLeaf curGoal { get; set; }
-    private EncouterGoal encouterGoal { get; set; }
-    private TakeCoverGoal takeCoverGoal { get; set; }
-    private HoldingGoal holdingGoal { get; set; }
-    private PatrolingGoal patrolingGoal { get; set; }
+    //#region GoapAI
+    //private EnemyGoalSelector startSelector { get; set; }
+    //private EnemyGoalLeaf curGoal { get; set; }
+    //private EncouterGoal encouterGoal { get; set; }
+    //private TakeCoverGoal takeCoverGoal { get; set; }
+    //private HoldingGoal holdingGoal { get; set; }
+    //private PatrolingGoal patrolingGoal { get; set; }
 
-    private void InitailizedGoap()
-    {
-        startSelector = new EnemyGoalSelector(this,()=>true);
+    //private void InitailizedGoap()
+    //{
+    //    startSelector = new EnemyGoalSelector(this,()=>true);
 
-        encouterGoal = new EncouterGoal(this);
-        takeCoverGoal = new TakeCoverGoal(this);
-        holdingGoal = new HoldingGoal(this);
-        patrolingGoal = new PatrolingGoal(this);
+    //    encouterGoal = new EncouterGoal(this);
+    //    takeCoverGoal = new TakeCoverGoal(this);
+    //    holdingGoal = new HoldingGoal(this);
+    //    patrolingGoal = new PatrolingGoal(this);
 
-        startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
-        curGoal = enemyGoalLeaf;
+    //    startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+    //    curGoal = enemyGoalLeaf;
 
-    }
-    private void GoapUpdate()
-    {
-        if (curGoal.IsReset()){
+    //}
+    //private void GoapUpdate()
+    //{
+    //    if (curGoal.IsReset()){
 
-            curGoal.Exit();
-            curGoal = null;
-            startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
-            //Debug.Log("Out PlayerNode = " + enemyGoalLeaf);
-            curGoal = enemyGoalLeaf;
-            curGoal.Enter();
-        }
+    //        curGoal.Exit();
+    //        curGoal = null;
+    //        startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+    //        //Debug.Log("Out PlayerNode = " + enemyGoalLeaf);
+    //        curGoal = enemyGoalLeaf;
+    //        curGoal.Enter();
+    //    }
 
-        if (curGoal != null)
-            curGoal.Update();
-    }
-    private void GoapFixedUpdate() 
-    {
-        if(curGoal != null)
-            curGoal.FixedUpdate();
-    }
-    #endregion
+    //    if (curGoal != null)
+    //        curGoal.Update();
+    //}
+    //private void GoapFixedUpdate() 
+    //{
+    //    if(curGoal != null)
+    //        curGoal.FixedUpdate();
+    //}
+    //#endregion
 
     #region InitializedMotionControl
 

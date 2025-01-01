@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyCoverDebug : MonoBehaviour
 {
     // Start is called before the first frame update
-    public static List<EnemyCoverObstacle> enemyCoverObstacle = new List<EnemyCoverObstacle>();
+    //public static List<EnemyCoverObstacle> enemyCoverObstacle = new List<EnemyCoverObstacle>();
     public static List<CoverPoint> coverPositionEnemies = new List<CoverPoint>();
     public static CoverPoint CurcoverPositionEnemy;
     [SerializeField] private Enemy enemy;

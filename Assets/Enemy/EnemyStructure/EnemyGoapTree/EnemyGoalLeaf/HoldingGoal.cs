@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoldingGoal : EnemyGoalLeaf
 {
-    public HoldingGoal(Enemy enemy) : base(enemy)
+    public HoldingGoal(Enemy enemy, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemy, enemyGOAP)
     {
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TakeCoverGoal : EnemyGoalLeaf
 {
-    public TakeCoverGoal(Enemy enemy):base(enemy)
+    public TakeCoverGoal(Enemy enemy, IEnemyGOAP enemyGOAP,ICoverUseable coverUseable) : base(enemy, enemyGOAP)
     {
 
     }

@@ -4,10 +4,12 @@ using UnityEngine;
 
 public abstract class EnemyGoal 
 {
-    public EnemyGoal(Enemy enemy)
+    protected IEnemyGOAP enemyGOAP;
+    public EnemyGoal(Enemy enemy, IEnemyGOAP enemyGOAP)
     {
         this.enemy = enemy;
         childNode = new List<EnemyGoal>();
+        this.enemyGOAP = enemyGOAP;
     }
 
     protected Enemy enemy { get; set; }

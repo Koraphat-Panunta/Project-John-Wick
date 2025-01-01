@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PatrolingGoal : EnemyGoalLeaf
 {
-    public PatrolingGoal(Enemy enemy) : base(enemy)
+    public PatrolingGoal(Enemy enemy, IEnemyGOAP enemyGOAP) : base(enemy, enemyGOAP)
     {
 
     }

@@ -17,16 +17,16 @@ public abstract class EnemyStateNode
     public abstract void Update();
     public abstract bool IsReset();
     public abstract bool PreCondition();
-    public void Transition(out EnemyStateActionNode enemyStateActionNode)
+    public void Transition(out EnemyStateLeafNode enemyStateActionNode)
     {
         enemyStateActionNode = null;
         foreach (EnemyStateNode stateNode in childNode)
         {
             if (stateNode.PreCondition())
             {
-                if (stateNode.GetType().IsSubclassOf(typeof(EnemyStateActionNode)))
+                if (stateNode.GetType().IsSubclassOf(typeof(EnemyStateLeafNode)))
                 {
-                    enemyStateActionNode = stateNode as EnemyStateActionNode;
+                    enemyStateActionNode = stateNode as EnemyStateLeafNode;
                     //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
                 }
                 else

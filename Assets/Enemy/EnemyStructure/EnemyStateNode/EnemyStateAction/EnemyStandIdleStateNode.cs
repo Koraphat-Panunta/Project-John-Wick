@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStandIdleStateNode : EnemyStateActionNode
+public class EnemyStandIdleStateNode : EnemyStateLeafNode
 {
     public EnemyStandIdleStateNode(Enemy enemy) : base(enemy)
     {

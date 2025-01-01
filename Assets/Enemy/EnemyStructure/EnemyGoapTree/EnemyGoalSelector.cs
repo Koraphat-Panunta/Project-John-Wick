@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGoalSelector : EnemyGoal
 {
-    public EnemyGoalSelector(Enemy enemy, Func<bool> preCondition) : base(enemy)
+    public EnemyGoalSelector(Enemy enemy, IEnemyGOAP enemyGOAP, Func<bool> preCondition) : base(enemy, enemyGOAP)
     {
         this.preCondidtion = preCondition;
     }

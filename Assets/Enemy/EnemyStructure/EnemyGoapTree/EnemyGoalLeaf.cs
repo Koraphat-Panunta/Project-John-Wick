@@ -15,17 +15,18 @@ public class EnemyGoalLeaf : EnemyGoal
     protected Func<bool> isComplete;
 
 
-    public EnemyGoalLeaf(Enemy enemy) : base(enemy)
+    public EnemyGoalLeaf(Enemy enemy,IEnemyGOAP enemyGOAP) : base(enemy,enemyGOAP)
     {
     }
     public EnemyGoalLeaf(Enemy enemy
+        , IEnemyGOAP enemyGOAP
         , Func<bool> preCondition
         , Action Enter
         , Action Exit
         , Action Update
         , Action FixedUpdate
         , Func<bool> isComplete
-        , Func<bool> isReset) : base(enemy)
+        , Func<bool> isReset) : base(enemy, enemyGOAP)
     {
         this.preCondidtion = preCondition;
         this.enter = Enter;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EncouterGoal : EnemyGoalLeaf
 {
-    public EncouterGoal(Enemy enemy):base(enemy)
+    public EncouterGoal(Enemy enemy, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemy, enemyGOAP)
     {
 
     }
