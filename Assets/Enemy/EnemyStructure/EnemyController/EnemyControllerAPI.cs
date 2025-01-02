@@ -74,6 +74,12 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
 
         weaponAdvanceUser.isPullTrigger = true;
     }
+    public void CancleTrigger()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
+
+        weaponAdvanceUser.isPullTrigger = false;
+    }
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;

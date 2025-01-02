@@ -10,33 +10,33 @@ public class WeaponInput
     {
 
     }
-    public void InputWeaponUpdate( Player player)
+    public void InputWeaponUpdate( IWeaponAdvanceUser weaponAdvanceUser)
     {
-        if (player.isSwitchWeapon)
+        if (weaponAdvanceUser.isSwitchWeapon)
         {
-            player.weaponCommand.SwitchWeapon();
+            weaponAdvanceUser.weaponCommand.SwitchWeapon();
         }
-        if (player.isAiming)
+        if (weaponAdvanceUser.isAiming)
         {
-            player.weaponCommand.AimDownSight();
-        }
-        else
-        {
-            player.weaponCommand.LowReady();
-        }
-
-        if (player.isPullTrigger)
-        {
-            player.weaponCommand.PullTrigger();
+            weaponAdvanceUser.weaponCommand.AimDownSight();
         }
         else
         {
-            player.weaponCommand.CancleTrigger();
+            weaponAdvanceUser.weaponCommand.LowReady();
         }
 
-        if (player.isReload)
+        if (weaponAdvanceUser.isPullTrigger)
         {
-            player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
+            weaponAdvanceUser.weaponCommand.PullTrigger();
+        }
+        else
+        {
+            weaponAdvanceUser.weaponCommand.CancleTrigger();
+        }
+
+        if (weaponAdvanceUser.isReload)
+        {
+            weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         }
     }
 }

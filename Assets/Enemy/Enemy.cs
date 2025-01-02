@@ -88,7 +88,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         //GoapFixedUpdate();
         enemyStateManager.FixedUpdate();
     }
-
+    private void LateUpdate()
+    {
+        BlackBoardBufferUpdate();
+    }
     public void TakeDamage(float Damage)
     {
         HP -= Damage;
@@ -127,6 +130,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         //}
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(targetKnewPos, 0.5f);
+    }
+
+    private void BlackBoardBufferUpdate()
+    {
+        isReload = false;
+        isSwapShoulder = false;
+        isSwitchWeapon = false;
     }
 
     #region Initailized State Node

@@ -11,12 +11,12 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private const float MAXRANG_TIMING_FIRE = 0.6f;
     private const float MINRANG_TIMING_FIRE = 0.2f;
     private Enemy enemy;
-    public NormalFiringPattern(Enemy enemy)
+    public NormalFiringPattern(EnemyControllerAPI enemyController)
     {
-        this.curWeapon = enemy.currentWeapon;
-        this.ammoProuch = enemy.weaponBelt.ammoProuch;
+        this.curWeapon = enemyController.currentWeapon;
+        this.ammoProuch = enemyController.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
-        this.enemy = enemy;
+        this.enemy = enemyController;
     }
     public void Performing()
     {

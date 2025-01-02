@@ -81,7 +81,7 @@ public class EncouterGoal : EnemyGoalLeaf
         startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true,()=>100);
 
         this.moveCurve_And_Aim = new MoveCurve_and_Aim(enemyController
-            ,() => enemy.isInCombat
+            ,() => enemy.isInCombat // PreCondition
             ,() => enemy.cost*enemy.strength
             ,() => 
             {
@@ -90,7 +90,8 @@ public class EncouterGoal : EnemyGoalLeaf
                     return true;
 
                 else return false;
-            });
+            }//Reset
+            );
             
     }
 
