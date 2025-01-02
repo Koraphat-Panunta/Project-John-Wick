@@ -6,7 +6,7 @@ public class HoldingTactic : IEnemyTactic
 {
     private Enemy enemy;
     private bool isSeeTargetPos;
-    private IEnemyFiringPattern enemyFiringPattern;
+    //private IEnemyFiringPattern enemyFiringPattern;
     private EnemyFindingCover findingCover;
     private float costRate;
     private float exitStateCost = 70;
@@ -14,7 +14,7 @@ public class HoldingTactic : IEnemyTactic
     public HoldingTactic(Enemy enemy)
     {
         this.enemy = enemy;
-        enemyFiringPattern = new NormalFiringPattern(enemy);
+        //enemyFiringPattern = new NormalFiringPattern(enemy);
         findingCover = new EnemyFindingCover();
         costRate = Random.Range(8, 15f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Holding);
@@ -50,8 +50,8 @@ public class HoldingTactic : IEnemyTactic
         }
         if(isSeeTargetPos == true)
         {
-            enemy.weaponCommand.AimDownSight();
-            enemyFiringPattern.Performing();
+            //enemy.weaponCommand.AimDownSight();
+            //enemyFiringPattern.Performing();
             enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
             Vector3 targetDir = enemy.targetKnewPos.normalized - enemy.transform.position.normalized;
             new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);

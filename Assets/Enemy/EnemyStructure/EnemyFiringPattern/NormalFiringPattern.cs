@@ -11,25 +11,28 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private const float MAXRANG_TIMING_FIRE = 0.6f;
     private const float MINRANG_TIMING_FIRE = 0.2f;
     private Enemy enemy;
+    private EnemyControllerAPI enemyController;
     public NormalFiringPattern(EnemyControllerAPI enemyController)
     {
-        this.curWeapon = enemyController.currentWeapon;
-        this.ammoProuch = enemyController.weaponBelt.ammoProuch;
+        this.enemy = enemyController.enemy;
+
+        this.curWeapon = enemy.currentWeapon;
+        this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
-        this.enemy = enemyController;
+
     }
     public void Performing()
     {
         if(curWeapon.triggerState == TriggerState.IsDown
             ||curWeapon.triggerState == TriggerState.Down)
-            enemy.weaponCommand.CancleTrigger();
+            enemyController.CancleTrigger();
 
         deltaFireTiming += Time.deltaTime;
         if (deltaFireTiming >= randomFireTiming)
         {
             if(curWeapon.bulletStore[BulletStackType.Magazine] <= 0&&curWeapon.bulletStore[BulletStackType.Chamber]<=0)
             {
-                enemy.weaponCommand.Reload(enemy.weaponBelt.ammoProuch);
+                enemyController.Reload();
             }
             else if (curWeapon.bulletStore[BulletStackType.Chamber]>0)
             {
@@ -44,13 +47,13 @@ public class NormalFiringPattern : IEnemyFiringPattern
                         }
                         else
                         {
-                            enemy.weaponCommand.PullTrigger();
+                            enemyController.PullTrigger();
                         }
                     }
                 }
                 else
                 {
-                    enemy.weaponCommand.PullTrigger();
+                    enemyController.PullTrigger();
                 }
             }
             deltaFireTiming = 0;
