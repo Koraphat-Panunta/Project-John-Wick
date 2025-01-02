@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class MoveCurve_and_Shoot : EnemyActionLeafNode
 {
-    public MoveCurve_and_Shoot(Enemy enemy) : base(enemy)
+    public MoveCurve_and_Shoot(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
     public MoveCurve_and_Shoot(
-        Enemy enemy, 
+        EnemyControllerAPI enemyController, 
         Func<bool> preCondition,
+        Func<float> getCost,
         Func<bool> isReset) 
-        : base(enemy, preCondition, isReset)
+        : base(enemyController, preCondition,getCost, isReset)
     {
     }
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }

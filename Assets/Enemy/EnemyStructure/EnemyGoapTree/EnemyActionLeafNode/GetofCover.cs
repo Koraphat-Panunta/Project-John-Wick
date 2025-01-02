@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class GetofCover : EnemyActionLeafNode
 {
-    public GetofCover(Enemy enemy) : base(enemy)
+    public GetofCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public GetofCover(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public GetofCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

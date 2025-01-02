@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class EncouterGoal : EnemyGoalLeaf
 {
-    public EncouterGoal(Enemy enemy, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemy, enemyGOAP)
-    {
 
+  
+    public EncouterGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
+    {
+        
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+   
 
     public override void Enter()
     {
@@ -28,16 +31,68 @@ public class EncouterGoal : EnemyGoalLeaf
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if(enemy.isInCombat == false)
+            return true;
+
+        if (enemy.strength * enemy.cost
+            < enemy.intelligent * (enemy.maxCost/enemy.cost))
+            return true;
+
+        else return false;
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if(enemy.isInCombat == true)
+        return true;
+        
+        else return false;
     }
-
+    public override float GetCost()
+    {
+        return enemy.strength * enemy.cost;
+    }
     public override void Update()
     {
         base.Update();
     }
+
+    #region InitailiedActionNode
+    public override void ActionUpdate()
+    {
+        
+    }
+
+    public override void ActionFixedUpdate()
+    {
+       
+    }
+
+    private MoveCurve_and_Aim moveCurve_And_Aim;
+    private MoveCurve_and_Shoot moveCurve_And_Shoot;
+    private Idle_and_Aim idle_And_Aim;
+    private Idle_and_LowReady idle_And_LowReady;
+
+    protected override EnemyActionLeafNode enemyActionLeaf { get; set; }
+    protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
+
+    protected override void InitailizedActionNode()
+    {
+        startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true,()=>100);
+
+        this.moveCurve_And_Aim = new MoveCurve_and_Aim(enemyController
+            ,() => enemy.isInCombat
+            ,() => enemy.cost*enemy.strength
+            ,() => 
+            {
+                float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+                if(distance < 2.5f)
+                    return true;
+
+                else return false;
+            });
+            
+    }
+
+    #endregion
 }

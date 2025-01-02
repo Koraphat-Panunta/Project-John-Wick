@@ -26,7 +26,7 @@ public class TakeCoverTactic : IEnemyTactic
         costRate = Random.Range(1f, 2f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
         Debug.Log(enemy + " EnterTakeCover");
-        enemy.isIncombat = true;
+        enemy.isInCombat = true;
     }
     public void Manufacturing()
     {

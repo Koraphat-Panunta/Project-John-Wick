@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PatrolingGoal : EnemyGoalLeaf
 {
-    public PatrolingGoal(Enemy enemy, IEnemyGOAP enemyGOAP) : base(enemy, enemyGOAP)
+    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP) : base(enemyController, enemyGOAP)
     {
 
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+    protected override EnemyActionLeafNode enemyActionLeaf { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    protected override EnemyActionSelectorNode startActionSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+   
 
     public override void Enter()
     {
@@ -39,5 +43,18 @@ public class PatrolingGoal : EnemyGoalLeaf
     public override void Update()
     {
         base.Update();
+    }
+
+    protected override void InitailizedActionNode()
+    {
+    }
+    public override void ActionFixedUpdate()
+    {
+
+    }
+
+    public override void ActionUpdate()
+    {
+
     }
 }

@@ -30,6 +30,18 @@ public class RotateObjectToward : IUtilityMethod
             _rotObject.transform.rotation = Quaternion.Slerp(_rotObject.transform.rotation, targetRotation, rotationSpeed_NoNeedDeltaTime * Time.deltaTime);
         }
     }
+    public Quaternion RotateToward(Vector3 direction, Transform _rotObject, float rotationSpeed_NoNeedDeltaTime)
+    {
+
+        direction.Normalize();
+
+        direction.y = 0;
+ 
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        return Quaternion.Slerp(_rotObject.rotation, targetRotation, rotationSpeed_NoNeedDeltaTime * Time.deltaTime);
+        
+    }
     public void RotateTowardsObjectPos(Vector3 targetPos, GameObject _rotObject, float rotationSpeed_NoNeedDeltaTime)
     {
         // Ensure the direction is normalized

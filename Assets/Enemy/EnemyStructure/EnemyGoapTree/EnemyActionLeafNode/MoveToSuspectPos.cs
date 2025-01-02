@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MoveToSuspectPos : EnemyActionLeafNode
 {
-    public MoveToSuspectPos(Enemy enemy) : base(enemy)
+    public MoveToSuspectPos(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public MoveToSuspectPos(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public MoveToSuspectPos(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

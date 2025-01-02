@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BackToCover : EnemyActionLeafNode
 {
-    public BackToCover(Enemy enemy) : base(enemy)
+    public BackToCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public BackToCover(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public BackToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

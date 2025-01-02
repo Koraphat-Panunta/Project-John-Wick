@@ -6,8 +6,13 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using static Reload;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent,IMovementCompoent
 {
+    [Range(0,100)]
+    public float intelligent;
+    [Range(0, 100)]
+    public float strength;
+
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
     //public GameObject Target;
@@ -20,15 +25,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     //public HearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
+
+    public readonly float maxCost = 100;
+    public readonly float lowestCost = 0;
     public float cost;
     public float pressure;
+
+
 
     public IEnemyHitReaction enemyHitReaction;
     public EnemyMiniFlinch enemyMiniFlinch;
 
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
-    public bool isIncombat;
+    //public bool isIncombat;
 
     public float offensiveIntenstiby;
 
@@ -60,7 +70,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
-        this.isIncombat = false;
+        this.isInCombat = false;
         //base.isDead = false;
 
         base.HP = 100;
@@ -244,6 +254,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
     public GameObject objInstict { get ; set ; }
     public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
+    public bool isInCombat { get; set; }
 
     public void InitailizedCombatOffensiveInstinct()
     {
@@ -284,7 +295,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public GameObject userHearing { get ; set ; }
     public Environment environment { get => My_environment ; }
     public HearingSensing hearingSensing { get; set; }
- 
+   
+
     public void InitailizedHearingComponent()
     {
         userHearing = gameObject;
@@ -293,16 +305,38 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public void GotHearding(GameObject souceSound)
     {
         
-
         if (souceSound.TryGetComponent<Player>(out Player player) == false) 
         return;
 
         targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
         Debug.Log("Got Hearding");
-        if (isIncombat == false)
+        if (isInCombat == false)
         {
             currentTactic = new FlankingTactic(this);
         }
+    }
+
+    #endregion 
+
+    #region InitailizedMovementComponent
+    public GameObject userMovement { get; set; }
+    public Vector2 moveVelocity_World { get ; set; }
+    public Vector2 moveVelocity_Local { get ; set ; }
+    public Quaternion rotating { get; set; }
+    public EnemyStateSelectorNode stanceSelector { get; set; }
+    public EnemyStateSelectorNode standStateSelector { get; set; }
+    public EnemyStateSelectorNode crouchStateSelector { get; set; }
+    public EnemyStandIdleStateNode standIdleState { get; set; }
+    public EnemyStandMoveStateNode standMoveState { get; set; }
+    public EnemySprintStateNode sprintState { get; set; }
+    public IMovementCompoent.Stance curStance { get; set; }
+    public bool isSprint { get ; set ; }
+
+    public void InitailizedMovementComponent()
+    {
+        this.userMovement = gameObject;
+
+        curStance = IMovementCompoent.Stance.Stand;
     }
     #endregion
 }

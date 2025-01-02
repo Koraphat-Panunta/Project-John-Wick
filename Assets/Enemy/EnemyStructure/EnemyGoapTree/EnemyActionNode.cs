@@ -4,19 +4,26 @@ using UnityEngine;
 
 public abstract class EnemyActionNode 
 {
-    public EnemyActionNode(Enemy enemy)
+    public EnemyActionNode(EnemyControllerAPI enemyController)
     {
-        this.enemy = enemy;
+        this.enemyController = enemyController;
+        this.enemy = enemyController.enemy;
         childNode = new List<EnemyActionNode>();
     }
 
     protected Enemy enemy { get; set; }
+    protected EnemyControllerAPI enemyController { get; set; }
     public abstract List<EnemyActionNode> childNode { get; set; }
     protected abstract Func<bool> preCondidtion { get; set; }
+    protected abstract Func<float> getCost { get; set; }
     public abstract void FixedUpdate();
     public abstract void Update();
     public abstract bool IsReset();
     public abstract bool PreCondition();
+    public virtual float GetCost()
+    {
+        return getCost.Invoke();
+    }
     public void Transition(out EnemyActionLeafNode enemyActionLeaf)
     {
         enemyActionLeaf = null;

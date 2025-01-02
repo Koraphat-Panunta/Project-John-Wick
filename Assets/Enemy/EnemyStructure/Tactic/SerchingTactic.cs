@@ -21,7 +21,7 @@ public class SerchingTactic : IEnemyTactic
         agent.ResetPath();
         agent.destination = RandomPosInNavmesh();
         enemy.StartCoroutine(PerformedAction());
-        enemy.isIncombat = false;
+        enemy.isInCombat = false;
     }
     public void Manufacturing()
     {

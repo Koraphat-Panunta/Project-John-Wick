@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Idle_and_LowReady : EnemyActionLeafNode
 {
-    public Idle_and_LowReady(Enemy enemy) : base(enemy)
+    public Idle_and_LowReady(EnemyControllerAPI enemyController) : base(enemyController)
     {
 
     }
 
     public Idle_and_LowReady(
-        Enemy enemy, 
-        Func<bool> preCondition, 
+        EnemyControllerAPI enemyController, 
+        Func<bool> preCondition,
+        Func<float> getCost,
         Func<bool> isReset) 
-        : base(enemy, preCondition, isReset)
+        : base(enemyController, preCondition,getCost, isReset)
     {
     }
 

@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGoalLeaf : EnemyGoal
+public abstract class EnemyGoalLeaf : EnemyGoal
 {
-    
+    protected abstract EnemyActionLeafNode enemyActionLeaf { get; set; }
+    protected abstract EnemyActionSelectorNode startActionSelector { get; set; }
     public override List<EnemyGoal> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
+    protected override Func<float> getCost { get ; set ; }
+
     protected Action enter;
     protected Action exit;
     protected Action update;
@@ -15,20 +18,22 @@ public class EnemyGoalLeaf : EnemyGoal
     protected Func<bool> isComplete;
 
 
-    public EnemyGoalLeaf(Enemy enemy,IEnemyGOAP enemyGOAP) : base(enemy,enemyGOAP)
+    public EnemyGoalLeaf(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP) : base(enemyController, enemyGOAP)
     {
     }
-    public EnemyGoalLeaf(Enemy enemy
+    public EnemyGoalLeaf(EnemyControllerAPI enemyController
         , IEnemyGOAP enemyGOAP
         , Func<bool> preCondition
+        , Func<float> getCost
         , Action Enter
         , Action Exit
         , Action Update
         , Action FixedUpdate
         , Func<bool> isComplete
-        , Func<bool> isReset) : base(enemy, enemyGOAP)
+        , Func<bool> isReset) : base(enemyController, enemyGOAP)
     {
         this.preCondidtion = preCondition;
+        this.getCost = getCost;
         this.enter = Enter;
         this.exit = Exit;
         this.update = Update;
@@ -70,4 +75,13 @@ public class EnemyGoalLeaf : EnemyGoal
         if (fixedUpdate != null)
             fixedUpdate.Invoke();
     }
+
+    public override float GetCost()
+    {
+        return getCost.Invoke();
+    }
+
+    public abstract void ActionUpdate();
+    public abstract void ActionFixedUpdate();
+    protected abstract void InitailizedActionNode();
 }

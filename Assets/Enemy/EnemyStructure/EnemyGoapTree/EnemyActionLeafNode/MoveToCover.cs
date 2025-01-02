@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MoveToCover : EnemyActionLeafNode
 {
-    public MoveToCover(Enemy enemy) : base(enemy)
+    public MoveToCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public MoveToCover(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public MoveToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

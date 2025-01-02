@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MoveToPatrolPosition : EnemyActionLeafNode
 {
-    public MoveToPatrolPosition(Enemy enemy) : base(enemy)
+    public MoveToPatrolPosition(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public MoveToPatrolPosition(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public MoveToPatrolPosition(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

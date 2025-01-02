@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SprintToCover : EnemyActionLeafNode
 {
-    public SprintToCover(Enemy enemy) : base(enemy)
+    public SprintToCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public SprintToCover(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public SprintToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

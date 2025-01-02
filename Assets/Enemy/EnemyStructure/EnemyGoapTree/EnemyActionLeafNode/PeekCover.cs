@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PeekCover : EnemyActionLeafNode
 {
-    public PeekCover(Enemy enemy) : base(enemy)
+    public PeekCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public PeekCover(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public PeekCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
     {
     }
 

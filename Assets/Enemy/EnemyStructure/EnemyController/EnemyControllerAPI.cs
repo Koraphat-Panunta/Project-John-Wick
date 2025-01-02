@@ -20,29 +20,65 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         
     }
-    public void Move(Vector2 MoveDir, float velocity, Quaternion rotation)
+    public void Move(Vector2 MoveDirWorld, float velocity)
     {
-
+        enemy.moveVelocity_World = MoveDirWorld.normalized*velocity;
+    }
+    public void Rotate(Quaternion rotate)
+    {
+        enemy.rotating = rotate;
+    }
+    public void FreezRotate()
+    {
+        enemy.rotating = Quaternion.identity;
     }
     public void Sprint(Vector2 SprintDir)
     {
-
+        enemy.isSprint = true;
     }
     public void Freez()
     {
+        enemy.isSprint = false;
 
     }
     public void Stand()
     {
-
+        enemy.curStance = IMovementCompoent.Stance.Stand;
     }
     public void Crouch()
     {
-
+        enemy.curStance = IMovementCompoent.Stance.Crouch;
+        enemy.isSprint = false;
     }
     public void Dodge()
     {
+        
+    }
 
+    public void LowReady()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
+
+        weaponAdvanceUser.isAiming = false;
+        weaponAdvanceUser.isPullTrigger = false;
+    }
+    public void AimDownSight()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
+
+        weaponAdvanceUser.isAiming = true;
+    }
+    public void PullTrigger()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
+
+        weaponAdvanceUser.isPullTrigger = true;
+    }
+    public void Reload()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
+
+        weaponAdvanceUser.isReload = true;
     }
 
 
@@ -86,11 +122,11 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
         _enemy = this.enemy;
         _enemyController = this;
 
-        startSelecotr = new EnemyGoalSelector(_enemy,this,() => true);
+        startSelecotr = new EnemyGoalSelector(this,this,() => true,()=> 100);
 
-        _encouterGoal = new EncouterGoal(_enemy, _enemyGOAP, _findingTarget);
-        _holdingGoal = new HoldingGoal(_enemy, _enemyGOAP, _findingTarget);
-        _takeCoverGoal = new TakeCoverGoal(_enemy, _enemyGOAP, _coverUseable);
+        _encouterGoal = new EncouterGoal(this, _enemyGOAP, _findingTarget);
+        _holdingGoal = new HoldingGoal(this, _enemyGOAP, _findingTarget);
+        _takeCoverGoal = new TakeCoverGoal(this, _enemyGOAP, _coverUseable);
 
     }
 }

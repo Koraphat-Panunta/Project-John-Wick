@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class HoldingGoal : EnemyGoalLeaf
 {
-    public HoldingGoal(Enemy enemy, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemy, enemyGOAP)
+    public HoldingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
     {
 
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+    protected override EnemyActionLeafNode enemyActionLeaf { get ; set ; }
+    protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
+
+    public override void ActionFixedUpdate()
+    {
+    }
+
+    public override void ActionUpdate()
+    {
+    }
 
     public override void Enter()
     {
@@ -39,5 +49,9 @@ public class HoldingGoal : EnemyGoalLeaf
     public override void Update()
     {
         base.Update();
+    }
+
+    protected override void InitailizedActionNode()
+    {
     }
 }
