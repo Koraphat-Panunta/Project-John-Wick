@@ -10,6 +10,7 @@ public class FindingTarget
     public float lostSightTiming { get;private set; }
     public bool isSpottingTarget { get; private set; }
     private Vector3 lastSeenPos { get; /*private*/ set; }
+    public Vector3 suspectPos { get; set; }
     public FindingTarget(LayerMask playerMask,FieldOfView fieldOfView,IFindingTarget userFinding)
     {
         this.fieldOfView = fieldOfView;
@@ -24,6 +25,7 @@ public class FindingTarget
 
             lastSeenPos = spottedTarget.transform.position;
             userFinding.targetKnewPos = lastSeenPos;
+            suspectPos = userFinding.targetKnewPos;
             lostSightTiming = 0;
             isSpottingTarget = true;
             target = spottedTarget;

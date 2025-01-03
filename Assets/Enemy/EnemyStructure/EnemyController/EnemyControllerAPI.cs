@@ -25,6 +25,12 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         enemy.moveVelocity_World = MoveDirWorld.normalized*velocity;
     }
+    public void RotateToPos(Vector3 pos,float rotSpeed)
+    {
+        Quaternion rotation = new RotateObjectToward().RotateToward(pos - enemy.transform.position, enemy.transform, rotSpeed);
+
+        Rotate(rotation);
+    }
     public void Rotate(Quaternion rotate)
     {
         enemy.rotating = rotate;
@@ -122,6 +128,12 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
 
     #endregion
 
+    #region InitializedSearchGoal
+
+    private SearchingGoal _searchingGoal { get; set; }   
+
+    #endregion
+
     public void GOAP_Update()
     {
         
@@ -139,9 +151,11 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
 
         startSelecotr = new EnemyGoalSelector(this,this,() => true);
 
+        _searchingGoal = new SearchingGoal(_enemyController,this, _findingTarget);
         _encouterGoal = new EncouterGoal(this, _enemyGOAP, _findingTarget);
         _holdingGoal = new HoldingGoal(this, _enemyGOAP, _findingTarget);
         _takeCoverGoal = new TakeCoverGoal(this, _enemyGOAP, _coverUseable);
+
 
     }
 }

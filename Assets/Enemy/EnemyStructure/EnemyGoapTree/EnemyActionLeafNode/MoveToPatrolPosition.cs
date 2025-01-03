@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MoveToPatrolPosition : EnemyActionLeafNode
 {
-    public MoveToPatrolPosition(EnemyControllerAPI enemyController) : base(enemyController)
+    private Dictionary<Transform, float> curPatrolPoint;
+    public MoveToPatrolPosition(EnemyControllerAPI enemyController,Dictionary<Transform,float> curPatrolPoint, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
-    }
-
-    public MoveToPatrolPosition(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
-    {
+        this.curPatrolPoint = curPatrolPoint;
     }
 
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -42,6 +40,8 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
 
     public override void Update()
     {
-        base.Update();
+        //Vector3 moveDir = curPatrolPoint.getKe
+        //enemyController.Move()
+        //base.Update();
     }
 }

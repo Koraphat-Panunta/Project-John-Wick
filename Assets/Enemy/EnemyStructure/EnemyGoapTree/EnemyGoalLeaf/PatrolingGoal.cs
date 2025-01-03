@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PatrolingGoal : EnemyGoalLeaf
 {
-    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP) : base(enemyController, enemyGOAP)
+    private List<Dictionary<Transform, float>> patrolPoint;
+    public Dictionary<Transform, float> curPatrolPoint;
+    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, List<Dictionary<Transform, float>> patrolpoint) : base(enemyController, enemyGOAP)
     {
-
+        this.patrolPoint = patrolpoint;
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
-    protected override EnemyActionLeafNode enemyActionLeaf { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    protected override EnemyActionSelectorNode startActionSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    protected override EnemyActionLeafNode enemyActionLeaf { get ; set ; }
+    protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
 
    
 
