@@ -6,7 +6,6 @@ public class EnemyActionLeafNode : EnemyActionNode
 {
     public override List<EnemyActionNode> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
-    protected override Func<float> getCost { get ; set ; }
 
     protected Action enter;
     protected Action exit;
@@ -21,7 +20,6 @@ public class EnemyActionLeafNode : EnemyActionNode
     }
     public EnemyActionLeafNode(EnemyControllerAPI enemyController
         , Func<bool> preCondition
-        , Func<float> getCost
         , Action Enter
         , Action Exit
         , Action Update
@@ -30,7 +28,6 @@ public class EnemyActionLeafNode : EnemyActionNode
         , Func<bool> isReset) : base(enemyController)
     {
         this.preCondidtion = preCondition;
-        this.getCost = getCost;
         this.enter = Enter;
         this.exit = Exit;
         this.update = Update;
@@ -40,11 +37,9 @@ public class EnemyActionLeafNode : EnemyActionNode
     }
     public EnemyActionLeafNode(EnemyControllerAPI enemyController
        , Func<bool> preCondition
-       , Func<float> getCost
        , Func<bool> isReset) : base(enemyController)
     {
         this.preCondidtion = preCondition;
-        this.getCost = getCost;
         this.isReset = isReset;
     }
 
@@ -68,10 +63,6 @@ public class EnemyActionLeafNode : EnemyActionNode
     public override bool PreCondition()
     {
         return preCondidtion.Invoke();
-    }
-    public override float GetCost()
-    {
-        return base.GetCost();
     }
     public override void Update()
     {

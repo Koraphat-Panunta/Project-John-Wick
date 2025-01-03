@@ -8,7 +8,7 @@ public class Wait : EnemyActionLeafNode
     {
     }
 
-    public Wait(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
+    public Wait(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
     }
 

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class EnemyActionSelectorNode : EnemyActionNode
 {
-    public EnemyActionSelectorNode(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost) : base(enemyController)
+    public EnemyActionSelectorNode(EnemyControllerAPI enemyController, Func<bool> preCondition) : base(enemyController)
     {
         this.preCondidtion = preCondition;
-        this.getCost = getCost;
     }
 
     public override List<EnemyActionNode> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
-    protected override Func<float> getCost { get ; set ; }
 
     public override void FixedUpdate()
     {

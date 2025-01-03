@@ -12,9 +12,8 @@ public class Idle_and_Aim : EnemyActionLeafNode
     public Idle_and_Aim(
         EnemyControllerAPI enemyController, 
         Func<bool> preCondition,
-        Func<float> getCost,
         Func<bool> isReset) 
-        : base(enemyController, preCondition,getCost, isReset)
+        : base(enemyController, preCondition, isReset)
     {
 
     }

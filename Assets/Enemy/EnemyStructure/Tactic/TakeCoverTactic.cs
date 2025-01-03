@@ -7,7 +7,7 @@ public class TakeCoverTactic : IEnemyTactic
 {
     public Enemy enemy;
     public EnemyFindingCover enemyFindingCover;
-    private IEnemyFiringPattern enemyFiringPattern;
+    //private IEnemyFiringPattern enemyFiringPattern;
     private NavMeshAgent agent;
     private bool isInCover;
     private CoverPoint coverPositionEnemy;
@@ -17,7 +17,7 @@ public class TakeCoverTactic : IEnemyTactic
     {
         this.enemy = enemy;
         enemyFindingCover = new EnemyFindingCover();
-        enemyFiringPattern = new NormalFiringPattern(enemy);
+        //enemyFiringPattern = new NormalFiringPattern(enemy);
         agent = enemy.agent;
         agent.speed = 0;
         agent.acceleration = 0;
@@ -85,7 +85,7 @@ public class TakeCoverTactic : IEnemyTactic
         agent.SetDestination(peekPos);
         enemy.weaponCommand.AimDownSight();
         enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
-        enemyFiringPattern.Performing();
+        //enemyFiringPattern.Performing();
         new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
         if (enemy.findingTargetComponent.FindTarget(out GameObject target) == false)
         {
@@ -145,7 +145,7 @@ public class TakeCoverTactic : IEnemyTactic
         {
             new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
             enemy.weaponCommand.AimDownSight();
-            enemyFiringPattern.Performing();
+            //enemyFiringPattern.Performing();
         }
         else
         {

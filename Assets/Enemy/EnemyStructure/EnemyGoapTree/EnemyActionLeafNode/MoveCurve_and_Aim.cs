@@ -8,7 +8,7 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
     private EnemyPath path;
     private float costDrainRate;
    
-    public MoveCurve_and_Aim(EnemyControllerAPI enemyController, Func<bool> preCondition,Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition,getCost, isReset)
+    public MoveCurve_and_Aim(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         path = new EnemyPath(enemy.agent);
     }
@@ -47,10 +47,7 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
         return preCondidtion.Invoke();
     }
 
-    public override float GetCost()
-    {
-        return getCost.Invoke();
-    }
+  
     
     public override void Update()
     {

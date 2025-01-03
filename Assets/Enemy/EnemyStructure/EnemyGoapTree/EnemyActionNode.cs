@@ -15,15 +15,10 @@ public abstract class EnemyActionNode
     protected EnemyControllerAPI enemyController { get; set; }
     public abstract List<EnemyActionNode> childNode { get; set; }
     protected abstract Func<bool> preCondidtion { get; set; }
-    protected abstract Func<float> getCost { get; set; }
     public abstract void FixedUpdate();
     public abstract void Update();
     public abstract bool IsReset();
     public abstract bool PreCondition();
-    public virtual float GetCost()
-    {
-        return getCost.Invoke();
-    }
     public void Transition(out EnemyActionLeafNode enemyActionLeaf)
     {
         enemyActionLeaf = null;
@@ -35,11 +30,9 @@ public abstract class EnemyActionNode
             if (eAction.GetType().IsSubclassOf(typeof(EnemyActionLeafNode)))
             {
                 enemyActionLeaf = eAction as EnemyActionLeafNode;
-                Debug.Log("Transition from " + this + " ->" + eAction);
             }
             else
-            {
-                Debug.Log("Transition from " + this + " ->" + eAction);
+            {;
                 eAction.Transition(out enemyActionLeaf);
             }
             break;

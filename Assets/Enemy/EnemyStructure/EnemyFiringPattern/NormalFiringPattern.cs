@@ -28,36 +28,34 @@ public class NormalFiringPattern : IEnemyFiringPattern
             enemyController.CancleTrigger();
 
         deltaFireTiming += Time.deltaTime;
-        if (deltaFireTiming >= randomFireTiming)
+
+        if (deltaFireTiming < randomFireTiming)
+            return;
+
+        if (curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.bulletStore[BulletStackType.Chamber] <= 0)
         {
-            if(curWeapon.bulletStore[BulletStackType.Magazine] <= 0&&curWeapon.bulletStore[BulletStackType.Chamber]<=0)
-            {
-                enemyController.Reload();
-            }
-            else if (curWeapon.bulletStore[BulletStackType.Chamber]>0)
-            {
-                Ray ray = new Ray(enemy.rayCastPos.position,(enemy.targetKnewPos- enemy.rayCastPos.position).normalized);
-                if (Physics.SphereCast(ray, 0.5f,out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy")))
-                {
-                    if(hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body))
-                    {
-                        if (body.enemy != enemy)
-                        {
-                            
-                        }
-                        else
-                        {
-                            enemyController.PullTrigger();
-                        }
-                    }
-                }
-                else
-                {
-                    enemyController.PullTrigger();
-                }
-            }
+            enemyController.Reload();
             deltaFireTiming = 0;
-            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);   
+            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+            return;
         }
+
+        if (curWeapon.bulletStore[BulletStackType.Chamber] > 0)
+        {
+            Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);
+            if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy"))){
+                
+                if (hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body)){
+
+                    if (body.enemy != enemy){}
+                    else{ enemyController.PullTrigger(); }
+                }
+            }
+            else
+                enemyController.PullTrigger();
+            
+        }
+        deltaFireTiming = 0;
+        randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
     }
 }

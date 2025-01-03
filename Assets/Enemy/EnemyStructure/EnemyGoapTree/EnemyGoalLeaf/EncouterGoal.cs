@@ -5,15 +5,15 @@ using UnityEngine;
 public class EncouterGoal : EnemyGoalLeaf
 {
 
-  
+    public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
+    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
     public EncouterGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
     {
         
     }
-    public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
    
-
+   
     public override void Enter()
     {
         base.Enter();
@@ -78,15 +78,18 @@ public class EncouterGoal : EnemyGoalLeaf
 
     protected override void InitailizedActionNode()
     {
-        startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true,()=>100);
+        startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true);
 
         this.moveCurve_And_Aim = new MoveCurve_and_Aim(enemyController
             ,() => enemy.isInCombat // PreCondition
-            ,() => enemy.cost*enemy.strength
             ,() => 
             {
                 float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+
                 if(distance < 2.5f)
+                    return true;
+
+                if(enemy.isSpotingtarget )
                     return true;
 
                 else return false;

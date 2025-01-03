@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using static Reload;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent,IMovementCompoent
 {
@@ -279,6 +277,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
     public FindingTarget findingTargetComponent { get ; set; }
     public Vector3 targetKnewPos { get ; set ; }
+    public bool isSpotingtarget { get => findingTargetComponent.isSpottingTarget; }
+    public bool lostSightTiming { get => findingTargetComponent.isLostSighttarget; }
     public void InitailizedFindingTarget()
     {
         findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
@@ -341,6 +341,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public EnemySprintStateNode sprintState { get; set; }
     public IMovementCompoent.Stance curStance { get; set; }
     public bool isSprint { get ; set ; }
+   
 
     public void InitailizedMovementComponent()
     {

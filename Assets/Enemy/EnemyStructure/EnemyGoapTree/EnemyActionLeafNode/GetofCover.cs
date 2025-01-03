@@ -8,7 +8,7 @@ public class GetofCover : EnemyActionLeafNode
     {
     }
 
-    public GetofCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
+    public GetofCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
     }
 

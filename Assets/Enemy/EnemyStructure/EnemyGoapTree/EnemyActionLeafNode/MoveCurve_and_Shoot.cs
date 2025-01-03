@@ -9,17 +9,17 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
 
     private EnemyPath path;
     private float costDrainRate;
-
+    private NormalFiringPattern firingPattern;
     public MoveCurve_and_Shoot(EnemyControllerAPI enemyController) : base(enemyController)
     {
         path = new EnemyPath(enemy.agent);
+        firingPattern = new NormalFiringPattern(enemyController);
     }
     public MoveCurve_and_Shoot(
         EnemyControllerAPI enemyController, 
         Func<bool> preCondition,
-        Func<float> getCost,
         Func<bool> isReset) 
-        : base(enemyController, preCondition,getCost, isReset)
+        : base(enemyController, preCondition, isReset)
     {
     }
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -58,6 +58,8 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
 
     public override void Update()
     {
+        firingPattern.Performing();
+
         NavMeshAgent agent = enemy.agent;
 
         enemy.cost -= costDrainRate * Time.deltaTime;

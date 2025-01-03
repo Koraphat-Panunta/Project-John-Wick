@@ -8,5 +8,7 @@ public interface IFindingTarget
     public FieldOfView fieldOfView { get; set; }
     public FindingTarget findingTargetComponent { get; set; }
     public Vector3 targetKnewPos { get; set; }
+    public bool isSpotingtarget { get;  }
+    public bool lostSightTiming { get; }
     public void InitailizedFindingTarget();
 }

@@ -8,7 +8,7 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
     {
     }
 
-    public MoveToPatrolPosition(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
+    public MoveToPatrolPosition(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
     }
 

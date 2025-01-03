@@ -8,7 +8,7 @@ public class BackToCover : EnemyActionLeafNode
     {
     }
 
-    public BackToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<float> getCost, Func<bool> isReset) : base(enemyController, preCondition, getCost, isReset)
+    public BackToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
     }
 
