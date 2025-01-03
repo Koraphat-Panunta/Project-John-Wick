@@ -48,13 +48,5 @@ public class PatrolingGoal : EnemyGoalLeaf
     protected override void InitailizedActionNode()
     {
     }
-    public override void ActionFixedUpdate()
-    {
-
-    }
-
-    public override void ActionUpdate()
-    {
-
-    }
+ 
 }

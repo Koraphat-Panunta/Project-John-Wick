@@ -68,7 +68,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
-        this.isInCombat = false;
         //base.isDead = false;
 
         base.HP = 100;
@@ -174,49 +173,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
     #endregion
 
-    //#region GoapAI
-    //private EnemyGoalSelector startSelector { get; set; }
-    //private EnemyGoalLeaf curGoal { get; set; }
-    //private EncouterGoal encouterGoal { get; set; }
-    //private TakeCoverGoal takeCoverGoal { get; set; }
-    //private HoldingGoal holdingGoal { get; set; }
-    //private PatrolingGoal patrolingGoal { get; set; }
-
-    //private void InitailizedGoap()
-    //{
-    //    startSelector = new EnemyGoalSelector(this,()=>true);
-
-    //    encouterGoal = new EncouterGoal(this);
-    //    takeCoverGoal = new TakeCoverGoal(this);
-    //    holdingGoal = new HoldingGoal(this);
-    //    patrolingGoal = new PatrolingGoal(this);
-
-    //    startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
-    //    curGoal = enemyGoalLeaf;
-
-    //}
-    //private void GoapUpdate()
-    //{
-    //    if (curGoal.IsReset()){
-
-    //        curGoal.Exit();
-    //        curGoal = null;
-    //        startSelector.Transition(out EnemyGoalLeaf enemyGoalLeaf);
-    //        //Debug.Log("Out PlayerNode = " + enemyGoalLeaf);
-    //        curGoal = enemyGoalLeaf;
-    //        curGoal.Enter();
-    //    }
-
-    //    if (curGoal != null)
-    //        curGoal.Update();
-    //}
-    //private void GoapFixedUpdate() 
-    //{
-    //    if(curGoal != null)
-    //        curGoal.FixedUpdate();
-    //}
-    //#endregion
-
     #region InitializedMotionControl
 
     [SerializeField] GameObject head;
@@ -262,12 +218,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
     public GameObject objInstict { get ; set ; }
     public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
-    public bool isInCombat { get; set; }
 
     public void InitailizedCombatOffensiveInstinct()
     {
         objInstict = gameObject;
-        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment);
+        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment,this);
     }
     #endregion
 
@@ -277,8 +232,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
     public FindingTarget findingTargetComponent { get ; set; }
     public Vector3 targetKnewPos { get ; set ; }
-    public bool isSpotingtarget { get => findingTargetComponent.isSpottingTarget; }
-    public bool lostSightTiming { get => findingTargetComponent.isLostSighttarget; }
     public void InitailizedFindingTarget()
     {
         findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
@@ -291,7 +244,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public CoverPoint coverPoint { get; set; }
     public Character userCover { get ; set; }
     public FindingCover findingCover { get; set; }
-    
+    public bool isInCover { get ; set ; }
+
     public void InitailizedCoverUsable()
     {
         userCover = this;
@@ -320,7 +274,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
         targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
         Debug.Log("Got Hearding");
-        if (isInCombat == false)
+        if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill 
+            || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
         {
             currentTactic = new FlankingTactic(this);
         }
@@ -341,7 +296,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public EnemySprintStateNode sprintState { get; set; }
     public IMovementCompoent.Stance curStance { get; set; }
     public bool isSprint { get ; set ; }
-   
 
     public void InitailizedMovementComponent()
     {

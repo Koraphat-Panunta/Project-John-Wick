@@ -7,16 +7,7 @@ public class FindingTarget
     private FieldOfView fieldOfView;
     private LayerMask targetMask;
     private IFindingTarget userFinding;
-    private float lostSightTiming { get; set; }
-    public float lostSightTimeSet = 5;
-    public bool isLostSighttarget 
-    { 
-        get {
-            if (lostSightTiming <= 0)
-                return true;
-            return false;
-        } 
-    }
+    public float lostSightTiming { get;private set; }
     public bool isSpottingTarget { get; private set; }
     private Vector3 lastSeenPos { get; /*private*/ set; }
     public FindingTarget(LayerMask playerMask,FieldOfView fieldOfView,IFindingTarget userFinding)
@@ -28,21 +19,23 @@ public class FindingTarget
     public bool FindTarget(out GameObject target)
     {
         target = null;
-        if(fieldOfView.FindSingleObjectInView(targetMask,new Vector3(0,1.3f,0),out GameObject spottedTarget)){
+        if (fieldOfView.FindSingleObjectInView(targetMask, new Vector3(0, 1.3f, 0), out GameObject spottedTarget))
+        {
 
             lastSeenPos = spottedTarget.transform.position;
             userFinding.targetKnewPos = lastSeenPos;
-            lostSightTiming = lostSightTimeSet;
+            lostSightTiming = 0;
             isSpottingTarget = true;
             target = spottedTarget;
             return true;
         }
+        else
+        {
+            isSpottingTarget = false;
+            lostSightTiming += Time.deltaTime;
 
-        if(lostSightTiming >0)
-        lostSightTiming -= Time.deltaTime;
-
-        isSpottingTarget = false;
-        return false;
+            return false;
+        }
        
     }
 

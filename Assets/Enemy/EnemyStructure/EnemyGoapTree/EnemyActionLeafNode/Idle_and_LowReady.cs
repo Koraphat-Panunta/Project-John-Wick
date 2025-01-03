@@ -29,7 +29,7 @@ public class Idle_and_LowReady : EnemyActionLeafNode
     {
         base.Exit();
     }
-
+    
     public override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -47,6 +47,10 @@ public class Idle_and_LowReady : EnemyActionLeafNode
 
     public override void Update()
     {
+        enemyController.LowReady();
+        enemyController.FreezRotate();
+        enemyController.Freez();
+
         base.Update();
     }
 }

@@ -20,6 +20,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         
     }
+
     public void Move(Vector2 MoveDirWorld, float velocity)
     {
         enemy.moveVelocity_World = MoveDirWorld.normalized*velocity;
@@ -32,7 +33,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         enemy.rotating = Quaternion.identity;
     }
-    public void Sprint(Vector2 SprintDir)
+    public void Sprint()
     {
         enemy.isSprint = true;
     }
@@ -53,6 +54,14 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     public void Dodge()
     {
         
+    }
+    public void TakeCover()
+    {
+        enemy.isInCover = true;
+    }
+    public void GetOffCover()
+    {
+        enemy.isInCover = false;
     }
 
     public void LowReady()
@@ -128,7 +137,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
         _enemy = this.enemy;
         _enemyController = this;
 
-        startSelecotr = new EnemyGoalSelector(this,this,() => true,()=> 100);
+        startSelecotr = new EnemyGoalSelector(this,this,() => true);
 
         _encouterGoal = new EncouterGoal(this, _enemyGOAP, _findingTarget);
         _holdingGoal = new HoldingGoal(this, _enemyGOAP, _findingTarget);

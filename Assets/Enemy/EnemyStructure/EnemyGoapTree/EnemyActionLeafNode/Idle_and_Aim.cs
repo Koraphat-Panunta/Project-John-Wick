@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Idle_and_Aim : EnemyActionLeafNode
 {
+    private RotateObjectToward rotateObject;
+
     public Idle_and_Aim(EnemyControllerAPI enemyController) : base(enemyController)
     {
-
+        rotateObject = new RotateObjectToward();
     }
 
     public Idle_and_Aim(
@@ -30,7 +32,17 @@ public class Idle_and_Aim : EnemyActionLeafNode
     {
         base.Exit();
     }
+    public override void Update()
+    {
+        enemyController.Freez();
 
+        enemyController.AimDownSight();
+
+        Quaternion rotate = rotateObject.RotateToward(enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
+        enemyController.Rotate(rotate);
+
+        base.Update();
+    }
     public override void FixedUpdate()
     {
         base.FixedUpdate();

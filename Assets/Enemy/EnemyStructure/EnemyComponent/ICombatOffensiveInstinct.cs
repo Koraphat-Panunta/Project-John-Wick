@@ -6,7 +6,6 @@ public interface ICombatOffensiveInstinct
     public FieldOfView fieldOfView { get;}
     public GameObject objInstict { get; set; }
     public LayerMask targetLayer { get; set; }
-    public bool isInCombat { get; set; }
     public void InitailizedCombatOffensiveInstinct();
     
 

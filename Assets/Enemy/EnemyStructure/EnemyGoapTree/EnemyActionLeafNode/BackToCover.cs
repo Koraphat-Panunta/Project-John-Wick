@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class BackToCover : EnemyActionLeafNode
 {
+    private NormalFiringPattern firingPattern;
     public BackToCover(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
     public BackToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
+        firingPattern = new NormalFiringPattern(enemyController);
     }
 
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -42,6 +44,8 @@ public class BackToCover : EnemyActionLeafNode
 
     public override void Update()
     {
+        enemyController.LowReady();
+
         base.Update();
     }
 }

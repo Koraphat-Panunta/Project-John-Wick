@@ -80,7 +80,7 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
         Vector3 dir = agent.steeringTarget - enemy.transform.position;
         enemyController.Move(dir, 1);
 
-
+        path.UpdateTargetPos(enemy.targetKnewPos, enemy.transform.position);
         EnemyDebuger.curPos = agent.destination;
       
         base.Update();

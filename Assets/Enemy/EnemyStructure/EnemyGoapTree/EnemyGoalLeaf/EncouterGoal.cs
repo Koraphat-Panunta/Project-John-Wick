@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static CombatOffensiveInstinct;
 
 public class EncouterGoal : EnemyGoalLeaf
 {
@@ -16,6 +17,14 @@ public class EncouterGoal : EnemyGoalLeaf
    
     public override void Enter()
     {
+        if (enemyActionLeaf.IsReset())
+        {
+            enemyActionLeaf.Exit();
+            startActionSelector.Transition(out EnemyActionLeafNode actionLeaf);
+            enemyActionLeaf = actionLeaf;
+            enemyActionLeaf.Enter();
+        }
+
         base.Enter();
     }
 
@@ -24,18 +33,42 @@ public class EncouterGoal : EnemyGoalLeaf
         base.Exit();
     }
 
+    public override void Update()
+    {
+        if (enemy.findingTargetComponent.FindTarget(out GameObject target))
+            enemy.targetKnewPos = target.transform.position;
+
+        if (enemyActionLeaf.IsReset())
+        {
+            enemyActionLeaf.Exit();
+            startActionSelector.Transition(out EnemyActionLeafNode actionLeaf);
+            enemyActionLeaf = actionLeaf;
+            enemyActionLeaf.Enter();
+        }
+
+        if(enemyActionLeaf != null)
+            enemyActionLeaf.Update();
+
+        base.Update();
+    }
+
     public override void FixedUpdate()
     {
+        if (enemyActionLeaf != null)
+            enemyActionLeaf.FixedUpdate();
+
         base.FixedUpdate();
     }
 
     public override bool IsReset()
     {
-        if(enemy.isInCombat == false)
+        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+
+        if(combatPhase == CombatOffensiveInstinct.CombatPhase.Chill
+            || combatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
             return true;
 
-        if (enemy.strength * enemy.cost
-            < enemy.intelligent * (enemy.maxCost/enemy.cost))
+        if (enemy.strength * enemy.cost < enemy.intelligent * (100/enemy.cost))
             return true;
 
         else return false;
@@ -43,35 +76,27 @@ public class EncouterGoal : EnemyGoalLeaf
 
     public override bool PreCondition()
     {
-        if(enemy.isInCombat == true)
+        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+
+        if (combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert 
+            || combatPhase == CombatOffensiveInstinct.CombatPhase.Alert
+            || combatPhase == CombatOffensiveInstinct.CombatPhase.SemiAlert)
         return true;
         
         else return false;
-    }
-    public override float GetCost()
-    {
-        return enemy.strength * enemy.cost;
-    }
-    public override void Update()
-    {
-        base.Update();
-    }
+    } 
 
     #region InitailiedActionNode
-    public override void ActionUpdate()
-    {
-        
-    }
-
-    public override void ActionFixedUpdate()
-    {
-       
-    }
+   
 
     private MoveCurve_and_Aim moveCurve_And_Aim;
     private MoveCurve_and_Shoot moveCurve_And_Shoot;
+    private Idle_and_Shoot idle_And_Shoot;
     private Idle_and_Aim idle_And_Aim;
-    private Idle_and_LowReady idle_And_LowReady;
+
+
+    private EnemyActionSelectorNode moveSelector;
+    private EnemyActionSelectorNode idleSelector;
 
     protected override EnemyActionLeafNode enemyActionLeaf { get; set; }
     protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
@@ -80,22 +105,135 @@ public class EncouterGoal : EnemyGoalLeaf
     {
         startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true);
 
+        moveSelector = new EnemyActionSelectorNode(enemyController, 
+            () =>
+        {
+            float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+            if (distance > 5.5f * (enemy.intelligent / enemy.cost))
+                return true;
+            else
+                return false;
+        } );//PreCondition
+
+        idleSelector = new EnemyActionSelectorNode(enemyController,
+            () => 
+            {
+                return true;
+            });//PreCondition
+
         this.moveCurve_And_Aim = new MoveCurve_and_Aim(enemyController
-            ,() => enemy.isInCombat // PreCondition
-            ,() => 
+            , () =>
+            {
+                return true;
+            }  // PreCondition
+            , () =>
             {
                 float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+                CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
 
-                if(distance < 2.5f)
+                if (distance > 5.5f * (enemy.intelligent / enemy.cost))
+                    return false;
+
+                if (combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert
+                || combatPhase == CombatOffensiveInstinct.CombatPhase.Alert)
                     return true;
 
-                if(enemy.isSpotingtarget )
-                    return true;
+                return true;
 
-                else return false;
             }//Reset
             );
-            
+
+        this.moveCurve_And_Shoot = new MoveCurve_and_Shoot(enemyController,
+            () =>
+            {
+                CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+
+                if(combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert
+                ||combatPhase == CombatOffensiveInstinct.CombatPhase.Alert)
+                    return true;
+                else 
+                    return false;
+            }, //PreCondition
+            () =>
+            {
+                CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+
+                float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+
+                if(distance > 5.5f *( enemy.intelligent/enemy.cost))
+                    return false;
+
+                if (combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert)
+                    return false;
+
+                if(combatPhase == CombatOffensiveInstinct.CombatPhase.Alert)
+                    return false;
+               
+                return true;
+            } //Reset
+            );
+
+        this.idle_And_Shoot = new Idle_and_Shoot(enemyController,
+            () =>
+            {
+                CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+
+                if (combatPhase == CombatPhase.FullAlert)
+                    return true;
+
+                if (combatPhase == CombatPhase.Alert)
+                    return true;
+
+                return false;
+            },//PreCondition
+            () => 
+            {
+                CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+                float distance = (enemy.targetKnewPos-enemy.transform.position).magnitude;
+
+                if(combatPhase == CombatPhase.FullAlert)
+                    return false;
+
+                if(combatPhase == CombatPhase.Alert)
+                    return false;
+
+                if(distance > 5.5f * enemy.intelligent / enemy.cost)
+                    return true;
+
+                return true;
+            });//Reset
+
+
+        this.idle_And_Aim = new Idle_and_Aim(enemyController,
+            () =>
+            {
+                return true;
+            }, //PreCondition
+            () =>
+            {
+                CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+                float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
+
+                if (combatPhase == CombatPhase.FullAlert)
+                    return true;
+
+                if (combatPhase == CombatPhase.Alert)
+                    return true;
+
+                if (distance > 5.5f * enemy.intelligent / enemy.cost)
+                    return true;
+
+                return false;
+            }); //Reset
+
+        startActionSelector.AddChildNode(moveSelector);
+        startActionSelector.AddChildNode(idleSelector);
+
+        moveSelector.AddChildNode(moveCurve_And_Shoot);
+        moveSelector.AddChildNode(moveCurve_And_Aim);
+
+        idleSelector.AddChildNode(idle_And_Shoot);
+        idleSelector.AddChildNode(idle_And_Aim);
     }
 
     #endregion

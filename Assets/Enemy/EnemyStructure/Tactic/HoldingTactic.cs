@@ -19,7 +19,7 @@ public class HoldingTactic : IEnemyTactic
         costRate = Random.Range(8, 15f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Holding);
         Debug.Log(enemy + " EnterHolding");
-        enemy.isInCombat = true;
+        //enemy.isInCombat = true;
     }
     public void Manufacturing()
     {

@@ -7,5 +7,6 @@ public interface ICoverUseable
     public CoverPoint coverPoint { get; set; }
     public Character userCover { get; set; }
     public FindingCover findingCover { get; set; }
+    public bool isInCover { get; set; }
     public void InitailizedCoverUsable();
 }

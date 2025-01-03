@@ -8,7 +8,6 @@ public abstract class EnemyGoalLeaf : EnemyGoal
     protected abstract EnemyActionSelectorNode startActionSelector { get; set; }
     public override List<EnemyGoal> childNode { get; set; }
     protected override Func<bool> preCondidtion { get; set; }
-    protected override Func<float> getCost { get ; set ; }
 
     protected Action enter;
     protected Action exit;
@@ -24,7 +23,6 @@ public abstract class EnemyGoalLeaf : EnemyGoal
     public EnemyGoalLeaf(EnemyControllerAPI enemyController
         , IEnemyGOAP enemyGOAP
         , Func<bool> preCondition
-        , Func<float> getCost
         , Action Enter
         , Action Exit
         , Action Update
@@ -33,7 +31,6 @@ public abstract class EnemyGoalLeaf : EnemyGoal
         , Func<bool> isReset) : base(enemyController, enemyGOAP)
     {
         this.preCondidtion = preCondition;
-        this.getCost = getCost;
         this.enter = Enter;
         this.exit = Exit;
         this.update = Update;
@@ -75,13 +72,5 @@ public abstract class EnemyGoalLeaf : EnemyGoal
         if (fixedUpdate != null)
             fixedUpdate.Invoke();
     }
-
-    public override float GetCost()
-    {
-        return getCost.Invoke();
-    }
-
-    public abstract void ActionUpdate();
-    public abstract void ActionFixedUpdate();
     protected abstract void InitailizedActionNode();
 }

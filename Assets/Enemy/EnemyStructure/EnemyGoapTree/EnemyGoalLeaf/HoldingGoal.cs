@@ -13,14 +13,6 @@ public class HoldingGoal : EnemyGoalLeaf
     protected override EnemyActionLeafNode enemyActionLeaf { get ; set ; }
     protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
 
-    public override void ActionFixedUpdate()
-    {
-    }
-
-    public override void ActionUpdate()
-    {
-    }
-
     public override void Enter()
     {
         base.Enter();

@@ -6,9 +6,24 @@ public class CombatOffensiveInstinct:IEnvironmentAware
     private FieldOfView fieldOfView;
     private GameObject target;
     private ICombatOffensiveInstinct offensiveInstinct;
+    private IFindingTarget findingTarget;
 
-    public CombatOffensiveInstinct(FieldOfView fieldOfView,ICombatOffensiveInstinct OffensiveInstincted,Environment environment)
+    public enum CombatPhase 
     {
+        Chill,
+        Suspect,
+        SemiAlert, // InCombat not SpotingTarget not recive targetSignal
+        Alert, // InCombat not SpotingTarget but still sense of combat 
+        FullAlert //InCombat and SpotingTarget
+    }
+    public CombatPhase myCombatPhase;
+    public CombatOffensiveInstinct(FieldOfView fieldOfView
+        ,ICombatOffensiveInstinct OffensiveInstincted
+        ,Environment environment
+        ,IFindingTarget findingTarget)
+    {
+        myCombatPhase = CombatPhase.Chill;
+        this.findingTarget = findingTarget;
         this.fieldOfView = fieldOfView;
         offensiveInstinct = OffensiveInstincted;
         environment.Add_Listener(this);
@@ -16,6 +31,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
 
     public void UpdateSening()
     {
+        UpdateCombatPhase();
         TargetPointingWeaponAware();
         float coolDownOffensiveIntensity = 10;
 
@@ -87,5 +103,28 @@ public class CombatOffensiveInstinct:IEnvironmentAware
                 offensiveIntensity += lineOfsightAwareIntensity*Time.deltaTime;
             }
         }
+    }
+
+    private void UpdateCombatPhase()
+    {
+        FindingTarget findingTarget = this.findingTarget.findingTargetComponent;
+
+        if (findingTarget.isSpottingTarget) {
+            myCombatPhase = CombatPhase.FullAlert;
+            return; 
+        }
+
+
+        if(findingTarget.lostSightTiming < 6){
+            myCombatPhase = CombatPhase.Alert;
+            return;
+        }
+
+        if(findingTarget.lostSightTiming < 18){
+            myCombatPhase = CombatPhase.SemiAlert;
+            return;
+        }
+
+        myCombatPhase = CombatPhase.Suspect;
     }
 }
