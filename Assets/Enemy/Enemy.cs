@@ -137,8 +137,64 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
 
     #region Initailized State Node
+    private EnemyStateLeafNode curStateLeaf;
+
+    private EnemyStateSelectorNode startSelector;
+
+    private EnemyStateSelectorNode standSelector;
+    private EnemyStateSelectorNode takeCoverSelector;
+
+    private EnemyStateSelectorNode painStateSelector;
+
+    private EnemySprintStateNode enemySprintState;
+    private EnemyStandIdleStateNode enemyStandIdleState;
+    private EnemyStandMoveStateNode enemyStandMoveState;
+    private EnemyStandTakeCoverStateNode enemyStandTakeCoverState;
+    private EnemyStandTakeAimStateNode enemyStandTakeAimState;
+
+    private LightPainStateFrontBody bodyHit;
+    private LightPainStateRightLeg legsHit;
+    private EnemyStateLeafNode miniFlich;
+    private RagDoll ragDoll;
+    
+    private void InitailizedStateNode() 
+    {
+        startSelector = new EnemyStateSelectorNode(this,()=>true);
+        
+        standSelector = new EnemyStateSelectorNode(this,() =>true);
+        takeCoverSelector = new EnemyStateSelectorNode(this, 
+            ()=> 
+            {
+                if(isInCover)
+                    { return true; }
+                return false;
+            }
+            );
+
+        painStateSelector = new EnemyStateSelectorNode(this, 
+            () =>
+            {
+                if(isPainTrigger)
+                    { return true; }
+                return false;
+            }
+            );
+
+        ragDoll = new RagDoll(this);
+        bodyHit = new LightPainStateFrontBody(this);
+        legsHit = new LightPainStateRightLeg(this);
+        miniFlich = new EnemyStateLeafNode(this,
+            () => true, //PreCondition
+            () => enemyMiniFlinch.TriggerFlich(), //Enter
+            () => { },  //Exit
+            () => { }, //Update
+            () => { }, //FixedUpdate
+            () => enemyMiniFlinch.IsFliching()); //IsReset
+
+        ragDoll = new RagDoll(this);
 
 
+    }
 
     #endregion
 
@@ -303,5 +359,19 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
         curStance = IMovementCompoent.Stance.Stand;
     }
+    #endregion
+
+    #region InitilizedPainState
+    public enum PainState
+    {
+        body,
+        Leg,
+        mini,
+        none
+    }
+
+    public bool isPainTrigger;
+
+    public PainState myPainState = PainState.none;
     #endregion
 }

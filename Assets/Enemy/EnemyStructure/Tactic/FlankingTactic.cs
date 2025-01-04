@@ -19,7 +19,7 @@ public class FlankingTactic : IEnemyTactic
         enemyRot = new RotateObjectToward();
         //this.enemyFiringPattern = new NormalFiringPattern(enemy);
         cost_DrainRate = Random.Range(9,15);
-        Debug.Log(enemy+" EnterFlanking");
+        //Debug.Log(enemy+" EnterFlanking");
     }
     public void Manufacturing()
     {

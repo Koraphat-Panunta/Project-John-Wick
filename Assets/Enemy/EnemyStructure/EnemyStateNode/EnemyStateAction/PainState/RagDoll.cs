@@ -7,12 +7,13 @@ public class RagDoll : EnemyStateLeafNode
     public RagDoll(Enemy enemy) : base(enemy)
     {
     }
-
+    
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
         base.Enter();
     }
 
@@ -28,12 +29,15 @@ public class RagDoll : EnemyStateLeafNode
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        return false;
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if (enemy.pressure > 80)
+            return true;
+
+        return false;
     }
 
     public override void Update()

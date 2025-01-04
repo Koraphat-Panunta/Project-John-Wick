@@ -37,6 +37,22 @@ public class EnemyStateLeafNode : EnemyStateNode
     }
 
     public EnemyStateLeafNode(Enemy enemy
+        , Func<bool> preCondition
+        , Action Enter
+        , Action Exit
+        , Action Update
+        , Action FixedUpdate
+        , Func<bool> isReset) : base(enemy)
+    {
+        this.preCondidtion = preCondition;
+        this.enter = Enter;
+        this.exit = Exit;
+        this.update = Update;
+        this.fixedUpdate = FixedUpdate;
+        this.isReset = isReset;
+    }
+
+    public EnemyStateLeafNode(Enemy enemy
        , Func<bool> preCondition
        , Func<bool> isReset) : base(enemy)
     {

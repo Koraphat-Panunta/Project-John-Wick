@@ -6,6 +6,7 @@ public class HeavyPainStateLeftLeg : EnemyStateLeafNode
 {
     public HeavyPainStateLeftLeg(Enemy enemy) : base(enemy)
     {
+
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }

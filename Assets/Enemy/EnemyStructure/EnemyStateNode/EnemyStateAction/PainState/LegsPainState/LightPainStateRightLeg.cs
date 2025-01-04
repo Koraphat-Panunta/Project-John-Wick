@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class LightPainStateRightLeg : EnemyStateLeafNode
 {
+    private Animator animator;
+    private bool animationIsPerformded = false;
     public LightPainStateRightLeg(Enemy enemy) : base(enemy)
     {
+        animator = enemy.animator;
     }
-
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
+        animator.SetTrigger("LegHitNormalReaction");
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction") == false)
+        {
+            animationIsPerformded = false;
+        }
         base.Enter();
     }
 
@@ -28,7 +35,15 @@ public class LightPainStateRightLeg : EnemyStateLeafNode
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if (animationIsPerformded == true)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction") == false 
+                && animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + "LegHitNormalReaction") == false)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public override bool PreCondition()
@@ -38,6 +53,9 @@ public class LightPainStateRightLeg : EnemyStateLeafNode
 
     public override void Update()
     {
-        base.Update();
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction"))
+        {
+            animationIsPerformded = true;
+        }
     }
 }

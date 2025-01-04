@@ -26,7 +26,13 @@ public class EnemyMiniFlinch
         }
         currentCoroutine = this.enemy.StartCoroutine(ExampleCoroutine());
     }
+    public bool IsFliching()
+    {
+        if(flinchRate <= 0)
+            return true;
 
+        return false;
+    }
     IEnumerator ExampleCoroutine()
     {
         flinchRate = 1;

@@ -25,7 +25,7 @@ public class TakeCoverTactic : IEnemyTactic
         coverPositionEnemy = null;
         costRate = Random.Range(1f, 2f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
-        Debug.Log(enemy + " EnterTakeCover");
+        //Debug.Log(enemy + " EnterTakeCover");
         //enemy.isInCombat = true;
     }
     public void Manufacturing()
@@ -37,16 +37,16 @@ public class TakeCoverTactic : IEnemyTactic
         }
         if (coverPositionEnemy == null)
         {
-            Debug.Log(enemy + " EnterTakeCover");
+            //Debug.Log(enemy + " EnterTakeCover");
             if (enemy.findingCover.FindCoverInRaduis(15,out CoverPoint coverPoint))
             {
                 this.coverPositionEnemy = coverPoint;
-                Debug.Log("FindCoverComplete");
+                //Debug.Log("FindCoverComplete");
             }
             else
             {
                 enemy.currentTactic = new HoldingTactic(enemy);
-                Debug.Log("FindCoverFaild");
+                //Debug.Log("FindCoverFaild");
             }
         }
         else if(coverPositionEnemy != null)
