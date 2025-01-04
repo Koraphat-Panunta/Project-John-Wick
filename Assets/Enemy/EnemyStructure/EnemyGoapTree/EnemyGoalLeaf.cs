@@ -64,13 +64,33 @@ public abstract class EnemyGoalLeaf : EnemyGoal
     public override void Update()
     {
         if (update != null)
+        {
             update.Invoke();
+            return;
+        }
+
+        if (enemyActionLeaf.IsReset())
+        {
+            enemyActionLeaf.Exit();
+            startActionSelector.Transition(out EnemyActionLeafNode actionLeafNode);
+            enemyActionLeaf = actionLeafNode;
+            enemyActionLeaf.Enter();
+        }
+
+        if(enemyActionLeaf != null)
+            enemyActionLeaf.Update();
     }
 
     public override void FixedUpdate()
     {
         if (fixedUpdate != null)
+        {
             fixedUpdate.Invoke();
+            return ;
+        }
+
+        if (enemyActionLeaf != null)
+            enemyActionLeaf.FixedUpdate();
     }
     protected abstract void InitailizedActionNode();
 }

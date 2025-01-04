@@ -37,6 +37,12 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
+        Animator animator = enemy.animator;
+
+        animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
+        animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
+
+        enemy.transform.rotation = enemy.rotating;
         base.Update();
     }
 }

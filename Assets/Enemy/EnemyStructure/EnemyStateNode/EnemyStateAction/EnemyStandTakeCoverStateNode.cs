@@ -1,11 +1,18 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 {
-    public EnemyStandTakeCoverStateNode(Enemy enemy) : base(enemy)
+    ICoverUseable coverUseable;
+    RotateObjectToward rotateObject;
+    NavMeshAgent agent;
+    public EnemyStandTakeCoverStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
+        this.coverUseable = coverUseable;
+        rotateObject = new RotateObjectToward();
+        agent = enemy.agent;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -38,6 +45,11 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
+        coverUseable.userCover.transform.rotation = rotateObject.RotateToward(
+            coverUseable.coverPos - coverUseable.userCover.transform.position, coverUseable.userCover.transform, 6);
+
+        agent.Move(coverUseable.coverPos);
+
         base.Update();
     }
 }

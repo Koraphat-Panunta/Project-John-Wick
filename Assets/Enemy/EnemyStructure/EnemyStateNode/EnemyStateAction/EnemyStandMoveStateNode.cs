@@ -38,6 +38,15 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
+        Vector3 moveInputDirWorld = enemy.moveInputVelocity_World;
+        Animator animator = enemy.animator;
+
+        Vector3 animDir = enemy.transform.InverseTransformDirection(moveInputDirWorld);
+        animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
+        animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
+
+        enemy.transform.rotation = enemy.rotating;
+
         base.Update();
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class HeavyPainStateBackBody : EnemyStateLeafNode
 {
+    Animator animator;
+    bool animationIsPerformded;
     public HeavyPainStateBackBody(Enemy enemy) : base(enemy)
     {
+        animator = enemy.animator;  
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -13,6 +16,11 @@ public class HeavyPainStateBackBody : EnemyStateLeafNode
 
     public override void Enter()
     {
+        animator.SetTrigger("BodyHitNormalReaction");
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false)
+        {
+            animationIsPerformded = false;
+        }
         base.Enter();
     }
 
@@ -38,6 +46,17 @@ public class HeavyPainStateBackBody : EnemyStateLeafNode
 
     public override void Update()
     {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction"))
+        {
+            animationIsPerformded = true;
+        }
+        if (animationIsPerformded == true)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false && animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + this.GetType().Name) == false)
+            {
+                //End(enemyState);
+            }
+        }
         base.Update();
     }
 }

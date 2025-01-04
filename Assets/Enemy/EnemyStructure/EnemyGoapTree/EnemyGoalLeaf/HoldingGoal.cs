@@ -53,6 +53,9 @@ public class HoldingGoal : EnemyGoalLeaf
 
     public override void Update()
     {
+        if (enemy.findingTargetComponent.FindTarget(out GameObject target))
+            enemy.targetKnewPos = target.transform.position;
+
         base.Update();
     }
 

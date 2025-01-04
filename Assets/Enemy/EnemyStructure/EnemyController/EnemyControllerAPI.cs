@@ -23,7 +23,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
 
     public void Move(Vector2 MoveDirWorld, float velocity)
     {
-        enemy.moveVelocity_World = MoveDirWorld.normalized*velocity;
+        enemy.moveInputVelocity_World = MoveDirWorld.normalized*velocity;
     }
     public void RotateToPos(Vector3 pos,float rotSpeed)
     {
@@ -35,10 +35,10 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         enemy.rotating = rotate;
     }
-    public void FreezRotate()
-    {
-        enemy.rotating = Quaternion.identity;
-    }
+    //public void FreezRotate()
+    //{
+    //    enemy.rotating = Quaternion.identity;
+    //}
     public void Sprint()
     {
         enemy.isSprint = true;
@@ -46,6 +46,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     public void Freez()
     {
         enemy.isSprint = false;
+        enemy.moveInputVelocity_World = Vector3.zero;
 
     }
     public void Stand()
@@ -136,12 +137,22 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
 
     public void GOAP_Update()
     {
-        
+        if (curGoal.IsReset())
+        {
+            curGoal.Enter();
+            startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+            curGoal = enemyGoalLeaf;
+            curGoal.Enter();
+        }
+
+        if (curGoal != null) 
+        curGoal.Update();
     }
 
     public void GOAP_FixedUpdate()
     {
-        
+        if (curGoal != null) 
+        curGoal.FixedUpdate();
     }
 
     public void InitailizedGOAP()
@@ -155,6 +166,11 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
         _encouterGoal = new EncouterGoal(this, _enemyGOAP, _findingTarget);
         _holdingGoal = new HoldingGoal(this, _enemyGOAP, _findingTarget);
         _takeCoverGoal = new TakeCoverGoal(this, _enemyGOAP, _coverUseable);
+
+        startSelecotr.AddChildNode(_takeCoverGoal);
+        startSelecotr.AddChildNode(_encouterGoal);
+        startSelecotr.AddChildNode(_holdingGoal);
+        startSelecotr.AddChildNode(_searchingGoal);
 
 
     }
