@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Wait : EnemyActionLeafNode
 {
+
+    private IPatrolComponent patroler;
+    PatrolPoint myPatrolpoint;
+    public float waitTime { get; private set; }
     public Wait(EnemyControllerAPI enemyController) : base(enemyController)
     {
     }
 
-    public Wait(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public Wait(EnemyControllerAPI enemyController,IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
+        this.patroler = patroler;
     }
 
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -17,6 +22,8 @@ public class Wait : EnemyActionLeafNode
 
     public override void Enter()
     {
+        this.myPatrolpoint = patroler.patrolPoints[patroler.Index];
+        waitTime = 0;
         base.Enter();
     }
 
@@ -42,6 +49,7 @@ public class Wait : EnemyActionLeafNode
 
     public override void Update()
     {
+        waitTime += Time.deltaTime;
         base.Update();
     }
 }

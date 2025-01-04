@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent,IMovementCompoent
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent,IMovementCompoent,IPatrolComponent
 {
     [Range(0,100)]
     public float intelligent;
     [Range(0, 100)]
     public float strength;
+
+    private EnemyControllerAPI enemyController;
 
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -38,9 +40,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public Transform rayCastPos;
     //public bool isIncombat;
 
-    public float offensiveIntenstiby;
-
-   
+    
 
     void Start()
     {
@@ -65,25 +65,30 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         InitailizedHearingComponent();
+
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
         //base.isDead = false;
 
         base.HP = 100;
+        InitailizedStateNode();
+        enemyController = new EnemyControllerAPI(this);
     }
 
     void Update()
     {
-        //GoapUpdate();
+
         combatOffensiveInstinct.UpdateSening();
-        offensiveIntenstiby = combatOffensiveInstinct.offensiveIntensity;
-        enemyStateManager.Update();
+        enemyController.Update();
+        UpdateState();
+        //enemyStateManager.Update();
     }
     private void FixedUpdate()
     {
-        //GoapFixedUpdate();
-        enemyStateManager.FixedUpdate();
+        //enemyStateManager.FixedUpdate();
+        enemyController.FixedUpdate();
+        FixedUpdateState();
     }
     private void LateUpdate()
     {
@@ -180,6 +185,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
             }
             );
 
+    //     private EnemySprintStateNode enemySprintState;
+    //private EnemyStandIdleStateNode enemyStandIdleState;
+    //private EnemyStandMoveStateNode enemyStandMoveState;
+    //private EnemyStandTakeCoverStateNode enemyStandTakeCoverState;
+    //private EnemyStandTakeAimStateNode enemyStandTakeAimState;
+
         ragDoll = new RagDoll(this);
         bodyHit = new LightPainStateFrontBody(this);
         legsHit = new LightPainStateRightLeg(this);
@@ -191,9 +202,45 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
             () => { }, //FixedUpdate
             () => enemyMiniFlinch.IsFliching()); //IsReset
 
-        ragDoll = new RagDoll(this);
 
+        startSelector.AddChildNode(ragDoll);
+        startSelector.AddChildNode(painStateSelector);
+        startSelector.AddChildNode(standSelector);
 
+        painStateSelector.AddChildNode(bodyHit);
+        painStateSelector.AddChildNode(legsHit);
+        painStateSelector.AddChildNode(miniFlich);
+
+        standSelector.AddChildNode(takeCoverSelector);
+        standSelector.AddChildNode(enemyStandMoveState);
+        standSelector.AddChildNode(enemyStandIdleState);
+
+        takeCoverSelector.AddChildNode(enemyStandTakeCoverState);
+        takeCoverSelector.AddChildNode(enemyStandTakeAimState);
+
+        startSelector.Transition(out EnemyStateLeafNode enemyStateActionNode);
+        curStateLeaf = enemyStateActionNode;
+        curStateLeaf.Enter();
+
+    }
+
+    private void UpdateState() 
+    {
+        if (curStateLeaf.IsReset())
+        {
+            curStateLeaf.Exit();
+            startSelector.Transition(out EnemyStateLeafNode enemyStateLeafNode);
+            curStateLeaf = enemyStateLeafNode;
+            curStateLeaf.Enter();
+        }
+
+        if(curStateLeaf != null)
+            curStateLeaf.Update();
+    }
+    private void FixedUpdateState() 
+    {
+        if (curStateLeaf != null)
+            curStateLeaf.FixedUpdate();
     }
 
     #endregion
@@ -352,6 +399,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public EnemySprintStateNode sprintState { get; set; }
     public IMovementCompoent.Stance curStance { get; set; }
     public bool isSprint { get ; set ; }
+   
 
     public void InitailizedMovementComponent()
     {
@@ -359,6 +407,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
         curStance = IMovementCompoent.Stance.Stand;
     }
+
+  
     #endregion
 
     #region InitilizedPainState
@@ -373,5 +423,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public bool isPainTrigger;
 
     public PainState myPainState = PainState.none;
+    #endregion
+
+    #region InitailizedPatrol
+    public GameObject userPatrol { get ; set ; }
+    public List<PatrolPoint> patrolPoints { get => this.PatrolPoints ; set => PatrolPoints = value ; }
+    public int Index { get ; set ; }
+
+    [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
+    public void InitailizedPatrolComponent()
+    {
+        this.userPatrol = gameObject;
+        Index = 0;
+    }
     #endregion
 }

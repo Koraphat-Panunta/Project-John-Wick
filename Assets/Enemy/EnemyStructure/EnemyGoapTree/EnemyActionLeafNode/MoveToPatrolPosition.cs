@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class MoveToPatrolPosition : EnemyActionLeafNode
 {
-    private Dictionary<Transform, float> curPatrolPoint;
-    public MoveToPatrolPosition(EnemyControllerAPI enemyController,Dictionary<Transform,float> curPatrolPoint, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    List<PatrolPoint> patrolPoints;
+    private PatrolPoint myPatrolPoint;
+    private IPatrolComponent patroler;
+
+    public MoveToPatrolPosition(EnemyControllerAPI enemyController, IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
-        this.curPatrolPoint = curPatrolPoint;
+        this.patroler = patroler;
+        this.patrolPoints = patroler.patrolPoints;
     }
 
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -15,11 +19,14 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
 
     public override void Enter()
     {
+        myPatrolPoint = patrolPoints[patroler.Index];
+        enemy.agent.SetDestination(myPatrolPoint.patrolTrans.position);
         base.Enter();
     }
 
     public override void Exit()
     {
+
         base.Exit();
     }
 
@@ -40,8 +47,11 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
 
     public override void Update()
     {
-        //Vector3 moveDir = curPatrolPoint.getKe
-        //enemyController.Move()
-        //base.Update();
+        Vector3 dir = enemy.agent.steeringTarget - enemy.transform.position;
+        enemyController.Move(dir, 1);
+
+        enemyController.RotateToPos(enemy.agent.steeringTarget,7);
+
+        base.Update();
     }
 }

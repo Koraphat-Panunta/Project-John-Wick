@@ -27,12 +27,13 @@ public abstract class EnemyStateNode
                 if (stateNode.GetType().IsSubclassOf(typeof(EnemyStateLeafNode)))
                 {
                     enemyStateActionNode = stateNode as EnemyStateLeafNode;
-                    //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
+                    Debug.Log("Transition from " + this + " ->" + stateNode);
                 }
                 else
                 {
-                    //Debug.Log("Transition from " + this + " ->" + weaponNode);
+                    Debug.Log("Transition from " + this + " ->" + stateNode);
                     stateNode.Transition(out enemyStateActionNode);
+   
                 }
                 break;
             }

@@ -1,19 +1,28 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
+using static CombatOffensiveInstinct;
 
 public class SearchingGoal : EnemyGoalLeaf
 {
     private IFindingTarget findingTarget;
     float idleSeachTime;
+    private Vector3 oriPos;
+    private NavMeshAgent agent;
     public SearchingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget, Func<bool> preCondition, Action Enter, Action Exit, Action Update, Action FixedUpdate, Func<bool> isComplete, Func<bool> isReset) : base(enemyController, enemyGOAP, preCondition, Enter, Exit, Update, FixedUpdate, isComplete, isReset)
     {
         this.findingTarget = findingTarget;
+        this.oriPos = enemyGOAP._enemy.transform.position;
+        this.agent = enemy.agent;
     }
 
     public SearchingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
     {
         this.findingTarget = findingTarget;
+        this.oriPos = enemyGOAP._enemy.transform.position;
+        this.agent = enemy.agent;
     }
 
     public override List<EnemyGoal> childNode { get ; set ; }
@@ -35,6 +44,8 @@ public class SearchingGoal : EnemyGoalLeaf
         if (enemy.findingTargetComponent.FindTarget(out GameObject target))
             enemy.targetKnewPos = target.transform.position;
 
+       
+
         base.Update();
     }
     public override void FixedUpdate()
@@ -55,6 +66,7 @@ public class SearchingGoal : EnemyGoalLeaf
         if(combatPhase != CombatOffensiveInstinct.CombatPhase.Suspect)
             return true;
 
+
         return false;
     }
 
@@ -66,6 +78,9 @@ public class SearchingGoal : EnemyGoalLeaf
             return true;
 
         if(combatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+            return true;
+
+        if (combatPhase == CombatOffensiveInstinct.CombatPhase.Chill)
             return true;
 
         return false;

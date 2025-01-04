@@ -1,24 +1,22 @@
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
-public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal
+public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal
 {
     public Enemy enemy;
-
-
-    void Start()
+    public EnemyControllerAPI(Enemy enemy)
     {
-        enemy=GetComponent<Enemy>();
+       this.enemy = enemy;
+        InitailizedGOAP();
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-
-            
+        GOAP_Update();
     }
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
-        
+        GOAP_FixedUpdate();
     }
 
     public void Move(Vector2 MoveDirWorld, float velocity)
@@ -75,6 +73,7 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
 
+        weaponAdvanceUser.weaponCommand.LowReady();
         weaponAdvanceUser.isAiming = false;
         weaponAdvanceUser.isPullTrigger = false;
     }
@@ -82,24 +81,25 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
 
+        weaponAdvanceUser.weaponCommand.AimDownSight();
         weaponAdvanceUser.isAiming = true;
     }
     public void PullTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
-
+        weaponAdvanceUser.weaponCommand.PullTrigger();
         weaponAdvanceUser.isPullTrigger = true;
     }
     public void CancleTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
-
+        weaponAdvanceUser.weaponCommand.CancleTrigger();
         weaponAdvanceUser.isPullTrigger = false;
     }
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy as IWeaponAdvanceUser;
-
+        weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReload = true;
     }
 
@@ -172,6 +172,8 @@ public class EnemyControllerAPI : MonoBehaviour,IEnemyGOAP,IEncounterGoal,IHoldi
         startSelecotr.AddChildNode(_holdingGoal);
         startSelecotr.AddChildNode(_searchingGoal);
 
-
+        startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
+        curGoal = enemyGoalLeaf;
+        curGoal.Enter();
     }
 }

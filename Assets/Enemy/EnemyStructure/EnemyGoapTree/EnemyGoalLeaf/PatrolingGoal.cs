@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class PatrolingGoal : EnemyGoalLeaf
 {
-    private List<Dictionary<Transform, float>> patrolPoint;
-    public Dictionary<Transform, float> curPatrolPoint;
-    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, List<Dictionary<Transform, float>> patrolpoint) : base(enemyController, enemyGOAP)
+    public List<PatrolPoint> patrolPoints;
+    public PatrolPoint myPatrolPoint;
+    public bool isMovingToPatrol;
+    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IPatrolComponent patroler) : base(enemyController, enemyGOAP)
     {
-        this.patrolPoint = patrolpoint;
+        patrolPoints = patroler.patrolPoints;
+        isMovingToPatrol = true;
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
-    protected override EnemyActionLeafNode enemyActionLeaf { get ; set ; }
-    protected override EnemyActionSelectorNode startActionSelector { get ; set ; }
+
 
    
 
@@ -34,12 +35,18 @@ public class PatrolingGoal : EnemyGoalLeaf
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if(enemy.combatOffensiveInstinct.myCombatPhase != CombatOffensiveInstinct.CombatPhase.Chill)
+            return true;
+
+        if(enemy.findingTargetComponent.isSpottingTarget)
+            return true;
+
+        return false;
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        return true;
     }
 
     public override void Update()
@@ -50,8 +57,52 @@ public class PatrolingGoal : EnemyGoalLeaf
         base.Update();
     }
 
+    protected override EnemyActionLeafNode enemyActionLeaf { get; set; }
+    protected override EnemyActionSelectorNode startActionSelector { get; set; }
+
+    private MoveToPatrolPosition moveToPatrolPosition { get; set; }
+    private Wait wait { get; set; }
     protected override void InitailizedActionNode()
     {
+        startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true);
+
+        moveToPatrolPosition = new MoveToPatrolPosition(enemyController,enemy,
+            () => 
+            {
+                if(isMovingToPatrol == true)
+                    return true;
+
+                return false;
+            }, //PreCondition
+            () => 
+            {
+                if (Vector3.Distance(enemy.transform.position, myPatrolPoint.patrolTrans.position) < 1.5f)
+                {
+                    isMovingToPatrol = false;
+                    return true;
+                }
+
+                return false;
+            }); //Reset
+
+        wait = new Wait(enemyController, enemy, () => true,
+            () =>
+            {
+                if (wait.waitTime > patrolPoints[enemy.Index].waitTime)
+                {
+                    isMovingToPatrol = true;
+                    return true;
+                }
+
+                return false;
+            } //Reset
+            );
+
+        startActionSelector.AddChildNode(moveToPatrolPosition);
+        startActionSelector.AddChildNode(wait);
+
+        startActionSelector.Transition(out EnemyActionLeafNode enemyActionLeaf);
+        this.enemyActionLeaf = enemyActionLeaf;
     }
  
 }

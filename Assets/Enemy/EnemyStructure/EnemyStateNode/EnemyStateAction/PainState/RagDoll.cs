@@ -34,7 +34,7 @@ public class RagDoll : EnemyStateLeafNode
 
     public override bool PreCondition()
     {
-        if (enemy.pressure > 80)
+        if (enemy.pressure < 80|| enemy.GetHP()<=0)
             return true;
 
         return false;

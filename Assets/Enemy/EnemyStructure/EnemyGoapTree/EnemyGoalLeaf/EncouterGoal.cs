@@ -11,7 +11,7 @@ public class EncouterGoal : EnemyGoalLeaf
 
     public EncouterGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
     {
-        
+        InitailizedActionNode();
     }
    
    
@@ -234,6 +234,9 @@ public class EncouterGoal : EnemyGoalLeaf
 
         idleSelector.AddChildNode(idle_And_Shoot);
         idleSelector.AddChildNode(idle_And_Aim);
+
+        startActionSelector.Transition(out EnemyActionLeafNode enemyActionLeaf);
+        this.enemyActionLeaf = enemyActionLeaf;
     }
 
     #endregion
