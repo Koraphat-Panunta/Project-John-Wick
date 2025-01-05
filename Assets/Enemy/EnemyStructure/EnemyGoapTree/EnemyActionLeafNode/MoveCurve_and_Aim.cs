@@ -70,7 +70,6 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
 
         Vector3 dir = agent.steeringTarget - enemy.transform.position;
         enemyController.Move(dir, 1);
-        Debug.Log("MoveDir ="+dir);
 
         path.UpdateTargetPos(enemy.targetKnewPos,enemy.transform.position);
         EnemyDebuger.curPos = agent.destination;

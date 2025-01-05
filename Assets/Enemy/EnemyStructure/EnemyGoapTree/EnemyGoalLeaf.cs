@@ -92,7 +92,7 @@ public abstract class EnemyGoalLeaf : EnemyGoal
         if (enemyActionLeaf != null)
         {
             enemyActionLeaf.Update();
-            Debug.Log("Goal_Encouter " + "curAction =" + enemyActionLeaf);
+            //Debug.Log("Goal_Encouter " + "curAction =" + enemyActionLeaf);
         }
     }
 

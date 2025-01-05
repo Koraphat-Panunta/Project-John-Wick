@@ -140,7 +140,7 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
     {
         if (curGoal.IsReset())
         {
-            curGoal.Enter();
+            curGoal.Exit();
             startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
             curGoal = enemyGoalLeaf;
             Debug.Log("Goal =" + curGoal);
@@ -176,6 +176,7 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
 
         startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
         curGoal = enemyGoalLeaf;
+        Debug.Log("Goal =" + curGoal);
         curGoal.Enter();
     }
 }

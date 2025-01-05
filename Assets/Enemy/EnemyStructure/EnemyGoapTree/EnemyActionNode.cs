@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEditor.Experimental.GraphView;
 
 public abstract class EnemyActionNode 
 {
@@ -30,10 +31,12 @@ public abstract class EnemyActionNode
             if (eAction.GetType().IsSubclassOf(typeof(EnemyActionLeafNode)))
             {
                 enemyActionLeaf = eAction as EnemyActionLeafNode;
+                Debug.Log("Transition from " + this + " ->" + enemyActionLeaf);
             }
             else
             {;
                 eAction.Transition(out enemyActionLeaf);
+                Debug.Log("Transition from " + this + " ->" + enemyActionLeaf);
             }
             break;
         }
