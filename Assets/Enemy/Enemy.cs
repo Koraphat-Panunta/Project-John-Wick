@@ -130,6 +130,15 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         //    Gizmos.color = Color.white;
         //    Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
         //}
+
+        foreach(Vector3 markPoint in enemyPath._markPoint)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(markPoint, 0.15f);
+        }
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(agent.steeringTarget, 0.18f);
+
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(targetKnewPos, 0.5f);
     }
@@ -185,11 +194,28 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
             }
             );
 
-    //     private EnemySprintStateNode enemySprintState;
-    //private EnemyStandIdleStateNode enemyStandIdleState;
-    //private EnemyStandMoveStateNode enemyStandMoveState;
-    //private EnemyStandTakeCoverStateNode enemyStandTakeCoverState;
-    //private EnemyStandTakeAimStateNode enemyStandTakeAimState;
+        enemySprintState = new EnemySprintStateNode(this);
+        enemyStandIdleState = new EnemyStandIdleStateNode(this,
+            ()=>true, //PreCondition
+            ()=>moveInputVelocity_World.magnitude>0 //Reset
+            );
+        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_World.magnitude > 0, 
+            ()=> 
+            { 
+                if(moveInputVelocity_World.magnitude <= 0)
+                    { return true; }
+
+                if(isSprint)
+                    { return true; }
+
+                if(isPainTrigger)
+                    { return true; }
+
+                return false;
+            }
+            );
+        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this,this);
+        enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this, this);
 
         ragDoll = new RagDoll(this);
         bodyHit = new LightPainStateFrontBody(this);
@@ -388,8 +414,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
     #region InitailizedMovementComponent
     public GameObject userMovement { get; set; }
-    public Vector2 moveInputVelocity_World { get ; set; }
-    public Vector2 moveInputVelocity_Local { get ; set ; }
+    public Vector3 moveInputVelocity_World { get ; set; }
+    public Vector3 moveInputVelocity_Local { get ; set ; }
     public Quaternion rotating { get; set; }
     public EnemyStateSelectorNode stanceSelector { get; set; }
     public EnemyStateSelectorNode standStateSelector { get; set; }

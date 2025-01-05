@@ -11,6 +11,7 @@ public class PatrolingGoal : EnemyGoalLeaf
     {
         patrolPoints = patroler.patrolPoints;
         isMovingToPatrol = true;
+        InitailizedActionNode();
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }

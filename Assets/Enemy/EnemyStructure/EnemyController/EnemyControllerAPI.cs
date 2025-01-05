@@ -19,9 +19,10 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
         GOAP_FixedUpdate();
     }
 
-    public void Move(Vector2 MoveDirWorld, float velocity)
+    public void Move(Vector3 MoveDirWorld, float velocity)
     {
         enemy.moveInputVelocity_World = MoveDirWorld.normalized*velocity;
+
     }
     public void RotateToPos(Vector3 pos,float rotSpeed)
     {
@@ -142,6 +143,7 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
             curGoal.Enter();
             startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
             curGoal = enemyGoalLeaf;
+            Debug.Log("Goal =" + curGoal);
             curGoal.Enter();
         }
 

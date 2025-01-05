@@ -42,7 +42,18 @@ public abstract class EnemyGoalLeaf : EnemyGoal
     public virtual void Enter()
     {
         if (enter != null)
-            enter.Invoke();
+        { enter.Invoke();
+            return;
+        }
+
+        if(enemyActionLeaf == null)
+        {
+            startActionSelector.Transition(out EnemyActionLeafNode actionLeafNode);
+            enemyActionLeaf = actionLeafNode;
+            Debug.Log("curAction =" + enemyActionLeaf);
+            enemyActionLeaf.Enter();
+        }
+
     }
 
     public virtual void Exit()
@@ -74,11 +85,15 @@ public abstract class EnemyGoalLeaf : EnemyGoal
             enemyActionLeaf.Exit();
             startActionSelector.Transition(out EnemyActionLeafNode actionLeafNode);
             enemyActionLeaf = actionLeafNode;
+            Debug.Log("curAction =" + enemyActionLeaf);
             enemyActionLeaf.Enter();
         }
 
-        if(enemyActionLeaf != null)
+        if (enemyActionLeaf != null)
+        {
             enemyActionLeaf.Update();
+            Debug.Log("Goal_Encouter " + "curAction =" + enemyActionLeaf);
+        }
     }
 
     public override void FixedUpdate()

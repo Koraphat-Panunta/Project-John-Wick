@@ -8,6 +8,10 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
     {
     }
 
+    public EnemyStandMoveStateNode(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    {
+    }
+
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 

@@ -17,13 +17,7 @@ public class EncouterGoal : EnemyGoalLeaf
    
     public override void Enter()
     {
-        if (enemyActionLeaf.IsReset())
-        {
-            enemyActionLeaf.Exit();
-            startActionSelector.Transition(out EnemyActionLeafNode actionLeaf);
-            enemyActionLeaf = actionLeaf;
-            enemyActionLeaf.Enter();
-        }
+       
 
         base.Enter();
     }
@@ -37,17 +31,6 @@ public class EncouterGoal : EnemyGoalLeaf
     {
         if (enemy.findingTargetComponent.FindTarget(out GameObject target))
             enemy.targetKnewPos = target.transform.position;
-
-        if (enemyActionLeaf.IsReset())
-        {
-            enemyActionLeaf.Exit();
-            startActionSelector.Transition(out EnemyActionLeafNode actionLeaf);
-            enemyActionLeaf = actionLeaf;
-            enemyActionLeaf.Enter();
-        }
-
-        if(enemyActionLeaf != null)
-            enemyActionLeaf.Update();
 
         base.Update();
     }
@@ -114,7 +97,6 @@ public class EncouterGoal : EnemyGoalLeaf
             else
                 return false;
         } );//PreCondition
-
         idleSelector = new EnemyActionSelectorNode(enemyController,
             () => 
             {
@@ -142,7 +124,6 @@ public class EncouterGoal : EnemyGoalLeaf
 
             }//Reset
             );
-
         this.moveCurve_And_Shoot = new MoveCurve_and_Shoot(enemyController,
             () =>
             {
@@ -172,7 +153,6 @@ public class EncouterGoal : EnemyGoalLeaf
                 return true;
             } //Reset
             );
-
         this.idle_And_Shoot = new Idle_and_Shoot(enemyController,
             () =>
             {
@@ -202,8 +182,6 @@ public class EncouterGoal : EnemyGoalLeaf
 
                 return true;
             });//Reset
-
-
         this.idle_And_Aim = new Idle_and_Aim(enemyController,
             () =>
             {

@@ -16,6 +16,7 @@ public class SearchingGoal : EnemyGoalLeaf
         this.findingTarget = findingTarget;
         this.oriPos = enemyGOAP._enemy.transform.position;
         this.agent = enemy.agent;
+        InitailizedActionNode();
     }
 
     public SearchingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
@@ -23,6 +24,7 @@ public class SearchingGoal : EnemyGoalLeaf
         this.findingTarget = findingTarget;
         this.oriPos = enemyGOAP._enemy.transform.position;
         this.agent = enemy.agent;
+        InitailizedActionNode();
     }
 
     public override List<EnemyGoal> childNode { get ; set ; }

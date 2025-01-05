@@ -14,6 +14,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
     public TakeCoverGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, ICoverUseable coverUseable) : base(enemyController, enemyGOAP)
     {
         this.coverUser = coverUseable;
+        InitailizedActionNode();
 
     }
     public override List<EnemyGoal> childNode { get => base.childNode; set => base.childNode = value; }

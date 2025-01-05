@@ -10,7 +10,7 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
    
     public MoveCurve_and_Aim(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
-        path = new EnemyPath(enemy.agent);
+        path = enemy.enemyPath;
     }
 
     public override List<EnemyActionNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -62,14 +62,15 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
             7);
         enemyController.Rotate(rotarion);
 
-        if(path._markPoint.Count <= 0)
-            return;
+        //if(path._markPoint.Count <= 0)
+        //    return;
 
-        if(agent.hasPath == false)
-            return;
+        //if(agent.hasPath == false)
+        //    return;
 
         Vector3 dir = agent.steeringTarget - enemy.transform.position;
         enemyController.Move(dir, 1);
+        Debug.Log("MoveDir ="+dir);
 
         path.UpdateTargetPos(enemy.targetKnewPos,enemy.transform.position);
         EnemyDebuger.curPos = agent.destination;

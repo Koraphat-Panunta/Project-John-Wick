@@ -88,7 +88,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
 
         if(fieldOfView.FindSingleObjectInView(offensiveInstinct.targetLayer,new Vector3(0, 1.23f, 0),out GameObject target) == false)
         return;
-        Debug.Log("Find Target");
+
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))
         {
             Debug.Log("Out Target");
