@@ -53,7 +53,8 @@ public class TakeCoverGoal : EnemyGoalLeaf
             return true;
 
         if (combatPhase != CombatOffensiveInstinct.CombatPhase.FullAlert
-            || combatPhase != CombatOffensiveInstinct.CombatPhase.Alert)
+            || combatPhase != CombatOffensiveInstinct.CombatPhase.Alert
+            || combatPhase != CombatOffensiveInstinct.CombatPhase.SemiAlert)
             return true;
 
         Vector3 coverDir = coverUser.coverPoint.coverDir.normalized;
@@ -70,18 +71,19 @@ public class TakeCoverGoal : EnemyGoalLeaf
 
     public override bool PreCondition()
     {
+        if (enemy.findingCover.FindCoverInRaduis(8, out CoverPoint coverPoint)==false)
+            return false;
+
         CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
         if (100 / enemy.cost * enemy.intelligent <= enemy.cost * enemy.strength)
             return false;
 
         if (combatPhase != CombatOffensiveInstinct.CombatPhase.FullAlert
-            || combatPhase != CombatOffensiveInstinct.CombatPhase.Alert)
+            || combatPhase != CombatOffensiveInstinct.CombatPhase.Alert
+            || combatPhase != CombatOffensiveInstinct.CombatPhase.SemiAlert)
             return false;
 
-        if (enemy.findingCover.FindCoverInRaduis(8, out CoverPoint coverPoint))
-            return true;
-
-        return false;
+        return true;
     }
 
     private EnemyActionSelectorNode travelToCoverSelector { get; set; }
@@ -105,6 +107,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
 
                 return false;
             }); // PreCondition
+
         coverPatternSelector = new EnemyActionSelectorNode(enemyController,
             () => true); //PreCondition
 
