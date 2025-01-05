@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
-public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal
+public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal,IPatrolingGoal
 {
     public Enemy enemy;
     public EnemyControllerAPI(Enemy enemy)
@@ -34,10 +35,7 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
     {
         enemy.rotating = rotate;
     }
-    //public void FreezRotate()
-    //{
-    //    enemy.rotating = Quaternion.identity;
-    //}
+   
     public void Sprint()
     {
         enemy.isSprint = true;
@@ -132,7 +130,12 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
 
     #region InitializedSearchGoal
 
-    private SearchingGoal _searchingGoal { get; set; }   
+    private SearchingGoal _searchingGoal { get; set; }
+
+    #endregion
+
+    #region InitailizedPatrolingGoal
+    public PatrolingGoal _patrolingGoal { get; set; }
 
     #endregion
 
@@ -168,15 +171,19 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
         _encouterGoal = new EncouterGoal(this, _enemyGOAP, _findingTarget);
         _holdingGoal = new HoldingGoal(this, _enemyGOAP, _findingTarget);
         _takeCoverGoal = new TakeCoverGoal(this, _enemyGOAP, _coverUseable);
+        _patrolingGoal = new PatrolingGoal(this, this, enemy);
 
         startSelecotr.AddChildNode(_takeCoverGoal);
         startSelecotr.AddChildNode(_encouterGoal);
         startSelecotr.AddChildNode(_holdingGoal);
         startSelecotr.AddChildNode(_searchingGoal);
+        startSelecotr.AddChildNode(_patrolingGoal);
 
         startSelecotr.Transition(out EnemyGoalLeaf enemyGoalLeaf);
         curGoal = enemyGoalLeaf;
         Debug.Log("Goal =" + curGoal);
         curGoal.Enter();
     }
+
+  
 }

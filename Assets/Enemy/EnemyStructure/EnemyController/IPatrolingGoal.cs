@@ -4,7 +4,5 @@ using UnityEngine;
 
 public interface IPatrolingGoal 
 {
-    public List<Dictionary<Transform, float>> patrolpoint { get; set; }
-    public PatrolingGoal patrolingGoal { get; set; }
-    public void InitailizedPatrolingGoal();
+    public PatrolingGoal _patrolingGoal { get; set; }
 }
