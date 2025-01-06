@@ -20,7 +20,7 @@ public class EnemyPath
         _curPos = CurPos;
         EnemyDebuger._markPos = _markPoint;
         SetNavDestinationNext();
-        if (Vector3.Distance(targetAnchor, targetPos) > 6)
+        if (Vector3.Distance(targetAnchor, targetPos) > 2)
         {
             RegenaratePath();
         }

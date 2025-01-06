@@ -6,7 +6,7 @@ public class HoldingTactic : IEnemyTactic
 {
     private Enemy enemy;
     private bool isSeeTargetPos;
-    //private IEnemyFiringPattern enemyFiringPattern;
+    private IEnemyFiringPattern enemyFiringPattern;
     private EnemyFindingCover findingCover;
     private float costRate;
     private float exitStateCost = 70;
@@ -14,7 +14,7 @@ public class HoldingTactic : IEnemyTactic
     public HoldingTactic(Enemy enemy)
     {
         this.enemy = enemy;
-        //enemyFiringPattern = new NormalFiringPattern(enemy);
+        enemyFiringPattern = new NormalFiringPattern(enemy);
         findingCover = new EnemyFindingCover();
         costRate = Random.Range(8, 15f);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Holding);
@@ -50,31 +50,25 @@ public class HoldingTactic : IEnemyTactic
         }
         if(isSeeTargetPos == true)
         {
-            //enemy.weaponCommand.AimDownSight();
-            //enemyFiringPattern.Performing();
-            enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
+            enemy.weaponCommand.AimDownSight();
+            enemyFiringPattern.Performing();
+            enemy.enemyController.Freez();
             Vector3 targetDir = enemy.targetKnewPos.normalized - enemy.transform.position.normalized;
-            new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
+            enemy.enemyController.Rotate(targetDir,6);
+
         }
         else if(isSeeTargetPos == false)
         {
             enemy.weaponCommand.LowReady();
             enemy.agent.destination = Vector3.Cross(enemy.targetKnewPos - enemy.transform.position, Vector3.up);
-            enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
-            new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
+
+            Vector3 dir = enemy.agent.steeringTarget - enemy.transform.position;
+            enemy.enemyController.Move(dir, 1);
+            Vector3 targetDir = enemy.targetKnewPos.normalized - enemy.transform.position.normalized;
+            enemy.enemyController.Rotate(targetDir, 6);
+
         }
-        if(findCoverFrequency <=0)
-        {
-            //if (findingCover.FindingCover(enemy))
-            //{
-            //    enemy.currentTactic = new TakeCoverTactic(enemy);
-            //}
-            findCoverFrequency = 2;
-        }
-        //if (findingCover.FindingCover(enemy))
-        //{
-        //    enemy.currentTactic = new TakeCoverTactic(enemy);
-        //}
+
         findCoverFrequency -= Time.deltaTime;
         if(enemy.cost >= exitStateCost)
         {

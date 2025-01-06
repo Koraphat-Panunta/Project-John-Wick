@@ -7,40 +7,53 @@ public class SerchingTactic : IEnemyTactic
 {
     private Enemy enemy;
     private EnemyStateManager enemyStateManager;
-    private RotateObjectToward enemyRot;
+    //private RotateObjectToward enemyRot;
     private NavMeshAgent agent;
 
     public SerchingTactic(Enemy enemy)
     {
         this.enemy = enemy;
         this.enemyStateManager = enemy.enemyStateManager;
-        this.enemyRot = new RotateObjectToward();
+        //this.enemyRot = new RotateObjectToward();
         this.agent = enemy.agent;
         agent.speed = 0;
         agent.acceleration = 0;
         agent.ResetPath();
         agent.destination = RandomPosInNavmesh();
-        enemy.StartCoroutine(PerformedAction());
+        //enemy.StartCoroutine(PerformedAction());
         //enemy.isInCombat = false;
     }
     public void Manufacturing()
     {
         enemy.weaponCommand.LowReady();
-        if(agent.hasPath == false )
+        if (agent.hasPath == false)
         {
             agent.destination = RandomPosInNavmesh();
-            enemy.StartCoroutine(PerformedAction());
+            //enemy.StartCoroutine(PerformedAction());
         }
-        else if(agent.hasPath && (Vector3.Distance(agent.destination,enemy.transform.position)<agent.radius+0.5f))
+        else if (agent.hasPath && (Vector3.Distance(agent.destination, enemy.transform.position) < agent.radius + 0.5f))
         {
             agent.ResetPath();
             agent.destination = RandomPosInNavmesh();
-            enemy.StartCoroutine(PerformedAction());
+            //enemy.StartCoroutine(PerformedAction());
         }
-        enemyRot.RotateToward((agent.destination-enemy.transform.position).normalized,enemy.gameObject,6);
-        if(enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
+        if (agent.hasPath && (Vector3.Distance(agent.destination, enemy.transform.position) >= agent.radius + 0.5f))
         {
-            enemy.StopCoroutine(PerformedAction());
+            //agent.ResetPath();
+            //agent.destination = RandomPosInNavmesh();
+            //enemy.StartCoroutine(PerformedAction());
+            Vector3 dir = (agent.steeringTarget - enemy.transform.position).normalized;
+            enemy.enemyController.Move(dir, 1);
+        }
+        if (enemy.combatOffensiveInstinct.myCombatPhase != CombatOffensiveInstinct.CombatPhase.Chill)
+        {
+            enemy.currentTactic = new FlankingTactic(enemy);
+        }
+
+        //enemyRot.RotateToward((agent.destination-enemy.transform.position).normalized,enemy.gameObject,6);
+        if (enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
+        {
+            //enemy.StopCoroutine(PerformedAction());
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             enemy.currentTactic = new FlankingTactic(enemy);
         }
@@ -60,12 +73,15 @@ public class SerchingTactic : IEnemyTactic
             return enemy.transform.position;
         }
     }
-    IEnumerator PerformedAction()
-    {
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
-        yield return new WaitForSeconds(2);
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
-    }
+    //IEnumerator PerformedAction()
+    //{
+    //    //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
+    //    enemy.enemyController.Freez();
+    //    yield return new WaitForSeconds(2);
+    //    //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._move);
+    //    Vector3 dir = enemy.agent.steeringTarget - enemy.transform.position;
+    //    enemy.enemyController.Move(dir,6);
+    //}
 
    
 }

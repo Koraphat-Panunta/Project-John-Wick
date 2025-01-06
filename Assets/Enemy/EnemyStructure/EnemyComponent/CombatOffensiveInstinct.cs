@@ -91,7 +91,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
 
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))
         {
-            Debug.Log("Out Target");
+            //Debug.Log("Out Target");
             if (thisTarget.isAiming == false)
                 return ;
             Vector3 aimingLine = thisTarget.pointingPos - thisTarget.currentWeapon.bulletSpawnerPos.position;

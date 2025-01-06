@@ -1,23 +1,87 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
-public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal,IPatrolingGoal
+public class EnemyControllerAPI :MonoBehaviour, IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCoverGoal,IPatrolingGoal
 {
     public Enemy enemy;
-    public EnemyControllerAPI(Enemy enemy)
+    private float time;
+    private NormalFiringPattern NormalFiringPattern;
+    private bool isShooting;
+    //public enum Command 
+    //{
+        
+    //}
+    //public List<Command> commands;
+
+    private void Start()
     {
-       this.enemy = enemy;
-        InitailizedGOAP();
+        this.enemy = GetComponent<Enemy>();
+        NormalFiringPattern = new NormalFiringPattern(enemy);
+        //InitailizedGOAP();
     }
 
-    // Update is called once per frame
+
     public void Update()
     {
-        GOAP_Update();
+        time += Time.deltaTime;
+        if (time < 3)
+        {
+            Freez();
+        }
+        else if (time < 6)
+        {
+            enemy.findingTargetComponent.FindTarget(out GameObject target);
+            Vector3 moveDir = enemy.targetKnewPos - enemy.transform.position;
+            Move(moveDir.normalized, 1);
+
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+            Rotate(lookdir, 6);
+        }
+        else if ((time < 9))
+        {
+            enemy.findingTargetComponent.FindTarget(out GameObject target);
+            Move(enemy.targetKnewPos, 1);
+
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+            Rotate(lookdir, 6);
+            AimDownSight();
+        }
+        else if (time < 12)
+        {
+            enemy.findingTargetComponent.FindTarget(out GameObject target);
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+            Rotate(lookdir, 6);
+
+            Sprint();
+        }
+        else if(time < 15)
+        {
+            enemy.findingTargetComponent.FindTarget(out GameObject target);
+            if (isShooting == false)
+            {
+                PullTrigger();
+                isShooting = true;
+            }
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+            Rotate(lookdir, 6);
+            Freez();
+        }
+        else 
+        {
+            if (isShooting)
+            {
+                isShooting = false;
+                Reload();
+                CancleTrigger();
+            }
+                
+            Freez();
+        }
+        //GOAP_Update();
     }
     public void FixedUpdate()
     {
-        GOAP_FixedUpdate();
+        //GOAP_FixedUpdate();
     }
 
     public void Move(Vector3 MoveDirWorld, float velocity)
@@ -25,7 +89,7 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
         enemy.moveInputVelocity_World = MoveDirWorld.normalized*velocity;
 
     }
-    public void RotateToPos(Vector3 pos,float rotSpeed)
+    public void RotateToPos(Vector3 pos, float rotSpeed)
     {
         Quaternion rotation = new RotateObjectToward().RotateToward(pos - enemy.transform.position, enemy.transform, rotSpeed);
 
@@ -33,9 +97,15 @@ public class EnemyControllerAPI : IEnemyGOAP,IEncounterGoal,IHoldingGoal,ITakeCo
     }
     public void Rotate(Quaternion rotate)
     {
-        enemy.rotating = rotate;
+        //enemy.rotating = rotate;
     }
-   
+
+    public void Rotate(Vector3 dir,float rotSpeed)
+    {
+        enemy.lookRotation = dir;
+        enemy.rotateSpeed = rotSpeed;
+    }
+
     public void Sprint()
     {
         enemy.isSprint = true;

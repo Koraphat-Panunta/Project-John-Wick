@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class EnemyStandIdleStateNode : EnemyStateLeafNode
 {
+    RotateObjectToward objectToward;
     public EnemyStandIdleStateNode(Enemy enemy) : base(enemy)
     {
+        objectToward = new RotateObjectToward();
     }
 
     public EnemyStandIdleStateNode(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
     {
+        objectToward = new RotateObjectToward();
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -17,11 +20,13 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
 
     public override void Enter()
     {
+
         base.Enter();
     }
 
     public override void Exit()
     {
+
         base.Exit();
     }
 
@@ -47,7 +52,9 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
         animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
         animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
 
-        enemy.transform.rotation = enemy.rotating;
+        //enemy.lookRotation = (enemy.agent.steeringTarget - enemy.transform.position).normalized;
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy.rotateSpeed);
+
         base.Update();
     }
 }

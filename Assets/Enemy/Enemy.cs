@@ -11,7 +11,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     [Range(0, 100)]
     public float strength;
 
-    private EnemyControllerAPI enemyController;
+    public EnemyControllerAPI enemyController;
 
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -22,6 +22,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public LayerMask targetMask;
     public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView;
+    public NormalFiringPattern enemyFiringPattern;
     //public HearingSensing enemyHearingSensing;
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
@@ -65,29 +66,31 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         InitailizedHearingComponent();
-
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(36, 40);
         pressure = 100;
+
+        enemyFiringPattern = new NormalFiringPattern(this);
         //base.isDead = false;
 
         base.HP = 100;
         InitailizedStateNode();
-        enemyController = new EnemyControllerAPI(this);
+        enemyController = GetComponent<EnemyControllerAPI>();
     }
 
     void Update()
     {
 
         combatOffensiveInstinct.UpdateSening();
-        enemyController.Update();
+        //enemyController.Update();
         UpdateState();
         //enemyStateManager.Update();
+        //currentTactic.Manufacturing();
     }
     private void FixedUpdate()
     {
         //enemyStateManager.FixedUpdate();
-        enemyController.FixedUpdate();
+        //enemyController.FixedUpdate();
         FixedUpdateState();
     }
     private void LateUpdate()
@@ -131,13 +134,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         //    Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
         //}
 
-        foreach(Vector3 markPoint in enemyPath._markPoint)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(markPoint, 0.15f);
-        }
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(agent.steeringTarget, 0.18f);
+        //foreach(Vector3 markPoint in enemyPath._markPoint)
+        //{
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawSphere(markPoint, 0.15f);
+        //}
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawSphere(agent.steeringTarget, 0.18f);
 
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(targetKnewPos, 0.5f);
@@ -237,6 +240,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         painStateSelector.AddChildNode(legsHit);
         painStateSelector.AddChildNode(miniFlich);
 
+        standSelector.AddChildNode(enemySprintState);
         standSelector.AddChildNode(takeCoverSelector);
         standSelector.AddChildNode(enemyStandMoveState);
         standSelector.AddChildNode(enemyStandIdleState);
@@ -416,7 +420,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     public GameObject userMovement { get; set; }
     public Vector3 moveInputVelocity_World { get ; set; }
     public Vector3 moveInputVelocity_Local { get ; set ; }
-    public Quaternion rotating { get; set; }
+    public Vector3 lookRotation { get ; set ; }
+    public float rotateSpeed { get ; set ; }
     public EnemyStateSelectorNode stanceSelector { get; set; }
     public EnemyStateSelectorNode standStateSelector { get; set; }
     public EnemyStateSelectorNode crouchStateSelector { get; set; }

@@ -5,9 +5,11 @@ using UnityEngine;
 public class EnemySprintStateNode : EnemyStateLeafNode
 {
     Animator animator;
+    RotateObjectToward objectToward;
     public EnemySprintStateNode(Enemy enemy) : base(enemy)
     {
         animator = enemy.animator;
+        objectToward = new RotateObjectToward();
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -17,6 +19,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     {
         animator.SetBool("IsSprinting", true);
         animator.speed = 1f;
+
         base.Enter();
     }
 
@@ -25,7 +28,6 @@ public class EnemySprintStateNode : EnemyStateLeafNode
         animator.SetBool("IsSprinting", false);
         animator.speed = 1f;
 
-        enemy.transform.rotation = enemy.rotating;
         base.Exit();
     }
 
@@ -36,16 +38,29 @@ public class EnemySprintStateNode : EnemyStateLeafNode
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if(enemy.isPainTrigger)
+            return true;
+
+        if(enemy.isSprint == false)
+            return true;
+
+        return false;
+
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if(enemy.isSprint)
+            return true;
+
+        return false;
     }
 
     public override void Update()
     {
+
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy.rotateSpeed);
+
         base.Update();
     }
 }

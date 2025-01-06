@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class EnemyStandMoveStateNode : EnemyStateLeafNode
 {
+    RotateObjectToward objectToward;
     public EnemyStandMoveStateNode(Enemy enemy) : base(enemy)
     {
+        this.objectToward = new RotateObjectToward();
     }
 
     public EnemyStandMoveStateNode(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
     {
+        this.objectToward = new RotateObjectToward();
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -49,7 +52,8 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
         animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
         animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
 
-        enemy.transform.rotation = enemy.rotating;
+        //enemy.lookRotation = (enemy.agent.steeringTarget - enemy.transform.position).normalized;
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy.rotateSpeed);
 
         base.Update();
     }

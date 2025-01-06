@@ -35,20 +35,49 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if(enemy.isInCover == false)
+            return true;
+
+        if(enemy.isAiming)
+            return true;
+
+        if(enemy.isPainTrigger)
+            return true;
+
+        return false;
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if(enemy.isInCover)
+            return true;
+
+        return false;
     }
 
     public override void Update()
     {
-        coverUseable.userCover.transform.rotation = rotateObject.RotateToward(
-            coverUseable.coverPos - coverUseable.userCover.transform.position, coverUseable.userCover.transform, 6);
+        //coverUseable.userCover.transform.rotation = rotateObject.RotateToward(
+        //    coverUseable.coverPos - coverUseable.userCover.transform.position, coverUseable.userCover.transform, 6);
 
-        agent.Move(coverUseable.coverPos);
+        //agent.Move(coverUseable.coverPos);
+
+        NavMeshHit hit;
+        float maxDistance = 1;
+        Vector3 CoverPos = coverUseable.coverPos;
+
+        if (NavMesh.SamplePosition(CoverPos, out hit, maxDistance, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+        agent.SetDestination(CoverPos);
+        enemy.weaponCommand.LowReady();
+
+        Vector3 moveDir = (agent.steeringTarget - enemy.transform.position).normalized * Time.deltaTime * 2;
+        agent.Move(moveDir);
+
+        enemy.enemyFiringPattern.Performing();
+        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, 6);
 
         base.Update();
     }

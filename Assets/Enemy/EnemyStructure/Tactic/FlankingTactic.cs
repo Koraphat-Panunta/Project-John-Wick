@@ -5,21 +5,23 @@ using UnityEngine;
 public class FlankingTactic : IEnemyTactic
 {
     private Enemy enemy;
-    private EnemyStateManager enemyStateManager;
-    private RotateObjectToward enemyRot;
-    //private IEnemyFiringPattern enemyFiringPattern;
+    //private EnemyStateManager enemyStateManager;
+    //private RotateObjectToward enemyRot;
+    private NormalFiringPattern enemyFiringPattern;
     private float backToSerchTiming = 2;
     private float cost_DrainRate;
+    private EnemyControllerAPI enemyController;
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;
         enemy.enemyPath.GenaratePath(enemy.targetKnewPos, enemy.gameObject.transform.position);
-        enemyStateManager = enemy.enemyStateManager;
-        enemyStateManager.ChangeState(enemyStateManager._move);
-        enemyRot = new RotateObjectToward();
-        //this.enemyFiringPattern = new NormalFiringPattern(enemy);
+        //enemyStateManager = enemy.enemyStateManager;
+        //enemyStateManager.ChangeState(enemyStateManager._move);
+        //enemyRot = new RotateObjectToward();
+        this.enemyFiringPattern = new NormalFiringPattern(enemy);
         cost_DrainRate = Random.Range(9,15);
-        //Debug.Log(enemy+" EnterFlanking");
+        this.enemyController = enemy.enemyController;
+        Debug.Log(enemy + " EnterFlanking");
     }
     public void Manufacturing()
     {
@@ -30,8 +32,12 @@ public class FlankingTactic : IEnemyTactic
         if (enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
         {
             //Shoot
+
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+
+            enemy.enemyController.Rotate(lookdir, 6);
             enemy.weaponCommand.AimDownSight();
-            //enemyFiringPattern.Performing();
+            enemyFiringPattern.Performing();
             enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
             enemy.cost -= cost_DrainRate * Time.deltaTime;
 
@@ -55,16 +61,24 @@ public class FlankingTactic : IEnemyTactic
                 //    enemyFiringPattern.Performing();
                 //    enemy.cost -= cost_DrainRate * Time.deltaTime;
                 //}
+                if(enemy.combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Alert)
+                {
+                    enemyFiringPattern.Performing();
+                    enemy.cost -= cost_DrainRate * Time.deltaTime;
+                }
             }
+            Vector3 lookdir = (enemy.targetKnewPos - enemy.transform.position).normalized;
+            enemy.enemyController.Rotate(lookdir, 6);
         }
-        enemyRot.RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
+        //enemyRot.RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
         if (Vector3.Distance(enemy.targetKnewPos,enemy.gameObject.transform.position) < 2.5f)
         {
-            enemyStateManager.ChangeState(enemyStateManager._idle);
+            enemyController.Freez();
         }
         else
         {
-            enemyStateManager.ChangeState(enemyStateManager._move);
+            Vector3 dir = enemy.agent.steeringTarget - enemy.transform.position;
+            enemyController.Move(dir,1);
         }
         enemy.enemyPath.UpdateTargetPos(enemy.targetKnewPos,enemy.gameObject.transform.position);
     }

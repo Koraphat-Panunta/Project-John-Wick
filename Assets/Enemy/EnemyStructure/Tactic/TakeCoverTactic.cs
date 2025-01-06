@@ -7,7 +7,7 @@ public class TakeCoverTactic : IEnemyTactic
 {
     public Enemy enemy;
     public EnemyFindingCover enemyFindingCover;
-    //private IEnemyFiringPattern enemyFiringPattern;
+    private IEnemyFiringPattern enemyFiringPattern;
     private NavMeshAgent agent;
     private bool isInCover;
     private CoverPoint coverPositionEnemy;
@@ -17,7 +17,7 @@ public class TakeCoverTactic : IEnemyTactic
     {
         this.enemy = enemy;
         enemyFindingCover = new EnemyFindingCover();
-        //enemyFiringPattern = new NormalFiringPattern(enemy);
+        enemyFiringPattern = new NormalFiringPattern(enemy);
         agent = enemy.agent;
         agent.speed = 0;
         agent.acceleration = 0;
@@ -51,7 +51,7 @@ public class TakeCoverTactic : IEnemyTactic
         }
         else if(coverPositionEnemy != null)
         {
-            if (isInCover == false)
+            if (enemy.isInCover == false)
             {
                 if (MoveToCover(enemy.coverPos, agent))
                 {
@@ -61,10 +61,10 @@ public class TakeCoverTactic : IEnemyTactic
             else if (isInCover == true)
             {
                 CoverUsingPattern();
-                if (CheckingCoverInterupt())
-                {
-                    enemy.currentTactic = new HoldingTactic(enemy);
-                }
+                //if (CheckingCoverInterupt())
+                //{
+                //    enemy.currentTactic = new HoldingTactic(enemy);
+                //}
             }
         }
         enemy.cost += costRate * Time.deltaTime;
@@ -81,12 +81,15 @@ public class TakeCoverTactic : IEnemyTactic
         //{
         //    agent.SetDestination(hit.position);
         //}
-       
-        agent.SetDestination(peekPos);
-        enemy.weaponCommand.AimDownSight();
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
+
+        //agent.SetDestination(peekPos);
+        enemy.enemyController.AimDownSight();
+        //enemy.weaponCommand.AimDownSight();
+        //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
         //enemyFiringPattern.Performing();
-        new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
+
+        enemy.enemyController.Rotate((enemy.targetKnewPos - enemy.transform.position).normalized, 6);
+        //new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
         if (enemy.findingTargetComponent.FindTarget(out GameObject target) == false)
         {
             enemy.cost += costRate * Time.deltaTime;
@@ -101,10 +104,12 @@ public class TakeCoverTactic : IEnemyTactic
         //{
         //    agent.SetDestination(hit.position);
         //}
-        agent.SetDestination(CoverPos);
-        enemy.weaponCommand.AimDownSight();
-        enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
-        
+        //agent.SetDestination(CoverPos);
+        enemy.enemyController.LowReady();
+        enemy.enemyController.Rotate((enemy.coverPos - enemy.transform.position).normalized, 6);
+        //enemy.weaponCommand.LowReady();
+        //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._moveWithAgent);
+
     }
     bool isSetMovePos = false;
     private bool MoveToCover(Vector3 CoverPos, NavMeshAgent agent)
@@ -124,14 +129,18 @@ public class TakeCoverTactic : IEnemyTactic
         }
         if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1.6f)
         {
-            enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
+            //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._idle);
+            enemy.enemyController.Freez();
+            enemy.enemyController.TakeCover();
             isSetMovePos = false;
             return true;
         }
         else
         {
-            enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
-            enemy.weaponCommand.LowReady();
+            //enemy.enemyStateManager.ChangeState(enemy.enemyStateManager._sprint);
+            enemy.enemyController.Sprint();
+            enemy.enemyController.LowReady();
+            //enemy.weaponCommand.LowReady();
             enemy.cost +=   costRate * Time.deltaTime;
             return false;
         }
@@ -144,8 +153,8 @@ public class TakeCoverTactic : IEnemyTactic
         if (enemy.findingTargetComponent.FindTarget(out GameObject target) == true)
         {
             new RotateObjectToward().RotateTowardsObjectPos(enemy.targetKnewPos, enemy.gameObject, 6);
-            enemy.weaponCommand.AimDownSight();
-            //enemyFiringPattern.Performing();
+            enemy.enemyController.AimDownSight();
+            enemyFiringPattern.Performing();
         }
         else
         {
@@ -172,22 +181,22 @@ public class TakeCoverTactic : IEnemyTactic
             }
         }
     }
-    private bool CheckingCoverInterupt()
-    {
-        Collider[] other = Physics.OverlapSphere(enemy.transform.position, 0.5f);
-        foreach(Collider collider in other)
-        {
-            Enemy enemyNearBy;
-            if(collider.TryGetComponent<ChestBodyPart>(out ChestBodyPart e))
-            {
-                enemyNearBy = e.enemy;
-                if (enemyNearBy != enemy)
-                {
-                    return true;
-                }
-            }
+    //private bool CheckingCoverInterupt()
+    //{
+    //    Collider[] other = Physics.OverlapSphere(enemy.transform.position, 0.5f);
+    //    foreach(Collider collider in other)
+    //    {
+    //        Enemy enemyNearBy;
+    //        if(collider.TryGetComponent<ChestBodyPart>(out ChestBodyPart e))
+    //        {
+    //            enemyNearBy = e.enemy;
+    //            if (enemyNearBy != enemy)
+    //            {
+    //                return true;
+    //            }
+    //        }
            
-        }
-        return false;
-    }
+    //    }
+    //    return false;
+    //}
 }
