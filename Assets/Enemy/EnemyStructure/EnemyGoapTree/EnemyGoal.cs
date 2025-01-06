@@ -32,11 +32,14 @@ public abstract class EnemyGoal
             if (eGoal.GetType().IsSubclassOf(typeof(EnemyGoalLeaf)))
             {
                 enemyGoalLeaf = eGoal as EnemyGoalLeaf;
+                Debug.Log("Transition from " + this + " ->" + eGoal);
             }
             else
             {
+                Debug.Log("Transition from " + this + " ->" + eGoal);
                 eGoal.Transition(out EnemyGoalLeaf enemyGoal);
                 enemyGoalLeaf = enemyGoal;
+
             }
         }
     }

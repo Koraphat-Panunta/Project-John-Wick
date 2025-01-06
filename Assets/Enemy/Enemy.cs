@@ -80,7 +80,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
     void Update()
     {
-
+        findingTargetComponent.FindTarget(out GameObject target);
         combatOffensiveInstinct.UpdateSening();
         //enemyController.Update();
         UpdateState();

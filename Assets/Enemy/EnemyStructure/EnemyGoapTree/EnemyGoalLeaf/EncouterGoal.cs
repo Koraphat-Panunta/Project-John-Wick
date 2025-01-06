@@ -47,6 +47,8 @@ public class EncouterGoal : EnemyGoalLeaf
     {
         CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
 
+
+
         if(combatPhase == CombatOffensiveInstinct.CombatPhase.Chill
             || combatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
             return true;
@@ -61,12 +63,16 @@ public class EncouterGoal : EnemyGoalLeaf
     {
         CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
 
-        if (combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert 
+        Debug.Log("CombatPhase =" + combatPhase);
+
+        if (combatPhase == CombatOffensiveInstinct.CombatPhase.FullAlert
             || combatPhase == CombatOffensiveInstinct.CombatPhase.Alert
             || combatPhase == CombatOffensiveInstinct.CombatPhase.SemiAlert)
-        return true;
+        {
+            return true;
+        }
         
-        else return false;
+        return false;
     } 
 
     #region InitailiedActionNode
