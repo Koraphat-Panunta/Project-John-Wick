@@ -6,14 +6,14 @@ using Unity.VisualScripting;
 public abstract class EnemyGoal 
 {
     protected IEnemyGOAP enemyGOAP;
-    public EnemyGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP)
+    public EnemyGoal(EnemyCommandAPI enemyController, IEnemyGOAP enemyGOAP)
     {
         this.enemyController = enemyController;
         this.enemy = enemyController.enemy;
         childNode = new List<EnemyGoal>();
         this.enemyGOAP = enemyGOAP;
     }
-    protected EnemyControllerAPI enemyController { get; set; }
+    protected EnemyCommandAPI enemyController { get; set; }
     protected Enemy enemy { get; set; }
     public abstract List<EnemyGoal> childNode { get; set; }
     protected abstract Func<bool> preCondidtion { get; set; }

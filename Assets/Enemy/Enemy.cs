@@ -11,7 +11,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     [Range(0, 100)]
     public float strength;
 
-    public EnemyControllerAPI enemyController;
+    public EnemyCommandAPI enemyController;
 
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
@@ -75,7 +75,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
         base.HP = 100;
         InitailizedStateNode();
-        enemyController = GetComponent<EnemyControllerAPI>();
+        enemyController = GetComponent<EnemyCommandAPI>();
     }
 
     void Update()
@@ -245,8 +245,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         standSelector.AddChildNode(enemyStandMoveState);
         standSelector.AddChildNode(enemyStandIdleState);
 
-        takeCoverSelector.AddChildNode(enemyStandTakeCoverState);
         takeCoverSelector.AddChildNode(enemyStandTakeAimState);
+        takeCoverSelector.AddChildNode(enemyStandTakeCoverState);
 
         startSelector.Transition(out EnemyStateLeafNode enemyStateActionNode);
         curStateLeaf = enemyStateActionNode;

@@ -11,7 +11,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
     public enum CombatPhase 
     {
         Chill,
-        Suspect,
+        Suspect, 
         SemiAlert, // InCombat not SpotingTarget not recive targetSignal
         Alert, // InCombat not SpotingTarget but still sense of combat 
         FullAlert //InCombat and SpotingTarget

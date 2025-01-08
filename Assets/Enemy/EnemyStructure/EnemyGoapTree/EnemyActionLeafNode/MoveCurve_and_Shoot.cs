@@ -10,13 +10,13 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
     private EnemyPath path;
     private float costDrainRate;
     private NormalFiringPattern firingPattern;
-    public MoveCurve_and_Shoot(EnemyControllerAPI enemyController) : base(enemyController)
+    public MoveCurve_and_Shoot(EnemyCommandAPI enemyController) : base(enemyController)
     {
         path = new EnemyPath(enemy.agent);
         firingPattern = new NormalFiringPattern(enemyController);
     }
     public MoveCurve_and_Shoot(
-        EnemyControllerAPI enemyController, 
+        EnemyCommandAPI enemyController, 
         Func<bool> preCondition,
         Func<bool> isReset) 
         : base(enemyController, preCondition, isReset)
@@ -66,10 +66,8 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
 
         enemyController.AimDownSight();
 
-        Quaternion rotarion = new RotateObjectToward().RotateToward(enemy.targetKnewPos - enemy.transform.position,
-            enemy.transform,
-            7);
-        enemyController.Rotate(rotarion);
+      
+        enemyController.Rotate(enemy.targetKnewPos,7);
 
         if (path._markPoint.Count <= 0)
             return;

@@ -7,7 +7,7 @@ public class PatrolingGoal : EnemyGoalLeaf
     public List<PatrolPoint> patrolPoints;
     public PatrolPoint myPatrolPoint;
     public bool isMovingToPatrol;
-    public PatrolingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IPatrolComponent patroler) : base(enemyController, enemyGOAP)
+    public PatrolingGoal(EnemyCommandAPI enemyController, IEnemyGOAP enemyGOAP,IPatrolComponent patroler) : base(enemyController, enemyGOAP)
     {
         patrolPoints = patroler.patrolPoints;
         isMovingToPatrol = true;

@@ -8,11 +8,11 @@ public class Wait : EnemyActionLeafNode
     private IPatrolComponent patroler;
     PatrolPoint myPatrolpoint;
     public float waitTime { get; private set; }
-    public Wait(EnemyControllerAPI enemyController) : base(enemyController)
+    public Wait(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public Wait(EnemyControllerAPI enemyController,IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public Wait(EnemyCommandAPI enemyController,IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         this.patroler = patroler;
     }

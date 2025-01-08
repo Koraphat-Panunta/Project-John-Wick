@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoldingGoal : EnemyGoalLeaf
 {
-    public HoldingGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
+    public HoldingGoal(EnemyCommandAPI enemyController, IEnemyGOAP enemyGOAP,IFindingTarget findingTarget) : base(enemyController, enemyGOAP)
     {
         InitailizedActionNode();
     }

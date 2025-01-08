@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 
 public abstract class EnemyActionNode 
 {
-    public EnemyActionNode(EnemyControllerAPI enemyController)
+    public EnemyActionNode(EnemyCommandAPI enemyController)
     {
         this.enemyController = enemyController;
         this.enemy = enemyController.enemy;
@@ -13,7 +13,7 @@ public abstract class EnemyActionNode
     }
 
     protected Enemy enemy { get; set; }
-    protected EnemyControllerAPI enemyController { get; set; }
+    protected EnemyCommandAPI enemyController { get; set; }
     public abstract List<EnemyActionNode> childNode { get; set; }
     protected abstract Func<bool> preCondidtion { get; set; }
     public abstract void FixedUpdate();

@@ -11,7 +11,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
 
     private float coverPatternFlipFlop;
     private float flipFlopTiming;
-    public TakeCoverGoal(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP, ICoverUseable coverUseable) : base(enemyController, enemyGOAP)
+    public TakeCoverGoal(EnemyCommandAPI enemyController, IEnemyGOAP enemyGOAP, ICoverUseable coverUseable) : base(enemyController, enemyGOAP)
     {
         this.coverUser = coverUseable;
         InitailizedActionNode();

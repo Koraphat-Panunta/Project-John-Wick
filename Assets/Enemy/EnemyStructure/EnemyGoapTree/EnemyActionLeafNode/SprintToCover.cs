@@ -6,11 +6,11 @@ using UnityEngine.AI;
 public class SprintToCover : EnemyActionLeafNode
 {
     private NavMeshAgent agent;
-    public SprintToCover(EnemyControllerAPI enemyController) : base(enemyController)
+    public SprintToCover(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public SprintToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public SprintToCover(EnemyCommandAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         agent = enemy.agent;
     }
@@ -31,9 +31,9 @@ public class SprintToCover : EnemyActionLeafNode
     }
     public override void Update()
     {
-        Quaternion rotate = new RotateObjectToward().RotateToward(enemy.coverPos - enemy.transform.position, enemy.transform, 8);
+      
         enemyController.Sprint();
-        enemyController.Rotate(rotate);
+        enemyController.RotateToPosition(enemy.coverPos,7);
 
         enemyController.LowReady();
         if (Vector3.Distance(enemy.coverPos,

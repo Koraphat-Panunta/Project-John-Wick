@@ -6,11 +6,11 @@ public class PeekCover : EnemyActionLeafNode
 {
     private ICoverUseable coverUser;
     private NormalFiringPattern firingPattern;
-    public PeekCover(EnemyControllerAPI enemyController) : base(enemyController)
+    public PeekCover(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public PeekCover(EnemyControllerAPI enemyController,ICoverUseable coverUser, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public PeekCover(EnemyCommandAPI enemyController,ICoverUseable coverUser, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         this.coverUser = coverUser;
         firingPattern = new NormalFiringPattern(enemyController);
@@ -54,27 +54,22 @@ public class PeekCover : EnemyActionLeafNode
             case CombatOffensiveInstinct.CombatPhase.FullAlert:
                 {
                     enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
+                    enemyController.RotateToPosition(enemy.targetKnewPos, 7);
                     firingPattern.Performing();
                 };
                 break;
             case CombatOffensiveInstinct.CombatPhase.Alert:
                 {
-                    enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
-                    firingPattern.Performing();
-                };
+                        enemyController.AimDownSight();
+                        enemyController.RotateToPosition(enemy.targetKnewPos, 7);
+                        firingPattern.Performing();
+                    };
                 break;
             case CombatOffensiveInstinct.CombatPhase.SemiAlert:
                 {
                     enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
+                    enemyController.RotateToPosition(enemy.targetKnewPos, 7);
+                    
                 };
                 break;
         }

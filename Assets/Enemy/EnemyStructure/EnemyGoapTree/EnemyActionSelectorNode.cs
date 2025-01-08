@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyActionSelectorNode : EnemyActionNode
 {
-    public EnemyActionSelectorNode(EnemyControllerAPI enemyController, Func<bool> preCondition) : base(enemyController)
+    public EnemyActionSelectorNode(EnemyCommandAPI enemyController, Func<bool> preCondition) : base(enemyController)
     {
         this.preCondidtion = preCondition;
     }

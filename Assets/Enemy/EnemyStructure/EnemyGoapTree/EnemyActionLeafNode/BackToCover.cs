@@ -5,11 +5,11 @@ using UnityEngine;
 public class BackToCover : EnemyActionLeafNode
 {
     private NormalFiringPattern firingPattern;
-    public BackToCover(EnemyControllerAPI enemyController) : base(enemyController)
+    public BackToCover(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public BackToCover(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public BackToCover(EnemyCommandAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         firingPattern = new NormalFiringPattern(enemyController);
     }

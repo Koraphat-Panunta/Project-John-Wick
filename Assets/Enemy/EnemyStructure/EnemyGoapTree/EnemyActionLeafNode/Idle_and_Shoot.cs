@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Idle_and_Shoot : EnemyActionLeafNode
 {
-    public Idle_and_Shoot(EnemyControllerAPI enemyController) : base(enemyController)
+    public Idle_and_Shoot(EnemyCommandAPI enemyController) : base(enemyController)
     {
 
     }
 
     public Idle_and_Shoot(
-        EnemyControllerAPI enemyController,
+        EnemyCommandAPI enemyController,
         Func<bool> preCondition,
         Func<bool> isReset) 
         : base(enemyController, preCondition, isReset)

@@ -95,8 +95,24 @@ public class FindingCover
 
         }
 
-        int n = UnityEngine.Random.Range(0,_coverPoint.Count-1);
-        coverPoint = _coverPoint[n];
+        if(_coverPoint.Count <=0)
+            return false ;
+
+        for (int i = 0; i < _coverPoint.Count; i++)
+        {
+
+            if (i == 0)
+            { coverPoint = _coverPoint[0];
+                continue;
+            }
+
+            if(Vector3.Distance(coverPoint.coverPos.position,coverUser.userCover.transform.position)>
+                Vector3.Distance(_coverPoint[i].coverPos.position, coverUser.userCover.transform.position))
+            {
+                coverPoint = _coverPoint[i];    
+            }
+        }
+
         coverPoint.TakeThisCover(coverUser);
         return true;
     }

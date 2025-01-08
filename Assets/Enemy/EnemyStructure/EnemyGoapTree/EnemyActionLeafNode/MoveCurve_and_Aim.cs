@@ -8,7 +8,7 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
     private EnemyPath path;
     private float costDrainRate;
    
-    public MoveCurve_and_Aim(EnemyControllerAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public MoveCurve_and_Aim(EnemyCommandAPI enemyController, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         path = enemy.enemyPath;
     }
@@ -57,10 +57,8 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
 
         enemyController.AimDownSight();
 
-        Quaternion rotarion = new RotateObjectToward().RotateToward(enemy.targetKnewPos - enemy.transform.position,
-            enemy.transform,
-            7);
-        enemyController.Rotate(rotarion);
+
+        enemyController.RotateToPosition(enemy.targetKnewPos, 7);
 
         //if(path._markPoint.Count <= 0)
         //    return;

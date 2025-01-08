@@ -15,10 +15,10 @@ public class EnemyActionLeafNode : EnemyActionNode
     protected Func<bool> isComplete;
 
 
-    public EnemyActionLeafNode(EnemyControllerAPI enemyController) : base(enemyController)
+    public EnemyActionLeafNode(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
-    public EnemyActionLeafNode(EnemyControllerAPI enemyController
+    public EnemyActionLeafNode(EnemyCommandAPI enemyController
         , Func<bool> preCondition
         , Action Enter
         , Action Exit
@@ -35,7 +35,7 @@ public class EnemyActionLeafNode : EnemyActionNode
         this.isComplete = isComplete;
         this.isReset = isReset;
     }
-    public EnemyActionLeafNode(EnemyControllerAPI enemyController
+    public EnemyActionLeafNode(EnemyCommandAPI enemyController
        , Func<bool> preCondition
        , Func<bool> isReset) : base(enemyController)
     {

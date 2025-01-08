@@ -17,10 +17,10 @@ public abstract class EnemyGoalLeaf : EnemyGoal
     protected Func<bool> isComplete;
 
 
-    public EnemyGoalLeaf(EnemyControllerAPI enemyController, IEnemyGOAP enemyGOAP) : base(enemyController, enemyGOAP)
+    public EnemyGoalLeaf(EnemyCommandAPI enemyController, IEnemyGOAP enemyGOAP) : base(enemyController, enemyGOAP)
     {
     }
-    public EnemyGoalLeaf(EnemyControllerAPI enemyController
+    public EnemyGoalLeaf(EnemyCommandAPI enemyController
         , IEnemyGOAP enemyGOAP
         , Func<bool> preCondition
         , Action Enter

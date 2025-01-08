@@ -11,9 +11,9 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private const float MAXRANG_TIMING_FIRE = 0.6f;
     private const float MINRANG_TIMING_FIRE = 0.2f;
     private Enemy enemy;
-    private EnemyControllerAPI enemyController;
+    private EnemyCommandAPI enemyController;
     private WeaponCommand weaponCommand;
-    public NormalFiringPattern(EnemyControllerAPI enemyController)
+    public NormalFiringPattern(EnemyCommandAPI enemyController)
     {
         this.enemy = enemyController.enemy;
 

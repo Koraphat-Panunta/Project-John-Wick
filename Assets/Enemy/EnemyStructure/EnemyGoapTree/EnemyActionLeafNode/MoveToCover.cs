@@ -8,11 +8,11 @@ public class MoveToCover : EnemyActionLeafNode
     private ICoverUseable coverUseable;
     private NavMeshAgent agent;
     private NormalFiringPattern firingPattern;
-    public MoveToCover(EnemyControllerAPI enemyController) : base(enemyController)
+    public MoveToCover(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public MoveToCover(EnemyControllerAPI enemyController,ICoverUseable coverUseable, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public MoveToCover(EnemyCommandAPI enemyController,ICoverUseable coverUseable, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         this.coverUseable = coverUseable;
         this.agent = enemy.agent;
@@ -58,27 +58,21 @@ public class MoveToCover : EnemyActionLeafNode
             case CombatOffensiveInstinct.CombatPhase.FullAlert: 
                 {
                     enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
+                    enemyController.RotateToPosition(enemy.targetKnewPos, 7);
                     firingPattern.Performing();
                 };
                 break;
             case CombatOffensiveInstinct.CombatPhase.Alert: 
                 {
                     enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
+                    enemyController.RotateToPosition(enemy.targetKnewPos, 7);
                     firingPattern.Performing();
                 };
                 break;
             case CombatOffensiveInstinct.CombatPhase.SemiAlert: 
                 {
                     enemyController.AimDownSight();
-                    Quaternion rotate = new RotateObjectToward().RotateToward(
-                        enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-                    enemyController.Rotate(rotate);
+                    enemyController.RotateToPosition(enemy.targetKnewPos, 7);
                 };
                 break;
         }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IEnemyGOAP
 {
-    public EnemyControllerAPI _enemyController { get; set; }
+    public EnemyCommandAPI _enemyController { get; set; }
     public Enemy _enemy { get; set; }
     public EnemyGoalLeaf curGoal { get; set; }
     public EnemyGoalSelector startSelecotr { get; set; }

@@ -57,27 +57,27 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-        //coverUseable.userCover.transform.rotation = rotateObject.RotateToward(
-        //    coverUseable.coverPos - coverUseable.userCover.transform.position, coverUseable.userCover.transform, 6);
-
-        //agent.Move(coverUseable.coverPos);
-
-        NavMeshHit hit;
-        float maxDistance = 1;
+        
         Vector3 CoverPos = coverUseable.coverPos;
 
-        if (NavMesh.SamplePosition(CoverPos, out hit, maxDistance, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-        agent.SetDestination(CoverPos);
+      
         enemy.weaponCommand.LowReady();
 
-        Vector3 moveDir = (agent.steeringTarget - enemy.transform.position).normalized * Time.deltaTime * 2;
+        Vector3 moveDir = (CoverPos - enemy.transform.position).normalized * Time.deltaTime * 2;
         agent.Move(moveDir);
 
-        enemy.enemyFiringPattern.Performing();
-        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, 6);
+        Vector3 moveInputDirWorld = enemy.moveInputVelocity_World;
+        Animator animator = enemy.animator;
+
+        Vector3 animDir = enemy.transform.InverseTransformDirection(moveInputDirWorld);
+        animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
+        animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
+
+        if (coverUseable.coverPoint == null)
+        {
+            Debug.Log("this Null");
+        }
+        new RotateObjectToward().RotateToward(coverUseable.coverPoint.coverDir, enemy.gameObject, 6);
 
         base.Update();
     }

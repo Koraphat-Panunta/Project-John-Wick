@@ -7,11 +7,11 @@ public class MoveToSuspectPos : EnemyActionLeafNode
 {
     IFindingTarget findingTarget;
     NavMeshAgent agent;
-    public MoveToSuspectPos(EnemyControllerAPI enemyController) : base(enemyController)
+    public MoveToSuspectPos(EnemyCommandAPI enemyController) : base(enemyController)
     {
     }
 
-    public MoveToSuspectPos(EnemyControllerAPI enemyController,IFindingTarget findingTarget, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public MoveToSuspectPos(EnemyCommandAPI enemyController,IFindingTarget findingTarget, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         this.findingTarget = findingTarget;
         this.agent = enemy.agent;
@@ -61,7 +61,7 @@ public class MoveToSuspectPos : EnemyActionLeafNode
             case CombatOffensiveInstinct.CombatPhase.SemiAlert: 
                 {
                     enemyController.AimDownSight();
-                    enemyController.RotateToPos(suspectPos, 7);
+                    enemyController.RotateToPosition(suspectPos, 7);
                 }
                 break;
             case CombatOffensiveInstinct.CombatPhase.Suspect:
@@ -69,9 +69,9 @@ public class MoveToSuspectPos : EnemyActionLeafNode
                     enemyController.LowReady();
 
                     if (agent.hasPath)
-                        enemyController.RotateToPos(agent.steeringTarget, 7);
+                        enemyController.RotateToPosition(agent.steeringTarget, 7);
                     else
-                        enemyController.RotateToPos(suspectPos, 7);
+                        enemyController.RotateToPosition(suspectPos, 7);
                 }
                 break;
         }

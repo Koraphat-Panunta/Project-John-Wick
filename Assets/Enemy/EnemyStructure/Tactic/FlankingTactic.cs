@@ -10,7 +10,7 @@ public class FlankingTactic : IEnemyTactic
     private NormalFiringPattern enemyFiringPattern;
     private float backToSerchTiming = 2;
     private float cost_DrainRate;
-    private EnemyControllerAPI enemyController;
+    private EnemyCommandAPI enemyController;
     public FlankingTactic(Enemy enemy)
     {
         this.enemy = enemy;

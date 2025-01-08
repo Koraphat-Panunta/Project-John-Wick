@@ -8,7 +8,7 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
     private PatrolPoint myPatrolPoint;
     private IPatrolComponent patroler;
 
-    public MoveToPatrolPosition(EnemyControllerAPI enemyController, IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
+    public MoveToPatrolPosition(EnemyCommandAPI enemyController, IPatrolComponent patroler, Func<bool> preCondition, Func<bool> isReset) : base(enemyController, preCondition, isReset)
     {
         this.patroler = patroler;
         this.patrolPoints = patroler.patrolPoints;
@@ -50,7 +50,7 @@ public class MoveToPatrolPosition : EnemyActionLeafNode
         Vector3 dir = enemy.agent.steeringTarget - enemy.transform.position;
         enemyController.Move(dir, 1);
 
-        enemyController.RotateToPos(enemy.agent.steeringTarget,7);
+        enemyController.RotateToPosition(enemy.agent.steeringTarget,7);
 
         base.Update();
     }

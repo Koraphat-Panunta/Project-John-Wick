@@ -42,6 +42,8 @@ public class CoverPointTallSingleSide : CoverPoint
             this.coverUser.peekPos = hitPeekPos.point;
         else
             this.coverUser.peekPos = peekPos.position;
+
+        this.coverUser.coverPoint = this;
     }
     
     protected override void Start()

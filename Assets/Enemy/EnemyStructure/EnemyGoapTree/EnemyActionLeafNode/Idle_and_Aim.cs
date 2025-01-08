@@ -6,13 +6,13 @@ public class Idle_and_Aim : EnemyActionLeafNode
 {
     private RotateObjectToward rotateObject;
 
-    public Idle_and_Aim(EnemyControllerAPI enemyController) : base(enemyController)
+    public Idle_and_Aim(EnemyCommandAPI enemyController) : base(enemyController)
     {
         rotateObject = new RotateObjectToward();
     }
 
     public Idle_and_Aim(
-        EnemyControllerAPI enemyController, 
+        EnemyCommandAPI enemyController, 
         Func<bool> preCondition,
         Func<bool> isReset) 
         : base(enemyController, preCondition, isReset)
@@ -38,8 +38,7 @@ public class Idle_and_Aim : EnemyActionLeafNode
 
         enemyController.AimDownSight();
 
-        Quaternion rotate = rotateObject.RotateToward(enemy.targetKnewPos - enemy.transform.position, enemy.transform, 7);
-        enemyController.Rotate(rotate);
+        enemyController.RotateToPosition(enemy.targetKnewPos,7);
 
         base.Update();
     }
