@@ -2858,10 +2858,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea66ea3b8798034093e8b0a25d51529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  moveToPos: {fileID: 1137033974}
-  sprintToPos: {fileID: 1699271949}
-  CoverTiming: 0
+  _enemy: {fileID: 0}
+--- !u!114 &1919170490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 308171753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83cd06931a11b14fa2941ded1988487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1960428642
 GameObject:
   m_ObjectHideFlags: 0
@@ -3555,6 +3564,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       insertIndex: 3
+      addedObject: {fileID: 1919170490}
+    - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      insertIndex: 4
       addedObject: {fileID: 1919170484}
   m_SourcePrefab: {fileID: 100100000, guid: 84c69ff9c82bc70449b7e18c9854f0cb, type: 3}
 --- !u!1660057539 &9223372036854775807
