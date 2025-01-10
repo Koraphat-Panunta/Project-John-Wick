@@ -30,8 +30,8 @@ public class InGameSceneManager : SceneManager
         ChangeScene(weaponCustomizedSceneState);
 
         //enemies = FindObjectsOfType<Enemy>().ToList<Enemy>();
-        //foreach (Enemy enemy in enemies)
-        //    enemy.enabled = false;
+        //foreach (Enemy _enemy in enemies)
+        //    _enemy.enabled = false;
 
         //player = FindAnyObjectByType<Player>();
         //player.enabled = false;

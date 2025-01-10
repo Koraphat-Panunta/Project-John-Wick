@@ -8,7 +8,13 @@ public abstract class Character : MonoBehaviour
     protected float HP;
 
     public Environment My_environment;
-    public bool isDead { get; set; }
+    public bool isDead { get 
+        {
+            if(HP <=0)
+                return true;
+            else return false;
+        }
+    }
    
 
     //public Weapon curentWeapon;

@@ -24,9 +24,9 @@ public class BulletSpawner : MonoBehaviour
         //{
         //    Bullet.GetComponent<Bullet>().ShootDirection(player.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
         //}
-        //else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy enemy)))
+        //else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy _enemy)))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(enemy.enemyGetShootDirection.GetDir());
+        //    Bullet.GetComponent<Bullet>().ShootDirection(_enemy.enemyGetShootDirection.GetDir());
         //}
     }
     private IEnumerator SpawnTrail(Vector3 startPos,Vector3 endPos,TrailRenderer bulletTrail)
