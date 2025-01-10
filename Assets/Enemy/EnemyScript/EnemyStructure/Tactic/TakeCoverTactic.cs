@@ -45,7 +45,7 @@ public class TakeCoverTactic : IEnemyTactic
             }
             else
             {
-                enemy.currentTactic = new HoldingTacticDecision(enemy);
+                //enemy.currentTactic = new HoldingTactic(enemy);
                 //Debug.Log("FindCoverFaild");
             }
         }
@@ -124,7 +124,7 @@ public class TakeCoverTactic : IEnemyTactic
             }
             else 
             {
-                enemy.currentTactic = new HoldingTacticDecision(enemy);
+                //enemy.currentTactic = new HoldingTactic(enemy);
             }
         }
         if (Vector3.Distance(enemy.transform.position, new Vector3(CoverPos.x,enemy.transform.position.y,CoverPos.z)) < 1.6f)

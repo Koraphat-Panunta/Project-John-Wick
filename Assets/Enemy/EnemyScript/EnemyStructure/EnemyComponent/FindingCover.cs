@@ -113,7 +113,7 @@ public class FindingCover
             }
         }
 
-        coverPoint.TakeThisCover(coverUser);
+        //coverPoint.TakeThisCover(coverUser);
         return true;
     }
 }

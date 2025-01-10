@@ -67,7 +67,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         InitailizedCoverUsable();
         InitailizedHearingComponent();
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(36, 40);
+        cost = Random.Range(50,70);
         pressure = 100;
 
         enemyFiringPattern = new NormalFiringPattern(this);
