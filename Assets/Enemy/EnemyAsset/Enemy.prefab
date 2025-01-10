@@ -200,6 +200,8 @@ GameObject:
   - component: {fileID: 6454910191179571215}
   - component: {fileID: 1113618680042977909}
   - component: {fileID: 7890612989017240957}
+  - component: {fileID: 4098032552167450634}
+  - component: {fileID: 8785008869752914700}
   - component: {fileID: 2619394019457856660}
   - component: {fileID: 1345616770146797532}
   - component: {fileID: 6707978067127173200}
@@ -274,6 +276,31 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4098032552167450634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83cd06931a11b14fa2941ded1988487, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8785008869752914700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea66ea3b8798034093e8b0a25d51529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy: {fileID: 0}
 --- !u!114 &2619394019457856660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,18 +315,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   My_environment: {fileID: 0}
   animator: {fileID: 1113618680042977909}
+  intelligent: 0
+  strength: 0
+  enemyController: {fileID: 0}
   agent: {fileID: 7890612989017240957}
   rotationConstraint: {fileID: 4128347875901402048}
-  Target: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 256
-  myDomainSensing: {fileID: 0}
   cost: 0
   pressure: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
-  isIncombat: 0
   weaponMainSocket: {fileID: 4230971110914966387}
   primaryWeaponHoster: {fileID: 0}
   secondaryWeaponHoster: {fileID: 0}
@@ -314,6 +341,7 @@ MonoBehaviour:
   right_lowerArm: {fileID: 1671559870367208952}
   left_upperArm: {fileID: 2415856318687098846}
   left_lowerArm: {fileID: 455147826659365224}
+  PatrolPoints: []
 --- !u!114 &1345616770146797532
 MonoBehaviour:
   m_ObjectHideFlags: 0
