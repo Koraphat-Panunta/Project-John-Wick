@@ -4,63 +4,56 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffensiveInstinct,IFindingTarget,ICoverUseable,IHearingComponent,IMovementCompoent,IPatrolComponent,IPainState
+public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
+    ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
+    IHearingComponent, IMovementCompoent, IPatrolComponent,
+    IPainState
 {
     [Range(0,100)]
     public float intelligent;
     [Range(0, 100)]
     public float strength;
 
-    public EnemyCommandAPI enemyController;
-
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public MultiRotationConstraint rotationConstraint;
-    //public GameObject Target;
-    //public EnemyStateManager enemyStateManager;
-    //[SerializeField] public CurvePath enemyPath;
 
     public LayerMask targetMask;
-    public IEnemyTactic currentTactic;
     public FieldOfView enemyFieldOfView;
-    public NormalFiringPattern enemyFiringPattern;
-    //public HearingSensing enemyHearingSensing;
+
+
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
 
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
     public float cost;
-    public float pressure;
+    public float myHP;
+    public float posture;
 
 
 
-    public IEnemyHitReaction enemyHitReaction;
-    public EnemyMiniFlinch enemyMiniFlinch;
+  
 
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
-    //public bool isIncombat;
 
     
 
     void Start()
     {
-        //Target = new GameObject();
-        //enemyStateManager = new EnemyStateManager(this);    
-        //enemyPath = new CurvePath(agent);
+     
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
-        //enemyHearingSensing = new HearingSensing(this);
-        enemyComunicate = new EnemyComunicate(this);
-        enemyMiniFlinch = new EnemyMiniFlinch(this);
 
-        //enemyStateManager._currentState = enemyStateManager._idle;
-        //enemyStateManager._currentState.StateEnter(enemyStateManager);
+        enemyComunicate = new EnemyComunicate(this);
+
+
+    
 
         MotionControlInitailized();
-        //InitailizedGoap();
 
-        currentTactic = new SerchingTactic(this);
+
+
         Initialized_IWeaponAdvanceUser();
         InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
@@ -68,29 +61,24 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         InitailizedHearingComponent();
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(50,70);
-        pressure = 100;
-
-        enemyFiringPattern = new NormalFiringPattern(this);
-        //base.isDead = false;
+        posture = 100;
 
         base.HP = 100;
         InitailizedStateNode();
-        enemyController = GetComponent<EnemyCommandAPI>();
     }
 
     void Update()
     {
+        myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
         combatOffensiveInstinct.UpdateSening();
-        //enemyController.Update();
+       
         UpdateState();
-        //enemyStateManager.Update();
-        //currentTactic.Manufacturing();
+      
     }
     private void FixedUpdate()
     {
-        //enemyStateManager.FixedUpdate();
-        //enemyController.FixedUpdate();
+     
         FixedUpdateState();
     }
     private void LateUpdate()
@@ -103,7 +91,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         if(base.HP <= 0 && isImortal == false)
         {
             NotifyObserver(this, EnemyEvent.Dead);
-            //enemyStateManager.ChangeState(enemyStateManager.enemyDead);
         }
     }
     public IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
@@ -111,7 +98,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         float RecoveryWeight = 10;
         while (animator.GetLayerWeight(2) > 0)
         {
-            //enemyWeaponCommand.ammoProuch.prochReload.Performed(weapon);
             new AmmoProchReload(weaponBelt.ammoProuch).Performed(weapon);
             animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
             yield return null;
@@ -128,22 +114,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
     }
     private void OnDrawGizmos()
     {
-        //if (Target != null)
-        //{
-        //    Gizmos.color = Color.white;
-        //    Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
-        //}
-
-        //foreach(Vector3 markPoint in enemyPath._markPoint)
-        //{
-        //    Gizmos.color = Color.red;
-        //    Gizmos.DrawSphere(markPoint, 0.15f);
-        //}
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(agent.steeringTarget, 0.18f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(targetKnewPos, 0.5f);
+       
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(targetKnewPos, 0.5f);
     }
 
     public void BlackBoardBufferUpdate()
@@ -174,7 +147,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
     private LightPainStateFrontBody bodyHit;
     private LightPainStateRightLeg legsHit;
-    private EnemyStateLeafNode miniFlich;
+    //private EnemyStateLeafNode miniFlich;
     private FallDown ragDoll;
     
     private void InitailizedStateNode() 
@@ -242,27 +215,27 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
         ragDoll = new FallDown(this);
         bodyHit = new LightPainStateFrontBody(this);
         legsHit = new LightPainStateRightLeg(this);
-        miniFlich = new EnemyStateLeafNode(this,
-            () => true, //PreCondition
-            () => enemyMiniFlinch.TriggerFlich(), //Enter
-            () => { },  //Exit
-            () => { }, //Update
-            () => { }, //FixedUpdate
-            () => 
-            {
-                if (isDead)
-                    return true;
+        //miniFlich = new EnemyStateLeafNode(this,
+        //    () => true, //PreCondition
+        //    () => enemyMiniFlinch.TriggerFlich(), //Enter
+        //    () => { },  //Exit
+        //    () => { }, //Update
+        //    () => { }, //FixedUpdate
+        //    () => 
+        //    {
+        //        if (isDead)
+        //            return true;
 
-                if (enemyMiniFlinch.IsFliching()) 
-                { return true; }
+        //        if (enemyMiniFlinch.IsFliching()) 
+        //        { return true; }
 
-                return false;
-            }
-            ); //IsReset
+        //        return false;
+        //    }
+        //    ); //IsReset
 
 
         startSelector.AddChildNode(enemtDeadState);
-        startSelector.AddChildNode(ragDoll);
+        //startSelector.AddChildNode(ragDoll);
         startSelector.AddChildNode(painStateSelector);
         startSelector.AddChildNode(standSelector);
 
@@ -437,10 +410,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
 
         targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
         Debug.Log("Got Hearding");
-        if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill 
+        if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
             || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
         {
-            currentTactic = new FlankingTactic(this);
+            combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
         }
     }
 
@@ -480,7 +453,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
                 return false;
             else return true;
         } set { } }
-    public float _pressure { get ; set ; }
+    public float _posture { get ; set ; }
     public IPainState.PainPart _painPart { get ; set ; }
     public void InitializedPainState()
     {

@@ -577,7 +577,7 @@ PrefabInstance:
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.5800679
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1024,8 +1024,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1694191511}
   m_LocalEulerAnglesHint: {x: 38.053, y: 0, z: 0}
---- !u!4 &953740155 stripped
-Transform:
+--- !u!224 &953740155 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
     type: 3}
   m_PrefabInstance: {fileID: 443688183}
@@ -3363,6 +3363,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: JohnV3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 776db2acae630d34a9b81407a51d929b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 776db2acae630d34a9b81407a51d929b,
         type: 3}
       propertyPath: m_Controller
@@ -3682,17 +3687,17 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.069
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}

@@ -39,7 +39,7 @@ public class FallDown : EnemyStateLeafNode
     {
         
 
-        if (enemy.pressure < 80|| enemy.GetHP()<=0)
+        if (enemy.posture < 80|| enemy.GetHP()<=0)
             return true;
 
         return false;
