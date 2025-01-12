@@ -206,6 +206,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser,IMotionDriven,ICombatOffen
             ()=>true, //PreCondition
             ()=>
             {
+                if(isSprint)
+                    { return true; }
+
                 if (isDead)
                     return true;
 

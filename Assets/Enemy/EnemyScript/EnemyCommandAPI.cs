@@ -4,21 +4,21 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Enemy))]
 public class EnemyCommandAPI :MonoBehaviour
 {
-   
-    //private float time;
+
+    private float time;
     public NormalFiringPattern NormalFiringPattern;
-    //private bool isShooting;
+    private bool isShooting;
 
-    //[SerializeField] Transform moveToPos;
-    //[SerializeField] Transform sprintToPos;
+    [SerializeField] Transform moveToPos;
+    [SerializeField] Transform sprintToPos;
 
-    //int caseEvent = 0;
-    //public float CoverTiming = 0;
+    int caseEvent = 0;
+    public float CoverTiming = 0;
 
-    //public bool isKilled;
+    public bool isKilled;
 
-    //public bool TriigerPainLeg;
-    //public bool TriggerPainBody;
+    public bool TriigerPainLeg;
+    public bool TriggerPainBody;
     public Enemy _enemy;
 
     private void Start()
@@ -33,7 +33,7 @@ public class EnemyCommandAPI :MonoBehaviour
         //if (isKilled)
         //    _enemy.SetHP(0);
 
-        //TestCommandTakeCover();
+        TestCommandTakeCover();
 
         //if (this.TriigerPainLeg)
         //{
@@ -112,79 +112,83 @@ public class EnemyCommandAPI :MonoBehaviour
     //        Freez();
     //    }
     //}
-    //private void TestCommandTakeCover()
-    //{
-    //    switch (caseEvent)
-    //    {
-    //        case 0: 
-    //            {
-    //                if(_enemy.findingCover.FindCoverInRaduis(8,out CoverPoint coverPoint))
-    //                {
-    //                    coverPoint.TakeThisCover(_enemy);
-    //                    if(coverPoint == null)
-    //                    {
-    //                        Debug.Log("CoverPoint = null");
-    //                    }
-    //                    time = 0;
-    //                    caseEvent = 1;
-    //                }
-    //            }
-    //            break;
-    //        case 1: 
-    //            {
-    //                if (MoveToPosition(_enemy.coverPos, 1, true))
-    //                {
-    //                    caseEvent= 2;
-    //                    TakeCover();
-    //                    Freez();
-    //                }
-    //            }
-    //            break;
+    private void TestCommandTakeCover()
+    {
+        switch (caseEvent)
+        {
+            case 0:
+                {
+                    if (_enemy.findingCover.FindCoverInRaduis(8, out CoverPoint coverPoint))
+                    {
+                        coverPoint.TakeThisCover(_enemy);
+                        if (coverPoint == null)
+                        {
+                            Debug.Log("CoverPoint = null");
+                        }
+                        time = 0;
+                        caseEvent = 1;
+                    }
+                }
+                break;
+            case 1:
+                {
+                    if (SprintToPosition(_enemy.coverPos, 6))
+                    {
+                        caseEvent = 2;
+                        TakeCover();
+                        Freez();
+                    }
+                    //if (MoveToPosition(_enemy.coverPos, 1, true))
+                    //{
+                        
+                    //}
+                }
+                break;
 
-    //        case 2: 
-    //            {
-    //                CoverTiming += Time.deltaTime;
-    //                time += Time.deltaTime;
+            case 2:
+                {
+                    CoverTiming += Time.deltaTime;
+                    time += Time.deltaTime;
 
-    //                if (CoverTiming < 5)
-    //                {
-    //                    Debug.Log("Take Cover");
-    //                    LowReady();
-    //                }
-    //                else if(CoverTiming < 10)
-    //                {
-    //                    Debug.Log("Take Aim");
+                    if (CoverTiming < 2)
+                    {
+                        Debug.Log("Take Cover");
+                        LowReady();
+                    }
+                    else if (CoverTiming < 5)
+                    {
+                        Debug.Log("Take Aim");
 
-    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
-    //                    {
-    //                        _enemy.enemyFiringPattern.Performing();
-    //                        AimDownSight(_enemy.targetKnewPos, 6);
-    //                    }
-    //                    else
-    //                        AimDownSight();
-    //                }
+                        if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+                        {
+                            _enemy.enemyFiringPattern.Performing();
+                            AimDownSight(_enemy.targetKnewPos, 6);
+                        }
+                        else
+                            AimDownSight();
+                    }
 
-    //                if (CoverTiming > 10)
-    //                    CoverTiming = 0;
+                    if (CoverTiming > 5)
+                        CoverTiming = 0;
 
-    //                if (time > 18)
-    //                    caseEvent = 3;
-    //            }
-    //            break;
-                
-    //        case 3: 
-    //            {
-    //                if (_enemy.isInCover)
-    //                    GetOffCover();
+                    if (time > 18)
+                        caseEvent = 3;
+                }
+                break;
 
-    //                MoveToPosition(_enemy.targetKnewPos, 1);
+            case 3:
+                {
+                    if (_enemy.isInCover)
+                        GetOffCover();
 
-    //                if (Vector3.Distance(_enemy.targetKnewPos, _enemy.transform.position) < 1.5f)
-    //                    caseEvent = 0;
-    //            }
-    //            break;
-    //    }
-    //}
+                    MoveToPosition(_enemy.targetKnewPos, 1);
+
+                    if (Vector3.Distance(_enemy.targetKnewPos, _enemy.transform.position) < 1.5f)
+                        caseEvent = 0;
+                }
+                break;
+        }
+    }
     public bool MoveToPosition(Vector3 DestinatePos, float velocity)
     {
         NavMeshAgent agent = _enemy.agent;
