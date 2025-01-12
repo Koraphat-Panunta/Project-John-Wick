@@ -4,7 +4,7 @@ public interface IPainState
 {
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get; set; }
-    public float _pressure { get; set; }
+    public float _posture { get; set; }
     public enum PainPart
     {
 
@@ -15,7 +15,7 @@ public interface IPainState
         ArmRight,
         LegLeft, 
         LegRight,
-
+        Head
     }
     public PainPart _painPart { get; set; }
     public void BlackBoardBufferUpdate();
