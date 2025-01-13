@@ -161,7 +161,7 @@ public class EnemyCommandAPI :MonoBehaviour
 
                         if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
                         {
-                            _enemy.enemyFiringPattern.Performing();
+                            NormalFiringPattern.Performing();
                             AimDownSight(_enemy.targetKnewPos, 6);
                         }
                         else
