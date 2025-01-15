@@ -79,4 +79,8 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
             CrosshairSpread.Performed(player.currentWeapon);
         }
     }
+
+    public void OnNotify(Player player)
+    {
+    }
 }

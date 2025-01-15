@@ -66,16 +66,18 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
       
         enemy.weaponCommand.LowReady();
 
-        Vector3 moveDir = (CoverPos - enemy.transform.position).normalized * Time.deltaTime * 2;
-        agent.Move(moveDir);
-
-        Vector3 moveInputDirWorld = enemy.moveInputVelocity_World;
-        Animator animator = enemy.animator;
-
-        Vector3 animDir = enemy.transform.InverseTransformDirection(moveInputDirWorld);
-        animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
-        animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
-
+        Vector3 moveDir = (CoverPos - enemy.transform.position).normalized;
+        if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.5f)
+        {
+            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir * enemy._moveMaxSpeed, enemy._moveAccelerate * Time.deltaTime);
+            agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+        }
+        else
+        {
+            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate * Time.deltaTime);
+            agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+        }
+       
         if (coverUseable.coverPoint == null)
         {
             Debug.Log("this Null");

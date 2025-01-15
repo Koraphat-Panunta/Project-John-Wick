@@ -62,4 +62,8 @@ public class LevelManager : LevelSubject,IObserverPlayer
 
         }
     }
+
+    public void OnNotify(Player player)
+    {
+    }
 }

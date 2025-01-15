@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8639439650826637941}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2275023157894548265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 121597156450861684}
+  m_Layer: 9
+  m_Name: GripPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &121597156450861684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275023157894548265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0519, z: -0.0182}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7074491356039985985}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3476371240685208287
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +163,7 @@ Transform:
   - {fileID: 3022661863309610859}
   - {fileID: 3437570849213029573}
   - {fileID: 8639439650826637941}
+  - {fileID: 121597156450861684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2761170129473076366
@@ -150,6 +182,7 @@ MonoBehaviour:
   Sight: {fileID: -1268388052208644891, guid: 3e8f1c6f73779f8439e8e87444ea52c7, type: 3}
   weaponAttachments: []
   bulletSpawnerPos: {fileID: 3022661863309610859}
+  gripPos: {fileID: 121597156450861684}
   isAiming: 0
   isReloadCommand: 0
   isCancelAction: 0

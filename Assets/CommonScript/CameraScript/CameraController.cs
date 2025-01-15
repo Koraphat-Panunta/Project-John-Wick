@@ -75,4 +75,9 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             
         }
     }
+
+    public void OnNotify(Player player)
+    {
+        
+    }
 }

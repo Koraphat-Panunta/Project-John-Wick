@@ -30,6 +30,11 @@ public abstract class PlayerInfoDisplay : IObserverPlayer
     }
     public void RemovePlayerObserver()
     {
-        this.playerInfo.AddObserver(this);
+        this.playerInfo.RemoveObserver(this);
+    }
+
+    public void OnNotify(Player player)
+    {
+       
     }
 }

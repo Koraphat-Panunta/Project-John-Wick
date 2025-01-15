@@ -6,10 +6,13 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement
 {
+
     public Vector3 inputVelocity_World { get; private set; }
     public Vector3 inputVelocity_Local { get; private set; }
     public Vector3 curVelocity_World { get; set; }
     public Vector3 curVelocity_Local { get; private set; }
+
+    public float rotateRate { get; private set; }
 
     public float move_MaxSpeed = 2.8f;
     public float move_Acceleration = 0.4f;
@@ -31,7 +34,6 @@ public class PlayerMovement
     {
         this.player = player;
         this.characterController = player.GetComponent<CharacterController>();
-        //this.playerController = player.playerController;
         this.movementComponents.Add(new GravityMovement(this.characterController));
         curVelocity_World = Vector3.zero;
         move_Acceleration = player.movementTest.move_Acceleration;
@@ -41,10 +43,11 @@ public class PlayerMovement
     public void MovementUpdate()
     {
         DirectionUpdate();
-        foreach (IMovementComponent movement in movementComponents) 
+        foreach (IMovementComponent movement in movementComponents)
         {
             movement.MovementUpdate(this);
         }
+        inputVelocity_Local = TransformWorldToLocalVector(inputVelocity_World, player.transform.forward);
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         characterController.Move(curVelocity_World * Time.deltaTime);
     }
@@ -88,6 +91,7 @@ public class PlayerMovement
     }
     public void FreezingCharacter()
     {
+        inputVelocity_World = Vector3.zero ;
         curVelocity_World = Vector3.MoveTowards(curVelocity_World, Vector3.zero, move_Acceleration);
     }
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)

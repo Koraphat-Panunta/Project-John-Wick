@@ -21,7 +21,7 @@ public abstract class Character : MonoBehaviour
     //public Transform weaponSocket;
     public Animator animator;
 
-    private void Start()
+    protected virtual void Start()
     {
        
     }

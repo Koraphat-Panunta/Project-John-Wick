@@ -6,10 +6,8 @@ using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble
 {
-
-    public PlayerAnimation playerAnimation;
     public PlayerMovement playerMovement;
-    public PlayerStateManager playerStateManager;
+
     public HpRegenarate hpRegenarate;
     public MultiRotationConstraint rotationConstraint;
     public MovementTest movementTest;
@@ -53,14 +51,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     private void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
-        animator = GetComponent<PlayerAnimation>().animator;
+        animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         coverDetection = new CoverDetection();
-        LeanCover leanCover = new LeanCover(rotationConstraint,crosshairController,this);
+        //LeanCover leanCover = new LeanCover(rotationConstraint,crosshairController,this);
         hpRegenarate = new HpRegenarate(this);
 
-        playerStateManager = new PlayerStateManager(this);
-        playerStateManager.SetupState(this);
+      
 
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
@@ -233,5 +230,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         if (curPlayerActionNode != null)
             curPlayerActionNode.FixedUpdate();
     }
+
+
     #endregion
+
+    public void OnNotify(Player player)
+    {
+    }
 }

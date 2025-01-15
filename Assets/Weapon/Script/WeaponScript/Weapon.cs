@@ -13,6 +13,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     [SerializeField] protected List<WeaponAttachment> weaponAttachments = new List<WeaponAttachment>();
 
     public Transform bulletSpawnerPos;
+    public Transform gripPos;
     public abstract int bulletCapacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
     public abstract float reloadSpeed { get;  set; }
@@ -107,6 +108,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
+
         parentConstraint.constraintActive = true;
         if(WeaponUser is Player)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static SubjectPlayer;
 
 public abstract class SubjectPlayer : Character
 {
@@ -19,33 +20,48 @@ public abstract class SubjectPlayer : Character
         GetShoot,
         HealthRegen,
         Dead,
-        SwitchWeapon
+        SwitchWeapon,
+        TakeCover,
+        GetOffCover
     }
-    private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
+    
+    protected override void Start()
+    {
+
+
+        base.Start();
+    }
+
+
+    private List<IObserverPlayer> observers = new List<IObserverPlayer>();
+    //private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)
     {
-        this.Observers.Add(observer);
+        observers.Add(observer);
     }
     public void RemoveObserver(IObserverPlayer observer)
     {
-        this.Observers.Remove(observer);
+        if(observers.Contains(observer))
+            observers.Remove(observer);
     }
     public void NotifyObserver(Player player,PlayerAction playerAction)
     {
-        //foreach (IObserverPlayer observer in Observers)
-        //{
-        //    observer.OnNotify(player,playerAction);
-        //}
-        for (int i = Observers.Count - 1; i >= 0; i--)
+        foreach (IObserverPlayer observer in this.observers)
         {
-            if (Observers[i] == null)
-            {
-                Observers.RemoveAt(i);
-            }
+            if (observer == null)
+                this.observers.Remove(observer);
             else
-            {
-                Observers[i].OnNotify(player, playerAction);
-            }
+                observer.OnNotify(player,playerAction);
+        }
+    }
+    public void NotifyObserver(Player player)
+    {
+        foreach (IObserverPlayer observer in this.observers)
+        {
+            if (observer == null)
+                this.observers.Remove(observer);
+            else
+                observer.OnNotify(player);
         }
     }
 

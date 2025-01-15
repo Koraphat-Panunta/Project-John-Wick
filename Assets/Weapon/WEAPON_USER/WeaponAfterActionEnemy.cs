@@ -14,21 +14,18 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void AimDownSight(Weapon weapon)
     {
-       enemy.animator.SetLayerWeight(1, weapon.aimingWeight);
+       
     }
 
     public override void Firing(Weapon weapon)
     {
 
-        enemy.animator.SetTrigger("Firing");
-        enemy.animator.SetLayerWeight(3, 1);
-        enemy.StartCoroutine(enemy.RecoveryFiringLayerWeight());
+  
         //Debug.Log("Call Back EnemyFiring");
     }
 
     public override void LowReady(Weapon weapon)
     {
-       enemy.animator.SetLayerWeight(1, weapon.aimingWeight);
     }
 
     public override void PreLoad(Weapon weapon)
@@ -41,17 +38,15 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         Animator animator = enemy.animator;
         if (reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
         {
-            animator.SetTrigger("TacticalReload");
-            animator.SetLayerWeight(2, 1);
+            
         }
         else if (reloadType == ReloadType.MAGAZINE_RELOAD)
         {
-            animator.SetTrigger("Reloading");
-            animator.SetLayerWeight(2, 1);
+            
         }
         else if (reloadType == ReloadType.MAGAZINE_RELOAD_SUCCESS)
         {
-           enemy.StartCoroutine(enemy.RecoveryReloadLayerWeight(weapon));
+
         }
     }
 

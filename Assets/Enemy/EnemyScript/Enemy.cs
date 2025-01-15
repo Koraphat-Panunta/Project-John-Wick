@@ -93,25 +93,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             NotifyObserver(this, EnemyEvent.Dead);
         }
     }
-    public IEnumerator RecoveryReloadLayerWeight(Weapon weapon)
-    {
-        float RecoveryWeight = 10;
-        while (animator.GetLayerWeight(2) > 0)
-        {
-            new AmmoProchReload(weaponBelt.ammoProuch).Performed(weapon);
-            animator.SetLayerWeight(2, animator.GetLayerWeight(2) - (RecoveryWeight * Time.deltaTime));
-            yield return null;
-        }
-    }
-    public IEnumerator RecoveryFiringLayerWeight()
-    {
-        float RecoveryWeight = 10;
-        while (animator.GetLayerWeight(3) > 0)
-        {
-            animator.SetLayerWeight(3, animator.GetLayerWeight(3) - (RecoveryWeight * Time.deltaTime));
-            yield return null;
-        }
-    }
     private void OnDrawGizmos()
     {
        
@@ -119,6 +100,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         Gizmos.DrawWireSphere(targetKnewPos, 0.5f);
     }
 
+    private void BlackBoardUpdate()
+    {
+        moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, transform.forward);
+        curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, transform.forward);
+    }
     public void BlackBoardBufferUpdate()
     {
         isReload = false;
@@ -127,9 +113,34 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _isPainTrigger = false;
     }
 
+    private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        float zeta;
+
+        Vector3 Direction;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+    private Vector3 TransformWorldToLocalVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        Vector3 Direction = Vector3.zero;
+        float zeta;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        zeta = -zeta;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+
 
     #region Initailized State Node
-    private EnemyStateLeafNode curStateLeaf;
+    public EnemyStateLeafNode curStateLeaf;
 
     private EnemyStateSelectorNode startSelector;
 
@@ -423,8 +434,22 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject userMovement { get; set; }
     public Vector3 moveInputVelocity_World { get ; set; }
     public Vector3 moveInputVelocity_Local { get ; set ; }
+    public Vector3 curMoveVelocity_World { get ; set ; }
+    public Vector3 curMoveVelocity_Local { get ; set; }
     public Vector3 lookRotation { get ; set ; }
-    public float rotateSpeed { get ; set ; }
+    [Range(0, 10)]
+    public float moveAccelerate;
+    [Range(0, 10)]
+    public float moveMaxSpeed;
+    [Range(0, 10)]
+    public float sprintAccelerate;
+    [Range(0, 10)]
+    public float sprintMaxSpeed;
+    public float _moveAccelerate { get => this.moveAccelerate; set => this.moveAccelerate = value; }
+    public float _moveMaxSpeed { get => this.moveMaxSpeed ; set => this.moveMaxSpeed = value ; }
+    public float _sprintAccelerate { get => this.sprintAccelerate; set => this.sprintAccelerate = value; }
+    public float _sprintMaxSpeed { get => this.sprintMaxSpeed; set=> this.sprintMaxSpeed = value; }
+    public float _rotateSpeed { get ; set ; }
     public EnemyStateSelectorNode stanceSelector { get; set; }
     public EnemyStateSelectorNode standStateSelector { get; set; }
     public EnemyStateSelectorNode crouchStateSelector { get; set; }
@@ -467,7 +492,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject userPatrol { get ; set ; }
     public List<PatrolPoint> patrolPoints { get => this.PatrolPoints ; set => PatrolPoints = value ; }
     public int Index { get ; set ; }
-   
 
     [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
     public void InitailizedPatrolComponent()

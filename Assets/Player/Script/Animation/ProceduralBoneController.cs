@@ -81,4 +81,8 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
         }
         
     }
+
+    public void OnNotify(Player player)
+    {
+    }
 }

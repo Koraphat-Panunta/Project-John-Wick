@@ -101,7 +101,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
         animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
         animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
 
-        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, enemy.rotateSpeed);
+        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
 
         base.Update();
     }

@@ -20,33 +20,33 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     }
     private void MoveSound()
     {
-        PlayerStateManager playerStateManager = player.playerStateManager;
-        if (playerStateManager.Current_state == playerStateManager.move)
-        {
-            float timingRate = 2.8f;
-            footStepTiming += Time.deltaTime * timingRate;
-            if (footStepTiming >= 1)
-            {
-                audioSource.clip = footStep;
-                audioSource.Play();
-                footStepTiming = 0;
-            }
-        }
-        else if (playerStateManager.Current_state == playerStateManager.sprint)
-        {
-            float timingRate = 4.2f;
-            footStepTiming += Time.deltaTime * timingRate;
-            if (footStepTiming >= 1)
-            {
-                audioSource.clip = footStep;
-                audioSource.Play();
-                footStepTiming = 0;
-            }
-        }
-        else
-        {
-            footStepTiming = 0;
-        }
+        //PlayerStateManager playerStateManager = player.playerStateManager;
+        //if (playerStateManager.Current_state == playerStateManager.move)
+        //{
+        //    float timingRate = 2.8f;
+        //    footStepTiming += Time.deltaTime * timingRate;
+        //    if (footStepTiming >= 1)
+        //    {
+        //        audioSource.clip = footStep;
+        //        audioSource.Play();
+        //        footStepTiming = 0;
+        //    }
+        //}
+        //else if (playerStateManager.Current_state == playerStateManager.sprint)
+        //{
+        //    float timingRate = 4.2f;
+        //    footStepTiming += Time.deltaTime * timingRate;
+        //    if (footStepTiming >= 1)
+        //    {
+        //        audioSource.clip = footStep;
+        //        audioSource.Play();
+        //        footStepTiming = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    footStepTiming = 0;
+        //}
     }
     float footStepTiming = 0;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
@@ -55,5 +55,9 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
         //{
         //    MoveSound();
         //}
+    }
+
+    public void OnNotify(Player player)
+    {
     }
 }

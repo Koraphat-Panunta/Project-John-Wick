@@ -77,9 +77,9 @@ public class CrosshiarShootpoint : ICrosshairAction
         throw new System.NotImplementedException();
     }
 
-    public void Performed(PlayerStateManager playerStateManager)
-    {
-        throw new System.NotImplementedException();
-    }
+    //public void Performed(PlayerStateManager playerStateManager)
+    //{
+    //    throw new System.NotImplementedException();
+    //}
 
 }

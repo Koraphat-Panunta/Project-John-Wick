@@ -107,4 +107,8 @@ public class LeanCover:IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
             LeaningUpdate(shootPoint);
     }
+
+    public void OnNotify(Player player)
+    {
+    }
 }

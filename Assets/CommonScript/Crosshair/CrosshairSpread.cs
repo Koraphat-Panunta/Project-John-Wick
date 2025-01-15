@@ -23,10 +23,7 @@ public class CrosshairSpread : ICrosshairAction
         }
     }
 
-    public void Performed(PlayerStateManager playerStateManager)
-    {
-        
-    }
+   
     IEnumerator ShootSpread(Weapon weapon)
     {
         isRecovery = true;

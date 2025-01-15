@@ -45,4 +45,8 @@ public class Environment : MonoBehaviour,IObserverPlayer
         player.AddObserver(this);
     }
 
+    public void OnNotify(Player player)
+    {
+       
+    }
 }

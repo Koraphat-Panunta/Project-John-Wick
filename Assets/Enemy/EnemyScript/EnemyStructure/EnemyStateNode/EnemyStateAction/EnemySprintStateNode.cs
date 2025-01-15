@@ -1,15 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class EnemySprintStateNode : EnemyStateLeafNode
 {
     Animator animator;
     RotateObjectToward objectToward;
+    NavMeshAgent agent;
+    
+    
     public EnemySprintStateNode(Enemy enemy) : base(enemy)
     {
         animator = enemy.animator;
         objectToward = new RotateObjectToward();
+        this.agent = enemy.agent;
+        
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -62,8 +67,10 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     public override void Update()
     {
 
-        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy.rotateSpeed);
-
+        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, enemy.transform.forward *enemy._sprintMaxSpeed, enemy._sprintAccelerate*Time.deltaTime);
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
+        agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+        
         base.Update();
     }
 }

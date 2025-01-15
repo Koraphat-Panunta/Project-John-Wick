@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimation :MonoBehaviour,IObserverPlayer
 {
     public Animator animator;
+    public Player player;
     public enum parameterName
     {
         ForBack_Ward,
@@ -22,6 +25,7 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
     }
     public Dictionary<parameterName, string> animationParameter = new Dictionary<parameterName, string>();
     public Dictionary<layerName,string> animationLayer = new Dictionary<layerName,string>();
+
     void Start()
     {
         animationParameter.Add(parameterName.ForBack_Ward, "ForBack_Ward");
@@ -183,5 +187,9 @@ public class PlayerAnimation :MonoBehaviour,IObserverPlayer
         }
         this.animator.SetLayerWeight(3, 0);
        
+    }
+
+    public void OnNotify(Player player)
+    {
     }
 }

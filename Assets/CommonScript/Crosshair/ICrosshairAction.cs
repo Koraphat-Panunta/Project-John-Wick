@@ -6,6 +6,6 @@ public interface ICrosshairAction
 {
     public void Performed(Weapon weapon);
 
-    public void Performed(PlayerStateManager playerStateManager);
+    //public void Performed(PlayerStateManager playerStateManager);
     
 }
