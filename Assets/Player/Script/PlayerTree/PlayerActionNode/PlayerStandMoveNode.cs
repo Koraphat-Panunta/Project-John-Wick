@@ -12,7 +12,7 @@ public class PlayerStandMoveNode : PlayerActionNode
 
         PlayerMovement playerMovement = base.player.playerMovement;
         playerMovement.OMNI_DirMovingCharacter();
-        playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
+        playerMovement.RotateCharacter(Camera.main.transform.forward, 360);
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
         base.FixedUpdate();
     }

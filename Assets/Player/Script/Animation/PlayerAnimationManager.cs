@@ -16,6 +16,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
     public float MoveVelocityForward_Normalized;
     public float MoveVelocitySideward_Normalized;
     public float DotMoveInputWordl_VelocityWorld_Normalized;
+    public float DotVectorLeftwardDir_MoveInputVelocity_Normallized;
     public float Rotating;
     public float AimDownSightWeight;
     public float DotVelocityWorld_Leftward_Normalized;
@@ -50,6 +51,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
     private void FixedUpdate()
     {
         FixedUpdateNode();
+        CalculateDeltaRotation();
     }
     private void BackBoardUpdate()
     {
@@ -84,6 +86,12 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
         this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(curVelocity_World.normalized
             , inputVelocity_World.normalized)*(curVelocity_World.magnitude/inputVelocity_World.magnitude);
 
+        this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
+                Vector3.Dot(inputVelocity_World.normalized, 
+                Vector3.Cross(player.transform.forward, Vector3.up))
+            ,10*Time.deltaTime) ;
+
+
         if (player.curPlayerActionNode == player.playerSprintNode)
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.sprint_MaxSpeed;
@@ -94,7 +102,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
         }
         else
         {
-            Debug.Log(curVelocity_Local);
+
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.move_MaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
@@ -102,7 +110,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
             isSprint = false;
         }
 
-        CalculateDeltaRotation();
+
 
         AimDownSightWeight = (player as IWeaponAdvanceUser).currentWeapon.aimingWeight;
         
@@ -140,6 +148,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
         animator.SetFloat("PointRange", PointRange);
+        animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
 
         
 
@@ -176,7 +185,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
     {
         Vector3 curDir = player.transform.forward;
 
-        Rotating = Vector3.SignedAngle(previousDir, curDir, Vector3.up)  * Time.deltaTime;
+        Rotating = Mathf.Lerp(Rotating,Vector3.SignedAngle(previousDir, curDir,Vector3.up) * Time.deltaTime/0.5f,10*Time.deltaTime);
         previousDir = curDir;
     }
 

@@ -2033,7 +2033,7 @@ BlendTree:
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 2f7d300409382064ea2c385f1c373b22, type: 2}
-    m_Threshold: -1
+    m_Threshold: -0.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2049,7 +2049,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 8bc97cd677b6e0d4793d4f44146ae47d, type: 2}
-    m_Threshold: 1
+    m_Threshold: 0.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2057,8 +2057,8 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: Rotating
   m_BlendParameterY: CoverWeight
-  m_MinThreshold: -1
-  m_MaxThreshold: 1
+  m_MinThreshold: -0.1
+  m_MaxThreshold: 0.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -2126,7 +2126,7 @@ BlendTree:
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 2f7d300409382064ea2c385f1c373b22, type: 2}
-    m_Threshold: -1
+    m_Threshold: -0.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2142,7 +2142,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 8bc97cd677b6e0d4793d4f44146ae47d, type: 2}
-    m_Threshold: 1
+    m_Threshold: 0.1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -2150,8 +2150,8 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: Rotating
   m_BlendParameterY: CoverWeight
-  m_MinThreshold: -1
-  m_MaxThreshold: 1
+  m_MinThreshold: -0.1
+  m_MaxThreshold: 0.1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -3605,6 +3605,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: DotVelocityWorld_Leftward_Normalized
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: Rotating
     m_Type: 1
     m_DefaultFloat: 0
@@ -3617,12 +3623,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: DotVelocityWorld_Leftward_Normalized
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: RecoilWeight
     m_Type: 1
     m_DefaultFloat: 0
@@ -3630,6 +3630,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: PointRange
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: DotVectorLeftwardDir_MoveInputVelocity_Normallized
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -3763,8 +3769,8 @@ BlendTree:
   m_Name: LeanLeft/Straight/LeanRight
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: d981dd0cd4d14864a8debdb23c0029d9, type: 2}
-    m_Threshold: -0.4
+    m_Motion: {fileID: 7400000, guid: 1172cc17789798b43b4521dd9e03eb0f, type: 2}
+    m_Threshold: -1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -3779,17 +3785,17 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 1172cc17789798b43b4521dd9e03eb0f, type: 2}
-    m_Threshold: 0.4
+    m_Motion: {fileID: 7400000, guid: d981dd0cd4d14864a8debdb23c0029d9, type: 2}
+    m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
-  m_BlendParameter: DotVelocityWorld_Leftward_Normalized
+  m_BlendParameter: DotVectorLeftwardDir_MoveInputVelocity_Normallized
   m_BlendParameterY: CoverWeight
-  m_MinThreshold: -0.4
-  m_MaxThreshold: 0.4
+  m_MinThreshold: -1
+  m_MaxThreshold: 1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
