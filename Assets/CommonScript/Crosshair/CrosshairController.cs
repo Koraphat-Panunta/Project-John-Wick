@@ -14,7 +14,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
-    [SerializeField] public GameObject TargetAim;
+    public Transform TargetAim;
     [SerializeField] public Player player;
     public bool isVisable = false;
 
@@ -27,6 +27,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
         player = FindAnyObjectByType<Player>().GetComponent<Player>();
         player.AddObserver(this);
+        TargetAim = player._aimPosRef;
     }
 
     // Update is called once per frame
@@ -47,7 +48,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;
         }
-        else if(Physics.Raycast(ray, out hit, 1000,1))
+        else if (Physics.Raycast(ray, out hit, 1000, 1))
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;

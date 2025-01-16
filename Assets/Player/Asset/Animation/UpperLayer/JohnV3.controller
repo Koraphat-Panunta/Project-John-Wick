@@ -96,16 +96,16 @@ AnimatorStateMachine:
     m_Position: {x: 565.1773, y: 429.6807, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7159889343127449335}
-    m_Position: {x: 670.58887, y: 549.2263, z: 0}
+    m_Position: {x: 840, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8085696318473623670}
-    m_Position: {x: 680.58887, y: 559.2263, z: 0}
+    m_Position: {x: 860, y: 510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4836827958667053308}
-    m_Position: {x: 690.58887, y: 569.2263, z: 0}
+    m_Position: {x: 920, y: 590, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3493653872894715393}
-    m_Position: {x: 700.58887, y: 579.2263, z: 0}
+    m_Position: {x: 860, y: 530, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8891944809891635580}
     m_Position: {x: 710.58887, y: 589.2263, z: 0}
@@ -130,6 +130,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 4793446570136099383}
     m_Position: {x: 848.2693, y: 777.55725, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6234533654649662126}
+    m_Position: {x: 331.55902, y: 380.2913, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -139,7 +142,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -7752201572547188210}
+  m_DefaultState: {fileID: 6234533654649662126}
 --- !u!1102 &-7159889343127449335
 AnimatorState:
   serializedVersion: 6
@@ -485,6 +488,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 88955ebcf84e48a499d2938e652e9236, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &6234533654649662126
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: JohnRoot_Rifle_ADS0
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: c945a7341488c4c4fbfc27f27e49fc6c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

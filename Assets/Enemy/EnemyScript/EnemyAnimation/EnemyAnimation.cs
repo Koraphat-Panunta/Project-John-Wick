@@ -111,7 +111,7 @@ public class EnemyAnimation : MonoBehaviour,IObserverEnemy
 
         if (enemy.currentWeapon != null)
         {
-            if (Vector3.Distance((enemy as IWeaponAdvanceUser).pointingPos
+            if (Vector3.Distance((enemy as IWeaponAdvanceUser).shootingPos
             , (enemy as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 2)
 
                 PointRange = Mathf.Clamp(PointRange - 10 * Time.deltaTime, 0, 1);

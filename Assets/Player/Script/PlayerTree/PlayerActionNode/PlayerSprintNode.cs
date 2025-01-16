@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSprintNode : PlayerActionNode
+public class PlayerSprintNode : PlayerActionNodeLeaf
 {
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }

@@ -13,7 +13,7 @@ public class EnemyGetShootDirection
         this.enemy = enemy;
       
     }
-    public Vector3 GetDir()
+    public Vector3 GetShootingPos()
     {
         float accuracy = Random.Range(0, 0.05f);
         Vector3 dirTarget = (enemy.targetKnewPos - (enemy.rayCastPos.position+ new Vector3(0,0.2f,0))).normalized;
@@ -24,6 +24,13 @@ public class EnemyGetShootDirection
         return ray.GetPoint(100);
         //return new Vector3(dir.x + Random.Range(-accuracy, accuracy), dir.y + Random.Range(-accuracy, accuracy), dir.z);
         
+    }
+    public Vector3 GetPointingPos()
+    {
+        Vector3 dirTarget = (enemy.targetKnewPos - (enemy.rayCastPos.position + new Vector3(0, 0.2f, 0))).normalized;
+
+        Ray ray = new Ray(enemy.currentWeapon.bulletSpawnerPos.position, dirTarget);
+        return ray.GetPoint(100);
     }
 
 }

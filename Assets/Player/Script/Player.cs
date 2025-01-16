@@ -4,12 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble
+public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble,IAimingProceduralAnimate,IGunFuComponent
 {
     public PlayerMovement playerMovement;
 
     public HpRegenarate hpRegenarate;
-    public MultiRotationConstraint rotationConstraint;
     public MovementTest movementTest;
     public CoverDetection coverDetection;
 
@@ -66,6 +65,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         InitializedPlayerNodeTree();
 
         Initialized_IWeaponAdvanceUser();
+
+        InitializedAimingProceduralAnimate();
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
@@ -143,8 +144,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
-    public Vector3 pointingPos { get 
-        { return crosshairController.CrosshiarShootpoint.GetPointDirection(); } set { } }
+    public Vector3 shootingPos { get 
+        { return crosshairController.CrosshiarShootpoint.GetShootPointDirection(); } set { } }
+    public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
     bool IWeaponAdvanceUser.isAiming { get => this.isAiming; set => this.isAiming = value; }
@@ -154,7 +156,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     bool IWeaponAdvanceUser.isSwitchWeapon { get => this.isSwitchWeapon; set => this.isSwitchWeapon = value; }
     public void Initialized_IWeaponAdvanceUser()
     {
-        pointingPos = new Vector3();
+        shootingPos = new Vector3();
         CurrentWeapon = currentWeapon;
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
@@ -166,7 +168,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     #endregion
 
     #region Initailized Player Tree node
-    public PlayerActionNode curPlayerActionNode { get; private set; }
+    public PlayerActionNodeLeaf curPlayerActionNode { get; private set; }
 
     public PlayerSelectorNode stanceSelectorNode { get; private set; }
 
@@ -178,6 +180,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get;private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get;private set; }
+  
 
     private void InitializedPlayerNodeTree()
     {
@@ -207,7 +210,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         standIncoverSelector.AddChildNode(playerInCoverStandMoveNode);
         standIncoverSelector.AddChildNode(playerInCoverStandIdleNode);
 
-        stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
+        stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
         curPlayerActionNode = playerActionNode;
 
     }
@@ -216,7 +219,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         if (curPlayerActionNode.IsReset()){
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
-            stanceSelectorNode.Transition(out PlayerActionNode playerActionNode);
+            stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
 
             curPlayerActionNode = playerActionNode;
             curPlayerActionNode.Enter();
@@ -237,4 +240,32 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public void OnNotify(Player player)
     {
     }
+    #region ProceduralAim_Lean
+    [SerializeField] private MultiAimConstraint aimConstraint;
+    [SerializeField] private MultiRotationConstraint rotationConstraint;
+    [SerializeField] private Transform aimPosRef;
+    //[SerializeField] private CrosshairController crosshairController;
+    public MultiAimConstraint _aimConstraint { get => aimConstraint; set => aimConstraint = value; }
+    public MultiRotationConstraint _rotationConstraint { get => rotationConstraint; set => rotationConstraint = value ; }
+    public AimingProceduralAnimate _aimingProceduralAnimate { get; set ; }
+    public Transform _aimPosRef { get => aimPosRef; set => aimPosRef = value; }
+    public LeanCover _leanCover { get; set ; }
+    public CrosshairController _crosshairController { get => crosshairController; }
+   
+
+    public void InitializedAimingProceduralAnimate()
+    {
+        _aimingProceduralAnimate = new AimingProceduralAnimate(this,this,_aimPosRef,_aimConstraint,this);
+        _leanCover = new LeanCover(_rotationConstraint, _crosshairController, this);
+    }
+
+
+    #endregion
+
+    #region InitailizedGunFu
+    public bool triggerGunFu { get ; set ; }
+    public void InitailizedGunFuComponent()
+    {
+    }
+    #endregion
 }

@@ -298,10 +298,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
-    public Vector3 pointingPos { 
-        get { return enemyGetShootDirection.GetDir(); }
+    public Vector3 shootingPos { 
+        get { return enemyGetShootDirection.GetShootingPos(); }
         set { } 
     }
+    public Vector3 pointingPos { get => enemyGetShootDirection.GetPointingPos() ;
+        set { } }
+
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }

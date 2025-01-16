@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionNode : PlayerNode
+public class PlayerActionNodeLeaf : PlayerNode
 {
   
     public override List<PlayerNode> childNode { get; set; }
@@ -15,10 +15,10 @@ public class PlayerActionNode : PlayerNode
     protected Func<bool> isComplete;
 
     
-    public PlayerActionNode(Player player) : base(player)
+    public PlayerActionNodeLeaf(Player player) : base(player)
     {
     }
-    public PlayerActionNode(Player player
+    public PlayerActionNodeLeaf(Player player
         ,Func<bool> preCondition
         ,Action Enter
         ,Action Exit
@@ -35,7 +35,6 @@ public class PlayerActionNode : PlayerNode
         this.isComplete = isComplete;
         this.isReset = isReset;
     }
-
     public virtual void Enter()
     {
         if(enter!=null)

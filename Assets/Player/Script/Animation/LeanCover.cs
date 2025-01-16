@@ -42,51 +42,58 @@ public class LeanCover:IObserverPlayer
     }
     private void leaningCheck(Transform shootpoint)
     {
+       
+
         Vector3 CrosshairScreenPos = Camera.main.WorldToScreenPoint(crosshairController.TargetAim.transform.position);
-        //Debug.Log("CrosshairScreenPos :" + CrosshairScreenPos);
         Vector3 ImpactpointScreenPos = Vector2.zero;
-        if(Physics.SphereCast(shootpoint.position,0.45f,(crosshairController.TargetAim.transform.position-shootpoint.position).normalized,out RaycastHit hitInfo, 1000,layerMask))
+        if (Physics.Raycast(shootpoint.position, (crosshairController.TargetAim.transform.position - shootpoint.position).normalized, out RaycastHit hit, 1000, layerMask))
         {
-            Debug.DrawLine(shootpoint.position, hitInfo.point);
-            //Debug.Log("Hit point =" + hitInfo.point);
-            ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
-            if (Vector3.Distance(hitInfo.point, shootpoint.position)<3)
+            if (Vector3.Distance(hit.point, crosshairController.TargetAim.position) < 0.05f)
             {
-                if (ImpactpointScreenPos.x > CrosshairScreenPos.x + 5f)
-                {
-                    //Debug.Log("LeanLeft");
-                    leandir = LeanDir.Left;
-                    leanWeight = Mathf.Lerp(leanWeight, 1, Time.deltaTime * leanSpeed);
-                }
-                else if (ImpactpointScreenPos.x < CrosshairScreenPos.x - 5f)
-                {
-                    //Debug.Log("LeanRight");
-                    leandir = LeanDir.Right;
-                    leanWeight = Mathf.Lerp(leanWeight, 0, Time.deltaTime * leanSpeed);
-                }
-                else
-                {
-                    //Debug.Log("LeanNone");
-                    leandir = LeanDir.None;
-                    leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
-                }
-            }
-            else
-            {
-                //Debug.Log("LeanNone");
                 leandir = LeanDir.None;
                 leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+                return;
             }
         }
-        else
+
+
+        Physics.BoxCast(shootpoint.position, new Vector3(0.45f, 0.0001f, 0.45f), (crosshairController.TargetAim.transform.position - shootpoint.position).normalized,out RaycastHit hitInfo, shootpoint.transform.rotation, 1000, layerMask);
+        Debug.DrawLine(shootpoint.position, crosshairController.TargetAim.transform.position, Color.green);
+
+        ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
+
+        Debug.Log("Pos Impact.x = " + ImpactpointScreenPos.x + " Pos Crosshair.X = " + CrosshairScreenPos.x);
+        Debug.DrawLine(shootpoint.position, hitInfo.point, Color.red);
+
+        //if (Mathf.Abs(ImpactpointScreenPos.x - CrosshairScreenPos.x) < 10f)
+        //{
+        //    leandir = LeanDir.None;
+        //    leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+        //    return;
+        //}
+        if (Vector3.Distance(hitInfo.point, shootpoint.position) > 5)
         {
-            Debug.DrawLine(shootpoint.position, hitInfo.point);
-            //Debug.Log("Hit point =" + hitInfo.point);
-            ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
+            leandir = LeanDir.None;
+            leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+            return;
         }
-       
-        //Debug.Log("ImpactpointScreenPos :" + ImpactpointScreenPos);
-        
+
+        if(ImpactpointScreenPos.x < CrosshairScreenPos.x)
+        {
+            leandir = LeanDir.Left;
+            leanWeight = Mathf.Lerp(leanWeight, 0 , Time.deltaTime * leanSpeed);
+            return;
+        }
+
+        if (ImpactpointScreenPos.x > CrosshairScreenPos.x)
+        {
+            leandir = LeanDir.Right;
+            leanWeight = Mathf.Lerp(leanWeight, 1, Time.deltaTime * leanSpeed);
+            return;
+        }
+
+
+
     }
     public void LeanRecovery() 
     {
@@ -104,8 +111,13 @@ public class LeanCover:IObserverPlayer
         if (playerAction == SubjectPlayer.PlayerAction.LowReady
             || playerAction == SubjectPlayer.PlayerAction.Sprint)
             LeanRecovery();
-        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+        if (playerAction == SubjectPlayer.PlayerAction.Aim)
+        {
+            //if(player.currentWeapon != null)
+            //    shootPoint = player.currentWeapon.bulletSpawnerPos;
+            //else shootPoint = player.RayCastPos;
             LeaningUpdate(shootPoint);
+        }
     }
 
     public void OnNotify(Player player)

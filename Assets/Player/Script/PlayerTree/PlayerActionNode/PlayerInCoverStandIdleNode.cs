@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerInCoverStandIdleNode : PlayerActionNode
+public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
 {
     public PlayerInCoverStandIdleNode(Player player) : base(player) { }
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }

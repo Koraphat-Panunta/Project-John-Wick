@@ -124,7 +124,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);
 
         if (player.currentWeapon != null){ 
-            if (Vector3.Distance((player as IWeaponAdvanceUser).pointingPos
+            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
             , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position)<2)
 
                 PointRange = Mathf.Clamp(PointRange - 10 * Time.deltaTime, 0, 1);

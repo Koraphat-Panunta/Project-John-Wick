@@ -17,7 +17,7 @@ public abstract class PlayerNode
     public abstract void Update();
     public abstract bool IsReset();
     public abstract bool PreCondition();
-    public void Transition(out PlayerActionNode playerActionNode)
+    public void Transition(out PlayerActionNodeLeaf playerActionNode)
     {
         playerActionNode = null;
         foreach (PlayerNode playerNode in childNode)
@@ -25,9 +25,9 @@ public abstract class PlayerNode
             if(playerNode.PreCondition()==false)
                 { continue; }
 
-            if (playerNode.GetType().IsSubclassOf(typeof(PlayerActionNode)))
+            if (playerNode.GetType().IsSubclassOf(typeof(PlayerActionNodeLeaf)))
             {
-                playerActionNode = playerNode as PlayerActionNode;
+                playerActionNode = playerNode as PlayerActionNodeLeaf;
 
             }
             else

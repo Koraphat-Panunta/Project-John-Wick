@@ -11,7 +11,7 @@ public class BulletSpawner : MonoBehaviour
     {
         Transform transform = gameObject.transform;
         //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
-        Vector3 shootDir = weapon.userWeapon.pointingPos;
+        Vector3 shootDir = weapon.userWeapon.shootingPos;
         //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootDir);
 
         //BulletObj thisBullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
@@ -22,11 +22,11 @@ public class BulletSpawner : MonoBehaviour
         StartCoroutine(SpawnTrail(transform.position,shootDir,this.bulletTrail));
         //if(weapon.userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
+        //    Bullet.GetComponent<Bullet>().ShootDirection(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject.transform.position));
         //}
         //else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy _enemy)))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(_enemy.enemyGetShootDirection.GetDir());
+        //    Bullet.GetComponent<Bullet>().ShootDirection(_enemy.enemyGetShootDirection.GetShootingPos());
         //}
     }
     private IEnumerator SpawnTrail(Vector3 startPos,Vector3 endPos,TrailRenderer bulletTrail)

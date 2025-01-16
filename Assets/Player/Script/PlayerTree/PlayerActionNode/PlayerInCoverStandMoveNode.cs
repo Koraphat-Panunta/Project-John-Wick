@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerInCoverStandMoveNode : PlayerActionNode
+public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
 {
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }

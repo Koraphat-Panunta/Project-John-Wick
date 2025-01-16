@@ -47,7 +47,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
         if (sourceFrom.TryGetComponent<Player>(out Player player) == false)
             return ;
 
-            Vector3 shootingLine = player.pointingPos - player.currentWeapon.bulletSpawnerPos.position;
+            Vector3 shootingLine = player.shootingPos - player.currentWeapon.bulletSpawnerPos.position;
             Vector3 referencePoint = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
         if (IsLineOfSightCloseEnough(shootingLine,
                 referencePoint,
@@ -94,7 +94,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
             //Debug.Log("Out Target");
             if (thisTarget.isAiming == false)
                 return ;
-            Vector3 aimingLine = thisTarget.pointingPos - thisTarget.currentWeapon.bulletSpawnerPos.position;
+            Vector3 aimingLine = thisTarget.shootingPos - thisTarget.currentWeapon.bulletSpawnerPos.position;
             Vector3 referencePos = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
             Vector3 startPos = thisTarget.currentWeapon.bulletSpawnerPos.position;
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStandIdleNode : PlayerActionNode
+public class PlayerStandIdleNode : PlayerActionNodeLeaf
 {
     
     public PlayerStandIdleNode(Player player) : base(player) { }
