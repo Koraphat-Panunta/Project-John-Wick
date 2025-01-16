@@ -33,8 +33,8 @@ public class InGameSceneManager : SceneManager
         //foreach (Enemy _enemy in enemies)
         //    _enemy.enabled = false;
 
-        //player = FindAnyObjectByType<Player>();
-        //player.enabled = false;
+        //playerAnimationManager = FindAnyObjectByType<Player>();
+        //playerAnimationManager.enabled = false;
 
     }
 

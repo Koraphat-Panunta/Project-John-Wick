@@ -58,9 +58,9 @@ public class EnemyAnimation : MonoBehaviour,IObserverEnemy
     private void BackBoardUpdate()
     {
 
-        //if (player.curShoulderSide == Player.ShoulderSide.Left)
+        //if (playerAnimationManager.curShoulderSide == Player.ShoulderSide.Left)
         //    SholderSide = Mathf.Clamp(SholderSide - 100 * Time.deltaTime, -1, 1);
-        //if (player.curShoulderSide == Player.ShoulderSide.Right)
+        //if (playerAnimationManager.curShoulderSide == Player.ShoulderSide.Right)
             SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
         if (enemy.isInCover)

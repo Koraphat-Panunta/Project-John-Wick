@@ -20,9 +20,9 @@ public class BulletSpawner : MonoBehaviour
 
         weapon.bullet.ShootDirection(transform.position, shootDir);
         StartCoroutine(SpawnTrail(transform.position,shootDir,this.bulletTrail));
-        //if(weapon.userWeapon.TryGetComponent<Player>(out Player player))
+        //if(weapon.userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(player.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
+        //    Bullet.GetComponent<Bullet>().ShootDirection(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetPointDirection(gameObject.transform.position));
         //}
         //else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy _enemy)))
         //{

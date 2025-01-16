@@ -33,7 +33,7 @@ public class LevelManager : LevelSubject,IObserverPlayer
             }
             //foreach (Objective objective in levelObjective)
             //{
-            //    if (objective.PerformedDone(player))
+            //    if (objective.PerformedDone(playerAnimationManager))
             //    {
             //        levelObjective.Remove(objective);
             //        NotifyObserver(this, LevelEvent.ObjectiveComplete);

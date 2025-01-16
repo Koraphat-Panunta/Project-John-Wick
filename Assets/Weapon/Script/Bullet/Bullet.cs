@@ -42,8 +42,8 @@ public abstract class Bullet:IDamageVisitor
         //if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
         //    bodyPart.GotHit(hpDamage);
 
-        //if (collider.TryGetComponent<Player>(out Player player))
-        //    player.TakeDamage(hpDamage);
+        //if (collider.TryGetComponent<Player>(out Player playerAnimationManager))
+        //    playerAnimationManager.TakeDamage(hpDamage);
 
     }
     //private void OnCollisionEnter(Collision collision)
@@ -52,9 +52,9 @@ public abstract class Bullet:IDamageVisitor
     //    {
     //        bodyPart.GotHit(damage);
     //    }
-    //    if(collision.collider.TryGetComponent<Player>(out Player player))
+    //    if(collision.collider.TryGetComponent<Player>(out Player playerAnimationManager))
     //    {
-    //        player.TakeDamage(damage);
+    //        playerAnimationManager.TakeDamage(damage);
     //    }
     //    DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
     //    Destroy(gameObject);

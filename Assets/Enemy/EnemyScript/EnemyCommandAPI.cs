@@ -30,7 +30,7 @@ public class EnemyCommandAPI :MonoBehaviour
 
     public void Update()
     {
-        TestCommand1();
+        //TestCommand1();
         //if (isKilled)
         //    _enemy.SetHP(0);
 

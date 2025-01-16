@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
+public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnimationNode
 {
     public Animator animator;   
     public Player player;
@@ -24,6 +24,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
     public bool isSprint;
     public bool isAiming;
+    public bool isTriggerDodge;
     public bool isTriggerMantle;
     public bool isTriggerGunFu;
     public Player.PlayerStance playerStance;
@@ -37,16 +38,27 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator = GetComponent<Animator>();
         player = GetComponent<Player>();
         player.AddObserver(this);
+        InitailizedPlayerAnimationNode();
     }
 
     // Update is called once per frame
     void Update()
     {
         BackBoardUpdate();
+        UpdateNode();
+    }
+    private void FixedUpdate()
+    {
+        FixedUpdateNode();
     }
     private void BackBoardUpdate()
     {
+        this.playerStance = player.playerStance;
 
+        this.shoulderSide = player.curShoulderSide;
+
+        this.isGround = player.playerMovement.isGround;
+        
         if (player.curShoulderSide == Player.ShoulderSide.Left)
             SholderSide = Mathf.Clamp(SholderSide - 100*Time.deltaTime, -1, 1);
         if (player.curShoulderSide == Player.ShoulderSide.Right)
@@ -77,6 +89,8 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.sprint_MaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.sprint_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;
+
+            isSprint = true;
         }
         else
         {
@@ -84,11 +98,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.move_MaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
+
+            isSprint = false;
         }
 
         CalculateDeltaRotation();
 
         AimDownSightWeight = (player as IWeaponAdvanceUser).currentWeapon.aimingWeight;
+        
 
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
@@ -124,6 +141,8 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("RecoilWeight", RecoilWeight);
         animator.SetFloat("PointRange", PointRange);
 
+        
+
     }
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
@@ -136,19 +155,82 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
             RecoilWeight = 1;
-        
+
+        if(playerAction == SubjectPlayer.PlayerAction.LowReady)
+            isAiming = false;
+        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+            isAiming = true;
+
+       
+
     }
 
     public void OnNotify(Player player)
     {
     }
 
+    #region CalculateRotateRate
     private Vector3 previousDir;
+
     private void CalculateDeltaRotation()
     {
         Vector3 curDir = player.transform.forward;
 
-        Rotating = Mathf.Clamp(Vector3.SignedAngle(previousDir, curDir, Vector3.up)*10*Time.deltaTime,-1,1);
+        Rotating = Vector3.SignedAngle(previousDir, curDir, Vector3.up)  * Time.deltaTime;
         previousDir = curDir;
     }
+
+
+    #endregion
+    public void InitailizedPlayerAnimationNode()
+    {
+        playerAnimationManager = this;
+
+        startSelectorAnimationNode = new PlayerAnimationNodeSelector(playerAnimationManager, animator, () => true);
+        
+
+        move_Idle_StandPlayerAnimationNodeLeaf = new Move_Idle_StandPlayerAnimationNodeLeaf(playerAnimationManager, animator,
+            () => true);
+
+        sprint_PlayerAnimationNodeLeaf = new Sprint_PlayerAnimationNodeLeaf(playerAnimationManager,animator,
+            ()=> isSprint);
+
+        startSelectorAnimationNode.AddChildNode(sprint_PlayerAnimationNodeLeaf);
+        startSelectorAnimationNode.AddChildNode(move_Idle_StandPlayerAnimationNodeLeaf);
+
+        startSelectorAnimationNode.Transition(out PlayerAnimationNodeLeaf playerAnimationNodeLeaf);
+        curAnimationNodeLeaf = playerAnimationNodeLeaf;
+
+        curAnimationNodeLeaf.Enter();
+    }
+
+    public void UpdateNode()
+    {
+        if (curAnimationNodeLeaf.IsReset())
+        {
+            curAnimationNodeLeaf.Exit();
+            curAnimationNodeLeaf = null;
+            startSelectorAnimationNode.Transition(out PlayerAnimationNodeLeaf playerAnimationNodeLeaf);
+            curAnimationNodeLeaf = playerAnimationNodeLeaf;
+            curAnimationNodeLeaf.Enter();
+        }
+
+        if (curAnimationNodeLeaf != null)
+            curAnimationNodeLeaf.Update();
+    }
+
+    public void FixedUpdateNode()
+    {
+        if (curAnimationNodeLeaf != null)
+            curAnimationNodeLeaf.FixedUpdate();
+    }
+
+    Animator IPlayerAnimationNode.animator { get => animator; set => animator = value; }
+    public PlayerAnimationManager playerAnimationManager { get; set ; }
+    public PlayerAnimationNodeLeaf curAnimationNodeLeaf { get ; set ; }
+    public PlayerAnimationNodeSelector startSelectorAnimationNode { get; set; }
+
+    public Move_Idle_StandPlayerAnimationNodeLeaf move_Idle_StandPlayerAnimationNodeLeaf { get; set; }
+    public Sprint_PlayerAnimationNodeLeaf sprint_PlayerAnimationNodeLeaf { get; set; }
+    
 }

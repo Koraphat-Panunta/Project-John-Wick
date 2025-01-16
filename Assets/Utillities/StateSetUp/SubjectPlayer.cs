@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using UnityEngine;
-using static SubjectPlayer;
 
 public abstract class SubjectPlayer : Character
 {
@@ -13,14 +10,18 @@ public abstract class SubjectPlayer : Character
         LowReady,
         Firing,
         Reloading,
+        SwitchWeapon,
+        PickUpWeapon,
+
         Idle,
         Move,
         Sprint,
-        PickUpWeapon,
+        Dodge,
+
         GetShoot,
         HealthRegen,
         Dead,
-        SwitchWeapon,
+       
         TakeCover,
         GetOffCover
     }

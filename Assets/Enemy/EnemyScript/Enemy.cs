@@ -74,6 +74,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         combatOffensiveInstinct.UpdateSening();
        
         UpdateState();
+        BlackBoardUpdate();
       
     }
     private void FixedUpdate()

@@ -20,7 +20,7 @@ public class PlayerMovement
     public float sprint_Acceleration = 0.08f;
     public float rotate_Speed = 6;
 
-   
+    public bool isGround { get; private set; }
 
 
     private Player player;
@@ -50,6 +50,10 @@ public class PlayerMovement
         inputVelocity_Local = TransformWorldToLocalVector(inputVelocity_World, player.transform.forward);
         curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
         characterController.Move(curVelocity_World * Time.deltaTime);
+
+        if(Physics.Raycast(player.transform.position,Vector3.down,1))
+            isGround = true;
+        else isGround = false;
     }
     private void DirectionUpdate()
     {
@@ -137,10 +141,10 @@ public class PlayerMovement
     }
     private void DrawDirLine()
     {
-        //Debug.DrawLine(player.transform.position, player.transform.position + inputDirection_World,Color.green);
-        //Debug.DrawLine(player.transform.position, player.transform.position + forwardDirection_World, Color.blue);
-        //Debug.DrawLine(player.transform.position, player.transform.position + velocityDirection_World, Color.yellow);
-        //Debug.DrawLine(player.transform.position, player.transform.position + curVelocity_World, Color.red);
+        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + inputDirection_World,Color.green);
+        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + forwardDirection_World, Color.blue);
+        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + velocityDirection_World, Color.yellow);
+        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + curVelocity_World, Color.red);
 
        
     }

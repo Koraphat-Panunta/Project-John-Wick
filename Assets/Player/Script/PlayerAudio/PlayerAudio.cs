@@ -20,7 +20,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     }
     private void MoveSound()
     {
-        //PlayerStateManager playerStateManager = player.playerStateManager;
+        //PlayerStateManager playerStateManager = playerAnimationManager.playerStateManager;
         //if (playerStateManager.Current_state == playerStateManager.move)
         //{
         //    float timingRate = 2.8f;
