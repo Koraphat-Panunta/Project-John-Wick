@@ -71,7 +71,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void FixedUpdate()
     {
-     
         FixedUpdateState();
     }
     private void LateUpdate()
@@ -97,6 +96,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, transform.forward);
         curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, transform.forward);
+
+        //posture = Mathf.Clamp(posture, 0, 100);
     }
     public void BlackBoardBufferUpdate()
     {
@@ -127,6 +128,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
+    public EnemyStateSelectorNode head_PainState_Selector { get; private set; }
+    public EnemyStateSelectorNode Body_PainState_Selector { get; private set; }
+    public EnemyStateSelectorNode Arm_PainState_Selector { get; private set; }
+    public EnemyStateSelectorNode Leg_PainState_Selector { get; private set; }
 
     //Head PainState LeafNode
     public HeavyPainStateHeadNode enemy_Head_PainState_Heavy_NodeLeaf { get; private set; }
@@ -167,6 +172,84 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                 return false;
             }
             );
+
+        head_PainState_Selector = new EnemyStateSelectorNode(this, () =>
+        {
+            if(_painPart == IPainState.PainPart.Head)
+                return true;
+            return false;
+        });
+
+        Body_PainState_Selector = new EnemyStateSelectorNode(this, () =>
+        {
+            if (_painPart == IPainState.PainPart.BodyBack
+            ||_painPart == IPainState.PainPart.BodyFornt)
+                return true;
+            return false;
+        });
+
+        Arm_PainState_Selector = new EnemyStateSelectorNode(this, () =>
+        {
+            if(_painPart == IPainState.PainPart.ArmLeft
+            ||_painPart == IPainState.PainPart.ArmRight)
+                return true;
+            return false;
+        });
+
+        Leg_PainState_Selector = new EnemyStateSelectorNode(this, () => 
+        {
+            if(_painPart == IPainState.PainPart.LegLeft
+            || _painPart == IPainState.PainPart.LegRight)
+                return true;
+            return false;
+        });
+
+        painStateSelector.AddChildNode(head_PainState_Selector);
+        painStateSelector.AddChildNode(Body_PainState_Selector);
+        painStateSelector.AddChildNode(Arm_PainState_Selector);
+        painStateSelector.AddChildNode(Leg_PainState_Selector);
+
+        enemy_Head_PainState_Heavy_NodeLeaf = new HeavyPainStateHeadNode(this);
+        enemy_Head_PainState_Light_NodeLeaf = new LightPainStateHeadNode(this);
+
+        head_PainState_Selector.AddChildNode(enemy_Head_PainState_Heavy_NodeLeaf);
+        head_PainState_Selector.AddChildNode(enemy_Head_PainState_Light_NodeLeaf);
+
+        enemy_BodyFront_PainState_Heavy_NodeLeaf = new HeavyPainStateFrontBody(this);
+        enemy_BodyFront_PainState_Medium_NodeLeaf = new MeduimPainStateFrontBody(this);
+        enemy_BodyFront_PainState_Light_NodeLeaf = new LightPainStateFrontBody(this);
+
+        enemy_BodyBack_PainState_Heavy_NodeLeaf = new HeavyPainStateBackBody(this);
+        enemy_BodyBack_PainState_Light_NodeLeaf = new LightPainStateBackBody(this);
+
+        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Heavy_NodeLeaf);
+        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Medium_NodeLeaf);
+        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Light_NodeLeaf);
+        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
+        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Light_NodeLeaf);
+
+        enemy_LeftArm_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftArmNode(this);
+        enemy_LeftArm_PainState_Light_NodeLeaf = new LightPainStateLeftArmNode(this);
+
+        enemy_RightArm_PainState_Heavy_NodeLeaf = new HeavyPainStateRightArmNode(this);
+        enemy_RightArm_PainState_Light_NodeLeaf = new LightPainStateRightArmNode(this);
+
+        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Heavy_NodeLeaf);
+        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
+        Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Heavy_NodeLeaf);
+        Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Light_NodeLeaf);
+
+
+        enemy_LeftLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftLeg(this);
+        enemy_LeftLeg_PainState_Light_NodeLeaf = new LightPainStateLeftLeg(this);
+
+        enemy_RightLeg_PainState_Light_NodeLeaf = new LightPainStateRightLeg(this);
+        enemy_RightLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateRightLeg(this);
+
+        Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Heavy_NodeLeaf);
+        Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Light_NodeLeaf);
+        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Light_NodeLeaf);
+        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
     }
     #endregion
     public FallDown ragDoll { get; private set; }
@@ -185,7 +268,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             }
             );
 
-        
+        InitailizedPainStateNode();
 
         enemtDeadState = new EnemyDeadStateNode(this);
         enemySprintState = new EnemySprintStateNode(this);
@@ -193,6 +276,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             ()=>true, //PreCondition
             ()=>
             {
+                if(_isPainTrigger)
+                    return true;    
+
                 if(isSprint)
                     { return true; }
 
@@ -232,6 +318,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
 
         startSelector.AddChildNode(enemtDeadState);
+        startSelector.AddChildNode(painStateSelector);
         startSelector.AddChildNode(standSelector);
 
         standSelector.AddChildNode(enemySprintState);

@@ -27,6 +27,8 @@ public class EnemyCommandAPI :MonoBehaviour
         NormalFiringPattern = new NormalFiringPattern(_enemy);
     }
 
+    [Range(0, 100)]
+    public float damagePainPosture;
 
     public void Update()
     {
@@ -36,22 +38,22 @@ public class EnemyCommandAPI :MonoBehaviour
 
         //TestCommandTakeCover();
 
-        //if (this.TriigerPainLeg)
-        //{
-        //    _enemy._isPainTrigger = true;
-        //    _enemy.pressure += 45;
-        //    _enemy._painPart = IPainState.PainPart.LegRight;
-        //}
+        if (this.TriigerPainLeg)
+        {
+            _enemy._isPainTrigger = true;
+            _enemy.posture -= 45;
+            _enemy._painPart = IPainState.PainPart.LegRight;
+        }
 
-        //if (this.TriggerPainBody)
-        //{
-        //    _enemy._isPainTrigger = true;
-        //    _enemy.pressure += 45;
-        //    _enemy._painPart = IPainState.PainPart.BodyFornt;
-        //}
+        if (this.TriggerPainBody)
+        {
+            _enemy._isPainTrigger = true;
+            _enemy.posture -= 45;
+            _enemy._painPart = IPainState.PainPart.BodyFornt;
+        }
 
-        //this.TriggerPainBody = false;
-        //this.TriigerPainLeg = false;
+        this.TriggerPainBody = false;
+        this.TriigerPainLeg = false;
 
     }
     private void TestCommand1()

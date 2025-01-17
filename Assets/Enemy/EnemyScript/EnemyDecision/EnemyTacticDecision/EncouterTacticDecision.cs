@@ -19,13 +19,11 @@ public class EncouterTacticDecision : TacticDecision
         curvePath.GenaratePath(enemy.targetKnewPos,enemy.transform.position);
         enemyCommand.Freez();
 
-        Debug.Log("Encouter Enter");
-
     }
 
     public override void Exit()
     {
-        Debug.Log("Encouter Exit");
+
     }
 
     public override void FixedUpdate()
@@ -35,7 +33,6 @@ public class EncouterTacticDecision : TacticDecision
 
     public override void Update()
     {
-        Debug.Log("Encouter Update");
         enemy.cost -= cost_DrainRate * Time.deltaTime;
         if (enemy.cost < exitTacticCost/*&&enemy.cost > Vector3.Distance(enemy.transform.position,enemy.Target.transform.position)*2*/)
         {

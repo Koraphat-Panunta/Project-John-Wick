@@ -14,7 +14,6 @@ public class TakeCoverTacticDecision : TacticDecision
 
     public override void Enter()
     {
-        Debug.Log("TakeCoverTactic Enter");
 
         coverTiming = 0f;
         peekTiming = Random.Range(4, 7);
@@ -30,13 +29,11 @@ public class TakeCoverTacticDecision : TacticDecision
        
         cost_DrainRate = Random.Range(1.5f,3f);
         exitTacticCost = Random.Range(65f, 86f);
-        Debug.Log("cost_DrainRate =" + cost_DrainRate);
 
     }
 
     public override void Exit()
     {
-        Debug.Log("TakeCoverTactic Exit");
 
         this.coverPoint = null;
         enemyCommand.GetOffCover();
@@ -44,12 +41,10 @@ public class TakeCoverTacticDecision : TacticDecision
 
     public override void FixedUpdate()
     {
-        Debug.Log("TakeCoverTactic FixedUpdate");
     }
 
     public override void Update()
     {
-        Debug.Log("TakeCoverTactic Update");
 
         enemy.cost += cost_DrainRate * Time.deltaTime;
         if (enemy.cost > exitTacticCost)

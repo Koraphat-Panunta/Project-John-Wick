@@ -16,12 +16,10 @@ public class SearchingTacticDecision : TacticDecision
     {
         searchingPos = RandomPosInNavmesh();
         waitTime = 3;
-        Debug.Log("Searching Enter");
     }
     public override void Exit()
     {
         enemyCommand.Freez();
-        Debug.Log("Searching Exit");
 
     }
 
@@ -52,7 +50,6 @@ public class SearchingTacticDecision : TacticDecision
 
         }
         enemyCommand.LowReady();
-        Debug.Log("Searching Update");
     }
 
     private Vector3 RandomPosInNavmesh()

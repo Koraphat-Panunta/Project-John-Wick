@@ -7174,8 +7174,24 @@ PrefabInstance:
       objectReference: {fileID: 188005511}
     - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
+      propertyPath: painDurScrp
+      value: 
+      objectReference: {fileID: 11400000, guid: ee39650fc9d6f2f4bb4bd2ae5ce9ccdd,
+        type: 2}
+    - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
       propertyPath: moveMaxSpeed
       value: 1.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: postureHeavy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: postureLight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -7197,6 +7213,11 @@ PrefabInstance:
       propertyPath: left_upperLeg
       value: 
       objectReference: {fileID: 188005508}
+    - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: postureMedium
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: moveAccelerate
@@ -7327,6 +7348,11 @@ PrefabInstance:
       propertyPath: sprintToPos
       value: 
       objectReference: {fileID: 1699271949}
+    - target: {fileID: 8785008869752914700, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: damagePainPosture
+      value: 23.3
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6707978067127173200, guid: 84c69ff9c82bc70449b7e18c9854f0cb, type: 3}
     m_RemovedGameObjects:
