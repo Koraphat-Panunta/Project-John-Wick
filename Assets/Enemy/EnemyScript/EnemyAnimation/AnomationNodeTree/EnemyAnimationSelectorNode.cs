@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationSelectorNode : AnimationNode
+public class EnemyAnimationSelectorNode : EnemyAnimationNode
 {
-    public AnimationSelectorNode(Func<bool> precondition,EnemyAnimation enemyAnimation) : base(enemyAnimation)
+    public EnemyAnimationSelectorNode(Func<bool> precondition, EnemyAnimationManager enemyAnimation) : base(enemyAnimation)
     {
         preCondidtion = precondition;
     }
 
-    public override List<AnimationNode> childNode { get; set ; }
+    public override List<EnemyAnimationNode> childNode { get; set ; }
     protected override Func<bool> preCondidtion { get ; set ; }
 
     public override void FixedUpdate()

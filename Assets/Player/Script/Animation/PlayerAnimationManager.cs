@@ -32,7 +32,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
     public Player.ShoulderSide shoulderSide;
     public bool isGround;
 
-    private bool isCover;
+    public bool isCover;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

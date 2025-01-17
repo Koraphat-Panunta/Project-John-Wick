@@ -2002,41 +2002,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4581493864375268434}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &772085949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 772085937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d85d4dd7cd101114d9f38cc267f2a833, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  animator: {fileID: 0}
-  CoverWeight: 0
-  SholderSide: 0
-  InputMoveMagnitude_Normalized: 0
-  VelocityMoveMagnitude_Normalized: 0
-  MoveInputLocalFoward_Normalized: 0
-  MoveInputLocalSideWard_Normalized: 0
-  MoveVelocityForward_Normalized: 0
-  MoveVelocitySideward_Normalized: 0
-  DotMoveInputWordl_VelocityWorld_Normalized: 0
-  Rotating: 0
-  AimDownSightWeight: 0
-  DotVelocityWorld_Leftward_Normalized: 0
-  RecoilWeight: 0
-  PointRange: 0
-  isSprint: 0
-  isAiming: 0
-  isTriggerMantle: 0
-  isTriggerGunFu: 0
-  playerStance: 0
-  shoulderSide: 0
-  isGround: 0
 --- !u!114 &772085950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,6 +2102,37 @@ MonoBehaviour:
   - m_Rig: {fileID: 1283252717}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &772085961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772085937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0410161d8fa6b4eaf3965a5aebc571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  enemy: {fileID: 0}
+  CoverWeight: 0
+  SholderSide: 0
+  InputMoveMagnitude_Normalized: 0
+  VelocityMoveMagnitude_Normalized: 0
+  MoveInputLocalFoward_Normalized: 0
+  MoveInputLocalSideWard_Normalized: 0
+  MoveVelocityForward_Normalized: 0
+  MoveVelocitySideward_Normalized: 0
+  DotMoveInputWordl_VelocityWorld_Normalized: 0
+  DotVectorLeftwardDir_MoveInputVelocity_Normallized: 0
+  Rotating: 0
+  AimDownSightWeight: 0
+  DotVelocityWorld_Leftward_Normalized: 0
+  RecoilWeight: 0
+  enemyStance: 0
+  isGround: 0
+  isSprint: 0
 --- !u!4 &775980505 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7240483676628087977, guid: 776db2acae630d34a9b81407a51d929b,
@@ -7360,7 +7356,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       insertIndex: 6
-      addedObject: {fileID: 772085949}
+      addedObject: {fileID: 772085961}
     - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       insertIndex: -1

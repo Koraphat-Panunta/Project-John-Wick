@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeduimPainStateRightLeg : EnemyStateLeafNode
+public class MeduimPainStateRightLeg : EnemyPainStateNodeLeaf
 {
     public MeduimPainStateRightLeg(Enemy enemy) : base(enemy)
     {
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+    public override float painDuration { get; set; }
+    public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()

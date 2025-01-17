@@ -38,6 +38,10 @@ public class EnemySprintStateNode : EnemyStateLeafNode
 
     public override void FixedUpdate()
     {
+        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, enemy.transform.forward * enemy._sprintMaxSpeed, enemy._sprintAccelerate * Time.deltaTime);
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
+        agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+
         base.FixedUpdate();
     }
 
@@ -67,9 +71,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     public override void Update()
     {
 
-        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, enemy.transform.forward *enemy._sprintMaxSpeed, enemy._sprintAccelerate*Time.deltaTime);
-        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
-        agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+       
         
         base.Update();
     }

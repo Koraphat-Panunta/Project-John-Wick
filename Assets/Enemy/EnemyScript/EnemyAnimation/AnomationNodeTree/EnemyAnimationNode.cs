@@ -2,31 +2,33 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public abstract class AnimationNode 
+public abstract class EnemyAnimationNode 
 {
-    public AnimationNode(EnemyAnimation enemyAnimation)
+    protected Animator animator;
+    public EnemyAnimationNode(EnemyAnimationManager enemyAnimation)
     {
         this.enemyAnimation = enemyAnimation;
-        childNode = new List<AnimationNode>();
+        this.animator = enemyAnimation.animator;
+        childNode = new List<EnemyAnimationNode>();
     }
 
-    protected EnemyAnimation enemyAnimation { get; set; }
-    public abstract List<AnimationNode> childNode { get; set; }
+    protected EnemyAnimationManager enemyAnimation { get; set; }
+    public abstract List<EnemyAnimationNode> childNode { get; set; }
     protected abstract Func<bool> preCondidtion { get; set; }
     public abstract void FixedUpdate();
     public abstract void Update();
     public abstract bool IsReset();
     public abstract bool PreCondition();
-    public void Transition(out AnimationNodeLeaf animationNodeLeaf)
+    public void Transition(out EnemyAnimationNodeLeaf animationNodeLeaf)
     {
         animationNodeLeaf = null;
-        foreach (AnimationNode animationNode in childNode)
+        foreach (EnemyAnimationNode animationNode in childNode)
         {
             if (animationNode.PreCondition())
             {
-                if (animationNode.GetType().IsSubclassOf(typeof(AnimationNodeLeaf)))
+                if (animationNode.GetType().IsSubclassOf(typeof(EnemyAnimationNodeLeaf)))
                 {
-                    animationNodeLeaf = animationNode as AnimationNodeLeaf;
+                    animationNodeLeaf = animationNode as EnemyAnimationNodeLeaf;
                     //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
                 }
                 else
@@ -38,7 +40,7 @@ public abstract class AnimationNode
             }
         }
     }
-    public void AddChildNode(AnimationNode animationNode)
+    public void AddChildNode(EnemyAnimationNode animationNode)
     {
         childNode.Add(animationNode);
     }

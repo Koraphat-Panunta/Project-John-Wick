@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Enemy;
 
-public class LightPainStateFrontBody : EnemyStateLeafNode
+public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
 {
-    private bool animationIsPerformded = false;
+
     public LightPainStateFrontBody(Enemy enemy) : base(enemy)
     {
+        painDuration = enemy._painDurScrp.bodyFront_LightHit;
+        painPart = IPainState.PainPart.BodyFornt;
     }
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+    public override float painDuration { get; set; }
+    public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
-        enemy.animator.SetTrigger("BodyHitNormalReaction");
-        if (enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false)
-        {
-            animationIsPerformded = false;
-        }
+      
         base.Enter();
     }
 
     public override void Exit()
     {
-       enemy._painPart = IPainState.PainPart.None;
         base.Exit();
     }
 
@@ -38,14 +37,12 @@ public class LightPainStateFrontBody : EnemyStateLeafNode
         if (enemy.isDead)
             return true;
 
-        if (animationIsPerformded == true)
-        {
-            if (enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false 
-                && enemy.animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + "BodyHitNormalReaction") == false)
-            {
-                return true;
-            }
-        }
+        if (time >= painDuration)
+            return true;
+
+        if (enemy._isPainTrigger)
+            return true;
+
         return false;
     }
 
@@ -59,10 +56,7 @@ public class LightPainStateFrontBody : EnemyStateLeafNode
 
     public override void Update()
     {
-        if (enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction"))
-        {
-            animationIsPerformded = true;
-        }
+       
         base.Update();
     }
 }

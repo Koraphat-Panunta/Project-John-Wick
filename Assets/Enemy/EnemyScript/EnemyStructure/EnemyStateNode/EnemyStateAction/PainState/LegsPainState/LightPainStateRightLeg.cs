@@ -2,30 +2,27 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightPainStateRightLeg : EnemyStateLeafNode
+public class LightPainStateRightLeg : EnemyPainStateNodeLeaf
 {
-    private Animator animator;
-    private bool animationIsPerformded = false;
+
     public LightPainStateRightLeg(Enemy enemy) : base(enemy)
     {
-        animator = enemy.animator;
+        painDuration = enemy._painDurScrp.legRight_LightHit;
+        painPart = IPainState.PainPart.LegRight;
     }
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+    public override float painDuration { get; set; }
+    public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
-        animator.SetTrigger("LegHitNormalReaction");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction") == false)
-        {
-            animationIsPerformded = false;
-        }
+     
         base.Enter();
     }
 
     public override void Exit()
     {
-        enemy._painPart = IPainState.PainPart.None;
         base.Exit();
     }
 
@@ -39,14 +36,12 @@ public class LightPainStateRightLeg : EnemyStateLeafNode
         if (enemy.isDead)
             return true;
 
-        if (animationIsPerformded == true)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction") == false 
-                && animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + "LegHitNormalReaction") == false)
-            {
-                return true;
-            }
-        }
+        if (time >= painDuration)
+            return true;
+
+        if (enemy._isPainTrigger)
+            return true;
+
         return false;
     }
 
@@ -59,9 +54,6 @@ public class LightPainStateRightLeg : EnemyStateLeafNode
 
     public override void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("LegHitNormalReaction"))
-        {
-            animationIsPerformded = true;
-        }
+       
     }
 }

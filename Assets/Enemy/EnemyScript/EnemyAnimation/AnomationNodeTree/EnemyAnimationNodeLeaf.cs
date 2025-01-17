@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationNodeLeaf : AnimationNode
+public class EnemyAnimationNodeLeaf : EnemyAnimationNode
 {
     protected Animator animator;
-    public AnimationNodeLeaf(EnemyAnimation enemyAnimation) : base(enemyAnimation)
+    public EnemyAnimationNodeLeaf(EnemyAnimationManager enemyAnimation) : base(enemyAnimation)
     {
     }
-    public AnimationNodeLeaf(EnemyAnimation enemyAnimation, Animator animator) : base(enemyAnimation)
+    public EnemyAnimationNodeLeaf(EnemyAnimationManager enemyAnimation, Animator animator) : base(enemyAnimation)
     {
         this.animator = animator;
     }
 
-    public override List<AnimationNode> childNode { get; set ; }
+    public override List<EnemyAnimationNode> childNode { get; set ; }
     protected override Func<bool> preCondidtion { get; set; }
     protected Func<bool> isReset { get; set; }
 

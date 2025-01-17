@@ -31,28 +31,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public float posture;
 
 
-
-  
-
     [SerializeField] private bool isImortal;
     public Transform rayCastPos;
 
     
 
-    void Start()
+    protected override void Start()
     {
      
         enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyComunicate = new EnemyComunicate(this);
-
-
     
-
         MotionControlInitailized();
-
-
 
         Initialized_IWeaponAdvanceUser();
         InitailizedCombatOffensiveInstinct();
@@ -114,54 +106,71 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _isPainTrigger = false;
     }
 
-    private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
-    {
-        float zeta;
 
-        Vector3 Direction;
-        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
-        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
-        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
-        Direction.y = 0;
-
-        return Direction;
-    }
-    private Vector3 TransformWorldToLocalVector(Vector3 dirChild, Vector3 dirParent)
-    {
-        Vector3 Direction = Vector3.zero;
-        float zeta;
-        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
-        zeta = -zeta;
-        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
-        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
-        Direction.y = 0;
-
-        return Direction;
-    }
 
 
     #region Initailized State Node
-    public EnemyStateLeafNode curStateLeaf;
+    public EnemyStateLeafNode curStateLeaf { get;private set; }
 
-    private EnemyStateSelectorNode startSelector;
+    public EnemyStateSelectorNode startSelector { get; private set; }
 
-    private EnemyStateSelectorNode standSelector;
-    private EnemyStateSelectorNode takeCoverSelector;
+    public EnemyStateSelectorNode standSelector { get; private set; }
+    public EnemyStateSelectorNode takeCoverSelector { get; private set; }
 
-    private EnemyStateSelectorNode painStateSelector;
+    public EnemyDeadStateNode enemtDeadState { get; private set; }
+    public EnemySprintStateNode enemySprintState { get; private set; }
+    public EnemyStandIdleStateNode enemyStandIdleState { get; private set; }
+    public EnemyStandMoveStateNode enemyStandMoveState { get; private set; }
+    public EnemyStandTakeCoverStateNode enemyStandTakeCoverState { get; private set; }
+    public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
 
-    private EnemyDeadStateNode enemtDeadState;
-    private EnemySprintStateNode enemySprintState;
-    private EnemyStandIdleStateNode enemyStandIdleState;
-    private EnemyStandMoveStateNode enemyStandMoveState;
-    private EnemyStandTakeCoverStateNode enemyStandTakeCoverState;
-    private EnemyStandTakeAimStateNode enemyStandTakeAimState;
 
-    private LightPainStateFrontBody bodyHit;
-    private LightPainStateRightLeg legsHit;
-    //private EnemyStateLeafNode miniFlich;
-    private FallDown ragDoll;
+    #region PainState Node
+    public EnemyStateSelectorNode painStateSelector { get; private set; }
+
+    //Head PainState LeafNode
+    public HeavyPainStateHeadNode enemy_Head_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateHeadNode enemy_Head_PainState_Light_NodeLeaf { get; private set; }
     
+    //BodyFront PainSate LeafNode
+    public HeavyPainStateFrontBody enemy_BodyFront_PainState_Heavy_NodeLeaf { get; private set; }
+    public MeduimPainStateFrontBody enemy_BodyFront_PainState_Medium_NodeLeaf { get; private set; }
+    public LightPainStateFrontBody enemy_BodyFront_PainState_Light_NodeLeaf { get; private set; }
+
+    //BodyBack PainState LeafNode
+    public HeavyPainStateBackBody enemy_BodyBack_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateBackBody enemy_BodyBack_PainState_Light_NodeLeaf { get; private set; }
+
+    //ArmLeft PainState LeafNode
+    public HeavyPainStateLeftArmNode enemy_LeftArm_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateLeftArmNode enemy_LeftArm_PainState_Light_NodeLeaf { get; private set; }
+
+    //ArmRight PainState LeafNode
+    public HeavyPainStateRightArmNode enemy_RightArm_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateRightArmNode enemy_RightArm_PainState_Light_NodeLeaf { get; private set; }
+
+    //LegLeft PainState LeafNode
+    public HeavyPainStateLeftLeg enemy_LeftLeg_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateLeftLeg enemy_LeftLeg_PainState_Light_NodeLeaf { get; private set; }
+
+    //LegRight PainState LeafNode
+    public HeavyPainStateRightLeg enemy_RightLeg_PainState_Heavy_NodeLeaf { get; private set; }
+    public LightPainStateRightLeg enemy_RightLeg_PainState_Light_NodeLeaf { get; private set; }
+
+    private void InitailizedPainStateNode()
+    {
+        painStateSelector = new EnemyStateSelectorNode(this,
+            () =>
+            {
+                if (_isPainTrigger)
+                { return true; }
+                return false;
+            }
+            );
+    }
+    #endregion
+    public FallDown ragDoll { get; private set; }
+
     private void InitailizedStateNode() 
     {
         startSelector = new EnemyStateSelectorNode(this,()=>true);
@@ -176,14 +185,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             }
             );
 
-        painStateSelector = new EnemyStateSelectorNode(this, 
-            () =>
-            {
-                if(_isPainTrigger)
-                    { return true; }
-                return false;
-            }
-            );
+        
 
         enemtDeadState = new EnemyDeadStateNode(this);
         enemySprintState = new EnemySprintStateNode(this);
@@ -225,35 +227,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this, this);
 
         ragDoll = new FallDown(this);
-        bodyHit = new LightPainStateFrontBody(this);
-        legsHit = new LightPainStateRightLeg(this);
-        //miniFlich = new EnemyStateLeafNode(this,
-        //    () => true, //PreCondition
-        //    () => enemyMiniFlinch.TriggerFlich(), //Enter
-        //    () => { },  //Exit
-        //    () => { }, //Update
-        //    () => { }, //FixedUpdate
-        //    () => 
-        //    {
-        //        if (isDead)
-        //            return true;
 
-        //        if (enemyMiniFlinch.IsFliching()) 
-        //        { return true; }
-
-        //        return false;
-        //    }
-        //    ); //IsReset
+      
 
 
         startSelector.AddChildNode(enemtDeadState);
-        //startSelector.AddChildNode(ragDoll);
-        startSelector.AddChildNode(painStateSelector);
         startSelector.AddChildNode(standSelector);
-
-        painStateSelector.AddChildNode(bodyHit);
-        painStateSelector.AddChildNode(legsHit);
-        //painStateSelector.AddChildNode(miniFlich);
 
         standSelector.AddChildNode(enemySprintState);
         standSelector.AddChildNode(takeCoverSelector);
@@ -483,7 +462,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             else return true;
         } set { } }
     public float _posture { get ; set ; }
+    [Range(0, 100)]
+    [SerializeField] private float postureLight;
+    public float _postureLight { get => postureLight ; set => postureLight = value ; }
+    [Range(0, 100)]
+    [SerializeField] private float postureMedium;
+    public float _postureMedium { get => postureMedium ; set => postureMedium = value ; }
+    [Range(0, 100)]
+    [SerializeField] private float postureHeavy;
+    public float _postureHeavy { get => postureHeavy ; set => postureHeavy = value; }
+
     public IPainState.PainPart _painPart { get ; set ; }
+
+    [SerializeField] private PainStateDurationScriptableObject painDurScrp;
+    public PainStateDurationScriptableObject _painDurScrp { get => painDurScrp; }
     public void InitializedPainState()
     {
         _painPart = IPainState.PainPart.None;
@@ -496,7 +488,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject userPatrol { get ; set ; }
     public List<PatrolPoint> patrolPoints { get => this.PatrolPoints ; set => PatrolPoints = value ; }
     public int Index { get ; set ; }
-
+   
     [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
     public void InitailizedPatrolComponent()
     {
@@ -504,5 +496,33 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         Index = 0;
     }
 
+    #endregion
+
+
+    #region TransformLocalWorld
+    private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        float zeta;
+
+        Vector3 Direction;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+    private Vector3 TransformWorldToLocalVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        Vector3 Direction = Vector3.zero;
+        float zeta;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        zeta = -zeta;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
     #endregion
 }

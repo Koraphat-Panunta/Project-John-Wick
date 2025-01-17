@@ -2,25 +2,22 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeavyPainStateBackBody : EnemyStateLeafNode
+public class HeavyPainStateBackBody : EnemyPainStateNodeLeaf
 {
-    Animator animator;
-    bool animationIsPerformded;
     public HeavyPainStateBackBody(Enemy enemy) : base(enemy)
     {
-        animator = enemy.animator;  
+        painDuration = enemy._painDurScrp.bodyBack_HeavyHit;
+        painPart = IPainState.PainPart.BodyBack;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+    public override float painDuration { get; set; }
+    public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
-        animator.SetTrigger("BodyHitNormalReaction");
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false)
-        {
-            animationIsPerformded = false;
-        }
+      
         base.Enter();
     }
 
@@ -36,27 +33,29 @@ public class HeavyPainStateBackBody : EnemyStateLeafNode
 
     public override bool IsReset()
     {
-        return base.IsReset();
+        if (enemy.isDead)
+            return true;
+
+        if (time >= painDuration)
+            return true;
+
+        if (enemy._isPainTrigger)
+            return true;
+
+        return false;
     }
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if (enemy._painPart == painPart
+           && enemy.posture < enemy._postureHeavy)
+            return true;
+
+        return false;
     }
 
     public override void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction"))
-        {
-            animationIsPerformded = true;
-        }
-        if (animationIsPerformded == true)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("BodyHitNormalReaction") == false && animator.GetAnimatorTransitionInfo(0).IsName("Enter->" + this.GetType().Name) == false)
-            {
-                //End(enemyState);
-            }
-        }
         base.Update();
     }
 }

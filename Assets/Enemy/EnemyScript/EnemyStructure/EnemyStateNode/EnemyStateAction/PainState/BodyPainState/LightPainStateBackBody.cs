@@ -2,13 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightPainStateBackBody : EnemyStateLeafNode
+public class LightPainStateBackBody : EnemyPainStateNodeLeaf
 {
     public LightPainStateBackBody(Enemy enemy) : base(enemy)
     {
+        painDuration = enemy._painDurScrp.bodyBack_LightHit;
+        painPart = IPainState.PainPart.BodyBack;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+    public override float painDuration { get; set; }
+    public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
@@ -33,7 +37,16 @@ public class LightPainStateBackBody : EnemyStateLeafNode
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if (enemy.isDead)
+            return true;
+
+        if (time >= painDuration)
+            return true;
+
+        if (enemy._isPainTrigger)
+            return true;
+
+        return false;
     }
 
     public override void Update()
