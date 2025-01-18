@@ -5,8 +5,10 @@ public class RagdollMotionState : MotionState
 {
     public List<Rigidbody> bones = new List<Rigidbody>();
     public GameObject hips;
-    public RagdollMotionState(List<GameObject> bones,GameObject hips) 
+    private Animator animator;
+    public RagdollMotionState(List<GameObject> bones,GameObject hips,Animator animator) 
     {
+        this.animator = animator;
         foreach (GameObject rbBone in bones) 
         {
             this.bones.Add(rbBone.GetComponent<Rigidbody>());
@@ -17,12 +19,14 @@ public class RagdollMotionState : MotionState
 
     public override void Enter()
     {
+        this.animator.enabled = false;
         EnableRagdoll();
         base.Enter();
     }
 
     public override void Exit()
     {
+        this.animator.enabled=true;
         DisableRagdoll();
         base.Exit();
     }

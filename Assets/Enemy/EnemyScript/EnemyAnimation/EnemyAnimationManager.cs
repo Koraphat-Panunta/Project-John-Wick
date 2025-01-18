@@ -26,6 +26,8 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public bool isGround;
     public bool isSprint;
 
+    public string AnimationStateName;
+
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
 
@@ -43,8 +45,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     {
         BackBoardUpdate();
 
-        if (curAnimationNodeLeaf.IsReset()
-            ||curAnimationNodeLeaf == null)
+        if (curAnimationNodeLeaf.IsReset())
         {
             curAnimationNodeLeaf.Exit();
             curAnimationNodeLeaf = null;
@@ -55,6 +56,8 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     
         if (curAnimationNodeLeaf!= null)
             curAnimationNodeLeaf.Update();
+
+        this.AnimationStateName = curAnimationNodeLeaf.ToString();
     }
     private void FixedUpdate()
     {
@@ -68,6 +71,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
     public IdleMove_Enemy_AnimationNodeLeaf idleMove_Enemy_AnimationNodeLeaf;
     public Sprint_Enemy_AnimationNodeLeaf sprint_Enemy_AnimationNodeLeaf;
+    public RestingNode_Enemy_AnimationNodeLeaf restingNode_Enemy_AnimationNodeLeaf;
 
     private void InitailizedAnimationNode()
     {
@@ -77,10 +81,16 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             () => true,//PreCondition
             () => 
             {
-                if (enemy._isPainTrigger)
+                MotionControlManager motionControlManager = enemy.motionControlManager;
+
+                if (motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
+                || motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
                     return true;
 
                 if(enemy.curStateLeaf == enemy.enemySprintState)
+                    return true;
+
+                if(enemy._isInPain)
                     return true;
 
                 return false;
@@ -89,22 +99,51 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             () =>
             {
 
-                if(enemy.curStateLeaf == enemy.enemySprintState)
+                if (enemy.curStateLeaf == enemy.enemySprintState)
                     return true;
                 return false; 
             }, //PreCondition
             () => 
         {
-            if(enemy.curStateLeaf != enemy.enemySprintState)
+            MotionControlManager motionControlManager = enemy.motionControlManager;
+
+            if (motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
+            || motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
                 return true;
 
-            if (enemy._isPainTrigger)
+            if (enemy.curStateLeaf != enemy.enemySprintState)
+                return true;
+
+            if (enemy._isInPain)
                 return true;
 
             return false;
         });//IsReset
 
-        startAnimationNodeSelector.AddChildNode(enemy.painStateSelector);
+        restingNode_Enemy_AnimationNodeLeaf = new RestingNode_Enemy_AnimationNodeLeaf(enemy,animator,
+            ()=>
+            {
+                MotionControlManager motionControlManager = enemy.motionControlManager;
+
+                if(motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
+                ||motionControlManager.curMotionState == motionControlManager.ragdollMotionState
+                )
+                    return true;
+                return false;
+        }, 
+            () => 
+            {
+                MotionControlManager motionControlManager = enemy.motionControlManager;
+
+                if (motionControlManager.curMotionState == enemy.motionControlManager.codeDrivenMotionState)
+                {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        startAnimationNodeSelector.AddChildNode(restingNode_Enemy_AnimationNodeLeaf);
         startAnimationNodeSelector.AddChildNode(sprint_Enemy_AnimationNodeLeaf);
         startAnimationNodeSelector.AddChildNode(idleMove_Enemy_AnimationNodeLeaf);
 

@@ -18,6 +18,7 @@ public class IdleMove_Enemy_AnimationNodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
+        Debug.Log("Move/Idle CrossFafe");
         animator.CrossFade(stateName, 0.5f, stateLayer);
         base.Enter();
     }

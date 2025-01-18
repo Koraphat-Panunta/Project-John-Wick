@@ -27,6 +27,8 @@ public class LegRightBodyPart : BodyPart
     }
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart)
     {
+        HitsensingTarget(hitPart);
+
         TakeDamage(damageVisitor);
     }
 }

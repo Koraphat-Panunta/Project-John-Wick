@@ -28,6 +28,8 @@ public class ChestBodyPart : BodyPart
 
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPoint)
     {
+        HitsensingTarget(hitPoint);
+
         Bullet bulletObj = damageVisitor as Bullet;
 
         float damage = bulletObj.hpDamage * hpReciverRate;

@@ -77,7 +77,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
    
     public void TakeDamage(float Damage)
     {
+        if(isImortal == false)
         HP -= Damage;
+       
         if(base.HP <= 0 && isImortal == false)
         {
             NotifyObserver(this, EnemyEvent.Dead);
@@ -132,7 +134,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyStateSelectorNode Leg_PainState_Selector { get; private set; }
 
     //Head PainState LeafNode
-    public HeavyPainStateHeadNode enemy_Head_PainState_Heavy_NodeLeaf { get; private set; }
+    //public HeavyPainStateHeadNode enemy_Head_PainState_Heavy_NodeLeaf { get; private set; }
     public LightPainStateHeadNode enemy_Head_PainState_Light_NodeLeaf { get; private set; }
     
     //BodyFront PainSate LeafNode
@@ -208,7 +210,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         painStateSelector.AddChildNode(Arm_PainState_Selector);
         painStateSelector.AddChildNode(Leg_PainState_Selector);
 
-        enemy_Head_PainState_Heavy_NodeLeaf = new HeavyPainStateHeadNode(this,animator);
+        //enemy_Head_PainState_Heavy_NodeLeaf = new HeavyPainStateHeadNode(this,animator);
         enemy_Head_PainState_Light_NodeLeaf = new LightPainStateHeadNode(this, animator);
 
         //head_PainState_Selector.AddChildNode(enemy_Head_PainState_Heavy_NodeLeaf);
@@ -222,9 +224,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemy_BodyBack_PainState_Light_NodeLeaf = new LightPainStateBackBody(this, animator);
 
         Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Heavy_NodeLeaf);
+        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
         Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Medium_NodeLeaf);
         Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Light_NodeLeaf);
-        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
         Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Light_NodeLeaf);
 
         enemy_LeftArm_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftArmNode(this, animator);
@@ -234,8 +236,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemy_RightArm_PainState_Light_NodeLeaf = new LightPainStateRightArmNode(this, animator);
 
         Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Heavy_NodeLeaf);
-        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
         Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Heavy_NodeLeaf);
+        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
         Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Light_NodeLeaf);
 
 
@@ -246,9 +248,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemy_RightLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateRightLeg(this, animator);
 
         Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Heavy_NodeLeaf);
+        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
         Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Light_NodeLeaf);
         Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Light_NodeLeaf);
-        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
+
     }
     #endregion
     public FallDown ragDoll { get; private set; }

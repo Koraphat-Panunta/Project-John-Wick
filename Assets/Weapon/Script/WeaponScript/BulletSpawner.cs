@@ -49,14 +49,14 @@ public class BulletSpawner : MonoBehaviour
         }
         bulletTrail.transform.position = endPos;
 
-        float fadeTime = 6;
-        float saveFadeTime = fadeTime;
+        //float fadeTime = 6;
+        //float saveFadeTime = fadeTime;
 
-        while (fadeTime > 0)
-        {
-            yield return null;
-        }
+        //while (fadeTime > 0)
+        //{
+        //    yield return null;
+        //}
         bulletTrail.enabled = false;
-        Destroy(bulletTrail);
+        Destroy(bulletTrail.gameObject);
     }
 }

@@ -52,7 +52,10 @@ public class EnemyTacticDecision : EnemyDecision
 
     private void OnDrawGizmos()
     {
-        if(Application.isPlaying)
+        if (Application.isPlaying == false)
+            return;
+        if(enabled == false)
+            return ;
         for(int i =0;i < encouterTacticDecision.curvePath._markPoint.Count; i++)
         {
             Gizmos.color = Color.yellow;

@@ -35,9 +35,9 @@ public abstract class Bullet:IDamageVisitor
     protected virtual void HitExecute(RaycastHit hit)
     {
         Collider collider = hit.collider;
-        if(collider.TryGetComponent<IDamageAble>(out IDamageAble damageAble))
+        if(collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble damageAble))
         {
-            damageAble.TakeDamage(this);
+            damageAble.TakeDamage(this,hit.point);
         }
         //if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
         //    bodyPart.GotHit(hpDamage);

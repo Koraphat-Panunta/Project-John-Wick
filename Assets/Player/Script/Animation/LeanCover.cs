@@ -62,7 +62,6 @@ public class LeanCover:IObserverPlayer
 
         ImpactpointScreenPos = Camera.main.WorldToScreenPoint(hitInfo.point);
 
-        Debug.Log("Pos Impact.x = " + ImpactpointScreenPos.x + " Pos Crosshair.X = " + CrosshairScreenPos.x);
         Debug.DrawLine(shootpoint.position, hitInfo.point, Color.red);
 
         //if (Mathf.Abs(ImpactpointScreenPos.x - CrosshairScreenPos.x) < 10f)

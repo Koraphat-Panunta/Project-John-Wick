@@ -15,15 +15,16 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         time = 0;
         enemy._painPart = IPainState.PainPart.None;
         motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
-        animator.CrossFade(stateName, 0.1f, 0);
 
-        Debug.Log("PainState = " + this.ToString());
+        animator.CrossFade(stateName, 0.1f, 0);
+   
         base.Enter();
     }
     public override void Update()
     {
         time += Time.deltaTime;
-        Debug.Log("Time = " + time);
+        Debug.Log("Pain time = " + time);
+       
     }
     public override void FixedUpdate()
     {

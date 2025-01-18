@@ -30,7 +30,7 @@ public class MotionControlManager
 
         myAnimator = animator;
 
-        ragdollMotionState = new RagdollMotionState(bones,hips);
+        ragdollMotionState = new RagdollMotionState(bones,hips,myAnimator);
         animationDrivenMotionState = new AnimationDrivenMotionState(animator);
         codeDrivenMotionState = new CodeDrivenMotionState(animator);
         resetingBoneMotionState = new ResetingBoneMotionState(myBones);
