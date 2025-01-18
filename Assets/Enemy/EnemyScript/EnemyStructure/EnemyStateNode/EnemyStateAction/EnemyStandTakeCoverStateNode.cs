@@ -8,6 +8,8 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
     ICoverUseable coverUseable;
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
+
+    WeaponInput weaponInput = new WeaponInput();
     public EnemyStandTakeCoverStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
         this.coverUseable = coverUseable;
@@ -20,6 +22,7 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 
     public override void Enter()
     {
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         base.Enter();
     }
 
@@ -82,6 +85,8 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         {
             Debug.Log("this Null");
         }
+        weaponInput.InputWeaponUpdate(enemy);
+
         new RotateObjectToward().RotateToward(coverUseable.coverPoint.coverDir, enemy.gameObject, 6);
 
         base.Update();

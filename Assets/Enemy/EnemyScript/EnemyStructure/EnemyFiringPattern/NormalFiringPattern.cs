@@ -12,31 +12,29 @@ public class NormalFiringPattern : IEnemyFiringPattern
     private const float MINRANG_TIMING_FIRE = 0.2f;
     private Enemy enemy;
     private EnemyCommandAPI enemyController;
-    private WeaponCommand weaponCommand;
     public NormalFiringPattern(EnemyCommandAPI enemyController)
     {
         this.enemy = enemyController._enemy;
+        this.enemyController = enemyController;
 
         this.curWeapon = enemy.currentWeapon;
         this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
-        this.weaponCommand = enemy.weaponCommand;
     }
 
-    public NormalFiringPattern(Enemy enemy)
-    {
-        this.enemy = enemy;
+    //public NormalFiringPattern(Enemy enemy)
+    //{
+    //    this.enemy = enemy;
 
-        this.curWeapon = enemy.currentWeapon;
-        this.ammoProuch = enemy.weaponBelt.ammoProuch;
-        randomFireTiming = MAXRANG_TIMING_FIRE;
-        this.weaponCommand = enemy.weaponCommand;
-    }
+    //    this.curWeapon = enemy.currentWeapon;
+    //    this.ammoProuch = enemy.weaponBelt.ammoProuch;
+    //    randomFireTiming = MAXRANG_TIMING_FIRE;
+    //}
     public void Performing()
     {
         if(curWeapon.triggerState == TriggerState.IsDown
             ||curWeapon.triggerState == TriggerState.Down)
-            weaponCommand.CancleTrigger();
+            enemyController.CancleTrigger();
 
         deltaFireTiming += Time.deltaTime;
 
@@ -45,7 +43,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
 
         if (curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.bulletStore[BulletStackType.Chamber] <= 0)
         {
-            weaponCommand.Reload(enemy.weaponBelt.ammoProuch);
+            enemyController.Reload();
             deltaFireTiming = 0;
             randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
             return;
@@ -59,11 +57,11 @@ public class NormalFiringPattern : IEnemyFiringPattern
                 if (hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body)){
 
                     if (body.enemy != enemy){}
-                    else{ weaponCommand.PullTrigger(); }
+                    else{ enemyController.PullTrigger(); }
                 }
             }
             else
-                weaponCommand.PullTrigger();
+                enemyController.PullTrigger();
             
         }
         deltaFireTiming = 0;

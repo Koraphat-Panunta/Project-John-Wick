@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HeavyPainStateLeftLeg : EnemyPainStateNodeLeaf
 {
-    public HeavyPainStateLeftLeg(Enemy enemy) : base(enemy)
+    public HeavyPainStateLeftLeg(Enemy enemy, Animator animator) : base(enemy, animator)
     {
         painDuration = enemy._painDurScrp.legLeft_HeavyHit;
         painPart = IPainState.PainPart.LegLeft;
@@ -14,6 +14,8 @@ public class HeavyPainStateLeftLeg : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => "LeftLeg_Heavy";
 
     public override void Enter()
     {

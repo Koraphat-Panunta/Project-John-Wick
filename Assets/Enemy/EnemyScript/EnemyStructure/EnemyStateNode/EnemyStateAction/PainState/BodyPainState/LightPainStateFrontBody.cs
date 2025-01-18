@@ -6,7 +6,7 @@ using static Enemy;
 public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
 {
 
-    public LightPainStateFrontBody(Enemy enemy) : base(enemy)
+    public LightPainStateFrontBody(Enemy enemy, Animator animator) : base(enemy, animator)
     {
         painDuration = enemy._painDurScrp.bodyFront_LightHit;
         painPart = IPainState.PainPart.BodyFornt;
@@ -15,6 +15,8 @@ public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => "BodyFont_Light";
 
     public override void Enter()
     {
@@ -48,7 +50,7 @@ public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
 
     public override bool PreCondition()
     {
-        if (enemy._painPart == IPainState.PainPart.BodyFornt)
+        if (enemy._painPart == painPart)
             return true;
 
         return false;

@@ -8,7 +8,7 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
     
     RotateObjectToward objectToward;
     NavMeshAgent agent;
-    
+    WeaponInput weaponInput = new WeaponInput();
   
     public EnemyStandMoveStateNode(Enemy enemy) : base(enemy)
     {
@@ -27,6 +27,7 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
 
     public override void Enter()
     {
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         base.Enter();
     }
 
@@ -37,6 +38,11 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
 
     public override void FixedUpdate()
     {
+
+        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.ClampMagnitude(enemy.moveInputVelocity_World, enemy._moveMaxSpeed), enemy._moveAccelerate * Time.deltaTime);
+        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
+        this.agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
+
         base.FixedUpdate();
     }
 
@@ -60,10 +66,8 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
         //animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
 
         //_enemy.lookRotation = (_enemy.agent.steeringTarget - _enemy.transform.position).normalized;
+        weaponInput.InputWeaponUpdate(enemy);
 
-        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World,Vector3.ClampMagnitude(enemy.moveInputVelocity_World,enemy._moveMaxSpeed),enemy._moveAccelerate*Time.deltaTime);
-        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
-        this.agent.Move(enemy.curMoveVelocity_World*Time.deltaTime);
 
         base.Update();
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeduimPainStateLeftLeg : EnemyPainStateNodeLeaf
 {
-    public MeduimPainStateLeftLeg(Enemy enemy) : base(enemy)
+    public MeduimPainStateLeftLeg(Enemy enemy,Animator animator) : base(enemy, animator)
     {
 
     }
@@ -13,6 +13,8 @@ public class MeduimPainStateLeftLeg : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => throw new NotImplementedException();
 
     public override void Enter()
     {

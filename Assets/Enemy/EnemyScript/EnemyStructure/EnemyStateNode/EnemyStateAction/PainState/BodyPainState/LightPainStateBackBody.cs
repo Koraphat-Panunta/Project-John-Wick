@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightPainStateBackBody : EnemyPainStateNodeLeaf
 {
-    public LightPainStateBackBody(Enemy enemy) : base(enemy)
+    public LightPainStateBackBody(Enemy enemy, Animator animator) : base(enemy, animator)
     {
         painDuration = enemy._painDurScrp.bodyBack_LightHit;
         painPart = IPainState.PainPart.BodyBack;
@@ -14,6 +14,8 @@ public class LightPainStateBackBody : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => "BodyBack_Light";
 
     public override void Enter()
     {
@@ -32,11 +34,6 @@ public class LightPainStateBackBody : EnemyPainStateNodeLeaf
 
     public override bool IsReset()
     {
-        return base.IsReset();
-    }
-
-    public override bool PreCondition()
-    {
         if (enemy.isDead)
             return true;
 
@@ -47,6 +44,16 @@ public class LightPainStateBackBody : EnemyPainStateNodeLeaf
             return true;
 
         return false;
+    }
+
+    public override bool PreCondition()
+    {
+        if (enemy._painPart == painPart
+         && enemy.posture <= enemy._postureLight)
+            return true;
+
+        return false;
+       
     }
 
     public override void Update()

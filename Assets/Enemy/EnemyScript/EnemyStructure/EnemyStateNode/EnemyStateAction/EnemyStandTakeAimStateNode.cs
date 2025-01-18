@@ -7,6 +7,8 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
     NavMeshAgent agent;
+
+    WeaponInput weaponInput= new WeaponInput();
     public EnemyStandTakeAimStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
         this.coverUseable = coverUseable;
@@ -18,6 +20,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 
     public override void Enter()
     {
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         base.Enter();
     }
 
@@ -27,37 +30,6 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
     }
 
     public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-
-    public override bool IsReset()
-    {
-        if (enemy.isDead)
-            return true;
-
-        if (enemy.isInCover == false)
-            return true;
-            
-        if(enemy.isAiming == false)
-            return true;
-
-        if(enemy._isPainTrigger)
-            return true;
-
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        if(enemy.isInCover
-            &&enemy.isAiming)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
     {
         switch (coverUseable.coverPoint)
         {
@@ -94,14 +66,45 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                 break;
         }
 
+        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed );
+
         Vector3 moveInputDirWorld = enemy.moveInputVelocity_World;
-        Animator animator = enemy.animator;
 
-        Vector3 animDir = enemy.transform.InverseTransformDirection(moveInputDirWorld);
-        animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
-        animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
+        base.FixedUpdate();
+    }
 
-        new RotateObjectToward().RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
+    public override bool IsReset()
+    {
+        if (enemy.isDead)
+            return true;
+
+        if (enemy.isInCover == false)
+            return true;
+            
+        if(enemy.isAiming == false)
+            return true;
+
+        if(enemy._isPainTrigger)
+            return true;
+
+        return false;
+    }
+
+    public override bool PreCondition()
+    {
+        if(enemy.isInCover
+            &&enemy.isAiming)
+            return true;
+
+        return false;
+    }
+
+    public override void Update()
+    {
+      
+       
+
+        weaponInput.InputWeaponUpdate(enemy);
 
         base.Update();
     }

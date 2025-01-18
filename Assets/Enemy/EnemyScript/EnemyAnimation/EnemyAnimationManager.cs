@@ -28,19 +28,92 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
+
     }
 
     void Start()
     {
         enemy = GetComponent<Enemy>();
         animator = GetComponent<Animator>();
+        InitailizedAnimationNode();
     }
 
     // Update is called once per frame
     void Update()
     {
         BackBoardUpdate();
+
+        if (curAnimationNodeLeaf.IsReset()
+            ||curAnimationNodeLeaf == null)
+        {
+            curAnimationNodeLeaf.Exit();
+            curAnimationNodeLeaf = null;
+            startAnimationNodeSelector.Transition(out EnemyStateLeafNode enemyStateLeaf);
+            curAnimationNodeLeaf = enemyStateLeaf;
+            curAnimationNodeLeaf.Enter();
+        }
+    
+        if (curAnimationNodeLeaf!= null)
+            curAnimationNodeLeaf.Update();
     }
+    private void FixedUpdate()
+    {
+
+        if (curAnimationNodeLeaf != null)
+            curAnimationNodeLeaf.FixedUpdate();
+    }
+
+    public EnemyStateLeafNode curAnimationNodeLeaf;
+    public EnemyStateSelectorNode startAnimationNodeSelector;
+
+    public IdleMove_Enemy_AnimationNodeLeaf idleMove_Enemy_AnimationNodeLeaf;
+    public Sprint_Enemy_AnimationNodeLeaf sprint_Enemy_AnimationNodeLeaf;
+
+    private void InitailizedAnimationNode()
+    {
+        startAnimationNodeSelector = new EnemyStateSelectorNode(enemy,()=> true);
+
+        idleMove_Enemy_AnimationNodeLeaf = new IdleMove_Enemy_AnimationNodeLeaf(enemy, animator,
+            () => true,//PreCondition
+            () => 
+            {
+                if (enemy._isPainTrigger)
+                    return true;
+
+                if(enemy.curStateLeaf == enemy.enemySprintState)
+                    return true;
+
+                return false;
+            });//IsReset
+        sprint_Enemy_AnimationNodeLeaf = new Sprint_Enemy_AnimationNodeLeaf(enemy, animator,
+            () =>
+            {
+
+                if(enemy.curStateLeaf == enemy.enemySprintState)
+                    return true;
+                return false; 
+            }, //PreCondition
+            () => 
+        {
+            if(enemy.curStateLeaf != enemy.enemySprintState)
+                return true;
+
+            if (enemy._isPainTrigger)
+                return true;
+
+            return false;
+        });//IsReset
+
+        startAnimationNodeSelector.AddChildNode(enemy.painStateSelector);
+        startAnimationNodeSelector.AddChildNode(sprint_Enemy_AnimationNodeLeaf);
+        startAnimationNodeSelector.AddChildNode(idleMove_Enemy_AnimationNodeLeaf);
+
+        startAnimationNodeSelector.Transition(out EnemyStateLeafNode enemyStateNodeLeaf);
+
+        curAnimationNodeLeaf = enemyStateNodeLeaf;
+    }
+
+
     private void BackBoardUpdate()
     {
         this.enemyStance = enemy.curStance;

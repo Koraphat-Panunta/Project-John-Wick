@@ -5,7 +5,7 @@ using UnityEngine;
 public class LightPainStateRightArmNode : EnemyPainStateNodeLeaf
 {
 
-    public LightPainStateRightArmNode(Enemy enemy) : base(enemy)
+    public LightPainStateRightArmNode(Enemy enemy,Animator animator) : base(enemy, animator)
     {
         painDuration = enemy._painDurScrp.armRight_LightHit;
         painPart = IPainState.PainPart.ArmRight;
@@ -15,6 +15,8 @@ public class LightPainStateRightArmNode : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => "RightArm_Light";
 
     public override void Enter()
     {
@@ -47,7 +49,11 @@ public class LightPainStateRightArmNode : EnemyPainStateNodeLeaf
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if (enemy._painPart == painPart
+         && enemy.posture <= enemy._postureLight)
+            return true;
+
+        return false;
     }
 
     public override void Update()

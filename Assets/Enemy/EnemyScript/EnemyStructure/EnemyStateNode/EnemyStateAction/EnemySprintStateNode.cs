@@ -22,16 +22,15 @@ public class EnemySprintStateNode : EnemyStateLeafNode
 
     public override void Enter()
     {
-        animator.SetBool("IsSprinting", true);
-        animator.speed = 1f;
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+        
 
         base.Enter();
     }
 
     public override void Exit()
     {
-        animator.SetBool("IsSprinting", false);
-        animator.speed = 1f;
+       
 
         base.Exit();
     }

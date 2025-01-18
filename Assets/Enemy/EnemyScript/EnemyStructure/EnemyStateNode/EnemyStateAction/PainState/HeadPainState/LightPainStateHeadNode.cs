@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightPainStateHeadNode : EnemyPainStateNodeLeaf
 {
-    public LightPainStateHeadNode(Enemy enemy) : base(enemy)
+    public LightPainStateHeadNode(Enemy enemy, Animator animator) : base(enemy, animator)
     {
         painDuration = enemy._painDurScrp.head_LightHit;
         painPart = IPainState.PainPart.Head;
@@ -14,6 +14,8 @@ public class LightPainStateHeadNode : EnemyPainStateNodeLeaf
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
+    protected override string stateName => "HeadHit_Light";
 
     public override void Enter()
     {
@@ -46,7 +48,10 @@ public class LightPainStateHeadNode : EnemyPainStateNodeLeaf
 
     public override bool PreCondition()
     {
-        return base.PreCondition();
+        if(enemy._painPart == painPart &&
+            enemy._posture <= enemy._postureLight)
+            return true;
+        return false;
     }
 
 }

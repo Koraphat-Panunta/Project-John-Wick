@@ -6,6 +6,8 @@ public class MotionControlManager
 {
     public RagdollMotionState ragdollMotionState;
     public AnimationDrivenMotionState animationDrivenMotionState;
+    public CodeDrivenMotionState codeDrivenMotionState;
+
     private ResetingBoneMotionState resetingBoneMotionState;
     public MotionState curMotionState;
 
@@ -30,6 +32,7 @@ public class MotionControlManager
 
         ragdollMotionState = new RagdollMotionState(bones,hips);
         animationDrivenMotionState = new AnimationDrivenMotionState(animator);
+        codeDrivenMotionState = new CodeDrivenMotionState(animator);
         resetingBoneMotionState = new ResetingBoneMotionState(myBones);
         ChangeMotionState(animationDrivenMotionState);
     }
@@ -43,6 +46,9 @@ public class MotionControlManager
     }
     public void ChangeMotionState(MotionState nextMotionState)
     {
+        if (curMotionState == nextMotionState)
+            return;
+
         if (curMotionState != null)
             curMotionState.Exit();
 
