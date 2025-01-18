@@ -71,7 +71,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4206597696592958287}
-  - component: {fileID: 5476456191160208804}
   - component: {fileID: 3789394785739505014}
   m_Layer: 12
   m_Name: CoverPointTallSingleSide
@@ -97,23 +96,6 @@ Transform:
   - {fileID: 7584005458732854049}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5476456191160208804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7119229615582920433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa35e15f9ab738499448a7dfbcdb114, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coverPos: {fileID: 7245417281556479865}
-  coverDir: {x: 0, y: 0, z: 0}
-  peekPos: {fileID: 7584005458732854049}
-  _fovDistance: 40
-  _fovAngleDegrees: 90
 --- !u!65 &3789394785739505014
 BoxCollider:
   m_ObjectHideFlags: 0

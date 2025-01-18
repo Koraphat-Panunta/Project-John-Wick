@@ -125,10 +125,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 269b38d833a00fa46b0ed3ae8af6a052,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -1268388052208644891}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 269b38d833a00fa46b0ed3ae8af6a052,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: -9182135009789750982}
   m_SourcePrefab: {fileID: 100100000, guid: 269b38d833a00fa46b0ed3ae8af6a052, type: 3}
 --- !u!4 &5928844848396109686 stripped
@@ -143,23 +139,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6182815048465080477}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-1268388052208644891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6416693057545985484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c57ac2515000d94eb682075f5382ea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Anchor: {fileID: 3126189721510375872}
-  min_Precision: 0
-  max_Precision: 0
-  accuracy: 0
-  aimDownSightSpeed: 0
 --- !u!1773428102 &-9182135009789750982
 ParentConstraint:
   m_ObjectHideFlags: 0

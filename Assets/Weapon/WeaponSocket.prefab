@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6884115457744097235}
-  - component: {fileID: 2013878341642873245}
   m_Layer: 0
   m_Name: WeaponSocket
   m_TagString: Untagged
@@ -32,20 +31,3 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2013878341642873245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685068307830921063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32ce2320b24141848b83c7561aeb6c13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Thissocket: 0
-  UserAnimator: {fileID: 0}
-  CurWeapon: {fileID: 0}
-  WeaponUser: {fileID: 0}
-  camera: {fileID: 0}
