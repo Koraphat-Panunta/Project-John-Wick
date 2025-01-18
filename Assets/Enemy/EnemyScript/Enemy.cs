@@ -39,7 +39,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     protected override void Start()
     {
      
-        enemyFieldOfView = new FieldOfView(120, 225,this.gameObject.transform);
+        enemyFieldOfView = new FieldOfView(120, 225,rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyComunicate = new EnemyComunicate(this);
