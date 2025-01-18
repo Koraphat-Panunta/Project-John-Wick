@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
     IHearingComponent, IMovementCompoent, IPatrolComponent,
-    IPainState
+    IPainState,IFallDownGetUpAble
 {
     [Range(0,100)]
     public float intelligent;
@@ -118,6 +118,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyStateSelectorNode standSelector { get; private set; }
     public EnemyStateSelectorNode takeCoverSelector { get; private set; }
 
+    public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
     public EnemySprintStateNode enemySprintState { get; private set; }
     public EnemyStandIdleStateNode enemyStandIdleState { get; private set; }
@@ -254,7 +255,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     }
     #endregion
-    public FallDown ragDoll { get; private set; }
 
     private void InitailizedStateNode() 
     {
@@ -273,6 +273,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedPainStateNode();
 
         enemtDeadState = new EnemyDeadStateNode(this);
+        fallDown_EnemyState_NodeLeaf = new FallDown_EnemyState_NodeLeaf(this, this, 
+            () => //PreCondition
+        {
+            if (_isPainTrigger && posture <= 0)
+                return true;
+            return false;
+        }
+       );
         enemySprintState = new EnemySprintStateNode(this);
         enemyStandIdleState = new EnemyStandIdleStateNode(this,
             ()=>true, //PreCondition
@@ -314,12 +322,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this,this);
         enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this, this);
 
-        ragDoll = new FallDown(this);
-
-      
-
-
         startSelector.AddChildNode(enemtDeadState);
+        startSelector.AddChildNode(fallDown_EnemyState_NodeLeaf);
         startSelector.AddChildNode(painStateSelector);
         startSelector.AddChildNode(standSelector);
 
@@ -577,7 +581,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject userPatrol { get ; set ; }
     public List<PatrolPoint> patrolPoints { get => this.PatrolPoints ; set => PatrolPoints = value ; }
     public int Index { get ; set ; }
-   
+
+    
     [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
     public void InitailizedPatrolComponent()
     {
@@ -587,6 +592,24 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
+    #region InitailizedFallDownGetUp Properties
+    [SerializeField] private AnimationClip standUpClip;
+    [SerializeField] private AnimationClip pushUpClip;
+    public AnimationClip _standUpClip => standUpClip;
+
+    public AnimationClip _pushUpClip => pushUpClip;
+
+    Animator IFallDownGetUpAble._animator => animator;
+
+    [SerializeField] private Transform hipsBone;
+    public Transform _hipsBone => hipsBone;
+
+    [SerializeField] private Transform rootModel;
+    public Transform[] _bones => hipsBone.GetComponentsInChildren<Transform>();
+
+    public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
+
+    #endregion
 
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)

@@ -244,6 +244,10 @@ MonoBehaviour:
   postureHeavy: 27.4
   painDurScrp: {fileID: 11400000, guid: ee39650fc9d6f2f4bb4bd2ae5ce9ccdd, type: 2}
   PatrolPoints: []
+  standUpClip: {fileID: 7400000, guid: 494a89b81b757e443ac2c7996bf21bec, type: 2}
+  pushUpClip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
+  hipsBone: {fileID: 2724998908371769539}
+  rootModel: {fileID: 6185366314506669569}
 --- !u!114 &6414908439600597232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,6 +1878,12 @@ Transform:
 --- !u!4 &6178133048350431113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8796248155773312570, guid: 7b1f20d6796f4964197cd2c84399f581,
+    type: 3}
+  m_PrefabInstance: {fileID: 5787215329423078991}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6185366314506669569 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8825220965867489202, guid: 7b1f20d6796f4964197cd2c84399f581,
     type: 3}
   m_PrefabInstance: {fileID: 5787215329423078991}
   m_PrefabAsset: {fileID: 0}
