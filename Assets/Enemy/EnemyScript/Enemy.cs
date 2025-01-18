@@ -605,6 +605,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _hipsBone => hipsBone;
 
     [SerializeField] private Transform rootModel;
+    public Transform _root => rootModel;
     public Transform[] _bones => hipsBone.GetComponentsInChildren<Transform>();
 
     public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();

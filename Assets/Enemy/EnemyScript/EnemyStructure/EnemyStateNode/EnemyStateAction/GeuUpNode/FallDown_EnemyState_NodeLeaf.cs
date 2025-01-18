@@ -4,15 +4,17 @@ using UnityEngine;
 public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 {
     private bool isComplete;
-    private float getUpTime = 3;
-    private float getDownTime = 2;
+    private float getUpTime = 3f;
+    private float fallDownTime = 2f;
     private float timerGetDown;
     private float timerGetUp;
     private bool isFacingUp;
 
+    private Transform _root;
     private Transform _hipsBone;
     private Transform[] _bones;
     private BoneTransform[] _standUpBoneTransforms;
+    private BoneTransform[] _pushUpBoneTransforms;
     private BoneTransform[] _ragdollBoneTransforms;
     private float _elapsedResetBonesTime;
 
@@ -28,26 +30,32 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     private FallDownState curState;
 
-    private AnimationClip standingUpClip; // When Character FaceDown to the ground
-    private AnimationClip pushingUpClip; // When Character FaceUp from the ground
+    private AnimationClip standingUpClip;
+    private AnimationClip pushingUpClip;
 
-    public FallDown_EnemyState_NodeLeaf(Enemy enemy,IFallDownGetUpAble fallDownGetUpAble ,Func<bool> preCondition) : base(enemy, preCondition)
+    public FallDown_EnemyState_NodeLeaf(Enemy enemy, IFallDownGetUpAble fallDownGetUpAble, Func<bool> preCondition) : base(enemy, preCondition)
     {
         standingUpClip = fallDownGetUpAble._standUpClip;
         pushingUpClip = fallDownGetUpAble._pushUpClip;
         _animator = fallDownGetUpAble._animator;
 
+        _root = fallDownGetUpAble._root;
         _hipsBone = fallDownGetUpAble._hipsBone;
         _bones = fallDownGetUpAble._bones;
 
         _standUpBoneTransforms = new BoneTransform[_bones.Length];
         _ragdollBoneTransforms = new BoneTransform[_bones.Length];
+        _pushUpBoneTransforms = new BoneTransform[_bones.Length];
 
         for (int i = 0; i < _bones.Length; i++)
         {
             _standUpBoneTransforms[i] = new BoneTransform();
             _ragdollBoneTransforms[i] = new BoneTransform();
+            _pushUpBoneTransforms[i] = new BoneTransform();
         }
+
+        PopulateAnimationStartBoneTransforms(standingUpClip, _standUpBoneTransforms);
+        PopulateAnimationStartBoneTransforms(pushingUpClip, _pushUpBoneTransforms);
     }
 
     public override void Enter()
@@ -56,33 +64,30 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         isComplete = false;
         curState = FallDownState.RagdollState;
 
-        timerGetUp = 0;
-        timerGetDown = 0;
+        _elapsedResetBonesTime = 0;
+
+        timerGetUp = 0f;
+        timerGetDown = 0f;
 
         enemy.posture = 0;
-
     }
 
     public override void Exit()
     {
+        enemy._painPart = IPainState.PainPart.None;
         enemy.posture = 100;
     }
 
     public override bool IsReset()
     {
-        if(isComplete)
-        { return true; }
-
-        if(enemy.isDead)
-        { return true; }
-
-        return false;
+        return isComplete || enemy.isDead;
     }
-
+    Vector3 beforeRootPos;
     public override void Update()
     {
-        if (enemy._isPainTrigger)
+        if(enemy._isPainTrigger)
         {
+            PopulateBoneTransforms(_ragdollBoneTransforms);
             Enter();
         }
         switch (curState)
@@ -90,78 +95,98 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
             case FallDownState.RagdollState:
                 timerGetDown += Time.deltaTime;
 
-                if (timerGetDown >= getDownTime)
+                if (timerGetDown >= fallDownTime)
                 {
                     isFacingUp = IsFacingUp();
-                    if (isFacingUp)
-                        PopulateAnimationStartBoneTransforms(standingUpClip, _standUpBoneTransforms);
-                    else
-                        PopulateAnimationStartBoneTransforms(pushingUpClip, _standUpBoneTransforms);
 
                     AlignRotationToHips();
                     AlignPositionToHips();
                     PopulateBoneTransforms(_ragdollBoneTransforms);
 
                     curState = FallDownState.ResettingBones;
-                    _elapsedResetBonesTime = 0;
+                    _elapsedResetBonesTime = 0f;
                 }
                 break;
 
             case FallDownState.ResettingBones:
                 _elapsedResetBonesTime += Time.deltaTime;
-                float elapsedPercentage = _elapsedResetBonesTime / _timeToResetBones;
+                float elapsedPercentage = Mathf.Clamp01(_elapsedResetBonesTime / _timeToResetBones);
 
-                for (int i = 0; i < _bones.Length; i++)
-                {
-                    _bones[i].localPosition = Vector3.Lerp(
+                if (isFacingUp)
+
+                    for (int i = 0; i < _bones.Length; i++)
+                    {
+                        _bones[i].localPosition = Vector3.Lerp(
                         _ragdollBoneTransforms[i].Position,
                         _standUpBoneTransforms[i].Position,
                         elapsedPercentage);
 
-                    _bones[i].localRotation = Quaternion.Lerp(
-                        _ragdollBoneTransforms[i].Rotation,
-                        _standUpBoneTransforms[i].Rotation,
-                        elapsedPercentage);
-                }
+                        _bones[i].localRotation = Quaternion.Lerp(
+                            _ragdollBoneTransforms[i].Rotation,
+                            _standUpBoneTransforms[i].Rotation,
+                            elapsedPercentage);
+                    }
+                else
+                    for (int i = 0; i < _bones.Length; i++)
+                    {
+                        _bones[i].localPosition = Vector3.Lerp(
+                            _ragdollBoneTransforms[i].Position,
+                            _pushUpBoneTransforms[i].Position,
+                            elapsedPercentage);
 
-                if (elapsedPercentage >= 1)
+                        _bones[i].localRotation = Quaternion.Lerp(
+                            _ragdollBoneTransforms[i].Rotation,
+                            _pushUpBoneTransforms[i].Rotation,
+                            elapsedPercentage);
+                    }
+
+                if (elapsedPercentage >= 1f)
                 {
+                    beforeRootPos = enemy.transform.position;
                     curState = FallDownState.StandingUp;
+
                     enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
 
                     if (isFacingUp)
-                        _animator.CrossFade("StandUp",0f,0);
+                        _animator.CrossFade("StandUp", 0,0,0);
                     else
-                        _animator.CrossFade("PushUp", 0f, 0);
+                        _animator.CrossFade("PushUp", 0,0,0);
                 }
                 break;
 
             case FallDownState.StandingUp:
+
+                enemy.transform.position = beforeRootPos;
                 timerGetUp += Time.deltaTime;
                 if (timerGetUp >= getUpTime)
                     isComplete = true;
                 break;
         }
-    }
 
-    public override void FixedUpdate()
-    {
-        // No fixed-update logic required here for this state
     }
 
     private bool IsFacingUp()
     {
-        return Vector3.Dot(_hipsBone.up, Vector3.up) > 0; 
+        return Vector3.Dot(_hipsBone.forward, Vector3.up) > 0;
     }
 
     private void AlignPositionToHips()
     {
         Vector3 originalHipsPosition = _hipsBone.position;
-        enemy.transform.position = _hipsBone.position;
+        Vector3 hipOffset = enemy.transform.position - _root.transform.position;
+        enemy.transform.position = _hipsBone.position + hipOffset;
 
-        Vector3 positionOffset = _standUpBoneTransforms[0].Position;
+        Vector3 positionOffset;
+
+        if (isFacingUp) 
+            positionOffset = _standUpBoneTransforms[0].Position;
+        else
+            positionOffset = _pushUpBoneTransforms[0].Position;
+
+        
         positionOffset.y = 0;
         positionOffset = enemy.transform.rotation * positionOffset;
+
         enemy.transform.position -= positionOffset;
 
         if (Physics.Raycast(enemy.transform.position, Vector3.down, out RaycastHit hitInfo))
@@ -171,10 +196,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         _hipsBone.position = originalHipsPosition;
     }
-    
+
     private void AlignRotationToHips()
     {
-
         Vector3 originalHipsPosition = _hipsBone.position;
         Quaternion originalHipsRotation = _hipsBone.rotation;
 
@@ -189,6 +213,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         desiredDirection.Normalize();
 
         Quaternion fromToRotation = Quaternion.FromToRotation(enemy.transform.forward, desiredDirection);
+
         enemy.transform.rotation *= fromToRotation;
 
         _hipsBone.position = originalHipsPosition;
@@ -197,6 +222,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     private void PopulateBoneTransforms(BoneTransform[] boneTransforms)
     {
+        Debug.Log("PopulateBone");
         for (int i = 0; i < _bones.Length; i++)
         {
             boneTransforms[i].Position = _bones[i].localPosition;
@@ -222,4 +248,5 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         public Quaternion Rotation { get; set; }
     }
 }
+
 

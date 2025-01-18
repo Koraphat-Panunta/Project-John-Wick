@@ -46,12 +46,10 @@ public class MotionControlManager
     }
     public void ChangeMotionState(MotionState nextMotionState)
     {
-        if (curMotionState == nextMotionState)
-            return;
+        
 
         if (curMotionState != null)
             curMotionState.Exit();
-
         curMotionState = nextMotionState;
         curMotionState.Enter();
     }

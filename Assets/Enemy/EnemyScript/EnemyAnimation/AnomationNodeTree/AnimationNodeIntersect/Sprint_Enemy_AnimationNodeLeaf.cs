@@ -14,7 +14,7 @@ public class Sprint_Enemy_AnimationNodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
-        animator.CrossFade(stateName, 0.5f, stateLayer);
+        animator.CrossFade(stateName, 0.5f, stateLayer,0);
         base.Enter();
     }
     public override void Update()

@@ -19,6 +19,7 @@ public class RagdollMotionState : MotionState
 
     public override void Enter()
     {
+        this.animator.applyRootMotion = false;
         this.animator.enabled = false;
         EnableRagdoll();
         base.Enter();
@@ -26,8 +27,8 @@ public class RagdollMotionState : MotionState
 
     public override void Exit()
     {
-        this.animator.enabled=true;
         DisableRagdoll();
+
         base.Exit();
     }
 
