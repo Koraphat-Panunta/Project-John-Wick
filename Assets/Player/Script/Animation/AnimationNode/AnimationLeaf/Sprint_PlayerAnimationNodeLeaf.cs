@@ -22,16 +22,7 @@ public class Sprint_PlayerAnimationNodeLeaf : PlayerAnimationNodeLeaf
     }
     public override bool IsReset()
     {
-        if(playerAnimationManager.isSprint == false)
-            return true;
-
-        if(playerAnimationManager.isTriggerDodge
-            ||playerAnimationManager.isTriggerGunFu
-            ||playerAnimationManager.isTriggerMantle)
-            return true;
-
-        if(playerAnimationManager.isGround == false)
-            return true;
+        
 
         return false;
     }

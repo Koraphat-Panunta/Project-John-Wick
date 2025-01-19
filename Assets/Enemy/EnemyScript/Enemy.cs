@@ -168,7 +168,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         painStateSelector = new EnemyStateSelectorNode(this,
             () =>
             {
-                Debug.Log("isPainTrigger = " + _isPainTrigger);
+                //Debug.Log("isPainTrigger = " + _isPainTrigger);
                 if (_isPainTrigger)
                 { return true; }
                 return false;

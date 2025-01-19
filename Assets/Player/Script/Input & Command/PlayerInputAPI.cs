@@ -69,4 +69,11 @@ public class PlayerInputAPI : MonoBehaviour
         if (context.canceled)
             player.isSwitchWeapon = false;
     }
+    public void TriggerGunFu(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player._triggerGunFu = true;
+        
+        Debug.Log("_triggerGunFu = " + player._triggerGunFu);
+    }
 }

@@ -12,7 +12,7 @@ public class Move_Idle_StandPlayerAnimationNodeLeaf : PlayerAnimationNodeLeaf
 
     public override void Enter()
     {
-        animator.CrossFade(stateName, 0.5f, stateLayer, 0);
+        animator.CrossFade(stateName, 0.3f, stateLayer, 0,0);
     }
 
     public override void Exit()
@@ -27,24 +27,7 @@ public class Move_Idle_StandPlayerAnimationNodeLeaf : PlayerAnimationNodeLeaf
 
     public override bool IsReset()
     {
-        if(playerAnimationManager.playerStance != Player.PlayerStance.stand)
-            return true;
-
-        if(playerAnimationManager.isSprint)
-            return true;
-
-        if(playerAnimationManager.isTriggerDodge)
-            return true;
-
-        if(playerAnimationManager.isTriggerGunFu)
-            return true;
-
-        if(playerAnimationManager.isTriggerMantle)
-            return true;
-
-        if(playerAnimationManager.isGround == false)
-            return true;
-
+        
         return false;
             
     }

@@ -11,6 +11,11 @@ public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
 
     private bool warping;
 
+    public override void Enter()
+    {
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
+        base.Enter();
+    }
     public override void FixedUpdate()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
@@ -23,7 +28,7 @@ public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
         else
             WarpingToAimPos();
 
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
+
         playerMovement.FreezingCharacter();
 
         base.FixedUpdate();
@@ -31,6 +36,9 @@ public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
 
     public override bool IsReset()
     {
+        if (player._triggerGunFu)
+            return true;
+
         if (player.playerStance != Player.PlayerStance.stand
             || player.isSprint == true
             || player.isInCover == false

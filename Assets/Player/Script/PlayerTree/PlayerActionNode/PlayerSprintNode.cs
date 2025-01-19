@@ -16,12 +16,13 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     public override void Enter()
     {
         player.playerStance = Player.PlayerStance.stand;
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
         base.Enter();
     }
     public override void Update()
     {
         InputPerformed();
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
+
         base.Update();
     }
     public override void FixedUpdate()
@@ -33,6 +34,9 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
 
     public override bool IsReset()
     {
+        if(player._triggerGunFu)
+            return true;
+
         if(player.isSprint == false
             ||player.playerStance != Player.PlayerStance.stand)
             return true;

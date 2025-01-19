@@ -2,10 +2,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnimationNode
+public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 {
     public Animator animator;   
     public Player player;
+
+    public string Sprint = "Sprint";
+    public string Move_Idle = "Move/Idle";
+    public string Crouch = "Crouch";
+    
 
     public float CoverWeight;
     public float SholderSide;//-1 -> 1
@@ -23,43 +28,39 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
     public float RecoilWeight;
     public float PointRange;
 
-    public bool isSprint;
-    public bool isAiming;
-    public bool isTriggerDodge;
-    public bool isTriggerMantle;
-    public bool isTriggerGunFu;
-    public Player.PlayerStance playerStance;
-    public Player.ShoulderSide shoulderSide;
-    public bool isGround;
-
     public bool isCover;
+
+    public bool isLayer_1_Enable;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         player = GetComponent<Player>();
         player.AddObserver(this);
-        InitailizedPlayerAnimationNode();
+
+        isLayer_1_Enable = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         BackBoardUpdate();
-        UpdateNode();
+        if (isLayer_1_Enable == true)
+        {
+            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 10 * Time.deltaTime));
+        }
+        else
+        {
+            animator.SetLayerWeight(1,Mathf.Clamp01(animator.GetLayerWeight(1) - 10 * Time.deltaTime));
+        }
     }
     private void FixedUpdate()
     {
-        FixedUpdateNode();
         CalculateDeltaRotation();
     }
     private void BackBoardUpdate()
     {
-        this.playerStance = player.playerStance;
-
-        this.shoulderSide = player.curShoulderSide;
-
-        this.isGround = player.playerMovement.isGround;
+       
         
         if (player.curShoulderSide == Player.ShoulderSide.Left)
             SholderSide = Mathf.Clamp(SholderSide - 100*Time.deltaTime, -1, 1);
@@ -98,7 +99,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.sprint_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;
 
-            isSprint = true;
+            
         }
         else
         {
@@ -107,7 +108,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
 
-            isSprint = false;
+           
         }
 
 
@@ -165,12 +166,34 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
             RecoilWeight = 1;
 
-        if(playerAction == SubjectPlayer.PlayerAction.LowReady)
-            isAiming = false;
-        if(playerAction == SubjectPlayer.PlayerAction.Aim)
-            isAiming = true;
+        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
+        {
+            Debug.Log("Recive Notify Sprint");
+            animator.CrossFade(Sprint, 0.3f, 0,0);
+            isLayer_1_Enable = true;
+        }
+        if(playerAction == SubjectPlayer.PlayerAction.Move||
+            playerAction == SubjectPlayer.PlayerAction.Idle)
+        {
+            Debug.Log("Recive Notify Move/Idle");
+            animator.CrossFade(Move_Idle, 0.3f, 0, 0);
+            isLayer_1_Enable = true;
+        }
 
-       
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
+        {
+            Debug.Log("Recive Notify GunFuEnter");
+            isLayer_1_Enable = false;
+
+            if(player.curPlayerActionNode == player.Hit1gunFuNode)
+            animator.CrossFade("Hit", 0.05f, 0, 0);
+
+            if (player.curPlayerActionNode == player.Hit2GunFuNode)
+                animator.CrossFade("Hit2", 0.05f, 0, 0);
+
+            if (player.curPlayerActionNode == player.knockDown_GunFuNode)
+                animator.CrossFade("KnockDown", 0.05f, 0, 0);
+        }
 
     }
 
@@ -191,55 +214,5 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer,IPlayerAnima
 
 
     #endregion
-    public void InitailizedPlayerAnimationNode()
-    {
-        playerAnimationManager = this;
-
-        startSelectorAnimationNode = new PlayerAnimationNodeSelector(playerAnimationManager, animator, () => true);
-        
-
-        move_Idle_StandPlayerAnimationNodeLeaf = new Move_Idle_StandPlayerAnimationNodeLeaf(playerAnimationManager, animator,
-            () => true);
-
-        sprint_PlayerAnimationNodeLeaf = new Sprint_PlayerAnimationNodeLeaf(playerAnimationManager,animator,
-            ()=> isSprint);
-
-        startSelectorAnimationNode.AddChildNode(sprint_PlayerAnimationNodeLeaf);
-        startSelectorAnimationNode.AddChildNode(move_Idle_StandPlayerAnimationNodeLeaf);
-
-        startSelectorAnimationNode.Transition(out PlayerAnimationNodeLeaf playerAnimationNodeLeaf);
-        curAnimationNodeLeaf = playerAnimationNodeLeaf;
-
-        curAnimationNodeLeaf.Enter();
-    }
-
-    public void UpdateNode()
-    {
-        if (curAnimationNodeLeaf.IsReset())
-        {
-            curAnimationNodeLeaf.Exit();
-            curAnimationNodeLeaf = null;
-            startSelectorAnimationNode.Transition(out PlayerAnimationNodeLeaf playerAnimationNodeLeaf);
-            curAnimationNodeLeaf = playerAnimationNodeLeaf;
-            curAnimationNodeLeaf.Enter();
-        }
-
-        if (curAnimationNodeLeaf != null)
-            curAnimationNodeLeaf.Update();
-    }
-
-    public void FixedUpdateNode()
-    {
-        if (curAnimationNodeLeaf != null)
-            curAnimationNodeLeaf.FixedUpdate();
-    }
-
-    Animator IPlayerAnimationNode.animator { get => animator; set => animator = value; }
-    public PlayerAnimationManager playerAnimationManager { get; set ; }
-    public PlayerAnimationNodeLeaf curAnimationNodeLeaf { get ; set ; }
-    public PlayerAnimationNodeSelector startSelectorAnimationNode { get; set; }
-
-    public Move_Idle_StandPlayerAnimationNodeLeaf move_Idle_StandPlayerAnimationNodeLeaf { get; set; }
-    public Sprint_PlayerAnimationNodeLeaf sprint_PlayerAnimationNodeLeaf { get; set; }
     
 }

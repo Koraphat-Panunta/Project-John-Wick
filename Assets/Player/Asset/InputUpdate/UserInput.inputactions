@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TrggerGunFu",
+                    "type": "Button",
+                    "id": "bab15d60-90f2-4680-b0c5-32d1798bb5ee",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -428,6 +437,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2079e9f8-8059-4712-a1e0-828e1ae6bd05",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TrggerGunFu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

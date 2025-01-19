@@ -23,7 +23,11 @@ public abstract class SubjectPlayer : Character
         Dead,
        
         TakeCover,
-        GetOffCover
+        GetOffCover,
+
+        GunFuEnter,
+        GunFuExit
+        
     }
     
     protected override void Start()

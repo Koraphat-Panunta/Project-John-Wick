@@ -11,6 +11,11 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
     private bool warping;
 
     public PlayerInCoverStandMoveNode(Player player) : base(player) { }
+    public override void Enter()
+    {
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
+        base.Enter();
+    }
     public override void Update()
     {
         InputPerformed();
@@ -29,12 +34,14 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
             WarpingToAimPos();
 
         playerMovement.OMNI_DirMovingCharacter();
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
         base.FixedUpdate();
     }
 
     public override bool IsReset()
     {
+        if (player._triggerGunFu)
+            return true;
+
         if (player.playerStance != Player.PlayerStance.stand
            || player.isSprint == true
            || player.isInCover == false

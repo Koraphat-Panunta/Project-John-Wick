@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble,IAimingProceduralAnimate,IGunFuComponent
+public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble,IAimingProceduralAnimate,IGunFuAble
 {
     public PlayerMovement playerMovement;
 
@@ -29,6 +29,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
 
     public Vector2 inputLookDir_Local;
+    public Vector3 inputLookDir_World;
+
     public Vector2 inputMoveDir_Local;
     public bool isSprint;
     public bool isAiming;
@@ -45,6 +47,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         isReload = false;
         isSwapShoulder = false;
         isSwitchWeapon = false;
+        _triggerGunFu = false;
     }
 
     private void Start()
@@ -68,6 +71,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
         InitializedAimingProceduralAnimate();
 
+        InitailizedGunFuComponent();
+
         new WeaponFactorySTI9mm().CreateWeapon(this);
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
@@ -81,7 +86,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         UpdatePlayerTree();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
-
 
     }
     private void LateUpdate()
@@ -126,6 +130,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
                 curShoulderSide = ShoulderSide.Left;
             }
         }
+    }
+    public void OnNotify(Player player)
+    {
     }
 
     #region InitailizedWeaponAdvanceUser
@@ -180,6 +187,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get;private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get;private set; }
+
+    public Hit1GunFuNode Hit1gunFuNode { get; private set; }
+    public Hit2GunFuNode Hit2GunFuNode { get; private set; }
+    public KnockDown_GunFuNode knockDown_GunFuNode{ get; private set; }
   
 
     private void InitializedPlayerNodeTree()
@@ -199,9 +210,14 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this);
         playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this);
 
+        Hit1gunFuNode = new Hit1GunFuNode(this,hit1);
+        Hit2GunFuNode = new Hit2GunFuNode(this, hit2);
+        knockDown_GunFuNode = new KnockDown_GunFuNode(this,knockDown);
+
 
         stanceSelectorNode.AddChildNode(standSelectorNode);
 
+        standSelectorNode.AddChildNode(Hit1gunFuNode);    
         standSelectorNode.AddChildNode(playerSprintNode);
         standSelectorNode.AddChildNode(standIncoverSelector);
         standSelectorNode.AddChildNode(playerStandMoveNode);
@@ -234,12 +250,16 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
             curPlayerActionNode.FixedUpdate();
     }
 
+    public void ChangeNode(PlayerActionNodeLeaf playerActionNodeLeaf)
+    {
+        curPlayerActionNode.Exit();
+        curPlayerActionNode = playerActionNodeLeaf;
+        curPlayerActionNode.Enter();
+    }
 
     #endregion
 
-    public void OnNotify(Player player)
-    {
-    }
+
     #region ProceduralAim_Lean
     [SerializeField] private MultiAimConstraint aimConstraint;
     [SerializeField] private MultiRotationConstraint rotationConstraint;
@@ -263,9 +283,64 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     #endregion
 
     #region InitailizedGunFu
-    public bool triggerGunFu { get ; set ; }
+    public bool _triggerGunFu { get ; set ; }
+    public IWeaponAdvanceUser _weaponUser { get ; set; }
+    public Vector3 _gunFuAimDir { get => Camera.main.transform.forward; }
+
+    [Range(0, 10)]
+    [SerializeField] private float shpere_Raduis_Detecion;
+    public float _shpere_Raduis_Detecion { get => shpere_Raduis_Detecion; set { } }
+    [Range(0, 10)]
+    [SerializeField] private float sphere_Distance_Detection;
+    public float _sphere_Distance_Detection { get => sphere_Distance_Detection; set { } }
+    [Range(0, 360)]
+    [SerializeField] private float limitAimAngleDegrees;
+    public float _limitAimAngleDegrees { get =>limitAimAngleDegrees; set { } }
+
+    public Transform _gunFuUserTransform { get ; set; }
+    public LayerMask _layerTarget { get ; set ; }
+
+    [SerializeField] GunFuHitNodeScriptableObject hit1;
+    [SerializeField] GunFuHitNodeScriptableObject hit2;
+    [SerializeField] GunFuHitNodeScriptableObject knockDown;
     public void InitailizedGunFuComponent()
     {
+        _weaponUser = this;
+        _gunFuUserTransform = RayCastPos;
+        _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(0));
+        _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
     }
     #endregion
+
+    #region TransformLocalWorld
+    private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        float zeta;
+
+        Vector3 Direction;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+    private Vector3 TransformWorldToLocalVector(Vector3 dirChild, Vector3 dirParent)
+    {
+        Vector3 Direction = Vector3.zero;
+        float zeta;
+        zeta = Mathf.Atan2(dirParent.z, dirParent.x) - Mathf.Deg2Rad * 90;
+        zeta = -zeta;
+        Direction.x = dirChild.x * Mathf.Cos(zeta) - dirChild.z * Mathf.Sin(zeta);
+        Direction.z = dirChild.x * Mathf.Sin(zeta) + dirChild.z * Mathf.Cos(zeta);
+        Direction.y = 0;
+
+        return Direction;
+    }
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+      
+    }
 }
