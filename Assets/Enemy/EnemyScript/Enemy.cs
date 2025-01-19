@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
     IHearingComponent, IMovementCompoent, IPatrolComponent,
-    IPainState,IFallDownGetUpAble
+    IPainState,IFallDownGetUpAble,IGunFuDamagedAble
 {
     [Range(0,100)]
     public float intelligent;
@@ -126,6 +126,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyStandTakeCoverStateNode enemyStandTakeCoverState { get; private set; }
     public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
 
+    public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
+    public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
+    public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
 
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
@@ -322,6 +325,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this,this);
         enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this, this);
 
+        gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this,GotHit1);
+        gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this,GotHit2);
+        gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this,KnockDown);
+
         startSelector.AddChildNode(enemtDeadState);
         startSelector.AddChildNode(fallDown_EnemyState_NodeLeaf);
         startSelector.AddChildNode(painStateSelector);
@@ -341,6 +348,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     }
 
+    public void ChangeStateNode(EnemyStateLeafNode enemyStateLeafNode)
+    {
+        if(curStateLeaf != null)
+            curStateLeaf.Exit();
+
+        curStateLeaf = enemyStateLeafNode;
+        curStateLeaf.Enter();
+    }
     private void UpdateState() 
     {
         if (curStateLeaf.IsReset())
@@ -612,6 +627,41 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
+    #region ImplementGunFuGotHitAble
+    public bool _triggerHitedGunFu { get; set ; }
+    public Transform _gunFuHitedAble { get => transform; set { } }
+    public Vector3 attackedPos { get; set; }
+
+    [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
+    [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;
+    [SerializeField] GunFu_GotHit_ScriptableObject KnockDown;
+    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, Vector3 attackerPos)
+    {
+        switch (gunFu_NodeLeaf)
+        {
+            case Hit1GunFuNode hit1GunFuNode:
+                {
+                    ChangeStateNode(gotHit1_GunFuHitNodeLeaf);
+                }
+                break;
+
+            case Hit2GunFuNode hit2GunFuNode:
+                {
+                    ChangeStateNode(gotHit2_GunFuHitNodeLeaf);
+                }
+                break;
+
+            case KnockDown_GunFuNode knockDownGunFuNode: 
+                {
+                    ChangeStateNode(gotKnockDown_GunFuNodeLeaf);
+                }
+                break;
+        }
+        attackedPos = attackerPos;
+    }
+
+    #endregion
+
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {
@@ -637,5 +687,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         return Direction;
     }
+
+   
     #endregion
 }

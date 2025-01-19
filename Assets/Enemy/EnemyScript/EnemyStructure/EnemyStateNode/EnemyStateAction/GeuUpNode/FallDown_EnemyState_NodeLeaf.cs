@@ -70,6 +70,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         timerGetDown = 0f;
 
         enemy.posture = 0;
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
     }
 
     public override void Exit()
@@ -144,7 +146,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
                 {
                     beforeRootPos = enemy.transform.position;
                     curState = FallDownState.StandingUp;
-
+                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetUp);
                     enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
 
                     if (isFacingUp)

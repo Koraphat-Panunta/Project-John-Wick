@@ -21,6 +21,8 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeAim);
         base.Enter();
     }
 

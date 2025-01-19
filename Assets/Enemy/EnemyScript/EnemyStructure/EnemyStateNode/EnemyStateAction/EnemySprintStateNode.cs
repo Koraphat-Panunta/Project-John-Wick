@@ -23,8 +23,8 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-        
 
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Sprint);
         base.Enter();
     }
 

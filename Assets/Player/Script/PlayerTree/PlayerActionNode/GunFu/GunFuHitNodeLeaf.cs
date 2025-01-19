@@ -23,7 +23,6 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
     }
     public override void Enter()
     {
-       
         _timer = 0;
         base.Enter();
     }

@@ -12,7 +12,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public MovementTest movementTest;
     public CoverDetection coverDetection;
 
-
     public Transform RayCastPos;
 
     [SerializeField] private bool isImortal;
@@ -24,9 +23,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     }
     public ShoulderSide curShoulderSide;
 
-
     public float MyHP;
-
 
     public Vector2 inputLookDir_Local;
     public Vector3 inputLookDir_World;
@@ -339,8 +336,5 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     }
     #endregion
 
-    private void OnDrawGizmos()
-    {
-      
-    }
+   
 }

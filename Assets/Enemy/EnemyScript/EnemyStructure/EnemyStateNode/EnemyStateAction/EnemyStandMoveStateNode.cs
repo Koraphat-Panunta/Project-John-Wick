@@ -28,6 +28,8 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Move);
         base.Enter();
     }
 

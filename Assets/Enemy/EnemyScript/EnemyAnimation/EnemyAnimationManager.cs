@@ -28,16 +28,39 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
     public string AnimationStateName;
 
+    public bool is_Layer1_Enable;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
+        if(enemyEvent == SubjectEnemy.EnemyEvent.Idle 
+            ||enemyEvent == SubjectEnemy.EnemyEvent.Move)
+        {
+            animator.CrossFade("Move/Idle", 0.45f, 0);
+            is_Layer1_Enable = true;
+        }
 
+        if(enemyEvent == SubjectEnemy.EnemyEvent.Sprint)
+        {
+            animator.CrossFade("Sprint", 0.45f, 0);
+            is_Layer1_Enable = true;
+        }
+
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit
+            ||enemyEvent == SubjectEnemy.EnemyEvent.FallDown
+            ||enemyEvent == SubjectEnemy.EnemyEvent.GetUp
+            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit)
+        {
+            is_Layer1_Enable = false;
+        }
     }
 
     void Start()
     {
         enemy = GetComponent<Enemy>();
         animator = GetComponent<Animator>();
-        InitailizedAnimationNode();
+
+        enemy.AddObserver(this);
+
+        is_Layer1_Enable = true;
     }
 
     // Update is called once per frame
@@ -45,114 +68,16 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     {
         BackBoardUpdate();
 
-        if (curAnimationNodeLeaf.IsReset())
-        {
-            curAnimationNodeLeaf.Exit();
-            curAnimationNodeLeaf = null;
-            startAnimationNodeSelector.Transition(out EnemyStateLeafNode enemyStateLeaf);
-            curAnimationNodeLeaf = enemyStateLeaf;
-            curAnimationNodeLeaf.Enter();
-        }
-    
-        if (curAnimationNodeLeaf!= null)
-            curAnimationNodeLeaf.Update();
-
-        this.AnimationStateName = curAnimationNodeLeaf.ToString();
+        if (is_Layer1_Enable)
+            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 100 * Time.deltaTime));
+        else
+            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) - 100 * Time.deltaTime));
     }
     private void FixedUpdate()
     {
 
-        if (curAnimationNodeLeaf != null)
-            curAnimationNodeLeaf.FixedUpdate();
+        
     }
-
-    public EnemyStateLeafNode curAnimationNodeLeaf;
-    public EnemyStateSelectorNode startAnimationNodeSelector;
-
-    public IdleMove_Enemy_AnimationNodeLeaf idleMove_Enemy_AnimationNodeLeaf;
-    public Sprint_Enemy_AnimationNodeLeaf sprint_Enemy_AnimationNodeLeaf;
-    public RestingNode_Enemy_AnimationNodeLeaf restingNode_Enemy_AnimationNodeLeaf;
-
-    private void InitailizedAnimationNode()
-    {
-        startAnimationNodeSelector = new EnemyStateSelectorNode(enemy,()=> true);
-
-        idleMove_Enemy_AnimationNodeLeaf = new IdleMove_Enemy_AnimationNodeLeaf(enemy, animator,
-            () => true,//PreCondition
-            () => 
-            {
-                MotionControlManager motionControlManager = enemy.motionControlManager;
-
-                if (motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
-                || motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
-                    return true;
-
-                if(enemy.curStateLeaf == enemy.enemySprintState)
-                    return true;
-
-                if(enemy._isInPain)
-                    return true;
-
-                return false;
-            });//IsReset
-        sprint_Enemy_AnimationNodeLeaf = new Sprint_Enemy_AnimationNodeLeaf(enemy, animator,
-            () =>
-            {
-
-                if (enemy.curStateLeaf == enemy.enemySprintState)
-                    return true;
-                return false; 
-            }, //PreCondition
-            () => 
-        {
-            MotionControlManager motionControlManager = enemy.motionControlManager;
-
-            if (motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
-            || motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
-                return true;
-
-            if (enemy.curStateLeaf != enemy.enemySprintState)
-                return true;
-
-            if (enemy._isInPain)
-                return true;
-
-            return false;
-        });//IsReset
-
-        restingNode_Enemy_AnimationNodeLeaf = new RestingNode_Enemy_AnimationNodeLeaf(enemy,animator,
-            ()=>
-            {
-                MotionControlManager motionControlManager = enemy.motionControlManager;
-
-                if(motionControlManager.curMotionState == motionControlManager.animationDrivenMotionState
-                ||motionControlManager.curMotionState == motionControlManager.ragdollMotionState
-                )
-                    return true;
-                return false;
-        }, 
-            () => 
-            {
-                MotionControlManager motionControlManager = enemy.motionControlManager;
-
-                if (motionControlManager.curMotionState == enemy.motionControlManager.codeDrivenMotionState)
-                {
-                    return true;
-                }
-                return false;
-            }
-        );
-
-        startAnimationNodeSelector.AddChildNode(restingNode_Enemy_AnimationNodeLeaf);
-        startAnimationNodeSelector.AddChildNode(sprint_Enemy_AnimationNodeLeaf);
-        startAnimationNodeSelector.AddChildNode(idleMove_Enemy_AnimationNodeLeaf);
-
-        startAnimationNodeSelector.Transition(out EnemyStateLeafNode enemyStateNodeLeaf);
-
-        curAnimationNodeLeaf = enemyStateNodeLeaf;
-    }
-
-
     private void BackBoardUpdate()
     {
         this.enemyStance = enemy.curStance;

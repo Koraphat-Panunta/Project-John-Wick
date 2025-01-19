@@ -11,10 +11,10 @@ public class Score : IObserverEnemy
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.GetShoot_Head)
-        {
-            score += 100;
-        }
+        //if (enemyEvent == SubjectEnemy.EnemyEvent.GetShoot_Head)
+        //{
+        //    score += 100;
+        //}
         if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
         {
             score += 50;

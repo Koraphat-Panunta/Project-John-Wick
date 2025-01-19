@@ -17,7 +17,9 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
 
         animator.CrossFade(stateName, 0.1f, 0);
-   
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
+
         base.Enter();
     }
     public override void Update()

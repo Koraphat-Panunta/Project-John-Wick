@@ -6,16 +6,25 @@ public class SubjectEnemy : Character
 {
     public enum EnemyEvent
     {
-        GetShoot_Arm,
-        GetShoot_Chest,
-        GetShoot_Head,
-        GetShoot_Leg,
+        GotHit,
+        GunFuGotHit,
+
         Dead,
+
+        Idle,
+        Move,
+        Sprint,
+
+        FallDown,
+        GetUp,
+
         Flanking,
         TakeCover,
+        TakeAim,
         Holding,
         Searching,
-        WarpingMotion
+        WarpingMotion,
+
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
     public void AddObserver(IObserverEnemy observer)

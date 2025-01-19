@@ -12,10 +12,13 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 
     public override void Enter()
     {
+        player._triggerGunFu = false;
         _timer = 0;
         gunFuDamagedAble = null;
         isHiting = false;
         gunFuTriggerBuufer = false;
+
+        DetectTarget();
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
@@ -60,7 +63,55 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 
     public override void Update()
     {
-       
+       LerpingToTargetPos();
+
+        if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
+           && isHiting == false)
+        {
+            if (gunFuDamagedAble != null)
+                gunFuDamagedAble.TakeGunFuAttacked(this,player.transform.position);
+
+            isHiting = true;
+        }
+
         base.Update();
+    }
+    private bool DetectTarget()
+    {
+        Vector3 casrDir;
+
+        if (Vector3.Angle(player.RayCastPos.transform.forward, player._gunFuAimDir) <= player._limitAimAngleDegrees)
+        {
+            casrDir = new Vector3(player._gunFuAimDir.x, 0, player._gunFuAimDir.z);
+        }
+        else
+        {
+            casrDir = player.RayCastPos.transform.forward;
+        }
+
+        if (Physics.SphereCast(player.RayCastPos.transform.position, player._shpere_Raduis_Detecion, casrDir, out RaycastHit hitInfo, player._sphere_Distance_Detection, player._layerTarget))
+        {
+            if (hitInfo.collider.TryGetComponent<IGunFuDamagedAble>(out IGunFuDamagedAble gunFuDamagedAble))
+            {
+                this.gunFuDamagedAble = gunFuDamagedAble;
+                targetPos = new Vector3(hitInfo.point.x, player.transform.position.y, hitInfo.point.z);
+                return true;
+            }
+            targetPos = new Vector3(hitInfo.point.x, player.transform.position.y, hitInfo.point.z);
+            return false;
+        }
+        targetPos = player.transform.position + new Vector3(casrDir.x, 0, casrDir.z) * player._sphere_Distance_Detection;
+        return false;
+
+
+
+    }
+    RotateObjectToward rotateObjectToward = new RotateObjectToward();
+    private void LerpingToTargetPos()
+    {
+        Debug.Log("target Pos = " + targetPos);
+        rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
+        Vector3 lerpingPos = targetPos + (player.transform.position - targetPos).normalized * 1.25f;
+        player.playerMovement.WarpingMovementCharacter(lerpingPos, Vector3.zero, 600 * Time.deltaTime);
     }
 }

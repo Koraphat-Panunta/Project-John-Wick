@@ -9,4 +9,6 @@ public class GunFuHitNodeScriptableObject : ScriptableObject
     public float TransitionAbleTime_Normalized;
     public float HitAbleTime_Normalized;
     public float EndHitAbleTime_Normalized;
+
+    public GunFu_GotHit_ScriptableObject GunFu_GotHit_ScriptableObject;
 }

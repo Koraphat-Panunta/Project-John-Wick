@@ -23,6 +23,8 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeCover);
         base.Enter();
     }
 

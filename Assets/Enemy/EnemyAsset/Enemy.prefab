@@ -248,6 +248,9 @@ MonoBehaviour:
   pushUpClip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
   hipsBone: {fileID: 2724998908371769539}
   rootModel: {fileID: 6185366314506669569}
+  GotHit1: {fileID: 11400000, guid: 89beee9d80c7879458e06b1798e56702, type: 2}
+  GotHit2: {fileID: 11400000, guid: 1ce782e84fbdb0841a7650776df1f2c5, type: 2}
+  KnockDown: {fileID: 11400000, guid: 4bfe2469bdaf93a4aaa0d9e60241e9f2, type: 2}
 --- !u!114 &6414908439600597232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +283,7 @@ MonoBehaviour:
   isGround: 0
   isSprint: 0
   AnimationStateName: 
+  is_Layer1_Enable: 0
 --- !u!114 &1345616770146797532
 MonoBehaviour:
   m_ObjectHideFlags: 0

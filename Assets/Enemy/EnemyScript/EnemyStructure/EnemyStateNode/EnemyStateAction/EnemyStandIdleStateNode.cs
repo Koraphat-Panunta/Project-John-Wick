@@ -28,6 +28,8 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Idle);
         base.Enter();
     }
 
