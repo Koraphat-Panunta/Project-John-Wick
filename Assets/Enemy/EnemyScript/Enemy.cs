@@ -131,6 +131,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
 
+    public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
+
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
     public EnemyStateSelectorNode head_PainState_Selector { get; private set; }
@@ -329,6 +331,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this,GotHit1);
         gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this,GotHit2);
         gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this,KnockDown);
+
+        gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this, animator);
 
         startSelector.AddChildNode(enemtDeadState);
         startSelector.AddChildNode(fallDown_EnemyState_NodeLeaf);
@@ -633,6 +637,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Vector3 attackedPos { get; set; }
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
+    public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => gotHumandShielded_GunFuNodeLeaf; set => gotHumandShielded_GunFuNodeLeaf = value; }
+
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] GunFu_GotHit_ScriptableObject KnockDown;
@@ -666,7 +672,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         {
             case HumanShield_GunFuInteraction_NodeLeaf humandShield_GunFuNode:
                 {
-                    
+                    if(humandShield_GunFuNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Enter)
+                    ChangeStateNode(gotHumandShielded_GunFuNodeLeaf);
                 }
                 break;
         }

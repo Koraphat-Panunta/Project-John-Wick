@@ -5,6 +5,7 @@ public class RagdollMotionState : MotionState
 {
     public List<Rigidbody> bones = new List<Rigidbody>();
     public GameObject hips;
+    private Rigidbody hipsRigid;
     private Animator animator;
     public RagdollMotionState(List<GameObject> bones,GameObject hips,Animator animator) 
     {
@@ -15,6 +16,7 @@ public class RagdollMotionState : MotionState
         }
         DisableRagdoll();
         this.hips = hips;
+        this.hipsRigid = this.hips.GetComponent<Rigidbody>();
     }
 
     public override void Enter()
@@ -46,5 +48,9 @@ public class RagdollMotionState : MotionState
         {
             rb.isKinematic = true;
         }
+    }
+    public void AddForce(Vector3 force,ForceMode forceMode)
+    {
+        hipsRigid.AddForce(force,forceMode);
     }
 }

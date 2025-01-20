@@ -8,7 +8,7 @@ public class WeaponCommand
     {
         this.weaponUser = weaponUser;
     }
-    public void PullTrigger()
+    public virtual void PullTrigger()
     {
         Weapon weapon = this.weaponUser.currentWeapon;
         switch (weapon.triggerState)
@@ -22,11 +22,11 @@ public class WeaponCommand
         }
         weapon.Fire();
     }
-    public void CancleTrigger()
+    public virtual void CancleTrigger()
     {
         weaponUser.currentWeapon.triggerState = TriggerState.Up;
     }
-    public void Reload(AmmoProuch ammoProuch)
+    public virtual void Reload(AmmoProuch ammoProuch)
     {
         Weapon weapon = weaponUser.currentWeapon;
         if (ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0)
@@ -34,17 +34,17 @@ public class WeaponCommand
             weapon.Reload();
         }
     }
-    public void LowReady()
+    public virtual void LowReady()
     {
         weaponUser.currentWeapon.LowWeapon();
     }
-    public void AimDownSight()
+    public virtual void AimDownSight()
     {
         weaponUser.currentWeapon.Aim();
     }
 
     bool isSwitchingWeapon = false;
-    public void SwitchWeapon()
+    public virtual void SwitchWeapon()
     {
         WeaponBelt weaponBelt = weaponUser.weaponBelt;
         if (isSwitchingWeapon == false)

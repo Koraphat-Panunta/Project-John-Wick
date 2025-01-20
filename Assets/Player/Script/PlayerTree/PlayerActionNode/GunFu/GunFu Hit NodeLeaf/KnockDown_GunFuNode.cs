@@ -15,8 +15,9 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
         gunFuDamagedAble = null;
         isHiting = false;
         gunFuTriggerBuufer = false;
+        isDetectTarget = false;
 
-        DetectTarget();
+        isDetectTarget = DetectTarget();
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
@@ -34,6 +35,10 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 
     public override void FixedUpdate()
     {
+        player.playerMovement.FreezingCharacter();
+
+        if (isDetectTarget)
+        LerpingToTargetPos();
         base.FixedUpdate();
     }
 
@@ -61,7 +66,7 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 
     public override void Update()
     {
-       LerpingToTargetPos();
+
 
         if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
            && isHiting == false)

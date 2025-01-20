@@ -86,12 +86,18 @@ public class PlayerMovement
     public void WarpingMovementCharacter(Vector3 Destination,Vector3 offset,float speed)
     {
         Vector3 finalDestination = Destination + offset;
-        if (Vector3.Distance(player.transform.position, finalDestination) > 0)
+        float distacne = Vector3.Distance(player.transform.position, finalDestination);
+
+        curVelocity_World = Vector3.zero;
+
+        if (Vector3.Distance(player.transform.position, finalDestination) <= speed*Time.deltaTime)
         {
-            curVelocity_World = Vector3.zero;
-            characterController.Move((finalDestination - player.transform.position).normalized*speed*Time.deltaTime);
+            characterController.Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed*Time.deltaTime) * Time.deltaTime);
+            return;
         }
-        
+
+        characterController.Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
+
     }
     public void FreezingCharacter()
     {

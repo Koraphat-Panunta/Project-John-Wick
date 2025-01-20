@@ -17,8 +17,10 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
         gunFuDamagedAble = null;
         isHiting = false;
         gunFuTriggerBuufer = false;
+        isDetectTarget = false;
 
-        DetectTarget();
+        isDetectTarget = DetectTarget();
+
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
         base.Enter();
@@ -35,6 +37,10 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
 
     public override void FixedUpdate()
     {
+        player.playerMovement.FreezingCharacter();
+
+        if(isDetectTarget)
+        LerpingToTargetPos();
         base.FixedUpdate();
     }
 
@@ -75,7 +81,6 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
             isHiting = true;
         }
 
-        LerpingToTargetPos();
 
         if (_timer >= _animationClip.length * _transitionAbleTime_Nornalized)
         {

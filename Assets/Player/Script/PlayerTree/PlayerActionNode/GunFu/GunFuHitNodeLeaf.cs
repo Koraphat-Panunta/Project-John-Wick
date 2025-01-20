@@ -13,6 +13,8 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
     public bool _isExit { get => _timer >= _animationClip.length * _exitTime_Normalized ; set { } }
     public bool _isTransitionAble { get => _timer >= _transitionAbleTime_Nornalized * _animationClip.length ; set { } }
 
+    protected bool isDetectTarget;
+
     protected IGunFuDamagedAble gunFuDamagedAble;
  
     public GunFuHitNodeLeaf(Player player,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player)
@@ -26,6 +28,7 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
     public override void Enter()
     {
         _timer = 0;
+
         base.Enter();
     }
 
@@ -59,7 +62,7 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
         if (Vector3.Distance(targetPos, player.transform.position) > 0.15f)
         {
             rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
-            player.playerMovement.WarpingMovementCharacter(targetPos, Vector3.zero, 300 * Time.deltaTime);
+            player.playerMovement.WarpingMovementCharacter(targetPos, Vector3.zero, 600 * Time.deltaTime);
         }
     }
 

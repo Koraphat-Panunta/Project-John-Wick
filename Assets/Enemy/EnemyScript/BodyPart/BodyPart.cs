@@ -10,6 +10,7 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAb
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuHitedAble { get => enemy._gunFuHitedAble; set { } }
     public Vector3 attackedPos {get;set; }
+    public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => enemy._humandShield_GotInteract_NodeLeaf; set => enemy._humandShield_GotInteract_NodeLeaf = value; }
 
     public abstract void TakeDamage(IDamageVisitor damageVisitor);
     public abstract void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart);

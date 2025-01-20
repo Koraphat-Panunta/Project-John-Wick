@@ -8,6 +8,7 @@ public class SubjectEnemy : Character
     {
         GotHit,
         GunFuGotHit,
+        GunFuGotInteract,
 
         Dead,
 

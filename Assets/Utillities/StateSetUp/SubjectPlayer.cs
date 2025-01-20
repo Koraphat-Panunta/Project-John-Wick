@@ -7,6 +7,7 @@ public abstract class SubjectPlayer : Character
     {
         SwapShoulder,
         Aim,
+        AimHumandShield,
         LowReady,
         Firing,
         Reloading,
