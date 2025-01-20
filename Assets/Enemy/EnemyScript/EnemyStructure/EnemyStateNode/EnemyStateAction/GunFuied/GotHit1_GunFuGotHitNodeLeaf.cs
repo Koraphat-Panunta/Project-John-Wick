@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 {
+    Vector3 pullBackPos;
     public GotHit1_GunFuGotHitNodeLeaf(Enemy enemy, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, gunFu_GotHit_ScriptableObject)
     {
     }
@@ -12,6 +13,8 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotHit);
 
         
+
+
         base.Enter();
     }
 
@@ -35,8 +38,6 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 
     public override void Update()
     {
-
-        new RotateObjectToward().RotateTowardsObjectPos(enemy.attackedPos, enemy.gameObject, 20 * Time.deltaTime);
         base.Update();
     }
 }

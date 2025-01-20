@@ -51,6 +51,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         InitailizedHearingComponent();
+
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(50,70);
         posture = 100;
@@ -629,13 +630,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set ; }
-    public Transform _gunFuHitedAble { get => transform; set { } }
     public Vector3 attackedPos { get; set; }
+    public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] GunFu_GotHit_ScriptableObject KnockDown;
-    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, Vector3 attackerPos)
+    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
         switch (gunFu_NodeLeaf)
         {
@@ -657,9 +658,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                 }
                 break;
         }
-        attackedPos = attackerPos;
+        attackedPos = attackerPos._gunFuUserTransform.position;
     }
-
+    public void TakeGunFuAttacked(GunFu_Interaction_NodeLeaf gunFu_Interaction_NodeLeaf, IGunFuAble gunFuAble)
+    {
+        switch (gunFu_Interaction_NodeLeaf)
+        {
+            case HumanShield_GunFuInteraction_NodeLeaf humandShield_GunFuNode:
+                {
+                    
+                }
+                break;
+        }
+        attackedPos = gunFuAble._gunFuUserTransform.position;
+    }
     #endregion
 
     #region TransformLocalWorld
@@ -688,6 +700,5 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         return Direction;
     }
 
-   
     #endregion
 }

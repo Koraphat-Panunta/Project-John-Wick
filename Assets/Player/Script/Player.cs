@@ -62,13 +62,15 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         base.SetHP(100);
         AddObserver(this);
 
+        InitailizedGunFuComponent();
+
         InitializedPlayerNodeTree();
 
         Initialized_IWeaponAdvanceUser();
 
         InitializedAimingProceduralAnimate();
 
-        InitailizedGunFuComponent();
+
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
@@ -296,6 +298,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     public Transform _gunFuUserTransform { get ; set; }
     public LayerMask _layerTarget { get ; set ; }
+    [SerializeField] Transform targetAdjustTranform;
+    public Transform _targetAdjustTranform { get; set; }
 
     [SerializeField] GunFuHitNodeScriptableObject hit1;
     [SerializeField] GunFuHitNodeScriptableObject hit2;
@@ -306,6 +310,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         _gunFuUserTransform = RayCastPos;
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(0));
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
+
+        _targetAdjustTranform = targetAdjustTranform;
     }
     #endregion
 
@@ -337,4 +343,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     #endregion
 
    
+
+
 }

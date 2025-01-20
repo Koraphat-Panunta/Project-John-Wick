@@ -27710,17 +27710,22 @@ PrefabInstance:
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: limitAimAngleDegrees
-      value: 74.1
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
+      propertyPath: targetAdjustTranform
+      value: 
+      objectReference: {fileID: 1220032082}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
       propertyPath: shpere_Raduis_Detecion
-      value: 0.66
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: sphere_Distance_Detection
-      value: 2.27
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 3572400860917802213, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -27884,7 +27889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1376691160772055220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1220032082}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7610df03b6259ea409d446dc8358715b, type: 3}
 --- !u!1 &912162413 stripped
@@ -36784,6 +36793,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1486257370}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1220032081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1220032082}
+  m_Layer: 6
+  m_Name: GunFuTargetAdjust Reference
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1220032082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220032081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2091064973}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1221890088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61654,6 +61694,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8361e996639f93c4da895c8076cf52df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2091064973 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1376691160772055220, guid: 7610df03b6259ea409d446dc8358715b,
+    type: 3}
+  m_PrefabInstance: {fileID: 905983877}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2095623604
 PrefabInstance:
   m_ObjectHideFlags: 0
