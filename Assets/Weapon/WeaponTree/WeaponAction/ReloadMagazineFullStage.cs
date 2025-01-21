@@ -75,7 +75,7 @@ public class ReloadMagazineFullStage : WeaponActionNode
     public override void Enter()
     {
         reloadStage = ReloadType.MAGAZINE_RELOAD;
-        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Reloading);
+        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
         Weapon.userWeapon.weaponAfterAction.Reload(Weapon, reloadStage);
         reloadingCoroutine = Weapon.StartCoroutine(Reloading());
     }

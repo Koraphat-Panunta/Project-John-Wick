@@ -13,15 +13,25 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     [SerializeField] protected SkinnedMeshRenderer sightRenderer;
     public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
-       if(weaponNotify == WeaponSubject.WeaponNotifyType.Reloading)
+       if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
        {
-            animator.SetTrigger("Reloading");
-       }
-       else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReload)
+            animator.CrossFade("ReloadMagazineFullStage", 0.1f, 0);
+        }
+       else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
        {
-            animator.SetTrigger("Reloading");
-       }
-       if(weaponNotify == WeaponSubject.WeaponNotifyType.AttachmentSetup)
+            animator.CrossFade("TacticalReloadMagazineFullStage", 0.1f, 0);
+        }
+
+       if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing) 
+        {
+            if (weapon.bulletStore[BulletStackType.Magazine] <= 0)
+                animator.CrossFade("BarrelOpen", 0.1f, 1);
+            else
+                animator.CrossFade("BarrelFiring", 0.1f, 1);
+        }
+
+
+        if (weaponNotify == WeaponSubject.WeaponNotifyType.AttachmentSetup)
         {
             SetWeaponApprerance(weapon);
         }
@@ -43,6 +53,28 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     private void OnDisable()
     {
         weapon.Remove(this);
+    }
+    [SerializeField] SkinnedMeshRenderer magMain;
+    [SerializeField] SkinnedMeshRenderer magSecond;
+    public void EnableSecondMag()
+    {
+        magSecond.enabled = true;
+    }
+    public void EnableMainMag()
+    {
+        magMain.enabled = true;
+    }
+    public void DisableSecondMag()
+    {
+        magSecond.enabled =false;
+    }
+    public void DisableMainMag()
+    {
+        magMain.enabled=false;
+    }
+    public void BarrelClose()
+    {
+        animator.CrossFade("BarrelClose", 0.1f, 1);
     }
     public virtual void SpawnMagDrop()
     {

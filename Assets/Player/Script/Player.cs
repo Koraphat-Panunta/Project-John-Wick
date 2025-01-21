@@ -53,10 +53,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         coverDetection = new CoverDetection();
-        //LeanCover leanCover = new LeanCover(rotationConstraint,crosshairController,this);
         hpRegenarate = new HpRegenarate(this);
-
-      
 
         curShoulderSide = ShoulderSide.Right;
         base.SetHP(100);
@@ -70,18 +67,16 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
         InitializedAimingProceduralAnimate();
 
-
-
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
-        new WeaponFactoryAR15().CreateWeapon(this);
+        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
+        //new WeaponFactoryAR15().CreateWeapon(this);
 
     }
 
 
     private void Update()
     {
-        //playerStateManager.Update();
+
         UpdatePlayerTree();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
@@ -94,7 +89,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     private void FixedUpdate()
     {
-        //playerStateManager.FixedUpdate();
         FixedUpdatePlayerTree();
         playerMovement.MovementUpdate();
     }
@@ -102,6 +96,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
+
         if (isImortal)
             return;
         Bullet bulletObj = damageVisitor as Bullet;
@@ -110,26 +105,24 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         HP -= damage * 0.21f;
         hpRegenarate.regenarate_countDown = 3;
         NotifyObserver(this,PlayerAction.GetShoot);
+
         if (GetHP() <= 0)
-        {
             NotifyObserver(this, PlayerAction.Dead);
-        }
+        
     }
 
     public void OnNotify(Player player, PlayerAction playerAction)
     {
         if(playerAction == PlayerAction.SwapShoulder)
         {
-            if(curShoulderSide == ShoulderSide.Left)
-            {
-                curShoulderSide = ShoulderSide.Right;
-            }
-            else if(curShoulderSide == ShoulderSide.Right)
-            {
-                curShoulderSide = ShoulderSide.Left;
-            }
+            if (curShoulderSide == ShoulderSide.Left)
+            { curShoulderSide = ShoulderSide.Right; }
+
+            else if (curShoulderSide == ShoulderSide.Right)
+            { curShoulderSide = ShoulderSide.Left; }
         }
     }
+
     public void OnNotify(Player player)
     {
     }

@@ -26,11 +26,13 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     public float AimDownSightWeight;
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
-    public float PointRange;
+    public float CAR_Weight;
 
     public bool isCover;
 
     public bool isLayer_1_Enable;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,25 +41,27 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         player.AddObserver(this);
 
         isLayer_1_Enable = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         BackBoardUpdate();
+
         if (isLayer_1_Enable == true)
-        {
             animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 10 * Time.deltaTime));
-        }
         else
-        {
             animator.SetLayerWeight(1,Mathf.Clamp01(animator.GetLayerWeight(1) - 10 * Time.deltaTime));
-        }
+   
     }
     private void FixedUpdate()
     {
         CalculateDeltaRotation();
     }
+
+    
+
     private void BackBoardUpdate()
     {
        
@@ -97,18 +101,13 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.sprint_MaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.sprint_MaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;
-
-            
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;   
         }
         else
         {
-
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.move_MaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
             this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
-
-           
         }
 
 
@@ -128,9 +127,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
             , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position)<2)
 
-                PointRange = Mathf.Clamp(PointRange - 10 * Time.deltaTime, 0, 1);
+                CAR_Weight = Mathf.Lerp (CAR_Weight, 1, 10 * Time.deltaTime);
             else
-                PointRange = Mathf.Clamp(PointRange + 10 * Time.deltaTime, 0, 1);
+                CAR_Weight = Mathf.Lerp (CAR_Weight, 0, 10 * Time.deltaTime);
 
         }
        
@@ -148,10 +147,8 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("AimDownSightWeight",AimDownSightWeight);
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
-        animator.SetFloat("PointRange", PointRange);
+        animator.SetFloat("CAR_Weight", CAR_Weight);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
-
-        
 
     }
 
@@ -203,6 +200,18 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (player.currentWeapon is SecondaryWeapon)
                 animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f,1);
         }
+
+        if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
+            animator.CrossFade("ReloadMagazineFullStage", 0.1f, 1);
+
+        if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
+            animator.CrossFade("TacticalReloadMagazineFullStage", 0.1f, 1);
+
+        if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
+            animator.CrossFade("MagIn_ReloadMagazineStage", 0.1f,1);
+
+        if (playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
+            animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.1f, 1);
 
     }
 

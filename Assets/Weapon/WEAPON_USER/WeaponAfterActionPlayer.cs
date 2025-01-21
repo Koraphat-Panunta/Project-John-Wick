@@ -39,14 +39,12 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
         switch (reloadType)
         {
             case ReloadType.MAGAZINE_RELOAD
-                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.Reloading);
+                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.ReloadMagazineFullStage);
                 break;
             case ReloadType.MAGAZINE_TACTICAL_RELOAD
-                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.Reloading);
+                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage);
                 break;
-            case ReloadType.MAGAZINE_RELOAD_SUCCESS
-                :player.NotifyObserver(player,PlayerAction.Reloading);
-                break;
+           
         }
     }
 

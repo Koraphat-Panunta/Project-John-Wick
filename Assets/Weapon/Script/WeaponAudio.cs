@@ -10,11 +10,11 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon
         {
             TriggerFiringSound();
         }
-        if(weaponNotify == WeaponSubject.WeaponNotifyType.Reloading)
+        if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
         {
             TriggerReloadSound();
         }
-        if (weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReload)
+        if (weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
         {
             TriggerReloadSound();
         }

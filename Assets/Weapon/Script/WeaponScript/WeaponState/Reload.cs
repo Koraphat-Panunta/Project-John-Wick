@@ -35,14 +35,14 @@ public class Reload : WeaponState
         else if (base._weapon.bulletStore[BulletStackType.Magazine] > 0)
         {
             reloadType = ReloadType.MAGAZINE_TACTICAL_RELOAD;
-            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
+            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
             base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             currentReload = base._weapon.StartCoroutine(Reloading());
         }
         else if (base._weapon.bulletStore[BulletStackType.Magazine] <= 0)
         {
             reloadType = ReloadType.MAGAZINE_RELOAD;
-            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.Reloading);
+            base._weapon.Notify(base._weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
             base._weapon.userWeapon.weaponAfterAction.Reload(base._weapon, reloadType);
             currentReload = this._weapon.StartCoroutine(Reloading());
         }

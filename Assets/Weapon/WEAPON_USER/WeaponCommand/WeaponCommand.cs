@@ -64,6 +64,11 @@ public class WeaponCommand
     IEnumerator SwitchPTS()
     {
         isSwitchingWeapon = true;
+        if (weaponUser is Player)
+        {
+            Player player = weaponUser as Player;
+            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
+        }
         //WeaponStateManager weaponStateManager = _weaponUser.currentWeapon.weapon_stateManager;
         PrimaryWeapon primaryWeapon = weaponUser.weaponBelt.primaryWeapon;
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
@@ -80,15 +85,17 @@ public class WeaponCommand
         yield return new WaitForSeconds(0.13f);
         (secondaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
         //
-        if(weaponUser is Player) {
-            Player player = weaponUser as Player;
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
-        }
+        
         isSwitchingWeapon = false;
     }
     IEnumerator SwitchSTP()
     {
         isSwitchingWeapon = true;
+        if (weaponUser is Player)
+        {
+            Player player = weaponUser as Player;
+            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
+        }
         //WeaponStateManager weaponStateManager = _weaponUser.currentWeapon.weapon_stateManager;
         PrimaryWeapon primaryWeapon = weaponUser.weaponBelt.primaryWeapon;
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
@@ -104,11 +111,7 @@ public class WeaponCommand
         animator.SetTrigger("DrawPrimary");
         yield return new WaitForSeconds(0.5f);
         (primaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
-        if (weaponUser is Player)
-        {
-            Player player = weaponUser as Player;
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
-        }
+       
         isSwitchingWeapon = false;
     }
     public void CancelWeaponActionEvent()

@@ -15,7 +15,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override void Enter()
     {
-        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReload);
+        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
         Weapon.userWeapon.weaponAfterAction.Reload(Weapon,ReloadType.MAGAZINE_TACTICAL_RELOAD);
         Weapon.userWeapon.weaponAfterAction.Tactical_ReloadMagazine(Weapon);
         reloadCoroutine = Weapon.StartCoroutine(Reloading());

@@ -150,7 +150,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         animator.SetFloat("AimDownSightWeight", AimDownSightWeight);
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
-        //animator.SetFloat("PointRange", 0);
+        //animator.SetFloat("CAR_Weight", 0);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
 
     }

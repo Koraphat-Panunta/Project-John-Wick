@@ -33,7 +33,10 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
                 SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
             }
        }
-       if(playerAction == SubjectPlayer.PlayerAction.Reloading)
+       if(playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage
+            || playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage
+            || playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage
+            || playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
        {
             AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
             MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];

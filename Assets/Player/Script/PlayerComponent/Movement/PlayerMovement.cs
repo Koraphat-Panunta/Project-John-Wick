@@ -147,11 +147,6 @@ public class PlayerMovement
     }
     private void DrawDirLine()
     {
-        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + inputDirection_World,Color.green);
-        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + forwardDirection_World, Color.blue);
-        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + velocityDirection_World, Color.yellow);
-        //Debug.DrawLine(playerAnimationManager.transform.position, playerAnimationManager.transform.position + curVelocity_World, Color.red);
-
        
     }
 
