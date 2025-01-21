@@ -116,7 +116,13 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
             warping = true;
 
 
-        playerMovement.RotateCharacter(coverDetection.obstacleSurfaceDir * -1, 6);
+        Vector3 coverStanceDir = coverDetection.obstacleSurfaceDir * -1;
+        if (player.curShoulderSide == Player.ShoulderSide.Left)
+            coverStanceDir = Quaternion.Euler(0, -45, 0) * coverDetection.obstacleSurfaceDir * -1;
+        else if (player.curShoulderSide == Player.ShoulderSide.Right)
+            coverStanceDir = Quaternion.Euler(0, 45, 0) * coverDetection.obstacleSurfaceDir * -1;
+
+        playerMovement.RotateCharacter(coverStanceDir , 6);
     }
 
     private  void InputPerformed()

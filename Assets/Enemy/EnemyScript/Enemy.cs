@@ -109,8 +109,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
 
 
-
-
     #region Initailized State Node
     public EnemyStateLeafNode curStateLeaf { get;private set; }
 

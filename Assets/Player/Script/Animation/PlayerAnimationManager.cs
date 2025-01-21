@@ -195,6 +195,15 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 animator.CrossFade("KnockDown", 0.05f, 0, 0);
         }
 
+        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
+        {
+            if (player.currentWeapon is PrimaryWeapon)
+                animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+
+            if (player.currentWeapon is SecondaryWeapon)
+                animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f,1);
+        }
+
     }
 
     public void OnNotify(Player player)

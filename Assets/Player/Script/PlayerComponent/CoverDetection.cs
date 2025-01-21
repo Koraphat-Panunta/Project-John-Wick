@@ -17,7 +17,7 @@ public class CoverDetection
     {
         LayerMask decObstacle = LayerMask.GetMask("Default");
        
-        if (Physics.BoxCast(oriPos,new Vector3(0.5f,0.5f,0.5f),dir,out RaycastHit hit, Quaternion.identity, 0.7f, decObstacle))
+        if (Physics.BoxCast(oriPos,new Vector3(0.5f,0.001f,0.001f),dir,out RaycastHit hit, Quaternion.LookRotation(dir), 0.7f, decObstacle))
         {
             obstacleSurfaceDir = hit.normal;
             detecEdgeOri = hit.point + (obstacleSurfaceDir * 0.4f);
@@ -30,6 +30,7 @@ public class CoverDetection
         }
         else
         {
+       
             return false;
         }
        

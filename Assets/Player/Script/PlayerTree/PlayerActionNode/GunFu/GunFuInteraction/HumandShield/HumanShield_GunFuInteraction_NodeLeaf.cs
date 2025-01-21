@@ -16,7 +16,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
     private string humandShieldExit = "HumandThrow";
 
    
-    private float timehumandThrow = 0.8f;
+    private float timehumandThrow = 0.95f;
     private float _timerHumandThrow;
 
     private HumandShield_GotInteract_NodeLeaf humandShield_GotInteract_NodeLeaf;
@@ -133,7 +133,8 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     else
                         weaponAdvanceUser.weaponCommand.CancleTrigger();
 
-                    player._aimConstraint.data.offset = new Vector3(14,0,0);
+                    player._aimConstraint.data.offset = new Vector3(12,0,0);
+                    player._aimConstraint.weight = 0.5f;
 
                     player.playerMovement.OMNI_DirMovingCharacter();
 
@@ -141,6 +142,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     if (player.isAiming == false)
                     {
                         player._aimConstraint.data.offset = beforeAimConstrainOffset;
+                        player._aimConstraint.weight = 1;
 
                         animator.CrossFade(humandShieldExit, 0.1f, 0);
                         curIntphase = InteractionPhase.Exit;
@@ -154,7 +156,9 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 {
                     _timerHumandThrow += Time.deltaTime;
 
-                    if(_timerHumandThrow >= timehumandThrow)
+                    player.playerMovement.FreezingCharacter();
+
+                    if (_timerHumandThrow >= timehumandThrow)
                         _isExit = true;
                 }
                 break;

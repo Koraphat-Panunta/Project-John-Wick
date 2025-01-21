@@ -37,7 +37,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
     public bool isSwitchWeapon;
     public enum PlayerStance {stand,crouch,prone }
     public PlayerStance playerStance = PlayerStance.stand;
-    public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, RayCastPos.forward); } }
+    public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
     //public bool isGround;
     private void BlackBoardBufferUpdate()
     {
@@ -258,7 +258,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
     #endregion
 
-
     #region ProceduralAim_Lean
     [SerializeField] private MultiAimConstraint aimConstraint;
     [SerializeField] private MultiRotationConstraint rotationConstraint;
@@ -341,8 +340,5 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         return Direction;
     }
     #endregion
-
-   
-
 
 }
