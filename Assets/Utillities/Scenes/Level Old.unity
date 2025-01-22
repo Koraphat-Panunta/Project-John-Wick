@@ -32989,6 +32989,21 @@ PrefabInstance:
       propertyPath: m_Lens.FieldOfView
       value: 71.4
       objectReference: {fileID: 0}
+    - target: {fileID: 1673587958648638037, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_Data.m_MaxLimit
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673587958648638037, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_Data.m_MinLimit
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1673587958648638037, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_Data.m_Offset.x
+      value: 37
+      objectReference: {fileID: 0}
     - target: {fileID: 1968153037591969261, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_Avatar
@@ -33440,17 +33455,17 @@ PrefabInstance:
     - target: {fileID: 8899200070380509054, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.0100002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8899200070380509054, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.80628914
       objectReference: {fileID: 0}
     - target: {fileID: 8899200070380509054, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.5915217
       objectReference: {fileID: 0}
     - target: {fileID: 8985289592823459639, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}

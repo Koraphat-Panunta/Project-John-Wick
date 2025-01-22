@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AR15 ChamberLayer
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: AR15Root
+    m_Weight: 1
+  - m_Path: AR15Root/Root
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Body
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Body/Back
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Body/BarrelGuard
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Body/BarrelGuard/Barrel
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Bolt
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Mag
+    m_Weight: 1
+  - m_Path: AR15Root/Root/Mag2
+    m_Weight: 1
+  - m_Path: AR15Root/Root/SightBack
+    m_Weight: 1
+  - m_Path: AR15Root/Root/SightForward
+    m_Weight: 1
+  - m_Path: AR_I_Barrel.001
+    m_Weight: 1
+  - m_Path: AR_I_BarrelGuard.001
+    m_Weight: 1
+  - m_Path: AR_I_Bolt.001
+    m_Weight: 1
+  - m_Path: AR_I_Grip.001
+    m_Weight: 1
+  - m_Path: AR_I_Mag_1
+    m_Weight: 1
+  - m_Path: AR_I_Mag_2
+    m_Weight: 1
+  - m_Path: AR_I_Receiver_Down.001
+    m_Weight: 1
+  - m_Path: AR_I_Receiver_Up.001
+    m_Weight: 1
+  - m_Path: AR_I_Sight_Back.001
+    m_Weight: 1
+  - m_Path: AR_I_Sight_Back_Part.001
+    m_Weight: 1
+  - m_Path: AR_I_Sight_Forward.001
+    m_Weight: 1
+  - m_Path: AR_I_Sight_Forward_Part.001
+    m_Weight: 1
+  - m_Path: AR_I_Stock.001
+    m_Weight: 1
+  - m_Path: AR_I_Trigger.001
+    m_Weight: 1

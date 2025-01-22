@@ -79,10 +79,10 @@ public class WeaponCommand
         //}
         Animator animator = weaponUser.weaponUserAnimator;
         animator.SetTrigger("HolsterPrimary");
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         curWeapon.AttachWeaponTo(weaponUser.weaponBelt.primaryWeaponSocket);
         animator.SetTrigger("DrawSecondary");
-        yield return new WaitForSeconds(0.13f);
+        yield return new WaitForSeconds(0.30f);
         (secondaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
         //
         
@@ -106,10 +106,10 @@ public class WeaponCommand
         //}
         Animator animator = weaponUser.weaponUserAnimator;
         animator.SetTrigger("HolsterSecondary");
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.36f);
         curWeapon.AttachWeaponTo(weaponUser.weaponBelt.secondaryWeaponSocket);
         animator.SetTrigger("DrawPrimary");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.19f);
         (primaryWeapon as Weapon).AttatchWeaponTo(weaponUser);
        
         isSwitchingWeapon = false;

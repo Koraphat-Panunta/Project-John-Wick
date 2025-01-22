@@ -1,33 +1,37 @@
+using UnityEngine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class WeaponAnimation : MonoBehaviour,IObserverWeapon
+public class WeaponAnimationMagazine : WeaponAnimation
 {
-    [SerializeField] public Weapon weapon;
-    [SerializeField] public Animator animator;
     [SerializeField] public GameObject magazine;
 
     [SerializeField] protected SkinnedMeshRenderer muzzleRenderer;
     [SerializeField] protected SkinnedMeshRenderer sightRenderer;
-    public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
+
+    [SerializeField] private string ReloadMagazineFullStage;
+    [SerializeField] private string TacticalReloadMagazineFullStage;
+
+    [SerializeField] private string OpenChamber;
+    [SerializeField] private string CloseChamber;
+    [SerializeField] private string FiringMechanic;
+    public override void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
        if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
        {
-            animator.CrossFade("ReloadMagazineFullStage", 0.1f, 0);
+            animator.CrossFade(ReloadMagazineFullStage, 0f, 0);
         }
        else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
        {
-            animator.CrossFade("TacticalReloadMagazineFullStage", 0.1f, 0);
+            animator.CrossFade(TacticalReloadMagazineFullStage,1f, 0);
         }
 
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing) 
         {
             if (weapon.bulletStore[BulletStackType.Magazine] <= 0)
-                animator.CrossFade("BarrelOpen", 0.1f, 1);
+                animator.CrossFade(OpenChamber, 0.1f, 1);
             else
-                animator.CrossFade("BarrelFiring", 0.1f, 1);
+                animator.CrossFade(FiringMechanic, 0.1f, 1);
         }
 
 
@@ -74,9 +78,9 @@ public class WeaponAnimation : MonoBehaviour,IObserverWeapon
     }
     public void BarrelClose()
     {
-        animator.CrossFade("BarrelClose", 0.1f, 1);
+        animator.CrossFade(CloseChamber, 0.1f, 1);
     }
-    public virtual void SpawnMagDrop()
+    public void SpawnMagDrop()
     {
         if (magazine != null)
         {

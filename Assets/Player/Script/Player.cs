@@ -68,8 +68,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         InitializedAimingProceduralAnimate();
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
-        //new WeaponFactoryAR15().CreateWeapon(this);
+        (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
+        new WeaponFactoryAR15().CreateWeapon(this);
 
     }
 

@@ -10,20 +10,23 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 343508677274547396}
-    m_Position: {x: 490, y: 240, z: 0}
+    m_State: {fileID: 362267298575422123}
+    m_Position: {x: 490, y: 310, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -4394685660366996373}
-    m_Position: {x: 500, y: 300, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -6879147980646666073}
+    m_State: {fileID: 3897841652747604531}
     m_Position: {x: 490, y: 350, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 455276479272767338}
-    m_Position: {x: 508.7664, y: 390.12006, z: 0}
+    m_State: {fileID: 1150921306646729696}
+    m_Position: {x: 480, y: 400, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 2983627452141158665}
-    m_Position: {x: 480, y: 450, z: 0}
+    m_State: {fileID: -6431040772141292623}
+    m_Position: {x: 490, y: 450, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4883038489605391256}
+    m_Position: {x: 490, y: 500, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1432789422466635139}
+    m_Position: {x: 169.81201, y: 481.73462, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -33,15 +36,15 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 343508677274547396}
---- !u!1102 &-6879147980646666073
+  m_DefaultState: {fileID: 362267298575422123}
+--- !u!1102 &-6431040772141292623
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stand_Pistol_C_A_R_Aim 60
+  m_Name: Stand_Rifle_AimingFull 80
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -54,33 +57,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a39190c006458da47b4ae16c5ed3a7eb, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-4394685660366996373
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Stand_Pistol_C_A_R_Aim 40
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6b0b56b833c045041b2c4c07c876fc41, type: 2}
+  m_Motion: {fileID: 7400000, guid: df702b6aa53a8334bb0a5b70d0ba0b03, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -108,14 +85,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &343508677274547396
+--- !u!1102 &362267298575422123
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stand_Pistol_C_A_R_Aim 20
+  m_Name: Stand_Rifle_AimingFull 20
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -128,20 +105,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d03a582b7c50d5b4485ee5a20cbacd38, type: 2}
+  m_Motion: {fileID: 7400000, guid: b65fe88fbea616e47b0298a08155b3f1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &455276479272767338
+--- !u!1102 &1150921306646729696
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stand_Pistol_C_A_R_Aim 80
+  m_Name: Stand_Rifle_AimingFull 60
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -154,20 +131,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9a8ce3831e5649743a71e50e2c2ffdf7, type: 2}
+  m_Motion: {fileID: 7400000, guid: 03f44f4f5a6388a4e9504254500d9cd8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &2983627452141158665
+--- !u!1102 &1432789422466635139
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Stand_Pistol_C_A_R_Aim 100
+  m_Name: Stand_Rifle_Reload
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -180,7 +157,59 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 54dadc9ff77659948941c0368df35871, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5ee300184e38c764387892da06965140, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &3897841652747604531
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Stand_Rifle_AimingFull 40
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 0933449772025f94199468156115306e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &4883038489605391256
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Stand_Rifle_AimingFull 100
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 7f5ba412fcb0e6f4ebbce1fe7fe6a239, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

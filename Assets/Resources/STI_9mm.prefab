@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7074491356039985985}
   - component: {fileID: 521215783090903122}
-  - component: {fileID: -4894218118900266989}
+  - component: {fileID: 740563377601920448}
   - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
   - component: {fileID: 1631304176077155450}
@@ -166,7 +166,7 @@ MonoBehaviour:
     type: 2}
   bulletSpawner: {fileID: 3463493087092171003}
   triggerState: 0
---- !u!114 &-4894218118900266989
+--- !u!114 &740563377601920448
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7594886238610776571}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c3f87f461428e141909973f4427ef36, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a22c73bcfb710146a1385b94b34c0b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 521215783090903122}
@@ -184,6 +184,11 @@ MonoBehaviour:
     type: 3}
   muzzleRenderer: {fileID: 0}
   sightRenderer: {fileID: 0}
+  ReloadMagazineFullStage: ReloadMagazineFullStage
+  TacticalReloadMagazineFullStage: TacticalReloadMagazineFullStage
+  OpenChamber: BarrelOpen
+  CloseChamber: BarrelClose
+  FiringMechanic: BarrelFiring
   magMain: {fileID: 5225518317768642967}
   magSecond: {fileID: 8164010443256410042}
 --- !u!1773428102 &-4776787860471616378

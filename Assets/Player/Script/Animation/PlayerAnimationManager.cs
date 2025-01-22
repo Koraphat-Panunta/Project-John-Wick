@@ -32,7 +32,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
     public bool isLayer_1_Enable;
 
-    
+    private bool isIn_C_A_R_aim;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,7 +41,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         player.AddObserver(this);
 
         isLayer_1_Enable = true;
-
+        isIn_C_A_R_aim = false;
     }
 
     // Update is called once per frame
@@ -123,14 +123,22 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (RecoilWeight > 0)
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);
 
-        if (player.currentWeapon != null){ 
+        if (player.currentWeapon is PrimaryWeapon)
+            isIn_C_A_R_aim = false;
+
+        if (isIn_C_A_R_aim)
+        {
+            CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-            , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position)<2)
-
-                CAR_Weight = Mathf.Lerp (CAR_Weight, 1, 10 * Time.deltaTime);
-            else
-                CAR_Weight = Mathf.Lerp (CAR_Weight, 0, 10 * Time.deltaTime);
-
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 15)
+                isIn_C_A_R_aim = false;
+        }
+        else if(isIn_C_A_R_aim == false)
+        {
+            CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
+            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 5)
+                isIn_C_A_R_aim = true;
         }
        
 
@@ -202,16 +210,16 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
-            animator.CrossFade("ReloadMagazineFullStage", 0.1f, 1);
+            animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
-            animator.CrossFade("TacticalReloadMagazineFullStage", 0.1f, 1);
+            animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
 
         if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
-            animator.CrossFade("MagIn_ReloadMagazineStage", 0.1f,1);
+            animator.CrossFade("MagIn_ReloadMagazineStage", 0.3f,1);
 
         if (playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
-            animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.1f, 1);
+            animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.3f, 1);
 
     }
 
