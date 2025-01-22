@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             Cursor.lockState = CursorLockMode.None;
             return;
         }
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
