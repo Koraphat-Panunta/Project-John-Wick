@@ -175,7 +175,6 @@ GameObject:
   m_Component:
   - component: {fileID: 493510835152802027}
   - component: {fileID: 6144872687007888243}
-  - component: {fileID: 4426363536678191205}
   m_Layer: 3
   m_Name: Procedural Aim Animation
   m_TagString: Untagged
@@ -290,28 +289,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &4426363536678191205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531598797223058100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 060c49128e5644d478d1b8ab22c39261, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigBuilder: {fileID: 0}
-  Spine: {fileID: 272596326702100076}
-  Head: {fileID: 6874330158913868961}
-  RightArm: {fileID: 8867871067603975659}
-  RightHand: {fileID: 6038606946174149999}
-  LeftHandIK: {fileID: 1552535399199721941}
-  character: {fileID: 0}
-  leanRotate: {fileID: 0}
-  sourceTarget: {fileID: 0}
-  rotTranform: {fileID: 0}
 --- !u!1 &1748200138616465840
 GameObject:
   m_ObjectHideFlags: 0
