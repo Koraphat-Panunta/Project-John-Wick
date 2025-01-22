@@ -51,6 +51,17 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         {
             is_Layer1_Enable = false;
         }
+
+        if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
+        {
+            animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
+            is_Layer1_Enable = true;
+        }
+        if (enemyEvent == SubjectEnemy.EnemyEvent.ReloadMagazineFullStage)
+        {
+            animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
+            is_Layer1_Enable = true;
+        }
     }
 
     void Start()
@@ -83,7 +94,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         this.enemyStance = enemy.curStance;
 
         if (enemy.isInCover)
-            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1);
+            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1) - AimDownSightWeight;
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 

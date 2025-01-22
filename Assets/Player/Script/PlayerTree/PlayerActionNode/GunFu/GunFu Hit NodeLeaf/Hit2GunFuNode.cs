@@ -87,7 +87,8 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
 
         }
         if (_isTransitionAble &&
-            (player._triggerGunFu || gunFuTriggerBuufer))
+            (player._triggerGunFu || gunFuTriggerBuufer) 
+            && gunFuDamagedAble != null)
             player.ChangeNode(player.knockDown_GunFuNode);
 
         base.Update();

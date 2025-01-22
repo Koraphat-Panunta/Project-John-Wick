@@ -15,7 +15,7 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
 
     protected bool isDetectTarget;
 
-    protected IGunFuDamagedAble gunFuDamagedAble;
+    public IGunFuDamagedAble gunFuDamagedAble;
  
     public GunFuHitNodeLeaf(Player player,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player)
     {
@@ -51,15 +51,12 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
 
     RotateObjectToward rotateObjectToward = new RotateObjectToward();
     protected Vector3 targetPos;
-    protected Vector3 lerpingPos;
 
     protected void LerpingToTargetPos()
     {
         Debug.Log("target Pos = " + targetPos);
 
-
-
-        if (Vector3.Distance(targetPos, player.transform.position) > 0.15f)
+        if (Vector3.Distance(targetPos, player.transform.position) > 0.25f)
         {
             rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
             player.playerMovement.WarpingMovementCharacter(targetPos, Vector3.zero, 600 * Time.deltaTime);
@@ -85,13 +82,13 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
             {
                 this.gunFuDamagedAble = gunFuDamagedAble;
 
-                targetPos = new Vector3(hitInfo.point.x, player.transform.position.y, hitInfo.point.z);
+                targetPos = new Vector3(gunFuDamagedAble._gunFuHitedAble.position.x, player.transform.position.y, gunFuDamagedAble._gunFuHitedAble.position.z);
                 return true;
             }
-            targetPos = new Vector3(hitInfo.point.x, player.transform.position.y, hitInfo.point.z);
+            targetPos = player.transform.position ;
             return false;
         }
-        targetPos = player.transform.position + new Vector3(casrDir.x, 0, casrDir.z) * player._sphere_Distance_Detection;
+        targetPos = player.transform.position ;
 
         return false;
 

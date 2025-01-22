@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class SearchingTacticDecision : TacticDecision
+public class SearchingTacticDecision : TacticDecision,IObserverEnemy
 {
     public Vector3 anchorPos;
     public Vector3 searchingPos;
@@ -10,6 +10,7 @@ public class SearchingTacticDecision : TacticDecision
     public SearchingTacticDecision(Enemy enemy, EnemyTacticDecision enemyTacticDecision) : base(enemy, enemyTacticDecision)
     {
         anchorPos = enemy.transform.position;
+        enemy.AddObserver(this);
     }
 
     public override void Enter()
@@ -26,6 +27,12 @@ public class SearchingTacticDecision : TacticDecision
     public override void FixedUpdate()
     {
        
+    }
+
+    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+        if (enemyEvent == SubjectEnemy.EnemyEvent.HeardingGunShoot)
+            enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
     }
 
     public override void Update()

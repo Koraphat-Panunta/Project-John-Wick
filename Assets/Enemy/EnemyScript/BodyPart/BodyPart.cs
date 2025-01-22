@@ -10,10 +10,50 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAb
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuHitedAble { get => enemy._gunFuHitedAble; set { } }
     public Vector3 attackedPos {get;set; }
+
+    private Vector3 forceSave;
+    private Vector3 hitForcePositionSave;
+
+    private bool isForceSave;
+    protected virtual void Start()
+    {
+        bodyPartRigid = GetComponent<Rigidbody>();
+    }
+    protected virtual void Update()
+    {
+        ForceCalulate();
+
+    }
+    protected Rigidbody bodyPartRigid;
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => enemy._humandShield_GotInteract_NodeLeaf; set => enemy._humandShield_GotInteract_NodeLeaf = value; }
 
-    public abstract void TakeDamage(IDamageVisitor damageVisitor);
-    public abstract void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart);
+    public virtual void TakeDamage(IDamageVisitor damageVisitor)
+    {
+
+    }
+    public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    {
+        forceSave = hitDir * hitforce;
+        hitForcePositionSave = hitPart;
+        isForceSave = true;
+    }
+
+    private void ForceCalulate()
+    {
+        if (isForceSave == false)
+            return;
+
+        MotionControlManager motionControlManager = enemy.motionControlManager;
+
+        if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
+        {
+            bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
+
+            forceSave = Vector3.zero;
+            hitForcePositionSave = Vector3.zero;
+            isForceSave = false;
+        }
+    }
 
     public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attackerPos)
     {

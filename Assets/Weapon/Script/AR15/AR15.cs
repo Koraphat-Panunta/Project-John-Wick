@@ -27,7 +27,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     private float _RecoilKickBack = 60;
     private float Min_percision = 11;
     private float Max_percision = 74;
-    private _556mmBullet _556MmBullet = new _556mmBullet();
+    private _556mmBullet _556MmBullet;
 
     public Transform forntGrip { get ; set ; }
     public Transform slingAnchor { get ; set ; }
@@ -62,6 +62,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
         isMagIn = true;
 
+        _556MmBullet = new _556mmBullet(this);
         bullet = _556MmBullet;
         _RecoilKickBack = bullet.recoilKickBack;
         base.Awake();

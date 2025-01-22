@@ -173,21 +173,21 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
-            Debug.Log("Recive Notify Sprint");
+
             animator.CrossFade(Sprint, 0.3f, 0,0);
             isLayer_1_Enable = true;
         }
         if(playerAction == SubjectPlayer.PlayerAction.Move||
             playerAction == SubjectPlayer.PlayerAction.Idle)
         {
-            Debug.Log("Recive Notify Move/Idle");
+
             animator.CrossFade(Move_Idle, 0.3f, 0, 0);
             isLayer_1_Enable = true;
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
         {
-            Debug.Log("Recive Notify GunFuEnter");
+
             isLayer_1_Enable = false;
 
             if(player.curPlayerActionNode == player.Hit1gunFuNode)

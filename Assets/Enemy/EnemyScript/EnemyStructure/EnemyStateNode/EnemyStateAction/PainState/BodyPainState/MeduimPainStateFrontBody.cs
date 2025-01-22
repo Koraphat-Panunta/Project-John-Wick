@@ -48,7 +48,7 @@ public class MeduimPainStateFrontBody : EnemyPainStateNodeLeaf
     public override bool PreCondition()
     {
         if (enemy._painPart == painPart
-           && enemy.posture <= enemy._postureMedium)
+           && enemy._posture <= enemy._postureMedium)
             return true;
 
         return false;

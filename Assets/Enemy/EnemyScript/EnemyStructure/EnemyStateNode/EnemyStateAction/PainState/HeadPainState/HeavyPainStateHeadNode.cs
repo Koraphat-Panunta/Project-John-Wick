@@ -50,7 +50,7 @@ public class HeavyPainStateHeadNode : EnemyPainStateNodeLeaf
     public override bool PreCondition()
     {
         if (enemy._painPart == painPart
-           && enemy.posture <= enemy._postureHeavy)
+           && enemy._posture <= enemy._postureHeavy)
             return true;
 
         return false;

@@ -69,7 +69,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         timerGetUp = 0f;
         timerGetDown = 0f;
 
-        enemy.posture = 0;
+        enemy._posture = 0;
 
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
     }
@@ -77,7 +77,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     public override void Exit()
     {
         enemy._painPart = IPainState.PainPart.None;
-        enemy.posture = 100;
+        enemy._posture = 100;
     }
 
     public override bool IsReset()
@@ -224,7 +224,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     private void PopulateBoneTransforms(BoneTransform[] boneTransforms)
     {
-        Debug.Log("PopulateBone");
+
         for (int i = 0; i < _bones.Length; i++)
         {
             boneTransforms[i].Position = _bones[i].localPosition;

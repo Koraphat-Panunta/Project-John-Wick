@@ -258,7 +258,7 @@
                     "id": "a78f254c-ae72-4e34-98d1-f1191151eb99",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=10,y=10)",
                     "groups": "",
                     "action": "Look",
                     "isComposite": true,
@@ -322,7 +322,7 @@
                 {
                     "name": "",
                     "id": "da3fb4a9-99e6-4822-a5a0-10f8b279e01d",
-                    "path": "<Gamepad>/rightStickPress",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -410,7 +410,7 @@
                 {
                     "name": "",
                     "id": "ef3150e3-cd68-4e3e-bdec-d82166477ab8",
-                    "path": "",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -442,9 +442,31 @@
                 },
                 {
                     "name": "",
+                    "id": "9975dc34-a6e0-42a7-9457-c4bae5fed403",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2079e9f8-8059-4712-a1e0-828e1ae6bd05",
                     "path": "<Keyboard>/f",
                     "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TrggerGunFu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0281fe30-3535-4924-b503-78c7c4168e5f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "TrggerGunFu",

@@ -28,7 +28,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public readonly float lowestCost = 0;
     public float cost;
     public float myHP;
-    public float posture;
+    private float posture;
 
 
     [SerializeField] private bool isImortal;
@@ -513,8 +513,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (souceSound.TryGetComponent<Player>(out Player player) == false) 
         return;
 
+        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+
         targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-        Debug.Log("Got Hearding");
+
         if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
             || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
         {
@@ -572,7 +574,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                 return false;
             else return true;
         } set { } }
-    public float _posture { get ; set ; }
+    public float _posture { get => posture ; set => posture = value ; }
     [Range(0, 100)]
     [SerializeField] private float postureLight;
     public float _postureLight { get => postureLight ; set => postureLight = value ; }
@@ -640,29 +642,35 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] GunFu_GotHit_ScriptableObject KnockDown;
-    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attackerPos)
+    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attacker)
     {
         switch (gunFu_NodeLeaf)
         {
             case Hit1GunFuNode hit1GunFuNode:
                 {
+                    gotHit1_GunFuHitNodeLeaf.gunFuAble = attacker;
                     ChangeStateNode(gotHit1_GunFuHitNodeLeaf);
+
                 }
                 break;
 
             case Hit2GunFuNode hit2GunFuNode:
                 {
+                    gotHit2_GunFuHitNodeLeaf.gunFuAble = attacker;
                     ChangeStateNode(gotHit2_GunFuHitNodeLeaf);
+
                 }
                 break;
 
             case KnockDown_GunFuNode knockDownGunFuNode: 
                 {
+                    gotKnockDown_GunFuNodeLeaf.gunFuAble = attacker;
                     ChangeStateNode(gotKnockDown_GunFuNodeLeaf);
+
                 }
                 break;
         }
-        attackedPos = attackerPos._gunFuUserTransform.position;
+        attackedPos = attacker._gunFuUserTransform.position;
     }
     public void TakeGunFuAttacked(GunFu_Interaction_NodeLeaf gunFu_Interaction_NodeLeaf, IGunFuAble gunFuAble)
     {

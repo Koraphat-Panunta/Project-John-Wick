@@ -9,13 +9,17 @@ public abstract class Bullet:IDamageVisitor
     public abstract float impactDamage { get; set; }
     public abstract float recoilKickBack { get; set; }
 
+    protected virtual float bulletHitForce { get; set; }
+
     protected LayerMask hitLayer;
     protected const float MAX_DISTANCE = 1000;
     public abstract BulletType myType { get; set; } 
+    protected Weapon weapon { get; set; }
 
-    public Bullet()
+    public Bullet(Weapon weapon)
     {
-       
+        bulletHitForce = 40;
+        this.weapon = weapon;
     }
     public virtual void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
     {
@@ -29,21 +33,18 @@ public abstract class Bullet:IDamageVisitor
         Ray ray = new Ray(spawnerPosition,rayDir);
         if (Physics.Raycast(ray,out RaycastHit hit,MAX_DISTANCE,hitLayer))
         {
-            HitExecute(hit);
+            HitExecute(hit,rayDir);
         }
     }
-    protected virtual void HitExecute(RaycastHit hit)
+    protected virtual void HitExecute(RaycastHit hit,Vector3 dir)
     {
         Collider collider = hit.collider;
         if(collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble damageAble))
         {
-            damageAble.TakeDamage(this,hit.point);
+            damageAble.TakeDamage(this,hit.point,dir,bulletHitForce);
+            weapon.userWeapon.weaponAfterAction.HitDamageAble(damageAble);
         }
-        //if (collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
-        //    bodyPart.GotHit(hpDamage);
-
-        //if (collider.TryGetComponent<Player>(out Player playerAnimationManager))
-        //    playerAnimationManager.TakeDamage(hpDamage);
+        
 
     }
     //private void OnCollisionEnter(Collision collision)

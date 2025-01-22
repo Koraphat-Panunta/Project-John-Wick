@@ -5,11 +5,13 @@ public class ChestBodyPart : BodyPart
     public override float hpReciverRate { get; set; }
     public override float postureReciverRate { get; set; }
 
-    private void Start()
+    protected override void Start()
     {
         hpReciverRate = 1.0f;
         postureReciverRate = 1.0f;
+        base.Start();
     }
+    
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
         Bullet bulletObj = damageVisitor as Bullet;
@@ -20,15 +22,16 @@ public class ChestBodyPart : BodyPart
         enemy._isPainTrigger = true;
         enemy._painPart = IPainState.PainPart.BodyFornt;
 
-        if (enemy.posture > 0)
-            enemy.posture -= pressureDamage;
+        if (enemy._posture > 0)
+            enemy._posture -= pressureDamage;
 
         enemy.TakeDamage(damage);
     }
 
-    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPoint)
+    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
-        HitsensingTarget(hitPoint);
+        HitsensingTarget(hitPart);
+
 
         Bullet bulletObj = damageVisitor as Bullet;
 
@@ -36,12 +39,12 @@ public class ChestBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         float dot = Vector3.Dot(enemy.transform.forward,
-            new Vector3(hitPoint.x - enemy.transform.position.x, 0, hitPoint.z - enemy.transform.position.z).normalized);
+            new Vector3(hitPart.x - enemy.transform.position.x, 0, hitPart.z - enemy.transform.position.z).normalized);
 
         enemy._isPainTrigger = true;
 
-        if (enemy.posture > 0)
-            enemy.posture -= pressureDamage;
+        if (enemy._posture > 0)
+            enemy._posture -= pressureDamage;
 
         if (dot>=0)
             enemy._painPart = IPainState.PainPart.BodyFornt;
@@ -49,5 +52,7 @@ public class ChestBodyPart : BodyPart
             enemy._painPart = IPainState.PainPart.BodyBack;
 
         enemy.TakeDamage(damage);
+
+        base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
 }

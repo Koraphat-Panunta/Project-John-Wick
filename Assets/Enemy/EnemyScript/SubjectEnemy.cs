@@ -10,6 +10,8 @@ public class SubjectEnemy : Character
         GunFuGotHit,
         GunFuGotInteract,
 
+        HeardingGunShoot,
+
         Dead,
 
         Idle,
@@ -25,6 +27,9 @@ public class SubjectEnemy : Character
         Holding,
         Searching,
         WarpingMotion,
+
+        ReloadMagazineFullStage,
+        TacticalReloadMagazineFullStage
 
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();

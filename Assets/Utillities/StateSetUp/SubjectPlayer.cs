@@ -32,7 +32,10 @@ public abstract class SubjectPlayer : Character
         GetOffCover,
 
         GunFuEnter,
-        GunFuExit
+        GunFuExit,
+
+        OppenentStagger,
+        OpponentKilled
         
     }
     

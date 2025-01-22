@@ -86,7 +86,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     protected override void Awake()
     {
         fireMode = FireMode.Single;
-        bullet = new _9mmBullet();
+        bullet = new _9mmBullet(this);
         RecoilKickBack = bullet.recoilKickBack;
 
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);

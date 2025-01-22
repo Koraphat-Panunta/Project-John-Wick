@@ -25,7 +25,6 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     public override void Update()
     {
         time += Time.deltaTime;
-        Debug.Log("Pain time = " + time);
        
     }
     public override void FixedUpdate()

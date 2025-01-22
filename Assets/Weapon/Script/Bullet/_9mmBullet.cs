@@ -6,10 +6,10 @@ public class _9mmBullet : Bullet
     public override float impactDamage { get ; set ; }
     public override BulletType myType { get; set; }
     public override float recoilKickBack { get; set; }
-    public _9mmBullet()
+    public _9mmBullet(Weapon weapon):base(weapon)
     {
-        hpDamage = 40;
-        impactDamage = 30;
+        hpDamage = 12.5f;
+        impactDamage = 25;
         myType = BulletType._9mm;
         recoilKickBack = 30;
     }
@@ -17,8 +17,5 @@ public class _9mmBullet : Bullet
     //{
     //    base.ShootDirection(spawnerPosition, pointPos);
     //}
-    protected override void HitExecute(RaycastHit hit)
-    {
-        base.HitExecute(hit);
-    }
+   
 }

@@ -24,6 +24,11 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         //Debug.Log("Call Back EnemyFiring");
     }
 
+    public override void HitDamageAble(IBulletDamageAble bulletDamageAble)
+    {
+
+    }
+
     public override void LowReady(Weapon weapon)
     {
     }
@@ -38,11 +43,11 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         Animator animator = enemy.animator;
         if (reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
         {
-            
+            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
         }
         else if (reloadType == ReloadType.MAGAZINE_RELOAD)
         {
-            
+            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
         }
         else if (reloadType == ReloadType.MAGAZINE_RELOAD_SUCCESS)
         {

@@ -19,7 +19,7 @@ public class GotKnockDown_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 
     public override void Exit()
     {
-        enemy.posture = 0;
+        enemy._posture = 0;
         enemy._isPainTrigger = true;
         base.Exit();
     }

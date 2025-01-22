@@ -18,7 +18,7 @@ public class PlayerMovement
     public float move_Acceleration = 0.4f;
     public float sprint_MaxSpeed = 5.6f;
     public float sprint_Acceleration = 0.08f;
-    public float rotate_Speed = 5;
+    public float rotate_Speed = 3;
 
     public bool isGround { get; private set; }
 
@@ -81,7 +81,9 @@ public class PlayerMovement
             player.inputMoveDir_Local.y),
             Camera.main.transform.forward)*sprint_MaxSpeed;
 
-        curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed, sprint_Acceleration);
+        float deacceleration = Mathf.Clamp((Vector3.Dot(inputVelocity_World, forwardDirection_World)),0.1f,1);
+
+        curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed * deacceleration , sprint_Acceleration/Mathf.Clamp(deacceleration,0.5f,1));
     }
     public void WarpingMovementCharacter(Vector3 Destination,Vector3 offset,float speed)
     {

@@ -50,7 +50,7 @@ public class LightPainStateRightArmNode : EnemyPainStateNodeLeaf
     public override bool PreCondition()
     {
         if (enemy._painPart == painPart
-         && enemy.posture <= enemy._postureLight)
+         && enemy._posture <= enemy._postureLight)
             return true;
 
         return false;

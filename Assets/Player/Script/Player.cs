@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAble,IAimingProceduralAnimate,IGunFuAble
+public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble
 {
     public PlayerMovement playerMovement;
 
@@ -93,10 +93,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
         playerMovement.MovementUpdate();
     }
 
-
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
-
         if (isImortal)
             return;
         Bullet bulletObj = damageVisitor as Bullet;
@@ -104,11 +102,15 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
         HP -= damage * 0.21f;
         hpRegenarate.regenarate_countDown = 3;
-        NotifyObserver(this,PlayerAction.GetShoot);
+        NotifyObserver(this, PlayerAction.GetShoot);
 
         if (GetHP() <= 0)
             NotifyObserver(this, PlayerAction.Dead);
-        
+    }
+
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
+    {
+        TakeDamage(damageVisitor);
     }
 
     public void OnNotify(Player player, PlayerAction playerAction)
@@ -332,6 +334,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IDamageAb
 
         return Direction;
     }
+
+   
     #endregion
 
 }

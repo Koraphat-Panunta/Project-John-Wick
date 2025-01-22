@@ -4,10 +4,11 @@ public class ArmRightBodyPart : BodyPart
 {
     public override float hpReciverRate { get; set; }
     public override float postureReciverRate { get; set; }
-    private void Start()
+    protected override void Start()
     {
         hpReciverRate = 0.25f;
         postureReciverRate = 0.9f;
+        base.Start();
     }
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
@@ -19,17 +20,20 @@ public class ArmRightBodyPart : BodyPart
         enemy._isPainTrigger = true;
         enemy._painPart = IPainState.PainPart.ArmRight;
 
-        if (enemy.posture > 0)
-            enemy.posture -= pressureDamage;
+        if (enemy._posture > 0)
+            enemy._posture -= pressureDamage;
 
         enemy.TakeDamage(damage);
 
         //enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Arm);
     }
 
-    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart)
+    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         HitsensingTarget(hitPart);
+
         TakeDamage(damageVisitor);
+
+        base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
 }

@@ -31,10 +31,33 @@ public class LeanCover:IObserverPlayer
         shootPoint = player.RayCastPos;
         player.AddObserver(this);
     }
+
+    float leanRecoverTimer = .5f;
+    float elaspeLeanRecover;
     public void LeaningUpdate(Transform shootPoint)
     {
 
         leaningCheck(shootPoint);
+
+        if(leandir == LeanDir.None)
+        {
+            leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+        }
+        else if(leandir == LeanDir.Right)
+        {
+            if(player.curShoulderSide == Player.ShoulderSide.Right)
+                leanWeight = Mathf.Lerp(leanWeight, 0, Time.deltaTime * leanSpeed);
+            else
+                leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+        }
+        else if(leandir == LeanDir.Left)
+        {
+            if (player.curShoulderSide == Player.ShoulderSide.Left)
+                leanWeight = Mathf.Lerp(leanWeight, 1, Time.deltaTime * leanSpeed);
+            else
+                leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+        }
+
         var source = multiRotationConstraint.data.sourceObjects;
         source.SetWeight(0, leanWeight);
         source.SetWeight(1, 1 - leanWeight);
@@ -48,10 +71,11 @@ public class LeanCover:IObserverPlayer
         Vector3 ImpactpointScreenPos = Vector2.zero;
         if (Physics.Raycast(shootpoint.position, (crosshairController.TargetAim.transform.position - shootpoint.position).normalized, out RaycastHit hit, 1000, layerMask))
         {
-            if (Vector3.Distance(hit.point, crosshairController.TargetAim.position) < 0.05f)
+            if (Vector3.Distance(hit.point, crosshairController.TargetAim.position) < 3f)
             {
-                leandir = LeanDir.None;
-                leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+                elaspeLeanRecover = Mathf.Clamp(elaspeLeanRecover - Time.deltaTime, 0, leanRecoverTimer);
+                if(elaspeLeanRecover <=0)
+                    leandir = LeanDir.None;
                 return;
             }
         }
@@ -64,30 +88,26 @@ public class LeanCover:IObserverPlayer
 
         Debug.DrawLine(shootpoint.position, hitInfo.point, Color.red);
 
-        //if (Mathf.Abs(ImpactpointScreenPos.x - CrosshairScreenPos.x) < 10f)
-        //{
-        //    leandir = LeanDir.None;
-        //    leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
-        //    return;
-        //}
+       
         if (Vector3.Distance(hitInfo.point, shootpoint.position) > 5)
         {
-            leandir = LeanDir.None;
-            leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
+            elaspeLeanRecover = Mathf.Clamp(elaspeLeanRecover - Time.deltaTime, 0, leanRecoverTimer);
+            if (elaspeLeanRecover <= 0)
+                leandir = LeanDir.None;
             return;
         }
 
         if(ImpactpointScreenPos.x < CrosshairScreenPos.x)
         {
-            leandir = LeanDir.Left;
-            leanWeight = Mathf.Lerp(leanWeight, 0 , Time.deltaTime * leanSpeed);
+            leandir = LeanDir.Right;
+            elaspeLeanRecover = leanRecoverTimer;
             return;
         }
 
         if (ImpactpointScreenPos.x > CrosshairScreenPos.x)
         {
-            leandir = LeanDir.Right;
-            leanWeight = Mathf.Lerp(leanWeight, 1, Time.deltaTime * leanSpeed);
+            leandir = LeanDir.Left;
+            elaspeLeanRecover = leanRecoverTimer;
             return;
         }
 
@@ -97,6 +117,8 @@ public class LeanCover:IObserverPlayer
     public void LeanRecovery() 
     {
         //Debug.Log("LeanNone");
+
+        elaspeLeanRecover = 0;
         leandir = LeanDir.None;
         leanWeight = Mathf.Lerp(leanWeight, 0.5f, Time.deltaTime * leanSpeed);
         var source = multiRotationConstraint.data.sourceObjects;

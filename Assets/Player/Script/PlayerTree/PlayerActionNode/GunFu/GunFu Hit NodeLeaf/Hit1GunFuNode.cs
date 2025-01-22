@@ -58,8 +58,11 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
         if (_isTransitionAble)
         {
-            if (player._triggerGunFu || gunFuTriggerBuufer)
+            if ((player._triggerGunFu || gunFuTriggerBuufer )&&gunFuDamagedAble != null)
+            {
                 player.ChangeNode(player.Hit2GunFuNode);
+                player.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
+            }
 
             if (player.isAiming && gunFuDamagedAble != null)
             {

@@ -10,27 +10,26 @@ public class HoldingTacticDecision : TacticDecision
 
     public override void Enter()
     {
-        Debug.Log("HoldingTactic Enter");
+
         cost_DrainRate = Random.Range(8f, 15f);
         exitTacticCost = Random.Range(65f, 90f);
-        Debug.Log("cost_DrainRate ="+cost_DrainRate);
+
     }
 
     public override void Exit()
     {
-        Debug.Log("HoldingTactic Exit");
+       
 
     }
 
     public override void FixedUpdate()
     {
-        Debug.Log("HoldingTactic FixedUpdate");
+
 
     }
 
     public override void Update()
     {
-        Debug.Log("HoldingTactic Update");
 
         enemy.cost += cost_DrainRate * Time.deltaTime;
         if (enemy.cost > exitTacticCost)

@@ -35,6 +35,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     {
         CrosshairUpdate();
     }
+    float lerpSpeed = 10;
     void CrosshairUpdate()
     {
         Vector3 CrosshairPos;
@@ -46,17 +47,17 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         if (Physics.Raycast(ray, out hit, 1000, layerMask))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = worldPosition;
+            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
         }
         else if (Physics.Raycast(ray, out hit, 1000, 1))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = worldPosition;
+            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
         }
         else
         {
             Vector3 worldPosition = ray.GetPoint(100);
-            TargetAim.transform.position = worldPosition;
+            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
         }
     }
     private void OnEnable()

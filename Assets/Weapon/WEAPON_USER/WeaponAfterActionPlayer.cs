@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static SubjectPlayer;
 
 public class WeaponAfterActionPlayer : WeaponAfterAction
 {
     private Player player;
+    private Dictionary<Enemy, bool> isKilleComfirm = new Dictionary<Enemy, bool>();
     public WeaponAfterActionPlayer(Player player)
     {
         this.player = player;
@@ -23,6 +25,36 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     {
         player.NotifyObserver(player, PlayerAction.Firing);
 
+    }
+
+    public override void HitDamageAble(IBulletDamageAble bulletDamageAble)
+    {
+        Enemy enemy;
+        if(bulletDamageAble is BodyPart)
+        {
+
+            enemy = (bulletDamageAble as BodyPart).enemy;
+
+            if(isKilleComfirm.ContainsKey(enemy) == false)
+                isKilleComfirm.Add(enemy, false);
+
+            Debug.Log("enemy._posture = "+ enemy._posture);
+            if (isKilleComfirm[enemy])
+                return;
+
+            if (enemy.isDead)
+            {
+                player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                isKilleComfirm[enemy] = true;
+                return;
+            }
+
+            if (enemy._posture <= 0)
+            {
+                player.NotifyObserver(player, PlayerAction.OppenentStagger);
+
+            }
+        }
     }
 
     public override void LowReady(Weapon weapon)
