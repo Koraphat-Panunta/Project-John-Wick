@@ -27,12 +27,10 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract Bullet bullet { get;  set; }
     public abstract float movementSpeed { get;  set; }
 
-    public bool isAiming;
     public bool isReloadCommand;
     public bool isCancelAction;
     public bool isEquip;
 
-    public float aimingWeight;
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
     public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
@@ -76,10 +74,10 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         FixedUpdateTree();
     }
-    public virtual void Aim()
-    {
-        isAiming = true;
-    }
+    //public virtual void Aim()
+    //{
+    //    isAiming = true;
+    //}
     public virtual void Fire() 
     {
     }
@@ -87,10 +85,10 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         isReloadCommand = true;
     }
-    public virtual void LowWeapon()
-    {
-        isAiming = false;
-    }
+    //public virtual void LowWeapon()
+    //{
+    //    isAiming = false;
+    //}
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
         isEquip = true;
@@ -154,25 +152,17 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
 
     #region InitailizedWeaponTree
-    public WeaponActionNode currentStanceNode { get; set; }
+   
     public WeaponActionNode currentEventNode { get; set; }
-    public abstract WeaponSelector startStanceNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
     protected virtual void FixedUpdateTree()
     {
-        if(currentStanceNode != null)
-            currentStanceNode.FixedUpdate();
+       
         if (currentEventNode != null)
             currentEventNode.FixedUpdate();
 
     }
-    protected virtual void ChangeStanceManualy(WeaponActionNode weaponStanceNode)
-    {
-        if (currentStanceNode != null)
-        currentStanceNode.Exit();
-        currentStanceNode = weaponStanceNode;
-        currentStanceNode.Enter();
-    }
+   
     protected virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
     {
         if (currentEventNode != null)
@@ -184,15 +174,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     protected abstract void InitailizedTree();
     protected virtual void UpdateTree()
     {
-        if (currentStanceNode.IsReset() /*|| currentStanceNode==null*/)
-        {
-            currentStanceNode.Exit();
-            currentStanceNode = null;
-            startStanceNode.Transition(out WeaponActionNode weaponActionNode);
-            currentStanceNode = weaponActionNode;
-            //Debug.Log("Out stance Node " + currentStanceNode);
-            currentStanceNode.Enter();
-        }
+       
         if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
         {
             currentEventNode.Exit();
@@ -202,7 +184,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             //Debug.Log("Out Event Node " + currentEventNode);
             currentEventNode.Enter();
         }
-        currentStanceNode.Update();
         currentEventNode?.Update();
     }
     #endregion
