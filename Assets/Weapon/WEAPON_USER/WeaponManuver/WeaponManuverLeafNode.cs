@@ -12,6 +12,8 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode
         isReset.Add(() => !preCondition());
     }
     public abstract void UpdateNode();
+    public abstract void Enter();
+    public abstract void Exit();
 
     public abstract void FixedUpdateNode();
     public abstract bool IsComplete();
