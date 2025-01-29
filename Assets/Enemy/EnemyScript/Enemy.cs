@@ -69,11 +69,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         UpdateState();
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
+        weaponManuverManager.UpdateNode();
 
     }
     private void FixedUpdate()
     {
         FixedUpdateState();
+        weaponManuverManager.FixedUpdateNode();
     }
    
     public void TakeDamage(float Damage)
@@ -399,6 +401,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
+    public WeaponManuverManager weaponManuverManager { get; set; }
     public bool isAiming { get ; set ; }
     public bool isPullTrigger { get ; set ; }
     public bool isReload { get; set; }
@@ -411,6 +414,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
+        weaponManuverManager = new WeaponManuverManager(this);
     }
     #endregion
 
@@ -674,6 +678,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => gotHumandShielded_GunFuNodeLeaf; set => gotHumandShielded_GunFuNodeLeaf = value; }
+   
 
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;

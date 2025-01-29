@@ -36,11 +36,11 @@ public class WeaponCommand
     }
     public virtual void LowReady()
     {
-        weaponUser.currentWeapon.LowWeapon();
+        weaponUser.weaponManuverManager.isAiming = false;
     }
     public virtual void AimDownSight()
     {
-        weaponUser.currentWeapon.Aim();
+        weaponUser.weaponManuverManager.isAiming = true;    
     }
 
     bool isSwitchingWeapon = false;
@@ -64,15 +64,15 @@ public class WeaponCommand
     IEnumerator SwitchPTS()
     {
         isSwitchingWeapon = true;
-        if (weaponUser is Player)
-        {
-            Player player = weaponUser as Player;
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwitchWeapon);
-        }
+
+        
+
         //WeaponStateManager weaponStateManager = _weaponUser.currentWeapon.weapon_stateManager;
         PrimaryWeapon primaryWeapon = weaponUser.weaponBelt.primaryWeapon;
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
         Weapon curWeapon = weaponUser.currentWeapon;
+
+        weaponUser.weaponAfterAction.SwitchingWeapon(curWeapon);
         //if (weaponStateManager._currentState == weaponStateManager.reloadState)
         //{
         //    _weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);

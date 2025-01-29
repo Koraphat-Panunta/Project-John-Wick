@@ -12,5 +12,6 @@ public abstract class WeaponAfterAction
     public abstract void Reload_ChamberAction(Weapon weapon);
     public abstract void Reload_SingleAction(Weapon weapon);
     public abstract void Reload(Weapon weapon, ReloadType reloadType);
+    public abstract void SwitchingWeapon(Weapon weapon);
     public abstract void HitDamageAble(IBulletDamageAble bulletDamageAble);
 }
