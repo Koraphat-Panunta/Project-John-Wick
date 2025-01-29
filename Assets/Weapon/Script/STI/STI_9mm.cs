@@ -15,6 +15,17 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     private float _recoilKickBack ;
     private float min_percision = 18;
     private float max_percision = 65;
+    private float DrawSpeed = 5;
+
+    public override Transform gripPos { get => transform;set { } }
+    public override Transform SecondHandgripPos { get => transform; set { } }
+
+    public override float drawSpeed 
+    { 
+        get => this.DrawSpeed ; 
+        set => this.DrawSpeed = value ; 
+    }
+
     public override int bulletCapacity
     {
         get { return _magazineCapacity; }
@@ -66,21 +77,20 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         get { return max_percision; }
         set { max_percision = value; }
     }
-    public float quickDrawTime { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
+    public float quickDrawTime { get ; set ; }
     public override Bullet bullet { get; set; }
-    public override float movementSpeed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public override float movementSpeed { get; set; }
 
     public bool isMagIn { get { return true; } set { } }
     
 
     protected override void FixedUpdate()
     {
-        
         base.FixedUpdate();
     }
     protected override void Update()
     {
-      
         base.Update();
     }
     protected override void Awake()
@@ -94,8 +104,6 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     }
     protected override void Start()
     {
-
-       
         base.Start();
         
     }
@@ -106,7 +114,8 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get; set; }
-    private RestNode restNode;
+    public override RestNode restNode { get ; set ; }
+
     protected override void InitailizedTree()
     {
 

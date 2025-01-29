@@ -46,7 +46,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
         if(IsComplete())
             return true;
         else if(
-            Weapon.isEquip == false
+            Weapon.isEquiped == false
             ||Weapon.isCancelAction == true
             )
             return true;

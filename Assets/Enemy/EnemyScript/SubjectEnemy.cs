@@ -29,7 +29,8 @@ public class SubjectEnemy : Character
         WarpingMotion,
 
         ReloadMagazineFullStage,
-        TacticalReloadMagazineFullStage
+        TacticalReloadMagazineFullStage,
+        SwitchWeapon
 
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();

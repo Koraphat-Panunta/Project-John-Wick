@@ -46,6 +46,9 @@ public class WeaponManuverSelectorNode : WeaponManuverNode
         childNode.Add(weaponManuverNode);
         nodePrecon.Add(weaponManuverNode, weaponManuverNode.preCpndition);
 
+        if(weaponManuverNode is WeaponManuverSelectorNode weaponManuverSelector)
+            weaponManuverSelector.parentNode = this;
+
         if (weaponManuverNode is WeaponManuverLeafNode leafNode)
         {
             PopulatePrecondition(out List<Func<bool>> isReset, weaponManuverNode);

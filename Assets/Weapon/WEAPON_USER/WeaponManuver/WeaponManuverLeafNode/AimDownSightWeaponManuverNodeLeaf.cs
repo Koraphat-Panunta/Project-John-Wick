@@ -4,16 +4,29 @@ using UnityEngine;
 public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
+    WeaponAfterAction weaponAfterAction;
     Weapon curWeapon;
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
+        weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
         curWeapon = weaponManuverManager.curWeapon;
+    }
+
+    public override void Enter()
+    {
+        weaponAfterAction.AimDownSight(curWeapon);
+    }
+
+    public override void Exit()
+    {
+        
     }
 
     public override void FixedUpdateNode()
     {
-        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime);
+        weaponManuverManager.aimingWeight 
+            = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime*curWeapon.aimDownSight_speed);
     }
 
     public override bool IsComplete()
@@ -36,9 +49,11 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        if (weaponManuverManager.isReload)
+        weaponAfterAction.AimDownSight(curWeapon);
+
+        if(weaponManuverManager.aimingWeight >= 1)
         {
-            
+            weaponManuverManager.WeaponCommanding();
         }
     }
 }

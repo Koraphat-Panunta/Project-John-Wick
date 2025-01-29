@@ -33,7 +33,7 @@ public class ReloadMagazineFullStage : WeaponActionNode
     {
         if (IsComplete())
             return true;
-        else if (Weapon.isEquip == false
+        else if (Weapon.isEquiped == false
             ||Weapon.isCancelAction == true)
         {
             return true;

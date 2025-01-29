@@ -21,6 +21,7 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public bool isSwitchWeapon { get => player.isSwitchWeapon; set => player.isSwitchWeapon = value; }
     public Vector3 pointingPos { get => player.pointingPos; set => player.pointingPos = value; }
 
+
     public void Initialized_IWeaponAdvanceUser()
     {
        

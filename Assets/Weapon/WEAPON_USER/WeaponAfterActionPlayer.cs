@@ -61,11 +61,6 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     {
         player.NotifyObserver(player, PlayerAction.LowReady);
     }
-
-    public override void PreLoad(Weapon weapon)
-    {
-    }
-
     public override void Reload(Weapon weapon, ReloadType reloadType)
     {
         switch (reloadType)
@@ -80,22 +75,13 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
         }
     }
 
-    public override void ReloadingMagazine(Weapon weapon)
-    {
-      
-    }
-
-    public override void Reload_ChamberAction(Weapon weapon)
-    {
-       
-    }
-
-    public override void Reload_SingleAction(Weapon weapon)
+    public override void Resting(Weapon weapon)
     {
         
     }
 
-    public override void Tactical_ReloadMagazine(Weapon weapon)
+    public override void SwitchingWeapon(Weapon weapon, WeaponTransition switchingManuver)
     {
+        player.NotifyObserver(player, PlayerAction.SwitchWeapon);
     }
 }

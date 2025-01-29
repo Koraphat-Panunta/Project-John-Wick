@@ -3,6 +3,7 @@ using UnityEngine;
 public class WeaponManuverManager 
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
+    public IMovementCompoent movementCompoent;
     public Weapon curWeapon;
 
     public WeaponManuverLeafNode curWeaponManuverLeafNode;
@@ -15,6 +16,13 @@ public class WeaponManuverManager
     public bool isReload;
     public bool isSwitchWeapon;
 
+    public WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
+    public PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
+    public SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode{ get; protected set; }
+    public AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }
+    public LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
+    public RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
+
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
@@ -22,8 +30,35 @@ public class WeaponManuverManager
 
         InitailzedWeaponManuverNode();
     }
-    private void InitailzedWeaponManuverNode()
+    protected void InitailzedWeaponManuverNode()
     {
+        swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, 
+            () => isSwitchWeapon);
+        primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
+            () => curWeapon is PrimaryWeapon);
+        secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
+            () => curWeapon is SecondaryWeapon);
+
+        aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
+            ()=> isAiming);
+        lowReadyWeaponManuverNodeLeaf = new LowReadyWeaponManuverNodeLeaf(this.weaponAdvanceUser,
+            () => curWeapon != null);
+       
+        restWeaponManuverLeafNode = new RestWeaponManuverLeafNode(this.weaponAdvanceUser,
+            () => true);
+
+        startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
+
+        startWeaponManuverSelectorNode.AddtoChildNode(swtichingWeaponManuverSelector);
+        startWeaponManuverSelectorNode.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
+        startWeaponManuverSelectorNode.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
+        startWeaponManuverSelectorNode.AddtoChildNode(restWeaponManuverLeafNode);
+
+        swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
+        swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
+
+        startWeaponManuverSelectorNode.FindingNode(out WeaponManuverLeafNode weaponManuverLeafNode);
+        curWeaponManuverLeafNode = weaponManuverLeafNode;
 
     }
     public void UpdateNode()
@@ -45,11 +80,23 @@ public class WeaponManuverManager
         if(curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.FixedUpdateNode();
     }
+    public void LateUpdate()
+    {
+
+    }
     public void ChangeWeaponManuverNode(WeaponManuverLeafNode weaponManuverLeafNode)
     {
         curWeaponManuverLeafNode.Exit();
         curWeaponManuverLeafNode = weaponManuverLeafNode;
         curWeaponManuverLeafNode.Enter();
 
+    }
+    public void WeaponCommanding()
+    {
+        if (isPullTrigger)
+            curWeapon.PullTrigger();
+
+        if(isReload)
+            curWeapon.Reload();
     }
 }

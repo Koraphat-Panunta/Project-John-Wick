@@ -4,35 +4,28 @@ using UnityEngine;
 public class WeaponCommand
 {
     private IWeaponAdvanceUser weaponUser;
+    protected WeaponManuverManager weaponManuverManager;
     public WeaponCommand(IWeaponAdvanceUser weaponUser)
     {
         this.weaponUser = weaponUser;
+        this.weaponManuverManager = weaponUser.weaponManuverManager;
     }
     public virtual void PullTrigger()
     {
-        Weapon weapon = this.weaponUser.currentWeapon;
-        switch (weapon.triggerState)
-        {
-            case (TriggerState.Up):weapon.triggerState = TriggerState.IsDown;
-                break;
-            case (TriggerState.IsDown):weapon.triggerState = TriggerState.Down;
-                break;
-             default:weapon.triggerState = TriggerState.Down;
-                break;
-        }
-        weapon.Fire();
+        this.weaponManuverManager.isPullTrigger = true;
     }
     public virtual void CancleTrigger()
     {
-        weaponUser.currentWeapon.triggerState = TriggerState.Up;
+        this.weaponManuverManager.isPullTrigger = false;
     }
     public virtual void Reload(AmmoProuch ammoProuch)
     {
-        Weapon weapon = weaponUser.currentWeapon;
-        if (ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0)
-        {
-            weapon.Reload();
-        }
+        this.weaponManuverManager.isReload = true;
+        //Weapon weapon = weaponUser.currentWeapon;
+        //if (ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0)
+        //{
+        //    weapon.Reload();
+        //}
     }
     public virtual void LowReady()
     {
@@ -72,7 +65,7 @@ public class WeaponCommand
         SecondaryWeapon secondaryWeapon = weaponUser.weaponBelt.secondaryWeapon;
         Weapon curWeapon = weaponUser.currentWeapon;
 
-        weaponUser.weaponAfterAction.SwitchingWeapon(curWeapon);
+        //weaponUser.weaponAfterAction.SwitchingWeapon(curWeapon);
         //if (weaponStateManager._currentState == weaponStateManager.reloadState)
         //{
         //    _weaponUser.currentWeapon.weapon_stateManager.ChangeState(weaponStateManager.none);

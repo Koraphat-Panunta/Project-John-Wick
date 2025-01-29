@@ -145,16 +145,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
+    public WeaponManuverManager weaponManuverManager { get ; set ; }
     public Vector3 shootingPos { get 
         { return crosshairController.CrosshiarShootpoint.GetShootPointDirection(); } set { } }
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
-    bool IWeaponAdvanceUser.isAiming { get => this.isAiming; set => this.isAiming = value; }
-    bool IWeaponAdvanceUser.isPullTrigger { get => this.isPullTrigger; set => this.isPullTrigger = value; }
-    bool IWeaponAdvanceUser.isReload { get => this.isReload; set => isReload = value; }
-    bool IWeaponAdvanceUser.isSwapShoulder { get => this.isSwapShoulder; set => this.isSwapShoulder = value; }
-    bool IWeaponAdvanceUser.isSwitchWeapon { get => this.isSwitchWeapon; set => this.isSwitchWeapon = value; }
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
@@ -165,6 +161,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
+        weaponManuverManager = new WeaponManuverManager(this);
     }
     #endregion
 
