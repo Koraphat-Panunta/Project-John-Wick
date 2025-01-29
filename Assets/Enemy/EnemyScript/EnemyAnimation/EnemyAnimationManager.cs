@@ -32,7 +32,9 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
         if(enemyEvent == SubjectEnemy.EnemyEvent.Idle 
-            ||enemyEvent == SubjectEnemy.EnemyEvent.Move)
+            ||enemyEvent == SubjectEnemy.EnemyEvent.Move
+            ||enemyEvent == SubjectEnemy.EnemyEvent.TakeCover
+            ||enemyEvent == SubjectEnemy.EnemyEvent.TakeAim)
         {
             animator.CrossFade("Move/Idle", 0.45f, 0);
             is_Layer1_Enable = true;

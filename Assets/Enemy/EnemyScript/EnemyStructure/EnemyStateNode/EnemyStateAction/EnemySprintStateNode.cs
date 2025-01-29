@@ -40,7 +40,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
         enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, enemy.transform.forward * enemy._sprintMaxSpeed, enemy._sprintAccelerate * Time.deltaTime);
         objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
         agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
-
+        enemy.weaponCommand.LowReady();
         base.FixedUpdate();
     }
 

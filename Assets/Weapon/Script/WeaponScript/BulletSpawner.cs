@@ -11,15 +11,25 @@ public class BulletSpawner : MonoBehaviour
     {
         Transform transform = gameObject.transform;
         //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
-        Vector3 shootDir = weapon.userWeapon.shootingPos;
-        //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootDir);
+        Vector3 shootPos = weapon.userWeapon.shootingPos;
+        //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootPos);
 
         //BulletObj thisBullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
         //thisBullet.bullet = weapon.bullet;
-        //thisBullet.travelDri = (shootDir - transform.position).normalized ;    
+        //thisBullet.travelDri = (shootPos - transform.position).normalized ;    
 
-        weapon.bullet.ShootDirection(transform.position, shootDir);
-        StartCoroutine(SpawnTrail(transform.position,shootDir,this.bulletTrail));
+        weapon.bullet.ShootDirection(transform.position, shootPos);
+
+        Vector3 trailEndPos;
+        Ray ray = new Ray(transform.position, (shootPos - transform.position).normalized);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000, 0))
+        {
+            trailEndPos = hitInfo.point;
+        }
+        else
+            trailEndPos = ray.GetPoint(1000);
+        StartCoroutine(SpawnTrail(transform.position, trailEndPos, this.bulletTrail));
         //if(weapon.userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
         //    Bullet.GetComponent<Bullet>().ShootDirection(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject.transform.position));

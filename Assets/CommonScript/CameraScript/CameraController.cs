@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -44,7 +45,12 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     {
         if (Input.GetKey(KeyCode.T)){
             Cursor.lockState = CursorLockMode.None;
+            EditorApplication.isPaused = true;
             return;
+        }
+        if (Input.GetKey(KeyCode.Y))
+        {
+            EditorApplication.isPaused = false;
         }
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -340,6 +340,8 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void SprintToCover(CoverPoint coverPoint)
     {
+        if(coverPoint == null)
+            return ;
         coverPoint.TakeThisCover(_enemy);
 
         if (SprintToPosition(coverPoint.coverPos.position, 5, 1))

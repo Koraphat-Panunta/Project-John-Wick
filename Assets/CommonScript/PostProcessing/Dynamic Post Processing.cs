@@ -26,7 +26,7 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
         volume = GetComponent<Volume>();
         if (volume.profile.TryGet<Vignette>(out vignette))
         {
-            //this.vignette = vignette;
+            this.vignette = vignette;
         }
         getShootFeedBack = new GetShootFeedBack_PostProcessing(this);
     }

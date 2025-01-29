@@ -130,14 +130,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         {
             CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 15)
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
                 isIn_C_A_R_aim = false;
         }
         else if(isIn_C_A_R_aim == false)
         {
             CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 5)
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
                 isIn_C_A_R_aim = true;
         }
        

@@ -513,15 +513,51 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (souceSound.TryGetComponent<Player>(out Player player) == false) 
         return;
 
-        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+        if(Vector3.Distance(souceSound.transform.position,transform.position)>10)
+            return;
 
-        targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-        if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-            || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+        if(Vector3.Distance(souceSound.transform.position, transform.position) < 5)
         {
-            combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+            NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+
+            targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
+
+            if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
+                || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+            {
+                combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+            }
+            return;
         }
+        if (Vector3.Distance(souceSound.transform.position, transform.position) < 10)
+        {
+            Ray ray = new Ray(transform.position
+                ,(souceSound.transform.position-transform.position).normalized);
+
+            if (Physics.Raycast(ray,out RaycastHit hitInfo, 1000, 0))
+            {
+                if(hitInfo.collider.gameObject != souceSound)
+                    return;
+
+                NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+
+                targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
+
+                if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
+                    || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+                {
+                    combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+                }
+                return;
+
+            }
+          
+        }
+
+
+
+
+
     }
 
     #endregion 

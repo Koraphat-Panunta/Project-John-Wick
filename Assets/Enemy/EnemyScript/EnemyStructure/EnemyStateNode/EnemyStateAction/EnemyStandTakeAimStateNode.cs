@@ -37,8 +37,17 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
         {
             case CoverPointTallSingleSide coverPointTallSingle:
                 {
-                    Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized * Time.deltaTime * 2;
-                    agent.Move(moveDir);
+                    Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
+                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                    {
+                        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir, enemy._moveAccelerate * Time.deltaTime);
+                        agent.Move(moveDir * Time.deltaTime);
+                    }
+                    else
+                    {
+                        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate * Time.deltaTime);
+                        agent.Move(Vector3.zero);
+                    }
                 }
                 break;
 
@@ -47,14 +56,32 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                     if (coverUseable.coverPoint.CheckingTargetInCoverView(coverUseable, enemy.targetLayer, coverPointTallDouble.peekPosL, out GameObject target))
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosL);
-                        Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized * Time.deltaTime * 2;
-                        agent.Move(moveDir);
+                        Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                        {
+                            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir, enemy._moveAccelerate * Time.deltaTime);
+                            agent.Move(moveDir * Time.deltaTime);
+                        }
+                        else
+                        {
+                            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate * Time.deltaTime);
+                            agent.Move(Vector3.zero);
+                        }
                     }
                     else
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosR);
-                        Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized * Time.deltaTime * 2;
-                        agent.Move(moveDir);
+                        Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                        {
+                            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir, enemy._moveAccelerate * Time.deltaTime);
+                            agent.Move(moveDir * Time.deltaTime);
+                        }
+                        else
+                        {
+                            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate * Time.deltaTime);
+                            agent.Move(Vector3.zero);
+                        }
                     }
                 }
                 break;
@@ -62,8 +89,17 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
             case CoverPointShort coverPointShort:
                 {
                     coverPointShort.TakeThisCover(coverUseable);
-                    Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized * Time.deltaTime * 2;
-                    agent.Move(moveDir);
+                    Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
+                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                    {
+                        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir, enemy._moveAccelerate * Time.deltaTime);
+                        agent.Move(moveDir * Time.deltaTime);
+                    }
+                    else
+                    {
+                        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate * Time.deltaTime);
+                        agent.Move(Vector3.zero);
+                    }
                 }
                 break;
         }
@@ -103,9 +139,6 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-      
-       
-
         weaponInput.InputWeaponUpdate(enemy);
 
         base.Update();
