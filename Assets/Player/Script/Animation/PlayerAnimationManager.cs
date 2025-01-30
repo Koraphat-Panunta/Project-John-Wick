@@ -77,10 +77,10 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
         PlayerMovement playerMovement = player.playerMovement;
-        Vector3 inputVelocity_World = playerMovement.inputVelocity_World;
-        Vector3 inputVelocity_Local = playerMovement.inputVelocity_Local;
-        Vector3 curVelocity_Local = playerMovement.curVelocity_Local;
-        Vector3 curVelocity_World = playerMovement.curVelocity_World;
+        Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
+        Vector3 inputVelocity_Local = playerMovement.moveInputVelocity_Local;
+        Vector3 curVelocity_Local = playerMovement.curMoveVelocity_Local;
+        Vector3 curVelocity_World = playerMovement.curMoveVelocity_World;
 
         this.InputMoveMagnitude_Normalized = inputVelocity_World.normalized.magnitude;
 
@@ -118,7 +118,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
             Vector3.Cross(player.transform.forward, Vector3.up).normalized
-            , playerMovement.curVelocity_World.normalized);
+            , playerMovement.curMoveVelocity_World.normalized);
 
         if (RecoilWeight > 0)
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);

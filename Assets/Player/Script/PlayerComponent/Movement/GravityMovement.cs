@@ -3,28 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityMovement : IMovementComponent
+public class GravityMovement 
 {
     private const float GRAVITY = 9.8f;
-    public GravityMovement(CharacterController characterController) 
+    private bool enableGravity;
+    public GravityMovement() 
     {
-        base.characterController = characterController;
+        enableGravity = true;
     }
-    public override void MovementUpdate(PlayerMovement playerMovement)
+    public  void GravityMovementUpdate(IMovementCompoent movementCompoent)
     {
         float gravitySclae = 0.005f;
-        if (this.characterController.isGrounded == false)
+
+        if(enableGravity == false)
+            return;
+
+        if (movementCompoent.isGround == false)
         {
             _velocityY += GRAVITY * gravitySclae;
             _velocityY = Mathf.Clamp(_velocityY, 0, 1.3f);
-            playerMovement.curVelocity_World -= new Vector3(0, _velocityY, 0);
-            //Debug.Log("IsGround == false");
-            //Debug.Log("Fall v =" + _velocityY);
+            movementCompoent.curMoveVelocity_World -= new Vector3(0, _velocityY, 0);
         }
         else
         {
             _velocityY = 0;
         }
     }
+    public void EnableGravity() => enableGravity = true;
+    public void DisableGravity() => enableGravity = false;
+
     private float _velocityY = 0;
 }

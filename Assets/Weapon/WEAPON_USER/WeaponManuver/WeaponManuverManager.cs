@@ -30,7 +30,7 @@ public class WeaponManuverManager
 
         InitailzedWeaponManuverNode();
     }
-    protected void InitailzedWeaponManuverNode()
+    protected virtual void InitailzedWeaponManuverNode()
     {
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, 
             () => isSwitchWeapon);
@@ -61,7 +61,7 @@ public class WeaponManuverManager
         curWeaponManuverLeafNode = weaponManuverLeafNode;
 
     }
-    public void UpdateNode()
+    public virtual void UpdateNode()
     {
         if (curWeaponManuverLeafNode.IsReset())
         {
@@ -75,12 +75,12 @@ public class WeaponManuverManager
         if(curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.UpdateNode();
     }
-    public void FixedUpdateNode()
+    public virtual void FixedUpdateNode()
     {
         if(curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.FixedUpdateNode();
     }
-    public void LateUpdate()
+    public virtual void LateUpdate()
     {
 
     }
@@ -91,7 +91,7 @@ public class WeaponManuverManager
         curWeaponManuverLeafNode.Enter();
 
     }
-    public void WeaponCommanding()
+    public virtual void WeaponCommanding()
     {
         if (isPullTrigger)
             curWeapon.PullTrigger();

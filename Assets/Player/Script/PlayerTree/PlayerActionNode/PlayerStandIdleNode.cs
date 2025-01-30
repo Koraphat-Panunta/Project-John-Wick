@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStandIdleNode : PlayerActionNodeLeaf
 {
-    
+    private float breakSpeed = 0.4f;
     public PlayerStandIdleNode(Player player) : base(player) { }
 
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -19,7 +19,7 @@ public class PlayerStandIdleNode : PlayerActionNodeLeaf
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
-        playerMovement.FreezingCharacter();
+        playerMovement.MoveToDirWorld(Vector3.zero, breakSpeed,breakSpeed);
         base.FixedUpdate();
     }
 

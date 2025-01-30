@@ -59,7 +59,7 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
         if (Vector3.Distance(targetPos, player.transform.position) > 0.25f)
         {
             rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
-            player.playerMovement.WarpingMovementCharacter(targetPos, Vector3.zero, 600 * Time.deltaTime);
+            player.playerMovement.SnapingMovement(targetPos, Vector3.zero, 600 * Time.deltaTime);
         }
     }
 

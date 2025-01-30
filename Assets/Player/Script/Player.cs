@@ -78,6 +78,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     {
 
         UpdatePlayerTree();
+        playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
 
@@ -90,7 +91,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     private void FixedUpdate()
     {
         FixedUpdatePlayerTree();
-        playerMovement.MovementUpdate();
+        playerMovement.MovementFixedUpdate();
     }
 
     public void TakeDamage(IDamageVisitor damageVisitor)

@@ -6,7 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
-    IHearingComponent, IMovementCompoent, IPatrolComponent,
+    IHearingComponent, IPatrolComponent,
     IPainState,IFallDownGetUpAble,IGunFuDamagedAble
 {
     [Range(0,100)]
@@ -23,6 +23,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
+    public IMovementCompoent enemyMovement;
 
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
@@ -43,7 +44,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyComunicate = new EnemyComunicate(this);
-    
+
+        enemyMovement = new EnemyMovement(agent,this);
+
+
         MotionControlInitailized();
 
         Initialized_IWeaponAdvanceUser();
@@ -97,8 +101,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     private void BlackBoardUpdate()
     {
-        moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, transform.forward);
-        curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, transform.forward);
+        moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
 
         //posture = Mathf.Clamp(posture, 0, 100);
     }
@@ -295,28 +298,28 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                 if(_isPainTrigger)
                     return true;    
 
-                if(isSprint)
+                if(isSprintCommand)
                     { return true; }
 
                 if (isDead)
                     return true;
 
-                if (moveInputVelocity_World.magnitude > 0)
+                if (moveInputVelocity_WorldCommand.magnitude > 0)
                     return true;
                 
                 return false;
             }
             );
-        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_World.magnitude > 0, 
+        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_WorldCommand.magnitude > 0, 
             ()=> 
             {
                 if (isDead)
                     return true;
 
-                if (moveInputVelocity_World.magnitude <= 0)
+                if (moveInputVelocity_WorldCommand.magnitude <= 0)
                     { return true; }
 
-                if(isSprint)
+                if(isSprintCommand)
                     { return true; }
 
                 if(_isPainTrigger)
@@ -567,41 +570,33 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion 
 
     #region InitailizedMovementComponent
-    public GameObject userMovement { get; set; }
-    public Vector3 moveInputVelocity_World { get ; set; }
-    public Vector3 moveInputVelocity_Local { get ; set ; }
-    public Vector3 curMoveVelocity_World { get ; set ; }
-    public Vector3 curMoveVelocity_Local { get ; set; }
-    public Vector3 lookRotation { get ; set ; }
+    public Vector3 moveInputVelocity_WorldCommand { get; set; }
+    public Vector3 moveInputVelocity_LocalCommand { get; set; }
+    public Vector3 lookRotationCommand { get; set; }
+
     [Range(0, 10)]
     public float moveAccelerate;
     [Range(0, 10)]
     public float moveMaxSpeed;
     [Range(0, 10)]
+    public float moveRotateSpeed;
+
+    [Range(0, 10)]
     public float sprintAccelerate;
     [Range(0, 10)]
     public float sprintMaxSpeed;
-    public float _moveAccelerate { get => this.moveAccelerate; set => this.moveAccelerate = value; }
-    public float _moveMaxSpeed { get => this.moveMaxSpeed ; set => this.moveMaxSpeed = value ; }
-    public float _sprintAccelerate { get => this.sprintAccelerate; set => this.sprintAccelerate = value; }
-    public float _sprintMaxSpeed { get => this.sprintMaxSpeed; set=> this.sprintMaxSpeed = value; }
-    public float _rotateSpeed { get ; set ; }
-    public EnemyStateSelectorNode stanceSelector { get; set; }
-    public EnemyStateSelectorNode standStateSelector { get; set; }
-    public EnemyStateSelectorNode crouchStateSelector { get; set; }
-    public EnemyStandIdleStateNode standIdleState { get; set; }
-    public EnemyStandMoveStateNode standMoveState { get; set; }
-    public EnemySprintStateNode sprintState { get; set; }
-    public IMovementCompoent.Stance curStance { get; set; }
-    public bool isSprint { get ; set ; }
-   
+    [Range(0, 10)]
+    public float sprintRotateSpeed;
 
-    public void InitailizedMovementComponent()
-    {
-        this.userMovement = gameObject;
+    [Range(0,10)]
+    public float breakAccelerate;
+    [Range(0,10)]
+    public float breakMaxSpeed;
 
-        curStance = IMovementCompoent.Stance.Stand;
-    }
+    [Range(0, 10)]
+    public float aimingRotateSpeed;
+
+    public bool isSprintCommand { get; set; }
 
 
     #endregion

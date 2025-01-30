@@ -9,10 +9,12 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
     NavMeshAgent agent;
     public float decelerate = 4;
     WeaponInput weaponInput = new WeaponInput();
+    IMovementCompoent enemyMovement;
     public EnemyStandIdleStateNode(Enemy enemy) : base(enemy)
     {
         objectToward = new RotateObjectToward();
         agent = enemy.agent;
+        enemyMovement = enemy.enemyMovement;
 
     }
 
@@ -41,10 +43,8 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
 
     public override void FixedUpdate()
     {
-        enemy.curMoveVelocity_World = Vector3.Lerp(enemy.curMoveVelocity_World, Vector3.zero, decelerate * Time.deltaTime);
-
-        agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
-        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
+        enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed);
+        enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.moveRotateSpeed);
 
         base.FixedUpdate();
     }
@@ -61,12 +61,6 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-        //Animator animator = enemy.animator;
-
-        //animator.SetFloat("Vertical", Mathf.Lerp(animator.GetFloat("Vertical"), 0, 2 * Time.deltaTime));
-        //animator.SetFloat("Horizontal", Mathf.Lerp(animator.GetFloat("Horizontal"), 0, 2 * Time.deltaTime));
-
-        //_enemy.lookRotation = (_enemy.agent.steeringTarget - _enemy.transform.position).normalized;
         weaponInput.InputWeaponUpdate(enemy);
       
 

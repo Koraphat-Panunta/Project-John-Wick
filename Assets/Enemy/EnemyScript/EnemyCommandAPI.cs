@@ -252,7 +252,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool SprintToPosition(Vector3 Destination,float rotSpeed)
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
@@ -264,7 +264,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool SprintToPosition(Vector3 Destination, float rotSpeed,float reachDestinationDistance)
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
@@ -276,32 +276,32 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void Freez(Vector3 rotateToDes, float rotateSpeed)
     {
-        _enemy.isSprint = false;
-        _enemy.moveInputVelocity_World = Vector3.zero;
+        _enemy.isSprintCommand = false;
+        _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
         RotateToPosition(rotateToDes, rotateSpeed);
     }
     public void Move(Vector3 MoveDirWorld, float velocity)
     {
-        _enemy.moveInputVelocity_World = MoveDirWorld.normalized * velocity;
+        _enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocity;
     }
     public void FreezRotation()
     {
-        _enemy.lookRotation = _enemy.transform.forward;
+        _enemy.lookRotationCommand = _enemy.transform.forward;
         _enemy._rotateSpeed = 0;
     }
     public void Rotate(Vector3 dir, float rotSpeed)
     {
-        _enemy.lookRotation = dir;
+        _enemy.lookRotationCommand = dir;
         _enemy._rotateSpeed = rotSpeed;
     }
     public void Sprint()
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
     }
     public void Freez()
     {
-        _enemy.isSprint = false;
-        _enemy.moveInputVelocity_World = Vector3.zero;
+        _enemy.isSprintCommand = false;
+        _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
     }
     public void Stand()
     {
@@ -310,7 +310,7 @@ public class EnemyCommandAPI :MonoBehaviour
     public void Crouch()
     {
         _enemy.curStance = IMovementCompoent.Stance.Crouch;
-        _enemy.isSprint = false;
+        _enemy.isSprintCommand = false;
     }
     public void Dodge()
     {

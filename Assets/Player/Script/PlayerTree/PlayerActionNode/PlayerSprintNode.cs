@@ -8,6 +8,9 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     private PlayerMovement playerMovement;
+    private float sprintMaxSpeed = 5.6f;
+    private float sprintAcceletion = 0.8f;
+    private float sprintRotateSpeed = 3;
 
     public PlayerSprintNode(Player player) : base(player) 
     {
@@ -27,8 +30,8 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     }
     public override void FixedUpdate()
     {
-        playerMovement.RotateCharacter(playerMovement.inputVelocity_World.normalized, playerMovement.rotate_Speed * 0.67f);
-        playerMovement.ONE_DirMovingCharacter();
+        playerMovement.RotateCharacter(playerMovement.moveInputVelocity_World.normalized, sprintRotateSpeed * 0.67f);
+        playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed);
         base.FixedUpdate();
     }
 
