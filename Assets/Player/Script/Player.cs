@@ -7,7 +7,6 @@ using UnityEngine.Animations.Rigging;
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble
 {
     public PlayerMovement playerMovement;
-
     public HpRegenarate hpRegenarate;
     public MovementTest movementTest;
     public CoverDetection coverDetection;
@@ -27,27 +26,24 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
     public Vector2 inputLookDir_Local;
     public Vector3 inputLookDir_World;
-
     public Vector2 inputMoveDir_Local;
+
     public bool isSprint;
-    public bool isAiming;
-    public bool isPullTrigger;
-    public bool isReload;
     public bool isSwapShoulder;
-    public bool isSwitchWeapon;
+
     public enum PlayerStance {stand,crouch,prone }
     public PlayerStance playerStance = PlayerStance.stand;
     public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
     //public bool isGround;
     private void BlackBoardBufferUpdate()
     {
-        isReload = false;
+        isReloadCommand = false;
         isSwapShoulder = false;
-        isSwitchWeapon = false;
+        isSwitchWeaponCommand = false;
         _triggerGunFu = false;
     }
 
-    private void Start()
+    protected override void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
@@ -78,6 +74,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     {
 
         UpdatePlayerTree();
+        weaponManuverManager.UpdateNode();
         playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
@@ -86,11 +83,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     private void LateUpdate()
     {
         BlackBoardBufferUpdate();
+        weaponManuverManager.LateUpdate();
     }
 
     private void FixedUpdate()
     {
         FixedUpdatePlayerTree();
+        weaponManuverManager.FixedUpdateNode();
         playerMovement.MovementFixedUpdate();
     }
 
@@ -140,6 +139,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform weaponSecondHandSocket;
     [SerializeField] private CrosshairController crosshairController;
+
+    public bool isSwitchWeaponCommand { get; set; }
+    public bool isPullTriggerCommand { get; set; }
+    public bool isAimingCommand { get; set; }
+    public bool isReloadCommand { get; set; }
+
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
@@ -162,7 +167,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
-        weaponManuverManager = new WeaponManuverManager(this);
+        weaponManuverManager = new PlayerWeaponManuver(this,this);
     }
     #endregion
 
@@ -292,6 +297,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public LayerMask _layerTarget { get ; set ; }
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
+  
 
     [SerializeField] GunFuHitNodeScriptableObject hit1;
     [SerializeField] GunFuHitNodeScriptableObject hit2;
@@ -333,7 +339,32 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         return Direction;
     }
 
-   
+
+    #endregion
+    #region MovementStats
+
+    [Range(0, 10)]
+    public float moveAccelerate;
+    [Range(0, 10)]
+    public float moveMaxSpeed;
+    [Range(0, 10)]
+    public float moveRotateSpeed;
+
+    [Range(0, 10)]
+    public float sprintAccelerate;
+    [Range(0, 10)]
+    public float sprintMaxSpeed;
+    [Range(0, 10)]
+    public float sprintRotateSpeed;
+
+    [Range(0, 10)]
+    public float breakAccelerate;
+    [Range(0, 10)]
+    public float breakMaxSpeed;
+
+    [Range(0, 10)]
+    public float aimingRotateSpeed;
+
     #endregion
 
 }

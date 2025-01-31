@@ -48,7 +48,7 @@ public class PeekCover : EnemyActionLeafNode
     {
         enemyController.AimDownSight();
 
-        if(enemy.currentWeapon.aimingWeight >= 1)
+        if(enemy.weaponManuverManager.aimingWeight >= 1)
         switch (enemy.combatOffensiveInstinct.myCombatPhase)
         {
             case CombatOffensiveInstinct.CombatPhase.FullAlert:

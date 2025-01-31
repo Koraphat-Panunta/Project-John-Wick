@@ -26,27 +26,29 @@ public class CameraZoom : ICameraAction
 
     public void ZoomIn(Weapon weapon)
     {
+        float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
         if (weapon == null)
         {
             cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, distanceZoomIn, 10*Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.aimingWeight* distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.aimingWeight);
+            cameraOffset.m_Offset.z = aimingWeight* distanceZoomIn;
+            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     
     public void ZoomOut(Weapon weapon)
     {
+        float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
         if (weapon == null)
         {
             cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 0, 10 * Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = weapon.aimingWeight * distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, weapon.aimingWeight);
+            cameraOffset.m_Offset.z = aimingWeight * distanceZoomIn;
+            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     

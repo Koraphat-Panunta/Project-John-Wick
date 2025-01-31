@@ -92,7 +92,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))
         {
             //Debug.Log("Out Target");
-            if (thisTarget.isAiming == false)
+            if (thisTarget.weaponManuverManager.curWeaponManuverLeafNode is AimDownSightWeaponManuverNodeLeaf)
                 return ;
             Vector3 aimingLine = thisTarget.shootingPos - thisTarget.currentWeapon.bulletSpawnerPos.position;
             Vector3 referencePos = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);

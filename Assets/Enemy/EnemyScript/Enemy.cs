@@ -389,6 +389,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform primaryWeaponHoster;
     [SerializeField] private Transform secondaryWeaponHoster;
+
+    public bool isSwitchWeaponCommand { get; set; }
+    public bool isPullTriggerCommand { get ; set ; }
+    public bool isAimingCommand { get;  set ; }
+    public bool isReloadCommand { get ; set ; }
+
     public Animator weaponUserAnimator { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
@@ -417,7 +423,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
-        weaponManuverManager = new WeaponManuverManager(this);
+        weaponManuverManager = new EnemyWeaponManuver(this,this);
     }
     #endregion
 
@@ -673,7 +679,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => gotHumandShielded_GunFuNodeLeaf; set => gotHumandShielded_GunFuNodeLeaf = value; }
-   
 
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;

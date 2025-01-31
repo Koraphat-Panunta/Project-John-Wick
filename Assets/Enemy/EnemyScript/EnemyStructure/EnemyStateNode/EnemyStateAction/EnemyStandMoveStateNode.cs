@@ -8,7 +8,6 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
     
     RotateObjectToward objectToward;
     NavMeshAgent agent;
-    WeaponInput weaponInput = new WeaponInput();
     IMovementCompoent enemyMovement;
   
     public EnemyStandMoveStateNode(Enemy enemy) : base(enemy)
@@ -63,17 +62,6 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-        //Vector3 moveInputDirWorld = enemy.moveInputVelocity_WorldCommand;
-        //Animator animator = enemy.animator;
-
-        //Vector3 animDir = enemy.transform.InverseTransformDirection(moveInputDirWorld);
-        //animator.SetFloat("Vertical", animDir.z, 0.5f, Time.deltaTime);
-        //animator.SetFloat("Horizontal", animDir.x, 0.1f, Time.deltaTime);
-
-        //_enemy.lookRotationCommand = (_enemy.agent.steeringTarget - _enemy.transform.position).normalized;
-        weaponInput.InputWeaponUpdate(enemy);
-
-
         base.Update();
     }
 }

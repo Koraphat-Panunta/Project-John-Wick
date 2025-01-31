@@ -93,14 +93,14 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     }
     private void BackBoardUpdate()
     {
-        this.enemyStance = enemy.curStance;
+        this.enemyStance = enemy.enemyMovement.curStance;
 
         if (enemy.isInCover)
             CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1) - AimDownSightWeight;
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
-        IMovementCompoent movementComponent = enemy;
+        IMovementCompoent movementComponent = enemy.enemyMovement;
         Vector3 inputVelocity_World = movementComponent.moveInputVelocity_World;
         Vector3 inputVelocity_Local = movementComponent.moveInputVelocity_Local;
         Vector3 curVelocity_Local = movementComponent.curMoveVelocity_Local;
@@ -121,25 +121,25 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             , 10 * Time.deltaTime);
 
 
-        if (enemy.curStateLeaf == enemy.sprintState)
+        if (enemy.curStateLeaf == enemy.enemySprintState)
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy._sprintMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy._sprintMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy._sprintMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.sprintMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy.sprintMaxSpeed;
 
             isSprint = true;
         }
         else
         {
 
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy._moveMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy._moveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy._moveMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.moveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.moveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy.moveMaxSpeed;
 
             isSprint = false;
         }
 
-        AimDownSightWeight = (enemy as IWeaponAdvanceUser).currentWeapon.aimingWeight;
+        AimDownSightWeight = (enemy as IWeaponAdvanceUser).weaponManuverManager.aimingWeight;
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
             Vector3.Cross(enemy.transform.forward, Vector3.up).normalized

@@ -20,7 +20,7 @@ public class PlayerStandMoveNode : PlayerActionNodeLeaf
 
         PlayerMovement playerMovement = base.player.playerMovement;
         playerMovement.MoveToDirLocal(player.inputMoveDir_Local, moveSpeed, moveMaxSpeed);
-        playerMovement.RotateCharacter(Camera.main.transform.forward, moveRotateSpeed);
+        playerMovement.RotateToDirWorld(Camera.main.transform.forward, moveRotateSpeed);
 
         base.FixedUpdate();
     }
@@ -50,7 +50,6 @@ public class PlayerStandMoveNode : PlayerActionNodeLeaf
     }
     private void InputPerformed()
     {
-        new WeaponInput().InputWeaponUpdate(player);
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);

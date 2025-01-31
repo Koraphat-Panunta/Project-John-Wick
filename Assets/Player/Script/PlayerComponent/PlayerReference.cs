@@ -11,19 +11,16 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public WeaponBelt weaponBelt { get => player.weaponBelt; set => player.weaponBelt = value; }
     public WeaponAfterAction weaponAfterAction { get => player.weaponAfterAction; set => player.weaponAfterAction = value; }
     public WeaponCommand weaponCommand { get => player.weaponCommand; set => player.weaponCommand = value; }
-
     public Character userWeapon => player;
-
-    public bool isAiming { get => player.isAiming; set => player.isAiming = value; }
-    public bool isPullTrigger { get => player.isPullTrigger; set => player.isPullTrigger = value; }
-    public bool isReload { get => player.isReload; set => player.isReload = value; }
-    public bool isSwapShoulder { get => player.isSwapShoulder; set => player.isSwapShoulder = value; }
-    public bool isSwitchWeapon { get => player.isSwitchWeapon; set => player.isSwitchWeapon = value; }
     public Vector3 pointingPos { get => player.pointingPos; set => player.pointingPos = value; }
-
+    public WeaponManuverManager weaponManuverManager { get => player.weaponManuverManager; set => player.weaponManuverManager = value; }
+    public bool isSwitchWeaponCommand { get => player.isSwitchWeaponCommand; set => isSwitchWeaponCommand = value; }
+    public bool isPullTriggerCommand { get => player.isPullTriggerCommand; set => player.isPullTriggerCommand = value; }
+    public bool isAimingCommand { get => player.isAimingCommand; set => player.isAimingCommand = value; }
+    public bool isReloadCommand { get => player.isReloadCommand; set => player.isReloadCommand = value; }
 
     public void Initialized_IWeaponAdvanceUser()
     {
-       
+       player.Initialized_IWeaponAdvanceUser();
     }
 }

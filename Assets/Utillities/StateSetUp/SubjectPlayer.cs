@@ -65,7 +65,10 @@ public abstract class SubjectPlayer : Character
             if (observer == null)
                 this.observers.Remove(observer);
             else
-                observer.OnNotify(player,playerAction);
+            {
+                observer.OnNotify(player, playerAction);
+                observer.OnNotify(player);
+            }
         }
     }
     public void NotifyObserver(Player player)

@@ -99,20 +99,20 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (player.curPlayerActionNode == player.playerSprintNode)
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.sprint_MaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.sprint_MaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;   
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;   
         }
         else
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.move_MaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.moveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.moveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.moveMaxSpeed;
         }
 
 
 
-        AimDownSightWeight = (player as IWeaponAdvanceUser).currentWeapon.aimingWeight;
+        AimDownSightWeight = (player as IWeaponAdvanceUser).weaponManuverManager.aimingWeight;
         
 
 

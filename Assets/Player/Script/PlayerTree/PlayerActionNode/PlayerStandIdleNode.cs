@@ -50,7 +50,6 @@ public class PlayerStandIdleNode : PlayerActionNodeLeaf
 
     private void InputPerformed()
     {
-        new WeaponInput().InputWeaponUpdate(player);
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);

@@ -9,6 +9,7 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode
     public WeaponManuverSelectorNode parentNode;
     public WeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
+        isReset = new List<Func<bool>>();
         isReset.Add(() => !preCondition());
     }
     public abstract void UpdateNode();

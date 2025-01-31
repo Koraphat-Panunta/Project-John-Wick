@@ -7,7 +7,6 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
     NavMeshAgent agent;
-    WeaponInput weaponInput= new WeaponInput();
     IMovementCompoent movementCompoent;
     public EnemyStandTakeAimStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
@@ -131,8 +130,6 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-        weaponInput.InputWeaponUpdate(enemy);
-
         base.Update();
     }
 }

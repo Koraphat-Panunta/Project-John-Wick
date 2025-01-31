@@ -30,7 +30,7 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     }
     public override void FixedUpdate()
     {
-        playerMovement.RotateCharacter(playerMovement.moveInputVelocity_World.normalized, sprintRotateSpeed * 0.67f);
+        playerMovement.RotateToDirWorld(playerMovement.moveInputVelocity_World.normalized, sprintRotateSpeed * 0.67f);
         playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed);
         base.FixedUpdate();
     }
@@ -53,15 +53,9 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     }
     private  void InputPerformed()
     {
-        if (player.isReload)
-        {
-            player.weaponCommand.Reload(player.weaponBelt.ammoProuch);
-        }
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
         }
-        player.weaponCommand.CancleTrigger();
-        player.weaponCommand.LowReady();
     }
 }

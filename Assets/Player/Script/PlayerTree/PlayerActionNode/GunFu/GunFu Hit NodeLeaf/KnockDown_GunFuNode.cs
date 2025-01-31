@@ -29,13 +29,13 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
         _timer = 0;
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
-        player.playerMovement.FreezingCharacter();
+        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6);
         base.Exit();
     }
 
     public override void FixedUpdate()
     {
-        player.playerMovement.FreezingCharacter();
+        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6);
 
         if (isDetectTarget)
         LerpingToTargetPos();

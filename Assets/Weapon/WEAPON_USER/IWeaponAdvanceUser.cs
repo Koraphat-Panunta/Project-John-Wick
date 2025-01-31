@@ -13,5 +13,9 @@ public interface IWeaponAdvanceUser
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon { get;}
     public WeaponManuverManager weaponManuverManager { get; set; }
+    public bool isSwitchWeaponCommand { get; set; }
+    public bool isPullTriggerCommand { get; set; }
+    public bool isAimingCommand { get; set; }
+    public bool isReloadCommand { get; set; }
     public void Initialized_IWeaponAdvanceUser();
 }

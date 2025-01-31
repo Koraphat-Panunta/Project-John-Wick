@@ -9,8 +9,6 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
     IMovementCompoent movementCompoent;
-
-    WeaponInput weaponInput = new WeaponInput();
     public EnemyStandTakeCoverStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
         this.coverUseable = coverUseable;
@@ -78,10 +76,7 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
             movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
         else
             movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed);
-        
-       
-       
-        weaponInput.InputWeaponUpdate(enemy);
+              
 
         movementCompoent.RotateToDirWorld(coverUseable.coverPoint.coverDir, 6);
 

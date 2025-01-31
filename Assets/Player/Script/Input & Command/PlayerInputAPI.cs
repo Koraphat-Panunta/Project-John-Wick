@@ -37,23 +37,23 @@ public class PlayerInputAPI : MonoBehaviour
     public void Aim(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isAiming = true;
+            player.isAimingCommand = true;
         if (context.canceled)
-            player.isAiming = false;
+            player.isAimingCommand = false;
     }
     public void PullTrigger(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isPullTrigger = true;
+            player.isPullTriggerCommand = true;
         if (context.canceled)
-            player.isPullTrigger = false;
+            player.isPullTriggerCommand = false;
     }
     public void Reload(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isReload = true;
+            player.isReloadCommand = true;
         if (context.canceled)
-            player.isReload = false;
+            player.isReloadCommand = false;
     }
     public void SwapShoulder(InputAction.CallbackContext context)
     {
@@ -65,9 +65,9 @@ public class PlayerInputAPI : MonoBehaviour
     public void SwitchWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isSwitchWeapon = true;
+            player.isSwitchWeaponCommand = true;
         if (context.canceled)
-            player.isSwitchWeapon = false;
+            player.isSwitchWeaponCommand = false;
     }
     public void TriggerGunFu(InputAction.CallbackContext context)
     {

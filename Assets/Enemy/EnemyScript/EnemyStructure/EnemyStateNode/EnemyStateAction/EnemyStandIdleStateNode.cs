@@ -8,7 +8,6 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
     RotateObjectToward objectToward;
     NavMeshAgent agent;
     public float decelerate = 4;
-    WeaponInput weaponInput = new WeaponInput();
     IMovementCompoent enemyMovement;
     public EnemyStandIdleStateNode(Enemy enemy) : base(enemy)
     {
@@ -61,9 +60,6 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
 
     public override void Update()
     {
-        weaponInput.InputWeaponUpdate(enemy);
-      
-
         base.Update();
     }
 }
