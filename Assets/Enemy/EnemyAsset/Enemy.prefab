@@ -219,7 +219,6 @@ MonoBehaviour:
     m_Bits: 256
   cost: 0
   myHP: 0
-  posture: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
   weaponMainSocket: {fileID: 3105058264465165540}
@@ -236,10 +235,18 @@ MonoBehaviour:
   right_lowerArm: {fileID: 6083549487981505093}
   left_upperArm: {fileID: 7774858114036349903}
   left_lowerArm: {fileID: 3123049879012078643}
+  moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
+  moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
+  lookRotationCommand: {x: 0, y: 0, z: 0}
   moveAccelerate: 1.53
   moveMaxSpeed: 2.01
+  moveRotateSpeed: 1.37
   sprintAccelerate: 4.55
   sprintMaxSpeed: 5.04
+  sprintRotateSpeed: 1.8
+  breakAccelerate: 1.66
+  breakMaxSpeed: 1.65
+  aimingRotateSpeed: 1.65
   postureLight: 100
   postureMedium: 81
   postureHeavy: 44.2

@@ -74,12 +74,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
         weaponManuverManager.UpdateNode();
+        enemyMovement.MovementUpdate();
 
     }
     private void FixedUpdate()
     {
         FixedUpdateState();
         weaponManuverManager.FixedUpdateNode();
+        enemyMovement.MovementFixedUpdate();
     }
    
     public void TakeDamage(float Damage)
@@ -366,6 +368,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void UpdateState() 
     {
+        Debug.Log("Enemy curStateLeaf =" + curStateLeaf);
+
         if (curStateLeaf.IsReset())
         {
             curStateLeaf.Exit();
@@ -576,9 +580,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion 
 
     #region InitailizedMovementComponent
-    public Vector3 moveInputVelocity_WorldCommand { get; set; }
-    public Vector3 moveInputVelocity_LocalCommand { get; set; }
-    public Vector3 lookRotationCommand { get; set; }
+    public Vector3 moveInputVelocity_WorldCommand;
+    public Vector3 moveInputVelocity_LocalCommand;
+    public Vector3 lookRotationCommand;
 
     [Range(0, 10)]
     public float moveAccelerate;

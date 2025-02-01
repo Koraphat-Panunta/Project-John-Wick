@@ -14,6 +14,7 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
         objectToward = new RotateObjectToward();
         agent = enemy.agent;
         enemyMovement = enemy.enemyMovement;
+       
 
     }
 
@@ -21,6 +22,7 @@ public class EnemyStandIdleStateNode : EnemyStateLeafNode
     {
         objectToward = new RotateObjectToward();
         agent = enemy.agent;
+        enemyMovement = enemy.enemyMovement;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }

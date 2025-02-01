@@ -24,8 +24,6 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void FixedUpdateNode()
     {
 
-        Debug.Log("Debug form AimDownSightManuver WeaponManuverManager FixedUpdate =" + weaponManuverManager);
-
         if (weaponManuverManager == null)
             Debug.Log(weaponManuverManager + "is null");
 
@@ -54,8 +52,6 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
     {
         if(weaponManuverManager == null)
             weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
-
-        Debug.Log("Debug form AimDownSightManuver WeaponManuverManager =" + weaponManuverManager);
 
         weaponAfterAction.AimDownSight(curWeapon);
 

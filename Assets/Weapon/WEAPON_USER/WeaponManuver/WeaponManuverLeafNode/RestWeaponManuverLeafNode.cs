@@ -17,12 +17,12 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void Exit()
     {
-        Debug.Log("Rest Node Exit");
+
     }
 
     public override void FixedUpdateNode()
     {
-        Debug.Log("Rest Node IsReset Count =" + isReset.Count);
+
     }
 
     public override bool IsComplete()

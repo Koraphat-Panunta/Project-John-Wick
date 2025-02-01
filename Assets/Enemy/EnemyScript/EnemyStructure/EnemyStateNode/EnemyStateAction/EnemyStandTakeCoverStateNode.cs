@@ -14,6 +14,7 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();
         agent = enemy.agent;
+        movementCompoent = enemy.enemyMovement;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }

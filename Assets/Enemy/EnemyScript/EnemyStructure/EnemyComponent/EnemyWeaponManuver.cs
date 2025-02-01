@@ -52,43 +52,43 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public void OnserveEnemyStateNode(Enemy enemy)
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy;
-        EnemyStateLeafNode playerActionNodeLeaf = enemy.curStateLeaf;
+        EnemyStateLeafNode enemyActionNodeLeaf = enemy.curStateLeaf;
 
-        switch (playerActionNodeLeaf)
+        if (enemy._isInPain)
         {
-            case EnemyStandIdleStateNode enemyStandIdleNode:
-                {
-                    WeaponAdvanceCommanding(weaponAdvanceUser);
-                }
-                break;
-            case EnemyStandMoveStateNode enemyStandMoveNode:
-                {
-                    WeaponAdvanceCommanding(weaponAdvanceUser);
-                }
-                break;
-            case EnemySprintStateNode playerSprintNode:
-                {
-                    if (weaponAdvanceUser.isReloadCommand)
-                        isReloadManuver = true;
-                    if (weaponAdvanceUser.isSwitchWeaponCommand)
-                        isSwitchWeaponManuver = true;
-                }
-                break;
+            isAimingManuver = false;
+            isPullTriggerManuver = false;
+            isReloadManuver = false;
+            isSwitchWeaponManuver = false;
+        }
+            
+        if (enemyActionNodeLeaf is EnemySprintStateNode)
+        {
+            if (weaponAdvanceUser.isReloadCommand)
+                isReloadManuver = true;
+            if (weaponAdvanceUser.isSwitchWeaponCommand)
+                isSwitchWeaponManuver = true;
+
+            isAimingManuver = false;
+            isPullTriggerManuver = false;
+
+            return;
+        }
+        else
+        {
+            WeaponAdvanceCommanding(weaponAdvanceUser);
         }
     }
 
     private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)
     {
-        if (weaponAdvanceUser.isAimingCommand)
-            isAimingManuver = true;
 
-        if (weaponAdvanceUser.isReloadCommand)
-            isReloadManuver = true;
+        isAimingManuver = weaponAdvanceUser.isAimingCommand;
 
-        if (weaponAdvanceUser.isSwitchWeaponCommand)
-            isSwitchWeaponManuver = true;
+        isReloadManuver = weaponAdvanceUser.isReloadCommand;
 
-        if (weaponAdvanceUser.isPullTriggerCommand)
-            isPullTriggerManuver = true;
+        isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
+
+        isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
     }
 }
