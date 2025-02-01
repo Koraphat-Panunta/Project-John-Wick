@@ -22,7 +22,7 @@ public class GravityMovement
         {
             _velocityY += GRAVITY * gravitySclae;
             _velocityY = Mathf.Clamp(_velocityY, 0, 1.3f);
-            movementCompoent.curMoveVelocity_World -= new Vector3(0, _velocityY*Time.deltaTime, 0);
+            movementCompoent.curMoveVelocity_World -= new Vector3(0, _velocityY, 0);
         }
         else
         {

@@ -7,7 +7,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private bool isComplete;
 
     private float elapsTime;
-    Weapon curWeapon;
+    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
     WeaponAfterAction weaponAfterAction;
 
     TransitionPhase curPhase;
@@ -15,7 +15,6 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private float holsterSecondaryWeaponTime = 0.5f;
     public SecondaryToPrimarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        curWeapon = weaponAdvanceUser.currentWeapon;
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
 
         curPhase = TransitionPhase.None;
@@ -27,6 +26,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
         curPhase = TransitionPhase.HolsterSecondaryEnter;
         curWeapon.ChangeActionManualy(curWeapon.restNode);
         elapsTime = 0;
+        isComplete = false;
     }
 
     public override void Exit()
@@ -43,7 +43,10 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     {
         return isComplete;
     }
-
+    public override bool IsReset()
+    {
+        return IsComplete();
+    }
     public override void UpdateNode()
     {
         elapsTime += Time.deltaTime;
@@ -72,7 +75,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
             case TransitionPhase.DrawPrimaryEnter:
                 {
                     curWeapon = primaryWeapon;
-                    curWeapon.AttachWeaponTo(weaponAdvanceUser.currentWeaponSocket);
+                    primaryWeapon.AttatchWeaponTo(weaponAdvanceUser);
                     curPhase = TransitionPhase.DrawingPrimary;
                 }
                 break;

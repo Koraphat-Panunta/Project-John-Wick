@@ -5,13 +5,12 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
-    Weapon curWeapon;
+    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
 
     public float recoverFormAimDownSight {private get; set; }
     public LowReadyWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
-        this.curWeapon = weaponAdvanceUser.currentWeapon;
         recoverFormAimDownSight = 2;
     }
 
@@ -41,6 +40,9 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
     {
         if (this.weaponManuverManager == null)
             this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
+
+        if (this.weaponManuverManager.isReloadManuver)
+            curWeapon.Reload();
 
         this.weaponAfterAction.LowReady(curWeapon);
     }

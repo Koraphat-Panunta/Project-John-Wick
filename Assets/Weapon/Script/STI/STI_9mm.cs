@@ -15,7 +15,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     private float _recoilKickBack ;
     private float min_percision = 18;
     private float max_percision = 65;
-    private float DrawSpeed = 5;
+    private float DrawSpeed = 1;
 
     public override Transform gripPos { get => transform;set { } }
     public override Transform SecondHandgripPos { get => transform; set { } }

@@ -52,7 +52,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         GravityUpdate();
         characterController.Move(curMoveVelocity_World * Time.deltaTime);
 
-        if (Physics.Raycast(player.transform.position, Vector3.down, 1))
+        if (Physics.Raycast(player.centreTransform.position, Vector3.down, 1))
             isGround = true;
         else isGround = false;
     }

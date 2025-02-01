@@ -14,27 +14,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
     [SerializeField] private bool isImortal;
 
-    public enum ShoulderSide
-    {
-        Left,
-        Right
-    }
-    public ShoulderSide curShoulderSide;
-
     public float MyHP;
-
-    public Vector2 inputLookDir_Local;
-    public Vector3 inputLookDir_World;
-    public Vector2 inputMoveDir_Local;
-    public Vector3 inputMoveDir_World;
-
-    public bool isSprint;
-    public bool isSwapShoulder;
-
-    public enum PlayerStance {stand,crouch,prone }
-    public PlayerStance playerStance = PlayerStance.stand;
-    public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
-
+   
     private void BlackBoardBufferUpdate()
     {
         isReloadCommand = false;
@@ -140,12 +121,17 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform weaponSecondHandSocket;
     [SerializeField] private CrosshairController crosshairController;
-
+    public enum ShoulderSide
+    {
+        Left,
+        Right
+    }
+    public ShoulderSide curShoulderSide;
     public bool isSwitchWeaponCommand { get; set; }
     public bool isPullTriggerCommand { get; set; }
     public bool isAimingCommand { get; set; }
     public bool isReloadCommand { get; set; }
-
+    public bool isSwapShoulder;
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
@@ -341,6 +327,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
 
     #endregion
+
     #region MovementStats
 
     [Range(0, 100)]
@@ -364,6 +351,20 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
     [Range(0, 100)]
     public float aimingRotateSpeed;
+
+    public bool isInCover { get { return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
+
+    public Vector2 inputLookDir_Local;
+    public Vector3 inputLookDir_World;
+    public Vector2 inputMoveDir_Local;
+    public Vector3 inputMoveDir_World;
+
+    public bool isSprint;
+
+    public enum PlayerStance { stand, crouch, prone }
+    public PlayerStance playerStance = PlayerStance.stand;
+
+    public Transform centreTransform;
 
     #endregion
 

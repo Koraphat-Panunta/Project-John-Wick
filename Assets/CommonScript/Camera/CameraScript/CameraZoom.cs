@@ -40,7 +40,12 @@ public class CameraZoom : ICameraAction
     
     public void ZoomOut(Weapon weapon)
     {
+        Debug.Log("curWeapon =" + weapon);
+        if (weapon.userWeapon == null)
+            Debug.Log("Null");
+
         float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
+
         if (weapon == null)
         {
             cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 0, 10 * Time.deltaTime);

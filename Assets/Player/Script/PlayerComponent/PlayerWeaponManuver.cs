@@ -58,36 +58,23 @@ public class PlayerWeaponManuver : WeaponManuverManager
         IWeaponAdvanceUser weaponAdvanceUser = player ;
         PlayerActionNodeLeaf playerActionNodeLeaf = player.curPlayerActionNode;
 
-        switch (playerActionNodeLeaf)
+        if(player.isSprint)
         {
-            case PlayerStandIdleNode playerStandIdleNode: 
-                {
-                    WeaponAdvanceCommanding(weaponAdvanceUser);
-                }
-                break;
-            case PlayerStandMoveNode playerStandMoveNode:
-                {
-                    WeaponAdvanceCommanding(weaponAdvanceUser);
-                }
-                break;
-            case PlayerSprintNode playerSprintNode: 
-                {
-                    if(weaponAdvanceUser.isReloadCommand)
-                        isReloadManuver = true;
-                    if(weaponAdvanceUser.isSwitchWeaponCommand)
-                        isSwitchWeaponManuver = true;
+            if (weaponAdvanceUser.isReloadCommand)
+                isReloadManuver = true;
+            if (weaponAdvanceUser.isSwitchWeaponCommand)
+                isSwitchWeaponManuver = true;
 
-                    isAimingManuver = false;
-                    isPullTriggerManuver = false;
-                }
-                break;
-            default:
-                {
-                    isAimingManuver = false;
-                    isPullTriggerManuver = false;
-                }
-                break;
+            isAimingManuver = false;
+            isPullTriggerManuver = false;
+
+            return;
         }
+        else
+        {
+            WeaponAdvanceCommanding(weaponAdvanceUser);
+        }
+       
     }
 
     private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)

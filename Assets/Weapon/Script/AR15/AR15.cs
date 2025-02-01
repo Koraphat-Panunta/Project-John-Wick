@@ -27,7 +27,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     private float _RecoilKickBack = 60;
     private float Min_percision = 11;
     private float Max_percision = 74;
-    private float DrawSpeed = 0.5f;
+    private float DrawSpeed = 1f;
     private _556mmBullet _556MmBullet;
 
     public Transform forntGrip { get ; set ; }
