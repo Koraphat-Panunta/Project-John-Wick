@@ -5,12 +5,10 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
-    Weapon curWeapon;
+    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
-        curWeapon = weaponManuverManager.curWeapon;
     }
 
     public override void Enter()
@@ -25,8 +23,13 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void FixedUpdateNode()
     {
-        weaponManuverManager.aimingWeight 
-            = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime*curWeapon.aimDownSight_speed);
+
+        Debug.Log("Debug form AimDownSightManuver WeaponManuverManager FixedUpdate =" + weaponManuverManager);
+
+        if (weaponManuverManager == null)
+            Debug.Log(weaponManuverManager + "is null");
+
+        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
     }
 
     public override bool IsComplete()
@@ -49,6 +52,11 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
+        if(weaponManuverManager == null)
+            weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
+
+        Debug.Log("Debug form AimDownSightManuver WeaponManuverManager =" + weaponManuverManager);
+
         weaponAfterAction.AimDownSight(curWeapon);
 
         if(weaponManuverManager.aimingWeight >= 1)

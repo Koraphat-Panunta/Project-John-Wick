@@ -35,7 +35,7 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
 
     public void OnNotify(Player player)
     {
-        throw new System.NotImplementedException();
+
     }
 
     async void Start()

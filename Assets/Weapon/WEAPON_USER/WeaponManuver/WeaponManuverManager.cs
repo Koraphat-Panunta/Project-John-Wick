@@ -4,7 +4,7 @@ public abstract class WeaponManuverManager
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IMovementCompoent movementCompoent;
-    public Weapon curWeapon;
+    public Weapon curWeapon => weaponAdvanceUser.currentWeapon;
 
     public WeaponManuverLeafNode curWeaponManuverLeafNode;
     public WeaponManuverSelectorNode startWeaponManuverSelectorNode;
@@ -26,7 +26,6 @@ public abstract class WeaponManuverManager
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
-        curWeapon = weaponAdvanceUser.currentWeapon;
 
         startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(weaponAdvanceUser,()=> true);
         InitailzedWeaponManuverNode();
@@ -35,8 +34,10 @@ public abstract class WeaponManuverManager
    
     public virtual void UpdateNode()
     {
+
         if (curWeaponManuverLeafNode.IsReset())
         {
+            Debug.Log(curWeaponManuverLeafNode + " IsReset");
             curWeaponManuverLeafNode.Exit();
             curWeaponManuverLeafNode = null;
             startWeaponManuverSelectorNode.FindingNode(out WeaponManuverLeafNode weaponManuverLeafNode);
@@ -51,11 +52,6 @@ public abstract class WeaponManuverManager
     {
         if(curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.FixedUpdateNode();
-    }
-    public virtual void LateUpdate()
-    {
-        isAimingManuver = false;
-        isPullTriggerManuver = false;
     }
     public void ChangeWeaponManuverNode(WeaponManuverLeafNode weaponManuverLeafNode)
     {

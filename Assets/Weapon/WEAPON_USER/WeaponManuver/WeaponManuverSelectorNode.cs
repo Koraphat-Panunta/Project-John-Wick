@@ -68,11 +68,20 @@ public class WeaponManuverSelectorNode : WeaponManuverNode
 
         foreach (WeaponManuverNode weaponManuverNode in childNode)
         {
-            if (weaponManuverNode.Precondition() == false)
+            if (weaponManuverNode.Precondition() == false) 
+            {
+                Debug.Log("WeaponManuverNode " + this + " -> " + weaponManuverNode+" is false");
                 continue;
-           
+            }
+               
+
+            Debug.Log("WeaponManuverNode " + this +" -> " + weaponManuverNode);
+
             if (weaponManuverNode is WeaponManuverLeafNode manuverLeafNode)
+            {
                 weaponManuverLeafNode = manuverLeafNode;
+                return true;
+            }
 
             else if (weaponManuverNode is WeaponManuverSelectorNode weaponManuverSelectorNode)
             {

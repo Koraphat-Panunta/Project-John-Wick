@@ -80,7 +80,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed)
     {
         moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
-        curMoveVelocity_World = Vector3.MoveTowards(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
+        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
     }
     public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed)
     {
@@ -88,7 +88,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
             new Vector3(dirLocalNormalized.x,0,dirLocalNormalized.y),
             forwardDir);
 
-        curMoveVelocity_World = Vector3.MoveTowards(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
+        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
     }
     public void RotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed_NoMultiplyDeltaTime)
     {

@@ -12,16 +12,39 @@ public class PlayerDeBuger : MonoBehaviour
 
     public static Vector3 CoverPos;
     public static Vector3 AimPos;
+
+    public bool isSwitchWeaponCommand;
+    public bool isPullTriggerCommand;
+    public bool isAimingCommand;
+    public bool isReloadCommand;
+
+    public bool isAimingManuver;
+    public bool isPullTriggerManuver;
+    public bool isReloadManuver;
+    public bool isSwitchWeaponManuver;
+
+    Player player;
     // Start is called before the first frame update
     void Start()
     {
+        player = GetComponent<Player>();
         layerMask = LayerMask.GetMask("Default");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("curWeaponManuverNode =" + player.weaponManuverManager.curWeaponManuverLeafNode);
+
+        isAimingCommand = player.isAimingCommand;
+        isReloadCommand = player.isReloadCommand;
+        isPullTriggerCommand = player.isPullTriggerCommand;
+        isReloadCommand = player.isReloadCommand;
+
+        isAimingManuver = player.weaponManuverManager.isAimingManuver;
+        isPullTriggerManuver = player.weaponManuverManager.isPullTriggerManuver;
+        isReloadManuver = player.weaponManuverManager.isReloadManuver;
+        isSwitchWeaponManuver = player.weaponManuverManager.isSwitchWeaponManuver;
     }
    
     private void OnDrawGizmos()

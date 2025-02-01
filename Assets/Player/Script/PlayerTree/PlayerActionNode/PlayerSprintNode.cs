@@ -30,8 +30,9 @@ public class PlayerSprintNode : PlayerActionNodeLeaf
     }
     public override void FixedUpdate()
     {
-        playerMovement.RotateToDirWorld(playerMovement.moveInputVelocity_World.normalized, sprintRotateSpeed * 0.67f);
-        playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed);
+        playerMovement.MoveToDirWorld(player.transform.forward, sprintAcceletion, sprintMaxSpeed);
+        playerMovement.RotateToDirWorld(player.inputMoveDir_World.normalized, sprintRotateSpeed );
+
         base.FixedUpdate();
     }
 

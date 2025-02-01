@@ -8,7 +8,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 {
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
-    public MovementTest movementTest;
     public CoverDetection coverDetection;
 
     public Transform RayCastPos;
@@ -27,6 +26,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public Vector2 inputLookDir_Local;
     public Vector3 inputLookDir_World;
     public Vector2 inputMoveDir_Local;
+    public Vector3 inputMoveDir_World;
 
     public bool isSprint;
     public bool isSwapShoulder;
@@ -34,7 +34,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public enum PlayerStance {stand,crouch,prone }
     public PlayerStance playerStance = PlayerStance.stand;
     public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
-    //public bool isGround;
+
     private void BlackBoardBufferUpdate()
     {
         isReloadCommand = false;
@@ -72,9 +72,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
     private void Update()
     {
+        inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
 
         UpdatePlayerTree();
         weaponManuverManager.UpdateNode();
+
         playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
@@ -83,7 +85,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     private void LateUpdate()
     {
         BlackBoardBufferUpdate();
-        weaponManuverManager.LateUpdate();
     }
 
     private void FixedUpdate()
@@ -233,7 +234,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
             stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
-
             curPlayerActionNode = playerActionNode;
             curPlayerActionNode.Enter();
         }
@@ -343,26 +343,26 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     #endregion
     #region MovementStats
 
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float moveAccelerate;
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float moveMaxSpeed;
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float moveRotateSpeed;
 
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float sprintAccelerate;
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float sprintMaxSpeed;
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float sprintRotateSpeed;
 
-    [Range(0, 10)]
-    public float breakAccelerate;
-    [Range(0, 10)]
+    [Range(0, 100)]
+    public float breakDecelerate;
+    [Range(0, 100)]
     public float breakMaxSpeed;
 
-    [Range(0, 10)]
+    [Range(0, 100)]
     public float aimingRotateSpeed;
 
     #endregion

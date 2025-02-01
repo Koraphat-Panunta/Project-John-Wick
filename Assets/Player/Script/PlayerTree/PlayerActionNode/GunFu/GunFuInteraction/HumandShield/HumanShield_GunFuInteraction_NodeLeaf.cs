@@ -156,7 +156,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 {
                     _timerHumandThrow += Time.deltaTime;
 
-                    player.playerMovement.MoveToDirWorld(Vector3.zero, player.breakAccelerate, player.breakMaxSpeed);
+                    player.playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed);
 
                     if (_timerHumandThrow >= timehumandThrow)
                         _isExit = true;

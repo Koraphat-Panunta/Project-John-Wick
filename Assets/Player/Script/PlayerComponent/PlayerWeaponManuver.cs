@@ -48,11 +48,13 @@ public class PlayerWeaponManuver : WeaponManuverManager
    
     public override void UpdateNode()
     {
+        Debug.Log("Debug from PlayerWeaponManuver" + curWeapon);
         OnservePlayerStateNode(this.player);
         base.UpdateNode();
     }
     public void OnservePlayerStateNode(Player player)
     {
+
         IWeaponAdvanceUser weaponAdvanceUser = player ;
         PlayerActionNodeLeaf playerActionNodeLeaf = player.curPlayerActionNode;
 
@@ -74,26 +76,30 @@ public class PlayerWeaponManuver : WeaponManuverManager
                         isReloadManuver = true;
                     if(weaponAdvanceUser.isSwitchWeaponCommand)
                         isSwitchWeaponManuver = true;
+
+                    isAimingManuver = false;
+                    isPullTriggerManuver = false;
+                }
+                break;
+            default:
+                {
+                    isAimingManuver = false;
+                    isPullTriggerManuver = false;
                 }
                 break;
         }
     }
 
-    
-
     private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)
     {
-        if (weaponAdvanceUser.isAimingCommand)
-            isAimingManuver = true;
+        isAimingManuver = weaponAdvanceUser.isAimingCommand;
 
-        if (weaponAdvanceUser.isReloadCommand)
-            isReloadManuver = true;
+        isReloadManuver = weaponAdvanceUser.isReloadCommand;
 
-        if (weaponAdvanceUser.isSwitchWeaponCommand)
-            isSwitchWeaponManuver = true;
+        isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
 
-        if (weaponAdvanceUser.isPullTriggerCommand)
-            isPullTriggerManuver = true;
+        isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
+        
     }
 
 }
