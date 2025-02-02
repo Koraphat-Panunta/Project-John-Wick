@@ -71,10 +71,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         combatOffensiveInstinct.UpdateSening();
        
         UpdateState();
-        BlackBoardUpdate();
-        BlackBoardBufferUpdate();
         weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
+
+        BlackBoardUpdate();
+        BlackBoardBufferUpdate();
 
     }
     private void FixedUpdate()
@@ -109,9 +110,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     public void BlackBoardBufferUpdate()
     {
-        isReload = false;
-        isSwapShoulder = false;
-        isSwitchWeapon = false;
+        isSwitchWeaponCommand = false;
+        isAimingCommand = false;
+        isReloadCommand = false;
         _isPainTrigger = false;
     }
 
@@ -415,11 +416,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
     public WeaponManuverManager weaponManuverManager { get; set; }
-    public bool isAiming { get ; set ; }
-    public bool isPullTrigger { get ; set ; }
-    public bool isReload { get; set; }
-    public bool isSwapShoulder { get; set; }
-    public bool isSwitchWeapon { get; set; }
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;

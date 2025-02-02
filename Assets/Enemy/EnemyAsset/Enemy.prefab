@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 8785008869752914700}
   - component: {fileID: 2619394019457856660}
   - component: {fileID: 6414908439600597232}
-  - component: {fileID: 1345616770146797532}
   - component: {fileID: -7130791345041273299}
   - component: {fileID: 5275516832316452753}
   - component: {fileID: 184739853448068401}
@@ -292,19 +291,6 @@ MonoBehaviour:
   isSprint: 0
   AnimationStateName: 
   is_Layer1_Enable: 0
---- !u!114 &1345616770146797532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c268ee4222d157c4d8427ce83e0d3ea2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 2619394019457856660}
 --- !u!114 &-7130791345041273299
 MonoBehaviour:
   m_ObjectHideFlags: 0

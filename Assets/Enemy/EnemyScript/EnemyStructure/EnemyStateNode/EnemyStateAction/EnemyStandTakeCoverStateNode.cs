@@ -46,7 +46,7 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         if (enemy.isInCover == false)
             return true;
 
-        if(enemy.isAiming)
+        if(enemy.isAimingCommand)
             return true;
 
         if(enemy._isPainTrigger)

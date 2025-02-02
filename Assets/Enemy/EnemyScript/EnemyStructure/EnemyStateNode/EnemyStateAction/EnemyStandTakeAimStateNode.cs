@@ -38,7 +38,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
             case CoverPointTallSingleSide coverPointTallSingle:
                 {
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
-                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                     {
                         movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
                     }
@@ -55,7 +55,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosL);
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
-                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                         {
                             movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
                         }
@@ -68,7 +68,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosR);
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
-                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                         {
                             movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
                         }
@@ -84,7 +84,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                 {
                     coverPointShort.TakeThisCover(coverUseable);
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
-                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.15f)
+                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                     {
                         movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
                     }
@@ -110,7 +110,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
         if (enemy.isInCover == false)
             return true;
             
-        if(enemy.isAiming == false)
+        if(enemy.isAimingCommand == false)
             return true;
 
         if(enemy._isPainTrigger)
@@ -122,7 +122,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
     public override bool PreCondition()
     {
         if(enemy.isInCover
-            &&enemy.isAiming)
+            &&enemy.isAimingCommand)
             return true;
 
         return false;
