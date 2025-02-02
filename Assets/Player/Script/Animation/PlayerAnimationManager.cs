@@ -221,6 +221,24 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
             animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.3f, 1);
 
+        if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
+        {
+            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player.weaponManuverManager as PlayerWeaponManuver).quickDrawWeaponManuverLeafNode.quickDrawPhase;
+
+            switch (quickDrawPhase)
+            {
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:animator.CrossFade("QuickDraw",0.7f,1);
+                    break;
+
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary: animator.CrossFade("QuickHolster", 0.1f, 1);
+                    break;
+
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterPrimary: animator.CrossFade("StandWeaponHand LowReady/ADS", 0.1f, 1);
+                    break;
+            }
+            
+        }
+
     }
 
     public void OnNotify(Player player)

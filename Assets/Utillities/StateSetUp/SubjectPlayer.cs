@@ -10,14 +10,16 @@ public abstract class SubjectPlayer : Character
         AimHumandShield,
         LowReady,
         Firing,
+        SwitchWeapon,
+        QuickDraw,
+        PickUpWeapon,
 
         ReloadMagazineFullStage,
         TacticalReloadMagazineFullStage,
         InputMag_ReloadMagazineStage,
         ChamberLoad_ReloadMagazineStage,
 
-        SwitchWeapon,
-        PickUpWeapon,
+        
 
         Idle,
         Move,

@@ -10,6 +10,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
     }
 
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get ;protected set; }
+    public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverLeafNode { get ;protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get ; protected set ; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
@@ -20,6 +21,14 @@ public class PlayerWeaponManuver : WeaponManuverManager
     {
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () => isSwitchWeaponManuver);
+        quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
+            () => 
+            {
+                if(isAimingManuver && curWeapon is PrimaryWeapon)
+                    return true;
+
+                return false;
+            });
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon is PrimaryWeapon);
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
@@ -39,6 +48,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
         startWeaponManuverSelectorNode.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
         startWeaponManuverSelectorNode.AddtoChildNode(restWeaponManuverLeafNode);
 
+        swtichingWeaponManuverSelector.AddtoChildNode(quickDrawWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
 

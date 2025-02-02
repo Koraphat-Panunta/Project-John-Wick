@@ -165,7 +165,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public void AttachWeaponToSecondHand(Transform secondHandSocket)
     {
         isEquiped = false;
-        userWeapon = null;
+        //userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = secondHandSocket;
