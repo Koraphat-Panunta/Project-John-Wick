@@ -6,7 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble,
-    IAmmoRecivedAble
+    IAmmoRecivedAble,IHPReciveAble
 {
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
@@ -36,7 +36,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         hpRegenarate = new HpRegenarate(this);
 
         curShoulderSide = ShoulderSide.Right;
-        base.SetHP(100);
+
+        base.maxHp = 100;
+        base.SetHP(60);
+
         AddObserver(this);
 
         InitailizedGunFuComponent();
@@ -372,13 +375,20 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #endregion
 
-    #region ImplementIAmmoGetAble
+    #region ImplementIAmmoGetAble & IHpGetAble
     public void Recived(AmmoGetAbleObject ammoGetAbleObject)
     {
         NotifyObserver(this, PlayerAction.RecivedAmmo);
     }
+
+    void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
+    {
+        NotifyObserver(this, PlayerAction.RecivedHp);
+    }
+
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
+    Character IHPReciveAble.character { get => this; }
 
     #endregion
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour
 {
     protected float HP;
-
+    protected float maxHp;
     public Environment My_environment;
     public bool isDead { get 
         {
@@ -40,7 +40,8 @@ public abstract class Character : MonoBehaviour
     }
     public void AddHP(float HP)
     {
-        this.HP += HP;
+        this.HP = Math.Clamp(this.HP+HP, 0, this.maxHp);
+        
     }
 
    

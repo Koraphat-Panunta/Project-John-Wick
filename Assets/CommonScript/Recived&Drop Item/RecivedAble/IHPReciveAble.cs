@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IHPReciveAble : IRecivedAble
 {
-   Character character { get; set; }
+   Character character { get; }
     public void Recived(HpGetAbleObject hpGetAbleObject);
 }

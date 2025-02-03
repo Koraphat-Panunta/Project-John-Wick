@@ -19,7 +19,11 @@ public class PlayerAttributeDisplay : PlayerInfoDisplay
         {
             HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
         }
-       if(playerAction == SubjectPlayer.PlayerAction.HealthRegen)
+        if (playerAction == SubjectPlayer.PlayerAction.HealthRegen)
+        {
+            HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
+        }
+        if (playerAction == SubjectPlayer.PlayerAction.RecivedHp)
         {
             HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
         }
