@@ -252,7 +252,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool SprintToPosition(Vector3 Destination,float rotSpeed)
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
@@ -264,7 +264,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool SprintToPosition(Vector3 Destination, float rotSpeed,float reachDestinationDistance)
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
@@ -276,41 +276,39 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void Freez(Vector3 rotateToDes, float rotateSpeed)
     {
-        _enemy.isSprint = false;
-        _enemy.moveInputVelocity_World = Vector3.zero;
+        _enemy.isSprintCommand = false;
+        _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
         RotateToPosition(rotateToDes, rotateSpeed);
     }
     public void Move(Vector3 MoveDirWorld, float velocity)
     {
-        _enemy.moveInputVelocity_World = MoveDirWorld.normalized * velocity;
+        _enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocity;
     }
     public void FreezRotation()
     {
-        _enemy.lookRotation = _enemy.transform.forward;
-        _enemy._rotateSpeed = 0;
+        _enemy.lookRotationCommand = _enemy.transform.forward;
     }
     public void Rotate(Vector3 dir, float rotSpeed)
     {
-        _enemy.lookRotation = dir;
-        _enemy._rotateSpeed = rotSpeed;
+        _enemy.lookRotationCommand = dir;
     }
     public void Sprint()
     {
-        _enemy.isSprint = true;
+        _enemy.isSprintCommand = true;
     }
     public void Freez()
     {
-        _enemy.isSprint = false;
-        _enemy.moveInputVelocity_World = Vector3.zero;
+        _enemy.isSprintCommand = false;
+        _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
     }
     public void Stand()
     {
-        _enemy.curStance = IMovementCompoent.Stance.Stand;
+        _enemy.enemyMovement.curStance = IMovementCompoent.Stance.Stand;
     }
     public void Crouch()
     {
-        _enemy.curStance = IMovementCompoent.Stance.Crouch;
-        _enemy.isSprint = false;
+        _enemy.enemyMovement.curStance = IMovementCompoent.Stance.Crouch;
+        _enemy.isSprintCommand = false;
     }
     public void Dodge()
     {
@@ -340,6 +338,8 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void SprintToCover(CoverPoint coverPoint)
     {
+        if(coverPoint == null)
+            return ;
         coverPoint.TakeThisCover(_enemy);
 
         if (SprintToPosition(coverPoint.coverPos.position, 5, 1))
@@ -361,15 +361,15 @@ public class EnemyCommandAPI :MonoBehaviour
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
 
         //weaponAdvanceUser.weaponCommand.LowReady();
-        weaponAdvanceUser.isAiming = false;
-        weaponAdvanceUser.isPullTrigger = false;
+        weaponAdvanceUser.isAimingCommand = false;
+        weaponAdvanceUser.isPullTriggerCommand = false;
     }
     public void AimDownSight()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
 
         //weaponAdvanceUser.weaponCommand.AimDownSight();
-        weaponAdvanceUser.isAiming = true;
+        weaponAdvanceUser.isAimingCommand = true;
     }
     public void AimDownSight(Vector3 aimTargetPos,float rotateSpeed)
     {
@@ -377,25 +377,25 @@ public class EnemyCommandAPI :MonoBehaviour
         RotateToPosition(aimTargetPos,rotateSpeed);
 
         //weaponAdvanceUser.weaponCommand.AimDownSight();
-        weaponAdvanceUser.isAiming = true;
+        weaponAdvanceUser.isAimingCommand = true;
     }
     public void PullTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.PullTrigger();
-        weaponAdvanceUser.isPullTrigger = true;
+        weaponAdvanceUser.isPullTriggerCommand = true;
     }
     public void CancleTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.CancleTrigger();
-        weaponAdvanceUser.isPullTrigger = false;
+        weaponAdvanceUser.isPullTriggerCommand = false;
     }
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
-        weaponAdvanceUser.isReload = true;
+        weaponAdvanceUser.isReloadCommand = true;
     }
 
 

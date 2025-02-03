@@ -7,13 +7,14 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     Animator animator;
     RotateObjectToward objectToward;
     NavMeshAgent agent;
-    
+    IMovementCompoent enemyMovement;
     
     public EnemySprintStateNode(Enemy enemy) : base(enemy)
     {
         animator = enemy.animator;
         objectToward = new RotateObjectToward();
         this.agent = enemy.agent;
+        enemyMovement = enemy.enemyMovement;
         
     }
 
@@ -30,17 +31,16 @@ public class EnemySprintStateNode : EnemyStateLeafNode
 
     public override void Exit()
     {
-       
-
         base.Exit();
     }
 
     public override void FixedUpdate()
     {
-        enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, enemy.transform.forward * enemy._sprintMaxSpeed, enemy._sprintAccelerate * Time.deltaTime);
-        objectToward.RotateToward(enemy.lookRotation, enemy.gameObject, enemy._rotateSpeed);
-        agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
 
+        enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, enemy.sprintAccelerate, enemy.sprintMaxSpeed);
+        enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.sprintRotateSpeed);
+
+        enemy.weaponCommand.LowReady();
         base.FixedUpdate();
     }
 
@@ -52,7 +52,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
         if(enemy._isPainTrigger)
             return true;
 
-        if(enemy.isSprint == false)
+        if(enemy.isSprintCommand == false)
             return true;
 
         return false;
@@ -61,7 +61,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
 
     public override bool PreCondition()
     {
-        if(enemy.isSprint)
+        if(enemy.isSprintCommand)
             return true;
 
         return false;

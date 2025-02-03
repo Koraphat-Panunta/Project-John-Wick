@@ -10,14 +10,16 @@ public abstract class SubjectPlayer : Character
         AimHumandShield,
         LowReady,
         Firing,
+        SwitchWeapon,
+        QuickDraw,
+        PickUpWeapon,
 
         ReloadMagazineFullStage,
         TacticalReloadMagazineFullStage,
         InputMag_ReloadMagazineStage,
         ChamberLoad_ReloadMagazineStage,
 
-        SwitchWeapon,
-        PickUpWeapon,
+        
 
         Idle,
         Move,
@@ -65,7 +67,10 @@ public abstract class SubjectPlayer : Character
             if (observer == null)
                 this.observers.Remove(observer);
             else
-                observer.OnNotify(player,playerAction);
+            {
+                observer.OnNotify(player, playerAction);
+                observer.OnNotify(player);
+            }
         }
     }
     public void NotifyObserver(Player player)

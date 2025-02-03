@@ -4,16 +4,30 @@ using UnityEngine;
 public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
-    Weapon curWeapon;
+    WeaponAfterAction weaponAfterAction;
+    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
-        curWeapon = weaponManuverManager.curWeapon;
+        weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
+    }
+
+    public override void Enter()
+    {
+        weaponAfterAction.AimDownSight(curWeapon);
+    }
+
+    public override void Exit()
+    {
+        
     }
 
     public override void FixedUpdateNode()
     {
-        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime);
+
+        if (weaponManuverManager == null)
+            Debug.Log(weaponManuverManager + "is null");
+
+        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
     }
 
     public override bool IsComplete()
@@ -36,9 +50,14 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        if (weaponManuverManager.isReload)
+        if(weaponManuverManager == null)
+            weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
+
+        weaponAfterAction.AimDownSight(curWeapon);
+
+        if(weaponManuverManager.aimingWeight >= 1)
         {
-            
+            weaponManuverManager.WeaponCommanding();
         }
     }
 }

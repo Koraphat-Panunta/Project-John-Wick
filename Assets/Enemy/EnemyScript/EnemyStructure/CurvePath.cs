@@ -42,7 +42,6 @@ public class CurvePath
             Vector3 markPos;
             Vector3 A = Vector3.Lerp(curPos, _conP_1, T);
             Vector3 B = Vector3.Lerp(_conP_1, target, T);
-            EnemyDebuger.cp1 = _conP_1;
             markPos = Vector3.Lerp(A, B, T);
             IsPositionOnNavMesh(markPos, 2f);
         }

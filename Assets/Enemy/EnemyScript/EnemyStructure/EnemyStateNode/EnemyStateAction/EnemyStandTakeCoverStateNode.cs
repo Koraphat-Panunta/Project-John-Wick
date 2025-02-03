@@ -8,13 +8,13 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
     ICoverUseable coverUseable;
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
-
-    WeaponInput weaponInput = new WeaponInput();
+    IMovementCompoent movementCompoent;
     public EnemyStandTakeCoverStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
     {
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();
         agent = enemy.agent;
+        movementCompoent = enemy.enemyMovement;
     }
 
     public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -46,7 +46,7 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         if (enemy.isInCover == false)
             return true;
 
-        if(enemy.isAiming)
+        if(enemy.isAimingCommand)
             return true;
 
         if(enemy._isPainTrigger)
@@ -72,24 +72,14 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         enemy.weaponCommand.LowReady();
 
         Vector3 moveDir = (CoverPos - enemy.transform.position).normalized;
-        if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.15f)
-        {
-            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, moveDir * enemy._moveMaxSpeed, enemy._moveAccelerate * Time.deltaTime);
-            agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
-        }
-        else
-        {
-            enemy.curMoveVelocity_World = Vector3.MoveTowards(enemy.curMoveVelocity_World, Vector3.zero, enemy._moveAccelerate*3 * Time.deltaTime);
-            agent.Move(enemy.curMoveVelocity_World * Time.deltaTime);
-        }
-       
-        if (coverUseable.coverPoint == null)
-        {
-            Debug.Log("this Null");
-        }
-        weaponInput.InputWeaponUpdate(enemy);
 
-        new RotateObjectToward().RotateToward(coverUseable.coverPoint.coverDir, enemy.gameObject, 6);
+        if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.15f)
+            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed);
+        else
+            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed);
+              
+
+        movementCompoent.RotateToDirWorld(coverUseable.coverPoint.coverDir, 6);
 
         base.Update();
     }

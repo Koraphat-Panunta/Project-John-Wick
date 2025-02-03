@@ -5,7 +5,8 @@ using UnityEngine;
 public class TacticalReloadMagazineFullStage : WeaponActionNode
 {
     private MagazineType weaponMag;
-    private Coroutine reloadCoroutine;
+    private float elaspeTime;
+    private bool isComplete;
     public TacticalReloadMagazineFullStage(Weapon weapon):base(weapon)
     {
         weaponMag = weapon as MagazineType;
@@ -17,16 +18,15 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
     {
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
         Weapon.userWeapon.weaponAfterAction.Reload(Weapon,ReloadType.MAGAZINE_TACTICAL_RELOAD);
-        Weapon.userWeapon.weaponAfterAction.Tactical_ReloadMagazine(Weapon);
-        reloadCoroutine = Weapon.StartCoroutine(Reloading());
+        elaspeTime = 0;
+        isComplete = false;
     }
 
     public override void Exit()
     {
-        if (reloadCoroutine != null){
-            //Weapon.userWeapon.weaponAfterAction.Reload(Weapon, ReloadType.MAGAZINE_RELOAD_CANCLE);
-            Weapon.StopCoroutine(reloadCoroutine);
-        }
+        elaspeTime = 0;
+        isComplete = false;
+     
     }
 
     public override void FixedUpdate()
@@ -46,8 +46,7 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
         if(IsComplete())
             return true;
         else if(
-            Weapon.isEquip == false
-            ||Weapon.isCancelAction == true
+            Weapon.isEquiped == false
             )
             return true;
         else return false ;
@@ -68,17 +67,21 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
 
     public override void Update()
     {
-        
-    }
-    private IEnumerator Reloading()
-    {
+
         float reloadTime = Weapon.reloadSpeed;
         ReloadType reloadStage;
-        yield return new WaitForSeconds(reloadTime);
-        reloadStage = ReloadType.MAGAZINE_RELOAD_SUCCESS;
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, reloadStage);
-        new AmmoProchReload(Weapon.userWeapon.weaponBelt.ammoProuch).Performed(Weapon);
-        reloadCoroutine = null;
+        elaspeTime += Time.deltaTime;
+
+        if (elaspeTime >= reloadTime)
+        {
+            reloadStage = ReloadType.MAGAZINE_RELOAD_SUCCESS;
+            Weapon.userWeapon.weaponAfterAction.Reload(Weapon, reloadStage);
+            new AmmoProchReload(Weapon.userWeapon.weaponBelt.ammoProuch).Performed(Weapon);
+            isComplete = true;
+        }
+
     }
+    
+    
    
 }

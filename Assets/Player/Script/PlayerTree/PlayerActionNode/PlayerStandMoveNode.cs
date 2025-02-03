@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStandMoveNode : PlayerActionNodeLeaf
 {
+   
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
     protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
     public PlayerStandMoveNode(Player player) : base(player) { }
@@ -14,10 +15,10 @@ public class PlayerStandMoveNode : PlayerActionNodeLeaf
     }
     public override void FixedUpdate()
     {
-
         PlayerMovement playerMovement = base.player.playerMovement;
-        playerMovement.OMNI_DirMovingCharacter();
-        playerMovement.RotateCharacter(Camera.main.transform.forward, player.playerMovement.rotate_Speed);
+
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.moveAccelerate, player.moveMaxSpeed);
+        playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.moveRotateSpeed);
 
         base.FixedUpdate();
     }
@@ -47,7 +48,6 @@ public class PlayerStandMoveNode : PlayerActionNodeLeaf
     }
     private void InputPerformed()
     {
-        new WeaponInput().InputWeaponUpdate(player);
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);

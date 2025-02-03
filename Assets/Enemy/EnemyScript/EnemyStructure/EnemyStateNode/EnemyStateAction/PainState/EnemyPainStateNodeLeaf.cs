@@ -29,7 +29,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     }
     public override void FixedUpdate()
     {
-        enemy.curMoveVelocity_World = Vector3.Lerp(enemy.curMoveVelocity_World, Vector3.zero,10*Time.deltaTime);
+        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed);
         base.FixedUpdate();
     }
     public abstract float painDuration { get; set; }

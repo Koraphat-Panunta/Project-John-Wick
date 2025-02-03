@@ -10,10 +10,11 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public Muzzle muzzle;
     public Sight Sight;
 
-    [SerializeField] protected List<WeaponAttachment> weaponAttachments = new List<WeaponAttachment>();
-
     public Transform bulletSpawnerPos;
-    public Transform gripPos;
+
+    public abstract Transform gripPos { get; set; }
+    public abstract Transform SecondHandgripPos { get; set; }
+
     public abstract int bulletCapacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
     public abstract float reloadSpeed { get;  set; }
@@ -26,10 +27,11 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract float aimDownSight_speed { get;  set; }
     public abstract Bullet bullet { get;  set; }
     public abstract float movementSpeed { get;  set; }
+    public abstract float drawSpeed { get; set; }
 
+    public bool isPullTrigger;
     public bool isReloadCommand;
-    public bool isCancelAction;
-    public bool isEquip;
+    public bool isEquiped;
 
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
@@ -58,8 +60,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         bulletStore.Add(BulletStackType.Chamber, 1);
         InitailizedTree();
 
-        weaponAttachments.Add(muzzle);
-        weaponAttachments.Add(Sight);
     }
     protected virtual void Start()
     {
@@ -67,31 +67,47 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     protected virtual void Update()
     {
+        //TriggerUpdate
+        if (isPullTrigger)
+            switch (triggerState)
+            {
+                case (TriggerState.Up):
+                    triggerState = TriggerState.IsDown;
+                    break;
+                case (TriggerState.IsDown):
+                    triggerState = TriggerState.Down;
+                    break;
+                default:
+                    triggerState = TriggerState.Down;
+                    break;
+            }
+        else
+            triggerState = TriggerState.Up;
+
         UpdateTree();
-        isCancelAction = false;
+    }
+    protected virtual void LateUpdate()
+    {
+        isPullTrigger = false;
+        isReloadCommand = false;
     }
     protected virtual void FixedUpdate()
     {
         FixedUpdateTree();
     }
-    //public virtual void Aim()
-    //{
-    //    isAiming = true;
-    //}
-    public virtual void Fire() 
+   
+    public virtual void PullTrigger() 
     {
+        isPullTrigger = true;
     }
     public virtual void Reload() 
     {
         isReloadCommand = true;
     }
-    //public virtual void LowWeapon()
-    //{
-    //    isAiming = false;
-    //}
+    
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
-        isEquip = true;
+        isEquiped = true;
         this.userWeapon = WeaponUser;
         WeaponUser.currentWeapon = this;
         rb.isKinematic = true;
@@ -128,7 +144,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     public void AttachWeaponTo(Transform weaponSocket)
     {
-        isEquip = false;
+        isEquiped = false;
         userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
@@ -146,6 +162,26 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         
         parentConstraint.weight = 1;
     }
+    public void AttachWeaponToSecondHand(Transform secondHandSocket)
+    {
+        isEquiped = false;
+        //userWeapon = null;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = secondHandSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+        parentConstraint.constraintActive = true;
+
+        parentConstraint.weight = 1;
+    }
     public void DropWeapon()
     {
         rb.isKinematic = false;
@@ -155,15 +191,15 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
    
     public WeaponActionNode currentEventNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
+
+    public abstract RestNode restNode { get; set; }
     protected virtual void FixedUpdateTree()
     {
-       
         if (currentEventNode != null)
             currentEventNode.FixedUpdate();
-
     }
    
-    protected virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
+    public virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
     {
         if (currentEventNode != null)
         currentEventNode.Exit();

@@ -46,6 +46,9 @@ public class WeaponManuverSelectorNode : WeaponManuverNode
         childNode.Add(weaponManuverNode);
         nodePrecon.Add(weaponManuverNode, weaponManuverNode.preCpndition);
 
+        if(weaponManuverNode is WeaponManuverSelectorNode weaponManuverSelector)
+            weaponManuverSelector.parentNode = this;
+
         if (weaponManuverNode is WeaponManuverLeafNode leafNode)
         {
             PopulatePrecondition(out List<Func<bool>> isReset, weaponManuverNode);
@@ -65,11 +68,20 @@ public class WeaponManuverSelectorNode : WeaponManuverNode
 
         foreach (WeaponManuverNode weaponManuverNode in childNode)
         {
-            if (weaponManuverNode.Precondition() == false)
+            if (weaponManuverNode.Precondition() == false) 
+            {
+                Debug.Log("WeaponManuverNode " + this + " -> " + weaponManuverNode+" is false");
                 continue;
-           
+            }
+               
+
+            Debug.Log("WeaponManuverNode " + this +" -> " + weaponManuverNode);
+
             if (weaponManuverNode is WeaponManuverLeafNode manuverLeafNode)
+            {
                 weaponManuverLeafNode = manuverLeafNode;
+                return true;
+            }
 
             else if (weaponManuverNode is WeaponManuverSelectorNode weaponManuverSelectorNode)
             {

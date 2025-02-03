@@ -6,12 +6,12 @@ using UnityEngine;
 public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 {
 
-    [SerializeField] private Transform MuzzleSocket;
-    [SerializeField] private Transform GripSocket;
-    [SerializeField] private Transform Scope;
-    [SerializeField] private Transform Stock;
-    [SerializeField] private Transform Magazine;
-    [SerializeField] private Transform Laser;
+    //[SerializeField] private Transform MuzzleSocket;
+    [SerializeField] private Transform FrontGripSocket;
+    //[SerializeField] private Transform Scope;
+    //[SerializeField] private Transform Stock;
+    //[SerializeField] private Transform Magazine;
+    //[SerializeField] private Transform Laser;
 
     public int ChamberCount;
     public int MagCount;
@@ -27,10 +27,15 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     private float _RecoilKickBack = 60;
     private float Min_percision = 11;
     private float Max_percision = 74;
+    private float DrawSpeed = 1f;
     private _556mmBullet _556MmBullet;
 
     public Transform forntGrip { get ; set ; }
     public Transform slingAnchor { get ; set ; }
+
+    public override Transform gripPos { get => transform; set { } }
+    public override Transform SecondHandgripPos { get => forntGrip ; set => forntGrip = value ; }
+
 
     public override int bulletCapacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
     public override float rate_of_fire { get => _RateOfFire; set => _RateOfFire = value; }
@@ -44,17 +49,18 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     public override float aimDownSight_speed { get => _AimDownSightSpeed; set => _AimDownSightSpeed = value; }
     public override Bullet bullet { get ; set ; }
     public override float movementSpeed { get ; set ; }
+    public override float drawSpeed { get => this.DrawSpeed ; set => this.DrawSpeed = value; }
 
     public bool isMagIn { get; set; }
 
     protected override void Awake()
     {
-        weaponSlotPos.Add(AttachmentSlot.MUZZLE, MuzzleSocket);
-        weaponSlotPos.Add(AttachmentSlot.GRIP, GripSocket);
-        weaponSlotPos.Add(AttachmentSlot.SCOPE, Scope);
-        weaponSlotPos.Add(AttachmentSlot.STOCK, Stock);
-        weaponSlotPos.Add(AttachmentSlot.MAGAZINE, Magazine);
-        weaponSlotPos.Add(AttachmentSlot.LASER, Laser);
+        //weaponSlotPos.Add(AttachmentSlot.MUZZLE, MuzzleSocket);
+        //weaponSlotPos.Add(AttachmentSlot.GRIP, GripSocket);
+        //weaponSlotPos.Add(AttachmentSlot.SCOPE, Scope);
+        //weaponSlotPos.Add(AttachmentSlot.STOCK, Stock);
+        //weaponSlotPos.Add(AttachmentSlot.MAGAZINE, Magazine);
+        //weaponSlotPos.Add(AttachmentSlot.LASER, Laser);
 
         fireMode = FireMode.FullAuto;
 
@@ -89,9 +95,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get ; set; }
-  
-    private RestNode restNode;
-
+    public override RestNode restNode { get; set ; }
 
     protected override void InitailizedTree()
     {

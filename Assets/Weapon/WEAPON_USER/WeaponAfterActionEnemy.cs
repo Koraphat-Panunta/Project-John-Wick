@@ -33,10 +33,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
     {
     }
 
-    public override void PreLoad(Weapon weapon)
-    {
-        
-    }
+  
 
     public override void Reload(Weapon weapon, ReloadType reloadType)
     {
@@ -55,23 +52,15 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         }
     }
 
-    public override void ReloadingMagazine(Weapon weapon)
+   
+
+    public override void Resting(Weapon weapon)
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    public override void Reload_ChamberAction(Weapon weapon)
+    public override void SwitchingWeapon(Weapon weapon, WeaponTransition weaponTransition)
     {
-        
-    }
-
-    public override void Reload_SingleAction(Weapon weapon)
-    {
-        
-    }
-
-    public override void Tactical_ReloadMagazine(Weapon weapon)
-    {
-        
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
     }
 }

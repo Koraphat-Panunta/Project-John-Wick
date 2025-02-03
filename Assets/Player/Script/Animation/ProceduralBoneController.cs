@@ -38,7 +38,8 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
     {
         if (weapon != null)
         {
-            weight = weapon.aimingWeight;
+            float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
+            weight = aimingWeight;
             Spine.weight = weight;
             Head.weight = weight;
             //RightArm.weight = weight;

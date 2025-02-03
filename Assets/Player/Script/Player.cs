@@ -7,47 +7,24 @@ using UnityEngine.Animations.Rigging;
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble
 {
     public PlayerMovement playerMovement;
-
     public HpRegenarate hpRegenarate;
-    public MovementTest movementTest;
     public CoverDetection coverDetection;
 
     public Transform RayCastPos;
 
     [SerializeField] private bool isImortal;
 
-    public enum ShoulderSide
-    {
-        Left,
-        Right
-    }
-    public ShoulderSide curShoulderSide;
-
     public float MyHP;
-
-    public Vector2 inputLookDir_Local;
-    public Vector3 inputLookDir_World;
-
-    public Vector2 inputMoveDir_Local;
-    public bool isSprint;
-    public bool isAiming;
-    public bool isPullTrigger;
-    public bool isReload;
-    public bool isSwapShoulder;
-    public bool isSwitchWeapon;
-    public enum PlayerStance {stand,crouch,prone }
-    public PlayerStance playerStance = PlayerStance.stand;
-    public bool isInCover { get{return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
-    //public bool isGround;
+   
     private void BlackBoardBufferUpdate()
     {
-        isReload = false;
+        isReloadCommand = false;
         isSwapShoulder = false;
-        isSwitchWeapon = false;
+        isSwitchWeaponCommand = false;
         _triggerGunFu = false;
     }
 
-    private void Start()
+    protected override void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
@@ -76,8 +53,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
 
     private void Update()
     {
+        inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
 
         UpdatePlayerTree();
+        weaponManuverManager.UpdateNode();
+
+        playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
 
@@ -90,7 +71,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     private void FixedUpdate()
     {
         FixedUpdatePlayerTree();
-        playerMovement.MovementUpdate();
+        weaponManuverManager.FixedUpdateNode();
+        playerMovement.MovementFixedUpdate();
     }
 
     public void TakeDamage(IDamageVisitor damageVisitor)
@@ -139,22 +121,29 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform weaponSecondHandSocket;
     [SerializeField] private CrosshairController crosshairController;
+    public enum ShoulderSide
+    {
+        Left,
+        Right
+    }
+    public ShoulderSide curShoulderSide;
+    public bool isSwitchWeaponCommand { get; set; }
+    public bool isPullTriggerCommand { get; set; }
+    public bool isAimingCommand { get; set; }
+    public bool isReloadCommand { get; set; }
+    public bool isSwapShoulder;
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
+    public WeaponManuverManager weaponManuverManager { get ; set ; }
     public Vector3 shootingPos { get 
         { return crosshairController.CrosshiarShootpoint.GetShootPointDirection(); } set { } }
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
-    bool IWeaponAdvanceUser.isAiming { get => this.isAiming; set => this.isAiming = value; }
-    bool IWeaponAdvanceUser.isPullTrigger { get => this.isPullTrigger; set => this.isPullTrigger = value; }
-    bool IWeaponAdvanceUser.isReload { get => this.isReload; set => isReload = value; }
-    bool IWeaponAdvanceUser.isSwapShoulder { get => this.isSwapShoulder; set => this.isSwapShoulder = value; }
-    bool IWeaponAdvanceUser.isSwitchWeapon { get => this.isSwitchWeapon; set => this.isSwitchWeapon = value; }
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
@@ -165,6 +154,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
+        weaponManuverManager = new PlayerWeaponManuver(this,this);
     }
     #endregion
 
@@ -230,7 +220,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
             stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
-
             curPlayerActionNode = playerActionNode;
             curPlayerActionNode.Enter();
         }
@@ -294,6 +283,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public LayerMask _layerTarget { get ; set ; }
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
+  
 
     [SerializeField] GunFuHitNodeScriptableObject hit1;
     [SerializeField] GunFuHitNodeScriptableObject hit2;
@@ -335,7 +325,47 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         return Direction;
     }
 
-   
+
+    #endregion
+
+    #region MovementStats
+
+    [Range(0, 100)]
+    public float moveAccelerate;
+    [Range(0, 100)]
+    public float moveMaxSpeed;
+    [Range(0, 100)]
+    public float moveRotateSpeed;
+
+    [Range(0, 100)]
+    public float sprintAccelerate;
+    [Range(0, 100)]
+    public float sprintMaxSpeed;
+    [Range(0, 100)]
+    public float sprintRotateSpeed;
+
+    [Range(0, 100)]
+    public float breakDecelerate;
+    [Range(0, 100)]
+    public float breakMaxSpeed;
+
+    [Range(0, 100)]
+    public float aimingRotateSpeed;
+
+    public bool isInCover { get { return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
+
+    public Vector2 inputLookDir_Local;
+    public Vector3 inputLookDir_World;
+    public Vector2 inputMoveDir_Local;
+    public Vector3 inputMoveDir_World;
+
+    public bool isSprint;
+
+    public enum PlayerStance { stand, crouch, prone }
+    public PlayerStance playerStance = PlayerStance.stand;
+
+    public Transform centreTransform;
+
     #endregion
 
 }

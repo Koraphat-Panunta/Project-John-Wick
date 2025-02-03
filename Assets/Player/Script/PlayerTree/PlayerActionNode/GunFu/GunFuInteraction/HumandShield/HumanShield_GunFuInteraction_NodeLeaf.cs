@@ -125,10 +125,10 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     gunFuAttackedAble._gunFuHitedAble.position = targetAdjustTransform.position;
                     gunFuAttackedAble._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
 
-                    if (weaponAdvanceUser.isAiming)
+                    if (weaponAdvanceUser.isAimingCommand)
                         weaponAdvanceUser.weaponCommand.AimDownSight();
 
-                    if(weaponAdvanceUser.isPullTrigger)
+                    if(weaponAdvanceUser.isAimingCommand)
                         weaponAdvanceUser.weaponCommand.PullTrigger();
                     else
                         weaponAdvanceUser.weaponCommand.CancleTrigger();
@@ -136,10 +136,10 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     player._aimConstraint.data.offset = new Vector3(12,0,0);
                     player._aimConstraint.weight = 0.5f;
 
-                    player.playerMovement.OMNI_DirMovingCharacter();
+                    player.playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed);
 
 
-                    if (player.isAiming == false)
+                    if ((player.weaponManuverManager.curWeaponManuverLeafNode is AimDownSightWeaponManuverNodeLeaf) == false)
                     {
                         player._aimConstraint.data.offset = beforeAimConstrainOffset;
                         player._aimConstraint.weight = 1;
@@ -156,7 +156,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 {
                     _timerHumandThrow += Time.deltaTime;
 
-                    player.playerMovement.FreezingCharacter();
+                    player.playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed);
 
                     if (_timerHumandThrow >= timehumandThrow)
                         _isExit = true;

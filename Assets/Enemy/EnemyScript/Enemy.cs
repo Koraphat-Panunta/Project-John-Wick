@@ -6,7 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
-    IHearingComponent, IMovementCompoent, IPatrolComponent,
+    IHearingComponent, IPatrolComponent,
     IPainState,IFallDownGetUpAble,IGunFuDamagedAble
 {
     [Range(0,100)]
@@ -23,6 +23,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
+    public IMovementCompoent enemyMovement;
 
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
@@ -43,7 +44,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyComunicate = new EnemyComunicate(this);
-    
+
+        enemyMovement = new EnemyMovement(agent,this);
+
+
         MotionControlInitailized();
 
         Initialized_IWeaponAdvanceUser();
@@ -67,15 +71,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         combatOffensiveInstinct.UpdateSening();
        
         UpdateState();
+        weaponManuverManager.UpdateNode();
+        enemyMovement.MovementUpdate();
+
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
-        weaponManuverManager.UpdateNode();
 
     }
     private void FixedUpdate()
     {
         FixedUpdateState();
         weaponManuverManager.FixedUpdateNode();
+        enemyMovement.MovementFixedUpdate();
     }
    
     public void TakeDamage(float Damage)
@@ -97,16 +104,15 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     private void BlackBoardUpdate()
     {
-        moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, transform.forward);
-        curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, transform.forward);
+        moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
 
         //posture = Mathf.Clamp(posture, 0, 100);
     }
     public void BlackBoardBufferUpdate()
     {
-        isReload = false;
-        isSwapShoulder = false;
-        isSwitchWeapon = false;
+        isSwitchWeaponCommand = false;
+        isAimingCommand = false;
+        isReloadCommand = false;
         _isPainTrigger = false;
     }
 
@@ -295,28 +301,28 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                 if(_isPainTrigger)
                     return true;    
 
-                if(isSprint)
+                if(isSprintCommand)
                     { return true; }
 
                 if (isDead)
                     return true;
 
-                if (moveInputVelocity_World.magnitude > 0)
+                if (moveInputVelocity_WorldCommand.magnitude > 0)
                     return true;
                 
                 return false;
             }
             );
-        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_World.magnitude > 0, 
+        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_WorldCommand.magnitude > 0, 
             ()=> 
             {
                 if (isDead)
                     return true;
 
-                if (moveInputVelocity_World.magnitude <= 0)
+                if (moveInputVelocity_WorldCommand.magnitude <= 0)
                     { return true; }
 
-                if(isSprint)
+                if(isSprintCommand)
                     { return true; }
 
                 if(_isPainTrigger)
@@ -363,6 +369,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void UpdateState() 
     {
+        Debug.Log("Enemy curStateLeaf =" + curStateLeaf);
+
         if (curStateLeaf.IsReset())
         {
             curStateLeaf.Exit();
@@ -386,6 +394,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform primaryWeaponHoster;
     [SerializeField] private Transform secondaryWeaponHoster;
+
+    public bool isSwitchWeaponCommand { get; set; }
+    public bool isPullTriggerCommand { get ; set ; }
+    public bool isAimingCommand { get;  set ; }
+    public bool isReloadCommand { get ; set ; }
+
     public Animator weaponUserAnimator { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
@@ -402,11 +416,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
     public WeaponManuverManager weaponManuverManager { get; set; }
-    public bool isAiming { get ; set ; }
-    public bool isPullTrigger { get ; set ; }
-    public bool isReload { get; set; }
-    public bool isSwapShoulder { get; set; }
-    public bool isSwitchWeapon { get; set; }
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;
@@ -414,7 +423,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(90, 90, 360, 360));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
-        weaponManuverManager = new WeaponManuverManager(this);
+        weaponManuverManager = new EnemyWeaponManuver(this,this);
     }
     #endregion
 
@@ -517,55 +526,83 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (souceSound.TryGetComponent<Player>(out Player player) == false) 
         return;
 
-        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+        if(Vector3.Distance(souceSound.transform.position,transform.position)>10)
+            return;
 
-        targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-        if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-            || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+        if(Vector3.Distance(souceSound.transform.position, transform.position) < 5)
         {
-            combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+            NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+
+            targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
+
+            if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
+                || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+            {
+                combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+            }
+            return;
         }
+        if (Vector3.Distance(souceSound.transform.position, transform.position) < 10)
+        {
+            Ray ray = new Ray(transform.position
+                ,(souceSound.transform.position-transform.position).normalized);
+
+            if (Physics.Raycast(ray,out RaycastHit hitInfo, 1000, 0))
+            {
+                if(hitInfo.collider.gameObject != souceSound)
+                    return;
+
+                NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+
+                targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
+
+                if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
+                    || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
+                {
+                    combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
+                }
+                return;
+
+            }
+          
+        }
+
+
+
+
+
     }
 
     #endregion 
 
     #region InitailizedMovementComponent
-    public GameObject userMovement { get; set; }
-    public Vector3 moveInputVelocity_World { get ; set; }
-    public Vector3 moveInputVelocity_Local { get ; set ; }
-    public Vector3 curMoveVelocity_World { get ; set ; }
-    public Vector3 curMoveVelocity_Local { get ; set; }
-    public Vector3 lookRotation { get ; set ; }
+    public Vector3 moveInputVelocity_WorldCommand;
+    public Vector3 moveInputVelocity_LocalCommand;
+    public Vector3 lookRotationCommand;
+
     [Range(0, 10)]
     public float moveAccelerate;
     [Range(0, 10)]
     public float moveMaxSpeed;
     [Range(0, 10)]
+    public float moveRotateSpeed;
+
+    [Range(0, 10)]
     public float sprintAccelerate;
     [Range(0, 10)]
     public float sprintMaxSpeed;
-    public float _moveAccelerate { get => this.moveAccelerate; set => this.moveAccelerate = value; }
-    public float _moveMaxSpeed { get => this.moveMaxSpeed ; set => this.moveMaxSpeed = value ; }
-    public float _sprintAccelerate { get => this.sprintAccelerate; set => this.sprintAccelerate = value; }
-    public float _sprintMaxSpeed { get => this.sprintMaxSpeed; set=> this.sprintMaxSpeed = value; }
-    public float _rotateSpeed { get ; set ; }
-    public EnemyStateSelectorNode stanceSelector { get; set; }
-    public EnemyStateSelectorNode standStateSelector { get; set; }
-    public EnemyStateSelectorNode crouchStateSelector { get; set; }
-    public EnemyStandIdleStateNode standIdleState { get; set; }
-    public EnemyStandMoveStateNode standMoveState { get; set; }
-    public EnemySprintStateNode sprintState { get; set; }
-    public IMovementCompoent.Stance curStance { get; set; }
-    public bool isSprint { get ; set ; }
-   
+    [Range(0, 10)]
+    public float sprintRotateSpeed;
 
-    public void InitailizedMovementComponent()
-    {
-        this.userMovement = gameObject;
+    [Range(0,10)]
+    public float breakAccelerate;
+    [Range(0,10)]
+    public float breakMaxSpeed;
 
-        curStance = IMovementCompoent.Stance.Stand;
-    }
+    [Range(0, 10)]
+    public float aimingRotateSpeed;
+
+    public bool isSprintCommand { get; set; }
 
 
     #endregion
@@ -642,7 +679,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => gotHumandShielded_GunFuNodeLeaf; set => gotHumandShielded_GunFuNodeLeaf = value; }
-   
 
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;

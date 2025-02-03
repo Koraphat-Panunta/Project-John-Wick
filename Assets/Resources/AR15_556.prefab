@@ -184,14 +184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzle: {fileID: 0}
   Sight: {fileID: -1268388052208644891, guid: 3e8f1c6f73779f8439e8e87444ea52c7, type: 3}
-  weaponAttachments: []
   bulletSpawnerPos: {fileID: 3022661863309610859}
-  gripPos: {fileID: 121597156450861684}
-  isAiming: 0
+  isPullTrigger: 0
   isReloadCommand: 0
-  isCancelAction: 0
-  isEquip: 0
-  aimingWeight: 0
+  isEquiped: 0
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 36b97e4862011594289606058a36ef21,
@@ -200,12 +196,7 @@ MonoBehaviour:
     type: 2}
   bulletSpawner: {fileID: 1537619354982768088}
   triggerState: 0
-  MuzzleSocket: {fileID: 2483508153401217223}
-  GripSocket: {fileID: 0}
-  Scope: {fileID: 7327806260083542802}
-  Stock: {fileID: 0}
-  Magazine: {fileID: 0}
-  Laser: {fileID: 0}
+  FrontGripSocket: {fileID: 0}
   ChamberCount: 0
   MagCount: 0
 --- !u!114 &6335714959491028719
@@ -437,17 +428,17 @@ PrefabInstance:
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.64
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.64
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.64
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}
@@ -462,7 +453,7 @@ PrefabInstance:
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.4123
+      value: 0.407
       objectReference: {fileID: 0}
     - target: {fileID: 3259034433451743665, guid: ed8919f7967cc5743afdafec527d26dc,
         type: 3}

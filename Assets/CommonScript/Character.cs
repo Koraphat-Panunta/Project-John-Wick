@@ -23,7 +23,7 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void Start()
     {
-       
+
     }
     private void Awake()
     {

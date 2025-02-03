@@ -4,93 +4,64 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerMovement
+public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingAble
 {
 
-    public Vector3 inputVelocity_World { get; private set; }
-    public Vector3 inputVelocity_Local { get; private set; }
-    public Vector3 curVelocity_World { get; set; }
-    public Vector3 curVelocity_Local { get; private set; }
+    public Vector3 moveInputVelocity_World { get; set; }
+    public Vector3 moveInputVelocity_Local { get; set; }
+    public Vector3 curMoveVelocity_World { get; set; }
+    public Vector3 curMoveVelocity_Local { get; set; }
+    public bool isGround { get; set; }
+    public MonoBehaviour userMovement { get; set; }
+    public IMovementCompoent.Stance curStance { get; set; }
+    public Vector3 forwardDir { get ; set ; }
 
-    public float rotateRate { get; private set; }
-
-    public float move_MaxSpeed = 2.8f;
-    public float move_Acceleration = 0.4f;
-    public float sprint_MaxSpeed = 5.6f;
-    public float sprint_Acceleration = 0.08f;
-    public float rotate_Speed = 3;
-
-    public bool isGround { get; private set; }
-
+  
 
     private Player player;
-    //private PlayerController playerController;
     private CharacterController characterController;
-    public MovementWarping movementWarping;
 
+    private GravityMovement gravityMovement;
+    public IMovementMotionWarping movementMotionWarping { get; set; }
 
-    private List<IMovementComponent> movementComponents = new List<IMovementComponent>();
     public PlayerMovement(Player player)
     {
+        this.userMovement = player;
         this.player = player;
         this.characterController = player.GetComponent<CharacterController>();
-        this.movementComponents.Add(new GravityMovement(this.characterController));
-        curVelocity_World = Vector3.zero;
-        move_Acceleration = player.movementTest.move_Acceleration;
-        sprint_Acceleration = player.movementTest.sprint_Acceleration;
-        movementWarping = new MovementWarping();
+
+        curMoveVelocity_World = Vector3.zero;
+       
+        this.gravityMovement = new GravityMovement();
+
+        curStance = IMovementCompoent.Stance.Stand;
+
+        player.StartCoroutine(DelayInitialized());
+        
     }
     public void MovementUpdate()
     {
-        DirectionUpdate();
-        foreach (IMovementComponent movement in movementComponents)
-        {
-            movement.MovementUpdate(this);
-        }
-        inputVelocity_Local = TransformWorldToLocalVector(inputVelocity_World, player.transform.forward);
-        curVelocity_Local = TransformWorldToLocalVector(curVelocity_World, player.gameObject.transform.forward);
-        characterController.Move(curVelocity_World * Time.deltaTime);
+        moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, player.transform.forward);
+        curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, player.gameObject.transform.forward);
 
-        if(Physics.Raycast(player.transform.position,Vector3.down,1))
+        forwardDir = player.transform.forward;
+    }
+    public void MovementFixedUpdate()
+    {
+
+        GravityUpdate();
+        characterController.Move(curMoveVelocity_World * Time.deltaTime);
+
+        if (Physics.Raycast(player.centreTransform.position, Vector3.down, 1))
             isGround = true;
         else isGround = false;
     }
-    private void DirectionUpdate()
-    {
-        DrawDirLine();
-    }
-    public void OMNI_DirMovingCharacter()
-    {
-        Vector3 inputDirection_World = TransformLocalToWorldVector(
-            new Vector3(player.inputMoveDir_Local.x, 
-            0,
-            player.inputMoveDir_Local.y),
-            Camera.main.transform.forward);
-
-        inputVelocity_World = inputDirection_World * move_MaxSpeed;
-
-        curVelocity_World = Vector3.MoveTowards(curVelocity_World, inputDirection_World * move_MaxSpeed, move_Acceleration );
-    }
-    public void ONE_DirMovingCharacter()
-    {
-        Vector3 forwardDirection_World = player.transform.forward;
-
-        inputVelocity_World = TransformLocalToWorldVector(
-            new Vector3(player.inputMoveDir_Local.x,
-            0, 
-            player.inputMoveDir_Local.y),
-            Camera.main.transform.forward)*sprint_MaxSpeed;
-
-        float deacceleration = Mathf.Clamp((Vector3.Dot(inputVelocity_World, forwardDirection_World)),0.1f,1);
-
-        curVelocity_World = Vector3.MoveTowards(curVelocity_World, forwardDirection_World * sprint_MaxSpeed * deacceleration , sprint_Acceleration/Mathf.Clamp(deacceleration,0.5f,1));
-    }
-    public void WarpingMovementCharacter(Vector3 Destination,Vector3 offset,float speed)
+    public void SnapingMovement(Vector3 Destination,Vector3 offset,float speed)
     {
         Vector3 finalDestination = Destination + offset;
         float distacne = Vector3.Distance(player.transform.position, finalDestination);
 
-        curVelocity_World = Vector3.zero;
+        curMoveVelocity_World = Vector3.zero;
 
         if (Vector3.Distance(player.transform.position, finalDestination) <= speed*Time.deltaTime)
         {
@@ -99,13 +70,32 @@ public class PlayerMovement
         }
 
         characterController.Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
-
     }
-    public void FreezingCharacter()
+   
+   
+    public void GravityUpdate()
     {
-        inputVelocity_World = Vector3.zero ;
-        curVelocity_World = Vector3.MoveTowards(curVelocity_World, Vector3.zero, move_Acceleration);
+        gravityMovement.GravityMovementUpdate(this);
     }
+    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed)
+    {
+        moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
+        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
+    }
+    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed)
+    {
+        moveInputVelocity_World = TransformLocalToWorldVector(
+            new Vector3(dirLocalNormalized.x,0,dirLocalNormalized.y),
+            forwardDir);
+
+        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
+    }
+    public void RotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed_NoMultiplyDeltaTime)
+    {
+        RotateCharacter(lookDirWorldNomalized, rotateSpeed_NoMultiplyDeltaTime);
+    }
+
+    #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {
         float zeta;
@@ -118,7 +108,7 @@ public class PlayerMovement
 
         return Direction;
     }
-    private Vector3 TransformWorldToLocalVector(Vector3 dirChild,Vector3 dirParent)
+    private Vector3 TransformWorldToLocalVector(Vector3 dirChild, Vector3 dirParent)
     {
         Vector3 Direction = Vector3.zero;
         float zeta;
@@ -130,7 +120,14 @@ public class PlayerMovement
 
         return Direction;
     }
-    public void RotateCharacter(Vector3 dir, float rotateSpeed)
+    #endregion
+
+    private IEnumerator DelayInitialized()
+    {
+        yield return null;
+        movementMotionWarping = new MotionWarpingByCharacterController(this, characterController);
+    }
+    private void RotateCharacter(Vector3 dir, float rotateSpeed)
     {
         dir.Normalize();
 
@@ -144,13 +141,8 @@ public class PlayerMovement
             Quaternion targetRotation = Quaternion.LookRotation(dir);
 
             // Smoothly rotate towards the target rotation
-            player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, targetRotation,rotateSpeed * Time.deltaTime);
+            player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
     }
-    private void DrawDirLine()
-    {
-       
-    }
 
-    
 }

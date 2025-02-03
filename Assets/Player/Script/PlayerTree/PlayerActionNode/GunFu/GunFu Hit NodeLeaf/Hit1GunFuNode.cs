@@ -64,7 +64,7 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
                 player.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
             }
 
-            if (player.isAiming && gunFuDamagedAble != null)
+            if (player.isAimingCommand && gunFuDamagedAble != null)
             {
 
                 humanShield_GunFuInteraction_NodeLeaf.gunFuAttackedAble = gunFuDamagedAble;
@@ -77,7 +77,7 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
     }
     public override void FixedUpdate()
     {
-        player.playerMovement.FreezingCharacter();
+        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6);
 
         if (isDetectTarget)
             LerpingToTargetPos();

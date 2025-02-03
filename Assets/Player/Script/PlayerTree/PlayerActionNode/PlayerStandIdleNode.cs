@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerStandIdleNode : PlayerActionNodeLeaf
 {
-    
     public PlayerStandIdleNode(Player player) : base(player) { }
 
     public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
@@ -19,7 +18,7 @@ public class PlayerStandIdleNode : PlayerActionNodeLeaf
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
-        playerMovement.FreezingCharacter();
+        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed);
         base.FixedUpdate();
     }
 
@@ -50,7 +49,6 @@ public class PlayerStandIdleNode : PlayerActionNodeLeaf
 
     private void InputPerformed()
     {
-        new WeaponInput().InputWeaponUpdate(player);
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);

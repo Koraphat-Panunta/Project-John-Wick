@@ -24,8 +24,7 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
     public override void FixedUpdate()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        MovementWarping movementWarping = playerMovement.movementWarping;
-        bool isAiming = player.isAiming;
+        bool isAiming = player.weaponManuverManager.curWeaponManuverLeafNode is AimDownSightWeaponManuverNodeLeaf;
         CoverDetection coverDetection = player.coverDetection;
 
         if (isAiming == false)
@@ -33,7 +32,7 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
         else
             WarpingToAimPos();
 
-        playerMovement.OMNI_DirMovingCharacter();
+        playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed);
         base.FixedUpdate();
     }
 
@@ -62,7 +61,7 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
 
         if (player.currentWeapon == null)
         {
-            playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
+            playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
             return;
         }
 
@@ -76,17 +75,17 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
 
             Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
 
-            playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+            playerMovement.SnapingMovement(warpDesPos, warpDesOffsetPos, 2f);
 
             if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f)
                 warping = false;
         }
-        else if (player.currentWeapon.aimingWeight < 1
+        else if (player.weaponManuverManager.aimingWeight < 1
             && coverDetection.GetAimPos(player.curShoulderSide)
             )
             warping = true;
 
-        playerMovement.RotateCharacter(Camera.main.transform.forward, 6);
+        playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
     }
     private void WarpingToCoverPos()
     {
@@ -102,16 +101,16 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
 
             Vector3 warpDesOffsetPos = player.coverDetection.obstacleSurfaceDir.normalized * 0.6f;
 
-            playerMovement.WarpingMovementCharacter(warpDesPos, warpDesOffsetPos, 2f);
+            playerMovement.SnapingMovement(warpDesPos, warpDesOffsetPos, 2f);
 
             if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f
-                || playerMovement.inputVelocity_World != Vector3.zero)
+                || playerMovement.moveInputVelocity_World != Vector3.zero)
                 warping = false;
 
 
         }
-        else if (player.currentWeapon.aimingWeight > 0
-            && playerMovement.inputVelocity_World == Vector3.zero
+        else if (player.weaponManuverManager.aimingWeight > 0
+            && playerMovement.moveInputVelocity_World == Vector3.zero
             && coverDetection.GetAimPos(player.curShoulderSide))
             warping = true;
 
@@ -122,12 +121,11 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
         else if (player.curShoulderSide == Player.ShoulderSide.Right)
             coverStanceDir = Quaternion.Euler(0, 45, 0) * coverDetection.obstacleSurfaceDir * -1;
 
-        playerMovement.RotateCharacter(coverStanceDir , 6);
+        playerMovement.RotateToDirWorld(coverStanceDir , 6);
     }
 
     private  void InputPerformed()
     {
-        new WeaponInput().InputWeaponUpdate(player);
         if (player.isSwapShoulder)
         {
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);

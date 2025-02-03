@@ -79,7 +79,6 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
         enemyController.Move(dir, 1);
 
         //path.UpdateTargetPos(enemy.targetKnewPos, enemy.transform.position);
-        EnemyDebuger.curPos = agent.destination;
       
         base.Update();
     }

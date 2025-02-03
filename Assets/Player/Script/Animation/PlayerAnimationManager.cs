@@ -77,10 +77,10 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
         PlayerMovement playerMovement = player.playerMovement;
-        Vector3 inputVelocity_World = playerMovement.inputVelocity_World;
-        Vector3 inputVelocity_Local = playerMovement.inputVelocity_Local;
-        Vector3 curVelocity_Local = playerMovement.curVelocity_Local;
-        Vector3 curVelocity_World = playerMovement.curVelocity_World;
+        Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
+        Vector3 inputVelocity_Local = playerMovement.moveInputVelocity_Local;
+        Vector3 curVelocity_Local = playerMovement.curMoveVelocity_Local;
+        Vector3 curVelocity_World = playerMovement.curMoveVelocity_World;
 
         this.InputMoveMagnitude_Normalized = inputVelocity_World.normalized.magnitude;
 
@@ -99,26 +99,26 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (player.curPlayerActionNode == player.playerSprintNode)
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.sprint_MaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.sprint_MaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.sprint_MaxSpeed;   
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;   
         }
         else
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / playerMovement.move_MaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / playerMovement.move_MaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / playerMovement.move_MaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.moveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.moveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.moveMaxSpeed;
         }
 
 
 
-        AimDownSightWeight = (player as IWeaponAdvanceUser).currentWeapon.aimingWeight;
+        AimDownSightWeight = (player as IWeaponAdvanceUser).weaponManuverManager.aimingWeight;
         
 
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
             Vector3.Cross(player.transform.forward, Vector3.up).normalized
-            , playerMovement.curVelocity_World.normalized);
+            , playerMovement.curMoveVelocity_World.normalized);
 
         if (RecoilWeight > 0)
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);
@@ -130,14 +130,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         {
             CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 15)
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
                 isIn_C_A_R_aim = false;
         }
         else if(isIn_C_A_R_aim == false)
         {
             CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
             if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 5)
+           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
                 isIn_C_A_R_aim = true;
         }
        
@@ -220,6 +220,24 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
             animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.3f, 1);
+
+        if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
+        {
+            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player.weaponManuverManager as PlayerWeaponManuver).quickDrawWeaponManuverLeafNode.quickDrawPhase;
+
+            switch (quickDrawPhase)
+            {
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:animator.CrossFade("QuickDraw",0.7f,1);
+                    break;
+
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary: animator.CrossFade("QuickHolster", 0.1f, 1);
+                    break;
+
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterPrimary: animator.CrossFade("StandWeaponHand LowReady/ADS", 0.1f, 1);
+                    break;
+            }
+            
+        }
 
     }
 
