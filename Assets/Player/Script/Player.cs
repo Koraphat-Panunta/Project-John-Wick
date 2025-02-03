@@ -4,13 +4,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble
+public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
+    IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble,
+    IAmmoRecivedAble
 {
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
 
     public Transform RayCastPos;
+
 
     [SerializeField] private bool isImortal;
 
@@ -325,6 +328,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
         return Direction;
     }
 
+   
 
     #endregion
 
@@ -365,6 +369,16 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,IBulletDa
     public PlayerStance playerStance = PlayerStance.stand;
 
     public Transform centreTransform;
+
+    #endregion
+
+    #region ImplementIAmmoGetAble
+    public void Recived(AmmoGetAbleObject ammoGetAbleObject)
+    {
+        NotifyObserver(this, PlayerAction.RecivedAmmo);
+    }
+    public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
+    Transform IRecivedAble.transform { get => centreTransform;}
 
     #endregion
 

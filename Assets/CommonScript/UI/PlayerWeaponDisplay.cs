@@ -52,6 +52,12 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
             MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
             SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
         }
+        if(playerAction == SubjectPlayer.PlayerAction.RecivedAmmo)
+        {
+            AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
+            MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
+            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+        }
     } 
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {

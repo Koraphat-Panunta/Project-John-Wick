@@ -39,6 +39,7 @@ public abstract class WeaponNode
             }
         }
     }
+
     public void AddChildNode(WeaponNode weaponNode)
     {
         childNode.Add(weaponNode);

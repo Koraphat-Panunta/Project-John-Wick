@@ -19,8 +19,6 @@ public abstract class SubjectPlayer : Character
         InputMag_ReloadMagazineStage,
         ChamberLoad_ReloadMagazineStage,
 
-        
-
         Idle,
         Move,
         Sprint,
@@ -37,7 +35,10 @@ public abstract class SubjectPlayer : Character
         GunFuExit,
 
         OppenentStagger,
-        OpponentKilled
+        OpponentKilled,
+
+        RecivedAmmo,
+        RecivedHp,
         
     }
     
