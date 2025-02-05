@@ -92,10 +92,11 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             , inputVelocity_World.normalized)*(curVelocity_World.magnitude/inputVelocity_World.magnitude);
 
         this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
-                Vector3.Dot(inputVelocity_World.normalized, 
+                Vector3.Dot(player.inputMoveDir_World, 
                 Vector3.Cross(player.transform.forward, Vector3.up))
             ,10*Time.deltaTime) ;
 
+        Debug.Log("inputVelocity_World = "+inputVelocity_World.normalized);
 
         if (player.curPlayerActionNode == player.playerSprintNode)
         {

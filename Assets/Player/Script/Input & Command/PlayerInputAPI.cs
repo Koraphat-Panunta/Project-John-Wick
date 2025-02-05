@@ -73,7 +73,21 @@ public class PlayerInputAPI : MonoBehaviour
     {
         if(context.performed)
             player._triggerGunFu = true;
-        
-        Debug.Log("_triggerGunFu = " + player._triggerGunFu);
+    }
+    public void ToggleCrouchStand(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            IMovementCompoent.Stance stance = player.playerMovement.curStance;
+
+            switch (stance) 
+            {
+                case IMovementCompoent.Stance.Stand: { player.playerMovement.curStance = IMovementCompoent.Stance.Crouch; }
+                    break;
+                case IMovementCompoent.Stance.Crouch: { player.playerMovement.curStance = IMovementCompoent.Stance.Stand; }
+                    break;
+            }
+           
+        }
     }
 }

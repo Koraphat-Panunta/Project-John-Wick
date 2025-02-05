@@ -23,6 +23,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
     private GravityMovement gravityMovement;
     public IMovementMotionWarping movementMotionWarping { get; set; }
+    public MoveTo moveTo { get ; set ; }
 
     public PlayerMovement(Player player)
     {
@@ -45,6 +46,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, player.gameObject.transform.forward);
 
         forwardDir = player.transform.forward;
+        DrawLine();
     }
     public void MovementFixedUpdate()
     {
@@ -76,19 +78,6 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     public void GravityUpdate()
     {
         gravityMovement.GravityMovementUpdate(this);
-    }
-    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed)
-    {
-        moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
-        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
-    }
-    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed)
-    {
-        moveInputVelocity_World = TransformLocalToWorldVector(
-            new Vector3(dirLocalNormalized.x,0,dirLocalNormalized.y),
-            forwardDir);
-
-        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
     }
     public void RotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed_NoMultiplyDeltaTime)
     {
@@ -125,6 +114,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     private IEnumerator DelayInitialized()
     {
         yield return null;
+        moveTo = new MoveTo(this);
         movementMotionWarping = new MotionWarpingByCharacterController(this, characterController);
     }
     private void RotateCharacter(Vector3 dir, float rotateSpeed)
@@ -145,4 +135,24 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         }
     }
 
+    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
+    {
+       moveTo.MoveToDirWorld(dirWorldNormalized, speed, maxSpeed, moveMode);
+    }
+
+    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
+    {
+        moveTo.MoveToDirLocal(dirLocalNormalized, speed, maxSpeed, moveMode);
+    }
+    private void DrawLine()
+    {
+        //InPutMoveWorld 
+        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (moveInputVelocity_World), Color.green);
+
+        //CurVelocityWorld
+        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (curMoveVelocity_World), Color.yellow);
+
+        //Forward
+        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (forwardDir), Color.blue);
+    }
 }

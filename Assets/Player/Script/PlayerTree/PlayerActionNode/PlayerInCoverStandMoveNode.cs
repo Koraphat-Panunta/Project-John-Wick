@@ -32,7 +32,7 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
         else
             WarpingToAimPos();
 
-        playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed);
+        playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdate();
     }
 

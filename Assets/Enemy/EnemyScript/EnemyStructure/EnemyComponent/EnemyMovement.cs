@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,18 +17,21 @@ public class EnemyMovement : IMovementCompoent
 
     public Enemy enemy { get; set; }
     public GravityMovement gravityMovement { get; set; }
+    public MoveTo moveTo { get ; set ; }
+
     public EnemyMovement(NavMeshAgent agent,Enemy enemy)
     {
         this.agent = agent;
         this.gravityMovement = new GravityMovement();
         this.enemy = enemy;
+
+        this.enemy.StartCoroutine(DelayInitailzed());
     }
 
     public void GravityUpdate()
     {
         this.gravityMovement.GravityMovementUpdate(this);
     }
-
     public void MovementFixedUpdate()
     {
         GravityUpdate();
@@ -45,22 +49,15 @@ public class EnemyMovement : IMovementCompoent
 
         forwardDir = enemy.transform.forward;
     }
-
-    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed)
+    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-        moveInputVelocity_World = TransformLocalToWorldVector(
-           new Vector3(dirLocalNormalized.x, 0, dirLocalNormalized.y),
-           forwardDir);
-
-        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
+        moveTo.MoveToDirWorld(dirWorldNormalized, speed, maxSpeed, moveMode);
     }
 
-    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed)
+    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-        moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
-        curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
+        moveTo.MoveToDirLocal(dirLocalNormalized, speed, maxSpeed, moveMode);
     }
-
     public void RotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed)
     {
         lookDirWorldNomalized.Normalize();
@@ -77,6 +74,12 @@ public class EnemyMovement : IMovementCompoent
             // Smoothly rotate towards the target rotation
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
+    }
+
+    public IEnumerator DelayInitailzed()
+    {
+        yield return null;
+        moveTo = new MoveTo(this);
     }
 
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
@@ -103,4 +106,6 @@ public class EnemyMovement : IMovementCompoent
 
         return Direction;
     }
+
+   
 }

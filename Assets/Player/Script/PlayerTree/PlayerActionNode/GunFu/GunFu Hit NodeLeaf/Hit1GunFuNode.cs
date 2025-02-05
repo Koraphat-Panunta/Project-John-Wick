@@ -77,7 +77,7 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
     }
     public override void FixedUpdate()
     {
-        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6);
+        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
         if (isDetectTarget)
             LerpingToTargetPos();

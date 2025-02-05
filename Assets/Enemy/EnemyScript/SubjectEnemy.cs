@@ -59,11 +59,6 @@ public class SubjectEnemy : Character
                 }
                 
             }
-            //foreach (IObserverEnemy observer in Observers)
-            //{
-            //    if()
-            //    observer.Notify(_enemy, enemyEvent);
-            //}
         }
     }
 }

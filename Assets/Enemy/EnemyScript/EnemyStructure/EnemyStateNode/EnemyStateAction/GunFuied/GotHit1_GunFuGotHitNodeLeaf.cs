@@ -12,6 +12,8 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         animator.CrossFade(stateName,0.005f, 0);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotHit);
 
+        Debug.Log("Ënemy Got Hit GunFu");
+
         base.Enter();
     }
 
