@@ -52,8 +52,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
 
-        startWeaponManuverSelectorNode.FindingNode(out WeaponManuverLeafNode weaponManuverLeafNode);
-        curWeaponManuverLeafNode = weaponManuverLeafNode;
+        startWeaponManuverSelectorNode.FindingNode(out INodeLeaf weaponManuverLeafNode);
+        curWeaponManuverLeafNode = weaponManuverLeafNode as WeaponManuverLeafNode;
     }
    
     public override void UpdateNode()

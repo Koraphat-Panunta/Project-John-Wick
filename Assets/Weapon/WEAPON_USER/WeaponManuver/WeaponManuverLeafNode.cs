@@ -3,33 +3,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponManuverLeafNode : WeaponManuverNode
+public abstract class WeaponManuverLeafNode : WeaponManuverNode,INodeLeaf
 {
-    public List<Func<bool>> isReset { get; protected set; }
-    public WeaponManuverSelectorNode parentNode;
+    public List<Func<bool>> isReset { get; set; }
+    public NodeLeafBehavior nodeLeafBehavior { get; set; }
+
     public WeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
+        nodeLeafBehavior = new NodeLeafBehavior();
+
         isReset = new List<Func<bool>>();
         isReset.Add(() => !preCondition());
     }
+
     public abstract void UpdateNode();
-    public abstract void Enter();
-    public abstract void Exit();
 
     public abstract void FixedUpdateNode();
-    public abstract bool IsComplete();
-    public override bool Precondition()
-    {
-        return base.Precondition();
-    }
-    public virtual bool IsReset()
-    {
-        foreach(Func<bool> reset in isReset)
-        {
-            if(reset.Invoke() == true)
-                return true;
-        }
+  
+    public abstract void Enter();
 
-        return false;
-    }
+
+    public abstract void Exit();
+
+    public abstract bool IsComplete();
+
+    public virtual bool IsReset() => nodeLeafBehavior.IsReset(isReset);
+   
 }

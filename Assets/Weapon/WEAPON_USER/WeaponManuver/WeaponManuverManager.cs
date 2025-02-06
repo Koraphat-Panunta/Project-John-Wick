@@ -18,7 +18,7 @@ public abstract class WeaponManuverManager
 
     public abstract WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public abstract PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
-    public abstract SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode{ get; protected set; }
+    public abstract SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
     public abstract AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
@@ -27,11 +27,11 @@ public abstract class WeaponManuverManager
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
 
-        startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(weaponAdvanceUser,()=> true);
+        startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);
         InitailzedWeaponManuverNode();
     }
     protected abstract void InitailzedWeaponManuverNode();
-   
+
     public virtual void UpdateNode()
     {
 
@@ -40,17 +40,17 @@ public abstract class WeaponManuverManager
             Debug.Log(curWeaponManuverLeafNode + " IsReset");
             curWeaponManuverLeafNode.Exit();
             curWeaponManuverLeafNode = null;
-            startWeaponManuverSelectorNode.FindingNode(out WeaponManuverLeafNode weaponManuverLeafNode);
-            curWeaponManuverLeafNode = weaponManuverLeafNode;
+            startWeaponManuverSelectorNode.FindingNode(out INodeLeaf weaponManuverLeafNode);
+            curWeaponManuverLeafNode = weaponManuverLeafNode as WeaponManuverLeafNode;
             curWeaponManuverLeafNode.Enter();
         }
 
-        if(curWeaponManuverLeafNode != null)
+        if (curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.UpdateNode();
     }
     public virtual void FixedUpdateNode()
     {
-        if(curWeaponManuverLeafNode != null)
+        if (curWeaponManuverLeafNode != null)
             curWeaponManuverLeafNode.FixedUpdateNode();
     }
     public void ChangeWeaponManuverNode(WeaponManuverLeafNode weaponManuverLeafNode)
@@ -65,7 +65,7 @@ public abstract class WeaponManuverManager
         if (isPullTriggerManuver)
             curWeapon.PullTrigger();
 
-        if(isReloadManuver)
+        if (isReloadManuver)
             curWeapon.Reload();
     }
 }
