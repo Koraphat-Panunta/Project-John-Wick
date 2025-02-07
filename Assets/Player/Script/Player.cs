@@ -165,14 +165,14 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     #endregion
 
     #region Initailized Player Tree node
-    public PlayerActionNodeLeaf curPlayerActionNode { get; private set; }
+    public PlayerStateNodeLeaf curPlayerActionNode { get; private set; }
 
-    public PlayerSelectorNode stanceSelectorNode { get; private set; }
+    public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
 
-    public PlayerSelectorNode standSelectorNode { get; private set; }
+    public PlayerSelectorStateNode standSelectorNode { get; private set; }
 
     public PlayerSprintNode playerSprintNode { get; private set; }
-    public PlayerSelectorNode standIncoverSelector { get; private set; }
+    public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNode playerStandIdleNode { get; private set; }
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get;private set; }
@@ -185,39 +185,49 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     private void InitializedPlayerNodeTree()
     {
-        stanceSelectorNode = new PlayerSelectorNode(this,
+        stanceSelectorNode = new PlayerSelectorStateNode(this,
             () => { return true; });
 
-        standSelectorNode = new PlayerSelectorNode(this,
+        standSelectorNode = new PlayerSelectorStateNode(this,
             () => { return playerStance == PlayerStance.stand; });
 
-        playerSprintNode = new PlayerSprintNode(this);
-        standIncoverSelector = new PlayerSelectorNode(this,
+        playerSprintNode = new PlayerSprintNode(this, () => { return isSprint; });
+        standIncoverSelector = new PlayerSelectorStateNode(this,
             () => {return isInCover; });
-        playerStandMoveNode = new PlayerStandMoveNode(this);
-        playerStandIdleNode = new PlayerStandIdleNode(this);
+        playerStandMoveNode = new PlayerStandMoveNode(this, 
+            () => 
+            {
+                return inputMoveDir_Local.magnitude > 0;
+            }
+            );
+        playerStandIdleNode = new PlayerStandIdleNode(this, ()=> true);
 
-        playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this);
-        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this);
+        playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this, 
+            () =>
+            {
+            return inputMoveDir_Local.magnitude > 0;
+            });
 
-        Hit1gunFuNode = new Hit1GunFuNode(this,hit1);
-        Hit2GunFuNode = new Hit2GunFuNode(this, hit2);
-        knockDown_GunFuNode = new KnockDown_GunFuNode(this,knockDown);
+        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this,()=>true);
+
+        Hit1gunFuNode = new Hit1GunFuNode(this,()=> _triggerGunFu,hit1);
+        Hit2GunFuNode = new Hit2GunFuNode(this,()=> _triggerGunFu, hit2);
+        knockDown_GunFuNode = new KnockDown_GunFuNode(this,()=> _triggerGunFu,knockDown);
 
 
-        stanceSelectorNode.AddChildNode(standSelectorNode);
+        stanceSelectorNode.AddtoChildNode(standSelectorNode);
 
-        standSelectorNode.AddChildNode(Hit1gunFuNode);    
-        standSelectorNode.AddChildNode(playerSprintNode);
-        standSelectorNode.AddChildNode(standIncoverSelector);
-        standSelectorNode.AddChildNode(playerStandMoveNode);
-        standSelectorNode.AddChildNode(playerStandIdleNode);
+        standSelectorNode.AddtoChildNode(Hit1gunFuNode);    
+        standSelectorNode.AddtoChildNode(playerSprintNode);
+        standSelectorNode.AddtoChildNode(standIncoverSelector);
+        standSelectorNode.AddtoChildNode(playerStandMoveNode);
+        standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
-        standIncoverSelector.AddChildNode(playerInCoverStandMoveNode);
-        standIncoverSelector.AddChildNode(playerInCoverStandIdleNode);
+        standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
+        standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
 
-        stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
-        curPlayerActionNode = playerActionNode;
+        stanceSelectorNode.FindingNode(out INodeLeaf playerActionNode);
+        curPlayerActionNode = playerActionNode as PlayerStateNodeLeaf;
 
     }
     private void UpdatePlayerTree()
@@ -225,21 +235,21 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         if (curPlayerActionNode.IsReset()){
             curPlayerActionNode.Exit();
             curPlayerActionNode = null;
-            stanceSelectorNode.Transition(out PlayerActionNodeLeaf playerActionNode);
-            curPlayerActionNode = playerActionNode;
+            stanceSelectorNode.FindingNode(out INodeLeaf playerActionNode);
+            curPlayerActionNode = playerActionNode as PlayerStateNodeLeaf;
             curPlayerActionNode.Enter();
         }
 
         if(curPlayerActionNode != null)
-            curPlayerActionNode.Update();
+            curPlayerActionNode.UpdateNode();
     }
     private void FixedUpdatePlayerTree()
     {
         if (curPlayerActionNode != null)
-            curPlayerActionNode.FixedUpdate();
+            curPlayerActionNode.FixedUpdateNode();
     }
 
-    public void ChangeNode(PlayerActionNodeLeaf playerActionNodeLeaf)
+    public void ChangeNode(PlayerStateNodeLeaf playerActionNodeLeaf)
     {
         curPlayerActionNode.Exit();
         curPlayerActionNode = playerActionNodeLeaf;

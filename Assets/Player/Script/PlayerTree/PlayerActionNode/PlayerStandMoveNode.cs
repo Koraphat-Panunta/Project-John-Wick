@@ -2,49 +2,31 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStandMoveNode : PlayerActionNodeLeaf
+public class PlayerStandMoveNode : PlayerStateNodeLeaf
 {
-   
-    public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
-    public PlayerStandMoveNode(Player player) : base(player) { }
+    public PlayerStandMoveNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
+
     public override void Enter()
     {
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
         base.Enter();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
         playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.moveAccelerate, player.moveMaxSpeed *player.inputMoveDir_World.magnitude, IMovementCompoent.MoveMode.MaintainMomentum);
         playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.moveRotateSpeed);
 
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        if (player.playerStance != Player.PlayerStance.stand
-            ||player.isSprint
-            ||player.isInCover == true
-            ||player.inputMoveDir_Local.magnitude<=0)
-            return true;
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return player.inputMoveDir_Local.magnitude > 0;
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
         InputPerformed();
-        base.Update();
+        base.UpdateNode();
     }
     private void InputPerformed()
     {

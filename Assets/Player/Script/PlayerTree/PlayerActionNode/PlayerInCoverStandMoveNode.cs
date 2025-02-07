@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
+public class PlayerInCoverStandMoveNode : PlayerStateNodeLeaf
 {
-    public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+   
 
     private bool warping;
 
-    public PlayerInCoverStandMoveNode(Player player) : base(player) { }
+    public PlayerInCoverStandMoveNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
+
     public override void Enter()
     {
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
         base.Enter();
     }
-    public override void Update()
+    public override void UpdateNode()
     {
         InputPerformed();
-        base.Update();
+        base.UpdateNode();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
         bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
@@ -33,27 +35,9 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
             WarpingToAimPos();
 
         playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        if (player.playerStance != Player.PlayerStance.stand
-           || player.isSprint == true
-           || player.isInCover == false
-           || player.inputMoveDir_Local.magnitude <= 0)
-            return true;
-        else
-            return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return player.inputMoveDir_Local.magnitude >0;
-    }
     private void WarpingToAimPos()
     {
         PlayerMovement playerMovement = player.playerMovement;

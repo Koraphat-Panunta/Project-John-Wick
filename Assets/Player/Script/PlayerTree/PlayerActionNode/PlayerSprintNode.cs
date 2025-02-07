@@ -2,56 +2,42 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSprintNode : PlayerActionNodeLeaf
+public class PlayerSprintNode : PlayerStateNodeLeaf
 {
-    public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+   
 
-    private PlayerMovement playerMovement;
+    private PlayerMovement playerMovement => player.playerMovement;
+
+    public PlayerSprintNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+        
+    }
+
     private float sprintMaxSpeed => player.sprintMaxSpeed;
     private float sprintAcceletion => player.sprintAccelerate;
     private float sprintRotateSpeed => player.sprintRotateSpeed;
 
-    public PlayerSprintNode(Player player) : base(player) 
-    {
-        playerMovement = player.playerMovement;
-    }
+   
     public override void Enter()
     {
         player.playerStance = Player.PlayerStance.stand;
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
         base.Enter();
     }
-    public override void Update()
+    public override void UpdateNode()
     {
         InputPerformed();
 
-        base.Update();
+        base.UpdateNode();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         playerMovement.MoveToDirWorld(player.transform.forward, sprintAcceletion, sprintMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
         playerMovement.RotateToDirWorld(player.inputMoveDir_World.normalized, sprintRotateSpeed );
 
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if(player._triggerGunFu)
-            return true;
-
-        if(player.isSprint == false
-            ||player.playerStance != Player.PlayerStance.stand)
-            return true;
-        else
-            return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return player.isSprint;
-    }
     private  void InputPerformed()
     {
         if (player.isSwapShoulder)

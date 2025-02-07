@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
+public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _exitTime_Normalized { get ; set ; }
@@ -17,7 +17,7 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
 
     public IGunFuDamagedAble gunFuDamagedAble;
  
-    public GunFuHitNodeLeaf(Player player,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player)
+    public GunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
         this._transitionAbleTime_Nornalized = gunFuNodeScriptableObject.TransitionAbleTime_Normalized;
         this._exitTime_Normalized = gunFuNodeScriptableObject.ExitTime_Normalized;
@@ -28,7 +28,6 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
     public override void Enter()
     {
         _timer = 0;
-
         base.Enter();
     }
 
@@ -37,16 +36,18 @@ public abstract class GunFuHitNodeLeaf : PlayerActionNodeLeaf ,IGunFuNode
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override void Update()
+    public override void UpdateNode()
     {
         _timer += Time.deltaTime;
         if(_timer >= _transitionAbleTime_Nornalized* _animationClip.length)
             _isTransitionAble = true;
+
+        base.UpdateNode();
     }
 
     RotateObjectToward rotateObjectToward = new RotateObjectToward();

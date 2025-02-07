@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Hit2GunFuNode : GunFuHitNodeLeaf
@@ -6,7 +7,7 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
     private bool isHiting;
 
     private bool gunFuTriggerBuufer;
-    public Hit2GunFuNode(Player player, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player, gunFuNodeScriptableObject)
+    public Hit2GunFuNode(Player player, Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
     }
 
@@ -35,13 +36,13 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
         if(isDetectTarget)
         LerpingToTargetPos();
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -58,15 +59,7 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
         return false;
     }
 
-    public override bool PreCondition()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
 
         if (_timer > _animationClip.length * 0.2f
@@ -91,7 +84,7 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
             && gunFuDamagedAble != null)
             player.ChangeNode(player.knockDown_GunFuNode);
 
-        base.Update();
+        base.UpdateNode();
     }
     
 

@@ -1,11 +1,12 @@
+using System;
 using UnityEngine;
     
-public abstract class GunFu_Interaction_NodeLeaf : PlayerActionNodeLeaf, IGunFuNode
+public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode
 {
-    protected GunFu_Interaction_NodeLeaf(Player player) : base(player)
+    protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
-
     }
+
     public override void Enter()
     {
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
@@ -17,10 +18,10 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerActionNodeLeaf, IGunFuN
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
         base.Exit();
     }
-    public override void Update()
+    public override void UpdateNode()
     {
         _timer += Time.deltaTime;
-        base.Update();
+        base.UpdateNode();
     }
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _exitTime_Normalized { get; set; }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
@@ -27,7 +28,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         Exit
     }
     public InteractionPhase curIntphase;
-    public HumanShield_GunFuInteraction_NodeLeaf(Player player) : base(player)
+    public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         weaponAdvanceUser = player;
         this.animator = player.animator;
@@ -58,9 +59,9 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -71,18 +72,13 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         return false;
     }
 
-    public override bool PreCondition()
-    {
-        return base.PreCondition();
-    }
-
     private float elaspeEnter = 0.35f;
     private float elaspeTimmerEnter;
 
     public override bool _isExit { get  ; set ; }
 
     Vector3 beforeAimConstrainOffset;
-    public override void Update()
+    public override void UpdateNode()
     {
         switch (curIntphase)
         {
@@ -163,6 +159,6 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 }
                 break;
         }
-        base.Update();
+        base.UpdateNode();
     }
 }

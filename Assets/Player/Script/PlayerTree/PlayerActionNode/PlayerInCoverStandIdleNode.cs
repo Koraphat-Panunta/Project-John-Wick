@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
+public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
 {
-    public PlayerInCoverStandIdleNode(Player player) : base(player) { }
-    public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+  
 
     private bool warping;
+
+    public PlayerInCoverStandIdleNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
 
     public override void Enter()
     {
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         base.Enter();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
         bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
@@ -30,32 +32,13 @@ public class PlayerInCoverStandIdleNode : PlayerActionNodeLeaf
 
         playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
 
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        if (player.playerStance != Player.PlayerStance.stand
-            || player.isSprint == true
-            || player.isInCover == false
-            || player.inputMoveDir_Local.magnitude > 0)
-            return true;
-        else
-            return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return true;
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
         InputPerformed();
-        base.Update();
+        base.UpdateNode();
     }
 
     private void WarpingToAimPos()

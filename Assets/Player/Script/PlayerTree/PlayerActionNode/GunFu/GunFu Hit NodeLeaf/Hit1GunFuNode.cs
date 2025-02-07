@@ -11,9 +11,9 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
     private HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
 
-    public Hit1GunFuNode(Player player, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player, gunFuNodeScriptableObject)
+    public Hit1GunFuNode(Player player,Func<bool> preCondition , GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
-        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(player);
+        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(player, () => { return player.isAimingCommand; });
     }
 
     public override void Enter()
@@ -39,7 +39,8 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
         base.Exit();
     }
-    public override void Update()
+  
+    public override void UpdateNode()
     {
         
         if(_timer >= _animationClip.length * 0f 
@@ -73,15 +74,15 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         }
 
         
-        base.Update();
+        base.UpdateNode();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
         if (isDetectTarget)
             LerpingToTargetPos();
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -97,16 +98,4 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
         return false;
     }
-
-    public override bool PreCondition()
-    {
-        if(player._triggerGunFu)
-            return true;
-
-        return false;
-    }
-
-    
-   
-
 }

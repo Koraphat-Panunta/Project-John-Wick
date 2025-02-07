@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 {
     private bool isHiting;
     private bool gunFuTriggerBuufer;
-    public KnockDown_GunFuNode(Player player, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player, gunFuNodeScriptableObject)
+    public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
     }
 
@@ -33,13 +34,13 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
         if (isDetectTarget)
         LerpingToTargetPos();
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -56,15 +57,8 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
         return false;
     }
 
-    public override bool PreCondition()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
+    
+    public override void UpdateNode()
     {
 
 
@@ -77,7 +71,7 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
             isHiting = true;
         }
 
-        base.Update();
+        base.UpdateNode();
     }
    
     

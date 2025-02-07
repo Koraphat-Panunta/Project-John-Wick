@@ -2,49 +2,28 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStandIdleNode : PlayerActionNodeLeaf
+public class PlayerStandIdleNode : PlayerStateNodeLeaf
 {
-    public PlayerStandIdleNode(Player player) : base(player) { }
-
-    public override List<PlayerNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+    public PlayerStandIdleNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
 
     public override void Enter()
     {
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
         base.Enter();
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
         playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
-
-    public override bool IsReset()
-    {
-        if (player._triggerGunFu)
-            return true;
-
-        if (player.playerStance != Player.PlayerStance.stand
-            ||player.isInCover == true
-            ||player.inputMoveDir_Local.magnitude > 0
-            )
-            return true;
-        else
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return true;
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
         InputPerformed();
-        base.Update();
+        base.UpdateNode();
     }
 
     private void InputPerformed()
