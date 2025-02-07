@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReloadMagazineFullStage : WeaponActionNode
+public class ReloadMagazineFullStage : WeaponLeafNode
 {
     private float reloadTime;
 
@@ -10,12 +11,14 @@ public class ReloadMagazineFullStage : WeaponActionNode
     private MagazineType mag;
 
     private float elaspeTime;
-    public ReloadMagazineFullStage(Weapon weapon) : base(weapon)
+
+    public ReloadMagazineFullStage(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
         this.reloadTime = weapon.reloadSpeed;
         mag = weapon as MagazineType;
     }
-    public override void FixedUpdate()
+
+    public override void FixedUpdateNode()
     {
         
     }
@@ -41,24 +44,24 @@ public class ReloadMagazineFullStage : WeaponActionNode
         else return false;
     }
 
-    public override bool PreCondition()
-    {
-        int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];
-        int magCount = Weapon.bulletStore[BulletStackType.Magazine];
-        bool isMagIn = mag.isMagIn;
+    //public override bool Precondition()
+    //{
+    //    int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];
+    //    int magCount = Weapon.bulletStore[BulletStackType.Magazine];
+    //    bool isMagIn = mag.isMagIn;
        
-        if
-            (
-             isMagIn == true 
-            && chamberCount ==0
-            && magCount == 0
-            )
-            return true;
-        else
-            return false;
-    }
+    //    if
+    //        (
+    //         isMagIn == true 
+    //        && chamberCount ==0
+    //        && magCount == 0
+    //        )
+    //        return true;
+    //    else
+    //        return false;
+    //}
 
-    public override void Update()
+    public override void UpdateNode()
     {
         int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];
         int magCount = Weapon.bulletStore[BulletStackType.Magazine];

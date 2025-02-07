@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AutoLoadChamberNode : WeaponActionNode
+public class AutoLoadChamberNode : WeaponLeafNode
 {
     private Coroutine reChamber;
-    public AutoLoadChamberNode(Weapon weapon):base(weapon) 
+
+    public AutoLoadChamberNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
-      
     }
+
     public override void Enter()
     {
         reChamber = Weapon.StartCoroutine(ReChambering());
+
     }
 
     public override void Exit()
@@ -19,7 +22,11 @@ public class AutoLoadChamberNode : WeaponActionNode
 
     }
 
-    public override void FixedUpdate()
+    public override void UpdateNode()
+    {
+
+    }
+    public override void FixedUpdateNode()
     {
 
     }
@@ -27,21 +34,6 @@ public class AutoLoadChamberNode : WeaponActionNode
     public override bool IsComplete()
     {
         return reChamber == null;
-    }
-
-    public override bool IsReset()
-    {
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        return true;
-    }
-
-    public override void Update()
-    {
-
     }
     public IEnumerator ReChambering()
     {
@@ -54,4 +46,5 @@ public class AutoLoadChamberNode : WeaponActionNode
         }
         reChamber = null;
     }
+
 }

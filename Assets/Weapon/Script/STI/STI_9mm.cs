@@ -156,7 +156,7 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
 
-        startEventNode.Transition(out WeaponActionNode eventNode);
+        startEventNode.Transition(out WeaponLeafNode eventNode);
         currentEventNode = eventNode;
      
     }

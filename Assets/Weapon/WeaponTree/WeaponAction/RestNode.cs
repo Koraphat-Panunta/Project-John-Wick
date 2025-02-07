@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
 
-public class RestNode : WeaponActionNode
+public class RestNode : WeaponLeafNode
 {
-    public RestNode(Weapon weapon) : base(weapon)
+    public RestNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
     }
+    public override void FixedUpdateNode()
+    {
 
+    }
+
+    public override void UpdateNode()
+    {
+
+    }
     public override void Enter()
     {
        
@@ -16,28 +25,5 @@ public class RestNode : WeaponActionNode
         
     }
 
-    public override void FixedUpdate()
-    {
-        
-    }
-
-    public override bool IsComplete()
-    {
-        return true;
-    }
-
-    public override bool IsReset()
-    {
-        return true;
-    }
-
-    public override bool PreCondition()
-    {
-       return true;
-    }
-
-    public override void Update()
-    {
-        
-    }
+   
 }

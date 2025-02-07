@@ -1,18 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticalReloadMagazineFullStage : WeaponActionNode
+public class TacticalReloadMagazineFullStage : WeaponLeafNode
 {
     private MagazineType weaponMag;
     private float elaspeTime;
-    private bool isComplete;
-    public TacticalReloadMagazineFullStage(Weapon weapon):base(weapon)
+
+    public TacticalReloadMagazineFullStage(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
         weaponMag = weapon as MagazineType;
     }
-
-
 
     public override void Enter()
     {
@@ -29,43 +28,33 @@ public class TacticalReloadMagazineFullStage : WeaponActionNode
      
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         
     }
 
-    public override bool IsComplete()
-    {
-        if(weaponMag.isMagIn == true && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.bulletCapacity)
-            return true;
-        else return false;
-    }
+    //public override bool IsComplete()
+    //{
+    //    if(weaponMag.isMagIn == true && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.bulletCapacity)
+    //        return true;
+    //    else return false;
+    //}
 
-    public override bool IsReset()
-    {
-        if(IsComplete())
-            return true;
-        else if(
-            Weapon.isEquiped == false
-            )
-            return true;
-        else return false ;
-    }
 
-    public override bool PreCondition()
-    {
-        bool IsMagIn = weaponMag.isMagIn;
-        int MagCount = Weapon.bulletStore[BulletStackType.Magazine];
-        if (
-            IsMagIn == true
-            && MagCount >= 0
-            )
-            return true;
-        else 
-            return false;
-    }
+    //public override bool Precondition()
+    //{
+    //    bool IsMagIn = weaponMag.isMagIn;
+    //    int MagCount = Weapon.bulletStore[BulletStackType.Magazine];
+    //    if (
+    //        IsMagIn == true
+    //        && MagCount >= 0
+    //        )
+    //        return true;
+    //    else 
+    //        return false;
+    //}
 
-    public override void Update()
+    public override void UpdateNode()
     {
 
         float reloadTime = Weapon.reloadSpeed;

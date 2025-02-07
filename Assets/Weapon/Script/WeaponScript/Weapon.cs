@@ -189,7 +189,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
     #region InitailizedWeaponTree
    
-    public WeaponActionNode currentEventNode { get; set; }
+    public WeaponLeafNode currentEventNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
 
     public abstract RestNode restNode { get; set; }
@@ -199,7 +199,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             currentEventNode.FixedUpdate();
     }
    
-    public virtual void ChangeActionManualy(WeaponActionNode weaponEventNode)
+    public virtual void ChangeActionManualy(WeaponLeafNode weaponEventNode)
     {
         if (currentEventNode != null)
         currentEventNode.Exit();
@@ -215,7 +215,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         {
             currentEventNode.Exit();
             currentEventNode = null;
-            startEventNode.Transition(out WeaponActionNode weaponActionNode);
+            startEventNode.Transition(out WeaponLeafNode weaponActionNode);
             currentEventNode = weaponActionNode;
             //Debug.Log("Out Event Node " + currentEventNode);
             currentEventNode.Enter();

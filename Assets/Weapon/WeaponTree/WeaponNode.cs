@@ -3,47 +3,23 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class WeaponNode 
+public abstract class WeaponNode : INode
 {
-    public WeaponNode(Weapon weapon)
-    {
-        this.Weapon = weapon;
-        childNode = new List<WeaponNode>();
-    }
+    public  Func<bool> preCondition { get; set; }
+    public INode parentNode { get; set; }
 
     protected Weapon Weapon { get; set; }
-    public abstract List<WeaponNode> childNode { get ; set ; }
-    protected abstract Func<bool> preCondidtion { get; set; }
-    public abstract void FixedUpdate();
-    public abstract void Update();
-    public abstract bool IsReset();
-    public abstract bool PreCondition();
-    public void Transition(out WeaponActionNode weaponActionNode)
+
+    public WeaponNode(Weapon weapon,Func<bool> preCondition)
     {
-        weaponActionNode = null;
-        foreach(WeaponNode weaponNode in childNode)
-        {
-            if (weaponNode.PreCondition())
-            {
-                if (weaponNode.GetType().IsSubclassOf(typeof(WeaponActionNode)))
-                {
-                    weaponActionNode = weaponNode as WeaponActionNode;
-                    //Debug.Log("Transition from " + this + " ->" + weaponActionNode);
-                }
-                else
-                {
-                    //Debug.Log("Transition from " + this + " ->" + weaponNode);
-                    weaponNode.Transition(out weaponActionNode);
-                }
-                break;
-            }
-        }
+        this.preCondition = preCondition;
+        this.Weapon = weapon;
     }
 
-    public void AddChildNode(WeaponNode weaponNode)
-    {
-        childNode.Add(weaponNode);
-    }
+  
+
+    public bool Precondition() => preCondition.Invoke();
+   
     
 
     

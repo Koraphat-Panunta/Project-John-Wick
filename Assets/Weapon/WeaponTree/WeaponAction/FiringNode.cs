@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FiringNode : WeaponActionNode
+public class FiringNode : WeaponLeafNode
 {
     bool isFiring;
-    public FiringNode(Weapon weapon):base(weapon) 
+
+    public FiringNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
-        
     }
+
     public override void Enter()
     {
        isFiring = false;
@@ -23,9 +25,14 @@ public class FiringNode : WeaponActionNode
        
     }
 
-    public override void FixedUpdate()
+
+    public override void UpdateNode()
     {
-       
+
+    }
+    public override void FixedUpdateNode()
+    {
+        
     }
 
     public override bool IsComplete()
@@ -38,13 +45,11 @@ public class FiringNode : WeaponActionNode
         return IsComplete();
     }
 
-    public override bool PreCondition()
-    {
-        return Weapon.bulletStore[BulletStackType.Chamber] > 0 ;
-    }
+    //public override bool Precondition()
+    //{
+    //    return Weapon.bulletStore[BulletStackType.Chamber] > 0 ;
+    //}
 
-    public override void Update()
-    {
-        
-    }
+   
+    
 }

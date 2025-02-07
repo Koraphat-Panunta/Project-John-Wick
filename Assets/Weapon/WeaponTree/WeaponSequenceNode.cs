@@ -2,82 +2,51 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponSequenceNode : WeaponActionNode
+public class WeaponSequenceNode : WeaponLeafNode, INodeSequence
 {
-    public override List<WeaponNode> childNode { get; set; }
-    protected override Func<bool> preCondidtion { get; set; }
+    public INodeLeaf curNodeLeaf { get; set; }
+    public List<INodeLeaf> childNode { get; set; }
+    public int curNodeIndex { get; set; }
+    public NodeSequenceBehavior nodeSequenceBehavior { get; set; }
 
-    protected WeaponActionNode curActionNode;
-    int curNodeIndex;
-    public WeaponSequenceNode(Weapon weapon,Func<bool> preCondition) : base(weapon)
+    public WeaponSequenceNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
-        this.preCondidtion = preCondition;
+        childNode = new List<INodeLeaf>();
+        nodeSequenceBehavior = new NodeSequenceBehavior();
     }
     public override void Enter()
     {
-        curActionNode = null;
-        curNodeIndex = 0;
+        this.nodeSequenceBehavior.Enter(this);
     }
 
     public override void Exit()
     {
-        curActionNode = null;
+        this.nodeSequenceBehavior.Exit(this);
     }
-    public override void Update() 
+    public override void UpdateNode()
     {
-        //Begin
-        if (curActionNode == null)
-        {
-            curActionNode = childNode[curNodeIndex] as WeaponActionNode;
-            if(curActionNode != null)
-                curActionNode.Enter();
-        }
-
-         
-        if (curActionNode.IsComplete())
-        {
-            curNodeIndex += 1;
-            
-            curActionNode.Exit();
-            curActionNode=null;
-
-            if(curNodeIndex<childNode.Count)
-            curActionNode = childNode[curNodeIndex] as WeaponActionNode;
-            if (curActionNode != null)
-            curActionNode.Enter();
-        }
-        if(curActionNode != null)
-        curActionNode.Update();
-        //Debug.Log("curActionNode =" + curActionNode);
+        this.nodeSequenceBehavior.UpdateNodeSequence(this);
     }
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-      
-        if(curActionNode != null)
-        curActionNode.FixedUpdate();
+        this.nodeSequenceBehavior.FixedUpdateNodeSequencee(this);
+    }
+
+    public override bool IsComplete()
+    {
+        if (this.nodeSequenceBehavior.IsComplete(this) == true)
+            return true;
+
+        return base.IsComplete();
     }
 
     public override bool IsReset()
     {
-       if(IsComplete())
+        if(this.nodeSequenceBehavior.IsReset(this) == true)
             return true;
-       else 
-            return false;   
+
+        return base.IsReset();
     }
 
-    public override bool PreCondition()
-    {
-        return preCondidtion.Invoke();
-    }
     
-
-  
-
-    public override bool IsComplete()
-    {
-        //Debug.Log("Sequence Complete");
-        if (curNodeIndex == childNode.Count)
-            return true;
-        else return false;
-    }
 }

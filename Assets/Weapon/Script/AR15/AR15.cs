@@ -110,9 +110,37 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
            }
            );
 
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
+        reloadMagazineFullStage = new ReloadMagazineFullStage(this, () => 
+        {
+            int chamberCount = bulletStore[BulletStackType.Chamber];
+            int magCount = bulletStore[BulletStackType.Magazine];
+            bool isMagIn = this.isMagIn;
 
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
+            if
+                (
+                 isMagIn == true
+                && chamberCount == 0
+                && magCount == 0
+                )
+                return true;
+            else
+                return false;
+        });
+
+        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this, 
+            () => 
+            {
+                bool IsMagIn = this.isMagIn;
+                int MagCount = bulletStore[BulletStackType.Magazine];
+                if (
+                    IsMagIn == true
+                    && MagCount >= 0
+                    )
+                    return true;
+                else
+                    return false;
+            }
+            );
 
         firingAutoLoad = new WeaponSequenceNode(this,
             () => {
@@ -120,16 +148,21 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
                 && triggerState == TriggerState.Down; }
             );
 
-        fire = new FiringNode(this);
+        fire = new FiringNode(this,
+            () => 
+            {
+                return bulletStore[BulletStackType.Chamber] > 0;
+            }
+            );
 
         autoLoadChamber = new AutoLoadChamberNode(this);
 
         restNode = new RestNode(this);
 
 
-        startEventNode.AddChildNode(reloadStageSelector);
-        startEventNode.AddChildNode(firingAutoLoad);
-        startEventNode.AddChildNode(restNode);
+        startEventNode.AddtoChildNode(reloadStageSelector);
+        startEventNode.AddtoChildNode(firingAutoLoad);
+        startEventNode.AddtoChildNode(restNode);
 
       
 
@@ -139,7 +172,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
 
-        startEventNode.Transition(out WeaponActionNode eventNode);
+        startEventNode.Transition(out WeaponLeafNode eventNode);
         currentEventNode = eventNode;
     }
 }
