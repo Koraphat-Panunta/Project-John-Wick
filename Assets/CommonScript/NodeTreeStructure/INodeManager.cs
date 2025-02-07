@@ -32,7 +32,6 @@ public class NodeManagerBehavior
     {
         if (nodeManager.curNodeLeaf.IsReset())
         {
-            Debug.Log(nodeManager.curNodeLeaf + "isReset");
 
             nodeManager.curNodeLeaf.Exit();
             nodeManager.curNodeLeaf = null;
@@ -40,7 +39,6 @@ public class NodeManagerBehavior
             nodeManager.curNodeLeaf = nodeLeaf;
             nodeManager.curNodeLeaf.Enter();
         }
-        Debug.Log("Call in NodeManagerBehavior curNodeLeaf = "+ nodeManager.curNodeLeaf);
 
         if (nodeManager.curNodeLeaf != null)
             nodeManager.curNodeLeaf.UpdateNode();

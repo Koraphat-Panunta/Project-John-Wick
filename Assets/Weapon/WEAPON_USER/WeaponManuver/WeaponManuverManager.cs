@@ -36,10 +36,7 @@ public abstract class WeaponManuverManager : INodeManager
 
     public virtual void UpdateNode()
     {
-        
         nodeManagerBehavior.UpdateNode(this);
-        Debug.Log("Call in WeaponManager curNodeLeaf = " + curNodeLeaf);
-
     }
     public virtual void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
  

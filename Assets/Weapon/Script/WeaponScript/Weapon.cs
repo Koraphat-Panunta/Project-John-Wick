@@ -85,12 +85,10 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             triggerState = TriggerState.Up;
 
         UpdateTree();
-    }
-    protected virtual void LateUpdate()
-    {
         isPullTrigger = false;
         isReloadCommand = false;
     }
+   
     protected virtual void FixedUpdate()
     {
         FixedUpdateTree();
@@ -196,7 +194,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     protected virtual void FixedUpdateTree()
     {
         if (currentEventNode != null)
-            currentEventNode.FixedUpdate();
+            currentEventNode.FixedUpdateNode();
     }
    
     public virtual void ChangeActionManualy(WeaponLeafNode weaponEventNode)
@@ -213,14 +211,16 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
        
         if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
         {
+            Debug.Log("curWeaponNode ="+ currentEventNode+" is reset ");
             currentEventNode.Exit();
             currentEventNode = null;
-            startEventNode.Transition(out WeaponLeafNode weaponActionNode);
-            currentEventNode = weaponActionNode;
-            //Debug.Log("Out Event Node " + currentEventNode);
+            startEventNode.FindingNode(out INodeLeaf weaponActionNode);
+            currentEventNode = weaponActionNode as WeaponLeafNode;
+            Debug.Log("Out Event Node " + currentEventNode);
             currentEventNode.Enter();
         }
-        currentEventNode?.Update();
+        currentEventNode?.UpdateNode();
+        Debug.Log("curWeaponNode = " + currentEventNode);
     }
     #endregion
 

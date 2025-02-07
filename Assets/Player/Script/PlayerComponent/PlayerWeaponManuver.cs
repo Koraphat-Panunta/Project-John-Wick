@@ -58,11 +58,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
    
     public override void UpdateNode()
     {
-        Debug.Log("Debug from PlayerWeaponManuver" + curWeapon);
         OnservePlayerStateNode(this.player);
 
         base.UpdateNode();
-        Debug.Log("Call in PlayerWeaponManager curNodeLeaf = " + curNodeLeaf);
     }
     public void OnservePlayerStateNode(Player player)
     {

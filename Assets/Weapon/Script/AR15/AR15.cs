@@ -55,12 +55,6 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
     protected override void Awake()
     {
-        //weaponSlotPos.Add(AttachmentSlot.MUZZLE, MuzzleSocket);
-        //weaponSlotPos.Add(AttachmentSlot.GRIP, GripSocket);
-        //weaponSlotPos.Add(AttachmentSlot.SCOPE, Scope);
-        //weaponSlotPos.Add(AttachmentSlot.STOCK, Stock);
-        //weaponSlotPos.Add(AttachmentSlot.MAGAZINE, Magazine);
-        //weaponSlotPos.Add(AttachmentSlot.LASER, Laser);
 
         fireMode = FireMode.FullAuto;
 
@@ -105,7 +99,6 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         reloadStageSelector = new WeaponSelector(this,
            () => {
                bool reload = isReloadCommand;
-               isReloadCommand = false;
                return reload && bulletStore[BulletStackType.Magazine] < bulletCapacity;
            }
            );
@@ -155,9 +148,13 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
             }
             );
 
-        autoLoadChamber = new AutoLoadChamberNode(this);
+        autoLoadChamber = new AutoLoadChamberNode(this, 
+            () => 
+            {
+                return true;
+            });
 
-        restNode = new RestNode(this);
+        restNode = new RestNode(this,()=>true);
 
 
         startEventNode.AddtoChildNode(reloadStageSelector);
@@ -166,13 +163,13 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
       
 
-        reloadStageSelector.AddChildNode(reloadMagazineFullStage);
-        reloadStageSelector.AddChildNode(tacticalReloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(reloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(tacticalReloadMagazineFullStage);
 
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
 
-        startEventNode.Transition(out WeaponLeafNode eventNode);
-        currentEventNode = eventNode;
+        startEventNode.FindingNode(out INodeLeaf eventNode);
+        currentEventNode = eventNode as WeaponLeafNode;
     }
 }

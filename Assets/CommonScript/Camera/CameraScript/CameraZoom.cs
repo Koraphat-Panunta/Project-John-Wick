@@ -40,9 +40,6 @@ public class CameraZoom : ICameraAction
     
     public void ZoomOut(Weapon weapon)
     {
-        Debug.Log("curWeapon =" + weapon);
-        if (weapon.userWeapon == null)
-            Debug.Log("Null");
 
         float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
 

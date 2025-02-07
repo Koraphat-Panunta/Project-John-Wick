@@ -96,8 +96,6 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 Vector3.Cross(player.transform.forward, Vector3.up))
             ,10*Time.deltaTime) ;
 
-        Debug.Log("inputVelocity_World = "+inputVelocity_World.normalized);
-
         if (player.curPlayerActionNode == player.playerSprintNode)
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;

@@ -129,9 +129,39 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
            }
            );
 
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this);
+        reloadMagazineFullStage = new ReloadMagazineFullStage(this, 
+            () => 
+            {
+                int chamberCount = bulletStore[BulletStackType.Chamber];
+                int magCount = bulletStore[BulletStackType.Magazine];
+                bool isMagIn = this.isMagIn;
 
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this);
+                if
+                    (
+                     isMagIn == true
+                    && chamberCount == 0
+                    && magCount == 0
+                    )
+                    return true;
+                else
+                    return false;
+            }
+            );
+
+        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this, 
+            () => 
+            {
+                bool IsMagIn = this.isMagIn;
+                int MagCount = bulletStore[BulletStackType.Magazine];
+                if (
+                    IsMagIn == true
+                    && MagCount >= 0
+                    )
+                    return true;
+                else
+                    return false;
+            }
+            );
 
         firingAutoLoad = new WeaponSequenceNode(this,
             () => {
@@ -140,24 +170,24 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
             }
             );
 
-        fire = new FiringNode(this);
+        fire = new FiringNode(this, () =>bulletStore[BulletStackType.Chamber] > 0);
 
-        autoLoadChamber = new AutoLoadChamberNode(this);
+        autoLoadChamber = new AutoLoadChamberNode(this,()=>true);
 
-        restNode = new RestNode(this);
+        restNode = new RestNode(this,()=>true);
 
-        startEventNode.AddChildNode(reloadStageSelector);
-        startEventNode.AddChildNode(firingAutoLoad);
-        startEventNode.AddChildNode(restNode);
+        startEventNode.AddtoChildNode(reloadStageSelector);
+        startEventNode.AddtoChildNode(firingAutoLoad);
+        startEventNode.AddtoChildNode(restNode);
 
-        reloadStageSelector.AddChildNode(reloadMagazineFullStage);
-        reloadStageSelector.AddChildNode(tacticalReloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(reloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(tacticalReloadMagazineFullStage);
 
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
 
-        startEventNode.Transition(out WeaponLeafNode eventNode);
-        currentEventNode = eventNode;
+        startEventNode.FindingNode(out INodeLeaf eventNode);
+        currentEventNode = eventNode as WeaponLeafNode ;
      
     }
 }

@@ -8,7 +8,7 @@ public interface INodeSequence :INodeLeaf
     public List<INodeLeaf> childNode { get; set; }
     public int curNodeIndex { get; set; }
     public NodeSequenceBehavior nodeSequenceBehavior { get; set; }
-
+    public void AddChildNode(INodeLeaf nodeLeaf);
 }
 public class NodeSequenceBehavior
 {
@@ -67,6 +67,10 @@ public class NodeSequenceBehavior
             return false;
 
         return nodeSequence.nodeLeafBehavior.IsReset(nodeSequence.isReset);
+    }
+    public void AddNode(INodeSequence nodeSequence,INodeLeaf nodeLeaf)
+    {
+        nodeSequence.childNode.Add(nodeLeaf);
     }
 
 }

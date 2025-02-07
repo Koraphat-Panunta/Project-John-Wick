@@ -33,26 +33,21 @@ public class TacticalReloadMagazineFullStage : WeaponLeafNode
         
     }
 
-    //public override bool IsComplete()
-    //{
-    //    if(weaponMag.isMagIn == true && Weapon.bulletStore[BulletStackType.Magazine] == Weapon.bulletCapacity)
-    //        return true;
-    //    else return false;
-    //}
+    public override bool IsComplete()
+    {
+        return isComplete;
+    }
 
+    public override bool IsReset()
+    {
+        if(isComplete == true)
+            return true;
 
-    //public override bool Precondition()
-    //{
-    //    bool IsMagIn = weaponMag.isMagIn;
-    //    int MagCount = Weapon.bulletStore[BulletStackType.Magazine];
-    //    if (
-    //        IsMagIn == true
-    //        && MagCount >= 0
-    //        )
-    //        return true;
-    //    else 
-    //        return false;
-    //}
+        if(Weapon.isEquiped == false)
+            return true;
+
+        return false;
+    }
 
     public override void UpdateNode()
     {

@@ -48,5 +48,6 @@ public class WeaponSequenceNode : WeaponLeafNode, INodeSequence
         return base.IsReset();
     }
 
-    
+    public void AddChildNode(INodeLeaf nodeLeaf) => this.nodeSequenceBehavior.AddNode(this, nodeLeaf);
+   
 }
