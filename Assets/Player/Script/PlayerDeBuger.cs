@@ -34,7 +34,7 @@ public class PlayerDeBuger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("curWeaponManuverNode =" + player.weaponManuverManager.curWeaponManuverLeafNode);
+        Debug.Log("curWeaponManuverNode =" + player.weaponManuverManager.curNodeLeaf);
 
         isAimingCommand = player.isAimingCommand;
         isReloadCommand = player.isReloadCommand;

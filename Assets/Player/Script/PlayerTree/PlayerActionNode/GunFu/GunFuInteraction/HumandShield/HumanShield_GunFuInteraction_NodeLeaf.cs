@@ -139,7 +139,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     player.playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.moveAccelerate, player.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
 
 
-                    if ((player.weaponManuverManager.curWeaponManuverLeafNode is AimDownSightWeaponManuverNodeLeaf) == false)
+                    if ((player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf) == false)
                     {
                         player._aimConstraint.data.offset = beforeAimConstrainOffset;
                         player._aimConstraint.weight = 1;

@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public interface INodeManager <NodeLeafType ,NodeSelectorType > 
+public interface INodeManager<NodeLeafType, NodeSelectorType>
 
-    where NodeLeafType:INodeLeaf 
-    where NodeSelectorType : INodeSelector 
+    where NodeLeafType : INodeLeaf
+    where NodeSelectorType : INodeSelector
 {
     public NodeLeafType curNodeLeaf { get; set; }
     public NodeSelectorType startNodeSelector { get; set; }
@@ -13,38 +13,42 @@ public interface INodeManager <NodeLeafType ,NodeSelectorType >
     public void FixedUpdateNode();
     public void InitailizedNode();
 }
+
 public interface INodeManager
 {
     public INodeLeaf curNodeLeaf { get; set; }
-    public INodeManager startNodeSelector { get; set; }
+    public INodeSelector startNodeSelector { get; set; }
     NodeManagerBehavior nodeManagerBehavior { get; set; }
 
     public void UpdateNode();
     public void FixedUpdateNode();
     public void InitailizedNode();
 }
+
 public class NodeManagerBehavior
 {
-    public void UpdateNode(INodeLeaf curNodeLeaf,INodeSelector startNodeSelector) 
+
+    public void UpdateNode(INodeManager nodeManager) 
     {
-        if (curNodeLeaf.IsReset())
+        if (nodeManager.curNodeLeaf.IsReset())
         {
-            Debug.Log(curNodeLeaf + "isReset");
+            Debug.Log(nodeManager.curNodeLeaf + "isReset");
 
-            curNodeLeaf.Exit();
-            curNodeLeaf = null;
-            startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-            curNodeLeaf = nodeLeaf;
-            curNodeLeaf.Enter();
+            nodeManager.curNodeLeaf.Exit();
+            nodeManager.curNodeLeaf = null;
+            nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+            nodeManager.curNodeLeaf = nodeLeaf;
+            nodeManager.curNodeLeaf.Enter();
         }
+        Debug.Log("Call in NodeManagerBehavior curNodeLeaf = "+ nodeManager.curNodeLeaf);
 
-        if (curNodeLeaf != null)
-            curNodeLeaf.UpdateNode();
+        if (nodeManager.curNodeLeaf != null)
+            nodeManager.curNodeLeaf.UpdateNode();
     }
-    public void FixedUpdateNode(INodeLeaf curNodeLeaf)
+    public void FixedUpdateNode(INodeManager nodeManager)
     {
-        if(curNodeLeaf != null)
-            curNodeLeaf.FixedUpdateNode();
+        if(nodeManager.curNodeLeaf != null)
+            nodeManager.curNodeLeaf.FixedUpdateNode();
     }
     public void ChangeNodeManual(INodeLeaf curNodeLeaf,INodeLeaf nexNode)
     {

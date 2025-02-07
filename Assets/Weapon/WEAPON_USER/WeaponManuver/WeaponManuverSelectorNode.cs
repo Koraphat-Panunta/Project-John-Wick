@@ -23,5 +23,6 @@ public class WeaponManuverSelectorNode : WeaponManuverNode,INodeSelector
     public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode, this);
 
     public void AddtoChildNode(INode childNode )=> nodeSelectorBehavior.AddtoChildNode(childNode as INode, this);
-
+  
+   
 }

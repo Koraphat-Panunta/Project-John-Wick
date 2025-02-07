@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public abstract class WeaponManuverManager 
+public abstract class WeaponManuverManager : INodeManager
 {
+    public NodeManagerBehavior nodeManagerBehavior { get; set ; }
+    public INodeLeaf curNodeLeaf { get; set; }
+    public INodeSelector startNodeSelector { get; set; }
+
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IMovementCompoent movementCompoent;
     public Weapon curWeapon => weaponAdvanceUser.currentWeapon;
-
-    public WeaponManuverLeafNode curWeaponManuverLeafNode;
-    public WeaponManuverSelectorNode startWeaponManuverSelectorNode;
 
     public float aimingWeight;
 
@@ -22,44 +23,26 @@ public abstract class WeaponManuverManager
     public abstract AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
-
+   
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
+        this.startNodeSelector = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);
 
-        startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);
-        InitailzedWeaponManuverNode();
+        nodeManagerBehavior = new NodeManagerBehavior();
+        InitailizedNode();
     }
-    protected abstract void InitailzedWeaponManuverNode();
+    public abstract void InitailizedNode();
 
     public virtual void UpdateNode()
     {
-
-        if (curWeaponManuverLeafNode.IsReset())
-        {
-            Debug.Log(curWeaponManuverLeafNode + " IsReset");
-            curWeaponManuverLeafNode.Exit();
-            curWeaponManuverLeafNode = null;
-            startWeaponManuverSelectorNode.FindingNode(out INodeLeaf weaponManuverLeafNode);
-            curWeaponManuverLeafNode = weaponManuverLeafNode as WeaponManuverLeafNode;
-            curWeaponManuverLeafNode.Enter();
-        }
-
-        if (curWeaponManuverLeafNode != null)
-            curWeaponManuverLeafNode.UpdateNode();
-    }
-    public virtual void FixedUpdateNode()
-    {
-        if (curWeaponManuverLeafNode != null)
-            curWeaponManuverLeafNode.FixedUpdateNode();
-    }
-    public void ChangeWeaponManuverNode(WeaponManuverLeafNode weaponManuverLeafNode)
-    {
-        curWeaponManuverLeafNode.Exit();
-        curWeaponManuverLeafNode = weaponManuverLeafNode;
-        curWeaponManuverLeafNode.Enter();
+        
+        nodeManagerBehavior.UpdateNode(this);
+        Debug.Log("Call in WeaponManager curNodeLeaf = " + curNodeLeaf);
 
     }
+    public virtual void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+ 
     public virtual void WeaponCommanding()
     {
         if (isPullTriggerManuver)

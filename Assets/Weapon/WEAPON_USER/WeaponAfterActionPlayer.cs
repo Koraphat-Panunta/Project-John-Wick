@@ -16,6 +16,8 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void AimDownSight(Weapon weapon)
     {
+        Debug.Log("Player AimDownSight Call Back");
+
         RotateObjectToward rotateObjectToward = new RotateObjectToward();
         rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
         player.NotifyObserver(player, PlayerAction.Aim);
@@ -59,6 +61,8 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void LowReady(Weapon weapon)
     {
+        Debug.Log("Player LowReady Call Back");
+
         player.NotifyObserver(player, PlayerAction.LowReady);
     }
     public override void Reload(Weapon weapon, ReloadType reloadType)
@@ -77,7 +81,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void Resting(Weapon weapon)
     {
-        
+        Debug.Log("Player Resting Call Back");
     }
 
     public override void SwitchingWeapon(Weapon weapon, WeaponTransition switchingManuver)

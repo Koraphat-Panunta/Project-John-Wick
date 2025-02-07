@@ -24,7 +24,7 @@ public class PlayerInCoverStandMoveNode : PlayerActionNodeLeaf
     public override void FixedUpdate()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        bool isAiming = player.weaponManuverManager.curWeaponManuverLeafNode is AimDownSightWeaponManuverNodeLeaf;
+        bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
         CoverDetection coverDetection = player.coverDetection;
 
         if (isAiming == false)

@@ -15,7 +15,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
 
-    protected override void InitailzedWeaponManuverNode()
+    public override void InitailizedNode()
     {
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () => isSwitchWeaponManuver);
@@ -31,18 +31,18 @@ public class EnemyWeaponManuver : WeaponManuverManager
         restWeaponManuverLeafNode = new RestWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => true);
 
-        startWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
+        startNodeSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
 
-        startWeaponManuverSelectorNode.AddtoChildNode(swtichingWeaponManuverSelector);
-        startWeaponManuverSelectorNode.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
-        startWeaponManuverSelectorNode.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
-        startWeaponManuverSelectorNode.AddtoChildNode(restWeaponManuverLeafNode);
+        startNodeSelector.AddtoChildNode(swtichingWeaponManuverSelector);
+        startNodeSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
+        startNodeSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
+        startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
 
-        startWeaponManuverSelectorNode.FindingNode(out INodeLeaf weaponManuverLeafNode);
-        curWeaponManuverLeafNode = weaponManuverLeafNode as WeaponManuverLeafNode;
+        startNodeSelector.FindingNode(out INodeLeaf weaponManuverLeafNode);
+        curNodeLeaf = weaponManuverLeafNode as WeaponManuverLeafNode;
     }
     public override void UpdateNode()
     {
