@@ -33,7 +33,7 @@ public class ProceduralBoneController : MonoBehaviour,IObserverPlayer
         }
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     private void SetWeight(Weapon weapon)
     {
         if (weapon != null)

@@ -107,7 +107,7 @@ public class SearchingGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            }, //PreCondition
+            }, //Precondition
             () => 
             {
                 CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
@@ -125,7 +125,7 @@ public class SearchingGoal : EnemyGoalLeaf
             );
 
         idle_And_LowReady = new Idle_and_LowReady(enemyController,
-            () => true, //PreCondition
+            () => true, //Precondition
             () =>
             {
                 idleSeachTime += Time.deltaTime;

@@ -124,7 +124,6 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         reloadStageSelector = new WeaponSelector(this,
            () => {
                bool reload = isReloadCommand;
-               isReloadCommand = false;
                return reload && bulletStore[BulletStackType.Magazine] < bulletCapacity;
            }
            );

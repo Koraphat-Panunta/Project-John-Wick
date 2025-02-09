@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class MeduimPainStateLeftLeg : EnemyPainStateNodeLeaf
 {
-    public MeduimPainStateLeftLeg(Enemy enemy,Animator animator) : base(enemy, animator)
+    public MeduimPainStateLeftLeg(Enemy enemy,Func<bool> preProduction,Animator animator) : base(enemy,preProduction, animator)
     {
 
     }
 
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+   
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     protected override string stateName => throw new NotImplementedException();
 
@@ -26,23 +25,14 @@ public class MeduimPainStateLeftLeg : EnemyPainStateNodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
+  
+    public override void UpdateNode()
     {
-        return base.IsReset();
-    }
-
-    public override bool PreCondition()
-    {
-        return base.PreCondition();
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        base.UpdateNode();
     }
 }

@@ -18,6 +18,7 @@ public class EnemyMovement : IMovementCompoent
     public Enemy enemy { get; set; }
     public GravityMovement gravityMovement { get; set; }
     public MoveTo moveTo { get ; set ; }
+    public bool isEnable { get ; set ; }
 
     public EnemyMovement(NavMeshAgent agent,Enemy enemy)
     {
@@ -25,7 +26,8 @@ public class EnemyMovement : IMovementCompoent
         this.gravityMovement = new GravityMovement();
         this.enemy = enemy;
 
-        this.enemy.StartCoroutine(DelayInitailzed());
+        moveTo = new MoveTo();
+        isEnable = true;
     }
 
     public void GravityUpdate()
@@ -34,6 +36,9 @@ public class EnemyMovement : IMovementCompoent
     }
     public void MovementFixedUpdate()
     {
+        if(isEnable == false)
+            return;
+
         GravityUpdate();
         agent.Move(curMoveVelocity_World * Time.deltaTime);
 
@@ -44,6 +49,9 @@ public class EnemyMovement : IMovementCompoent
 
     public void MovementUpdate()
     {
+        if (isEnable == false)
+            return;
+
         moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, enemy.transform.forward);
         curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, enemy.transform.forward);
 
@@ -51,12 +59,12 @@ public class EnemyMovement : IMovementCompoent
     }
     public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-        moveTo.MoveToDirWorld(dirWorldNormalized, speed, maxSpeed, moveMode);
+        moveTo.MoveToDirWorld(this, dirWorldNormalized, speed, maxSpeed, moveMode);
     }
 
     public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-        moveTo.MoveToDirLocal(dirLocalNormalized, speed, maxSpeed, moveMode);
+        moveTo.MoveToDirLocal(this, dirLocalNormalized, speed, maxSpeed, moveMode);
     }
     public void RotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed)
     {
@@ -76,11 +84,7 @@ public class EnemyMovement : IMovementCompoent
         }
     }
 
-    public IEnumerator DelayInitailzed()
-    {
-        yield return null;
-        moveTo = new MoveTo(this);
-    }
+  
 
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {

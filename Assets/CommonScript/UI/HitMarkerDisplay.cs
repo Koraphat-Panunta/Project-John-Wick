@@ -46,7 +46,7 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
         player.AddObserver(this);
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         Color color = X_markker.color;

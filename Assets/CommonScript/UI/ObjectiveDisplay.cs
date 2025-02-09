@@ -22,7 +22,7 @@ public class ObjectiveDisplay : MonoBehaviour,IObseverLevel
             SetTextObjective(m_TextMeshProUGUI, currentObjective);
         }
     }
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     private void OnEnable()
     {
         if (level != null)

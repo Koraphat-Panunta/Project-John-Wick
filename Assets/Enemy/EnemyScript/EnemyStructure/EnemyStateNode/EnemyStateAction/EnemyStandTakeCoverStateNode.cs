@@ -9,16 +9,13 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
     IMovementCompoent movementCompoent;
-    public EnemyStandTakeCoverStateNode(Enemy enemy,ICoverUseable coverUseable) : base(enemy)
+    public EnemyStandTakeCoverStateNode(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
     {
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();
         agent = enemy.agent;
         movementCompoent = enemy.enemyMovement;
     }
-
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
@@ -33,37 +30,16 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if (enemy.isDead)
-            return true;
+   
 
-        if (enemy.isInCover == false)
-            return true;
+   
 
-        if(enemy.isAimingCommand)
-            return true;
-
-        if(enemy._isPainTrigger)
-            return true;
-
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        if(enemy.isInCover)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
         
         Vector3 CoverPos = coverUseable.coverPos;
@@ -81,6 +57,6 @@ public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
 
         movementCompoent.RotateToDirWorld(coverUseable.coverPoint.coverDir, 6);
 
-        base.Update();
+        base.UpdateNode();
     }
 }

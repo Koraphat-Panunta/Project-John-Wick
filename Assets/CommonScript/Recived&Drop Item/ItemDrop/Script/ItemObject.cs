@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     protected T clent;
     protected bool isBeenPull;
 
@@ -36,7 +36,7 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
         this.rb = GetComponent<Rigidbody>();
         elapseTimePullAble = 0;
     }
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         elapseTimePullAble += Time.deltaTime;

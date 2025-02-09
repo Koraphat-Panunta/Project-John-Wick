@@ -33,7 +33,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     public bool isLayer_1_Enable;
 
     private bool isIn_C_A_R_aim;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -44,7 +44,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         isIn_C_A_R_aim = false;
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         BackBoardUpdate();

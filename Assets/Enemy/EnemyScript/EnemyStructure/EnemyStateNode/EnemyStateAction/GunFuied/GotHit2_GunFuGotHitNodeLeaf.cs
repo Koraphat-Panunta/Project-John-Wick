@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 public class GotHit2_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 {
-    Vector3 pullBackPos;
-    public GotHit2_GunFuGotHitNodeLeaf(Enemy enemy, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, gunFu_GotHit_ScriptableObject)
+    public GotHit2_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition, gunFu_GotHit_ScriptableObject)
     {
     }
 
@@ -20,9 +20,9 @@ public class GotHit2_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -33,9 +33,9 @@ public class GotHit2_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         return false;
     }
 
-    public override void Update()
+    public override void UpdateNode()
     {
 
-        base.Update();
+        base.UpdateNode();
     }
 }

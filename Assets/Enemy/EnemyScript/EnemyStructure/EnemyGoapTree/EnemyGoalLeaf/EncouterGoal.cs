@@ -102,18 +102,18 @@ public class EncouterGoal : EnemyGoalLeaf
                 return true;
             else
                 return false;
-        } );//PreCondition
+        } );//Precondition
         idleSelector = new EnemyActionSelectorNode(enemyController,
             () => 
             {
                 return true;
-            });//PreCondition
+            });//Precondition
 
         this.moveCurve_And_Aim = new MoveCurve_and_Aim(enemyController
             , () =>
             {
                 return true;
-            }  // PreCondition
+            }  // Precondition
             , () =>
             {
                 float distance = (enemy.targetKnewPos - enemy.transform.position).magnitude;
@@ -140,7 +140,7 @@ public class EncouterGoal : EnemyGoalLeaf
                     return true;
                 else 
                     return false;
-            }, //PreCondition
+            }, //Precondition
             () =>
             {
                 CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
@@ -171,7 +171,7 @@ public class EncouterGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            },//PreCondition
+            },//Precondition
             () => 
             {
                 CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
@@ -192,7 +192,7 @@ public class EncouterGoal : EnemyGoalLeaf
             () =>
             {
                 return true;
-            }, //PreCondition
+            }, //Precondition
             () =>
             {
                 CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;

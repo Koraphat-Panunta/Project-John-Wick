@@ -4,19 +4,29 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyDebuger : IObserverEnemy
+[RequireComponent(typeof(Enemy))]
+public class EnemyDebuger :MonoBehaviour, IObserverEnemy
 {
-  
+    public Enemy enemy;
+    [SerializeField] private string CurrentEnemyState;
+    [SerializeField] private float posture;
+
+    [SerializeField] private IPainState.PainPart PainPart;
+
+    [SerializeField,TextArea] 
+    private string Debug;
     // Start is called before the first frame update
     void Start()
     {
-
+        this.enemy = GetComponent<Enemy>();
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
-       
+       CurrentEnemyState = this.enemy.curStateLeaf.ToString();
+       posture = enemy._posture;
+       PainPart = enemy._painPart;
     }
     private void OnDrawGizmos()
     {

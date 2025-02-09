@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
 
 public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 {
-    Vector3 pullBackPos;
-    public GotHit1_GunFuGotHitNodeLeaf(Enemy enemy, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, gunFu_GotHit_ScriptableObject)
+    public GotHit1_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, preCondition, gunFu_GotHit_ScriptableObject)
     {
     }
 
@@ -11,8 +11,6 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
     {
         animator.CrossFade(stateName,0.005f, 0);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotHit);
-
-        Debug.Log("Ënemy Got Hit GunFu");
 
         base.Enter();
     }
@@ -22,9 +20,9 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -35,8 +33,8 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         return false;
     }
 
-    public override void Update()
+    public override void UpdateNode()
     {
-        base.Update();
+        base.UpdateNode();
     }
 }

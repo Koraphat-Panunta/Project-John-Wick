@@ -24,7 +24,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     private GravityMovement gravityMovement;
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MoveTo moveTo { get ; set ; }
-
+    public bool isEnable { get; set; }
     public PlayerMovement(Player player)
     {
         this.userMovement = player;
@@ -37,11 +37,16 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
         curStance = IMovementCompoent.Stance.Stand;
 
-        player.StartCoroutine(DelayInitialized());
+        moveTo = new MoveTo();
+
+        isEnable = true;
         
     }
     public void MovementUpdate()
     {
+        if(isEnable == false)
+            return;
+
         moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, player.transform.forward);
         curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, player.gameObject.transform.forward);
 
@@ -50,6 +55,8 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     }
     public void MovementFixedUpdate()
     {
+        if (isEnable == false)
+            return;
 
         GravityUpdate();
         characterController.Move(curMoveVelocity_World * Time.deltaTime);
@@ -111,12 +118,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     }
     #endregion
 
-    private IEnumerator DelayInitialized()
-    {
-        yield return null;
-        moveTo = new MoveTo(this);
-        movementMotionWarping = new MotionWarpingByCharacterController(this, characterController);
-    }
+   
     private void RotateCharacter(Vector3 dir, float rotateSpeed)
     {
         dir.Normalize();
@@ -137,12 +139,12 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
     public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-       moveTo.MoveToDirWorld(dirWorldNormalized, speed, maxSpeed, moveMode);
+       moveTo.MoveToDirWorld(this,dirWorldNormalized, speed, maxSpeed, moveMode);
     }
 
     public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)
     {
-        moveTo.MoveToDirLocal(dirLocalNormalized, speed, maxSpeed, moveMode);
+        moveTo.MoveToDirLocal(this, dirLocalNormalized, speed, maxSpeed, moveMode);
     }
     private void DrawLine()
     {
@@ -154,5 +156,13 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
         //Forward
         Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (forwardDir), Color.blue);
+    }
+
+    public void StartWarping(Vector3 start, Vector3 cT1, Vector3 cT2, Vector3 exit, float duration, AnimationCurve animationCurve, IMovementCompoent movementCompoent)
+    {
+       if(movementMotionWarping == null)
+            movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent,this.characterController);
+
+        this.movementMotionWarping.StartMotionWarpingCurve(start, cT1, cT2, exit, duration, animationCurve);
     }
 }

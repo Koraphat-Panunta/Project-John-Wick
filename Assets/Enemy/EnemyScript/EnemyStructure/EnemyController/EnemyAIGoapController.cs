@@ -9,7 +9,7 @@ public class EnemyAIGoapController : MonoBehaviour, IEnemyGOAP/*, IEncounterGoal
         InitailizedGOAP();
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         GOAP_Update();

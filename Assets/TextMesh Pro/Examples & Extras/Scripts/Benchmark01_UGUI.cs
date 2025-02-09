@@ -116,7 +116,7 @@ namespace TMPro.Examples
 
 
         /*
-        void Update()
+        void UpdateNode()
         {
             if (BenchmarkType == 0)
             {

@@ -78,6 +78,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         BlackBoardBufferUpdate();
 
     }
+   
     private void FixedUpdate()
     {
         FixedUpdateState();
@@ -87,6 +88,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
    
     public void TakeDamage(float Damage)
     {
+        Debug.Log("Enemy Take Damage");
         if(isImortal == false)
         HP -= Damage;
        
@@ -119,12 +121,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region Initailized State Node
     public EnemyStateLeafNode curStateLeaf { get;private set; }
-
     public EnemyStateSelectorNode startSelector { get; private set; }
-
     public EnemyStateSelectorNode standSelector { get; private set; }
     public EnemyStateSelectorNode takeCoverSelector { get; private set; }
-
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
     public EnemySprintStateNode enemySprintState { get; private set; }
@@ -132,7 +131,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyStandMoveStateNode enemyStandMoveState { get; private set; }
     public EnemyStandTakeCoverStateNode enemyStandTakeCoverState { get; private set; }
     public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
-
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
@@ -180,9 +178,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         painStateSelector = new EnemyStateSelectorNode(this,
             () =>
             {
-                //Debug.Log("isPainTrigger = " + _isPainTrigger);
+                Debug.Log("PainTrigger = "+_isPainTrigger);
                 if (_isPainTrigger)
-                { return true; }
+                {
+                    Debug.Log("isPainTrigger");
+                    return true; 
+                }
                 return false;
             }
             );
@@ -218,143 +219,160 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             return false;
         });
 
-        painStateSelector.AddChildNode(head_PainState_Selector);
-        painStateSelector.AddChildNode(Body_PainState_Selector);
-        painStateSelector.AddChildNode(Arm_PainState_Selector);
-        painStateSelector.AddChildNode(Leg_PainState_Selector);
+        painStateSelector.AddtoChildNode(head_PainState_Selector);
+        painStateSelector.AddtoChildNode(Body_PainState_Selector);
+        painStateSelector.AddtoChildNode(Arm_PainState_Selector);
+        painStateSelector.AddtoChildNode(Leg_PainState_Selector);
 
-        //enemy_Head_PainState_Heavy_NodeLeaf = new HeavyPainStateHeadNode(this,animator);
-        enemy_Head_PainState_Light_NodeLeaf = new LightPainStateHeadNode(this, animator);
+        enemy_Head_PainState_Light_NodeLeaf = new LightPainStateHeadNode(this,
+            () => posture <= postureLight
+            , animator);
 
-        //head_PainState_Selector.AddChildNode(enemy_Head_PainState_Heavy_NodeLeaf);
-        head_PainState_Selector.AddChildNode(enemy_Head_PainState_Light_NodeLeaf);
+        head_PainState_Selector.AddtoChildNode(enemy_Head_PainState_Light_NodeLeaf);
 
-        enemy_BodyFront_PainState_Heavy_NodeLeaf = new HeavyPainStateFrontBody(this, animator);
-        enemy_BodyFront_PainState_Medium_NodeLeaf = new MeduimPainStateFrontBody(this, animator);
-        enemy_BodyFront_PainState_Light_NodeLeaf = new LightPainStateFrontBody(this, animator);
+        enemy_BodyFront_PainState_Heavy_NodeLeaf = new HeavyPainStateFrontBody(this,
+            ()=>  posture <= postureHeavy 
+            , animator);
 
-        enemy_BodyBack_PainState_Heavy_NodeLeaf = new HeavyPainStateBackBody(this, animator);
-        enemy_BodyBack_PainState_Light_NodeLeaf = new LightPainStateBackBody(this, animator);
+        enemy_BodyFront_PainState_Medium_NodeLeaf = new MeduimPainStateFrontBody(this,
+            ()=> posture <= postureMedium
+            , animator);
 
-        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Heavy_NodeLeaf);
-        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
-        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Medium_NodeLeaf);
-        Body_PainState_Selector.AddChildNode(enemy_BodyFront_PainState_Light_NodeLeaf);
-        Body_PainState_Selector.AddChildNode(enemy_BodyBack_PainState_Light_NodeLeaf);
+        enemy_BodyFront_PainState_Light_NodeLeaf = new LightPainStateFrontBody(this,
+            ()=> posture <= postureLight
+            , animator);
 
-        enemy_LeftArm_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftArmNode(this, animator);
-        enemy_LeftArm_PainState_Light_NodeLeaf = new LightPainStateLeftArmNode(this, animator);
+        enemy_BodyBack_PainState_Heavy_NodeLeaf = new HeavyPainStateBackBody(this,
+            ()=> posture <= postureHeavy
+            , animator);
+        enemy_BodyBack_PainState_Light_NodeLeaf = new LightPainStateBackBody(this,
+            ()=> posture <= postureLight
+            , animator);
 
-        enemy_RightArm_PainState_Heavy_NodeLeaf = new HeavyPainStateRightArmNode(this, animator);
-        enemy_RightArm_PainState_Light_NodeLeaf = new LightPainStateRightArmNode(this, animator);
+        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Heavy_NodeLeaf);
+        Body_PainState_Selector.AddtoChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
+        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Medium_NodeLeaf);
+        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Light_NodeLeaf);
+        Body_PainState_Selector.AddtoChildNode(enemy_BodyBack_PainState_Light_NodeLeaf);
 
-        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Heavy_NodeLeaf);
-        Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Heavy_NodeLeaf);
-        Arm_PainState_Selector.AddChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
-        Arm_PainState_Selector.AddChildNode(enemy_RightArm_PainState_Light_NodeLeaf);
+        enemy_LeftArm_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftArmNode(this,
+            ()=> posture <= postureHeavy
+            , animator);
+        enemy_LeftArm_PainState_Light_NodeLeaf = new LightPainStateLeftArmNode(this,
+            ()=> posture <= postureLight
+            , animator);
+        enemy_RightArm_PainState_Heavy_NodeLeaf = new HeavyPainStateRightArmNode(this,
+            ()=> posture <= postureHeavy
+            , animator);
+        enemy_RightArm_PainState_Light_NodeLeaf = new LightPainStateRightArmNode(this,
+            ()=> posture <= postureLight
+            ,animator);
+
+        Arm_PainState_Selector.AddtoChildNode(enemy_LeftArm_PainState_Heavy_NodeLeaf);
+        Arm_PainState_Selector.AddtoChildNode(enemy_RightArm_PainState_Heavy_NodeLeaf);
+        Arm_PainState_Selector.AddtoChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
+        Arm_PainState_Selector.AddtoChildNode(enemy_RightArm_PainState_Light_NodeLeaf);
 
 
-        enemy_LeftLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftLeg(this, animator);
-        enemy_LeftLeg_PainState_Light_NodeLeaf = new LightPainStateLeftLeg(this, animator);
+        enemy_LeftLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftLeg(this,
+            () => posture <= postureHeavy
+            , animator);
+        enemy_LeftLeg_PainState_Light_NodeLeaf = new LightPainStateLeftLeg(this,
+            () => posture <= postureLight, animator);
+        enemy_RightLeg_PainState_Light_NodeLeaf = new LightPainStateRightLeg(this,
+            () => posture <= postureLight, animator);
+        enemy_RightLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateRightLeg(this,
+            () => posture <= postureHeavy
+            , animator);
 
-        enemy_RightLeg_PainState_Light_NodeLeaf = new LightPainStateRightLeg(this, animator);
-        enemy_RightLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateRightLeg(this, animator);
-
-        Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Heavy_NodeLeaf);
-        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
-        Leg_PainState_Selector.AddChildNode(enemy_LeftLeg_PainState_Light_NodeLeaf);
-        Leg_PainState_Selector.AddChildNode(enemy_RightLeg_PainState_Light_NodeLeaf);
+        Leg_PainState_Selector.AddtoChildNode(enemy_LeftLeg_PainState_Heavy_NodeLeaf);
+        Leg_PainState_Selector.AddtoChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
+        Leg_PainState_Selector.AddtoChildNode(enemy_LeftLeg_PainState_Light_NodeLeaf);
+        Leg_PainState_Selector.AddtoChildNode(enemy_RightLeg_PainState_Light_NodeLeaf);
 
     }
     #endregion
 
     private void InitailizedStateNode() 
     {
-        startSelector = new EnemyStateSelectorNode(this,()=>true);
+        startSelector = new EnemyStateSelectorNode(this,
+            ()=>true
+            );
         
-        standSelector = new EnemyStateSelectorNode(this,() =>true);
+        standSelector = new EnemyStateSelectorNode(this,
+            () =>true
+            );
+
         takeCoverSelector = new EnemyStateSelectorNode(this, 
-            ()=> 
-            {
-                if(isInCover)
-                    { return true; }
-                return false;
-            }
+            ()=> isInCover
             );
 
         InitailizedPainStateNode();
 
-        enemtDeadState = new EnemyDeadStateNode(this);
+        enemtDeadState = new EnemyDeadStateNode(this,
+            ()=> HP <=0
+            );
+
         fallDown_EnemyState_NodeLeaf = new FallDown_EnemyState_NodeLeaf(this, this, 
-            () => //PreCondition
+            () => //Precondition
         {
             if (_isPainTrigger && posture <= 0)
                 return true;
             return false;
         }
        );
-        enemySprintState = new EnemySprintStateNode(this);
+
+        enemySprintState = new EnemySprintStateNode(this, 
+            () => isSprintCommand 
+            );
+
         enemyStandIdleState = new EnemyStandIdleStateNode(this,
-            ()=>true, //PreCondition
-            ()=>
-            {
-                if(_isPainTrigger)
-                    return true;    
-
-                if(isSprintCommand)
-                    { return true; }
-
-                if (isDead)
-                    return true;
-
-                if (moveInputVelocity_WorldCommand.magnitude > 0)
-                    return true;
-                
-                return false;
-            }
+            ()=>true //Precondition
             );
-        enemyStandMoveState = new EnemyStandMoveStateNode(this,()=> moveInputVelocity_WorldCommand.magnitude > 0, 
-            ()=> 
-            {
-                if (isDead)
-                    return true;
 
-                if (moveInputVelocity_WorldCommand.magnitude <= 0)
-                    { return true; }
-
-                if(isSprintCommand)
-                    { return true; }
-
-                if(_isPainTrigger)
-                    { return true; }
-
-                return false;
-            }
+        enemyStandMoveState = new EnemyStandMoveStateNode(this,
+            ()=> moveInputVelocity_WorldCommand.magnitude > 0
             );
-        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this,this);
-        enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this, this);
 
-        gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this,GotHit1);
-        gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this,GotHit2);
-        gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this,KnockDown);
+        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this,
+            ()=> isInCover
+            ,this);
 
-        gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this, animator);
+        enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this,
+            ()=> isInCover && isAimingCommand
+            , this);
 
-        startSelector.AddChildNode(enemtDeadState);
-        startSelector.AddChildNode(fallDown_EnemyState_NodeLeaf);
-        startSelector.AddChildNode(painStateSelector);
-        startSelector.AddChildNode(standSelector);
+        gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this,
+            ()=>true
+            ,GotHit1);
 
-        standSelector.AddChildNode(enemySprintState);
-        standSelector.AddChildNode(takeCoverSelector);
-        standSelector.AddChildNode(enemyStandMoveState);
-        standSelector.AddChildNode(enemyStandIdleState);
+        gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this, 
+            () => true
+            , GotHit2);
 
-        takeCoverSelector.AddChildNode(enemyStandTakeAimState);
-        takeCoverSelector.AddChildNode(enemyStandTakeCoverState);
+        gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this,
+            () => true
+            , KnockDown);
 
-        startSelector.Transition(out EnemyStateLeafNode enemyStateActionNode);
-        curStateLeaf = enemyStateActionNode;
+        gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this,
+            () => true
+            , animator);
+
+        startSelector.AddtoChildNode(enemtDeadState);
+        startSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        startSelector.AddtoChildNode(painStateSelector);
+        startSelector.AddtoChildNode(standSelector);
+
+        standSelector.AddtoChildNode(enemySprintState);
+        standSelector.AddtoChildNode(takeCoverSelector);
+        standSelector.AddtoChildNode(enemyStandMoveState);
+        standSelector.AddtoChildNode(enemyStandIdleState);
+
+        takeCoverSelector.AddtoChildNode(enemyStandTakeAimState);
+        takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
+
+        startSelector.FindingNode(out INodeLeaf enemyStateActionNode);
+        curStateLeaf = enemyStateActionNode as EnemyStateLeafNode;
         curStateLeaf.Enter();
 
     }
@@ -369,23 +387,22 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void UpdateState() 
     {
-        Debug.Log("Enemy curStateLeaf =" + curStateLeaf);
 
         if (curStateLeaf.IsReset())
         {
             curStateLeaf.Exit();
-            startSelector.Transition(out EnemyStateLeafNode enemyStateLeafNode);
-            curStateLeaf = enemyStateLeafNode;
+            startSelector.FindingNode(out INodeLeaf enemyStateLeafNode);
+            curStateLeaf = enemyStateLeafNode as EnemyStateLeafNode;
             curStateLeaf.Enter();
         }
 
         if(curStateLeaf != null)
-            curStateLeaf.Update();
+            curStateLeaf.UpdateNode();
     }
     private void FixedUpdateState() 
     {
         if (curStateLeaf != null)
-            curStateLeaf.FixedUpdate();
+            curStateLeaf.FixedUpdateNode();
     }
 
     #endregion

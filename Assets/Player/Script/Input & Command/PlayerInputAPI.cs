@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputAPI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Player player;
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class PlayerInputAPI : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
 

@@ -30,7 +30,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         TargetAim = player._aimPosRef;
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         CrosshairUpdate();

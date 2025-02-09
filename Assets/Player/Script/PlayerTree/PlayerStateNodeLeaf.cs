@@ -32,8 +32,13 @@ public class PlayerStateNodeLeaf : PlayerStateNode, INodeLeaf
         return isComplete;
     }
 
-    public virtual bool IsReset() => nodeLeafBehavior.IsReset(isReset);
-    
+    public virtual bool IsReset()
+    {
+        Debug.Log("Player Is Reset Count = " + isReset.Count);
+
+        return nodeLeafBehavior.IsReset(isReset);
+    }
+
 
     public virtual void UpdateNode()
     {

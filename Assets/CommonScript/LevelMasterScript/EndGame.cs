@@ -33,7 +33,7 @@ public class EndGame : MonoBehaviour,IObseverLevel
         FindObjectOfType<Level1>().AddObserver(this);
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         if(isEndGmae == true)

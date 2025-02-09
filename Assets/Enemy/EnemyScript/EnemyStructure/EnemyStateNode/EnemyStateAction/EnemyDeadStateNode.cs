@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class EnemyDeadStateNode : EnemyStateLeafNode
 {
-    public EnemyDeadStateNode(Enemy enemy) : base(enemy)
+    IMovementCompoent movementCompoent;
+    public EnemyDeadStateNode(Enemy enemy,Func<bool> preCondition) : base(enemy, preCondition)
     {
+        this.movementCompoent = enemy.enemyMovement;
     }
-
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
         MotionControlManager motionControlManager = enemy.motionControlManager;
         motionControlManager.ChangeMotionState(motionControlManager.ragdollMotionState);
+        
 
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Dead);
         base.Enter();
@@ -24,21 +24,13 @@ public class EnemyDeadStateNode : EnemyStateLeafNode
     {
         base.Exit();
     }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-
     public override bool IsReset()
     {
         return false;
     }
-
-    public override bool PreCondition()
+    public override void FixedUpdateNode()
     {
-        return enemy.isDead;
+        this.movementCompoent.CancleMomentum();
+        base.FixedUpdateNode();
     }
-
-   
 }

@@ -11,7 +11,7 @@ public class PlayerInputBlackBoard : MonoBehaviour
     {
         
     }
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         

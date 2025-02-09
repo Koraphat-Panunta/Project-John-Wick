@@ -10,23 +10,14 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
     NavMeshAgent agent;
     IMovementCompoent enemyMovement;
   
-    public EnemyStandMoveStateNode(Enemy enemy) : base(enemy)
+    public EnemyStandMoveStateNode(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.objectToward = new RotateObjectToward();
         this.agent = enemy.agent;
         this.enemyMovement = enemy.enemyMovement;
     }
 
-    public EnemyStandMoveStateNode(Enemy enemy, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
-    {
-        this.objectToward = new RotateObjectToward();
-        this.agent = enemy.agent;
-        this.enemyMovement = enemy.enemyMovement;
-    }
-
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
-
+   
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
@@ -40,26 +31,16 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
         this.enemyMovement.MoveToDirWorld(enemy.moveInputVelocity_WorldCommand, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
         this.enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.moveRotateSpeed);
 
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
+    public override void UpdateNode()
     {
-        return base.IsReset();
-    }
-
-    public override bool PreCondition()
-    {
-        return base.PreCondition();
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        base.UpdateNode();
     }
 }

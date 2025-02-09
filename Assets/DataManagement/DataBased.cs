@@ -18,7 +18,7 @@ public class DataBased : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         

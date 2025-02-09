@@ -2,47 +2,20 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public abstract class EnemyStateNode 
+public abstract class EnemyStateNode:INode
 {
-    public EnemyStateNode(Enemy enemy)
+    public Func<bool> preCondition { get; set; }
+    public INode parentNode { get; set; }
+    public EnemyStateNode(Enemy enemy,Func<bool> preCondition)
     {
         this.enemy = enemy;
-        childNode = new List<EnemyStateNode>();
+        this.preCondition = preCondition;
     }
 
     protected Enemy enemy { get; set; }
-    public abstract List<EnemyStateNode> childNode { get; set; }
-    protected abstract Func<bool> preCondidtion { get; set; }
-    public abstract void FixedUpdate();
-    public abstract void Update();
-    public abstract bool IsReset();
-    public abstract bool PreCondition();
-    public void Transition(out EnemyStateLeafNode enemyStateActionNode)
-    {
-        enemyStateActionNode = null;
-        foreach (EnemyStateNode stateNode in childNode)
-        {
-            if (stateNode.PreCondition())
-            {
-                if (stateNode.GetType().IsSubclassOf(typeof(EnemyStateLeafNode)))
-                {
-                    enemyStateActionNode = stateNode as EnemyStateLeafNode;
-                    //Debug.Log("Transition from " + this + " ->" + stateNode);
-                }
-                else
-                {
-                    //Debug.Log("Transition from " + this + " ->" + stateNode);
-                    stateNode.Transition(out enemyStateActionNode);
-   
-                }
-                break;
-            }
-        }
-    }
-    public void AddChildNode(EnemyStateNode stateNode)
-    {
-        childNode.Add(stateNode);
-    }
+  
+    public  bool Precondition() => preCondition.Invoke();
+    
 
 
 

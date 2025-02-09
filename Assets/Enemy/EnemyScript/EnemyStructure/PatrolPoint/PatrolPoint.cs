@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PatrolPoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     [SerializeField] public Transform patrolTrans;
     [Range(0,10)]
     public float waitTime;

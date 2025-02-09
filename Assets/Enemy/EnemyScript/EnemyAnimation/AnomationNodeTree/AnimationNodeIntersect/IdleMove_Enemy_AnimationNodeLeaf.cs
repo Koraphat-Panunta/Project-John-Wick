@@ -8,13 +8,12 @@ public class IdleMove_Enemy_AnimationNodeLeaf : EnemyStateLeafNode
     private Animator animator;
     private string stateName = "Move/Idle";
     private int stateLayer = 0;
-    public IdleMove_Enemy_AnimationNodeLeaf(Enemy enemy,Animator animator, Func<bool> preCondition, Func<bool> isReset) : base(enemy, preCondition, isReset)
+    public IdleMove_Enemy_AnimationNodeLeaf(Enemy enemy,Animator animator, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.animator = animator;
     }
 
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+    
 
     public override void Enter()
     {
@@ -28,24 +27,15 @@ public class IdleMove_Enemy_AnimationNodeLeaf : EnemyStateLeafNode
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        return base.IsReset();
-    }
 
-    public override bool PreCondition()
-    {
-        return base.PreCondition();
-    }
-
-    public override void Update()
+    public override void UpdateNode()
     {
         animator.SetLayerWeight(1, animator.GetLayerWeight(1) + Time.deltaTime * 3);
-        base.Update();
+        base.UpdateNode();
     }
 }

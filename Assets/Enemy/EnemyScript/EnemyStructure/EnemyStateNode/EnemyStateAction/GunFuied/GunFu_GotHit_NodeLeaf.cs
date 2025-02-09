@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedAbleNode
@@ -7,7 +8,7 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
 
     protected Vector3 pullBackPos;
     public IGunFuAble gunFuAble;
-    public GunFu_GotHit_NodeLeaf(Enemy enemy,GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy)
+    public GunFu_GotHit_NodeLeaf(Enemy enemy,Func<bool> preCondition,GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
     {
         _exitTime_Normalized = gunFu_GotHit_ScriptableObject.ExitTime_Normalized;
         _animationClip = gunFu_GotHit_ScriptableObject.AnimationClip;
@@ -21,13 +22,13 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
         pullBackPos = CalculateLerpingKnockBack();
         base.Enter();
     }
-    public override void Update()
+    public override void UpdateNode()
     {
         _timer += Time.deltaTime;
 
         LearpingKnockBack();
 
-        base.Update();
+        base.UpdateNode();
     }
 
     protected void LearpingKnockBack()

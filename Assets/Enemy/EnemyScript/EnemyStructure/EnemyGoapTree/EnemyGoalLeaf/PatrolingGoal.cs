@@ -74,7 +74,7 @@ public class PatrolingGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            }, //PreCondition
+            }, //Precondition
             () => 
             {
                 if (Vector3.Distance(enemy.transform.position, myPatrolPoint.patrolTrans.position) < 1.5f)

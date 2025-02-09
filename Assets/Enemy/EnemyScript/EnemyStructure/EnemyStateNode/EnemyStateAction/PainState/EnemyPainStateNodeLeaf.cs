@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 {
     protected Animator animator;
     protected abstract string stateName { get; }
-    protected EnemyPainStateNodeLeaf(Enemy enemy,Animator animator) : base(enemy)
+    protected EnemyPainStateNodeLeaf(Enemy enemy,Func<bool> preCondition, Animator animator) : base(enemy,preCondition)
     {
         this.animator = animator;
     }
@@ -12,25 +13,53 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     {
         MotionControlManager motionControlManager = enemy.motionControlManager;
 
-        time = 0;
-        enemy._painPart = IPainState.PainPart.None;
-        motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
+        Debug.Log("Enemy Pain Enter");
 
+        time = 0;
+        motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
+        enemy.enemyMovement.CancleMomentum();
         animator.CrossFade(stateName, 0.1f, 0);
 
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
 
         base.Enter();
     }
-    public override void Update()
+    public override void Exit()
+    {
+        base.Exit();
+    }
+    public override void UpdateNode()
     {
         time += Time.deltaTime;
-       
+        if(time >= painDuration) 
+        {
+            isComplete = true;
+            enemy._painPart = IPainState.PainPart.None;
+        }
+
     }
-    public override void FixedUpdate()
+    public override bool IsComplete()
+    {
+        return base.IsComplete();
+    }
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true; 
+
+        if(enemy._isPainTrigger)
+            return true;
+
+        if(enemy.isDead)
+            return true;
+
+        else return false;
+    }
+
+    public override void FixedUpdateNode()
     {
         enemy.enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
     public abstract float painDuration { get; set; }
     public float time;

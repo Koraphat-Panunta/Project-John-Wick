@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 {
-    private bool isComplete;
     private float getUpTime = 3f;
     private float fallDownTime = 2f;
     private float timerGetDown;
@@ -81,12 +80,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         enemy._posture = 100;
     }
 
-    public override bool IsReset()
-    {
-        return isComplete || enemy.isDead;
-    }
+   
     Vector3 beforeRootPos;
-    public override void Update()
+    public override void UpdateNode()
     {
         if(enemy._isPainTrigger)
         {
@@ -243,6 +239,16 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         enemy.transform.position = positionBeforeSampling;
         enemy.transform.rotation = rotationBeforeSampling;
+    }
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true;
+
+        if(enemy.isDead)
+            return true;
+
+        return false;
     }
 
     private class BoneTransform

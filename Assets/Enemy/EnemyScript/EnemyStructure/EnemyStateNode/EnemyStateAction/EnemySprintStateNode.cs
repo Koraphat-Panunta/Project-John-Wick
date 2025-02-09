@@ -4,22 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemySprintStateNode : EnemyStateLeafNode
 {
-    Animator animator;
-    RotateObjectToward objectToward;
-    NavMeshAgent agent;
     IMovementCompoent enemyMovement;
     
-    public EnemySprintStateNode(Enemy enemy) : base(enemy)
+    public EnemySprintStateNode(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
-        animator = enemy.animator;
-        objectToward = new RotateObjectToward();
-        this.agent = enemy.agent;
-        enemyMovement = enemy.enemyMovement;
-        
+        enemyMovement = enemy.enemyMovement;        
     }
-
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
 
     public override void Enter()
     {
@@ -34,44 +24,21 @@ public class EnemySprintStateNode : EnemyStateLeafNode
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
 
         enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, enemy.sprintAccelerate, enemy.sprintMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
         enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.sprintRotateSpeed);
 
         enemy.weaponCommand.LowReady();
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
+  
+
+    public override void UpdateNode()
     {
-        if (enemy.isDead)
-            return true;
-
-        if(enemy._isPainTrigger)
-            return true;
-
-        if(enemy.isSprintCommand == false)
-            return true;
-
-        return false;
-
-    }
-
-    public override bool PreCondition()
-    {
-        if(enemy.isSprintCommand)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
-    {
-
-       
         
-        base.Update();
+        base.UpdateNode();
     }
 }

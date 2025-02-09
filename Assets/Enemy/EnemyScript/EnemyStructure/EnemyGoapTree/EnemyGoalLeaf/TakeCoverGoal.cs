@@ -106,10 +106,10 @@ public class TakeCoverGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            }); // PreCondition
+            }); // Precondition
 
         coverPatternSelector = new EnemyActionSelectorNode(enemyController,
-            () => true); //PreCondition
+            () => true); //Precondition
 
         moveToCover = new MoveToCover(enemyController, coverUser,
             () => 
@@ -118,7 +118,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
                 if(combatOffensiveInstinct.combatOffensiveInstinct.offensiveIntensity > 60)
                     return true;
                 else return false;
-            },//PreCondition
+            },//Precondition
             () => 
             {
                 if(coverUser.isInCover)
@@ -128,7 +128,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
             );
 
         sprintToCover = new SprintToCover(enemyController, 
-            () => true,//PreCondition
+            () => true,//Precondition
             () => 
             {
                 if(coverUser.isInCover)
@@ -145,7 +145,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            },//PreCondition
+            },//Precondition
             () =>
             {
                 coverPatternFlipFlop += Time.deltaTime;
@@ -164,7 +164,7 @@ public class TakeCoverGoal : EnemyGoalLeaf
             () =>
             {
                 return true;
-            },//PreCondition
+            },//Precondition
             () =>
             {
                 coverPatternFlipFlop -= Time.deltaTime;

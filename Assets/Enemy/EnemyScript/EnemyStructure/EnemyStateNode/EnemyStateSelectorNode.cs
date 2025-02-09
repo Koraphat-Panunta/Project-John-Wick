@@ -2,35 +2,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateSelectorNode : EnemyStateNode
+public class EnemyStateSelectorNode : EnemyStateNode, INodeSelector
 {
+    public List<INode> childNode { get; set; }
+    public Dictionary<INode, Func<bool>> nodePrecondition { get ; set ; }
+    public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
 
-    public EnemyStateSelectorNode(Enemy enemy, Func<bool> preCondition) : base(enemy)
+    public EnemyStateSelectorNode(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
-        this.preCondidtion = preCondition;
+        this.childNode = new List<INode>();
+        this.nodePrecondition = new Dictionary<INode, Func<bool>>();
+        this.nodeSelectorBehavior = new NodeSelectorBehavior();
     }
 
-    public override List<EnemyStateNode> childNode { get; set; }
-    protected override Func<bool> preCondidtion { get; set; }
+  
+    public void AddtoChildNode(INode childNode)=>nodeSelectorBehavior.AddtoChildNode(childNode,this);
 
 
-    public override void FixedUpdate()
-    {
+    public void FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
+   
 
-    }
-
-    public override bool IsReset()
-    {
-        return true;
-    }
-
-    public override bool PreCondition()
-    {
-        return preCondidtion.Invoke();
-    }
-
-    public override void Update()
-    {
-
-    }
+    public void RemoveNode(INode childNode)=> nodeSelectorBehavior.RemoveChildNode(childNode,this);
+   
 }

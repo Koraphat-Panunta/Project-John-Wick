@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Animator animator;
     public Enemy enemy;
 
@@ -76,7 +76,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         is_Layer1_Enable = true;
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
         BackBoardUpdate();

@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class HeavyPainStateLeftLeg : EnemyPainStateNodeLeaf
 {
-    public HeavyPainStateLeftLeg(Enemy enemy, Animator animator) : base(enemy, animator)
+    public HeavyPainStateLeftLeg(Enemy enemy,Func<bool> preCondition, Animator animator) : base(enemy,preCondition, animator)
     {
         painDuration = enemy._painDurScrp.legLeft_HeavyHit;
         painPart = IPainState.PainPart.LegLeft;
     }
 
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
 
     protected override string stateName => "LeftLeg_Heavy";
 
@@ -27,36 +26,14 @@ public class HeavyPainStateLeftLeg : EnemyPainStateNodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
+    
+    public override void UpdateNode()
     {
-        if (enemy.isDead)
-            return true;
-
-        if (time >= painDuration)
-            return true;
-
-        if (enemy._isPainTrigger)
-            return true;
-
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        if (enemy._painPart == painPart
-           && enemy._posture <= enemy._postureHeavy)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        base.UpdateNode();
     }
 }

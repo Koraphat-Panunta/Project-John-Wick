@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGunFuAttackedAbleNode
 {
     
-    public GunFu_GotInteract_NodeLeaf(Enemy enemy) : base(enemy)
+    public GunFu_GotInteract_NodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
     }
 
@@ -25,14 +25,14 @@ public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGunFuAtt
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override void Update()
+    public override void UpdateNode()
     {
         _timer += Time.deltaTime;
-        base.Update();
+        base.UpdateNode();
     }
 }

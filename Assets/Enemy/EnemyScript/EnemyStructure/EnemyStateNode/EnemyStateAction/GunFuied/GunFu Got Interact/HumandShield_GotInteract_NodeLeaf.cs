@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static HumanShield_GunFuInteraction_NodeLeaf;
 
@@ -11,7 +12,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
     float got_threwDown_time;
 
     HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase interactionPhase;
-    public HumandShield_GotInteract_NodeLeaf(Enemy enemy,Animator animator) : base(enemy)
+    public HumandShield_GotInteract_NodeLeaf(Enemy enemy,Func<bool> preCondition,Animator animator) : base(enemy, preCondition)
     {
         this.animator = animator;
     }
@@ -33,9 +34,9 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()
@@ -46,7 +47,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         return false;
     }
 
-    public override void Update()
+    public override void UpdateNode()
     {
         if(interactionPhase == InteractionPhase.Exit)
         {
@@ -62,7 +63,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
             }
 
         }
-        base.Update();
+        base.UpdateNode();
     }
 
     public void StateEnter()

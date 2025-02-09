@@ -6,15 +6,15 @@ using static Enemy;
 public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
 {
 
-    public LightPainStateFrontBody(Enemy enemy, Animator animator) : base(enemy, animator)
+    public LightPainStateFrontBody(Enemy enemy, Func<bool> preCondition, Animator animator) : base(enemy, preCondition, animator)
     {
         painDuration = enemy._painDurScrp.bodyFront_LightHit;
         painPart = IPainState.PainPart.BodyFornt;
     }
-    public override List<EnemyStateNode> childNode { get => base.childNode; set => base.childNode = value; }
+
     public override float painDuration { get; set; }
     public override IPainState.PainPart painPart { get; set; }
-    protected override Func<bool> preCondidtion { get => base.preCondidtion; set => base.preCondidtion = value; }
+
 
     protected override string stateName => "BodyFont_Light";
 
@@ -29,36 +29,13 @@ public class LightPainStateFrontBody : EnemyPainStateNodeLeaf
         base.Exit();
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateNode()
     {
-        base.FixedUpdate();
+        base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
+    public override void UpdateNode()
     {
-        if (enemy.isDead)
-            return true;
-
-        if (time >= painDuration)
-            return true;
-
-        if (enemy._isPainTrigger)
-            return true;
-
-        return false;
-    }
-
-    public override bool PreCondition()
-    {
-        if (enemy._painPart == painPart)
-            return true;
-
-        return false;
-    }
-
-    public override void Update()
-    {
-       
-        base.Update();
+        base.UpdateNode();
     }
 }

@@ -83,7 +83,7 @@ public class HoldingGoal : EnemyGoalLeaf
                 }
                 return false;
 
-            }, //PreCondition
+            }, //Precondition
             () => 
             { 
                 if(enemy.combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.SemiAlert)
@@ -101,7 +101,7 @@ public class HoldingGoal : EnemyGoalLeaf
                     return true;
 
                 return false;
-            },//PreCondition
+            },//Precondition
             () =>
             {
                 CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
@@ -114,7 +114,7 @@ public class HoldingGoal : EnemyGoalLeaf
             );
 
         moveCurve_and_Aim = new MoveCurve_and_Aim(enemyController,
-            () => true, //PreCondition
+            () => true, //Precondition
             () => 
             {
                 CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;

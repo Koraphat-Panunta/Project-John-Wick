@@ -31,10 +31,9 @@ public class PlayerDeBuger : MonoBehaviour
         layerMask = LayerMask.GetMask("Default");
     }
 
-    // Update is called once per frame
+    // UpdateNode is called once per frame
     void Update()
     {
-        Debug.Log("curWeaponManuverNode =" + player.weaponManuverManager.curNodeLeaf);
 
         isAimingCommand = player.isAimingCommand;
         isReloadCommand = player.isReloadCommand;

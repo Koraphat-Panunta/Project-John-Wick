@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IGunFuAttackedAbleNode 
+public interface IGunFuAttackedAbleNode:INodeLeaf 
 {
     public float _exitTime_Normalized { get; set; }
     public float _timer { get; set; }

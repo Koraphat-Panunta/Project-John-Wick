@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public interface INodeSelector : INode
@@ -25,17 +26,21 @@ public class NodeSelectorBehavior
             if (Node == nodePosition)
                 break;
 
+            Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
+
             nodeLeafReset.Add(Node.preCondition);
         }
 
         nodeLeafReset.Add(() => !nodePosition.preCondition());
 
-        if (nodePosition.parentNode == null)
+        Debug.Log("Add isReset form Node " + nodePosition);
+
+        if (nodeSelector.parentNode == null)
             return;
 
-        if(nodePosition.parentNode is INodeSelector selectorNode)
+        if(nodeSelector.parentNode is INodeSelector selectorNode)
         {
-            selectorNode.nodeSelectorBehavior.PopulatePrecondition(out List<Func<bool>> parentLeafReset, nodeSelector,nodeSelector);
+            selectorNode.nodeSelectorBehavior.PopulatePrecondition(out List<Func<bool>> parentLeafReset, nodeSelector, selectorNode);
 
             foreach (Func<bool> pReset in parentLeafReset)
             {
@@ -83,26 +88,24 @@ public class NodeSelectorBehavior
         {
             if (node.Precondition() == false)
             {
-                Debug.Log("Node " + nodeSelector + " -> " + node + " is false");
                 continue;
             }
 
-
-            Debug.Log("Node " + nodeSelector + " -> " + node);
+            //Debug.Log("Node " + nodeSelector + " -> " + node);
 
             if (node is INodeLeaf)
             {
-                Debug.Log("Node " + node + " isNodeLeaf " );
+                //Debug.Log("Node " + node + " isNodeLeaf " );
                 leafNode = node as INodeLeaf;
                 return true;
             }
             else if (node is INodeSelector SelectorNode)
             {
-                Debug.Log("Node " + node + " isNodeSelector ");
+                //Debug.Log("Node " + node + " isNodeSelector ");
                 SelectorNode.nodeSelectorBehavior.FindingNode(out leafNode,SelectorNode);
                 return true;
             }
-            Debug.Log("Node " + node + " not both ");
+            //Debug.Log("Node " + node + " not both ");
         }
         return false;
 

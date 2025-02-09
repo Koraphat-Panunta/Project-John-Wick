@@ -211,16 +211,16 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
        
         if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
         {
-            Debug.Log("curWeaponNode ="+ currentEventNode+" is reset ");
+            //Debug.Log("curWeaponNode ="+ currentEventNode+" is reset ");
             currentEventNode.Exit();
             currentEventNode = null;
             startEventNode.FindingNode(out INodeLeaf weaponActionNode);
             currentEventNode = weaponActionNode as WeaponLeafNode;
-            Debug.Log("Out Event Node " + currentEventNode);
+            //Debug.Log("Out Event Node " + currentEventNode);
             currentEventNode.Enter();
         }
         currentEventNode?.UpdateNode();
-        Debug.Log("curWeaponNode = " + currentEventNode);
+        //Debug.Log("curWeaponNode = " + currentEventNode);
     }
     #endregion
 

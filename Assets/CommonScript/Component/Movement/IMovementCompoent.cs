@@ -10,6 +10,8 @@ public interface IMovementCompoent
     public Vector3 curMoveVelocity_Local { get; set; }
     public Vector3 forwardDir { get; set; }
     public MoveTo moveTo { get; set; }
+
+    public bool isEnable { get; set; }
     public enum MoveMode
     {
         MaintainMomentum,
@@ -22,6 +24,8 @@ public interface IMovementCompoent
     public void RotateToDirWorld(Vector3 lookDirWorldNomalized,float rotateSpeed);
     public void GravityUpdate();
     public void CancleMomentum() => curMoveVelocity_World = Vector3.zero;
+    public void Disable() => isEnable = false;
+    public void Enable() => isEnable = true;
     public enum Stance
     {
         Stand,
@@ -35,12 +39,8 @@ public interface IMovementCompoent
 }
 public class MoveTo
 {
-    IMovementCompoent movementCompoent;
-    public MoveTo(IMovementCompoent movementCompoent)
-    {
-        this.movementCompoent = movementCompoent;
-    }
-    public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, MoveMode moveMode)
+   
+    public void MoveToDirWorld(IMovementCompoent movementCompoent, Vector3 dirWorldNormalized, float speed, float maxSpeed, MoveMode moveMode)
     {
         movementCompoent.moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
 
@@ -59,7 +59,7 @@ public class MoveTo
                 break;
         }
     }
-    public void MoveToDirLocal(Vector3 dirLocalNormalized, float speed, float maxSpeed, MoveMode moveMode)
+    public void MoveToDirLocal(IMovementCompoent movementCompoent,Vector3 dirLocalNormalized, float speed, float maxSpeed, MoveMode moveMode)
     {
         movementCompoent.moveInputVelocity_World = TransformLocalToWorldVector(
           new Vector3(dirLocalNormalized.x, 0, dirLocalNormalized.y),
