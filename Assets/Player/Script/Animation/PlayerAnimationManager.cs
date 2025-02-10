@@ -104,9 +104,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         }
         else
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.moveMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.moveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.moveMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.StandMoveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.StandMoveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.StandMoveMaxSpeed;
         }
 
 
@@ -176,11 +176,18 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             animator.CrossFade(Sprint, 0.3f, 0,0);
             isLayer_1_Enable = true;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.Move||
-            playerAction == SubjectPlayer.PlayerAction.Idle)
+        if(playerAction == SubjectPlayer.PlayerAction.StandMove||
+            playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {
 
             animator.CrossFade(Move_Idle, 0.3f, 0, 0);
+            isLayer_1_Enable = true;
+        }
+
+        if(playerAction == SubjectPlayer.PlayerAction.CrouchIdle||
+            playerAction == SubjectPlayer.PlayerAction.CrouchMove)
+        {
+            animator.CrossFade(Crouch, 0.3f, 0, 0);
             isLayer_1_Enable = true;
         }
 

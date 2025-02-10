@@ -15,7 +15,7 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandIdle);
         base.Enter();
     }
     public override void FixedUpdateNode()

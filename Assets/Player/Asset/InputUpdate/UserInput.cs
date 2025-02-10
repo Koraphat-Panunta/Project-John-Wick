@@ -107,6 +107,15 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleChangeStance"",
+                    ""type"": ""Button"",
+                    ""id"": ""dcd93cd5-713d-4c60-8da6-280223c0d593"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -494,6 +503,17 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""action"": ""TrggerGunFu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31e08406-3802-41e0-8f89-87ef9cff83ca"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleChangeStance"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -511,6 +531,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction_SwapShoulder = m_PlayerAction.FindAction("SwapShoulder", throwIfNotFound: true);
         m_PlayerAction_SwitchWeapon = m_PlayerAction.FindAction("SwitchWeapon", throwIfNotFound: true);
         m_PlayerAction_TrggerGunFu = m_PlayerAction.FindAction("TrggerGunFu", throwIfNotFound: true);
+        m_PlayerAction_ToggleChangeStance = m_PlayerAction.FindAction("ToggleChangeStance", throwIfNotFound: true);
     }
 
     ~@UserInput()
@@ -586,6 +607,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_SwapShoulder;
     private readonly InputAction m_PlayerAction_SwitchWeapon;
     private readonly InputAction m_PlayerAction_TrggerGunFu;
+    private readonly InputAction m_PlayerAction_ToggleChangeStance;
     public struct PlayerActionActions
     {
         private @UserInput m_Wrapper;
@@ -599,6 +621,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         public InputAction @SwapShoulder => m_Wrapper.m_PlayerAction_SwapShoulder;
         public InputAction @SwitchWeapon => m_Wrapper.m_PlayerAction_SwitchWeapon;
         public InputAction @TrggerGunFu => m_Wrapper.m_PlayerAction_TrggerGunFu;
+        public InputAction @ToggleChangeStance => m_Wrapper.m_PlayerAction_ToggleChangeStance;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -635,6 +658,9 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @TrggerGunFu.started += instance.OnTrggerGunFu;
             @TrggerGunFu.performed += instance.OnTrggerGunFu;
             @TrggerGunFu.canceled += instance.OnTrggerGunFu;
+            @ToggleChangeStance.started += instance.OnToggleChangeStance;
+            @ToggleChangeStance.performed += instance.OnToggleChangeStance;
+            @ToggleChangeStance.canceled += instance.OnToggleChangeStance;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -666,6 +692,9 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @TrggerGunFu.started -= instance.OnTrggerGunFu;
             @TrggerGunFu.performed -= instance.OnTrggerGunFu;
             @TrggerGunFu.canceled -= instance.OnTrggerGunFu;
+            @ToggleChangeStance.started -= instance.OnToggleChangeStance;
+            @ToggleChangeStance.performed -= instance.OnToggleChangeStance;
+            @ToggleChangeStance.canceled -= instance.OnToggleChangeStance;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -694,5 +723,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         void OnSwapShoulder(InputAction.CallbackContext context);
         void OnSwitchWeapon(InputAction.CallbackContext context);
         void OnTrggerGunFu(InputAction.CallbackContext context);
+        void OnToggleChangeStance(InputAction.CallbackContext context);
     }
 }

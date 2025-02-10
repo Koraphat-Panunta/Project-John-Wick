@@ -47,7 +47,7 @@ public class PlayerDeBuger : MonoBehaviour
         isReloadManuver = player.weaponManuverManager.isReloadManuver;
         isSwitchWeaponManuver = player.weaponManuverManager.isSwitchWeaponManuver;
 
-        
+        PlayerCurNodeLeaf = player.playerStateNodeManager.curNodeLeaf.ToString();
     }
    
     private void OnDrawGizmos()

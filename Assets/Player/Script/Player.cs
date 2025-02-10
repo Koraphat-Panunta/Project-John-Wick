@@ -11,7 +11,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
-    public INodeManager playerStateNodeManager;
+    public PlayerStateNodeManager playerStateNodeManager;
 
     public Transform RayCastPos;
 
@@ -255,11 +255,19 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     #region MovementStats
 
     [Range(0, 100)]
-    public float moveAccelerate;
+    public float StandMoveAccelerate;
     [Range(0, 100)]
-    public float moveMaxSpeed;
+    public float StandMoveMaxSpeed;
     [Range(0, 100)]
-    public float moveRotateSpeed;
+    public float StandMoveRotateSpeed;
+
+
+    [Range(0, 100)]
+    public float CrouchMoveAccelerate;
+    [Range(0, 100)]
+    public float CrouchMoveMaxSpeed;
+    [Range(0, 100)]
+    public float CrouchMoveRotateSpeed;
 
     [Range(0, 100)]
     public float sprintAccelerate;

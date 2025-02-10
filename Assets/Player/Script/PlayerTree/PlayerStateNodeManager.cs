@@ -28,6 +28,9 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNode playerStandIdleNode { get; private set; }
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
+    public PlayerSelectorStateNode crouchSelectorNode { get; private set; }
+    public PlayerCrouch_Move_NodeLeaf playerCrouch_Move_NodeLeaf { get; private set; }
+    public PlayerCrouch_Idle_NodeLeaf playerCrouch_Idle_NodeLeaf { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get; private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get; private set; }
 
@@ -44,24 +47,33 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand; });
 
+        crouchSelectorNode = new PlayerSelectorStateNode(this.player,
+            () => this.player.playerStance == PlayerStance.crouch);
+
         playerSprintNode = new PlayerSprintNode(this.player, () => { return this.player.isSprint; });
+
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
             () => { return this.player.isInCover; });
+
         playerStandMoveNode = new PlayerStandMoveNode(this.player,
-            () =>
-            {
-                return this.player.inputMoveDir_Local.magnitude > 0;
-            }
-            );
-        playerStandIdleNode = new PlayerStandIdleNode(this.player, () => true);
+            () =>{ return this.player.inputMoveDir_Local.magnitude > 0; });
+
+        playerStandIdleNode = new PlayerStandIdleNode(this.player, 
+            () => true);
+
+        playerCrouch_Move_NodeLeaf = new PlayerCrouch_Move_NodeLeaf(this.player,
+           () => this.player.inputMoveDir_Local.magnitude > 0);
+
+        playerCrouch_Idle_NodeLeaf = new PlayerCrouch_Idle_NodeLeaf(this.player,
+            () => this.player.inputMoveDir_Local.magnitude <= 0 || true);
 
         playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this.player,
-            () =>
-            {
-                return this.player.inputMoveDir_Local.magnitude > 0;
-            });
+            () =>{ return this.player.inputMoveDir_Local.magnitude > 0; });
 
-        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this.player, () => true);
+        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this.player, 
+            () => true);
+
+       
 
         Hit1gunFuNode = new Hit1GunFuNode(this.player, () => this.player._triggerGunFu,this.player.hit1);
         Hit2GunFuNode = new Hit2GunFuNode(this.player, () => this.player._triggerGunFu, this.player.hit2);
@@ -70,12 +82,16 @@ public class PlayerStateNodeManager : INodeManager
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
+        stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
 
         standSelectorNode.AddtoChildNode(Hit1gunFuNode);
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(standIncoverSelector);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
+
+        crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
+        crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);
 
         standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
         standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
