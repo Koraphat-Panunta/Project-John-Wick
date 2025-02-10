@@ -7,8 +7,6 @@ public interface INodeManager<NodeLeafType, NodeSelectorType>
 {
     public NodeLeafType curNodeLeaf { get; set; }
     public NodeSelectorType startNodeSelector { get; set; }
-    NodeManagerBehavior nodeManagerBehavior { get; set; }
-
     public void UpdateNode();
     public void FixedUpdateNode();
     public void InitailizedNode();
