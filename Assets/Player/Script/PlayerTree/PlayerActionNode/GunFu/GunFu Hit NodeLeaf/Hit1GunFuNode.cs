@@ -29,6 +29,8 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
+        Debug.Log("GunFu Hit 1 Enter");
+
         base.Enter();
     }
 
@@ -37,6 +39,8 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         _timer = 0;
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
+
+        Debug.Log("GunFu Hit 1 Exit");
         base.Exit();
     }
   
@@ -61,19 +65,21 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         {
             if ((player._triggerGunFu || gunFuTriggerBuufer )&&gunFuDamagedAble != null)
             {
-                player.ChangeNode(player.Hit2GunFuNode);
-                player.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
+                (player.playerStateNodeManager as PlayerStateNodeManager).
+               ChangeNode((player.playerStateNodeManager as PlayerStateNodeManager).Hit2GunFuNode);
+
+                (player.playerStateNodeManager as PlayerStateNodeManager).Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
             }
 
             if (player.isAimingCommand && gunFuDamagedAble != null)
             {
 
-                humanShield_GunFuInteraction_NodeLeaf.gunFuAttackedAble = gunFuDamagedAble;
-                player.ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
+                (player.playerStateNodeManager as PlayerStateNodeManager).
+              ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
             }
         }
+        Debug.Log("GunFu Hit 1 Update");
 
-        
         base.UpdateNode();
     }
     public override void FixedUpdateNode()

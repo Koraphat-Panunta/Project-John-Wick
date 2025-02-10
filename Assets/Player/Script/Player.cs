@@ -11,6 +11,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
+    public INodeManager playerStateNodeManager;
 
     public Transform RayCastPos;
 
@@ -44,8 +45,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         InitailizedGunFuComponent();
 
-        InitializedPlayerNodeTree();
-
         Initialized_IWeaponAdvanceUser();
 
         InitializedAimingProceduralAnimate();
@@ -54,6 +53,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
 
+        playerStateNodeManager = new PlayerStateNodeManager(this);  
+
     }
 
 
@@ -61,7 +62,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     {
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
 
-        UpdatePlayerTree();
+        playerStateNodeManager.UpdateNode();
         weaponManuverManager.UpdateNode();
 
         playerMovement.MovementUpdate();
@@ -76,7 +77,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     private void FixedUpdate()
     {
-        FixedUpdatePlayerTree();
+        playerStateNodeManager.FixedUpdateNode();
         weaponManuverManager.FixedUpdateNode();
         playerMovement.MovementFixedUpdate();
     }
@@ -164,100 +165,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
     #endregion
 
-    #region Initailized Player Tree node
-    public PlayerStateNodeLeaf curPlayerActionNode { get; private set; }
-
-    public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
-
-    public PlayerSelectorStateNode standSelectorNode { get; private set; }
-
-    public PlayerSprintNode playerSprintNode { get; private set; }
-    public PlayerSelectorStateNode standIncoverSelector { get; private set; }
-    public PlayerStandIdleNode playerStandIdleNode { get; private set; }
-    public PlayerStandMoveNode playerStandMoveNode { get; private set; }
-    public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get;private set; }
-    public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get;private set; }
-
-    public Hit1GunFuNode Hit1gunFuNode { get; private set; }
-    public Hit2GunFuNode Hit2GunFuNode { get; private set; }
-    public KnockDown_GunFuNode knockDown_GunFuNode{ get; private set; }
-  
-
-    private void InitializedPlayerNodeTree()
-    {
-        stanceSelectorNode = new PlayerSelectorStateNode(this,
-            () => { return true; });
-
-        standSelectorNode = new PlayerSelectorStateNode(this,
-            () => { return playerStance == PlayerStance.stand; });
-
-        playerSprintNode = new PlayerSprintNode(this, () => { return isSprint; });
-        standIncoverSelector = new PlayerSelectorStateNode(this,
-            () => {return isInCover; });
-        playerStandMoveNode = new PlayerStandMoveNode(this, 
-            () => 
-            {
-                return inputMoveDir_Local.magnitude > 0;
-            }
-            );
-        playerStandIdleNode = new PlayerStandIdleNode(this, ()=> true);
-
-        playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this, 
-            () =>
-            {
-            return inputMoveDir_Local.magnitude > 0;
-            });
-
-        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this,()=>true);
-
-        Hit1gunFuNode = new Hit1GunFuNode(this,()=> _triggerGunFu,hit1);
-        Hit2GunFuNode = new Hit2GunFuNode(this,()=> _triggerGunFu, hit2);
-        knockDown_GunFuNode = new KnockDown_GunFuNode(this,()=> _triggerGunFu,knockDown);
-
-
-        stanceSelectorNode.AddtoChildNode(standSelectorNode);
-
-        standSelectorNode.AddtoChildNode(Hit1gunFuNode);    
-        standSelectorNode.AddtoChildNode(playerSprintNode);
-        standSelectorNode.AddtoChildNode(standIncoverSelector);
-        standSelectorNode.AddtoChildNode(playerStandMoveNode);
-        standSelectorNode.AddtoChildNode(playerStandIdleNode);
-
-        standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
-        standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
-
-        stanceSelectorNode.FindingNode(out INodeLeaf playerActionNode);
-        curPlayerActionNode = playerActionNode as PlayerStateNodeLeaf;
-
-    }
-    private void UpdatePlayerTree()
-    {
-        if (curPlayerActionNode.IsReset()){
-            curPlayerActionNode.Exit();
-            curPlayerActionNode = null;
-            stanceSelectorNode.FindingNode(out INodeLeaf playerActionNode);
-            curPlayerActionNode = playerActionNode as PlayerStateNodeLeaf;
-            curPlayerActionNode.Enter();
-        }
-
-        if(curPlayerActionNode != null)
-            curPlayerActionNode.UpdateNode();
-    }
-    private void FixedUpdatePlayerTree()
-    {
-        if (curPlayerActionNode != null)
-            curPlayerActionNode.FixedUpdateNode();
-    }
-
-    public void ChangeNode(PlayerStateNodeLeaf playerActionNodeLeaf)
-    {
-        curPlayerActionNode.Exit();
-        curPlayerActionNode = playerActionNodeLeaf;
-        curPlayerActionNode.Enter();
-    }
-
-    #endregion
-
     #region ProceduralAim_Lean
     [SerializeField] private MultiAimConstraint aimConstraint;
     [SerializeField] private MultiRotationConstraint rotationConstraint;
@@ -301,9 +208,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Transform _targetAdjustTranform { get; set; }
   
 
-    [SerializeField] GunFuHitNodeScriptableObject hit1;
-    [SerializeField] GunFuHitNodeScriptableObject hit2;
-    [SerializeField] GunFuHitNodeScriptableObject knockDown;
+    [SerializeField] public GunFuHitNodeScriptableObject hit1;
+    [SerializeField] public GunFuHitNodeScriptableObject hit2;
+    [SerializeField] public GunFuHitNodeScriptableObject knockDown;
     public void InitailizedGunFuComponent()
     {
         _weaponUser = this;
