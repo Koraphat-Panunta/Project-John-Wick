@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Player;
+using static SubjectPlayer;
 
 public class PlayerInputAPI : MonoBehaviour
 {
@@ -57,10 +59,13 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void SwapShoulder(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            player.isSwapShoulder = true;
-        if (context.canceled)
-            player.isSwapShoulder = false;
+        if (player.curShoulderSide == ShoulderSide.Left)
+        { player.curShoulderSide = ShoulderSide.Right; }
+
+        else if (player.curShoulderSide == ShoulderSide.Right)
+        { player.curShoulderSide = ShoulderSide.Left; }
+        player.NotifyObserver(player, PlayerAction.SwapShoulder);
+
     }
     public void SwitchWeapon(InputAction.CallbackContext context)
     {

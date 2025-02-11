@@ -59,6 +59,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
+        enemy.enemyMovement.CancleMomentum();
+
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
         isComplete = false;

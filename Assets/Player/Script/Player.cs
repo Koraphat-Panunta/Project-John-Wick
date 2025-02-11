@@ -104,14 +104,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public void OnNotify(Player player, PlayerAction playerAction)
     {
-        if(playerAction == PlayerAction.SwapShoulder)
-        {
-            if (curShoulderSide == ShoulderSide.Left)
-            { curShoulderSide = ShoulderSide.Right; }
-
-            else if (curShoulderSide == ShoulderSide.Right)
-            { curShoulderSide = ShoulderSide.Left; }
-        }
+        
     }
 
     public void OnNotify(Player player)

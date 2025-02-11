@@ -54,14 +54,27 @@ public class EnemyWeaponManuver : WeaponManuverManager
         IWeaponAdvanceUser weaponAdvanceUser = enemy;
         EnemyStateLeafNode enemyActionNodeLeaf = enemy.curStateLeaf;
 
-        if (enemy._isInPain)
+        if (enemy._isInPain 
+            || enemy.curStateLeaf is FallDown_EnemyState_NodeLeaf
+            )
         {
             isAimingManuver = false;
             isPullTriggerManuver = false;
             isReloadManuver = false;
             isSwitchWeaponManuver = false;
+            return;
         }
-            
+
+        if (enemy.curStateLeaf is IGunFuAttackedAbleNode)
+        {
+            Debug.Log("enemy.curStateLeaf is IGunFuAttackedAbleNode");
+            isAimingManuver = false;
+            isPullTriggerManuver = false;
+            isReloadManuver = false;
+            isSwitchWeaponManuver = false;
+            return;
+        }
+
         if (enemyActionNodeLeaf is EnemySprintStateNode)
         {
             if (weaponAdvanceUser.isReloadCommand)
@@ -77,6 +90,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
         else
         {
             WeaponAdvanceCommanding(weaponAdvanceUser);
+            return;
         }
     }
 
