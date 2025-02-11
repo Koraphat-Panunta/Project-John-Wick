@@ -99,5 +99,9 @@ public class PlayerStateNodeManager : INodeManager
         startNodeSelector.FindingNode(out INodeLeaf playerActionNode);
         curNodeLeaf = playerActionNode as PlayerStateNodeLeaf;
     }
-    public void ChangeNode(PlayerStateNodeLeaf playerStateNodeLeaf) => nodeManagerBehavior.ChangeNodeManual(curNodeLeaf, playerStateNodeLeaf);
+    public void ChangeNode(PlayerStateNodeLeaf playerStateNodeLeaf)
+    {
+        curNodeLeaf.Exit();
+        curNodeLeaf = pla
+    }
 }

@@ -27,6 +27,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
         player = FindAnyObjectByType<Player>().GetComponent<Player>();
         player.AddObserver(this);
+        player.crosshairController = this;
         TargetAim = player._aimPosRef;
     }
 

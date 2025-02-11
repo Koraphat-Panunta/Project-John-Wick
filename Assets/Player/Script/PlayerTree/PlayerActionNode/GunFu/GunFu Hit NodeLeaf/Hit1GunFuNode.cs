@@ -65,16 +65,14 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         {
             if ((player._triggerGunFu || gunFuTriggerBuufer )&&gunFuDamagedAble != null)
             {
-                (player.playerStateNodeManager as PlayerStateNodeManager).
-               ChangeNode((player.playerStateNodeManager as PlayerStateNodeManager).Hit2GunFuNode);
-
-                (player.playerStateNodeManager as PlayerStateNodeManager).Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
+                player.playerStateNodeManager.ChangeNode(player.playerStateNodeManager.Hit2GunFuNode);
+                player.playerStateNodeManager.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
             }
 
             if (player.isAimingCommand && gunFuDamagedAble != null)
             {
 
-                (player.playerStateNodeManager as PlayerStateNodeManager).
+               player.playerStateNodeManager.
               ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
             }
         }
@@ -93,13 +91,13 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
     public override bool IsReset()
     {
-        if (_isExit)
+        if (isComplete)
         {
             if (player.inputMoveDir_Local.magnitude > 0)
                 return true;
         }
 
-        if (_isExit)
+        if (isComplete)
             return true;
 
         return false;

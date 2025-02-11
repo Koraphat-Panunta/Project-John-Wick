@@ -12,14 +12,14 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player Player;
 
-    private CamerOverShoulder cameraOverShoulder;
     public CameraKickBack cameraKickBack;
-    public CameraZoom cameraZoom;
     public CameraHandShake cameraHandShake;
 
     public ScrpCameraViewAttribute cameraViewAttribute;
 
+    public bool isZooming = false;
     public float zoomingWeight;
+    public float cameraSwitchSholderVelocity = 3.5f;
 
     public CameraManagerNode cameraManagerNode;
 
@@ -28,19 +28,21 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         left,
         right
     }
-    public Side curSide;
+    
+    public Player.ShoulderSide curSide;
+    public Player.PlayerStance curStance;
 
     void Start()
     {
         Player = FindAnyObjectByType<Player>();
-
-        curSide = Side.right;
+        curStance = Player.playerStance;
+        curSide = Player.curShoulderSide;
 
         Cursor.lockState = CursorLockMode.Locked;
         Player.AddObserver(this);
-        cameraOverShoulder = new CamerOverShoulder(this);
+
         cameraKickBack = new CameraKickBack(this);
-        cameraZoom = new CameraZoom(this);
+
         cameraHandShake = new CameraHandShake(this);
 
         cameraManagerNode = new CameraManagerNode(this);
@@ -61,7 +63,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     {
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
         {
-            cameraOverShoulder.Performed();
+            curSide = player.curShoulderSide;
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
@@ -69,20 +71,27 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            cameraZoom.ZoomIn(player.currentWeapon);
+            isZooming = true;
         }
         if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
-            cameraZoom.ZoomOut(player.currentWeapon);
+            isZooming = false;
         }
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             cameraHandShake.Performed();
         }
-        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
-        {
-            
-        }
+
+        if (playerAction == SubjectPlayer.PlayerAction.Sprint)
+        { curStance = player.playerStance; }
+
+        if (playerAction == SubjectPlayer.PlayerAction.StandIdle
+            || playerAction == SubjectPlayer.PlayerAction.StandMove)
+        { curStance = player.playerStance; }
+
+        if (playerAction == SubjectPlayer.PlayerAction.CrouchIdle
+            || playerAction == SubjectPlayer.PlayerAction.CrouchMove)
+        { curStance = player.playerStance; }
     }
 
     public void OnNotify(Player player)

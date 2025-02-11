@@ -7,7 +7,6 @@ public class CameraStandViewNodeLeaf : CameraNodeLeaf
     private CinemachineCameraOffset cinemachineOffset;
     private CinemachineFreeLook cinemachineFreeLook;
 
-    private float elapseTime;
     private float speedEnterView = 3;
     public CameraStandViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
     {
@@ -17,13 +16,11 @@ public class CameraStandViewNodeLeaf : CameraNodeLeaf
 
     public override void Enter()
     {
-        elapseTime = 0;
         base.Enter();
     }
 
     public override void Exit()
     {
-        elapseTime = 0;
         base.Exit();
     }
 
@@ -34,12 +31,31 @@ public class CameraStandViewNodeLeaf : CameraNodeLeaf
 
     public override void UpdateNode()
     {
-        elapseTime += Time.deltaTime*speedEnterView;
-        elapseTime = Mathf.Clamp01(elapseTime);
 
-        this.cinemachineOffset.m_Offset = Vector3.Lerp(this.cinemachineOffset.m_Offset, cameraController.cameraViewAttribute.StandView_Offset_Right, elapseTime);
-        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, cameraController.cameraViewAttribute.StandView_FOV, elapseTime);
 
+        ScrpCameraViewAttribute viewAttribute = this.cameraController.cameraViewAttribute;
+        float offsetX;
+
+        if (this.cameraController.curSide == Player.ShoulderSide.Right)
+        {
+            offsetX = Mathf.Lerp(this.cinemachineOffset.m_Offset.x,
+                viewAttribute.StandView_Offset_Right.x,
+                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+
+        }
+        else //this.cameraController.curSide == CameraController.Side.left
+        {
+            offsetX = Mathf.Lerp(this.cinemachineOffset.m_Offset.x,
+                -viewAttribute.StandView_Offset_Right.x,
+                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+        }
+
+        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, viewAttribute.StandView_FOV, speedEnterView * Time.deltaTime);
+
+        float offsetY = Mathf.Lerp(this.cinemachineOffset.m_Offset.y, viewAttribute.StandView_Offset_Right.y, speedEnterView * Time.deltaTime);
+        float offsetZ = Mathf.Lerp(this.cinemachineOffset.m_Offset.z, viewAttribute.StandView_Offset_Right.z, speedEnterView * Time.deltaTime);
+
+        this.cinemachineOffset.m_Offset = new Vector3(offsetX, offsetY, offsetZ);
         base.UpdateNode();
     }
 }

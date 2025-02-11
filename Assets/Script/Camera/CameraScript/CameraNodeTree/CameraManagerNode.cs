@@ -26,6 +26,9 @@ public class CameraManagerNode : INodeManager
     }
 
     public CameraSelectorNode cameraControlAbleSelector { get; protected set; }
+    public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
+    public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
+    public CameraStandViewNodeLeaf cameraStandViewNodeLeaf { get; protected set; }
 
     public void InitailizedNode()
     {
@@ -33,6 +36,22 @@ public class CameraManagerNode : INodeManager
 
         cameraControlAbleSelector = new CameraSelectorNode(this.cameraController,()=> true);
 
+        cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
+            ()=> this.cameraController.isZooming);
+
+        cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
+            ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
+
+        cameraStandViewNodeLeaf = new CameraStandViewNodeLeaf(this.cameraController,
+            () => this.cameraController.curStance == Player.PlayerStance.stand || true);
+
         startNodeSelector.AddtoChildNode(cameraControlAbleSelector);
+
+        cameraControlAbleSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
+        cameraControlAbleSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);
+        cameraControlAbleSelector.AddtoChildNode(cameraStandViewNodeLeaf);
+
+        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+        curNodeLeaf = nodeLeaf;
     }
 }

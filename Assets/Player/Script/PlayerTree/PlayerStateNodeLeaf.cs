@@ -16,10 +16,12 @@ public class PlayerStateNodeLeaf : PlayerStateNode, INodeLeaf
 
     public virtual void Enter()
     {
+        isComplete = false;
     }
 
     public virtual void Exit()
     {
+        isComplete = false;
     }
 
     public virtual void FixedUpdateNode()

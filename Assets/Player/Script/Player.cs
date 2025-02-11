@@ -127,7 +127,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] private Transform secondaryHolster;
     [SerializeField] private Transform weaponMainSocket;
     [SerializeField] private Transform weaponSecondHandSocket;
-    [SerializeField] private CrosshairController crosshairController;
+    public CrosshairController crosshairController;
     public enum ShoulderSide
     {
         Left,

@@ -10,7 +10,6 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode
     public float hitAbleTime_Normalized;
     public float endHitableTime_Normalized;
     public AnimationClip _animationClip { get; set; }
-    public bool _isExit { get => _timer >= _animationClip.length * _exitTime_Normalized ; set { } }
     public bool _isTransitionAble { get => _timer >= _transitionAbleTime_Nornalized * _animationClip.length ; set { } }
 
     protected bool isDetectTarget;
@@ -46,6 +45,9 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode
         _timer += Time.deltaTime;
         if(_timer >= _transitionAbleTime_Nornalized* _animationClip.length)
             _isTransitionAble = true;
+
+        if(_timer >= _exitTime_Normalized * _animationClip.length)
+            isComplete = true;
 
         base.UpdateNode();
     }
