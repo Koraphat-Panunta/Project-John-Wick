@@ -49,6 +49,10 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 
         beforeAimConstrainOffset = player._aimConstraint.data.offset;
 
+        if (gunFuAttackedAble == null)
+        {
+            Debug.Log("gunFuAttackedAble = null");
+        }
         humandShield_GotInteract_NodeLeaf = gunFuAttackedAble._humandShield_GotInteract_NodeLeaf;
         base.Enter();
     }
@@ -120,14 +124,6 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 {
                     gunFuAttackedAble._gunFuHitedAble.position = targetAdjustTransform.position;
                     gunFuAttackedAble._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
-
-                    if (weaponAdvanceUser.isAimingCommand)
-                        weaponAdvanceUser.weaponCommand.AimDownSight();
-
-                    if(weaponAdvanceUser.isAimingCommand)
-                        weaponAdvanceUser.weaponCommand.PullTrigger();
-                    else
-                        weaponAdvanceUser.weaponCommand.CancleTrigger();
 
                     player._aimConstraint.data.offset = new Vector3(12,0,0);
                     player._aimConstraint.weight = 0.5f;

@@ -102,6 +102,7 @@ public class PlayerStateNodeManager : INodeManager
     public void ChangeNode(PlayerStateNodeLeaf playerStateNodeLeaf)
     {
         curNodeLeaf.Exit();
-        curNodeLeaf = pla
+        curNodeLeaf = playerStateNodeLeaf;
+        curNodeLeaf.Enter();
     }
 }

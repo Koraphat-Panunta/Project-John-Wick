@@ -46,10 +46,10 @@ public class NodeManagerBehavior
         if(nodeManager.curNodeLeaf != null)
             nodeManager.curNodeLeaf.FixedUpdateNode();
     }
-    public void ChangeNodeManual(INodeLeaf curNodeLeaf,INodeLeaf nexNode)
+    public void ChangeNodeManual(INodeManager nodeManager,INodeLeaf nexNode)
     {
-        curNodeLeaf.Exit();
-        curNodeLeaf = nexNode;
-        nexNode.Enter();
+        nodeManager.curNodeLeaf.Exit();
+        nodeManager.curNodeLeaf = nexNode;
+        nodeManager.curNodeLeaf.Enter();
     }
 }

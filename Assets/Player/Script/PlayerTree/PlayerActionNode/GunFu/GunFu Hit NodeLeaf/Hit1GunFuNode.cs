@@ -65,13 +65,13 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
         {
             if ((player._triggerGunFu || gunFuTriggerBuufer )&&gunFuDamagedAble != null)
             {
-                player.playerStateNodeManager.ChangeNode(player.playerStateNodeManager.Hit2GunFuNode);
                 player.playerStateNodeManager.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
+                player.playerStateNodeManager.ChangeNode(player.playerStateNodeManager.Hit2GunFuNode);
             }
 
             if (player.isAimingCommand && gunFuDamagedAble != null)
             {
-
+                humanShield_GunFuInteraction_NodeLeaf.gunFuAttackedAble = gunFuDamagedAble;
                player.playerStateNodeManager.
               ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
             }
