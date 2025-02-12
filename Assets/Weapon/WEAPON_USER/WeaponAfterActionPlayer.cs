@@ -62,17 +62,32 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
         player.NotifyObserver(player, PlayerAction.LowReady);
     }
-    public override void Reload(Weapon weapon, ReloadType reloadType)
+    public override void Reload(Weapon weapon, IReloadNodePhase reloadNodePhase)
     {
-        switch (reloadType)
+        if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
         {
-            case ReloadType.MAGAZINE_RELOAD
-                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.ReloadMagazineFullStage);
-                break;
-            case ReloadType.MAGAZINE_TACTICAL_RELOAD
-                :player.NotifyObserver(player, SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage);
-                break;
-           
+            switch (reloadMagazineNodePhase.curReloadPhase)
+            {
+                case IReloadMagazineNodePhase.ReloadMagazinePhase.Enter:
+                    {
+                        if (reloadNodePhase is ReloadMagazineFullStage)
+                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+
+                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
+                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                    }
+                    break;
+
+                case IReloadMagazineNodePhase.ReloadMagazinePhase.Exit:
+                    {
+                        if (reloadNodePhase is ReloadMagazineFullStage)
+                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+
+                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
+                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                    }
+                    break;
+            }
         }
     }
 

@@ -218,10 +218,16 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
+        {
+            if((player.currentWeapon.currentEventNode as ReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
             animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
+        }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
-            animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+        {
+            if ((player.currentWeapon.currentEventNode as TacticalReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+                animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+        }
 
         if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
             animator.CrossFade("MagIn_ReloadMagazineStage", 0.3f,1);

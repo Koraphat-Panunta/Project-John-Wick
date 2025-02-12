@@ -35,21 +35,34 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
   
 
-    public override void Reload(Weapon weapon, ReloadType reloadType)
+    public override void Reload(Weapon weapon, IReloadNodePhase reloadNodePhase)
     {
-        Animator animator = enemy.animator;
-        if (reloadType == ReloadType.MAGAZINE_TACTICAL_RELOAD)
+        if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
         {
-            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
-        }
-        else if (reloadType == ReloadType.MAGAZINE_RELOAD)
-        {
-            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
-        }
-        else if (reloadType == ReloadType.MAGAZINE_RELOAD_SUCCESS)
-        {
+            switch (reloadMagazineNodePhase.curReloadPhase)
+            {
+                case IReloadMagazineNodePhase.ReloadMagazinePhase.Enter:
+                    {
+                        if (reloadNodePhase is ReloadMagazineFullStage)
+                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
 
+                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
+                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                    }
+                    break;
+
+                case IReloadMagazineNodePhase.ReloadMagazinePhase.Exit:
+                    {
+                        if (reloadNodePhase is ReloadMagazineFullStage)
+                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
+
+                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
+                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                    }
+                    break;
+            }
         }
+      
     }
 
    

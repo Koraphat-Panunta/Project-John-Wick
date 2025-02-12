@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReloadMagazineFullStage : WeaponLeafNode
+public class ReloadMagazineFullStage : WeaponLeafNode,IReloadMagazineNodePhase
 {
     private float reloadTime;
 
-    private ReloadType reloadStage;
     private MagazineType mag;
 
     private float elaspeTime;
+
+    public IReloadMagazineNodePhase.ReloadMagazinePhase curReloadPhase { get ; set ; }
 
     public ReloadMagazineFullStage(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
@@ -22,16 +23,9 @@ public class ReloadMagazineFullStage : WeaponLeafNode
     {
         
     }
-
     public override bool IsComplete()
     {
-        if(reloadStage == ReloadType.MAGAZINE_RELOAD_SUCCESS)
-        {
-            return true;
-        }
-        else
-            return false;   
-
+        return base.IsComplete();
     }
     public override bool IsReset()
     {
@@ -55,34 +49,35 @@ public class ReloadMagazineFullStage : WeaponLeafNode
         {
             Reloading();
         }
-
-        if (
-            chamberCount != 0
-            && magCount != 0
-            && isMagIn == true
-            )
-            reloadStage = ReloadType.MAGAZINE_RELOAD_SUCCESS;
     }
 
     public override void Enter()
     {
-        reloadStage = ReloadType.MAGAZINE_RELOAD;
+
+        isComplete = false;
+
+        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
+
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, reloadStage);
+        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, this);
 
         elaspeTime = 0;
     }
     private void Reloading()
     {
-        reloadStage = ReloadType.MAGAZINE_RELOAD_SUCCESS;
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, reloadStage);
-        //Weapon.bulletStore[BulletStackType.Magazine] = Weapon.userWeapon.weaponBelt.ammoProuch.
         new AmmoProchReload(Weapon.userWeapon.weaponBelt.ammoProuch).Performed(Weapon);
         Weapon.bulletStore[BulletStackType.Chamber] += 1;
         Weapon.bulletStore[BulletStackType.Magazine] -= 1;
+        isComplete = true;
+
     }
     public override void Exit()
     {
+        isComplete = false;
+
+        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
+        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, this);
+
         elaspeTime = 0;
     }
 }
