@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Player;
+using static SubjectPlayer;
 
 public class PlayerInputAPI : MonoBehaviour
 {
@@ -57,10 +59,13 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void SwapShoulder(InputAction.CallbackContext context)
     {
-        if (context.performed)
-            player.isSwapShoulder = true;
-        if (context.canceled)
-            player.isSwapShoulder = false;
+        if (player.curShoulderSide == ShoulderSide.Left)
+        { player.curShoulderSide = ShoulderSide.Right; }
+
+        else if (player.curShoulderSide == ShoulderSide.Right)
+        { player.curShoulderSide = ShoulderSide.Left; }
+        player.NotifyObserver(player, PlayerAction.SwapShoulder);
+
     }
     public void SwitchWeapon(InputAction.CallbackContext context)
     {
@@ -76,15 +81,18 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)
     {
+        Debug.Log("ToggleCrouchStand");
+
         if (context.performed)
         {
-            IMovementCompoent.Stance stance = player.playerMovement.curStance;
+            Debug.Log("ToggleCrouchStand performed");
+            
 
-            switch (stance) 
+            switch ( player.playerStance) 
             {
-                case IMovementCompoent.Stance.Stand: { player.playerMovement.curStance = IMovementCompoent.Stance.Crouch; }
+                case Player.PlayerStance.stand: { player.playerStance = Player.PlayerStance.crouch; }
                     break;
-                case IMovementCompoent.Stance.Crouch: { player.playerMovement.curStance = IMovementCompoent.Stance.Stand; }
+                case Player.PlayerStance.crouch: { player.playerStance = Player.PlayerStance.stand; }
                     break;
             }
            

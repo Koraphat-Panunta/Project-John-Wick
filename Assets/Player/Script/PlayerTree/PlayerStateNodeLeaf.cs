@@ -16,10 +16,12 @@ public class PlayerStateNodeLeaf : PlayerStateNode, INodeLeaf
 
     public virtual void Enter()
     {
+        isComplete = false;
     }
 
     public virtual void Exit()
     {
+        isComplete = false;
     }
 
     public virtual void FixedUpdateNode()
@@ -34,7 +36,6 @@ public class PlayerStateNodeLeaf : PlayerStateNode, INodeLeaf
 
     public virtual bool IsReset()
     {
-        Debug.Log("Player Is Reset Count = " + isReset.Count);
 
         return nodeLeafBehavior.IsReset(isReset);
     }

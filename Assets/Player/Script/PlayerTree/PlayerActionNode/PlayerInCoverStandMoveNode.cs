@@ -15,7 +15,7 @@ public class PlayerInCoverStandMoveNode : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandMove);
         base.Enter();
     }
     public override void UpdateNode()
@@ -26,15 +26,11 @@ public class PlayerInCoverStandMoveNode : PlayerStateNodeLeaf
     public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
+        
+
         CoverDetection coverDetection = player.coverDetection;
 
-        if (isAiming == false)
-            WarpingToCoverPos();
-        else
-            WarpingToAimPos();
-
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.moveAccelerate, player.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
 

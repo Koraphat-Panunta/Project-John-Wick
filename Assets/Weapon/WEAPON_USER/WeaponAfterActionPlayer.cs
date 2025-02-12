@@ -88,13 +88,6 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     public void QuickDraw(Weapon weapon,QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase)
     {
         player.NotifyObserver(player, PlayerAction.QuickDraw);
-        //switch (quickDrawPhase)
-        //{
-        //    case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw: 
-        //        {
-                   
-        //        }
-        //        break;
-        //}
+     
     }
 }

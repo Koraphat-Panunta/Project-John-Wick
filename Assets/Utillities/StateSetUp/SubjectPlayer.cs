@@ -19,8 +19,10 @@ public abstract class SubjectPlayer : Character
         InputMag_ReloadMagazineStage,
         ChamberLoad_ReloadMagazineStage,
 
-        Idle,
-        Move,
+        StandIdle,
+        StandMove,
+        CrouchIdle,
+        CrouchMove,
         Sprint,
         Dodge,
 

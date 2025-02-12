@@ -96,7 +96,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 Vector3.Cross(player.transform.forward, Vector3.up))
             ,10*Time.deltaTime) ;
 
-        if (player.curPlayerActionNode == player.playerSprintNode)
+        if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode)
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
@@ -104,9 +104,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         }
         else
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.moveMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.moveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.moveMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.StandMoveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.StandMoveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.StandMoveMaxSpeed;
         }
 
 
@@ -176,11 +176,18 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             animator.CrossFade(Sprint, 0.3f, 0,0);
             isLayer_1_Enable = true;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.Move||
-            playerAction == SubjectPlayer.PlayerAction.Idle)
+        if(playerAction == SubjectPlayer.PlayerAction.StandMove||
+            playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {
 
             animator.CrossFade(Move_Idle, 0.3f, 0, 0);
+            isLayer_1_Enable = true;
+        }
+
+        if(playerAction == SubjectPlayer.PlayerAction.CrouchIdle||
+            playerAction == SubjectPlayer.PlayerAction.CrouchMove)
+        {
+            animator.CrossFade(Crouch, 0.3f, 0, 0);
             isLayer_1_Enable = true;
         }
 
@@ -189,13 +196,15 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             isLayer_1_Enable = false;
 
-            if(player.curPlayerActionNode == player.Hit1gunFuNode)
-            animator.CrossFade("Hit", 0.05f, 0, 0);
+            Debug.Log("PlayerCurNodeLeaf = " + player.playerStateNodeManager.curNodeLeaf);
 
-            if (player.curPlayerActionNode == player.Hit2GunFuNode)
+            if(player.playerStateNodeManager.curNodeLeaf == (player.playerStateNodeManager as PlayerStateNodeManager).Hit1gunFuNode)
+                animator.CrossFade("Hit", 0.05f, 0, 0);
+
+            if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is Hit2GunFuNode)
                 animator.CrossFade("Hit2", 0.05f, 0, 0);
 
-            if (player.curPlayerActionNode == player.knockDown_GunFuNode)
+            if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
                 animator.CrossFade("KnockDown", 0.05f, 0, 0);
         }
 

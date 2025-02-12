@@ -66,7 +66,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
     {
 
         IWeaponAdvanceUser weaponAdvanceUser = player ;
-        PlayerStateNodeLeaf playerActionNodeLeaf = player.curPlayerActionNode;
+        PlayerStateNodeLeaf playerActionNodeLeaf = player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf;
 
         if(player.isSprint)
         {

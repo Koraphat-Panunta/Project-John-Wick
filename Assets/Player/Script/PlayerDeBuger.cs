@@ -24,6 +24,8 @@ public class PlayerDeBuger : MonoBehaviour
     public bool isSwitchWeaponManuver;
 
     Player player;
+
+    [SerializeField] private string PlayerCurNodeLeaf;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,8 @@ public class PlayerDeBuger : MonoBehaviour
         isPullTriggerManuver = player.weaponManuverManager.isPullTriggerManuver;
         isReloadManuver = player.weaponManuverManager.isReloadManuver;
         isSwitchWeaponManuver = player.weaponManuverManager.isSwitchWeaponManuver;
+
+        PlayerCurNodeLeaf = player.playerStateNodeManager.curNodeLeaf.ToString();
     }
    
     private void OnDrawGizmos()

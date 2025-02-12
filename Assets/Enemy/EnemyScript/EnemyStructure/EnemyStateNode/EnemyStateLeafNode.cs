@@ -36,7 +36,6 @@ public class EnemyStateLeafNode : EnemyStateNode, INodeLeaf
 
     public virtual bool IsReset() 
     {
-        Debug.Log("Enemy Is Reset Count = " + isReset.Count);
 
         return nodeLeafBehavior.IsReset(isReset);
     } 

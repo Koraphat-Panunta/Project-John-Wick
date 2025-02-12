@@ -47,13 +47,13 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
 
     public override bool IsReset()
     {
-        if (_isExit)
+        if (isComplete)
         {
             if (player.inputMoveDir_Local.magnitude > 0)
                 return true;
         }
 
-        if (_isExit)
+        if (isComplete)
             return true;
 
         return false;
@@ -80,9 +80,10 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
 
         }
         if (_isTransitionAble &&
-            (player._triggerGunFu || gunFuTriggerBuufer) 
+            (player._triggerGunFu || gunFuTriggerBuufer)
             && gunFuDamagedAble != null)
-            player.ChangeNode(player.knockDown_GunFuNode);
+            (player.playerStateNodeManager as PlayerStateNodeManager).
+                ChangeNode((player.playerStateNodeManager as PlayerStateNodeManager).knockDown_GunFuNode);
 
         base.UpdateNode();
     }

@@ -13,9 +13,9 @@ public class _9mmBullet : Bullet
         myType = BulletType._9mm;
         recoilKickBack = 30;
     }
-    //public override void ShootDirection(Vector3 spawnerPosition, Vector3 pointPos)
+    //public override void Shoot(Vector3 spawnerPosition, Vector3 pointPos)
     //{
-    //    base.ShootDirection(spawnerPosition, pointPos);
+    //    base.Shoot(spawnerPosition, pointPos);
     //}
    
 }

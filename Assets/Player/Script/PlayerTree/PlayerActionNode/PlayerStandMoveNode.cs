@@ -10,15 +10,15 @@ public class PlayerStandMoveNode : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Move);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandMove);
         base.Enter();
     }
     public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.moveAccelerate, player.moveMaxSpeed *player.inputMoveDir_World.magnitude, IMovementCompoent.MoveMode.MaintainMomentum);
-        playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.moveRotateSpeed);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed *player.inputMoveDir_World.magnitude, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.StandMoveRotateSpeed);
 
         base.FixedUpdateNode();
     }

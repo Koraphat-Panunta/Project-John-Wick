@@ -134,12 +134,14 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
                 int chamberCount = bulletStore[BulletStackType.Chamber];
                 int magCount = bulletStore[BulletStackType.Magazine];
                 bool isMagIn = this.isMagIn;
+                int ammoProuchCount = userWeapon.weaponBelt.ammoProuch.amountOf_ammo[bullet.myType];
 
                 if
                     (
                      isMagIn == true
                     && chamberCount == 0
                     && magCount == 0
+                    && ammoProuchCount >= 0
                     )
                     return true;
                 else

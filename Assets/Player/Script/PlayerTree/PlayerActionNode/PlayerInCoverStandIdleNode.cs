@@ -15,14 +15,26 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Idle);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandIdle);
         base.Enter();
     }
     public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
         CoverDetection coverDetection = player.coverDetection;
+
+        bool isAiming = false;
+
+        if (player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+        {
+            isAiming = true;
+        }
+        else if (player.weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNode quickDraw)
+        {    
+            isAiming = true;
+        }
+
+        Debug.Log("isAiming = " + isAiming);
 
         if (isAiming == false)
             WarpingToCoverPos();
@@ -37,10 +49,8 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
 
     public override void UpdateNode()
     {
-        InputPerformed();
         base.UpdateNode();
     }
-
     private void WarpingToAimPos()
     {
         PlayerMovement playerMovement = player.playerMovement;
@@ -72,7 +82,6 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
 
         playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
     }
-
     private void WarpingToCoverPos()
     {
         PlayerMovement playerMovement = player.playerMovement;
@@ -110,11 +119,5 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
         playerMovement.RotateToDirWorld(coverStanceDir, 6);
     }
 
-    private  void InputPerformed()
-    {
-        if (player.isSwapShoulder)
-        {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
-        }
-    }
+   
 }
