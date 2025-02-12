@@ -150,14 +150,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzle: {fileID: 0}
   Sight: {fileID: 0}
-  weaponAttachments: []
   bulletSpawnerPos: {fileID: 2257692584473007763}
-  gripPos: {fileID: 6125567067642729409}
-  isAiming: 0
+  isPullTrigger: 0
   isReloadCommand: 0
-  isCancelAction: 0
-  isEquip: 0
-  aimingWeight: 0
+  isEquiped: 0
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 87a65ca05a1dd6542b758e2acea85e8f,
@@ -186,6 +182,7 @@ MonoBehaviour:
   sightRenderer: {fileID: 0}
   ReloadMagazineFullStage: ReloadMagazineFullStage
   TacticalReloadMagazineFullStage: TacticalReloadMagazineFullStage
+  Rest: Pose
   OpenChamber: BarrelOpen
   CloseChamber: BarrelClose
   FiringMechanic: BarrelFiring

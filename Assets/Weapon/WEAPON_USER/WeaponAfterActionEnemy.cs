@@ -72,7 +72,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         throw new System.NotImplementedException();
     }
 
-    public override void SwitchingWeapon(Weapon weapon, WeaponTransition weaponTransition)
+    public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponTransitionNodeLeaf)
     {
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
     }

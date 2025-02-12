@@ -56,18 +56,9 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         if (enemy._isInPain 
             || enemy.curStateLeaf is FallDown_EnemyState_NodeLeaf
-            )
+            || enemy.isDead
+            || enemy.curStateLeaf is IGunFuAttackedAbleNode)
         {
-            isAimingManuver = false;
-            isPullTriggerManuver = false;
-            isReloadManuver = false;
-            isSwitchWeaponManuver = false;
-            return;
-        }
-
-        if (enemy.curStateLeaf is IGunFuAttackedAbleNode)
-        {
-            Debug.Log("enemy.curStateLeaf is IGunFuAttackedAbleNode");
             isAimingManuver = false;
             isPullTriggerManuver = false;
             isReloadManuver = false;

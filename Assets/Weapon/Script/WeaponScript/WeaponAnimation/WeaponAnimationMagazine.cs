@@ -11,6 +11,7 @@ public class WeaponAnimationMagazine : WeaponAnimation
 
     [SerializeField] private string ReloadMagazineFullStage;
     [SerializeField] private string TacticalReloadMagazineFullStage;
+    [SerializeField] private string Rest;
 
     [SerializeField] private string OpenChamber;
     [SerializeField] private string CloseChamber;
@@ -23,8 +24,8 @@ public class WeaponAnimationMagazine : WeaponAnimation
         }
        else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
        {
-            animator.CrossFade(TacticalReloadMagazineFullStage,1f, 0);
-        }
+            animator.CrossFade(TacticalReloadMagazineFullStage,0f, 0);
+       }
 
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing) 
         {
@@ -34,6 +35,10 @@ public class WeaponAnimationMagazine : WeaponAnimation
                 animator.CrossFade(FiringMechanic, 0.1f, 1);
         }
 
+       if(weaponNotify == WeaponSubject.WeaponNotifyType.Rest)
+        {
+            animator.CrossFade(Rest, 0f, 0);
+        }
 
         if (weaponNotify == WeaponSubject.WeaponNotifyType.AttachmentSetup)
         {

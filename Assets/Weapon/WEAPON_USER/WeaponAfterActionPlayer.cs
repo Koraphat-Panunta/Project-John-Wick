@@ -96,7 +96,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
         
     }
 
-    public override void SwitchingWeapon(Weapon weapon, WeaponTransition switchingManuver)
+    public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponSwitchNodeLeaf)
     {
         player.NotifyObserver(player, PlayerAction.SwitchWeapon);
     }

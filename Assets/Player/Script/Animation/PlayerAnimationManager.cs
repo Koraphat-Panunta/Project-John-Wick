@@ -210,11 +210,19 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            if (player.currentWeapon is PrimaryWeapon)
-                animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+            PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
+            if(playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
+            {
+                if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                    animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+            }
 
-            if (player.currentWeapon is SecondaryWeapon)
-                animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f,1);
+            if (playerWeaponManuver.curNodeLeaf is SecondaryToPrimarySwitchWeaponManuverLeafNode STP)
+            {
+                if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                    animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f, 1);
+            }
+               
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
