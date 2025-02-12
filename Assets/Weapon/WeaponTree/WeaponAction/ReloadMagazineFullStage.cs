@@ -44,23 +44,6 @@ public class ReloadMagazineFullStage : WeaponLeafNode
         else return false;
     }
 
-    //public override bool Precondition()
-    //{
-    //    int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];
-    //    int magCount = Weapon.bulletStore[BulletStackType.Magazine];
-    //    bool isMagIn = mag.isMagIn;
-       
-    //    if
-    //        (
-    //         isMagIn == true 
-    //        && chamberCount ==0
-    //        && magCount == 0
-    //        )
-    //        return true;
-    //    else
-    //        return false;
-    //}
-
     public override void UpdateNode()
     {
         int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];

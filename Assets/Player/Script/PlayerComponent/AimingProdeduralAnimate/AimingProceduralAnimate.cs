@@ -29,6 +29,10 @@ public class AimingProceduralAnimate:IObserverPlayer
             //aimPosReference.position = weaponAdvancer.pointingPos;
             aimConstraint.weight = weaponAdvancer.weaponManuverManager.aimingWeight;
         }
+        else if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
+        {
+            aimConstraint.weight = weaponAdvancer.weaponManuverManager.aimingWeight;
+        }
         else if(playerAction == SubjectPlayer.PlayerAction.LowReady)
         {
             aimConstraint.weight = weaponAdvancer.weaponManuverManager.aimingWeight;

@@ -29,8 +29,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
-        Debug.Log("GunFu Hit 1 Enter");
-
         base.Enter();
     }
 
@@ -40,7 +38,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
 
-        Debug.Log("GunFu Hit 1 Exit");
         base.Exit();
     }
   
@@ -76,7 +73,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
               ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
             }
         }
-        Debug.Log("GunFu Hit 1 Update");
 
         base.UpdateNode();
     }

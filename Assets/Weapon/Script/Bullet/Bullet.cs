@@ -21,7 +21,7 @@ public abstract class Bullet:IDamageVisitor
         bulletHitForce = 40;
         this.weapon = weapon;
     }
-    public virtual void ShootDirection(Vector3 spawnerPosition,Vector3 pointPos)
+    public virtual Vector3 Shoot(Vector3 spawnerPosition,Vector3 pointPos)
     {
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("Enemy");
@@ -35,6 +35,8 @@ public abstract class Bullet:IDamageVisitor
         {
             HitExecute(hit,rayDir);
         }
+
+        return hit.point;
     }
     protected virtual void HitExecute(RaycastHit hit,Vector3 dir)
     {
@@ -47,21 +49,5 @@ public abstract class Bullet:IDamageVisitor
         
 
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart))
-    //    {
-    //        bodyPart.GotHit(damage);
-    //    }
-    //    if(collision.collider.TryGetComponent<Player>(out Player playerAnimationManager))
-    //    {
-    //        playerAnimationManager.TakeDamage(damage);
-    //    }
-    //    DrawBulletLine.bulletHitPos.Add(gameObject.transform.position);
-    //    Destroy(gameObject);
-    //}
-    //private void OnDrawGizmos()
-    //{
-        
-    //}
+   
 }

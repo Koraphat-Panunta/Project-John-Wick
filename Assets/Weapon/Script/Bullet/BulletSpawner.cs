@@ -12,31 +12,22 @@ public class BulletSpawner : MonoBehaviour
         Transform transform = gameObject.transform;
         //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
         Vector3 shootPos = weapon.userWeapon.shootingPos;
-        //Bullet.GetComponent<Bullet>().ShootDirection(transform.position,shootPos);
+        //Bullet.GetComponent<Bullet>().Shoot(transform.position,shootPos);
 
         //BulletObj thisBullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
         //thisBullet.bullet = weapon.bullet;
         //thisBullet.travelDri = (shootPos - transform.position).normalized ;    
+        Vector3 bulletHitPos = weapon.bullet.Shoot(transform.position, shootPos);
 
-        weapon.bullet.ShootDirection(transform.position, shootPos);
-
-        Vector3 trailEndPos;
-        Ray ray = new Ray(transform.position, (shootPos - transform.position).normalized);
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000, 0))
-        {
-            trailEndPos = hitInfo.point;
-        }
-        else
-            trailEndPos = ray.GetPoint(1000);
-        StartCoroutine(SpawnTrail(transform.position, trailEndPos, this.bulletTrail));
+       
+        StartCoroutine(SpawnTrail(transform.position, bulletHitPos, this.bulletTrail));
         //if(weapon.userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject.transform.position));
+        //    Bullet.GetComponent<Bullet>().Shoot(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject.transform.position));
         //}
         //else if((weapon.userWeapon.TryGetComponent<Enemy>(out Enemy _enemy)))
         //{
-        //    Bullet.GetComponent<Bullet>().ShootDirection(_enemy.enemyGetShootDirection.GetShootingPos());
+        //    Bullet.GetComponent<Bullet>().Shoot(_enemy.enemyGetShootDirection.GetShootingPos());
         //}
     }
     private IEnumerator SpawnTrail(Vector3 startPos,Vector3 endPos,TrailRenderer bulletTrail)

@@ -26,13 +26,9 @@ public class PlayerInCoverStandMoveNode : PlayerStateNodeLeaf
     public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
-        bool isAiming = player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf;
-        CoverDetection coverDetection = player.coverDetection;
+        
 
-        if (isAiming == false)
-            WarpingToCoverPos();
-        else
-            WarpingToAimPos();
+        CoverDetection coverDetection = player.coverDetection;
 
         playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();

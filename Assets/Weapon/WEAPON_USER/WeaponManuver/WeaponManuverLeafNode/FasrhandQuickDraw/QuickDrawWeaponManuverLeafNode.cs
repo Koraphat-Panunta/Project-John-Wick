@@ -90,8 +90,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                 weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
 
             return true;
-
-
         }
 
         if (IsComplete())
@@ -136,11 +134,15 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                 break;
             case QuickDrawPhase.Stay:
                 {
+                    WeaponAfterActionPlayer weaponAfterActionPlayer = weaponAdvanceUser.weaponAfterAction as WeaponAfterActionPlayer;    
+                    weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+
+                    weaponManuverManager.aimingWeight = 1;
+
                     if (weaponManuverManager.isSwitchWeaponManuver)
                     {
                         quickDrawPhase = QuickDrawPhase.HolsterSecondary;
 
-                        if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
                             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
 
                     }
