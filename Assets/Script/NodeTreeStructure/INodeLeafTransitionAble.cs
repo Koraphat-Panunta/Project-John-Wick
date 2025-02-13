@@ -20,7 +20,6 @@ public class NodeLeafTransitionBehavior
 
         foreach(INodeLeaf node in transitionAbleNode.Keys)
         {
-
             if (transitionAbleNode[node] &&
                 node.Precondition())
             {
@@ -46,9 +45,13 @@ public class NodeLeafTransitionBehavior
 
     public void TransitionAbleAll(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
-        if(nodeLeafTransitionAble.transitionAbleNode.Count <= 0)
+        if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)
             return;
-        foreach (INodeLeaf nodeLeaf in nodeLeafTransitionAble.transitionAbleNode.Keys)
+        // Create a temporary list of keys to iterate over safely
+        List<INodeLeaf> keys = new List<INodeLeaf>(nodeLeafTransitionAble.transitionAbleNode.Keys);
+
+        // Modify dictionary using the stored keys
+        foreach (INodeLeaf nodeLeaf in keys)
         {
             nodeLeafTransitionAble.transitionAbleNode[nodeLeaf] = true;
         }
@@ -57,7 +60,11 @@ public class NodeLeafTransitionBehavior
     {
         if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)
             return;
-        foreach (INodeLeaf nodeLeaf in nodeLeafTransitionAble.transitionAbleNode.Keys)
+        // Create a temporary list of keys to iterate over safely
+        List<INodeLeaf> keys = new List<INodeLeaf>(nodeLeafTransitionAble.transitionAbleNode.Keys);
+
+        // Modify dictionary using the stored keys
+        foreach (INodeLeaf nodeLeaf in keys)
         {
             nodeLeafTransitionAble.transitionAbleNode[nodeLeaf] = false;
         }

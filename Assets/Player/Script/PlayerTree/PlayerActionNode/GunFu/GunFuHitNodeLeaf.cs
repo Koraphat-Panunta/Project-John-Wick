@@ -11,13 +11,13 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public float endHitableTime_Normalized;
     public AnimationClip _animationClip { get; set; }
 
-    protected bool isHiting;
-
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
     public IGunFuAble gunFuAble { get; set; }
-    public INodeManager nodeManager { get ; set ; }
+    public INodeManager nodeManager { get => base.player.playerStateNodeManager ; set { } }
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
+
+
 
     public GunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
@@ -28,7 +28,6 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
         this._animationClip = gunFuNodeScriptableObject.animationClip;
 
         gunFuAble = player as IGunFuAble;
-        nodeManager = player.playerStateNodeManager;
         transitionAbleNode = new Dictionary<INodeLeaf, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
@@ -37,8 +36,11 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
         this.attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
-        isHiting = false;
+
         player._triggerGunFu = false;
+        player.triggerGunFuBufferTime = 2;
+
+        (player.playerMovement as IMovementCompoent).CancleMomentum();
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
 
@@ -48,7 +50,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public override void Exit()
     {
         _timer = 0;
-
+        (player.playerMovement as IMovementCompoent).CancleMomentum();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
 
         base.Exit();
@@ -61,6 +63,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
     public override void UpdateNode()
     {
+        Debug.Log("Debug from GunFuHit curNodeLeaf = " + nodeManager);
         Transitioning();
 
         _timer += Time.deltaTime;
@@ -75,11 +78,15 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     }
 
     RotateObjectToward rotateObjectToward = new RotateObjectToward();
-    protected Vector3 targetPos;
+  
 
     protected void LerpingToTargetPos()
     {
-        if (Vector3.Distance(targetPos, player.transform.position) > 0.25f)
+        Vector3 targetPos = attackedAbleGunFu._gunFuHitedAble.position;
+        //Vector3 offset = (gunFuAble._gunFuUserTransform.position - targetPos).normalized;
+        //offset = new Vector3(offset.x,0,offset.z).normalized * 0.35f;
+
+        if (Vector3.Distance(targetPos, player.transform.position) > 0.35f)
         {
             rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
             player.playerMovement.SnapingMovement(targetPos, Vector3.zero, 600 * Time.deltaTime);

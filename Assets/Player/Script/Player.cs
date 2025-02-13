@@ -25,9 +25,18 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isReloadCommand = false;
         isSwapShoulder = false;
         isSwitchWeaponCommand = false;
-        _triggerGunFu = false;
-    }
+        if(_triggerGunFu == true)
+        {
+            triggerGunFuBufferTime -= Time.deltaTime;
 
+            if (triggerGunFuBufferTime <= 0)
+            {
+                _triggerGunFu = false;
+                triggerGunFuBufferTime = 2;
+            }
+        }
+
+    }
     protected override void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
@@ -182,6 +191,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedGunFu
     public bool _triggerGunFu { get ; set ; }
+    public float triggerGunFuBufferTime { get ; set ; }
     public IWeaponAdvanceUser _weaponUser { get ; set; }
     public Vector3 _gunFuAimDir { get; set; }
     public Transform _gunFuUserTransform { get ; set; }
@@ -204,6 +214,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
 
         _targetAdjustTranform = targetAdjustTranform;
+        triggerGunFuBufferTime = 1;
     }
     public void UpdateDetectingTarget()
     {

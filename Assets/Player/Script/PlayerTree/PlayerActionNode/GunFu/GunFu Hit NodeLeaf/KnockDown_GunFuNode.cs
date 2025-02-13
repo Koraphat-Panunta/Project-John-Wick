@@ -3,76 +3,39 @@ using UnityEngine;
 
 public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 {
-    private bool isHiting;
-    private bool gunFuTriggerBuufer;
     public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
     }
 
-    public override void Enter()
+    public override void UpdateNode()
     {
-        player._triggerGunFu = false;
-        _timer = 0;
-        attackedAbleGunFu = null;
-        isHiting = false;
-        gunFuTriggerBuufer = false;
-        isDetectTarget = false;
+        if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized)
+        {
+            attackedAbleGunFu.TakeGunFuAttacked(this, player);
+        }
 
-        isDetectTarget = DetectTarget();
-
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
-
-        base.Enter();
+        base.UpdateNode();
     }
-
-    public override void Exit()
-    {
-        _timer = 0;
-
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
-        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6,IMovementCompoent.MoveMode.MaintainMomentum);
-        base.Exit();
-    }
-
     public override void FixedUpdateNode()
     {
-        player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
-        if (isDetectTarget)
         LerpingToTargetPos();
         base.FixedUpdateNode();
     }
 
     public override bool IsReset()
     {
-        if (isComplete)
-        {
-            if (player.inputMoveDir_Local.magnitude > 0)
-                return true;
-        }
+        if (IsComplete())
+            return true;
 
-        if (isComplete)
+        if (player.playerMovement.isGround == false)
             return true;
 
         return false;
     }
 
     
-    public override void UpdateNode()
-    {
-
-
-        if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
-           && isHiting == false)
-        {
-            if (attackedAbleGunFu != null)
-                attackedAbleGunFu.TakeGunFuAttacked(this,player);
-
-            isHiting = true;
-        }
-
-        base.UpdateNode();
-    }
+   
    
     
 }

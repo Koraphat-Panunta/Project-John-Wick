@@ -34,6 +34,7 @@ public abstract class SubjectPlayer : Character
         GetOffCover,
 
         GunFuEnter,
+        GunFuAttack,
         GunFuExit,
 
         OppenentStagger,

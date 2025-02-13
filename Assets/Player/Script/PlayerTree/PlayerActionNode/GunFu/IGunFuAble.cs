@@ -3,6 +3,7 @@ using UnityEngine;
 public interface IGunFuAble
 {
     public bool _triggerGunFu { get; set; }
+    public float triggerGunFuBufferTime { get; set; }
     public Transform _gunFuUserTransform { get; set; }
     public Transform _targetAdjustTranform { get; set; }
     public Vector3 _gunFuAimDir { get; set; }

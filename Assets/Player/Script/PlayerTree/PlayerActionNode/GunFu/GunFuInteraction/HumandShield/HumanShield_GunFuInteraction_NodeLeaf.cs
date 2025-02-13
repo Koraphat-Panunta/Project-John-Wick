@@ -76,23 +76,21 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     if (targetAdjustTransform == null)
                         Debug.Log("targetAdjustTransform == null");
 
-                    gunFuAttackedAble._gunFuHitedAble.position = Vector3.Lerp(
-                        gunFuAttackedAble._gunFuHitedAble.position, 
+                    attackedAbleGunFu._gunFuHitedAble.position = Vector3.Lerp(
+                        attackedAbleGunFu._gunFuHitedAble.position, 
                         targetAdjustTransform.position, 
                         elaspeTimmerEnter / elaspeEnter
                         );
 
-                    gunFuAttackedAble._gunFuHitedAble.rotation = Quaternion.Lerp(
-                        gunFuAttackedAble._gunFuHitedAble.rotation,
+                    attackedAbleGunFu._gunFuHitedAble.rotation = Quaternion.Lerp(
+                        attackedAbleGunFu._gunFuHitedAble.rotation,
                         targetAdjustTransform.rotation,
                         elaspeTimmerEnter / elaspeEnter
                         );
 
                     if (elaspeTimmerEnter >= elaspeEnter)
                     {
-                        animator.CrossFade(humandShieldStay, 0.1f, 0);
                         curIntphase = InteractionPhase.Stay;
-                        humandShield_GotInteract_NodeLeaf.StateStay();
 
                         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
                     }
@@ -101,8 +99,8 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 
             case InteractionPhase.Stay:
                 {
-                    gunFuAttackedAble._gunFuHitedAble.position = targetAdjustTransform.position;
-                    gunFuAttackedAble._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
+                    attackedAbleGunFu._gunFuHitedAble.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
 
                     player._aimConstraint.data.offset = new Vector3(12,0,0);
                     player._aimConstraint.weight = 0.5f;
@@ -115,11 +113,9 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                         player._aimConstraint.data.offset = beforeAimConstrainOffset;
                         player._aimConstraint.weight = 1;
 
-                        animator.CrossFade(humandShieldExit, 0.1f, 0);
                         curIntphase = InteractionPhase.Exit;
-                        gunFuAttackedAble.TakeGunFuAttacked(this, player);
+                        attackedAbleGunFu.TakeGunFuAttacked(this, player);
                         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
-                        humandShield_GotInteract_NodeLeaf.StateExit();
                     }
                 }
                 break;
@@ -130,7 +126,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     player.playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
 
                     if (_timerHumandThrow >= timehumandThrow)
-                        _isExit = true;
+                        isComplete = true;
                 }
                 break;
         }

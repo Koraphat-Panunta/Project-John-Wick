@@ -694,37 +694,38 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
 
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => gotHumandShielded_GunFuNodeLeaf; set => gotHumandShielded_GunFuNodeLeaf = value; }
+    public IGunFuNode curGotAttackedGunFuNode { get ; set ; }
 
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] GunFu_GotHit_ScriptableObject KnockDown;
-    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attacker)
+    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
         switch (gunFu_NodeLeaf)
         {
-            case Hit1GunFuNode hit1GunFuNode:
-                {
-                    gotHit1_GunFuHitNodeLeaf.gunFuAble = attacker;
-                    ChangeStateNode(gotHit1_GunFuHitNodeLeaf);
+            //case Hit1GunFuNode hit1GunFuNode:
+            //    {
+            //        gotHit1_GunFuHitNodeLeaf.gunFuAble = attacker;
+            //        ChangeStateNode(gotHit1_GunFuHitNodeLeaf);
 
-                }
-                break;
+            //    }
+            //    break;
 
-            case Hit2GunFuNode hit2GunFuNode:
-                {
-                    gotHit2_GunFuHitNodeLeaf.gunFuAble = attacker;
-                    ChangeStateNode(gotHit2_GunFuHitNodeLeaf);
+            //case Hit2GunFuNode hit2GunFuNode:
+            //    {
+            //        gotHit2_GunFuHitNodeLeaf.gunFuAble = attacker;
+            //        ChangeStateNode(gotHit2_GunFuHitNodeLeaf);
 
-                }
-                break;
+            //    }
+            //    break;
 
-            case KnockDown_GunFuNode knockDownGunFuNode: 
-                {
-                    gotKnockDown_GunFuNodeLeaf.gunFuAble = attacker;
-                    ChangeStateNode(gotKnockDown_GunFuNodeLeaf);
+            //case KnockDown_GunFuNode knockDownGunFuNode: 
+            //    {
+            //        gotKnockDown_GunFuNodeLeaf.gunFuAble = attacker;
+            //        ChangeStateNode(gotKnockDown_GunFuNodeLeaf);
 
-                }
-                break;
+            //    }
+            //    break;
         }
         attackedPos = attacker._gunFuUserTransform.position;
     }

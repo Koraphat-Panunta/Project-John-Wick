@@ -26,6 +26,7 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
     }
     protected Rigidbody bodyPartRigid;
     public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => enemy._humandShield_GotInteract_NodeLeaf; set => enemy._humandShield_GotInteract_NodeLeaf = value; }
+    public IGunFuNode curGotAttackedGunFuNode { get => enemy.curGotAttackedGunFuNode; set => enemy.curGotAttackedGunFuNode = value; }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
@@ -56,15 +57,12 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
         }
     }
 
-    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attackerPos)
+    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
     }
 
-    public void TakeGunFuAttacked(GunFu_Interaction_NodeLeaf gunFu_Interaction_NodeLeaf, IGunFuAble gunFuAble)
-    {
-        enemy.TakeGunFuAttacked(gunFu_Interaction_NodeLeaf, gunFuAble);
-    }
+   
 
     protected void HitsensingTarget(Vector3 hitPart)
     {
