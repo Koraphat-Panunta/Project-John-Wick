@@ -5,73 +5,20 @@ using UnityEngine;
 public class Hit1GunFuNode : GunFuHitNodeLeaf
 {
 
-    private bool isHiting;
 
-    private bool gunFuTriggerBuufer;
-
-    private HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
 
     public Hit1GunFuNode(Player player,Func<bool> preCondition , GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
-        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(player, () => { return player.isAimingCommand; });
+
     }
-
-    public override void Enter()
-    {
-        player._triggerGunFu = false;
-        _timer = 0;
-        gunFuDamagedAble = null;
-        isHiting = false;
-        gunFuTriggerBuufer = false;
-        isDetectTarget = false;
-
-        isDetectTarget = DetectTarget();
-
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
-
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        _timer = 0;
-
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
-
-        base.Exit();
-    }
-  
     public override void UpdateNode()
     {
-        
-        if(_timer >= _animationClip.length * 0f 
-            && player._triggerGunFu)
-            gunFuTriggerBuufer = true;
-
-       
-
         if(_timer>=_animationClip.length*hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
             && isHiting == false)
         {
-            if (gunFuDamagedAble != null)
-                gunFuDamagedAble.TakeGunFuAttacked(this,player);
+            if (attackedAbleGunFu != null)
+                attackedAbleGunFu.TakeGunFuAttacked(this,player);
             isHiting = true;
-        }
-
-        if (_isTransitionAble)
-        {
-            if ((player._triggerGunFu || gunFuTriggerBuufer )&&gunFuDamagedAble != null)
-            {
-                player.playerStateNodeManager.Hit2GunFuNode.gunFuDamagedAble = gunFuDamagedAble;
-                player.playerStateNodeManager.ChangeNode(player.playerStateNodeManager.Hit2GunFuNode);
-            }
-
-            if (player.isAimingCommand && gunFuDamagedAble != null)
-            {
-                humanShield_GunFuInteraction_NodeLeaf.gunFuAttackedAble = gunFuDamagedAble;
-               player.playerStateNodeManager.
-              ChangeNode(humanShield_GunFuInteraction_NodeLeaf);
-            }
         }
 
         base.UpdateNode();
@@ -80,7 +27,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
     {
         player.playerMovement.MoveToDirWorld(Vector3.zero, 6, 6, IMovementCompoent.MoveMode.MaintainMomentum);
 
-        if (isDetectTarget)
             LerpingToTargetPos();
         base.FixedUpdateNode();
     }
@@ -93,9 +39,10 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
                 return true;
         }
 
-        if (isComplete)
+        if (IsComplete())
             return true;
 
         return false;
     }
+    
 }

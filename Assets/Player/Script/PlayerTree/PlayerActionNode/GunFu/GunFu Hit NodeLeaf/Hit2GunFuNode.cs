@@ -15,7 +15,7 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
     {
         player._triggerGunFu = false;
         _timer = 0;
-        gunFuDamagedAble = null;
+        attackedAbleGunFu = null;
         isHiting = false;
         gunFuTriggerBuufer = false;
         isDetectTarget = false;
@@ -69,8 +69,8 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
         if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
            && isHiting == false)
         {
-            if (gunFuDamagedAble != null)
-                gunFuDamagedAble.TakeGunFuAttacked(this, player);
+            if (attackedAbleGunFu != null)
+                attackedAbleGunFu.TakeGunFuAttacked(this, player);
             isHiting = true;
         }
 
@@ -81,7 +81,7 @@ public class Hit2GunFuNode : GunFuHitNodeLeaf
         }
         if (_isTransitionAble &&
             (player._triggerGunFu || gunFuTriggerBuufer)
-            && gunFuDamagedAble != null)
+            && attackedAbleGunFu != null)
             (player.playerStateNodeManager as PlayerStateNodeManager).
                 ChangeNode((player.playerStateNodeManager as PlayerStateNodeManager).knockDown_GunFuNode);
 

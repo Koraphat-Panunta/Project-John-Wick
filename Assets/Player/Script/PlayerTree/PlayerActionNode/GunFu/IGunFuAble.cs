@@ -8,7 +8,7 @@ public interface IGunFuAble
     public Vector3 _gunFuAimDir { get; set; }
     public GunFuDetectTarget gunFuDetectTarget { get; set; }
     public LayerMask _layerTarget { get; set; }
-    public IGunFuGotAttackedAble gunFuDamagedAble { get; set; }
+    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
     public void InitailizedGunFuComponent();
     public void UpdateDetectingTarget();
 }

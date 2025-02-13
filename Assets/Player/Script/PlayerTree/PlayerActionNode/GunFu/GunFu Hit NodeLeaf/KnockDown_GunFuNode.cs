@@ -13,7 +13,7 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
     {
         player._triggerGunFu = false;
         _timer = 0;
-        gunFuDamagedAble = null;
+        attackedAbleGunFu = null;
         isHiting = false;
         gunFuTriggerBuufer = false;
         isDetectTarget = false;
@@ -65,8 +65,8 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
         if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized
            && isHiting == false)
         {
-            if (gunFuDamagedAble != null)
-                gunFuDamagedAble.TakeGunFuAttacked(this,player);
+            if (attackedAbleGunFu != null)
+                attackedAbleGunFu.TakeGunFuAttacked(this,player);
 
             isHiting = true;
         }

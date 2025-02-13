@@ -191,7 +191,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
     public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
-    public IGunFuGotAttackedAble gunFuDamagedAble { get; set; }
+    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
@@ -208,9 +208,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public void UpdateDetectingTarget()
     {
         if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
-            gunFuDamagedAble = target;
+            attackedAbleGunFu = target;
         else
-            gunFuDamagedAble = null;
+            attackedAbleGunFu = null;
     }
     #endregion
 
