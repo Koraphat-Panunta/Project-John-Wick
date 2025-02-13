@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
     IHearingComponent, IPatrolComponent,
-    IPainState,IFallDownGetUpAble,IGunFuDamagedAble
+    IPainState,IFallDownGetUpAble,IGunFuGotAttackedAble
 {
     [Range(0,100)]
     public float intelligent;

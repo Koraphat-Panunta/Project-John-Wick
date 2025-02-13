@@ -319,33 +319,39 @@ public class EnemyCommandAPI :MonoBehaviour
         Freez();
         _enemy.isInCover = true;
     }
-    public void MoveToTakeCover(CoverPoint coverPoint,float velocity,bool rotateMoveDir)
+    public bool MoveToTakeCover(CoverPoint coverPoint,float velocity,bool rotateMoveDir)
     {
-        coverPoint.TakeThisCover(_enemy);
-
-        if (MoveToPosition(coverPoint.coverPos.position, 1, rotateMoveDir,1)) 
-        TakeCover();
-    }
-    public void MoveToTakeCover(CoverPoint coverPoint, float velocity)
-    {
-        if(coverPoint == null)
-            return;
 
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position,1,1))
+        if (MoveToPosition(coverPoint.coverPos.position, 1, rotateMoveDir, 1))
+        {
             TakeCover();
+            return true;
+        }
+        return false;
     }
-    public void SprintToCover(CoverPoint coverPoint)
+    public bool MoveToTakeCover(CoverPoint coverPoint, float velocity)
     {
-        if(coverPoint == null)
-            return ;
+        coverPoint.TakeThisCover(_enemy);
+
+        if (MoveToPosition(coverPoint.coverPos.position, 1, 1))
+        {
+            TakeCover();
+            return true;
+        }
+        return false;
+    }
+    public bool SprintToCover(CoverPoint coverPoint)
+    {
         coverPoint.TakeThisCover(_enemy);
 
         if (SprintToPosition(coverPoint.coverPos.position, 5, 1))
         {
             TakeCover();
+            return true;
         }
+        return false;
     }
     public void GetOffCover()
     {

@@ -17,7 +17,7 @@ public class EnemyMovement : IMovementCompoent
 
     public Enemy enemy { get; set; }
     public GravityMovement gravityMovement { get; set; }
-    public MoveTo moveTo { get ; set ; }
+    public MovementComponentBehavior moveTo { get ; set ; }
     public bool isEnable { get ; set ; }
 
     public EnemyMovement(NavMeshAgent agent,Enemy enemy)
@@ -26,7 +26,7 @@ public class EnemyMovement : IMovementCompoent
         this.gravityMovement = new GravityMovement();
         this.enemy = enemy;
 
-        moveTo = new MoveTo();
+        moveTo = new MovementComponentBehavior();
         isEnable = true;
     }
 
@@ -42,7 +42,7 @@ public class EnemyMovement : IMovementCompoent
         GravityUpdate();
         agent.Move(curMoveVelocity_World * Time.deltaTime);
 
-        if (Physics.Raycast(enemy.transform.position, Vector3.down, 1))
+        if (Physics.Raycast(enemy.transform.position, Vector3.down, 1,moveTo.GetGroundLayerMask()))
             isGround = true;
         else isGround = false;
     }

@@ -9,7 +9,7 @@ public interface IMovementCompoent
     public Vector3 moveInputVelocity_Local { get; set; }
     public Vector3 curMoveVelocity_Local { get; set; }
     public Vector3 forwardDir { get; set; }
-    public MoveTo moveTo { get; set; }
+    public MovementComponentBehavior moveTo { get; set; }
 
     public bool isEnable { get; set; }
     public enum MoveMode
@@ -37,7 +37,7 @@ public interface IMovementCompoent
     //public bool isSprint { get; set; }
 
 }
-public class MoveTo
+public class MovementComponentBehavior
 {
    
     public void MoveToDirWorld(IMovementCompoent movementCompoent, Vector3 dirWorldNormalized, float speed, float maxSpeed, MoveMode moveMode)
@@ -103,5 +103,10 @@ public class MoveTo
         Direction.y = 0;
 
         return Direction;
+    }
+    public LayerMask GetGroundLayerMask()
+    {
+        LayerMask mask = LayerMask.NameToLayer("Default")+LayerMask.GetMask("Ground");
+        return mask;
     }
 }

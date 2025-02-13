@@ -23,7 +23,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
     private GravityMovement gravityMovement;
     public IMovementMotionWarping movementMotionWarping { get; set; }
-    public MoveTo moveTo { get ; set ; }
+    public MovementComponentBehavior moveTo { get ; set ; }
     public bool isEnable { get; set; }
     public PlayerMovement(Player player)
     {
@@ -37,7 +37,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
         curStance = IMovementCompoent.Stance.Stand;
 
-        moveTo = new MoveTo();
+        moveTo = new MovementComponentBehavior();
 
         isEnable = true;
         
@@ -61,7 +61,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         GravityUpdate();
         characterController.Move(curMoveVelocity_World * Time.deltaTime);
 
-        if (Physics.Raycast(player.centreTransform.position, Vector3.down, 1))
+        if (Physics.Raycast(player.centreTransform.position, Vector3.down, 1,moveTo.GetGroundLayerMask()))
             isGround = true;
         else isGround = false;
     }
@@ -77,7 +77,6 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
             characterController.Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed*Time.deltaTime) * Time.deltaTime);
             return;
         }
-
         characterController.Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
     }
    

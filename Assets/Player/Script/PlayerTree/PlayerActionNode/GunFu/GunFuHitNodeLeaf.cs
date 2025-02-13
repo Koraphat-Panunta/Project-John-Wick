@@ -14,7 +14,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode
 
     protected bool isDetectTarget;
 
-    public IGunFuDamagedAble gunFuDamagedAble;
+    public IGunFuGotAttackedAble gunFuDamagedAble;
  
     public GunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
@@ -68,30 +68,30 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode
 
     protected bool DetectTarget()
     {
-        Vector3 casrDir;
+        //Vector3 casrDir;
 
-        if (Vector3.Angle(player.RayCastPos.transform.forward, player._gunFuAimDir) <= player._limitAimAngleDegrees)
-        {
-            casrDir = new Vector3(player._gunFuAimDir.x, 0, player._gunFuAimDir.z);
-        }
-        else
-        {
-            casrDir = player.RayCastPos.transform.forward;
-        }
+        //if (Vector3.Angle(player.RayCastPos.transform.forward, player._gunFuAimDir) <= player._limitAimAngleDegrees)
+        //{
+        //    casrDir = new Vector3(player._gunFuAimDir.x, 0, player._gunFuAimDir.z);
+        //}
+        //else
+        //{
+        //    casrDir = player.RayCastPos.transform.forward;
+        //}
 
-        if (Physics.SphereCast(player.RayCastPos.transform.position, player._shpere_Raduis_Detecion, casrDir, out RaycastHit hitInfo, player._sphere_Distance_Detection, player._layerTarget))
-        {
-            if (hitInfo.collider.TryGetComponent<IGunFuDamagedAble>(out IGunFuDamagedAble gunFuDamagedAble))
-            {
-                this.gunFuDamagedAble = gunFuDamagedAble;
+        //if (Physics.SphereCast(player.RayCastPos.transform.position, player._shpere_Raduis_Detecion, casrDir, out RaycastHit hitInfo, player._sphere_Distance_Detection, player._layerTarget))
+        //{
+        //    if (hitInfo.collider.TryGetComponent<IGunFuDamagedAble>(out IGunFuDamagedAble gunFuDamagedAble))
+        //    {
+        //        this.gunFuDamagedAble = gunFuDamagedAble;
 
-                targetPos = new Vector3(gunFuDamagedAble._gunFuHitedAble.position.x, player.transform.position.y, gunFuDamagedAble._gunFuHitedAble.position.z);
-                return true;
-            }
-            targetPos = player.transform.position ;
-            return false;
-        }
-        targetPos = player.transform.position ;
+        //        targetPos = new Vector3(gunFuDamagedAble._gunFuHitedAble.position.x, player.transform.position.y, gunFuDamagedAble._gunFuHitedAble.position.z);
+        //        return true;
+        //    }
+        //    targetPos = player.transform.position ;
+        //    return false;
+        //}
+        //targetPos = player.transform.position ;
 
         return false;
 

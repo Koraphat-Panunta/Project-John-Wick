@@ -5,7 +5,7 @@ using UnityEngine.ProBuilder;
 public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 {
     IWeaponAdvanceUser weaponAdvanceUser;
-    public IGunFuDamagedAble gunFuAttackedAble;
+    public IGunFuGotAttackedAble gunFuAttackedAble;
     Animator animator;
 
     IGunFuAble gunFuAble;

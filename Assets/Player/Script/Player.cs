@@ -61,6 +61,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     private void Update()
     {
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
+        _gunFuAimDir = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
+        UpdateDetectingTarget();
 
         playerStateNodeManager.UpdateNode();
         weaponManuverManager.UpdateNode();
@@ -113,7 +115,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedWeaponAdvanceUser
 
-    [SerializeField] private Weapon CurrentWeapon;
     [SerializeField] private PrimaryWeapon primaryWeapon;
     [SerializeField] private SecondaryWeapon secondaryWeapon;
     [SerializeField] private Transform primaryHolster;
@@ -147,7 +148,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
-        CurrentWeapon = currentWeapon;
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;
@@ -183,23 +183,15 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     #region InitailizedGunFu
     public bool _triggerGunFu { get ; set ; }
     public IWeaponAdvanceUser _weaponUser { get ; set; }
-    public Vector3 _gunFuAimDir { get => Camera.main.transform.forward; }
-
-    [Range(0, 10)]
-    [SerializeField] private float shpere_Raduis_Detecion;
-    public float _shpere_Raduis_Detecion { get => shpere_Raduis_Detecion; set { } }
-    [Range(0, 10)]
-    [SerializeField] private float sphere_Distance_Detection;
-    public float _sphere_Distance_Detection { get => sphere_Distance_Detection; set { } }
-    [Range(0, 360)]
-    [SerializeField] private float limitAimAngleDegrees;
-    public float _limitAimAngleDegrees { get =>limitAimAngleDegrees; set { } }
-
+    public Vector3 _gunFuAimDir { get; set; }
     public Transform _gunFuUserTransform { get ; set; }
     public LayerMask _layerTarget { get ; set ; }
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
-  
+
+    [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
+    public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
+    public IGunFuGotAttackedAble gunFuDamagedAble { get; set; }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
@@ -212,6 +204,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
 
         _targetAdjustTranform = targetAdjustTranform;
+    }
+    public void UpdateDetectingTarget()
+    {
+        if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+            gunFuDamagedAble = target;
+        else
+            gunFuDamagedAble = null;
     }
     #endregion
 

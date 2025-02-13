@@ -112,8 +112,6 @@ public class FindingCover
                 coverPoint = _coverPoint[i];    
             }
         }
-
-        //coverPoint.TakeThisCover(coverUser);
         return true;
     }
 }

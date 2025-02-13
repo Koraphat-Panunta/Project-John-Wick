@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAble
+public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttackedAble
 {
     [SerializeField] public Enemy enemy;
     public abstract float hpReciverRate { get; set; }
