@@ -24,7 +24,7 @@ public class EnemyDebuger :MonoBehaviour, IObserverEnemy
     // UpdateNode is called once per frame
     void Update()
     {
-       CurrentEnemyState = this.enemy.curStateLeaf.ToString();
+       CurrentEnemyState = this.enemy.enemyStateManagerNode.curNodeLeaf.ToString();
        posture = enemy._posture;
        PainPart = enemy._painPart;
     }

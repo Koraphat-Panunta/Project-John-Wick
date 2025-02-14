@@ -25,7 +25,6 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
 
     }
     protected Rigidbody bodyPartRigid;
-    public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => enemy._humandShield_GotInteract_NodeLeaf; set => enemy._humandShield_GotInteract_NodeLeaf = value; }
     public IGunFuNode curGotAttackedGunFuNode { get => enemy.curGotAttackedGunFuNode; set => enemy.curGotAttackedGunFuNode = value; }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)

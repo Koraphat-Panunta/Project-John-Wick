@@ -127,7 +127,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             , 10 * Time.deltaTime);
 
 
-        if (enemy.curStateLeaf == enemy.enemySprintState)
+        if (enemy.enemyStateManagerNode.curNodeLeaf == enemy.enemyStateManagerNode.enemySprintState)
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.sprintMaxSpeed;

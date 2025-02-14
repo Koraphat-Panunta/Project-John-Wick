@@ -54,7 +54,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
             got_threwDown_time += Time.deltaTime;
             if(got_threwDown_time >= 2.5f)
             {
-                enemy.ChangeStateNode(enemy.fallDown_EnemyState_NodeLeaf);
+                //enemy.ChangeStateNode(enemy.fallDown_EnemyState_NodeLeaf);
                 _isExit = true;
             }
             else if(got_threwDown_time >= 0.7f)
