@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static HumanShield_GunFuInteraction_NodeLeaf;
 
-public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
+public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INodeLeafTransitionAble
 {
     public Animator animator;
     public string stateNameEnter = "HumandShielded Enter";
@@ -12,17 +13,27 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
     float got_threwDown_time;
 
     HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase interactionPhase;
+
+    public INodeManager nodeManager { get ; set ; }
+    public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
+
     public HumandShield_GotInteract_NodeLeaf(Enemy enemy,Func<bool> preCondition,Animator animator) : base(enemy, preCondition)
     {
         this.animator = animator;
+
+        this.nodeManager = enemy.enemyStateManagerNode;
+        this.transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+
     }
 
-    public override bool _isExit { get; set; }
+
 
     public override void Enter()
     {
         got_threwDown_time = 0;
-        _isExit = false;
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         StateEnter();
 
         base.Enter();
@@ -30,7 +41,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
 
     public override void Exit()
     {
-
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         base.Exit();
     }
 
@@ -39,23 +50,18 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if(_isExit)
-            return true;
-
-        return false;
-    }
+   
 
     public override void UpdateNode()
     {
+        Transitioning();
+
         if(interactionPhase == InteractionPhase.Exit)
         {
             got_threwDown_time += Time.deltaTime;
             if(got_threwDown_time >= 2.5f)
             {
-                //enemy.ChangeStateNode(enemy.fallDown_EnemyState_NodeLeaf);
-                _isExit = true;
+                
             }
             else if(got_threwDown_time >= 0.7f)
             {
@@ -94,4 +100,9 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
         enemy._posture = 0;
     }
+
+    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+
+    public void AddTransitionNode(INodeLeaf nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+    
 }

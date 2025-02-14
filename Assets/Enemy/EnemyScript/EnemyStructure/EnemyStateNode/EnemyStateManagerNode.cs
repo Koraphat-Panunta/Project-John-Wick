@@ -17,7 +17,18 @@ public class EnemyStateManagerNode : INodeManager
     }
 
     public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
-    public void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode() 
+    {
+        if (curNodeLeaf.IsReset()) 
+        {
+            startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+            curNodeLeaf.Exit();
+            curNodeLeaf = nodeLeaf;
+            curNodeLeaf.Enter();
+        }
+
+        curNodeLeaf.UpdateNode();
+    }
     
 
     #region Initailized State Node
@@ -30,11 +41,13 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStandMoveStateNode enemyStandMoveState { get; private set; }
     public EnemyStandTakeCoverStateNode enemyStandTakeCoverState { get; private set; }
     public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
+
+    public EnemyStateSelectorNode gunFuSelector { get; private set; }
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
-
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
+
 
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
@@ -116,6 +129,7 @@ public class EnemyStateManagerNode : INodeManager
             return false;
         });
 
+        painStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         painStateSelector.AddtoChildNode(head_PainState_Selector);
         painStateSelector.AddtoChildNode(Body_PainState_Selector);
         painStateSelector.AddtoChildNode(Arm_PainState_Selector);
@@ -204,7 +218,7 @@ public class EnemyStateManagerNode : INodeManager
             () => this.enemy.isInCover
             );
 
-        InitailizedPainStateNode();
+        
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
             () => this.enemy.GetHP() <= 0
@@ -239,26 +253,47 @@ public class EnemyStateManagerNode : INodeManager
             () => this.enemy.isInCover && this.enemy.isAimingCommand
             , this.enemy);
 
+        gunFuSelector = new EnemyStateSelectorNode(this.enemy, 
+            () => enemy._triggerHitedGunFu);
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,
-            () => true
+            () => 
+            {
+                return enemy.curGotAttackedGunFuNode is Hit1GunFuNode;
+            }
             , this.enemy.GotHit1);
 
         gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this.enemy,
-            () => true
+            () => 
+            {
+                return enemy.curGotAttackedGunFuNode is Hit2GunFuNode;
+            }
             , this.enemy.GotHit2);
 
         gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this.enemy,
-            () => true
+            () => 
+            {
+                return enemy.curGotAttackedGunFuNode is KnockDown_GunFuNode;
+            }
             , this.enemy.KnockDown);
 
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,
-            () => true
+            () => 
+            { 
+                return enemy.curGotAttackedGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
+            }
             , this.enemy.animator);
 
+
+
         startNodeSelector.AddtoChildNode(enemtDeadState);
-        startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        startNodeSelector.AddtoChildNode(gunFuSelector);
+        InitailizedPainStateNode();
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);
+
+        gunFuSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
+        gunFuSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);
+        gunFuSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
 
         standSelector.AddtoChildNode(enemySprintState);
         standSelector.AddtoChildNode(takeCoverSelector);

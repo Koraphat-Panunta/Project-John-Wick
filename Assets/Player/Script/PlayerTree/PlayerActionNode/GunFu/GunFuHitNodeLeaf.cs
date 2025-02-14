@@ -63,7 +63,6 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
     public override void UpdateNode()
     {
-        Debug.Log("Debug from GunFuHit curNodeLeaf = " + nodeManager);
         Transitioning();
 
         _timer += Time.deltaTime;

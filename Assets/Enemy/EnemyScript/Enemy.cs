@@ -117,6 +117,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         isAimingCommand = false;
         isReloadCommand = false;
         _isPainTrigger = false;
+        _triggerHitedGunFu = false;
     }
 
 
@@ -414,47 +415,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
-        switch (gunFu_NodeLeaf)
-        {
-            //case Hit1GunFuNode hit1GunFuNode:
-            //    {
-            //        gotHit1_GunFuHitNodeLeaf.gunFuAble = attacker;
-            //        ChangeStateNode(gotHit1_GunFuHitNodeLeaf);
-
-            //    }
-            //    break;
-
-            //case Hit2GunFuNode hit2GunFuNode:
-            //    {
-            //        gotHit2_GunFuHitNodeLeaf.gunFuAble = attacker;
-            //        ChangeStateNode(gotHit2_GunFuHitNodeLeaf);
-
-            //    }
-            //    break;
-
-            //case KnockDown_GunFuNode knockDownGunFuNode: 
-            //    {
-            //        gotKnockDown_GunFuNodeLeaf.gunFuAble = attacker;
-            //        ChangeStateNode(gotKnockDown_GunFuNodeLeaf);
-
-            //    }
-            //    break;
-        }
+        _triggerHitedGunFu = true;
+        curGotAttackedGunFuNode = gunFu_NodeLeaf;
         attackedPos = attacker._gunFuUserTransform.position;
     }
-    //public void TakeGunFuAttacked(GunFu_Interaction_NodeLeaf gunFu_Interaction_NodeLeaf, IGunFuAble gunFuAble)
-    //{
-    //    switch (gunFu_Interaction_NodeLeaf)
-    //    {
-    //        case HumanShield_GunFuInteraction_NodeLeaf humandShield_GunFuNode:
-    //            {
-    //                if(humandShield_GunFuNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Enter)
-    //                ChangeStateNode(gotHumandShielded_GunFuNodeLeaf);
-    //            }
-    //            break;
-    //    }
-    //    attackedPos = gunFuAble._gunFuUserTransform.position;
-    //}
     #endregion
 
     #region TransformLocalWorld

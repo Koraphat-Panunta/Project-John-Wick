@@ -50,6 +50,9 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger)
             return true;
 
+        if(enemy._triggerHitedGunFu)
+            return true;
+
         if(enemy.isDead)
             return true;
 

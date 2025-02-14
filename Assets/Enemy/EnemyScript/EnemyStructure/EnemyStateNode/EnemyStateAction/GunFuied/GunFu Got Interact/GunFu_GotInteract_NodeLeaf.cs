@@ -11,9 +11,18 @@ public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGunFuAtt
 
     public float _exitTime_Normalized { get; set; }
     public float _timer { get; set ; }
-    public virtual bool _isExit { get; set; }
     public AnimationClip _animationClip { get; set; }
 
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true;
+        
+        if(enemy.isDead)
+            return true;
+
+        return false;
+    }
     public override void Enter()
     {
         _timer = 0;
@@ -33,6 +42,10 @@ public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGunFuAtt
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
+
+        if(_timer >= _animationClip.length * _exitTime_Normalized)
+            isComplete = true;
+
         base.UpdateNode();
     }
 }
