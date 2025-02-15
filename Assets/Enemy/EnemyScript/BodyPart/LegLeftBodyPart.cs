@@ -22,7 +22,7 @@ public class LegLeftBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
-        enemy._painPart = IPainState.PainPart.LegLeft;
+        enemy._painPart = IPainStateAble.PainPart.LegLeft;
 
         if (enemy._posture > 0)
             enemy._posture -= pressureDamage;

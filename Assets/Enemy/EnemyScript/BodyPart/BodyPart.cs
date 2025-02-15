@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttackedAble
+public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttackedAble,IFriendlyFirePreventing
 {
     [SerializeField] public Enemy enemy;
     public abstract float hpReciverRate { get; set; }
@@ -26,6 +26,9 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
     }
     protected Rigidbody bodyPartRigid;
     public IGunFuNode curGotAttackedGunFuNode { get => enemy.curGotAttackedGunFuNode; set => enemy.curGotAttackedGunFuNode = value; }
+    public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get => enemy.curFriendlyFireMode; set => enemy.curFriendlyFireMode = value; }
+    public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
+    public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {

@@ -20,6 +20,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
    
     public override void Enter()
     {
+        (player.playerMovement as IMovementCompoent).CancleMomentum();
         player.playerStance = Player.PlayerStance.stand;
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
         base.Enter();

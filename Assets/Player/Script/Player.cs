@@ -16,7 +16,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Transform RayCastPos;
 
 
-    [SerializeField] private bool isImortal;
+    [SerializeField] public bool isImortal { get; private set; }
 
     public float MyHP;
    
@@ -62,6 +62,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
 
+        playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
         playerStateNodeManager = new PlayerStateNodeManager(this);  
 
     }
@@ -93,26 +94,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         playerMovement.MovementFixedUpdate();
     }
 
-    public void TakeDamage(IDamageVisitor damageVisitor)
-    {
-        if (isImortal)
-            return;
-        Bullet bulletObj = damageVisitor as Bullet;
-        float damage = bulletObj.hpDamage;
-
-        HP -= damage * 0.21f;
-        hpRegenarate.regenarate_countDown = 3;
-        NotifyObserver(this, PlayerAction.GetShoot);
-
-        if (GetHP() <= 0)
-            NotifyObserver(this, PlayerAction.Dead);
-    }
-
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
-    {
-        TakeDamage(damageVisitor);
-    }
-
+  
     public void OnNotify(Player player, PlayerAction playerAction)
     {
         
@@ -121,6 +103,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public void OnNotify(Player player)
     {
     }
+
+    #region ImplementBulletDamageAble
+    public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
+    public void TakeDamage(IDamageVisitor damageVisitor) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor,hitPos,hitDir,hitforce);
+
+    #endregion
 
     #region InitailizedWeaponAdvanceUser
 

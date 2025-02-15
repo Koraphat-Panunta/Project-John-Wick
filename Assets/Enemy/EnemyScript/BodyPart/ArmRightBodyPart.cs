@@ -18,7 +18,7 @@ public class ArmRightBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
-        enemy._painPart = IPainState.PainPart.ArmRight;
+        enemy._painPart = IPainStateAble.PainPart.ArmRight;
 
         if (enemy._posture > 0)
             enemy._posture -= pressureDamage;

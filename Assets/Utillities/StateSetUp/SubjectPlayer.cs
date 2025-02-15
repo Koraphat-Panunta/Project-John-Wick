@@ -27,6 +27,7 @@ public abstract class SubjectPlayer : Character
         Dodge,
 
         GetShoot,
+        GetDamaged,
         HealthRegen,
         Dead,
        

@@ -80,10 +80,10 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player._triggerGunFu 
             && this.player.attackedAbleGunFu != null
             ,this.player.hit1);
-        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
-            ()=> this.player.isAimingCommand 
-            && this.player.attackedAbleGunFu != null
-            , this.player.humanShield);
+        //humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
+        //    ()=> this.player.isAimingCommand 
+        //    && this.player.attackedAbleGunFu != null
+        //    , this.player.humanShield);
         Hit2GunFuNode = new Hit2GunFuNode(this.player, 
             () => this.player._triggerGunFu
             && this.player.attackedAbleGunFu != null

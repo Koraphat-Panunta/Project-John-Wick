@@ -7,7 +7,8 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
     IHearingComponent, IPatrolComponent,
-    IPainState,IFallDownGetUpAble,IGunFuGotAttackedAble
+    IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
+    IFriendlyFirePreventing
 {
     [Range(0,100)]
     public float intelligent;
@@ -56,6 +57,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         InitailizedHearingComponent();
+        friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
         cost = Random.Range(50,70);
@@ -342,7 +344,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool _isPainTrigger { get ; set ; }
     public bool _isInPain { get 
         {
-            if(_painPart == IPainState.PainPart.None)
+            if(_painPart == IPainStateAble.PainPart.None)
                 return false;
             else return true;
         } set { } }
@@ -357,13 +359,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] private float postureHeavy;
     public float _postureHeavy { get => postureHeavy ; set => postureHeavy = value; }
 
-    public IPainState.PainPart _painPart { get ; set ; }
+    public IPainStateAble.PainPart _painPart { get ; set ; }
 
     [SerializeField] private PainStateDurationScriptableObject painDurScrp;
     public PainStateDurationScriptableObject _painDurScrp { get => painDurScrp; }
     public void InitializedPainState()
     {
-        _painPart = IPainState.PainPart.None;
+        _painPart = IPainStateAble.PainPart.None;
     }
    
 
@@ -409,7 +411,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Vector3 attackedPos { get; set; }
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
     public IGunFuNode curGotAttackedGunFuNode { get ; set ; }
-
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
@@ -420,6 +421,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         attackedPos = attacker._gunFuUserTransform.position;
     }
     #endregion
+
+    #region ImplementIFriendlyFire
+    public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
+    public int allieID { get ; set ; }
+    public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
+    #endregion
+
 
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)

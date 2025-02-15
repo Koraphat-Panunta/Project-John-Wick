@@ -24,7 +24,7 @@ public class HeadBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
-        enemy._painPart = IPainState.PainPart.Head;
+        enemy._painPart = IPainStateAble.PainPart.Head;
 
         if (enemy._posture > 0)
             enemy._posture -= pressureDamage;

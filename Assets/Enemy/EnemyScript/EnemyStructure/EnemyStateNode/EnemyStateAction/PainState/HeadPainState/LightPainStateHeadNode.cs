@@ -7,12 +7,12 @@ public class LightPainStateHeadNode : EnemyPainStateNodeLeaf
     public LightPainStateHeadNode(Enemy enemy,Func<bool> preCondition, Animator animator) : base(enemy, preCondition, animator)
     {
         painDuration = enemy._painDurScrp.head_LightHit;
-        painPart = IPainState.PainPart.Head;
+        painPart = IPainStateAble.PainPart.Head;
     }
 
    
     public override float painDuration { get; set; }
-    public override IPainState.PainPart painPart { get; set; }
+    public override IPainStateAble.PainPart painPart { get; set; }
 
 
     protected override string stateName => "HeadHit_Light";

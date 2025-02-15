@@ -1,4 +1,5 @@
 using UnityEngine;
+using static SubjectPlayer;
 
 public interface IBulletDamageAble : IDamageAble
 {

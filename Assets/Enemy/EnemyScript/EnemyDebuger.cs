@@ -11,7 +11,7 @@ public class EnemyDebuger :MonoBehaviour, IObserverEnemy
     [SerializeField] private string CurrentEnemyState;
     [SerializeField] private float posture;
 
-    [SerializeField] private IPainState.PainPart PainPart;
+    [SerializeField] private IPainStateAble.PainPart PainPart;
 
     [SerializeField,TextArea] 
     private string Debug;

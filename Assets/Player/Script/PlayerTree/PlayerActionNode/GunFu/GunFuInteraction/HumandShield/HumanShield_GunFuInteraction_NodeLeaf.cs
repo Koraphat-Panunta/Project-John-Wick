@@ -126,10 +126,12 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     player.playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
 
                     if (_timerHumandThrow >= timehumandThrow)
-                        isComplete = true;
+                        isComplete  = true;
                 }
                 break;
         }
         base.UpdateNode();
     }
+
+
 }

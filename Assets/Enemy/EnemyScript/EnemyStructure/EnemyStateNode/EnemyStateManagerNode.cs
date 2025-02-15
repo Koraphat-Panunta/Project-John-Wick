@@ -1,5 +1,5 @@
 using UnityEngine;
-using static IPainState;
+using static IPainStateAble;
 
 public class EnemyStateManagerNode : INodeManager
 {
@@ -100,31 +100,31 @@ public class EnemyStateManagerNode : INodeManager
 
         head_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
         {
-            if (this.enemy._painPart == IPainState.PainPart.Head)
+            if (this.enemy._painPart == IPainStateAble.PainPart.Head)
                 return true;
             return false;
         });
 
         Body_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
         {
-            if (this.enemy._painPart == IPainState.PainPart.BodyBack
-            || this.enemy._painPart == IPainState.PainPart.BodyFornt)
+            if (this.enemy._painPart == IPainStateAble.PainPart.BodyBack
+            || this.enemy._painPart == IPainStateAble.PainPart.BodyFornt)
                 return true;
             return false;
         });
 
         Arm_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
         {
-            if (this.enemy._painPart == IPainState.PainPart.ArmLeft
-            || this.enemy._painPart == IPainState.PainPart.ArmRight)
+            if (this.enemy._painPart == IPainStateAble.PainPart.ArmLeft
+            || this.enemy._painPart == IPainStateAble.PainPart.ArmRight)
                 return true;
             return false;
         });
 
         Leg_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
         {
-            if (this.enemy._painPart == IPainState.PainPart.LegLeft
-            || this.enemy._painPart == IPainState.PainPart.LegRight)
+            if (this.enemy._painPart == IPainStateAble.PainPart.LegLeft
+            || this.enemy._painPart == IPainStateAble.PainPart.LegRight)
                 return true;
             return false;
         });

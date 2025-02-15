@@ -21,15 +21,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
         this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
     }
-
-    //public NormalFiringPattern(Enemy enemy)
-    //{
-    //    this.enemy = enemy;
-
-    //    this.curWeapon = enemy.currentWeapon;
-    //    this.ammoProuch = enemy.weaponBelt.ammoProuch;
-    //    randomFireTiming = MAXRANG_TIMING_FIRE;
-    //}
     public void Performing()
     {
         if(curWeapon.triggerState == TriggerState.IsDown
@@ -51,14 +42,17 @@ public class NormalFiringPattern : IEnemyFiringPattern
 
         if (curWeapon.bulletStore[BulletStackType.Chamber] > 0)
         {
+            //CheckFriendltFire
             Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);
             if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy"))){
                 
-                if (hitInfo.collider.gameObject.TryGetComponent<BodyPart>(out BodyPart body)){
+                if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly)){
 
-                    if (body.enemy != enemy){}
-                    else{ enemyController.PullTrigger(); }
+                    if (freindly.IsFriendlyCheck(enemy) == false)
+                        enemyController.PullTrigger();
                 }
+                else
+                    enemyController.PullTrigger();
             }
             else
                 enemyController.PullTrigger();
