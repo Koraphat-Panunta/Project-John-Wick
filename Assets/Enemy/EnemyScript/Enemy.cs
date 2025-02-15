@@ -27,6 +27,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IMovementCompoent enemyMovement;
     public EnemyStateManagerNode enemyStateManagerNode;
 
+
+    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
     public float cost;
@@ -34,7 +37,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     private float posture;
 
 
-    [SerializeField] private bool isImortal;
+    [SerializeField] public bool isImortal;
     public Transform rayCastPos;
 
     
@@ -91,7 +94,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
    
     public void TakeDamage(float Damage)
     {
-        Debug.Log("Enemy Take Damage");
         if(isImortal == false)
         HP -= Damage;
        
@@ -410,7 +412,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool _triggerHitedGunFu { get; set ; }
     public Vector3 attackedPos { get; set; }
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
+    public IGunFuAble gunFuAbleAttacker { get; set ; }
     public IGunFuNode curGotAttackedGunFuNode { get ; set ; }
+
+    bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
@@ -419,6 +424,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _triggerHitedGunFu = true;
         curGotAttackedGunFuNode = gunFu_NodeLeaf;
         attackedPos = attacker._gunFuUserTransform.position;
+        gunFuAbleAttacker = attacker;
     }
     #endregion
 
@@ -426,6 +432,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
     public int allieID { get ; set ; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
+
     #endregion
 
 

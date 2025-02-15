@@ -28,7 +28,7 @@ public class ArmLeftBodyPart : BodyPart
 
         enemy.TakeDamage(damage);
 
-        //enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Arm);
+        //enemyBody.NotifyObserver(enemyBody, SubjectEnemy.EnemyEvent.GetShoot_Arm);
     }
 
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)

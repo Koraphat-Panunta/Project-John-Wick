@@ -43,9 +43,6 @@ public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGunFuAtt
     {
         _timer += Time.deltaTime;
 
-        if(_timer >= _animationClip.length * _exitTime_Normalized)
-            isComplete = true;
-
         base.UpdateNode();
     }
 }

@@ -10,6 +10,7 @@ public interface IGunFuAble
     public GunFuDetectTarget gunFuDetectTarget { get; set; }
     public LayerMask _layerTarget { get; set; }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGunFuNode curGunFuNode { get; set; }
     public void InitailizedGunFuComponent();
     public void UpdateDetectingTarget();
 }

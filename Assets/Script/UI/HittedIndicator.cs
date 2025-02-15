@@ -36,7 +36,7 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
        
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public virtual void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if (playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
@@ -48,7 +48,7 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
 
     public void OnNotify(Player player) { }
 
-    private void ShowIndicator(Vector3 hitDir)
+    protected void ShowIndicator(Vector3 hitDir)
     {
         Vector2 dir = new Vector2(hitDir.x, hitDir.z).normalized;
         RawImage indicate = Instantiate(hitIndicatorPrefab, uiScreenCanvas);

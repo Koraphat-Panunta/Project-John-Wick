@@ -191,6 +191,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
     public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGunFuNode curGunFuNode { get 
+        {
+            if(playerStateNodeManager.curNodeLeaf is IGunFuNode gunFuNode)
+                return gunFuNode;
+            return null;
+        } set { } 
+    }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
@@ -307,6 +314,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
+
 
     #endregion
 

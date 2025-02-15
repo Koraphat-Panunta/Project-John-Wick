@@ -206,6 +206,18 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
                 animator.CrossFade("KnockDown", 0.05f, 0, 0);
+
+            if(player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
+                animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
+        }
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
+        {
+            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
+                if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay) 
+                {
+                    animator.CrossFade(humanShield.humandShieldStay, 0.05f, 0, 0);
+                }
+
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)

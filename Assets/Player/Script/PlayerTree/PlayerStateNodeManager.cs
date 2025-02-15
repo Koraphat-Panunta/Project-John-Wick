@@ -80,10 +80,10 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player._triggerGunFu 
             && this.player.attackedAbleGunFu != null
             ,this.player.hit1);
-        //humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
-        //    ()=> this.player.isAimingCommand 
-        //    && this.player.attackedAbleGunFu != null
-        //    , this.player.humanShield);
+        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
+            () => this.player.isAimingCommand
+            && this.player.attackedAbleGunFu != null
+            , this.player.humanShield);
         Hit2GunFuNode = new Hit2GunFuNode(this.player, 
             () => this.player._triggerGunFu
             && this.player.attackedAbleGunFu != null
@@ -104,7 +104,7 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
         Hit1gunFuNode.AddTransitionNode(Hit2GunFuNode);
-        //Hit1gunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+        Hit1gunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
         Hit2GunFuNode.AddTransitionNode(knockDown_GunFuNode);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);

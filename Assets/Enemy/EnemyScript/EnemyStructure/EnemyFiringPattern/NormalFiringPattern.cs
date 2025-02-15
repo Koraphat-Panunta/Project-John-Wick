@@ -48,6 +48,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
                 
                 if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly)){
 
+                    Debug.Log("isFriendlyCheck = " + freindly.IsFriendlyCheck(enemy));
                     if (freindly.IsFriendlyCheck(enemy) == false)
                         enemyController.PullTrigger();
                 }

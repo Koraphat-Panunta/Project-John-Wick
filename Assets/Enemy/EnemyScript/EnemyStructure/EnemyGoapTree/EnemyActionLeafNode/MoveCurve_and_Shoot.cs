@@ -29,7 +29,7 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
     {
         costDrainRate = UnityEngine.Random.Range(9, 15);
         //path.ResetPath();
-        //path.GenaratePath(enemy.transform.position, enemy.targetKnewPos);
+        //path.GenaratePath(enemyBody.transform.position, enemyBody.targetKnewPos);
      
         base.Enter();
     }
@@ -78,7 +78,7 @@ public class MoveCurve_and_Shoot : EnemyActionLeafNode
         Vector3 dir = agent.steeringTarget - enemy.transform.position;
         enemyController.Move(dir, 1);
 
-        //path.UpdateTargetPos(enemy.targetKnewPos, enemy.transform.position);
+        //path.UpdateTargetPos(enemyBody.targetKnewPos, enemyBody.transform.position);
       
         base.Update();
     }

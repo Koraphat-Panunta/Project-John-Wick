@@ -27,6 +27,7 @@ public abstract class SubjectPlayer : Character
         Dodge,
 
         GetShoot,
+        HumanShieldOpponentGetShoot,
         GetDamaged,
         HealthRegen,
         Dead,
@@ -35,6 +36,7 @@ public abstract class SubjectPlayer : Character
         GetOffCover,
 
         GunFuEnter,
+        GunFuHold,
         GunFuAttack,
         GunFuExit,
 

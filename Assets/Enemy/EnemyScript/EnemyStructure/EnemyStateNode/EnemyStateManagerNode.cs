@@ -291,6 +291,7 @@ public class EnemyStateManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);
 
+        gunFuSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gunFuSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
         gunFuSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);
         gunFuSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
