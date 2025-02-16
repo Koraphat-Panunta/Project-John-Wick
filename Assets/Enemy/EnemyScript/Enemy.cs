@@ -8,7 +8,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
     IHearingComponent, IPatrolComponent,
     IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
-    IFriendlyFirePreventing
+    IFriendlyFirePreventing,IThrowAbleObjectVisitable
 {
     [Range(0,100)]
     public float intelligent;
@@ -122,6 +122,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         isReloadCommand = false;
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
+        _tiggerThrowAbleObjectHit = false;
 
         Debug.Log("BlackBoardBufferUpdate");
     }
@@ -182,8 +183,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject hips { get ; set ; }
     Animator IMotionDriven.animator { get => animator; set => animator = value; }
     public MotionControlManager motionControlManager { get; set; }
-   
-
     public void MotionControlInitailized()
     {
         hips = this.hip;
@@ -438,6 +437,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
+    #region ImplementIThrowAbleVisitable
+    [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+    public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
+    {
+        Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");
+        _tiggerThrowAbleObjectHit = true;
+    }
+    #endregion
 
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
@@ -465,8 +472,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         return Direction;
     }
 
+    
+
 
 
     #endregion
+
+
 
 }

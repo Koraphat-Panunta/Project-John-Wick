@@ -130,7 +130,6 @@ public class EnemyStateManagerNode : INodeManager
             return false;
         });
 
-        painStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         painStateSelector.AddtoChildNode(head_PainState_Selector);
         painStateSelector.AddtoChildNode(Body_PainState_Selector);
         painStateSelector.AddtoChildNode(Arm_PainState_Selector);
@@ -230,6 +229,12 @@ public class EnemyStateManagerNode : INodeManager
             {
                 if (this.enemy._isPainTrigger && this.enemy._posture <= 0)
                     return true;
+
+                Debug.Log("this.enemy._tiggerThrowAbleObjectHit = " + this.enemy._tiggerThrowAbleObjectHit);
+
+                if(this.enemy._tiggerThrowAbleObjectHit)
+                    return true;
+
                 return false;
             }
        );
@@ -294,6 +299,7 @@ public class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
         startNodeSelector.AddtoChildNode(gunFuSelector);
+        startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);

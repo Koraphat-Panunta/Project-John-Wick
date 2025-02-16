@@ -86,7 +86,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
-        if(enemy._isPainTrigger)
+        if(enemy._isPainTrigger || enemy._tiggerThrowAbleObjectHit)
         {
             PopulateBoneTransforms(_ragdollBoneTransforms);
             Enter();

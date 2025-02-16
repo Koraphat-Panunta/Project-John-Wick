@@ -34,6 +34,10 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
         if (CastDetect(out IGunFuGotAttackedAble gunFuTarget, casrDir))
         {
             target = gunFuTarget;
+
+            if(target._isDead)
+                return false;
+
             return true;
         }
         else

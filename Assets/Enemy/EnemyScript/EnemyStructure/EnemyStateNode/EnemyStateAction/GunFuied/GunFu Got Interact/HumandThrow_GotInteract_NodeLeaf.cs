@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HumandThrow_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
@@ -52,6 +53,7 @@ public class HumandThrow_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         }
         else if(throwPhase == HumanThrowGunFuInteractionNodeLeaf.HumanThrowPhase.Throwing)
         {
+            humanThrowFallDown_GotInteract_NodeLeaf.GotThorwForce(enemy.transform.forward * 100 + (Vector3.up*10));
             enemy.enemyStateManagerNode.nodeManagerBehavior.ChangeNodeManual(enemy.enemyStateManagerNode, humanThrowFallDown_GotInteract_NodeLeaf);
             enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
         }
@@ -60,12 +62,23 @@ public class HumandThrow_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
 }
 public class HumanThrowFallDown_GotInteract_NodeLeaf : FallDown_EnemyState_NodeLeaf
 {
+    private Vector3 forceThrow;
     public HumanThrowFallDown_GotInteract_NodeLeaf(Enemy enemy, IFallDownGetUpAble fallDownGetUpAble, Func<bool> preCondition) : base(enemy, fallDownGetUpAble, preCondition)
     {
     }
+    public void GotThorwForce(Vector3 forceThrow)
+    {
+        this.forceThrow = forceThrow;
+    }
+    public Vector3 GetForceThrow() => this.forceThrow;
+    public override void Enter()
+    {
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        base.Enter();
+    }
     public override void UpdateNode()
     {
-        //Collide with other opponent
         base.UpdateNode();
     }
+    
 }

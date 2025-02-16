@@ -216,6 +216,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
     public void UpdateDetectingTarget()
     {
+        if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
+            return;
+
         if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
             attackedAbleGunFu = target;
         else

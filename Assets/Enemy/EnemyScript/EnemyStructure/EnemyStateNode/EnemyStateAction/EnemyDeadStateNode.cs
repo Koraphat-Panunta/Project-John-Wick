@@ -14,8 +14,8 @@ public class EnemyDeadStateNode : EnemyStateLeafNode
     {
         MotionControlManager motionControlManager = enemy.motionControlManager;
         motionControlManager.ChangeMotionState(motionControlManager.ragdollMotionState);
-        
 
+        enemy.gameObject.layer = 2; //IgnoreRayCast
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Dead);
         base.Enter();
     }

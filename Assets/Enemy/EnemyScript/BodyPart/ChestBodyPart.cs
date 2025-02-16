@@ -55,4 +55,18 @@ public class ChestBodyPart : BodyPart
 
         base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
+    public override void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+        if (enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
+        {
+            Debug.Log("enemy.enemyStateManagerNode.curNodeLeaf = " + enemy.enemyStateManagerNode.curNodeLeaf);
+            if (enemy.enemyStateManagerNode.curNodeLeaf is HumanThrowFallDown_GotInteract_NodeLeaf humanThrowFallDown_GotInteract)
+            {
+                isForceSave = true;
+                forceSave = humanThrowFallDown_GotInteract.GetForceThrow();
+
+            }
+        }
+        base.Notify(enemy, enemyEvent);
+    }
 }

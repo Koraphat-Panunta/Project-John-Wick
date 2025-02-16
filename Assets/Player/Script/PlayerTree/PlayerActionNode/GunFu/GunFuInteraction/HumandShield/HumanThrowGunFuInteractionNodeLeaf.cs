@@ -50,11 +50,14 @@ public class HumanThrowGunFuInteractionNodeLeaf : GunFu_Interaction_NodeLeaf
     {
         if(_timer >= this.throwDuration)
             isComplete = true;
-        Debug.Log("Human Throw timmer = "+ _timer);
 
         switch (curThrowPhase)
         {
             case HumanThrowPhase.beforeThrow:{
+
+                    attackedAbleGunFu._gunFuHitedAble.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
+
                     if (_timer >= beforeThrowDuration)
                         curThrowPhase = HumanThrowPhase.Throwing;
                 }
