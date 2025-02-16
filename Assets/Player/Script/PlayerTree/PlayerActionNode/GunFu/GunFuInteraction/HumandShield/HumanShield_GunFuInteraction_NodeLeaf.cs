@@ -16,10 +16,13 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 
     public float elapesTimmerStay { get; private set; }
     public float StayDuration { get; private set; }
+
+
     public enum InteractionPhase
     {
         Enter,
         Stay,
+        Release
     }
     public InteractionPhase curIntphase;
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)

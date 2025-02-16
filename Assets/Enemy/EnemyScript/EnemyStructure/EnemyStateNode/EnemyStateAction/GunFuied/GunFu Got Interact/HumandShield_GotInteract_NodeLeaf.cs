@@ -14,7 +14,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
 
-    public INodeManager nodeManager { get ; set ; }
+    public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     private HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
@@ -23,7 +23,6 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     {
         this.animator = animator;
 
-        this.nodeManager = enemy.enemyStateManagerNode;
         this.transitionAbleNode = new Dictionary<INodeLeaf, bool>();
         this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
@@ -44,6 +43,9 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     public override void Exit()
     {
+        Debug.Log("HumanShield Got Interact Exit");
+        Debug.Log("Enemy curAttackedNodeleafGunFu = " + enemy.curGotAttackedGunFuNode);
+        Debug.Log("trigger GunFu ATK = " + enemy._triggerHitedGunFu);
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         enemy.friendlyFirePreventingBehavior.EnableFriendlyFirePreventing();
         base.Exit();
@@ -58,6 +60,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     private bool isStayOnEnter;
     public override void UpdateNode()
     {
+        Debug.Log("HumanShield Got Interact Update");
         Transitioning();
         if(interactionPhase == InteractionPhase.Enter)
         {
@@ -69,12 +72,13 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
             {
                 StateStay();
                 isStayOnEnter = false;
+                nodeLeafTransitionBehavior.TransitionAbleAll(this);
             }
 
         }
-        if (enemy.gunFuAbleAttacker.curGunFuNode is HumanShield_GunFuInteraction_NodeLeaf == false)
+        else if(interactionPhase == InteractionPhase.Release)
             isComplete = true;
-        
+
         base.UpdateNode();
     }
 

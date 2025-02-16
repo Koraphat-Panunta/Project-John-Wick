@@ -6,7 +6,7 @@ public class EnemyStateLeafNode : EnemyStateNode, INodeLeaf
 {
     public List<Func<bool>> isReset { get; set ; }
     public NodeLeafBehavior nodeLeafBehavior { get; set ; }
-    public bool isComplete { get; protected set ; }
+    public virtual bool isComplete { get; protected set ; }
 
     public EnemyStateLeafNode(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {

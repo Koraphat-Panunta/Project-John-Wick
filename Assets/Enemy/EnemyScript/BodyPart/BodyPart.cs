@@ -35,6 +35,8 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
     public bool _isDead { get => enemy.isDead; set { } }
 
+    public bool _triggerGotThrowed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
 
@@ -76,5 +78,6 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttack
             enemy.targetKnewPos = targetObj.transform.position;
         }
     }
+
    
 }

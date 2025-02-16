@@ -203,6 +203,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
     [SerializeField] public GunFuHitNodeScriptableObject knockDown;
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
+    [SerializeField] public GunFuInteraction_ScriptableObject humanThrow;
     public void InitailizedGunFuComponent()
     {
         _weaponUser = this;

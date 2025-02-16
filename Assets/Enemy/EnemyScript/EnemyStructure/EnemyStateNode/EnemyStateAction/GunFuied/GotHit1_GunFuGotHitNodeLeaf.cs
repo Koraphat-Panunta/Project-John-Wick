@@ -27,7 +27,6 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 
     public override void UpdateNode()
     {
-        Debug.Log("GunFu Got hit NodeLeaf");
         base.UpdateNode();
     }
 }

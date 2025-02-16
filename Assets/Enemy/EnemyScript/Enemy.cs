@@ -122,6 +122,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         isReloadCommand = false;
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
+
+        Debug.Log("BlackBoardBufferUpdate");
     }
 
 
@@ -421,6 +423,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
+        Debug.Log("Enemy take gunFu node = " + gunFu_NodeLeaf);
         _triggerHitedGunFu = true;
         curGotAttackedGunFuNode = gunFu_NodeLeaf;
         attackedPos = attacker._gunFuUserTransform.position;
@@ -462,5 +465,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         return Direction;
     }
 
+
+
     #endregion
+
 }

@@ -11,7 +11,7 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNo
     #endregion
 
     #region ImplementINodeTransitionAble
-    public INodeManager nodeManager { get; set; }
+    public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     #endregion
@@ -25,7 +25,6 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNo
     protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;
-        nodeManager = player.playerStateNodeManager;
         transitionAbleNode = new Dictionary<INodeLeaf, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 

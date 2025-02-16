@@ -30,9 +30,6 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
     {
         _timer += Time.deltaTime;
 
-        Debug.Log("Time " + _timer + " >= _animationClip.length*_exitTime_Nor " + _animationClip.length * _exitTime_Normalized);
-        Debug.Log("isComplete = " + isComplete);
-
         if(_timer >= _animationClip.length*_exitTime_Normalized)
             isComplete = true;
 

@@ -209,6 +209,11 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             if(player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
                 animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
+
+            if (player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf humanThrow)
+            {
+                animator.CrossFade("HumandThrow", 0.05f, 0, 0);
+            }
         }
         if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
         {
