@@ -56,13 +56,19 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
         {
-            animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
-            is_Layer1_Enable = true;
+            if ((enemy.currentWeapon.currentEventNode as TacticalReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+            {
+                animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
+                is_Layer1_Enable = true;
+            }
         }
         if (enemyEvent == SubjectEnemy.EnemyEvent.ReloadMagazineFullStage)
         {
-            animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
-            is_Layer1_Enable = true;
+            if ((enemy.currentWeapon.currentEventNode as ReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+            {
+                animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
+                is_Layer1_Enable = true;
+            }
         }
     }
 
@@ -121,7 +127,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             , 10 * Time.deltaTime);
 
 
-        if (enemy.curStateLeaf == enemy.enemySprintState)
+        if (enemy.enemyStateManagerNode.curNodeLeaf == enemy.enemyStateManagerNode.enemySprintState)
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.sprintMaxSpeed;

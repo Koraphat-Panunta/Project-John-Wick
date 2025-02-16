@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAble
+public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuGotAttackedAble,IFriendlyFirePreventing
 {
     [SerializeField] public Enemy enemy;
     public abstract float hpReciverRate { get; set; }
@@ -11,13 +11,16 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAb
     public Transform _gunFuHitedAble { get => enemy._gunFuHitedAble; set { } }
     public Vector3 attackedPos {get;set; }
 
-    private Vector3 forceSave;
-    private Vector3 hitForcePositionSave;
+    public Vector3 forceSave;
+    public Vector3 hitForcePositionSave;
 
-    private bool isForceSave;
+    public bool isForceSave;
+
     protected virtual void Start()
     {
+        enemy.bulletDamageAbleBodyPartBehavior = new EnemyBodyBulletDamageAbleBehavior(this);
         bodyPartRigid = GetComponent<Rigidbody>();
+
     }
     protected virtual void Update()
     {
@@ -25,18 +28,21 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAb
 
     }
     protected Rigidbody bodyPartRigid;
-    public HumandShield_GotInteract_NodeLeaf _humandShield_GotInteract_NodeLeaf { get => enemy._humandShield_GotInteract_NodeLeaf; set => enemy._humandShield_GotInteract_NodeLeaf = value; }
+    public IGunFuNode curGotAttackedGunFuNode { get => enemy.curGotAttackedGunFuNode; set => enemy.curGotAttackedGunFuNode = value; }
+    public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get => enemy.curFriendlyFireMode; set => enemy.curFriendlyFireMode = value; }
+    public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
+    public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
+    public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
+    public bool _isDead { get => enemy.isDead; set { } }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
 
     }
-    public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
-    {
-        forceSave = hitDir * hitforce;
-        hitForcePositionSave = hitPart;
-        isForceSave = true;
-    }
+
+    public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
+
+
 
     private void ForceCalulate()
     {
@@ -56,15 +62,12 @@ public abstract class BodyPart : MonoBehaviour,IBulletDamageAble,IGunFuDamagedAb
         }
     }
 
-    public void TakeGunFuAttacked(GunFuHitNodeLeaf gunFu_NodeLeaf, IGunFuAble attackerPos)
+    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
     }
 
-    public void TakeGunFuAttacked(GunFu_Interaction_NodeLeaf gunFu_Interaction_NodeLeaf, IGunFuAble gunFuAble)
-    {
-        enemy.TakeGunFuAttacked(gunFu_Interaction_NodeLeaf, gunFuAble);
-    }
+   
 
     protected void HitsensingTarget(Vector3 hitPart)
     {

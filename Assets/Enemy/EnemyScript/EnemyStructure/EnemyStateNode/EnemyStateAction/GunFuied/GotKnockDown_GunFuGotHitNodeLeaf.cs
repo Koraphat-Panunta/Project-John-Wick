@@ -29,13 +29,10 @@ public class GotKnockDown_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        return _isExit;
-    }
-
     public override void UpdateNode()
     {
         base.UpdateNode();
+        if (IsComplete())
+            enemy.enemyStateManagerNode.nodeManagerBehavior.ChangeNodeManual(enemy.enemyStateManagerNode, enemy.enemyStateManagerNode.fallDown_EnemyState_NodeLeaf);
     }
 }

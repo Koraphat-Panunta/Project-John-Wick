@@ -7,11 +7,11 @@ public class HeavyPainStateRightLeg : EnemyPainStateNodeLeaf
     public HeavyPainStateRightLeg(Enemy enemy,Func<bool> preCondition, Animator animator) : base(enemy,preCondition, animator)
     {
         painDuration = enemy._painDurScrp.legRight_HeavyHit;
-        painPart = IPainState.PainPart.LegRight;
+        painPart = IPainStateAble.PainPart.LegRight;
     }
 
     public override float painDuration { get; set; }
-    public override IPainState.PainPart painPart { get; set; }
+    public override IPainStateAble.PainPart painPart { get; set; }
 
 
     protected override string stateName => "RightLeg_Heavy";

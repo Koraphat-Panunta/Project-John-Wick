@@ -34,7 +34,6 @@ public class TakeCoverTacticDecision : TacticDecision
 
     public override void Exit()
     {
-
         this.coverPoint = null;
         enemyCommand.GetOffCover();
     }
@@ -48,7 +47,10 @@ public class TakeCoverTacticDecision : TacticDecision
 
         enemy.cost += cost_DrainRate * Time.deltaTime;
         if (enemy.cost > exitTacticCost)
+        {
             enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
+            return ;
+        }
 
         if (enemy.isInCover == false)
         {
@@ -56,13 +58,19 @@ public class TakeCoverTacticDecision : TacticDecision
                 enemyCommand.MoveToTakeCover(this.coverPoint, 1);
             else
                 enemyCommand.SprintToCover(this.coverPoint);
-
             return;
         }
+        else
+            PerformCoverManuver();// isInCover == true
+        
 
+       
+    }
+    private void PerformCoverManuver()
+    {
         coverTiming += Time.deltaTime;
 
-        if(coverTiming < peekTiming) //TakeCover
+        if (coverTiming < peekTiming) //TakeCover
         {
             enemyCommand.LowReady();
             return;

@@ -20,7 +20,7 @@ public class ChestBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
-        enemy._painPart = IPainState.PainPart.BodyFornt;
+        enemy._painPart = IPainStateAble.PainPart.BodyFornt;
 
         if (enemy._posture > 0)
             enemy._posture -= pressureDamage;
@@ -47,9 +47,9 @@ public class ChestBodyPart : BodyPart
             enemy._posture -= pressureDamage;
 
         if (dot>=0)
-            enemy._painPart = IPainState.PainPart.BodyFornt;
+            enemy._painPart = IPainStateAble.PainPart.BodyFornt;
         else
-            enemy._painPart = IPainState.PainPart.BodyBack;
+            enemy._painPart = IPainStateAble.PainPart.BodyBack;
 
         enemy.TakeDamage(damage);
 

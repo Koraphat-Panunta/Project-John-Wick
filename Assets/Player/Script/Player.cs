@@ -16,7 +16,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Transform RayCastPos;
 
 
-    [SerializeField] private bool isImortal;
+    [SerializeField] public bool isImortal { get; private set; }
 
     public float MyHP;
    
@@ -25,9 +25,18 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isReloadCommand = false;
         isSwapShoulder = false;
         isSwitchWeaponCommand = false;
-        _triggerGunFu = false;
-    }
+        if(_triggerGunFu == true)
+        {
+            triggerGunFuBufferTime -= Time.deltaTime;
 
+            if (triggerGunFuBufferTime <= 0)
+            {
+                _triggerGunFu = false;
+                triggerGunFuBufferTime = 2;
+            }
+        }
+
+    }
     protected override void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
@@ -53,6 +62,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
         new WeaponFactoryAR15().CreateWeapon(this);
 
+        playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
         playerStateNodeManager = new PlayerStateNodeManager(this);  
 
     }
@@ -61,6 +71,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     private void Update()
     {
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
+        _gunFuAimDir = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
+        UpdateDetectingTarget();
 
         playerStateNodeManager.UpdateNode();
         weaponManuverManager.UpdateNode();
@@ -82,26 +94,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         playerMovement.MovementFixedUpdate();
     }
 
-    public void TakeDamage(IDamageVisitor damageVisitor)
-    {
-        if (isImortal)
-            return;
-        Bullet bulletObj = damageVisitor as Bullet;
-        float damage = bulletObj.hpDamage;
-
-        HP -= damage * 0.21f;
-        hpRegenarate.regenarate_countDown = 3;
-        NotifyObserver(this, PlayerAction.GetShoot);
-
-        if (GetHP() <= 0)
-            NotifyObserver(this, PlayerAction.Dead);
-    }
-
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
-    {
-        TakeDamage(damageVisitor);
-    }
-
+  
     public void OnNotify(Player player, PlayerAction playerAction)
     {
         
@@ -111,9 +104,15 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     {
     }
 
+    #region ImplementBulletDamageAble
+    public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
+    public void TakeDamage(IDamageVisitor damageVisitor) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor,hitPos,hitDir,hitforce);
+
+    #endregion
+
     #region InitailizedWeaponAdvanceUser
 
-    [SerializeField] private Weapon CurrentWeapon;
     [SerializeField] private PrimaryWeapon primaryWeapon;
     [SerializeField] private SecondaryWeapon secondaryWeapon;
     [SerializeField] private Transform primaryHolster;
@@ -147,7 +146,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
-        CurrentWeapon = currentWeapon;
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;
@@ -182,28 +180,29 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedGunFu
     public bool _triggerGunFu { get ; set ; }
+    public float triggerGunFuBufferTime { get ; set ; }
     public IWeaponAdvanceUser _weaponUser { get ; set; }
-    public Vector3 _gunFuAimDir { get => Camera.main.transform.forward; }
-
-    [Range(0, 10)]
-    [SerializeField] private float shpere_Raduis_Detecion;
-    public float _shpere_Raduis_Detecion { get => shpere_Raduis_Detecion; set { } }
-    [Range(0, 10)]
-    [SerializeField] private float sphere_Distance_Detection;
-    public float _sphere_Distance_Detection { get => sphere_Distance_Detection; set { } }
-    [Range(0, 360)]
-    [SerializeField] private float limitAimAngleDegrees;
-    public float _limitAimAngleDegrees { get =>limitAimAngleDegrees; set { } }
-
+    public Vector3 _gunFuAimDir { get; set; }
     public Transform _gunFuUserTransform { get ; set; }
     public LayerMask _layerTarget { get ; set ; }
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
-  
+
+    [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
+    public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
+    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGunFuNode curGunFuNode { get 
+        {
+            if(playerStateNodeManager.curNodeLeaf is IGunFuNode gunFuNode)
+                return gunFuNode;
+            return null;
+        } set { } 
+    }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
     [SerializeField] public GunFuHitNodeScriptableObject knockDown;
+    [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     public void InitailizedGunFuComponent()
     {
         _weaponUser = this;
@@ -212,6 +211,14 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
 
         _targetAdjustTranform = targetAdjustTranform;
+        triggerGunFuBufferTime = 1;
+    }
+    public void UpdateDetectingTarget()
+    {
+        if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+            attackedAbleGunFu = target;
+        else
+            attackedAbleGunFu = null;
     }
     #endregion
 
@@ -307,6 +314,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
+
 
     #endregion
 

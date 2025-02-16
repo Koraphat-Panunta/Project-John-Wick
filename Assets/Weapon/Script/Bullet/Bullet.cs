@@ -18,7 +18,7 @@ public abstract class Bullet:IDamageVisitor
 
     public Bullet(Weapon weapon)
     {
-        bulletHitForce = 40;
+        bulletHitForce = 60;
         this.weapon = weapon;
     }
     public virtual Vector3 Shoot(Vector3 spawnerPosition,Vector3 pointPos)
@@ -26,7 +26,8 @@ public abstract class Bullet:IDamageVisitor
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("Enemy");
         int PlayerHitMask = LayerMask.GetMask("Player");
-        hitLayer = DefaultMask + BodyPartMask + PlayerHitMask;
+        int GroundHitMask = LayerMask.GetMask("Ground");
+        hitLayer = DefaultMask + BodyPartMask + PlayerHitMask+ GroundHitMask;
         // Calculate and apply impulse force
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;

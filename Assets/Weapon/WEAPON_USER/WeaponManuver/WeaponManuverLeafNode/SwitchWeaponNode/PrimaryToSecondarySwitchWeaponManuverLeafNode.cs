@@ -2,9 +2,17 @@ using System;
 using UnityEngine;
 
 
-public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode
+public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode,IWeaponTransitionNodeLeaf
 {
-
+    public enum TransitionPhase
+    {
+        None,
+        Enter,
+        HolsterPrimaryWeapon,
+        Switch,
+        DrawSecondaryWeapon,
+        Exit,
+    }
 
     private bool isComplete;
 
@@ -12,9 +20,10 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     Weapon curWeapon => weaponAdvanceUser.currentWeapon;
     WeaponAfterAction weaponAfterAction;
    
-    TransitionPhase curPhase;
+    public TransitionPhase curPhase;
 
-    private float holsterPrimaryWeaponTime = 0.5f;
+    private float holsterPrimaryWeaponTime = 0.33f;
+    private float drawSecondaryWeaponTime = 0.33f;
     public PrimaryToSecondarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
@@ -24,8 +33,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
     public override void Enter()
     {
-        weaponAfterAction.SwitchingWeapon(curWeapon, WeaponTransition.PrimaryToSecondary);
-        curPhase = TransitionPhase.HolsterPrimaryEnter;
+        curPhase = TransitionPhase.Enter;
+        weaponAfterAction.SwitchingWeapon(curWeapon, this);
         elapsTime = 0;
         curWeapon.ChangeActionManualy(curWeapon.restNode);
         isComplete = false;
@@ -33,7 +42,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
     public override void Exit()
     {
-        curPhase = TransitionPhase.None;
+        curPhase = TransitionPhase.Exit;
+        weaponAfterAction.SwitchingWeapon(curWeapon, this);
         elapsTime = 0;
     }
 
@@ -59,29 +69,32 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
         switch (curPhase)
         {
-            case TransitionPhase.HolsterPrimaryEnter:
+            case TransitionPhase.Enter:
                 {
-                    curPhase = TransitionPhase.HolsteringPrimary;
+                    curPhase = TransitionPhase.HolsterPrimaryWeapon;
                 }
                 break;
-            case TransitionPhase.HolsteringPrimary:
+            case TransitionPhase.HolsterPrimaryWeapon:
                 {
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
                     if (elapsTime >= holsterPrimaryWeaponTime)
                     {
-                        curWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-                        curPhase = TransitionPhase.DrawSecondaryEnter;
+                        curPhase = TransitionPhase.Switch;
                     }
                 }
                 break;
-            case TransitionPhase.DrawSecondaryEnter:
+            case TransitionPhase.Switch:
                 {
+                    curWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
                     secondaryWeapon.AttatchWeaponTo(weaponAdvanceUser);
-                    curPhase = TransitionPhase.DrawingSecondary;
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+                    curPhase = TransitionPhase.DrawSecondaryWeapon;
                 } 
                 break;
-            case TransitionPhase.DrawingSecondary: 
+            case TransitionPhase.DrawSecondaryWeapon: 
                 {
-                    if(elapsTime >= (1/curWeapon.drawSpeed) + holsterPrimaryWeaponTime)
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+                    if (elapsTime >= /*(1/curWeapon.drawSpeed)*/ holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
                         isComplete = true;
                 } 
                 break;

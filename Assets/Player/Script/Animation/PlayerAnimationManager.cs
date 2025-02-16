@@ -206,22 +206,48 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
                 animator.CrossFade("KnockDown", 0.05f, 0, 0);
+
+            if(player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
+                animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
+        }
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
+        {
+            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
+                if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay) 
+                {
+                    animator.CrossFade(humanShield.humandShieldStay, 0.05f, 0, 0);
+                }
+
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            if (player.currentWeapon is PrimaryWeapon)
-                animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+            PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
+            if(playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
+            {
+                if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                    animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+            }
 
-            if (player.currentWeapon is SecondaryWeapon)
-                animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f,1);
+            if (playerWeaponManuver.curNodeLeaf is SecondaryToPrimarySwitchWeaponManuverLeafNode STP)
+            {
+                if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                    animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f, 1);
+            }
+               
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
+        {
+            if((player.currentWeapon.currentEventNode as ReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
             animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
+        }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
-            animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+        {
+            if ((player.currentWeapon.currentEventNode as TacticalReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+                animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+        }
 
         if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
             animator.CrossFade("MagIn_ReloadMagazineStage", 0.3f,1);

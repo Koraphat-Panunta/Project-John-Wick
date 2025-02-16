@@ -35,6 +35,7 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get; private set; }
 
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
+    public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public Hit2GunFuNode Hit2GunFuNode { get; private set; }
     public KnockDown_GunFuNode knockDown_GunFuNode { get; private set; }
     public void InitailizedNode()
@@ -75,9 +76,21 @@ public class PlayerStateNodeManager : INodeManager
 
        
 
-        Hit1gunFuNode = new Hit1GunFuNode(this.player, () => this.player._triggerGunFu,this.player.hit1);
-        Hit2GunFuNode = new Hit2GunFuNode(this.player, () => this.player._triggerGunFu, this.player.hit2);
-        knockDown_GunFuNode = new KnockDown_GunFuNode(this.player, () => this.player._triggerGunFu, this.player.knockDown);
+        Hit1gunFuNode = new Hit1GunFuNode(this.player, 
+            () => this.player._triggerGunFu 
+            && this.player.attackedAbleGunFu != null
+            ,this.player.hit1);
+        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
+            () => this.player.isAimingCommand
+            && this.player.attackedAbleGunFu != null
+            , this.player.humanShield);
+        Hit2GunFuNode = new Hit2GunFuNode(this.player, 
+            () => this.player._triggerGunFu
+            && this.player.attackedAbleGunFu != null
+            , this.player.hit2);
+        knockDown_GunFuNode = new KnockDown_GunFuNode(this.player, () => this.player._triggerGunFu 
+        && this.player.attackedAbleGunFu != null
+        , this.player.knockDown);
 
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
@@ -89,6 +102,10 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(standIncoverSelector);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
+
+        Hit1gunFuNode.AddTransitionNode(Hit2GunFuNode);
+        Hit1gunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+        Hit2GunFuNode.AddTransitionNode(knockDown_GunFuNode);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);

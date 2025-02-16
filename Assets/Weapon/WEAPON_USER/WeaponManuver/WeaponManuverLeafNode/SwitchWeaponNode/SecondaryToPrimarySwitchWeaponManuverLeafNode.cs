@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode
+public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode,IWeaponTransitionNodeLeaf
 {
 
     private bool isComplete;
@@ -9,10 +9,21 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private float elapsTime;
     Weapon curWeapon => weaponAdvanceUser.currentWeapon;
     WeaponAfterAction weaponAfterAction;
+    public enum TransitionPhase
+    {
+        None,
+        Enter,
+        DrawPrimaryWeapon,
+        HolsterSecondaryWeapon,
+        Switch,
+        GripingPrimaryWeapon,
+        Exit,
+    }
 
-    TransitionPhase curPhase;
+    public TransitionPhase curPhase;
 
     private float holsterSecondaryWeaponTime = 0.5f;
+    private float drawPrimaryWeaponTime = 0.33f;
     public SecondaryToPrimarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
@@ -22,8 +33,8 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
     public override void Enter()
     {
-        weaponAfterAction.SwitchingWeapon(curWeapon, WeaponTransition.SecondaryToPrimary);
-        curPhase = TransitionPhase.HolsterSecondaryEnter;
+        curPhase = TransitionPhase.Enter;
+        weaponAfterAction.SwitchingWeapon(curWeapon, this);
         curWeapon.ChangeActionManualy(curWeapon.restNode);
         elapsTime = 0;
         isComplete = false;
@@ -31,7 +42,8 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
     public override void Exit()
     {
-        curPhase = TransitionPhase.None;
+        curPhase = TransitionPhase.Exit;
+        weaponAfterAction.SwitchingWeapon(curWeapon, this);
         elapsTime = 0;
     }
 
@@ -57,31 +69,36 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
         switch (curPhase)
         {
-            case TransitionPhase.HolsterSecondaryEnter:
+            case TransitionPhase.Enter:
                 {
-                    //curWeapon.AttachWeaponToSecondHand(weaponAdvanceUser.leftHandSocket);
-                    curPhase = TransitionPhase.HolsteringSecondary;
+                    curPhase = TransitionPhase.DrawPrimaryWeapon;
                 }
                 break;
-            case TransitionPhase.HolsteringSecondary:
+            case TransitionPhase.DrawPrimaryWeapon:
                 {
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+
                     if (elapsTime > holsterSecondaryWeaponTime)
-                    {
-                        curWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-                        curPhase = TransitionPhase.DrawPrimaryEnter;
-                    }
+                    curPhase = TransitionPhase.Switch;
+                    
                 }
                 break;
-            case TransitionPhase.DrawPrimaryEnter:
+            case TransitionPhase.Switch:
                 {
+                    curWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
                     curWeapon = primaryWeapon;
                     primaryWeapon.AttatchWeaponTo(weaponAdvanceUser);
-                    curPhase = TransitionPhase.DrawingPrimary;
+
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+
+                    curPhase = TransitionPhase.GripingPrimaryWeapon;
                 }
                 break;
-            case TransitionPhase.DrawingPrimary:
+            case TransitionPhase.GripingPrimaryWeapon:
                 {
-                    if (elapsTime >= (1 / curWeapon.drawSpeed) + holsterSecondaryWeaponTime)
+                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+
+                    if (elapsTime >= /*(1 / curWeapon.drawSpeed)*/ holsterSecondaryWeaponTime + drawPrimaryWeaponTime)
                         isComplete = true;
                 }
                 break;

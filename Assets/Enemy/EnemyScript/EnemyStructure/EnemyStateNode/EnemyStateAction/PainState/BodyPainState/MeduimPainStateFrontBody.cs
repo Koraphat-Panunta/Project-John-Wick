@@ -7,10 +7,10 @@ public class MeduimPainStateFrontBody : EnemyPainStateNodeLeaf
     public MeduimPainStateFrontBody(Enemy enemy, Func<bool> preCondition, Animator animator) : base(enemy, preCondition, animator)
     {
         painDuration = enemy._painDurScrp.bodyFornt_MediumHit;
-        painPart = IPainState.PainPart.BodyFornt;
+        painPart = IPainStateAble.PainPart.BodyFornt;
     }
     public override float painDuration { get; set; }
-    public override IPainState.PainPart painPart { get; set; }
+    public override IPainStateAble.PainPart painPart { get; set; }
 
     protected override string stateName => "BodyFont_Mid";
 

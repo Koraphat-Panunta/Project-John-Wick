@@ -25,14 +25,6 @@ public class GotHit2_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         base.FixedUpdateNode();
     }
 
-    public override bool IsReset()
-    {
-        if(_isExit)
-            return true;
-
-        return false;
-    }
-
     public override void UpdateNode()
     {
 

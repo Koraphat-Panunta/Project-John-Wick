@@ -34,7 +34,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         if(time >= painDuration) 
         {
             isComplete = true;
-            enemy._painPart = IPainState.PainPart.None;
+            enemy._painPart = IPainStateAble.PainPart.None;
         }
 
     }
@@ -50,6 +50,9 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger)
             return true;
 
+        if(enemy._triggerHitedGunFu)
+            return true;
+
         if(enemy.isDead)
             return true;
 
@@ -63,7 +66,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     }
     public abstract float painDuration { get; set; }
     public float time;
-    public abstract IPainState.PainPart painPart { get; set; }
+    public abstract IPainStateAble.PainPart painPart { get; set; }
  
 
     

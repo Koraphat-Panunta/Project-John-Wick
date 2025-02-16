@@ -1,16 +1,49 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
     
-public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode
+public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
 {
-    protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+
+    #region ImplementIGunFuNode
+    public IGunFuAble gunFuAble { get; set; }
+    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    #endregion
+
+    #region ImplementINodeTransitionAble
+    public INodeManager nodeManager { get; set; }
+    public Dictionary<INodeLeaf, bool> transitionAbleNode { get; set; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
+    #endregion
+
+    public float _transitionAbleTime_Nornalized { get; set; }
+    public float _timer { get; set; }
+    public AnimationClip _animationClip { get; set; }
+    public string stateName { get; protected set; }
+    protected Transform targetAdjustTransform;
+
+    protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
+        gunFuAble = player as IGunFuAble;
+        nodeManager = player.playerStateNodeManager;
+        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+
+        _animationClip = gunFuInteraction_ScriptableObject.AinimnationClip;
+        _transitionAbleTime_Nornalized = gunFuInteraction_ScriptableObject.TransitionAbleTime_Normalized;
+        stateName = gunFuInteraction_ScriptableObject.StateName;
+
+        targetAdjustTransform = gunFuAble._targetAdjustTranform;
     }
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
+        attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
+
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
+
         base.Enter();
     }
     public override void Exit()
@@ -20,15 +53,25 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNo
     }
     public override void UpdateNode()
     {
+        Transitioning();
+
         _timer += Time.deltaTime;
         base.UpdateNode();
     }
-    public float _transitionAbleTime_Nornalized { get; set; }
-    public float _exitTime_Normalized { get; set; }
-    public float _timer { get; set; }
-    public virtual bool _isExit { get => _timer >= _animationClip.length * _exitTime_Normalized; set { } }
-    public bool _isTransitionAble { get => _timer >= _animationClip.length * _transitionAbleTime_Nornalized; set { } }
-    public AnimationClip _animationClip { get; set; }
 
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true;
+
+        return base.IsReset();
+    }
+
+    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    
+    public void AddTransitionNode(INodeLeaf nodeLeaf)=> nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+   
+
+ 
 }
 

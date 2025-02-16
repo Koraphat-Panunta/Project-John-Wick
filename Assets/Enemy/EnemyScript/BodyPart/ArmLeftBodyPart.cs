@@ -21,14 +21,14 @@ public class ArmLeftBodyPart : BodyPart
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
-        enemy._painPart = IPainState.PainPart.ArmLeft;
+        enemy._painPart = IPainStateAble.PainPart.ArmLeft;
 
         if(enemy._posture > 0)
             enemy._posture -= pressureDamage ;
 
         enemy.TakeDamage(damage);
 
-        //enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetShoot_Arm);
+        //enemyBody.NotifyObserver(enemyBody, SubjectEnemy.EnemyEvent.GetShoot_Arm);
     }
 
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)

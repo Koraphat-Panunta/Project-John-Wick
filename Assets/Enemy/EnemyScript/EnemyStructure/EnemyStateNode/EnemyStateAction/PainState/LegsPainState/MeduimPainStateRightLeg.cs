@@ -10,7 +10,7 @@ public class MeduimPainStateRightLeg : EnemyPainStateNodeLeaf
 
    
     public override float painDuration { get; set; }
-    public override IPainState.PainPart painPart { get; set; }
+    public override IPainStateAble.PainPart painPart { get; set; }
   
 
     protected override string stateName => throw new NotImplementedException();

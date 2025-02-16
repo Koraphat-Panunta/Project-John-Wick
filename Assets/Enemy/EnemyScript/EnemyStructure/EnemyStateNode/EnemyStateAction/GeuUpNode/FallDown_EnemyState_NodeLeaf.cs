@@ -78,7 +78,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     public override void Exit()
     {
-        enemy._painPart = IPainState.PainPart.None;
+        enemy._painPart = IPainStateAble.PainPart.None;
         enemy._posture = 100;
     }
 

@@ -7,11 +7,11 @@ public class HeavyPainStateFrontBody : EnemyPainStateNodeLeaf
     public HeavyPainStateFrontBody(Enemy enemy, Func<bool> preCondition, Animator animator) : base(enemy, preCondition, animator)
     {
         painDuration = enemy._painDurScrp.bodyFront_HeavyHit;
-        painPart = IPainState.PainPart.BodyFornt;
+        painPart = IPainStateAble.PainPart.BodyFornt;
     }
 
     public override float painDuration { get; set; }
-    public override IPainState.PainPart painPart { get; set; }
+    public override IPainStateAble.PainPart painPart { get; set; }
 
     protected override string stateName => "BodyFont_Heavy";
 

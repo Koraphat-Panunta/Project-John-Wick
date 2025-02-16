@@ -52,22 +52,13 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public void OnserveEnemyStateNode(Enemy enemy)
     {
         IWeaponAdvanceUser weaponAdvanceUser = enemy;
-        EnemyStateLeafNode enemyActionNodeLeaf = enemy.curStateLeaf;
+        EnemyStateLeafNode enemyActionNodeLeaf = enemy.enemyStateManagerNode.curNodeLeaf as EnemyStateLeafNode;
 
         if (enemy._isInPain 
-            || enemy.curStateLeaf is FallDown_EnemyState_NodeLeaf
-            )
+            || enemyActionNodeLeaf is FallDown_EnemyState_NodeLeaf
+            || enemy.isDead
+            || enemy.enemyStateManagerNode.curNodeLeaf is IGunFuAttackedAbleNode)
         {
-            isAimingManuver = false;
-            isPullTriggerManuver = false;
-            isReloadManuver = false;
-            isSwitchWeaponManuver = false;
-            return;
-        }
-
-        if (enemy.curStateLeaf is IGunFuAttackedAbleNode)
-        {
-            Debug.Log("enemy.curStateLeaf is IGunFuAttackedAbleNode");
             isAimingManuver = false;
             isPullTriggerManuver = false;
             isReloadManuver = false;
