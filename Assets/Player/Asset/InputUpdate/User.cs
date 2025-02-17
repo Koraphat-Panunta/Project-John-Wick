@@ -49,6 +49,7 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
         userInput = new UserInput();
     }

@@ -17,15 +17,20 @@ public class PlayerAttributeDisplay : PlayerInfoDisplay
     {
         if (playerAction == SubjectPlayer.PlayerAction.GetDamaged)
         {
-            HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
+           UpdateInfo();
         }
         if (playerAction == SubjectPlayer.PlayerAction.HealthRegen)
         {
-            HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
+            UpdateInfo();
         }
         if (playerAction == SubjectPlayer.PlayerAction.RecivedHp)
         {
-            HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, player.GetHP());
+            UpdateInfo();
         }
+    }
+
+    public override void UpdateInfo()
+    {
+        HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, playerInfo.GetHP());
     }
 }

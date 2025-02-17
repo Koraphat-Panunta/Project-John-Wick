@@ -25,6 +25,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     [SerializeField] private PlayerSpawner playerSpawner;
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
     void Start()

@@ -36,7 +36,10 @@ public abstract class Bullet:IDamageVisitor
         {
             HitExecute(hit,rayDir);
         }
-
+        else
+        {
+            return ray.GetPoint(MAX_DISTANCE);
+        }
         return hit.point;
     }
     protected virtual void HitExecute(RaycastHit hit,Vector3 dir)

@@ -14,6 +14,7 @@ public class HUD : MonoBehaviour,IObserverPlayerSpawner
     // Start is called before the first frame update
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
     void Start()
@@ -43,6 +44,7 @@ public class HUD : MonoBehaviour,IObserverPlayerSpawner
         playerInfoDisplays.Add(new PlayerWeaponDisplay(player, this, AmmoDisplay));
         playerInfoDisplays.Add(new PlayerAttributeDisplay(player, this, Hp_barPlayer));
 
+        
         if (playerInfoDisplays.Count > 0)
         {
             foreach (PlayerInfoDisplay playerInfo in playerInfoDisplays)
@@ -50,5 +52,6 @@ public class HUD : MonoBehaviour,IObserverPlayerSpawner
                 playerInfo.AddPlayerObserver();
             }
         }
+
     }
 }

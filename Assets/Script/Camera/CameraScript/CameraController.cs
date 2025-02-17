@@ -35,6 +35,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
     void Start()

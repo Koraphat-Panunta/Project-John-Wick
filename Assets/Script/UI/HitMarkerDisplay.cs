@@ -42,6 +42,7 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         this.playerSpawner.AddObserverPlayerSpawner(this);
     }
     private void Start()

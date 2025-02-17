@@ -18,9 +18,7 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
         this.AmmoDisplay = textMeshProUGUI;
         if (base.playerInfo.currentWeapon != null)
         {
-            MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-            AmmoCount = playerInfo.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+            UpdateInfo();
         }
     }
     public override void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
@@ -29,8 +27,7 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
        {
             if (base.playerInfo.currentWeapon != null)
             {
-                MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-                SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+                UpdateInfo();
             }
        }
        if(playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage
@@ -38,10 +35,8 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
             || playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage
             || playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
        {
-            AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-            MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
-       }
+            UpdateInfo();
+        }
        if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
         {
             //
@@ -53,18 +48,14 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
             {
                 if (PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Switch)
                 {
-                    AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-                    MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-                    SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+                    UpdateInfo();
                 }
             }
             else if (playerWeaponManuver.curNodeLeaf is SecondaryToPrimarySwitchWeaponManuverLeafNode STP)
             {
                 if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Switch)
                 {
-                    AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-                    MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-                    SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+                    UpdateInfo();
                 }
             }
 
@@ -73,24 +64,23 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
 
         if (playerAction == SubjectPlayer.PlayerAction.QuickDraw)
         {
-            AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-            MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+           UpdateInfo();
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.RecivedAmmo)
         {
-            AmmoCount = player.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
-            MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
-            SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+            UpdateInfo();
         }
     } 
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {
         textGUI.text = inLoad + " / " + Ammoprouch;
     }
-   
 
-
-    
+    public override void UpdateInfo()
+    {
+        AmmoCount = playerInfo.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
+        MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
+        SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
+    }
 }

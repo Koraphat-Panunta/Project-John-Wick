@@ -12,6 +12,7 @@ public class Environment : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
     [SerializeField] private PlayerSpawner playerSpawner;
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
   

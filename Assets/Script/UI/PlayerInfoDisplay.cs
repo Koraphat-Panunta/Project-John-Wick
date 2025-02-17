@@ -11,19 +11,9 @@ public abstract class PlayerInfoDisplay : IObserverPlayer
     {
         this.playerInfo = player;
         this.hud = hud;
-        if(this.playerInfo != null)
-        {
-            this.hud.StartCoroutine(BeginAddPlayerObserver());
-        }
+        this.playerInfo.AddObserver(this);
     }
-    private IEnumerator BeginAddPlayerObserver()
-    {
-        yield return new WaitForEndOfFrame();
-        if (playerInfo != null)
-        {
-            playerInfo.AddObserver(this);
-        }
-    }
+   
     public void AddPlayerObserver()
     {
         this.playerInfo.AddObserver(this);
@@ -32,6 +22,8 @@ public abstract class PlayerInfoDisplay : IObserverPlayer
     {
         this.playerInfo.RemoveObserver(this);
     }
+
+    public abstract void UpdateInfo();  
 
     public void OnNotify(Player player)
     {

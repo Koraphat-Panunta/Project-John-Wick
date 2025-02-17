@@ -15,6 +15,7 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpa
 
     private void Awake()
     {
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
     public void Start()

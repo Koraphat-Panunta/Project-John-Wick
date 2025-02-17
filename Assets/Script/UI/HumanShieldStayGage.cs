@@ -2,13 +2,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
+public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer,IObserverPlayerSpawner
 {
     [SerializeField] Player player;
+    [SerializeField] PlayerSpawner playerSpawner;
     private bool isShowGage ;
     [SerializeField] RawImage humanShieldGage;
     private float maxWidthImage;
     HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
+
+    public void GetNotify(Player player)
+    {
+        this.player = player;
+        this.player.AddObserver(this);
+    }
+
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
@@ -30,13 +38,13 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    async void Start()
+    private void Awake()
     {
-        player = FindAnyObjectByType<Player>();
-
-        await WaitForPlayerInstance();
-        player.AddObserver(this);
-
+        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
+        playerSpawner.AddObserverPlayerSpawner(this);
+    }
+    private void Start()
+    {
         this.maxWidthImage = humanShieldGage.rectTransform.rect.width;
     }
 
@@ -58,12 +66,5 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
 
     }
 
-    private async Task WaitForPlayerInstance()
-    {
-        while (player == null)
-        {
-            player = FindObjectOfType<Player>();
-            await Task.Yield(); // Wait for the next frame
-        }
-    }
+   
 }
