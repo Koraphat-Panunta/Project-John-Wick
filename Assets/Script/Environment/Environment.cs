@@ -5,14 +5,16 @@ using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Environment : MonoBehaviour,IObserverPlayer
+
+public class Environment : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
     List<IEnvironmentAware> environmentAwareir = new List<IEnvironmentAware>();
-    
-    private void Start()
+    [SerializeField] private PlayerSpawner playerSpawner;
+    private void Awake()
     {
-       StartCoroutine(AddObserverPlayer());
+        playerSpawner.AddObserverPlayerSpawner(this);
     }
+  
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
        if(playerAction == SubjectPlayer.PlayerAction.Firing)
@@ -38,15 +40,20 @@ public class Environment : MonoBehaviour,IObserverPlayer
             }
         }
     }
-    public IEnumerator AddObserverPlayer()
-    {
-        yield return new WaitForEndOfFrame();
-        Player player = FindAnyObjectByType<Player>();
-        player.AddObserver(this);
-    }
+    //public IEnumerator AddObserverPlayerSpawner()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    PlayerSpawner playerSpawner = FindAnyObjectByType<PlayerSpawner>();
+    //    playerSpawner.AddObserverPlayerSpawner(this);
+    //}
 
     public void OnNotify(Player player)
     {
        
+    }
+
+    public void GetNotify(Player player)
+    {
+        player.AddObserver(this);
     }
 }

@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
+public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
     [SerializeField] RawImage X_markker;
     [SerializeField] Player player;
+
+    [SerializeField] PlayerSpawner playerSpawner;
 
     float markerWeight;
     enum ColorMarker
@@ -38,12 +40,13 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
 
     }
 
-    async void Start()
+    private void Awake()
     {
-        player = FindAnyObjectByType<Player>();
-
-        await WaitForPlayerInstance();
-        player.AddObserver(this);
+        this.playerSpawner.AddObserverPlayerSpawner(this);
+    }
+    private void Start()
+    {
+       
     }
 
     // UpdateNode is called once per frame
@@ -56,12 +59,9 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
         markerWeight -= Time.deltaTime * 2;
     }
 
-    private async Task WaitForPlayerInstance()
+    public void GetNotify(Player player)
     {
-        while (player == null)
-        {
-            player = FindObjectOfType<Player>();
-            await Task.Yield(); // Wait for the next frame
-        }
+        this.player = player;
+        this.player.AddObserver(this);
     }
 }

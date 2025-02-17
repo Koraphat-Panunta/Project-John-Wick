@@ -1,4 +1,5 @@
 
+using Cinemachine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public PlayerStateNodeManager playerStateNodeManager;
 
     public Transform RayCastPos;
-
+    public CinemachineFreeLook cinemachineFreeLook;
 
     [SerializeField] public bool isImortal { get; private set; }
 

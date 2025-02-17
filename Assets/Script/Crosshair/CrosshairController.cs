@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour,IObserverPlayer
+public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
     //[SerializeField] WeaponSocket weaponSocket;
     [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
@@ -21,14 +21,16 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     public CrosshairSpread CrosshairSpread { get; private set; }
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
     [SerializeField] public LayerMask layerMask;
+
+    [SerializeField] private PlayerSpawner playerSpawner;
+    private void Awake()
+    {
+        playerSpawner.AddObserverPlayerSpawner(this);
+    }
     void Start()
     {
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
-        player = FindAnyObjectByType<Player>().GetComponent<Player>();
-        player.AddObserver(this);
-        player.crosshairController = this;
-        TargetAim = player._aimPosRef;
     }
 
     // UpdateNode is called once per frame
@@ -39,6 +41,9 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
     float lerpSpeed = 10;
     void CrosshairUpdate()
     {
+        if(TargetAim == null)
+            return;
+
         Vector3 CrosshairPos;
         //CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
         CrosshairPos = Crosshair_CenterPosition.position;
@@ -85,5 +90,13 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
 
     public void OnNotify(Player player)
     {
+    }
+
+    public void GetNotify(Player player)
+    {
+        this.player = player;
+        player.AddObserver(this);
+        player.crosshairController = this;
+        TargetAim = player._aimPosRef;
     }
 }

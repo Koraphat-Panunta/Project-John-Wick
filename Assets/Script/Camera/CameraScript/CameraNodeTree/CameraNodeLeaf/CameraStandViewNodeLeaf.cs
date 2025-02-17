@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class CameraStandViewNodeLeaf : CameraNodeLeaf
 {
-    private CinemachineCameraOffset cinemachineOffset;
-    private CinemachineFreeLook cinemachineFreeLook;
+    private CinemachineCameraOffset cinemachineOffset => base.cameraController.cameraOffset;
+    private CinemachineFreeLook cinemachineFreeLook => base.cameraController.CinemachineFreeLook;
 
     private float speedEnterView = 3;
     public CameraStandViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
     {
-        this.cinemachineOffset = cameraController.cameraOffset;
-        this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
     }
 
     public override void Enter()

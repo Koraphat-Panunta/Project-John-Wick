@@ -1,8 +1,7 @@
 using UnityEngine;
-using System.Threading.Tasks;
 using UnityEngine.UI;
 using System.Collections.Generic;
-public class HittedIndicator : MonoBehaviour, IObserverPlayer
+public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpawner
 {
     [SerializeField] Player player;
     [SerializeField] public RectTransform uiScreenCanvas;
@@ -12,15 +11,19 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
     public float widthIndicatorPos;
     public List<Indicator> hitIndicators = new List<Indicator>();
 
-    public async void Start()
+    [SerializeField] PlayerSpawner playerSpawner;
+
+    private void Awake()
     {
-        player = FindAnyObjectByType<Player>();
+        playerSpawner.AddObserverPlayerSpawner(this);
+    }
+    public void Start()
+    {
 
         heightIndicatorPos = uiScreenCanvas.rect.height / 4;
         widthIndicatorPos = uiScreenCanvas.rect.width / 4;
 
-        await WaitForPlayerInstance();
-        player.AddObserver(this);
+
     }
 
     private void Update()
@@ -55,13 +58,11 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
         hitIndicators.Add(new Indicator(this, indicate, dir, 3f));
     }
 
-    private async Task WaitForPlayerInstance()
+   
+    public void GetNotify(Player player)
     {
-        while (player == null)
-        {
-            player = FindObjectOfType<Player>();
-            await Task.Yield(); // Wait for the next frame
-        }
+        this.player = player;
+        this.player.AddObserver(this);
     }
 }
 

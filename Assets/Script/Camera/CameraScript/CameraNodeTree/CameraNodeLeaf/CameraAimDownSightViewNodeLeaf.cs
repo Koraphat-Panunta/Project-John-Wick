@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class CameraAimDownSightViewNodeLeaf : CameraNodeLeaf
 {
-    private CinemachineCameraOffset cinemachineOffset;
-    private CinemachineFreeLook cinemachineFreeLook;
+    private CinemachineCameraOffset cinemachineOffset => base.cameraController.cameraOffset;
+    private CinemachineFreeLook cinemachineFreeLook => base.cameraController.CinemachineFreeLook;
 
 
     public CameraAimDownSightViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
     {
-        this.cinemachineOffset = cameraController.cameraOffset;
-        this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
+
     }
     public override void Enter()
     {

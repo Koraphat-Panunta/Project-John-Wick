@@ -1284,9 +1284,8 @@ MonoBehaviour:
   My_environment: {fileID: 0}
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
-  isImortal: 0
+  cinemachineFreeLook: {fileID: 4035978562250902010}
   MyHP: 0
-  CurrentWeapon: {fileID: 0}
   primaryHolster: {fileID: 2458408193446765874}
   secondaryHolster: {fileID: 2993268220600484696}
   weaponMainSocket: {fileID: 2665221414630715703}
@@ -1298,10 +1297,12 @@ MonoBehaviour:
   rotationConstraint: {fileID: 1117736551892370986}
   aimPosRef: {fileID: 3039372999945744660}
   targetAdjustTranform: {fileID: 4967964261953637315}
-  GunFuDetectTarget: {fileID: 0}
+  GunFuDetectTarget: {fileID: 9030984288096570306}
   hit1: {fileID: 11400000, guid: a6b643af0f29df04783f4051a220183e, type: 2}
   hit2: {fileID: 11400000, guid: e6c2c90297d52b648af2fd9d4c9548b5, type: 2}
   knockDown: {fileID: 11400000, guid: 821ecc9fbacd24e49b7ba2a6adfe52aa, type: 2}
+  humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
+  humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
   StandMoveAccelerate: 2.6
   StandMoveMaxSpeed: 1.83
   StandMoveRotateSpeed: 3

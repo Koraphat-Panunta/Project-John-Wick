@@ -4,13 +4,14 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class CameraController : MonoBehaviour,IObserverPlayer
+public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
     [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
-    [SerializeField] public PlayerController playerController;
     [SerializeField] public CinemachineCameraOffset cameraOffset;
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player Player;
+
+    [SerializeField] private PlayerSpawner playerSpawner;
 
     public CameraKickBack cameraKickBack;
     public CameraHandShake cameraHandShake;
@@ -32,14 +33,14 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public Player.ShoulderSide curSide;
     public Player.PlayerStance curStance;
 
+    private void Awake()
+    {
+        playerSpawner.AddObserverPlayerSpawner(this);
+    }
     void Start()
     {
-        Player = FindAnyObjectByType<Player>();
-        curStance = Player.playerStance;
-        curSide = Player.curShoulderSide;
 
         Cursor.lockState = CursorLockMode.Locked;
-        Player.AddObserver(this);
 
         cameraKickBack = new CameraKickBack(this);
 
@@ -51,6 +52,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     {
         Cursor.lockState = CursorLockMode.Locked;
 
+        if(Player != null)
         zoomingWeight = Player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
@@ -97,5 +99,17 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public void OnNotify(Player player)
     {
         
+    }
+
+    public void GetNotify(Player player)
+    {
+        Player = player;
+        curStance = Player.playerStance;
+        curSide = Player.curShoulderSide;
+
+        this.CinemachineFreeLook = player.cinemachineFreeLook;
+        this.cameraOffset = player.cinemachineFreeLook.GetComponent<CinemachineCameraOffset>();
+
+        Player.AddObserver(this);
     }
 }

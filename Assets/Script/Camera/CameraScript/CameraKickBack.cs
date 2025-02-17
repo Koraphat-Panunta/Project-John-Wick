@@ -6,11 +6,10 @@ using UnityEngine;
 public class CameraKickBack : ICameraAction
 {
     private CameraController cameraController;
-    private CinemachineFreeLook cameraFreeLook;
+    private CinemachineFreeLook cameraFreeLook => this.cameraController.CinemachineFreeLook;
     public CameraKickBack(CameraController cameraController)
     {
         this.cameraController = cameraController;
-        cameraFreeLook = this.cameraController.CinemachineFreeLook;
     }
     public void Performed()
     {
