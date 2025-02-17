@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
+
 public class PlayerSpawner : MonoBehaviour
 {
     public Player playerSpawnObject;
     public CrosshairController playerCrosshairController;
     public List<IObserverPlayerSpawner> observerPlayerSpawners = new List<IObserverPlayerSpawner>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public void Awake()
+    {
+        playerCrosshairController = FindAnyObjectByType<CrosshairController>();
+    }
     void Start()
     {
         if (playerCrosshairController == null)
@@ -26,6 +31,7 @@ public class PlayerSpawner : MonoBehaviour
     public void SpawnPlayer()
     {
         Player player = Instantiate(playerSpawnObject,transform.position,transform.rotation);
+        player.crosshairController = playerCrosshairController;
         foreach (IObserverPlayerSpawner observer in observerPlayerSpawners)
         {
             observer.GetNotify(player);
