@@ -262,7 +262,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
         {
-            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player.weaponManuverManager as PlayerWeaponManuver).quickDrawWeaponManuverLeafNode.quickDrawPhase;
+            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player.weaponManuverManager.curNodeLeaf as QuickDrawWeaponManuverLeafNode).quickDrawPhase;
 
             switch (quickDrawPhase)
             {
