@@ -14,7 +14,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         Exit
     }
     public QuickDrawPhase quickDrawPhase { get; protected set; }
-    private bool isHolsteringSecondary;
+    private bool isComplete;
     WeaponManuverManager weaponManuverManager => weaponAdvanceUser.weaponManuverManager;
     protected float elapseDrawTime;
     protected float elapseHolsterTime;
@@ -38,7 +38,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
             beforeEnter_AimProcedural = multiAim.data.offset;
         }
-        isHolsteringSecondary = false;
+        isComplete = false;
         elapseDrawTime = 0f;
         elapseHolsterTime = 0f;
     }
@@ -61,36 +61,36 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override bool IsComplete()
     {
-        return isHolsteringSecondary;
+        return isComplete;
     }
 
     public override bool IsReset()
     {
-        if (weaponManuverManager.isReloadManuver)
-        {
-            quickDrawPhase = QuickDrawPhase.HolsterPrimary;
+        //if (weaponManuverManager.isReloadManuver)
+        //{
+        //    quickDrawPhase = QuickDrawPhase.HolsterPrimary;
 
-            (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        //    (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
 
-            if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-                weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+        //    if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
+        //        weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
 
-            weapon.Reload();
+        //    weapon.Reload();
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        if (weaponManuverManager.isAimingManuver == false)
-        {
-            quickDrawPhase = QuickDrawPhase.HolsterPrimary;
+        //if (weaponManuverManager.isAimingManuver == false)
+        //{
+        //    quickDrawPhase = QuickDrawPhase.HolsterPrimary;
 
-            (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSecondHand(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        //    (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSecondHand(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
 
-            if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-                weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+        //    if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
+        //        weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
 
-            return true;
-        }
+        //    return true;
+        //}
 
         if (IsComplete())
             return true;
@@ -146,7 +146,20 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
 
                     }
+
                     weaponManuverManager.WeaponCommanding();
+
+                    if(weaponManuverManager.isAimingManuver == false)
+                        quickDrawPhase = QuickDrawPhase.HolsterPrimary;
+
+                    if (weaponManuverManager.curWeapon.currentEventNode is IReloadNode)
+                    {
+                        HolsteringPrimaryWeapon();
+                        weapon.Reload();
+                        isComplete = true;
+                    }
+     
+                        
                 }
                 break;
             case QuickDrawPhase.HolsterSecondary:
@@ -164,11 +177,27 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     if (elapseHolsterTime >= drawPrimary)
                     {
                         (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
-                        isHolsteringSecondary = true;
+                        isComplete = true;
                     }
+                }
+                break;
+            case QuickDrawPhase.HolsterPrimary: 
+                {
+                    HolsteringPrimaryWeapon();
+                    isComplete= true;
                 }
                 break;
         }
         weaponAdvanceUser.weaponAfterAction.AimDownSight(weapon);
     }
+
+    private void HolsteringPrimaryWeapon()
+    {
+        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSecondHand(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+
+        if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
+            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+    }
+
+   
 }

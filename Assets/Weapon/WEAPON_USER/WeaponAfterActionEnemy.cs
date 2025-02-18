@@ -35,7 +35,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
   
 
-    public override void Reload(Weapon weapon, IReloadNodePhase reloadNodePhase)
+    public override void Reload(Weapon weapon, IReloadNode reloadNodePhase)
     {
         if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
         {

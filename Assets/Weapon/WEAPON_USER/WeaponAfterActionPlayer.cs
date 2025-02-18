@@ -62,7 +62,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
         player.NotifyObserver(player, PlayerAction.LowReady);
     }
-    public override void Reload(Weapon weapon, IReloadNodePhase reloadNodePhase)
+    public override void Reload(Weapon weapon, IReloadNode reloadNodePhase)
     {
         if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
         {

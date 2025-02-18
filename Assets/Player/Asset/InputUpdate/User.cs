@@ -33,7 +33,7 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
         userInput.PlayerAction.Reload.performed += playerInputAPI.Reload;
         userInput.PlayerAction.Reload.canceled += playerInputAPI.Reload;
 
-        userInput.PlayerAction.SwapShoulder.performed += playerInputAPI.SwapShoulder;
+        //userInput.PlayerAction.SwapShoulder.performed += playerInputAPI.SwapShoulder;
         userInput.PlayerAction.SwapShoulder.canceled += playerInputAPI.SwapShoulder;
 
         userInput.PlayerAction.SwitchWeapon.performed += playerInputAPI.SwitchWeapon;

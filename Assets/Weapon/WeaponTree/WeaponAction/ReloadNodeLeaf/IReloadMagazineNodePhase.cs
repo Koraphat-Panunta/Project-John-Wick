@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IReloadMagazineNodePhase : IReloadNodePhase
+public interface IReloadMagazineNodePhase : IReloadNode
 {
    public enum ReloadMagazinePhase
     {
