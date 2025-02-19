@@ -21,7 +21,7 @@ public class PlayerStateNodeManager : INodeManager
 
 
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
-
+    public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standSelectorNode { get; private set; }
 
     public PlayerSprintNode playerSprintNode { get; private set; }
@@ -42,6 +42,8 @@ public class PlayerStateNodeManager : INodeManager
     public void InitailizedNode()
     {
         startNodeSelector = new PlayerSelectorStateNode(this.player, () => true);
+
+        deadNodeLeaf = new PlayerDeadNodeLeaf(this.player, () => player.isDead);
 
         stanceSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return true; });
@@ -98,6 +100,8 @@ public class PlayerStateNodeManager : INodeManager
         && this.player.attackedAbleGunFu != null
         , this.player.knockDown);
 
+
+        startNodeSelector.AddtoChildNode(deadNodeLeaf);
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
         stanceSelectorNode.AddtoChildNode(standSelectorNode);

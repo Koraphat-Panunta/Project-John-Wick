@@ -14,6 +14,9 @@ public class HpRegenarate
     }
     public void Regenarate()
     {
+        if(player.isDead)
+            return;
+
         if (regenarate_countDown > 0)
         {
             regenarate_countDown -= Time.deltaTime;

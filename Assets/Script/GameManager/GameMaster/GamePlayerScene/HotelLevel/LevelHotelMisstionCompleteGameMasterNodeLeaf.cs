@@ -38,8 +38,6 @@ public class LevelHotelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<L
         curPhase = MissionCompletePhase.FadeIn;
         eplapesTime = 0f;
         misstionCompleteCanvasUI.gameObject.SetActive(true);
-        Debug.Log("Enter misstionCompleteCanvasUI = " + misstionCompleteCanvasUI);
-        Debug.Log("misstionCompleteCanvasUI enable = " + misstionCompleteCanvasUI.enabled);
     }
 
     public override void Exit()

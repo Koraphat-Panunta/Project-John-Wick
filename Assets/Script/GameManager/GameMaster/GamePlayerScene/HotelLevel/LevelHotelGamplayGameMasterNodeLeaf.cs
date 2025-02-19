@@ -58,7 +58,16 @@ public class LevelHotelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<LevelHotel
 
     public override void UpdateNode()
     {
-        if(objectiveManager.allQuestClear)
+        if (objectiveManager.allQuestClear){
             gameMaster.curLevelHotelPhase = LevelHotelGameMaster.LevelHotelPhase.MissionComplete;
+            return;
+        }
+
+        if (player.isDead) {
+            gameMaster.curLevelHotelPhase = LevelHotelGameMaster.LevelHotelPhase.GameOver;
+            return;
+        }
+
+        
     }
 }

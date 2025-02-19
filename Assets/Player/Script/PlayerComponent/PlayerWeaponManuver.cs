@@ -81,6 +81,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
         IWeaponAdvanceUser weaponAdvanceUser = player ;
         PlayerStateNodeLeaf playerActionNodeLeaf = player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf;
 
+        if(player.isDead)
+            return;
+
         if(player.isSprint)
         {
             if (weaponAdvanceUser.isReloadCommand)

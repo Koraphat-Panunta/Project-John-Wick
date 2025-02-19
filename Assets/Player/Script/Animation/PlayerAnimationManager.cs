@@ -159,9 +159,19 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
     }
 
+    private bool isDead;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.TakeCover)
+        if (playerAction == SubjectPlayer.PlayerAction.Dead)
+        {
+            if(isDead)
+                return;
+            isLayer_1_Enable = false;
+            animator.CrossFade("Dead", 0.05f, 0, 0);
+            isDead = true;
+        }
+
+        if (playerAction == SubjectPlayer.PlayerAction.TakeCover)
             isCover = true;
         
         if(playerAction == SubjectPlayer.PlayerAction.GetOffCover)

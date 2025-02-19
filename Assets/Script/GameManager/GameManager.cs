@@ -75,15 +75,29 @@ public class GameManager : MonoBehaviour,INodeManager
     
     public void OnNotify(IGameManagerSendNotifyAble gameManagerSendNotifyAble)
     {
-        if(gameManagerSendNotifyAble is MenuSceneFrontSceneMasterNodeLeaf)
-            gameManagerSceneData = GameManagerState.Gameplay;
-
-        if(gameManagerSendNotifyAble is LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionComplete)
+        switch (gameManagerSendNotifyAble)
         {
-            if (levelHotelMisstionComplete.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
-                (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
-        }
-            
+            case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
+                {
+                    gameManagerSceneData = GameManagerState.Gameplay;
+                }
+                break;
+            case LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
+                {
+                    if(levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
+                        (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
+                }
+                break;
+            case GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
+                {
+                    if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
+                        (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
+
+                    if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
+                        gameManagerSceneData = GameManagerState.ForntScene;
+                }
+                break;
+        }   
     }
 }
 public interface IGameManagerSendNotifyAble
