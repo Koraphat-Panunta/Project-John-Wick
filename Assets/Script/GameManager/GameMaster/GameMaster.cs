@@ -9,6 +9,8 @@ public abstract class GameMaster : MonoBehaviour, IGameManagerSendNotifyAble,INo
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
 
+    public bool isPause;
+
     public abstract void FixedUpdateNode();
     
 
@@ -65,7 +67,7 @@ public abstract class GameMasterNode<T> : INode where T : GameMaster
 {
     public Func<bool> preCondition { get; set; }
     public INode parentNode { get; set; }
-    protected T gameMaster { get; set; }
+    public T gameMaster { get;protected set; }
 
     public GameMasterNode(T gameMaster, Func<bool> preCondition)
     {

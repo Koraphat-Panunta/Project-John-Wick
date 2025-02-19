@@ -97,6 +97,12 @@ public class GameManager : MonoBehaviour,INodeManager
                         gameManagerSceneData = GameManagerState.ForntScene;
                 }
                 break;
+            case LevelHotelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf: 
+                {
+                    if (levelHotelGamplayGameMasterNodeLeaf.gameMaster.isTriggerExit)
+                        gameManagerSceneData = GameManagerState.ForntScene;
+                }
+                break;
         }   
     }
 }

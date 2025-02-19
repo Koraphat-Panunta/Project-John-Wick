@@ -34,6 +34,8 @@ public class LevelHotelGameMaster : GameMaster,IObserverPlayerSpawner
     public Button misstionCompleteContinueButton;
     public Button misstionCompleteRestartButton;
 
+    public Canvas pauseCanvasUI;
+
     public ObjectiveManager objectiveManager;
     public List<Character> targetEliminationQuest;
     public Transform destination;
@@ -73,6 +75,7 @@ public class LevelHotelGameMaster : GameMaster,IObserverPlayerSpawner
 
     public override void UpdateNode()
     {
+       
         nodeManagerBehavior.UpdateNode(this);
     }
     private void LateUpdate()
@@ -122,6 +125,20 @@ public class LevelHotelGameMaster : GameMaster,IObserverPlayerSpawner
     public void TriggerExit() 
     {
         isTriggerExit = true;
+
+        if (isPause)
+        {
+            pauseCanvasUI.gameObject.SetActive(false);
+            Time.timeScale = 1;
+            isPause = false;
+        }
+    }
+    public void Resume()
+    {
+        pauseCanvasUI.gameObject.SetActive(false);
+        Time.timeScale = 1;
+        isPause = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void GetNotify(Player player)
