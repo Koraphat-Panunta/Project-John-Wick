@@ -32,6 +32,11 @@ public abstract class GameMaster : MonoBehaviour, IGameManagerSendNotifyAble,INo
 
     protected virtual void Update()
     {
+        if(gameManager == null)
+            gameManager = FindAnyObjectByType<GameManager>();
+
+        Debug.Log("gameManager is " + gameManager);
+
         this.UpdateNode();
     }
     protected virtual void FixedUpdate()

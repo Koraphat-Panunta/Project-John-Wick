@@ -7,8 +7,8 @@ public class DataBased : MonoBehaviour
     public WeaponDataBased weaponDataBased;
 
     //Level progression
-    public Dictionary<InGameSceneManager, bool> levelProgressionClear = new Dictionary<InGameSceneManager, bool>();
-    public InGameSceneManager curInGameScene;
+    //public Dictionary<InGameSceneManager, bool> levelProgressionClear = new Dictionary<InGameSceneManager, bool>();
+    //public InGameSceneManager curInGameScene;
 
     //PlayerLoadout
     public PrimaryWeapon primaryWeapon;

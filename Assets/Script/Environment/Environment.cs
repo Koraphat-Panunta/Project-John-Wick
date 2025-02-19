@@ -41,12 +41,6 @@ public class Environment : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
             }
         }
     }
-    //public IEnumerator AddObserverPlayerSpawner()
-    //{
-    //    yield return new WaitForEndOfFrame();
-    //    PlayerSpawner playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-    //    playerSpawner.AddObserverPlayerSpawner(this);
-    //}
 
     public void OnNotify(Player player)
     {

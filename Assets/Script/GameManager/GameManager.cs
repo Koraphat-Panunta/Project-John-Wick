@@ -77,6 +77,12 @@ public class GameManager : MonoBehaviour,INodeManager
     {
         if(gameManagerSendNotifyAble is MenuSceneFrontSceneMasterNodeLeaf)
             gameManagerSceneData = GameManagerState.Gameplay;
+
+        if(gameManagerSendNotifyAble is LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionComplete)
+        {
+            if (levelHotelMisstionComplete.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
+                (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
+        }
             
     }
 }

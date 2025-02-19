@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
@@ -99,5 +100,19 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
         player.AddObserver(this);
         player.crosshairController = this;
         TargetAim = player._aimPosRef;
+    }
+    public void EnableCrosshairVisable()
+    {
+        this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;
+        this.Crosshair_lineDown.GetComponent<RawImage>().enabled = true;
+        this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = true;
+        this.Crosshair_lineRight.GetComponent<RawImage>().enabled = true;
+    }
+    public void DisableCrosshairVisable() 
+    {
+        this.Crosshair_lineUp.GetComponent<RawImage>().enabled = false;
+        this.Crosshair_lineDown.GetComponent<RawImage>().enabled = false;
+        this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = false;
+        this.Crosshair_lineRight.GetComponent<RawImage>().enabled = false;
     }
 }

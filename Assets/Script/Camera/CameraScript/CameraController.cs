@@ -41,8 +41,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     void Start()
     {
 
-        Cursor.lockState = CursorLockMode.Locked;
-
         cameraKickBack = new CameraKickBack(this);
 
         cameraHandShake = new CameraHandShake(this);
@@ -51,9 +49,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     }
     private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
 
-        if(Player != null)
+        if(Player != null && Player.weaponManuverManager != null)
         zoomingWeight = Player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();

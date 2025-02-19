@@ -17,10 +17,6 @@ public class HUD : MonoBehaviour,IObserverPlayerSpawner
         playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
     }
-    void Start()
-    {
-      
-    }
     private void OnEnable()
     {
         if (playerInfoDisplays.Count > 0)
@@ -33,6 +29,9 @@ public class HUD : MonoBehaviour,IObserverPlayerSpawner
     }
     private void OnDisable()
     {
+        if (playerInfoDisplays.Count <= 0)
+            return;
+        
         foreach (PlayerInfoDisplay playerInfo in playerInfoDisplays)
         {
             playerInfo.RemovePlayerObserver();

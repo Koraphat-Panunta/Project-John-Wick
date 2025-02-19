@@ -124,7 +124,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _triggerHitedGunFu = false;
         _tiggerThrowAbleObjectHit = false;
 
-        Debug.Log("BlackBoardBufferUpdate");
     }
 
 

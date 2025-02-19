@@ -1,0 +1,156 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class LevelHotelGameMaster : GameMaster,IObserverPlayerSpawner
+{
+    public Canvas openingCanvasUI;
+    public Image titleHotelLevelImage;
+    public TextMeshProUGUI titleLevelHotel;
+    public Image fadeInImage;
+    public PlayerSpawner playerSpawner;
+
+    public Canvas gameplayCanvasUI;
+    public User user;
+
+    public Canvas gameOverCanvasUI;
+    public CrosshairController crosshairController;
+    public RawImage hpBar;
+    public TextMeshProUGUI weaponInfo;
+
+    public Canvas missionCompleteCanvasUI;
+    public Image missionCompleteImageFade;
+    public Image misstionCompletePanelTitle;
+    public TextMeshProUGUI misstionCompleteTitle;
+    public Button misstionCompleteContinueButton;
+    public Button misstionCompleteRestartButton;
+
+    public ObjectiveManager objectiveManager;
+    public List<Character> targetEliminationQuest;
+    public Transform destination;
+    public Player player;
+
+    private bool isCompleteLoad =false;
+    public enum LevelHotelPhase
+    {
+        Opening,
+        Gameplay,
+        GameOver,
+        MissionComplete
+    }
+    public LevelHotelPhase curLevelHotelPhase;
+    private IEnumerator DelaySceneLoaded()
+    {
+        yield return new WaitForSeconds(1.7f);
+        isCompleteLoad = true;
+    }
+    
+  
+    protected override void Awake()
+    {
+        playerSpawner.AddObserverPlayerSpawner(this);
+        base.Awake();
+    }
+    protected override void Start()
+    {
+        curLevelHotelPhase = LevelHotelPhase.Opening;
+        StartCoroutine(DelaySceneLoaded());
+        base.Start();
+    }
+    public override void FixedUpdateNode()
+    {
+        nodeManagerBehavior.FixedUpdateNode(this);
+    }
+
+    public override void UpdateNode()
+    {
+        nodeManagerBehavior.UpdateNode(this);
+    }
+    private void LateUpdate()
+    {
+        isTriggerExit = false;
+        isTriggerRestart = false;
+        isTriggerContinue = false;
+    }
+
+    public LevelHotelOpeningGameMasterNodeLeaf levelHotelOpeningGameMasterNodeLeaf { get; private set; }
+    public LevelHotelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf { get; private set; }
+    public LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf { get; private set; }
+    private LevelHotelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf;
+
+    public override void InitailizedNode()
+    {
+        startNodeSelector = new GameMasterNodeSelector<LevelHotelGameMaster>(this,()=> true);
+
+        levelHotelOpeningGameMasterNodeLeaf = new LevelHotelOpeningGameMasterNodeLeaf(this,()=> curLevelHotelPhase == LevelHotelPhase.Opening && isCompleteLoad);
+        levelHotelGamplayGameMasterNodeLeaf = new LevelHotelGamplayGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.Gameplay  && isCompleteLoad);
+        levelHotelMisstionCompleteGameMasterNodeLeaf = new LevelHotelMisstionCompleteGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.MissionComplete && isCompleteLoad);
+        levelHotelRestGameMasterNodeLeaf = new LevelHotelRestGameMasterNodeLeaf(this, () => true);
+
+        startNodeSelector.AddtoChildNode(levelHotelOpeningGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(levelHotelGamplayGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(levelHotelMisstionCompleteGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(levelHotelRestGameMasterNodeLeaf);
+
+        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+        curNodeLeaf = nodeLeaf;
+    }
+
+    public bool isTriggerRestart;
+    public bool isTriggerContinue;
+    public bool isTriggerExit;
+    public void TriggerRestert()
+    {
+        isTriggerRestart = true;
+    }
+    public void TriggerContinue()
+    {
+        isTriggerContinue = true;
+    }
+    public void TriggerExit() 
+    {
+        isTriggerExit = true;
+    }
+
+    public void GetNotify(Player player)
+    {
+        this.player = player;
+    }
+}
+public class LevelHotelRestGameMasterNodeLeaf : GameMasterNodeLeaf<LevelHotelGameMaster>
+{
+    public LevelHotelRestGameMasterNodeLeaf(LevelHotelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    {
+    }
+
+    public override void Enter()
+    {
+      
+    }
+
+    public override void Exit()
+    {
+       
+    }
+
+    public override void FixedUpdateNode()
+    {
+       
+    }
+
+    public override bool IsComplete()
+    {
+        return true;
+    }
+
+    public override void UpdateNode()
+    {
+       
+    }
+}
+
+

@@ -42,9 +42,7 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer,IObserverPlayer
     {
         playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
-    }
-    private void Start()
-    {
+
         this.maxWidthImage = humanShieldGage.rectTransform.rect.width;
     }
 

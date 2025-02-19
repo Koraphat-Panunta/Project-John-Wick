@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -11,22 +13,7 @@ public class PlayerSpawner : MonoBehaviour
 
     public void Awake()
     {
-        playerCrosshairController = FindAnyObjectByType<CrosshairController>();
-    }
-    void Start()
-    {
-        if (playerCrosshairController == null)
-            throw new System.NullReferenceException("playerCrosshairController at PlayerSpawner is Null");
-
-        if(Application.isPlaying)
-            SpawnPlayer();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        playerCrosshairController = Resources.FindObjectsOfTypeAll<CrosshairController>().FirstOrDefault();
     }
     public void SpawnPlayer()
     {
@@ -43,6 +30,7 @@ public class PlayerSpawner : MonoBehaviour
         this.observerPlayerSpawners.Add(observerPlayerSpawner);
     }
 }
+
 public interface IObserverPlayerSpawner
 {
     public void GetNotify(Player player);

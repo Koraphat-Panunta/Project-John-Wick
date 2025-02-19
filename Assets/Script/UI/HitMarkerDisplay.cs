@@ -45,11 +45,6 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         this.playerSpawner.AddObserverPlayerSpawner(this);
     }
-    private void Start()
-    {
-       
-    }
-
     // UpdateNode is called once per frame
     void Update()
     {

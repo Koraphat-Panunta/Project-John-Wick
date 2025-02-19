@@ -38,6 +38,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         }
 
     }
+
     protected override void Start()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//

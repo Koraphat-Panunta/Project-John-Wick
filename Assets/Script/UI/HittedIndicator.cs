@@ -17,16 +17,10 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpa
     {
         playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
-    }
-    public void Start()
-    {
 
         heightIndicatorPos = uiScreenCanvas.rect.height / 4;
         widthIndicatorPos = uiScreenCanvas.rect.width / 4;
-
-
     }
-
     private void Update()
     {
         if (hitIndicators.Count <= 0)

@@ -8,7 +8,6 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
 
     public void GetNotify(Player player)
     {
-        userInput.Enable();
         PlayerInputAPI playerInputAPI = player.GetComponent<PlayerInputAPI>();
   
         Debug.Log("playerInputAPI == "+playerInputAPI);
@@ -44,6 +43,15 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
 
         userInput.PlayerAction.ToggleChangeStance.performed += playerInputAPI.ToggleCrouchStand;
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;
+    }
+
+    public void EnableInput()
+    {
+        userInput.Enable();
+    }
+    public void DisableInput()
+    {
+        userInput.Disable();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

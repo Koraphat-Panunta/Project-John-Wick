@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -25,16 +26,17 @@ public class CameraManagerNode : INodeManager
        nodeManagerBehavior.UpdateNode(this);
     }
 
-    public CameraSelectorNode cameraControlAbleSelector { get; protected set; }
+    public CameraSelectorNode cameraPlayerBasedSelector { get; protected set; }
     public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
     public CameraStandViewNodeLeaf cameraStandViewNodeLeaf { get; protected set; }
+    public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
 
     public void InitailizedNode()
     {
         startNodeSelector = new CameraSelectorNode(this.cameraController, () => true);
 
-        cameraControlAbleSelector = new CameraSelectorNode(this.cameraController,()=> true);
+        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,()=> this.cameraController.Player != null);
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
@@ -45,13 +47,23 @@ public class CameraManagerNode : INodeManager
         cameraStandViewNodeLeaf = new CameraStandViewNodeLeaf(this.cameraController,
             () => this.cameraController.curStance == Player.PlayerStance.stand || true);
 
-        startNodeSelector.AddtoChildNode(cameraControlAbleSelector);
+        cameraRestNodeLeaf = new CameraRestNodeLeaf(this.cameraController, () => true);
 
-        cameraControlAbleSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
-        cameraControlAbleSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);
-        cameraControlAbleSelector.AddtoChildNode(cameraStandViewNodeLeaf);
+        startNodeSelector.AddtoChildNode(cameraPlayerBasedSelector);
+        startNodeSelector.AddtoChildNode(cameraRestNodeLeaf);
+
+        cameraPlayerBasedSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
+        cameraPlayerBasedSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);
+        cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
+
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
+    }
+}
+public class CameraRestNodeLeaf : CameraNodeLeaf
+{
+    public CameraRestNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
+    {
     }
 }
