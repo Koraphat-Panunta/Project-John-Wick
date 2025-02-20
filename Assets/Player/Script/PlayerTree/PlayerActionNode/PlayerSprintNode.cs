@@ -22,7 +22,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     private float sprintAcceletion => player.sprintAccelerate;
     private float sprintRotateSpeed => player.sprintRotateSpeed;
 
-    private float sprintSpeedZone => player.StandMoveMaxSpeed + (Mathf.Abs(player.StandMoveMaxSpeed - player.sprintMaxSpeed)) * 0.5f;
+    private float sprintSpeedZone => player.StandMoveMaxSpeed + (Mathf.Abs(player.StandMoveMaxSpeed - player.sprintMaxSpeed)) * 0.7f;
 
 
     public override void Enter()
@@ -31,7 +31,6 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         {
             sprintDir = player.inputMoveDir_World;
             sprintPhase = SprintPhase.Out;
-            outSprinttimer = 0;
         }
         else //(player.playerMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
         {
@@ -49,24 +48,19 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
 
         base.UpdateNode();
     }
-    private RotateObjectToward rotate = new RotateObjectToward();
-    private float outSprinttimer;
-    private float outSprintDuration = 1.5f;
     public override void FixedUpdateNode()
     {
         if (sprintPhase == SprintPhase.Out)
         {
-            outSprinttimer += Time.deltaTime;
+            float sprintDirRotateSpeed = sprintRotateSpeed * 1.5f;
+            float rotateCharSpeed = sprintRotateSpeed * 2f;
 
-            float rotT = (1 / Mathf.Pow(outSprintDuration, 2.6f)) * (Mathf.Pow(outSprinttimer, 2.6f));
-
-            sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintRotateSpeed *0.9f * Time.deltaTime, 0);
+            sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
             playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion, sprintSpeedZone, IMovementCompoent.MoveMode.MaintainMomentum);
+            playerMovement.RotateToDirWorld(sprintDir, sprintRotateSpeed);
 
-            Debug.Log("rotate t =" + rotT);
-            playerMovement.RotateToDirWorldSlerp(sprintDir, rotT);
-
-            if (outSprinttimer >= outSprintDuration)
+            if (Vector3.Dot(player.playerMovement.forwardDir.normalized,sprintDir.normalized) >= 0.95f
+                && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone*0.95f)
                 sprintPhase = SprintPhase.Stay;
         }
         else if(sprintPhase == SprintPhase.Stay)
