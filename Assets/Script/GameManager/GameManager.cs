@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour,INodeManager
     private void Update()
     {
         this.UpdateNode();
-        Debug.Log(curNodeLeaf);
     }
     private void FixedUpdate()
     {

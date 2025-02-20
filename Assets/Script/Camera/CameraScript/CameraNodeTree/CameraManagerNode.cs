@@ -28,6 +28,7 @@ public class CameraManagerNode : INodeManager
 
     public CameraSelectorNode cameraPlayerBasedSelector { get; protected set; }
     public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
+    public CameraSprintViewNodeLeaf cameraSprintViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
     public CameraStandViewNodeLeaf cameraStandViewNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
@@ -40,9 +41,12 @@ public class CameraManagerNode : INodeManager
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
+        cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
+            () => this.cameraController.Player.isSprint);
 
         cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
+
 
         cameraStandViewNodeLeaf = new CameraStandViewNodeLeaf(this.cameraController,
             () => this.cameraController.curStance == Player.PlayerStance.stand || true);
@@ -52,6 +56,7 @@ public class CameraManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(cameraPlayerBasedSelector);
         startNodeSelector.AddtoChildNode(cameraRestNodeLeaf);
 
+        cameraPlayerBasedSelector.AddtoChildNode(cameraSprintViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);

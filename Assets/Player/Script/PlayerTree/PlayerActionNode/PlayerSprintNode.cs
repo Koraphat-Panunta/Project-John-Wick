@@ -55,9 +55,9 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
             float sprintDirRotateSpeed = sprintRotateSpeed * 1.5f;
             float rotateCharSpeed = sprintRotateSpeed * 2f;
 
-            sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
-            playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion, sprintSpeedZone, IMovementCompoent.MoveMode.MaintainMomentum);
-            playerMovement.RotateToDirWorld(sprintDir, sprintRotateSpeed);
+            sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * 3 * Time.deltaTime, 0);
+            playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion , sprintSpeedZone, IMovementCompoent.MoveMode.MaintainMomentum);
+            playerMovement.RotateToDirWorld(sprintDir, sprintRotateSpeed*1.35f);
 
             if (Vector3.Dot(player.playerMovement.forwardDir.normalized,sprintDir.normalized) >= 0.95f
                 && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone*0.95f)

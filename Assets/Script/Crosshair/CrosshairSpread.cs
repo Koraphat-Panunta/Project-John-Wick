@@ -101,9 +101,7 @@ public class CrosshairSpread : ICrosshairAction
         _crosshairController.Crosshair_lineLeft.anchoredPosition = new Vector2(-minWeaponPercision - spread_rate, 0);
         _crosshairController.Crosshair_lineRight.anchoredPosition = new Vector2(minWeaponPercision + spread_rate, 0);
         _crosshairController.Crosshair_CenterPosition.anchoredPosition = new Vector2(crosshairKickUpRate.x, crosshairKickUpRate.y);
-       
-
-        Debug.Log("Spread_rate = " + spread_rate);
+      
 
     }
 

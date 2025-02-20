@@ -37,19 +37,7 @@ public class CrosshiarShootpoint : ICrosshairAction
 
         float PosY = Random.Range(PosYBelow, PosYAbove);
 
-        //Debug.Log("R = " + raduis);
-        //Debug.Log("CenterPos = "+CenterPos);
-        //Debug.Log("Circle X =" + PosX);
-        //Debug.Log("Circle Y = "+ PosYAbove);
-
-        //float PosY = CenterPos.y;
-        //PosY = Random.Range(lineDownPos.y + CenterPos.y,
-        //    lineUpPos.y + CenterPos.y);  
-        Debug.Log("CenterPos.x =" + CenterPos.x);
-        Debug.Log("CenterPos.y =" + CenterPos.y);
-        Debug.Log("raduis =" + raduis );
-        Debug.Log("PosYBelow =" + PosYBelow + " PosYAbove = " + PosYAbove);
-        Debug.Log("PosX =" + PosX +" PosY = "+PosY);
+        
         crosshairController.PointPosition.anchoredPosition = new Vector2(PosX, PosY);
         
         
@@ -60,8 +48,7 @@ public class CrosshiarShootpoint : ICrosshairAction
         Vector3 pointPos;
         Vector3 pointPosScreen = GetPointPosScreen().position;
         Ray ray = Camera.main.ScreenPointToRay(pointPosScreen);
-        Debug.Log("GetPointPosScreen().position = "+ pointPosScreen);
-        Debug.Log("Rat = " + ray);
+       
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, crosshairController.layerMask))
         {

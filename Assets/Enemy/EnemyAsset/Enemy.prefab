@@ -635,7 +635,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a54564462433d54a94cb9ee5f8372d1, type: 3}
   m_Name: 
@@ -659,6 +659,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
   CurrentEnemyState: 
+  posture: 0
+  PainPart: 0
+  Debug: 
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1476,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &455680279338039906 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6197717671466568749, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -1594,6 +1600,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &1568662020902877859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5014002142461742316, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -1761,6 +1770,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &2724998908371769539 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -756193795629470068, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -1912,6 +1924,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &3342093601566653245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -130092280990577294, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2057,6 +2072,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &4214613351197115894 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7650772636154999737, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2262,6 +2280,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &6158393811530094022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8852015123661708407, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2413,6 +2434,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &6381755968740600311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8592625561800138824, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2534,6 +2558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &6640290760767339534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8325083208963241407, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2673,6 +2700,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &7314730017150248113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5344799019600866562, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2818,6 +2848,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!1 &7994665220086388491 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4513328135808115012, guid: 7b1f20d6796f4964197cd2c84399f581,
@@ -2933,6 +2966,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
 --- !u!4 &8330626289996058304 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6643928928240273265, guid: 7b1f20d6796f4964197cd2c84399f581,

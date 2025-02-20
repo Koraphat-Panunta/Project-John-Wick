@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
     public CameraManagerNode cameraManagerNode;
 
+    public string CameraNodeName;
     public enum Side
     {
         left,
@@ -54,6 +55,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         zoomingWeight = Player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
+        CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
     }
     private void FixedUpdate()
     {

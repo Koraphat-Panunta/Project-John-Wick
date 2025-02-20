@@ -89,7 +89,21 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger || enemy._tiggerThrowAbleObjectHit)
         {
             PopulateBoneTransforms(_ragdollBoneTransforms);
-            Enter();
+            enemy.enemyMovement.CancleMomentum();
+
+            if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
+                enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
+            isComplete = false;
+            curState = FallDownState.RagdollState;
+
+            _elapsedResetBonesTime = 0;
+
+            timerGetUp = 0f;
+            timerGetDown = 0f;
+
+            enemy._posture = 0;
+
+            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
         }
         switch (curState)
         {
