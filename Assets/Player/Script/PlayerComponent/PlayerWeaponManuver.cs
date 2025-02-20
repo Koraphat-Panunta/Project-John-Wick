@@ -26,7 +26,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if(isAimingManuver 
                 && curWeapon is PrimaryWeapon
                 && curWeapon.bulletStore[BulletStackType.Chamber] + curWeapon.bulletStore[BulletStackType.Magazine] <= 0
-                && curWeapon.triggerState == TriggerState.IsDown)
+                && curWeapon.triggerState == TriggerState.IsDown
+                && ((player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf) == false && (player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf) == false))
                     return true;
 
                 return false;

@@ -230,8 +230,6 @@ public class EnemyStateManagerNode : INodeManager
                 if (this.enemy._isPainTrigger && this.enemy._posture <= 0)
                     return true;
 
-                Debug.Log("this.enemy._tiggerThrowAbleObjectHit = " + this.enemy._tiggerThrowAbleObjectHit);
-
                 if(this.enemy._tiggerThrowAbleObjectHit)
                     return true;
 

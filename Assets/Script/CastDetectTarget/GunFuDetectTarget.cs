@@ -23,7 +23,6 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     private void Start()
     {
         gunFuAble = GetComponent<IGunFuAble>();
-        Debug.Log("gunFuAble = " + gunFuAble);
     }
 
     public bool CastDetect(out IGunFuGotAttackedAble target)

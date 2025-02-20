@@ -7,14 +7,21 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     //SetUpStats
     private int _magazineCapacity = 15;
     private float _rateOfFire = 500;
-    private float _reloadSpeed = 1.2f ;
-    private float _accuracy = 136;
-    private float _recoilController = 1;
-    private float _recoilCameraController = 5;
-    private float _aimDownSightSpeed = 3.6f;
-    private float _recoilKickBack ;
-    private float min_percision = 18;
-    private float max_percision = 65;
+    private float _reloadSpeed = 1.2f;
+    [Range(0,600)]
+    [SerializeField] private float _accuracy /*= 136*/;
+    [Range(0,600)]
+    [SerializeField] private float _recoilController/* = 1*/;
+    [Range(0,600)]
+    [SerializeField] private float _recoilCameraController/* = 5*/;
+    [Range(0, 600)]
+    [SerializeField] private float _aimDownSightSpeed = 3.6f;
+    [Range(0, 600)]
+    [SerializeField] private float _recoilKickBack;
+    [Range(0, 600)]
+    [SerializeField] private float min_percision /*= 18*/;
+    [Range(0, 600)]
+    [SerializeField] private float max_percision /*= 65*/;
     private float DrawSpeed = 1;
 
     public override Transform gripPos { get => transform;set { } }

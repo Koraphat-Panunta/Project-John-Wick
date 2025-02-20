@@ -11,7 +11,7 @@ public class _9mmBullet : Bullet
         hpDamage = 12.5f;
         impactDamage = 25;
         myType = BulletType._9mm;
-        recoilKickBack = 30;
+        recoilKickBack = 140;
     }
     //public override void Shoot(Vector3 spawnerPosition, Vector3 pointPos)
     //{

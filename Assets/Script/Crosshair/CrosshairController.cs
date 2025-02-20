@@ -7,8 +7,6 @@ using UnityEngine.UIElements;
 public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
     //[SerializeField] WeaponSocket weaponSocket;
-    [SerializeField] [Range(15,30)] private float MinAccuracy = 0;
-    [SerializeField] [Range(0,100)] private float MaxAccuracy = 0;
     public RectTransform Crosshair_lineUp;
     public RectTransform Crosshair_lineDown;
     public RectTransform Crosshair_lineLeft;
@@ -39,6 +37,8 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     void Update()
     {
         CrosshairUpdate();
+        if(player != null)
+        CrosshairSpread.CrosshairSpreadUpdate();
     }
     float lerpSpeed = 10;
     void CrosshairUpdate()
@@ -87,6 +87,25 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
             CrosshairSpread.Performed(player.currentWeapon);
+        }
+
+        if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        {
+            CrosshairSpread.Performed(35);
+            CrosshairSpread.TriggerFocusSpanRate();
+        }
+
+        if (player.currentWeapon.currentEventNode is IReloadNode)
+            CrosshairSpread.TriggerFocusSpanRate();
+        
+            
+
+        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+            CrosshairSpread.isAiming = true;
+        if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+        {
+            CrosshairSpread.TriggerFocusSpanRate();
+            CrosshairSpread.isAiming = false;
         }
     }
 

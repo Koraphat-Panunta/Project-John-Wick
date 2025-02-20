@@ -89,6 +89,12 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     {
         RotateCharacter(lookDirWorldNomalized, rotateSpeed_NoMultiplyDeltaTime);
     }
+    public void RotateToDirWorldSlerp(Vector3 dir,float t)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+        player.gameObject.transform.rotation = Quaternion.Lerp(player.gameObject.transform.rotation, targetRotation, t);
+    }
 
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
@@ -134,6 +140,12 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
             // Smoothly rotate towards the target rotation
             player.gameObject.transform.rotation = Quaternion.Slerp(player.gameObject.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
+    }
+
+    public void SetRotateCharacter(Vector3 dir)
+    {
+        
+        player.gameObject.transform.forward = dir;
     }
 
     public void MoveToDirWorld(Vector3 dirWorldNormalized, float speed, float maxSpeed, IMovementCompoent.MoveMode moveMode)

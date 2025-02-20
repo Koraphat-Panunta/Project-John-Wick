@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   muzzle: {fileID: 0}
-  Sight: {fileID: -1268388052208644891, guid: 3e8f1c6f73779f8439e8e87444ea52c7, type: 3}
+  Sight: {fileID: 0}
   bulletSpawnerPos: {fileID: 3022661863309610859}
   isPullTrigger: 0
   isReloadCommand: 0
@@ -199,6 +199,13 @@ MonoBehaviour:
   FrontGripSocket: {fileID: 0}
   ChamberCount: 0
   MagCount: 0
+  _Accuracy: 450
+  _RecoilController: 110
+  _RecoilCameraController: 145
+  _AimDownSightSpeed: 2.4
+  _RecoilKickBack: 180
+  Min_percision: 19
+  Max_percision: 265
 --- !u!114 &6335714959491028719
 MonoBehaviour:
   m_ObjectHideFlags: 0

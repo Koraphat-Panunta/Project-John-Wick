@@ -20,13 +20,22 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
     private int _MagazineCapacity = 30;
     private float _RateOfFire = 720;
     private float _ReloadSpeed = 2;
-    private float _Accuracy = 112;
-    private float _RecoilController = 40;
-    private float _RecoilCameraController = 30f;
-    private float _AimDownSightSpeed = 2.4f;
-    private float _RecoilKickBack = 60;
-    private float Min_percision = 11;
-    private float Max_percision = 74;
+
+    [Range(0,600)]
+    [SerializeField] private float _Accuracy /*= 112*/;
+    [Range(0, 600)]
+    [SerializeField] private float _RecoilController /*= 40*/;
+    [Range(0, 600)]
+    [SerializeField] private float _RecoilCameraController /*= 30f*/;
+    [Range(0, 10)]
+    [SerializeField] private float _AimDownSightSpeed /*= 2.4f*/;
+    [Range(0, 600)]
+    [SerializeField] private float _RecoilKickBack/* = 60*/;
+    [Range(0, 1080)]
+    [SerializeField] private float Min_percision/* = 11*/;
+    [Range(0, 1080)]
+    [SerializeField] private float Max_percision/* = 74*/;
+
     private float DrawSpeed = 1f;
     private _556mmBullet _556MmBullet;
 

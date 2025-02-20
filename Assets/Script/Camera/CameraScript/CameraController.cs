@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     [SerializeField] private PlayerSpawner playerSpawner;
 
     public CameraKickBack cameraKickBack;
-    public CameraHandShake cameraHandShake;
+    public CameraImpulseShake cameraImpluse;
 
     public ScrpCameraViewAttribute cameraViewAttribute;
 
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
         cameraKickBack = new CameraKickBack(this);
 
-        cameraHandShake = new CameraHandShake(this);
+        cameraImpluse = new CameraImpulseShake(this);
 
         cameraManagerNode = new CameraManagerNode(this);
     }
@@ -59,6 +59,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     {
         cameraManagerNode.FixedUpdateNode();
     }
+    [SerializeField] private float cameraKickbackMultiple;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
@@ -68,6 +69,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
             cameraKickBack.Performed(player.currentWeapon);
+            cameraImpluse.Performed((player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
         }
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
@@ -79,7 +81,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         }
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
-            cameraHandShake.Performed();
+            cameraImpluse.Performed();
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.Sprint)

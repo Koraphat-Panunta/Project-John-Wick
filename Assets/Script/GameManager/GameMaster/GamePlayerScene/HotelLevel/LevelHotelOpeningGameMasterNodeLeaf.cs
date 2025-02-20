@@ -60,7 +60,6 @@ public class LevelHotelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<LevelHotel
         eplapesTime += Time.deltaTime;
         if(curPhase == LevelHotelOpeningPhase.FadeIn)
         {
-            Debug.Log("Opening eplapesTime fadeIn = " + eplapesTime);
             setAlphaColorUI.SetColorAlpha<Image>(titleHotelLevelImage, eplapesTime / 0.5f);
             setAlphaColorUI.SetColorAlpha<TextMeshProUGUI>(titleLevelHotel, eplapesTime / 0.5f);
 
