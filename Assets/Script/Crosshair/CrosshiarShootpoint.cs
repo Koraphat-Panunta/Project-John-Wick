@@ -28,13 +28,12 @@ public class CrosshiarShootpoint : ICrosshairAction
         Vector2 CenterPos = CrosshairCenterPosition.anchoredPosition;
 
 
-        float PosX = Random.Range(lineLeftPos.x + CenterPos.x,
-            lineRightPos.x + CenterPos.x);
+        float PosX = Random.Range(lineLeftPos.x , lineRightPos.x);
 
-        float raduis = Mathf.Abs(Vector2.Distance(CenterPos,lineUpPos));
+        float raduis = lineUpPos.y;
 
-        float PosYBelow = -(Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX - CenterPos.y, 2)) + CenterPos.x);
-        float PosYAbove =  Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX - CenterPos.y, 2)) + CenterPos.x;
+        float PosYBelow = -(Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX , 2)) );
+        float PosYAbove =  Mathf.Sqrt(Mathf.Pow(raduis, 2) - Mathf.Pow(PosX, 2));
 
         float PosY = Random.Range(PosYBelow, PosYAbove);
 
@@ -45,8 +44,12 @@ public class CrosshiarShootpoint : ICrosshairAction
 
         //float PosY = CenterPos.y;
         //PosY = Random.Range(lineDownPos.y + CenterPos.y,
-        //    lineUpPos.y + CenterPos.y);
-
+        //    lineUpPos.y + CenterPos.y);  
+        Debug.Log("CenterPos.x =" + CenterPos.x);
+        Debug.Log("CenterPos.y =" + CenterPos.y);
+        Debug.Log("raduis =" + raduis );
+        Debug.Log("PosYBelow =" + PosYBelow + " PosYAbove = " + PosYAbove);
+        Debug.Log("PosX =" + PosX +" PosY = "+PosY);
         crosshairController.PointPosition.anchoredPosition = new Vector2(PosX, PosY);
         
         
@@ -55,7 +58,10 @@ public class CrosshiarShootpoint : ICrosshairAction
     public Vector3 GetShootPointDirection()
     {
         Vector3 pointPos;
-        Ray ray = Camera.main.ScreenPointToRay(GetPointPosScreen().position);
+        Vector3 pointPosScreen = GetPointPosScreen().position;
+        Ray ray = Camera.main.ScreenPointToRay(pointPosScreen);
+        Debug.Log("GetPointPosScreen().position = "+ pointPosScreen);
+        Debug.Log("Rat = " + ray);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, crosshairController.layerMask))
         {

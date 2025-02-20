@@ -83,6 +83,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
             CrosshairSpread.Performed(player.currentWeapon);
+            CrosshairSpread.CrosshairKickUp(player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilController);
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
