@@ -50,14 +50,17 @@ public class BulletSpawner : MonoBehaviour
         }
         bulletTrail.transform.position = endPos;
 
-        //float fadeTime = 6;
-        //float saveFadeTime = fadeTime;
+        float fadeTime = 0;
+        float fadeTimeDuration = 1;
 
-        //while (fadeTime > 0)
-        //{
-        //    yield return null;
-        //}
-        bulletTrail.enabled = false;
-        Destroy(bulletTrail.gameObject);
+        while (fadeTime >= fadeTimeDuration)
+        {
+            fadeTime += Time.deltaTime;
+            for (int i = 0; i < bulletTrail.colorGradient.alphaKeys.Length; i++) 
+            {
+                bulletTrail.colorGradient.alphaKeys[i].alpha = Mathf.Lerp(bulletTrail.colorGradient.alphaKeys[i].alpha, 0, fadeTime);
+            }
+            yield return null;
+        }
     }
 }

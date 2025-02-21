@@ -107,8 +107,12 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
 
         reloadStageSelector = new WeaponSelector(this,
            () => {
-               bool reload = isReloadCommand;
-               return reload && bulletStore[BulletStackType.Magazine] < bulletCapacity;
+               if (isReloadCommand
+              && userWeapon.weaponBelt.ammoProuch.amountOf_ammo[bullet.myType] > 0
+              && bulletStore[BulletStackType.Magazine] < bulletCapacity)
+                   return true;
+               else
+                   return false;
            }
            );
 

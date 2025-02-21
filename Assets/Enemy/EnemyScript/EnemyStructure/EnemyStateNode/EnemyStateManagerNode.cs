@@ -49,7 +49,6 @@ public class EnemyStateManagerNode : INodeManager
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
     public HumandThrow_GotInteract_NodeLeaf gotHumanThrow_GunFuNodeLeaf { get; private set; }
 
-
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
     public EnemyStateSelectorNode head_PainState_Selector { get; private set; }
