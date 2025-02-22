@@ -10,7 +10,6 @@ public abstract class DropAbleObjectClient : MonoBehaviour,IHPDropAble,IAmmoDrop
     [SerializeField] protected float SpawnForce;
     public void DropObject(HpGetAbleObject hpGetAbleObject)
     {
-        Debug.Log("DropObj");
         HpGetAbleObject hpObj = GameObject.Instantiate(hpGetAbleObject,transform.position,transform.rotation) as HpGetAbleObject;
         Vector3 spawnForce = (Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up).eulerAngles).normalized;
         hpObj.rb.AddForce(spawnForce*this.SpawnForce, ForceMode.Impulse);

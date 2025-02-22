@@ -50,7 +50,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         curShoulderSide = ShoulderSide.Right;
 
         base.maxHp = 100;
-        base.SetHP(60);
+        base.SetHP(100);
 
         AddObserver(this);
 
@@ -115,8 +115,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedWeaponAdvanceUser
 
-    [SerializeField] private PrimaryWeapon primaryWeapon;
-    [SerializeField] private SecondaryWeapon secondaryWeapon;
+    //[SerializeField] private PrimaryWeapon primaryWeapon;
+    //[SerializeField] private SecondaryWeapon secondaryWeapon;
     [SerializeField] private Transform primaryHolster;
     [SerializeField] private Transform secondaryHolster;
     [SerializeField] private Transform weaponMainSocket;
@@ -317,9 +317,35 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         NotifyObserver(this, PlayerAction.RecivedHp);
     }
 
+    public bool PreCondition(IRecivedAble recivedAble)
+    {
+        switch (recivedAble)
+        {
+            case IAmmoRecivedAble ammoRecivedAble: 
+                {
+                    BulletType primaryType = (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).bullet.myType;
+                    BulletType secondaryType = (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).bullet.myType;
+
+                    if (weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[primaryType] < weaponBelt.ammoProuch.maximunAmmo[primaryType]
+                        || weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[secondaryType] < weaponBelt.ammoProuch.maximunAmmo[secondaryType])
+                        return true;
+                }
+                break;
+            case IHPReciveAble hpReciveAble: 
+                {
+                    if(GetHP()< maxHp)
+                        return true;
+                }
+                break;
+        }
+        return false;
+    }
+
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
+
+    
 
 
     #endregion

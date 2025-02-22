@@ -20,7 +20,6 @@ public class TravelingToDestination : Objective
 
     public override bool PerformedDone()
     {
-        Debug.Log("Distance = " + Vector3.Distance(destination, objectivier.position));
        if(Vector3.Distance(destination,objectivier.position) <= destinationRaduis)
             return true;
 

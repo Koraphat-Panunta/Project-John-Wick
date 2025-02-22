@@ -9,8 +9,8 @@ public class AmmoProuch
 
     private int max_9mmDefault = 90;
     private int max_45mmDefault = 90;
-    private int max_556mmDefault = 360;
-    private int max_762mmDefault = 360;
+    private int max_556mmDefault = 60;
+    private int max_762mmDefault = 60;
     public AmmoProuch(int start9mm,int start45mm,int start556mm,int start762mm) 
     {
         maximunAmmo.Add(BulletType._9mm,max_9mmDefault);
