@@ -38,7 +38,6 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpa
     {
         if (playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
-            Debug.Log("Hit Indicate OnNotify");
             Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
             ShowIndicator(hitDir);
         }

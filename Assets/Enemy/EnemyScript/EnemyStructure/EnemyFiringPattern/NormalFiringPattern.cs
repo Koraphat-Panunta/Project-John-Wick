@@ -53,8 +53,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
             if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy"))){
                 
                 if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly)){
-
-                    Debug.Log("isFriendlyCheck = " + freindly.IsFriendlyCheck(enemy));
                     if (freindly.IsFriendlyCheck(enemy) == false)
                         enemyController.PullTrigger();
                 }
@@ -79,7 +77,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
         Debug.DrawLine(enemy.rayCastPos.position, enemy.rayCastPos.forward*distance);
         if (Physics.SphereCast(ray, 0.0015f, distance, layerMask))
         {
-            Debug.Log("Enemy Obstacle Block");
             return true;
         }
         

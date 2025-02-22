@@ -57,7 +57,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
-            Debug.Log("Force Implement to "+this+" = " + forceSave + " " + hitForcePositionSave);
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
 
             forceSave = Vector3.zero;
@@ -92,7 +91,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
                 {
                     if (bodyPart.enemy == enemy)
                     {
-                        Debug.Log("bodyPart.enemy == enemy");
                         return;
                     }
 

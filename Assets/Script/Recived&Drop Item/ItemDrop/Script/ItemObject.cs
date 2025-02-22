@@ -1,13 +1,12 @@
 using UnityEngine;
-[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     protected T clent;
-    protected bool isBeenPull;
+    [SerializeField] protected bool isBeenPull;
 
-    protected float elapseTimePullAble;
+    [SerializeField]protected float elapseTimePullAble;
 
     public Rigidbody rb { get; protected set; }
     [SerializeField] protected Collider colliding;
@@ -28,7 +27,6 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
     }
     private void OnDisable()
     {
-        //this.rb = GetComponent<Rigidbody>();
         elapseTimePullAble = 0;
     }
     private void OnEnable()
@@ -37,14 +35,29 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
         elapseTimePullAble = 0;
     }
     // UpdateNode is called once per frame
-    void Update()
+    protected virtual void Update()
     {
+        if(elapseTimePullAble < 2)
         elapseTimePullAble += Time.deltaTime;
 
-        if (isBeenPull&&elapseTimePullAble >= 2)
+        if (isBeenPull == false)
         {
-          
+            Collider[] col = Physics.OverlapSphere(transform.position, detectRecievedRagne);
+            foreach (Collider n in col)
+            {
+                if (n.TryGetComponent<T>(out T r))
+                {
+                    if (r.PreCondition(r))
+                    {
+                        this.clent = r;
+                        isBeenPull = true;
+                    }
+                }
+            }
+        }
 
+        if (isBeenPull && elapseTimePullAble >= 2)
+        {
             rb.useGravity = false;
             colliding.enabled = false;
             Vector3 direction = (clent.transform.position - transform.position).normalized;
@@ -66,24 +79,11 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.TryGetComponent<T>(out T recieved))
-        {
-
-            Ray ray = new Ray(transform.position, (recieved.transform.position - transform.position).normalized);
-
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, detectRecievedRagne, 0) == false)
-                return;
-
-            if (hitInfo.collider.gameObject != other.gameObject)
-                return;
-
-            this.clent = recieved;
-            this.isBeenPull = true;
-
-        }
-    }
     protected abstract void SetVisitorClient(T client);
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectRecievedRagne);
+    }
 }

@@ -13,8 +13,6 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     {
         MotionControlManager motionControlManager = enemy.motionControlManager;
 
-        Debug.Log("Enemy Pain Enter");
-
         time = 0;
         motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
         enemy.enemyMovement.CancleMomentum();
