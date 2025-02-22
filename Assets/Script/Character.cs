@@ -34,7 +34,6 @@ public abstract class Character : MonoBehaviour
     {
         return HP;
     }
-    public float GetMaxHP()=>maxHp;
     public void SetHP(float HP)
     {
         this.HP = HP;

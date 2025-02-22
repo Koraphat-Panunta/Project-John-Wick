@@ -27,6 +27,12 @@ public class NormalFiringPattern : IEnemyFiringPattern
             ||curWeapon.triggerState == TriggerState.Down)
             enemyController.CancleTrigger();
 
+        if (DetectObstacle(1))
+        {
+            enemyController.LowReady();
+            return;
+        }
+
         deltaFireTiming += Time.deltaTime;
 
         if (deltaFireTiming < randomFireTiming)
@@ -61,5 +67,22 @@ public class NormalFiringPattern : IEnemyFiringPattern
         }
         deltaFireTiming = 0;
         randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+    }
+    private bool DetectObstacle(float distance)
+    {
+        int DefaultMask = LayerMask.GetMask("Default");
+        int BodyPartMask = LayerMask.GetMask("Enemy");
+        int GroundHitMask = LayerMask.GetMask("Ground");
+
+        LayerMask layerMask  = DefaultMask + BodyPartMask + GroundHitMask;
+        Ray ray = new Ray(enemy.rayCastPos.position,enemy.rayCastPos.forward);
+        Debug.DrawLine(enemy.rayCastPos.position, enemy.rayCastPos.forward*distance);
+        if (Physics.SphereCast(ray, 0.0015f, distance, layerMask))
+        {
+            Debug.Log("Enemy Obstacle Block");
+            return true;
+        }
+        
+        return false;
     }
 }

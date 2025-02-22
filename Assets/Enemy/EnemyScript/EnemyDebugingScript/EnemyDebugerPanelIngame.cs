@@ -36,11 +36,14 @@ public class EnemyDebugerPanelIngame : MonoBehaviour
 
         stateText = "State = " + enemy.enemyStateManagerNode.curNodeLeaf;
         tacticText = "Tactic = " + enemyTacticDecision.curTacticDecision;
-        hpNormalized = enemy.GetHP()/enemy.GetMaxHP();
+        hpNormalized = Mathf.Clamp01(enemy.GetHP()/100);
         postureNormalized = enemy._posture / 100;
 
         stateDisplay.text = stateText;
         tacticDisplay.text = tacticText;
         hpDisplay.rectTransform.localScale = new Vector3 (hpNormalized, hpDisplay.rectTransform.localScale.y, hpDisplay.rectTransform.localScale.z);
+
+        if(enemy.isDead)
+            canvas.enabled = false;
     }
 }

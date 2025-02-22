@@ -8,7 +8,7 @@ public class _556mmBullet : Bullet
     public override BulletType myType { get; set; }
     public _556mmBullet(Weapon weapon):base(weapon)
     {
-        hpDamage = 14;
+        hpDamage = 16.65f;
         impactDamage = 25;
         recoilKickBack = 180;
         myType = BulletType._556mm;
