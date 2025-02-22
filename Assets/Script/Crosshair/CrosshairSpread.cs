@@ -107,7 +107,7 @@ public class CrosshairSpread : ICrosshairAction
 
     private float isRecoveryFocus = 0f;
     private float recoverFocusRate = 6;
-    private float focusSpreadMaxRate = 0.35f;
+    private float focusSpreadMaxRate = 0.2f;
     public void TriggerFocusSpanRate()
     {
         this.focusSpreadRate = this.focusSpreadMaxRate;

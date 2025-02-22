@@ -49,7 +49,7 @@ public class PlayerStateNodeManager : INodeManager
             () => { return true; });
 
         standSelectorNode = new PlayerSelectorStateNode(this.player,
-            () => { return this.player.playerStance == PlayerStance.stand; });
+            () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
 
         crouchSelectorNode = new PlayerSelectorStateNode(this.player,
             () => this.player.playerStance == PlayerStance.crouch);

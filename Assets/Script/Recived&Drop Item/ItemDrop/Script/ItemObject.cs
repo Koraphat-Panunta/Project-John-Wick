@@ -72,13 +72,13 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
         if (other.gameObject.TryGetComponent<T>(out T recieved))
         {
 
-            //Ray ray = new Ray(transform.position, (recieved.transform.position - transform.position).normalized);
+            Ray ray = new Ray(transform.position, (recieved.transform.position - transform.position).normalized);
 
-            //if(Physics.Raycast(ray,out RaycastHit hitInfo,detectRecievedRagne,0) == false)
-            //    return;
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, detectRecievedRagne, 0) == false)
+                return;
 
-            //if(hitInfo.collider.gameObject != other.gameObject)
-            //    return ;
+            if (hitInfo.collider.gameObject != other.gameObject)
+                return;
 
             this.clent = recieved;
             this.isBeenPull = true;

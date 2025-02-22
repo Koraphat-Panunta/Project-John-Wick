@@ -106,7 +106,7 @@ public class MovementComponentBehavior
     }
     public LayerMask GetGroundLayerMask()
     {
-        LayerMask mask = LayerMask.NameToLayer("Default")+LayerMask.GetMask("Ground");
+        LayerMask mask = +LayerMask.GetMask("Ground");
         return mask;
     }
 }
