@@ -56,10 +56,16 @@ public class EnemyTacticDecision : EnemyDecision
             return;
         if(enabled == false)
             return ;
+
+        if(curTacticDecision != encouterTacticDecision)
+            return ;
         for(int i =0;i < encouterTacticDecision.curvePath._markPoint.Count; i++)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(encouterTacticDecision.curvePath._markPoint[i], 0.15f);
+            Gizmos.DrawSphere(encouterTacticDecision.curvePath._markPoint[i], 0.05f);
+
+            if (i > 0)
+                Gizmos.DrawLine(encouterTacticDecision.curvePath._markPoint[i - 1], encouterTacticDecision.curvePath._markPoint[i]);
         }
     }
 }

@@ -11,7 +11,7 @@ public class HeadBodyPart : BodyPart
     {
         base.Start();
 
-        hpReciverRate = 3.0f;
+        hpReciverRate = 8.0f;
         postureReciverRate = 3.0f;
 
     }

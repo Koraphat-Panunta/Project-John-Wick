@@ -32,7 +32,7 @@ public abstract class Bullet:IDamageVisitor
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;
         Ray ray = new Ray(spawnerPosition,rayDir);
-        if (Physics.Raycast(ray,out RaycastHit hit,MAX_DISTANCE,hitLayer))
+        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer))
         {
             HitExecute(hit,rayDir);
         }
