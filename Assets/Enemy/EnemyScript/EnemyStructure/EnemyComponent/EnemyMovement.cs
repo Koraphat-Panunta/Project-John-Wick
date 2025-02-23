@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : IMovementCompoent
+public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
 {
     public MonoBehaviour userMovement { get; set ; }
     public Vector3 moveInputVelocity_World { get ; set ; }
@@ -20,6 +20,10 @@ public class EnemyMovement : IMovementCompoent
     public MovementComponentBehavior moveTo { get ; set ; }
     public bool isEnable { get ; set ; }
 
+    public IMovementCompoent movementCompoent => this;
+
+    public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get ; set; }
+
     public EnemyMovement(NavMeshAgent agent,Enemy enemy)
     {
         this.agent = agent;
@@ -28,6 +32,7 @@ public class EnemyMovement : IMovementCompoent
 
         moveTo = new MovementComponentBehavior();
         isEnable = true;
+        motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
     }
 
     public void GravityUpdate()
@@ -111,5 +116,6 @@ public class EnemyMovement : IMovementCompoent
         return Direction;
     }
 
-   
+    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode) => motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+    
 }

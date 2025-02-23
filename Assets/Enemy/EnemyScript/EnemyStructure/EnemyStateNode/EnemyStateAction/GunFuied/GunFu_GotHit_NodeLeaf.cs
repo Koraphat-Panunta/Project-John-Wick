@@ -7,6 +7,9 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
     protected string stateName;
 
     public IGunFuAble gunFuAble;
+
+    float forcePush => enemy.hitedForcePush;
+    float forceStop => enemy.hitedForceStop;
     public GunFu_GotHit_NodeLeaf(Enemy enemy,Func<bool> preCondition,GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
     {
         _exitTime_Normalized = gunFu_GotHit_ScriptableObject.ExitTime_Normalized;
@@ -17,13 +20,14 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
     public override void Enter()
     {
         _timer = 0;
-
+        Vector3 hitPushDir = (enemy.transform.position - enemy.gunFuAbleAttacker._gunFuUserTransform.position).normalized;
+        (enemy.enemyMovement as EnemyMovement).AddForcePush(hitPushDir*forcePush, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
 
         base.Enter();
     }
     public override void Exit()
     {
-        enemy.curGotAttackedGunFuNode = null;
+        enemy.curAttackerGunFuNode = null;
         base.Exit();
     }
     public override void UpdateNode()
@@ -34,6 +38,11 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedA
             isComplete = true;
 
         base.UpdateNode();
+    }
+    public override void FixedUpdateNode()
+    {
+        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, forceStop, forceStop, IMovementCompoent.MoveMode.MaintainMomentum);    
+        base.FixedUpdateNode();
     }
 
     public override bool IsReset()

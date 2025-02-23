@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class KnockDown_GunFuNode : GunFuHitNodeLeaf
 {
+    private bool isKicking;
     public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
     }
@@ -11,10 +12,25 @@ public class KnockDown_GunFuNode : GunFuHitNodeLeaf
     {
         if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized)
         {
-            attackedAbleGunFu.TakeGunFuAttacked(this, player);
+            if (isKicking == false)
+            {
+                attackedAbleGunFu.TakeGunFuAttacked(this, player);
+                player.attackedAbleGunFu = null;
+                isKicking = true;
+                player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuAttack);
+            }
         }
 
         base.UpdateNode();
+    }
+    public override void Enter()
+    {
+        isKicking = false;
+        base.Enter();
+    }
+    public override void Exit()
+    {
+        base.Exit();
     }
     public override void FixedUpdateNode()
     {

@@ -1,6 +1,4 @@
 using System;
-using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CameraManagerNode : INodeManager
 {
@@ -31,6 +29,7 @@ public class CameraManagerNode : INodeManager
     public CameraSprintViewNodeLeaf cameraSprintViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
     public CameraStandViewNodeLeaf cameraStandViewNodeLeaf { get; protected set; }
+    public CameraGunFuHitViewNodeLeaf cameraGunFuHitViewNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
 
     public void InitailizedNode()
@@ -47,6 +46,8 @@ public class CameraManagerNode : INodeManager
         cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
 
+        cameraGunFuHitViewNodeLeaf = new CameraGunFuHitViewNodeLeaf(this.cameraController,
+            ()=> this.cameraController.gunFuCameraTimer > 0);
 
         cameraStandViewNodeLeaf = new CameraStandViewNodeLeaf(this.cameraController,
             () => this.cameraController.curStance == Player.PlayerStance.stand || true);
@@ -59,6 +60,7 @@ public class CameraManagerNode : INodeManager
         cameraPlayerBasedSelector.AddtoChildNode(cameraSprintViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);
+        cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuHitViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
 

@@ -337,6 +337,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [Range(0, 10)]
     public float aimingRotateSpeed;
 
+    [Range(0, 100)]
+    public float hitedForcePush;
+    [Range(0, 100)]
+    public float hitedForceStop;
+
     public bool isSprintCommand { get; set; }
 
 
@@ -413,7 +418,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Vector3 attackedPos { get; set; }
     public Transform _gunFuHitedAble { get{ return transform; } set { } }
     public IGunFuAble gunFuAbleAttacker { get; set ; }
-    public IGunFuNode curGotAttackedGunFuNode { get ; set ; }
+    public IGunFuNode curAttackerGunFuNode { get ; set ; }
+    public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
 
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
@@ -421,9 +427,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
-        Debug.Log("Enemy take gunFu node = " + gunFu_NodeLeaf);
         _triggerHitedGunFu = true;
-        curGotAttackedGunFuNode = gunFu_NodeLeaf;
+        curAttackerGunFuNode = gunFu_NodeLeaf;
         attackedPos = attacker._gunFuUserTransform.position;
         gunFuAbleAttacker = attacker;
     }
@@ -438,6 +443,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+    
+
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");

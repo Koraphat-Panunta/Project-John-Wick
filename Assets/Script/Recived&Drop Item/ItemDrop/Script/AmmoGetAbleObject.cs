@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AmmoGetAbleObject : ItemObject<IAmmoRecivedAble>
+public class AmmoGetAbleObject : ItemObject
 {
     [Range(0, 100)]
     [SerializeField] public int amoutPrimaryAmmoAdd;
@@ -8,16 +8,19 @@ public class AmmoGetAbleObject : ItemObject<IAmmoRecivedAble>
     [Range(0,100)]
     [SerializeField] public int amoutSecondaryAmmoAdd;
 
-    protected override void SetVisitorClient(IAmmoRecivedAble client)
+    
+
+    protected override void SetVisitorClient(IRecivedAble client)
     {
-        Weapon primaryWeapon = clent.weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon;
-        Weapon secondaryWeapon = clent.weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon;
+        Weapon primaryWeapon = (client as IAmmoRecivedAble).weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon;
+        Weapon secondaryWeapon = (client as IAmmoRecivedAble).weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon;
 
-        clent.ammoProuch.AddAmmo(primaryWeapon.bullet.myType, amoutPrimaryAmmoAdd);
-        clent.ammoProuch.AddAmmo(secondaryWeapon.bullet.myType, amoutSecondaryAmmoAdd);
+        (client as IAmmoRecivedAble).ammoProuch.AddAmmo(primaryWeapon.bullet.myType, amoutPrimaryAmmoAdd);
+        (client as IAmmoRecivedAble).ammoProuch.AddAmmo(secondaryWeapon.bullet.myType, amoutSecondaryAmmoAdd);
 
-        client.Recived(this);
+        (client as IAmmoRecivedAble).Recived(this);
     }
+
     protected override void Update()
     {
         base.Update();

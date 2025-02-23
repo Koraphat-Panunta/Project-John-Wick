@@ -59,9 +59,6 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         if(IsComplete())
             return true;
 
-        if(player.playerMovement.isGround == false)
-            return true;
-
         return false;
     }
 

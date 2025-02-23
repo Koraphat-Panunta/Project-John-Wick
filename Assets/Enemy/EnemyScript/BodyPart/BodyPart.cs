@@ -29,7 +29,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
     }
     protected Rigidbody bodyPartRigid;
-    public IGunFuNode curGotAttackedGunFuNode { get => enemy.curGotAttackedGunFuNode; set => enemy.curGotAttackedGunFuNode = value; }
+    public IGunFuNode curAttackerGunFuNode { get => enemy.curAttackerGunFuNode; set => enemy.curAttackerGunFuNode = value; }
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get => enemy.curFriendlyFireMode; set => enemy.curFriendlyFireMode = value; }
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
@@ -82,6 +82,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
+    public INodeLeaf curNodeLeaf { get => ((IGunFuGotAttackedAble)enemy).curNodeLeaf; set => ((IGunFuGotAttackedAble)enemy).curNodeLeaf = value; }
 
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {

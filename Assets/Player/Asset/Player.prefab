@@ -1436,10 +1436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3eeef3d6a140394fb74d0e7d24c7d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CastTransform: {fileID: 1376691160772055220}
+  CastTransform: {fileID: 3059634248850962196}
   LimitAimAngleDegrees: 90
-  Shpere_Raduis_Detecion: 3
-  Shpere_Distance_Detection: 2
+  Shpere_Raduis_Detecion: 1
+  Shpere_Distance_Detection: 0.67
   EnableDebug: 1
 --- !u!143 &6726992041350314495
 CharacterController:
@@ -1680,7 +1680,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8760487472807744111}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.033234, y: 0.00000007334124, z: 0.0000000024387763, w: 0.99944764}
+  m_LocalRotation: {x: -0.033233877, y: 0, z: 0, w: 0.99944764}
   m_LocalPosition: {x: 0, y: 0, z: 0.00000011920929}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1766,7 +1766,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9036422858719507864}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03632037, y: 0.0000000696912, z: -0.0000000025328812, w: 0.99934024}
+  m_LocalRotation: {x: 0.03632036, y: 0, z: 0, w: 0.99934024}
   m_LocalPosition: {x: 0, y: 0, z: 0.00000011920929}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

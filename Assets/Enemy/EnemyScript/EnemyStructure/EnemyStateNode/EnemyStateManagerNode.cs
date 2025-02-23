@@ -261,35 +261,35 @@ public class EnemyStateManagerNode : INodeManager
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curGotAttackedGunFuNode is Hit1GunFuNode;
+                return enemy.curAttackerGunFuNode is Hit1GunFuNode;
             }
             , this.enemy.GotHit1);
 
         gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curGotAttackedGunFuNode is Hit2GunFuNode;
+                return enemy.curAttackerGunFuNode is Hit2GunFuNode;
             }
             , this.enemy.GotHit2);
 
         gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curGotAttackedGunFuNode is KnockDown_GunFuNode;
+                return enemy.curAttackerGunFuNode is KnockDown_GunFuNode;
             }
             , this.enemy.KnockDown);
 
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,
             () => 
             { 
-                return enemy.curGotAttackedGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
+                return enemy.curAttackerGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
             }
             , this.enemy.animator);
         gotHumanThrow_GunFuNodeLeaf = new HumandThrow_GotInteract_NodeLeaf(this.enemy,
             () =>
             {
-                Debug.Log("Precondition humanThrow = " + enemy.curGotAttackedGunFuNode);
-                return enemy.curGotAttackedGunFuNode is HumanThrowGunFuInteractionNodeLeaf;
+                Debug.Log("Precondition humanThrow = " + enemy.curAttackerGunFuNode);
+                return enemy.curAttackerGunFuNode is HumanThrowGunFuInteractionNodeLeaf;
             }
             , enemy.animator);
 

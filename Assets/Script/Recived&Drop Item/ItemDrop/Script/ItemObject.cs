@@ -1,9 +1,9 @@
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
+public abstract class ItemObject : MonoBehaviour 
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
-    protected T clent;
+    protected IRecivedAble clent;
     [SerializeField] protected bool isBeenPull;
 
     [SerializeField]protected float elapseTimePullAble;
@@ -45,9 +45,9 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
             Collider[] col = Physics.OverlapSphere(transform.position, detectRecievedRagne);
             foreach (Collider n in col)
             {
-                if (n.TryGetComponent<T>(out T r))
+                if (n.TryGetComponent<IRecivedAble>(out IRecivedAble r))
                 {
-                    if (r.PreCondition(r))
+                    if (r.PreCondition(this))
                     {
                         this.clent = r;
                         isBeenPull = true;
@@ -79,7 +79,7 @@ public abstract class ItemObject<T> : MonoBehaviour where T : IRecivedAble
             }
         }
     }
-    protected abstract void SetVisitorClient(T client);
+    protected abstract void SetVisitorClient(IRecivedAble client);
 
     private void OnDrawGizmos()
     {

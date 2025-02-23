@@ -22,6 +22,9 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     public float zoomingWeight;
     public float cameraSwitchSholderVelocity = 3.5f;
 
+    public float gunFuCameraTimer = 0;
+    public const float gunFuCameraDuration = 1;
+
     public CameraManagerNode cameraManagerNode;
 
     public string CameraNodeName;
@@ -50,6 +53,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     }
     private void Update()
     {
+        if(gunFuCameraTimer >0)
+            gunFuCameraTimer -= Time.deltaTime;
 
         if(Player != null && Player.weaponManuverManager != null)
         zoomingWeight = Player.weaponManuverManager.aimingWeight;
@@ -64,6 +69,17 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     [SerializeField] private float cameraKickbackMultiple;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
+        {
+            gunFuCameraTimer = gunFuCameraDuration;
+        }
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuAttack)
+        {
+            if(player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
+                cameraImpluse.Performed(new Vector3(0.25f,0,0));
+            else
+            cameraImpluse.Performed(0.25f);
+        }
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
         {
             curSide = player.curShoulderSide;

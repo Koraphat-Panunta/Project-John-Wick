@@ -13,8 +13,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
     }
     public override void UpdateNode()
     {
-      
-
         if ( _timer>=_animationClip.length*hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized )
         { 
             attackedAbleGunFu.TakeGunFuAttacked(this,player);
@@ -25,7 +23,6 @@ public class Hit1GunFuNode : GunFuHitNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-
             LerpingToTargetPos();
         base.FixedUpdateNode();
     }

@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class HpGetAbleObject : ItemObject<IHPReciveAble>
+public class HpGetAbleObject : ItemObject
 {
     [Range(0, 100)]
     [SerializeField] private float amoutOfHpAdd;
-    protected override void SetVisitorClient(IHPReciveAble client)
+
+    protected override void SetVisitorClient(IRecivedAble client)
     {
-        client.character.AddHP(amoutOfHpAdd);
-        client.Recived(this);
+        (client as IHPReciveAble).character.AddHP(amoutOfHpAdd);
+        (client as IHPReciveAble).Recived(this);
     }
 }

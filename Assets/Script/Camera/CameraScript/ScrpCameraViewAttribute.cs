@@ -14,4 +14,7 @@ public class ScrpCameraViewAttribute : ScriptableObject
 
     public Vector3 Sprint_Offset_Right;
     public float Sprint_FOV;
+
+    public Vector3 GunFu_Offset_Right;
+    public float GunFu_FOV;
 }

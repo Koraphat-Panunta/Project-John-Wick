@@ -44,7 +44,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     public override void Exit()
     {
         Debug.Log("HumanShield Got Interact Exit");
-        Debug.Log("Enemy curAttackedNodeleafGunFu = " + enemy.curGotAttackedGunFuNode);
+        Debug.Log("Enemy curAttackedNodeleafGunFu = " + enemy.curAttackerGunFuNode);
         Debug.Log("trigger GunFu ATK = " + enemy._triggerHitedGunFu);
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         enemy.friendlyFirePreventingBehavior.EnableFriendlyFirePreventing();

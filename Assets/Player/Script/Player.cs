@@ -218,6 +218,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
     public void UpdateDetectingTarget()
     {
+        Debug.Log("attackedAbleGunFu = " + attackedAbleGunFu);
+
         if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
             return;
 
@@ -317,11 +319,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         NotifyObserver(this, PlayerAction.RecivedHp);
     }
 
-    public bool PreCondition(IRecivedAble recivedAble)
+    public bool PreCondition(ItemObject itemObject)
     {
-        switch (recivedAble)
+        switch (itemObject)
         {
-            case IAmmoRecivedAble ammoRecivedAble: 
+            case AmmoGetAbleObject ammoRecivedAble: 
                 {
                     BulletType primaryType = (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).bullet.myType;
                     BulletType secondaryType = (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).bullet.myType;
@@ -331,7 +333,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
                         return true;
                 }
                 break;
-            case IHPReciveAble hpReciveAble: 
+            case HpGetAbleObject hpReciveAble: 
                 {
                     if(GetHP()< maxHp)
                         return true;
@@ -341,6 +343,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         return false;
     }
 
+   
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }

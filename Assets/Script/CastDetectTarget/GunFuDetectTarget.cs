@@ -19,7 +19,6 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     [Range(0, 10)]
     [SerializeField] private float Shpere_Distance_Detection;
     public float _sphere_Distance_Detection { get => this.Shpere_Distance_Detection; set => this.Shpere_Distance_Detection = value; }
-
     private void Start()
     {
         gunFuAble = GetComponent<IGunFuAble>();
@@ -28,7 +27,7 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     public bool CastDetect(out IGunFuGotAttackedAble target)
     {
         target = null;
-        Vector3 casrDir = CastSphere();
+        Vector3 casrDir = CastSphereDir();
 
         if (CastDetect(out IGunFuGotAttackedAble gunFuTarget, casrDir))
         {
@@ -47,29 +46,37 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     public bool CastDetect(out IGunFuGotAttackedAble target, Vector3 castDir)
     {
         target = null;
-
-        Collider[] colliders = Physics.OverlapSphere(CastTransform.position, _shpere_Raduis_Detecion, gunFuAble._layerTarget);
-        foreach (Collider col in colliders)
+        Ray ray = new Ray(_castTransform.position,castDir);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + gunFuAble._layerTarget);
+        foreach(RaycastHit hit in collider)
         {
-            if (col.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuDamagedAble))
-            {
-                target = gunFuDamagedAble;
-                return true; // Found a target already inside the detection sphere
-            }
-        }
+            if(hit.collider.gameObject.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
+                continue;
 
-        if (Physics.SphereCast(CastTransform.position, _shpere_Raduis_Detecion, castDir, out RaycastHit hitInfo, _sphere_Distance_Detection, gunFuAble._layerTarget))
-        {
-            if (hitInfo.collider.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuDamagedAble))
+            if(gunFuGotAttackedAble._isDead)
+                continue ;
+
+            if(gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf
+                || gunFuGotAttackedAble.curNodeLeaf is HumandThrow_GotInteract_NodeLeaf
+                || gunFuGotAttackedAble.curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
+                continue ;
+
+
+            Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
+            if (Physics.Raycast(ray1,out RaycastHit hitInfo,100, 0 + gunFuAble._layerTarget))
             {
-                target = gunFuDamagedAble;
-                return true;
+                if(hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
+                {
+                    target = gunFuGotAttackedAble; 
+                    return true;
+                }
             }
-            return false;
         }
         return false;
+
+        
     }
-    private Vector3 CastSphere()
+    private Vector3 CastSphereDir()
     {
         Vector3 casrDir;
 
@@ -142,13 +149,18 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
             return;
 
         Gizmos.color = Color.red;
+        Vector3 sphrerPos = this.CastTransform.position + (CastSphereDir() * this._sphere_Distance_Detection);
         if (CastDetect(out IGunFuGotAttackedAble target))
         {
             Gizmos.DrawSphere(target._gunFuHitedAble.position, 0.75f);
+            sphrerPos = this.CastTransform.position + (CastSphereDir() * Vector3.Distance(_castTransform.position,target.attackedPos));
+
         }
 
         Gizmos.color = Color.blue;
-        Vector3 sphrerPos = this.CastTransform.position + (CastSphere()*this._sphere_Distance_Detection);
+      
+        
+        Gizmos.DrawLine(_castTransform.position, sphrerPos);
         Gizmos.DrawWireSphere(sphrerPos,  this.Shpere_Raduis_Detecion);
 
     }

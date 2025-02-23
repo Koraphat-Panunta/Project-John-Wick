@@ -1,4 +1,5 @@
 using Cinemachine;
+using UnityEngine;
 
 public class CameraImpulseShake : ICameraAction
 {
@@ -15,5 +16,9 @@ public class CameraImpulseShake : ICameraAction
     public void Performed(float intensity)
     {
         impulseSource.GenerateImpulseWithForce(intensity);
+    }
+    public void Performed(Vector3 force)
+    {
+        impulseSource.GenerateImpulse(force);
     }
 }
