@@ -85,12 +85,17 @@ public class PlayerWeaponManuver : WeaponManuverManager
         if(player.isDead)
             return;
 
+        if (player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf)
+        {
+            isAimingManuver = false;
+            isPullTriggerManuver = false;
+            return;
+        }
+
         if(player.isSprint)
         {
-            if (weaponAdvanceUser.isReloadCommand)
-                isReloadManuver = true;
-            if (weaponAdvanceUser.isSwitchWeaponCommand)
-                isSwitchWeaponManuver = true;
+            isReloadManuver = weaponAdvanceUser.isReloadCommand;    
+            isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
 
             isAimingManuver = false;
             isPullTriggerManuver = false;

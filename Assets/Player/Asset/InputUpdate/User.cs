@@ -43,6 +43,8 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
 
         userInput.PlayerAction.ToggleChangeStance.performed += playerInputAPI.ToggleCrouchStand;
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;
+
+        userInput.PlayerAction.TriggerDodgeRoll.performed += playerInputAPI.TriggerDodgeRoll;
     }
 
     public void EnableInput()

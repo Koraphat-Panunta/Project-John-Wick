@@ -162,6 +162,11 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     private bool isDead;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(playerAction == SubjectPlayer.PlayerAction.Dodge)
+        {
+            isLayer_1_Enable = false;
+            animator.CrossFade("DodgeRoll", 0.05f, 0, 0);
+        }
         if (playerAction == SubjectPlayer.PlayerAction.Dead)
         {
             if(isDead)
@@ -209,21 +214,24 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             Debug.Log("PlayerCurNodeLeaf = " + player.playerStateNodeManager.curNodeLeaf);
 
             if(player.playerStateNodeManager.curNodeLeaf == (player.playerStateNodeManager as PlayerStateNodeManager).Hit1gunFuNode)
-                animator.CrossFade("Hit", 0.05f, 0, 0);
+                animator.CrossFade("Hit", 0.2f, 0, 0);
 
             if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is Hit2GunFuNode)
-                animator.CrossFade("Hit2", 0.05f, 0, 0);
+                animator.CrossFade("Hit2", 0.2f, 0, 0);
 
             if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
-                animator.CrossFade("KnockDown", 0.05f, 0, 0);
+                animator.CrossFade("KnockDown", 0.2f, 0, 0);
 
             if(player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
                 animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
 
             if (player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf humanThrow)
             {
-                animator.CrossFade("HumandThrow", 0.05f, 0, 0);
+                animator.CrossFade("HumandThrow", 0.2f, 0, 0);
             }
+
+            if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf)
+                animator.CrossFade("DodgeSpinKick", 0.2f, 0, 0);
         }
         if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
         {

@@ -26,7 +26,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isReloadCommand = false;
         isSwapShoulder = false;
         isSwitchWeaponCommand = false;
-        if(_triggerGunFu == true)
+        triggerDodgeRoll = false;
+        if (_triggerGunFu == true)
         {
             triggerGunFuBufferTime -= Time.deltaTime;
 
@@ -204,8 +205,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
     [SerializeField] public GunFuHitNodeScriptableObject knockDown;
+    [SerializeField] public GunFuHitNodeScriptableObject dodgeSpinKick;
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     [SerializeField] public GunFuInteraction_ScriptableObject humanThrow;
+
     public void InitailizedGunFuComponent()
     {
         _weaponUser = this;
@@ -292,6 +295,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [Range(0, 100)]
     public float aimingRotateSpeed;
 
+    [Range(0, 100)]
+    public float dodgeImpluseForce;
+    [Range(0, 100)]
+    public float dodgeInAirStopForce;
+    [Range(0, 100)]
+    public float dodgeOnGroundStopForce;
+
     public bool isInCover { get { return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
 
     public Vector2 inputLookDir_Local;
@@ -300,6 +310,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 inputMoveDir_World;
 
     public bool isSprint;
+    public bool triggerDodgeRoll;
 
     public enum PlayerStance { stand, crouch, prone }
     public PlayerStance playerStance = PlayerStance.stand;

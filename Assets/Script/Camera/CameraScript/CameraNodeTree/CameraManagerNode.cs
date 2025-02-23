@@ -41,7 +41,7 @@ public class CameraManagerNode : INodeManager
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
-            () => this.cameraController.Player.isSprint);
+            () => this.cameraController.Player.isSprint||this.cameraController.Player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
 
         cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);

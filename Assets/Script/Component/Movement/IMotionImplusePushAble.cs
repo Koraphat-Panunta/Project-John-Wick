@@ -28,7 +28,8 @@ public class MotionImplusePushAbleBehavior
                 break;
             case PushMode.InstanlyMaintainMomentum:
                 {
-                    movementCompoent.curMoveVelocity_World = force;
+                    Vector3 dir = (movementCompoent.curMoveVelocity_World + force).normalized;
+                    movementCompoent.curMoveVelocity_World = dir*force.magnitude;
                 }
                 break;
         }

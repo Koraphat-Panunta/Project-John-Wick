@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingAble
+public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingAble,IMotionImplusePushAble
+
 {
 
     public Vector3 moveInputVelocity_World { get; set; }
@@ -25,6 +26,11 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MovementComponentBehavior moveTo { get ; set ; }
     public bool isEnable { get; set; }
+
+    public IMovementCompoent movementCompoent => this;
+
+    public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get ; set; }
+
     public PlayerMovement(Player player)
     {
         this.userMovement = player;
@@ -38,7 +44,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         curStance = IMovementCompoent.Stance.Stand;
 
         moveTo = new MovementComponentBehavior();
-
+        motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
         isEnable = true;
         
     }
@@ -176,4 +182,8 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
         this.movementMotionWarping.StartMotionWarpingCurve(start, cT1, cT2, exit, duration, animationCurve);
     }
+
+    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+
+
 }

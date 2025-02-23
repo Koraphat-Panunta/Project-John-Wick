@@ -36,6 +36,8 @@ public class LeanCover:IObserverPlayer
     float elaspeLeanRecover;
     public void LeaningUpdate(Transform shootPoint)
     {
+          
+        multiRotationConstraint.weight = Mathf.Lerp(multiRotationConstraint.weight, 1, leanSpeed * Time.deltaTime);
 
         leaningCheck(shootPoint);
 
@@ -115,8 +117,8 @@ public class LeanCover:IObserverPlayer
 
     }
     public void LeanRecovery() 
-    {
-        //Debug.Log("LeanNone");
+    { 
+        multiRotationConstraint.weight = Mathf.Lerp(multiRotationConstraint.weight, 0, leanSpeed * Time.deltaTime);
 
         elaspeLeanRecover = 0;
         leandir = LeanDir.None;

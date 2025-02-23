@@ -100,4 +100,9 @@ public class PlayerInputAPI : MonoBehaviour
            
         }
     }
+    public void TriggerDodgeRoll(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player.triggerDodgeRoll = true;
+    }
 }

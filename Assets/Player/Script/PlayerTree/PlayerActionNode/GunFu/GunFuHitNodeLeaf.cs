@@ -87,7 +87,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
         if (Vector3.Distance(targetPos, player.transform.position) > 0.6f)
         {
-            rotateObjectToward.RotateTowardsObjectPos(targetPos, player.gameObject, 12);
+            player.playerMovement.RotateToDirWorld(targetPos - player.transform.position, 15);
             player.playerMovement.SnapingMovement(targetPos, Vector3.zero, 300 * Time.deltaTime);
         }
     }

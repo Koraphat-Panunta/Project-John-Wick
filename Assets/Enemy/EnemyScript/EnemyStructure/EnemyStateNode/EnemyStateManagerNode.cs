@@ -261,7 +261,8 @@ public class EnemyStateManagerNode : INodeManager
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curAttackerGunFuNode is Hit1GunFuNode;
+
+                return enemy.curAttackerGunFuNode is Hit1GunFuNode || enemy.curAttackerGunFuNode is DodgeSpinKicklGunFuNodeLeaf;
             }
             , this.enemy.GotHit1);
 
