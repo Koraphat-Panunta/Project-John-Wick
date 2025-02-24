@@ -14,9 +14,11 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
             if(isAlreadyHitted)
                 return;
 
-            if (enemy.curAttackerGunFuNode is GotKnockDown_GunFuGotHitNodeLeaf)
+            if (enemy.curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
             {
                 base.DropObject(base.HpGetAbleObject);
+                base.DropObject(base.AmmoGetAbleObject);
+                base.DropObject(base.AmmoGetAbleObject);
                 base.DropObject(base.AmmoGetAbleObject);
                 isAlreadyHitted = true;
             }

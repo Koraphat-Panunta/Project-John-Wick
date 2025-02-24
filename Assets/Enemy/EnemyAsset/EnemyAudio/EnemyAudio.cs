@@ -51,32 +51,32 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     float footStepTiming = 0;
     private void PlayVolumeMove()
     {
-        //EnemyStateManager enemyStateManager = _enemy.enemyStateManager;
-        //if(enemyStateManager._currentState == enemyStateManager._move)
-        //{
-        //    float timingRate = 1.2f;
-        //    footStepTiming += Time.deltaTime*timingRate;
-        //    if (footStepTiming >= 1)
-        //    {
-        //        walkSource.clip = footStep;
-        //        walkSource.Play();
-        //        footStepTiming = 0;
-        //    }
-        //}
-        //else if(enemyStateManager._currentState == enemyStateManager._sprint)
-        //{
-        //    float timingRate = 2.4f;
-        //    footStepTiming += Time.deltaTime * timingRate;
-        //    if (footStepTiming >= 1)
-        //    {
-        //        walkSource.clip = footStep;
-        //        walkSource.Play();
-        //        footStepTiming = 0;
-        //    }
-        //}
-        //else
-        //{
-        //    footStepTiming = 0;
-        //}
+        EnemyStateLeafNode enemyState = enemy.enemyStateManagerNode.curNodeLeaf as EnemyStateLeafNode;
+        if (enemyState is EnemyStandMoveStateNode)
+        {
+            float timingRate = 1.2f;
+            footStepTiming += Time.deltaTime * timingRate;
+            if (footStepTiming >= 1)
+            {
+                walkSource.clip = footStep;
+                walkSource.Play();
+                footStepTiming = 0;
+            }
+        }
+        else if (enemyState is EnemySprintStateNode)
+        {
+            float timingRate = 2.4f;
+            footStepTiming += Time.deltaTime * timingRate;
+            if (footStepTiming >= 1)
+            {
+                walkSource.clip = footStep;
+                walkSource.Play();
+                footStepTiming = 0;
+            }
+        }
+        else
+        {
+            footStepTiming = 0;
+        }
     }
 }
