@@ -7,7 +7,17 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
 {
     [SerializeField] private Player player;
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip footStep;
+    [SerializeField] private AudioClip[] footsStep;
+
+    [SerializeField] private AudioClip dodgeRollSound;
+    [SerializeField] private AudioClip hit;
+    [SerializeField] private AudioClip kick;
+
+    [Range(0,100)]
+    [SerializeField] private float timingRateWalk;
+
+    [Range(0, 100)]
+    [SerializeField] private float timingRateSprint;
 
     void Start()
     {
@@ -20,43 +30,61 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     }
     private void MoveSound()
     {
-        //PlayerStateManager playerStateManager = playerAnimationManager.playerStateManager;
-        //if (playerStateManager.Current_state == playerStateManager.move)
-        //{
-        //    float timingRate = 2.8f;
-        //    footStepTiming += Time.deltaTime * timingRate;
-        //    if (footStepTiming >= 1)
-        //    {
-        //        audioSource.clip = footStep;
-        //        audioSource.Play();
-        //        footStepTiming = 0;
-        //    }
-        //}
-        //else if (playerStateManager.Current_state == playerStateManager.sprint)
-        //{
-        //    float timingRate = 4.2f;
-        //    footStepTiming += Time.deltaTime * timingRate;
-        //    if (footStepTiming >= 1)
-        //    {
-        //        audioSource.clip = footStep;
-        //        audioSource.Play();
-        //        footStepTiming = 0;
-        //    }
-        //}
-        //else
-        //{
-        //    footStepTiming = 0;
-        //}
+        PlayerStateNodeLeaf playerState = player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf;
+        if (playerState is PlayerStandMoveNode
+            || playerState is PlayerCrouch_Move_NodeLeaf
+            || playerState is PlayerInCoverStandMoveNode)
+        {
+
+            footStepTiming += Time.deltaTime * timingRateWalk;
+            if (footStepTiming >= 1)
+            {
+                audioSource.clip = footsStep[Random.Range(0,footsStep.Length-1)];
+                audioSource.Play();
+                footStepTiming = 0;
+            }
+        }
+        else if (playerState is PlayerSprintNode)
+        {
+
+            footStepTiming += Time.deltaTime * timingRateSprint;
+            if (footStepTiming >= 1)
+            {
+                audioSource.clip = footsStep[Random.Range(0, footsStep.Length - 1)];
+                audioSource.Play();
+                footStepTiming = 0;
+            }
+        }
+        else
+        {
+            footStepTiming = 0;
+        }
     }
     float footStepTiming = 0;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        //if(playerAction == PlayerAction.Move ||playerAction == PlayerAction.PlayerSprintNode)
-        //{
-        //    MoveSound();
-        //}
-    }
+        if (playerAction == PlayerAction.Dodge)
+            PlayAudio(dodgeRollSound);
 
+        if(playerAction == PlayerAction.GunFuAttack)
+        {
+            if (player.playerStateNodeManager.curNodeLeaf is Hit1GunFuNode
+                || player.playerStateNodeManager.curNodeLeaf is Hit2GunFuNode)
+                PlayAudio(hit);
+
+            else if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf
+                || player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
+                PlayAudio(kick);
+                
+        }
+
+
+    }
+    private void PlayAudio(AudioClip audioClip)
+    {
+        audioSource.clip = audioClip;
+        audioSource.Play();
+    }
     public void OnNotify(Player player)
     {
     }

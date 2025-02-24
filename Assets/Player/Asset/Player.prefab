@@ -1409,6 +1409,17 @@ MonoBehaviour:
   player: {fileID: 3508049754622093220}
   audioSource: {fileID: 1428774212975845543}
   footStep: {fileID: 8300000, guid: e7771bf1f0795df44a5054befbff8bc8, type: 3}
+  footsStep:
+  - {fileID: 8300000, guid: 4ab0a77cee5bcb247b18ebc348ac1ff8, type: 3}
+  - {fileID: 8300000, guid: 3e90aaf983a3f42488835a5e643cfb5b, type: 3}
+  - {fileID: 8300000, guid: c58d24547d465774cab18ff0d6dfa2d4, type: 3}
+  - {fileID: 8300000, guid: cc5feec2803c6714b8518c3a013e1cf1, type: 3}
+  - {fileID: 8300000, guid: 43596ee70baae964aadaef243352e83d, type: 3}
+  dodgeRollSound: {fileID: 8300000, guid: b3aa660cf47dfcf42864b21943e26d31, type: 3}
+  hit: {fileID: 8300000, guid: e82879725b40ce444bca27d19a75f42c, type: 3}
+  kick: {fileID: 8300000, guid: d0f166575306db84091dc03fce0eff69, type: 3}
+  timingRateWalk: 2.9
+  timingRateSprint: 5.1
 --- !u!114 &4799316011397636801
 MonoBehaviour:
   m_ObjectHideFlags: 0
