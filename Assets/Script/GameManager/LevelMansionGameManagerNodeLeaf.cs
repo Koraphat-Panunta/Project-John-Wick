@@ -8,6 +8,7 @@ public class LevelMansionGameManagerNodeLeaf : GameManagerNodeLeaf
     }
     public override void Enter()
     {
+        gameManager.gamePlaySoundTrack = gameManager.soundTrackManager.theMansionTrack;
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         base.Enter();
     }

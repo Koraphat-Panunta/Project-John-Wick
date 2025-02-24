@@ -28,12 +28,14 @@ public class Elimination : Objective
                 targets.RemoveAt(i);
                 targetRemain -= 1;
                 UpdateObjectiveDescription();
+                NotifyObserver(this);
             }
             targetRemain = this.targets.Count;
         }
 
         if (targets.Count <= 0)
         {
+            NotifyObserver(this);
             base.status = ObjectiveStatus.Complete;
             return true;
         }

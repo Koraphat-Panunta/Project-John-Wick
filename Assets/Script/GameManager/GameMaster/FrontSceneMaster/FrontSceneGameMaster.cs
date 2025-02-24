@@ -40,7 +40,9 @@ public class FrontSceneGameMaster : GameMaster
         startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+
         curNodeLeaf = nodeLeaf;
+        curNodeLeaf.Enter();
     }
 
     public override void UpdateNode() => nodeManagerBehavior.UpdateNode(this);

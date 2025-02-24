@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour,INodeManager
     }
     public GameplayLevel gameplayLevelData;
 
+    public SoundTrackManager soundTrackManager;
+    public AudioClip gamePlaySoundTrack { get; set; }
 
     public INodeLeaf curNodeLeaf { get  ; set ; }
     public INodeSelector startNodeSelector { get ; set ; }
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
     public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeleaf { get; set ; }
+
+
 
     public void InitailizedNode()
     {
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour,INodeManager
 
     private void Awake()
     {
+        soundTrackManager = GetComponent<SoundTrackManager>();
         nodeManagerBehavior = new NodeManagerBehavior();
         DontDestroyOnLoad(gameObject);
     }
@@ -94,12 +99,12 @@ public class GameManager : MonoBehaviour,INodeManager
                     gameplayLevelData = GameplayLevel.Mansion;
                 }
                 break;
-            case LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
+            case InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
                 {
-                    if(levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
+                    if(levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == InGameLevelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
                         (curNodeLeaf as GameManagerNodeLeaf).Enter();
 
-                    if (levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutContinue) 
+                    if (levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == InGameLevelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutContinue) 
                     {
                         if (curNodeLeaf is LevelMansionGameManagerNodeLeaf)
                             gameplayLevelData = GameplayLevel.Hotel;
@@ -118,7 +123,7 @@ public class GameManager : MonoBehaviour,INodeManager
                         gameManagerSceneData = GameManagerState.ForntScene;
                 }
                 break;
-            case LevelHotelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf: 
+            case InGameLevelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf: 
                 {
                     if (levelHotelGamplayGameMasterNodeLeaf.gameMaster.isTriggerExit)
                         gameManagerSceneData = GameManagerState.ForntScene;

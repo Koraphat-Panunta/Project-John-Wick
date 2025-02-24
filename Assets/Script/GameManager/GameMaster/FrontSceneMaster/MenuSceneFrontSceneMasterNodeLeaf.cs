@@ -47,13 +47,16 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
     public override void UpdateNode()
     {
+        float fadeInduration = 1.5f;
+        float fadeOutduration = 2;
+
         switch (phase)
         {
             case MenuPhase.FadeIn: 
                 {
                     fadeInTimer += Time.deltaTime;
-                    fadeColorUI.SetColorAlpha<Image>(fadeImgame,1- (fadeInTimer / 0.5f));
-                    if(fadeInTimer >= 0.5f)
+                    fadeColorUI.SetColorAlpha<Image>(fadeImgame,1- (fadeInTimer / fadeInduration));
+                    if(fadeInTimer >= fadeInduration)
                         phase = MenuPhase.Stay;
                 }
                 break;
@@ -64,15 +67,19 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
                     {
                         fadeImgame.enabled = true;
                         phase = MenuPhase.FadeOut;
+                        if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
+                        {
+                            soundTrack.StopSoundTrack(2);
+                        }
                     }
                 }
                 break;
             case MenuPhase.FadeOut: 
                 {
                     fadeOutTimer += Time.deltaTime;
-                    fadeColorUI.SetColorAlpha<Image>(fadeImgame, fadeOutTimer / 0.5f);
+                    fadeColorUI.SetColorAlpha<Image>(fadeImgame, fadeOutTimer / fadeOutduration);
 
-                    if (fadeOutTimer >= 0.5f)
+                    if (fadeOutTimer >= fadeOutduration)
                     {
                         gameManager.OnNotify(this);
                     }
