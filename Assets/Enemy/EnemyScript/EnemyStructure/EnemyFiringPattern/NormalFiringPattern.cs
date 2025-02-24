@@ -27,12 +27,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
             ||curWeapon.triggerState == TriggerState.Down)
             enemyController.CancleTrigger();
 
-        if (DetectObstacle(1))
-        {
-            enemyController.LowReady();
-            return;
-        }
-
         deltaFireTiming += Time.deltaTime;
 
         if (deltaFireTiming < randomFireTiming)
@@ -50,21 +44,31 @@ public class NormalFiringPattern : IEnemyFiringPattern
         {
             //CheckFriendltFire
             Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);
-            if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy"))){
-                
-                if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly)){
+            if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy")))
+            {
+
+                if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly))
+                {
                     if (freindly.IsFriendlyCheck(enemy) == false)
-                        enemyController.PullTrigger();
+                        Shoot();
                 }
                 else
-                    enemyController.PullTrigger();
+                    Shoot();
             }
             else
-                enemyController.PullTrigger();
-            
+                Shoot();
+
+
         }
         deltaFireTiming = 0;
         randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+    }
+    private void Shoot()
+    {
+        if (DetectObstacle(1))
+       return;
+        enemyController.PullTrigger();
+
     }
     private bool DetectObstacle(float distance)
     {

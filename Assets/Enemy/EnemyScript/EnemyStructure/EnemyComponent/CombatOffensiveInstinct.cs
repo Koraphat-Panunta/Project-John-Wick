@@ -115,12 +115,12 @@ public class CombatOffensiveInstinct:IEnvironmentAware
         }
 
 
-        if(findingTarget.lostSightTiming < 6){
+        if(findingTarget.lostSightTiming < 1){
             myCombatPhase = CombatPhase.Alert;
             return;
         }
 
-        if(findingTarget.lostSightTiming < 18){
+        if(findingTarget.lostSightTiming < 3.5f){
             myCombatPhase = CombatPhase.SemiAlert;
             return;
         }

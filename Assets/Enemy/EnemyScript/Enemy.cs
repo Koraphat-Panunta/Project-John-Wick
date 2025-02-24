@@ -125,7 +125,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _tiggerThrowAbleObjectHit = false;
 
     }
-
+   
 
     #region Initailized WeaponAdvanceUser
     [SerializeField] private Transform weaponMainSocket;
@@ -157,7 +157,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         weaponUserAnimator = animator;
         currentWeaponSocket = weaponMainSocket;
-        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(90, 90, 360, 360));
+        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 360, 360));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this,this);

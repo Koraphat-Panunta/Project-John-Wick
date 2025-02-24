@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour,INodeManager
     public enum GameplayLevel
     {
         None,
-        Level0,
-        Level1, 
+        Mansion,
+        Hotel, 
         Level2
     }
     public GameplayLevel gameplayLevelData;
@@ -22,17 +22,29 @@ public class GameManager : MonoBehaviour,INodeManager
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
+
+    public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
+    public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeleaf { get; set ; }
 
     public void InitailizedNode()
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
 
         this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this,()=> gameManagerSceneData == GameManagerState.ForntScene);
-        this.levelHotelGameManagerNodeLeaf = new LevelHotelGameManagerNodeLeaf("HotelLevel", this, () => gameManagerSceneData == GameManagerState.Gameplay);
+
+        this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
+
+        this.levelMansionGameManagerNodeleaf = new LevelMansionGameManagerNodeLeaf("MansionLevel", this, () => gameplayLevelData == GameplayLevel.Mansion);
+        this.levelHotelGameManagerNodeLeaf = new LevelHotelGameManagerNodeLeaf("HotelLevel", this, () => gameplayLevelData == GameplayLevel.Hotel);
+
+
 
         startNodeSelector.AddtoChildNode(this.frontSceneGameManagerNodeLeaf);
-        startNodeSelector.AddtoChildNode(this.levelHotelGameManagerNodeLeaf);
+        startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
+
+        ingameGameManagerNodeSelector.AddtoChildNode(levelMansionGameManagerNodeleaf);
+        ingameGameManagerNodeSelector.AddtoChildNode(levelHotelGameManagerNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
@@ -79,18 +91,28 @@ public class GameManager : MonoBehaviour,INodeManager
             case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
                 {
                     gameManagerSceneData = GameManagerState.Gameplay;
+                    gameplayLevelData = GameplayLevel.Mansion;
                 }
                 break;
             case LevelHotelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
                 {
                     if(levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
-                        (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
+                        (curNodeLeaf as GameManagerNodeLeaf).Enter();
+
+                    if (levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == LevelHotelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutContinue) 
+                    {
+                        if (curNodeLeaf is LevelMansionGameManagerNodeLeaf)
+                            gameplayLevelData = GameplayLevel.Hotel;
+
+                        if (curNodeLeaf is LevelHotelGameManagerNodeLeaf)
+                            gameplayLevelData = GameplayLevel.Mansion;
+                    }
                 }
                 break;
             case GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
                 {
                     if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
-                        (curNodeLeaf as LevelHotelGameManagerNodeLeaf).Enter();
+                        (curNodeLeaf as GameManagerNodeLeaf).Enter();
 
                     if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
                         gameManagerSceneData = GameManagerState.ForntScene;

@@ -417,7 +417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3322613485639981698
 RectTransform:
   m_ObjectHideFlags: 0
@@ -731,15 +731,15 @@ MonoBehaviour:
   lookRotationCommand: {x: 0, y: 0, z: 0}
   moveAccelerate: 3.4
   moveMaxSpeed: 1.83
-  moveRotateSpeed: 3
+  moveRotateSpeed: 5.62
   sprintAccelerate: 2.6
   sprintMaxSpeed: 4.2
   sprintRotateSpeed: 1.8
   breakAccelerate: 1.66
   breakMaxSpeed: 1.65
   aimingRotateSpeed: 3.32
-  hitedForcePush: 25
-  hitedForceStop: 10.8
+  hitedForcePush: 12
+  hitedForceStop: 10
   postureLight: 100
   postureMedium: 81
   postureHeavy: 44.2

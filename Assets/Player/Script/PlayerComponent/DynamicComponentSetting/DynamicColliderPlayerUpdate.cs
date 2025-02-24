@@ -34,6 +34,12 @@ public class DynamicColliderPlayerUpdate : MonoBehaviour,IObserverPlayer
           
         }
 
+        if(playerAction == SubjectPlayer.PlayerAction.Dodge)
+        {
+            capsuleCollider.center = new Vector3(capsuleCollider.center.x, CrouchCenterY, capsuleCollider.center.z);
+            capsuleCollider.height = CrouchHeight;
+        }
+
         if (playerAction == SubjectPlayer.PlayerAction.StandMove
              || playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {

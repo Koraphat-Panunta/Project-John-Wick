@@ -37,6 +37,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void Reload(Weapon weapon, IReloadNode reloadNodePhase)
     {
+        AutoRegenAmmo();
         if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
         {
             switch (reloadMagazineNodePhase.curReloadPhase)
@@ -64,8 +65,14 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         }
       
     }
+    private void AutoRegenAmmo()
+    {
+        if (enemy.weaponBelt.ammoProuch.amountOf_ammo[enemy.currentWeapon.bullet.myType] <= 0)
+        {
+            enemy.weaponBelt.ammoProuch.AddAmmo(enemy.currentWeapon.bullet.myType, 100);
+        }
+    }
 
-   
 
     public override void Resting(Weapon weapon)
     {

@@ -34,6 +34,12 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
 
         }
 
+        if (playerAction == SubjectPlayer.PlayerAction.Dodge)
+        {
+            characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
+            characterController.height = CrouchHeight;
+        }
+
         if (playerAction == SubjectPlayer.PlayerAction.StandMove
             ||playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {

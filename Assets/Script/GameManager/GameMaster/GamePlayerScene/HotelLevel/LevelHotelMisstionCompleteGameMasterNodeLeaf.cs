@@ -17,6 +17,8 @@ public class LevelHotelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<L
 
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
 
+    private bool notifyAlready;
+
     private float eplapesTime;
     private SetAlphaColorUI setAlphaColorUI;
 
@@ -37,6 +39,7 @@ public class LevelHotelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<L
     {
         curPhase = MissionCompletePhase.FadeIn;
         eplapesTime = 0f;
+        notifyAlready = false;
         misstionCompleteCanvasUI.gameObject.SetActive(true);
     }
 
@@ -91,9 +94,10 @@ public class LevelHotelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<L
             setAlphaColorUI.SetColorAlpha(fadeImage, (eplapesTime - 1) / 1);
             setAlphaColorUI.SetColorAlpha(titleImagePanel, (2 - eplapesTime) / 1f);
             setAlphaColorUI.SetColorAlpha(titleText, (2 - eplapesTime) / 1);
-            if (eplapesTime >= 2)
+            if (eplapesTime >= 2 && notifyAlready == false)
             {
                 gameManager.OnNotify(this);
+                notifyAlready = true;
             }
         }
         else if(curPhase == MissionCompletePhase.FadeOutContinue)
@@ -102,9 +106,10 @@ public class LevelHotelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<L
             setAlphaColorUI.SetColorAlpha(fadeImage, (eplapesTime - 1) / 1);
             setAlphaColorUI.SetColorAlpha(titleImagePanel, (2 - eplapesTime) / 1f);
             setAlphaColorUI.SetColorAlpha(titleText, (2 - eplapesTime) / 1);
-            if (eplapesTime >= 2)
+            if (eplapesTime >= 2 && notifyAlready == false)
             {
                 gameManager.OnNotify(this);
+                notifyAlready = true;
             }
         }
     }

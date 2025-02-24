@@ -92,8 +92,8 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         }
         else if(dodgePhase == DodgePhase.Landing)
         {
-            playerMovement.MoveToDirWorld(player.playerMovement.forwardDir*0.05f, player.dodgeOnGroundStopForce, player.dodgeOnGroundStopForce, IMovementCompoent.MoveMode.MaintainMomentum);
-            playerMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
+            playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeOnGroundStopForce, player.dodgeOnGroundStopForce, IMovementCompoent.MoveMode.MaintainMomentum);
+            //playerMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();
     }

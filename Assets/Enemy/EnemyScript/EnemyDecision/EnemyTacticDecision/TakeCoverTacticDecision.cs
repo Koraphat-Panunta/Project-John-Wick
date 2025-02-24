@@ -16,7 +16,7 @@ public class TakeCoverTacticDecision : TacticDecision
     {
 
         coverTiming = 0f;
-        peekTiming = Random.Range(4, 7);
+        peekTiming = Random.Range(1,2.5f);
 
         if (enemy.findingCover.FindCoverInRaduis(7,out CoverPoint coverPoint))
             this.coverPoint = coverPoint;
@@ -46,6 +46,8 @@ public class TakeCoverTacticDecision : TacticDecision
     {
 
         enemy.cost += cost_DrainRate * Time.deltaTime;
+        if (enemy._isPainTrigger || enemy._triggerHitedGunFu)
+            enemy.cost += 30;
         if (enemy.cost > exitTacticCost)
         {
             enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
@@ -101,7 +103,7 @@ public class TakeCoverTacticDecision : TacticDecision
             (enemy.targetKnewPos - enemy.transform.position).normalized) <= 0)
             enemy.cost += 100 * Time.deltaTime;
 
-        if (coverTiming > 10)
+        if (coverTiming > 5)
             coverTiming = 0;
     }
 }
