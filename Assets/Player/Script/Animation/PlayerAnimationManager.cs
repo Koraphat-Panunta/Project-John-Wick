@@ -27,6 +27,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
     public float CAR_Weight;
+    public float WeaponSwayRate_Normalized;
 
     public bool isCover;
 
@@ -71,10 +72,11 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (player.curShoulderSide == Player.ShoulderSide.Right)
             SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
-        if(player.isInCover)
-            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1);
+        if(player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandIdleNode ||
+            player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandMoveNode)
+            CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
         else
-            CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
+            CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
 
         PlayerMovement playerMovement = player.playerMovement;
         Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
@@ -94,7 +96,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
                 Vector3.Dot(player.inputMoveDir_World, 
                 Vector3.Cross(player.transform.forward, Vector3.up))
-            ,10*Time.deltaTime) ;
+            ,6.5f*Time.deltaTime) ;
 
         if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode)
         {
@@ -139,7 +141,20 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
            , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
                 isIn_C_A_R_aim = true;
         }
-       
+
+        float changeSprintLowRate = 5;
+        float changeSprintOutRate = 6;
+        float changeSprintStayRate = 9;
+        if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode sprintNode)
+        {
+            if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Out)
+                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
+            else if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Stay)
+                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized,1, changeSprintStayRate * Time.deltaTime);
+        }
+        else
+            WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
+
 
         animator.SetFloat("CoverWeight", CoverWeight);
         animator.SetFloat("SholderSide", SholderSide);
@@ -156,6 +171,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("RecoilWeight", RecoilWeight);
         animator.SetFloat("CAR_Weight", CAR_Weight);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
+        animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
 
     }
 
@@ -185,11 +201,15 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
             RecoilWeight = 1;
 
-        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
+        if (playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
-
-            animator.CrossFade(Sprint, 0.3f, 0,0);
+           
+            animator.CrossFade(Sprint, 0.3f, 0, 0);
             isLayer_1_Enable = true;
+        }
+        else 
+        {
+            
         }
         if(playerAction == SubjectPlayer.PlayerAction.StandMove||
             playerAction == SubjectPlayer.PlayerAction.StandIdle)
