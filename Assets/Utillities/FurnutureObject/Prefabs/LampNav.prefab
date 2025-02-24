@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8396573314142827437}
   - component: {fileID: 502831492280321313}
   - component: {fileID: 4579876189394828774}
-  - component: {fileID: -8398560778164407826}
+  - component: {fileID: -3150365881041807842}
   m_Layer: 0
   m_Name: LampNav
   m_TagString: Untagged
@@ -110,7 +110,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.026652541, y: 0.027991837, z: 0.09635187}
   m_Center: {x: -0.00000001071021, y: -0.00034445614, z: 0.038175922}
---- !u!114 &-8398560778164407826
+--- !u!114 &-3150365881041807842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,14 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036206471245502708}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 0.03, y: 0.03, z: 0.13901709}
+  m_Center: {x: 0, y: 0, z: 0.01950852}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

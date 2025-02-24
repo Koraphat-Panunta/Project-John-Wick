@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4825136862942084405}
   - component: {fileID: 8808597058478193674}
   - component: {fileID: 2306387797181975003}
-  - component: {fileID: -6136592408744224905}
+  - component: {fileID: 7999889678462199192}
   m_Layer: 0
   m_Name: cabinetNav
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.07107675, y: 0.04076395, z: 0.028004475}
   m_Center: {x: -0.030389825, y: 0.020384204, z: -0.010259287}
---- !u!114 &-6136592408744224905
+--- !u!114 &7999889678462199192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,14 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4217028643270092685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 0.07206981, y: 0.05074753, z: 0.03182272}
+  m_Center: {x: -0.030523099, y: 0.017524906, z: -0.010934185}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

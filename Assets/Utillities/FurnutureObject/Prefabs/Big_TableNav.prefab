@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2277657185914215563}
   - component: {fileID: 204015270702641492}
   - component: {fileID: 815124950330347060}
-  - component: {fileID: 8320832126943899985}
+  - component: {fileID: 2407396516051760458}
   m_Layer: 0
   m_Name: Big_TableNav
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.07371509, y: 0.03847219, z: 0.032319587}
   m_Center: {x: 0.00047204085, y: -0.00000031385565, z: -0.010474091}
---- !u!114 &8320832126943899985
+--- !u!114 &2407396516051760458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,14 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1225113488206098508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
+  m_Size: {x: 0.075752385, y: 0.04079414, z: 0.04428177}
+  m_Center: {x: -0.00004625693, y: 0.00003084913, z: -0.015606353}
+  m_Area: 0
   m_AffectedAgents: ffffffff

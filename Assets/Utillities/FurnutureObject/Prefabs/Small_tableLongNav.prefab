@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5719690541795193106}
   - component: {fileID: 3034585609993032559}
   - component: {fileID: 65327799867335655}
-  - component: {fileID: 9196329615398720346}
+  - component: {fileID: -8519775442363743518}
   m_Layer: 0
   m_Name: Small_tableLongNav
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9196329615398720346
+--- !u!114 &-8519775442363743518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,14 +96,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2624150572906918895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 0.014, y: 0.018, z: 0.01}
+  m_Center: {x: 0, y: -0.00496897, z: 0.001}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
