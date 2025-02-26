@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,11 +29,11 @@ public class CameraZoom : ICameraAction
         float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, distanceZoomIn, 10*Time.deltaTime);
+            cameraOffset.Offset.z = Mathf.Lerp(cameraOffset.Offset.z, distanceZoomIn, 10*Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = aimingWeight* distanceZoomIn;
+            cameraOffset.Offset.z = aimingWeight* distanceZoomIn;
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
@@ -45,11 +45,11 @@ public class CameraZoom : ICameraAction
 
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 0, 10 * Time.deltaTime);
+            cameraOffset.Offset.z = Mathf.Lerp(cameraOffset.Offset.z, 0, 10 * Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = aimingWeight * distanceZoomIn;
+            cameraOffset.Offset.z = aimingWeight * distanceZoomIn;
             cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }

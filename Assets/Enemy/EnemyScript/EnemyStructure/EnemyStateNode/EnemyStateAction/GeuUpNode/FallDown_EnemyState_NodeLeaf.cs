@@ -194,11 +194,11 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         Vector3 positionOffset;
 
         if (isFacingUp) 
-            positionOffset = _standUpBoneTransforms[0].Position;
+            positionOffset = _standUpBoneTransforms[0].Position;//HipsBonePosition
         else
-            positionOffset = _pushUpBoneTransforms[0].Position;
+            positionOffset = _pushUpBoneTransforms[0].Position;//HipsBonePosition
 
-        
+
         positionOffset.y = 0;
         positionOffset = enemy.transform.rotation * positionOffset;
 
