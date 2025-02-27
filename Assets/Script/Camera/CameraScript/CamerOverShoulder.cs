@@ -1,7 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CamerOverShoulder:ICameraAction
@@ -13,7 +13,7 @@ public class CamerOverShoulder:ICameraAction
     {
         _camController = camController;
         _cameraOffset = _camController.cameraOffset;
-        originalOffset = _cameraOffset.m_Offset;
+        originalOffset = _cameraOffset.Offset;
         curSide = Side.right;
     }
     public enum Side
@@ -24,25 +24,25 @@ public class CamerOverShoulder:ICameraAction
     
     private IEnumerator ChangeCameraLeftSide()
     {
-        while(_cameraOffset.m_Offset.x > -originalOffset.x )
+        while(_cameraOffset.Offset.x > -originalOffset.x )
         {
             if(curSide != Side.left)
             {
                 yield break;
             }
-            _cameraOffset.m_Offset.x = Mathf.Lerp(_cameraOffset.m_Offset.x, -originalOffset.x, 4 * Time.deltaTime);
+            _cameraOffset.Offset.x = Mathf.Lerp(_cameraOffset.Offset.x, -originalOffset.x, 4 * Time.deltaTime);
             yield return null;
         }
     }
     IEnumerator ChangeCameraRightSide()
     {
-        while (_cameraOffset.m_Offset.x < originalOffset.x )
+        while (_cameraOffset.Offset.x < originalOffset.x )
         {
             if (curSide != Side.right)
             {
                 yield break;
             }
-            _cameraOffset.m_Offset.x = Mathf.Lerp(_cameraOffset.m_Offset.x, originalOffset.x, 4 * Time.deltaTime);
+            _cameraOffset.Offset.x = Mathf.Lerp(_cameraOffset.Offset.x, originalOffset.x, 4 * Time.deltaTime);
             yield return null;
         }
     }

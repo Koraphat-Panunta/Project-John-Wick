@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public abstract class EnemyGoal 
 {

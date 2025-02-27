@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System;
 using UnityEngine;
 
@@ -35,24 +35,24 @@ public class CameraCrouchViewNodeLeaf : CameraNodeLeaf
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {
-            offsetX = Mathf.Lerp(this.cinemachineOffset.m_Offset.x,
+            offsetX = Mathf.Lerp(this.cinemachineOffset.Offset.x,
                 viewAttribute.CrouchView_Offset_Right.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
 
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
-            offsetX = Mathf.Lerp(this.cinemachineOffset.m_Offset.x,
+            offsetX = Mathf.Lerp(this.cinemachineOffset.Offset.x,
                 -viewAttribute.CrouchView_Offset_Right.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
         this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, viewAttribute.CrouchView_FOV, speedEnterView*Time.deltaTime);
 
-        float offsetY = Mathf.Lerp(this.cinemachineOffset.m_Offset.y, viewAttribute.CrouchView_Offset_Right.y, speedEnterView * Time.deltaTime);
-        float offsetZ = Mathf.Lerp(this.cinemachineOffset.m_Offset.z, viewAttribute.CrouchView_Offset_Right.z, speedEnterView * Time.deltaTime);
+        float offsetY = Mathf.Lerp(this.cinemachineOffset.Offset.y, viewAttribute.CrouchView_Offset_Right.y, speedEnterView * Time.deltaTime);
+        float offsetZ = Mathf.Lerp(this.cinemachineOffset.Offset.z, viewAttribute.CrouchView_Offset_Right.z, speedEnterView * Time.deltaTime);
 
-        this.cinemachineOffset.m_Offset = new Vector3(offsetX, offsetY, offsetZ);
+        this.cinemachineOffset.Offset = new Vector3(offsetX, offsetY, offsetZ);
 
         base.UpdateNode();
     }

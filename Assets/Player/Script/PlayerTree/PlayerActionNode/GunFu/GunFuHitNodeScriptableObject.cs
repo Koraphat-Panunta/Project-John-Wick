@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GunFuNode", menuName = "ScriptableObjects/GunFuNode")]

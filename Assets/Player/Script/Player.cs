@@ -1,7 +1,5 @@
 
-using Cinemachine;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
