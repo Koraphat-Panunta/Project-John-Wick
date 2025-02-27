@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraKickBack : ICameraAction
 {
     private CameraController cameraController;
-    private CinemachineFreeLook cameraFreeLook => this.cameraController.CinemachineFreeLook;
+    private CinemachineOrbitalFollow cameraOrbitalFreeLook => this.cameraController.cinemachineOrbitalFollow;
     public CameraKickBack(CameraController cameraController)
     {
         this.cameraController = cameraController;
@@ -25,12 +25,12 @@ public class CameraKickBack : ICameraAction
     {
         yield return new WaitForFixedUpdate();
  
-        yAxisReposition = cameraFreeLook.m_YAxis.Value;
-        cameraFreeLook.m_YAxis.Value -= (kickForce-controller)*0.0004f;
+        yAxisReposition = cameraOrbitalFreeLook.VerticalAxis.Value;
+        cameraOrbitalFreeLook.VerticalAxis.Value -= (kickForce-controller)*0.0004f;
         repositionTime = 0.22f;
-        while (cameraFreeLook.m_YAxis.Value < yAxisReposition&&repositionTime>0)
+        while (cameraOrbitalFreeLook.VerticalAxis.Value < yAxisReposition&&repositionTime>0)
         {
-            cameraFreeLook.m_YAxis.Value += 0.12f*Time.deltaTime;
+            cameraOrbitalFreeLook.VerticalAxis.Value += 0.12f*Time.deltaTime;
             repositionTime -= Time.deltaTime;
             yield return null;
         }

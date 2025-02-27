@@ -13,7 +13,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public PlayerStateNodeManager playerStateNodeManager;
 
     public Transform RayCastPos;
-    public CinemachineFreeLook cinemachineFreeLook;
+    public CinemachineCamera cinemachineCamera;
 
     [SerializeField] public bool isImortal { get; private set; }
 

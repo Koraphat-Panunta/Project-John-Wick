@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour,INodeManager
     {
         soundTrackManager = GetComponent<SoundTrackManager>();
         nodeManagerBehavior = new NodeManagerBehavior();
+        Application.targetFrameRate = 60; // Match Editor
+        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
         DontDestroyOnLoad(gameObject);
     }
     private void Start()

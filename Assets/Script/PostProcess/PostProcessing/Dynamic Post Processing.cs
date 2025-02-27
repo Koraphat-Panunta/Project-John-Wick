@@ -21,10 +21,10 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        player = FindAnyObjectByType<Player>();
         player.AddObserver(this);
         volume = GetComponent<Volume>();
-        if (volume.profile.TryGet<Vignette>(out vignette))
+        if (volume.profile.TryGet<Vignette>(out Vignette vignette))
         {
             this.vignette = vignette;
         }

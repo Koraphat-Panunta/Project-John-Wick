@@ -549,7 +549,6 @@ GameObject:
   - component: {fileID: 203465767362645456}
   - component: {fileID: 1893188887889720505}
   - component: {fileID: 7119053128957674362}
-  - component: {fileID: 6335191630239771221}
   - component: {fileID: 764907962657949099}
   m_Layer: 0
   m_Name: FreeLook Camera
@@ -566,7 +565,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7021321972171224377}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.50978047, y: 0.0075073787, z: 0.0044487873, w: 0.8602603}
+  m_LocalRotation: {x: -0.479703, y: 0.007656879, z: 0.0041863136, w: 0.8773875}
   m_LocalPosition: {x: -0.015009071, y: 0.06, z: -0.859869}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -746,9 +745,9 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -8248380502607251551, guid: df15117c8f791954e9c9dfbf742f9826,
           type: 3}
-        Gain: 0.1
+        Gain: 5
         LegacyInput: Mouse X
-        LegacyGain: 0.1
+        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -760,9 +759,9 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -8248380502607251551, guid: df15117c8f791954e9c9dfbf742f9826,
           type: 3}
-        Gain: 0.003
+        Gain: -0.06
         LegacyInput: Mouse Y
-        LegacyGain: 0.003
+        LegacyGain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
@@ -774,7 +773,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -423771258819551211, guid: 1d6e640e716dc4ff6989b73d02023f2b,
           type: 3}
-        Gain: -1
+        Gain: 1
         LegacyInput: 
         LegacyGain: 1
         CancelDeltaTime: 0
@@ -807,46 +806,6 @@ MonoBehaviour:
     FrequencyGain: 1
     Duration: 1
     m_NoiseOffsets: {x: -885.129, y: 680.19885, z: -21.09967}
---- !u!114 &6335191630239771221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7021321972171224377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Modifiers:
-  - rid: 915891585811742806
-  references:
-    version: 2
-    RefIds:
-    - rid: 915891585811742806
-      type: {class: CinemachineFreeLookModifier/CompositionModifier, ns: Unity.Cinemachine,
-        asm: Unity.Cinemachine}
-      data:
-        Composition:
-          Top:
-            ScreenPosition: {x: 0, y: 0}
-            DeadZone:
-              Enabled: 1
-              Size: {x: 0, y: 0}
-            HardLimits:
-              Enabled: 1
-              Size: {x: 0.8, y: 0.8}
-              Offset: {x: 0, y: 0}
-          Bottom:
-            ScreenPosition: {x: 0, y: 0.100000024}
-            DeadZone:
-              Enabled: 1
-              Size: {x: 0, y: 0}
-            HardLimits:
-              Enabled: 1
-              Size: {x: 0.8, y: 0.8}
-              Offset: {x: 0, y: 0}
 --- !u!114 &764907962657949099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,7 +820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2049
   IgnoreTag: 
   TransparentLayers:
     serializedVersion: 2
@@ -1032,7 +991,7 @@ MonoBehaviour:
   My_environment: {fileID: 0}
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
-  cinemachineFreeLook: {fileID: 0}
+  cinemachineCamera: {fileID: 1671305130001768256}
   MyHP: 0
   primaryHolster: {fileID: 2458408193446765874}
   secondaryHolster: {fileID: 2993268220600484696}
@@ -1247,11 +1206,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 1
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:Spine'\n\tTransform
-    'mixamorig:Hips'\n\tTransform 'mixamorig:Spine'\n\tTransform 'mixamorig:Hips'\n\tTransform
-    'mixamorig:Spine'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

@@ -36,7 +36,7 @@ public class CameraManagerNode : INodeManager
     {
         startNodeSelector = new CameraSelectorNode(this.cameraController, () => true);
 
-        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,()=> this.cameraController.Player != null);
+        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,()=> this.cameraController.Player != null && cameraController.cameraOffset != null);
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
@@ -66,6 +66,7 @@ public class CameraManagerNode : INodeManager
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
+        curNodeLeaf.Enter();
     }
 }
 public class CameraRestNodeLeaf : CameraNodeLeaf

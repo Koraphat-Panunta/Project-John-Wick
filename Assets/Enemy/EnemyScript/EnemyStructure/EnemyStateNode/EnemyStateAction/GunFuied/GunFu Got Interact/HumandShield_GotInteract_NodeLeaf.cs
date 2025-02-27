@@ -10,7 +10,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     public string stateNameStay = "HumandShielded Stay";
     public string stateNameExit = "HumandShielded Throw";
 
-    float got_threwDown_time;
+    float got_threwDown_time = 0;
 
     HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
 

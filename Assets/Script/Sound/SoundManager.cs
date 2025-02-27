@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         audio_listener = GetComponent<AudioListener>();
-        player = FindObjectOfType<Player>();
+        player = FindAnyObjectByType<Player>();
         
     }
 

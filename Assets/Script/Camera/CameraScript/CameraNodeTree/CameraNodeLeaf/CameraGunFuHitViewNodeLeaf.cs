@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraGunFuHitViewNodeLeaf : CameraNodeLeaf
 {
     private CinemachineCameraOffset cameraOffset => cameraController.cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook => cameraController.CinemachineFreeLook;
+    private CinemachineCamera cinemachineFreeLook => cameraController.cinemachineCamera;
     private ScrpCameraViewAttribute sprintView => cameraController.cameraViewAttribute;
 
     private float speedEnterView = 2f;
@@ -47,7 +47,7 @@ public class CameraGunFuHitViewNodeLeaf : CameraNodeLeaf
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
-        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, viewAttribute.GunFu_FOV, speedEnterView * Time.deltaTime);
+        this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.Lens.FieldOfView, viewAttribute.GunFu_FOV, speedEnterView * Time.deltaTime);
 
         float offsetY = Mathf.Lerp(this.cameraOffset.Offset.y, viewAttribute.GunFu_Offset_Right.y, speedEnterView * Time.deltaTime);
         float offsetZ = Mathf.Lerp(this.cameraOffset.Offset.z, viewAttribute.GunFu_Offset_Right.z, speedEnterView * Time.deltaTime);

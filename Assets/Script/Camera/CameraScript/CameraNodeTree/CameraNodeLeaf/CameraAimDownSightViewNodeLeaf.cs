@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraAimDownSightViewNodeLeaf : CameraNodeLeaf
 {
     private CinemachineCameraOffset cinemachineOffset => base.cameraController.cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook => base.cameraController.CinemachineFreeLook;
+    private CinemachineCamera cinemachineCamera => base.cameraController.cinemachineCamera;
 
 
     public CameraAimDownSightViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
@@ -48,7 +48,7 @@ public class CameraAimDownSightViewNodeLeaf : CameraNodeLeaf
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
-        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, cameraController.cameraViewAttribute.AimDownSight_FOV, cameraController.zoomingWeight);
+        this.cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(this.cinemachineCamera.Lens.FieldOfView, cameraController.cameraViewAttribute.AimDownSight_FOV, cameraController.zoomingWeight);
 
         float offsetY = Mathf.Lerp(this.cinemachineOffset.Offset.y, viewAttribute.AimDownSight_Offset_Right.y, this.cameraController.zoomingWeight);
         float offsetZ = Mathf.Lerp(this.cinemachineOffset.Offset.z, viewAttribute.AimDownSight_Offset_Right.z, this.cameraController.zoomingWeight);

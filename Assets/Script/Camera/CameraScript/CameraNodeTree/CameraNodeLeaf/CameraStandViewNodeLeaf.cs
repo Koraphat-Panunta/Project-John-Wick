@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraStandViewNodeLeaf : CameraNodeLeaf
 {
     private CinemachineCameraOffset cinemachineOffset => base.cameraController.cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook => base.cameraController.CinemachineFreeLook;
+    private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
 
     private float speedEnterView = 3;
     public CameraStandViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
@@ -48,7 +48,7 @@ public class CameraStandViewNodeLeaf : CameraNodeLeaf
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
-        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, viewAttribute.StandView_FOV, speedEnterView * Time.deltaTime);
+        this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.Lens.FieldOfView, viewAttribute.StandView_FOV, speedEnterView * Time.deltaTime);
 
         float offsetY = Mathf.Lerp(this.cinemachineOffset.Offset.y, viewAttribute.StandView_Offset_Right.y, speedEnterView * Time.deltaTime);
         float offsetZ = Mathf.Lerp(this.cinemachineOffset.Offset.z, viewAttribute.StandView_Offset_Right.z, speedEnterView * Time.deltaTime);

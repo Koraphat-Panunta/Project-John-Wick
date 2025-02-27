@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraSprintViewNodeLeaf : CameraNodeLeaf
 {
     private CinemachineCameraOffset cameraOffset => cameraController.cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook => cameraController.CinemachineFreeLook;
+    private CinemachineCamera cinemachineCamera => cameraController.cinemachineCamera;
     private ScrpCameraViewAttribute sprintView => cameraController.cameraViewAttribute;
 
     private float speedEnterView = 1.4f;
@@ -32,7 +32,7 @@ public class CameraSprintViewNodeLeaf : CameraNodeLeaf
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
-        this.cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.m_Lens.FieldOfView, viewAttribute.Sprint_FOV, speedEnterView * Time.deltaTime);
+        this.cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(this.cinemachineCamera.Lens.FieldOfView, viewAttribute.Sprint_FOV, speedEnterView * Time.deltaTime);
 
         float offsetY = Mathf.Lerp(this.cameraOffset.Offset.y, viewAttribute.Sprint_Offset_Right.y, speedEnterView * Time.deltaTime);
         float offsetZ = Mathf.Lerp(this.cameraOffset.Offset.z, viewAttribute.Sprint_Offset_Right.z, speedEnterView * Time.deltaTime);

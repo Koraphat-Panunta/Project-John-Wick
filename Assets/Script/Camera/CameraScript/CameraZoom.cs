@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraZoom : ICameraAction
 {
     private CinemachineCameraOffset cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook;
+    private CinemachineCamera cinemachineCamera;
     private float fovZoomOut;
     private float fovZoomIn = 60;
     private float fovZoomPercentage = 16;
@@ -14,8 +14,8 @@ public class CameraZoom : ICameraAction
     public CameraZoom(CameraController cameraController)
     {
         this.cameraOffset = cameraController.cameraOffset;
-        this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
-        fovZoomOut = this.cinemachineFreeLook.m_Lens.FieldOfView;
+        this.cinemachineCamera = cameraController.cinemachineCamera;
+        fovZoomOut = this.cinemachineCamera.Lens.FieldOfView;
         //fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);
 
     }
@@ -34,7 +34,7 @@ public class CameraZoom : ICameraAction
         else
         {
             cameraOffset.Offset.z = aimingWeight* distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
+            cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     
@@ -50,7 +50,7 @@ public class CameraZoom : ICameraAction
         else
         {
             cameraOffset.Offset.z = aimingWeight * distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
+            cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     

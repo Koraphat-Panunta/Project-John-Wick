@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
 {
-    [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
-    [SerializeField] public CinemachineCameraOffset cameraOffset;
+    [SerializeField] public CinemachineCamera cinemachineCamera => Player.cinemachineCamera;
+    [SerializeField] public CinemachineOrbitalFollow cinemachineOrbitalFollow => Player.cinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
+    [SerializeField] public CinemachineCameraOffset cameraOffset => Player.cinemachineCamera.GetComponent<CinemachineCameraOffset>();
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player Player;
 
@@ -41,15 +42,16 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
     {
         playerSpawner = FindAnyObjectByType<PlayerSpawner>();
         playerSpawner.AddObserverPlayerSpawner(this);
-    }
-    void Start()
-    {
 
         cameraKickBack = new CameraKickBack(this);
 
         cameraImpluse = new CameraImpulseShake(this);
 
         cameraManagerNode = new CameraManagerNode(this);
+    }
+    void Start()
+    {
+
     }
     private void Update()
     {
@@ -59,8 +61,13 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         if(Player != null && Player.weaponManuverManager != null)
         zoomingWeight = Player.weaponManuverManager.aimingWeight;
 
+        Debug.Log("CameraCurNode = " + cameraManagerNode.curNodeLeaf);
+
         cameraManagerNode.UpdateNode();
-        CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
+
+
+        //Debug.Log("CameraOffset = " + cameraOffset);
+        //Debug.Log("CameraOffset value = " + cameraOffset.Offset);
     }
     private void FixedUpdate()
     {
@@ -124,9 +131,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         Player = player;
         curStance = Player.playerStance;
         curSide = Player.curShoulderSide;
-
-        this.CinemachineFreeLook = player.cinemachineFreeLook;
-        this.cameraOffset = player.cinemachineFreeLook.GetComponent<CinemachineCameraOffset>();
 
         Player.AddObserver(this);
     }
