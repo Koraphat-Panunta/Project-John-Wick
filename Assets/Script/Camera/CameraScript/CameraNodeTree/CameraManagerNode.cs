@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class CameraManagerNode : INodeManager
 {
@@ -36,12 +37,18 @@ public class CameraManagerNode : INodeManager
     {
         startNodeSelector = new CameraSelectorNode(this.cameraController, () => true);
 
-        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,()=> this.cameraController.Player != null && cameraController.cameraOffset != null);
+        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,
+            ()=> this.cameraController.player != null && this.cameraController.player.gameObject.activeSelf
+            );
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
+
+        Debug.Log("Player = " + cameraController.player);
+        Debug.Log("Player ManageNode =" + cameraController.player.playerStateNodeManager);
+
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
-            () => this.cameraController.Player.isSprint||this.cameraController.Player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
+            () => this.cameraController.player.isSprint || this.cameraController.player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
 
         cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
@@ -63,10 +70,13 @@ public class CameraManagerNode : INodeManager
         cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuHitViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
+        Debug.Log("Initailized Cameara ManageNode");
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
         curNodeLeaf.Enter();
+
+        Debug.Log("Initailized Cameara Node at the end");
     }
 }
 public class CameraRestNodeLeaf : CameraNodeLeaf

@@ -5,16 +5,22 @@ using Unity.AI.Navigation;
 using UnityEngine;
 
 
-public class Environment : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
+public class Environment : MonoBehaviour,IObserverPlayer
 {
     List<IEnvironmentAware> environmentAwareir = new List<IEnvironmentAware>();
-    [SerializeField] private PlayerSpawner playerSpawner;
+    [SerializeField] private Player player;
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
+        
     }
-  
+    private void OnEnable()
+    {
+        player.AddObserver(this);
+    }
+    private void OnDisable()
+    {
+        player.RemoveObserver(this);
+    }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
        if(playerAction == SubjectPlayer.PlayerAction.Firing)
@@ -46,8 +52,5 @@ public class Environment : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
        
     }
 
-    public void GetNotify(Player player)
-    {
-        player.AddObserver(this);
-    }
+ 
 }

@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer,IObserverPlayerSpawner
+public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
 {
     [SerializeField] Player player;
-    [SerializeField] PlayerSpawner playerSpawner;
     private bool isShowGage ;
     [SerializeField] RawImage humanShieldGage;
     private float maxWidthImage;
@@ -40,9 +39,7 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer,IObserverPlayer
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
-
+        player.AddObserver(this);
         this.maxWidthImage = humanShieldGage.rectTransform.rect.width;
     }
 

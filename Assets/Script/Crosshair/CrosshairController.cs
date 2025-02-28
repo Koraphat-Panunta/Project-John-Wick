@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
+public class CrosshairController : MonoBehaviour,IObserverPlayer
 {
     //[SerializeField] WeaponSocket weaponSocket;
     public RectTransform Crosshair_lineUp;
@@ -13,7 +13,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
-    public Transform TargetAim;
+    public Transform TargetAim => player._aimPosRef;
     [SerializeField] public Player player;
     public bool isVisable = false;
 
@@ -21,11 +21,9 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
     [SerializeField] public LayerMask layerMask;
 
-    [SerializeField] private PlayerSpawner playerSpawner;
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
+        player.AddObserver(this);
     }
     void Start()
     {
@@ -114,13 +112,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     {
     }
 
-    public void GetNotify(Player player)
-    {
-        this.player = player;
-        player.AddObserver(this);
-        player.crosshairController = this;
-        TargetAim = player._aimPosRef;
-    }
+   
     public void EnableCrosshairVisable()
     {
         this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;

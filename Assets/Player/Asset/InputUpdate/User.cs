@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class User : MonoBehaviour,IObserverPlayerSpawner
+public class User : MonoBehaviour
 {
     private UserInput userInput;
-    [SerializeField] private PlayerSpawner playerSpawner;
+    [SerializeField] private Player player;
 
-    public void GetNotify(Player player)
+    public void InitailizedInputAction(Player player)
     {
         PlayerInputAPI playerInputAPI = player.GetComponent<PlayerInputAPI>();
   
@@ -59,9 +59,8 @@ public class User : MonoBehaviour,IObserverPlayerSpawner
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
         userInput = new UserInput();
+        InitailizedInputAction(this.player);
     }
     void Start()
     {

@@ -6,13 +6,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class InGameLevelGameMaster : GameMaster,IObserverPlayerSpawner
+public class InGameLevelGameMaster : GameMaster
 {
     public Canvas openingCanvasUI;
     public Image titleHotelLevelImage;
     public TextMeshProUGUI titleLevelHotel;
     public Image fadeInImage;
-    public PlayerSpawner playerSpawner;
 
     public Canvas gameplayCanvasUI;
     public User user;
@@ -59,12 +58,16 @@ public class InGameLevelGameMaster : GameMaster,IObserverPlayerSpawner
   
     protected override void Awake()
     {
-        playerSpawner.AddObserverPlayerSpawner(this);
         base.Awake();
     }
     protected override void Start()
     {
         curLevelHotelPhase = LevelHotelPhase.Opening;
+        foreach (Character target in targetEliminationQuest)
+        {
+            target.gameObject.SetActive(false);
+        }
+        player.gameObject.SetActive(false);
         StartCoroutine(DelaySceneLoaded());
         base.Start();
     }

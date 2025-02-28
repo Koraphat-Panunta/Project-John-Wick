@@ -4,15 +4,14 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
+public class CameraController : MonoBehaviour,IObserverPlayer
 {
-    [SerializeField] public CinemachineCamera cinemachineCamera => Player.cinemachineCamera;
-    [SerializeField] public CinemachineOrbitalFollow cinemachineOrbitalFollow => Player.cinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
-    [SerializeField] public CinemachineCameraOffset cameraOffset => Player.cinemachineCamera.GetComponent<CinemachineCameraOffset>();
+    [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
+    [SerializeField] public CinemachineOrbitalFollow cinemachineOrbitalFollow => player.cinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
+    [SerializeField] public CinemachineCameraOffset cameraOffset => player.cinemachineCamera.GetComponent<CinemachineCameraOffset>();
     [SerializeField] public CinemachineImpulseSource impulseSource;
-    [SerializeField] public Player Player;
+    [SerializeField] public Player player;
 
-    [SerializeField] private PlayerSpawner playerSpawner;
 
     public CameraKickBack cameraKickBack;
     public CameraImpulseShake cameraImpluse;
@@ -40,8 +39,10 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
+        curStance = player.playerStance;
+        curSide = player.curShoulderSide;
+
+        player.AddObserver(this);
 
         cameraKickBack = new CameraKickBack(this);
 
@@ -58,13 +59,12 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         if(gunFuCameraTimer >0)
             gunFuCameraTimer -= Time.deltaTime;
 
-        if(Player != null && Player.weaponManuverManager != null)
-        zoomingWeight = Player.weaponManuverManager.aimingWeight;
-
-        Debug.Log("CameraCurNode = " + cameraManagerNode.curNodeLeaf);
+        if(player != null && player.weaponManuverManager != null)
+        zoomingWeight = player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
 
+        this.CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
 
         //Debug.Log("CameraOffset = " + cameraOffset);
         //Debug.Log("CameraOffset value = " + cameraOffset.Offset);
@@ -126,12 +126,5 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         
     }
 
-    public void GetNotify(Player player)
-    {
-        Player = player;
-        curStance = Player.playerStance;
-        curSide = Player.curShoulderSide;
-
-        Player.AddObserver(this);
-    }
+   
 }

@@ -37,8 +37,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         }
 
     }
-
-    protected override void Start()
+    private void Awake()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
@@ -64,7 +63,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         new WeaponFactoryAR15().CreateWeapon(this);
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-        playerStateNodeManager = new PlayerStateNodeManager(this);  
+        playerStateNodeManager = new PlayerStateNodeManager(this);
+    }
+    protected override void Start()
+    {
+       
 
     }
 
@@ -219,7 +222,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
     public void UpdateDetectingTarget()
     {
-        Debug.Log("attackedAbleGunFu = " + attackedAbleGunFu);
 
         if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
             return;

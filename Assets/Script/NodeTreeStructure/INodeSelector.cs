@@ -94,7 +94,7 @@ public class NodeSelectorBehavior
 
             if (node is INodeLeaf)
             {
-                //Debug.Log("Node " + node + " isNodeLeaf " );
+                //Debug.Log("Node " + node + " isNodeLeaf ");
                 leafNode = node as INodeLeaf;
                 return true;
             }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpawner
+public class HittedIndicator : MonoBehaviour, IObserverPlayer
 {
     [SerializeField] Player player;
     [SerializeField] public RectTransform uiScreenCanvas;
@@ -11,12 +11,9 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpa
     public float widthIndicatorPos;
     public List<Indicator> hitIndicators = new List<Indicator>();
 
-    [SerializeField] PlayerSpawner playerSpawner;
-
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
+        this.player.AddObserver(this);
 
         heightIndicatorPos = uiScreenCanvas.rect.height / 4;
         widthIndicatorPos = uiScreenCanvas.rect.width / 4;
@@ -50,13 +47,6 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IObserverPlayerSpa
         Vector2 dir = new Vector2(hitDir.x, hitDir.z).normalized;
         RawImage indicate = Instantiate(hitIndicatorPrefab, uiScreenCanvas);
         hitIndicators.Add(new Indicator(this, indicate, dir, 3f));
-    }
-
-   
-    public void GetNotify(Player player)
-    {
-        this.player = player;
-        this.player.AddObserver(this);
     }
 }
 
