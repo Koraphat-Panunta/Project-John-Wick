@@ -29,6 +29,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
 
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+    public Vector3 forceSave;
 
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
@@ -342,6 +343,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public float hitedForcePush;
     [Range(0, 100)]
     public float hitedForceStop;
+
+    [Range(0, 100)]
+    public float painStateForceStop;
 
     public bool isSprintCommand { get; set; }
 
