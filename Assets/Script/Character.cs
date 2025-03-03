@@ -25,7 +25,7 @@ public abstract class Character : MonoBehaviour
     {
 
     }
-    private void Awake()
+    protected virtual void Awake()
     {
         My_environment = FindAnyObjectByType<Environment>();
 
@@ -34,6 +34,7 @@ public abstract class Character : MonoBehaviour
     {
         return HP;
     }
+    public float GetMaxHp() => maxHp;
     public void SetHP(float HP)
     {
         this.HP = HP;

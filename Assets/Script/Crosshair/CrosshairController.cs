@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour,IObserverPlayer
+public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
 {
     //[SerializeField] WeaponSocket weaponSocket;
     public RectTransform Crosshair_lineUp;
@@ -19,6 +19,9 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
 
     public CrosshairSpread CrosshairSpread { get; private set; }
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
+
+    public Vector3 pointerPos => player.transform.position;
+
     [SerializeField] public LayerMask layerMask;
 
     private void Awake()
@@ -54,6 +57,8 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
+            if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
+                gotPointingAble.NotifyPointingAble(this);
         }
         else if (Physics.Raycast(ray, out hit, 1000, 1))
         {

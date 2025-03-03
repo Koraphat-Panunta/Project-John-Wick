@@ -73,6 +73,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         enemy._posture = 0;
 
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
     }
 
@@ -103,6 +104,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
             enemy._posture = 0;
 
+            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
             enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
         }
         switch (curState)

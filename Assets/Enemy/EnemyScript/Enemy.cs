@@ -40,18 +40,17 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public bool isImortal;
     public Transform rayCastPos;
 
-    
 
-    protected override void Start()
+    protected override void Awake()
     {
-     
-        enemyFieldOfView = new FieldOfView(120, 225,rayCastPos.transform);
+        base.Awake();
+
+        enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyComunicate = new EnemyComunicate(this);
 
-        enemyMovement = new EnemyMovement(agent,this);
-
+        enemyMovement = new EnemyMovement(agent, this);
 
         MotionControlInitailized();
 
@@ -63,12 +62,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(50,70);
+        cost = Random.Range(50, 70);
         posture = 100;
 
         base.HP = 100;
+        base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
     }
+    
 
     void Update()
     {

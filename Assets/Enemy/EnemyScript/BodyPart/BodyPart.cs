@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy
+public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
 {
     [SerializeField] public Enemy enemy;
+    [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
     public abstract float hpReciverRate { get; set; }
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
@@ -119,5 +120,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
             throwAbleObjectVisitable.GotVisit(this);
         }
     }
+
+    public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
+
 
 }

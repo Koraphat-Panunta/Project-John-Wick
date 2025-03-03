@@ -11,18 +11,22 @@ public class EnemyTacticDecision : EnemyDecision
     public HoldingTacticDecision holdingTacticDecision { get; private set; }
     public TakeCoverTacticDecision takeCoverTacticDecision { get; private set; }
 
-    protected override void Start()
+    protected override void Awake()
     {
         enemy = GetComponent<Enemy>();
         enemyCommand = GetComponent<EnemyCommandAPI>();
 
-        searchingTacticDecision = new SearchingTacticDecision(enemy,this);
-        encouterTacticDecision = new EncouterTacticDecision(enemy,this);
+        searchingTacticDecision = new SearchingTacticDecision(enemy, this);
+        encouterTacticDecision = new EncouterTacticDecision(enemy, this);
         holdingTacticDecision = new HoldingTacticDecision(enemy, this);
         takeCoverTacticDecision = new TakeCoverTacticDecision(enemy, this);
 
         curTacticDecision = searchingTacticDecision;
         curTacticDecision.Enter();
+        base.Awake();
+    }
+    protected override void Start()
+    {
         base.Start();
     }
 
