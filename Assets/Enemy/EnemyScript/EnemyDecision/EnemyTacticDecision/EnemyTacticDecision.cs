@@ -10,9 +10,20 @@ public class EnemyTacticDecision : EnemyDecision
     public HoldingTacticDecision holdingTacticDecision { get; private set; }
     public TakeCoverTacticDecision takeCoverTacticDecision { get; private set; }
 
+    public enum CombatPhase
+    {
+        Chill,
+        Aware,
+        Alert
+    }
+    public CombatPhase curCombatPhase;
+    public float Pressure;
+
     protected override void Awake()
     {
         base.Awake();
+
+        curCombatPhase = CombatPhase.Chill;
 
         //searchingTacticDecision = new SearchingTacticDecision(enemy, this);
         //encouterTacticDecision = new EncouterTacticDecision(enemy, this);
@@ -73,11 +84,15 @@ public class EnemyTacticDecision : EnemyDecision
 
     protected override void OnNotifyHearding(INoiseMakingAble noiseMaker)
     {
-        Debug.Log("OnNotifyHearding");
-        if(noiseMaker is Bullet bullet)
-        {
-            if (bullet.weapon.userWeapon.userWeapon.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTarget))
-            enemy.targetKnewPos = noiseMaker.position;
-        }
+        if(curCombatPhase == CombatPhase.Alert)
+            return;
+
+        curCombatPhase = CombatPhase.Aware;
+
+    }
+
+    protected override void OnNotifySpottingTarget(GameObject target)
+    {
+        curCombatPhase = CombatPhase.Alert;
     }
 }

@@ -47,11 +47,9 @@ public class EncouterTacticDecision : TacticDecision
             return;
         }
 
-        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
-
-        switch (combatPhase)
+        switch (enemyTacticDecision.curCombatPhase)
         {
-            case CombatOffensiveInstinct.CombatPhase.FullAlert:
+            case EnemyTacticDecision.CombatPhase.Alert:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                     enemyCommand.NormalFiringPattern.Performing();
@@ -59,14 +57,7 @@ public class EncouterTacticDecision : TacticDecision
 
                 }
                 break;
-            case CombatOffensiveInstinct.CombatPhase.Alert:
-                {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
-                    enemyCommand.NormalFiringPattern.Performing();
-
-                }
-                break;
-            case CombatOffensiveInstinct.CombatPhase.SemiAlert:
+            case EnemyTacticDecision.CombatPhase.Aware:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                 }

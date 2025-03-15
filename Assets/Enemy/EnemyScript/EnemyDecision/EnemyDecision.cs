@@ -26,6 +26,7 @@ public abstract class EnemyDecision : MonoBehaviour
 
     }
     protected abstract void OnNotifyHearding(INoiseMakingAble noiseMaker);
+    protected abstract void OnNotifySpottingTarget(GameObject target);
      
     
 }

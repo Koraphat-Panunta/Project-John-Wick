@@ -47,34 +47,34 @@ public class MoveToSuspectPos : EnemyActionLeafNode
 
     public override void Update()
     {
-        Vector3 suspectPos = this.findingTarget.findingTargetComponent.suspectPos;
-        agent.SetDestination(suspectPos);
+        //Vector3 suspectPos = this.findingTarget.findingTargetComponent.suspectPos;
+        //agent.SetDestination(suspectPos);
 
-        Vector3 moveDir = agent.steeringTarget - enemy.transform.position;
+        //Vector3 moveDir = agent.steeringTarget - enemy.transform.position;
 
-        enemyController.Move(moveDir, 1);
+        //enemyController.Move(moveDir, 1);
 
-        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+        //CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
 
-        switch (combatPhase)
-        {
-            case CombatOffensiveInstinct.CombatPhase.SemiAlert: 
-                {
-                    enemyController.AimDownSight();
-                    enemyController.RotateToPosition(suspectPos, 7);
-                }
-                break;
-            case CombatOffensiveInstinct.CombatPhase.Suspect:
-                {
-                    enemyController.LowReady();
+        //switch (combatPhase)
+        //{
+        //    case CombatOffensiveInstinct.CombatPhase.SemiAlert: 
+        //        {
+        //            enemyController.AimDownSight();
+        //            enemyController.RotateToPosition(suspectPos, 7);
+        //        }
+        //        break;
+        //    case CombatOffensiveInstinct.CombatPhase.Suspect:
+        //        {
+        //            enemyController.LowReady();
 
-                    if (agent.hasPath)
-                        enemyController.RotateToPosition(agent.steeringTarget, 7);
-                    else
-                        enemyController.RotateToPosition(suspectPos, 7);
-                }
-                break;
-        }
+        //            if (agent.hasPath)
+        //                enemyController.RotateToPosition(agent.steeringTarget, 7);
+        //            else
+        //                enemyController.RotateToPosition(suspectPos, 7);
+        //        }
+        //        break;
+        //}
         
         base.Update();
     }

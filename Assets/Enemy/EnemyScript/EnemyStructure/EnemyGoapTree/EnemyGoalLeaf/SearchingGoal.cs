@@ -94,50 +94,50 @@ public class SearchingGoal : EnemyGoalLeaf
 
     protected override void InitailizedActionNode()
     {
-        startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true);
+        //startActionSelector = new EnemyActionSelectorNode(enemyController,()=>true);
 
-        moveToSuspectPos = new MoveToSuspectPos(enemyController, findingTarget,
-            () => 
-            {
-                CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
-                float distance = (findingTarget.findingTargetComponent.suspectPos - findingTarget.userObj.transform.position).magnitude;
+        //moveToSuspectPos = new MoveToSuspectPos(enemyController, findingTarget,
+        //    () => 
+        //    {
+        //        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+        //        float distance = (findingTarget.findingTargetComponent.suspectPos - findingTarget.userObj.transform.position).magnitude;
 
-                if(combatPhase == CombatOffensiveInstinct.CombatPhase.SemiAlert
-                && distance > 1.5f)
-                    return true;
+        //        if(combatPhase == CombatOffensiveInstinct.CombatPhase.SemiAlert
+        //        && distance > 1.5f)
+        //            return true;
 
-                return false;
-            }, //Precondition
-            () => 
-            {
-                CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
-                float distance = (findingTarget.findingTargetComponent.suspectPos - findingTarget.userObj.transform.position).magnitude;
+        //        return false;
+        //    }, //Precondition
+        //    () => 
+        //    {
+        //        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
+        //        float distance = (findingTarget.findingTargetComponent.suspectPos - findingTarget.userObj.transform.position).magnitude;
 
-                if(combatPhase != CombatOffensiveInstinct.CombatPhase.SemiAlert
-                || combatPhase != CombatOffensiveInstinct.CombatPhase.Suspect)
-                    return true;
+        //        if(combatPhase != CombatOffensiveInstinct.CombatPhase.SemiAlert
+        //        || combatPhase != CombatOffensiveInstinct.CombatPhase.Suspect)
+        //            return true;
 
-                if(distance < 1.5f)
-                    return true;
+        //        if(distance < 1.5f)
+        //            return true;
 
-                return false;
-            } //Reset
-            );
+        //        return false;
+        //    } //Reset
+        //    );
 
-        idle_And_LowReady = new Idle_and_LowReady(enemyController,
-            () => true, //Precondition
-            () =>
-            {
-                idleSeachTime += Time.deltaTime;
+        //idle_And_LowReady = new Idle_and_LowReady(enemyController,
+        //    () => true, //Precondition
+        //    () =>
+        //    {
+        //        idleSeachTime += Time.deltaTime;
 
-                if(idleSeachTime > 3)
-                    return true;
+        //        if(idleSeachTime > 3)
+        //            return true;
 
-                return false;
-            } //Reset
-            );
+        //        return false;
+        //    } //Reset
+        //    );
 
-        startActionSelector.AddChildNode(moveToSuspectPos);
-        startActionSelector.AddChildNode(idle_And_LowReady);
+        //startActionSelector.AddChildNode(moveToSuspectPos);
+        //startActionSelector.AddChildNode(idle_And_LowReady);
     }
 }

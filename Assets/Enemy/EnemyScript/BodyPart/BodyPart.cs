@@ -72,16 +72,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
     }
 
-
-
-    protected void HitsensingTarget(Vector3 hitPart)
-    {
-        if (enemy.fieldOfView.FindSingleObjectInView(enemy.targetMask, (new Vector3(hitPart.x, 0, hitPart.z) - enemy.transform.position).normalized, 120, out GameObject targetObj))
-        {
-            enemy.targetKnewPos = targetObj.transform.position;
-        }
-    }
-
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
     public INodeLeaf curNodeLeaf { get => ((IGunFuGotAttackedAble)enemy).curNodeLeaf; set => ((IGunFuGotAttackedAble)enemy).curNodeLeaf = value; }

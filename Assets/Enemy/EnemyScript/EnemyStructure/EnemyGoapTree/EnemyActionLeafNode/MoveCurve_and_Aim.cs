@@ -20,7 +20,6 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
     {
         costDrainRate = UnityEngine.Random.Range(9, 15);
         path.ResetPath();
-        path.GenaratePath(enemy.transform.position, enemy.targetKnewPos);
         base.Enter();
     }
 
@@ -57,8 +56,6 @@ public class MoveCurve_and_Aim : EnemyActionLeafNode
 
         enemyController.AimDownSight();
 
-
-        enemyController.RotateToPosition(enemy.targetKnewPos, 7);
 
         //if(path._markPoint.Count <= 0)
         //    return;

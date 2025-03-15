@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
-    ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
+     IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
     IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
     IFriendlyFirePreventing,IThrowAbleObjectVisitable
@@ -20,6 +20,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public MultiRotationConstraint rotationConstraint;
 
     public LayerMask targetMask;
+    public LayerMask targetSpoterMask;
     public FieldOfView enemyFieldOfView;
 
     public EnemyGetShootDirection enemyGetShootDirection;
@@ -28,7 +29,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyStateManagerNode enemyStateManagerNode;
 
 
-    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+
+
     public Vector3 forceSave;
 
     public readonly float maxCost = 100;
@@ -56,7 +58,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         MotionControlInitailized();
 
         Initialized_IWeaponAdvanceUser();
-        InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
@@ -102,11 +103,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         {
             NotifyObserver(this, EnemyEvent.Dead);
         }
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetKnewPos, 0.5f);
     }
 
     private void BlackBoardUpdate()
@@ -202,29 +198,22 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     #endregion
 
-    #region InitailizedCombatInstinct
-    public CombatOffensiveInstinct combatOffensiveInstinct { get; set ; }
-    public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
-    public GameObject objInstict { get ; set ; }
-    public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
-
-    public void InitailizedCombatOffensiveInstinct()
-    {
-        objInstict = gameObject;
-        //combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment,this);
-    }
-    #endregion
-
     #region InitailizedFindingTarget
-    public GameObject userObj { get => gameObject; }
-    FieldOfView IFindingTarget.fieldOfView { get => this.enemyFieldOfView; set => this.enemyFieldOfView = value; }
-    LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
+   
     public FindingTarget findingTargetComponent { get ; set; }
-    public Vector3 targetKnewPos { get ; set ; }
+    public Vector3 targetKnewPos;
+    public Action<GameObject> EnemySpottingTarget;
     public void InitailizedFindingTarget()
     {
-        findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
+        findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
+        findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
     }
+    private void EnemySpotingTarget(GameObject target)
+    {
+        targetKnewPos = target.transform.position;
+        EnemySpottingTarget.Invoke(target);
+    }
+
     #endregion
 
     #region InitailizedCoverUsable
@@ -238,7 +227,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public void InitailizedCoverUsable()
     {
         userCover = this;
-        findingCover = new FindingCover(this, this);
+        findingCover = new EnemyFindCover(this, this,this);
     }
 
 
@@ -362,6 +351,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
 
     #endregion
+    #region IBulletDamageAble
+    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+    public Action<IDamageVisitor> OnGotAttack;
+    #endregion
 
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set ; }
@@ -393,8 +386,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-
-
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");
