@@ -1264,6 +1264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83cd06931a11b14fa2941ded1988487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  curCombatPhase: 0
+  Pressure: 0
 --- !u!114 &8785008869752914700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1289,13 +1292,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c4a03aa701892e45b5ebd0265d3289b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  My_environment: {fileID: 0}
   animator: {fileID: 1113618680042977909}
   intelligent: 0
   strength: 0
   agent: {fileID: 7890612989017240957}
   rotationConstraint: {fileID: 0}
   targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  targetSpoterMask:
     serializedVersion: 2
     m_Bits: 256
   forceSave: {x: 0, y: 0, z: 0}
@@ -1317,6 +1322,7 @@ MonoBehaviour:
   right_lowerArm: {fileID: 6083549487981505093}
   left_upperArm: {fileID: 7774858114036349903}
   left_lowerArm: {fileID: 3123049879012078643}
+  targetKnewPos: {x: 0, y: 0, z: 0}
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
   lookRotationCommand: {x: 0, y: 0, z: 0}

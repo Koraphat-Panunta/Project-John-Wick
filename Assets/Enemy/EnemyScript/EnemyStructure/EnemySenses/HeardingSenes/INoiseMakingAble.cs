@@ -16,17 +16,13 @@ public class NoiseMakingBehavior
     {
         Collider[] target = Physics.OverlapSphere(noiseMakingAble.position, raduis, layerMask);
 
-        Debug.Log("VisitAllHeardingAbleInRaduis target = " + target.Length);
-
         if(target.Length <=0)
             return;
 
         for (int i = 0; i < target.Length; i++) 
         {
-            Debug.Log("Notify Got hearding Overlap " + target[i]);
             if (target[i].gameObject.TryGetComponent<IHeardingAble>(out IHeardingAble heardingAble))
             {
-                Debug.Log("Notify Got hearding " + heardingAble);
                 heardingAble.GotHearding(this.noiseMakingAble);
             }
         }

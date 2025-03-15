@@ -31,32 +31,46 @@ public class SearchingTacticDecision : TacticDecision,IObserverEnemy
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.HeardingGunShoot)
-            enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
+       
     }
 
     public override void Update()
     {
-        if (enemy.findingTargetComponent.isSpottingTarget)
+        switch (enemyTacticDecision.curCombatPhase)
         {
-            enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
-            return;
+            case EnemyTacticDecision.CombatPhase.Chill: 
+                {
+                    if (enemyCommand.MoveToPosition(searchingPos, 1, true))
+                    {
+                        enemyCommand.Freez();
+
+                        if (waitTime > 0)
+                            waitTime -= Time.deltaTime;
+
+                        if (waitTime <= 0)
+                        {
+                            searchingPos = RandomPosInNavmesh();
+                            waitTime = 3;
+                        }
+
+                    }
+                    enemyCommand.LowReady();
+                }
+                break;
+            case EnemyTacticDecision.CombatPhase.Aware: 
+                {
+                    enemyCommand.MoveToPosition(enemy.targetKnewPos, 1, true);
+                    enemyCommand.LowReady();
+                }
+                break;
+            case EnemyTacticDecision.CombatPhase.Alert: 
+                {
+                    enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
+                }
+                break;
         }
-        if (enemyCommand.MoveToPosition(searchingPos, 1, true))
-        {
-            enemyCommand.Freez();
 
-            if (waitTime > 0)
-                waitTime -= Time.deltaTime;
-
-            if (waitTime <= 0)
-            {
-                searchingPos = RandomPosInNavmesh();
-                waitTime = 3;
-            }
-
-        }
-        enemyCommand.LowReady();
+       
     }
 
     private Vector3 RandomPosInNavmesh()

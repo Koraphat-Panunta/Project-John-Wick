@@ -202,7 +202,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
    
     public FindingTarget findingTargetComponent { get ; set; }
     public Vector3 targetKnewPos;
-    public Action<GameObject> EnemySpottingTarget;
+    public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
     {
         findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
@@ -211,7 +211,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     private void EnemySpotingTarget(GameObject target)
     {
         targetKnewPos = target.transform.position;
-        EnemySpottingTarget.Invoke(target);
+        if (NotifyEnemySpottingTarget != null) 
+        NotifyEnemySpottingTarget.Invoke(target);
     }
 
     #endregion
@@ -238,10 +239,15 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Action<INoiseMakingAble> NotifyGotHearing { get; set ; }
     public void GotHearding(INoiseMakingAble noiseMakingAble)
     {
-        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-        NotifyGotHearing(noiseMakingAble);
-        Debug.Log("Enemy GotHearding");
+        if(noiseMakingAble is Bullet bullet
+            && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+        {
+            targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
+        }
 
+        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+        if(NotifyGotHearing != null)
+        NotifyGotHearing(noiseMakingAble);
     }
 
     #endregion 
@@ -351,6 +357,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
 
     #endregion
+
     #region IBulletDamageAble
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
     public Action<IDamageVisitor> OnGotAttack;
@@ -419,12 +426,16 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         return Direction;
     }
 
-    
+
 
 
 
     #endregion
 
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
+    }
 
 }

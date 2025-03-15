@@ -25,13 +25,13 @@ public class EnemyTacticDecision : EnemyDecision
 
         curCombatPhase = CombatPhase.Chill;
 
-        //searchingTacticDecision = new SearchingTacticDecision(enemy, this);
-        //encouterTacticDecision = new EncouterTacticDecision(enemy, this);
-        //holdingTacticDecision = new HoldingTacticDecision(enemy, this);
-        //takeCoverTacticDecision = new TakeCoverTacticDecision(enemy, this);
+        searchingTacticDecision = new SearchingTacticDecision(enemy, this);
+        encouterTacticDecision = new EncouterTacticDecision(enemy, this);
+        holdingTacticDecision = new HoldingTacticDecision(enemy, this);
+        takeCoverTacticDecision = new TakeCoverTacticDecision(enemy, this);
 
-        //curTacticDecision = searchingTacticDecision;
-        //curTacticDecision.Enter();
+        curTacticDecision = searchingTacticDecision;
+        curTacticDecision.Enter();
 
     }
     protected override void Start()
@@ -41,15 +41,15 @@ public class EnemyTacticDecision : EnemyDecision
 
     protected override void Update()
     {
-        //if(curTacticDecision!=null)
-        //    curTacticDecision.Update();
+        if (curTacticDecision != null)
+            curTacticDecision.Update();
         base .Update();
     }
 
     protected override void FixedUpdate()
     {
-        //if(curTacticDecision!=null)
-        //    curTacticDecision.FixedUpdate();
+        if (curTacticDecision != null)
+            curTacticDecision.FixedUpdate();
         base.FixedUpdate();
     }
 

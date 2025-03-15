@@ -10,6 +10,7 @@ public abstract class EnemyDecision : MonoBehaviour
         enemyCommand = GetComponent<EnemyCommandAPI>();
         this.enemy = GetComponent<Enemy>();
         this.enemy.NotifyGotHearing += OnNotifyHearding;
+        this.enemy.NotifyEnemySpottingTarget += OnNotifySpottingTarget;
     }
     protected virtual void Start()
     {

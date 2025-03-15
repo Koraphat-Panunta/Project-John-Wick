@@ -48,7 +48,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 
             case CoverPointTallDoubleSide coverPointTallDouble:
                 {
-                    if (coverUseable.coverPoint.CheckingTargetInCoverView(coverUseable, enemy.targetLayer, coverPointTallDouble.peekPosL, out GameObject target))
+                    if (coverUseable.coverPoint.CheckingTargetInCoverView(coverUseable, enemy.targetSpoterMask, coverPointTallDouble.peekPosL, out GameObject target))
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosL);
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
