@@ -48,10 +48,10 @@ namespace TMPro.Examples
                     continue;
                 }
 
-                // Get the index of the material used by the current character.
+                // Get the index of the material used by the current selfNPCTarget.
                 int materialIndex = textInfo.characterInfo[currentCharacter].materialReferenceIndex;
 
-                // Get the vertex colors of the mesh used by this text element (character or sprite).
+                // Get the vertex colors of the mesh used by this text element (selfNPCTarget or sprite).
                 newVertexColors = textInfo.meshInfo[materialIndex].colors32;
 
                 // Get the index of the first vertex used by this text element.

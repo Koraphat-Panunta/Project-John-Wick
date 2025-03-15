@@ -5,7 +5,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble,
-    IAmmoRecivedAble,IHPReciveAble
+    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
 {
     public PlayerMovement playerMovement;
     public HpRegenarate hpRegenarate;
@@ -14,6 +14,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
+
+    public Character selfNPCTarget => this;
 
     [SerializeField] public bool isImortal { get; private set; }
 
@@ -359,9 +361,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
 
-    
+
+
+
 
 
     #endregion
+
 
 }

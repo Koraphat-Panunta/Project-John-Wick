@@ -97,23 +97,23 @@ namespace TMPro.Examples
                 {
                     m_lastIndex = charIndex;
 
-                    // Get the index of the material / sub text object used by this character.
+                    // Get the index of the material / sub text object used by this selfNPCTarget.
                     int materialIndex = m_TextMeshPro.textInfo.characterInfo[charIndex].materialReferenceIndex;
 
-                    // Get the index of the first vertex of the selected character.
+                    // Get the index of the first vertex of the selected selfNPCTarget.
                     int vertexIndex = m_TextMeshPro.textInfo.characterInfo[charIndex].vertexIndex;
 
                     // Get a reference to the vertices array.
                     Vector3[] vertices = m_TextMeshPro.textInfo.meshInfo[materialIndex].vertices;
 
-                    // Determine the center point of the character.
+                    // Determine the center point of the selfNPCTarget.
                     Vector2 charMidBasline = (vertices[vertexIndex + 0] + vertices[vertexIndex + 2]) / 2;
 
-                    // Need to translate all 4 vertices of the character to aligned with middle of character / baseline.
-                    // This is needed so the matrix TRS is applied at the origin for each character.
+                    // Need to translate all 4 vertices of the selfNPCTarget to aligned with middle of selfNPCTarget / baseline.
+                    // This is needed so the matrix TRS is applied at the origin for each selfNPCTarget.
                     Vector3 offset = charMidBasline;
 
-                    // Translate the character to the middle baseline.
+                    // Translate the selfNPCTarget to the middle baseline.
                     vertices[vertexIndex + 0] = vertices[vertexIndex + 0] - offset;
                     vertices[vertexIndex + 1] = vertices[vertexIndex + 1] - offset;
                     vertices[vertexIndex + 2] = vertices[vertexIndex + 2] - offset;
@@ -124,19 +124,19 @@ namespace TMPro.Examples
                     // Setup the Matrix for the scale change.
                     m_matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one * zoomFactor);
 
-                    // Apply Matrix operation on the given character.
+                    // Apply Matrix operation on the given selfNPCTarget.
                     vertices[vertexIndex + 0] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 0]);
                     vertices[vertexIndex + 1] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 1]);
                     vertices[vertexIndex + 2] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 2]);
                     vertices[vertexIndex + 3] = m_matrix.MultiplyPoint3x4(vertices[vertexIndex + 3]);
 
-                    // Translate the character back to its original position.
+                    // Translate the selfNPCTarget back to its original position.
                     vertices[vertexIndex + 0] = vertices[vertexIndex + 0] + offset;
                     vertices[vertexIndex + 1] = vertices[vertexIndex + 1] + offset;
                     vertices[vertexIndex + 2] = vertices[vertexIndex + 2] + offset;
                     vertices[vertexIndex + 3] = vertices[vertexIndex + 3] + offset;
 
-                    // Change Vertex Colors of the highlighted character
+                    // Change Vertex Colors of the highlighted selfNPCTarget
                     Color32 c = new Color32(255, 255, 192, 255);
 
                     // Get a reference to the vertex color
@@ -148,14 +148,14 @@ namespace TMPro.Examples
                     vertexColors[vertexIndex + 3] = c;
 
 
-                    // Get a reference to the meshInfo of the selected character.
+                    // Get a reference to the meshInfo of the selected selfNPCTarget.
                     TMP_MeshInfo meshInfo = m_TextMeshPro.textInfo.meshInfo[materialIndex];
 
-                    // Get the index of the last character's vertex attributes.
+                    // Get the index of the last selfNPCTarget's vertex attributes.
                     int lastVertexIndex = vertices.Length - 4;
 
-                    // Swap the current character's vertex attributes with those of the last element in the vertex attribute arrays.
-                    // We do this to make sure this character is rendered last and over other targetEliminationQuest.
+                    // Swap the current selfNPCTarget's vertex attributes with those of the last element in the vertex attribute arrays.
+                    // We do this to make sure this selfNPCTarget is rendered last and over other targetEliminationQuest.
                     meshInfo.SwapVertexData(vertexIndex, lastVertexIndex);
 
                     // Need to update the appropriate
@@ -178,10 +178,10 @@ namespace TMPro.Examples
                     {
                         int characterIndex = wInfo.firstCharacterIndex + i;
 
-                        // Get the index of the material / sub text object used by this character.
+                        // Get the index of the material / sub text object used by this selfNPCTarget.
                         int meshIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].materialReferenceIndex;
 
-                        // Get the index of the first vertex of this character.
+                        // Get the index of the first vertex of this selfNPCTarget.
                         int vertexIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].vertexIndex;
 
                         // Get a reference to the vertex color
@@ -214,7 +214,7 @@ namespace TMPro.Examples
                     {
                         int characterIndex = wInfo.firstCharacterIndex + i;
 
-                        // Get the index of the material / sub text object used by this character.
+                        // Get the index of the material / sub text object used by this selfNPCTarget.
                         int meshIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].materialReferenceIndex;
 
                         int vertexIndex = m_TextMeshPro.textInfo.characterInfo[characterIndex].vertexIndex;
@@ -279,7 +279,7 @@ namespace TMPro.Examples
             }
             else
             {
-                // Restore any character that may have been modified
+                // Restore any selfNPCTarget that may have been modified
                 if (m_lastIndex != -1)
                 {
                     RestoreCachedVertexAttributes(m_lastIndex);
@@ -314,7 +314,7 @@ namespace TMPro.Examples
             int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, m_Camera, true);
             if (charIndex != -1 && charIndex != m_lastIndex)
             {
-                //Debug.Log("Character [" + m_TextMeshPro.textInfo.characterInfo[index].character + "] was selected at POS: " + eventData.position);
+                //Debug.Log("Character [" + m_TextMeshPro.textInfo.characterInfo[index].selfNPCTarget + "] was selected at POS: " + eventData.position);
                 m_lastIndex = charIndex;
 
                 Color32 c = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
@@ -457,10 +457,10 @@ namespace TMPro.Examples
         {
             if (index == -1 || index > m_TextMeshPro.textInfo.characterCount - 1) return;
 
-            // Get the index of the material / sub text object used by this character.
+            // Get the index of the material / sub text object used by this selfNPCTarget.
             int materialIndex = m_TextMeshPro.textInfo.characterInfo[index].materialReferenceIndex;
 
-            // Get the index of the first vertex of the selected character.
+            // Get the index of the first vertex of the selected selfNPCTarget.
             int vertexIndex = m_TextMeshPro.textInfo.characterInfo[index].vertexIndex;
 
             // Restore Vertices

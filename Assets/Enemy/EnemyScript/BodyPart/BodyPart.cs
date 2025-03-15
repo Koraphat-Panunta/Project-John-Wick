@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
+public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, 
+    IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;

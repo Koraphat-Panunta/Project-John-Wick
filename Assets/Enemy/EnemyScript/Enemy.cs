@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
-    IHearingComponent, IPatrolComponent,
+    IHeardingAble, IPatrolComponent,
     IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
     IFriendlyFirePreventing,IThrowAbleObjectVisitable
 {
@@ -20,7 +21,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public LayerMask targetMask;
     public FieldOfView enemyFieldOfView;
-
 
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyComunicate enemyComunicate;
@@ -59,11 +59,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
-        InitailizedHearingComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
         new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(50, 70);
+        cost = UnityEngine.Random.Range(50, 70);
         posture = 100;
 
         base.HP = 100;
@@ -76,7 +75,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
-        combatOffensiveInstinct.UpdateSening();
+        //combatOffensiveInstinct.UpdateSening();
 
         enemyStateManagerNode.UpdateNode();
         weaponManuverManager.UpdateNode();
@@ -106,7 +105,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void OnDrawGizmos()
     {
-       
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(targetKnewPos, 0.5f);
     }
@@ -213,7 +211,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public void InitailizedCombatOffensiveInstinct()
     {
         objInstict = gameObject;
-        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment,this);
+        //combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment,this);
     }
     #endregion
 
@@ -247,66 +245,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion
 
     #region InitailizedHearingComponent
-    public GameObject userHearing { get ; set ; }
-    public Environment environment { get => My_environment ; }
-    public HearingSensing hearingSensing { get; set; }
-   
 
-    public void InitailizedHearingComponent()
+    public Action<INoiseMakingAble> NotifyGotHearing { get; set ; }
+    public void GotHearding(INoiseMakingAble noiseMakingAble)
     {
-        userHearing = gameObject;
-        hearingSensing = new HearingSensing(this, this.environment, 50);
-    }
-    public void GotHearding(GameObject souceSound)
-    {
-        
-        if (souceSound.TryGetComponent<Player>(out Player player) == false) 
-        return;
-
-        if(Vector3.Distance(souceSound.transform.position,transform.position)>10)
-            return;
-
-        if(Vector3.Distance(souceSound.transform.position, transform.position) < 5)
-        {
-            NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-
-            targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-            if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-                || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
-            {
-                combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
-            }
-            return;
-        }
-        if (Vector3.Distance(souceSound.transform.position, transform.position) < 10)
-        {
-            Ray ray = new Ray(transform.position
-                ,(souceSound.transform.position-transform.position).normalized);
-
-            if (Physics.Raycast(ray,out RaycastHit hitInfo, 1000, 0))
-            {
-                if(hitInfo.collider.gameObject != souceSound)
-                    return;
-
-                NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-
-                targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-                if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-                    || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
-                {
-                    combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
-                }
-                return;
-
-            }
-          
-        }
-
-
-
-
+        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+        NotifyGotHearing(noiseMakingAble);
+        Debug.Log("Enemy GotHearding");
 
     }
 
@@ -448,7 +393,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-    
+
 
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {

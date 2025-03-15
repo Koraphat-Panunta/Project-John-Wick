@@ -26,6 +26,8 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
     protected float stepHeight => proceduralAnimateNodeManager.StepHeight;
     protected float stepSpeed => proceduralAnimateNodeManager.StepVelocity;
 
+    private float transitionVelocity = 3;
+
     protected Enemy enemy => proceduralAnimateNodeManager.enemy;
     protected EnemyProceduralAnimateNodeManager proceduralAnimateNodeManager;
 
@@ -92,7 +94,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
         if (curPhase == Phase.TransitionIn)
         {
             weight = transitionInElapesTime/transitionInDuration;
-            transitionInElapesTime += Time.deltaTime;
+            transitionInElapesTime += Time.deltaTime*this.transitionVelocity;
 
             leftLeg.weight = weight;
             rightLeg.weight = weight;
@@ -176,7 +178,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
         {
             if(curPhase != Phase.TransitionOut)
                 break;
-            weight -= Time.deltaTime;
+            weight -= Time.deltaTime* transitionVelocity;
             leftLeg.weight = weight;
             rightLeg.weight = weight;
             yield return null;

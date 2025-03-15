@@ -39,7 +39,7 @@ public class MotionWarpingByNavmeshAgent : IMovementMotionWarping
             // Compute position along the cubic Bézier curve using the smoothed parameter
             Vector3 position = CalculateBezierPoint(smoothedT, start, cT1, cT2, exit);
 
-            // Move the character to the computed position
+            // Move the selfNPCTarget to the computed position
             Vector3 delta = position - agent.transform.position;
             agent.Move(delta);
 
@@ -49,7 +49,7 @@ public class MotionWarpingByNavmeshAgent : IMovementMotionWarping
             yield return null; // Wait for the next frame
         }
 
-        // Ensure the character reaches the final exit position
+        // Ensure the selfNPCTarget reaches the final exit position
         Vector3 finalPosition = CalculateBezierPoint(1f, start, cT1, cT2, exit);
         Vector3 finalDelta = finalPosition - agent.transform.position;
         agent.Move(finalDelta);

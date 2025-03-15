@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadBodyPart : BodyPart
+public class HeadBodyPart : BodyPart,IHeardingAble
 {
     public override float hpReciverRate { get; set; }
     public override float postureReciverRate { get; set; }
+  
 
     protected override void Start()
     {
@@ -39,4 +41,8 @@ public class HeadBodyPart : BodyPart
 
         base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
+
+    public Action<INoiseMakingAble> NotifyGotHearing { get => enemy.NotifyGotHearing; set => enemy.NotifyGotHearing = value; }
+    public void GotHearding(INoiseMakingAble noiseMaker) => enemy.GotHearding(noiseMaker);
+   
 }

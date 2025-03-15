@@ -988,7 +988,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1046c632cb273049831c79840123d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  My_environment: {fileID: 0}
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
@@ -1449,6 +1448,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6439970372163143414}
+    - targetCorrespondingSourceObject: {fileID: 4694104924606252739, guid: 62d68a04d0ca8764c902f6519610a634,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8178470119680532309}
   m_SourcePrefab: {fileID: 100100000, guid: 62d68a04d0ca8764c902f6519610a634, type: 3}
 --- !u!4 &2924356794520634210 stripped
 Transform:
@@ -1489,6 +1492,19 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 7740045742235704538}
     weight: 1
+--- !u!114 &8178470119680532309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7579868541994068701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641d9f248d5d85e40be820aa1052e539, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3508049754622093220}
 --- !u!1001 &3314892683056400800
 PrefabInstance:
   m_ObjectHideFlags: 0

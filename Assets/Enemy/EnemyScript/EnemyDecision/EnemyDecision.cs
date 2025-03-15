@@ -1,13 +1,15 @@
 using UnityEngine;
 [RequireComponent(typeof(EnemyCommandAPI))]
+[RequireComponent(typeof(Enemy))]
 public abstract class EnemyDecision : MonoBehaviour
 {
     public abstract EnemyCommandAPI enemyCommand { get; set; }
-    public abstract Enemy enemy { get; set; }
+    public Enemy enemy;
     protected virtual void Awake()
     {
         enemyCommand = GetComponent<EnemyCommandAPI>();
-        this.enemy = enemyCommand._enemy;
+        this.enemy = GetComponent<Enemy>();
+        this.enemy.NotifyGotHearing += OnNotifyHearding;
     }
     protected virtual void Start()
     {
@@ -23,4 +25,7 @@ public abstract class EnemyDecision : MonoBehaviour
     {
 
     }
+    protected abstract void OnNotifyHearding(INoiseMakingAble noiseMaker);
+     
+    
 }

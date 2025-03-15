@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Bullet:IDamageVisitor
+public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 {
     public abstract float hpDamage { get; set; }
     public abstract float impactDamage { get; set; }
@@ -14,20 +14,27 @@ public abstract class Bullet:IDamageVisitor
     protected LayerMask hitLayer;
     protected const float MAX_DISTANCE = 1000;
     public abstract BulletType myType { get; set; } 
-    protected Weapon weapon { get; set; }
+    public Weapon weapon { get; protected set; }
+    public Vector3 position { get => weapon.bulletSpawnerPos.position; set { } }
+    public NoiseMakingBehavior noiseMakingBehavior { get ; set ; }
 
     public Bullet(Weapon weapon)
     {
         bulletHitForce = 60;
         this.weapon = weapon;
+        noiseMakingBehavior = new NoiseMakingBehavior(this);
     }
     public virtual Vector3 Shoot(Vector3 spawnerPosition,Vector3 pointPos)
     {
+
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("Enemy");
         int PlayerHitMask = LayerMask.GetMask("Player");
         int GroundHitMask = LayerMask.GetMask("Ground");
         hitLayer = DefaultMask + BodyPartMask + PlayerHitMask+ GroundHitMask;
+
+        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(35,BodyPartMask);
+
         // Calculate and apply impulse force
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;

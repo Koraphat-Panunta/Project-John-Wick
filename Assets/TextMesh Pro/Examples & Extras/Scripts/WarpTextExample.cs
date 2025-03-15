@@ -91,12 +91,12 @@ namespace TMPro.Examples
 
                     int vertexIndex = textInfo.characterInfo[i].vertexIndex;
 
-                    // Get the index of the mesh used by this character.
+                    // Get the index of the mesh used by this selfNPCTarget.
                     int materialIndex = textInfo.characterInfo[i].materialReferenceIndex;
 
                     vertices = textInfo.meshInfo[materialIndex].vertices;
 
-                    // Compute the baseline mid point for each character
+                    // Compute the baseline mid point for each selfNPCTarget
                     Vector3 offsetToMidBaseline = new Vector2((vertices[vertexIndex + 0].x + vertices[vertexIndex + 2].x) / 2, textInfo.characterInfo[i].baseLine);
                     //float offsetY = VertexCurve.Evaluate((float)i / characterCount + loopCount / 50f); // Random.Range(-0.25f, 0.25f);
 
@@ -106,7 +106,7 @@ namespace TMPro.Examples
                     vertices[vertexIndex + 2] += -offsetToMidBaseline;
                     vertices[vertexIndex + 3] += -offsetToMidBaseline;
 
-                    // Compute the angle of rotation for each character based on the animation curve
+                    // Compute the angle of rotation for each selfNPCTarget based on the animation curve
                     float x0 = (offsetToMidBaseline.x - boundsMinX) / (boundsMaxX - boundsMinX); // Character's position relative to the bounds of the mesh.
                     float x1 = x0 + 0.0001f;
                     float y0 = VertexCurve.Evaluate(x0) * CurveScale;
