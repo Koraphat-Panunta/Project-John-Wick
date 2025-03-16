@@ -20,17 +20,13 @@ public class EnemyCommandAPI :MonoBehaviour
     //public bool TriigerPainLeg;
     //public bool TriggerPainBody;
     public Enemy _enemy;
+    private EnemyCommunicator enemyCommunicator;
 
-    private void Start()
+    private void Awake()
     {
         this._enemy = GetComponent<Enemy>();
         NormalFiringPattern = new NormalFiringPattern(this);
-    }
-
-    public void Update()
-    {
-       
-
+        enemyCommunicator = new EnemyCommunicator(_enemy);
     }
 
     #region Testing
@@ -404,7 +400,7 @@ public class EnemyCommandAPI :MonoBehaviour
         weaponAdvanceUser.isReloadCommand = true;
     }
 
-
+    public void NotifyFriendly(float r,EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage)=>enemyCommunicator.SendCommunicate(this._enemy.transform.position,r,_enemy.gameObject.layer, enemyCommunicateMassage);
 
   
 }

@@ -53,7 +53,6 @@ public class EncouterTacticDecision : TacticDecision
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                     enemyCommand.NormalFiringPattern.Performing();
-                    enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
 
                 }
                 break;

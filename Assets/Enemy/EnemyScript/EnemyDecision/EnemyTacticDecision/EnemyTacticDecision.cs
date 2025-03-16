@@ -22,6 +22,7 @@ public class EnemyTacticDecision : EnemyDecision
     protected override void Awake()
     {
         base.Awake();
+        enemy.NotifyCommunicate += OnNotifyGetCommunicate;
 
         curCombatPhase = CombatPhase.Chill;
 
@@ -65,28 +66,13 @@ public class EnemyTacticDecision : EnemyDecision
 
     private void OnDrawGizmos()
     {
-        //if (Application.isPlaying == false)
-        //    return;
-        //if(enabled == false)
-        //    return ;
-
-        //if(curTacticDecision != encouterTacticDecision)
-        //    return ;
-        //for(int i =0;i < encouterTacticDecision.curvePath._markPoint.Count; i++)
-        //{
-        //    Gizmos.color = Color.yellow;
-        //    Gizmos.DrawSphere(encouterTacticDecision.curvePath._markPoint[i], 0.05f);
-
-        //    if (i > 0)
-        //        Gizmos.DrawLine(encouterTacticDecision.curvePath._markPoint[i - 1], encouterTacticDecision.curvePath._markPoint[i]);
-        //}
+       
     }
 
     protected override void OnNotifyHearding(INoiseMakingAble noiseMaker)
     {
         if(curCombatPhase == CombatPhase.Alert)
             return;
-
         curCombatPhase = CombatPhase.Aware;
 
     }
@@ -94,5 +80,22 @@ public class EnemyTacticDecision : EnemyDecision
     protected override void OnNotifySpottingTarget(GameObject target)
     {
         curCombatPhase = CombatPhase.Alert;
+        enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
+    }
+    private void OnNotifyGetCommunicate(Communicator communicator)
+    {
+        if (communicator is EnemyCommunicator enemyCommunicator == false)
+            return;
+
+        switch (enemyCommunicator.enemyCommunicateMassage)
+        {
+            case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
+                {
+                    if (curCombatPhase == CombatPhase.Alert)
+                        return;
+                    curCombatPhase = CombatPhase.Aware;
+                }
+                break;
+        }
     }
 }

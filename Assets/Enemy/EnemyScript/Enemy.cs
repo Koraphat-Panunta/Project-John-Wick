@@ -8,8 +8,9 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
-    IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
-    IFriendlyFirePreventing,IThrowAbleObjectVisitable
+    IPainStateAble,IFallDownGetUpAble,
+    IGunFuGotAttackedAble,IFriendlyFirePreventing,
+    IThrowAbleObjectVisitable,ICommunicateAble
 {
     [Range(0,100)]
     public float intelligent;
@@ -24,7 +25,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public FieldOfView enemyFieldOfView;
 
     public EnemyGetShootDirection enemyGetShootDirection;
-    public EnemyComunicate enemyComunicate;
     public IMovementCompoent enemyMovement;
     public EnemyStateManagerNode enemyStateManagerNode;
 
@@ -50,8 +50,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
-
-        enemyComunicate = new EnemyComunicate(this);
 
         enemyMovement = new EnemyMovement(agent, this);
 
@@ -250,7 +248,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         NotifyGotHearing(noiseMakingAble);
     }
 
-    #endregion 
+    #endregion
+    #region ImplementCommunicateAble
+
+    public Action<Communicator> NotifyCommunicate { get ; set ; }
+    public GameObject communicateAble => gameObject;
+    public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
+    {
+        if (NotifyCommunicate == null)
+            NotifyCommunicate.Invoke(typeCommunicator);
+    }
+
+    #endregion
 
     #region InitailizedMovementComponent
     public Vector3 moveInputVelocity_WorldCommand;
@@ -393,6 +402,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");
@@ -438,4 +448,5 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
     }
 
+    
 }

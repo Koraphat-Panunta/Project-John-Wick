@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadBodyPart : BodyPart,IHeardingAble
+public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble
 {
     public override float hpReciverRate { get; set; }
     public override float postureReciverRate { get; set; }
@@ -41,7 +41,17 @@ public class HeadBodyPart : BodyPart,IHeardingAble
         base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
 
+    #region ImplementCommunicate
+    public GameObject communicateAble => enemy.communicateAble;
+    public Action<Communicator> NotifyCommunicate { get => enemy.NotifyCommunicate; set => enemy.NotifyCommunicate = value; }
+    public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator => enemy.GetCommunicate(typeCommunicator);
+    #endregion
+
+    #region ImplementGotHearding
     public Action<INoiseMakingAble> NotifyGotHearing { get => enemy.NotifyGotHearing; set => enemy.NotifyGotHearing = value; }
     public void GotHearding(INoiseMakingAble noiseMaker) => enemy.GotHearding(noiseMaker);
-   
+    #endregion
+
+
+
 }

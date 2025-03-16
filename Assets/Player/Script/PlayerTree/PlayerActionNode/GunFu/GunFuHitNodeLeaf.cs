@@ -32,7 +32,6 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     {
         this.attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
         targetEnterPos = attackedAbleGunFu._gunFuHitedAble.position;
-        Debug.Log("targetEnterPos = "+ targetEnterPos);
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
