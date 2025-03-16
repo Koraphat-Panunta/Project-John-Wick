@@ -1,8 +1,14 @@
 using UnityEngine;
 
-public class EnemyRoleBasedDecision : EnemyDecision
+public abstract class EnemyRoleBasedDecision : EnemyDecision,INodeManager
 {
     public override EnemyCommandAPI enemyCommand { get ; set ; }
+
+    public abstract INodeLeaf curNodeLeaf { get; set ; }
+    public abstract INodeSelector startNodeSelector { get ; set ; }
+    public abstract NodeManagerBehavior nodeManagerBehavior { get; set; }
+
+
     public enum CombatPhase
     {
         Chill,
@@ -14,10 +20,14 @@ public class EnemyRoleBasedDecision : EnemyDecision
 
     protected override void Awake()
     {
+        base.Awake();
+
+        enemy.NotifyCommunicate += OnNotifyGetCommunicate;
         enemyCommand = GetComponent<EnemyCommandAPI>();
         curCombatPhase = CombatPhase.Chill;
         pressure = 0;
-        base.Awake();
+
+        InitailizedNode();
     }
 
     protected override void Start()
@@ -26,10 +36,12 @@ public class EnemyRoleBasedDecision : EnemyDecision
     }
     protected override void Update()
     {
+        UpdateNode();
         base.Update();
     }
     protected override void FixedUpdate()
     {
+        FixedUpdateNode();  
         base.FixedUpdate();
     }
 
@@ -45,4 +57,27 @@ public class EnemyRoleBasedDecision : EnemyDecision
     {
         curCombatPhase = CombatPhase.Alert;
     }
+
+    private void OnNotifyGetCommunicate(Communicator communicator)
+    {
+        if (communicator is EnemyCommunicator enemyCommunicator == false)
+            return;
+        switch (enemyCommunicator.enemyCommunicateMassage)
+        {
+            case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
+                {
+                    if (curCombatPhase == CombatPhase.Alert)
+                        return;
+                    curCombatPhase = CombatPhase.Aware;
+                }
+                break;
+        }
+    }
+
+    public void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
+   
+    public void FixedUpdateNode()=>nodeManagerBehavior.FixedUpdateNode(this);
+
+    public abstract void InitailizedNode();
+    
 }

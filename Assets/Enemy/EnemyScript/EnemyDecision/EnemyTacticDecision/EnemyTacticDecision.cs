@@ -82,6 +82,7 @@ public class EnemyTacticDecision : EnemyDecision
         curCombatPhase = CombatPhase.Alert;
         enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
     }
+
     private void OnNotifyGetCommunicate(Communicator communicator)
     {
         if (communicator is EnemyCommunicator enemyCommunicator == false)

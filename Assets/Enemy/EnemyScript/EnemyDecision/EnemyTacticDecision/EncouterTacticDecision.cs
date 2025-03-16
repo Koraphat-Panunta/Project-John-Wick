@@ -63,8 +63,6 @@ public class EncouterTacticDecision : TacticDecision
                 break;
         }
 
-
-
         curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
 
         if (curvePath._curvePoint.Count > 0)
