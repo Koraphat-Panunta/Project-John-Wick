@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class EnemyCommunicator : Communicator
 {
-    private Enemy enemy;
+    public Enemy enemy { get; private set; }
     public EnemyCommunicator(Enemy enemy) 
-    { 
+    {
+        this.enemy = enemy;
     }
    public enum EnemyCommunicateMassage
    {
@@ -15,20 +16,22 @@ public class EnemyCommunicator : Communicator
     public void SendCommunicate(Vector3 position, float raduis, LayerMask layerMask,EnemyCommunicateMassage enemyCommunicateMassage)
     {
         this.enemyCommunicateMassage = enemyCommunicateMassage;
-        Collider[] target = Physics.OverlapSphere(position, raduis, layerMask);
+        Collider[] target = Physics.OverlapSphere(position, raduis,layerMask);
 
         if (target.Length <= 0)
             return;
-
-        for (int i = 0; i < target.Length; i++)
+        Debug.Log("SendCommunicate 2");
+        foreach (Collider collider in target) 
         {
-            if (target[i].gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble)
-                &&communicateAble.communicateAble != enemy)
+            Debug.Log("SendCommunicate 3" + collider);
+            if (collider.gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble)
+                && communicateAble.communicateAble != enemy)
             {
-                
+                Debug.Log("SendCommunicate 4" + communicateAble);
                 communicateAble.GetCommunicate<EnemyCommunicator>(this);
             }
         }
+       
         this.enemyCommunicateMassage = EnemyCommunicateMassage.None;
     }
 }

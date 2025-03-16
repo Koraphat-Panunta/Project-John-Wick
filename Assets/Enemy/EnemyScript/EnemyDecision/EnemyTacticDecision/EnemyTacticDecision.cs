@@ -86,7 +86,6 @@ public class EnemyTacticDecision : EnemyDecision
     {
         if (communicator is EnemyCommunicator enemyCommunicator == false)
             return;
-
         switch (enemyCommunicator.enemyCommunicateMassage)
         {
             case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:

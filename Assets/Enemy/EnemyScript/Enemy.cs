@@ -208,6 +208,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     private void EnemySpotingTarget(GameObject target)
     {
+        if (isDead)
+            return;
+
         targetKnewPos = target.transform.position;
         if (NotifyEnemySpottingTarget != null) 
         NotifyEnemySpottingTarget.Invoke(target);
@@ -237,6 +240,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Action<INoiseMakingAble> NotifyGotHearing { get; set ; }
     public void GotHearding(INoiseMakingAble noiseMakingAble)
     {
+        if(isDead)
+            return;
+
         if(noiseMakingAble is Bullet bullet
             && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
         {
@@ -255,6 +261,21 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject communicateAble => gameObject;
     public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
     {
+        if (isDead)
+            return;
+
+        if (typeCommunicator is EnemyCommunicator enemyCommunicator)
+        {
+            switch (enemyCommunicator.enemyCommunicateMassage)
+            {
+                case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
+                    {
+                        targetKnewPos = enemyCommunicator.enemy.targetKnewPos;
+                    }
+                    break;
+            }
+        }
+      
         if (NotifyCommunicate == null)
             NotifyCommunicate.Invoke(typeCommunicator);
     }

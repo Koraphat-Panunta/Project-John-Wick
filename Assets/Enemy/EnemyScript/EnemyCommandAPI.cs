@@ -399,8 +399,12 @@ public class EnemyCommandAPI :MonoBehaviour
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReloadCommand = true;
     }
-
-    public void NotifyFriendly(float r,EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage)=>enemyCommunicator.SendCommunicate(this._enemy.transform.position,r,_enemy.gameObject.layer, enemyCommunicateMassage);
+    public LayerMask NotifyAbleMask;
+    public void NotifyFriendly(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage) 
+    {
+        //Debug.Log("NotifyFriendly Layer =" + LayerMask.LayerToName(NotifyAbleMask));
+        enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage); 
+    }
 
   
 }
