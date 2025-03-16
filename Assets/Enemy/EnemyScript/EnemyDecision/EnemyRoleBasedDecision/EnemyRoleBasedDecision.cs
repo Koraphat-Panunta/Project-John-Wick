@@ -1,33 +1,37 @@
 using UnityEngine;
 
-public abstract class EnemyRoleBasedDecision : EnemyDecision,INodeManager
+public class EnemyRoleBasedDecision : EnemyDecision
 {
     public override EnemyCommandAPI enemyCommand { get ; set ; }
+    public EnemyActionNodeManager enemyActionNodeManager { get ;private set ; }
+    public EnemyChaserRoleNodeManager chaserRoleNodeManager { get ;private set ; }
+    public ZoneDefine targetZoneDefine { get ; set ; }
 
-    public abstract INodeLeaf curNodeLeaf { get; set ; }
-    public abstract INodeSelector startNodeSelector { get ; set ; }
-    public abstract NodeManagerBehavior nodeManagerBehavior { get; set; }
-
-
-    public enum CombatPhase
+    public enum StartRole
     {
-        Chill,
-        Aware,
-        Alert
+        Chaser,
+        Overwatch
     }
-    public CombatPhase curCombatPhase;
-    public float pressure;
+    public StartRole startRole;
 
     protected override void Awake()
     {
         base.Awake();
 
+        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this);
+        chaserRoleNodeManager.InitailizedNode();
+
+        switch (startRole)
+        {
+            case StartRole.Chaser:enemyActionNodeManager = chaserRoleNodeManager; 
+                break;
+        }
+
+        targetZoneDefine = new ZoneDefine(Vector3.zero,8.5f);
         enemy.NotifyCommunicate += OnNotifyGetCommunicate;
         enemyCommand = GetComponent<EnemyCommandAPI>();
         curCombatPhase = CombatPhase.Chill;
         pressure = 0;
-
-        InitailizedNode();
     }
 
     protected override void Start()
@@ -36,12 +40,12 @@ public abstract class EnemyRoleBasedDecision : EnemyDecision,INodeManager
     }
     protected override void Update()
     {
-        UpdateNode();
+        enemyActionNodeManager.UpdateNode();
         base.Update();
     }
     protected override void FixedUpdate()
     {
-        FixedUpdateNode();  
+        enemyActionNodeManager.FixedUpdateNode();
         base.FixedUpdate();
     }
 
@@ -49,13 +53,16 @@ public abstract class EnemyRoleBasedDecision : EnemyDecision,INodeManager
     {
         if (curCombatPhase == CombatPhase.Alert)
             return;
+
         curCombatPhase = CombatPhase.Aware;
+        targetZoneDefine.SetZone(noiseMaker.position);
 
     }
 
     protected override void OnNotifySpottingTarget(GameObject target)
     {
         curCombatPhase = CombatPhase.Alert;
+        targetZoneDefine.SetZone(target.transform.position);
     }
 
     private void OnNotifyGetCommunicate(Communicator communicator)
@@ -73,11 +80,26 @@ public abstract class EnemyRoleBasedDecision : EnemyDecision,INodeManager
                 break;
         }
     }
+    private void OnDrawGizmos()
+    {
+        //DrawTargetZoneDefine
+        if(Application.isEditor)
+            return;
 
-    public void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
-   
-    public void FixedUpdateNode()=>nodeManagerBehavior.FixedUpdateNode(this);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(targetZoneDefine.zonePosition, targetZoneDefine.raduis);
 
-    public abstract void InitailizedNode();
-    
+        //DrawGuardingZone
+        if (chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.guardingEnemyActionNodeLeaf)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.zonePosition
+                , chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.raduis);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(chaserRoleNodeManager.guardingEnemyActionNodeLeaf.destinate, 0.2f);
+        }
+    }
+
 }
+

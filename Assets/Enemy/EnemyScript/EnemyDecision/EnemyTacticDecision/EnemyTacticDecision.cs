@@ -10,13 +10,6 @@ public class EnemyTacticDecision : EnemyDecision
     public HoldingTacticDecision holdingTacticDecision { get; private set; }
     public TakeCoverTacticDecision takeCoverTacticDecision { get; private set; }
 
-    public enum CombatPhase
-    {
-        Chill,
-        Aware,
-        Alert
-    }
-    public CombatPhase curCombatPhase;
     public float Pressure;
 
     protected override void Awake()

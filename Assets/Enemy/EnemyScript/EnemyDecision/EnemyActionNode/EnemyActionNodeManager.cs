@@ -2,8 +2,16 @@ using UnityEngine;
 
 public abstract class EnemyActionNodeManager :  INodeManager<EnemyActionNodeLeaf,EnemyActionSelectorNode>
 {
-    public EnemyActionNodeManager()
+    public Enemy enemy;
+    public EnemyCommandAPI enemyCommandAPI;
+    public EnemyDecision enemyDecision;
+    public EnemyDecision.CombatPhase curCombatPhase => enemyDecision.curCombatPhase;
+    public float pressure => enemyDecision.pressure;
+    public EnemyActionNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, EnemyDecision enemyDecision)
     {
+        this.enemy = enemy;
+        this.enemyCommandAPI = enemyCommandAPI;
+        this.enemyDecision = enemyDecision;
     }
 
     public abstract EnemyActionNodeLeaf curNodeLeaf { get ; set ; }

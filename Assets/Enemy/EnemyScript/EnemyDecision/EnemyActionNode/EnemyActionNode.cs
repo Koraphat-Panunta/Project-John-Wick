@@ -45,10 +45,12 @@ public class EnemyActionSelectorNode : EnemyActionNode, INodeSelector
 public abstract class EnemyActionNodeLeaf : EnemyActionNode, INodeLeaf
 {
     bool isComplete;
-    protected EnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition) : base(enemy, enemyCommandAPI, preCondition)
+    public EnemyActionNodeManager enemyActionNodeManager { get; set; }
+    protected EnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition)
     {
         isReset = new List<Func<bool>>();
         nodeLeafBehavior = new NodeLeafBehavior();
+        this.enemyActionNodeManager = enemyActionNodeManager;
     }
 
     public List<Func<bool>> isReset { get; set ; }
