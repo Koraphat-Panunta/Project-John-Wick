@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 3716097873128173608}
   - component: {fileID: 4380059483054473025}
   m_Layer: 7
-  m_Name: Tactic
+  m_Name: Role
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -335,7 +335,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tactic
+  m_text: 'Role
+
 
 '
   m_isRightToLeft: 0
@@ -847,9 +848,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 5157746800814755879}
   enemy: {fileID: 2619394019457856660}
-  enemyTacticDecision: {fileID: 4098032552167450634}
+  enemyRole: {fileID: 3858380618204543065}
   stateDisplay: {fileID: 2582546888399179740}
-  tacticDisplay: {fileID: 4380059483054473025}
+  roleDisplay: {fileID: 4380059483054473025}
   hpDisplay: {fileID: 5747125844521803265}
   postureDisplay: {fileID: 1097676656499298166}
 --- !u!1 &5403227905338006284
@@ -1167,7 +1168,7 @@ GameObject:
   - component: {fileID: 6454910191179571215}
   - component: {fileID: 1113618680042977909}
   - component: {fileID: 7890612989017240957}
-  - component: {fileID: 4098032552167450634}
+  - component: {fileID: 3858380618204543065}
   - component: {fileID: 8785008869752914700}
   - component: {fileID: 2619394019457856660}
   - component: {fileID: 6414908439600597232}
@@ -1253,7 +1254,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4098032552167450634
+--- !u!114 &3858380618204543065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1262,12 +1263,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5971669966833777333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83cd06931a11b14fa2941ded1988487, type: 3}
+  m_Script: {fileID: 11500000, guid: ea89a51fddc94514883907d34c17d94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
-  curCombatPhase: 0
-  Pressure: 0
+  raduisTargetZone: 15
+  CombatPhase: 0
+  YingYang: 64.6
+  TakeCoverAble: 0
+  enegyWithIn: 0
+  YingYangCalulate: 0
+  elapesLostSightTime: 0
+  lostSightTime: 0
+  startRole: 1
 --- !u!114 &8785008869752914700
 MonoBehaviour:
   m_ObjectHideFlags: 0

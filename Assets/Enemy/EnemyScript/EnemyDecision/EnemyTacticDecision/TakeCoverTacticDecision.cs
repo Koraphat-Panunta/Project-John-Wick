@@ -18,7 +18,7 @@ public class TakeCoverTacticDecision : TacticDecision
         coverTiming = 0f;
         peekTiming = Random.Range(1,2.5f);
 
-        if (enemy.findingCover.FindCoverInRaduis(7,out CoverPoint coverPoint))
+        if (enemy.findingCover.FindCoverInRaduisInGunFight(7,out CoverPoint coverPoint))
             this.coverPoint = coverPoint;
         else
         {

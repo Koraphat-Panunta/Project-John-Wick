@@ -148,6 +148,23 @@ public class InGameLevelGameMaster : GameMaster
     {
         this.player = player;
     }
+
+    private List<IGameLevelMasterObserver> gameLevelMasterObservers = new List<IGameLevelMasterObserver>();
+    public void AddObserver(IGameLevelMasterObserver gameLevelMasterObserver)=>this.gameLevelMasterObservers.Add(gameLevelMasterObserver);
+    public void RemoveObserver(IGameLevelMasterObserver gameLevelMasterObserver)=> this.gameLevelMasterObservers.Remove(gameLevelMasterObserver);  
+    public void NotifyObserver(InGameLevelGameMaster inGameLevelGameMaster)
+    {
+        if(gameLevelMasterObservers.Count <= 0)
+            return;
+        foreach(IGameLevelMasterObserver gameLevelMasterObserver in this.gameLevelMasterObservers)
+        {
+            gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
+        }
+    }
+}
+public interface IGameLevelMasterObserver
+{
+    public void OnNotify(InGameLevelGameMaster inGameLevelGameMaster);
 }
 public class LevelHotelRestGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {

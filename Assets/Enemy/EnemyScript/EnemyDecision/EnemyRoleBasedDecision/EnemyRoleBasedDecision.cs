@@ -8,6 +8,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     public override EnemyCommandAPI enemyCommand { get ; set ; }
     public EnemyActionNodeManager enemyActionNodeManager { get ;private set ; }
     public EnemyChaserRoleNodeManager chaserRoleNodeManager { get ;private set ; }
+    public EnemyOverwatchRoleNodeManager overwatchRoleNodeManager { get ;private set ; }
     public ZoneDefine _targetZone { get ; set ; }
 
     [Range(0, 100)]
@@ -29,12 +30,12 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     [SerializeField] private float lostSightTime;
     
 
-    public enum StartRole
+    public enum Role
     {
         Chaser,
         Overwatch
     }
-    public StartRole Role;
+    public Role startRole;
 
     protected override void Awake()
     {
@@ -45,9 +46,14 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,5,8.5f);
         chaserRoleNodeManager.InitailizedNode();
 
-        switch (Role)
+        overwatchRoleNodeManager = new EnemyOverwatchRoleNodeManager(enemy, enemyCommand, this, 5, 8.5f);
+        overwatchRoleNodeManager.InitailizedNode();
+
+        switch (startRole)
         {
-            case StartRole.Chaser:enemyActionNodeManager = chaserRoleNodeManager; 
+            case Role.Chaser:enemyActionNodeManager = chaserRoleNodeManager; 
+                break;
+            case Role.Overwatch:enemyActionNodeManager= overwatchRoleNodeManager; 
                 break;
         }
 
@@ -156,6 +162,11 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
             _takeCoverAble = false;
             takeCoverAbleDelay = 5;
         }
+    }
+
+    public void ChangeRole(EnemyActionNodeManager roleEnemy)
+    {
+        enemyActionNodeManager = roleEnemy;
     }
    
 

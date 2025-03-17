@@ -1,8 +1,11 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
+    private Vector3 insistPos;
+    private float distance;
     public InsistEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) 
         : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
     {
@@ -11,6 +14,8 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void Enter()
     {
+        insistPos = enemy.transform.position;
+        distance = UnityEngine.Random.Range(1, 3);
         base.Enter();
     }
 
@@ -41,15 +46,20 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
                     enemyCommandAPI.Freez();
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);
+                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                     enemyCommandAPI.NormalFiringPattern.Performing();
+
+                    if (Vector3.Distance(insistPos, enemy.transform.position) < distance)
+                        enemyCommandAPI.MoveToPosition(enemy.targetKnewPos, enemy.moveMaxSpeed);
+                    else
+                        enemyCommandAPI.Freez();
 
                 }
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
                     enemyCommandAPI.Freez();
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);
+                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
 
                 }
                 break;

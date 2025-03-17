@@ -38,9 +38,8 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         openingCanvasUI.enabled = true;
         eplapesTime = 0;
 
+        gameMaster.NotifyObserver(gameMaster);
       
-
-
         if(gameMaster.gameManager.curNodeLeaf is LevelMansionGameManagerNodeLeaf)
         gameMaster.gameManager.soundTrackManager.TriggerSoundTrack(gameMaster.gameManager.gamePlaySoundTrack);
     }

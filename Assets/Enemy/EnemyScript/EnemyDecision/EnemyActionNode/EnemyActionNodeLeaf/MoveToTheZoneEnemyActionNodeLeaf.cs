@@ -21,10 +21,9 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override void UpdateNode()
     {
-        Vector3 enemyToZonePos = this.assignZone.zonePosition - enemy.transform.position;
-        Vector3 enemyToDes = this.destinateInZone - enemy.transform.position;
+       
 
-        if (Vector3.Dot(enemyToZonePos, enemyToDes) > 5)
+        if (Vector3.Distance(assignZone.zonePosition, enemy.transform.position) > assignZone.raduis*1.8f)
         {
             enemyCommandAPI.SprintToPosition(this.destinateInZone, enemy.sprintRotateSpeed);
             enemyCommandAPI.LowReady();

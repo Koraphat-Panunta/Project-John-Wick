@@ -58,12 +58,10 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     private void Cover()
     {
-        Debug.Log("Cover");
         enemyCommandAPI.LowReady();
     }
     private void Peek()
     {
-        Debug.Log("Peek");
         switch (enemyActionNodeManager.curCombatPhase)
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:

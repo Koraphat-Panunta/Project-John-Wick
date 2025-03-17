@@ -42,6 +42,8 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         notifyAlready = false;
         misstionCompleteCanvasUI.gameObject.SetActive(true);
         gameManager.soundTrackManager.StopSoundTrack(2);
+
+        gameMaster.NotifyObserver(gameMaster);
     }
 
     public override void Exit()

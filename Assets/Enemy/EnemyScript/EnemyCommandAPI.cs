@@ -43,7 +43,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if ((time < 9))
     //    {
-    //        _enemy.findingTargetComponent.FindTarget(out GameObject target);
+    //        _enemy.findingTargetComponent.FindTarget(out GameObject targetPos);
     //        MoveToPosition(_enemy.targetKnewPos, 100);
     //        AimDownSight(_enemy.targetKnewPos, 6);
     //    }
@@ -56,7 +56,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if (time < 15)
     //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //        {
     //            AimDownSight(_enemy.targetKnewPos, 7);
     //            PullTrigger();
@@ -73,7 +73,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if (time < 20)
     //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //        {
     //            AimDownSight(_enemy.targetKnewPos, 7);
     //            PullTrigger();
@@ -100,7 +100,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    {
     //        case 0:
     //            {
-    //                if (_enemy.findingCover.FindCoverInRaduis(8, out CoverPoint coverPoint))
+    //                if (_enemy.findingCover.FindCoverInRaduisInGunFight(8, out CoverPoint coverPoint))
     //                {
     //                    coverPoint.TakeThisCover(_enemy);
     //                    if (coverPoint == null)
@@ -141,7 +141,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //                {
     //                    Debug.Log("Take Aim");
 
-    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //                    {
     //                        NormalFiringPattern.Performing();
     //                        AimDownSight(_enemy.targetKnewPos, 6);
@@ -315,7 +315,7 @@ public class EnemyCommandAPI :MonoBehaviour
     {
        if(_enemy.coverPoint == null)
         {
-            if(_enemy.findingCover.FindCoverInRaduis(coverInRaduis,out CoverPoint coverPoint))
+            if(_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis,out CoverPoint coverPoint))
             {
                 coverPoint.TakeThisCover(_enemy);
             }
@@ -335,7 +335,19 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         coverPoint = null;
 
-        if(_enemy.findingCover.FindCoverInRaduis(raduis,out coverPoint))
+        if(_enemy.findingCover.FindCoverInRaduisInGunFight(raduis,out coverPoint))
+        {
+            coverPoint.TakeThisCover(_enemy);
+            return true;
+        }
+        return false;
+    }
+
+    public bool FindCoverAndBook(float raduis,Vector3 targetPos,out CoverPoint coverPoint)
+    {
+        coverPoint = null;
+
+        if(_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis,out coverPoint,targetPos))
         {
             coverPoint.TakeThisCover(_enemy);
             return true;

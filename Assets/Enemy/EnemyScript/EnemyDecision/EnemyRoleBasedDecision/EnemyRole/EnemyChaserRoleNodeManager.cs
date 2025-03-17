@@ -35,17 +35,17 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
         takeCoverEnemyActionNodeLeaf = new TakeCoverEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => 
             {
+                if(Vector3.Distance(enemy.targetKnewPos,enemy.transform.position) < 5.5f)
+                    return false;
+
                 if(enemy.coverPoint != null && takeCoverAble)
                     return true;
 
                 if(enemyCommandAPI.FindCoverAndBook(6, out CoverPoint coverPoint)
             && takeCoverAble)
                 {
-                    Debug.Log("Find Cover True");
                     return true;
-                    
                 }
-                Debug.Log("Find Cover fault");
                 return false;
             }
             , this);

@@ -15,7 +15,8 @@ public abstract class FindingCover
         this.coverLayer = LayerMask.GetMask("Cover");
         this.hunter = hunter;
     }
-    public abstract bool FindCoverInRaduis(float raduis, out CoverPoint coverPoint);
+    public abstract bool FindCoverInRaduisInGunFight(float raduis, out CoverPoint coverPoint);
+    public abstract bool FindCoverInRaduisDirectionalBased(float raduis, out CoverPoint coverPoint,Vector3 targetPos);
     
        
 }
@@ -27,7 +28,62 @@ public class EnemyFindCover : FindingCover
         this.enemy = enemy;
     }
 
-    public override bool FindCoverInRaduis(float raduis, out CoverPoint coverPoint)
+    public override bool FindCoverInRaduisDirectionalBased(float raduis, out CoverPoint coverPoint,Vector3 targetPos)
+    {
+        coverPoint = null;
+        List<CoverPoint> _coverPoint = new List<CoverPoint>();
+
+        Collider[] obj = Physics.OverlapSphere(coverUser.userCover.transform.position, raduis);
+
+        if (obj.Length <= 0)
+            return false;
+
+        foreach (Collider collider in obj)
+        {
+
+            if (collider.TryGetComponent<CoverPoint>(out CoverPoint thisCoverPoint) == false)
+                continue;
+
+            if (thisCoverPoint.coverUser != null)
+                continue;
+
+            _coverPoint.Add(thisCoverPoint);
+        }
+
+        if (_coverPoint.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _coverPoint.Count; i++)
+        {
+            Debug.Log("CoverPoint Find =" + _coverPoint);
+            Vector3 dirCoverToTarget = (targetPos - _coverPoint[i].coverPos.position ).normalized;
+
+            if (Vector3.Dot(dirCoverToTarget, _coverPoint[i].coverDir.normalized) <0.2f)
+                _coverPoint.RemoveAt(i);
+        }
+
+        if (_coverPoint.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _coverPoint.Count; i++)
+        {
+
+            if (i == 0)
+            {
+                coverPoint = _coverPoint[0];
+                continue;
+            }
+
+            if (Vector3.Distance(coverPoint.coverPos.position, coverUser.userCover.transform.position) >
+                Vector3.Distance(_coverPoint[i].coverPos.position, coverUser.userCover.transform.position))
+            {
+                coverPoint = _coverPoint[i];
+            }
+        }
+        return true;
+    }
+
+    public override bool FindCoverInRaduisInGunFight(float raduis, out CoverPoint coverPoint)
     {
         coverPoint = null;
         List<CoverPoint> _coverPoint = new List<CoverPoint>();
