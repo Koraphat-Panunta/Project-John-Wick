@@ -38,14 +38,14 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
     {
         switch (enemyActionNodeManager.curCombatPhase)
         {
-            case EnemyDecision.CombatPhase.Alert:
+            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
                 }
                 break;
-            case EnemyDecision.CombatPhase.Aware:
+            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);
                 }

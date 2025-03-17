@@ -310,6 +310,38 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         
     }
+
+    public bool MoveToTakeCover(float coverInRaduis,float velocity,bool rotateMoveDir)
+    {
+       if(_enemy.coverPoint == null)
+        {
+            if(_enemy.findingCover.FindCoverInRaduis(coverInRaduis,out CoverPoint coverPoint))
+            {
+                coverPoint.TakeThisCover(_enemy);
+            }
+            else
+                return false;
+        }
+        if(MoveToPosition(_enemy.coverPoint.coverPos.position, velocity, rotateMoveDir,0.5f))
+        {
+            TakeCover();
+            return true;
+        }
+       return false;
+
+        
+    }
+    public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
+    {
+        coverPoint = null;
+
+        if(_enemy.findingCover.FindCoverInRaduis(raduis,out coverPoint))
+        {
+            coverPoint.TakeThisCover(_enemy);
+            return true;
+        }
+        return false;
+    }
     public void TakeCover()
     {
         Freez();
@@ -317,10 +349,9 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool MoveToTakeCover(CoverPoint coverPoint,float velocity,bool rotateMoveDir)
     {
-
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, 1, rotateMoveDir, 1))
+        if (MoveToPosition(coverPoint.coverPos.position, velocity, rotateMoveDir, 1.6f))
         {
             TakeCover();
             return true;
@@ -331,8 +362,9 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, 1, 1))
+        if (MoveToPosition(coverPoint.coverPos.position, velocity, 1.6f))
         {
+
             TakeCover();
             return true;
         }
@@ -342,7 +374,7 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (SprintToPosition(coverPoint.coverPos.position, 5, 1))
+        if (SprintToPosition(coverPoint.coverPos.position, _enemy.sprintRotateSpeed,1.6f))
         {
             TakeCover();
             return true;

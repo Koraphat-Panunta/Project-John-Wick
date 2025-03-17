@@ -5,16 +5,7 @@ public abstract class EnemyDecision : MonoBehaviour
 {
     public abstract EnemyCommandAPI enemyCommand { get; set; }
     public Enemy enemy;
-
-    public enum CombatPhase
-    {
-        Chill,
-        Aware,
-        Alert
-    }
-    public CombatPhase curCombatPhase;
-    public float pressure;
-
+    
     protected virtual void Awake()
     {
         enemyCommand = GetComponent<EnemyCommandAPI>();

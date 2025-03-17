@@ -1,37 +1,63 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class EnemyRoleBasedDecision : EnemyDecision
+public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImplementDecision,IObserverEnemy
 {
     public override EnemyCommandAPI enemyCommand { get ; set ; }
     public EnemyActionNodeManager enemyActionNodeManager { get ;private set ; }
     public EnemyChaserRoleNodeManager chaserRoleNodeManager { get ;private set ; }
-    public ZoneDefine targetZoneDefine { get ; set ; }
+    public ZoneDefine _targetZone { get ; set ; }
+
+    [Range(0, 100)]
+    [SerializeField]private float raduisTargetZone;
+    public IEnemyActionNodeManagerImplementDecision.CombatPhase _curCombatPhase { get ; set ; }
+    public IEnemyActionNodeManagerImplementDecision.CombatPhase CombatPhase;
+
+    [Range(0,100)]
+    [SerializeField]private float YingYang;
+    public float _yingYang { get => YingYang; set => YingYang = value; }
+    public bool _takeCoverAble { get ; set ; }
+    [SerializeField] bool TakeCoverAble;
+    private float takeCoverAbleDelay { get; set ; }
+
+    [SerializeField] private float enegyWithIn;
+    [SerializeField] private float YingYangCalulate;
+
+    [SerializeField] private float elapesLostSightTime;
+    [SerializeField] private float lostSightTime;
+    
 
     public enum StartRole
     {
         Chaser,
         Overwatch
     }
-    public StartRole startRole;
+    public StartRole Role;
 
     protected override void Awake()
     {
         base.Awake();
+        enemy.AddObserver(this);
+        _targetZone = new ZoneDefine(Vector3.zero, 8.5f);
 
-        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this);
+        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,5,8.5f);
         chaserRoleNodeManager.InitailizedNode();
 
-        switch (startRole)
+        switch (Role)
         {
             case StartRole.Chaser:enemyActionNodeManager = chaserRoleNodeManager; 
                 break;
         }
 
-        targetZoneDefine = new ZoneDefine(Vector3.zero,8.5f);
         enemy.NotifyCommunicate += OnNotifyGetCommunicate;
         enemyCommand = GetComponent<EnemyCommandAPI>();
-        curCombatPhase = CombatPhase.Chill;
-        pressure = 0;
+        _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill;
+
+        lostSightTime = YingYang / 10;
+        _takeCoverAble = true;
+
     }
 
     protected override void Start()
@@ -42,6 +68,24 @@ public class EnemyRoleBasedDecision : EnemyDecision
     {
         enemyActionNodeManager.UpdateNode();
         base.Update();
+        enegyWithIn = enemyActionNodeManager.enegyWithIn;
+        YingYangCalulate = enemyActionNodeManager.yingYangCalculate;
+
+        if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
+        {
+            this.elapesLostSightTime += Time.deltaTime;
+            if (this.elapesLostSightTime >= this.lostSightTime)
+                _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+        }
+
+        this.CombatPhase = _curCombatPhase;
+        this.TakeCoverAble = _takeCoverAble;
+        if(_takeCoverAble == false)
+        {
+            takeCoverAbleDelay -= Time.deltaTime;
+            if(takeCoverAbleDelay <=0)
+                _takeCoverAble = true;
+        }
     }
     protected override void FixedUpdate()
     {
@@ -51,18 +95,20 @@ public class EnemyRoleBasedDecision : EnemyDecision
 
     protected override void OnNotifyHearding(INoiseMakingAble noiseMaker)
     {
-        if (curCombatPhase == CombatPhase.Alert)
+        if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
             return;
 
-        curCombatPhase = CombatPhase.Aware;
-        targetZoneDefine.SetZone(noiseMaker.position);
+        _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+        _targetZone.SetZone(noiseMaker.position, raduisTargetZone);
 
     }
 
     protected override void OnNotifySpottingTarget(GameObject target)
     {
-        curCombatPhase = CombatPhase.Alert;
-        targetZoneDefine.SetZone(target.transform.position);
+        _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert;
+        _targetZone.SetZone(target.transform.position, raduisTargetZone);
+
+        elapesLostSightTime = 0;
     }
 
     private void OnNotifyGetCommunicate(Communicator communicator)
@@ -73,9 +119,10 @@ public class EnemyRoleBasedDecision : EnemyDecision
         {
             case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                 {
-                    if (curCombatPhase == CombatPhase.Alert)
+                    if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
                         return;
-                    curCombatPhase = CombatPhase.Aware;
+                    _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+                    _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
                 }
                 break;
         }
@@ -87,7 +134,7 @@ public class EnemyRoleBasedDecision : EnemyDecision
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetZoneDefine.zonePosition, targetZoneDefine.raduis);
+        Gizmos.DrawWireSphere(_targetZone.zonePosition, _targetZone.raduis);
 
         //DrawGuardingZone
         if (chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.guardingEnemyActionNodeLeaf)
@@ -95,11 +142,24 @@ public class EnemyRoleBasedDecision : EnemyDecision
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.zonePosition
                 , chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.raduis);
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(chaserRoleNodeManager.guardingEnemyActionNodeLeaf.destinate, 0.2f);
         }
+
     }
 
+    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit
+            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
+            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract
+            || enemyEvent == SubjectEnemy.EnemyEvent.Dead)
+        {
+            _takeCoverAble = false;
+            takeCoverAbleDelay = 5;
+        }
+    }
+   
+
+
+    
 }
 

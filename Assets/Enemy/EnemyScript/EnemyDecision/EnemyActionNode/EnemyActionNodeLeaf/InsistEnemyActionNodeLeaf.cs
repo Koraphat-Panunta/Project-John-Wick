@@ -36,9 +36,9 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
-        switch (enemyActionNodeManager.enemyDecision.curCombatPhase)
+        switch (enemyActionNodeManager.enemyDecision._curCombatPhase)
         {
-            case EnemyDecision.CombatPhase.Alert:
+            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
                     enemyCommandAPI.Freez();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);
@@ -46,7 +46,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                 }
                 break;
-            case EnemyDecision.CombatPhase.Aware:
+            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
                     enemyCommandAPI.Freez();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, 5);

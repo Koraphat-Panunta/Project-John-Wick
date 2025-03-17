@@ -56,7 +56,7 @@ public class TakeCoverTacticDecision : TacticDecision
 
         if (enemy.isInCover == false)
         {
-            if (enemyTacticDecision.Pressure < 30)
+            if (enemyTacticDecision.pressure < 30)
                 enemyCommand.MoveToTakeCover(this.coverPoint, 1);
             else
                 enemyCommand.SprintToCover(this.coverPoint);

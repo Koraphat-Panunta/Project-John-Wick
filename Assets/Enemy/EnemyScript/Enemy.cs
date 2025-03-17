@@ -390,7 +390,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region IBulletDamageAble
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
-    public Action<IDamageVisitor> OnGotAttack;
+    public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
 
     #region ImplementGunFuGotHitAble
