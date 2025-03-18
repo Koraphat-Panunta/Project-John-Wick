@@ -66,7 +66,6 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     private void BackBoardUpdate()
     {
        
-        
         if (player.curShoulderSide == Player.ShoulderSide.Left)
             SholderSide = Mathf.Clamp(SholderSide - 100*Time.deltaTime, -1, 1);
         if (player.curShoulderSide == Player.ShoulderSide.Right)
@@ -127,19 +126,22 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (player.currentWeapon is PrimaryWeapon)
             isIn_C_A_R_aim = false;
 
-        if (isIn_C_A_R_aim)
+        if ((player as IWeaponAdvanceUser).currentWeapon != null)
         {
-            CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
-            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
-                isIn_C_A_R_aim = false;
-        }
-        else if(isIn_C_A_R_aim == false)
-        {
-            CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
-            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
-                isIn_C_A_R_aim = true;
+            if (isIn_C_A_R_aim)
+            {
+                CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
+                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+               , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
+                    isIn_C_A_R_aim = false;
+            }
+            else if (isIn_C_A_R_aim == false)
+            {
+                CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
+                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+               , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
+                    isIn_C_A_R_aim = true;
+            }
         }
 
         float changeSprintLowRate = 5;

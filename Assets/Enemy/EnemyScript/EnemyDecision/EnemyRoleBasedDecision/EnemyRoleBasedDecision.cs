@@ -103,10 +103,12 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     {
         if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
             return;
-
-        _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
-        _targetZone.SetZone(noiseMaker.position, raduisTargetZone);
-
+        if (noiseMaker is Bullet bullet
+            && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+        {
+            _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+            _targetZone.SetZone(noiseMaker.position, raduisTargetZone);
+        }
     }
 
     protected override void OnNotifySpottingTarget(GameObject target)
@@ -166,7 +168,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     public void ChangeRole(EnemyActionNodeManager roleEnemy)
     {
-        enemyActionNodeManager = roleEnemy;
+        enemyActionNodeManager = roleEnemy; 
     }
    
 

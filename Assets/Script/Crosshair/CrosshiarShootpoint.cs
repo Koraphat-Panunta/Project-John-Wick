@@ -63,6 +63,7 @@ public class CrosshiarShootpoint : ICrosshairAction
             //Vector3 worldPosition = ray.GetPoint(100);
             pointPos = ray.GetPoint(1000);
         }
+
         return pointPos;
     }
     public Vector3 GetPointDirection()
@@ -90,9 +91,6 @@ public class CrosshiarShootpoint : ICrosshairAction
         throw new System.NotImplementedException();
     }
 
-    //public void Performed(PlayerStateManager playerStateManager)
-    //{
-    //    throw new System.NotImplementedException();
-    //}
+   
 
 }

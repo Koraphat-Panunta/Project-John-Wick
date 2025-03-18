@@ -51,9 +51,10 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public FireMode fireMode { get; protected set; }
     public TriggerState triggerState = TriggerState.Up;
 
-
+    public LayerMask weaponLayerMask { get; private set; }
     protected virtual void Awake()
     {
+        weaponLayerMask = gameObject.layer;
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         bulletStore.Add(BulletStackType.Chamber, 1);

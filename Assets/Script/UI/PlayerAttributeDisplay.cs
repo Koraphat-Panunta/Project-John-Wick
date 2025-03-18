@@ -11,6 +11,8 @@ public class PlayerAttributeDisplay : PlayerInfoDisplay
         base.hud = hud;
         base.playerInfo = player;
         this.HP_bar = HP_bar;
+        UpdateInfo();
+
     }
 
     public override void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)

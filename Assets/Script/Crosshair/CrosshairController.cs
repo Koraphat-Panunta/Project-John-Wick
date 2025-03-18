@@ -82,8 +82,19 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(player.currentWeapon == null)
+        {
+            this.Crosshair_CenterPosition.gameObject.SetActive(false);
+            if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+            {
+                CrosshairSpread.TriggerFocusSpanRate();
+                CrosshairSpread.isAiming = false;
+            }
+            return;
+        }
+        this.Crosshair_CenterPosition.gameObject.SetActive(true);
 
-        if(playerAction == SubjectPlayer.PlayerAction.Firing)
+        if (playerAction == SubjectPlayer.PlayerAction.Firing)
         {
             CrosshairSpread.Performed(player.currentWeapon);
             CrosshairSpread.CrosshairKickUp(player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilController);
@@ -102,8 +113,6 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
         if (player.currentWeapon.currentEventNode is IReloadNode)
             CrosshairSpread.TriggerFocusSpanRate();
         
-            
-
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
             CrosshairSpread.isAiming = true;
         if (playerAction == SubjectPlayer.PlayerAction.LowReady)

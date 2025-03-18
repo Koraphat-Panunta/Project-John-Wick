@@ -60,9 +60,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         InitializedAimingProceduralAnimate();
 
-        new WeaponFactorySTI9mm().CreateWeapon(this);
-        (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
-        new WeaponFactoryAR15().CreateWeapon(this);
+        //new WeaponFactorySTI9mm().CreateWeapon(this);
+        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
+        //new WeaponFactoryAR15().CreateWeapon(this);
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
         playerStateNodeManager = new PlayerStateNodeManager(this);
@@ -338,6 +338,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
+                    if(currentWeapon == null)
+                        return false;
+
                     BulletType primaryType = (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).bullet.myType;
                     BulletType secondaryType = (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).bullet.myType;
 
