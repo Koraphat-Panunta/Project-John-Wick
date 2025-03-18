@@ -11,16 +11,7 @@ public class PlayerInputAPI : MonoBehaviour
     {
         player = GetComponent<Player>();
     }
-    void Start()
-    {
-
-    }
-
-    // UpdateNode is called once per frame
-    void Update()
-    {
-
-    }
+ 
     public void Move(InputAction.CallbackContext context)
     {
         player.inputMoveDir_Local = context.ReadValue<Vector2>();
@@ -104,5 +95,13 @@ public class PlayerInputAPI : MonoBehaviour
     {
         if(context.performed)
             player.triggerDodgeRoll = true;
+    }
+
+    public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
+    {
+        Debug.Log("Picking up command");
+
+        if(context.performed)
+            player.isPickingUpWeaponCommand = true;
     }
 }

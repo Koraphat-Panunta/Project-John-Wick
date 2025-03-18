@@ -76,7 +76,6 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
 
         for (int i = 0; i < allEnemiesAliveCount; i++)
         {
-            Debug.Log("enemies = " + enemies[i]);
             if (enemies[i].enemyActionNodeManager == enemies[i].chaserRoleNodeManager)
                 continue;
 

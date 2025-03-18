@@ -117,6 +117,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
         _tiggerThrowAbleObjectHit = false;
+        isPickingUpWeaponCommand = false;
 
     }
    
@@ -147,6 +148,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
     public WeaponManuverManager weaponManuverManager { get; set; }
+    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
+    public bool isPickingUpWeaponCommand { get; set ; }
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;
@@ -155,6 +158,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this,this);
+        findingWeaponBehavior = new FindingWeaponBehavior(this);
     }
     #endregion
 
@@ -423,6 +427,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+  
 
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public abstract class FindingCover
 {
@@ -55,7 +54,6 @@ public class EnemyFindCover : FindingCover
 
         for (int i = 0; i < _coverPoint.Count; i++)
         {
-            Debug.Log("CoverPoint Find =" + _coverPoint);
             Vector3 dirCoverToTarget = (targetPos - _coverPoint[i].coverPos.position ).normalized;
 
             if (Vector3.Dot(dirCoverToTarget, _coverPoint[i].coverDir.normalized) <0.2f)

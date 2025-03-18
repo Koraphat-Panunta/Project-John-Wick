@@ -45,6 +45,8 @@ public class User : MonoBehaviour
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;
 
         userInput.PlayerAction.TriggerDodgeRoll.performed += playerInputAPI.TriggerDodgeRoll;
+
+        userInput.PlayerAction.TriggerPickingUpWeapon.performed += playerInputAPI.TriggerPickingUpWeapon;
     }
 
     public void EnableInput()

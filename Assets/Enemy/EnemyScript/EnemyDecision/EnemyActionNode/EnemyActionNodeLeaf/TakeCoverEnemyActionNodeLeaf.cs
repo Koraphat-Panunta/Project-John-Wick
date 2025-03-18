@@ -25,7 +25,6 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
         Vector3 enemyToCover = coverPoint.coverPos.position - enemy.transform.position;
         Vector3 enemyToTarget = enemy.targetKnewPos - enemy.transform.position;
 
-        Debug.Log("Update TakeCover Node InCover =" + enemy.isInCover);
 
         if (enemy.isInCover == false)
         {

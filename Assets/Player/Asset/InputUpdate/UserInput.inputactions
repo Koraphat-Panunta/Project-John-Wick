@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerPickingUpWeapon",
+                    "type": "Button",
+                    "id": "b6a45863-a8e4-43c5-957b-2839c283a206",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -510,6 +519,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TriggerDodgeRoll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41ac34d3-cff2-4c91-85d6-876d1de53a3c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerPickingUpWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

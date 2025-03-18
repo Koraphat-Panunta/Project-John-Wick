@@ -27,6 +27,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isSwapShoulder = false;
         isSwitchWeaponCommand = false;
         triggerDodgeRoll = false;
+        isPickingUpWeaponCommand = false;
+
         if (_triggerGunFu == true)
         {
             triggerGunFuBufferTime -= Time.deltaTime;
@@ -149,6 +151,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
+    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
+    public bool isPickingUpWeaponCommand { get ; set ; }
+
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
@@ -159,6 +164,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new PlayerWeaponManuver(this,this);
+        findingWeaponBehavior = new FindingWeaponBehavior(this);
     }
     #endregion
 
@@ -363,10 +369,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-
-
-
-
 
 
     #endregion

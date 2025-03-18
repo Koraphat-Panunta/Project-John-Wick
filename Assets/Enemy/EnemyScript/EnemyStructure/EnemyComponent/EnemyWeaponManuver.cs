@@ -15,6 +15,8 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
 
+    public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
+
     public override void InitailizedNode()
     {
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,

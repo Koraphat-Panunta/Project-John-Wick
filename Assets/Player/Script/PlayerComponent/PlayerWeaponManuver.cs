@@ -18,9 +18,21 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
+    public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
 
     public override void InitailizedNode()
     {
+        pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
+            ()=> 
+            {
+                if(isPickingUpWeaponManuver)
+                    if(weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                        return true;
+                else return false;
+                else return false;
+            }
+           
+            );  
         curWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => curWeapon != null);
         quickDrawWeaponManuverAtAmmoOutLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => 
@@ -58,6 +70,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
         startNodeSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
 
+        startNodeSelector.AddtoChildNode(pickUpWeaponNodeLeaf);
         startNodeSelector.AddtoChildNode(curWeaponManuverSelectorNode);
 
         curWeaponManuverSelectorNode.AddtoChildNode(quickDrawWeaponManuverAtAmmoOutLeafNode);
@@ -123,7 +136,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
         isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
 
         isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
-        
+
+        isPickingUpWeaponManuver = weaponAdvanceUser.isPickingUpWeaponCommand;
     }
 
 }
