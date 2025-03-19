@@ -93,10 +93,9 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void Resting(Weapon weapon)
     {
-        
     }
 
-    public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponSwitchNodeLeaf)
+    public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponSwitchNodeLeaf)
     {
         player.NotifyObserver(player, PlayerAction.SwitchWeapon);
     }

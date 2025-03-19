@@ -79,7 +79,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     }
 
-    public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponTransitionNodeLeaf)
+    public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponTransitionNodeLeaf)
     {
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
     }

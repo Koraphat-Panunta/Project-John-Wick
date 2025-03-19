@@ -169,7 +169,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     float holsterSecondary = 0.34f;
                     float drawPrimary = 0.5f;
 
-                    if (elapseHolsterTime >= holsterSecondary)
+                    if (elapseHolsterTime >= holsterSecondary && weapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon) 
                         weapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
 
                     multiAim.data.offset = Vector3.Lerp(new Vector3(48f, 0f, 0f),beforeEnter_AimProcedural , elapseHolsterTime / drawPrimary);

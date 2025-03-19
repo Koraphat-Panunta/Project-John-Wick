@@ -268,7 +268,16 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
             PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
-            if(playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
+            if(playerWeaponManuver.curNodeLeaf is HolsterPrimaryWeaponManuverNodeLeaf)
+                animator.CrossFade("HolsterPrimary", 0.1f, 1);
+            if(playerWeaponManuver.curNodeLeaf is HolsterSecondaryWeaponManuverNodeLeaf)
+                animator.CrossFade("HolsterSecondary", 0.1f, 1);
+            if (playerWeaponManuver.curNodeLeaf is DrawPrimaryWeaponManuverNodeLeaf)
+                animator.CrossFade("DrawPrimary", 0.1f, 1);
+            if(playerWeaponManuver.curNodeLeaf is DrawSecondaryWeaponManuverNodeLeaf)
+                animator.CrossFade("DrawSecondary", 0.1f, 1);
+
+            if (playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
             {
                 if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
                     animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);

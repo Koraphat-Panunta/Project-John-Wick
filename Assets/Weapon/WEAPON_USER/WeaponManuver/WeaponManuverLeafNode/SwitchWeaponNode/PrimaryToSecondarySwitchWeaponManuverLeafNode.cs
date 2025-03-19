@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode,IWeaponTransitionNodeLeaf
+public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     public enum TransitionPhase
     {

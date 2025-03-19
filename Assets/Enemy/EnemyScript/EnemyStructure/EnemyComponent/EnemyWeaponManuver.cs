@@ -18,6 +18,10 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
     public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
     public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set ; }
+    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
 
     public override void InitailizedNode()
     {

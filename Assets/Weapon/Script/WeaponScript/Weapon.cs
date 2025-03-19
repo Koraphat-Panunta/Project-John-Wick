@@ -161,6 +161,17 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         
         parentConstraint.weight = 1;
+        if (userWeapon is Player)
+        {
+            Player p = userWeapon as Player;
+            p.animator.runtimeAnimatorController = userWeapon.animatorOverride;
+        }
+        if (userWeapon is Enemy)
+        {
+            Enemy enemy = userWeapon as Enemy;
+            enemy.animator.runtimeAnimatorController = userWeapon.animatorOverride;
+        }
+        userWeapon.currentWeapon = null;
     }
     public void AttachWeaponToSecondHand(Transform secondHandSocket)
     {
