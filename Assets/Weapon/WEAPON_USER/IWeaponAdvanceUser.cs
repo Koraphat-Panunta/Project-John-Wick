@@ -19,6 +19,8 @@ public interface IWeaponAdvanceUser
     public bool isAimingCommand { get; set; }
     public bool isReloadCommand { get; set; }
     public bool isPickingUpWeaponCommand { get; set; }
+    public bool isDropWeaponCommand { get; set; }
+    public RuntimeAnimatorController animatorOverride{ get; set; }
     public void Initialized_IWeaponAdvanceUser();
 }
 public class FindingWeaponBehavior
@@ -34,8 +36,7 @@ public class FindingWeaponBehavior
     }
     public bool FindingWeapon()
     {
-        Debug.Log("FindingWeapon");
-
+        weaponFindingSelecting = null;
 
         Collider[] collider = Physics.OverlapSphere(weaponAdvanceUser.userWeapon.transform.position,1, layerMask, QueryTriggerInteraction.UseGlobal);
 
@@ -44,7 +45,6 @@ public class FindingWeaponBehavior
 
         for (int i = 0; i < collider.Length; i++)
         {
-            Debug.Log("collider weapon =" + collider[i] + " num = "+i);
             if (weaponFindingSelecting == null)
             {
                 if (collider[i].TryGetComponent<Weapon>(out Weapon weapon))
@@ -58,11 +58,16 @@ public class FindingWeaponBehavior
 
             if (Vector3.Distance(weaponAdvanceUser.userWeapon.transform.position, weaponFindingSelecting.transform.position) >
                 Vector3.Distance(weaponAdvanceUser.userWeapon.transform.position, collider[i].transform.position))
+            {
+                if (collider[i].GetComponent<Weapon>().userWeapon == null)
                 weaponFindingSelecting = collider[i].GetComponent<Weapon>();
+            }
         }
 
-        if (weaponFindingSelecting != null)
+        if (weaponFindingSelecting != null) 
             return true;
+        
+            
 
         return false;
     }

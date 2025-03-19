@@ -76,7 +76,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
 
     public override void Resting(Weapon weapon)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponTransitionNodeLeaf)

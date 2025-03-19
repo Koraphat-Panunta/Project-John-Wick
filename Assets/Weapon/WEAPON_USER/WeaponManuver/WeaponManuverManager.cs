@@ -17,8 +17,10 @@ public abstract class WeaponManuverManager : INodeManager
     public bool isReloadManuver;
     public bool isSwitchWeaponManuver;
     public bool isPickingUpWeaponManuver;
+    public bool isDropWeaponManuver;
 
     public abstract PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
+    public abstract DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get;protected set; }
     public abstract WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public abstract PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
     public abstract SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }

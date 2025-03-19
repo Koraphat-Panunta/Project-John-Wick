@@ -41,7 +41,6 @@ public class NodeLeafTransitionBehavior
         nodeLeafTransitionAble.transitionAbleNode.Add(addNode, false);
 
     }
-
     public void TransitionAbleAll(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
         if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)

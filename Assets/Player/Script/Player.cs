@@ -28,6 +28,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isSwitchWeaponCommand = false;
         triggerDodgeRoll = false;
         isPickingUpWeaponCommand = false;
+        isDropWeaponCommand = false;
 
         if (_triggerGunFu == true)
         {
@@ -139,6 +140,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public bool isAimingCommand { get; set; }
     public bool isReloadCommand { get; set; }
     public bool isSwapShoulder;
+    public bool isPickingUpWeaponCommand { get; set; }
+    public bool isDropWeaponCommand { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
@@ -151,9 +154,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
+    public RuntimeAnimatorController animatorOverride { get; set; }
     public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
-    public bool isPickingUpWeaponCommand { get ; set ; }
-
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
@@ -165,6 +167,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new PlayerWeaponManuver(this,this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
+        animatorOverride = animator.runtimeAnimatorController;
     }
     #endregion
 
@@ -369,7 +372,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-
 
     #endregion
 

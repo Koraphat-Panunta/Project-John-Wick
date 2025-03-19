@@ -47,6 +47,8 @@ public class User : MonoBehaviour
         userInput.PlayerAction.TriggerDodgeRoll.performed += playerInputAPI.TriggerDodgeRoll;
 
         userInput.PlayerAction.TriggerPickingUpWeapon.performed += playerInputAPI.TriggerPickingUpWeapon;
+
+        userInput.PlayerAction.TriggerDropWeapon.performed += playerInputAPI.TriggerDropWeapon;
     }
 
     public void EnableInput()

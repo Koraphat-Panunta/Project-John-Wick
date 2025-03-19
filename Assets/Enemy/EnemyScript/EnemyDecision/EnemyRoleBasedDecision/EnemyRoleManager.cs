@@ -73,7 +73,8 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
     {
 
         EnemyRoleBasedDecision selectedEnemy = null;
-
+        if(allEnemiesAliveCount <=0)
+            return;
         for (int i = 0; i < allEnemiesAliveCount; i++)
         {
             if (enemies[i].enemyActionNodeManager == enemies[i].chaserRoleNodeManager)

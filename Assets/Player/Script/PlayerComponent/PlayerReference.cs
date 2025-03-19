@@ -20,6 +20,8 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public bool isReloadCommand { get => player.isReloadCommand; set => player.isReloadCommand = value; }
     public FindingWeaponBehavior findingWeaponBehavior { get => player.findingWeaponBehavior; set => player.findingWeaponBehavior = value; }
     public bool isPickingUpWeaponCommand { get => player.isPickingUpWeaponCommand; set => player.isPickingUpWeaponCommand = value; }
+    public bool isDropWeaponCommand { get => player.isDropWeaponCommand; set => player.isDropWeaponCommand = value; }
+    public RuntimeAnimatorController animatorOverride { get => player.animatorOverride; set => player.animatorOverride = value; }
 
     public void Initialized_IWeaponAdvanceUser()
     {

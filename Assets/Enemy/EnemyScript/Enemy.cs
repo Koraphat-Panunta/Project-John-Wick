@@ -47,7 +47,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     protected override void Awake()
     {
         base.Awake();
-
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
@@ -60,18 +59,22 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedCoverUsable();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
-        new WeaponFactorySTI9mm().CreateWeapon(this);
+
         cost = UnityEngine.Random.Range(50, 70);
         posture = 100;
 
         base.HP = 100;
         base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
+
+        new WeaponFactoryAR15().CreateWeapon(this);
     }
     
 
     void Update()
     {
+
+        Debug.Log("EnemyUpdate isPullTriggerCommand ="+isPullTriggerCommand);
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
         //combatOffensiveInstinct.UpdateSening();
@@ -80,11 +83,15 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
 
-        BlackBoardUpdate();
-        BlackBoardBufferUpdate();
+        
+
 
     }
-   
+    private void LateUpdate()
+    {
+        BlackBoardUpdate();
+        BlackBoardBufferUpdate();
+    }
     private void FixedUpdate()
     {
         enemyStateManagerNode.FixedUpdateNode();
@@ -118,6 +125,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _triggerHitedGunFu = false;
         _tiggerThrowAbleObjectHit = false;
         isPickingUpWeaponCommand = false;
+        isPullTriggerCommand = false;
 
     }
    
@@ -131,7 +139,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool isPullTriggerCommand { get ; set ; }
     public bool isAimingCommand { get;  set ; }
     public bool isReloadCommand { get ; set ; }
-
+    public bool isPickingUpWeaponCommand { get; set; }
+    public bool isDropWeaponCommand { get ; set ; }
     public Animator weaponUserAnimator { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
@@ -147,18 +156,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
+    public RuntimeAnimatorController animatorOverride { get; set; }
     public WeaponManuverManager weaponManuverManager { get; set; }
     public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
-    public bool isPickingUpWeaponCommand { get; set ; }
+
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;
         currentWeaponSocket = weaponMainSocket;
-        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 360, 360));
+        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this,this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
+        animatorOverride = animator.runtimeAnimatorController;
     }
     #endregion
 
@@ -427,7 +438,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-  
 
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {

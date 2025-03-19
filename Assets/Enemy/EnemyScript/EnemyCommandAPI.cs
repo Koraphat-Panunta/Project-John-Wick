@@ -427,16 +427,17 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void PullTrigger()
     {
+        Debug.Log("EnemyPullTrigger");
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.PullTrigger();
         weaponAdvanceUser.isPullTriggerCommand = true;
     }
-    public void CancleTrigger()
-    {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        //weaponAdvanceUser.weaponCommand.CancleTrigger();
-        weaponAdvanceUser.isPullTriggerCommand = false;
-    }
+    //public void CancleTrigger()
+    //{
+    //    IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+    //    //weaponAdvanceUser.weaponCommand.CancleTrigger();
+    //    weaponAdvanceUser.isPullTriggerCommand = false;
+    //}
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;

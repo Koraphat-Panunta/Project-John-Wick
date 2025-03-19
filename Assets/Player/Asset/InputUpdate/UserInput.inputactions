@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerDropWeapon",
+                    "type": "Button",
+                    "id": "0ea511f6-fbca-4dd4-969f-8c454985d33e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -530,6 +539,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "TriggerPickingUpWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c456cc0-ff16-4c9b-ae9d-9ccc100d9e40",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerDropWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
