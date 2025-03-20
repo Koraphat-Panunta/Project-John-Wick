@@ -233,7 +233,13 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             isLayer_1_Enable = false;
 
-            Debug.Log("PlayerCurNodeLeaf = " + player.playerStateNodeManager.curNodeLeaf);
+            if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm)
+            {
+                if (weaponDisarm.disarmedWeapon is PrimaryWeapon)
+                    animator.CrossFade("GunFuPrimaryDisarm", 0f,0,0);
+                if (weaponDisarm.disarmedWeapon is SecondaryWeapon)
+                    animator.CrossFade("GunFuSecondaryDisarm", 0f, 0, 0);
+            }
 
             if(player.playerStateNodeManager.curNodeLeaf == (player.playerStateNodeManager as PlayerStateNodeManager).Hit1gunFuNode)
                 animator.CrossFade("Hit", 0.2f, 0, 0);
@@ -255,14 +261,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf)
                 animator.CrossFade("DodgeSpinKick", 0.2f, 0, 0);
         }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
                 if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay) 
                 {
                     animator.CrossFade(humanShield.humandShieldStay, 0.05f, 0, 0);
                 }
-
+                
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)

@@ -34,8 +34,6 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
             isAiming = true;
         }
 
-        Debug.Log("isAiming = " + isAiming);
-
         if (isAiming == false)
             WarpingToCoverPos();
         else

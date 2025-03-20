@@ -17,7 +17,7 @@ public class HolsterPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Exit()
     {
-        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
     }
 
     public override void FixedUpdateNode()

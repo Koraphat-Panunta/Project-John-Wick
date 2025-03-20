@@ -93,6 +93,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void Resting(Weapon weapon)
     {
+        player.NotifyObserver(player,PlayerAction.Resting);
     }
 
     public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponSwitchNodeLeaf)
@@ -102,6 +103,5 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     public void QuickDraw(Weapon weapon,QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase)
     {
         player.NotifyObserver(player, PlayerAction.QuickDraw);
-     
     }
 }

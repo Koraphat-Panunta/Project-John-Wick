@@ -18,7 +18,7 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShieldNode)
                 if (humanShieldNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay)

@@ -64,7 +64,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         InitializedAimingProceduralAnimate();
 
         //new WeaponFactorySTI9mm().CreateWeapon(this);
-        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
+        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponToSocket(weaponBelt.secondaryWeaponSocket);
         //new WeaponFactoryAR15().CreateWeapon(this);
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
@@ -154,7 +154,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
-    public RuntimeAnimatorController animatorOverride { get; set; }
+    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
+    public AnimatorOverrideController _animatorOverride { get; set; }
     public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
     public void Initialized_IWeaponAdvanceUser()
     {
@@ -167,7 +168,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new PlayerWeaponManuver(this,this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
-        animatorOverride = animator.runtimeAnimatorController;
+        _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion
 

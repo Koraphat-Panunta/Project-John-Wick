@@ -73,8 +73,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     void Update()
     {
-
-        Debug.Log("EnemyUpdate isPullTriggerCommand ="+isPullTriggerCommand);
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
         //combatOffensiveInstinct.UpdateSening();
@@ -156,7 +154,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
-    public RuntimeAnimatorController animatorOverride { get; set; }
+
+    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
+    public AnimatorOverrideController _animatorOverride { get; set; }
     public WeaponManuverManager weaponManuverManager { get; set; }
     public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
 
@@ -169,7 +169,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this,this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
-        animatorOverride = animator.runtimeAnimatorController;
+        _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion
 
@@ -415,6 +415,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IGunFuAble gunFuAbleAttacker { get; set ; }
     public IGunFuNode curAttackerGunFuNode { get ; set ; }
     public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
+    public IMovementCompoent _movementCompoent { get => this.enemyMovement; set => this.enemyMovement = value; }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
 
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;

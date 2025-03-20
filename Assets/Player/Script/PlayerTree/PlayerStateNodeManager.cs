@@ -37,6 +37,7 @@ public class PlayerStateNodeManager : INodeManager
 
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
+    public WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanThrowGunFuInteractionNodeLeaf humanThrow_GunFuInteraction_NodeLeaf { get; private set; }
     public Hit2GunFuNode Hit2GunFuNode { get; private set; }
     public KnockDown_GunFuNode knockDown_GunFuNode { get; private set; }
@@ -87,6 +88,17 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player._triggerGunFu 
             && this.player.attackedAbleGunFu != null
             ,this.player.hit1);
+        weaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player,
+            () => 
+            {
+                if(player.isAimingCommand && player.attackedAbleGunFu != null)
+                {
+                    if(player.attackedAbleGunFu._weaponAdvanceUser.currentWeapon != null)
+                        return true;
+                }
+                return false;
+            }
+            );
         humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
             () => this.player.isAimingCommand
             && this.player.attackedAbleGunFu != null
@@ -122,11 +134,11 @@ public class PlayerStateNodeManager : INodeManager
 
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
 
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNode);
 
         Hit1gunFuNode.AddTransitionNode(Hit2GunFuNode);
-        Hit1gunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+        Hit1gunFuNode.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
         humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanThrow_GunFuInteraction_NodeLeaf);
         Hit2GunFuNode.AddTransitionNode(knockDown_GunFuNode);
         Hit2GunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);

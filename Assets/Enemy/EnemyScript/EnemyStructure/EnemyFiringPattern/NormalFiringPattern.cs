@@ -21,7 +21,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
     }
     public void Performing()
     {
-        Debug.Log("EnemyShootPerformded");
         if (curWeapon == null)
             return;
 
@@ -66,7 +65,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
 
         if (DetectObstacle(1))
        return;
-        Debug.Log("EnemyShoot");
         enemyController.PullTrigger();
 
     }

@@ -8,6 +8,8 @@ public interface IGunFuGotAttackedAble
     public IGunFuNode curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get; set; }
     public IGunFuAble gunFuAbleAttacker { get; set; }
+    public IMovementCompoent _movementCompoent { get; set; }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get; set; }
     public bool _isDead { get; set; }
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble);
 }

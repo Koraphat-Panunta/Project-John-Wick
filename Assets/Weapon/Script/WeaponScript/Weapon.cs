@@ -143,7 +143,39 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         }
         parentConstraint.weight = 1;
     }
-    public void AttachWeaponTo(Transform weaponSocket)
+    public void AttatchWeaponToNoneOverrideAnimator(IWeaponAdvanceUser WeaponUser)
+    {
+        isEquiped = true;
+        this.userWeapon = WeaponUser;
+        WeaponUser.currentWeapon = this;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = WeaponUser.currentWeaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+
+        parentConstraint.constraintActive = true;
+       
+        if (this is PrimaryWeapon)
+        {
+            if (WeaponUser.weaponBelt.primaryWeapon == null)
+                WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
+        }
+        else if (this is SecondaryWeapon)
+        {
+            if (WeaponUser.weaponBelt.secondaryWeapon == null)
+                WeaponUser.weaponBelt.secondaryWeapon = this as SecondaryWeapon;
+        }
+        parentConstraint.weight = 1;
+    }
+    public void AttachWeaponToSocket(Transform weaponSocket)
     {
         isEquiped = false;
         rb.isKinematic = true;
@@ -161,17 +193,45 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         
         parentConstraint.weight = 1;
-        if (userWeapon is Player)
+       
+        if (userWeapon.currentWeapon == this)
         {
-            Player p = userWeapon as Player;
-            p.animator.runtimeAnimatorController = userWeapon.animatorOverride;
+            if (userWeapon is Player)
+            {
+                Player p = userWeapon as Player;
+                p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            if (userWeapon is Enemy)
+            {
+                Enemy enemy = userWeapon as Enemy;
+                enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            userWeapon.currentWeapon = null;
         }
-        if (userWeapon is Enemy)
+    }
+    public void AttachWeaponToSocketNoneAnimatorOverride(Transform weaponSocket)
+    {
+        isEquiped = false;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = weaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
         {
-            Enemy enemy = userWeapon as Enemy;
-            enemy.animator.runtimeAnimatorController = userWeapon.animatorOverride;
+            parentConstraint.RemoveSource(0);
         }
-        userWeapon.currentWeapon = null;
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+        parentConstraint.constraintActive = true;
+
+        parentConstraint.weight = 1;
+
+        if (userWeapon.currentWeapon == this)
+        {
+            userWeapon.currentWeapon = null;
+        }
     }
     public void AttachWeaponToSecondHand(Transform secondHandSocket)
     {
@@ -204,25 +264,31 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             parentConstraint.constraintActive = true;
             parentConstraint.weight = 1;
         }
-        if (userWeapon is Player)
+        if (userWeapon.currentWeapon == this)
         {
-            Player p = userWeapon as Player;
-            p.animator.runtimeAnimatorController = userWeapon.animatorOverride;
-        }
-        if (userWeapon is Enemy)
-        {
-            Enemy enemy = userWeapon as Enemy;
-            enemy.animator.runtimeAnimatorController = userWeapon.animatorOverride;
+            if (userWeapon is Player)
+            {
+                Player p = userWeapon as Player;
+                p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            if (userWeapon is Enemy)
+            {
+                Enemy enemy = userWeapon as Enemy;
+                enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            userWeapon.currentWeapon = null;
         }
         if (this is PrimaryWeapon)
         {
+            if(userWeapon.weaponBelt.primaryWeapon == this as PrimaryWeapon)
             userWeapon.weaponBelt.primaryWeapon = null;
         }
         else if (this is SecondaryWeapon)
         {
+            if(userWeapon.weaponBelt.secondaryWeapon == this as SecondaryWeapon)
             userWeapon.weaponBelt.secondaryWeapon =null;
         }
-        userWeapon.currentWeapon = null;
+        
         userWeapon = null;
 
     }

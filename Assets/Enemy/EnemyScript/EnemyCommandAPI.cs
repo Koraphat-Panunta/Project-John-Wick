@@ -427,7 +427,6 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void PullTrigger()
     {
-        Debug.Log("EnemyPullTrigger");
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.PullTrigger();
         weaponAdvanceUser.isPullTriggerCommand = true;

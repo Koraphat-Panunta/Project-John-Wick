@@ -12,15 +12,26 @@ public class DrawPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+        Debug.Log("DrawPrimaryWeaponManuverNodeLeaf");
+        if(weaponAdvanceUser.currentWeapon == null)
+            (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+        else if(weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon 
+            && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+        {
+            weaponAdvanceUser.currentWeapon.DropWeapon();
+            (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+        }
+        else
+        {
+            throw new Exception("DrawPrimaryWeaponManuver corrupt");
+        }
         weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser.currentWeapon,this);
     }
 
     public override void Exit()
     {
-       
+        
     }
-
     public override void FixedUpdateNode()
     {
         

@@ -49,7 +49,8 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit
             ||enemyEvent == SubjectEnemy.EnemyEvent.FallDown
             ||enemyEvent == SubjectEnemy.EnemyEvent.GetUp
-            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit)
+            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
+            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
         {
             is_Layer1_Enable = false;
         }

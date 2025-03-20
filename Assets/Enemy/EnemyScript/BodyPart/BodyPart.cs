@@ -36,9 +36,12 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
+    public IMovementCompoent _movementCompoent { get => enemy._movementCompoent; set => enemy._movementCompoent = value; }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
+
     public bool _isDead { get => enemy.isDead; set { } }
 
-    public bool _triggerGotThrowed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool _triggerGotThrowed { get => enemy._tiggerThrowAbleObjectHit; set { } }
 
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)

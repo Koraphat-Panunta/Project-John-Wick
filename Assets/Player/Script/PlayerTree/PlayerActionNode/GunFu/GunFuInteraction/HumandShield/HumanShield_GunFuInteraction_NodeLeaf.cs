@@ -91,7 +91,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     if (elaspeTimmerEnter >= EnterDuration)
                     {
                         curIntphase = InteractionPhase.Stay;
-                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuHold);
+                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
                     }
                 }
                 break;

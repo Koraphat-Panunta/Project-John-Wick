@@ -74,6 +74,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         cameraManagerNode.FixedUpdateNode();
     }
     [SerializeField] private float cameraKickbackMultiple;
+
+    public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
@@ -100,10 +102,11 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         {
             isZooming = true;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.LowReady)
+        if(playerAction == SubjectPlayer.PlayerAction.LowReady || playerAction == SubjectPlayer.PlayerAction.Resting)
         {
             isZooming = false;
         }
+        
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             cameraImpluse.Performed();

@@ -57,7 +57,6 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
         if(weaponManuverManager.aimingWeight >= 1)
         {
-            Debug.Log("Enemy IspullTriggerManuver =" + weaponManuverManager.isPullTriggerManuver);
             weaponManuverManager.WeaponCommanding();
         }
     }

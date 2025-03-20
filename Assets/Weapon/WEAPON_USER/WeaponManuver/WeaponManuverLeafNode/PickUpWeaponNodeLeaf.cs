@@ -10,26 +10,39 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
     }
     public override void Enter()
     {
-        if(weaponAdvanceUser.currentWeapon != null
+        isComplete = false;
+        if (weaponAdvanceUser.currentWeapon == null)
+        {
+            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            isComplete = true;
+            return;
+        }
+        else if (weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
+            && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+        {
+            weaponAdvanceUser.currentWeapon.DropWeapon();
+            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            isComplete = true;
+            return;
+        }
+        else if(weaponAdvanceUser.currentWeapon != null
             &&weaponAdvanceUser.currentWeapon is PrimaryWeapon )
         {
-            weaponAdvanceUser.currentWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-            weaponAdvanceUser.currentWeapon = null;
+            weaponAdvanceUser.currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            isComplete = true;
+            return;
         }
         else if(weaponAdvanceUser.currentWeapon != null
             && weaponAdvanceUser.currentWeapon is SecondaryWeapon)
         {
-            weaponAdvanceUser.currentWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-            weaponAdvanceUser.currentWeapon=null;
-        }
-        if (weaponAdvanceUser.currentWeapon == null)
-        {
-            Debug.Log("Pick up weapon enter");
-            isComplete = false;
-            Debug.Log(findingWeaponBehavior);
+            weaponAdvanceUser.currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            isComplete = true;
+            return;
         }
-        isComplete = true;
+       
+   
     }
 
     public override void Exit()

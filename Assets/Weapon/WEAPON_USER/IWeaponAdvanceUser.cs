@@ -20,7 +20,7 @@ public interface IWeaponAdvanceUser
     public bool isReloadCommand { get; set; }
     public bool isPickingUpWeaponCommand { get; set; }
     public bool isDropWeaponCommand { get; set; }
-    public RuntimeAnimatorController animatorOverride{ get; set; }
+    public AnimatorOverrideController _animatorOverride{ get; set; }
     public void Initialized_IWeaponAdvanceUser();
 }
 public class FindingWeaponBehavior

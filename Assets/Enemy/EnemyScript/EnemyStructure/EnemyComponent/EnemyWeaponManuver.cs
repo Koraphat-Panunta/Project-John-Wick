@@ -125,6 +125,5 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
 
-        Debug.Log("Enemy WeaponAdvanceCommanding is PullTriggerCommand = "+ weaponAdvanceUser.isPullTriggerCommand);
     }
 }

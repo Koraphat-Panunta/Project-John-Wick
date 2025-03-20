@@ -46,6 +46,7 @@ public class EnemyStateManagerNode : INodeManager
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
+    public WeaponDisarmedGunFuGotInteractNodeLeaf weaponDisarmedGunFuGotInteractNodeLeaf { get; private set; }
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
     public HumandThrow_GotInteract_NodeLeaf gotHumanThrow_GunFuNodeLeaf { get; private set; }
 
@@ -280,6 +281,9 @@ public class EnemyStateManagerNode : INodeManager
             }
             , this.enemy.KnockDown);
 
+        weaponDisarmedGunFuGotInteractNodeLeaf = new WeaponDisarmedGunFuGotInteractNodeLeaf(this.enemy,
+            () => enemy.curAttackerGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf);
+
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,
             () => 
             { 
@@ -302,6 +306,7 @@ public class EnemyStateManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);
 
+        gunFuSelector.AddtoChildNode(weaponDisarmedGunFuGotInteractNodeLeaf);
         gunFuSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gunFuSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
         gunFuSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);

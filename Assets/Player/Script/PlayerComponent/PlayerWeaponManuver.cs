@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class PlayerWeaponManuver : WeaponManuverManager
@@ -12,6 +13,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public WeaponManuverSelectorNode curWeaponManuverSelectorNode { get; protected set; }
     public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverAtAmmoOutLeafNode { get; protected set; }
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get ;protected set; }
+    public RestWeaponManuverLeafNode restWeaponSwitchManuver { get; set; }
     public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverLeafNode { get ;protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get ; protected set ; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
@@ -23,7 +25,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
     public WeaponManuverSelectorNode drawWeaponManuverSelectorNode { get; protected set; }
     public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get; protected set; }
+    public DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponInWeaponManuvering;
     public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
+    public DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponInWeaponManuveringNodeLeaf;
     public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get ; protected set ; }
     public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get ; protected set ; }
 
@@ -75,6 +79,31 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
                 return false;
             });
+        drawPrimaryWeaponInWeaponManuvering = new DrawPrimaryWeaponManuverNodeLeaf(weaponAdvanceUser,
+            () =>
+            {
+                if(weaponAdvanceUser.currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+                    return false;
+
+                if(weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
+                &&weaponAdvanceUser.weaponBelt.primaryWeapon != null)
+                    return true;
+
+                return false;
+            });
+
+        drawSecondaryWeaponInWeaponManuveringNodeLeaf = new DrawSecondaryWeaponManuverNodeLeaf(weaponAdvanceUser,
+            () => 
+            {
+                if (weaponAdvanceUser.currentWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+                    return false;
+
+                if (weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
+               && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
+                    return true;
+                return false;
+            }
+            );
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null);
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
@@ -83,8 +112,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
             () => curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon);
         holsterSecondaryWeaponManuverNodeLeaf = new HolsterSecondaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon);
+        restWeaponSwitchManuver = new RestWeaponManuverLeafNode(weaponAdvanceUser,()=> true);
 
-      
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => isAimingManuver);
         lowReadyWeaponManuverNodeLeaf = new LowReadyWeaponManuverNodeLeaf(this.weaponAdvanceUser,
@@ -115,10 +144,13 @@ public class PlayerWeaponManuver : WeaponManuverManager
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         swtichingWeaponManuverSelector.AddtoChildNode(quickDrawWeaponManuverLeafNode);
+        swtichingWeaponManuverSelector.AddtoChildNode(drawPrimaryWeaponInWeaponManuvering);
+        swtichingWeaponManuverSelector.AddtoChildNode(drawSecondaryWeaponInWeaponManuveringNodeLeaf);
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);
         swtichingWeaponManuverSelector.AddtoChildNode(holsterSecondaryWeaponManuverNodeLeaf);
+        swtichingWeaponManuverSelector.AddtoChildNode(restWeaponSwitchManuver);
 
         drawWeaponManuverSelectorNode.AddtoChildNode(drawPrimaryWeaponManuverNodeLeaf);
         drawWeaponManuverSelectorNode.AddtoChildNode(drawSecondaryWeaponManuverNodeLeaf);
@@ -142,6 +174,23 @@ public class PlayerWeaponManuver : WeaponManuverManager
         if(player.isDead)
             return;
 
+        if(player.playerStateNodeManager.curNodeLeaf is GunFuHitNodeLeaf || player.playerStateNodeManager.curNodeLeaf is GunFu_Interaction_NodeLeaf)
+        {
+            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield
+                && humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay)
+            {
+                isAimingManuver = player.isAimingCommand;
+                isPullTriggerManuver = player.isPullTriggerCommand;
+                return;
+            }
+            //else if (player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
+            //{
+               
+            //    return;
+            //}
+            return;
+        }
+
         if (player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf)
         {
             isAimingManuver = false;
@@ -159,10 +208,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
             return;
         }
-        else
-        {
+        
             WeaponAdvanceCommanding(weaponAdvanceUser);
-        }
+        
        
     }
 

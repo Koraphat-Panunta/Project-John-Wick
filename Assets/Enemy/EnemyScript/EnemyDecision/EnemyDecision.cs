@@ -20,7 +20,6 @@ public abstract class EnemyDecision : MonoBehaviour
 
     protected virtual void Update()
     {
-        Debug.Log("EnemyDecisionUpdate");
     }
 
     protected virtual void FixedUpdate()

@@ -6,7 +6,6 @@ public class CameraGunFuHitViewNodeLeaf : CameraNodeLeaf
 {
     private CinemachineCameraOffset cameraOffset => cameraController.cameraOffset;
     private CinemachineCamera cinemachineFreeLook => cameraController.cinemachineCamera;
-    private ScrpCameraViewAttribute sprintView => cameraController.cameraViewAttribute;
 
     private float speedEnterView = 2f;
     public CameraGunFuHitViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
