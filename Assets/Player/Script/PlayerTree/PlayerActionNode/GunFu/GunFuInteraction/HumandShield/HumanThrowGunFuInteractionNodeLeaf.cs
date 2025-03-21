@@ -55,8 +55,8 @@ public class HumanThrowGunFuInteractionNodeLeaf : GunFu_Interaction_NodeLeaf
         {
             case HumanThrowPhase.beforeThrow:{
 
-                    attackedAbleGunFu._gunFuHitedAble.position = targetAdjustTransform.position;
-                    attackedAbleGunFu._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
+                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
 
                     if (_timer >= beforeThrowDuration)
                         curThrowPhase = HumanThrowPhase.Throwing;

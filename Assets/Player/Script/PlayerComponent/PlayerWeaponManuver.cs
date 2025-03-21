@@ -49,11 +49,13 @@ public class PlayerWeaponManuver : WeaponManuverManager
         quickDrawWeaponManuverAtAmmoOutLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => 
             {
-                if(isAimingManuver 
-                && curWeapon is PrimaryWeapon
-                && curWeapon.bulletStore[BulletStackType.Chamber] + curWeapon.bulletStore[BulletStackType.Magazine] <= 0
-                && curWeapon.triggerState == TriggerState.IsDown
-                && ((player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf) == false && (player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf) == false))
+                if(curWeapon == null)
+                    return false;
+
+                if (weaponAdvanceUser.weaponBelt.secondaryWeapon == null)
+                    return false;
+
+                if(curWeapon is PrimaryWeapon && isAimingManuver && curWeapon.bulletStore[BulletStackType.Chamber]<=0 && curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.triggerState == TriggerState.IsDown)
                     return true;
 
                 return false;

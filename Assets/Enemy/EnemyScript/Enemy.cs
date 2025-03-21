@@ -11,6 +11,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     IPainStateAble,IFallDownGetUpAble,
     IGunFuGotAttackedAble,IFriendlyFirePreventing,
     IThrowAbleObjectVisitable,ICommunicateAble
+    ,IBulletDamageAble
 {
     [Range(0,100)]
     public float intelligent;
@@ -68,6 +69,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyStateManagerNode = new EnemyStateManagerNode(this);
 
         new WeaponFactoryAR15().CreateWeapon(this);
+        //new WeaponFactorySTI9mm().CreateWeapon(this);
     }
     
 
@@ -80,9 +82,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyStateManagerNode.UpdateNode();
         weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
-
-        
-
 
     }
     private void LateUpdate()
@@ -106,6 +105,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         {
             NotifyObserver(this, EnemyEvent.Dead);
         }
+    }
+    public void TakeDamage(IDamageVisitor damageVisitor)
+    {
+        if (damageVisitor is Bullet bullet)
+        {
+            TakeDamage(bullet.hpDamage);
+            bullet.weapon.userWeapon.weaponAfterAction.HitDamageAble(this);
+        }
+
+
+    }
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
+    {
+        throw new NotImplementedException();
     }
 
     private void BlackBoardUpdate()
@@ -411,17 +424,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set ; }
     public Vector3 attackedPos { get; set; }
-    public Transform _gunFuHitedAble { get{ return transform; } set { } }
+    public Transform _gunFuAttackedAble { get{ return transform; } set { } }
     public IGunFuAble gunFuAbleAttacker { get; set ; }
     public IGunFuNode curAttackerGunFuNode { get ; set ; }
     public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
     public IMovementCompoent _movementCompoent { get => this.enemyMovement; set => this.enemyMovement = value; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
-
+    public IDamageAble _damageAble { get => this; set { } }
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
+
+    [SerializeField] public AnimationClip layUpExecutedAnim;
+    [SerializeField] public AnimationClip layDownExecutedAnim;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
         _triggerHitedGunFu = true;
@@ -484,7 +500,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(transform.position, 0.15f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward);
     }
 
-    
+   
 }

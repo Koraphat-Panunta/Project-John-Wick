@@ -35,6 +35,7 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get; private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get; private set; }
 
+    public GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf { get; private set; }
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
@@ -82,8 +83,19 @@ public class PlayerStateNodeManager : INodeManager
         playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this.player, 
             () => true);
 
-       
 
+        gunFuExecuteNodeLeaf = new GunFuExecuteNodeLeaf(player,
+            () => 
+            {
+                if(player._triggerExecuteGunFu == false)
+                    return false;
+                if (player.currentWeapon == null || player.currentWeapon.bulletStore[BulletStackType.Chamber] <= 0)
+                    return false;
+                if (player.executedAbleGunFu == null)
+                    return false;
+                return true;
+            }
+            );
         Hit1gunFuNode = new Hit1GunFuNode(this.player, 
             () => this.player._triggerGunFu 
             && this.player.attackedAbleGunFu != null
@@ -126,6 +138,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
 
+        standSelectorNode.AddtoChildNode(gunFuExecuteNodeLeaf);
         standSelectorNode.AddtoChildNode(Hit1gunFuNode);
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(standIncoverSelector);

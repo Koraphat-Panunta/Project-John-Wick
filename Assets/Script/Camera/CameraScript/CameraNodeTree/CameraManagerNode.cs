@@ -31,6 +31,7 @@ public class CameraManagerNode : INodeManager
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
     public CameraStandViewNodeLeaf cameraStandViewNodeLeaf { get; protected set; }
     public CameraGunFuWeaponDisarmViewNodeLeaf cameraGunFuWeaponDisarmViewNodeLeaf { get; protected set; }
+    public CameraGunFuExecuteOnGroundNodeLeaf cameraGunFuExecuteOnGroundNodeLeaf { get; protected set; }
     public CameraGunFuHitViewNodeLeaf cameraGunFuHitViewNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
 
@@ -55,6 +56,8 @@ public class CameraManagerNode : INodeManager
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
         cameraGunFuWeaponDisarmViewNodeLeaf = new CameraGunFuWeaponDisarmViewNodeLeaf(this.cameraController,
             () => cameraController.isWeaponDisarm);
+        cameraGunFuExecuteOnGroundNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(this.cameraController,
+            () => this.cameraController.player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf);
         cameraGunFuHitViewNodeLeaf = new CameraGunFuHitViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.gunFuCameraTimer > 0);
 
@@ -66,6 +69,7 @@ public class CameraManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(cameraPlayerBasedSelector);
         startNodeSelector.AddtoChildNode(cameraRestNodeLeaf);
 
+        cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuExecuteOnGroundNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraSprintViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraAimDownSightViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraCrouchViewNodeLeaf);

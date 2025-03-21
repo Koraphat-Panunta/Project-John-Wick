@@ -10,7 +10,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public abstract float hpReciverRate { get; set; }
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
-    public Transform _gunFuHitedAble { get => enemy._gunFuHitedAble; set { } }
+    public Transform _gunFuAttackedAble { get => enemy._gunFuAttackedAble; set { } }
     public Vector3 attackedPos { get; set; }
 
     public Vector3 forceSave;
@@ -38,6 +38,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
     public IMovementCompoent _movementCompoent { get => enemy._movementCompoent; set => enemy._movementCompoent = value; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
+    public IDamageAble _damageAble { get => enemy._damageAble; set => enemy._damageAble = value; }
 
     public bool _isDead { get => enemy.isDead; set { } }
 

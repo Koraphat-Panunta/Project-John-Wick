@@ -28,7 +28,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract float movementSpeed { get;  set; }
     public abstract float drawSpeed { get; set; }
 
-    public bool isPullTrigger;
+    public bool isPullTrigger { get; protected set; }
     public bool isReloadCommand;
     public bool isEquiped;
 

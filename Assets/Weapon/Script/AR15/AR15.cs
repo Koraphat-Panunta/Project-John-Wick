@@ -150,7 +150,7 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack
         firingAutoLoad = new WeaponSequenceNode(this,
             () => {
                 return bulletStore[BulletStackType.Chamber] > 0
-                && triggerState == TriggerState.Down || triggerState == TriggerState.IsDown; }
+                && (triggerState == TriggerState.Down || triggerState == TriggerState.IsDown); }
             );
 
         fire = new FiringNode(this,

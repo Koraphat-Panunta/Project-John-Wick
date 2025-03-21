@@ -17,7 +17,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public Character selfNPCTarget => this;
 
-    [SerializeField] public bool isImortal { get; private set; }
+    [SerializeField] public bool isImortal;
 
     public float MyHP;
    
@@ -29,7 +29,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         triggerDodgeRoll = false;
         isPickingUpWeaponCommand = false;
         isDropWeaponCommand = false;
-
+        if (_triggerExecuteGunFu)
+            Debug.Log("_triggerExecuteGunFu");
+        _triggerExecuteGunFu = false;
         if (_triggerGunFu == true)
         {
             triggerGunFuBufferTime -= Time.deltaTime;
@@ -150,7 +152,17 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public WeaponCommand weaponCommand { get; set; }
     public WeaponManuverManager weaponManuverManager { get ; set ; }
     public Vector3 shootingPos { get 
-        { return crosshairController.CrosshiarShootpoint.GetShootPointDirection(); } set { } }
+        { 
+            if(playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf) 
+            {
+                Ray ray = new Ray(currentWeapon.bulletSpawnerPos.position, currentWeapon.bulletSpawnerPos.forward);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
+                    return hitInfo.point;
+                else
+                    return ray.GetPoint(100);
+            }    
+            return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
+        } set { } }
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
@@ -196,6 +208,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedGunFu
     public bool _triggerGunFu { get ; set ; }
+    public bool _triggerExecuteGunFu { get; set; }
     public float triggerGunFuBufferTime { get ; set ; }
     public IWeaponAdvanceUser _weaponUser { get ; set; }
     public Vector3 _gunFuAimDir { get; set; }
@@ -207,6 +220,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
     public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get 
         {
             if(playerStateNodeManager.curNodeLeaf is IGunFuNode gunFuNode)
@@ -238,7 +252,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
             return;
 
-        if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+        if(gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
+            executedAbleGunFu = excecuteTarget;
+        else
+            executedAbleGunFu = null;
+        
+        if (gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
             attackedAbleGunFu = target;
         else
             attackedAbleGunFu = null;
@@ -328,6 +347,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public PlayerStance playerStance = PlayerStance.stand;
 
     public Transform centreTransform;
+
+    [SerializeField] public AnimationCurve moveWarping;
 
     #endregion
 

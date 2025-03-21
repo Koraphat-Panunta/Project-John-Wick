@@ -43,6 +43,7 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
 
     public EnemyStateSelectorNode gunFuSelector { get; private set; }
+    public GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
@@ -259,10 +260,15 @@ public class EnemyStateManagerNode : INodeManager
 
         gunFuSelector = new EnemyStateSelectorNode(this.enemy, 
             () => enemy._triggerHitedGunFu);
+        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_GotInteract_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
+            () => 
+            {
+                return enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf;
+            }
+            );
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,
             () => 
             {
-
                 return enemy.curAttackerGunFuNode is Hit1GunFuNode || enemy.curAttackerGunFuNode is DodgeSpinKicklGunFuNodeLeaf;
             }
             , this.enemy.GotHit1);
@@ -306,6 +312,7 @@ public class EnemyStateManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);
 
+        gunFuSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
         gunFuSelector.AddtoChildNode(weaponDisarmedGunFuGotInteractNodeLeaf);
         gunFuSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gunFuSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);

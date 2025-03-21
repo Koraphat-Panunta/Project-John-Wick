@@ -50,13 +50,15 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
     }
     public void MovementUpdate()
     {
-        if(isEnable == false)
+        forwardDir = player.transform.forward;
+
+        if (isEnable == false)
             return;
 
         moveInputVelocity_Local = TransformWorldToLocalVector(moveInputVelocity_World, player.transform.forward);
         curMoveVelocity_Local = TransformWorldToLocalVector(curMoveVelocity_World, player.gameObject.transform.forward);
 
-        forwardDir = player.transform.forward;
+
         DrawLine();
     }
     public void MovementFixedUpdate()
@@ -65,6 +67,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
             return;
 
         GravityUpdate();
+        if(movementMotionWarping == null || movementMotionWarping.isWarping == false)
         characterController.Move(curMoveVelocity_World * Time.deltaTime);
 
         if (Physics.Raycast(player.centreTransform.position, Vector3.down, 1,moveTo.GetGroundLayerMask()))
@@ -175,12 +178,21 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (forwardDir), Color.blue);
     }
 
-    public void StartWarping(Vector3 start, Vector3 cT1, Vector3 cT2, Vector3 exit, float duration, AnimationCurve animationCurve, IMovementCompoent movementCompoent)
+    public void StartWarpingCurve(Vector3 start, Vector3 cT1, Vector3 cT2, Vector3 exit, float duration, AnimationCurve animationCurve, IMovementCompoent movementCompoent)
     {
+        curMoveVelocity_World = Vector3.zero;
        if(movementMotionWarping == null)
             movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent,this.characterController);
 
         this.movementMotionWarping.StartMotionWarpingCurve(start, cT1, cT2, exit, duration, animationCurve);
+    }
+    public void StartWarpingLinear(Vector3 start,Vector3 end,float duration,AnimationCurve animationCurve, IMovementCompoent movementCompoent)
+    {
+        curMoveVelocity_World = Vector3.zero;
+        if (movementMotionWarping == null)
+            movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent, this.characterController);
+
+        this.movementMotionWarping.StartMotionWarpingLinear(start,end, duration, animationCurve);
     }
 
     public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);

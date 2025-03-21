@@ -233,6 +233,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             isLayer_1_Enable = false;
 
+            if(player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
+            {
+                if (player.currentWeapon is PrimaryWeapon)
+                    animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.2f,0,0);
+                if (player.currentWeapon is SecondaryWeapon)
+                    animator.CrossFade("GunFu_EX_Knee", 0.2f, 0, 0);
+            }
+
             if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm)
             {
                 if (weaponDisarm.disarmedWeapon is PrimaryWeapon)

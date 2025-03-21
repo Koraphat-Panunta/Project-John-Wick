@@ -1178,7 +1178,6 @@ GameObject:
   - component: {fileID: 3684594567330488753}
   - component: {fileID: 6689373605689767352}
   - component: {fileID: 479724700564208580}
-  - component: {fileID: -7491165236247019203}
   - component: {fileID: -5794132423715581005}
   m_Layer: 7
   m_Name: Enemy
@@ -1364,6 +1363,8 @@ MonoBehaviour:
   GotHit1: {fileID: 11400000, guid: 89beee9d80c7879458e06b1798e56702, type: 2}
   GotHit2: {fileID: 11400000, guid: 1ce782e84fbdb0841a7650776df1f2c5, type: 2}
   KnockDown: {fileID: 11400000, guid: 4bfe2469bdaf93a4aaa0d9e60241e9f2, type: 2}
+  layUpExecutedAnim: {fileID: 7400000, guid: daa8446c6cecbf64bbfa3a89be4da16f, type: 2}
+  layDownExecutedAnim: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
 --- !u!114 &6414908439600597232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1780,24 +1781,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &-7491165236247019203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a54564462433d54a94cb9ee5f8372d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HpGetAbleObject: {fileID: 2275463908204227942, guid: bab5162ec9f0dfa4aa8a60bc256c35ee,
-    type: 3}
-  AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
-    type: 3}
-  SpawnForceUp: 3
-  SpawnForceSide: 2
 --- !u!114 &-5794132423715581005
 MonoBehaviour:
   m_ObjectHideFlags: 0

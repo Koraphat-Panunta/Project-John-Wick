@@ -1124,7 +1124,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d0a1d2b29fedf314395ef7daed58faab, type: 2}
+  m_Motion: {fileID: 7400000, guid: be1ed784f7b12f34cbc9f8321d8df768, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1457,6 +1457,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-6463155807872893529
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GunFu_EX_Knee
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 7713d10494788654e932c3f2d06a253e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &-6450136592477552534
 BlendTree:
   m_ObjectHideFlags: 1
@@ -6003,6 +6029,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &3664749813023168798
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GunFu_EX_stepOn_Rifle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 11dc16514898bc54a857c53a4f80991c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &3666474947219977605
 AnimatorState:
   serializedVersion: 6
@@ -6023,7 +6075,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4e74fb712f9c77c4fa8a83babc06da7e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 27fe9d08c53d2e0448799cf6c140d9c9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -6417,7 +6469,7 @@ AnimatorStateMachine:
     m_Position: {x: -1490, y: 870, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8209537821538338948}
-    m_Position: {x: -1490, y: 1050, z: 0}
+    m_Position: {x: -1490, y: 980, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4544021444958423793}
     m_Position: {x: -850, y: 900, z: 0}
@@ -6439,6 +6491,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -6956663868523977720}
     m_Position: {x: -1810, y: 860, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6463155807872893529}
+    m_Position: {x: -1770, y: 1100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5008390155927828381}
+    m_Position: {x: -1370, y: 1100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3664749813023168798}
+    m_Position: {x: -1570, y: 1180, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -6634,6 +6695,32 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &5008390155927828381
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GunFu_EX_stepOn_Pistol
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: a8702ad8f4629244ab8a11e282b48a6a, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &5089983205699347937
 BlendTree:
   m_ObjectHideFlags: 1

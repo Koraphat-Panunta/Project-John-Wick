@@ -105,7 +105,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""id"": ""bab15d60-90f2-4680-b0c5-32d1798bb5ee"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold,Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -513,7 +513,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""2079e9f8-8059-4712-a1e0-828e1ae6bd05"",
                     ""path"": ""<Keyboard>/f"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TrggerGunFu"",

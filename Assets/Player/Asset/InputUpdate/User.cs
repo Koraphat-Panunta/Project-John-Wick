@@ -39,7 +39,6 @@ public class User : MonoBehaviour
         userInput.PlayerAction.SwitchWeapon.canceled += playerInputAPI.SwitchWeapon;
 
         userInput.PlayerAction.TrggerGunFu.performed += playerInputAPI.TriggerGunFu;
-        userInput.PlayerAction.TrggerGunFu.canceled += playerInputAPI.TriggerGunFu;
 
         userInput.PlayerAction.ToggleChangeStance.performed += playerInputAPI.ToggleCrouchStand;
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;

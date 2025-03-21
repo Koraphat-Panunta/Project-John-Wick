@@ -31,7 +31,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public override void Enter()
     {
         this.attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
-        targetEnterPos = attackedAbleGunFu._gunFuHitedAble.position;
+        targetEnterPos = attackedAbleGunFu._gunFuAttackedAble.position;
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
@@ -86,7 +86,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
         if (Vector3.Distance(targetPos, player.transform.position) > 0.6f)
         {
-            player.playerMovement.RotateToDirWorld(attackedAbleGunFu._gunFuHitedAble.position - player.transform.position, 15);
+            player.playerMovement.RotateToDirWorld(attackedAbleGunFu._gunFuAttackedAble.position - player.transform.position, 15);
             player.playerMovement.SnapingMovement(targetPos, Vector3.zero, 300 * Time.deltaTime);
         }
     }

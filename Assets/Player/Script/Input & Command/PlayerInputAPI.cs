@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using static Player;
 using static SubjectPlayer;
 
@@ -69,8 +70,17 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void TriggerGunFu(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.interaction is HoldInteraction)
+        {
+            Debug.Log("context.interaction is HoldInteraction");
+            player._triggerExecuteGunFu = true;
+        }
+        else if(context.interaction is PressInteraction)
+        {
+            Debug.Log("context.interaction is PressInteraction");
             player._triggerGunFu = true;
+        }
+
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)
     {

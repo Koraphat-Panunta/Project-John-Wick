@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 {
-    private float pull = 0.05f;
-    private float duration = 0.4f;
+    private float pull = 0.14f;
+    private float duration = 0.5f;
 
     private float elapesTime;
 
@@ -39,6 +39,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser.currentWeapon;
         attackedAbleGunFu.TakeGunFuAttacked(this, player);
         isDisarmWeapon = false;
+
         base.Enter();
     }
 
@@ -55,21 +56,24 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         if(elapesTime <= pull)
         {
             curPhase = WeaponDisarmPhase.Pull;
-            attackedAbleGunFu._gunFuHitedAble.position = Vector3.Lerp(
-                       attackedAbleGunFu._gunFuHitedAble.position,
+            attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
+                       attackedAbleGunFu._gunFuAttackedAble.position,
                        targetAdjustTransform.position,
                        elapesTime / pull
                        );
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+            attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(attackedAbleGunFu._gunFuAttackedAble.rotation, Quaternion.LookRotation(targetAdjustTransform.forward*-1,Vector3.up), elapesTime / pull);
+
         }
         
         if(elapesTime > pull && isDisarmWeapon == false)
         {
+            disarmedWeapon.DropWeapon();
+            
             player.StartCoroutine(SlowMotion());
             curPhase = WeaponDisarmPhase.Disarmed;
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
             isDisarmWeapon = true;
-            disarmedWeapon.DropWeapon();
             (attackedAbleGunFu._movementCompoent as IMotionImplusePushAble).AddForcePush(player.transform.forward * 2.5f,IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
             if (player.weaponAdvanceUser.currentWeapon == null)
             {
@@ -98,6 +102,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                 throw new Exception("WeaponDisarm");
             curPhase = WeaponDisarmPhase.AfterDisarmed;
         }
+       
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
 
         if (elapesTime >= duration)
@@ -130,7 +135,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 
     IEnumerator SlowMotion()
     {
-        yield return new WaitForSeconds(duration*0.2f);
+        yield return new WaitForSecondsRealtime(duration*0.5f);
 
         Time.timeScale = 0.25f; // Set slow motion (25% speed)
         Time.fixedDeltaTime = 0.02f * Time.timeScale; // Adjust physics for smoothness

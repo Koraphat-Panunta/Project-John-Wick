@@ -260,6 +260,11 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
+        Debug.Log("enemy._triggerHitedGunFu ="+ enemy._triggerHitedGunFu);
+        Debug.Log("enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf = " + enemy.curAttackerGunFuNode );
+        if(enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf)
+            return true;
+
         if(IsComplete())
             return true;
 
@@ -269,11 +274,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         return false;
     }
 
-    private class BoneTransform
-    {
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
-    }
+   
 }
 
 

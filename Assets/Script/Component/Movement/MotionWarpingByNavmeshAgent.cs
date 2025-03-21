@@ -86,4 +86,58 @@ public class MotionWarpingByNavmeshAgent : IMovementMotionWarping
         motionWarping = this.movementComponent.userMovement.StartCoroutine(MotionWarpingCurve(start, cT1, cT2, exit, duration, animationCurve));
     }
     public bool IsWarpingComplete() => isWarpingComplete;
+
+    public IEnumerator MotionWarpingLinear(Vector3 start, Vector3 end, float duration, AnimationCurve animationCurve)
+    {
+        float elapsedTime = 0f; // Track the elapsed time of the motion
+
+        isWarpingComplete = false;
+        isWarping = true;
+
+        // Set NavMeshAgent settings to allow manual movement
+        agent.isStopped = true;  // Stop any ongoing pathfinding
+
+        while (elapsedTime < duration)
+        {
+            // Calculate normalized time (0 to 1)
+            float t = elapsedTime / duration;
+
+            // Apply animation curve for smooth interpolation
+            float smoothedT = animationCurve.Evaluate(t);
+
+            // Compute the interpolated position
+            Vector3 position = Vector3.Lerp(start, end, smoothedT);
+
+            // Move the NavMeshAgent
+            Vector3 delta = position - agent.transform.position;
+            agent.Move(delta);
+
+            // Increment time
+            elapsedTime += Time.deltaTime;
+
+            yield return null; // Wait for the next frame
+        }
+
+        // Ensure the agent reaches the final position
+        Vector3 finalDelta = end - agent.transform.position;
+        agent.Move(finalDelta);
+
+        // Restore NavMeshAgent behavior
+        agent.isStopped = false;
+
+        motionWarping = null;
+        isWarping = false;
+        isWarpingComplete = true;
+    }
+
+    public void StartMotionWarpingLinear(Vector3 start, Vector3 end, float duration, AnimationCurve animationCurve)
+    {
+        if (motionWarping != null)
+        {
+            movementComponent.userMovement.StopCoroutine(motionWarping);
+        }
+
+        motionWarping = movementComponent.userMovement.StartCoroutine(MotionWarpingLinear(start, end, duration, animationCurve));
+    }
+
 }
