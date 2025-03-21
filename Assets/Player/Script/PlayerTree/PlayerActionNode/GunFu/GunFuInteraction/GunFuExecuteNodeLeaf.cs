@@ -84,12 +84,16 @@ public class GunFuExecuteNodeLeaf : GunFu_Interaction_NodeLeaf,INodeLeafTransiti
             {
                 if (isWarping == false)
                 {
-                    float offset = 0.54f;
+                    float offsetForward = 0.6f;
+                    float offsetRight = 0.3f;
                     Vector3 warpPos;
-                    if (gotEx.isFacingUp)      
-                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward*  offset;
+                    if (gotEx.isFacingUp)
+                    
+                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward * offsetForward - gunFuExecuteAble._gunFuAttackedAble.right * offsetRight;
+                    
                     else
-                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward * -offset;
+                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward * -offsetForward + gunFuExecuteAble._gunFuAttackedAble.right * offsetRight;
+
 
                     player.playerMovement.StartWarpingLinear(player.transform.position, warpPos, warpingTime, player.moveWarping, player.playerMovement);
                     isWarping = true;

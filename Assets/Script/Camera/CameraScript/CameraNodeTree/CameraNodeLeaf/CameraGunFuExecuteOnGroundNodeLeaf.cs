@@ -36,14 +36,14 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf
         {
             offsetX = Mathf.Lerp(this.cameraOffset.Offset.x,
                 viewAttribute.GunFuExecute_Offset_Right.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+                speedEnterView * Time.deltaTime);
 
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
             offsetX = Mathf.Lerp(this.cameraOffset.Offset.x,
                 -viewAttribute.GunFuExecute_Offset_Right.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+                speedEnterView * Time.deltaTime);
         }
 
         this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(this.cinemachineFreeLook.Lens.FieldOfView, viewAttribute.GunFuExecute_FOV, speedEnterView * Time.deltaTime);
