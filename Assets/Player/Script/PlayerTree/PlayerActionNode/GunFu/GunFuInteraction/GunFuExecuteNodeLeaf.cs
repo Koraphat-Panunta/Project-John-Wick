@@ -84,7 +84,7 @@ public class GunFuExecuteNodeLeaf : GunFu_Interaction_NodeLeaf,INodeLeafTransiti
             {
                 if (isWarping == false)
                 {
-                    float offset = 0.2f;
+                    float offset = 0.54f;
                     Vector3 warpPos;
                     if (gotEx.isFacingUp)      
                         warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward*  offset;
