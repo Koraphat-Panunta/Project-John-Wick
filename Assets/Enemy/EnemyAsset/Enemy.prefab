@@ -1179,6 +1179,7 @@ GameObject:
   - component: {fileID: 6689373605689767352}
   - component: {fileID: 479724700564208580}
   - component: {fileID: -5794132423715581005}
+  - component: {fileID: 1068420054499277711}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1798,6 +1799,23 @@ MonoBehaviour:
   posture: 0
   PainPart: 0
   Debug: 
+--- !u!114 &1068420054499277711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a54564462433d54a94cb9ee5f8372d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HpGetAbleObject: {fileID: 0}
+  AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
+    type: 3}
+  SpawnForceUp: 2.8
+  SpawnForceSide: 3.1
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

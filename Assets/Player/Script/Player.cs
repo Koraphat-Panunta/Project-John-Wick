@@ -14,7 +14,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
-
     public Character selfNPCTarget => this;
 
     [SerializeField] public bool isImortal;
@@ -44,7 +43,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         }
 
     }
-    private void Awake()
+    protected override void Awake()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
@@ -175,7 +174,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;
-        weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(90, 90, 60, 60));
+        weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(45, 45, 30, 30
+            ,45,45,60,60));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new PlayerWeaponManuver(this,this);
@@ -228,6 +228,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
             return null;
         } set { } 
     }
+    public StackGague gunFuExecuteStackGauge { get ; set ; }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
@@ -238,6 +239,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public void InitailizedGunFuComponent()
     {
+        gunFuExecuteStackGauge = new PlayerGunFuExecuteStackGauge(this, 3, 0);
+
         _weaponUser = this;
         _gunFuUserTransform = RayCastPos;
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(0));
@@ -369,14 +372,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    if(currentWeapon == null)
-                        return false;
-
-                    BulletType primaryType = (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).bullet.myType;
-                    BulletType secondaryType = (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).bullet.myType;
-
-                    if (weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[primaryType] < weaponBelt.ammoProuch.maximunAmmo[primaryType]
-                        || weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[secondaryType] < weaponBelt.ammoProuch.maximunAmmo[secondaryType])
+                    if (weaponBelt.ammoProuch.amountOf_ammo[BulletType._9mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._9mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._45mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._45mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._556mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._556mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._762mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._762mm])
                         return true;
                 }
                 break;
@@ -394,6 +393,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
+
 
     #endregion
 

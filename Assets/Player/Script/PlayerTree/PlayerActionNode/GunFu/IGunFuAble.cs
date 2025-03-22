@@ -13,6 +13,7 @@ public interface IGunFuAble
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
     public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get; set; }
+    public StackGague gunFuExecuteStackGauge { get; set; }
     public void InitailizedGunFuComponent();
     public void UpdateDetectingTarget();
 }
