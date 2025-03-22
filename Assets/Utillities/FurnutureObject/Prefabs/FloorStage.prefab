@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 6052729353947379132}
   - component: {fileID: 3384650839566817756}
   - component: {fileID: 8173678277863414409}
-  - component: {fileID: 490824036941693755}
+  - component: {fileID: -5514466708549165633}
   m_Layer: 11
   m_Name: FloorStage
   m_TagString: Untagged
@@ -330,7 +330,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 3f3bcf9189ada234c866c107c7f0220a, type: 3}
---- !u!114 &490824036941693755
+--- !u!114 &-5514466708549165633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -339,14 +339,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7672176634275765521}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 0
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

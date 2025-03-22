@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8527814623110892662}
   - component: {fileID: 3583161039775912712}
   - component: {fileID: 9067207556841107792}
-  - component: {fileID: 6573248229794177078}
+  - component: {fileID: 4447665247280606726}
   m_Layer: 0
   m_Name: Statue
   m_TagString: Untagged
@@ -110,7 +110,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2035068574203303680, guid: 13640787e642c3d4486a45cdc2f8516d, type: 3}
---- !u!114 &6573248229794177078
+--- !u!114 &4447665247280606726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,14 +119,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 9156327118661664404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

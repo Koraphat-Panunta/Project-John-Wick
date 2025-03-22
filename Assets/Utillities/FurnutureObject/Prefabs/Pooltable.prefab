@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5579284890583028095}
   - component: {fileID: 3396906363419142823}
   - component: {fileID: 2864550542831631396}
-  - component: {fileID: 2623887344423658523}
+  - component: {fileID: 5106545447122723555}
   m_Layer: 0
   m_Name: Pooltable
   m_TagString: Untagged
@@ -111,7 +111,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.00993039, y: 0.019461004, z: 0.008775589}
   m_Center: {x: -0.003903821, y: 0.010553884, z: -0.0038053633}
---- !u!114 &2623887344423658523
+--- !u!114 &5106545447122723555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,14 +120,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2039272092490524408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5839569534224530321}
   - component: {fileID: 7669076592255555814}
   - component: {fileID: 3972845325602843968}
-  - component: {fileID: 6201736458315398335}
+  - component: {fileID: -1833672581501813279}
   m_Layer: 0
   m_Name: LockerOpen
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.012200144, y: 0.006643553, z: 0.0205404}
   m_Center: {x: -0.0027269344, y: -0.000000014202669, z: 0.0074669374}
---- !u!114 &6201736458315398335
+--- !u!114 &-1833672581501813279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,14 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4544815945366574771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

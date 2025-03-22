@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 9043978051086129817}
   - component: {fileID: 4492524506191168547}
   - component: {fileID: 34200786113002539}
-  - component: {fileID: 8131208692260780828}
+  - component: {fileID: 5394450518927565044}
   m_Layer: 0
   m_Name: ToiletHandWash
   m_TagString: Untagged
@@ -759,7 +759,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.028420227, y: 0.0083129695, z: 0.009575459}
   m_Center: {x: 0.000000015366831, y: -0.001194109, z: -0.0001440782}
---- !u!114 &8131208692260780828
+--- !u!114 &5394450518927565044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -768,16 +768,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7263725669732159583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
 --- !u!1 &8462495456385009539
 GameObject:

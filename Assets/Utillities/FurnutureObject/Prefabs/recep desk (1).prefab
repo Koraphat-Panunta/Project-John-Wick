@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2927593970330395387}
   - component: {fileID: 4979055837683676140}
   - component: {fileID: 6255115742107929400}
-  - component: {fileID: 5845195570322550970}
+  - component: {fileID: -8910936793144161147}
   m_Layer: 0
   m_Name: recep desk (1)
   m_TagString: Untagged
@@ -114,7 +114,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.006508751, y: 0.04728202, z: 0.014200272}
   m_Center: {x: 0.00057749567, y: -0.0003271177, z: -0.000012221979}
---- !u!114 &5845195570322550970
+--- !u!114 &-8910936793144161147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,14 +123,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6314274449065498149}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

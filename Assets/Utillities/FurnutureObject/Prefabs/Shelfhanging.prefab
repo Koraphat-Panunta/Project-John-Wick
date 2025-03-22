@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5591446340966810853}
   - component: {fileID: 2060797676403812773}
   - component: {fileID: 7213171031314575260}
-  - component: {fileID: 6201094800564604792}
+  - component: {fileID: -6113299675583191290}
   m_Layer: 0
   m_Name: Shelfhanging
   m_TagString: Untagged
@@ -111,7 +111,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.005002976, y: 0.02, z: 0.007959902}
   m_Center: {x: 0.0010045738, y: 0.0000000074408457, z: 0.0013312112}
---- !u!114 &6201094800564604792
+--- !u!114 &-6113299675583191290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,14 +120,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3389535636533225339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

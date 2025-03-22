@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1408644718267904384}
   - component: {fileID: 3327070460392685120}
   - component: {fileID: 7967791020493033039}
-  - component: {fileID: 828843807925035313}
+  - component: {fileID: 6221106599938085976}
   m_Layer: 0
   m_Name: Empty_Plant_Shelf_1
   m_TagString: Untagged
@@ -111,7 +111,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.84384334, y: 1.2946898, z: 1.0884078}
   m_Center: {x: -0.49725053, y: 5.060051, z: -0.06481687}
---- !u!114 &828843807925035313
+--- !u!114 &6221106599938085976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,14 +120,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4760105243593189326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

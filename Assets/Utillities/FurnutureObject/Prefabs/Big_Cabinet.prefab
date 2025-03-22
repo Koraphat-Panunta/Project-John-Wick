@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6556909084355245565}
   - component: {fileID: 8834130207824908661}
   - component: {fileID: 4949931233121455117}
-  - component: {fileID: 4570752144543765626}
+  - component: {fileID: 7932113264963697365}
   m_Layer: 0
   m_Name: Big_Cabinet
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.023392705, y: 0.050153565, z: 0.071388945}
   m_Center: {x: 0.015608806, y: 0.0015235872, z: 0.038864456}
---- !u!114 &4570752144543765626
+--- !u!114 &7932113264963697365
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,14 +118,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7875541680601381651}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

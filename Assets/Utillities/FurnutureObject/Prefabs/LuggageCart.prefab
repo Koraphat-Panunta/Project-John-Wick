@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6843641824817342862}
   - component: {fileID: 411689671408954167}
   - component: {fileID: 4293214310636188494}
-  - component: {fileID: 8934197845611083585}
+  - component: {fileID: 7937344259887893524}
   m_Layer: 0
   m_Name: LuggageCart
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0060672807, y: 0.00816964, z: 0.0115936855}
   m_Center: {x: 0.00017205627, y: -6.3954914e-10, z: 0.0045869215}
---- !u!114 &8934197845611083585
+--- !u!114 &7937344259887893524
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,14 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6345119967291827756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

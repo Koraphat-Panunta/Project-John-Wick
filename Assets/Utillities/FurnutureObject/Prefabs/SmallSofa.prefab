@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 840617161754995555}
   - component: {fileID: 1889903574092945644}
   - component: {fileID: 4736044833963245320}
-  - component: {fileID: 6380347600934057427}
+  - component: {fileID: 5032179705834580482}
+  - component: {fileID: -8635341767303071970}
   m_Layer: 0
   m_Name: SmallSofa
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6017915984512570900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.063328855, y: -0.7042651, z: -0.7042653, w: -0.063328855}
+  m_LocalRotation: {x: 0.06333089, y: -0.704265, z: -0.704265, w: -0.06333089}
   m_LocalPosition: {x: 22.951502, y: -7.2775164, z: -8.422809}
   m_LocalScale: {x: 91.05858, y: 57.680214, z: 91.05857}
   m_ConstrainProportionsScale: 0
@@ -89,7 +90,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6380347600934057427
+--- !u!64 &5032179705834580482
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017915984512570900}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2014377880286338419, guid: 2f731ac4093ad534a85ed77af6e750f9, type: 3}
+--- !u!114 &-8635341767303071970
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,14 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6017915984512570900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4014283744943342280}
   - component: {fileID: 6675776878855727122}
   - component: {fileID: 871086823849661649}
-  - component: {fileID: 1493462139429051354}
+  - component: {fileID: -8546572666041111980}
   m_Layer: 0
   m_Name: winefridge
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0152575765, y: 0.012253462, z: 0.015622431}
   m_Center: {x: -0.0037807948, y: 0.00008599915, z: 0.005187657}
---- !u!114 &1493462139429051354
+--- !u!114 &-8546572666041111980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,14 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 745051989969093168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 662196581857432341}
   - component: {fileID: 5000693532697636635}
   - component: {fileID: 7094885109653840010}
-  - component: {fileID: 5688384480333970617}
+  - component: {fileID: -16664383185997876}
   m_Layer: 0
   m_Name: ShelfBar
   m_TagString: Untagged
@@ -112,7 +112,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.020000009, y: 0.018907921, z: 0.030051863}
   m_Center: {x: 0.000000015766249, y: 0.00054606906, z: 0.0050102537}
---- !u!114 &5688384480333970617
+--- !u!114 &-16664383185997876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,14 +121,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3757063184417174974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff

@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 8988322013034748458}
   - component: {fileID: 2310834873876555362}
   - component: {fileID: 1486739510435724993}
-  - component: {fileID: 347884207498400793}
+  - component: {fileID: -8870510896989779309}
   m_Layer: 0
   m_Name: LockerRow
   m_TagString: Untagged
@@ -325,7 +325,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.007023028, y: 0.019930653, z: 0.020540396}
   m_Center: {x: -0.00013837276, y: -0.0066435505, z: 0.0074669374}
---- !u!114 &347884207498400793
+--- !u!114 &-8870510896989779309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,14 +334,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7974611875551856979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_OverrideArea: 1
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
   m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
