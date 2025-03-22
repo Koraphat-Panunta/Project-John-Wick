@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4755923740500982088}
   - component: {fileID: 1408644718267904384}
   - component: {fileID: 3327070460392685120}
+  - component: {fileID: 7967791020493033039}
+  - component: {fileID: 828843807925035313}
   m_Layer: 0
   m_Name: Empty_Plant_Shelf_1
   m_TagString: Untagged
@@ -26,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4760105243593189326}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.7072302}
   m_LocalPosition: {x: -74.07868, y: 33.220573, z: -25.816593}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.495, y: 1.495, z: 1.495}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98, y: 0, z: 0}
 --- !u!33 &1408644718267904384
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -64,9 +66,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6051022360936502160, guid: 29df90cd4eef4c548802cab30f65c439, type: 3}
-  - {fileID: -1444460858095362738, guid: 29df90cd4eef4c548802cab30f65c439, type: 3}
-  - {fileID: -4973734387028869240, guid: 29df90cd4eef4c548802cab30f65c439, type: 3}
+  - {fileID: 2100000, guid: 67322e992d976484b8b5598767dc74c2, type: 2}
+  - {fileID: 2100000, guid: 43868e7560647b44ab898a7d241d7138, type: 2}
+  - {fileID: 2100000, guid: 3107060232c648c48ac69acf24951d0d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,3 +90,44 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7967791020493033039
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4760105243593189326}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.84384334, y: 1.2946898, z: 1.0884078}
+  m_Center: {x: -0.49725053, y: 5.060051, z: -0.06481687}
+--- !u!114 &828843807925035313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4760105243593189326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
