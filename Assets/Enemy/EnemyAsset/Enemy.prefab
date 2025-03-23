@@ -1269,7 +1269,7 @@ MonoBehaviour:
   enemy: {fileID: 0}
   raduisTargetZone: 15
   CombatPhase: 0
-  YingYang: 51.9
+  YingYang: 58
   TakeCoverAble: 0
   enegyWithIn: 0
   YingYangCalulate: 0
@@ -1315,11 +1315,16 @@ MonoBehaviour:
   targetSpoterMask:
     serializedVersion: 2
     m_Bits: 256
+  startWeapon: {fileID: 521215783090903122, guid: e08ae2fdefb857443b186d66db18d1fb,
+    type: 3}
   forceSave: {x: 0, y: 0, z: 0}
   cost: 0
   myHP: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
+  selfLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   weaponMainSocket: {fileID: 3105058264465165540}
   primaryWeaponHoster: {fileID: 3823320659117860053}
   secondaryWeaponHoster: {fileID: 5921001715487125519}
@@ -1345,7 +1350,7 @@ MonoBehaviour:
   moveRotateSpeed: 5.62
   sprintAccelerate: 2.6
   sprintMaxSpeed: 4.2
-  sprintRotateSpeed: 1.8
+  sprintRotateSpeed: 2.61
   breakAccelerate: 1.66
   breakMaxSpeed: 1.65
   aimingRotateSpeed: 3.32

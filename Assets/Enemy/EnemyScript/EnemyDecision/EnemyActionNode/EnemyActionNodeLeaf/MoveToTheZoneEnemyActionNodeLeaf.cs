@@ -23,17 +23,17 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     {
        
 
-        if (Vector3.Distance(assignZone.zonePosition, enemy.transform.position) > assignZone.raduis*1.8f)
-        {
-            enemyCommandAPI.SprintToPosition(this.destinateInZone, enemy.sprintRotateSpeed);
-            enemyCommandAPI.LowReady();
-        }
-        else
-        {
+        //if (Vector3.Distance(assignZone.zonePosition, enemy.transform.position) > assignZone.raduis*1.8f)
+        //{
+        //    enemyCommandAPI.SprintToPosition(this.destinateInZone, enemy.sprintRotateSpeed);
+        //    enemyCommandAPI.LowReady();
+        //}
+        //else
+        //{
             enemyCommandAPI.MoveToPosition(this.destinateInZone, enemy.moveMaxSpeed);
             enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
             enemyCommandAPI.NormalFiringPattern.Performing();
-        }
+        //}
 
         base.UpdateNode();
     }

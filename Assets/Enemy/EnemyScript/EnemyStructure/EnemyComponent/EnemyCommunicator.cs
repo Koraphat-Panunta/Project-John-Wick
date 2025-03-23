@@ -16,7 +16,9 @@ public class EnemyCommunicator : Communicator
     public void SendCommunicate(Vector3 position, float raduis, LayerMask layerMask,EnemyCommunicateMassage enemyCommunicateMassage)
     {
         this.enemyCommunicateMassage = enemyCommunicateMassage;
-        Collider[] target = Physics.OverlapSphere(position, raduis,layerMask);
+        Collider[] target = Physics.OverlapSphere(position, raduis,layerMask.value);
+
+        Debug.Log("Layer = " + layerMask.value);
 
         if (target.Length <= 0)
             return;

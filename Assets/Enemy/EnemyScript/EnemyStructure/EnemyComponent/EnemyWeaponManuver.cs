@@ -41,7 +41,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
             ()=> curWeapon != null);
 
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(weaponAdvanceUser,
-            () => isDropWeaponManuver);
+            () => isDropWeaponManuver || (enemy.isDead && enemy.currentWeapon != null));
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () => isSwitchWeaponManuver);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,

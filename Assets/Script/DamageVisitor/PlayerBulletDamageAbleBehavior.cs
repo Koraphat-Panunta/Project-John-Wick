@@ -30,8 +30,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
         Bullet bulletObj = damageVisitor as Bullet;
         float damage = bulletObj.hpDamage;
 
-        player.SetHP(player.GetHP() - damage * 0.45f);
-        player.hpRegenarate.regenarate_countDown = 3;
+        player.SetHP(player.GetHP() - damage * 0.68f);
         player.NotifyObserver(this.player, PlayerAction.GetDamaged);
 
         if (player.GetHP() <= 0)

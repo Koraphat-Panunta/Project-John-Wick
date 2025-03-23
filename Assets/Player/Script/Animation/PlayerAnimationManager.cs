@@ -95,7 +95,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
                 Vector3.Dot(player.inputMoveDir_World, 
                 Vector3.Cross(player.transform.forward, Vector3.up))
-            ,6.5f*Time.deltaTime) ;
+            ,3.5f*Time.deltaTime) ;
 
         if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode)
         {

@@ -28,8 +28,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public EnemyGetShootDirection enemyGetShootDirection;
     public IMovementCompoent enemyMovement;
     public EnemyStateManagerNode enemyStateManagerNode;
+    private EnemyCommunicator enemyCommunicator;
 
-
+    [SerializeField] Weapon startWeapon;
 
 
     public Vector3 forceSave;
@@ -44,6 +45,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public bool isImortal;
     public Transform rayCastPos;
 
+    public LayerMask selfLayerMask;
 
     protected override void Awake()
     {
@@ -60,6 +62,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         InitailizedCoverUsable();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
+        enemyCommunicator = new EnemyCommunicator(this);
 
         cost = UnityEngine.Random.Range(50, 70);
         posture = 100;
@@ -67,9 +70,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         base.HP = 100;
         base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
+        startWeapon = Instantiate(startWeapon);
+        startWeapon.AttatchWeaponTo(this);
 
-        new WeaponFactoryAR15().CreateWeapon(this);
-        //new WeaponFactorySTI9mm().CreateWeapon(this);
     }
     
 
@@ -234,6 +237,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
         findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
+
     }
     private void EnemySpotingTarget(GameObject target)
     {
@@ -241,6 +245,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             return;
 
         targetKnewPos = target.transform.position;
+        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
         if (NotifyEnemySpottingTarget != null) 
         NotifyEnemySpottingTarget.Invoke(target);
     }
@@ -290,22 +295,26 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public GameObject communicateAble => gameObject;
     public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
     {
+
         if (isDead)
             return;
 
+
         if (typeCommunicator is EnemyCommunicator enemyCommunicator)
         {
+
             switch (enemyCommunicator.enemyCommunicateMassage)
             {
                 case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                     {
+
                         targetKnewPos = enemyCommunicator.enemy.targetKnewPos;
                     }
                     break;
             }
         }
       
-        if (NotifyCommunicate == null)
+        //if (NotifyCommunicate == null)
             NotifyCommunicate.Invoke(typeCommunicator);
     }
 

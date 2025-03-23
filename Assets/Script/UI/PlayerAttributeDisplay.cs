@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class PlayerAttributeDisplay : PlayerInfoDisplay
 {
     private RawImage HP_bar;
+    private float maxHP_BAR_Lenght;
     public PlayerAttributeDisplay(Player player, HUD hud,RawImage HP_bar) : base(player, hud)
     {
         base.hud = hud;
         base.playerInfo = player;
         this.HP_bar = HP_bar;
+        this.maxHP_BAR_Lenght = HP_bar.rectTransform.sizeDelta.y;
+        Debug.Log("HP_bar.rectTransform.sizeDelta.x = " + HP_bar.rectTransform.sizeDelta.y);
         UpdateInfo();
 
     }
@@ -33,6 +36,6 @@ public class PlayerAttributeDisplay : PlayerInfoDisplay
 
     public override void UpdateInfo()
     {
-        HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, playerInfo.GetHP());
+        HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, this.maxHP_BAR_Lenght*(playerInfo.GetHP()/playerInfo.GetMaxHp()));
     }
 }

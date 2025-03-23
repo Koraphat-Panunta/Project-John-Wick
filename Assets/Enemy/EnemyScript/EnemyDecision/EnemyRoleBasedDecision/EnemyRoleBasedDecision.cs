@@ -121,14 +121,18 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     private void OnNotifyGetCommunicate(Communicator communicator)
     {
+
         if (communicator is EnemyCommunicator enemyCommunicator == false)
             return;
+
         switch (enemyCommunicator.enemyCommunicateMassage)
         {
             case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                 {
+
                     if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
                         return;
+
                     _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
                     _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
                 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 680084919035571687}
   - component: {fileID: 5579708033988868996}
   - component: {fileID: 8978442085204531168}
-  - component: {fileID: 37440153631070352}
   m_Layer: 0
   m_Name: RoomserviceCart
   m_TagString: Untagged
@@ -89,26 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &37440153631070352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128234227996936959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &2523127381783594731
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +99,6 @@ GameObject:
   - component: {fileID: 8823869743053498753}
   - component: {fileID: 8587790608937194655}
   - component: {fileID: 6088446316429943749}
-  - component: {fileID: 3193798561389533223}
   m_Layer: 0
   m_Name: ElavatorGate
   m_TagString: Untagged
@@ -196,26 +174,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3193798561389533223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2523127381783594731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &3585233781794690988
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.04, y: 0.033908166, z: 0.038974717}
+  m_Center: {x: 0.01, y: 0.013933942, z: 0.014953197}
   m_Area: 1
   m_AffectedAgents: ffffffff

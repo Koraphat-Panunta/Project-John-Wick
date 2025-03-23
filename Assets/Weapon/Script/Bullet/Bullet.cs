@@ -33,7 +33,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         int GroundHitMask = LayerMask.GetMask("Ground");
         hitLayer = DefaultMask + BodyPartMask + PlayerHitMask+ GroundHitMask;
 
-        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(35,BodyPartMask);
+        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
 
         // Calculate and apply impulse force
         Vector3 force = (pointPos-spawnerPosition).normalized;

@@ -37,7 +37,7 @@ public class PlayerGunFuExecuteStackGauge : StackGague, IObserverPlayer
             if (this.amount < this.max)
             {
                 Debug.Log("AddAmount");
-                AddAmount(this.max/3);
+                AddAmount(1);
                 return;
             }
            

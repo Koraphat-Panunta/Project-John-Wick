@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6506374880424777887}
   - component: {fileID: 448145609120741023}
   - component: {fileID: 2290771576762740058}
-  - component: {fileID: 7597083111017987946}
   m_Layer: 0
   m_Name: Bucket (1)
   m_TagString: Untagged
@@ -87,26 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7597083111017987946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3246261657148618601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &7601614016310909300
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +97,6 @@ GameObject:
   - component: {fileID: 2515662603093208151}
   - component: {fileID: 225874610837209834}
   - component: {fileID: 8058576799348744478}
-  - component: {fileID: 3489751768372264523}
   m_Layer: 0
   m_Name: Floorcleaningstick (1)
   m_TagString: Untagged
@@ -194,26 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3489751768372264523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7601614016310909300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &7974611875551856979
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.012, y: 0.022327462, z: 0.025451565}
+  m_Center: {x: 0, y: -0.0064825146, z: 0.0077257836}
   m_Area: 1
   m_AffectedAgents: ffffffff

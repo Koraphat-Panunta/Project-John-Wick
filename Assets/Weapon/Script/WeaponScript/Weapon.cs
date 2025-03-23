@@ -264,17 +264,20 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             parentConstraint.constraintActive = true;
             parentConstraint.weight = 1;
         }
-        if (userWeapon.currentWeapon == this)
+        if (userWeapon.currentWeapon == this )
         {
-            if (userWeapon is Player)
+            if (userWeapon.userWeapon.isDead == false)
             {
-                Player p = userWeapon as Player;
-                p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
-            }
-            if (userWeapon is Enemy)
-            {
-                Enemy enemy = userWeapon as Enemy;
-                enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                if (userWeapon is Player)
+                {
+                    Player p = userWeapon as Player;
+                    p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                }
+                if (userWeapon is Enemy)
+                {
+                    Enemy enemy = userWeapon as Enemy;
+                    enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                }
             }
             userWeapon.currentWeapon = null;
         }

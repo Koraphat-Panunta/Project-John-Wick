@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2522512781564953109}
   - component: {fileID: 2618458671338785903}
   - component: {fileID: 7978385447212917238}
+  - component: {fileID: 8812342953146943463}
   m_Layer: 0
   m_Name: Bar_Table
   m_TagString: Untagged
@@ -123,7 +124,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.03973271, y: 0.021244619, z: 0.036716312}
+  m_Center: {x: 0.004866354, y: 0.00014786562, z: 0.0005967207}
   m_Area: 1
+  m_AffectedAgents: ffffffff
+--- !u!114 &8812342953146943463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042017253592239136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_Size: {x: 0.103169665, y: 0.0017197318, z: 0.03441911}
+  m_Center: {x: 0.0429082, y: 0.00991031, z: 0.0017453227}
+  m_Area: 0
   m_AffectedAgents: ffffffff

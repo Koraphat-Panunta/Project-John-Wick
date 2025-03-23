@@ -28,17 +28,17 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
         if (enemy.isInCover == false)
         {
-            if (Vector3.Dot(enemyToTarget, enemyToCover) > 6.5f)
-            {
-                enemyCommandAPI.SprintToCover(enemy.coverPoint);
-                enemyCommandAPI.LowReady();
-            }
-            else
-            {
+            //if (Vector3.Dot(enemyToTarget, enemyToCover) > 6.5f)
+            //{
+            //    enemyCommandAPI.SprintToCover(enemy.coverPoint);
+            //    enemyCommandAPI.LowReady();
+            //}
+            //else
+            //{
                 enemyCommandAPI.MoveToTakeCover(this.coverPoint, 1);
                 enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                 enemyCommandAPI.NormalFiringPattern.Performing();
-            }
+            //}
         }
         else
         {

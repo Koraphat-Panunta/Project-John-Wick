@@ -125,8 +125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.01, y: 0.043, z: 0.026}
+  m_Center: {x: 0.002, y: 0, z: 0}
   m_Area: 1
   m_AffectedAgents: ffffffff
 --- !u!1001 &237594158289705601
@@ -212,7 +212,8 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 9c32652147f3fa4468cef834e73da5eb, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 876708232694993798, guid: 18f4517ab296f67428b8e22eacf844d0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

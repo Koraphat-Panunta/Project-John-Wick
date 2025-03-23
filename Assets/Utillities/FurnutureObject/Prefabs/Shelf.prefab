@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8297164584815845922}
   - component: {fileID: 4393030053801761536}
   - component: {fileID: 6637184444028459717}
-  - component: {fileID: 2453987896238735271}
   m_Layer: 0
   m_Name: Luggage1 (6)
   m_TagString: Untagged
@@ -88,26 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2453987896238735271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872832249599311511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &1989825781335537606
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +98,6 @@ GameObject:
   - component: {fileID: 7466107629575348292}
   - component: {fileID: 756783340364853729}
   - component: {fileID: 4537149198084311218}
-  - component: {fileID: 3125284252535795595}
   m_Layer: 0
   m_Name: Luggage2 (6)
   m_TagString: Untagged
@@ -196,26 +174,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3125284252535795595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989825781335537606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &2433980405303229717
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +185,6 @@ GameObject:
   - component: {fileID: 769943227347308631}
   - component: {fileID: 3169495147008326644}
   - component: {fileID: 6018464755830591553}
-  - component: {fileID: 2427473538979450699}
   m_Layer: 0
   m_Name: Luggage2 (7)
   m_TagString: Untagged
@@ -304,26 +261,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2427473538979450699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2433980405303229717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &3425018692273372780
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,8 +389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
-  m_Size: {x: 4, y: 3, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.02, y: 0.010341601, z: 0.021273224}
+  m_Center: {x: 0, y: -0.010495138, z: 0.0057793343}
   m_Area: 1
   m_AffectedAgents: ffffffff
 --- !u!1 &6515155914047030514
@@ -467,7 +404,6 @@ GameObject:
   - component: {fileID: 2978615027704037340}
   - component: {fileID: 1246920066061323646}
   - component: {fileID: 612145877110970146}
-  - component: {fileID: 7872831001137563006}
   m_Layer: 0
   m_Name: Luggage2 (9)
   m_TagString: Untagged
@@ -544,26 +480,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7872831001137563006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6515155914047030514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &6590794786493461578
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +491,6 @@ GameObject:
   - component: {fileID: 9139683147095714306}
   - component: {fileID: 932759206223950974}
   - component: {fileID: 1189521911900716104}
-  - component: {fileID: 6993384376107065746}
   m_Layer: 0
   m_Name: Luggage2 (8)
   m_TagString: Untagged
@@ -652,26 +567,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6993384376107065746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6590794786493461578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff
 --- !u!1 &8426450426148924739
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +578,6 @@ GameObject:
   - component: {fileID: 5866061242923421551}
   - component: {fileID: 1513534291232813373}
   - component: {fileID: 3047667243022047076}
-  - component: {fileID: 5317071989282294992}
   m_Layer: 0
   m_Name: Luggage1 (7)
   m_TagString: Untagged
@@ -760,23 +654,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5317071989282294992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426450426148924739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_OverrideArea: 1
-  m_Area: 1
-  m_OverrideGenerateLinks: 0
-  m_GenerateLinks: 0
-  m_IgnoreFromBuild: 0
-  m_ApplyToChildren: 1
-  m_AffectedAgents: ffffffff

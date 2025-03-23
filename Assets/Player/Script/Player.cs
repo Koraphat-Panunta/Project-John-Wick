@@ -8,7 +8,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
 {
     public PlayerMovement playerMovement;
-    public HpRegenarate hpRegenarate;
+    public PlayerHpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
 
@@ -49,7 +49,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         coverDetection = new CoverDetection();
-        hpRegenarate = new HpRegenarate(this);
+        hpRegenarate = new PlayerHpRegenarate(this);
 
         curShoulderSide = ShoulderSide.Right;
 
@@ -239,7 +239,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public void InitailizedGunFuComponent()
     {
-        gunFuExecuteStackGauge = new PlayerGunFuExecuteStackGauge(this, 3, 0);
+        gunFuExecuteStackGauge = new PlayerGunFuExecuteStackGauge(this, 4, 0);
 
         _weaponUser = this;
         _gunFuUserTransform = RayCastPos;
