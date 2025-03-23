@@ -35,6 +35,9 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
         takeCoverEnemyActionNodeLeaf = new TakeCoverEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => 
             {
+                if(takeCoverAble == false)
+                    return false;
+
                 if(Vector3.Distance(enemy.targetKnewPos,enemy.transform.position) < 5.5f)
                     return false;
 

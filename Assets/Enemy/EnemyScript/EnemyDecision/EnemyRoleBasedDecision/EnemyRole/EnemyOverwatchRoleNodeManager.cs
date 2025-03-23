@@ -45,6 +45,9 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
         takeCoverEnemyActionNodeLeaf = new TakeCoverEnemyActionNodeLeaf(enemy,enemyCommandAPI,
             () => 
             {
+                if(takeCoverAble == false)
+                    return false;
+
                 if (Vector3.Distance(enemy.targetKnewPos, overWatchZone.zonePosition) < overWatchZone.raduis)
                     return false;
 

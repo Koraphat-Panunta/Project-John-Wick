@@ -13,7 +13,7 @@ public class PlayerHpRegenarate:IObserverPlayer
     {
         this.player = player;
         this.player.AddObserver(this);
-        regenarate_countDown = 8;
+        regenarate_countDown = 6;
     }
     public void Regenarate()
     {

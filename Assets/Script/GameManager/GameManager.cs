@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour,INodeManager
             case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
                 {
                     gameManagerSceneData = GameManagerState.Gameplay;
-                    gameplayLevelData = GameplayLevel.Mansion;
+                    gameplayLevelData = GameplayLevel.Hotel;
                 }
                 break;
             case InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour,INodeManager
                             gameplayLevelData = GameplayLevel.Hotel;
 
                         if (curNodeLeaf is LevelHotelGameManagerNodeLeaf)
-                            gameplayLevelData = GameplayLevel.Mansion;
+                            gameplayLevelData = GameplayLevel.Hotel;
                     }
                 }
                 break;
