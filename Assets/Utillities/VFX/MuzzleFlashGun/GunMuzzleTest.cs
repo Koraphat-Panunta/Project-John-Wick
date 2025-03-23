@@ -25,13 +25,4 @@ public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing)
             Fire();
     }
-    
-    
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) // Whatever Prox Method >w<
-        {
-            Fire();
-        }
-    }
 }
