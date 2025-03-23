@@ -8,10 +8,10 @@ public class BloodVFX : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Whatever Prox Method >w<
-        {
-            Hit();
-        }
+        //if (Input.GetMouseButtonDown(0)) // Whatever Prox Method >w<
+        //{
+        //    Hit();
+        //}
     }
 
     void Hit()

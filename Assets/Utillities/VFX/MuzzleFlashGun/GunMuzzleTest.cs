@@ -1,23 +1,28 @@
 using UnityEngine;
 using UnityEngine.VFX;
-public class GunMuzzleTest : MonoBehaviour
+public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
 {
-    public VisualEffect muzzleVFX;
+    [SerializeField] private VisualEffect muzzleVFX;
+    [SerializeField] private VisualEffect bulletShell;
+    [SerializeField] private Weapon weapon;
 
-
-    void Update()
+    private void Awake()
     {
-        if (Input.GetMouseButtonDown(0)) // Left mouse button
-        {
-            Fire();
-        }
+       weapon.AddObserver(this);
+    }
+  
+    public void Fire()
+    {
+        Debug.Log("WeaponFireVFX");
+           
+        muzzleVFX.SendEvent("OnPlay");
+        
+        bulletShell.SendEvent("OnPlay");
     }
 
-    void Fire()
+    public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
-        if (muzzleVFX != null)
-        {
-            muzzleVFX.SendEvent("OnPlay");
-        }
+       if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing)
+            Fire();
     }
 }

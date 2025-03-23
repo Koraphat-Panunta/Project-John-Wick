@@ -1210,12 +1210,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.75
-  m_Radius: 0.12
+  m_Radius: 0.19
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.0001
-  m_Center: {x: 0, y: 0.83, z: 0}
+  m_Center: {x: 0, y: 0.83, z: -0.12}
 --- !u!95 &1968153037591969261
 Animator:
   serializedVersion: 7
@@ -1273,10 +1273,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.09
-  m_Height: 1.39
+  m_Radius: 0.1686362
+  m_Height: 1.3900001
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: -0.08}
+  m_Center: {x: 0.011758685, y: 0.9, z: -0.13916707}
 --- !u!82 &1428774212975845543
 AudioSource:
   m_ObjectHideFlags: 0

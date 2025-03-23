@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4715834299724538156}
   - component: {fileID: 751919844960077997}
   - component: {fileID: 3159448679108669379}
+  - component: {fileID: 5217599372046684636}
   m_Layer: 0
   m_Name: Empty_Plant_Shelf_2
   m_TagString: Untagged
@@ -87,3 +88,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5217599372046684636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691222062826290377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_Size: {x: 0.59, y: 0.62, z: 1.88}
+  m_Center: {x: 2.28, y: 1.81, z: 0}
+  m_Area: 0
+  m_AffectedAgents: ffffffff
