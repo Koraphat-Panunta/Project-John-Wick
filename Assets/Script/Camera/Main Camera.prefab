@@ -149,7 +149,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 1
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
@@ -185,9 +185,17 @@ MonoBehaviour:
     type: 3}
   impulseSource: {fileID: 8522622513793723404}
   Player: {fileID: 0}
+  playerSpawner: {fileID: 0}
   cameraViewAttribute: {fileID: 11400000, guid: 4108872fe8dfb1a43bd8c8b28da56794,
     type: 2}
-  cameraKickbackPreset: 1
+  isZooming: 0
+  zoomingWeight: 0
+  cameraSwitchSholderVelocity: 3.5
+  gunFuCameraTimer: 0
+  CameraNodeName: 
+  curSide: 0
+  curStance: 0
+  cameraKickbackMultiple: 0
 --- !u!114 &6424261375681497480
 MonoBehaviour:
   m_ObjectHideFlags: 0

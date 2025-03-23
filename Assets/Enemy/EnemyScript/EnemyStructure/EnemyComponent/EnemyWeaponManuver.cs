@@ -8,6 +8,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
         this.enemy = enemy;
     }
 
+    public WeaponManuverSelectorNode curWeaponManuverSelector { get; set; }
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
@@ -15,8 +16,32 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
 
+    public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
+    public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set ; }
+    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+    public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
+
     public override void InitailizedNode()
     {
+        pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
+            ()=> 
+            {
+                if (isPickingUpWeaponManuver)
+                {
+                    if(weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                        return true;
+                }
+                return false;
+            } 
+            );
+
+        curWeaponManuverSelector = new WeaponManuverSelectorNode(weaponAdvanceUser,
+            ()=> curWeapon != null);
+
+        dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(weaponAdvanceUser,
+            () => isDropWeaponManuver || (enemy.isDead && enemy.currentWeapon != null));
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () => isSwitchWeaponManuver);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
@@ -33,10 +58,14 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         startNodeSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
 
-        startNodeSelector.AddtoChildNode(swtichingWeaponManuverSelector);
-        startNodeSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
-        startNodeSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
+        startNodeSelector.AddtoChildNode(pickUpWeaponNodeLeaf);
+        startNodeSelector.AddtoChildNode(curWeaponManuverSelector);
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
+
+        curWeaponManuverSelector.AddtoChildNode(dropWeaponManuverNodeLeaf);
+        curWeaponManuverSelector.AddtoChildNode(swtichingWeaponManuverSelector);
+        curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
+        curWeaponManuverSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
@@ -78,11 +107,11 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
             return;
         }
-        else
-        {
-            WeaponAdvanceCommanding(weaponAdvanceUser);
+        
+            
+        WeaponAdvanceCommanding(weaponAdvanceUser);
             return;
-        }
+        
     }
 
     private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)
@@ -95,5 +124,6 @@ public class EnemyWeaponManuver : WeaponManuverManager
         isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
 
         isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
+
     }
 }

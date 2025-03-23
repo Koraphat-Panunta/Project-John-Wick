@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyGetShootDirection 
@@ -26,7 +25,7 @@ public class EnemyGetShootDirection
         
     }
     public Vector3 GetPointingPos()
-    {
+    { 
         Vector3 dirTarget = (enemy.targetKnewPos - (enemy.rayCastPos.position + new Vector3(0, 0.2f, 0))).normalized;
 
         Ray ray = new Ray(enemy.currentWeapon.bulletSpawnerPos.position, dirTarget);

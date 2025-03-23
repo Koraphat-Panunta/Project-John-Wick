@@ -20,17 +20,13 @@ public class EnemyCommandAPI :MonoBehaviour
     //public bool TriigerPainLeg;
     //public bool TriggerPainBody;
     public Enemy _enemy;
+    private EnemyCommunicator enemyCommunicator;
 
-    private void Start()
+    private void Awake()
     {
         this._enemy = GetComponent<Enemy>();
         NormalFiringPattern = new NormalFiringPattern(this);
-    }
-
-    public void Update()
-    {
-       
-
+        enemyCommunicator = new EnemyCommunicator(_enemy);
     }
 
     #region Testing
@@ -47,7 +43,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if ((time < 9))
     //    {
-    //        _enemy.findingTargetComponent.FindTarget(out GameObject target);
+    //        _enemy.findingTargetComponent.FindTarget(out GameObject targetPos);
     //        MoveToPosition(_enemy.targetKnewPos, 100);
     //        AimDownSight(_enemy.targetKnewPos, 6);
     //    }
@@ -60,7 +56,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if (time < 15)
     //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //        {
     //            AimDownSight(_enemy.targetKnewPos, 7);
     //            PullTrigger();
@@ -77,7 +73,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    }
     //    else if (time < 20)
     //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //        {
     //            AimDownSight(_enemy.targetKnewPos, 7);
     //            PullTrigger();
@@ -104,7 +100,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //    {
     //        case 0:
     //            {
-    //                if (_enemy.findingCover.FindCoverInRaduis(8, out CoverPoint coverPoint))
+    //                if (_enemy.findingCover.FindCoverInRaduisInGunFight(8, out CoverPoint coverPoint))
     //                {
     //                    coverPoint.TakeThisCover(_enemy);
     //                    if (coverPoint == null)
@@ -145,7 +141,7 @@ public class EnemyCommandAPI :MonoBehaviour
     //                {
     //                    Debug.Log("Take Aim");
 
-    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject target))
+    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
     //                    {
     //                        NormalFiringPattern.Performing();
     //                        AimDownSight(_enemy.targetKnewPos, 6);
@@ -314,6 +310,50 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         
     }
+
+    public bool MoveToTakeCover(float coverInRaduis,float velocity,bool rotateMoveDir)
+    {
+       if(_enemy.coverPoint == null)
+        {
+            if(_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis,out CoverPoint coverPoint))
+            {
+                coverPoint.TakeThisCover(_enemy);
+            }
+            else
+                return false;
+        }
+        if(MoveToPosition(_enemy.coverPoint.coverPos.position, velocity, rotateMoveDir,0.5f))
+        {
+            TakeCover();
+            return true;
+        }
+       return false;
+
+        
+    }
+    public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
+    {
+        coverPoint = null;
+
+        if(_enemy.findingCover.FindCoverInRaduisInGunFight(raduis,out coverPoint))
+        {
+            coverPoint.TakeThisCover(_enemy);
+            return true;
+        }
+        return false;
+    }
+
+    public bool FindCoverAndBook(float raduis,Vector3 targetPos,out CoverPoint coverPoint)
+    {
+        coverPoint = null;
+
+        if(_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis,out coverPoint,targetPos))
+        {
+            coverPoint.TakeThisCover(_enemy);
+            return true;
+        }
+        return false;
+    }
     public void TakeCover()
     {
         Freez();
@@ -321,10 +361,9 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public bool MoveToTakeCover(CoverPoint coverPoint,float velocity,bool rotateMoveDir)
     {
-
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, 1, rotateMoveDir, 1))
+        if (MoveToPosition(coverPoint.coverPos.position, velocity, rotateMoveDir, 1.6f))
         {
             TakeCover();
             return true;
@@ -335,8 +374,9 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, 1, 1))
+        if (MoveToPosition(coverPoint.coverPos.position, velocity, 1.6f))
         {
+
             TakeCover();
             return true;
         }
@@ -346,7 +386,7 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (SprintToPosition(coverPoint.coverPos.position, 5, 1))
+        if (SprintToPosition(coverPoint.coverPos.position, _enemy.sprintRotateSpeed,1.6f))
         {
             TakeCover();
             return true;
@@ -391,20 +431,24 @@ public class EnemyCommandAPI :MonoBehaviour
         //weaponAdvanceUser.weaponCommand.PullTrigger();
         weaponAdvanceUser.isPullTriggerCommand = true;
     }
-    public void CancleTrigger()
-    {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        //weaponAdvanceUser.weaponCommand.CancleTrigger();
-        weaponAdvanceUser.isPullTriggerCommand = false;
-    }
+    //public void CancleTrigger()
+    //{
+    //    IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+    //    //weaponAdvanceUser.weaponCommand.CancleTrigger();
+    //    weaponAdvanceUser.isPullTriggerCommand = false;
+    //}
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReloadCommand = true;
     }
-
-
+    public LayerMask NotifyAbleMask;
+    public void NotifyFriendly(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage) 
+    {
+        //Debug.Log("NotifyFriendly Layer =" + LayerMask.LayerToName(NotifyAbleMask));
+        enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage); 
+    }
 
   
 }

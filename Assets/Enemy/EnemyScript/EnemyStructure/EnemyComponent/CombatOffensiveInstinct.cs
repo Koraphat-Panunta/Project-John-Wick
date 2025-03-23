@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CombatOffensiveInstinct:IEnvironmentAware
+public class CombatOffensiveInstinct
 {
     public float offensiveIntensity;
     private FieldOfView fieldOfView;
@@ -19,14 +19,12 @@ public class CombatOffensiveInstinct:IEnvironmentAware
     public CombatPhase myCombatPhase;
     public CombatOffensiveInstinct(FieldOfView fieldOfView
         ,ICombatOffensiveInstinct OffensiveInstincted
-        ,Environment environment
         ,IFindingTarget findingTarget)
     {
         myCombatPhase = CombatPhase.Chill;
         this.findingTarget = findingTarget;
         this.fieldOfView = fieldOfView;
         offensiveInstinct = OffensiveInstincted;
-        environment.Add_Listener(this);
     }
 
     public void UpdateSening()
@@ -39,23 +37,7 @@ public class CombatOffensiveInstinct:IEnvironmentAware
         offensiveIntensity -= coolDownOffensiveIntensity*Time.deltaTime;
     }
 
-    public void OnAware(GameObject sourceFrom, EnvironmentType environmentType)
-    {
-        if(environmentType != EnvironmentType.Sound)
-            return;
-
-        if (sourceFrom.TryGetComponent<Player>(out Player player) == false)
-            return ;
-
-            Vector3 shootingLine = player.shootingPos - player.currentWeapon.bulletSpawnerPos.position;
-            Vector3 referencePoint = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
-        if (IsLineOfSightCloseEnough(shootingLine,
-                referencePoint,
-                player.currentWeapon.bulletSpawnerPos.position))
-        {
-            IncreseBulletSuppressIntensity();
-        }
-    }
+    
     private bool IsLineOfSightCloseEnough(Vector3 bulletLine,Vector3 referencePos,Vector3 startPos)
     {
         float raduisAware = 3;

@@ -42,7 +42,7 @@ namespace TMPro.Examples
                 int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, Camera.main, true);
                 if (charIndex != -1 && charIndex != m_lastCharIndex && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
                 {
-                    //Debug.Log("[" + m_TextMeshPro.textInfo.characterInfo[charIndex].character + "] has been selected.");
+                    //Debug.Log("[" + m_TextMeshPro.textInfo.characterInfo[charIndex].selfNPCTarget + "] has been selected.");
 
                     m_lastCharIndex = charIndex;
 

@@ -6,13 +6,13 @@ public class EnemyDebugerPanelIngame : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
     [SerializeField] private Enemy enemy;
-    [SerializeField] private EnemyTacticDecision enemyTacticDecision;
+    [SerializeField] private EnemyRoleBasedDecision enemyRole;
 
     [SerializeField] TextMeshProUGUI stateDisplay;
     private string stateText;
 
-    [SerializeField] TextMeshProUGUI tacticDisplay;
-    private string tacticText;
+    [SerializeField] TextMeshProUGUI roleDisplay;
+    private string curRole;
 
     [SerializeField] Image hpDisplay;
     private float hpNormalized;
@@ -35,15 +35,22 @@ public class EnemyDebugerPanelIngame : MonoBehaviour
         transform.LookAt(canvas.worldCamera.transform,Vector3.up);
 
         stateText = "State = " + enemy.enemyStateManagerNode.curNodeLeaf;
-        tacticText = "Tactic = " + enemyTacticDecision.curTacticDecision;
+        curRole = "Role = " + enemyRole.enemyActionNodeManager;
         hpNormalized = Mathf.Clamp01(enemy.GetHP()/100);
         postureNormalized = enemy._posture / 100;
 
         stateDisplay.text = stateText;
-        tacticDisplay.text = tacticText;
+        roleDisplay.text = curRole;
+
         hpDisplay.rectTransform.localScale = new Vector3 (hpNormalized, hpDisplay.rectTransform.localScale.y, hpDisplay.rectTransform.localScale.z);
 
-        if(enemy.isDead)
+        if(enemyRole.enemyActionNodeManager == enemyRole.chaserRoleNodeManager)
+        
+            roleDisplay.color = Color.red;
+         else if(enemyRole.enemyActionNodeManager == enemyRole.overwatchRoleNodeManager)
+            roleDisplay.color = Color.green;
+
+        if (enemy.isDead)
             canvas.enabled = false;
     }
 }

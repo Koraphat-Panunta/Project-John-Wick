@@ -1,14 +1,17 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
-    ICombatOffensiveInstinct, IFindingTarget, ICoverUseable,
-    IHearingComponent, IPatrolComponent,
-    IPainStateAble,IFallDownGetUpAble,IGunFuGotAttackedAble,
-    IFriendlyFirePreventing,IThrowAbleObjectVisitable
+     IFindingTarget, ICoverUseable,
+    IHeardingAble, IPatrolComponent,
+    IPainStateAble,IFallDownGetUpAble,
+    IGunFuGotAttackedAble,IFriendlyFirePreventing,
+    IThrowAbleObjectVisitable,ICommunicateAble
+    ,IBulletDamageAble
 {
     [Range(0,100)]
     public float intelligent;
@@ -19,16 +22,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public MultiRotationConstraint rotationConstraint;
 
     public LayerMask targetMask;
+    public LayerMask targetSpoterMask;
     public FieldOfView enemyFieldOfView;
 
-
     public EnemyGetShootDirection enemyGetShootDirection;
-    public EnemyComunicate enemyComunicate;
     public IMovementCompoent enemyMovement;
     public EnemyStateManagerNode enemyStateManagerNode;
+    private EnemyCommunicator enemyCommunicator;
+
+    [SerializeField] Weapon startWeapon;
 
 
-    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+    public Vector3 forceSave;
 
     public readonly float maxCost = 100;
     public readonly float lowestCost = 0;
@@ -40,51 +45,53 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public bool isImortal;
     public Transform rayCastPos;
 
-    
+    public LayerMask selfLayerMask;
 
-    protected override void Start()
+    protected override void Awake()
     {
-     
-        enemyFieldOfView = new FieldOfView(120, 225,rayCastPos.transform);
+        base.Awake();
+        enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
-        enemyComunicate = new EnemyComunicate(this);
-
-        enemyMovement = new EnemyMovement(agent,this);
-
+        enemyMovement = new EnemyMovement(agent, this);
 
         MotionControlInitailized();
 
         Initialized_IWeaponAdvanceUser();
-        InitailizedCombatOffensiveInstinct();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
-        InitailizedHearingComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
-        new WeaponFactorySTI9mm().CreateWeapon(this);
-        cost = Random.Range(50,70);
+        enemyCommunicator = new EnemyCommunicator(this);
+
+        cost = UnityEngine.Random.Range(50, 70);
         posture = 100;
 
         base.HP = 100;
+        base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
+        startWeapon = Instantiate(startWeapon);
+        startWeapon.AttatchWeaponTo(this);
+
     }
+    
 
     void Update()
     {
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
-        combatOffensiveInstinct.UpdateSening();
+        //combatOffensiveInstinct.UpdateSening();
 
         enemyStateManagerNode.UpdateNode();
         weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
 
+    }
+    private void LateUpdate()
+    {
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
-
     }
-   
     private void FixedUpdate()
     {
         enemyStateManagerNode.FixedUpdateNode();
@@ -102,11 +109,19 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             NotifyObserver(this, EnemyEvent.Dead);
         }
     }
-    private void OnDrawGizmos()
+    public void TakeDamage(IDamageVisitor damageVisitor)
     {
-       
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetKnewPos, 0.5f);
+        if (damageVisitor is Bullet bullet)
+        {
+            TakeDamage(bullet.hpDamage);
+            bullet.weapon.userWeapon.weaponAfterAction.HitDamageAble(this);
+        }
+
+
+    }
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
+    {
+        throw new NotImplementedException();
     }
 
     private void BlackBoardUpdate()
@@ -123,6 +138,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
         _tiggerThrowAbleObjectHit = false;
+        isPickingUpWeaponCommand = false;
+        isPullTriggerCommand = false;
 
     }
    
@@ -136,7 +153,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool isPullTriggerCommand { get ; set ; }
     public bool isAimingCommand { get;  set ; }
     public bool isReloadCommand { get ; set ; }
-
+    public bool isPickingUpWeaponCommand { get; set; }
+    public bool isDropWeaponCommand { get ; set ; }
     public Animator weaponUserAnimator { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
@@ -152,15 +170,23 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public WeaponAfterAction weaponAfterAction { get; set; }
     public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
+
+    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
+    public AnimatorOverrideController _animatorOverride { get; set; }
     public WeaponManuverManager weaponManuverManager { get; set; }
+    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
+
     public void Initialized_IWeaponAdvanceUser()
     {
         weaponUserAnimator = animator;
         currentWeaponSocket = weaponMainSocket;
-        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 360, 360));
+        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000
+            , 1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this,this);
+        findingWeaponBehavior = new FindingWeaponBehavior(this);
+        _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion
 
@@ -202,29 +228,28 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     #endregion
 
-    #region InitailizedCombatInstinct
-    public CombatOffensiveInstinct combatOffensiveInstinct { get; set ; }
-    public FieldOfView fieldOfView { get => this.enemyFieldOfView; }
-    public GameObject objInstict { get ; set ; }
-    public LayerMask targetLayer { get => this.targetMask; set => targetMask = value; }
-
-    public void InitailizedCombatOffensiveInstinct()
-    {
-        objInstict = gameObject;
-        combatOffensiveInstinct = new CombatOffensiveInstinct(fieldOfView,this,base.My_environment,this);
-    }
-    #endregion
-
     #region InitailizedFindingTarget
-    public GameObject userObj { get => gameObject; }
-    FieldOfView IFindingTarget.fieldOfView { get => this.enemyFieldOfView; set => this.enemyFieldOfView = value; }
-    LayerMask IFindingTarget.targetLayer { get => targetMask; set => targetMask = value; }
+   
     public FindingTarget findingTargetComponent { get ; set; }
-    public Vector3 targetKnewPos { get ; set ; }
+    public Vector3 targetKnewPos;
+    public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
     {
-        findingTargetComponent = new FindingTarget(targetLayer, fieldOfView, this);
+        findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
+        findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
+
     }
+    private void EnemySpotingTarget(GameObject target)
+    {
+        if (isDead)
+            return;
+
+        targetKnewPos = target.transform.position;
+        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
+        if (NotifyEnemySpottingTarget != null) 
+        NotifyEnemySpottingTarget.Invoke(target);
+    }
+
     #endregion
 
     #region InitailizedCoverUsable
@@ -238,77 +263,62 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public void InitailizedCoverUsable()
     {
         userCover = this;
-        findingCover = new FindingCover(this, this);
+        findingCover = new EnemyFindCover(this, this,this);
     }
 
 
     #endregion
 
     #region InitailizedHearingComponent
-    public GameObject userHearing { get ; set ; }
-    public Environment environment { get => My_environment ; }
-    public HearingSensing hearingSensing { get; set; }
-   
 
-    public void InitailizedHearingComponent()
+    public Action<INoiseMakingAble> NotifyGotHearing { get; set ; }
+    public void GotHearding(INoiseMakingAble noiseMakingAble)
     {
-        userHearing = gameObject;
-        hearingSensing = new HearingSensing(this, this.environment, 50);
-    }
-    public void GotHearding(GameObject souceSound)
-    {
-        
-        if (souceSound.TryGetComponent<Player>(out Player player) == false) 
-        return;
-
-        if(Vector3.Distance(souceSound.transform.position,transform.position)>10)
+        if(isDead)
             return;
 
-        if(Vector3.Distance(souceSound.transform.position, transform.position) < 5)
+        if(noiseMakingAble is Bullet bullet
+            && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
         {
-            NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-
-            targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-            if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-                || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
-            {
-                combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
-            }
-            return;
-        }
-        if (Vector3.Distance(souceSound.transform.position, transform.position) < 10)
-        {
-            Ray ray = new Ray(transform.position
-                ,(souceSound.transform.position-transform.position).normalized);
-
-            if (Physics.Raycast(ray,out RaycastHit hitInfo, 1000, 0))
-            {
-                if(hitInfo.collider.gameObject != souceSound)
-                    return;
-
-                NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-
-                targetKnewPos = new Vector3(souceSound.transform.position.x, souceSound.transform.position.y, souceSound.transform.position.z);
-
-                if (combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Chill
-                    || combatOffensiveInstinct.myCombatPhase == CombatOffensiveInstinct.CombatPhase.Suspect)
-                {
-                    combatOffensiveInstinct.myCombatPhase = CombatOffensiveInstinct.CombatPhase.Alert;
-                }
-                return;
-
-            }
-          
+            targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
         }
 
-
-
-
-
+        NotifyObserver(this, EnemyEvent.HeardingGunShoot);
+        if(NotifyGotHearing != null)
+        NotifyGotHearing(noiseMakingAble);
     }
 
-    #endregion 
+    #endregion
+    #region ImplementCommunicateAble
+
+    public Action<Communicator> NotifyCommunicate { get ; set ; }
+    public GameObject communicateAble => gameObject;
+    public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
+    {
+
+        if (isDead)
+            return;
+
+
+        if (typeCommunicator is EnemyCommunicator enemyCommunicator)
+        {
+
+            switch (enemyCommunicator.enemyCommunicateMassage)
+            {
+                case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
+                    {
+
+                        targetKnewPos = enemyCommunicator.enemy.targetKnewPos;
+                    }
+                    break;
+            }
+        }
+      
+        //if (NotifyCommunicate == null)
+            NotifyCommunicate.Invoke(typeCommunicator);
+    }
+
+    #endregion
 
     #region InitailizedMovementComponent
     public Vector3 moveInputVelocity_WorldCommand;
@@ -341,6 +351,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public float hitedForcePush;
     [Range(0, 100)]
     public float hitedForceStop;
+
+    [Range(0, 100)]
+    public float painStateForceStop;
 
     public bool isSprintCommand { get; set; }
 
@@ -413,18 +426,28 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
+    #region IBulletDamageAble
+    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+    public Action<IDamageVisitor> NotifyGotAttack;
+    #endregion
+
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set ; }
     public Vector3 attackedPos { get; set; }
-    public Transform _gunFuHitedAble { get{ return transform; } set { } }
+    public Transform _gunFuAttackedAble { get{ return transform; } set { } }
     public IGunFuAble gunFuAbleAttacker { get; set ; }
     public IGunFuNode curAttackerGunFuNode { get ; set ; }
     public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
-
+    public IMovementCompoent _movementCompoent { get => this.enemyMovement; set => this.enemyMovement = value; }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
+    public IDamageAble _damageAble { get => this; set { } }
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
+
+    [SerializeField] public AnimationClip layUpExecutedAnim;
+    [SerializeField] public AnimationClip layDownExecutedAnim;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
         _triggerHitedGunFu = true;
@@ -443,7 +466,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-    
 
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
@@ -478,12 +500,23 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         return Direction;
     }
 
-    
+
 
 
 
     #endregion
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
 
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(transform.position, 0.15f);
 
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward);
+    }
+
+   
 }

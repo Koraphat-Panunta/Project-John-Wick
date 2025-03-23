@@ -1,23 +1,22 @@
 
-using Cinemachine;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble,
-    IAmmoRecivedAble,IHPReciveAble
+    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
 {
     public PlayerMovement playerMovement;
-    public HpRegenarate hpRegenarate;
+    public PlayerHpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
 
     public Transform RayCastPos;
-    public CinemachineFreeLook cinemachineFreeLook;
+    public CinemachineCamera cinemachineCamera;
+    public Character selfNPCTarget => this;
 
-    [SerializeField] public bool isImortal { get; private set; }
+    [SerializeField] public bool isImortal;
 
     public float MyHP;
    
@@ -27,6 +26,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         isSwapShoulder = false;
         isSwitchWeaponCommand = false;
         triggerDodgeRoll = false;
+        isPickingUpWeaponCommand = false;
+        isDropWeaponCommand = false;
+        if (_triggerExecuteGunFu)
+            Debug.Log("_triggerExecuteGunFu");
+        _triggerExecuteGunFu = false;
         if (_triggerGunFu == true)
         {
             triggerGunFuBufferTime -= Time.deltaTime;
@@ -39,14 +43,13 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         }
 
     }
-
-    protected override void Start()
+    protected override void Awake()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
         playerMovement = new PlayerMovement(this);
         coverDetection = new CoverDetection();
-        hpRegenarate = new HpRegenarate(this);
+        hpRegenarate = new PlayerHpRegenarate(this);
 
         curShoulderSide = ShoulderSide.Right;
 
@@ -61,12 +64,16 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         InitializedAimingProceduralAnimate();
 
-        new WeaponFactorySTI9mm().CreateWeapon(this);
-        (weaponBelt.secondaryWeapon as Weapon).AttachWeaponTo(weaponBelt.secondaryWeaponSocket);
-        new WeaponFactoryAR15().CreateWeapon(this);
+        //new WeaponFactorySTI9mm().CreateWeapon(this);
+        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponToSocket(weaponBelt.secondaryWeaponSocket);
+        //new WeaponFactoryAR15().CreateWeapon(this);
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-        playerStateNodeManager = new PlayerStateNodeManager(this);  
+        playerStateNodeManager = new PlayerStateNodeManager(this);
+    }
+    protected override void Start()
+    {
+       
 
     }
 
@@ -134,6 +141,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public bool isAimingCommand { get; set; }
     public bool isReloadCommand { get; set; }
     public bool isSwapShoulder;
+    public bool isPickingUpWeaponCommand { get; set; }
+    public bool isDropWeaponCommand { get; set; }
     public Weapon currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
@@ -142,20 +151,36 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public WeaponCommand weaponCommand { get; set; }
     public WeaponManuverManager weaponManuverManager { get ; set ; }
     public Vector3 shootingPos { get 
-        { return crosshairController.CrosshiarShootpoint.GetShootPointDirection(); } set { } }
+        { 
+            if(playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf) 
+            {
+                Ray ray = new Ray(currentWeapon.bulletSpawnerPos.position, currentWeapon.bulletSpawnerPos.forward);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
+                    return hitInfo.point;
+                else
+                    return ray.GetPoint(100);
+            }    
+            return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
+        } set { } }
     public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator weaponUserAnimator { get; set; }
     public Character userWeapon { get => this;}
+    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
+    public AnimatorOverrideController _animatorOverride { get; set; }
+    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
     public void Initialized_IWeaponAdvanceUser()
     {
         shootingPos = new Vector3();
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;
-        weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(90, 90, 60, 60));
+        weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(45, 45, 30, 30
+            ,45,45,60,60));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
         weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new PlayerWeaponManuver(this,this);
+        findingWeaponBehavior = new FindingWeaponBehavior(this);
+        _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion
 
@@ -183,6 +208,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedGunFu
     public bool _triggerGunFu { get ; set ; }
+    public bool _triggerExecuteGunFu { get; set; }
     public float triggerGunFuBufferTime { get ; set ; }
     public IWeaponAdvanceUser _weaponUser { get ; set; }
     public Vector3 _gunFuAimDir { get; set; }
@@ -194,6 +220,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
     public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get 
         {
             if(playerStateNodeManager.curNodeLeaf is IGunFuNode gunFuNode)
@@ -201,6 +228,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
             return null;
         } set { } 
     }
+    public StackGague gunFuExecuteStackGauge { get ; set ; }
 
     [SerializeField] public GunFuHitNodeScriptableObject hit1;
     [SerializeField] public GunFuHitNodeScriptableObject hit2;
@@ -211,6 +239,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public void InitailizedGunFuComponent()
     {
+        gunFuExecuteStackGauge = new PlayerGunFuExecuteStackGauge(this, 4, 0);
+
         _weaponUser = this;
         _gunFuUserTransform = RayCastPos;
         _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(0));
@@ -221,12 +251,16 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
     public void UpdateDetectingTarget()
     {
-        Debug.Log("attackedAbleGunFu = " + attackedAbleGunFu);
 
         if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
             return;
 
-        if(gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+        if(gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
+            executedAbleGunFu = excecuteTarget;
+        else
+            executedAbleGunFu = null;
+        
+        if (gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
             attackedAbleGunFu = target;
         else
             attackedAbleGunFu = null;
@@ -317,6 +351,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public Transform centreTransform;
 
+    [SerializeField] public AnimationCurve moveWarping;
+
     #endregion
 
     #region ImplementIAmmoGetAble & IHpGetAble
@@ -336,11 +372,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    BulletType primaryType = (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).bullet.myType;
-                    BulletType secondaryType = (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).bullet.myType;
-
-                    if (weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[primaryType] < weaponBelt.ammoProuch.maximunAmmo[primaryType]
-                        || weaponAdvanceUser.weaponBelt.ammoProuch.amountOf_ammo[secondaryType] < weaponBelt.ammoProuch.maximunAmmo[secondaryType])
+                    if (weaponBelt.ammoProuch.amountOf_ammo[BulletType._9mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._9mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._45mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._45mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._556mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._556mm]
+                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._762mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._762mm])
                         return true;
                 }
                 break;
@@ -359,9 +394,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
 
-    
-
 
     #endregion
+
 
 }

@@ -1,5 +1,5 @@
 using System;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
@@ -76,14 +76,14 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
 
                     attackedAbleGunFu.TakeGunFuAttacked(this, player);
 
-                    attackedAbleGunFu._gunFuHitedAble.position = Vector3.Lerp(
-                        attackedAbleGunFu._gunFuHitedAble.position, 
+                    attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
+                        attackedAbleGunFu._gunFuAttackedAble.position, 
                         targetAdjustTransform.position, 
                         elaspeTimmerEnter / EnterDuration
                         );
 
-                    attackedAbleGunFu._gunFuHitedAble.rotation = Quaternion.Lerp(
-                        attackedAbleGunFu._gunFuHitedAble.rotation,
+                    attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(
+                        attackedAbleGunFu._gunFuAttackedAble.rotation,
                         targetAdjustTransform.rotation,
                         elaspeTimmerEnter / EnterDuration
                         );
@@ -91,7 +91,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     if (elaspeTimmerEnter >= EnterDuration)
                     {
                         curIntphase = InteractionPhase.Stay;
-                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuHold);
+                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
                     }
                 }
                 break;
@@ -101,8 +101,8 @@ public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
                     elapesTimmerStay += Time.deltaTime;
                     nodeLeafTransitionBehavior.TransitionAbleAll(this);
 
-                    attackedAbleGunFu._gunFuHitedAble.position = targetAdjustTransform.position;
-                    attackedAbleGunFu._gunFuHitedAble.rotation = targetAdjustTransform.rotation;
+                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
 
                     player._aimConstraint.data.offset = new Vector3(12,0,0);
                     player._aimConstraint.weight = 0.5f;

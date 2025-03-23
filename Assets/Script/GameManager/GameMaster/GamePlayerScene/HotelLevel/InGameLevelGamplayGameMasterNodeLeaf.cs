@@ -1,3 +1,4 @@
+
 using System;
 using TMPro;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     public override void Enter()
     {
+        gameMaster.NotifyObserver(gameMaster);
+
         this.eliminationObjective = new Elimination(gameMaster.targetEliminationQuest);
         this.eliminationObjective.AddNotifyUpdateObjective(this);
         this.travelingToDestination = new TravelingToDestination(player.transform, gameMaster.destination.position);

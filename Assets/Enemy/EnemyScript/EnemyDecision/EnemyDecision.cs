@@ -1,22 +1,33 @@
 using UnityEngine;
 [RequireComponent(typeof(EnemyCommandAPI))]
+[RequireComponent(typeof(Enemy))]
 public abstract class EnemyDecision : MonoBehaviour
 {
     public abstract EnemyCommandAPI enemyCommand { get; set; }
-    public abstract Enemy enemy { get; set; }
-    protected virtual void Start()
+    public Enemy enemy;
+    
+    protected virtual void Awake()
     {
         enemyCommand = GetComponent<EnemyCommandAPI>();
-        this.enemy = enemyCommand._enemy;
+        this.enemy = GetComponent<Enemy>();
+        this.enemy.NotifyGotHearing += OnNotifyHearding;
+        this.enemy.NotifyEnemySpottingTarget += OnNotifySpottingTarget;
+    }
+    protected virtual void Start()
+    {
+        
     }
 
     protected virtual void Update()
     {
-        
     }
 
     protected virtual void FixedUpdate()
     {
 
     }
+    protected abstract void OnNotifyHearding(INoiseMakingAble noiseMaker);
+    protected abstract void OnNotifySpottingTarget(GameObject target);
+     
+    
 }

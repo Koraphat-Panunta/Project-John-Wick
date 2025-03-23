@@ -11,11 +11,9 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     }
     public override void Enter()
     {
-        MotionControlManager motionControlManager = enemy.motionControlManager;
 
         time = 0;
-        motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
-        enemy.enemyMovement.CancleMomentum();
+        (enemy.enemyMovement as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
         animator.CrossFade(stateName, 0.1f, 0);
 
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
@@ -59,7 +57,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, IMovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
     public abstract float painDuration { get; set; }

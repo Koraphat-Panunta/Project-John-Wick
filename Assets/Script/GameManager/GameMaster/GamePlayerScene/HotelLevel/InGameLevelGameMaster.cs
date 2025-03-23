@@ -6,13 +6,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class InGameLevelGameMaster : GameMaster,IObserverPlayerSpawner
+public class InGameLevelGameMaster : GameMaster
 {
     public Canvas openingCanvasUI;
     public Image titleHotelLevelImage;
     public TextMeshProUGUI titleLevelHotel;
     public Image fadeInImage;
-    public PlayerSpawner playerSpawner;
 
     public Canvas gameplayCanvasUI;
     public User user;
@@ -59,12 +58,16 @@ public class InGameLevelGameMaster : GameMaster,IObserverPlayerSpawner
   
     protected override void Awake()
     {
-        playerSpawner.AddObserverPlayerSpawner(this);
         base.Awake();
     }
     protected override void Start()
     {
         curLevelHotelPhase = LevelHotelPhase.Opening;
+        foreach (Character target in targetEliminationQuest)
+        {
+            target.gameObject.SetActive(false);
+        }
+        player.gameObject.SetActive(false);
         StartCoroutine(DelaySceneLoaded());
         base.Start();
     }
@@ -145,6 +148,23 @@ public class InGameLevelGameMaster : GameMaster,IObserverPlayerSpawner
     {
         this.player = player;
     }
+
+    private List<IGameLevelMasterObserver> gameLevelMasterObservers = new List<IGameLevelMasterObserver>();
+    public void AddObserver(IGameLevelMasterObserver gameLevelMasterObserver)=>this.gameLevelMasterObservers.Add(gameLevelMasterObserver);
+    public void RemoveObserver(IGameLevelMasterObserver gameLevelMasterObserver)=> this.gameLevelMasterObservers.Remove(gameLevelMasterObserver);  
+    public void NotifyObserver(InGameLevelGameMaster inGameLevelGameMaster)
+    {
+        if(gameLevelMasterObservers.Count <= 0)
+            return;
+        foreach(IGameLevelMasterObserver gameLevelMasterObserver in this.gameLevelMasterObservers)
+        {
+            gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
+        }
+    }
+}
+public interface IGameLevelMasterObserver
+{
+    public void OnNotify(InGameLevelGameMaster inGameLevelGameMaster);
 }
 public class LevelHotelRestGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {

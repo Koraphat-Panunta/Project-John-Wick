@@ -17,6 +17,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
+    public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
 
     public GunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
@@ -31,8 +32,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public override void Enter()
     {
         this.attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
-        targetEnterPos = attackedAbleGunFu._gunFuHitedAble.position;
-        Debug.Log("targetEnterPos = "+ targetEnterPos);
+        targetEnterPos = attackedAbleGunFu._gunFuAttackedAble.position;
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
@@ -58,6 +58,19 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
     public override void FixedUpdateNode()
     {
+        if (_timer <= _animationClip.length * hitAbleTime_Normalized)
+        {
+            Vector3 warpPos = targetAdjustTransform.position + targetAdjustTransform.forward * 0.2f; 
+            attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
+                      attackedAbleGunFu._gunFuAttackedAble.position,
+                     warpPos,
+                      _timer / (_animationClip.length * hitAbleTime_Normalized)
+                      );
+            player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+            attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(attackedAbleGunFu._gunFuAttackedAble.rotation
+                , Quaternion.LookRotation(targetAdjustTransform.forward * -1, Vector3.up)
+                , _timer / (_animationClip.length * hitAbleTime_Normalized));
+        }
         base.FixedUpdateNode();
     }
 
@@ -87,7 +100,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
 
         if (Vector3.Distance(targetPos, player.transform.position) > 0.6f)
         {
-            player.playerMovement.RotateToDirWorld(attackedAbleGunFu._gunFuHitedAble.position - player.transform.position, 15);
+            player.playerMovement.RotateToDirWorld(attackedAbleGunFu._gunFuAttackedAble.position - player.transform.position, 15);
             player.playerMovement.SnapingMovement(targetPos, Vector3.zero, 300 * Time.deltaTime);
         }
     }

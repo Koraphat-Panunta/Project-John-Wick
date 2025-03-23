@@ -105,7 +105,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""id"": ""bab15d60-90f2-4680-b0c5-32d1798bb5ee"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold,Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -124,6 +124,24 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerPickingUpWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""b6a45863-a8e4-43c5-957b-2839c283a206"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TriggerDropWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ea511f6-fbca-4dd4-969f-8c454985d33e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -495,7 +513,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""2079e9f8-8059-4712-a1e0-828e1ae6bd05"",
                     ""path"": ""<Keyboard>/f"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TrggerGunFu"",
@@ -534,6 +552,28 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""action"": ""TriggerDodgeRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41ac34d3-cff2-4c91-85d6-876d1de53a3c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerPickingUpWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c456cc0-ff16-4c9b-ae9d-9ccc100d9e40"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TriggerDropWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -553,6 +593,8 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction_TrggerGunFu = m_PlayerAction.FindAction("TrggerGunFu", throwIfNotFound: true);
         m_PlayerAction_ToggleChangeStance = m_PlayerAction.FindAction("ToggleChangeStance", throwIfNotFound: true);
         m_PlayerAction_TriggerDodgeRoll = m_PlayerAction.FindAction("TriggerDodgeRoll", throwIfNotFound: true);
+        m_PlayerAction_TriggerPickingUpWeapon = m_PlayerAction.FindAction("TriggerPickingUpWeapon", throwIfNotFound: true);
+        m_PlayerAction_TriggerDropWeapon = m_PlayerAction.FindAction("TriggerDropWeapon", throwIfNotFound: true);
     }
 
     ~@UserInput()
@@ -630,6 +672,8 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_TrggerGunFu;
     private readonly InputAction m_PlayerAction_ToggleChangeStance;
     private readonly InputAction m_PlayerAction_TriggerDodgeRoll;
+    private readonly InputAction m_PlayerAction_TriggerPickingUpWeapon;
+    private readonly InputAction m_PlayerAction_TriggerDropWeapon;
     public struct PlayerActionActions
     {
         private @UserInput m_Wrapper;
@@ -645,6 +689,8 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         public InputAction @TrggerGunFu => m_Wrapper.m_PlayerAction_TrggerGunFu;
         public InputAction @ToggleChangeStance => m_Wrapper.m_PlayerAction_ToggleChangeStance;
         public InputAction @TriggerDodgeRoll => m_Wrapper.m_PlayerAction_TriggerDodgeRoll;
+        public InputAction @TriggerPickingUpWeapon => m_Wrapper.m_PlayerAction_TriggerPickingUpWeapon;
+        public InputAction @TriggerDropWeapon => m_Wrapper.m_PlayerAction_TriggerDropWeapon;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -687,6 +733,12 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @TriggerDodgeRoll.started += instance.OnTriggerDodgeRoll;
             @TriggerDodgeRoll.performed += instance.OnTriggerDodgeRoll;
             @TriggerDodgeRoll.canceled += instance.OnTriggerDodgeRoll;
+            @TriggerPickingUpWeapon.started += instance.OnTriggerPickingUpWeapon;
+            @TriggerPickingUpWeapon.performed += instance.OnTriggerPickingUpWeapon;
+            @TriggerPickingUpWeapon.canceled += instance.OnTriggerPickingUpWeapon;
+            @TriggerDropWeapon.started += instance.OnTriggerDropWeapon;
+            @TriggerDropWeapon.performed += instance.OnTriggerDropWeapon;
+            @TriggerDropWeapon.canceled += instance.OnTriggerDropWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -724,6 +776,12 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @TriggerDodgeRoll.started -= instance.OnTriggerDodgeRoll;
             @TriggerDodgeRoll.performed -= instance.OnTriggerDodgeRoll;
             @TriggerDodgeRoll.canceled -= instance.OnTriggerDodgeRoll;
+            @TriggerPickingUpWeapon.started -= instance.OnTriggerPickingUpWeapon;
+            @TriggerPickingUpWeapon.performed -= instance.OnTriggerPickingUpWeapon;
+            @TriggerPickingUpWeapon.canceled -= instance.OnTriggerPickingUpWeapon;
+            @TriggerDropWeapon.started -= instance.OnTriggerDropWeapon;
+            @TriggerDropWeapon.performed -= instance.OnTriggerDropWeapon;
+            @TriggerDropWeapon.canceled -= instance.OnTriggerDropWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -754,5 +812,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         void OnTrggerGunFu(InputAction.CallbackContext context);
         void OnToggleChangeStance(InputAction.CallbackContext context);
         void OnTriggerDodgeRoll(InputAction.CallbackContext context);
+        void OnTriggerPickingUpWeapon(InputAction.CallbackContext context);
+        void OnTriggerDropWeapon(InputAction.CallbackContext context);
     }
 }

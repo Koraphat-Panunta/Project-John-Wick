@@ -67,7 +67,7 @@ namespace TMPro.Examples
                 DrawWordBounds();
             #endregion
 
-            // Draw character metrics
+            // Draw selfNPCTarget metrics
             #region Draw Characters
             if (ShowCharacters)
                 DrawCharactersBounds();
@@ -94,7 +94,7 @@ namespace TMPro.Examples
 
 
         /// <summary>
-        /// Method to draw a rectangle around each character.
+        /// Method to draw a rectangle around each selfNPCTarget.
         /// </summary>
         /// <param name="text"></param>
         void DrawCharactersBounds()
@@ -118,13 +118,13 @@ namespace TMPro.Examples
 
                 float dottedLineSize = 6;
 
-                // Get Bottom Left and Top Right position of the current character
+                // Get Bottom Left and Top Right position of the current selfNPCTarget
                 Vector3 bottomLeft = m_Transform.TransformPoint(characterInfo.bottomLeft);
                 Vector3 topLeft = m_Transform.TransformPoint(new Vector3(characterInfo.topLeft.x, characterInfo.topLeft.y, 0));
                 Vector3 topRight = m_Transform.TransformPoint(characterInfo.topRight);
                 Vector3 bottomRight = m_Transform.TransformPoint(new Vector3(characterInfo.bottomRight.x, characterInfo.bottomRight.y, 0));
 
-                // Draw character bounds
+                // Draw selfNPCTarget bounds
                 if (characterInfo.isVisible)
                 {
                     Color color = Color.green;
@@ -279,7 +279,7 @@ namespace TMPro.Examples
 
                 Color wordColor = Color.green;
 
-                // Iterate through each character of the word
+                // Iterate through each selfNPCTarget of the word
                 for (int j = 0; j < wInfo.characterCount; j++)
                 {
                     int characterIndex = wInfo.firstCharacterIndex + j;
@@ -301,9 +301,9 @@ namespace TMPro.Examples
                         bottomLeft = new Vector3(currentCharInfo.bottomLeft.x, currentCharInfo.descender, 0);
                         topLeft = new Vector3(currentCharInfo.bottomLeft.x, currentCharInfo.ascender, 0);
 
-                        //Debug.Log("Start Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("Start Word Region at [" + currentCharInfo.selfNPCTarget + "]");
 
-                        // If Word is one character
+                        // If Word is one selfNPCTarget
                         if (wInfo.characterCount == 1)
                         {
                             isBeginRegion = false;
@@ -316,7 +316,7 @@ namespace TMPro.Examples
                             // Draw Region
                             DrawRectangle(bottomLeft, topLeft, topRight, bottomRight, wordColor);
 
-                            //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                            //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                         }
                     }
 
@@ -333,7 +333,7 @@ namespace TMPro.Examples
                         // Draw Region
                         DrawRectangle(bottomLeft, topLeft, topRight, bottomRight, wordColor);
 
-                        //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                     }
                     // If Word is split on more than one line.
                     else if (isBeginRegion && currentLine != m_TextInfo.characterInfo[characterIndex + 1].lineNumber)
@@ -347,7 +347,7 @@ namespace TMPro.Examples
 
                         // Draw Region
                         DrawRectangle(bottomLeft, topLeft, topRight, bottomRight, wordColor);
-                        //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                         maxAscender = -Mathf.Infinity;
                         minDescender = Mathf.Infinity;
 
@@ -385,7 +385,7 @@ namespace TMPro.Examples
 
                 Color32 linkColor = Color.cyan;
 
-                // Iterate through each character of the link text
+                // Iterate through each selfNPCTarget of the link text
                 for (int j = 0; j < linkInfo.linkTextLength; j++)
                 {
                     int characterIndex = linkInfo.linkTextfirstCharacterIndex + j;
@@ -407,9 +407,9 @@ namespace TMPro.Examples
                         bottomLeft = new Vector3(currentCharInfo.bottomLeft.x, currentCharInfo.descender, 0);
                         topLeft = new Vector3(currentCharInfo.bottomLeft.x, currentCharInfo.ascender, 0);
 
-                        //Debug.Log("Start Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("Start Word Region at [" + currentCharInfo.selfNPCTarget + "]");
 
-                        // If Link is one character
+                        // If Link is one selfNPCTarget
                         if (linkInfo.linkTextLength == 1)
                         {
                             isBeginRegion = false;
@@ -422,7 +422,7 @@ namespace TMPro.Examples
                             // Draw Region
                             DrawRectangle(bottomLeft, topLeft, topRight, bottomRight, linkColor);
 
-                            //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                            //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                         }
                     }
 
@@ -439,7 +439,7 @@ namespace TMPro.Examples
                         // Draw Region
                         DrawRectangle(bottomLeft, topLeft, topRight, bottomRight, linkColor);
 
-                        //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                     }
                     // If Link is split on more than one line.
                     else if (isBeginRegion && currentLine != textInfo.characterInfo[characterIndex + 1].lineNumber)
@@ -456,7 +456,7 @@ namespace TMPro.Examples
 
                         maxAscender = -Mathf.Infinity;
                         minDescender = Mathf.Infinity;
-                        //Debug.Log("End Word Region at [" + currentCharInfo.character + "]");
+                        //Debug.Log("End Word Region at [" + currentCharInfo.selfNPCTarget + "]");
                     }
                 }
 

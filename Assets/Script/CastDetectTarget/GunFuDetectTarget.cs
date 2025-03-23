@@ -23,7 +23,37 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     {
         gunFuAble = GetComponent<IGunFuAble>();
     }
+    public bool CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble gunFuGotExecuteAble)
+    {
+        gunFuGotExecuteAble = null;
+        Vector3 castDir = CastSphereDir();
+        Ray ray = new Ray(_castTransform.position, castDir);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + gunFuAble._layerTarget);
+        foreach (RaycastHit hit in collider)
+        {
+            if (hit.collider.gameObject.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
+                continue;
 
+            if (gunFuGotAttackedAble._isDead)
+                continue;
+
+            if (gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf == false)
+                continue;
+
+
+            Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
+            if (Physics.Raycast(ray1, out RaycastHit hitInfo, 100, 0 + gunFuAble._layerTarget))
+            {
+                if (hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
+                {
+                    gunFuGotExecuteAble = gunFuGotAttackedAble;
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
     public bool CastDetect(out IGunFuGotAttackedAble target)
     {
         target = null;
@@ -152,7 +182,7 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
         Vector3 sphrerPos = this.CastTransform.position + (CastSphereDir() * this._sphere_Distance_Detection);
         if (CastDetect(out IGunFuGotAttackedAble target))
         {
-            Gizmos.DrawSphere(target._gunFuHitedAble.position, 0.75f);
+            Gizmos.DrawSphere(target._gunFuAttackedAble.position, 0.75f);
             sphrerPos = this.CastTransform.position + (CastSphereDir() * Vector3.Distance(_castTransform.position,target.attackedPos));
 
         }

@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
@@ -27,6 +27,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
     public float CAR_Weight;
+    public float WeaponSwayRate_Normalized;
 
     public bool isCover;
 
@@ -65,16 +66,16 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     private void BackBoardUpdate()
     {
        
-        
         if (player.curShoulderSide == Player.ShoulderSide.Left)
             SholderSide = Mathf.Clamp(SholderSide - 100*Time.deltaTime, -1, 1);
         if (player.curShoulderSide == Player.ShoulderSide.Right)
             SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
-        if(player.isInCover)
-            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1);
+        if(player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandIdleNode ||
+            player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandMoveNode)
+            CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
         else
-            CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
+            CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
 
         PlayerMovement playerMovement = player.playerMovement;
         Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
@@ -94,7 +95,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
                 Vector3.Dot(player.inputMoveDir_World, 
                 Vector3.Cross(player.transform.forward, Vector3.up))
-            ,10*Time.deltaTime) ;
+            ,3.5f*Time.deltaTime) ;
 
         if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode)
         {
@@ -125,21 +126,37 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (player.currentWeapon is PrimaryWeapon)
             isIn_C_A_R_aim = false;
 
-        if (isIn_C_A_R_aim)
+        if ((player as IWeaponAdvanceUser).currentWeapon != null)
         {
-            CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
-            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
-                isIn_C_A_R_aim = false;
+            if (isIn_C_A_R_aim)
+            {
+                CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
+                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+               , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) > 24)
+                    isIn_C_A_R_aim = false;
+            }
+            else if (isIn_C_A_R_aim == false)
+            {
+                CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
+                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+               , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
+                    isIn_C_A_R_aim = true;
+            }
         }
-        else if(isIn_C_A_R_aim == false)
+
+        float changeSprintLowRate = 5;
+        float changeSprintOutRate = 6;
+        float changeSprintStayRate = 9;
+        if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode sprintNode)
         {
-            CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
-            if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
-           , (player as IWeaponAdvanceUser).currentWeapon.bulletSpawnerPos.position) < 3.5f)
-                isIn_C_A_R_aim = true;
+            if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Out)
+                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
+            else if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Stay)
+                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized,1, changeSprintStayRate * Time.deltaTime);
         }
-       
+        else
+            WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
+
 
         animator.SetFloat("CoverWeight", CoverWeight);
         animator.SetFloat("SholderSide", SholderSide);
@@ -156,6 +173,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("RecoilWeight", RecoilWeight);
         animator.SetFloat("CAR_Weight", CAR_Weight);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
+        animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
 
     }
 
@@ -185,11 +203,15 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
             RecoilWeight = 1;
 
-        if(playerAction == SubjectPlayer.PlayerAction.Sprint)
+        if (playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
-
-            animator.CrossFade(Sprint, 0.3f, 0,0);
+           
+            animator.CrossFade(Sprint, 0.3f, 0, 0);
             isLayer_1_Enable = true;
+        }
+        else 
+        {
+            
         }
         if(playerAction == SubjectPlayer.PlayerAction.StandMove||
             playerAction == SubjectPlayer.PlayerAction.StandIdle)
@@ -211,7 +233,21 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             isLayer_1_Enable = false;
 
-            Debug.Log("PlayerCurNodeLeaf = " + player.playerStateNodeManager.curNodeLeaf);
+            if(player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
+            {
+                if (player.currentWeapon is PrimaryWeapon)
+                    animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.2f,0,0);
+                if (player.currentWeapon is SecondaryWeapon)
+                    animator.CrossFade("GunFu_EX_Knee", 0.2f, 0, 0);
+            }
+
+            if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm)
+            {
+                if (weaponDisarm.disarmedWeapon is PrimaryWeapon)
+                    animator.CrossFade("GunFuPrimaryDisarm", 0f,0,0);
+                if (weaponDisarm.disarmedWeapon is SecondaryWeapon)
+                    animator.CrossFade("GunFuSecondaryDisarm", 0f, 0, 0);
+            }
 
             if(player.playerStateNodeManager.curNodeLeaf == (player.playerStateNodeManager as PlayerStateNodeManager).Hit1gunFuNode)
                 animator.CrossFade("Hit", 0.2f, 0, 0);
@@ -233,20 +269,29 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf)
                 animator.CrossFade("DodgeSpinKick", 0.2f, 0, 0);
         }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuHold)
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
                 if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay) 
                 {
                     animator.CrossFade(humanShield.humandShieldStay, 0.05f, 0, 0);
                 }
-
+                
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
             PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
-            if(playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
+            if(playerWeaponManuver.curNodeLeaf is HolsterPrimaryWeaponManuverNodeLeaf)
+                animator.CrossFade("HolsterPrimary", 0.1f, 1);
+            if(playerWeaponManuver.curNodeLeaf is HolsterSecondaryWeaponManuverNodeLeaf)
+                animator.CrossFade("HolsterSecondary", 0.1f, 1);
+            if (playerWeaponManuver.curNodeLeaf is DrawPrimaryWeaponManuverNodeLeaf)
+                animator.CrossFade("DrawPrimary", 0.1f, 1);
+            if(playerWeaponManuver.curNodeLeaf is DrawSecondaryWeaponManuverNodeLeaf)
+                animator.CrossFade("DrawSecondary", 0.1f, 1);
+
+            if (playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
             {
                 if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
                     animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class NormalFiringPattern : IEnemyFiringPattern
 {
-    private Weapon curWeapon;
-    private AmmoProuch ammoProuch;
+    private Weapon curWeapon => enemy.currentWeapon;
+    private AmmoProuch ammoProuch => enemy.weaponBelt.ammoProuch;
     private double deltaFireTiming = 0;
     private double randomFireTiming = 0;
     private const float MAXRANG_TIMING_FIRE = 0.6f;
-    private const float MINRANG_TIMING_FIRE = 0.2f;
+    private const float MINRANG_TIMING_FIRE = 0.25f;
     private Enemy enemy;
     private EnemyCommandAPI enemyController;
     public NormalFiringPattern(EnemyCommandAPI enemyController)
@@ -17,15 +17,12 @@ public class NormalFiringPattern : IEnemyFiringPattern
         this.enemy = enemyController._enemy;
         this.enemyController = enemyController;
 
-        this.curWeapon = enemy.currentWeapon;
-        this.ammoProuch = enemy.weaponBelt.ammoProuch;
         randomFireTiming = MAXRANG_TIMING_FIRE;
     }
     public void Performing()
     {
-        if(curWeapon.triggerState == TriggerState.IsDown
-            ||curWeapon.triggerState == TriggerState.Down)
-            enemyController.CancleTrigger();
+        if (curWeapon == null)
+            return;
 
         deltaFireTiming += Time.deltaTime;
 
@@ -65,6 +62,7 @@ public class NormalFiringPattern : IEnemyFiringPattern
     }
     private void Shoot()
     {
+
         if (DetectObstacle(1))
        return;
         enemyController.PullTrigger();

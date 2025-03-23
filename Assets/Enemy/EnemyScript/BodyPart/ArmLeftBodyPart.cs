@@ -33,7 +33,6 @@ public class ArmLeftBodyPart : BodyPart
 
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
-        HitsensingTarget(hitPart);
 
         TakeDamage(damageVisitor);
 

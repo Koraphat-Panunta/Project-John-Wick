@@ -19,4 +19,9 @@ public interface IMovementMotionWarping
         Vector3 exit,
         float duration,
         AnimationCurve animationCurve);
+
+    public IEnumerator MotionWarpingLinear(Vector3 start, Vector3 end, float duration, AnimationCurve animationCurve);
+    public void StartMotionWarpingLinear(Vector3 start, Vector3 end, float duration, AnimationCurve animationCurve);
+
+
 }

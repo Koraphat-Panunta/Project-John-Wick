@@ -5,6 +5,7 @@ using UnityEngine.Animations.Rigging;
 public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     Weapon weapon => weaponAdvanceUser.currentWeapon;
+    private Weapon secondHandWeapon;
     public enum QuickDrawPhase
     {
         Draw,
@@ -27,6 +28,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void Enter()
     {
+        this.secondHandWeapon = weaponAdvanceUser.currentWeapon;
         if(weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
         {
             weapon.AttachWeaponToSecondHand(weaponAdvanceUser.leftHandSocket);
@@ -45,6 +47,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void Exit()
     {
+        secondHandWeapon = null;
         quickDrawPhase = QuickDrawPhase.Exit;
         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
@@ -66,32 +69,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override bool IsReset()
     {
-        //if (weaponManuverManager.isReloadManuver)
-        //{
-        //    quickDrawPhase = QuickDrawPhase.HolsterPrimary;
-
-        //    (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-
-        //    if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-        //        weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
-
-        //    weapon.Reload();
-
-        //    return true;
-        //}
-
-        //if (weaponManuverManager.isAimingManuver == false)
-        //{
-        //    quickDrawPhase = QuickDrawPhase.HolsterPrimary;
-
-        //    (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSecondHand(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-
-        //    if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-        //        weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
-
-        //    return true;
-        //}
-
         if (IsComplete())
             return true;
 
@@ -121,7 +98,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     multiAim.data.offset = Vector3.Lerp(beforeEnter_AimProcedural, new Vector3(48f, 0f, 0f), elapseDrawTime/drawAim);
 
                     if (elapseDrawTime >= drawGrab)
-                        (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+                        (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
 
                     if (elapseDrawTime >= drawAim)
                     {
@@ -167,16 +144,16 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     elapseHolsterTime += Time.deltaTime;
 
                     float holsterSecondary = 0.34f;
-                    float drawPrimary = 0.5f;
+                    float drawPrimary = 0.42f;
 
-                    if (elapseHolsterTime >= holsterSecondary)
-                        weapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
+                    if (elapseHolsterTime >= holsterSecondary && weapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon) 
+                        weapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
 
                     multiAim.data.offset = Vector3.Lerp(new Vector3(48f, 0f, 0f),beforeEnter_AimProcedural , elapseHolsterTime / drawPrimary);
 
                     if (elapseHolsterTime >= drawPrimary)
                     {
-                        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+                        this.secondHandWeapon.AttatchWeaponTo(weaponAdvanceUser);//++
                         isComplete = true;
                     }
                 }
@@ -191,9 +168,14 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         weaponAdvanceUser.weaponAfterAction.AimDownSight(weapon);
     }
 
-    private void HolsteringPrimaryWeapon()
+    private void HolsteringPrimaryWeapon()//++
     {
-        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSecondHand(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        if (this.secondHandWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+            this.secondHandWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        else
+            this.secondHandWeapon.DropWeapon();
+
+        weapon.AttatchWeaponTo(weaponAdvanceUser);
 
         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);

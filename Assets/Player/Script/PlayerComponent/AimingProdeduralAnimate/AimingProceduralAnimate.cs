@@ -1,4 +1,4 @@
-using Mono.Cecil;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -24,6 +24,13 @@ public class AimingProceduralAnimate:IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(player.currentWeapon == null)
+        {
+            aimConstraint.weight = weaponAdvancer.weaponManuverManager.aimingWeight;
+            return;
+        }
+
+
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
             //aimPosReference.position = weaponAdvancer.pointingPos;

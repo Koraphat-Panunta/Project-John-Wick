@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
@@ -33,8 +33,6 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
         {    
             isAiming = true;
         }
-
-        Debug.Log("isAiming = " + isAiming);
 
         if (isAiming == false)
             WarpingToCoverPos();

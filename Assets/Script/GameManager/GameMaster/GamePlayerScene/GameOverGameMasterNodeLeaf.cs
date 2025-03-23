@@ -36,6 +36,8 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
         gameOverPhase = GameOverPhase.FadeIn;
         eplapesTime = 0;
         this.gameOverCanvasUI.gameObject.SetActive(true);
+
+        gameMaster.NotifyObserver(gameMaster);
     }
 
     public override void Exit()

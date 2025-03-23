@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -29,7 +28,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract float movementSpeed { get;  set; }
     public abstract float drawSpeed { get; set; }
 
-    public bool isPullTrigger;
+    public bool isPullTrigger { get; protected set; }
     public bool isReloadCommand;
     public bool isEquiped;
 
@@ -50,11 +49,13 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         FullAuto
     }
     public FireMode fireMode { get; protected set; }
-    public TriggerState triggerState = TriggerState.Up;
+    public TriggerState triggerState { get; protected set; }
 
-
+    public LayerMask weaponLayerMask { get; private set; }
     protected virtual void Awake()
     {
+        triggerState = TriggerState.Up;
+        weaponLayerMask = gameObject.layer;
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         bulletStore.Add(BulletStackType.Chamber, 1);
@@ -102,7 +103,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         isReloadCommand = true;
     }
-    
+
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
     {
         isEquiped = true;
@@ -133,17 +134,50 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
         }
         if(this is PrimaryWeapon){
-            WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
+            if (WeaponUser.weaponBelt.primaryWeapon == null)
+                WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
         }
         else if(this is SecondaryWeapon) { 
+            if(WeaponUser.weaponBelt.secondaryWeapon == null)
             WeaponUser.weaponBelt.secondaryWeapon = this as SecondaryWeapon;
         }
         parentConstraint.weight = 1;
     }
-    public void AttachWeaponTo(Transform weaponSocket)
+    public void AttatchWeaponToNoneOverrideAnimator(IWeaponAdvanceUser WeaponUser)
+    {
+        isEquiped = true;
+        this.userWeapon = WeaponUser;
+        WeaponUser.currentWeapon = this;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = WeaponUser.currentWeaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+
+        parentConstraint.constraintActive = true;
+       
+        if (this is PrimaryWeapon)
+        {
+            if (WeaponUser.weaponBelt.primaryWeapon == null)
+                WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
+        }
+        else if (this is SecondaryWeapon)
+        {
+            if (WeaponUser.weaponBelt.secondaryWeapon == null)
+                WeaponUser.weaponBelt.secondaryWeapon = this as SecondaryWeapon;
+        }
+        parentConstraint.weight = 1;
+    }
+    public void AttachWeaponToSocket(Transform weaponSocket)
     {
         isEquiped = false;
-        userWeapon = null;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = weaponSocket;
@@ -159,6 +193,45 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         
         parentConstraint.weight = 1;
+       
+        if (userWeapon.currentWeapon == this)
+        {
+            if (userWeapon is Player)
+            {
+                Player p = userWeapon as Player;
+                p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            if (userWeapon is Enemy)
+            {
+                Enemy enemy = userWeapon as Enemy;
+                enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+            }
+            userWeapon.currentWeapon = null;
+        }
+    }
+    public void AttachWeaponToSocketNoneAnimatorOverride(Transform weaponSocket)
+    {
+        isEquiped = false;
+        rb.isKinematic = true;
+        ConstraintSource source = new ConstraintSource();
+        source.sourceTransform = weaponSocket;
+        source.weight = 1;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+        }
+        parentConstraint.AddSource(source);
+        parentConstraint.constraintActive = true;
+        parentConstraint.translationAtRest = Vector3.zero;
+        parentConstraint.rotationAtRest = Vector3.zero;
+        parentConstraint.constraintActive = true;
+
+        parentConstraint.weight = 1;
+
+        if (userWeapon.currentWeapon == this)
+        {
+            userWeapon.currentWeapon = null;
+        }
     }
     public void AttachWeaponToSecondHand(Transform secondHandSocket)
     {
@@ -182,7 +255,45 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     }
     public void DropWeapon()
     {
+        isEquiped = false ;
         rb.isKinematic = false;
+        if (parentConstraint.sourceCount > 0)
+        {
+            parentConstraint.RemoveSource(0);
+            parentConstraint.constraintActive = true;
+            parentConstraint.constraintActive = true;
+            parentConstraint.weight = 1;
+        }
+        if (userWeapon.currentWeapon == this )
+        {
+            if (userWeapon.userWeapon.isDead == false)
+            {
+                if (userWeapon is Player)
+                {
+                    Player p = userWeapon as Player;
+                    p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                }
+                if (userWeapon is Enemy)
+                {
+                    Enemy enemy = userWeapon as Enemy;
+                    enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                }
+            }
+            userWeapon.currentWeapon = null;
+        }
+        if (this is PrimaryWeapon)
+        {
+            if(userWeapon.weaponBelt.primaryWeapon == this as PrimaryWeapon)
+            userWeapon.weaponBelt.primaryWeapon = null;
+        }
+        else if (this is SecondaryWeapon)
+        {
+            if(userWeapon.weaponBelt.secondaryWeapon == this as SecondaryWeapon)
+            userWeapon.weaponBelt.secondaryWeapon =null;
+        }
+        
+        userWeapon = null;
+
     }
 
     #region InitailizedWeaponTree

@@ -28,9 +28,14 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
     public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeleaf { get; set ; }
-
-
-
+    private void Awake()
+    {
+        soundTrackManager = GetComponent<SoundTrackManager>();
+        nodeManagerBehavior = new NodeManagerBehavior();
+        Application.targetFrameRate = 60; // Match Editor
+        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
+        DontDestroyOnLoad(gameObject);
+    }
     public void InitailizedNode()
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
@@ -65,12 +70,7 @@ public class GameManager : MonoBehaviour,INodeManager
         nodeManagerBehavior.UpdateNode(this);
     }
 
-    private void Awake()
-    {
-        soundTrackManager = GetComponent<SoundTrackManager>();
-        nodeManagerBehavior = new NodeManagerBehavior();
-        DontDestroyOnLoad(gameObject);
-    }
+   
     private void Start()
     {
 
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour,INodeManager
             case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
                 {
                     gameManagerSceneData = GameManagerState.Gameplay;
-                    gameplayLevelData = GameplayLevel.Mansion;
+                    gameplayLevelData = GameplayLevel.Hotel;
                 }
                 break;
             case InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour,INodeManager
                             gameplayLevelData = GameplayLevel.Hotel;
 
                         if (curNodeLeaf is LevelHotelGameManagerNodeLeaf)
-                            gameplayLevelData = GameplayLevel.Mansion;
+                            gameplayLevelData = GameplayLevel.Hotel;
                     }
                 }
                 break;

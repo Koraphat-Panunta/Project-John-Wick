@@ -13,6 +13,7 @@ public abstract class SubjectPlayer : Character
         SwitchWeapon,
         QuickDraw,
         PickUpWeapon,
+        Resting,
 
         ReloadMagazineFullStage,
         TacticalReloadMagazineFullStage,
@@ -36,7 +37,7 @@ public abstract class SubjectPlayer : Character
         GetOffCover,
 
         GunFuEnter,
-        GunFuHold,
+        GunFuInteract,
         GunFuAttack,
         GunFuExit,
 

@@ -35,7 +35,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
             case CoverPointTallSingleSide coverPointTallSingle:
                 {
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
-                    if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
+                    if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                     {
                         movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
                     }
@@ -48,11 +48,11 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
 
             case CoverPointTallDoubleSide coverPointTallDouble:
                 {
-                    if (coverUseable.coverPoint.CheckingTargetInCoverView(coverUseable, enemy.targetLayer, coverPointTallDouble.peekPosL, out GameObject target))
+                    if (coverUseable.coverPoint.CheckingTargetInCoverView(coverUseable, enemy.targetSpoterMask, coverPointTallDouble.peekPosL, out GameObject target))
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosL);
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
-                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
                             movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
                         }
@@ -65,7 +65,7 @@ public class EnemyStandTakeAimStateNode : EnemyStateLeafNode
                     {
                         coverPointTallDouble.TakeThisCover(coverUseable, coverPointTallDouble.peekPosR);
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
-                        if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
+                        if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
                             movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
                         }

@@ -1,17 +1,17 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 
-public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
+public class CameraController : MonoBehaviour,IObserverPlayer
 {
-    [SerializeField] public CinemachineFreeLook CinemachineFreeLook;
-    [SerializeField] public CinemachineCameraOffset cameraOffset;
+    [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
+    [SerializeField] public CinemachineOrbitalFollow cinemachineOrbitalFollow => player.cinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
+    [SerializeField] public CinemachineCameraOffset cameraOffset => player.cinemachineCamera.GetComponent<CinemachineCameraOffset>();
     [SerializeField] public CinemachineImpulseSource impulseSource;
-    [SerializeField] public Player Player;
+    [SerializeField] public Player player;
 
-    [SerializeField] private PlayerSpawner playerSpawner;
 
     public CameraKickBack cameraKickBack;
     public CameraImpulseShake cameraImpluse;
@@ -39,11 +39,10 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
-    }
-    void Start()
-    {
+        curStance = player.playerStance;
+        curSide = player.curShoulderSide;
+
+        player.AddObserver(this);
 
         cameraKickBack = new CameraKickBack(this);
 
@@ -51,22 +50,32 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
 
         cameraManagerNode = new CameraManagerNode(this);
     }
+    void Start()
+    {
+
+    }
     private void Update()
     {
         if(gunFuCameraTimer >0)
             gunFuCameraTimer -= Time.deltaTime;
 
-        if(Player != null && Player.weaponManuverManager != null)
-        zoomingWeight = Player.weaponManuverManager.aimingWeight;
+        if(player != null && player.weaponManuverManager != null)
+        zoomingWeight = player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
-        CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
+
+        this.CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
+
+        //Debug.Log("CameraOffset = " + cameraOffset);
+        //Debug.Log("CameraOffset value = " + cameraOffset.Offset);
     }
     private void FixedUpdate()
     {
         cameraManagerNode.FixedUpdateNode();
     }
     [SerializeField] private float cameraKickbackMultiple;
+
+    public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
         if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
@@ -93,10 +102,11 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         {
             isZooming = true;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.LowReady)
+        if(playerAction == SubjectPlayer.PlayerAction.LowReady || playerAction == SubjectPlayer.PlayerAction.Resting)
         {
             isZooming = false;
         }
+        
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             cameraImpluse.Performed();
@@ -119,15 +129,5 @@ public class CameraController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpa
         
     }
 
-    public void GetNotify(Player player)
-    {
-        Player = player;
-        curStance = Player.playerStance;
-        curSide = Player.curShoulderSide;
-
-        this.CinemachineFreeLook = player.cinemachineFreeLook;
-        this.cameraOffset = player.cinemachineFreeLook.GetComponent<CinemachineCameraOffset>();
-
-        Player.AddObserver(this);
-    }
+   
 }

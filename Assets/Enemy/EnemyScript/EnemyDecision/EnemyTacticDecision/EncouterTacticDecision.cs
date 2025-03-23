@@ -36,7 +36,7 @@ public class EncouterTacticDecision : TacticDecision
         enemy.cost -= cost_DrainRate * Time.deltaTime;
         if (enemy.cost < exitTacticCost/*&&enemyBody.cost > Vector3.Distance(enemyBody.transform.position,enemyBody.Target.transform.position)*2*/)
         {
-            if (enemy.findingCover.FindCoverInRaduis(7, out CoverPoint coverPoint))
+            if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
             {
                 enemyTacticDecision.ChangeTactic(enemyTacticDecision.takeCoverTacticDecision);
             }
@@ -47,33 +47,21 @@ public class EncouterTacticDecision : TacticDecision
             return;
         }
 
-        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
-
-        switch (combatPhase)
+        switch (enemyTacticDecision.curCombatPhase)
         {
-            case CombatOffensiveInstinct.CombatPhase.FullAlert:
-                {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
-                    enemyCommand.NormalFiringPattern.Performing();
-                    enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
-
-                }
-                break;
-            case CombatOffensiveInstinct.CombatPhase.Alert:
+            case EnemyTacticDecision.CombatPhase.Alert:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                     enemyCommand.NormalFiringPattern.Performing();
 
                 }
                 break;
-            case CombatOffensiveInstinct.CombatPhase.SemiAlert:
+            case EnemyTacticDecision.CombatPhase.Aware:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                 }
                 break;
         }
-
-
 
         curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
 

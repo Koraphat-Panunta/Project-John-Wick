@@ -11,12 +11,13 @@ public class AmmoProuch
     private int max_45mmDefault = 90;
     private int max_556mmDefault = 30;
     private int max_762mmDefault = 30;
-    public AmmoProuch(int start9mm,int start45mm,int start556mm,int start762mm) 
+    public AmmoProuch(int start9mm,int start45mm,int start556mm,int start762mm,
+        int max9mm,int max45mm,int max556mm,int max762mm) 
     {
-        maximunAmmo.Add(BulletType._9mm,max_9mmDefault);
-        maximunAmmo.Add(BulletType._45mm, max_45mmDefault);
-        maximunAmmo.Add(BulletType._556mm, max_556mmDefault);
-        maximunAmmo.Add(BulletType._762mm, max_762mmDefault);
+        maximunAmmo.Add(BulletType._9mm, max9mm);
+        maximunAmmo.Add(BulletType._45mm, max45mm);
+        maximunAmmo.Add(BulletType._556mm, max556mm);
+        maximunAmmo.Add(BulletType._762mm, max762mm);
 
         start9mm = Mathf.Clamp(start9mm, 0, maximunAmmo[BulletType._9mm]);
         start45mm = Mathf.Clamp(start45mm, 0, maximunAmmo[BulletType._45mm]);
@@ -35,6 +36,20 @@ public class AmmoProuch
     public void SetAmmo(BulletType bulletType,int amout)
     {
         amountOf_ammo[bulletType] = amout;
+    }
+    public void AddAmmo( int amount)
+    {
+        amountOf_ammo[BulletType._9mm] = Mathf.Clamp(amountOf_ammo[BulletType._9mm] + amount, 0, maximunAmmo[BulletType._9mm]);
+        amountOf_ammo[BulletType._45mm] = Mathf.Clamp(amountOf_ammo[BulletType._45mm] + amount, 0, maximunAmmo[BulletType._45mm]);
+        amountOf_ammo[BulletType._556mm] = Mathf.Clamp(amountOf_ammo[BulletType._556mm] + amount, 0, maximunAmmo[BulletType._556mm]);
+        amountOf_ammo[BulletType._762mm] = Mathf.Clamp(amountOf_ammo[BulletType._762mm] + amount, 0, maximunAmmo[BulletType._762mm]);
+    }
+    public void SetAmmo( int amount)
+    {
+        amountOf_ammo[BulletType._9mm] = Mathf.Clamp(amount, 0, maximunAmmo[BulletType._9mm]);
+        amountOf_ammo[BulletType._45mm] = Mathf.Clamp(amount, 0, maximunAmmo[BulletType._45mm]);
+        amountOf_ammo[BulletType._556mm] = Mathf.Clamp(amount, 0, maximunAmmo[BulletType._556mm]);
+        amountOf_ammo[BulletType._762mm] = Mathf.Clamp(amount, 0, maximunAmmo[BulletType._762mm]);
     }
 
 }

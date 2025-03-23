@@ -16,7 +16,15 @@ public abstract class WeaponManuverManager : INodeManager
     public bool isPullTriggerManuver;
     public bool isReloadManuver;
     public bool isSwitchWeaponManuver;
+    public bool isPickingUpWeaponManuver;
+    public bool isDropWeaponManuver;
 
+    public abstract PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
+    public abstract DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get;protected set; }
+    public abstract DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get; protected set; }
+    public abstract DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
+    public abstract HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
+    public abstract HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get; protected set; }
     public abstract WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public abstract PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
     public abstract SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
@@ -48,4 +56,6 @@ public abstract class WeaponManuverManager : INodeManager
         if (isReloadManuver)
             curWeapon.Reload();
     }
+
+    
 }

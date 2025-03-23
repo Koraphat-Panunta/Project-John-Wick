@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode,IWeaponTransitionNodeLeaf
+public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     public enum TransitionPhase
     {
@@ -22,8 +22,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
    
     public TransitionPhase curPhase;
 
-    private float holsterPrimaryWeaponTime = 0.33f;
-    private float drawSecondaryWeaponTime = 0.33f;
+    private float holsterPrimaryWeaponTime = 0.3f;
+    private float drawSecondaryWeaponTime = 0.3f;
     public PrimaryToSecondarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
@@ -85,8 +85,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.Switch:
                 {
-                    curWeapon.AttachWeaponTo(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-                    secondaryWeapon.AttatchWeaponTo(weaponAdvanceUser);
+                    curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+                    secondaryWeapon.AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
                     weaponAfterAction.SwitchingWeapon(curWeapon, this);
                     curPhase = TransitionPhase.DrawSecondaryWeapon;
                 } 
@@ -94,8 +94,11 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
             case TransitionPhase.DrawSecondaryWeapon: 
                 {
                     weaponAfterAction.SwitchingWeapon(curWeapon, this);
-                    if (elapsTime >= /*(1/curWeapon.drawSpeed)*/ holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
+                    if (elapsTime >= holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
+                    {
+                        curWeapon.AttatchWeaponTo(weaponAdvanceUser);
                         isComplete = true;
+                    }
                 } 
                 break;
         }

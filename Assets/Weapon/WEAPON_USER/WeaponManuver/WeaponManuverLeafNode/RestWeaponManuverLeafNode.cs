@@ -5,6 +5,10 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     Weapon curWeapon;
     WeaponAfterAction weaponAfterAction;
+    WeaponManuverManager weaponManuverManager => weaponAdvanceUser.weaponManuverManager;
+    private float recoverFormAimDownSight = 2.5f;
+
+
     public RestWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.curWeapon = weaponAdvanceUser.currentWeapon;
@@ -22,7 +26,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void FixedUpdateNode()
     {
-
+        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight - Time.deltaTime * recoverFormAimDownSight);
     }
 
     public override bool IsComplete()

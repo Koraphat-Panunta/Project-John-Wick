@@ -38,19 +38,9 @@ public class HoldingTacticDecision : TacticDecision
             return;
         }
 
-        CombatOffensiveInstinct.CombatPhase combatPhase = enemy.combatOffensiveInstinct.myCombatPhase;
-        switch (combatPhase)
+        switch (enemyTacticDecision.curCombatPhase)
         {
-            case CombatOffensiveInstinct.CombatPhase.FullAlert:
-                {
-                    enemyCommand.Freez();
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
-                    enemyCommand.NormalFiringPattern.Performing();
-                    enemy.enemyComunicate.SendNotify(EnemyComunicate.NotifyType.SendTargetLocation, 18f);
-
-                }
-                break;
-            case CombatOffensiveInstinct.CombatPhase.Alert:
+            case EnemyTacticDecision.CombatPhase.Alert:
                 {
                     enemyCommand.Freez();
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
@@ -58,7 +48,7 @@ public class HoldingTacticDecision : TacticDecision
 
                 }
                 break;
-            case CombatOffensiveInstinct.CombatPhase.SemiAlert:
+            case EnemyTacticDecision.CombatPhase.Aware:
                 {
                     enemyCommand.Freez();
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);

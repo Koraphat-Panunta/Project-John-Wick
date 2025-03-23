@@ -18,7 +18,7 @@ public class TakeCoverTacticDecision : TacticDecision
         coverTiming = 0f;
         peekTiming = Random.Range(1,2.5f);
 
-        if (enemy.findingCover.FindCoverInRaduis(7,out CoverPoint coverPoint))
+        if (enemy.findingCover.FindCoverInRaduisInGunFight(7,out CoverPoint coverPoint))
             this.coverPoint = coverPoint;
         else
         {
@@ -56,7 +56,7 @@ public class TakeCoverTacticDecision : TacticDecision
 
         if (enemy.isInCover == false)
         {
-            if (enemy.combatOffensiveInstinct.offensiveIntensity < 30)
+            if (enemyTacticDecision.pressure < 30)
                 enemyCommand.MoveToTakeCover(this.coverPoint, 1);
             else
                 enemyCommand.SprintToCover(this.coverPoint);
@@ -78,15 +78,15 @@ public class TakeCoverTacticDecision : TacticDecision
             return;
         }
 
-        switch (enemy.combatOffensiveInstinct.myCombatPhase)//TakeAim
+        switch (enemyTacticDecision.curCombatPhase)//TakeAim
         {
-            case CombatOffensiveInstinct.CombatPhase.FullAlert:
+            case EnemyTacticDecision.CombatPhase.Alert:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 4);
                     enemyCommand.NormalFiringPattern.Performing();
                 }
                 break;
-            case CombatOffensiveInstinct.CombatPhase.Alert:
+            case EnemyTacticDecision.CombatPhase.Aware:
                 {
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 4);
                     enemyCommand.NormalFiringPattern.Performing();

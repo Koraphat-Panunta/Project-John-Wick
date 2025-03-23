@@ -1,4 +1,4 @@
-using Cinemachine;
+using Unity.Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraZoom : ICameraAction
 {
     private CinemachineCameraOffset cameraOffset;
-    private CinemachineFreeLook cinemachineFreeLook;
+    private CinemachineCamera cinemachineCamera;
     private float fovZoomOut;
     private float fovZoomIn = 60;
     private float fovZoomPercentage = 16;
@@ -14,8 +14,8 @@ public class CameraZoom : ICameraAction
     public CameraZoom(CameraController cameraController)
     {
         this.cameraOffset = cameraController.cameraOffset;
-        this.cinemachineFreeLook = cameraController.CinemachineFreeLook;
-        fovZoomOut = this.cinemachineFreeLook.m_Lens.FieldOfView;
+        this.cinemachineCamera = cameraController.cinemachineCamera;
+        fovZoomOut = this.cinemachineCamera.Lens.FieldOfView;
         //fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);
 
     }
@@ -29,12 +29,12 @@ public class CameraZoom : ICameraAction
         float aimingWeight = weapon.userWeapon.weaponManuverManager.aimingWeight;
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, distanceZoomIn, 10*Time.deltaTime);
+            cameraOffset.Offset.z = Mathf.Lerp(cameraOffset.Offset.z, distanceZoomIn, 10*Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = aimingWeight* distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
+            cameraOffset.Offset.z = aimingWeight* distanceZoomIn;
+            cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     
@@ -45,12 +45,12 @@ public class CameraZoom : ICameraAction
 
         if (weapon == null)
         {
-            cameraOffset.m_Offset.z = Mathf.Lerp(cameraOffset.m_Offset.z, 0, 10 * Time.deltaTime);
+            cameraOffset.Offset.z = Mathf.Lerp(cameraOffset.Offset.z, 0, 10 * Time.deltaTime);
         }
         else
         {
-            cameraOffset.m_Offset.z = aimingWeight * distanceZoomIn;
-            cinemachineFreeLook.m_Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
+            cameraOffset.Offset.z = aimingWeight * distanceZoomIn;
+            cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fovZoomOut, fovZoomIn, aimingWeight);
         }
     }
     

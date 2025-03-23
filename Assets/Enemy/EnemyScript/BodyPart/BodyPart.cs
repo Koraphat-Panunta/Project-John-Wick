@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy
+public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, 
+    IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
 {
     [SerializeField] public Enemy enemy;
+    [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
     public abstract float hpReciverRate { get; set; }
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
-    public Transform _gunFuHitedAble { get => enemy._gunFuHitedAble; set { } }
+    public Transform _gunFuAttackedAble { get => enemy._gunFuAttackedAble; set { } }
     public Vector3 attackedPos { get; set; }
 
     public Vector3 forceSave;
@@ -34,9 +36,13 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
+    public IMovementCompoent _movementCompoent { get => enemy._movementCompoent; set => enemy._movementCompoent = value; }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
+    public IDamageAble _damageAble { get => enemy._damageAble; set => enemy._damageAble = value; }
+
     public bool _isDead { get => enemy.isDead; set { } }
 
-    public bool _triggerGotThrowed { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public bool _triggerGotThrowed { get => enemy._tiggerThrowAbleObjectHit; set { } }
 
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
@@ -68,16 +74,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
-    }
-
-
-
-    protected void HitsensingTarget(Vector3 hitPart)
-    {
-        if (enemy.fieldOfView.FindSingleObjectInView(enemy.targetMask, (new Vector3(hitPart.x, 0, hitPart.z) - enemy.transform.position).normalized, 120, out GameObject targetObj))
-        {
-            enemy.targetKnewPos = targetObj.transform.position;
-        }
     }
 
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
@@ -119,5 +115,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
             throwAbleObjectVisitable.GotVisit(this);
         }
     }
+
+    public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
+
 
 }

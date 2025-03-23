@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 1631304176077155450}
   - component: {fileID: -6616669404641631574}
   - component: {fileID: 7931137207141368579}
+  - component: {fileID: 4957479122355972784}
   m_Layer: 9
   m_Name: STI_9mm
   m_TagString: Untagged
@@ -151,9 +152,8 @@ MonoBehaviour:
   muzzle: {fileID: 0}
   Sight: {fileID: 0}
   bulletSpawnerPos: {fileID: 2257692584473007763}
-  isPullTrigger: 0
   isReloadCommand: 0
-  isEquiped: 0
+  isEquiped: 1
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 87a65ca05a1dd6542b758e2acea85e8f,
@@ -161,7 +161,6 @@ MonoBehaviour:
   _weaponOverrideControllerEnemy: {fileID: 22100000, guid: a1fb493b42ba44c4894985d4a431ec21,
     type: 2}
   bulletSpawner: {fileID: 2589834951360758816}
-  triggerState: 0
   _accuracy: 345
   _recoilController: 75
   _recoilCameraController: 107
@@ -207,17 +206,21 @@ ParentConstraint:
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 0, z: 0}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets: []
-  m_RotationOffsets: []
+  m_TranslationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
   m_AffectRotationX: 1
   m_AffectRotationY: 1
   m_AffectRotationZ: 1
-  m_Active: 0
+  m_Active: 1
   m_IsLocked: 0
-  m_Sources: []
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1
 --- !u!54 &-2014423653459740281
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -240,11 +243,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!95 &1631304176077155450
 Animator:
   serializedVersion: 7
@@ -383,6 +386,27 @@ MonoBehaviour:
   reload_2: {fileID: 8300000, guid: bf8568d2294de8c45a7850f9bcfc6f45, type: 3}
   reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
   weapon: {fileID: 0}
+--- !u!65 &4957479122355972784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7594886238610776571}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05999998, y: 0.20703451, z: 0.31944385}
+  m_Center: {x: 0, y: -0.011482726, z: 0.14092161}
 --- !u!1001 &1437082702736662825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,6 +480,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2680464797792544363, guid: 8767ee5a92b324b458073a1cb866d85a,
+        type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8767ee5a92b324b458073a1cb866d85a,
         type: 3}
       propertyPath: m_Name
@@ -510,7 +539,7 @@ PrefabInstance:
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}
@@ -520,7 +549,7 @@ PrefabInstance:
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}
@@ -535,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,
         type: 3}

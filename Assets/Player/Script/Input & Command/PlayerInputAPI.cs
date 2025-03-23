@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 using static Player;
 using static SubjectPlayer;
 
@@ -11,16 +12,7 @@ public class PlayerInputAPI : MonoBehaviour
     {
         player = GetComponent<Player>();
     }
-    void Start()
-    {
-
-    }
-
-    // UpdateNode is called once per frame
-    void Update()
-    {
-
-    }
+ 
     public void Move(InputAction.CallbackContext context)
     {
         player.inputMoveDir_Local = context.ReadValue<Vector2>();
@@ -78,8 +70,17 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void TriggerGunFu(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.interaction is HoldInteraction)
+        {
+            Debug.Log("context.interaction is HoldInteraction");
+            player._triggerExecuteGunFu = true;
+        }
+        else if(context.interaction is PressInteraction)
+        {
+            Debug.Log("context.interaction is PressInteraction");
             player._triggerGunFu = true;
+        }
+
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)
     {
@@ -104,5 +105,17 @@ public class PlayerInputAPI : MonoBehaviour
     {
         if(context.performed)
             player.triggerDodgeRoll = true;
+    }
+
+    public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player.isPickingUpWeaponCommand = true;
+    }
+
+    public void TriggerDropWeapon(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            player.isDropWeaponCommand = true;
     }
 }

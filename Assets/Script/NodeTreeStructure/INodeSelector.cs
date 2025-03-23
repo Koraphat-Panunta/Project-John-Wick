@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public interface INodeSelector : INode
@@ -95,7 +94,7 @@ public class NodeSelectorBehavior
 
             if (node is INodeLeaf)
             {
-                //Debug.Log("Node " + node + " isNodeLeaf " );
+                //Debug.Log("Node " + node + " isNodeLeaf ");
                 leafNode = node as INodeLeaf;
                 return true;
             }
@@ -110,39 +109,6 @@ public class NodeSelectorBehavior
         return false;
 
     }
-    //public bool FindingNode<NodeLeafType>(out NodeLeafType leafNode, INodeSelector nodeSelector) where NodeLeafType : INodeLeaf 
-    //{
-    //    leafNode = null;
-    //    Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
-    //    List<INode> childNodes = nodeSelector.childNode;
-
- 
-
-    //    foreach (NodeLeafType node in nodeSelector.childNode)
-    //    {
-    //        if (node.Precondition() == false)
-    //        {
-    //            Debug.Log("Node " + nodeSelector + " -> " + node + " is false");
-    //            continue;
-    //        }
-
-
-    //        Debug.Log("Node " + nodeSelector + " -> " + node);
-
-    //        if (node is NodeLeafType)
-    //        {
-    //            leafNode = node;
-    //            return true;
-    //        }
-
-    //        else if (node is INodeSelector SelectorNode)
-    //        {
-    //            SelectorNode.nodeSelectorBehavior.FindingNode(out leafNode, SelectorNode);
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-
-    //}
+   
 }
 

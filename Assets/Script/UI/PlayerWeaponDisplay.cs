@@ -8,7 +8,7 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
 {
     public Image WeaponIcon;
     public TextMeshProUGUI AmmoDisplay;
-    private Weapon currentWeapon;
+    private Weapon currentWeapon => playerInfo.currentWeapon;
     public int MagazineCount;
     public int AmmoCount;
     public PlayerWeaponDisplay(Player player, HUD hud,TextMeshProUGUI textMeshProUGUI) : base(player, hud)
@@ -36,10 +36,10 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
             || playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
        {
             UpdateInfo();
-        }
+       }
        if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
         {
-            //
+            UpdateInfo();
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
@@ -58,8 +58,6 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
                     UpdateInfo();
                 }
             }
-
-            
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.QuickDraw)
@@ -71,6 +69,9 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
         {
             UpdateInfo();
         }
+
+        if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
+            UpdateInfo();
     } 
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {
@@ -79,6 +80,9 @@ public class PlayerWeaponDisplay : PlayerInfoDisplay
 
     public override void UpdateInfo()
     {
+        if(currentWeapon == null)
+            return;
+
         AmmoCount = playerInfo.weaponBelt.ammoProuch.amountOf_ammo[playerInfo.currentWeapon.bullet.myType];
         MagazineCount = base.playerInfo.currentWeapon.bulletStore[BulletStackType.Magazine] + base.playerInfo.currentWeapon.bulletStore[BulletStackType.Chamber];
         SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);

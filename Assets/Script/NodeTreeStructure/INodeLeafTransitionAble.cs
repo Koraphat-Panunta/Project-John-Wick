@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 
 public interface INodeLeafTransitionAble : INodeLeaf
 {
@@ -42,7 +41,6 @@ public class NodeLeafTransitionBehavior
         nodeLeafTransitionAble.transitionAbleNode.Add(addNode, false);
 
     }
-
     public void TransitionAbleAll(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
         if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)

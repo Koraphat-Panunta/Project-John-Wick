@@ -34,12 +34,13 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
         }
     }
     bool isdead = false;
-    void Start()
+    private void Awake()
     {
         enemy = GetComponent<Enemy>();
-        animator= enemy.animator;
+        animator = enemy.animator;
         GetComponent<Enemy>().AddObserver(this);
     }
+   
     private void OnDisable()
     {
         GetComponent<Enemy>().RemoveObserver(this);

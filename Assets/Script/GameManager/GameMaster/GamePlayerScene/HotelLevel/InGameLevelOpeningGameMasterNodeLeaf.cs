@@ -13,11 +13,10 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     private Image fadeInImage => gameMaster.fadeInImage;
 
-    private PlayerSpawner playerSpawner => gameMaster.playerSpawner;
-
     private bool isComplete;
 
     private SetAlphaColorUI setAlphaColorUI;
+    private Player player => gameMaster.player;
     public enum LevelHotelOpeningPhase
     {
         FadeIn,
@@ -39,6 +38,8 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         openingCanvasUI.enabled = true;
         eplapesTime = 0;
 
+        gameMaster.NotifyObserver(gameMaster);
+      
         if(gameMaster.gameManager.curNodeLeaf is LevelMansionGameManagerNodeLeaf)
         gameMaster.gameManager.soundTrackManager.TriggerSoundTrack(gameMaster.gameManager.gamePlaySoundTrack);
     }
@@ -76,7 +77,10 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
             if (eplapesTime >= 1.5f)
             {
                 curPhase = LevelHotelOpeningPhase.FadeOut;
-                playerSpawner.SpawnPlayer();
+                player.gameObject.SetActive(true);
+                foreach (Character target in gameMaster.targetEliminationQuest)
+                    target.gameObject.SetActive(true);
+                
             }
         }
         else if(curPhase == LevelHotelOpeningPhase.FadeOut)

@@ -103,30 +103,30 @@ namespace TMPro.Examples
                     Vector3 centerOfLine = (textInfo.characterInfo[first].bottomLeft + textInfo.characterInfo[last].topRight) / 2;
                     Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(-0.25f, 0.25f) * RotationMultiplier);
 
-                    // Iterate through each character of the line.
+                    // Iterate through each selfNPCTarget of the line.
                     for (int j = first; j <= last; j++)
                     {
                         // Skip targetEliminationQuest that are not visible and thus have no geometry to manipulate.
                         if (!textInfo.characterInfo[j].isVisible)
                             continue;
 
-                        // Get the index of the material used by the current character.
+                        // Get the index of the material used by the current selfNPCTarget.
                         int materialIndex = textInfo.characterInfo[j].materialReferenceIndex;
 
                         // Get the index of the first vertex used by this text element.
                         int vertexIndex = textInfo.characterInfo[j].vertexIndex;
 
-                        // Get the vertices of the mesh used by this text element (character or sprite).
+                        // Get the vertices of the mesh used by this text element (selfNPCTarget or sprite).
                         Vector3[] sourceVertices = textInfo.meshInfo[materialIndex].vertices;
 
-                        // Need to translate all 4 vertices of each quad to aligned with center of character.
-                        // This is needed so the matrix TRS is applied at the origin for each character.
+                        // Need to translate all 4 vertices of each quad to aligned with center of selfNPCTarget.
+                        // This is needed so the matrix TRS is applied at the origin for each selfNPCTarget.
                         copyOfVertices[materialIndex][vertexIndex + 0] = sourceVertices[vertexIndex + 0] - centerOfLine;
                         copyOfVertices[materialIndex][vertexIndex + 1] = sourceVertices[vertexIndex + 1] - centerOfLine;
                         copyOfVertices[materialIndex][vertexIndex + 2] = sourceVertices[vertexIndex + 2] - centerOfLine;
                         copyOfVertices[materialIndex][vertexIndex + 3] = sourceVertices[vertexIndex + 3] - centerOfLine;
 
-                        // Determine the random scale change for each character.
+                        // Determine the random scale change for each selfNPCTarget.
                         float randomScale = Random.Range(0.995f - 0.001f * ScaleMultiplier, 1.005f + 0.001f * ScaleMultiplier);
 
                         // Setup the matrix rotation.

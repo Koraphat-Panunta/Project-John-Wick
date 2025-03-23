@@ -73,6 +73,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         enemy._posture = 0;
 
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
     }
 
@@ -103,6 +104,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
             enemy._posture = 0;
 
+            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
             enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
         }
         switch (curState)
@@ -194,11 +196,11 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         Vector3 positionOffset;
 
         if (isFacingUp) 
-            positionOffset = _standUpBoneTransforms[0].Position;
+            positionOffset = _standUpBoneTransforms[0].Position;//HipsBonePosition
         else
-            positionOffset = _pushUpBoneTransforms[0].Position;
+            positionOffset = _pushUpBoneTransforms[0].Position;//HipsBonePosition
 
-        
+
         positionOffset.y = 0;
         positionOffset = enemy.transform.rotation * positionOffset;
 
@@ -258,6 +260,11 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
+        Debug.Log("enemy._triggerHitedGunFu ="+ enemy._triggerHitedGunFu);
+        Debug.Log("enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf = " + enemy.curAttackerGunFuNode );
+        if(enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf)
+            return true;
+
         if(IsComplete())
             return true;
 
@@ -267,11 +274,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         return false;
     }
 
-    private class BoneTransform
-    {
-        public Vector3 Position { get; set; }
-        public Quaternion Rotation { get; set; }
-    }
+   
 }
 
 

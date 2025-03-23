@@ -3,18 +3,85 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class FindingCover
+public abstract class FindingCover
 {
-    private ICoverUseable coverUser;
-    private LayerMask coverLayer;
-    private IFindingTarget hunter;
+    protected ICoverUseable coverUser;
+    protected LayerMask coverLayer;
+    protected IFindingTarget hunter;
     public FindingCover(ICoverUseable coverUser, IFindingTarget hunter)
     {
         this.coverUser = coverUser;
         this.coverLayer = LayerMask.GetMask("Cover");
         this.hunter = hunter;
     }
-    public bool FindCoverInRaduis(float raduis, out CoverPoint coverPoint)
+    public abstract bool FindCoverInRaduisInGunFight(float raduis, out CoverPoint coverPoint);
+    public abstract bool FindCoverInRaduisDirectionalBased(float raduis, out CoverPoint coverPoint,Vector3 targetPos);
+    
+       
+}
+public class EnemyFindCover : FindingCover
+{
+    private Enemy enemy;
+    public EnemyFindCover(ICoverUseable coverUser, IFindingTarget hunter,Enemy enemy) : base(coverUser, hunter)
+    {
+        this.enemy = enemy;
+    }
+
+    public override bool FindCoverInRaduisDirectionalBased(float raduis, out CoverPoint coverPoint,Vector3 targetPos)
+    {
+        coverPoint = null;
+        List<CoverPoint> _coverPoint = new List<CoverPoint>();
+
+        Collider[] obj = Physics.OverlapSphere(coverUser.userCover.transform.position, raduis);
+
+        if (obj.Length <= 0)
+            return false;
+
+        foreach (Collider collider in obj)
+        {
+
+            if (collider.TryGetComponent<CoverPoint>(out CoverPoint thisCoverPoint) == false)
+                continue;
+
+            if (thisCoverPoint.coverUser != null)
+                continue;
+
+            _coverPoint.Add(thisCoverPoint);
+        }
+
+        if (_coverPoint.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _coverPoint.Count; i++)
+        {
+            Vector3 dirCoverToTarget = (targetPos - _coverPoint[i].coverPos.position ).normalized;
+
+            if (Vector3.Dot(dirCoverToTarget, _coverPoint[i].coverDir.normalized) <0.2f)
+                _coverPoint.RemoveAt(i);
+        }
+
+        if (_coverPoint.Count <= 0)
+            return false;
+
+        for (int i = 0; i < _coverPoint.Count; i++)
+        {
+
+            if (i == 0)
+            {
+                coverPoint = _coverPoint[0];
+                continue;
+            }
+
+            if (Vector3.Distance(coverPoint.coverPos.position, coverUser.userCover.transform.position) >
+                Vector3.Distance(_coverPoint[i].coverPos.position, coverUser.userCover.transform.position))
+            {
+                coverPoint = _coverPoint[i];
+            }
+        }
+        return true;
+    }
+
+    public override bool FindCoverInRaduisInGunFight(float raduis, out CoverPoint coverPoint)
     {
         coverPoint = null;
         List<CoverPoint> _coverPoint = new List<CoverPoint>();
@@ -40,7 +107,7 @@ public class FindingCover
                     {
                         if (coverPointTall_Single.CheckingTargetInCoverView(
                             coverUser,
-                            hunter.targetLayer,
+                            enemy.targetSpoterMask,
                             coverPointTall_Single.peekPos,
                             out GameObject target)
                             )
@@ -52,7 +119,7 @@ public class FindingCover
                     {
                         if (coverPointTall_Double.CheckingTargetInCoverView(
                             coverUser,
-                            hunter.targetLayer,
+                            enemy.targetSpoterMask,
                             coverPointTall_Double.peekPosR,
                             out GameObject targetR)
                             )
@@ -60,7 +127,7 @@ public class FindingCover
 
                         else if (coverPointTall_Double.CheckingTargetInCoverView(
                             coverUser,
-                            hunter.targetLayer,
+                            enemy.targetSpoterMask,
                             coverPointTall_Double.peekPosL,
                             out GameObject targetL)
                             )
@@ -71,7 +138,7 @@ public class FindingCover
                     {
                         if (coverPointShort.CheckingTargetInCoverView(
                             coverUser,
-                            hunter.targetLayer,
+                            enemy.targetSpoterMask,
                             coverPointShort.peekPos,
                             out GameObject target)
                             )
@@ -87,29 +154,30 @@ public class FindingCover
 
         for (int i = 0; i < _coverPoint.Count; i++)
         {
-            Vector3 dir_Target_To_Cover = (_coverPoint[i].coverPos.position - hunter.targetKnewPos).normalized;
-            Vector3 dir_Target_To_User = (coverUser.userCover.transform.position - hunter.targetKnewPos).normalized;
+            Vector3 dir_Target_To_Cover = (_coverPoint[i].coverPos.position - enemy.targetKnewPos).normalized;
+            Vector3 dir_Target_To_User = (coverUser.userCover.transform.position - enemy.targetKnewPos).normalized;
 
             if (Vector3.Dot(dir_Target_To_User, dir_Target_To_Cover) < 0.5f)
-            _coverPoint.RemoveAt(i);
+                _coverPoint.RemoveAt(i);
 
         }
 
-        if(_coverPoint.Count <=0)
-            return false ;
+        if (_coverPoint.Count <= 0)
+            return false;
 
         for (int i = 0; i < _coverPoint.Count; i++)
         {
 
             if (i == 0)
-            { coverPoint = _coverPoint[0];
+            {
+                coverPoint = _coverPoint[0];
                 continue;
             }
 
-            if(Vector3.Distance(coverPoint.coverPos.position,coverUser.userCover.transform.position)>
+            if (Vector3.Distance(coverPoint.coverPos.position, coverUser.userCover.transform.position) >
                 Vector3.Distance(_coverPoint[i].coverPos.position, coverUser.userCover.transform.position))
             {
-                coverPoint = _coverPoint[i];    
+                coverPoint = _coverPoint[i];
             }
         }
         return true;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayerSpawner
+public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
 {
     //[SerializeField] WeaponSocket weaponSocket;
     public RectTransform Crosshair_lineUp;
@@ -13,19 +13,20 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
-    public Transform TargetAim;
+    public Transform TargetAim => player._aimPosRef;
     [SerializeField] public Player player;
     public bool isVisable = false;
 
     public CrosshairSpread CrosshairSpread { get; private set; }
     public CrosshiarShootpoint CrosshiarShootpoint { get; private set; }
+
+    public Vector3 pointerPos => player.transform.position;
+
     [SerializeField] public LayerMask layerMask;
 
-    [SerializeField] private PlayerSpawner playerSpawner;
     private void Awake()
     {
-        playerSpawner = FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.AddObserverPlayerSpawner(this);
+        player.AddObserver(this);
     }
     void Start()
     {
@@ -56,6 +57,8 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
+            if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
+                gotPointingAble.NotifyPointingAble(this);
         }
         else if (Physics.Raycast(ray, out hit, 1000, 1))
         {
@@ -79,8 +82,19 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(player.currentWeapon == null)
+        {
+            this.Crosshair_CenterPosition.gameObject.SetActive(false);
+            if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+            {
+                CrosshairSpread.TriggerFocusSpanRate();
+                CrosshairSpread.isAiming = false;
+            }
+            return;
+        }
+        this.Crosshair_CenterPosition.gameObject.SetActive(true);
 
-        if(playerAction == SubjectPlayer.PlayerAction.Firing)
+        if (playerAction == SubjectPlayer.PlayerAction.Firing)
         {
             CrosshairSpread.Performed(player.currentWeapon);
             CrosshairSpread.CrosshairKickUp(player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilController);
@@ -99,8 +113,6 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
         if (player.currentWeapon.currentEventNode is IReloadNode)
             CrosshairSpread.TriggerFocusSpanRate();
         
-            
-
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
             CrosshairSpread.isAiming = true;
         if (playerAction == SubjectPlayer.PlayerAction.LowReady)
@@ -114,13 +126,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IObserverPlayer
     {
     }
 
-    public void GetNotify(Player player)
-    {
-        this.player = player;
-        player.AddObserver(this);
-        player.crosshairController = this;
-        TargetAim = player._aimPosRef;
-    }
+   
     public void EnableCrosshairVisable()
     {
         this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;

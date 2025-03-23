@@ -31,12 +31,34 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     public override void HitDamageAble(IBulletDamageAble bulletDamageAble)
     {
         Enemy enemy;
-        if(bulletDamageAble is BodyPart)
+        if (bulletDamageAble is BodyPart)
         {
-
             enemy = (bulletDamageAble as BodyPart).enemy;
 
             if(isKilleComfirm.ContainsKey(enemy) == false)
+                isKilleComfirm.Add(enemy, false);
+
+            if (isKilleComfirm[enemy])
+                return;
+
+            if (enemy.isDead)
+            {
+                player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                isKilleComfirm[enemy] = true;
+                return;
+            }
+
+            if (enemy._posture <= 0)
+            {
+                player.NotifyObserver(player, PlayerAction.OppenentStagger);
+
+            }
+        }
+        if(bulletDamageAble is Enemy thisenemy)
+        {
+            enemy = thisenemy;
+
+            if (isKilleComfirm.ContainsKey(enemy) == false)
                 isKilleComfirm.Add(enemy, false);
 
             if (isKilleComfirm[enemy])
@@ -93,16 +115,15 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void Resting(Weapon weapon)
     {
-        
+        player.NotifyObserver(player,PlayerAction.Resting);
     }
 
-    public override void SwitchingWeapon(Weapon weapon, IWeaponTransitionNodeLeaf weaponSwitchNodeLeaf)
+    public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponSwitchNodeLeaf)
     {
         player.NotifyObserver(player, PlayerAction.SwitchWeapon);
     }
     public void QuickDraw(Weapon weapon,QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase)
     {
         player.NotifyObserver(player, PlayerAction.QuickDraw);
-     
     }
 }
