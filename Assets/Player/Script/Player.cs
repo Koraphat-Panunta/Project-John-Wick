@@ -143,7 +143,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public bool isSwapShoulder;
     public bool isPickingUpWeaponCommand { get; set; }
     public bool isDropWeaponCommand { get; set; }
-    public Weapon currentWeapon { get; set; }
+    private Weapon curWeapon;
+    public Weapon _currentWeapon { get { return curWeapon; } set { curWeapon = value; NotifyObserver(this, PlayerAction.SwitchWeapon);  } }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
     public WeaponBelt weaponBelt { get; set;}
@@ -154,7 +155,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         { 
             if(playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf) 
             {
-                Ray ray = new Ray(currentWeapon.bulletSpawnerPos.position, currentWeapon.bulletSpawnerPos.forward);
+                Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
                     return hitInfo.point;
                 else
@@ -397,5 +398,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #endregion
 
-
+    private void OnValidate()
+    {
+        crosshairController = FindAnyObjectByType<CrosshairController>();
+    }
 }

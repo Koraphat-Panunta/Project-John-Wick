@@ -5,7 +5,7 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
-    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
+    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
 
     public float recoverFormAimDownSight {private get; set; }
     public LowReadyWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)

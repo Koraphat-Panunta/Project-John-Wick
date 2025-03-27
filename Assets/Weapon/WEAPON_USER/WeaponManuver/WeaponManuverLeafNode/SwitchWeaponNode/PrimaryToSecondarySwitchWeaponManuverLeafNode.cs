@@ -17,7 +17,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private bool isComplete;
 
     private float elapsTime;
-    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
+    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
     WeaponAfterAction weaponAfterAction;
    
     public TransitionPhase curPhase;
@@ -65,7 +65,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
         Weapon primaryWeapon = weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon;
         Weapon secondaryWeapon = weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon;
-        Weapon curWeapon = weaponAdvanceUser.currentWeapon;
+        Weapon curWeapon = weaponAdvanceUser._currentWeapon;
 
         switch (curPhase)
         {

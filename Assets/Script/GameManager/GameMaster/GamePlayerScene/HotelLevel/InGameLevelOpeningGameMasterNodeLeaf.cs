@@ -1,57 +1,52 @@
+using NUnit.Framework;
 using System;
-using System.Collections;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    private Canvas openingCanvasUI => gameMaster.openingCanvasUI;
-
-    private Image titleHotelLevelImage => gameMaster.titleHotelLevelImage;
-    private TextMeshProUGUI titleLevelHotel => gameMaster.titleLevelHotel;
-
-    private Image fadeInImage => gameMaster.fadeInImage;
-
+    private OpeningUICanvas openingCanvasUI => gameMaster.openingUICanvas;
     private bool isComplete;
-
-    private SetAlphaColorUI setAlphaColorUI;
     private Player player => gameMaster.player;
-    public enum LevelHotelOpeningPhase
-    {
-        FadeIn,
-        Stay,
-        FadeOut
-    }
-    public LevelHotelOpeningPhase curPhase;
-
-    private float eplapesTime;
     public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-        setAlphaColorUI = new SetAlphaColorUI();
+
     }
 
     public override void Enter()
     {
         isComplete = false;
-        curPhase = LevelHotelOpeningPhase.FadeIn;
-        openingCanvasUI.enabled = true;
-        eplapesTime = 0;
+        openingCanvasUI.PlayOpeningAnimationUI();
 
         gameMaster.NotifyObserver(gameMaster);
-      
-        if(gameMaster.gameManager.curNodeLeaf is LevelMansionGameManagerNodeLeaf)
-        gameMaster.gameManager.soundTrackManager.TriggerSoundTrack(gameMaster.gameManager.gamePlaySoundTrack);
+
+        if (gameMaster.gameManager != null)
+        {
+            if (gameMaster.gameManager.curNodeLeaf is LevelMansionGameManagerNodeLeaf)
+                gameMaster.gameManager.soundTrackManager.TriggerSoundTrack(gameMaster.gameManager.gamePlaySoundTrack);
+        }
+
+        OpeningDelay();
     }
 
     public override void Exit()
     {
-       
+        player.gameObject.SetActive(true);
+        if(gameMaster.targetEliminationQuest.Count > 0)
+        foreach (Character target in gameMaster.targetEliminationQuest)
+            target.gameObject.SetActive(true);
     }
 
     public override void FixedUpdateNode()
     {
        
+    }
+
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true;
+
+        return base.IsReset();
     }
 
     public override bool IsComplete()
@@ -61,50 +56,12 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     public override void UpdateNode()
     {
-        eplapesTime += Time.deltaTime;
-        if(curPhase == LevelHotelOpeningPhase.FadeIn)
-        {
-            setAlphaColorUI.SetColorAlpha<Image>(titleHotelLevelImage, eplapesTime / 0.5f);
-            setAlphaColorUI.SetColorAlpha<TextMeshProUGUI>(titleLevelHotel, eplapesTime / 0.5f);
-
-            if (eplapesTime >= 0.5f)
-            {
-                curPhase = LevelHotelOpeningPhase.Stay;
-            }
-        }
-        else if(curPhase == LevelHotelOpeningPhase.Stay)
-        {
-            if (eplapesTime >= 1.5f)
-            {
-                curPhase = LevelHotelOpeningPhase.FadeOut;
-                player.gameObject.SetActive(true);
-                foreach (Character target in gameMaster.targetEliminationQuest)
-                    target.gameObject.SetActive(true);
-                
-            }
-        }
-        else if(curPhase == LevelHotelOpeningPhase.FadeOut)
-        {
-            setAlphaColorUI.SetColorAlpha(fadeInImage, (2-eplapesTime)/0.5f );
-            if (eplapesTime >= 2)
-            {
-                gameMaster.StartCoroutine(FadeOutTitle());
-                gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.Gameplay;
-            }
-        }
     }
-
-    public IEnumerator FadeOutTitle()
+    private async void  OpeningDelay()
     {
-        
-        while (eplapesTime < 3)
-        {
-            eplapesTime += Time.deltaTime;
-            setAlphaColorUI.SetColorAlpha(this.titleLevelHotel, (3 - eplapesTime) / 1);
-            setAlphaColorUI.SetColorAlpha(this.titleHotelLevelImage, (3 - eplapesTime) / 1);
-
-            yield return null;
-        }
-        openingCanvasUI.enabled = false;
+        await Task.Delay(1000);
+        gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.Gameplay;
+        this.isComplete = true;
     }
+  
 }

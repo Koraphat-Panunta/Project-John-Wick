@@ -89,7 +89,7 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if(player._triggerExecuteGunFu == false)
                     return false;
-                if (player.currentWeapon == null || player.currentWeapon.bulletStore[BulletStackType.Chamber] <= 0)
+                if (player._currentWeapon == null || player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0)
                     return false;
                 if (player.executedAbleGunFu == null)
                     return false;
@@ -105,7 +105,7 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if(player.isAimingCommand && player.attackedAbleGunFu != null)
                 {
-                    if(player.attackedAbleGunFu._weaponAdvanceUser.currentWeapon != null)
+                    if(player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon != null)
                         return true;
                 }
                 return false;

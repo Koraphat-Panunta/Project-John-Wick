@@ -38,7 +38,7 @@ public class GunFuExecuteNodeLeaf : GunFu_Interaction_NodeLeaf,INodeLeafTransiti
 
         isWarping = false;
 
-        bulletExecute = new BulletExecute(player.currentWeapon);
+        bulletExecute = new BulletExecute(player._currentWeapon);
 
         gunFuExecuteAble.TakeGunFuAttacked(this,player);
 
@@ -115,7 +115,7 @@ public class GunFuExecuteNodeLeaf : GunFu_Interaction_NodeLeaf,INodeLeafTransiti
         if(elapesTime >= executeTime && isExecute == false)
         {
             gunFuExecuteAble._damageAble.TakeDamage(bulletExecute);
-            player.currentWeapon.PullTrigger();
+            player._currentWeapon.PullTrigger();
             isExecute = true;
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuAttack);
         }

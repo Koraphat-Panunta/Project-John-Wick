@@ -108,7 +108,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         isEquiped = true;
         this.userWeapon = WeaponUser;
-        WeaponUser.currentWeapon = this;
+        WeaponUser._currentWeapon = this;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = WeaponUser.currentWeaponSocket;
@@ -147,7 +147,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     {
         isEquiped = true;
         this.userWeapon = WeaponUser;
-        WeaponUser.currentWeapon = this;
+        WeaponUser._currentWeapon = this;
         rb.isKinematic = true;
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = WeaponUser.currentWeaponSocket;
@@ -194,7 +194,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         
         parentConstraint.weight = 1;
        
-        if (userWeapon.currentWeapon == this)
+        if (userWeapon._currentWeapon == this)
         {
             if (userWeapon is Player)
             {
@@ -206,7 +206,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                 Enemy enemy = userWeapon as Enemy;
                 enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
             }
-            userWeapon.currentWeapon = null;
+            userWeapon._currentWeapon = null;
         }
     }
     public void AttachWeaponToSocketNoneAnimatorOverride(Transform weaponSocket)
@@ -228,9 +228,9 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
         parentConstraint.weight = 1;
 
-        if (userWeapon.currentWeapon == this)
+        if (userWeapon._currentWeapon == this)
         {
-            userWeapon.currentWeapon = null;
+            userWeapon._currentWeapon = null;
         }
     }
     public void AttachWeaponToSecondHand(Transform secondHandSocket)
@@ -264,7 +264,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             parentConstraint.constraintActive = true;
             parentConstraint.weight = 1;
         }
-        if (userWeapon.currentWeapon == this )
+        if (userWeapon._currentWeapon == this )
         {
             if (userWeapon.userWeapon.isDead == false)
             {
@@ -279,7 +279,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                     enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
                 }
             }
-            userWeapon.currentWeapon = null;
+            userWeapon._currentWeapon = null;
         }
         if (this is PrimaryWeapon)
         {

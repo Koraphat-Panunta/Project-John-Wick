@@ -3,15 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGameLevelGameMaster : GameMaster
 {
-    public Canvas openingCanvasUI;
-    public Image titleHotelLevelImage;
-    public TextMeshProUGUI titleLevelHotel;
-    public Image fadeInImage;
+    public OpeningUICanvas openingUICanvas;
 
     public Canvas gameplayCanvasUI;
     public User user;
@@ -63,6 +59,7 @@ public class InGameLevelGameMaster : GameMaster
     protected override void Start()
     {
         curLevelHotelPhase = LevelHotelPhase.Opening;
+        if(targetEliminationQuest.Count > 0)
         foreach (Character target in targetEliminationQuest)
         {
             target.gameObject.SetActive(false);

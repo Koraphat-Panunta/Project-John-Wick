@@ -12,7 +12,7 @@ public class HolsterSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser.currentWeapon, this);
+        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
     }
 
     public override void Exit()

@@ -156,7 +156,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool isPickingUpWeaponCommand { get; set; }
     public bool isDropWeaponCommand { get ; set ; }
     public Animator weaponUserAnimator { get; set; }
-    public Weapon currentWeapon { get; set; }
+    public Weapon _currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
     public Vector3 shootingPos { 

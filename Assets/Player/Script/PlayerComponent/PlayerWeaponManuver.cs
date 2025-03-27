@@ -84,10 +84,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
         drawPrimaryWeaponInWeaponManuvering = new DrawPrimaryWeaponManuverNodeLeaf(weaponAdvanceUser,
             () =>
             {
-                if(weaponAdvanceUser.currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+                if(weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
                     return false;
 
-                if(weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
+                if(weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
                 &&weaponAdvanceUser.weaponBelt.primaryWeapon != null)
                     return true;
 
@@ -97,10 +97,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
         drawSecondaryWeaponInWeaponManuveringNodeLeaf = new DrawSecondaryWeaponManuverNodeLeaf(weaponAdvanceUser,
             () => 
             {
-                if (weaponAdvanceUser.currentWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+                if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
                     return false;
 
-                if (weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
+                if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
                && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
                     return true;
                 return false;

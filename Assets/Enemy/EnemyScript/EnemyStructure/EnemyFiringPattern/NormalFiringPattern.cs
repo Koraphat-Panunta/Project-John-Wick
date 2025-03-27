@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NormalFiringPattern : IEnemyFiringPattern
 {
-    private Weapon curWeapon => enemy.currentWeapon;
+    private Weapon curWeapon => enemy._currentWeapon;
     private AmmoProuch ammoProuch => enemy.weaponBelt.ammoProuch;
     private double deltaFireTiming = 0;
     private double randomFireTiming = 0;

@@ -23,6 +23,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
     public Vector3 pointerPos => player.transform.position;
 
     [SerializeField] public LayerMask layerMask;
+    
 
     private void Awake()
     {
@@ -79,10 +80,14 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
     {
        
     }
+    private void OnValidate()
+    {
+        player = FindAnyObjectByType<Player>();
+    }
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        if(player.currentWeapon == null)
+        if(player._currentWeapon == null)
         {
             this.Crosshair_CenterPosition.gameObject.SetActive(false);
             if (playerAction == SubjectPlayer.PlayerAction.LowReady)
@@ -96,12 +101,12 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
 
         if (playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            CrosshairSpread.Performed(player.currentWeapon);
-            CrosshairSpread.CrosshairKickUp(player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilController);
+            CrosshairSpread.Performed(player._currentWeapon);
+            CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            CrosshairSpread.Performed(player.currentWeapon);
+            CrosshairSpread.Performed(player._currentWeapon);
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
@@ -110,7 +115,7 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
             CrosshairSpread.TriggerFocusSpanRate();
         }
 
-        if (player.currentWeapon.currentEventNode is IReloadNode)
+        if (player._currentWeapon.currentEventNode is IReloadNode)
             CrosshairSpread.TriggerFocusSpanRate();
         
         if(playerAction == SubjectPlayer.PlayerAction.Aim)

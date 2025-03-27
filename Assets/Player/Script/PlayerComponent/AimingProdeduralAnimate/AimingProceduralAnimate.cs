@@ -24,7 +24,7 @@ public class AimingProceduralAnimate:IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
-        if(player.currentWeapon == null)
+        if(player._currentWeapon == null)
         {
             aimConstraint.weight = weaponAdvancer.weaponManuverManager.aimingWeight;
             return;

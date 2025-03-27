@@ -11,32 +11,32 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         isComplete = false;
-        if (weaponAdvanceUser.currentWeapon == null)
+        if (weaponAdvanceUser._currentWeapon == null)
         {
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
             return;
         }
-        else if (weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
-            && weaponAdvanceUser.currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
+            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
         {
-            weaponAdvanceUser.currentWeapon.DropWeapon();
+            weaponAdvanceUser._currentWeapon.DropWeapon();
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
             return;
         }
-        else if(weaponAdvanceUser.currentWeapon != null
-            &&weaponAdvanceUser.currentWeapon is PrimaryWeapon )
+        else if(weaponAdvanceUser._currentWeapon != null
+            &&weaponAdvanceUser._currentWeapon is PrimaryWeapon )
         {
-            weaponAdvanceUser.currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+            weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
             return;
         }
-        else if(weaponAdvanceUser.currentWeapon != null
-            && weaponAdvanceUser.currentWeapon is SecondaryWeapon)
+        else if(weaponAdvanceUser._currentWeapon != null
+            && weaponAdvanceUser._currentWeapon is SecondaryWeapon)
         {
-            weaponAdvanceUser.currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
+            weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
             return;

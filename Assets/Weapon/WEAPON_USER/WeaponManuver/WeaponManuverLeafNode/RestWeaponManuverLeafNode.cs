@@ -11,7 +11,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public RestWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        this.curWeapon = weaponAdvanceUser.currentWeapon;
+        this.curWeapon = weaponAdvanceUser._currentWeapon;
         this.weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
     }
     public override void Enter()

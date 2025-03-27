@@ -15,8 +15,8 @@ public class CrosshairSpread : ICrosshairAction
     public float minWeaponPercision 
     { get 
         {
-            if(_crosshairController.player.currentWeapon != null)
-                return _crosshairController.player.currentWeapon.min_Precision;
+            if(_crosshairController.player._currentWeapon != null)
+                return _crosshairController.player._currentWeapon.min_Precision;
             else
                 return MIN_SPREAD;
         } 
@@ -26,8 +26,8 @@ public class CrosshairSpread : ICrosshairAction
     {
         get
         {
-            if (_crosshairController.player.currentWeapon != null)
-                return _crosshairController.player.currentWeapon.max_Precision;
+            if (_crosshairController.player._currentWeapon != null)
+                return _crosshairController.player._currentWeapon.max_Precision;
             else
                 return MAX_SPREAD;
         }
@@ -40,8 +40,8 @@ public class CrosshairSpread : ICrosshairAction
     float spread_rateOppress 
     { get 
         {
-            if(_crosshairController.player.currentWeapon != null)
-                return _crosshairController.player.currentWeapon.Accuracy;
+            if(_crosshairController.player._currentWeapon != null)
+                return _crosshairController.player._currentWeapon.Accuracy;
             else
                 return SPREAD_RATEOPPRESS_DEFAULT;
         } 

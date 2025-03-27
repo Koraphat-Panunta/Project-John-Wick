@@ -36,7 +36,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
         attackedAbleGunFu = player.attackedAbleGunFu;
         curPhase = WeaponDisarmPhase.None;
         elapesTime = 0;
-        disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser.currentWeapon;
+        disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser._currentWeapon;
         attackedAbleGunFu.TakeGunFuAttacked(this, player);
         isDisarmWeapon = false;
 
@@ -75,27 +75,27 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
             isDisarmWeapon = true;
             (attackedAbleGunFu._movementCompoent as IMotionImplusePushAble).AddForcePush(player.transform.forward * 2.5f,IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-            if (player.weaponAdvanceUser.currentWeapon == null)
+            if (player.weaponAdvanceUser._currentWeapon == null)
             {
                 disarmedWeapon.AttatchWeaponToNoneOverrideAnimator(player.weaponAdvanceUser);
             }
-            else if (player.weaponAdvanceUser.currentWeapon != player.weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
-                && player.weaponAdvanceUser.currentWeapon != player.weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+            else if (player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
+                && player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
             {
-                player.weaponAdvanceUser.currentWeapon.DropWeapon();
+                player.weaponAdvanceUser._currentWeapon.DropWeapon();
                 disarmedWeapon.AttatchWeaponToNoneOverrideAnimator(player.weaponAdvanceUser);
             }
-            else if (player.weaponAdvanceUser.currentWeapon != null
-                && player.weaponAdvanceUser.currentWeapon is PrimaryWeapon)
+            else if (player.weaponAdvanceUser._currentWeapon != null
+                && player.weaponAdvanceUser._currentWeapon is PrimaryWeapon)
             {
-                player.weaponAdvanceUser.currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+                player.weaponAdvanceUser._currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
                 disarmedWeapon.AttatchWeaponToNoneOverrideAnimator(player.weaponAdvanceUser);
 
             }
-            else if (player.weaponAdvanceUser.currentWeapon != null
-                && player.weaponAdvanceUser.currentWeapon is SecondaryWeapon)
+            else if (player.weaponAdvanceUser._currentWeapon != null
+                && player.weaponAdvanceUser._currentWeapon is SecondaryWeapon)
             {
-                player.weaponAdvanceUser.currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
+                player.weaponAdvanceUser._currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
                 disarmedWeapon.AttatchWeaponToNoneOverrideAnimator(player.weaponAdvanceUser);
             }
             else

@@ -4,7 +4,7 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
 {
     [SerializeField] private Player player;
     public Animator weaponUserAnimator { get => player.animator; set => player.animator = value; }
-    public Weapon currentWeapon { get => player.currentWeapon; set => player.currentWeapon = value; }
+    public Weapon _currentWeapon { get => player._currentWeapon; set => player._currentWeapon = value; }
     public Transform currentWeaponSocket { get => player.currentWeaponSocket ; set => player.currentWeaponSocket = value; }
     public Transform leftHandSocket { get => player.leftHandSocket; set => player.leftHandSocket = value; }
     public Vector3 shootingPos { get => player.shootingPos; set => player.shootingPos = value; }

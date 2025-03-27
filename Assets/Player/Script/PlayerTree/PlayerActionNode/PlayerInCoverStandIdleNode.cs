@@ -54,7 +54,7 @@ public class PlayerInCoverStandIdleNode : PlayerStateNodeLeaf
         PlayerMovement playerMovement = player.playerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
-        if(player.currentWeapon == null){
+        if(player._currentWeapon == null){
             playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
             return;
         }

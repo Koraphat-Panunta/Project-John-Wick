@@ -95,8 +95,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.Firing)
         {
-            cameraKickBack.Performed(player.currentWeapon);
-            cameraImpluse.Performed((player.currentWeapon.RecoilKickBack - player.currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
+            cameraKickBack.Performed(player._currentWeapon);
+            cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
         }
         if(playerAction == SubjectPlayer.PlayerAction.Aim)
         {
@@ -129,5 +129,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         
     }
 
-   
+    private void OnValidate()
+    {
+        this.player = FindAnyObjectByType<Player>();
+    }
 }

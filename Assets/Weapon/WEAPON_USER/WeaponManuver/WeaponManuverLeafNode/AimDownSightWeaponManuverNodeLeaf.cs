@@ -5,7 +5,7 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     WeaponManuverManager weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
-    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
+    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser.weaponAfterAction;

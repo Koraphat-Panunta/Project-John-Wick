@@ -4,7 +4,7 @@ using UnityEngine.Animations.Rigging;
 
 public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 {
-    Weapon weapon => weaponAdvanceUser.currentWeapon;
+    Weapon weapon => weaponAdvanceUser._currentWeapon;
     private Weapon secondHandWeapon;
     public enum QuickDrawPhase
     {
@@ -28,7 +28,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void Enter()
     {
-        this.secondHandWeapon = weaponAdvanceUser.currentWeapon;
+        this.secondHandWeapon = weaponAdvanceUser._currentWeapon;
         if(weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
         {
             weapon.AttachWeaponToSecondHand(weaponAdvanceUser.leftHandSocket);

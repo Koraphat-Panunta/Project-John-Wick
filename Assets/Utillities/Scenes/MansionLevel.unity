@@ -4472,18 +4472,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 118301123}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &118784244 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6207699087127938453, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
-    type: 3}
-  m_PrefabInstance: {fileID: 535110058}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &118860914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30347,18 +30335,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!114 &835511476 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7936035061942980706, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
-    type: 3}
-  m_PrefabInstance: {fileID: 535110058}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &839926338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45644,18 +45620,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1285553949 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8748955467868184686, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
-    type: 3}
-  m_PrefabInstance: {fileID: 535110058}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1286929003 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5785190589133771792, guid: ae7538a6d7bbf3947850e5f26ffa6ee4,
@@ -51557,12 +51521,18 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!223 &1415699685 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 214056662095042225, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
+--- !u!114 &1415699686 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 172040894886386629, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
     type: 3}
   m_PrefabInstance: {fileID: 535110058}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e58352242517342a2841bdbc58fe09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1420011440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59990,10 +59960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPause: 0
-  openingCanvasUI: {fileID: 1415699685}
-  titleHotelLevelImage: {fileID: 1285553949}
-  titleLevelHotel: {fileID: 118784244}
-  fadeInImage: {fileID: 835511476}
+  openingUICanvas: {fileID: 1415699686}
   gameplayCanvasUI: {fileID: 1786551362}
   user: {fileID: 524167853}
   crosshairController: {fileID: 1760372755}

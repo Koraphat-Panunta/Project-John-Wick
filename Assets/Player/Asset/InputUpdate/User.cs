@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class User : MonoBehaviour
 {
@@ -65,6 +64,12 @@ public class User : MonoBehaviour
         userInput = new UserInput();
         InitailizedInputAction(this.player);
     }
+
+    private void OnValidate()
+    {
+        player = FindAnyObjectByType<Player>();
+    }
+
     void Start()
     {
         

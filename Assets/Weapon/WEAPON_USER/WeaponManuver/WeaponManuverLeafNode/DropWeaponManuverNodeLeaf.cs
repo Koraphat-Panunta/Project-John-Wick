@@ -22,7 +22,7 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
 
         isComplete = false;
-        weaponAdvanceUser.currentWeapon.DropWeapon();
+        weaponAdvanceUser._currentWeapon.DropWeapon();
         isComplete = true;
 
         nodeLeafTransitionBehavior.TransitionAbleAll(this);

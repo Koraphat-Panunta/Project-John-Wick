@@ -7,7 +7,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private bool isComplete;
 
     private float elapsTime;
-    Weapon curWeapon => weaponAdvanceUser.currentWeapon;
+    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
     WeaponAfterAction weaponAfterAction;
     public enum TransitionPhase
     {
@@ -65,7 +65,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
         Weapon primaryWeapon = weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon;
         Weapon secondaryWeapon = weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon;
-        Weapon curWeapon = weaponAdvanceUser.currentWeapon;
+        Weapon curWeapon = weaponAdvanceUser._currentWeapon;
 
         switch (curPhase)
         {
@@ -96,7 +96,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.GripingPrimaryWeapon:
                 {
-                    weaponAdvanceUser.currentWeapon.AttatchWeaponTo(weaponAdvanceUser);
+                    weaponAdvanceUser._currentWeapon.AttatchWeaponTo(weaponAdvanceUser);
                     weaponAfterAction.SwitchingWeapon(curWeapon, this);
 
                     if (elapsTime >= /*(1 / curWeapon.drawSpeed)*/ holsterSecondaryWeaponTime + drawPrimaryWeaponTime)
