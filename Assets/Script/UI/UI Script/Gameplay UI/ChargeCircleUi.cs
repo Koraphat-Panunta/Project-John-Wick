@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChargeCircleUi : MonoBehaviour,IObserverPlayer
+public class ChargeCircleUi : MonoBehaviour,IObserverPlayer,IGameplayUI
 {
     [SerializeField] private Image cirCleUI;
     [SerializeField] private float fillSpeed;
@@ -67,4 +67,15 @@ public class ChargeCircleUi : MonoBehaviour,IObserverPlayer
         player = FindAnyObjectByType<Player>();
     }
 
+    public void EnableUI()
+    {
+        cirCleUI.enabled = true;
+        ammoIcon.enabled = true;
+    }
+
+    public void DisableUI()
+    {
+        cirCleUI.enabled = false;
+        ammoIcon.enabled = false;
+    }
 }

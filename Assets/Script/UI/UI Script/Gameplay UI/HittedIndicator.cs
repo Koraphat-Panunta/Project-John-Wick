@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-public class HittedIndicator : MonoBehaviour, IObserverPlayer
+public class HittedIndicator : MonoBehaviour, IObserverPlayer,IGameplayUI
 {
     [SerializeField] Player player;
     [SerializeField] public RectTransform uiScreenCanvas;
@@ -10,6 +10,8 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
     public float heightIndicatorPos;
     public float widthIndicatorPos;
     public List<Indicator> hitIndicators = new List<Indicator>();
+
+    private bool isEnable;
 
     private void Awake()
     {
@@ -20,6 +22,9 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
     }
     private void Update()
     {
+        if(isEnable == false)
+            return;
+
         if (hitIndicators.Count <= 0)
             return;
 
@@ -33,6 +38,9 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
 
     public virtual void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+        if(isEnable == false)
+            return;
+
         if (playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
@@ -52,6 +60,12 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer
     {
         this.player = FindAnyObjectByType<Player>();
     }
+
+    public void EnableUI() => this.enabled = true;
+    
+
+    public void DisableUI() => this.enabled = false;
+   
 }
 
 public class Indicator

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
+public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer,IGameplayUI
 {
     [SerializeField] RawImage X_markker;
     [SerializeField] Player player;
@@ -56,4 +56,13 @@ public class HitMarkerDisplay : MonoBehaviour,IObserverPlayer
         this.player = FindAnyObjectByType<Player>();
     }
 
+    public void EnableUI()
+    {
+       this.X_markker.enabled = true;
+    }
+
+    public void DisableUI()
+    {
+        this.X_markker.enabled = false;
+    }
 }

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerWeaponDisplay : MonoBehaviour,IObserverPlayer
+public class PlayerWeaponDisplay : MonoBehaviour,IObserverPlayer,IGameplayUI
 {
     private Image WeaponIcon;
     [SerializeField] private TextMeshProUGUI AmmoDisplay;
@@ -98,4 +98,12 @@ public class PlayerWeaponDisplay : MonoBehaviour,IObserverPlayer
     {
         
     }
+
+    public void EnableUI()=>this.AmmoDisplay.enabled = true;
+  
+
+    public void DisableUI()=>this.AmmoDisplay.enabled=false;
+    
+       
+    
 }

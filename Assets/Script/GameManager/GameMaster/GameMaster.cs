@@ -144,7 +144,6 @@ public abstract class GameMasterNodeLeaf : GameMasterNode, INodeLeaf
     public abstract void UpdateNode();
     
 }
-
 public abstract class GameMasterNodeLeaf<T> : GameMasterNode<T>, INodeLeaf where T : GameMaster
 {
     public List<Func<bool>> isReset { get; set; }

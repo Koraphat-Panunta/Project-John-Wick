@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
+public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer,IGameplayUI
 {
     [SerializeField] Player player;
     private bool isShowGage ;
@@ -65,5 +65,11 @@ public class HumanShieldStayGage :MonoBehaviour, IObserverPlayer
         this.player = FindAnyObjectByType<Player>();
     }
 
+    public void EnableUI() => this.humanShieldGage.enabled = true;
+   
 
+    public void DisableUI() => this.humanShieldGage.enabled=false;
+    
+        
+    
 }
