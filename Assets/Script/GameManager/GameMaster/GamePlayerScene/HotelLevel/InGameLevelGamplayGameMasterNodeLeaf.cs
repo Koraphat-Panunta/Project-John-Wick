@@ -1,8 +1,6 @@
 
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>,IGameManagerSendNotifyAble,IObserveObjective
 {
@@ -10,7 +8,7 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     private CrosshairController crosshair => gameMaster.crosshairController;
     private User user => gameMaster.user;
 
-    private Canvas pauseCanvasUI => gameMaster.pauseCanvasUI; 
+    private PauseUICanvas pauseCanvasUI => gameMaster.pauseCanvasUI; 
 
     private ObjectiveManager objectiveManager => gameMaster.objectiveManager;
     private Elimination eliminationObjective;

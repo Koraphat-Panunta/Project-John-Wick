@@ -11,26 +11,21 @@ public class InGameLevelGameMaster : GameMaster
 
     public GamePlayUICanvas gamePlayUICanvas;
 
-    public User user;
-    public CrosshairController crosshairController;
-
     public GameOverUICanvas gameOverUICanvas;
 
-    public Canvas missionCompleteCanvasUI;
-    public Image missionCompleteImageFade;
-    public Image misstionCompletePanelTitle;
-    public TextMeshProUGUI misstionCompleteTitle;
-    public Button misstionCompleteContinueButton;
-    public Button misstionCompleteRestartButton;
+    public MissionCompleteUICanvas missionCompleteUICanvas;
 
-    public Canvas pauseCanvasUI;
+    public PauseUICanvas pauseCanvasUI;
+
+    public User user;
+    public CrosshairController crosshairController;
 
     public ObjectiveManager objectiveManager;
     public List<Character> targetEliminationQuest;
     public Transform destination;
     public Player player;
 
-    private bool isCompleteLoad =false;
+    private bool isCompleteLoad = false;
 
     private IEnumerator DelaySceneLoaded()
     {
@@ -55,11 +50,13 @@ public class InGameLevelGameMaster : GameMaster
     protected override void Start()
     {
         gameOverUICanvas.gameObject.SetActive(false);
+        missionCompleteUICanvas.gameObject.SetActive(false);
+        pauseCanvasUI.gameObject.SetActive(false);
         curLevelHotelPhase = LevelHotelPhase.Opening;
         if(targetEliminationQuest.Count > 0)
         foreach (Character target in targetEliminationQuest)
         {
-            target.gameObject.SetActive(false);
+            target.gameObject.SetActive(false); 
         }
         player.gameObject.SetActive(false);
         StartCoroutine(DelaySceneLoaded());
@@ -161,9 +158,19 @@ public class InGameLevelGameMaster : GameMaster
     {
         openingUICanvas = FindAnyObjectByType<OpeningUICanvas>();
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
+
         gameOverUICanvas = FindAnyObjectByType<GameOverUICanvas>(FindObjectsInactive.Include);
         gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
         gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
+
+        missionCompleteUICanvas = FindAnyObjectByType<MissionCompleteUICanvas>(FindObjectsInactive.Include);
+        missionCompleteUICanvas.continueButton.onClick.AddListener(TriggerContinue);
+        missionCompleteUICanvas.restartButton.onClick.AddListener(TriggerRestert);
+
+        pauseCanvasUI = FindAnyObjectByType<PauseUICanvas>(FindObjectsInactive.Include);
+        pauseCanvasUI.resume.onClick.AddListener(Resume);
+        pauseCanvasUI.exit.onClick.AddListener(TriggerExit);
+
     }
 }
 public interface IGameLevelMasterObserver
