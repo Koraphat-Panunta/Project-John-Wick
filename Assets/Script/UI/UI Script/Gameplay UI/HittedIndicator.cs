@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-public class HittedIndicator : MonoBehaviour, IObserverPlayer,IGameplayUI
+public class HittedIndicator : GameplayUI, IObserverPlayer
 {
     [SerializeField] Player player;
     [SerializeField] public RectTransform uiScreenCanvas;
@@ -61,10 +61,10 @@ public class HittedIndicator : MonoBehaviour, IObserverPlayer,IGameplayUI
         this.player = FindAnyObjectByType<Player>();
     }
 
-    public void EnableUI() => this.enabled = true;
+    public override void EnableUI() => this.enabled = true;
     
 
-    public void DisableUI() => this.enabled = false;
+    public override void DisableUI() => this.enabled = false;
    
 }
 

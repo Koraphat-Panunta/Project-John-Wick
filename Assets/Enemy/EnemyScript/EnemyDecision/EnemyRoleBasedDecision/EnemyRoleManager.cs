@@ -21,10 +21,6 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
     {
         InGameLevelGameMaster.AddObserver(this);
     }
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -158,5 +154,10 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
             CalcuateRoleCount();
             isGameStart = true;
         }
+    }
+
+    private void OnValidate()
+    {
+        InGameLevelGameMaster = FindAnyObjectByType<InGameLevelGameMaster>();
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHPDisplay : MonoBehaviour,IObserverPlayer,IGameplayUI
+public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 {
     [SerializeField] private RawImage HP_bar;
     private float maxHP_BAR_Lenght;
@@ -47,9 +47,9 @@ public class PlayerHPDisplay : MonoBehaviour,IObserverPlayer,IGameplayUI
         HP_bar.rectTransform.sizeDelta = new Vector2(HP_bar.rectTransform.sizeDelta.x, this.maxHP_BAR_Lenght*(playerInfo.GetHP()/playerInfo.GetMaxHp()));
     }
 
-    public void EnableUI() => this.HP_bar.enabled = true;
+    public override void EnableUI() => this.HP_bar.enabled = true;
    
 
-    public void DisableUI() => this.HP_bar.enabled = false;
+    public override void DisableUI() => this.HP_bar.enabled = false;
     
 }

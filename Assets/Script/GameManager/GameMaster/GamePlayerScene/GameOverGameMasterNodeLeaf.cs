@@ -5,13 +5,8 @@ using UnityEngine.UI;
 
 public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>, IGameManagerSendNotifyAble
 {
-    private Canvas gameOverCanvasUI => gameMaster.gameOverCanvasUI;
-    private Image titlePanel => gameMaster.gameOverTitlePanel;
-    private TextMeshProUGUI titlePanelText => gameMaster.gameOverTitlePanelText;
-    private Button restartButton => gameMaster.gameOverRestartButton;
-    private Button exitButton => gameMaster.gameOverExitButton;
-    private Image fadeImage => gameMaster.gameOverFadeImage;
 
+    private GameOverUICanvas gameOverUICanvas => gameMaster.gameOverUICanvas;
     public enum GameOverPhase
     {
         FadeIn,
@@ -35,8 +30,8 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
     {
         gameOverPhase = GameOverPhase.FadeIn;
         eplapesTime = 0;
-        this.gameOverCanvasUI.gameObject.SetActive(true);
-
+        this.gameOverUICanvas.gameObject.SetActive(true);
+        this.gameOverUICanvas.PlayFadeInGameOverCanvas();
         gameMaster.NotifyObserver(gameMaster);
     }
 
@@ -60,15 +55,9 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
         if (gameOverPhase == GameOverPhase.FadeIn)
         {
             eplapesTime += Time.deltaTime;
-            Debug.Log("GameOver eplapesTime fadeIn = " + eplapesTime);
-            setAlphaColorUI.SetColorAlpha<Image>(titlePanel, eplapesTime / 1f);
-            setAlphaColorUI.SetColorAlpha<TextMeshProUGUI>(titlePanelText, eplapesTime / 1f);
-
             if (eplapesTime >= 1f)
             {
                 gameOverPhase = GameOverPhase.Stay;
-                exitButton.gameObject.SetActive(true);
-                restartButton.gameObject.SetActive(true);
                 gameMaster.user.DisableInput();
                 Cursor.lockState = CursorLockMode.None;
             }
@@ -77,11 +66,13 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
         {
             if (gameMaster.isTriggerExit)
             {
+                this.gameOverUICanvas.PlayFadeOutGameOverCanvas();
                 gameOverPhase = GameOverPhase.FadeOutExit;
                 return;
             }
             if (gameMaster.isTriggerRestart)
             {
+                this.gameOverUICanvas.PlayFadeOutGameOverCanvas();
                 gameOverPhase = GameOverPhase.FadeOutRestart;
                 return;
             }
@@ -89,9 +80,6 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
         else if (gameOverPhase == GameOverPhase.FadeOutRestart)
         {
             eplapesTime += Time.deltaTime;
-            setAlphaColorUI.SetColorAlpha(fadeImage, (eplapesTime - 1) / 1);
-            setAlphaColorUI.SetColorAlpha(titlePanel, (2 - eplapesTime) / 1f);
-            setAlphaColorUI.SetColorAlpha(titlePanelText, (2 - eplapesTime) / 1);
             if (eplapesTime >= 2)
             {
                 gameManager.OnNotify(this);
@@ -100,9 +88,6 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
         else if (gameOverPhase == GameOverPhase.FadeOutExit)
         {
             eplapesTime += Time.deltaTime;
-            setAlphaColorUI.SetColorAlpha(fadeImage, (eplapesTime - 1) / 1);
-            setAlphaColorUI.SetColorAlpha(titlePanelText, (2 - eplapesTime) / 1f);
-            setAlphaColorUI.SetColorAlpha(titlePanel, (2 - eplapesTime) / 1);
             if (eplapesTime >= 2)
             {
                 gameManager.OnNotify(this);

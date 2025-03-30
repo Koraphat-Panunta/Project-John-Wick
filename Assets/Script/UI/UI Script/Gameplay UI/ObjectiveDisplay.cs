@@ -4,16 +4,16 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(ObjectiveManager))]
-public class ObjectiveDisplay : MonoBehaviour,IGameplayUI
+public class ObjectiveDisplay : GameplayUI
 {
     [SerializeField] private TextMeshProUGUI m_TextMeshProUGUI;
     //private string objectiveDescripstion;
     [SerializeField] private ObjectiveManager m_ObjectiveManager;
     private Objective currentObjective => m_ObjectiveManager.curObjective;
 
-    public void DisableUI() => this.m_TextMeshProUGUI.enabled = false;
+    public override void DisableUI() => this.m_TextMeshProUGUI.enabled = false;
 
-    public void EnableUI() => this.m_TextMeshProUGUI.enabled = true;
+    public override void EnableUI() => this.m_TextMeshProUGUI.enabled = true;
     
     void Update()
     {

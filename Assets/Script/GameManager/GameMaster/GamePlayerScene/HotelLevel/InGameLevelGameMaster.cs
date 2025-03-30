@@ -9,18 +9,12 @@ public class InGameLevelGameMaster : GameMaster
 {
     public OpeningUICanvas openingUICanvas;
 
-    public Canvas gameplayCanvasUI;
+    public GamePlayUICanvas gamePlayUICanvas;
+
     public User user;
     public CrosshairController crosshairController;
-    public RawImage hpBar;
-    public TextMeshProUGUI weaponInfo;
 
-    public Canvas gameOverCanvasUI;
-    public Image gameOverTitlePanel;
-    public TextMeshProUGUI gameOverTitlePanelText;
-    public Button gameOverRestartButton;
-    public Button gameOverExitButton;
-    public Image gameOverFadeImage;
+    public GameOverUICanvas gameOverUICanvas;
 
     public Canvas missionCompleteCanvasUI;
     public Image missionCompleteImageFade;
@@ -37,6 +31,13 @@ public class InGameLevelGameMaster : GameMaster
     public Player player;
 
     private bool isCompleteLoad =false;
+
+    private IEnumerator DelaySceneLoaded()
+    {
+        yield return new WaitForSeconds(1.7f);
+        isCompleteLoad = true;
+    }
+
     public enum LevelHotelPhase
     {
         Opening,
@@ -45,19 +46,15 @@ public class InGameLevelGameMaster : GameMaster
         MissionComplete
     }
     public LevelHotelPhase curLevelHotelPhase;
-    private IEnumerator DelaySceneLoaded()
-    {
-        yield return new WaitForSeconds(1.7f);
-        isCompleteLoad = true;
-    }
-    
-  
+   
     protected override void Awake()
     {
+
         base.Awake();
     }
     protected override void Start()
     {
+        gameOverUICanvas.gameObject.SetActive(false);
         curLevelHotelPhase = LevelHotelPhase.Opening;
         if(targetEliminationQuest.Count > 0)
         foreach (Character target in targetEliminationQuest)
@@ -89,7 +86,7 @@ public class InGameLevelGameMaster : GameMaster
     public InGameLevelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf { get; private set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf { get; private set; }
     public GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf { get; private set; }    
-    private LevelHotelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf;
+    private InGameLevelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf;
 
     public override void InitailizedNode()
     {
@@ -99,7 +96,7 @@ public class InGameLevelGameMaster : GameMaster
         levelHotelGamplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.Gameplay  && isCompleteLoad);
         levelHotelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.MissionComplete && isCompleteLoad);
         gameOverGameMasterNodeLeaf = new GameOverGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.GameOver && isCompleteLoad);
-        levelHotelRestGameMasterNodeLeaf = new LevelHotelRestGameMasterNodeLeaf(this, () => true);
+        levelHotelRestGameMasterNodeLeaf = new InGameLevelRestGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(levelHotelOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelHotelGamplayGameMasterNodeLeaf);
@@ -139,6 +136,7 @@ public class InGameLevelGameMaster : GameMaster
         Time.timeScale = 1;
         isPause = false;
         Cursor.lockState = CursorLockMode.Locked;
+        user.EnableInput();
     }
 
     public void GetNotify(Player player)
@@ -158,14 +156,23 @@ public class InGameLevelGameMaster : GameMaster
             gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
         }
     }
+
+    private void OnValidate()
+    {
+        openingUICanvas = FindAnyObjectByType<OpeningUICanvas>();
+        gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
+        gameOverUICanvas = FindAnyObjectByType<GameOverUICanvas>(FindObjectsInactive.Include);
+        gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
+        gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
+    }
 }
 public interface IGameLevelMasterObserver
 {
     public void OnNotify(InGameLevelGameMaster inGameLevelGameMaster);
 }
-public class LevelHotelRestGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelRestGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    public LevelHotelRestGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelRestGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
     }
 

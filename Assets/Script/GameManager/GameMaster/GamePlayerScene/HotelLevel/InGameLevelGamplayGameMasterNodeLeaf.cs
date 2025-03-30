@@ -6,10 +6,8 @@ using UnityEngine.UI;
 
 public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>,IGameManagerSendNotifyAble,IObserveObjective
 {
-    private Canvas gameplayCanvasUI => gameMaster.gameplayCanvasUI;
+    private GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     private CrosshairController crosshair => gameMaster.crosshairController;
-    private RawImage hpBar => gameMaster.hpBar;
-    private TextMeshProUGUI weaponInfo => gameMaster.weaponInfo;
     private User user => gameMaster.user;
 
     private Canvas pauseCanvasUI => gameMaster.pauseCanvasUI; 
@@ -40,8 +38,6 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
         gameplayCanvasUI.enabled = true;
         crosshair.EnableCrosshairVisable();
-        hpBar.enabled = true;
-        weaponInfo.enabled = true;
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -76,6 +72,7 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
                 gameMaster.isPause = false;
                 pauseCanvasUI.gameObject.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
+                user.EnableInput();
             }
             else
             {
@@ -83,6 +80,7 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
                 gameMaster.isPause = true;
                 pauseCanvasUI.gameObject.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
+                user.DisableInput();
             }
 
         }

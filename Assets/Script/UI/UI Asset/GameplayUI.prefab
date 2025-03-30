@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 1720819799984783116}
   - component: {fileID: 1392175823519093556}
   - component: {fileID: 2952097923134337874}
-  - component: {fileID: 6677489633212840850}
+  - component: {fileID: 1576967869659561845}
   m_Layer: 5
   m_Name: GameplayUI
   m_TagString: Untagged
@@ -770,28 +770,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &6677489633212840850
-Animator:
-  serializedVersion: 7
+--- !u!114 &1576967869659561845
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9172305961655887961}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c2f7e26c46a8fed42b0f9604cd8d9f64, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc937c2fae11676409ea1aad9bcf61e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameplayUI:
+  - {fileID: 7359576049186680157}
+  - {fileID: 2005510767321075471}
+  - {fileID: 1365847767158987824}
+  - {fileID: 7427847686772486835}
+  - {fileID: 7714483739842748104}
+  - {fileID: 4902085867966858287}
+  - {fileID: 2153676537989341232}
 --- !u!1001 &482253626148303335
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1155,6 +1153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HP_bar: {fileID: 2115080729309999108}
+  playerInfo: {fileID: 0}
 --- !u!1001 &1519035206006124676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1316,6 +1315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AmmoDisplay: {fileID: 7622599083091186878}
+  playerInfo: {fileID: 0}
   MagazineCount: 0
   AmmoCount: 0
 --- !u!114 &7622599083091186878 stripped
