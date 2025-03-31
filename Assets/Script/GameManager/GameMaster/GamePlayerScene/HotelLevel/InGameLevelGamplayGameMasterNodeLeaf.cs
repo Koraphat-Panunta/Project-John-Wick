@@ -5,12 +5,10 @@ using UnityEngine;
 public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>,IGameManagerSendNotifyAble,IObserveObjective
 {
     private GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
-    private CrosshairController crosshair => gameMaster.crosshairController;
     private User user => gameMaster.user;
 
     private PauseUICanvas pauseCanvasUI => gameMaster.pauseCanvasUI; 
 
-    private ObjectiveManager objectiveManager => gameMaster.objectiveManager;
     private Elimination eliminationObjective;
     private TravelingToDestination travelingToDestination;
 
@@ -31,15 +29,10 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         this.eliminationObjective.AddNotifyUpdateObjective(this);
         this.travelingToDestination = new TravelingToDestination(player.transform, gameMaster.destination.position);
 
-        this.objectiveManager.AddObjective(this.eliminationObjective);
-        this.objectiveManager.AddObjective(this.travelingToDestination);
-
-        gameplayCanvasUI.enabled = true;
-        crosshair.EnableCrosshairVisable();
+        gameplayCanvasUI.EnableGameplayUI();
 
         Cursor.lockState = CursorLockMode.Locked;
 
-        this.objectiveManager.StartPlayObjective();
         user.EnableInput();
     }
 
@@ -86,10 +79,10 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         if(gameMaster.isPause)
             { return; }
 
-        if (objectiveManager.allQuestClear){
-            gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.MissionComplete;
-            return;
-        }
+        //if (objectiveManager.allQuestClear){
+        //    gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.MissionComplete;
+        //    return;
+        //}
 
         if (player.isDead) {
             gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.GameOver;
@@ -105,6 +98,8 @@ public class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     }
     public void GetNotifyObjectiveUpdate(Objective objective)
     {
+        gameMaster.OnObjectiveUpdate(objective);
+
         if (objective is Elimination eliminate)
             if (eliminate.status == Objective.ObjectiveStatus.Complete)
                 this.eliminationObjective.RemoveNotifyUpdateObjective(this);

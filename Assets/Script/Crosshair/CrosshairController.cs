@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
+public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 {
     //[SerializeField] WeaponSocket weaponSocket;
     public RectTransform Crosshair_lineUp;
@@ -132,14 +132,14 @@ public class CrosshairController : MonoBehaviour,IObserverPlayer,IPointerAble
     }
 
    
-    public void EnableCrosshairVisable()
+    public override void EnableUI()
     {
         this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineRight.GetComponent<RawImage>().enabled = true;
     }
-    public void DisableCrosshairVisable() 
+    public override void DisableUI() 
     {
         this.Crosshair_lineUp.GetComponent<RawImage>().enabled = false;
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = false;

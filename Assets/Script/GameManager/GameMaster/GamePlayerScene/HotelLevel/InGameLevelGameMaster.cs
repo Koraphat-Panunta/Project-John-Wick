@@ -17,10 +17,18 @@ public class InGameLevelGameMaster : GameMaster
 
     public PauseUICanvas pauseCanvasUI;
 
-    public User user;
-    public CrosshairController crosshairController;
+    public Objective curObjective { 
+        get { return objective; } 
+        set{ 
+            objective = value; 
+            OnObjectiveUpdate.Invoke(objective);
+        } 
+    }
+    private Objective objective;
 
-    public ObjectiveManager objectiveManager;
+    public Action<Objective> OnObjectiveUpdate;
+
+    public User user;
     public List<Character> targetEliminationQuest;
     public Transform destination;
     public Player player;
@@ -44,21 +52,14 @@ public class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
-
         base.Awake();
     }
     protected override void Start()
     {
-        gameOverUICanvas.gameObject.SetActive(false);
-        missionCompleteUICanvas.gameObject.SetActive(false);
-        pauseCanvasUI.gameObject.SetActive(false);
+      
         curLevelHotelPhase = LevelHotelPhase.Opening;
         if(targetEliminationQuest.Count > 0)
-        foreach (Character target in targetEliminationQuest)
-        {
-            target.gameObject.SetActive(false); 
-        }
-        player.gameObject.SetActive(false);
+ 
         StartCoroutine(DelaySceneLoaded());
         base.Start();
     }

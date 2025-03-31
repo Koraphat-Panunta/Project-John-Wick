@@ -14,6 +14,10 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     public override void Enter()
     {
+        gameMaster.player.gameObject.SetActive(false);
+        gameMaster.gamePlayUICanvas.DisableGameplayUI();
+
+
         isComplete = false;
         openingCanvasUI.PlayOpeningAnimationUI();
 
@@ -31,9 +35,7 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     public override void Exit()
     {
         player.gameObject.SetActive(true);
-        if(gameMaster.targetEliminationQuest.Count > 0)
-        foreach (Character target in gameMaster.targetEliminationQuest)
-            target.gameObject.SetActive(true);
+        gameMaster.gamePlayUICanvas.EnableGameplayUI();
     }
 
     public override void FixedUpdateNode()

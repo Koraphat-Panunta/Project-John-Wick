@@ -38,7 +38,8 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
             }
         }
     }
-
+    [SerializeField, TextArea]
+    private string enemyDirectorDebugLog;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
         if(enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
@@ -62,6 +63,8 @@ public class EnemyRoleManager : MonoBehaviour, IObserverEnemy,IGameLevelMasterOb
 
             elapseTimeChaserChange = chaserChangeDelay;
             CalcuateRoleCount();
+
+            enemyDirectorDebugLog += enemy+" is dead";
         }
 
     }
