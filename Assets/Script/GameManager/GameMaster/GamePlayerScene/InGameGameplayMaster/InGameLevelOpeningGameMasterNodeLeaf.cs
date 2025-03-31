@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using System;
 using System.Threading.Tasks;
 
@@ -62,7 +62,6 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     private async void  OpeningDelay()
     {
         await Task.Delay(1000);
-        gameMaster.curLevelHotelPhase = InGameLevelGameMaster.LevelHotelPhase.Gameplay;
         this.isComplete = true;
     }
   

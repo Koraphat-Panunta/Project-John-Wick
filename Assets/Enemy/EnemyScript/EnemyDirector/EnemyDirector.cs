@@ -7,11 +7,11 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
 {
 
     [SerializeField] protected List<EnemyRoleBasedDecision> enemiesRole = new List<EnemyRoleBasedDecision>();
-    private List<Enemy> enemies = new List<Enemy>();
+    //private List<Enemy> enemies = new List<Enemy>();
     protected Dictionary<Enemy,EnemyRoleBasedDecision> enemysGetRole = new Dictionary<Enemy,EnemyRoleBasedDecision>();
 
-    [SerializeField] private EnemyObjectPooling enemyObjectPooling;
-    [SerializeField] private WeaponObjectPooling weaponObjectPooling;
+    //[SerializeField] private EnemyObjectPooling enemyObjectPooling;
+    //[SerializeField] private WeaponObjectPooling weaponObjectPooling;
 
     [SerializeField] public int MAX_ChaserCount;
     [SerializeField] private int chaserCount;
@@ -25,15 +25,15 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
     // Update is called once per frame
     void Update()
     {
-        if(chaserCount < MAX_ChaserCount)
-        {
-            elapseTimeChaserChange -= Time.deltaTime;
-            if(elapseTimeChaserChange <= 0)
-            {
-                elapseTimeChaserChange = chaserChangeDelay;
-                AssignChaser();
-            }
-        }
+        //if(chaserCount < MAX_ChaserCount)
+        //{
+        //    elapseTimeChaserChange -= Time.deltaTime;
+        //    if(elapseTimeChaserChange <= 0)
+        //    {
+        //        elapseTimeChaserChange = chaserChangeDelay;
+        //        AssignChaser();
+        //    }
+        //}
     }
 
     private Task taskUpdatingEnemyRoleManager;
@@ -164,36 +164,36 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
         this.overwatchCount = overwatchCount;
     }
 
-    public void ClearEnemyAll()
-    {
-        if(enemies.Count <= 0)
-            return;
+    //public void ClearEnemyAll()
+    //{
+    //    if(enemies.Count <= 0)
+    //        return;
 
-        enemies.ForEach(enemy => { enemyObjectPooling.ReturnEnemy(enemy);});
-        enemies.Clear();
-    }
-    public void ClearEnemy(Enemy enemy)
-    {
-        enemyObjectPooling.ReturnEnemy(enemy);
-    }
-    public void SpawnEnemy(EnemySpawner enemySpawner)
-    {
-        Enemy enemy = enemyObjectPooling.PullEnemy();
-        enemy.transform.position = enemySpawner.transform.position;
-        enemy.transform.rotation = enemySpawner.transform.rotation;
-        enemysGetRole.Add(enemy,enemy.GetComponent<EnemyRoleBasedDecision>());
-        enemiesRole.Add(enemysGetRole[enemy]);
-        enemies.Add(enemy);
-        enemy.AddObserver(this);
-        Weapon weapon = weaponObjectPooling.Pull();
-        weapon.AttatchWeaponTo(enemy);
-        CalcuateRoleCount();
-    }
+    //    enemies.ForEach(enemy => { enemyObjectPooling.ReturnEnemy(enemy);});
+    //    enemies.Clear();
+    //}
+    //public void ClearEnemy(Enemy enemy)
+    //{
+    //    enemyObjectPooling.ReturnEnemy(enemy);
+    //}
+    //public void SpawnEnemy(EnemySpawner enemySpawner)
+    //{
+    //    Enemy enemy = enemyObjectPooling.PullEnemy();
+    //    enemy.transform.position = enemySpawner.transform.position;
+    //    enemy.transform.rotation = enemySpawner.transform.rotation;
+    //    enemysGetRole.Add(enemy,enemy.GetComponent<EnemyRoleBasedDecision>());
+    //    enemiesRole.Add(enemysGetRole[enemy]);
+    //    enemies.Add(enemy);
+    //    enemy.AddObserver(this);
+    //    Weapon weapon = weaponObjectPooling.Pull();
+    //    weapon.AttatchWeaponTo(enemy);
+    //    CalcuateRoleCount();
+    //}
      
     private void OnValidate()
     {
-        enemyObjectPooling = FindAnyObjectByType<EnemyObjectPooling>();
-        weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
+        //enemyObjectPooling = FindAnyObjectByType<EnemyObjectPooling>();
+        //weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
     }
 
     public Action<Enemy> OnEnemyBeenEliminate;

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameLevelGameMaster : GameMaster
+public abstract class InGameLevelGameMaster : GameMaster
 {
     public OpeningUICanvas openingUICanvas;
 
@@ -29,8 +29,6 @@ public class InGameLevelGameMaster : GameMaster
     public Action<Objective> OnObjectiveUpdate;
 
     public User user;
-    public List<Character> targetEliminationQuest;
-    public Transform destination;
     public Player player;
 
     private bool isCompleteLoad = false;
@@ -40,15 +38,6 @@ public class InGameLevelGameMaster : GameMaster
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
     }
-
-    public enum LevelHotelPhase
-    {
-        Opening,
-        Gameplay,
-        GameOver,
-        MissionComplete
-    }
-    public LevelHotelPhase curLevelHotelPhase;
    
     protected override void Awake()
     {
@@ -56,10 +45,6 @@ public class InGameLevelGameMaster : GameMaster
     }
     protected override void Start()
     {
-      
-        curLevelHotelPhase = LevelHotelPhase.Opening;
-        if(targetEliminationQuest.Count > 0)
- 
         StartCoroutine(DelaySceneLoaded());
         base.Start();
     }
@@ -73,38 +58,18 @@ public class InGameLevelGameMaster : GameMaster
        
         nodeManagerBehavior.UpdateNode(this);
     }
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         isTriggerExit = false;
         isTriggerRestart = false;
         isTriggerContinue = false;
     }
 
-    public InGameLevelOpeningGameMasterNodeLeaf levelHotelOpeningGameMasterNodeLeaf { get; private set; }
-    public InGameLevelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf { get; private set; }
-    public InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf { get; private set; }
-    public GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf { get; private set; }    
-    private InGameLevelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf;
-
-    public override void InitailizedNode()
-    {
-        startNodeSelector = new GameMasterNodeSelector<InGameLevelGameMaster>(this,()=> true);
-
-        levelHotelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,()=> curLevelHotelPhase == LevelHotelPhase.Opening && isCompleteLoad);
-        levelHotelGamplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.Gameplay  && isCompleteLoad);
-        levelHotelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.MissionComplete && isCompleteLoad);
-        gameOverGameMasterNodeLeaf = new GameOverGameMasterNodeLeaf(this, () => curLevelHotelPhase == LevelHotelPhase.GameOver && isCompleteLoad);
-        levelHotelRestGameMasterNodeLeaf = new InGameLevelRestGameMasterNodeLeaf(this, () => true);
-
-        startNodeSelector.AddtoChildNode(levelHotelOpeningGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelHotelGamplayGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelHotelMisstionCompleteGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(gameOverGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelHotelRestGameMasterNodeLeaf);
-
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-    }
+    public abstract InGameLevelOpeningGameMasterNodeLeaf levelHotelOpeningGameMasterNodeLeaf { get; protected set; }
+    public abstract InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
+    public abstract GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf { get; protected set; }    
+    public abstract InGameLevelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf { get;protected set; }
+   
 
     public bool isTriggerRestart;
     public bool isTriggerContinue;

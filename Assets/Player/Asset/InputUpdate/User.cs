@@ -63,21 +63,11 @@ public class User : MonoBehaviour
     {
         userInput = new UserInput();
         InitailizedInputAction(this.player);
+        EnableInput();
     }
 
     private void OnValidate()
     {
         player = FindAnyObjectByType<Player>();
-    }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
