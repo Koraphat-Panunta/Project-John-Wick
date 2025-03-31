@@ -2,12 +2,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public Weapon SpawnerWeapon;
-    public Enemy enemy;
-
-    public void Spawn()
-    {
-
-    }
+    //public Weapon SpawnerWeapon;
+    //public Enemy enemy;
    
 }
