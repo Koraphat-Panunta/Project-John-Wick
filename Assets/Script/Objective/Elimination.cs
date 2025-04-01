@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class Elimination : Objective
+public class Elimination : Objective,IObserverEnemy
 {
-    public List<Character> targets;
+    public List<Enemy> targets;
     public int targetRemain { get; protected set; }
     public override string ObjDescribe { get; set ; }
 
-    public Elimination(List<Character> targets)
+    public Elimination(List<Enemy> targets)
     {
         this.targets = targets;
         this.targetRemain = targets.Count;
+        this.targets.ForEach(target => { target.AddObserver(this); });
         ObjDescribe = "Eliminate All target" + "There is " + targetRemain + " target remain";
+
     }
     public override bool PerformedDone()
     {
@@ -45,5 +47,14 @@ public class Elimination : Objective
     private void UpdateObjectiveDescription()
     {
         ObjDescribe = "Eliminate All target" + "There is " + targetRemain + " target remain";
+    }
+
+    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+        if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
+        {
+            PerformedDone();
+            enemy.RemoveObserver(this);
+        }
     }
 }

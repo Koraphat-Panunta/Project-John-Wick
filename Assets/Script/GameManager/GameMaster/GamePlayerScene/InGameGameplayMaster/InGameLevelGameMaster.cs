@@ -21,6 +21,7 @@ public abstract class InGameLevelGameMaster : GameMaster
         get { return objective; } 
         set{ 
             objective = value; 
+            if(OnObjectiveUpdate != null)
             OnObjectiveUpdate.Invoke(objective);
         } 
     }
@@ -55,7 +56,6 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     public override void UpdateNode()
     {
-       
         nodeManagerBehavior.UpdateNode(this);
     }
     protected virtual void LateUpdate()
@@ -65,10 +65,10 @@ public abstract class InGameLevelGameMaster : GameMaster
         isTriggerContinue = false;
     }
 
-    public abstract InGameLevelOpeningGameMasterNodeLeaf levelHotelOpeningGameMasterNodeLeaf { get; protected set; }
-    public abstract InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
-    public abstract GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf { get; protected set; }    
-    public abstract InGameLevelRestGameMasterNodeLeaf levelHotelRestGameMasterNodeLeaf { get;protected set; }
+    public abstract InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
+    public abstract InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
+    public abstract InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }    
+    public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
    
 
     public bool isTriggerRestart;
@@ -122,6 +122,9 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     private void OnValidate()
     {
+        user = FindAnyObjectByType<User>();
+        player = FindAnyObjectByType<Player>();
+
         openingUICanvas = FindAnyObjectByType<OpeningUICanvas>();
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
 

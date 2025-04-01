@@ -114,18 +114,18 @@ public class GameManager : MonoBehaviour,INodeManager
                     }
                 }
                 break;
-            case GameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
+            case InGameLevelGameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
                 {
-                    if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
+                    if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
                         (curNodeLeaf as GameManagerNodeLeaf).Enter();
 
-                    if(gameOverGameMasterNodeLeaf.gameOverPhase == GameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
+                    if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
                         gameManagerSceneData = GameManagerState.ForntScene;
                 }
                 break;
-            case InGameLevelGamplayGameMasterNodeLeaf levelHotelGamplayGameMasterNodeLeaf: 
+            case InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster> MansionGamplayGameMasterNodeLeaf: 
                 {
-                    if (levelHotelGamplayGameMasterNodeLeaf.gameMaster.isTriggerExit)
+                    if (MansionGamplayGameMasterNodeLeaf.gameMaster.isTriggerExit)
                         gameManagerSceneData = GameManagerState.ForntScene;
                 }
                 break;

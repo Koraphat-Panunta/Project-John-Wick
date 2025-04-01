@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
     private OpeningUICanvas openingCanvasUI => gameMaster.openingUICanvas;
-    private bool isComplete;
+    public bool isComplete { get; protected set; }
     private Player player => gameMaster.player;
     public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {

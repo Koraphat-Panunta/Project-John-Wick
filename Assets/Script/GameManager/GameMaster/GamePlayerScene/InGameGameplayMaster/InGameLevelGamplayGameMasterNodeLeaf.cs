@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>,IGameManagerSendNotifyAble,IObserveObjective
+public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T>,IGameManagerSendNotifyAble,IObserveObjective where T : InGameLevelGameMaster
 {
     protected GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     protected User user => gameMaster.user;
@@ -13,7 +13,7 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<
 
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
 
-    public InGameLevelGamplayGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelGamplayGameMasterNodeLeaf(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         
     }
@@ -78,6 +78,10 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf : GameMasterNodeLeaf<
 
 
     }
-    public abstract void GetNotifyObjectiveUpdate(Objective objective);
+    public virtual void GetNotifyObjectiveUpdate(Objective objective)
+    {
+        if(gameMaster.OnObjectiveUpdate != null)
+            gameMaster.OnObjectiveUpdate(objective);
+    }
    
 }

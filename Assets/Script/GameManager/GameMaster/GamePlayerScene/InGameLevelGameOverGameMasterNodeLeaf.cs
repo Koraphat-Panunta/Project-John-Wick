@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>, IGameManagerSendNotifyAble
+public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>, IGameManagerSendNotifyAble
 {
 
     private GameOverUICanvas gameOverUICanvas => gameMaster.gameOverUICanvas;
@@ -21,7 +21,7 @@ public class GameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMast
 
     public GameManager gameManager { get => gameMaster.gameManager ; set { } }
 
-    public GameOverGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelGameOverGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         setAlphaColorUI = new SetAlphaColorUI();
     }
