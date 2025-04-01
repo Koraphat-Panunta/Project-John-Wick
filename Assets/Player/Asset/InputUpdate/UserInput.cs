@@ -261,7 +261,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""id"": ""c94909da-2f19-492e-b5ba-90a91fdb3a82"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": true,

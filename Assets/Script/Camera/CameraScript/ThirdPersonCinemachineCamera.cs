@@ -25,9 +25,9 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     [SerializeField] private Transform targetFollow;
     [SerializeField] private Transform targetLook;
     [Range(0,360)]
-    [SerializeField] private float yaw;
+    [SerializeField] public float yaw;
     [Range(-90,90)]
-    [SerializeField] private float pitch;
+    [SerializeField] public float pitch;
     [Range(30,90)]
     [SerializeField] private float maxPitch;
     [Range(-30,-90)]
@@ -48,7 +48,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         UpdateCameraPosition();
     }
    
-    void InputRotateCamera(float horizontalInput,float verticalInput)
+    public void InputRotateCamera(float horizontalInput,float verticalInput)
     {
         yaw += horizontalInput * rotationSpeed;
         pitch -= verticalInput * rotationSpeed;

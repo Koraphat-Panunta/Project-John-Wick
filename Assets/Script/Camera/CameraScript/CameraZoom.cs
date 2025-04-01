@@ -13,7 +13,7 @@ public class CameraZoom : ICameraAction
     private float distanceZoomIn = 0.85f;
     public CameraZoom(CameraController cameraController)
     {
-        this.cameraOffset = cameraController.cameraOffset;
+        this.cameraOffset = cameraController.thirdPersonCinemachineCamera.cameraOffset;
         this.cinemachineCamera = cameraController.cinemachineCamera;
         fovZoomOut = this.cinemachineCamera.Lens.FieldOfView;
         //fovZoomIn = fovZoomOut - ((fovZoomPercentage * fovZoomOut) / 100);

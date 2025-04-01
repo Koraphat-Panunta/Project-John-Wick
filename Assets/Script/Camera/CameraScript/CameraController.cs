@@ -6,9 +6,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour,IObserverPlayer
 {
+    [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
-    [SerializeField] public CinemachineOrbitalFollow cinemachineOrbitalFollow => player.cinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
-    [SerializeField] public CinemachineCameraOffset cameraOffset => player.cinemachineCamera.GetComponent<CinemachineCameraOffset>();
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
 
@@ -28,6 +27,14 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public CameraManagerNode cameraManagerNode;
 
     public string CameraNodeName;
+
+    [Range(1, 10)]
+    public float standardCameraSensivity;
+    [Range(1, 10)]
+    public float aimDownSightCameraSensivity;
+
+    [SerializeField,TextArea]
+    public string inputLook;
     public enum Side
     {
         left,
@@ -68,13 +75,17 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
         //Debug.Log("CameraOffset = " + cameraOffset);
         //Debug.Log("CameraOffset value = " + cameraOffset.Offset);
+
+
     }
     private void FixedUpdate()
     {
+        inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
+        Debug.Log("Input = " + player.inputLookDir_Local);
         cameraManagerNode.FixedUpdateNode();
     }
     [SerializeField] private float cameraKickbackMultiple;
-
+    public float cameraKickUpMultiple;
     public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
@@ -132,5 +143,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     private void OnValidate()
     {
         this.player = FindAnyObjectByType<Player>();
+        thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
 }
