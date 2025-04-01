@@ -68,7 +68,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         Vector3 castDir = transform.position - startCastPos;
         Debug.DrawLine(startCastPos, startCastPos + transform.position);
 
-        if (Physics.Raycast(startCastPos, castDir.normalized, out RaycastHit hit,castDir.magnitude, collisionLayers))
+        if (Physics.Raycast(startCastPos, castDir.normalized, out RaycastHit hit,castDir.magnitude+0.2f, collisionLayers))
         {
             desiredPosition = hit.point + (transform.forward * collisionPushForward); /*+ transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;*/
             transform.position = desiredPosition;
