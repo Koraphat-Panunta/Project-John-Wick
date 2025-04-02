@@ -64,14 +64,26 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
         desiredPosition = transform.position;
 
-        Vector3 startCastPos = targetLook.position + transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
+        Vector3 startCastPos = targetLook.position + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
         Vector3 castDir = transform.position - startCastPos;
-        Debug.DrawLine(startCastPos, startCastPos + transform.position);
 
-        if (Physics.Raycast(startCastPos, castDir.normalized, out RaycastHit hit,castDir.magnitude+0.2f, collisionLayers))
+        //CheckCameraBeenBlocked
+        if(Physics.Raycast(targetLook.position, (transform.position - targetLook.position).normalized, out RaycastHit hit, (transform.position - targetLook.position).magnitude+0.2f, collisionLayers))
         {
-            desiredPosition = hit.point + (transform.forward * collisionPushForward); /*+ transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;*/
-            transform.position = desiredPosition;
+            Vector3 camToHitDir = hit.point - transform.position;
+
+            Debug.DrawLine(hit.point,transform.position,Color.red);
+            float angle = Vector3.Angle(transform.forward, camToHitDir.normalized);
+
+            float moveForward = camToHitDir.magnitude * Mathf.Cos(Mathf.Deg2Rad*angle) + collisionPushForward;
+            Debug.DrawLine(transform.position, transform.position + transform.forward * moveForward, Color.blue);
+
+            transform.position += transform.forward * moveForward + (hit.normal*collisionPushForward);
+
+            if(Physics.Raycast(targetLook.position, (transform.position-targetLook.position).normalized, out RaycastHit hitSecond, (transform.position - targetLook.position).magnitude + 0.2f, collisionLayers))
+            {
+                transform.position = hitSecond.point + (hitSecond.normal* collisionPushForward);
+            }
         }
         
     }

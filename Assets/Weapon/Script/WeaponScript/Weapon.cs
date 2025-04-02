@@ -127,11 +127,15 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         {
             Player p = WeaponUser as Player;
             p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
+            p.animator.Rebind();  // Force update
+            p.animator.Update(0); // Ensure instant sync
         }
         if(WeaponUser is Enemy)
         {
             Enemy enemy = WeaponUser as Enemy;
             enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
+            enemy.animator.Rebind();
+            enemy.animator.Update(0);
         }
         if(this is PrimaryWeapon){
             if (WeaponUser.weaponBelt.primaryWeapon == null)
@@ -200,11 +204,15 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             {
                 Player p = userWeapon as Player;
                 p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                p.animator.Rebind();  // Force update
+                p.animator.Update(0); // Ensure instant sync
             }
             if (userWeapon is Enemy)
             {
                 Enemy enemy = userWeapon as Enemy;
                 enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                enemy.animator.Rebind();
+                enemy.animator.Update(0);
             }
             userWeapon._currentWeapon = null;
         }
@@ -272,11 +280,15 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                 {
                     Player p = userWeapon as Player;
                     p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                    p.animator.Rebind();  // Force update
+                    p.animator.Update(0); // Ensure instant sync
                 }
                 if (userWeapon is Enemy)
                 {
                     Enemy enemy = userWeapon as Enemy;
                     enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
+                    enemy.animator.Rebind();
+                    enemy.animator.Update(0);
                 }
             }
             userWeapon._currentWeapon = null;
