@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 {
@@ -28,6 +26,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     private void Awake()
     {
         player.AddObserver(this);
+        Cursor.lockState = CursorLockMode.Locked;
     }
     void Start()
     {
@@ -138,6 +137,8 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineRight.GetComponent<RawImage>().enabled = true;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public override void DisableUI() 
     {
@@ -145,5 +146,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = false;
         this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = false;
         this.Crosshair_lineRight.GetComponent<RawImage>().enabled = false;
+
+        Cursor.lockState = CursorLockMode.None;
     }
 }
