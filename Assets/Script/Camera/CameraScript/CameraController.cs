@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour,IObserverPlayer
 {
+    [SerializeField] public CinemachineBrain cinemachineBrain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
+    [SerializeField] public ThirdPersonCinemachineCamera executeThirdPersonCinemachineCameara;
+    private List<CinemachineCamera> allCinemachine = new List<CinemachineCamera>(); 
     [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
@@ -46,6 +49,9 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     private void Awake()
     {
+        allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
+        allCinemachine.Add(executeThirdPersonCinemachineCameara.cinemachineCamera);
+
         curStance = player.playerStance;
         curSide = player.curShoulderSide;
 
@@ -140,9 +146,28 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         
     }
 
+    public void ChangeCamera(CinemachineCamera cinemachineCamera,float time)
+    {
+        cinemachineBrain.DefaultBlend.Time = time;
+
+        cinemachineCamera.Priority = 10;
+
+        if(allCinemachine.Count <= 0)
+            return;
+
+        for (int i = 0; i < allCinemachine.Count; i++) 
+        {
+            if (allCinemachine[i] == cinemachineCamera)
+                continue;
+
+            allCinemachine[i].Priority = 1;
+        }
+    }
+
     private void OnValidate()
     {
         this.player = FindAnyObjectByType<Player>();
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
+        executeThirdPersonCinemachineCameara = player.executeCinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
 }

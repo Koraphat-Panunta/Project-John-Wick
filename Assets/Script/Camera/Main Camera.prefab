@@ -31,8 +31,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806568399460747138}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.390948, y: 0, z: 0, w: 0.9204127}
-  m_LocalPosition: {x: -0.93895066, y: 1.05, z: 24.81}
+  m_LocalRotation: {x: 0.059905995, y: -0.45063666, z: 0.030326303, w: 0.8901788}
+  m_LocalPosition: {x: -77.15, y: 2.0466394, z: 21.469845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -71,7 +71,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 50.03
+  field of view: 70
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -177,7 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa1d4d2e7dc7e124ab421742d1b00528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineBrain: {fileID: 5964026285245096123}
   thirdPersonCinemachineCamera: {fileID: 0}
+  executeThirdPersonCinemachineCameara: {fileID: 0}
   impulseSource: {fileID: 8522622513793723404}
   player: {fileID: 0}
   cameraViewAttribute: {fileID: 11400000, guid: 4108872fe8dfb1a43bd8c8b28da56794,

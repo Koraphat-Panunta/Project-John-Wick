@@ -19,11 +19,15 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     public float collisionPushForward = 0.5f;
     public LayerMask collisionLayers;
 
+    public CinemachineCamera cinemachineCamera;
+
     [Range(0,10)]
     [SerializeField] private float collisionRaduisCheck;
 
     [SerializeField] private Transform targetFollow;
+    public Transform targetFollowTarget { get => targetFollow; protected set => this.targetFollowTarget = value; }
     [SerializeField] private Transform targetLook;
+    public Transform targetLookTarget { get => targetLook; protected set => this.targetLookTarget = value; }
     [Range(0,360)]
     [SerializeField] public float yaw;
     [Range(-90,90)]
@@ -33,6 +37,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     [Range(-30,-90)]
     [SerializeField] private float minPitch;
 
+    private bool isBeenUpdate;
     private void Awake()
     {
         transform.SetParent(null,true);
@@ -41,6 +46,10 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     {
         yaw = transform.eulerAngles.y;
         pitch = transform.eulerAngles.x;
+    }
+    private void LateUpdate()
+    {
+        isBeenUpdate = false;
     }
 
     void Update()
@@ -54,21 +63,29 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         pitch -= verticalInput * rotationSpeed;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
     }
-
-    void UpdateCameraPosition()
+    public void SetYaw(float value)=>this.yaw = value;
+    public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);
+    
+    public void UpdateCameraPosition()
     {
-        Vector3 desiredPosition = transform.position;
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
-        transform.position = targetFollow.position + rotation * (cameradistance * distance);
-        transform.LookAt(targetLook.position);
-        transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
-        desiredPosition = transform.position;
+        this.UpdateCameraPosition(this.targetFollow.position, this.targetLook.position);
+    }
 
-        Vector3 startCastPos = targetLook.position + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
+    public void UpdateCameraPosition(Vector3 targetFollow,Vector3 targetLook)
+    {
+        if(isBeenUpdate == true)
+            return;
+
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
+        transform.position = targetFollow + rotation * (cameradistance * distance);
+        transform.LookAt(targetLook);
+        transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
+
+        Vector3 startCastPos = targetLook + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
         Vector3 castDir = transform.position - startCastPos;
 
         //CheckCameraBeenBlocked
-        if(Physics.Raycast(targetLook.position, (transform.position - targetLook.position).normalized, out RaycastHit hit, (transform.position - targetLook.position).magnitude+0.2f, collisionLayers))
+        if(Physics.Raycast(targetLook, (transform.position - targetLook).normalized, out RaycastHit hit, (transform.position - targetLook).magnitude+0.2f, collisionLayers))
         {
             Vector3 camToHitDir = hit.point - transform.position;
 
@@ -80,21 +97,22 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
             transform.position += transform.forward * moveForward + (hit.normal*collisionPushForward);
 
-            if(Physics.Raycast(targetLook.position, (transform.position-targetLook.position).normalized, out RaycastHit hitSecond, (transform.position - targetLook.position).magnitude + 0.2f, collisionLayers))
+            if(Physics.Raycast(targetLook, (transform.position-targetLook).normalized, out RaycastHit hitSecond, (transform.position - targetLook).magnitude + 0.2f, collisionLayers))
             {
                 transform.position = hitSecond.point + (hitSecond.normal* collisionPushForward);
             }
         }
-        
+        isBeenUpdate = true;
     }
     private void OnValidate()
     {
+        cinemachineCamera = GetComponent<CinemachineCamera>();
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
         transform.position = targetFollow.position + rotation * (cameradistance*distance);
-        transform.LookAt(targetLook.position);
+        transform.LookAt(targetLook);
 
         transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
     }
