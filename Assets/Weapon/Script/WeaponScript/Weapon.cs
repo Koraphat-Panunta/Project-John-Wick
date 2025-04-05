@@ -131,7 +131,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         if(WeaponUser is Enemy)
         {
             Enemy enemy = WeaponUser as Enemy;
-            WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
+            WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
         }
         if(this is PrimaryWeapon){
             if (WeaponUser.weaponBelt.primaryWeapon == null)
@@ -204,7 +204,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             if (userWeapon is Enemy)
             {
                 Enemy enemy = userWeapon as Enemy;
-                WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
+                WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
             }
             userWeapon._currentWeapon = null;
         }
@@ -276,7 +276,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                 if (userWeapon is Enemy)
                 {
                     Enemy enemy = userWeapon as Enemy;
-                    WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
+                    WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
                 }
             }
             userWeapon._currentWeapon = null;
