@@ -23,7 +23,7 @@ public class FindTargetInTargetZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override void UpdateNode()
     {
-        if (enemyCommandAPI.MoveToPosition(destinate, enemy.moveMaxSpeed, true, 0.25f))
+        if (enemyCommandAPI.MoveToPositionRotateToward(destinate, enemy.moveMaxSpeed, 1, 0.25f))
         {
             elapseWaitTime += Time.deltaTime;
             if (elapseWaitTime >= waitTime)

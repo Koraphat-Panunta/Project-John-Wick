@@ -173,30 +173,25 @@ public class EnemyCommandAPI :MonoBehaviour
     //}
     #endregion
 
-    public bool MoveToPosition(Vector3 DestinatePos, float velocity)
+    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale)
     {
         NavMeshAgent agent = _enemy.agent;
         if(agent.hasPath == false|| Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
             agent.SetDestination(DestinatePos);
        
         Vector3 moveDir = agent.steeringTarget-_enemy.transform.position;
-        Move(moveDir, velocity);
+        Move(moveDir, velocityScale);
 
         return Vector3.Distance(DestinatePos, _enemy.transform.position) < 0.5f;
     }
-    public bool MoveToPosition(Vector3 DestinatePos, float velocity,bool isRotateToMoveDir)
+    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale,float rotateTowardDirSpeedScale)
     {
-        NavMeshAgent agent = _enemy.agent;
-        if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
-            agent.SetDestination(DestinatePos);
 
-        Vector3 moveDir = agent.steeringTarget - _enemy.transform.position;
-        Move(moveDir, velocity);
-
-        if (isRotateToMoveDir)
-            RotateToPosition(agent.steeringTarget,6);
-
-        if (Vector3.Distance(DestinatePos, _enemy.transform.position) < 0.5f)
+        if (RotateToPosition(_enemy.agent.steeringTarget, rotateTowardDirSpeedScale))
+            FreezRotation();
+        
+        
+        if(MoveToPosition(DestinatePos, velocityScale))
         {
             FreezRotation();
             return true;
@@ -204,41 +199,35 @@ public class EnemyCommandAPI :MonoBehaviour
         else
             return false;
     }
-    public bool MoveToPosition(Vector3 DestinatePos, float velocity,float reachDestinationDistance)
+    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale,float reachDestinationDistance)
     {
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
             agent.SetDestination(DestinatePos);
 
         Vector3 moveDir = agent.steeringTarget - _enemy.transform.position;
-        Move(moveDir, velocity);
+        Move(moveDir, velocityScale);
 
         return Vector3.Distance(DestinatePos, _enemy.transform.position) < reachDestinationDistance;
     }
-    public bool MoveToPosition(Vector3 DestinatePos, float velocity, bool isRotateToMoveDir, float reachDestinationDistance)
+    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale, float rotateTowardDirSpeedScale, float reachDestinationDistance)
     {
-        NavMeshAgent agent = _enemy.agent;
-        if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
-            agent.SetDestination(DestinatePos);
 
-        Vector3 moveDir = agent.steeringTarget - _enemy.transform.position;
-        Move(moveDir, velocity);
+        RotateToPosition(_enemy.agent.steeringTarget, rotateTowardDirSpeedScale);
 
-        if (isRotateToMoveDir)
-            RotateToPosition(agent.steeringTarget, 6);
-
-        if (Vector3.Distance(DestinatePos, _enemy.transform.position) < reachDestinationDistance)
+        if (MoveToPosition(DestinatePos, velocityScale, reachDestinationDistance))
         {
             FreezRotation();
             return true;
         }
         else
             return false;
+
     }
-    public bool RotateToPosition(Vector3 DestinatePos, float rotSpeed)
+    public bool RotateToPosition(Vector3 DestinatePos, float rotSpeedScale)
     {
         Vector3 rotateDir = DestinatePos - _enemy.transform.position;
-        Rotate(rotateDir, rotSpeed);
+        Rotate(rotateDir, rotSpeedScale);
 
         if(Mathf.Abs(Vector3.Dot(_enemy.transform.forward, rotateDir.normalized))>0.95f)
             return true;
@@ -246,29 +235,20 @@ public class EnemyCommandAPI :MonoBehaviour
         return false;
 
     }
-    public bool SprintToPosition(Vector3 Destination,float rotSpeed)
+    public bool SprintToPosition(Vector3 Destination,float rotSpeedScale)
     {
-        _enemy.isSprintCommand = true;
-        NavMeshAgent agent = _enemy.agent;
-        if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
-            agent.SetDestination(Destination);
-
-        RotateToPosition(Destination, rotSpeed);
-
-        return Vector3.Distance(Destination, _enemy.transform.position) < 0.5f;
-
+        return SprintToPosition(Destination, rotSpeedScale, 0.5f);
     }
-    public bool SprintToPosition(Vector3 Destination, float rotSpeed,float reachDestinationDistance)
+    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale,float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
 
-        RotateToPosition(Destination, rotSpeed);
+        RotateToPosition(Destination, rotSpeedScale);
 
         return Vector3.Distance(Destination, _enemy.transform.position) < reachDestinationDistance;
-
     }
     public void Freez(Vector3 rotateToDes, float rotateSpeed)
     {
@@ -276,27 +256,30 @@ public class EnemyCommandAPI :MonoBehaviour
         _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
         RotateToPosition(rotateToDes, rotateSpeed);
     }
-    public void Move(Vector3 MoveDirWorld, float velocity)
-    {
-        _enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocity;
-    }
-    public void FreezRotation()
-    {
-        _enemy.lookRotationCommand = _enemy.transform.forward;
-    }
-    public void Rotate(Vector3 dir, float rotSpeed)
-    {
-        _enemy.lookRotationCommand = dir;
-    }
-    public void Sprint()
-    {
-        _enemy.isSprintCommand = true;
-    }
     public void Freez()
     {
         _enemy.isSprintCommand = false;
         _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
     }
+    public void Move(Vector3 MoveDirWorld, float velocityScale)
+    {
+        velocityScale = Mathf.Clamp01((float)velocityScale);
+        _enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocityScale;
+    }
+    public void FreezRotation()
+    {
+        _enemy.lookRotationCommand = _enemy.transform.forward;
+    }
+    public void Rotate(Vector3 dir, float rotSpeedScale)
+    {
+        rotSpeedScale = Mathf.Clamp01((float)rotSpeedScale);
+        _enemy.lookRotationCommand = Vector3.Lerp(_enemy.transform.forward, dir, rotSpeedScale);
+    }
+    public void Sprint()
+    {
+        _enemy.isSprintCommand = true;
+    }
+
     public void Stand()
     {
         _enemy.enemyMovement.curStance = IMovementCompoent.Stance.Stand;
@@ -311,26 +294,7 @@ public class EnemyCommandAPI :MonoBehaviour
         
     }
 
-    public bool MoveToTakeCover(float coverInRaduis,float velocity,bool rotateMoveDir)
-    {
-       if(_enemy.coverPoint == null)
-        {
-            if(_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis,out CoverPoint coverPoint))
-            {
-                coverPoint.TakeThisCover(_enemy);
-            }
-            else
-                return false;
-        }
-        if(MoveToPosition(_enemy.coverPoint.coverPos.position, velocity, rotateMoveDir,0.5f))
-        {
-            TakeCover();
-            return true;
-        }
-       return false;
 
-        
-    }
     public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
     {
         coverPoint = null;
@@ -342,7 +306,6 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-
     public bool FindCoverAndBook(float raduis,Vector3 targetPos,out CoverPoint coverPoint)
     {
         coverPoint = null;
@@ -359,28 +322,47 @@ public class EnemyCommandAPI :MonoBehaviour
         Freez();
         _enemy.isInCover = true;
     }
-    public bool MoveToTakeCover(CoverPoint coverPoint,float velocity,bool rotateMoveDir)
+    public bool MoveToTakeCover(CoverPoint coverPoint,float velocityScale,float rotateTowardDirSpeedScale)
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, velocity, rotateMoveDir, 1.6f))
+        if (MoveToPositionRotateToward(coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 1.6f))
         {
             TakeCover();
             return true;
         }
         return false;
     }
-    public bool MoveToTakeCover(CoverPoint coverPoint, float velocity)
+    public bool MoveToTakeCover(CoverPoint coverPoint, float velocityScale)
     {
         coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPosition(coverPoint.coverPos.position, velocity, 1.6f))
+        if (MoveToPosition(coverPoint.coverPos.position, velocityScale, 1.6f))
         {
-
             TakeCover();
             return true;
         }
         return false;
+    }
+    public bool MoveToTakeCover(float coverInRaduis, float velocityScale, float rotateTowardDirSpeedScale)
+    {
+        if (_enemy.coverPoint == null)
+        {
+            if (_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis, out CoverPoint coverPoint))
+            {
+                coverPoint.TakeThisCover(_enemy);
+            }
+            else
+                return false;
+        }
+        if (MoveToPositionRotateToward(_enemy.coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 0.5f))
+        {
+            TakeCover();
+            return true;
+        }
+        return false;
+
+
     }
     public bool SprintToCover(CoverPoint coverPoint)
     {

@@ -7,6 +7,11 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public Animator animator;
     public Enemy enemy;
 
+    private Vector3 inputVelocity_World;
+    private Vector3 inputVelocity_Local;
+    private Vector3 curVelocity_Local;
+    private Vector3 curVelocity_World;
+
     public float CoverWeight;
     public float SholderSide;//-1 -> 1
     public float InputMoveMagnitude_Normalized;
@@ -98,6 +103,8 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         
     }
+    [Range(0,50)]
+    [SerializeField] private float lerpingTvelocityAnimation;
     private void BackBoardUpdate()
     {
         this.enemyStance = enemy.enemyMovement.curStance;
@@ -108,40 +115,40 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
         IMovementCompoent movementComponent = enemy.enemyMovement;
-        Vector3 inputVelocity_World = movementComponent.moveInputVelocity_World;
-        Vector3 inputVelocity_Local = movementComponent.moveInputVelocity_Local;
-        Vector3 curVelocity_Local = movementComponent.curMoveVelocity_Local;
-        Vector3 curVelocity_World = movementComponent.curMoveVelocity_World;
 
-        this.InputMoveMagnitude_Normalized = inputVelocity_World.normalized.magnitude;
+        this.inputVelocity_World = Vector3.Lerp(this.inputVelocity_World,movementComponent.moveInputVelocity_World,Time.deltaTime*lerpingTvelocityAnimation);
+        this.inputVelocity_Local = Vector3.Lerp(this.inputVelocity_Local, movementComponent.moveInputVelocity_Local, Time.deltaTime * lerpingTvelocityAnimation);
+        this.curVelocity_Local = Vector3.Lerp(this.curVelocity_Local, movementComponent.curMoveVelocity_Local, Time.deltaTime * lerpingTvelocityAnimation);
+        this.curVelocity_World = Vector3.Lerp(this.curVelocity_World, movementComponent.curMoveVelocity_World, Time.deltaTime * lerpingTvelocityAnimation);
 
-        this.MoveInputLocalFoward_Normalized = inputVelocity_Local.normalized.z;
-        this.MoveInputLocalSideWard_Normalized = inputVelocity_Local.normalized.x;
+        this.InputMoveMagnitude_Normalized = this.inputVelocity_World.normalized.magnitude;
+        this.MoveInputLocalFoward_Normalized = this.inputVelocity_Local.normalized.z;
+        this.MoveInputLocalSideWard_Normalized = this.inputVelocity_Local.normalized.x;
 
 
-        this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(curVelocity_World.normalized
-            , inputVelocity_World.normalized) * (curVelocity_World.magnitude / inputVelocity_World.magnitude);
+        this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(this.curVelocity_World.normalized
+            , this.inputVelocity_World.normalized) * (this.curVelocity_World.magnitude / this.inputVelocity_World.magnitude);
 
         this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized,
-                Vector3.Dot(inputVelocity_World.normalized,
+                Vector3.Dot(this.inputVelocity_World.normalized,
                 Vector3.Cross(enemy.transform.forward, Vector3.up))
             , 10 * Time.deltaTime);
 
 
         if (enemy.enemyStateManagerNode.curNodeLeaf == enemy.enemyStateManagerNode.enemySprintState)
         {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.sprintMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy.sprintMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
+            this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / enemy.sprintMaxSpeed;
+            this.MoveVelocitySideward_Normalized = this.curVelocity_Local.x / enemy.sprintMaxSpeed;
 
             isSprint = true;
         }
         else
         {
 
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / enemy.moveMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / enemy.moveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / enemy.moveMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / enemy.moveMaxSpeed;
+            this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / enemy.moveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = this.curVelocity_Local.x / enemy.moveMaxSpeed;
 
             isSprint = false;
         }

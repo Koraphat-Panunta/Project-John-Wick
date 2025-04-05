@@ -40,7 +40,7 @@ public class SearchingTacticDecision : TacticDecision,IObserverEnemy
         {
             case EnemyTacticDecision.CombatPhase.Chill: 
                 {
-                    if (enemyCommand.MoveToPosition(searchingPos, 1, true))
+                    if (enemyCommand.MoveToPositionRotateToward(searchingPos, 1, 1))
                     {
                         enemyCommand.Freez();
 
@@ -59,7 +59,7 @@ public class SearchingTacticDecision : TacticDecision,IObserverEnemy
                 break;
             case EnemyTacticDecision.CombatPhase.Aware: 
                 {
-                    enemyCommand.MoveToPosition(enemy.targetKnewPos, 1, true);
+                    enemyCommand.MoveToPositionRotateToward(enemy.targetKnewPos, 1, 1);
                     enemyCommand.LowReady();
                 }
                 break;

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.Rendering;
 
 public class EnemyDirector : MonoBehaviour, IObserverEnemy
 {
@@ -31,28 +32,16 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
             eRole.enemy.AddObserver(this);
             debugEnemyDirector += "Add obsever " + eRole.enemy +"\n";
             this.enemysGetRole.Add(eRole.enemy, eRole);
+            eRole.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(eRole.enemyCommand, this, eRole);
         });
         assingTime = 0;
+        chaserShooterPoint = maxNumberChaserShooter;
+        overwatchShooterPoint = maxNumberOverwatchShooter;
     }
     // Update is called once per frame
     void Update()
     {
-        if (chaserCount < MAX_ChaserCount)
-        {
-            elapseTimeChaserChange -= Time.deltaTime;
-            if (elapseTimeChaserChange <= 0)
-            {
-                if (assingTime >= MAX_ChaserCount){
-                    elapseTimeChaserChange = chaserChangeDelay * 2;
-                    assingTime = 0;
-                }
-                else{
-                    assingTime += 1;
-                    elapseTimeChaserChange = chaserChangeDelay;
-                }
-                AssignChaser();
-            }
-        }
+       this.UpdateRoleManager();    
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
@@ -92,7 +81,28 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
        
 
     }
-    private void AssignChaser() //AutoChangeWhen Chaser < MaxChaser
+    private void UpdateRoleManager()
+    {
+        if (chaserCount < MAX_ChaserCount)
+        {
+            elapseTimeChaserChange -= Time.deltaTime;
+            if (elapseTimeChaserChange <= 0)
+            {
+                if (assingTime >= MAX_ChaserCount)
+                {
+                    elapseTimeChaserChange = chaserChangeDelay * 2;
+                    assingTime = 0;
+                }
+                else
+                {
+                    assingTime += 1;
+                    elapseTimeChaserChange = chaserChangeDelay;
+                }
+                AssignChaser();
+            }
+        }
+    }
+    private void AssignChaser() //AutoChangeWhen Chaser < MaxChaser find near target
     {
 
         EnemyRoleBasedDecision selectedEnemy = null;
@@ -174,6 +184,79 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
         this.overwatchCount = overwatchCount;
     }
 
+    #region Manage number of shooter 
+
+
+    [SerializeField] private int maxNumberChaserShooter;
+    [SerializeField] private int maxNumberOverwatchShooter;
+
+    [SerializeField] private float delayChaserShooterPoint;
+    [SerializeField] private float delayOverwatchShooterPoint;
+
+    [SerializeField] private int chaserShooterPoint;
+    [SerializeField] private int overwatchShooterPoint;
+
+    private Task taskUpdateChaserShooterPoint;
+    private Task taskUpdateOverwatchShooterPoint;
+
+
+    private async Task UpdatingChaserShooterPoint()
+    {
+        while(chaserShooterPoint < maxNumberChaserShooter)
+        {
+            float delay = delayChaserShooterPoint * 1000;
+            await Task.Delay((int)delay);
+            chaserShooterPoint++;
+        }
+
+        taskUpdateChaserShooterPoint = null;
+    }
+    private async Task UpdatingOverwatchShooterPoint()
+    {
+        while(overwatchShooterPoint < maxNumberOverwatchShooter)
+        {
+            float delay = delayOverwatchShooterPoint * 1000;
+            await Task.Delay((int)delay);
+            overwatchShooterPoint++;
+        }
+
+        taskUpdateOverwatchShooterPoint = null;
+    }
+
+    public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
+    {
+       EnemyActionNodeManager roleAction = enemyRoleBasedDecision.enemyActionNodeManager;
+        switch (roleAction)
+        {
+            case EnemyChaserRoleNodeManager enemyChaserRole:
+                {
+                    if (chaserShooterPoint > 0)
+                    {
+                        chaserShooterPoint -= 1;
+                        if (taskUpdateChaserShooterPoint == null)
+                            taskUpdateChaserShooterPoint = UpdatingChaserShooterPoint();
+                        return true;
+                    }
+                }
+                break;
+            case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
+                {
+                    
+
+                    if (overwatchShooterPoint > 0)
+                    {
+                        overwatchShooterPoint -= 1;
+                        if (taskUpdateOverwatchShooterPoint == null)
+                            taskUpdateOverwatchShooterPoint = UpdatingOverwatchShooterPoint();
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
+    }
+    #endregion
+
     //public void ClearEnemyAll()
     //{
     //    if(enemies.Count <= 0)
@@ -199,7 +282,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
     //    weapon.AttatchWeaponTo(enemy);
     //    CalcuateRoleCount();
     //}
-     
+
     private void OnValidate()
     {
         //enemyObjectPooling = FindAnyObjectByType<EnemyObjectPooling>();

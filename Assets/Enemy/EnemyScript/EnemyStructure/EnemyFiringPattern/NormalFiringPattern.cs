@@ -2,31 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalFiringPattern : IEnemyFiringPattern
+public class NormalFiringPattern : EnemyFiringPattern
 {
-    private Weapon curWeapon => enemy._currentWeapon;
-    private AmmoProuch ammoProuch => enemy.weaponBelt.ammoProuch;
+
     private double deltaFireTiming = 0;
     private double randomFireTiming = 0;
     private const float MAXRANG_TIMING_FIRE = 0.6f;
     private const float MINRANG_TIMING_FIRE = 0.25f;
-    private Enemy enemy;
-    private EnemyCommandAPI enemyController;
-    public NormalFiringPattern(EnemyCommandAPI enemyController)
-    {
-        this.enemy = enemyController._enemy;
-        this.enemyController = enemyController;
 
+    public override bool isReadyToShoot { get => deltaFireTiming >= randomFireTiming; set { } }
+
+    public NormalFiringPattern(EnemyCommandAPI enemyController) : base(enemyController)
+    {
         randomFireTiming = MAXRANG_TIMING_FIRE;
     }
-    public void Performing()
+    public override void Performing()
     {
         if (curWeapon == null)
             return;
 
         deltaFireTiming += Time.deltaTime;
 
-        if (deltaFireTiming < randomFireTiming)
+        if(isReadyToShoot == false)
+            return;
+
+        if(isShootAble == false)
             return;
 
         if (curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.bulletStore[BulletStackType.Chamber] <= 0)
@@ -60,28 +60,6 @@ public class NormalFiringPattern : IEnemyFiringPattern
         deltaFireTiming = 0;
         randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
     }
-    private void Shoot()
-    {
-
-        if (DetectObstacle(1))
-       return;
-        enemyController.PullTrigger();
-
-    }
-    private bool DetectObstacle(float distance)
-    {
-        int DefaultMask = LayerMask.GetMask("Default");
-        int BodyPartMask = LayerMask.GetMask("Enemy");
-        int GroundHitMask = LayerMask.GetMask("Ground");
-
-        LayerMask layerMask  = DefaultMask + BodyPartMask + GroundHitMask;
-        Ray ray = new Ray(enemy.rayCastPos.position,enemy.rayCastPos.forward);
-        Debug.DrawLine(enemy.rayCastPos.position, enemy.rayCastPos.forward*distance);
-        if (Physics.SphereCast(ray, 0.0015f, distance, layerMask))
-        {
-            return true;
-        }
-        
-        return false;
-    }
+   
 }
+

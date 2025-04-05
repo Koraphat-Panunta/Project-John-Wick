@@ -41,8 +41,9 @@ public class GuardingEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
-        if (enemyCommandAPI.MoveToPosition(destinate, enemy.moveMaxSpeed, true, 0.25f))
+        if (enemyCommandAPI.MoveToPositionRotateToward(destinate, enemy.moveMaxSpeed, 0.7f, 0.25f))
         {
+            enemyCommandAPI.Freez();
             waitiming -= Time.deltaTime;
             if (waitiming <= 0)
             {

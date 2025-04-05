@@ -13,7 +13,7 @@ public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
   
     public void Fire()
     {
-        Debug.Log("WeaponFireVFX");
+        //Debug.Log("WeaponFireVFX");
            
         muzzleVFX.SendEvent("OnPlay");
         

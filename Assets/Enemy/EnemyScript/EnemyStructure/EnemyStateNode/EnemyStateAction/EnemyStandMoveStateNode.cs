@@ -33,7 +33,12 @@ public class EnemyStandMoveStateNode : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        this.enemyMovement.MoveToDirWorld(enemy.moveInputVelocity_WorldCommand, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        Debug.Log("enemy curVelocity = " + enemyMovement.curMoveVelocity_Local);
+        Debug.Log("enemy moveInputVelocity_WorldCommand = " + enemy.moveInputVelocity_WorldCommand);
+        Debug.Log("enemy moveAccelerate = " + enemy.moveAccelerate);
+        Debug.Log("enemy moveMaxSpeed = " + enemy.moveMaxSpeed);
+
+        this.enemyMovement.MoveToDirWorld(enemy.moveInputVelocity_WorldCommand, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
         this.enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.moveRotateSpeed);
 
         base.FixedUpdateNode();
