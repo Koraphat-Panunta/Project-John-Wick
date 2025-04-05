@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
 
-public class EnemyDirector : MonoBehaviour, IObserverEnemy
+public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 {
 
     [SerializeField] protected List<EnemyRoleBasedDecision> enemiesRole = new List<EnemyRoleBasedDecision>();
@@ -25,6 +25,12 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
     [SerializeField] private int assingTime;
 
     [SerializeField, TextArea] private string debugEnemyDirector;
+
+    [SerializeField] private Player player;
+    private void Awake()
+    {
+        player.AddObserver(this);
+    }
     private void Start()
     {
         enemiesRole.ForEach(eRole => 
@@ -193,8 +199,11 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
 
     private Task taskUpdateChaserShooterPoint;
     private Task taskUpdateOverwatchShooterPoint;
+    private Task taskUpdateYieldAllShooterOnPlayerAim;
 
-
+    [SerializeField] private float yieldShooterOnPlayerAim;
+    [SerializeField] private float delayYieldShooterOnPlayerAim;
+    [SerializeField] private bool isYieldAllShooter;
     private async Task UpdatingChaserShooterPoint()
     {
         while(chaserShooterPoint < maxNumberChaserShooter)
@@ -217,10 +226,26 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
 
         taskUpdateOverwatchShooterPoint = null;
     }
+    private async Task UpdatingYieldAllShooterOnPlayerAim()
+    {
+       
+        isYieldAllShooter = true;
+        Debug.Log("isYieldAllShooter = true;");
+        float delay = yieldShooterOnPlayerAim * 1000;
+        await Task.Delay((int)delay);
+        isYieldAllShooter = false;
+        Debug.Log("isYieldAllShooter = false;");
+        await Task.Delay((int)delayYieldShooterOnPlayerAim * 1000);
 
+        taskUpdateYieldAllShooterOnPlayerAim = null;
+        Debug.Log("taskUpdateYieldAllShooterOnPlayerAim = null;");
+    }
     public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
        EnemyActionNodeManager roleAction = enemyRoleBasedDecision.enemyActionNodeManager;
+        if (isYieldAllShooter)
+            return false;
+
         switch (roleAction)
         {
             case EnemyChaserRoleNodeManager enemyChaserRole:
@@ -280,8 +305,25 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
 
     private void OnValidate()
     {
+        player = FindAnyObjectByType<Player>();
         //enemyObjectPooling = FindAnyObjectByType<EnemyObjectPooling>();
         //weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
+    }
+
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+
+        if (playerAction == SubjectPlayer.PlayerAction.Aim)
+        {
+            Debug.Log("Player Aiming form Enemy Directir");
+            if (taskUpdateYieldAllShooterOnPlayerAim == null)
+                taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();
+        }
+    }
+
+    public void OnNotify(Player player)
+    {
+        
     }
 
     //public Action<Enemy> OnEnemyBeenEliminate;
