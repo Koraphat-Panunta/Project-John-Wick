@@ -30,7 +30,17 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
 
         enemyAlertActionSelectorNode = new EnemyActionSelectorNode(enemy,enemyCommandAPI,()=>true);
         moveToCombatZone = new MoveToTheZoneEnemyActionNodeLeaf(enemy, enemyCommandAPI,
-            () => moveToCombatZone.assignZone.IsPositionInTheZone(enemy.transform.position) == false, this, targetZone);
+            () =>
+            { 
+                if(Vector3.Distance(targetZone.zonePosition,enemy.transform.position)<targetZone.raduis*(enegyWithIn/100))
+                    return false;
+
+                if(moveToCombatZone.assignZone.IsPositionInTheZone(enemy.transform.position) == false)
+                return true;
+                
+                return false;    
+            }
+            , this, targetZone);
         approuchingTargetEnemyActionNodeLeaf = new ApprouchingTargetEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=> enegyWithIn >= yingYang,this);
         takeCoverEnemyActionNodeLeaf = new TakeCoverEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => 

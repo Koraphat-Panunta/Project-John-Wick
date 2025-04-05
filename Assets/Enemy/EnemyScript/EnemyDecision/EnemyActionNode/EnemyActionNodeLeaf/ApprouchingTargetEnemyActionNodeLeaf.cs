@@ -55,7 +55,7 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
 
         if (curvePath._curvePoint.Count > 0)
-            if (enemyCommandAPI.MoveToPosition(curvePath._curvePoint.Peek(), 1))
+            if (enemyCommandAPI.MoveToPosition(curvePath._curvePoint.Peek(), 1,2.25f))
             {
                 enemyCommandAPI.Freez();
                 curvePath._curvePoint.Dequeue();

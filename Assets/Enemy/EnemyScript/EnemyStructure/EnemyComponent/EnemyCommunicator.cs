@@ -22,14 +22,14 @@ public class EnemyCommunicator : Communicator
 
         if (target.Length <= 0)
             return;
-        Debug.Log("SendCommunicate 2");
+        //Debug.Log("SendCommunicate 2");
         foreach (Collider collider in target) 
         {
-            Debug.Log("SendCommunicate 3" + collider);
+            //Debug.Log("SendCommunicate 3" + collider);
             if (collider.gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble)
                 && communicateAble.communicateAble != enemy)
             {
-                Debug.Log("SendCommunicate 4" + communicateAble);
+                //Debug.Log("SendCommunicate 4" + communicateAble);
                 communicateAble.GetCommunicate<EnemyCommunicator>(this);
             }
         }

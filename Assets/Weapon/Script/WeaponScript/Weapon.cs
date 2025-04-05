@@ -199,16 +199,12 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             if (userWeapon is Player)
             {
                 Player p = userWeapon as Player;
-                p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
-                p.animator.Rebind();  // Force update
-                p.animator.Update(0); // Ensure instant sync
+                WeaponAnimatorOverrider.OverrideAnimator(p.animator, _weaponOverrideControllerPlayer);
             }
             if (userWeapon is Enemy)
             {
                 Enemy enemy = userWeapon as Enemy;
-                enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
-                enemy.animator.Rebind();
-                enemy.animator.Update(0);
+                WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
             }
             userWeapon._currentWeapon = null;
         }

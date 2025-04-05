@@ -8,8 +8,25 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private float elapseCoverTime;
     private float coverTimePerRound = 6;
     private float peekTime =2.5f;
+
+    private float coverPointThreatDistance = 1.25f;
     public TakeCoverEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
     {
+    }
+    public override bool IsReset()
+    {
+        Vector3 dirTotargetKnow = enemy.targetKnewPos - coverPoint.coverPos.position;
+
+        float coverDirDotTargetDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, dirTotargetKnow);
+        float coverDirDotCoverDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, coverPoint.coverDir * this.coverPointThreatDistance);
+
+        Debug.Log("coverDirDotTargetDir = " + coverDirDotTargetDir);
+        Debug.Log("coverDirDotCoverDir = " + coverDirDotCoverDir);
+
+        if(coverDirDotTargetDir < coverDirDotCoverDir)
+            return true;
+
+        return base.IsReset();
     }
     public override void Exit()
     {
@@ -28,17 +45,10 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
         if (enemy.isInCover == false)
         {
-            //if (Vector3.Dot(enemyToTarget, enemyToCover) > 6.5f)
-            //{
-            //    enemyCommandAPI.SprintToCover(enemy.coverPoint);
-            //    enemyCommandAPI.LowReady();
-            //}
-            //else
-            //{
+           
                 enemyCommandAPI.MoveToTakeCover(this.coverPoint, 1);
                 enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                 enemyCommandAPI.NormalFiringPattern.Performing();
-            //}
         }
         else
         {

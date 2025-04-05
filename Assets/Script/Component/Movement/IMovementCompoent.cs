@@ -53,10 +53,6 @@ public class MovementComponentBehavior
                 break;
             case IMovementCompoent.MoveMode.IgnoreMomenTum:
                 {
-                    Debug.Log("movementCompoent curMoveVelocity_World = "+ movementCompoent.curMoveVelocity_World);
-                    Debug.Log("movementCompoent moveInputVelocity_World = " + movementCompoent.moveInputVelocity_World);
-                    Debug.Log("maxSpeed = " + maxSpeed);
-                    Debug.Log("speed = " + speed);
                     movementCompoent.curMoveVelocity_World = movementCompoent.moveInputVelocity_World
                         * Mathf.Lerp(movementCompoent.curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
                 }

@@ -6,6 +6,7 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
     public ZoneDefine assignZone;
     private Vector3 destinateInZone;
+
     public MoveToTheZoneEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager, ZoneDefine assignZone) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
     {
         this.assignZone = assignZone;

@@ -45,18 +45,15 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        Debug.Log("Enemy = " + enemy + "EnemyEvent = " + enemyEvent + "\n");
         debugEnemyDirector += "Enemy = " + enemy + "EnemyEvent = " + enemyEvent + "\n";
         if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
         {
             debugEnemyDirector += "Enter Dead" + "\n";
-            Debug.Log("Enter Dead" + "\n");
             enemy.RemoveObserver(this);
             enemiesRole.Remove(enemysGetRole[enemy]);
             enemysGetRole.Remove(enemy);
             elapseTimeChaserChange = chaserChangeDelay;
             CalcuateRoleCount();
-            Debug.Log("Enter Dead" + "\n");
             debugEnemyDirector += "Exit Dead" + "\n";
             return;
         }
@@ -69,12 +66,10 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
         else if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
         {
             debugEnemyDirector += "Enter Hit" + "\n";
-            Debug.Log("Enter Hit" + "\n");
             if (enemy._posture <= enemy._postureHeavy)
             {
                 AssignChaser(enemysGetRole[enemy]);
             }
-            Debug.Log("Exit Hit" + "\n");
             debugEnemyDirector += "Exit Hit" + "\n";
         }
 

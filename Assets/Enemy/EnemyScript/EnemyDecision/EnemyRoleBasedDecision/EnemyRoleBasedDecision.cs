@@ -43,7 +43,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         enemy.AddObserver(this);
         _targetZone = new ZoneDefine(Vector3.zero, 8.5f);
 
-        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,5,8.5f);
+        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,2.5f,5f);
         chaserRoleNodeManager.InitailizedNode();
 
         overwatchRoleNodeManager = new EnemyOverwatchRoleNodeManager(enemy, enemyCommand, this, 5, 8.5f);

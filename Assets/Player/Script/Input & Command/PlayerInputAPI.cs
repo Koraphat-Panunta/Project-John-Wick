@@ -76,23 +76,19 @@ public class PlayerInputAPI : MonoBehaviour
     {
         if (context.interaction is HoldInteraction)
         {
-            Debug.Log("context.interaction is HoldInteraction");
             player._triggerExecuteGunFu = true;
         }
         else if(context.interaction is PressInteraction)
         {
-            Debug.Log("context.interaction is PressInteraction");
             player._triggerGunFu = true;
         }
 
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)
     {
-        Debug.Log("ToggleCrouchStand");
 
         if (context.performed)
         {
-            Debug.Log("ToggleCrouchStand performed");
             
 
             switch ( player.playerStance) 
