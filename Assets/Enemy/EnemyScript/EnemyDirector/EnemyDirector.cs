@@ -21,70 +21,75 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
     [SerializeField] public float chaserChangeDelay;
     private float elapseTimeChaserChange;
 
+    [SerializeField] private int assingTime;
 
+    [SerializeField, TextArea] private string debugEnemyDirector;
+    private void Start()
+    {
+        enemiesRole.ForEach(eRole => 
+        { 
+            eRole.enemy.AddObserver(this);
+            debugEnemyDirector += "Add obsever " + eRole.enemy +"\n";
+            this.enemysGetRole.Add(eRole.enemy, eRole);
+        });
+        assingTime = 0;
+    }
     // Update is called once per frame
     void Update()
     {
-        //if(chaserCount < MAX_ChaserCount)
-        //{
-        //    elapseTimeChaserChange -= Time.deltaTime;
-        //    if(elapseTimeChaserChange <= 0)
-        //    {
-        //        elapseTimeChaserChange = chaserChangeDelay;
-        //        AssignChaser();
-        //    }
-        //}
-    }
-
-    private Task taskUpdatingEnemyRoleManager;
-    private async Task UpdatingEnemyRoleManagerTask()
-    {
-        while (chaserCount < MAX_ChaserCount)
+        if (chaserCount < MAX_ChaserCount)
         {
-            if (allEnemiesAliveCount <= 0)
-                break;
             elapseTimeChaserChange -= Time.deltaTime;
             if (elapseTimeChaserChange <= 0)
             {
-                elapseTimeChaserChange = chaserChangeDelay;
+                if (assingTime >= MAX_ChaserCount){
+                    elapseTimeChaserChange = chaserChangeDelay * 2;
+                    assingTime = 0;
+                }
+                else{
+                    assingTime += 1;
+                    elapseTimeChaserChange = chaserChangeDelay;
+                }
                 AssignChaser();
             }
-            await Task.Yield();
         }
     }
-
-    [SerializeField, TextArea]
-    private string enemyDirectorDebugLog;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
-            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
+        Debug.Log("Enemy = " + enemy + "EnemyEvent = " + enemyEvent + "\n");
+        debugEnemyDirector += "Enemy = " + enemy + "EnemyEvent = " + enemyEvent + "\n";
+        if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
         {
-            AssignChaser(enemysGetRole[enemy]);
-        }
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
-        {
-            if (enemy._posture <= enemy._postureHeavy)
-            {
-                AssignChaser(enemysGetRole[enemy]);
-            }
-        }
-
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Dead) 
-        {
+            debugEnemyDirector += "Enter Dead" + "\n";
+            Debug.Log("Enter Dead" + "\n");
             enemy.RemoveObserver(this);
             enemiesRole.Remove(enemysGetRole[enemy]);
             enemysGetRole.Remove(enemy);
             elapseTimeChaserChange = chaserChangeDelay;
-            if (this.taskUpdatingEnemyRoleManager == null)
-            {
-                this.taskUpdatingEnemyRoleManager = UpdatingEnemyRoleManagerTask();
-            }
             CalcuateRoleCount();
-            OnEnemyBeenEliminate.Invoke(enemy);
-            enemyDirectorDebugLog += enemy+" is dead";
-
+            Debug.Log("Enter Dead" + "\n");
+            debugEnemyDirector += "Exit Dead" + "\n";
+            return;
         }
+
+        if (enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
+            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
+        {
+            AssignChaser(enemysGetRole[enemy]);
+        }
+        else if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
+        {
+            debugEnemyDirector += "Enter Hit" + "\n";
+            Debug.Log("Enter Hit" + "\n");
+            if (enemy._posture <= enemy._postureHeavy)
+            {
+                AssignChaser(enemysGetRole[enemy]);
+            }
+            Debug.Log("Exit Hit" + "\n");
+            debugEnemyDirector += "Exit Hit" + "\n";
+        }
+
+       
 
     }
     private void AssignChaser() //AutoChangeWhen Chaser < MaxChaser
@@ -98,11 +103,16 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
             if (enemiesRole[i].enemyActionNodeManager == enemiesRole[i].chaserRoleNodeManager)
                 continue;
 
+            if (enemiesRole[i]._curCombatPhase != IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
+                continue;
+
             if (selectedEnemy == null)
             {
                 selectedEnemy = enemiesRole[i];
                 continue;
             }
+
+          
 
             if (Vector3.Distance(enemiesRole[i].enemy.targetKnewPos, enemiesRole[i].enemy.transform.position) <
                 Vector3.Distance(selectedEnemy.enemy.targetKnewPos, selectedEnemy.enemy.transform.position)
@@ -196,5 +206,5 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy
         //weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
     }
 
-    public Action<Enemy> OnEnemyBeenEliminate;
+    //public Action<Enemy> OnEnemyBeenEliminate;
 }

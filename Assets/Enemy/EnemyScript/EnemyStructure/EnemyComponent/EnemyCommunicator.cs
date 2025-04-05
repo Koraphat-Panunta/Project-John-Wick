@@ -18,7 +18,7 @@ public class EnemyCommunicator : Communicator
         this.enemyCommunicateMassage = enemyCommunicateMassage;
         Collider[] target = Physics.OverlapSphere(position, raduis,layerMask.value);
 
-        Debug.Log("Layer = " + layerMask.value);
+        //Debug.Log("Layer = " + layerMask.value);
 
         if (target.Length <= 0)
             return;

@@ -126,16 +126,12 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         if(WeaponUser is Player)
         {
             Player p = WeaponUser as Player;
-            p.animator.runtimeAnimatorController = _weaponOverrideControllerPlayer;
-            p.animator.Rebind();  // Force update
-            p.animator.Update(0); // Ensure instant sync
+            WeaponAnimatorOverrider.OverrideAnimator(p.animator, _weaponOverrideControllerPlayer);
         }
         if(WeaponUser is Enemy)
         {
             Enemy enemy = WeaponUser as Enemy;
-            enemy.animator.runtimeAnimatorController = _weaponOverrideControllerEnemy;
-            enemy.animator.Rebind();
-            enemy.animator.Update(0);
+            WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
         }
         if(this is PrimaryWeapon){
             if (WeaponUser.weaponBelt.primaryWeapon == null)
@@ -279,16 +275,12 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                 if (userWeapon is Player)
                 {
                     Player p = userWeapon as Player;
-                    p.animator.runtimeAnimatorController = userWeapon._animatorOverride;
-                    p.animator.Rebind();  // Force update
-                    p.animator.Update(0); // Ensure instant sync
+                    WeaponAnimatorOverrider.OverrideAnimator(p.animator, _weaponOverrideControllerPlayer);
                 }
                 if (userWeapon is Enemy)
                 {
                     Enemy enemy = userWeapon as Enemy;
-                    enemy.animator.runtimeAnimatorController = userWeapon._animatorOverride;
-                    enemy.animator.Rebind();
-                    enemy.animator.Update(0);
+                    WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerPlayer);
                 }
             }
             userWeapon._currentWeapon = null;

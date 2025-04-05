@@ -41,6 +41,15 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
+        gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
+        gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
+
+        missionCompleteUICanvas.continueButton.onClick.AddListener(TriggerContinue);
+        missionCompleteUICanvas.restartButton.onClick.AddListener(TriggerRestert);
+
+        pauseCanvasUI.resume.onClick.AddListener(Resume);
+        pauseCanvasUI.exit.onClick.AddListener(TriggerExit);
+
         base.Awake();
     }
     protected override void Start()
@@ -122,23 +131,19 @@ public abstract class InGameLevelGameMaster : GameMaster
     private void OnValidate()
     {
         user = FindAnyObjectByType<User>();
+
         player = FindAnyObjectByType<Player>();
 
         openingUICanvas = FindAnyObjectByType<OpeningUICanvas>();
+
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
 
         gameOverUICanvas = FindAnyObjectByType<GameOverUICanvas>(FindObjectsInactive.Include);
-        gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
-        gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
 
         missionCompleteUICanvas = FindAnyObjectByType<MissionCompleteUICanvas>(FindObjectsInactive.Include);
-        missionCompleteUICanvas.continueButton.onClick.AddListener(TriggerContinue);
-        missionCompleteUICanvas.restartButton.onClick.AddListener(TriggerRestert);
-
+       
         pauseCanvasUI = FindAnyObjectByType<PauseUICanvas>(FindObjectsInactive.Include);
-        pauseCanvasUI.resume.onClick.AddListener(Resume);
-        pauseCanvasUI.exit.onClick.AddListener(TriggerExit);
-
+       
     }
 }
 public interface IGameLevelMasterObserver

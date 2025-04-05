@@ -86,7 +86,6 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
             case TransitionPhase.Switch:
                 {
                     curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-                    curWeapon = primaryWeapon;
                     primaryWeapon.AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
 
                     weaponAfterAction.SwitchingWeapon(curWeapon, this);
@@ -96,11 +95,14 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.GripingPrimaryWeapon:
                 {
-                    weaponAdvanceUser._currentWeapon.AttatchWeaponTo(weaponAdvanceUser);
+
                     weaponAfterAction.SwitchingWeapon(curWeapon, this);
 
                     if (elapsTime >= /*(1 / curWeapon.drawSpeed)*/ holsterSecondaryWeaponTime + drawPrimaryWeaponTime)
+                    {
+                        curWeapon.AttatchWeaponTo(weaponAdvanceUser);
                         isComplete = true;
+                    }
                 }
                 break;
         }

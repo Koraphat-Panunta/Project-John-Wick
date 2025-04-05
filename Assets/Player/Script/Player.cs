@@ -14,7 +14,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
-    public CinemachineCamera executeCinemachineCamera;
     public Character selfNPCTarget => this;
 
     [SerializeField] public bool isImortal;

@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 {
     [SerializeField] public CinemachineBrain cinemachineBrain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
-    [SerializeField] public ThirdPersonCinemachineCamera executeThirdPersonCinemachineCameara;
     private List<CinemachineCamera> allCinemachine = new List<CinemachineCamera>(); 
     [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
     [SerializeField] public CinemachineImpulseSource impulseSource;
@@ -50,7 +49,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     private void Awake()
     {
         allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
-        allCinemachine.Add(executeThirdPersonCinemachineCameara.cinemachineCamera);
 
         curStance = player.playerStance;
         curSide = player.curShoulderSide;
@@ -87,7 +85,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     private void FixedUpdate()
     {
         inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
-        Debug.Log("Input = " + player.inputLookDir_Local);
         cameraManagerNode.FixedUpdateNode();
     }
     [SerializeField] private float cameraKickbackMultiple;
@@ -126,7 +123,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
-            cameraImpluse.Performed();
+            cameraImpluse.Performed(-0.2f);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.Sprint)
@@ -168,6 +165,5 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     {
         this.player = FindAnyObjectByType<Player>();
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
-        executeThirdPersonCinemachineCameara = player.executeCinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
 }

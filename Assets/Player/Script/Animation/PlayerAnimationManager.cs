@@ -236,9 +236,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if(player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
             {
                 if (player._currentWeapon is PrimaryWeapon)
-                    animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.2f,0,0);
+                    animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.3f,0,0);
                 if (player._currentWeapon is SecondaryWeapon)
-                    animator.CrossFade("GunFu_EX_Knee", 0.2f, 0, 0);
+                    animator.CrossFade("GunFu_EX_Knee", 0.3f, 0, 0);
             }
 
             if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm)
@@ -329,7 +329,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             switch (quickDrawPhase)
             {
-                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:animator.CrossFade("QuickDraw",0.7f,1);
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:animator.CrossFade("QuickDraw",0.1f,1);
                     break;
 
                 case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary: animator.CrossFade("QuickHolster", 0.1f, 1);

@@ -98,7 +98,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     multiAim.data.offset = Vector3.Lerp(beforeEnter_AimProcedural, new Vector3(48f, 0f, 0f), elapseDrawTime/drawAim);
 
                     if (elapseDrawTime >= drawGrab)
-                        (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
+                        (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
 
                     if (elapseDrawTime >= drawAim)
                     {

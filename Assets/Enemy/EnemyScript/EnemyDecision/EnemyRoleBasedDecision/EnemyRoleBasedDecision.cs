@@ -14,7 +14,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     [Range(0, 100)]
     [SerializeField]private float raduisTargetZone;
     public IEnemyActionNodeManagerImplementDecision.CombatPhase _curCombatPhase { get ; set ; }
-    public IEnemyActionNodeManagerImplementDecision.CombatPhase CombatPhase;
+    public IEnemyActionNodeManagerImplementDecision.CombatPhase CombatPhase;//Let Editor See
 
     [Range(0,100)]
     [SerializeField]private float YingYang;

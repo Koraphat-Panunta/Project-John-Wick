@@ -14576,11 +14576,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1274338113}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &373444733
+CanvasRenderer:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_CullTransparentMesh: 1
 --- !u!1 &375173687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 995a15a3c3d0cbd458abb0680313dd6b,
@@ -58861,7 +58869,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraOffset
       value: 
-      objectReference: {fileID: 1998008380}
+      objectReference: {fileID: 0}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: impulseSource
@@ -77051,18 +77059,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1518249098}
   m_SourcePrefab: {fileID: 100100000, guid: 139c6d6c0824f634e8b0a84e501ee0fc, type: 3}
---- !u!114 &1998008380 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 203465767362645456, guid: 7610df03b6259ea409d446dc8358715b,
-    type: 3}
-  m_PrefabInstance: {fileID: 905983877}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1999181696 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2699692598343098342, guid: 43aeaba8504697b418529e824aafd874,
@@ -78066,7 +78062,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.016666668
+  m_VoxelSize: 0.096666664
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e0d79358f2d6bd841881ed9736d92c12, type: 2}
   m_BuildHeightMesh: 0

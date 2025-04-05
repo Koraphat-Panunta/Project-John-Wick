@@ -11,7 +11,7 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
     public float widthIndicatorPos;
     public List<Indicator> hitIndicators = new List<Indicator>();
 
-    private bool isEnable;
+    [SerializeField] private bool isEnable;
 
     private void Awake()
     {
@@ -61,10 +61,10 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
         this.player = FindAnyObjectByType<Player>();
     }
 
-    public override void EnableUI() => this.enabled = true;
+    public override void EnableUI() => isEnable = true;
     
 
-    public override void DisableUI() => this.enabled = false;
+    public override void DisableUI() => isEnable = false;
    
 }
 
