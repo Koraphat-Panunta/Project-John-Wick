@@ -957,8 +957,9 @@ MonoBehaviour:
   curNodeName: 
   hipLegSpace: 0.24
   StepHeight: 0.39
-  StepDistacne: 0.71
-  StepVelocity: 4.2
+  StepDistacne: 0.45
+  StepVelocity: 5.2
+  FootstepPlacementOffsetDistance: 0.35
 --- !u!1 &5567671712728705941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,7 +1322,6 @@ MonoBehaviour:
   startWeapon: {fileID: 521215783090903122, guid: e08ae2fdefb857443b186d66db18d1fb,
     type: 3}
   forceSave: {x: 0, y: 0, z: 0}
-  cost: 0
   myHP: 0
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
