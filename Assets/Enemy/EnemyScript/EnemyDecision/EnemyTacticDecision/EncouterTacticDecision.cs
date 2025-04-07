@@ -33,8 +33,8 @@ public class EncouterTacticDecision : TacticDecision
 
     public override void Update()
     {
-        enemy.cost -= cost_DrainRate * Time.deltaTime;
-        if (enemy.cost < exitTacticCost/*&&enemyBody.cost > Vector3.Distance(enemyBody.transform.position,enemyBody.Target.transform.position)*2*/)
+        enemyTacticDecision.cost -= cost_DrainRate * Time.deltaTime;
+        if (enemyTacticDecision.cost < exitTacticCost/*&&enemyBody.cost > Vector3.Distance(enemyBody.transform.position,enemyBody.Target.transform.position)*2*/)
         {
             if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
             {

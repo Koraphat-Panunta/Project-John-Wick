@@ -45,10 +45,10 @@ public class TakeCoverTacticDecision : TacticDecision
     public override void Update()
     {
 
-        enemy.cost += cost_DrainRate * Time.deltaTime;
+        enemyTacticDecision.cost += cost_DrainRate * Time.deltaTime;
         if (enemy._isPainTrigger || enemy._triggerHitedGunFu)
-            enemy.cost += 30;
-        if (enemy.cost > exitTacticCost)
+            enemyTacticDecision.cost += 30;
+        if (enemyTacticDecision.cost > exitTacticCost)
         {
             enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
             return ;
@@ -101,7 +101,7 @@ public class TakeCoverTacticDecision : TacticDecision
 
         if (Vector3.Dot(coverPoint.coverDir.normalized,
             (enemy.targetKnewPos - enemy.transform.position).normalized) <= 0)
-            enemy.cost += 100 * Time.deltaTime;
+            enemyTacticDecision.cost += 100 * Time.deltaTime;
 
         if (coverTiming > 5)
             coverTiming = 0;

@@ -10,6 +10,11 @@ public class EnemyTacticDecision : EnemyDecision
     public HoldingTacticDecision holdingTacticDecision { get; private set; }
     public TakeCoverTacticDecision takeCoverTacticDecision { get; private set; }
 
+
+    public readonly float maxCost = 100;
+    public readonly float lowestCost = 0;
+    public float cost;
+
     public enum CombatPhase
     {
         Chill,
@@ -37,6 +42,7 @@ public class EnemyTacticDecision : EnemyDecision
     }
     protected override void Start()
     {
+        cost = Random.Range(50, 70);
         base.Start();
     }
 

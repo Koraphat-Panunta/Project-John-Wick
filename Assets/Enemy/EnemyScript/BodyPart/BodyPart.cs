@@ -32,6 +32,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     }
     protected Rigidbody bodyPartRigid;
     public IGunFuNode curAttackerGunFuNode { get => enemy.curAttackerGunFuNode; set => enemy.curAttackerGunFuNode = value; }
+    public bool _isGotAttackedAble { get => enemy._isGotAttackedAble; set => enemy._isGotAttackedAble = value ; }
+    public bool _isGotExecutedAble { get => enemy._isGotExecutedAble; set => enemy._isGotExecutedAble = value; }
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get => enemy.curFriendlyFireMode; set => enemy.curFriendlyFireMode = value; }
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
