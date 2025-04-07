@@ -28,6 +28,10 @@ public abstract class EnemyDecision : MonoBehaviour
     }
     protected abstract void OnNotifyHearding(INoiseMakingAble noiseMaker);
     protected abstract void OnNotifySpottingTarget(GameObject target);
-     
-    
+    protected virtual void OnValidate()
+    {
+        enemy = GetComponent<Enemy>();
+    }
+
+
 }

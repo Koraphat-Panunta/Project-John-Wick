@@ -60,6 +60,17 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             is_Layer1_Enable = false;
         }
 
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GunFuEnter
+            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuAttack
+            )
+        {
+            is_Layer1_Enable = false;
+            if(enemy.enemyStateManagerNode.curNodeLeaf is EnemySpinKickGunFuNodeLeaf spinKick)
+            {
+                animator.CrossFade("EnemySpinKick", 0.05f, 0);
+            }
+        }
+
         if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
         {
             if ((enemy._currentWeapon.currentEventNode as TacticalReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)

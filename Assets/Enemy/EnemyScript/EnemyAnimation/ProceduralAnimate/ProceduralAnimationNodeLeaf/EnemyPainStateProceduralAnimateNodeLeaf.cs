@@ -22,9 +22,15 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
     protected Transform hipTransform => proceduralAnimateNodeManager.centre;
     protected float hipLegsSpace => proceduralAnimateNodeManager.hipLegSpace;
 
-    protected float stepDistance => proceduralAnimateNodeManager.StepDistacne * Mathf.Clamp(curVelocity.magnitude,0.1f,2);
+    protected float stepDistance => proceduralAnimateNodeManager.StepDistacne * Mathf.Clamp(curVelocity.magnitude,0.1f,1.2f);
     protected float stepHeight => proceduralAnimateNodeManager.StepHeight;
-    protected float stepSpeed => proceduralAnimateNodeManager.StepVelocity * curVelocity.magnitude;
+    protected float stepSpeed { 
+        get 
+        { 
+            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude,0.1f,2.5f);
+            proceduralAnimateNodeManager.enemyProceduralAnimateNodeManagerDebug = "stepSpeed = " + stepSpeed + "\n";
+            return stepSpeed;
+        } }
 
     private float maxOffset = 1.5f;
     protected Vector3 footplacementOffsetDistance => Vector3.ClampMagnitude(proceduralAnimateNodeManager.FootstepPlacementOffsetDistance * curVelocity,maxOffset);

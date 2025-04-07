@@ -80,21 +80,34 @@ public class GunFuDetectTarget : MonoBehaviour
             return false;
         }
     } // Called form player
+    private Vector3 curPositionVolume;
+    private float curRaduis;
     public bool CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> target,Vector3 positionVolume,float raduis)
     {
 
         target = new List<IGunFuGotAttackedAble>();
-        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, gunFuAble._layerTarget);
+        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, gunFuAble._layerTarget.value);
+
+        gunFuDetectTargetDebug += "layerTarget = " + gunFuAble._layerTarget.value + "\n";
+
+        curPositionVolume = positionVolume;
+        curRaduis = raduis;
 
         foreach (Collider item in colliders)
         {
+            gunFuDetectTargetDebug += "in collider = " + item +"0 \n";
+
             if (item.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
-            if(gunFuGotAttackedAble._isDead
+            gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
+
+            if (gunFuGotAttackedAble._isDead
                 || gunFuGotAttackedAble._isGotAttackedAble == false
                 || gunFuGotAttackedAble == gunFuAble)
                 continue;
+
+            gunFuDetectTargetDebug += "in collider = " + item + "2 \n";
 
             target.Add(gunFuGotAttackedAble);
         }
@@ -159,11 +172,18 @@ public class GunFuDetectTarget : MonoBehaviour
 
         return casrDir;
     }
+    private void OnValidate()
+    {
+        gunFuAble = GetComponent<IGunFuAble>();
+    }
 
     [SerializeField] private bool EnableDebug;
     private void OnDrawGizmos()
     {
        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(curPositionVolume, curRaduis);
+
         if (EnableDebug == false)
             return;
 
@@ -181,6 +201,7 @@ public class GunFuDetectTarget : MonoBehaviour
         
         Gizmos.DrawLine(_castTransform.position, sphrerPos);
         Gizmos.DrawWireSphere(sphrerPos,  this.Shpere_Raduis_Detecion);
+
 
     }
 }

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: EnemySpinKickScriptable
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpinKickScriptable
+  animationClip: {fileID: 7400000, guid: dadcf2edc11dd4d4ba769968e5c15fb3, type: 2}
+  _pushForwardTimeNormalized: 0.19
+  _hitTimeEnterNormalized: 0.44
+  _hitTimeExitNormalized: 0.5
+  _onGroundTimeNormalized: 0.592
+  _stopRotatingTimeNormalized: 0.326
+  _pushForce: 3.54
+  _spicKickRotateSpeed: 5.2
+  _distanceCastVolume: 1
+  _upperCastOffsetVolume: 0.72
+  _raduisSphereVolume: 0.42
+  _stopingForceOnGround: 12.5
+  _stopForceBeginStance: 2.6

@@ -955,6 +955,7 @@ MonoBehaviour:
   rightLeg: {fileID: 2128812721851897517}
   enemy: {fileID: 2619394019457856660}
   curNodeName: 
+  enemyProceduralAnimateNodeManagerDebug: 
   hipLegSpace: 0.24
   StepHeight: 0.39
   StepDistacne: 0.45
@@ -1184,6 +1185,7 @@ GameObject:
   - component: {fileID: 6689373605689767352}
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
+  - component: {fileID: 7512234974047621189}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1369,6 +1371,8 @@ MonoBehaviour:
   pushUpClip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
   hipsBone: {fileID: 2724998908371769539}
   rootModel: {fileID: 6185366314506669569}
+  EnemySpinKickScriptable: {fileID: 11400000, guid: e7f9d54d93dcbd145964a6b83209290c,
+    type: 2}
   GotHit1: {fileID: 11400000, guid: 89beee9d80c7879458e06b1798e56702, type: 2}
   GotHit2: {fileID: 11400000, guid: 1ce782e84fbdb0841a7650776df1f2c5, type: 2}
   KnockDown: {fileID: 11400000, guid: 4bfe2469bdaf93a4aaa0d9e60241e9f2, type: 2}
@@ -1803,6 +1807,24 @@ MonoBehaviour:
     type: 3}
   SpawnForceUp: 2.8
   SpawnForceSide: 3.1
+--- !u!114 &7512234974047621189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3eeef3d6a140394fb74d0e7d24c7d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CastTransform: {fileID: 6454910191179571215}
+  LimitAimAngleDegrees: 44.6
+  Shpere_Raduis_Detecion: 0.45
+  Shpere_Distance_Detection: 1
+  gunFuDetectTargetDebug: 
+  EnableDebug: 0
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,10 @@ public class SubjectEnemy : Character
         GunFuGotHit,
         GunFuGotInteract,
 
+        GunFuEnter,
+        GunFuAttack,
+        GunFuExit,
+
         HeardingGunShoot,
 
         Dead,

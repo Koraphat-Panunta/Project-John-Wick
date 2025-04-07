@@ -14,9 +14,10 @@ public class EnemyProceduralAnimateNodeManager : MonoBehaviour,INodeManager
 
     public string curNodeName;
 
+    [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
+
     private void Awake()
     {
-        Debug.Log("EnemyProceduralAnimateNodeManager Awake");
         nodeManagerBehavior = new NodeManagerBehavior();
         InitailizedNode();
     }

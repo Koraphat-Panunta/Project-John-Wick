@@ -43,6 +43,9 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
 
     public EnemyStateSelectorNode gunFuSelector { get; private set; }
+    public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
+
+    public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
     public GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
@@ -258,7 +261,11 @@ public class EnemyStateManagerNode : INodeManager
             () => this.enemy.isInCover && this.enemy.isAimingCommand
             , this.enemy);
 
-        gunFuSelector = new EnemyStateSelectorNode(this.enemy, 
+        gunFuSelector = new EnemyStateSelectorNode(this.enemy, () 
+            => enemy._triggerGunFu);
+        enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
+
+        gotGunFuAttackSelector = new EnemyStateSelectorNode(this.enemy, 
             () => enemy._triggerHitedGunFu);
         gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_GotInteract_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
             () => 
@@ -307,17 +314,20 @@ public class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
         startNodeSelector.AddtoChildNode(gunFuSelector);
+        startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(standSelector);
 
-        gunFuSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
-        gunFuSelector.AddtoChildNode(weaponDisarmedGunFuGotInteractNodeLeaf);
-        gunFuSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
-        gunFuSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
-        gunFuSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);
-        gunFuSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
+        gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
+
+        gotGunFuAttackSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(weaponDisarmedGunFuGotInteractNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
 
         gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(gotHumanThrow_GunFuNodeLeaf);
 

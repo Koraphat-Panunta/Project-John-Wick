@@ -24,7 +24,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
     [SerializeField] private int assingTime;
 
-    [SerializeField, TextArea] private string debugEnemyDirector;
+    //[SerializeField, TextArea] private string debugEnemyDirector;
 
     [SerializeField] private Player player;
     private void Awake()
@@ -36,7 +36,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         enemiesRole.ForEach(eRole => 
         { 
             eRole.enemy.AddObserver(this);
-            debugEnemyDirector += "Add obsever " + eRole.enemy +"\n";
             this.enemysGetRole.Add(eRole.enemy, eRole);
             eRole.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(eRole.enemyCommand, this, eRole);
         });
@@ -51,16 +50,13 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        debugEnemyDirector += "Enemy = " + enemy + "EnemyEvent = " + enemyEvent + "\n";
         if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
         {
-            debugEnemyDirector += "Enter Dead" + "\n";
             enemy.RemoveObserver(this);
             enemiesRole.Remove(enemysGetRole[enemy]);
             enemysGetRole.Remove(enemy);
             elapseTimeChaserChange = chaserChangeDelay;
             CalcuateRoleCount();
-            debugEnemyDirector += "Exit Dead" + "\n";
             return;
         }
 
@@ -71,12 +67,10 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         }
         else if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
         {
-            debugEnemyDirector += "Enter Hit" + "\n";
             if (enemy._posture <= enemy._postureHeavy)
             {
                 AssignChaser(enemysGetRole[enemy]);
             }
-            debugEnemyDirector += "Exit Hit" + "\n";
         }
 
        
@@ -230,15 +224,12 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     {
        
         isYieldAllShooter = true;
-        Debug.Log("isYieldAllShooter = true;");
         float delay = yieldShooterOnPlayerAim * 1000;
         await Task.Delay((int)delay);
         isYieldAllShooter = false;
-        Debug.Log("isYieldAllShooter = false;");
         await Task.Delay((int)delayYieldShooterOnPlayerAim * 1000);
 
         taskUpdateYieldAllShooterOnPlayerAim = null;
-        Debug.Log("taskUpdateYieldAllShooterOnPlayerAim = null;");
     }
     public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
@@ -315,7 +306,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.Aim)
         {
-            Debug.Log("Player Aiming form Enemy Directir");
             if (taskUpdateYieldAllShooterOnPlayerAim == null)
                 taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();
         }

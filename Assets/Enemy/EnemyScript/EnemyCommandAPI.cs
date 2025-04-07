@@ -425,6 +425,12 @@ public class EnemyCommandAPI :MonoBehaviour
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReloadCommand = true;
     }
+
+    public void SpinKick()
+    {
+        _enemy._triggerGunFu = true;
+    }
+
     public LayerMask NotifyAbleMask;
     public void NotifyFriendly(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage) 
     {

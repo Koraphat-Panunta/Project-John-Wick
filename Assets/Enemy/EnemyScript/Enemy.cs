@@ -11,7 +11,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     IPainStateAble, IFallDownGetUpAble,
     IGunFuGotAttackedAble, IFriendlyFirePreventing,
     IThrowAbleObjectVisitable, ICommunicateAble
-    , IBulletDamageAble
+    , IBulletDamageAble,IGunFuAble
 {
     [Range(0, 100)]
     public float intelligent;
@@ -26,7 +26,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public FieldOfView enemyFieldOfView;
 
     public EnemyGetShootDirection enemyGetShootDirection;
-    public IMovementCompoent enemyMovement;
+    public EnemyMovement enemyMovement;
     public EnemyStateManagerNode enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
@@ -58,6 +58,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         Initialized_IWeaponAdvanceUser();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
+        InitailizedGunFuComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
         enemyCommunicator = new EnemyCommunicator(this);
@@ -137,6 +138,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         _tiggerThrowAbleObjectHit = false;
         isPickingUpWeaponCommand = false;
         isPullTriggerCommand = false;
+        _triggerGunFu = false;
 
     }
 
@@ -311,8 +313,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             }
         }
 
-        //if (NotifyCommunicate == null)
-        NotifyCommunicate.Invoke(typeCommunicator);
+        if (NotifyCommunicate != null)
+            NotifyCommunicate.Invoke(typeCommunicator);
     }
 
     #endregion
@@ -427,7 +429,36 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
+    #region ImplementGunFuAble
+    public bool _triggerGunFu { get; set ; }
+    public bool _triggerExecuteGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public float triggerGunFuBufferTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Transform _gunFuUserTransform { get => transform; set { } }
+    public Transform _targetAdjustTranform { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Vector3 _gunFuAimDir { get => transform.forward; set { } }
+    public GunFuDetectTarget gunFuDetectTarget { get ; set ; }
+    public LayerMask _layerTarget { get => targetSpoterMask; set { } }
+    public IGunFuGotAttackedAble attackedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public IGunFuGotAttackedAble executedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public IGunFuNode curGunFuNode { get 
+        {
+            if (enemyStateManagerNode.curNodeLeaf is IGunFuNode gunFuNode)
+                return gunFuNode;
+            return null;
 
+        } set { } }
+    public StackGague gunFuExecuteStackGauge { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    [SerializeField] public EnemySpinKickScriptable EnemySpinKickScriptable;
+    public void InitailizedGunFuComponent()
+    {
+        _gunFuUserTransform = transform;
+    }
+
+    public void UpdateDetectingTarget()
+    {
+       throw new NotImplementedException();
+    }
+    #endregion
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set; }
     public Vector3 attackedPos { get; set; }
@@ -435,7 +466,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IGunFuNode curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
-    public IMovementCompoent _movementCompoent { get => this.enemyMovement; set => this.enemyMovement = value; }
+    public IMovementCompoent _movementCompoent { get => this.enemyMovement; set { } }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
@@ -485,6 +516,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+   
+
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");
@@ -524,6 +557,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
+    private void OnValidate()
+    {
+        gunFuDetectTarget = GetComponent<GunFuDetectTarget>();
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
