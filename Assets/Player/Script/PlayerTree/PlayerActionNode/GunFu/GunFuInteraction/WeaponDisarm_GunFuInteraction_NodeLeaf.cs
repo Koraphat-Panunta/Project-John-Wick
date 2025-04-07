@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class WeaponDisarm_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
+public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 {
     private float pull = 0.14f;
     private float duration = 0.5f;

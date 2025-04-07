@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class HumanShield_GunFuInteraction_NodeLeaf : GunFu_Interaction_NodeLeaf
+public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 {
     IWeaponAdvanceUser weaponAdvanceUser;
 

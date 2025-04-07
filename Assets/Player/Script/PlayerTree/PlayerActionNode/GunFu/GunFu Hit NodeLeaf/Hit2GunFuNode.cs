@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Hit2GunFuNode : GunFuHitNodeLeaf
+public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
 {
 
 

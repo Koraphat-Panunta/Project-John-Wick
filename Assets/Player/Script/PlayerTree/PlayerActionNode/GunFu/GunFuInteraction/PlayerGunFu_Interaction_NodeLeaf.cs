@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
     
-public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
+public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
 {
 
     #region ImplementIGunFuNode
@@ -23,7 +23,7 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNo
     protected Transform targetAdjustTransform;
 
    
-    protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
+    protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;
         transitionAbleNode = new Dictionary<INodeLeaf, bool>();
@@ -36,7 +36,7 @@ public abstract class GunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNo
         targetAdjustTransform = gunFuAble._targetAdjustTranform;
     }
 
-    protected GunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;
         transitionAbleNode = new Dictionary<INodeLeaf, bool>();

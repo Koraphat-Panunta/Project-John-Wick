@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLeafTransitionAble
+public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLeafTransitionAble
 {
     public float _timer { get; set; }
     public float _transitionAbleTime_Nornalized { get => gunFuNodeScriptableObject.TransitionAbleTime_Normalized; set { } }
@@ -20,7 +20,7 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
     public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
 
-    public GunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
+    public PlayerGunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
         this.gunFuNodeScriptableObject = gunFuNodeScriptableObject;
         this._animationClip = gunFuNodeScriptableObject.animationClip;
@@ -37,8 +37,8 @@ public abstract class GunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,INodeLe
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
 
-        player._triggerGunFu = false;
-        player.triggerGunFuBufferTime = 2;
+        gunFuAble._triggerGunFu = false;
+        gunFuAble.triggerGunFuBufferTime = 2;
 
         (player.playerMovement as IMovementCompoent).CancleMomentum();
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hit1GunFuNode : GunFuHitNodeLeaf
+public class Hit1GunFuNode : PlayerGunFuHitNodeLeaf
 {
 
 

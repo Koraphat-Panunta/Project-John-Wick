@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GunFuExecuteNodeLeaf : GunFu_Interaction_NodeLeaf,INodeLeafTransitionAble
+public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTransitionAble
 {
     IGunFuGotAttackedAble gunFuExecuteAble;
     private BulletExecute bulletExecute;

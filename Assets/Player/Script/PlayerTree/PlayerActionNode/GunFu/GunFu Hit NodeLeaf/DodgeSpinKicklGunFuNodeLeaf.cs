@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class DodgeSpinKicklGunFuNodeLeaf : GunFuHitNodeLeaf
+public class DodgeSpinKicklGunFuNodeLeaf : PlayerGunFuHitNodeLeaf
 {
     public DodgeSpinKicklGunFuNodeLeaf(Player player, Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player, preCondition, gunFuNodeScriptableObject)
     {

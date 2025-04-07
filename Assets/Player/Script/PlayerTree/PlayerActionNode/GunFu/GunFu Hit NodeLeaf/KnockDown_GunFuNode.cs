@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class KnockDown_GunFuNode : GunFuHitNodeLeaf
+public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
 {
     private bool isKicking;
     public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
