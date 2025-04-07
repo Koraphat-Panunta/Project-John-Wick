@@ -20,14 +20,14 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     private Animator _animator;
     private float _timeToResetBones = 0.5f;
 
-    private enum FallDownState
+    public enum FallDownState
     {
         RagdollState,
         ResettingBones,
         StandingUp
     }
 
-    private FallDownState curState;
+    public FallDownState curState { get; private set; }
 
     private AnimationClip standingUpClip;
     private AnimationClip pushingUpClip;

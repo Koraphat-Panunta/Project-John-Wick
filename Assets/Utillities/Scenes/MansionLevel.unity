@@ -23298,12 +23298,12 @@ PrefabInstance:
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: standardCameraSensivity
-      value: 10
+      value: 6.15
       objectReference: {fileID: 0}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: aimDownSightCameraSensivity
-      value: 10
+      value: 4.45
       objectReference: {fileID: 0}
     - target: {fileID: 8522622513793723404, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
@@ -33444,6 +33444,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
+      propertyPath: isImortal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
       propertyPath: breakMaxSpeed
       value: 3.84
       objectReference: {fileID: 0}
@@ -33471,6 +33476,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.08711624
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -40577,7 +40587,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 926869061}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea89a51fddc94514883907d34c17d94f, type: 3}
   m_Name: 

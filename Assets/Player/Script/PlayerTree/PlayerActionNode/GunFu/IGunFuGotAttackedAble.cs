@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IGunFuGotAttackedAble 
+public interface IGunFuGotAttackedAble
 {
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuAttackedAble { get; set; }
@@ -12,5 +12,7 @@ public interface IGunFuGotAttackedAble
     public IWeaponAdvanceUser _weaponAdvanceUser { get; set; }
     public IDamageAble _damageAble { get; set; }
     public bool _isDead { get; set; }
+    public bool _isGotAttackedAble { get; set; }
+    public bool _isGotExecutedAble { get; set; }
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble);
 }

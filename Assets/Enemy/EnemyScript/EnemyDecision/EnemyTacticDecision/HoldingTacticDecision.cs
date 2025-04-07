@@ -31,8 +31,8 @@ public class HoldingTacticDecision : TacticDecision
     public override void Update()
     {
 
-        enemy.cost += cost_DrainRate * Time.deltaTime;
-        if (enemy.cost > exitTacticCost)
+        enemyTacticDecision.cost += cost_DrainRate * Time.deltaTime;
+        if (enemyTacticDecision.cost > exitTacticCost)
         {
             enemyTacticDecision.ChangeTactic(enemyTacticDecision.encouterTacticDecision);
             return;

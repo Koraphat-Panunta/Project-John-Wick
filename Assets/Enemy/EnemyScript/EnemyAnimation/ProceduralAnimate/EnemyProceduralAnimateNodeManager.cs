@@ -45,6 +45,9 @@ public class EnemyProceduralAnimateNodeManager : MonoBehaviour,INodeManager
     [Range(0,100)]
     public float StepVelocity;
 
+    [Range(0, 10)]
+    public float FootstepPlacementOffsetDistance;
+
     EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf { get; set; }
     RestProceduralAnimateNodeLeaf restProceduralAnimateNodeLeaf { get; set; }
 

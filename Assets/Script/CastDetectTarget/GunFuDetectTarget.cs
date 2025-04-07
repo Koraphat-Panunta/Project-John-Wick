@@ -1,7 +1,8 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(IGunFuAble))]
-public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGotAttackedAble>
+public class GunFuDetectTarget : MonoBehaviour
 {
     [SerializeField] protected IGunFuAble gunFuAble;
 
@@ -19,14 +20,18 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
     [Range(0, 10)]
     [SerializeField] private float Shpere_Distance_Detection;
     public float _sphere_Distance_Detection { get => this.Shpere_Distance_Detection; set => this.Shpere_Distance_Detection = value; }
+
+    [SerializeField, TextArea]
+    private string gunFuDetectTargetDebug;
     private void Start()
     {
         gunFuAble = GetComponent<IGunFuAble>();
+        gunFuDetectTargetDebug += "gunFuAble = "+gunFuAble+"\n";
     }
     public bool CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble gunFuGotExecuteAble)
     {
         gunFuGotExecuteAble = null;
-        Vector3 castDir = CastSphereDir();
+        Vector3 castDir = CastDir();
         Ray ray = new Ray(_castTransform.position, castDir);
         RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + gunFuAble._layerTarget);
         foreach (RaycastHit hit in collider)
@@ -34,10 +39,16 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
             if (hit.collider.gameObject.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
+            if (gunFuGotAttackedAble == gunFuAble)
+            {
+                gunFuDetectTargetDebug += "cast to self \n";
+                continue;
+            }
+
             if (gunFuGotAttackedAble._isDead)
                 continue;
 
-            if (gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf == false)
+            if (gunFuGotAttackedAble._isGotExecutedAble == false)
                 continue;
 
 
@@ -53,27 +64,46 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
         }
         return false;
 
-    }
+    } // Called form gunFuAble
     public bool CastDetect(out IGunFuGotAttackedAble target)
     {
         target = null;
-        Vector3 casrDir = CastSphereDir();
+        Vector3 casrDir = CastDir();
 
         if (CastDetect(out IGunFuGotAttackedAble gunFuTarget, casrDir))
         {
             target = gunFuTarget;
-
-            if(target._isDead)
-                return false;
-
             return true;
         }
         else
         {
             return false;
         }
-    }
-    public bool CastDetect(out IGunFuGotAttackedAble target, Vector3 castDir)
+    } // Called form player
+    public bool CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> target,Vector3 positionVolume,float raduis)
+    {
+
+        target = new List<IGunFuGotAttackedAble>();
+        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, gunFuAble._layerTarget);
+
+        foreach (Collider item in colliders)
+        {
+            if (item.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
+                continue;
+
+            if(gunFuGotAttackedAble._isDead
+                || gunFuGotAttackedAble._isGotAttackedAble == false
+                || gunFuGotAttackedAble == gunFuAble)
+                continue;
+
+            target.Add(gunFuGotAttackedAble);
+        }
+
+        if(target.Count >0)
+            return true;
+        return false;
+    }// Called form gunFuAble
+    private bool CastDetect(out IGunFuGotAttackedAble target, Vector3 castDir)
     {
         target = null;
         Ray ray = new Ray(_castTransform.position,castDir);
@@ -83,13 +113,15 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
             if(hit.collider.gameObject.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
-            if(gunFuGotAttackedAble._isDead)
+            if(gunFuGotAttackedAble._isDead 
+                || gunFuGotAttackedAble._isGotAttackedAble == false
+                || gunFuGotAttackedAble == gunFuAble)
                 continue ;
 
-            if(gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf
-                || gunFuGotAttackedAble.curNodeLeaf is HumandThrow_GotInteract_NodeLeaf
-                || gunFuGotAttackedAble.curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
-                continue ;
+            //if(gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf
+            //    || gunFuGotAttackedAble.curNodeLeaf is HumandThrow_GotInteract_NodeLeaf
+            //    || gunFuGotAttackedAble.curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
+            //    continue ;
 
 
             Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
@@ -105,8 +137,8 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
         return false;
 
         
-    }
-    private Vector3 CastSphereDir()
+    } 
+    private Vector3 CastDir()
     {
         Vector3 casrDir;
 
@@ -128,49 +160,6 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
         return casrDir;
     }
 
-    private bool CastDetect(out IGunFuGotAttackedAble target, out Vector3 hit)
-    {
-        target = null;
-        Vector3 casrDir;
-
-        if (Vector3.Angle(gunFuAble._gunFuUserTransform.forward, gunFuAble._gunFuAimDir) <= _limitAimAngleDegrees)
-        {
-            casrDir = new Vector3(gunFuAble._gunFuAimDir.x, 0, gunFuAble._gunFuAimDir.z);
-        }
-        else
-        {
-            casrDir = gunFuAble._gunFuUserTransform.forward;
-        }
-
-        if (CastDetect(out IGunFuGotAttackedAble gunFuTarget, out hit, casrDir))
-        {
-            target = gunFuTarget;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    private bool CastDetect(out IGunFuGotAttackedAble target, out Vector3 hit, Vector3 castDir)
-    {
-        target = null;
-        hit = Vector3.zero;
-
-        if (Physics.SphereCast(CastTransform.position, _shpere_Raduis_Detecion, castDir, out RaycastHit hitInfo, _sphere_Distance_Detection, gunFuAble._layerTarget))
-        {
-            hit = hitInfo.point;
-            if (hitInfo.collider.TryGetComponent<IGunFuGotAttackedAble>(out IGunFuGotAttackedAble gunFuDamagedAble))
-            {
-                target = gunFuDamagedAble;
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-
     [SerializeField] private bool EnableDebug;
     private void OnDrawGizmos()
     {
@@ -179,11 +168,11 @@ public class GunFuDetectTarget : MonoBehaviour, ISphereCastDetectTarget<IGunFuGo
             return;
 
         Gizmos.color = Color.red;
-        Vector3 sphrerPos = this.CastTransform.position + (CastSphereDir() * this._sphere_Distance_Detection);
+        Vector3 sphrerPos = this.CastTransform.position + (CastDir() * this._sphere_Distance_Detection);
         if (CastDetect(out IGunFuGotAttackedAble target))
         {
             Gizmos.DrawSphere(target._gunFuAttackedAble.position, 0.75f);
-            sphrerPos = this.CastTransform.position + (CastSphereDir() * Vector3.Distance(_castTransform.position,target.attackedPos));
+            sphrerPos = this.CastTransform.position + (CastDir() * Vector3.Distance(_castTransform.position,target.attackedPos));
 
         }
 

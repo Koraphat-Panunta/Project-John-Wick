@@ -8,12 +8,12 @@ using UnityEngine.Animations.Rigging;
 public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
-    IPainStateAble,IFallDownGetUpAble,
-    IGunFuGotAttackedAble,IFriendlyFirePreventing,
-    IThrowAbleObjectVisitable,ICommunicateAble
-    ,IBulletDamageAble
+    IPainStateAble, IFallDownGetUpAble,
+    IGunFuGotAttackedAble, IFriendlyFirePreventing,
+    IThrowAbleObjectVisitable, ICommunicateAble
+    , IBulletDamageAble
 {
-    [Range(0,100)]
+    [Range(0, 100)]
     public float intelligent;
     [Range(0, 100)]
     public float strength;
@@ -35,9 +35,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public Vector3 forceSave;
 
-    public readonly float maxCost = 100;
-    public readonly float lowestCost = 0;
-    public float cost;
     public float myHP;
     private float posture;
 
@@ -55,8 +52,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyMovement = new EnemyMovement(agent, this);
 
-        MotionControlInitailized();
+        _isGotAttackedAble = true;
 
+        MotionControlInitailized();
         Initialized_IWeaponAdvanceUser();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
@@ -64,7 +62,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyCommunicator = new EnemyCommunicator(this);
 
-        cost = UnityEngine.Random.Range(50, 70);
         posture = 100;
 
         base.HP = 100;
@@ -74,7 +71,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         startWeapon.AttatchWeaponTo(this);
 
     }
-    
+
 
     void Update()
     {
@@ -98,13 +95,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponManuverManager.FixedUpdateNode();
         enemyMovement.MovementFixedUpdate();
     }
-   
+
     public void TakeDamage(float Damage)
     {
-        if(isImortal == false)
-        HP -= Damage;
-       
-        if(base.HP <= 0 && isImortal == false)
+        if (isImortal == false)
+            HP -= Damage;
+
+        if (base.HP <= 0 && isImortal == false)
         {
             NotifyObserver(this, EnemyEvent.Dead);
         }
@@ -142,7 +139,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         isPullTriggerCommand = false;
 
     }
-   
+
 
     #region Initailized WeaponAdvanceUser
     [SerializeField] private Transform weaponMainSocket;
@@ -150,20 +147,20 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] private Transform secondaryWeaponHoster;
 
     public bool isSwitchWeaponCommand { get; set; }
-    public bool isPullTriggerCommand { get ; set ; }
-    public bool isAimingCommand { get;  set ; }
-    public bool isReloadCommand { get ; set ; }
+    public bool isPullTriggerCommand { get; set; }
+    public bool isAimingCommand { get; set; }
+    public bool isReloadCommand { get; set; }
     public bool isPickingUpWeaponCommand { get; set; }
-    public bool isDropWeaponCommand { get ; set ; }
+    public bool isDropWeaponCommand { get; set; }
     public Animator weaponUserAnimator { get; set; }
     public Weapon _currentWeapon { get; set; }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
-    public Vector3 shootingPos { 
+    public Vector3 shootingPos {
         get { return enemyGetShootDirection.GetShootingPos(); }
-        set { } 
+        set { }
     }
-    public Vector3 pointingPos { get => enemyGetShootDirection.GetPointingPos() ;
+    public Vector3 pointingPos { get => enemyGetShootDirection.GetPointingPos();
         set { } }
 
     public WeaponBelt weaponBelt { get; set; }
@@ -174,7 +171,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
     public AnimatorOverrideController _animatorOverride { get; set; }
     public WeaponManuverManager weaponManuverManager { get; set; }
-    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
+    public FindingWeaponBehavior findingWeaponBehavior { get; set; }
 
     public void Initialized_IWeaponAdvanceUser()
     {
@@ -184,7 +181,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             , 1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
         weaponCommand = new WeaponCommand(this);
-        weaponManuverManager = new EnemyWeaponManuver(this,this);
+        weaponManuverManager = new EnemyWeaponManuver(this, this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
         _animatorOverride = this.AnimatorOverrideController;
     }
@@ -204,8 +201,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] GameObject left_upperArm;
     [SerializeField] GameObject left_lowerArm;
 
-    public List<GameObject> bones { get ; set ; }
-    public GameObject hips { get ; set ; }
+    public List<GameObject> bones { get; set; }
+    public GameObject hips { get; set; }
     Animator IMotionDriven.animator { get => animator; set => animator = value; }
     public MotionControlManager motionControlManager { get; set; }
     public void MotionControlInitailized()
@@ -216,7 +213,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         bones.Add(spline);
         bones.Add(hip);
         bones.Add(right_upperLeg);
-        bones.Add (right_lowerLeg);
+        bones.Add(right_lowerLeg);
         bones.Add(left_upperLeg);
         bones.Add(left_lowerLeg);
         bones.Add(right_upperArm);
@@ -224,13 +221,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         bones.Add(left_upperArm);
         bones.Add(left_lowerArm);
 
-        motionControlManager = new MotionControlManager(bones,hips,animator);
+        motionControlManager = new MotionControlManager(bones, hips, animator);
     }
     #endregion
 
     #region InitailizedFindingTarget
-   
-    public FindingTarget findingTargetComponent { get ; set; }
+
+    public FindingTarget findingTargetComponent { get; set; }
     public Vector3 targetKnewPos;
     public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
@@ -246,24 +243,24 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         targetKnewPos = target.transform.position;
         enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
-        if (NotifyEnemySpottingTarget != null) 
-        NotifyEnemySpottingTarget.Invoke(target);
+        if (NotifyEnemySpottingTarget != null)
+            NotifyEnemySpottingTarget.Invoke(target);
     }
 
     #endregion
 
     #region InitailizedCoverUsable
-    public Vector3 peekPos { get ; set ; }
-    public Vector3 coverPos { get ; set ; }
+    public Vector3 peekPos { get; set; }
+    public Vector3 coverPos { get; set; }
     public CoverPoint coverPoint { get; set; }
-    public Character userCover { get ; set; }
+    public Character userCover { get; set; }
     public FindingCover findingCover { get; set; }
-    public bool isInCover { get ; set ; }
+    public bool isInCover { get; set; }
 
     public void InitailizedCoverUsable()
     {
         userCover = this;
-        findingCover = new EnemyFindCover(this, this,this);
+        findingCover = new EnemyFindCover(this, this, this);
     }
 
 
@@ -271,27 +268,27 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region InitailizedHearingComponent
 
-    public Action<INoiseMakingAble> NotifyGotHearing { get; set ; }
+    public Action<INoiseMakingAble> NotifyGotHearing { get; set; }
     public void GotHearding(INoiseMakingAble noiseMakingAble)
     {
-        if(isDead)
+        if (isDead)
             return;
 
-        if(noiseMakingAble is Bullet bullet
+        if (noiseMakingAble is Bullet bullet
             && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
         {
             targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
         }
 
         NotifyObserver(this, EnemyEvent.HeardingGunShoot);
-        if(NotifyGotHearing != null)
-        NotifyGotHearing(noiseMakingAble);
+        if (NotifyGotHearing != null)
+            NotifyGotHearing(noiseMakingAble);
     }
 
     #endregion
     #region ImplementCommunicateAble
 
-    public Action<Communicator> NotifyCommunicate { get ; set ; }
+    public Action<Communicator> NotifyCommunicate { get; set; }
     public GameObject communicateAble => gameObject;
     public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
     {
@@ -313,9 +310,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
                     break;
             }
         }
-      
+
         //if (NotifyCommunicate == null)
-            NotifyCommunicate.Invoke(typeCommunicator);
+        NotifyCommunicate.Invoke(typeCommunicator);
     }
 
     #endregion
@@ -339,9 +336,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [Range(0, 10)]
     public float sprintRotateSpeed;
 
-    [Range(0,10)]
+    [Range(0, 10)]
     public float breakAccelerate;
-    [Range(0,10)]
+    [Range(0, 10)]
     public float breakMaxSpeed;
 
     [Range(0, 10)]
@@ -361,25 +358,25 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion
 
     #region InitilizedPainState
-    public bool _isPainTrigger { get ; set ; }
-    public bool _isInPain { get 
+    public bool _isPainTrigger { get; set; }
+    public bool _isInPain { get
         {
-            if(_painPart == IPainStateAble.PainPart.None)
+            if (_painPart == IPainStateAble.PainPart.None)
                 return false;
             else return true;
         } set { } }
-    public float _posture { get => posture ; set => posture = value ; }
+    public float _posture { get => posture; set => posture = value; }
     [Range(0, 100)]
     [SerializeField] private float postureLight;
-    public float _postureLight { get => postureLight ; set => postureLight = value ; }
+    public float _postureLight { get => postureLight; set => postureLight = value; }
     [Range(0, 100)]
     [SerializeField] private float postureMedium;
-    public float _postureMedium { get => postureMedium ; set => postureMedium = value ; }
+    public float _postureMedium { get => postureMedium; set => postureMedium = value; }
     [Range(0, 100)]
     [SerializeField] private float postureHeavy;
-    public float _postureHeavy { get => postureHeavy ; set => postureHeavy = value; }
+    public float _postureHeavy { get => postureHeavy; set => postureHeavy = value; }
 
-    public IPainStateAble.PainPart _painPart { get ; set ; }
+    public IPainStateAble.PainPart _painPart { get; set; }
 
     [SerializeField] private PainStateDurationScriptableObject painDurScrp;
     public PainStateDurationScriptableObject _painDurScrp { get => painDurScrp; }
@@ -387,16 +384,16 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         _painPart = IPainStateAble.PainPart.None;
     }
-   
+
 
     #endregion
 
     #region InitailizedPatrol
-    public GameObject userPatrol { get ; set ; }
-    public List<PatrolPoint> patrolPoints { get => this.PatrolPoints ; set => PatrolPoints = value ; }
-    public int Index { get ; set ; }
+    public GameObject userPatrol { get; set; }
+    public List<PatrolPoint> patrolPoints { get => this.PatrolPoints; set => PatrolPoints = value; }
+    public int Index { get; set; }
 
-    
+
     [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
     public void InitailizedPatrolComponent()
     {
@@ -432,16 +429,38 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion
 
     #region ImplementGunFuGotHitAble
-    public bool _triggerHitedGunFu { get; set ; }
+    public bool _triggerHitedGunFu { get; set; }
     public Vector3 attackedPos { get; set; }
-    public Transform _gunFuAttackedAble { get{ return transform; } set { } }
-    public IGunFuAble gunFuAbleAttacker { get; set ; }
-    public IGunFuNode curAttackerGunFuNode { get ; set ; }
+    public Transform _gunFuAttackedAble { get { return transform; } set { } }
+    public IGunFuAble gunFuAbleAttacker { get; set; }
+    public IGunFuNode curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
     public IMovementCompoent _movementCompoent { get => this.enemyMovement; set => this.enemyMovement = value; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
+    public bool _isGotAttackedAble { get
+        {
+            if (curNodeLeaf is KnockDown_GunFuNode)
+                return false;
+            if (curNodeLeaf is HumandThrow_GotInteract_NodeLeaf)
+                return false;
+            if (curNodeLeaf is FallDown_EnemyState_NodeLeaf fallNode)
+            {
+                return false;
+            }
+
+            return true;
+        } set { } }
+
+    public bool _isGotExecutedAble { 
+        get 
+        {
+            if(curNodeLeaf is FallDown_EnemyState_NodeLeaf)
+                return true;
+            return false;
+        } set { } }
+
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
@@ -466,7 +485,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");

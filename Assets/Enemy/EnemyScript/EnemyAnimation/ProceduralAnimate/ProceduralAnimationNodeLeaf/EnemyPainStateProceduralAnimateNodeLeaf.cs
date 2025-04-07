@@ -22,9 +22,14 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
     protected Transform hipTransform => proceduralAnimateNodeManager.centre;
     protected float hipLegsSpace => proceduralAnimateNodeManager.hipLegSpace;
 
-    protected float stepDistance => proceduralAnimateNodeManager.StepDistacne;
+    protected float stepDistance => proceduralAnimateNodeManager.StepDistacne * Mathf.Clamp(curVelocity.magnitude,0.1f,2);
     protected float stepHeight => proceduralAnimateNodeManager.StepHeight;
-    protected float stepSpeed => proceduralAnimateNodeManager.StepVelocity;
+    protected float stepSpeed => proceduralAnimateNodeManager.StepVelocity * curVelocity.magnitude;
+
+    private float maxOffset = 1.5f;
+    protected Vector3 footplacementOffsetDistance => Vector3.ClampMagnitude(proceduralAnimateNodeManager.FootstepPlacementOffsetDistance * curVelocity,maxOffset);
+
+    protected Vector3 curVelocity => enemy.enemyMovement.curMoveVelocity_World;
 
     private float transitionVelocity = 3;
 
@@ -122,7 +127,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
                     oldLeftFootPos = newLeftFootPos;
                 }
                 lerpLeftLeg = 0;
-                newLeftFootPos = hitInfoLeft.point;
+                newLeftFootPos = hitInfoLeft.point + footplacementOffsetDistance;
             }
         }
 
@@ -137,7 +142,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
                 }
                 lerpRightLeg = 0;
 
-                newRightFootPos = hitInfoRight.point;
+                newRightFootPos = hitInfoRight.point + footplacementOffsetDistance;
                 
             }
         }
