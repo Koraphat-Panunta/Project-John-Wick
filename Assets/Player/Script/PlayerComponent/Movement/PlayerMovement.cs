@@ -153,7 +153,7 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
 
     public void SetRotateCharacter(Vector3 dir)
     {
-        
+        dir = new Vector3(dir.x, 0, dir.z);
         player.gameObject.transform.forward = dir;
     }
 

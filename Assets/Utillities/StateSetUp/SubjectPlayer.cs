@@ -24,6 +24,7 @@ public abstract class SubjectPlayer : Character
         StandMove,
         CrouchIdle,
         CrouchMove,
+        GetUp,
         Sprint,
         Dodge,
 
@@ -35,6 +36,10 @@ public abstract class SubjectPlayer : Character
        
         TakeCover,
         GetOffCover,
+
+        GotAttackGunFuEnter,
+        GotAttackGunFuAttack,
+        GunAttackGunFuExit,
 
         GunFuEnter,
         GunFuInteract,

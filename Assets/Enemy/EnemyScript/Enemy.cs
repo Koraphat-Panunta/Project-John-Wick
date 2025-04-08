@@ -437,7 +437,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _targetAdjustTranform { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public Vector3 _gunFuAimDir { get => transform.forward; set { } }
     public GunFuDetectTarget gunFuDetectTarget { get ; set ; }
-    public LayerMask _layerTarget { get => targetSpoterMask; set { } }
+    public LayerMask _layerTarget { get => targetMask; set { } }
     public IGunFuGotAttackedAble attackedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IGunFuGotAttackedAble executedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IGunFuNode curGunFuNode { get 

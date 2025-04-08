@@ -271,12 +271,12 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                 if (userWeapon is Player)
                 {
                     Player p = userWeapon as Player;
-                    WeaponAnimatorOverrider.OverrideAnimator(p.animator, _weaponOverrideControllerPlayer);
+                    WeaponAnimatorOverrider.OverrideAnimator(p.animator, userWeapon._animatorOverride);
                 }
                 if (userWeapon is Enemy)
                 {
                     Enemy enemy = userWeapon as Enemy;
-                    WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
+                    WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, userWeapon._animatorOverride);
                 }
             }
             userWeapon._currentWeapon = null;

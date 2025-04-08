@@ -18,6 +18,7 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     public TakeCoverEnemyActionNodeLeaf takeCoverEnemyActionNodeLeaf { get; set; }
     public InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf { get; private set; }
     public ApprouchingTargetEnemyActionNodeLeaf approuchingTargetEnemyActionNodeLeaf { get; private set; }
+    public DisarmTargetWeaponEnemyActionNodeLeaf disarmTargetWeaponEnemyActionNodeLeaf { get; private set; }
     public override float yingYangCalculate { get ;protected set ; }
 
     public override void InitailizedNode()
@@ -62,13 +63,21 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
                 return false;
             }
             , this);
-        insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>true,this);
+        insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,
+            ()=>true
+            ,this);
+
+        disarmTargetWeaponEnemyActionNodeLeaf = new DisarmTargetWeaponEnemyActionNodeLeaf(enemy, enemyCommandAPI,
+            () => enemy._currentWeapon == null
+            ,this);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);
         startNodeSelector.AddtoChildNode(findTargetInTargetZoneEnemyActionNodeLeaf);
         startNodeSelector.AddtoChildNode(enemyAlertActionSelectorNode);
 
+        
         enemyAlertActionSelectorNode.AddtoChildNode(moveToCombatZone);
+        enemyAlertActionSelectorNode.AddtoChildNode(disarmTargetWeaponEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(approuchingTargetEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(insistEnemyActionNodeLeaf);

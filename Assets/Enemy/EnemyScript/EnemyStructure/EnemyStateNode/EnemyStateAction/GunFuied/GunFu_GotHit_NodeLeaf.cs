@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGunFuAttackedAbleNode
+public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
 {
     protected Animator animator;
     protected string stateName;

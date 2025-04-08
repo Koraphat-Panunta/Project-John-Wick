@@ -64,7 +64,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         curWeaponManuverSelector.AddtoChildNode(dropWeaponManuverNodeLeaf);
         curWeaponManuverSelector.AddtoChildNode(swtichingWeaponManuverSelector);
-        curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
+        curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf); 
         curWeaponManuverSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
@@ -86,7 +86,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
         if (enemy._isInPain 
             || enemyActionNodeLeaf is FallDown_EnemyState_NodeLeaf
             || enemy.isDead
-            || enemy.enemyStateManagerNode.curNodeLeaf is IGunFuAttackedAbleNode)
+            || enemy.enemyStateManagerNode.curNodeLeaf is IGotGunFuAttackAbleNode)
         {
             isAimingManuver = false;
             isPullTriggerManuver = false;

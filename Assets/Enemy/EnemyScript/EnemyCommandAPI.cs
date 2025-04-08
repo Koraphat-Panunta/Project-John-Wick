@@ -425,7 +425,12 @@ public class EnemyCommandAPI :MonoBehaviour
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReloadCommand = true;
     }
-
+    public void PickUpWeapon()
+    {
+        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
+        weaponAdvanceUser.isPickingUpWeaponCommand = true;
+    }
     public void SpinKick()
     {
         _enemy._triggerGunFu = true;

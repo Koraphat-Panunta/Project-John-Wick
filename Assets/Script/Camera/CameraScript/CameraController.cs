@@ -121,6 +121,11 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             isZooming = false;
         }
         
+        if(playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack)
+        {
+            cameraImpluse.Performed(-0.2f);
+        }
+
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
             cameraImpluse.Performed(-0.2f);

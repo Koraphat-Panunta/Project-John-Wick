@@ -25,8 +25,9 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
 
     public GuardingEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get ; set ; }
 
-    public EnemyActionSelectorNode overwatchEnemyActionSelector { get; set; }
+    public EnemyActionSelectorNode overwatchAwareAlertActionSelector { get; set; }
 
+    public DisarmTargetWeaponEnemyActionNodeLeaf disarmTargetWeaponEnemyActionNodeLeaf { get; private set; }
     public MoveToTheZoneEnemyActionNodeLeaf moveToOverwatchZoneEnemyActionNodeLeaf { get; set; }
     public TakeCoverEnemyActionNodeLeaf takeCoverEnemyActionNodeLeaf { get; set; }
     public InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf { get; set; }
@@ -37,8 +38,11 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
 
         guardingEnemyActionNodeLeaf = new GuardingEnemyActionNodeLeaf(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill, this);
 
-        overwatchEnemyActionSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware
+        overwatchAwareAlertActionSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware
         || curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert);
+        disarmTargetWeaponEnemyActionNodeLeaf = new DisarmTargetWeaponEnemyActionNodeLeaf(enemy, enemyCommandAPI,
+            () => enemy._currentWeapon == null && curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert
+            , this);
         moveToOverwatchZoneEnemyActionNodeLeaf = new MoveToTheZoneEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => moveToOverwatchZoneEnemyActionNodeLeaf.assignZone.IsPositionInTheZone(enemy.transform.position) == false
             , this, overWatchZone);
@@ -66,11 +70,12 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
         insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>true,this);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);
-        startNodeSelector.AddtoChildNode(overwatchEnemyActionSelector);
+        startNodeSelector.AddtoChildNode(overwatchAwareAlertActionSelector);
 
-        overwatchEnemyActionSelector.AddtoChildNode(moveToOverwatchZoneEnemyActionNodeLeaf);
-        overwatchEnemyActionSelector.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
-        overwatchEnemyActionSelector.AddtoChildNode(insistEnemyActionNodeLeaf);
+        overwatchAwareAlertActionSelector.AddtoChildNode(disarmTargetWeaponEnemyActionNodeLeaf);
+        overwatchAwareAlertActionSelector.AddtoChildNode(moveToOverwatchZoneEnemyActionNodeLeaf);
+        overwatchAwareAlertActionSelector.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
+        overwatchAwareAlertActionSelector.AddtoChildNode(insistEnemyActionNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf as EnemyActionNodeLeaf;

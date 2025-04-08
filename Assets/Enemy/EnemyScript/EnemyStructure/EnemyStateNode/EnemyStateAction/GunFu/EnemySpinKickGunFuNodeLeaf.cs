@@ -65,6 +65,11 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
                 {
                     alreadyHittarget.Add(target, true);
                     target.TakeGunFuAttacked(this, enemy);
+                    if(target._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
+                    {
+                        Vector3 dir = target.attackedPos - enemy.transform.position;
+                        motionImplusePushAble.AddForcePush(dir * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+                    }
                     enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuAttack);
                 }
             }
@@ -75,15 +80,13 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
         {
             Vector3 dir = targetPosition - enemy.transform.position;
 
-            Debug.Log("dir targetPosition - enemy.transform.position = " + dir);
-
             enemy.enemyMovement.RotateToDirWorld(dir.normalized, _enemySpinKickScriptable._spicKickRotateSpeed);
         }
 
 
         if(_timer >= _enemySpinKickScriptable._pushForwardTimeNormalized*_enemySpinKickScriptable.animationClip.length && isAlreadyPush == false)//Push Enemy toward
         {
-            enemy.enemyMovement.AddForcePush(enemy.transform.forward*_enemySpinKickScriptable._pushForce, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+            enemy.enemyMovement.AddForcePush(enemy.transform.forward*_enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
             isAlreadyPush = true;
         }
         else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)
@@ -137,7 +140,7 @@ public class EnemySpinKickScriptable : ScriptableObject
     public float _stopRotatingTimeNormalized;
 
     [Range(0, 50)]
-    public float _pushForce;
+    public float _pushSelfTowardForce;
 
     [Range(0, 100)]
     public float _spicKickRotateSpeed;
@@ -156,4 +159,7 @@ public class EnemySpinKickScriptable : ScriptableObject
 
     [Range(0, 100)]
     public float _stopForceBeginStance;
+
+    [Range(0, 100)]
+    public float _targetPushingForce;
 }

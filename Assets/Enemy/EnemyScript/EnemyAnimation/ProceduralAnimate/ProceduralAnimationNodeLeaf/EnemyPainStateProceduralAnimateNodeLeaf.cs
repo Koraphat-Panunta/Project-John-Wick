@@ -27,7 +27,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : ProceduralAnimateNodeLeaf
     protected float stepSpeed { 
         get 
         { 
-            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude,0.1f,2.5f);
+            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude,0.1f,1f);
             proceduralAnimateNodeManager.enemyProceduralAnimateNodeManagerDebug = "stepSpeed = " + stepSpeed + "\n";
             return stepSpeed;
         } }

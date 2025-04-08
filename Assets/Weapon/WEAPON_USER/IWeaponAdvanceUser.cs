@@ -28,6 +28,8 @@ public class FindingWeaponBehavior
     private IWeaponAdvanceUser weaponAdvanceUser;
     public Weapon weaponFindingSelecting { get;private set; }
 
+    public readonly float findingWeaponRaduisDefault = 1;
+
     private LayerMask layerMask;
     public FindingWeaponBehavior(IWeaponAdvanceUser weaponAdvanceUser)
     {
@@ -36,9 +38,18 @@ public class FindingWeaponBehavior
     }
     public bool FindingWeapon()
     {
+        
+        if(FindingWeapon(weaponAdvanceUser.userWeapon.transform.position, findingWeaponRaduisDefault))
+            return true;
+
+        return false;
+    }
+
+    public bool FindingWeapon(Vector3 center,float raduis)
+    {
         weaponFindingSelecting = null;
 
-        Collider[] collider = Physics.OverlapSphere(weaponAdvanceUser.userWeapon.transform.position,1, layerMask, QueryTriggerInteraction.UseGlobal);
+        Collider[] collider = Physics.OverlapSphere(center, raduis, layerMask.value, QueryTriggerInteraction.UseGlobal);
 
         if (collider.Length <= 0)
             return false;
@@ -60,14 +71,14 @@ public class FindingWeaponBehavior
                 Vector3.Distance(weaponAdvanceUser.userWeapon.transform.position, collider[i].transform.position))
             {
                 if (collider[i].GetComponent<Weapon>().userWeapon == null)
-                weaponFindingSelecting = collider[i].GetComponent<Weapon>();
+                    weaponFindingSelecting = collider[i].GetComponent<Weapon>();
             }
         }
 
-        if (weaponFindingSelecting != null) 
+        if (weaponFindingSelecting != null)
             return true;
-        
-            
+
+
 
         return false;
     }

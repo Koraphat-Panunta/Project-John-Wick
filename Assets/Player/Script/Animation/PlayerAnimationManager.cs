@@ -209,10 +209,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             animator.CrossFade(Sprint, 0.3f, 0, 0);
             isLayer_1_Enable = true;
         }
-        else 
-        {
-            
-        }
+       
         if(playerAction == SubjectPlayer.PlayerAction.StandMove||
             playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {
@@ -226,6 +223,25 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         {
             animator.CrossFade(Crouch, 0.3f, 0, 0);
             isLayer_1_Enable = true;
+        }
+
+        if(playerAction == SubjectPlayer.PlayerAction.GetUp)
+        {
+            isLayer_1_Enable = false;
+            animator.CrossFade("PlayerSpringGetUp", 0.1f, 0);
+        }
+
+        if (playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack)
+        {
+            isLayer_1_Enable = false;
+
+            Debug.Log("playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack");
+
+            if (player.curNodeLeaf is PlayerBrounceOffGotAttackGunFuNodeLeaf)
+            {
+                Debug.Log("playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack 2");
+                animator.CrossFade("PlayerBounceOff", 0.05f, 0);
+            }
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)

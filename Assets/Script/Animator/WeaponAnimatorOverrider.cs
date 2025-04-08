@@ -18,7 +18,6 @@ public static class WeaponAnimatorOverrider
         float animatorStateNormalizedTime = animatorStateInfo.normalizedTime;
 
         animator.runtimeAnimatorController = animatorOverrideController;
- 
 
         animator.Play(animatorStateInfo.fullPathHash, 0, animatorStateNormalizedTime);
         //for (int i = 0; i < animatorStates.Length; i++)

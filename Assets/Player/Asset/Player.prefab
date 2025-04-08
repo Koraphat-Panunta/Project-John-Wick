@@ -932,6 +932,8 @@ MonoBehaviour:
   dodgeSpinKick: {fileID: 11400000, guid: cf9d9dcbc6b970a4e9608a131add4666, type: 2}
   humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
   humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
+  PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
+    type: 2}
   StandMoveAccelerate: 4.9
   StandMoveMaxSpeed: 2.8
   StandMoveRotateSpeed: 3
@@ -953,6 +955,8 @@ MonoBehaviour:
   inputMoveDir_World: {x: 0, y: 0, z: 0}
   isSprint: 0
   triggerDodgeRoll: 0
+  PlayerGetUpStateScriptableObject: {fileID: 11400000, guid: c199f61db1a48914995d00f36c75e0a1,
+    type: 2}
   playerStance: 0
   centreTransform: {fileID: 6366118577415145198}
   moveWarping:

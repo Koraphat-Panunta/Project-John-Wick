@@ -29,11 +29,18 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNode playerStandIdleNode { get; private set; }
     public PlayerStandMoveNode playerStandMoveNode { get; private set; }
+
     public PlayerSelectorStateNode crouchSelectorNode { get; private set; }
     public PlayerCrouch_Move_NodeLeaf playerCrouch_Move_NodeLeaf { get; private set; }
     public PlayerCrouch_Idle_NodeLeaf playerCrouch_Idle_NodeLeaf { get; private set; }
     public PlayerInCoverStandMoveNode playerInCoverStandMoveNode { get; private set; }
     public PlayerInCoverStandIdleNode playerInCoverStandIdleNode { get; private set; }
+
+    public PlayerSelectorStateNode proneStanceSelector { get; private set; }
+    public PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf { get; private set; }
+
+    public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
+    public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
 
     public GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf { get; private set; }
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
@@ -51,25 +58,31 @@ public class PlayerStateNodeManager : INodeManager
 
         stanceSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return true; });
-
         playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player, () => player.triggerDodgeRoll);
 
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
-
-        crouchSelectorNode = new PlayerSelectorStateNode(this.player,
-            () => this.player.playerStance == PlayerStance.crouch);
-
         playerSprintNode = new PlayerSprintNode(this.player, () => { return this.player.isSprint; });
 
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
             () => { return this.player.isInCover; });
 
         playerStandMoveNode = new PlayerStandMoveNode(this.player,
-            () =>{ return this.player.inputMoveDir_Local.magnitude > 0; });
+            () => { return this.player.inputMoveDir_Local.magnitude > 0; });
 
-        playerStandIdleNode = new PlayerStandIdleNode(this.player, 
+        playerStandIdleNode = new PlayerStandIdleNode(this.player,
             () => true);
+
+
+        playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this.player,
+            () => { return this.player.inputMoveDir_Local.magnitude > 0; });
+
+        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this.player,
+            () => true);
+
+
+        crouchSelectorNode = new PlayerSelectorStateNode(this.player,
+            () => this.player.playerStance == PlayerStance.crouch);
 
         playerCrouch_Move_NodeLeaf = new PlayerCrouch_Move_NodeLeaf(this.player,
            () => this.player.inputMoveDir_Local.magnitude > 0);
@@ -77,11 +90,15 @@ public class PlayerStateNodeManager : INodeManager
         playerCrouch_Idle_NodeLeaf = new PlayerCrouch_Idle_NodeLeaf(this.player,
             () => this.player.inputMoveDir_Local.magnitude <= 0 || true);
 
-        playerInCoverStandMoveNode = new PlayerInCoverStandMoveNode(this.player,
-            () =>{ return this.player.inputMoveDir_Local.magnitude > 0; });
 
-        playerInCoverStandIdleNode = new PlayerInCoverStandIdleNode(this.player, 
-            () => true);
+        proneStanceSelector = new PlayerSelectorStateNode(this.player, 
+            () => this.player.playerStance == PlayerStance.prone);
+        playerGetUpStateNodeLeaf = new PlayerGetUpStateNodeLeaf(player.PlayerGetUpStateScriptableObject, this.player, 
+            () => player.playerStance == PlayerStance.prone || true);
+
+        gotGunFuAttackSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, () => player._triggerHitedGunFu);
+        playerBrounceOffGotAttackGunFuNodeLeaf = new PlayerBrounceOffGotAttackGunFuNodeLeaf(player.PlayerBrounceOffGotAttackGunFuScriptableObject, this.player,
+            () => player.curAttackerGunFuNode is EnemySpinKickGunFuNodeLeaf);
 
 
         gunFuExecuteNodeLeaf = new GunFuExecuteNodeLeaf(player,
@@ -134,9 +151,11 @@ public class PlayerStateNodeManager : INodeManager
         startNodeSelector.AddtoChildNode(deadNodeLeaf);
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
+        stanceSelectorNode.AddtoChildNode(gotGunFuAttackSelectorNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
+        stanceSelectorNode.AddtoChildNode(proneStanceSelector);
 
         standSelectorNode.AddtoChildNode(gunFuExecuteNodeLeaf);
         standSelectorNode.AddtoChildNode(Hit1gunFuNode);
@@ -146,9 +165,10 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
-
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNode);
+
+        gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
 
         Hit1gunFuNode.AddTransitionNode(Hit2GunFuNode);
         Hit1gunFuNode.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
@@ -158,6 +178,8 @@ public class PlayerStateNodeManager : INodeManager
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);
+
+        proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
 
         standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
         standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
