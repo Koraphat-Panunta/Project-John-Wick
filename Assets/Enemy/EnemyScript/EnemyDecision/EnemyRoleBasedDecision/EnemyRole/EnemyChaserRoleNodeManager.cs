@@ -68,7 +68,7 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
             ,this);
 
         disarmTargetWeaponEnemyActionNodeLeaf = new DisarmTargetWeaponEnemyActionNodeLeaf(enemy, enemyCommandAPI,
-            () => enemy._currentWeapon == null
+            () => enemy._currentWeapon == null && curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert
             ,this);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);

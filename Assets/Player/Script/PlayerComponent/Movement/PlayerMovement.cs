@@ -66,6 +66,9 @@ public class PlayerMovement : IMovementCompoent,IMovementSnaping,IMotionWarpingA
         if (isEnable == false)
             return;
 
+        Vector3 euler = player.transform.rotation.eulerAngles;
+        player.transform.rotation = Quaternion.Euler(0f, euler.y, 0f);
+
         GravityUpdate();
         if(movementMotionWarping == null || movementMotionWarping.isWarping == false)
         characterController.Move(curMoveVelocity_World * Time.deltaTime);

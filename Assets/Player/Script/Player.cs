@@ -275,7 +275,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 attackedPos { get => transform.position; set { } }
     public IGunFuNode curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get => playerStateNodeManager.curNodeLeaf; set =>playerStateNodeManager.curNodeLeaf = value; }
-    public IGunFuAble gunFuAbleAttacker { get => this; set { } }
+    public IGunFuAble gunFuAbleAttacker { get; set; }
     public IMovementCompoent _movementCompoent { get => playerMovement; set { } }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }

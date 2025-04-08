@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
+public class EnemyMovement : IMovementCompoent, IMotionImplusePushAble, IMovementSnaping
 {
-    public MonoBehaviour userMovement { get; set ; }
-    public Vector3 moveInputVelocity_World { get ; set ; }
+    public MonoBehaviour userMovement { get; set; }
+    public Vector3 moveInputVelocity_World { get; set; }
     public Vector3 curMoveVelocity_World { get; set; }
     public Vector3 moveInputVelocity_Local { get; set; }
     public Vector3 curMoveVelocity_Local { get; set; }
@@ -17,14 +17,15 @@ public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
 
     public Enemy enemy { get; set; }
     public GravityMovement gravityMovement { get; set; }
-    public MovementComponentBehavior moveTo { get ; set ; }
-    public bool isEnable { get ; set ; }
+    public MovementComponentBehavior moveTo { get; set; }
+    public bool isEnable { get; set; }
 
     public IMovementCompoent movementCompoent => this;
 
-    public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get ; set; }
+    public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
+    public IMovementMotionWarping movementMotionWarping { get; set; }
 
-    public EnemyMovement(NavMeshAgent agent,Enemy enemy)
+    public EnemyMovement(NavMeshAgent agent, Enemy enemy)
     {
         this.agent = agent;
         this.gravityMovement = new GravityMovement();
@@ -41,13 +42,13 @@ public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
     }
     public void MovementFixedUpdate()
     {
-        if(isEnable == false)
+        if (isEnable == false)
             return;
 
         GravityUpdate();
         agent.Move(curMoveVelocity_World * Time.deltaTime);
 
-        if (Physics.Raycast(enemy.transform.position, Vector3.down, 1,moveTo.GetGroundLayerMask()))
+        if (Physics.Raycast(enemy.transform.position, Vector3.down, 1, moveTo.GetGroundLayerMask()))
             isGround = true;
         else isGround = false;
     }
@@ -89,7 +90,7 @@ public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
         }
     }
 
-  
+
 
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {
@@ -117,5 +118,19 @@ public class EnemyMovement : IMovementCompoent,IMotionImplusePushAble
     }
 
     public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode) => motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
-    
+
+    public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
+    {
+        Vector3 finalDestination = Destination + offset;
+        float distacne = Vector3.Distance(enemy.transform.position, finalDestination);
+
+        curMoveVelocity_World = Vector3.zero;
+
+        if (Vector3.Distance(enemy.transform.position, finalDestination) <= speed * Time.deltaTime)
+        {
+            agent.Move((finalDestination - enemy.transform.position).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
+            return;
+        }
+        agent.Move((finalDestination - enemy.transform.position).normalized * speed * Time.deltaTime);
+    }
 }

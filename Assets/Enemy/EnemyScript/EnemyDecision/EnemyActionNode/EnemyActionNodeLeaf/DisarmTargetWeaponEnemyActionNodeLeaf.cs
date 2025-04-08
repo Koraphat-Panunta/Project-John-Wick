@@ -35,7 +35,8 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
         {
             case DisarmTargetWeaponPhase.SprintToKick:
                 {
-                    if (enemyCommandAPI.MoveToPositionRotateToward(targetPosition, 1,1, 2.5f))
+                    if (enemyCommandAPI.MoveToPositionRotateToward(targetPosition, 1,1, 3.5f) 
+                       /* && (Vector3.Dot(enemy.transform.forward,(enemy.targetKnewPos-enemy.transform.position).normalized)>0.75f)*/)
                     {
                         enemyCommandAPI.SpinKick();
                         curDisarmWeapon = DisarmTargetWeaponPhase.FindingWeapon;
