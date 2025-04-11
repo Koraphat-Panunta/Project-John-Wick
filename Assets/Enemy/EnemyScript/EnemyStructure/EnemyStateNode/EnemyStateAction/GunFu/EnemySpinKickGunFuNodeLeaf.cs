@@ -8,7 +8,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => enemy; set { } }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
-    public AnimationClip _animationClip { get; set; }
+    public AnimationClip _animationClip { get => _enemySpinKickScriptable.animationClip; set => _enemySpinKickScriptable.animationClip = value; }
     public override bool isComplete { get => base.isComplete; protected set => base.isComplete = value; }
     private EnemySpinKickScriptable _enemySpinKickScriptable { get; set; }
 
@@ -102,6 +102,20 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     {
         if(enemy.isDead || enemy._posture <= 0)
             return true;
+
+        if(enemy._triggerHitedGunFu)
+            return true;
+
+        if(enemy._isPainTrigger)
+            return true;
+
+        if(_timer < _animationClip.length*_enemySpinKickScriptable._pushForwardTimeNormalized
+            &&
+            (
+            enemy._isPainTrigger
+            ))
+            return true;
+
 
         return IsComplete();
     }

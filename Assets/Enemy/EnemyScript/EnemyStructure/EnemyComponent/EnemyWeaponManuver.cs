@@ -28,10 +28,15 @@ public class EnemyWeaponManuver : WeaponManuverManager
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
             ()=> 
             {
+                Debug.Log("Enemy isPickingUpWeaponManuver = "+isPickingUpWeaponManuver);
+
                 if (isPickingUpWeaponManuver)
                 {
-                    if(weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                    if (weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                    {
+                        //Debug.Log("Enemy weaponAdvanceUser.findingWeaponBehavior.FindingWeapon()");
                         return true;
+                    }
                 }
                 return false;
             } 
@@ -92,6 +97,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
             isPullTriggerManuver = false;
             isReloadManuver = false;
             isSwitchWeaponManuver = false;
+            isPickingUpWeaponManuver = false;
             return;
         }
 
@@ -125,5 +131,6 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
 
+        isPickingUpWeaponManuver = weaponAdvanceUser.isPickingUpWeaponCommand;
     }
 }

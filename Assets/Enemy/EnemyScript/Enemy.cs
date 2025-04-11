@@ -79,7 +79,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
         //combatOffensiveInstinct.UpdateSening();
-
         enemyStateManagerNode.UpdateNode();
         weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
@@ -480,6 +479,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             {
                 return false;
             }
+            if(curNodeLeaf is EnemySpinKickGunFuNodeLeaf)
+                return false;
 
             return true;
         } set { } }

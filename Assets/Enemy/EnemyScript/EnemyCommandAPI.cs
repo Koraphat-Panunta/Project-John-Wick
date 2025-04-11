@@ -430,6 +430,7 @@ public class EnemyCommandAPI :MonoBehaviour
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isPickingUpWeaponCommand = true;
+        Debug.Log("Enemy isPickingUpWeaponManuver = " + weaponAdvanceUser.isPickingUpWeaponCommand);
     }
     public void SpinKick()
     {

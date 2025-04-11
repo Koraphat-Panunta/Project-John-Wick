@@ -31,45 +31,7 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        switch (curDisarmWeapon)
-        {
-            case DisarmTargetWeaponPhase.SprintToKick:
-                {
-                    if (enemyCommandAPI.MoveToPositionRotateToward(targetPosition, 1,1, 3.5f) 
-                       /* && (Vector3.Dot(enemy.transform.forward,(enemy.targetKnewPos-enemy.transform.position).normalized)>0.75f)*/)
-                    {
-                        enemyCommandAPI.SpinKick();
-                        curDisarmWeapon = DisarmTargetWeaponPhase.FindingWeapon;
-                    }
-                }
-                break;    
-            case DisarmTargetWeaponPhase.FindingWeapon: 
-                {
-                    findingWeaponElapseTime += Time.deltaTime;
-                    if (enemy.findingWeaponBehavior.FindingWeapon(enemy.transform.position, 3))
-                    {
-                        findingWeaponElapseTime = 0;
-                        curDisarmWeapon = DisarmTargetWeaponPhase.PickingUpWeapon;
-                    }
-                    else if(findingWeaponElapseTime >= findingWeaponTime)
-                    {
-                        findingWeaponElapseTime = 0;
-                        curDisarmWeapon= DisarmTargetWeaponPhase.SprintToKick;
-                    }
-                }
-                break;
-            case DisarmTargetWeaponPhase.PickingUpWeapon:
-                {
-                    if (enemy.findingWeaponBehavior.weaponFindingSelecting == null)
-                        curDisarmWeapon = DisarmTargetWeaponPhase.SprintToKick;
-
-                    if (enemyCommandAPI.MoveToPositionRotateToward(enemy.findingWeaponBehavior.weaponFindingSelecting.transform.position, 1, 1, enemy.findingWeaponBehavior.findingWeaponRaduisDefault))
-                    {
-                        enemyCommandAPI.PickUpWeapon();
-                    }
-                }
-                break;
-        }
+        
        
         base.FixedUpdateNode();
     }
@@ -88,6 +50,47 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
+        switch (curDisarmWeapon)
+        {
+            case DisarmTargetWeaponPhase.SprintToKick:
+                {
+                    if (enemyCommandAPI.MoveToPositionRotateToward(targetPosition, 1, 1, 3.5f)
+                       /* && (Vector3.Dot(enemy.transform.forward,(enemy.targetKnewPos-enemy.transform.position).normalized)>0.75f)*/)
+                    {
+                        enemyCommandAPI.SpinKick();
+                        if (enemy.curNodeLeaf is EnemySpinKickGunFuNodeLeaf)
+                            curDisarmWeapon = DisarmTargetWeaponPhase.FindingWeapon;
+                    }
+                }
+                break;
+            case DisarmTargetWeaponPhase.FindingWeapon:
+                {
+                    findingWeaponElapseTime += Time.deltaTime;
+                    if (enemy.findingWeaponBehavior.FindingWeapon(enemy.transform.position, 3))
+                    {
+                        findingWeaponElapseTime = 0;
+                        curDisarmWeapon = DisarmTargetWeaponPhase.PickingUpWeapon;
+                    }
+                    else if (findingWeaponElapseTime >= findingWeaponTime)
+                    {
+                        findingWeaponElapseTime = 0;
+                        curDisarmWeapon = DisarmTargetWeaponPhase.SprintToKick;
+                    }
+                }
+                break;
+            case DisarmTargetWeaponPhase.PickingUpWeapon:
+                {
+                    if (enemy.findingWeaponBehavior.weaponFindingSelecting == null)
+                        curDisarmWeapon = DisarmTargetWeaponPhase.SprintToKick;
+
+                    if (enemyCommandAPI.MoveToPositionRotateToward(enemy.findingWeaponBehavior.weaponFindingSelecting.transform.position, 1, 1, enemy.findingWeaponBehavior.findingWeaponRaduisDefault))
+                    {
+                        enemyCommandAPI.PickUpWeapon();
+                    }
+                }
+                break;
+        }
+
         base.UpdateNode();
     }
 }

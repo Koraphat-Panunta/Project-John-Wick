@@ -22,8 +22,8 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
 
         Vector3 rotateDir =    player.gunFuAbleAttacker._gunFuUserTransform.position - player.transform.position ;
         player.playerMovement.SetRotateCharacter(rotateDir);
-        //if (player._currentWeapon != null)
-        //    player._currentWeapon.DropWeapon();
+        if (player._currentWeapon != null)
+            player._currentWeapon.DropWeapon();
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GotAttackGunFuEnter);
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GotAttackGunFuAttack);
         base.Enter();

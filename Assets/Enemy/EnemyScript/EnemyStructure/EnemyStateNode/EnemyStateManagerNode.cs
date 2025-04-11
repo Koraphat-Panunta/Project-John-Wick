@@ -313,11 +313,11 @@ public class EnemyStateManagerNode : INodeManager
 
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
-        startNodeSelector.AddtoChildNode(gunFuSelector);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
         startNodeSelector.AddtoChildNode(painStateSelector);
+        startNodeSelector.AddtoChildNode(gunFuSelector);
         startNodeSelector.AddtoChildNode(standSelector);
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
