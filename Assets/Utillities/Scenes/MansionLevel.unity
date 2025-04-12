@@ -19860,32 +19860,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b605888b74542124caf81532f2a3f294, type: 3}
---- !u!1 &493380255 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
-    type: 3}
-  m_PrefabInstance: {fileID: 617701845}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &493380256
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493380255}
-  m_Enabled: 1
---- !u!114 &493380258 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8522622513793723404, guid: d701a55337d9aff4e8bcef9219851f97,
-    type: 3}
-  m_PrefabInstance: {fileID: 617701845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493380255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &504452718
 GameObject:
   m_ObjectHideFlags: 0
@@ -23295,40 +23269,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2349786387772042701, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: allowDynamicResolution
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: m_AllowMSAA
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: field of view
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: m_AllowDynamicResolution
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: m_Name
       value: Main Camera (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5964026285245096123, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: m_WorldUpOverride
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6367259733322763136, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
@@ -23387,26 +23336,6 @@ PrefabInstance:
       objectReference: {fileID: 1216880950}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
-      propertyPath: cameraOffset
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: impulseSource
-      value: 
-      objectReference: {fileID: 493380258}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: playerSpawner
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: CinemachineFreeLook
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
       propertyPath: cameraKickUpMultiple
       value: 0.004
       objectReference: {fileID: 0}
@@ -23425,19 +23354,15 @@ PrefabInstance:
       propertyPath: aimDownSightCameraSensivity
       value: 4.45
       objectReference: {fileID: 0}
-    - target: {fileID: 8522622513793723404, guid: d701a55337d9aff4e8bcef9219851f97,
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
-      propertyPath: m_ImpulseDefinition.m_ImpulseShape
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: thirdPersonCinemachineCamera
+      value: 
+      objectReference: {fileID: 884196681}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 493380256}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d701a55337d9aff4e8bcef9219851f97, type: 3}
 --- !u!43 &618530188
 Mesh:
@@ -34091,6 +34016,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7610df03b6259ea409d446dc8358715b, type: 3}
+--- !u!114 &884196681 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 104828536550568714, guid: 7610df03b6259ea409d446dc8358715b,
+    type: 3}
+  m_PrefabInstance: {fileID: 884196680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf95954ed218c5f4e92982d293acb0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &884635063
 PrefabInstance:
   m_ObjectHideFlags: 0

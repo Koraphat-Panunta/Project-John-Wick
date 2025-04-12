@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6424261375681497480}
   - component: {fileID: 8522622513793723404}
   - component: {fileID: 2349786387772042701}
+  - component: {fileID: 7844203992046025936}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -31,13 +32,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806568399460747138}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.059905995, y: -0.45063666, z: 0.030326303, w: 0.8901788}
+  m_LocalRotation: {x: 0.059905898, y: -0.45063695, z: 0.030326286, w: 0.8901786}
   m_LocalPosition: {x: -77.15, y: 2.0466394, z: 21.469845}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -46.027, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.7, y: -53.7, z: 0}
 --- !u!20 &3210506969022920912
 Camera:
   m_ObjectHideFlags: 0
@@ -83,7 +84,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -179,7 +180,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cinemachineBrain: {fileID: 5964026285245096123}
   thirdPersonCinemachineCamera: {fileID: 0}
-  executeThirdPersonCinemachineCameara: {fileID: 0}
   impulseSource: {fileID: 8522622513793723404}
   player: {fileID: 0}
   cameraViewAttribute: {fileID: 11400000, guid: 4108872fe8dfb1a43bd8c8b28da56794,
@@ -189,13 +189,13 @@ MonoBehaviour:
   cameraSwitchSholderVelocity: 3.5
   gunFuCameraTimer: 0
   CameraNodeName: 
-  standardCameraSensivity: 1
-  aimDownSightCameraSensivity: 1
+  standardCameraSensivity: 6.15
+  aimDownSightCameraSensivity: 4.45
   inputLook: 
   curSide: 0
   curStance: 0
-  cameraKickbackMultiple: 0
-  cameraKickUpMultiple: 0
+  cameraKickbackMultiple: 0.001
+  cameraKickUpMultiple: 0.004
 --- !u!114 &6424261375681497480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,3 +402,11 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!81 &7844203992046025936
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3806568399460747138}
+  m_Enabled: 1

@@ -35,10 +35,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
             quickDrawPhase = QuickDrawPhase.Draw;
             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
             weapon.ChangeActionManualy(weapon.restNode);
-
-            MultiAimConstraint multiAim = (weaponAdvanceUser as IAimingProceduralAnimate)._aimConstraint;
-
-            beforeEnter_AimProcedural = multiAim.data.offset;
         }
         isComplete = false;
         elapseDrawTime = 0f;
@@ -51,10 +47,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         quickDrawPhase = QuickDrawPhase.Exit;
         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
             weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
-
-        MultiAimConstraint multiAim = (weaponAdvanceUser as Player)._aimConstraint;
-
-        multiAim.data.offset = beforeEnter_AimProcedural;
     }
 
     public override void FixedUpdateNode()
@@ -83,9 +75,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        MultiAimConstraint multiAim = (weaponAdvanceUser as IAimingProceduralAnimate)._aimConstraint;
-
-
 
         switch (quickDrawPhase)
         {
@@ -94,8 +83,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     float drawGrab = 0.184f;
                     float drawAim = 0.34f;
                     elapseDrawTime += Time.deltaTime;
-
-                    multiAim.data.offset = Vector3.Lerp(beforeEnter_AimProcedural, new Vector3(48f, 0f, 0f), elapseDrawTime/drawAim);
 
                     if (elapseDrawTime >= drawGrab)
                         (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
@@ -148,8 +135,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
                     if (elapseHolsterTime >= holsterSecondary && weapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon) 
                         weapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-
-                    multiAim.data.offset = Vector3.Lerp(new Vector3(48f, 0f, 0f),beforeEnter_AimProcedural , elapseHolsterTime / drawPrimary);
 
                     if (elapseHolsterTime >= drawPrimary)
                     {

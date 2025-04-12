@@ -36,15 +36,12 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
         curIntphase = InteractionPhase.Enter;
         elaspeTimmerEnter = 0;
         elapesTimmerStay = 0;
-        beforeAimConstrainOffset = player._aimConstraint.data.offset;
 
         base.Enter();
     }
 
     public override void Exit()
     {
-        player._aimConstraint.data.offset = beforeAimConstrainOffset;
-        player._aimConstraint.weight = 1;
 
         base.Exit();
     }
@@ -103,9 +100,6 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
                     attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position;
                     attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
-
-                    player._aimConstraint.data.offset = new Vector3(12,0,0);
-                    player._aimConstraint.weight = 0.5f;
 
                     player.playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
 

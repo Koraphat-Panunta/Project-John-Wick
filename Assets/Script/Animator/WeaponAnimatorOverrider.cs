@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public static class WeaponAnimatorOverrider 
 {
@@ -24,5 +25,10 @@ public static class WeaponAnimatorOverrider
         //{
         //    animator.Play(animatorStates[i].fullPathHash, i, animatorStateNormalized[i]);
         //}
+    }
+    public static void OverrideAnimator(Animator animator,RigBuilder rigBuilder, AnimatorOverrideController animatorOverrideController)
+    {
+        OverrideAnimator(animator, animatorOverrideController);
+        rigBuilder.Build();
     }
 }

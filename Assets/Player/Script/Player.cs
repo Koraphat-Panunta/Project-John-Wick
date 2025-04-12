@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
-    IBulletDamageAble,IAimingProceduralAnimate,IGunFuAble,
+    IBulletDamageAble,IGunFuAble,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble,
     IGunFuGotAttackedAble
 {
@@ -63,8 +63,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         InitailizedGunFuComponent();
 
         Initialized_IWeaponAdvanceUser();
-
-        InitializedAimingProceduralAnimate();
 
         //new WeaponFactorySTI9mm().CreateWeapon(this);
         //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponToSocket(weaponBelt.secondaryWeaponSocket);
@@ -188,25 +186,9 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     #endregion
 
     #region ProceduralAim_Lean
-    [SerializeField] private MultiAimConstraint aimConstraint;
-    [SerializeField] private MultiRotationConstraint rotationConstraint;
+
     [SerializeField] private Transform aimPosRef;
-    //[SerializeField] private CrosshairController crosshairController;
-    public MultiAimConstraint _aimConstraint { get => aimConstraint; set => aimConstraint = value; }
-    public MultiRotationConstraint _rotationConstraint { get => rotationConstraint; set => rotationConstraint = value ; }
-    public AimingProceduralAnimate _aimingProceduralAnimate { get; set ; }
     public Transform _aimPosRef { get => aimPosRef; set => aimPosRef = value; }
-    public LeanCover _leanCover { get; set ; }
-    public CrosshairController _crosshairController { get => crosshairController; }
-   
-
-    public void InitializedAimingProceduralAnimate()
-    {
-        _aimingProceduralAnimate = new AimingProceduralAnimate(this,this,_aimPosRef,_aimConstraint,this);
-        _leanCover = new LeanCover(_rotationConstraint, _crosshairController, this);
-    }
-
-
     #endregion
 
     #region InitailizedGunFu
