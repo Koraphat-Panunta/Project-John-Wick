@@ -17,6 +17,15 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public float elapesTimmerStay { get; private set; }
     public float StayDuration { get; private set; }
 
+    public float distanceRightOffset { get 
+        {
+            if (player.curNodeLeaf is SecondaryWeapon)
+                return -0.26f;
+            else  /*(player.curNodeLeaf is PrimaryWeapon)*/
+                return -0.23f;        
+        }
+    }
+    public float distanceUpOffset = -0.03f;
 
     public enum InteractionPhase
     {
@@ -28,7 +37,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)
     {
         weaponAdvanceUser = player;
-        StayDuration = 5;
+        StayDuration = 10;
     }
 
     public override void Enter()
@@ -75,7 +84,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
                     attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
                         attackedAbleGunFu._gunFuAttackedAble.position, 
-                        targetAdjustTransform.position, 
+                        targetAdjustTransform.position + (targetAdjustTransform.right*distanceRightOffset) + (targetAdjustTransform.up* distanceUpOffset), 
                         elaspeTimmerEnter / EnterDuration
                         );
 
@@ -98,7 +107,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     elapesTimmerStay += Time.deltaTime;
                     nodeLeafTransitionBehavior.TransitionAbleAll(this);
 
-                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position + (targetAdjustTransform.right * distanceRightOffset) + (targetAdjustTransform.up * distanceUpOffset);
                     attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
 
                     player.playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);

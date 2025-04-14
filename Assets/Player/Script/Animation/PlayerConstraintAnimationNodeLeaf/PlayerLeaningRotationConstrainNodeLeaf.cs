@@ -22,21 +22,36 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     public override void UpdateNode()
     {
         leaningRotation.SetWeight(weaponAdvanceUser.weaponManuverManager.aimingWeight, leaningScriptableObject);
-        
-        if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+        if (player.curShoulderSide == Player.ShoulderSide.Left)
         {
-            if (player.curShoulderSide == Player.ShoulderSide.Left)
+            Vector3 castDir = weaponAdvanceUser.pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
+            Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.down) * (leaningScriptableObject.recoveryStepCheck-leaningScriptableObject.weightAdd)*(1-leaningRotation.weight);
+
+            if (PointingBlock(castPos, weaponAdvanceUser.pointingPos))
                 leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() - leaningScriptableObject.weightAdd * Time.deltaTime);
-            else if (player.curShoulderSide == Player.ShoulderSide.Right)
-                leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() + leaningScriptableObject.weightAdd * Time.deltaTime);
-        }
-        else
-        {
-            if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+            
+            else
             {
-                leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));
+                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+                    leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));   
+            }
+
+        }
+        else if(player.curShoulderSide == Player.ShoulderSide.Right)
+        {
+            Vector3 castDir = weaponAdvanceUser.pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
+            Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.up) * (leaningScriptableObject.recoveryStepCheck - leaningScriptableObject.weightAdd) * (1 - leaningRotation.weight);
+
+            if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+                leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() + leaningScriptableObject.weightAdd * Time.deltaTime);
+
+            else
+            {
+                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+                    leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));
             }
         }
+            
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
@@ -54,8 +69,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         Vector3 castDir = targetPos - startCastPos;
         Debug.DrawLine(startCastPos, targetPos, Color.green);
 
-        if(Physics.SphereCast(startCastPos,Mathf.Clamp(leaningScriptableObject.recoveryStepCheck*0.7f,0.01f,leaningScriptableObject.recoveryStepCheck), 
-            castDir.normalized, out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
+        if(Physics.Raycast(startCastPos,castDir.normalized, out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
         {
             if (Vector3.Distance(hit.point, targetPos) > 0.67f)
                 return true;
@@ -86,7 +100,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
             recoveryDir = Vector3.Cross(castDir.normalized, Vector3.down);
         }
 
-        Vector3 recoveryCheckStart = startCastPos + (recoveryDir * leaningScriptableObject.recoveryStepCheck);
+        Vector3 recoveryCheckStart = startCastPos + (recoveryDir * leaningScriptableObject.recoveryStepCheck*leaningRotation.weight);
 
 
         

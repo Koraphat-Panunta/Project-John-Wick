@@ -27,6 +27,7 @@ public class HumandShieldRightHandConstrainLookAtManager : MonoBehaviour
     {
         this.weight = w;
     }
+    public float GetWeight() => weight;
     void Update()
     {
         if(weight <= 0)
@@ -45,5 +46,7 @@ public class HumandShieldRightHandConstrainLookAtManager : MonoBehaviour
         rightArm_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightArmAim * this.weight;
         rightForeArm_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightForeArmAim * this.weight;
         rightHand_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightHandAim * this.weight;
+
+       
     }
 }

@@ -185,6 +185,12 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 isPullTriggerManuver = player.isPullTriggerCommand;
                 return;
             }
+            if(player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf)
+            {
+                isAimingManuver = player.isAimingCommand;
+                isPullTriggerManuver = false;
+                return;
+            }
             //else if (player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
             //{
                

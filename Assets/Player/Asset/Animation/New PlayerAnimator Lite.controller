@@ -267,7 +267,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 08de6bc3c241c544fb40dc55aee2e3a0, type: 2}
+  m_Motion: {fileID: 7400000, guid: afa41f55a81b9714e8ce2d84ba4b53dc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -561,7 +561,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7adb54aaeaf2c194d9ca3bfa0ed69a32, type: 2}
+  m_Motion: {fileID: 7400000, guid: a94fa4fbe11760340b405b92d26a1970, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -3324,32 +3324,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1102 &-2065490586038189262
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HumanShieldEnter
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!206 &-2038420612588190541
 BlendTree:
   m_ObjectHideFlags: 1
@@ -5131,9 +5105,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -5310734748725147656}
     m_Position: {x: 770, y: 550, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -2065490586038189262}
-    m_Position: {x: -120, y: 860, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -6492,32 +6463,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1102 &4544021444958423793
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HumandShield
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1d878b112dca358478af2ac327d324ad, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &4545577903853949212
 AnimatorStateMachine:
   serializedVersion: 6
@@ -6541,7 +6486,7 @@ AnimatorStateMachine:
     m_Position: {x: -1300, y: 270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8106332887551987352}
-    m_Position: {x: -990, y: 460, z: 0}
+    m_Position: {x: -900, y: 440, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8558528893488858368}
     m_Position: {x: -500, y: 400, z: 0}
@@ -6551,9 +6496,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 8209537821538338948}
     m_Position: {x: -1300, y: 550, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4544021444958423793}
-    m_Position: {x: -730, y: 460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3448012802103179005}
     m_Position: {x: 330, y: 10, z: 0}
@@ -6596,7 +6538,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: -1210, y: -450, z: 0}
   m_ExitPosition: {x: -1210, y: -360, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 4544021444958423793}
+  m_DefaultState: {fileID: 7410628426701544307}
 --- !u!206 &4564758038937660056
 BlendTree:
   m_ObjectHideFlags: 1
