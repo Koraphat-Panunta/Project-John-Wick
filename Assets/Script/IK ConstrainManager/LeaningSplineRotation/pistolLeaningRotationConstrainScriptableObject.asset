@@ -10,9 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: LeaningRotationConstrainScriptableObjectPistol
+  m_Name: pistolLeaningRotationConstrainScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::LeaningRotaionScriptableObject
-  leaningLeftRightSplineMax: 0.702
+  leaningLeftRightSplineMax: 0.174
   leaningLeftRightSplineOffset: {x: 0, y: 0, z: 0}
   leaningLeftRightSpline1Offset: {x: 0, y: 0, z: 0}
-  multiplyleaningLeftRightSpline1: 1.28
+  multiplyleaningLeftRightSpline1: 1.848
+  weightAdd: 0.4
+  recoveryStepCheck: 0.34
+  distanceCheck: 5.1
+  castingCheckLayer:
+    serializedVersion: 2
+    m_Bits: 2177

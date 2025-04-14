@@ -80,7 +80,7 @@ public class LeaningRotation : MonoBehaviour
 [CreateAssetMenu(fileName = "LeaningRotationConstrainScriptableObject", menuName = "ScriptableObjects/ConstrainObject/RotationConstrain")]
 public class LeaningRotaionScriptableObject : ScriptableObject
 {
-    [Range(-1, 1)]
+    [Range(0, 1)]
     [SerializeField] public float leaningLeftRightSplineMax;
     public Vector3 leaningLeftRightSplineOffset;
 

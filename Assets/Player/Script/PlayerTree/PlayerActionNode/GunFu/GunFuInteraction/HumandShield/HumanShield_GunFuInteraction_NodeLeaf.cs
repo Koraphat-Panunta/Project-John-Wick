@@ -8,7 +8,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     IWeaponAdvanceUser weaponAdvanceUser;
 
     public string humandShieldEnter = "HumandShieldEnter";
-    public string humandShieldStay = "HumandShield";
+    public string humandShieldStay = "HumanShieldStay";
     //private string humandShieldExit = "HumandThrow";
 
     private float EnterDuration = 0.716f;
@@ -42,7 +42,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     public override void Exit()
     {
-
+        curIntphase = InteractionPhase.Release;
         base.Exit();
     }
 

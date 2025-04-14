@@ -68,23 +68,8 @@ public class CrosshiarShootpoint : ICrosshairAction
     }
     public Vector3 GetPointDirection()
     {
-        Vector3 pointPos;
-        Ray ray = Camera.main.ScreenPointToRay(CrosshairCenterPosition.anchoredPosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1000, crosshairController.layerMask))
-        {
-            pointPos = hit.point;
-        }
-        else if (Physics.Raycast(ray, out hit, 1000, 1))
-        {
-            pointPos = hit.point;
-        }
-        else
-        {
-            //Vector3 worldPosition = ray.GetPoint(100);
-            pointPos = ray.GetPoint(1000);
-        }
-        return pointPos;
+        
+        return crosshairController.TargetAim.position;
     }
     public void Performed(Weapon weapon)
     {

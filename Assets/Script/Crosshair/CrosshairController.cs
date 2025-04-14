@@ -41,7 +41,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         if(player != null)
         CrosshairSpread.CrosshairSpreadUpdate();
     }
-    float lerpSpeed = 10;
+    float lerpSpeed = 25;
     void CrosshairUpdate()
     {
         if(TargetAim == null)
@@ -53,22 +53,23 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         Ray ray = Camera.main.ScreenPointToRay(CrosshairPos);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, layerMask))
+
+        if (Physics.Raycast(ray, out hit, 10, layerMask))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
+            TargetAim.transform.position = worldPosition;
             if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
                 gotPointingAble.NotifyPointingAble(this);
         }
-        else if (Physics.Raycast(ray, out hit, 1000, 1))
+        else if (Physics.Raycast(ray, out hit, 10, 1))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
+            TargetAim.transform.position = worldPosition;
         }
         else
         {
-            Vector3 worldPosition = ray.GetPoint(100);
-            TargetAim.transform.position = Vector3.Lerp(TargetAim.transform.position, worldPosition, lerpSpeed * Time.deltaTime);
+            Vector3 worldPosition = ray.GetPoint(10);
+            TargetAim.transform.position = worldPosition;
         }
     }
     private void OnEnable()

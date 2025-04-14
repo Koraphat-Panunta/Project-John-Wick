@@ -8,10 +8,6 @@ public class User : MonoBehaviour
     public void InitailizedInputAction(Player player)
     {
         PlayerInputAPI playerInputAPI = player.GetComponent<PlayerInputAPI>();
-  
-        Debug.Log("playerInputAPI == "+playerInputAPI);
-
-        Debug.Log("userInput = " + this.userInput);
 
         userInput.PlayerAction.Move.performed += playerInputAPI.Move;
         userInput.PlayerAction.Move.canceled += playerInputAPI.Move;

@@ -77,13 +77,11 @@ public class CameraManagerNode : INodeManager
         cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuHitViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
-        Debug.Log("Initailized Cameara ManageNode");
-
+       
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
         curNodeLeaf.Enter();
 
-        Debug.Log("Initailized Cameara Node at the end");
     }
 }
 public class CameraRestNodeLeaf : CameraNodeLeaf

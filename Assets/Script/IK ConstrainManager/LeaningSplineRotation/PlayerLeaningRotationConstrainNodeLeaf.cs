@@ -12,6 +12,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         this.leaningScriptableObject = leaningScriptableObject;
         this.leaningRotation = leaningRotation;
         this.weaponAdvanceUser = weaponAdvanceUser;
+        this.player = player;
     }
 
     public override void Enter()
@@ -20,13 +21,9 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void UpdateNode()
     {
-        base.UpdateNode();
-    }
-    public override void FixedUpdateNode()
-    {
-        leaningRotation.SetWeight(Mathf.MoveTowards(leaningRotation.weight,1,Time.deltaTime),leaningScriptableObject);
-
-        if (TargetHit(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos) == false)
+        leaningRotation.SetWeight(weaponAdvanceUser.weaponManuverManager.aimingWeight, leaningScriptableObject);
+        
+        if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
         {
             if (player.curShoulderSide == Player.ShoulderSide.Left)
                 leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() - leaningScriptableObject.weightAdd * Time.deltaTime);
@@ -35,11 +32,16 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         }
         else
         {
-            if(RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+            if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
             {
-                leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(),0,leaningScriptableObject.weightAdd*Time.deltaTime));
+                leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));
             }
         }
+        base.UpdateNode();
+    }
+    public override void FixedUpdateNode()
+    {
+       
         base.FixedUpdateNode();
     }
     public override void Exit()
@@ -47,18 +49,26 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         base.Exit();
     }
 
-    private bool TargetHit(Vector3 startCastPos,Vector3 targetPos)
+    private bool PointingBlock(Vector3 startCastPos,Vector3 targetPos)
     {
         Vector3 castDir = targetPos - startCastPos;
-        if(Physics.Raycast(startCastPos,castDir.normalized,out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
+        Debug.DrawLine(startCastPos, targetPos, Color.green);
+
+        if(Physics.SphereCast(startCastPos,Mathf.Clamp(leaningScriptableObject.recoveryStepCheck*0.7f,0.01f,leaningScriptableObject.recoveryStepCheck), 
+            castDir.normalized, out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
         {
-            if(Vector3.Distance(hit.point,targetPos) < 0.1f)
+            if (Vector3.Distance(hit.point, targetPos) > 0.67f)
                 return true;
             else
                 return false;
         }
+        //if(Physics.Raycast(startCastPos,castDir.normalized,out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
+        //{
 
-        return true;
+           
+        //}
+
+        return false;
     }
     private bool RecoveryCheck(Vector3 startCastPos, Vector3 targetPos)
     {
@@ -70,9 +80,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         if (leaningRotation.GetLeaningLeftRight() > 0)//LeanRight
         {
             recoveryDir = Vector3.Cross(castDir.normalized, Vector3.up);
-
-
-           
         }
         else if (leaningRotation.GetLeaningLeftRight() < 0)//LeanLeft
         {

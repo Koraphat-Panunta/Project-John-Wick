@@ -8,6 +8,8 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
 
+    public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
     public Player player;
 
     protected override void FixedUpdate()
@@ -24,8 +26,15 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     public override INodeSelector startNodeSelector { get; set; }
 
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
+
     public AimDownSightAnimationConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
+    public PlayerLeaningRotationConstrainNodeLeaf rifle_leaningRotationConstrainNodeLeaf { get; private set; }
+    public AnimationConstrainCombineNode rifleADSConstrainCombineNode { get; private set; }
+
     public AimDownSightAnimationConstrainNodeLeaf pistol_ADS_ConstrainNodeLeaf { get; private set; }
+    public PlayerLeaningRotationConstrainNodeLeaf pistol_leaningRotationConstrainNodeLeaf { get; private set; }
+    public AnimationConstrainCombineNode pistolADSConstrainCombineNode { get; private set; }
+
     public AnimationConstrainNodeSelector aimDownSightConstrainSelector { get; private set; }
     public override void InitailizedNode()
     {
@@ -33,15 +42,25 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
         aimDownSightConstrainSelector = new AnimationConstrainNodeSelector(()=>player._currentWeapon != null && player.weaponAdvanceUser.weaponManuverManager.aimingWeight > 0);
         rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player,this.StandSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject,()=> player._currentWeapon is PrimaryWeapon);
-        pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player, this.StandSplineLookConstrain, standPistolAimSplineLookConstrainScriptableObject, () => player._currentWeapon is SecondaryWeapon);
+        rifle_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.rifileLeaningConstrainScriptableObject, leaningRotation,player, () => player._currentWeapon is PrimaryWeapon);
+        rifleADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is PrimaryWeapon);
 
+        pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player, this.StandSplineLookConstrain, standPistolAimSplineLookConstrainScriptableObject, () => player._currentWeapon is SecondaryWeapon);
+        pistol_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.pistolLeaningConstrainScriptableObject, leaningRotation, player, () => player._currentWeapon is SecondaryWeapon);
+        pistolADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is SecondaryWeapon);
         restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(() => true);
 
         startNodeSelector.AddtoChildNode(aimDownSightConstrainSelector);
         startNodeSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
 
-        aimDownSightConstrainSelector.AddtoChildNode(rifle_ADS_ConstrainNodeLeaf);
-        aimDownSightConstrainSelector.AddtoChildNode(pistol_ADS_ConstrainNodeLeaf);
+        aimDownSightConstrainSelector.AddtoChildNode(rifleADSConstrainCombineNode);
+        aimDownSightConstrainSelector.AddtoChildNode(pistolADSConstrainCombineNode);
+
+        rifleADSConstrainCombineNode.AddCombineNode(rifle_leaningRotationConstrainNodeLeaf);
+        rifleADSConstrainCombineNode.AddCombineNode(rifle_ADS_ConstrainNodeLeaf);
+
+        pistolADSConstrainCombineNode.AddCombineNode(pistol_leaningRotationConstrainNodeLeaf);
+        pistolADSConstrainCombineNode.AddCombineNode(pistol_ADS_ConstrainNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf;
@@ -52,7 +71,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
         if (player.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf == false)
         {
             StandSplineLookConstrain.SetWeight(StandSplineLookConstrain.GetWeight() - Time.deltaTime);
-            leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
+            //leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
         }
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
