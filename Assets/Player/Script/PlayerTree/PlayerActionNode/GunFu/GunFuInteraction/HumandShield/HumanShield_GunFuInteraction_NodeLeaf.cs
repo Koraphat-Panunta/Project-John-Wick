@@ -20,12 +20,12 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public float distanceRightOffset { get 
         {
             if (player.curNodeLeaf is SecondaryWeapon)
-                return -0.26f;
+                return -0.29f;
             else  /*(player.curNodeLeaf is PrimaryWeapon)*/
                 return -0.23f;        
         }
     }
-    public float distanceUpOffset = -0.03f;
+    public float distanceUpOffset = -0.035f;
 
     public enum InteractionPhase
     {
