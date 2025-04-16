@@ -179,7 +179,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
         if(player.playerStateNodeManager.curNodeLeaf is PlayerGunFuHitNodeLeaf || player.playerStateNodeManager.curNodeLeaf is PlayerGunFu_Interaction_NodeLeaf)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield
-                && humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay)
+                && humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
             {
                 isAimingManuver = player.isAimingCommand;
                 isPullTriggerManuver = player.isPullTriggerCommand;

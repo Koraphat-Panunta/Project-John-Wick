@@ -43,7 +43,7 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
-                return enemy.enemyStateManagerNode.curNodeLeaf is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureMedium;
+                return enemy.enemyStateManagerNode.curNodeLeaf is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureLight;
             }
             );
         restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(() => true);

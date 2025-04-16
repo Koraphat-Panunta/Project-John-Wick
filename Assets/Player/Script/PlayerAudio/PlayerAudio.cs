@@ -69,7 +69,8 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
         if(playerAction == PlayerAction.GunFuAttack)
         {
             if (player.playerStateNodeManager.curNodeLeaf is Hit1GunFuNode
-                || player.playerStateNodeManager.curNodeLeaf is Hit2GunFuNode)
+                || player.playerStateNodeManager.curNodeLeaf is Hit2GunFuNode
+                || player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf)
                 PlayAudio(hit);
 
             else if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf

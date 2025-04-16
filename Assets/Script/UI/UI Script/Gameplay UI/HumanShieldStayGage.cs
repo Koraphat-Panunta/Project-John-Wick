@@ -21,7 +21,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShieldNode)
-                if (humanShieldNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay)
+                if (humanShieldNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 {
                     this.humanShield_GunFuInteraction_NodeLeaf = humanShieldNode;
                     isShowGage = true;

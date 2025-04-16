@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public float cameraSwitchSholderVelocity = 3.5f;
 
     public float gunFuCameraTimer = 0;
-    public const float gunFuCameraDuration = 1;
+    public const float gunFuCameraDuration = 1.25f;
 
     public CameraManagerNode cameraManagerNode;
 
@@ -89,6 +89,9 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     }
     [SerializeField] private float cameraKickbackMultiple;
     public float cameraKickUpMultiple;
+
+    [Range(0, 5)]
+    [SerializeField] private float gunFuCameraKickMultiply;
     public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
@@ -96,12 +99,20 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         {
             gunFuCameraTimer = gunFuCameraDuration;
         }
+        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
+        {
+            if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrict
+                && restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                gunFuCameraTimer = gunFuCameraDuration;
+        }
         if(playerAction == SubjectPlayer.PlayerAction.GunFuAttack)
         {
-            if(player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
-                cameraImpluse.Performed(new Vector3(0.25f,0,0));
+            if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf)
+                cameraImpluse.Performed(new Vector3(0,0.25f,0)*this.gunFuCameraKickMultiply);
+            else if (player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
+                cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
             else
-            cameraImpluse.Performed(0.25f);
+                cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
         {
@@ -128,7 +139,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
         {
-            cameraImpluse.Performed(-0.2f);
+            cameraImpluse.Performed(-0.05f);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.Sprint)

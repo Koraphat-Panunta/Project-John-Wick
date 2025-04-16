@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StandSplineLookConstrain: {fileID: 4451669193015548445}
   leaningRotation: {fileID: 6235775550306045989}
-  humandShieldRightHandConstrainLookAtManager: {fileID: 7982519455462678168}
+  RightHandConstrainLookAtManager: {fileID: 0}
   standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
     type: 2}
   standRifleAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: acf6789c224babf4a8c2dabecc43bcaf,
@@ -1059,6 +1059,8 @@ MonoBehaviour:
     type: 2}
   humanShieldRightHandConstrainLookAtScriptableObject_pistol: {fileID: 11400000, guid: 0cf524ce36ef48e4e96d9598e9c16506,
     type: 2}
+  restrictRightHandConstrainLookAtScriptableObject_pistol: {fileID: 0}
+  restrictRightHandConstrainLookAtScriptableObject_rifle: {fileID: 0}
   player: {fileID: 3508049754622093220}
 --- !u!1 &6141790418069220919
 GameObject:
@@ -1235,7 +1237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7021321972171224377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05135815, y: -0.45090732, z: 0.025999144, w: 0.8907126}
+  m_LocalRotation: {x: 0.051358182, y: -0.45090732, z: 0.02599916, w: 0.8907126}
   m_LocalPosition: {x: 1.4474406, y: 1.3862565, z: -0.5297048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1392,8 +1394,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7552758616662015232}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0605724, y: 0.9393895, z: 0.2429426, w: -0.23421611}
-  m_LocalPosition: {x: 0.45577613, y: 0.67686146, z: 0.85719013}
+  m_LocalRotation: {x: 0.06057241, y: 0.9393895, z: 0.24294263, w: -0.23421611}
+  m_LocalPosition: {x: 0.45577613, y: 0.67686135, z: 0.85719013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1605,6 +1607,8 @@ MonoBehaviour:
   dodgeSpinKick: {fileID: 11400000, guid: cf9d9dcbc6b970a4e9608a131add4666, type: 2}
   humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
   humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
+  restrictScriptableObject: {fileID: 11400000, guid: 16f6dc4f51dc84d4cbf76eeb1d2ea8ad,
+    type: 2}
   PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
     type: 2}
   StandMoveAccelerate: 4.9
@@ -1789,7 +1793,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.75
+  m_Height: 1.67
   m_Radius: 0.19
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -2150,37 +2154,37 @@ PrefabInstance:
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0013795133
+      value: -0.0013795004
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.561869
+      value: 0.5626122
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.034885604
+      value: -0.046729084
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99890476
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000001872535
+      value: -0.04678955
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.000000008761507
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.00000018704841
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}

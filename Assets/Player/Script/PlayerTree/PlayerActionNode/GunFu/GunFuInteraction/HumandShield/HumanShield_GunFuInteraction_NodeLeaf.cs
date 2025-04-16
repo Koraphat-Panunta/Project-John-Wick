@@ -27,13 +27,13 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     }
     public float distanceUpOffset = -0.035f;
 
-    public enum InteractionPhase
+    public enum HumanShieldInteractionPhase
     {
         Enter,
         Stay,
         Release
     }
-    public InteractionPhase curIntphase;
+    public HumanShieldInteractionPhase curIntphase;
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)
     {
         weaponAdvanceUser = player;
@@ -42,7 +42,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     public override void Enter()
     {
-        curIntphase = InteractionPhase.Enter;
+        curIntphase = HumanShieldInteractionPhase.Enter;
         elaspeTimmerEnter = 0;
         elapesTimmerStay = 0;
 
@@ -51,7 +51,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     public override void Exit()
     {
-        curIntphase = InteractionPhase.Release;
+        curIntphase = HumanShieldInteractionPhase.Release;
         base.Exit();
     }
 
@@ -76,7 +76,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     {
         switch (curIntphase)
         {
-            case InteractionPhase.Enter:
+            case HumanShieldInteractionPhase.Enter:
                 {
                     elaspeTimmerEnter += Time.deltaTime;
 
@@ -96,13 +96,13 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
                     if (elaspeTimmerEnter >= EnterDuration)
                     {
-                        curIntphase = InteractionPhase.Stay;
+                        curIntphase = HumanShieldInteractionPhase.Stay;
                         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
                     }
                 }
                 break;
 
-            case InteractionPhase.Stay:
+            case HumanShieldInteractionPhase.Stay:
                 {
                     elapesTimmerStay += Time.deltaTime;
                     nodeLeafTransitionBehavior.TransitionAbleAll(this);

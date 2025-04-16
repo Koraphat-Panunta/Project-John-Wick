@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-[CreateAssetMenu(fileName = "HumanShieldRightHandConstrainLookAtScriptableObject",menuName = "ScriptableObjects/ConstrainObject/HumanShieldRightHandConstrainLookAtScriptableObject")]
-public class HumanShieldRightHandConstrainLookAtScriptableObject : ScriptableObject
+[CreateAssetMenu(fileName = "RightHandConstrainLookAtScriptableObject",menuName = "ScriptableObjects/ConstrainObject/RightHandConstrainLookAtScriptableObject")]
+public class RightHandConstrainLookAtScriptableObject : ScriptableObject
 {
     
     [Range(0, 1)]

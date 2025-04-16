@@ -7,6 +7,7 @@ public class SubjectEnemy : Character
     public enum EnemyEvent
     {
         GotHit,
+
         GunFuGotHit,
         GunFuGotInteract,
 

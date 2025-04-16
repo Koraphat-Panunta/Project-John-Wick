@@ -4,7 +4,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 {
     public SplineLookConstrain StandSplineLookConstrain;
     public LeaningRotation leaningRotation;
-    public HumandShieldRightHandConstrainLookAtManager humandShieldRightHandConstrainLookAtManager;
+    public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
 
     public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
@@ -12,8 +12,11 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
     public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
 
-    public HumanShieldRightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_rifle;
-    public HumanShieldRightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_pistol;
+    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_rifle;
+    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_pistol;
+
+    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
+    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
 
     public Player player;
 
@@ -42,8 +45,11 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
     public AnimationConstrainNodeSelector gunFuConstraintSelector { get; private set; }
     public AnimationConstrainNodeSelector humanShieldConstrainSelector { get; private set; }
-    public HumanShieldAnimationConstraintNodeLeaf humanShield_rifle_AnimationConstraintNodeLeaf { get; private set; }
-    public HumanShieldAnimationConstraintNodeLeaf humanShield_secondary_AnimationConstraintNodeLeaf { get; private set; }
+    public RightHandLookControlAnimationConstraintNodeLeaf humanShield_rifle_AnimationConstraintNodeLeaf { get; private set; }
+    public RightHandLookControlAnimationConstraintNodeLeaf humanShield_secondary_AnimationConstraintNodeLeaf { get; private set; }
+    public AnimationConstrainNodeSelector restrictConstraintSelector { get; private set; }  
+    public RightHandLookControlAnimationConstraintNodeLeaf restrict_rifle_AnimationConstraintNodeLeaf { get; private set; }
+    public RightHandLookControlAnimationConstraintNodeLeaf restrict_pistol_AnimationConstraintNodeLeaf { get; private set; }
 
     public AnimationConstrainNodeSelector aimDownSightConstrainSelector { get; private set; }
     public override void InitailizedNode()
@@ -62,9 +68,15 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
         gunFuConstraintSelector = new AnimationConstrainNodeSelector(()=> player.curNodeLeaf is IGunFuNode);
         humanShieldConstrainSelector = new AnimationConstrainNodeSelector(() => player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf || player.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf);
-        humanShield_rifle_AnimationConstraintNodeLeaf = new HumanShieldAnimationConstraintNodeLeaf(humandShieldRightHandConstrainLookAtManager,humanShieldRightHandConstrainLookAtScriptableObject_rifle,
+        humanShield_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,humanShieldRightHandConstrainLookAtScriptableObject_rifle,
             ()=> player._currentWeapon is PrimaryWeapon);
-        humanShield_secondary_AnimationConstraintNodeLeaf = new HumanShieldAnimationConstraintNodeLeaf(humandShieldRightHandConstrainLookAtManager, humanShieldRightHandConstrainLookAtScriptableObject_pistol,
+        humanShield_secondary_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, humanShieldRightHandConstrainLookAtScriptableObject_pistol,
+            () => player._currentWeapon is SecondaryWeapon);
+
+        restrictConstraintSelector = new AnimationConstrainNodeSelector(() => player.curNodeLeaf is RestrictGunFuStateNodeLeaf);
+        restrict_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_rifle,
+            ()=> player._currentWeapon is PrimaryWeapon);
+        restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_pistol,
             () => player._currentWeapon is SecondaryWeapon);
 
         startNodeSelector.AddtoChildNode(gunFuConstraintSelector);
@@ -74,8 +86,12 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
         aimDownSightConstrainSelector.AddtoChildNode(rifleADSConstrainCombineNode);
         aimDownSightConstrainSelector.AddtoChildNode(pistolADSConstrainCombineNode);
 
+        gunFuConstraintSelector.AddtoChildNode(restrictConstraintSelector);
         gunFuConstraintSelector.AddtoChildNode(humanShieldConstrainSelector);
         gunFuConstraintSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
+
+        restrictConstraintSelector.AddtoChildNode(restrict_rifle_AnimationConstraintNodeLeaf);
+        restrictConstraintSelector.AddtoChildNode(restrict_pistol_AnimationConstraintNodeLeaf);
 
         humanShieldConstrainSelector.AddtoChildNode(humanShield_rifle_AnimationConstraintNodeLeaf);
         humanShieldConstrainSelector.AddtoChildNode(humanShield_secondary_AnimationConstraintNodeLeaf);
@@ -94,9 +110,9 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     }
     private void RecoveryUpdateWeight()
     {
-        if (player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf == false)
+        if (curNodeLeaf is RightHandLookControlAnimationConstraintNodeLeaf == false)
         {
-            humandShieldRightHandConstrainLookAtManager.SetWeight(humandShieldRightHandConstrainLookAtManager.GetWeight() - Time.deltaTime);
+            RightHandConstrainLookAtManager.SetWeight(RightHandConstrainLookAtManager.GetWeight() - Time.deltaTime);
         }
         else if (player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf == false)
         {

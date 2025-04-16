@@ -221,6 +221,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] public GunFuHitNodeScriptableObject dodgeSpinKick;
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     [SerializeField] public GunFuInteraction_ScriptableObject humanThrow;
+    [SerializeField] public RestrictScriptableObject restrictScriptableObject;
 
     public void InitailizedGunFuComponent()
     {

@@ -12,7 +12,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     float got_threwDown_time = 0;
 
-    HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
+    HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
 
     public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
@@ -58,11 +58,11 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     public override void UpdateNode()
     {
         Transitioning();
-        if(interactionPhase == InteractionPhase.Enter)
+        if(interactionPhase == HumanShieldInteractionPhase.Enter)
         {
 
         }
-        else if(interactionPhase == InteractionPhase.Stay)
+        else if(interactionPhase == HumanShieldInteractionPhase.Stay)
         {
             if (isStayOnEnter)
             {
@@ -72,7 +72,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
             }
 
         }
-        else if(interactionPhase == InteractionPhase.Release
+        else if(interactionPhase == HumanShieldInteractionPhase.Release
             || enemy.gunFuAbleAttacker.curGunFuNode is HumandShield_GotInteract_NodeLeaf == false)
             isComplete = true;
 

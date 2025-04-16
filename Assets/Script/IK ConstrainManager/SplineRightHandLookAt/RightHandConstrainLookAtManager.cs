@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Splines;
 
-public class HumandShieldRightHandConstrainLookAtManager : MonoBehaviour
+public class RightHandConstrainLookAtManager : MonoBehaviour
 {
     [Range(0, 1)] 
     [SerializeField] private float weight;
 
-    [SerializeField] private HumanShieldRightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject;
+    [SerializeField] private RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject;
 
     [SerializeField] private MultiAimConstraint rightArm_MultiAimConstraint;
     [SerializeField] private MultiAimConstraint rightForeArm_MultiAimConstraint;
@@ -18,7 +18,7 @@ public class HumandShieldRightHandConstrainLookAtManager : MonoBehaviour
     private Vector3 rightHand_Offset;
 
     // Update is called once per frame
-    public void SetWeight(float w, HumanShieldRightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject)
+    public void SetWeight(float w, RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject)
     {
         SetWeight(w);
         this.humanShieldRightHandConstrainLookAtScriptableObject = humanShieldRightHandConstrainLookAtScriptableObject;

@@ -270,6 +270,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
                 animator.CrossFade("KnockDown", 0.2f, 0, 0);
 
+            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+                animator.CrossFade("Restrict_Enter", 0.05f, 0, 0);
+
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
                 animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
 
@@ -285,21 +288,42 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
-                if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Stay) 
+                if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay) 
                 {
                     animator.CrossFade(Move_Idle,0.05f,0,0);
                     animator.CrossFade(humanShield.humandShieldStay, 0.05f, 1, 0);
                     isLayer_1_Enable = true;
                 }
+
+            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+            {
+                if(restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                {
+                    animator.CrossFade(Move_Idle, 0.05f, 0, 0);
+                    animator.CrossFade("Restrict_Stay", 0.05f, 1, 0);
+                    isLayer_1_Enable = true;
+                }
+                else if(restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                {
+                    animator.CrossFade("Restrict_Exit", 0.05f, 0, 0);
+                    isLayer_1_Enable = false;
+                }
+            }
         }
         if(playerAction == SubjectPlayer.PlayerAction.GunFuExit)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
-                if (humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.InteractionPhase.Release)
+                if (humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Release)
                 {
                     animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
                     isLayer_1_Enable = true;
                 }
+
+            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+            {
+                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
+                isLayer_1_Enable = true;
+            }
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)

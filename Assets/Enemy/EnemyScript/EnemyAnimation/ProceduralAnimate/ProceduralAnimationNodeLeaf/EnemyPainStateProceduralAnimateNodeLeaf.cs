@@ -62,6 +62,8 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
 
     public override void Enter()
     {
+        Debug.Log("EnemyPainStateProceduralAnimateNodeLeaf Enter");
+
         Ray rayLeftLeg = new Ray(hipTransform.position - (hipTransform.right * hipLegsSpace), Vector3.down);
         if (Physics.Raycast(rayLeftLeg, out RaycastHit hitInfoLeft, 10, stepAbleLayer))
         {
