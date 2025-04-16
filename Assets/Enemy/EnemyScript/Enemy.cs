@@ -362,9 +362,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
-            if (_painPart == IPainStateAble.PainPart.None)
-                return false;
-            else return true;
+            if(curNodeLeaf is EnemyPainStateNodeLeaf)
+                return true;    
+            return false;
         } set { } }
     public float _posture { get => posture; set => posture = value; }
     [Range(0, 100)]
