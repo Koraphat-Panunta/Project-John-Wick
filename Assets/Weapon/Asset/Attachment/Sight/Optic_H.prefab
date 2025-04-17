@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3126189721510375872}
+  - component: {fileID: 3039549013146991751}
+  - component: {fileID: 478179697417991828}
   m_Layer: 0
   m_Name: SightPos
   m_TagString: Untagged
@@ -31,6 +33,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5928844848396109686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3039549013146991751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2553440781332569359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cc637fc1b848a42871f470f7b6317d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchor: {fileID: 3126189721510375872}
+  microOpticWeaponAttachmentScriptableObject: {fileID: 11400000, guid: 29412edb2bf39b342b19c00af76d70fb,
+    type: 2}
+  ParentConstraint: {fileID: 478179697417991828}
+--- !u!1773428102 &478179697417991828
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2553440781332569359}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: -0.0026, z: -0}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets: []
+  m_RotationOffsets: []
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 0
+  m_IsLocked: 0
+  m_Sources: []
 --- !u!1001 &6182815048465080477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,11 +150,22 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 269b38d833a00fa46b0ed3ae8af6a052,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d8c0124eb7cb7649854d074e38d2972, type: 2}
     - target: {fileID: 919132149155446097, guid: 269b38d833a00fa46b0ed3ae8af6a052,
         type: 3}
       propertyPath: m_Name
       value: Optic_H
       objectReference: {fileID: 0}
+    - target: {fileID: 2896787458946501263, guid: 269b38d833a00fa46b0ed3ae8af6a052,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5629084884208175553, guid: fce3bf5a5b603db45ab0048fb6ab44df,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -126,6 +178,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -9182135009789750982}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 269b38d833a00fa46b0ed3ae8af6a052,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3548615368806409428}
   m_SourcePrefab: {fileID: 100100000, guid: 269b38d833a00fa46b0ed3ae8af6a052, type: 3}
 --- !u!4 &5928844848396109686 stripped
 Transform:
@@ -149,7 +205,7 @@ ParentConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: -0.0026, z: 0}
+  m_TranslationAtRest: {x: -49.068863, y: -0.90261567, z: -3.49495}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
   - {x: 0, y: 0, z: 0}
@@ -166,3 +222,19 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 0}
     weight: 1
+--- !u!114 &3548615368806409428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416693057545985484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47cc637fc1b848a42871f470f7b6317d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchor: {fileID: 3126189721510375872}
+  microOpticWeaponAttachmentScriptableObject: {fileID: 11400000, guid: 29412edb2bf39b342b19c00af76d70fb,
+    type: 2}
+  ParentConstraint: {fileID: -9182135009789750982}
