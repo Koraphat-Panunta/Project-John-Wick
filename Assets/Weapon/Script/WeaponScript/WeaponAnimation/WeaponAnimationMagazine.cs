@@ -103,9 +103,9 @@ public class WeaponAnimationMagazine : WeaponAnimation
     }
     protected virtual void SetWeaponApprerance(Weapon weapon)
     {
-       if(weapon.muzzle != null) muzzleRenderer.enabled = false; 
-        else muzzleRenderer.enabled = true;
-       if(weapon.Sight != null) sightRenderer.enabled = false;
-        else sightRenderer.enabled = true;
+        //if (weapon.muzzle != null) muzzleRenderer.enabled = false;
+        //else muzzleRenderer.enabled = true;
+        //if (weapon.Sight != null) sightRenderer.enabled = false;
+        //else sightRenderer.enabled = true;
     }
 }

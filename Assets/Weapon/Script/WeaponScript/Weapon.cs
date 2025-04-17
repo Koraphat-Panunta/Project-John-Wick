@@ -5,9 +5,6 @@ using UnityEngine.Animations;
 
 public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
-    //protected abstract WeaponTreeManager weaponTree { get; set; }
-    public Muzzle muzzle;
-    public Sight Sight;
 
     public Transform bulletSpawnerPos;
 
@@ -34,7 +31,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
 
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
-    public Dictionary<AttachmentSlot,Transform> weaponSlotPos = new Dictionary<AttachmentSlot, Transform>();
 
     public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
