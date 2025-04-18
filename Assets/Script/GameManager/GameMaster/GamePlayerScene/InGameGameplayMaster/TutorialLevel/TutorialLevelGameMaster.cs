@@ -21,7 +21,13 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     public TextMeshProUGUI eliminateAllEnemy;
 
     public Door door_T2S1;
+    public Enemy enemy_T2S1;
+    public TextMeshProUGUI gunFuKnockDown;
+    public TextMeshProUGUI restrict;
+    public TextMeshProUGUI humanShield;
+
     public Door door_T2S2;
+    public EnemyDirector enemyDirector_T2S2;
 
     public Door door_T3S1;
 
@@ -29,7 +35,6 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     protected override void Awake()
     {
         base.Awake();
-
     }
 
     protected override void Start()
@@ -40,7 +45,10 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
 
     public TutorialGameplayGameMasterNodeLeaf_T1S1 TutorialGameplayGameMasterNodeLeaf_T1S1;
     public TutorialGameplayGameMasterNodeLeaf_T1S2 TutorialGameplayGameMasterNodeLeaf_T1S2;
-    public TutorialGameplayGameMasterNodeLeaf_T1S3 TutorialGameplayGameMasterNodeLeaf_T1S3; 
+    public TutorialGameplayGameMasterNodeLeaf_T1S3 TutorialGameplayGameMasterNodeLeaf_T1S3;
+
+    public TutorialGameplayGameMasterNodeLeaf_T2S1 TutorialGameplayGameMasterNodeLeaf_T2S1;
+    public TutorialGameplayGameMasterNodeLeaf_T2S2 TutorialGameplayGameMasterNodeLeaf_T2S2;
 
     public TutorialTitleGameMasterNodeLeaf tutorialTitleGameMasterNodeLeaf;
     public override InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
@@ -56,12 +64,19 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
         this.TutorialGameplayGameMasterNodeLeaf_T1S1 = new TutorialGameplayGameMasterNodeLeaf_T1S1(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S1.isComplete == false);
         this.TutorialGameplayGameMasterNodeLeaf_T1S2 = new TutorialGameplayGameMasterNodeLeaf_T1S2(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S2.isComplete == false);
         this.TutorialGameplayGameMasterNodeLeaf_T1S3 = new TutorialGameplayGameMasterNodeLeaf_T1S3(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S3.isComplete == false);
+
+        this.TutorialGameplayGameMasterNodeLeaf_T2S1 = new TutorialGameplayGameMasterNodeLeaf_T2S1(this, () => this.TutorialGameplayGameMasterNodeLeaf_T2S1.isComplete == false);
+        this.TutorialGameplayGameMasterNodeLeaf_T2S2 = new TutorialGameplayGameMasterNodeLeaf_T2S2(this, () => this.TutorialGameplayGameMasterNodeLeaf_T2S2.isComplete == false);
+
         this.tutorialTitleGameMasterNodeLeaf = new TutorialTitleGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S1);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S2);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S3);
+
+        startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T2S1);
+        startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T2S2);
 
         startNodeSelector.AddtoChildNode(this.tutorialTitleGameMasterNodeLeaf);
 
@@ -233,6 +248,143 @@ public class TutorialGameplayGameMasterNodeLeaf_T1S3 : InGameLevelGamplayGameMas
         gameMaster.eliminateAllEnemy.gameObject.SetActive(true);
         await Task.Delay(4500);
         gameMaster.eliminateAllEnemy.gameObject.SetActive(false);
+    }
+}
+public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>,IObserverPlayer
+{
+    private Door door_T2S1 => gameMaster.door_T2S1;
+    private Enemy enemy_T2S1 => gameMaster.enemy_T2S1;
+    private TextMeshProUGUI gunFuKnockDown => gameMaster.gunFuKnockDown;
+    private TextMeshProUGUI restrict => gameMaster.restrict;
+    private TextMeshProUGUI humanShield => gameMaster.humanShield;
+    private TextMeshProUGUI eliminate => gameMaster.eliminateAllEnemy;
+    private enum Phase
+    {
+        KnockDown,
+        restrict,
+        humanShield,
+        Eliminate,
+    }
+    private Phase curPhase;
+
+    public bool isComplete { get; private set; }
+    public TutorialGameplayGameMasterNodeLeaf_T2S1(TutorialLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    {
+    }
+
+    public override void Enter()
+    {
+        isComplete = false;
+        player.AddObserver(this);
+        curPhase = Phase.KnockDown;
+        gunFuKnockDown.gameObject.SetActive(true);
+        enemy_T2S1.isImortal = true;
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        player.RemoveObserver(this);
+        base.Exit();
+    }
+
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
+    }
+
+    public override void UpdateNode()
+    {
+        base.UpdateNode();
+    }
+    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    {
+        if(curPhase == Phase.KnockDown 
+            && playerAction == SubjectPlayer.PlayerAction.GunFuAttack
+            && player.curGunFuNode is KnockDown_GunFuNode)
+        {
+            gunFuKnockDown.gameObject.SetActive(false);
+            restrict.gameObject.SetActive(true);
+            curPhase = Phase.restrict;
+        }
+        else if(curPhase == Phase.restrict
+            && playerAction == SubjectPlayer.PlayerAction.GunFuInteract
+            && player.curGunFuNode is RestrictGunFuStateNodeLeaf)
+        {
+            restrict.gameObject.SetActive(false);
+            humanShield.gameObject.SetActive(true);
+            curPhase = Phase.humanShield;
+        }
+        else if(curPhase == Phase.humanShield
+            && playerAction == SubjectPlayer.PlayerAction.GunFuInteract
+            && player.curGunFuNode is HumanShield_GunFuInteraction_NodeLeaf)
+        {
+            humanShield.gameObject.SetActive(false);
+            EliminateEnemy();
+            curPhase = Phase.Eliminate;
+        }
+        else if(curPhase == Phase.Eliminate)
+        {
+            enemy_T2S1.isImortal = false;
+            if (enemy_T2S1.isDead)
+            {
+                door_T2S1.Open();
+                isComplete = true;
+            }
+        }
+    }
+    private async void EliminateEnemy()
+    {
+        eliminate.gameObject.SetActive(true);
+        await Task.Delay(4000);
+        eliminate.gameObject.SetActive(false);
+    }
+    public void OnNotify(Player player)
+    {
+       
+    }
+}
+public class TutorialGameplayGameMasterNodeLeaf_T2S2 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>
+{
+    private EnemyDirector enemyDirector_T2S2 => gameMaster.enemyDirector_T2S2;
+    private Door door => gameMaster.door_T2S2;
+    private TextMeshProUGUI elimination => gameMaster.eliminateAllEnemy;
+    public bool isComplete { get; private set; }
+    public TutorialGameplayGameMasterNodeLeaf_T2S2(TutorialLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    {
+    }
+    public override void Enter()
+    {
+        isComplete = false;
+        EliminateEnemy();
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void FixedUpdateNode()
+    {
+        if(enemyDirector_T2S2.allEnemiesAliveCount <= 0)
+        {
+            door.Open();
+            isComplete = true;
+        }
+        base.FixedUpdateNode();
+    }
+
+    public override void UpdateNode()
+    {
+        base.UpdateNode();
+    }
+
+    private async void EliminateEnemy()
+    {
+        elimination.gameObject.SetActive(true);
+        await Task.Delay(4000);
+        elimination.gameObject.SetActive(false);
     }
 }
 public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>
