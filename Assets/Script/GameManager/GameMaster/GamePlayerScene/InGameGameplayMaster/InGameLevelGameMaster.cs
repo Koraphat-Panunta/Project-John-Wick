@@ -41,14 +41,18 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
+
         gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
         gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
+        gameOverUICanvas.gameObject.SetActive(false);
 
         missionCompleteUICanvas.continueButton.onClick.AddListener(TriggerContinue);
         missionCompleteUICanvas.restartButton.onClick.AddListener(TriggerRestert);
+        missionCompleteUICanvas.gameObject.SetActive(false);
 
         pauseCanvasUI.resume.onClick.AddListener(Resume);
         pauseCanvasUI.exit.onClick.AddListener(TriggerExit);
+        pauseCanvasUI.gameObject.SetActive(false);
 
         base.Awake();
     }
