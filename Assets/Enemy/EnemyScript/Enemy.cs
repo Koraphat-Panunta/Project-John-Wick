@@ -68,6 +68,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         base.HP = 100;
         base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
+        if(startWeapon == null)
         startWeapon = Instantiate(startWeapon);
         startWeapon.AttatchWeaponTo(this);
 

@@ -230,9 +230,9 @@ public class TutorialGameplayGameMasterNodeLeaf_T1S3 : InGameLevelGamplayGameMas
     }
     private async void ObjectiveDescribeEvent()
     {
-        gameMaster.eliminateAllEnemy.enabled = true;
+        gameMaster.eliminateAllEnemy.gameObject.SetActive(true);
         await Task.Delay(4500);
-        gameMaster.eliminateAllEnemy.enabled = false;
+        gameMaster.eliminateAllEnemy.gameObject.SetActive(false);
     }
 }
 public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>
