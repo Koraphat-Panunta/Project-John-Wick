@@ -482,11 +482,13 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         curPhase = Phase.Encouter;
         this.EliminateEnemy();
         isComplete = false;
+        player.AddObserver(this);
         base.Enter();
     }
 
     public override void Exit()
     {
+        player.RemoveObserver(this);
         base.Exit();
     }
 
@@ -498,7 +500,6 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
        if(curPhase == Phase.ExecuteLastone 
-            &&playerAction == SubjectPlayer.PlayerAction.GunFuEnter
             &&player.curGunFuNode is GunFuExecuteNodeLeaf)
         {
             lastEnemy.isImortal = false;
