@@ -293,7 +293,16 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     //    weapon.AttatchWeaponTo(enemy);
     //    CalcuateRoleCount();
     //}
-
+    public List<Enemy> GetAllEnemyAlive()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        foreach(EnemyRoleBasedDecision enemyRole in enemiesRole)
+        {
+            if (enemyRole.enemy.isDead == false)
+                enemies.Add(enemyRole.enemy);
+        }
+        return enemies;
+    }
     private void OnValidate()
     {
         player = FindAnyObjectByType<Player>();
