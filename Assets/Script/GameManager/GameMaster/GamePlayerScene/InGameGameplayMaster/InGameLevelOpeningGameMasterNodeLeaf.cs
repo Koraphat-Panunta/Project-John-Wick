@@ -35,7 +35,7 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     public override void Exit()
     {
         player.gameObject.SetActive(true);
-        gameMaster.gamePlayUICanvas.EnableGameplayUI();
+
     }
 
     public override void FixedUpdateNode()
@@ -61,7 +61,9 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     }
     private async void  OpeningDelay()
     {
-        await Task.Delay(1000);
+
+        await Task.Delay(2000);
+        gameMaster.gamePlayUICanvas.EnableGameplayUI();
         this.isComplete = true;
     }
   

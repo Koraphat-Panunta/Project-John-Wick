@@ -124,7 +124,7 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if (player.isAimingCommand && player.attackedAbleGunFu != null)
                 {
-                    if (player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon != null)
+                    if (player._currentWeapon != null)
                         return true;
                 }
                 return false;

@@ -891,8 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 0
-  humanShieldRightHandConstrainLookAtScriptableObject: {fileID: 11400000, guid: 0cf524ce36ef48e4e96d9598e9c16506,
-    type: 2}
+  humanShieldRightHandConstrainLookAtScriptableObject: {fileID: 0}
   rightArm_MultiAimConstraint: {fileID: 9177861177617879785}
   rightForeArm_MultiAimConstraint: {fileID: 7981133390318790849}
   rightHand_MultiAimConstraint: {fileID: 1160433971094713369}
@@ -1046,7 +1045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StandSplineLookConstrain: {fileID: 4451669193015548445}
   leaningRotation: {fileID: 6235775550306045989}
-  RightHandConstrainLookAtManager: {fileID: 0}
+  RightHandConstrainLookAtManager: {fileID: 7982519455462678168}
   standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
     type: 2}
   standRifleAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: acf6789c224babf4a8c2dabecc43bcaf,
@@ -1059,8 +1058,10 @@ MonoBehaviour:
     type: 2}
   humanShieldRightHandConstrainLookAtScriptableObject_pistol: {fileID: 11400000, guid: 0cf524ce36ef48e4e96d9598e9c16506,
     type: 2}
-  restrictRightHandConstrainLookAtScriptableObject_pistol: {fileID: 0}
-  restrictRightHandConstrainLookAtScriptableObject_rifle: {fileID: 0}
+  restrictRightHandConstrainLookAtScriptableObject_pistol: {fileID: 11400000, guid: 49239cd2a387ae548b74272cb7493a38,
+    type: 2}
+  restrictRightHandConstrainLookAtScriptableObject_rifle: {fileID: 11400000, guid: 25ffddac452f6fd41826c045c030af93,
+    type: 2}
   player: {fileID: 3508049754622093220}
 --- !u!1 &6141790418069220919
 GameObject:
@@ -1587,7 +1588,7 @@ MonoBehaviour:
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
-  isImortal: 0
+  isImortal: 1
   MyHP: 0
   primaryHolster: {fileID: 2458408193446765874}
   secondaryHolster: {fileID: 2993268220600484696}
@@ -2154,37 +2155,37 @@ PrefabInstance:
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0013795004
+      value: -0.0013795133
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5626122
+      value: 0.561869
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.046729084
+      value: -0.034885604
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99890476
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.04678955
+      value: -0.0000001872535
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000008761507
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000018704841
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 36225382868889468, guid: 62d68a04d0ca8764c902f6519610a634,
         type: 3}
