@@ -68,6 +68,7 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     public override void UpdateNode()
     {
+
         nodeManagerBehavior.UpdateNode(this);
     }
     protected virtual void LateUpdate()
