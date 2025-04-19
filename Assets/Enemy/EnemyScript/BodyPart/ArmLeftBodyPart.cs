@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ArmLeftBodyPart : BodyPart
 {
-    public override float hpReciverRate { get; set; }
+    public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }
     protected override void Start()
     {
-        hpReciverRate = 0.25f;
+        hpReciverMultiplyRate = 0.25f;
         postureReciverRate = 0.9f;
         base.Start();
     }
@@ -17,7 +17,7 @@ public class ArmLeftBodyPart : BodyPart
     {
         Bullet bulletObj = damageVisitor as Bullet;
 
-        float damage = bulletObj.hpDamage * hpReciverRate;
+        float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;

@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class ChestBodyPart : BodyPart
 {
-    public override float hpReciverRate { get; set; }
+    public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }
 
     protected override void Start()
     {
-        hpReciverRate = 1.0f;
+        hpReciverMultiplyRate = 1.0f;
         postureReciverRate = 1.0f;
         base.Start();
     }
@@ -16,7 +16,7 @@ public class ChestBodyPart : BodyPart
     {
         Bullet bulletObj = damageVisitor as Bullet;
 
-        float damage = bulletObj.hpDamage * hpReciverRate;
+        float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
@@ -34,7 +34,7 @@ public class ChestBodyPart : BodyPart
 
         Bullet bulletObj = damageVisitor as Bullet;
 
-        float damage = bulletObj.hpDamage * hpReciverRate;
+        float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         float dot = Vector3.Dot(enemy.transform.forward,

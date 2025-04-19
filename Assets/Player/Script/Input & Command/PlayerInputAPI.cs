@@ -23,7 +23,7 @@ public class PlayerInputAPI : MonoBehaviour
         float screenH = 1440;
 
         player.inputLookDir_Local = context.ReadValue<Vector2>();
-        player.inputLookDir_Local *= ((Screen.width * Screen.height) / (screenW * screenH));
+        //player.inputLookDir_Local *= ((Screen.width * Screen.height) / (screenW * screenH));
     }
     public void Sprint(InputAction.CallbackContext context)
     {

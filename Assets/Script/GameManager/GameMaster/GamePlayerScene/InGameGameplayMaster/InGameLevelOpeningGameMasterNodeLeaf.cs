@@ -14,7 +14,7 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     public override void Enter()
     {
-        gameMaster.player.gameObject.SetActive(false);
+        //gameMaster.player.gameObject.SetActive(false);
         gameMaster.gamePlayUICanvas.DisableGameplayUI();
 
 
@@ -23,19 +23,12 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
         gameMaster.NotifyObserver(gameMaster);
 
-        if (gameMaster.gameManager != null)
-        {
-            if (gameMaster.gameManager.curNodeLeaf is LevelMansionGameManagerNodeLeaf)
-                gameMaster.gameManager.soundTrackManager.TriggerSoundTrack(gameMaster.gameManager.gamePlaySoundTrack);
-        }
-
         OpeningDelay();
     }
 
     public override void Exit()
     {
         player.gameObject.SetActive(true);
-
     }
 
     public override void FixedUpdateNode()
@@ -59,10 +52,9 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
     public override void UpdateNode()
     {
     }
-    private async void  OpeningDelay()
+    protected virtual async void  OpeningDelay()
     {
-
-        await Task.Delay(2000);
+        await Task.Delay(3000);
         gameMaster.gamePlayUICanvas.EnableGameplayUI();
         this.isComplete = true;
     }

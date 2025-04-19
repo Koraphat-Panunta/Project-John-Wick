@@ -37,8 +37,11 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     public TextMeshProUGUI executeLastone;
 
     public Canvas titleCanvas;
+
+    public PlayerHPDisplay playerHPDisplay;
     protected override void Awake()
     {
+
         base.Awake();
     }
 
@@ -67,7 +70,7 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     {
         startNodeSelector = new GameMasterNodeSelector<TutorialLevelGameMaster>(this, () => true);
 
-        levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,()=>levelOpeningGameMasterNodeLeaf.isComplete == false);
+        levelOpeningGameMasterNodeLeaf = new TutorialOpeningGameMasterNodeLeaf(this,()=>levelOpeningGameMasterNodeLeaf.isComplete == false);
 
         this.TutorialGameplayGameMasterNodeLeaf_T1S1 = new TutorialGameplayGameMasterNodeLeaf_T1S1(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S1.isComplete == false);
         this.TutorialGameplayGameMasterNodeLeaf_T1S2 = new TutorialGameplayGameMasterNodeLeaf_T1S2(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S2.isComplete == false);
@@ -98,6 +101,20 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
         curNodeLeaf = nodeLeaf;
         curNodeLeaf.Enter();
 
+    }
+}
+
+public class TutorialOpeningGameMasterNodeLeaf : InGameLevelOpeningGameMasterNodeLeaf
+{
+    public TutorialOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    {
+    }
+    protected async override void OpeningDelay()
+    {
+        await Task.Delay(3000);
+        gameMaster.gamePlayUICanvas.EnableGameplayUI();
+        this.isComplete = true;
+        (gameMaster as TutorialLevelGameMaster).playerHPDisplay.gameObject.SetActive(false);
     }
 }
 public class TutorialGameplayGameMasterNodeLeaf_T1S1 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>
@@ -551,17 +568,22 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         executeLastone.gameObject.SetActive(false);
     }
 }
-public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>
+public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>, IGameManagerSendNotifyAble
 {
 
     public TutorialTitleGameMasterNodeLeaf(TutorialLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
     }
+
+    public GameManager gameManager { get => gameMaster.gameManager; set { }  }
+
     public override void Enter()
     {
         gameMaster.titleCanvas.gameObject.SetActive(true);
         gameMaster.gamePlayUICanvas.DisableGameplayUI();
         gameMaster.user.DisableInput();
+        Delay();
+        gameManager.soundTrackManager.StopSoundTrack(5);
     }
 
     public override void Exit()
@@ -582,5 +604,10 @@ public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelG
     public override void UpdateNode()
     {
         
+    }
+    private async void Delay()
+    {
+        await Task.Delay(5000);
+        gameManager.OnNotify(this);
     }
 }

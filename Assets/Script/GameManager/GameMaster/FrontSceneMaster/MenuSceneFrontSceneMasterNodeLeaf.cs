@@ -67,10 +67,6 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
                     {
                         fadeImgame.enabled = true;
                         phase = MenuPhase.FadeOut;
-                        if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
-                        {
-                            soundTrack.StopSoundTrack(2);
-                        }
                     }
                 }
                 break;

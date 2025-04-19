@@ -12,7 +12,11 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     public Transform destination;
 
     private bool isCompleteLoad = false;
-
+    protected override void Start()
+    {
+        gameManager.soundTrackManager.TriggerSoundTrack(gameManager.soundTrackManager.theHotelTrack);
+        base.Start();
+    }
     public async void DelaySceneLoaded()
     {
         await Task.Delay(1700);
@@ -82,13 +86,23 @@ public class LevelHotelGameplayGameMasterNodeLeaf : InGameLevelGamplayGameMaster
 
     public override void FixedUpdateNode()
     {
-        if(gameMaster.curObjective == travelingToDestination)
+        if(curPhase == Phase.eliminate)
         {
-            if (travelingToDestination.PerformedDone())
+            gameMaster.curObjective = eliminationObjective;
+            if (gameMaster.curObjective.PerformedDone())
+            {
+                curPhase = Phase.travel;
+            }
+        }
+        if(curPhase == Phase.travel)
+        {
+            gameMaster.curObjective = travelingToDestination;
+            if (gameMaster.curObjective.PerformedDone())
             {
                 isComplete = true;
             }
         }
+        
         base.FixedUpdateNode();
     }
 

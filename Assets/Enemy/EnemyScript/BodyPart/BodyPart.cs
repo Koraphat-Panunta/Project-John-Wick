@@ -7,7 +7,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
-    public abstract float hpReciverRate { get; set; }
+    public abstract float hpReciverMultiplyRate { get; set; }
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuAttackedAble { get => enemy._gunFuAttackedAble; set { } }

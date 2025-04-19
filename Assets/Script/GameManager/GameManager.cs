@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour,INodeManager
     public enum GameplayLevel
     {
         None,
+        Tutorial,
         Mansion,
         Hotel, 
-        Level2
     }
     public GameplayLevel gameplayLevelData;
 
@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour,INodeManager
     public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
+    public TutorialGameManagerNodeLeaf tutorialGameManagerNodeLeaf{ get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
-    public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeleaf { get; set ; }
     private void Awake()
     {
         soundTrackManager = GetComponent<SoundTrackManager>();
@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour,INodeManager
         this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this,()=> gameManagerSceneData == GameManagerState.ForntScene);
 
         this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
+        this.tutorialGameManagerNodeLeaf = new TutorialGameManagerNodeLeaf("Tutorial_New", this,()=> gameplayLevelData == GameplayLevel.Tutorial);
 
-        this.levelMansionGameManagerNodeleaf = new LevelMansionGameManagerNodeLeaf("MansionLevel", this, () => gameplayLevelData == GameplayLevel.Mansion);
         this.levelHotelGameManagerNodeLeaf = new LevelHotelGameManagerNodeLeaf("HotelLevel", this, () => gameplayLevelData == GameplayLevel.Hotel);
 
 
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour,INodeManager
         startNodeSelector.AddtoChildNode(this.frontSceneGameManagerNodeLeaf);
         startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
 
-        ingameGameManagerNodeSelector.AddtoChildNode(levelMansionGameManagerNodeleaf);
+        ingameGameManagerNodeSelector.AddtoChildNode(tutorialGameManagerNodeLeaf);
         ingameGameManagerNodeSelector.AddtoChildNode(levelHotelGameManagerNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
@@ -96,22 +96,7 @@ public class GameManager : MonoBehaviour,INodeManager
             case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
                 {
                     gameManagerSceneData = GameManagerState.Gameplay;
-                    gameplayLevelData = GameplayLevel.Mansion;
-                }
-                break;
-            case InGameLevelMisstionCompleteGameMasterNodeLeaf levelHotelMisstionCompleteGameMasterNodeLeaf:
-                {
-                    if(levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == InGameLevelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutRestart)
-                        (curNodeLeaf as GameManagerNodeLeaf).Enter();
-
-                    if (levelHotelMisstionCompleteGameMasterNodeLeaf.curPhase == InGameLevelMisstionCompleteGameMasterNodeLeaf.MissionCompletePhase.FadeOutContinue) 
-                    {
-                        if (curNodeLeaf is LevelMansionGameManagerNodeLeaf)
-                            gameplayLevelData = GameplayLevel.Hotel;
-
-                        if (curNodeLeaf is LevelHotelGameManagerNodeLeaf)
-                            gameplayLevelData = GameplayLevel.Mansion;
-                    }
+                    gameplayLevelData = GameplayLevel.Tutorial;
                 }
                 break;
             case InGameLevelGameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
@@ -123,10 +108,10 @@ public class GameManager : MonoBehaviour,INodeManager
                         gameManagerSceneData = GameManagerState.ForntScene;
                 }
                 break;
-            case InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster> MansionGamplayGameMasterNodeLeaf: 
+            case TutorialTitleGameMasterNodeLeaf tutorialTitleGameMasterNodeLeaf:
                 {
-                    if (MansionGamplayGameMasterNodeLeaf.gameMaster.isTriggerExit)
-                        gameManagerSceneData = GameManagerState.ForntScene;
+                    gameManagerSceneData = GameManagerState.Gameplay;
+                    gameplayLevelData = GameplayLevel.Hotel;
                 }
                 break;
         }   

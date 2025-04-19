@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble
 {
-    public override float hpReciverRate { get; set; }
+    public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }
   
 
@@ -13,7 +13,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble
     {
         base.Start();
 
-        hpReciverRate = 3.0f;
+        hpReciverMultiplyRate = 6.0f;
         postureReciverRate = 3.0f;
 
     }
@@ -22,7 +22,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble
     {
         Bullet bulletObj = damageVisitor as Bullet;
 
-        float damage = bulletObj.hpDamage * hpReciverRate;
+        float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
         float pressureDamage = bulletObj.impactDamage * postureReciverRate;
 
         enemy._isPainTrigger = true;
