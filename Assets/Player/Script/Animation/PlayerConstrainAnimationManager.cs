@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObserverPlayer
 {
@@ -17,6 +18,8 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
+
+    [SerializeField] private Rig rig;
 
     public Player player;
 
@@ -64,7 +67,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
         pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player, this.StandSplineLookConstrain, standPistolAimSplineLookConstrainScriptableObject, () => player._currentWeapon is SecondaryWeapon);
         pistol_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.pistolLeaningConstrainScriptableObject, leaningRotation, player, () => player._currentWeapon is SecondaryWeapon);
         pistolADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is SecondaryWeapon);
-        restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(() => true);
+        restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig,() => true);
 
         gunFuConstraintSelector = new AnimationConstrainNodeSelector(()=> player.curNodeLeaf is IGunFuNode);
         humanShieldConstrainSelector = new AnimationConstrainNodeSelector(() => player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf || player.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf);
@@ -110,6 +113,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     }
     private void RecoveryUpdateWeight()
     {
+
         if (curNodeLeaf is RightHandLookControlAnimationConstraintNodeLeaf == false)
         {
             RightHandConstrainLookAtManager.SetWeight(RightHandConstrainLookAtManager.GetWeight() - Time.deltaTime);

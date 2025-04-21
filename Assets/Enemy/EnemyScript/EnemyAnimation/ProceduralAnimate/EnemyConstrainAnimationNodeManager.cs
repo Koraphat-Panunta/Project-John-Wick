@@ -34,6 +34,8 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
     EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf { get; set; }
     RestAnimationConstrainNodeLeaf restProceduralAnimateNodeLeaf { get; set; }
 
+    [SerializeField] private Rig rig;
+
     public override void InitailizedNode()
     {
         startNodeSelector = new AnimationConstrainNodeSelector(() => true);
@@ -46,7 +48,7 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
                 return enemy.enemyStateManagerNode.curNodeLeaf is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureLight;
             }
             );
-        restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(() => true);
+        restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
         startNodeSelector.AddtoChildNode(enemyPainStateProceduralAnimateNodeLeaf);
         startNodeSelector.AddtoChildNode(restProceduralAnimateNodeLeaf);
