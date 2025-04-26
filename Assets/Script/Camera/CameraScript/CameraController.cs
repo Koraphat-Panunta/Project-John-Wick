@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
 
+    [SerializeField] public CameraExecuteScriptableObject cameraExecuteScriptableObject;
 
     public CameraKickBack cameraKickBack;
     public CameraImpulseShake cameraImpluse;

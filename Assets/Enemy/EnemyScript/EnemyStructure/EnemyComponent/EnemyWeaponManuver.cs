@@ -28,7 +28,6 @@ public class EnemyWeaponManuver : WeaponManuverManager
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
             ()=> 
             {
-                Debug.Log("Enemy isPickingUpWeaponManuver = "+isPickingUpWeaponManuver);
 
                 if (isPickingUpWeaponManuver)
                 {

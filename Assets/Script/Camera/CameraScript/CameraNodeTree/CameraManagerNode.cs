@@ -57,6 +57,7 @@ public class CameraManagerNode : INodeManager
         cameraGunFuWeaponDisarmViewNodeLeaf = new CameraGunFuWeaponDisarmViewNodeLeaf(this.cameraController,
             () => cameraController.isWeaponDisarm);
         cameraGunFuExecuteOnGroundNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(this.cameraController,
+           cameraController.cameraExecuteScriptableObject,
             () => this.cameraController.player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf);
         cameraGunFuHitViewNodeLeaf = new CameraGunFuHitViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.gunFuCameraTimer > 0);

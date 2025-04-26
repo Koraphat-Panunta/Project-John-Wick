@@ -32,8 +32,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806568399460747138}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.059905898, y: -0.45063695, z: 0.030326286, w: 0.8901786}
-  m_LocalPosition: {x: -77.15, y: 2.0466394, z: 21.469845}
+  m_LocalRotation: {x: 0.05135815, y: -0.45090732, z: 0.025999144, w: 0.8907126}
+  m_LocalPosition: {x: 1.4474406, y: 1.4772563, z: -0.5297048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -182,6 +182,8 @@ MonoBehaviour:
   thirdPersonCinemachineCamera: {fileID: 0}
   impulseSource: {fileID: 8522622513793723404}
   player: {fileID: 0}
+  cameraExecuteScriptableObject: {fileID: 11400000, guid: 545652aae22148b448ba79c5688da00f,
+    type: 2}
   cameraViewAttribute: {fileID: 11400000, guid: 4108872fe8dfb1a43bd8c8b28da56794,
     type: 2}
   isZooming: 0

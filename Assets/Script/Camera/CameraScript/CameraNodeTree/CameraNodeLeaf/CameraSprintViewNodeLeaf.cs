@@ -14,13 +14,18 @@ public class CameraSprintViewNodeLeaf : CameraNodeLeaf
     public CameraSprintViewNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
     {
     }
+    public override void Enter()
+    {
 
+        base.Enter();
+    }
     public override void UpdateNode()
     {
         ScrpCameraViewAttribute viewAttribute = this.cameraController.cameraViewAttribute;
         float offsetX;
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
+        thirdPersonCamera.UpdateCameraPosition();
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {

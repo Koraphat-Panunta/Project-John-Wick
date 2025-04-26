@@ -37,6 +37,7 @@ public class CameraStandViewNodeLeaf : CameraNodeLeaf
         float offsetX;
 
         thirdPersonCamera.InputRotateCamera(inputLook.x,-inputLook.y);
+        thirdPersonCamera.UpdateCameraPosition();
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {

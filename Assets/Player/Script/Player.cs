@@ -70,6 +70,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
         playerStateNodeManager = new PlayerStateNodeManager(this);
+
+        aimPosRef.transform.SetParent(null, true);
     }
     protected override void Start()
     {

@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Cinemachine;
+using System.Threading.Tasks;
+using System.Threading;
+using System;
+
+
 
 
 #if UNITY_EDITOR
@@ -28,6 +33,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     public Transform targetFollowTarget { get => targetFollow; protected set => this.targetFollowTarget = value; }
     [SerializeField] private Transform targetLook;
     public Transform targetLookTarget { get => targetLook; protected set => this.targetLookTarget = value; }
+
     [Range(0,360)]
     [SerializeField] public float yaw;
     [Range(-90,90)]
@@ -44,6 +50,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     }
     void Start()
     {
+     
         yaw = transform.eulerAngles.y;
         pitch = transform.eulerAngles.x;
     }
@@ -52,10 +59,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         isBeenUpdate = false;
     }
 
-    void Update()
-    {
-        UpdateCameraPosition();
-    }
+   
    
     public void InputRotateCamera(float horizontalInput,float verticalInput)
     {
@@ -65,27 +69,23 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     }
     public void SetYaw(float value)=>this.yaw = value;
     public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);
-    
-    public void UpdateCameraPosition()
-    {
-        this.UpdateCameraPosition(this.targetFollow.position, this.targetLook.position);
-    }
 
-    public void UpdateCameraPosition(Vector3 targetFollow,Vector3 targetLook)
+    public void UpdateCameraPosition() => UpdateCameraPosition(this.targetFollow.position, this.targetLook.position);
+    public void UpdateCameraPosition(Vector3 targetFollow,Vector3 targetLookAt)
     {
         if(isBeenUpdate == true)
             return;
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
         transform.position = targetFollow + rotation * (cameradistance * distance);
-        transform.LookAt(targetLook);
+        transform.LookAt(targetLookAt);
         transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
 
-        Vector3 startCastPos = targetLook + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
+        Vector3 startCastPos = targetLookAt + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
         Vector3 castDir = transform.position - startCastPos;
 
         //CheckCameraBeenBlocked
-        if(Physics.Raycast(targetLook, (transform.position - targetLook).normalized, out RaycastHit hit, (transform.position - targetLook).magnitude+0.2f, collisionLayers))
+        if(Physics.Raycast(targetLookAt, (transform.position - targetLookAt).normalized, out RaycastHit hit, (transform.position - targetLookAt).magnitude+0.2f, collisionLayers))
         {
             Vector3 camToHitDir = hit.point - transform.position;
 
@@ -97,13 +97,48 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
             transform.position += transform.forward * moveForward + (hit.normal*collisionPushForward);
 
-            if(Physics.Raycast(targetLook, (transform.position-targetLook).normalized, out RaycastHit hitSecond, (transform.position - targetLook).magnitude + 0.2f, collisionLayers))
+            if(Physics.Raycast(targetLookAt, (transform.position-targetLookAt).normalized, out RaycastHit hitSecond, (transform.position - targetLookAt).magnitude + 0.2f, collisionLayers))
             {
                 transform.position = hitSecond.point + (hitSecond.normal* collisionPushForward);
             }
         }
         isBeenUpdate = true;
     }
+    
+    //private CancellationTokenSource cancellationTokenSource;
+    //public async void UpdateTargetFollowLookAt(Vector3 targetFollow, Vector3 targetLookAt,float transitionDuration)
+    //{
+    //    if(cancellationTokenSource != null)
+    //    {
+    //        cancellationTokenSource.Cancel();
+    //        cancellationTokenSource.Dispose();
+    //    }
+
+    //    cancellationTokenSource = new CancellationTokenSource();
+    //    CancellationToken token = cancellationTokenSource.Token;
+
+    //    float t = 0;
+    //    Vector3 beginTargetFollow = curFollowTarget;
+    //    Vector3 beginTargetLookAt = curLookTarget;
+    //    try
+    //    {
+    //        while (t <= transitionDuration)
+    //        {
+    //            token.ThrowIfCancellationRequested();
+
+    //            t += Time.deltaTime;
+    //            this.curFollowTarget = Vector3.Lerp(beginTargetFollow, targetFollow, t);
+    //            this.curLookTarget = Vector3.Lerp(beginTargetLookAt, targetLookAt, t);
+    //            await Task.Yield();
+    //        }
+    //    }
+    //    catch (OperationCanceledException) 
+    //    {
+    //        Debug.Log("UpdateTargetFollowLookAt was cancelled.");
+    //    }
+    //}
+
+
     private void OnValidate()
     {
         cinemachineCamera = GetComponent<CinemachineCamera>();

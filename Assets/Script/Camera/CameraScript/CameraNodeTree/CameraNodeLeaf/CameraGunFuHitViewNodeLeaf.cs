@@ -16,6 +16,7 @@ public class CameraGunFuHitViewNodeLeaf : CameraNodeLeaf
     }
     public override void Enter()
     {
+
         base.Enter();
     }
 
@@ -35,6 +36,7 @@ public class CameraGunFuHitViewNodeLeaf : CameraNodeLeaf
         float offsetX;
 
         thirdPersonCamera.InputRotateCamera(inputLook.x,-inputLook.y);
+        thirdPersonCamera.UpdateCameraPosition();
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {

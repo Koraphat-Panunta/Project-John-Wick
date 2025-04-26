@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cddb50da69e6e845839ed8f2fc2066c, type: 3}
+  m_Name: CameraExecuteScriptableObject
+  m_EditorClassIdentifier: 
+  weight: 0.74
+  executorAnchorOffset: {x: 0, y: 1, z: -0.28}
+  opponentExecutedAnchorOffset: {x: 0, y: -0.3, z: 0}
+  cameraPosAnchorOffset: {x: 0, y: 0, z: 0}
+  cameraOffset: {x: 0, y: 0, z: 0.14}
+  transitionEnterDuration: 1.76
+  transitionExitDuration: 1.93
