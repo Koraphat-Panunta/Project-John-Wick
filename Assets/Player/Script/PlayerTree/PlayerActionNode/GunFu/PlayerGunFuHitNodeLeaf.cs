@@ -16,7 +16,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     public INodeManager nodeManager { get => base.player.playerStateNodeManager ; set { } }
     public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
-    GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
+    protected GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
     public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
 

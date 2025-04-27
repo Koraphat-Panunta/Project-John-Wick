@@ -135,14 +135,16 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
     IEnumerator SlowMotion()
     {
+        float originalFixdeltaTime = Time.fixedDeltaTime;
+
         yield return new WaitForSecondsRealtime(duration*0.5f);
 
         Time.timeScale = 0.25f; // Set slow motion (25% speed)
-        Time.fixedDeltaTime = 0.02f * Time.timeScale; // Adjust physics for smoothness
+        Time.fixedDeltaTime *= Time.timeScale; // Adjust physics for smoothness
 
         yield return new WaitForSecondsRealtime(1f); // Use unscaled time so the delay isn't affected by slow motion
 
         Time.timeScale = 1f; // Reset to normal speed
-        Time.fixedDeltaTime = 0.02f; // Restore original physics update rate
+        Time.fixedDeltaTime = originalFixdeltaTime; // Restore original physics update rate
     }
 }

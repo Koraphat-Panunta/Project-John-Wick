@@ -4,20 +4,31 @@ using UnityEngine;
 public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
 {
 
-
+    private TimeControlBehavior timeControlBehavior;
+    private bool isAlreadyHit;
     public Hit2GunFuNode(Player player, Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
+        timeControlBehavior = new TimeControlBehavior();
     }
     public override void UpdateNode()
     {
 
-        if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized)
+        if (_timer >= _animationClip.length * hitAbleTime_Normalized 
+            && _timer <= _animationClip.length * endHitableTime_Normalized
+            && isAlreadyHit == false)
         {
             attackedAbleGunFu.TakeGunFuAttacked(this, player);
             player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuAttack);
+            timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
+            isAlreadyHit = true;
         }
 
         base.UpdateNode();
+    }
+    public override void Enter()
+    {
+        isAlreadyHit = false;
+        base.Enter();
     }
     public override void FixedUpdateNode()
     {
