@@ -7,13 +7,13 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
     private bool isComplete;
 
     public INodeManager nodeManager { get; set; }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get; set; }
+    public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     public DropWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         nodeManager = weaponAdvanceUser.weaponManuverManager;
-        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
 
@@ -53,6 +53,6 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
 
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
 
-    public void AddTransitionNode(INodeLeaf nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this,nodeLeaf);
+    public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     
 }

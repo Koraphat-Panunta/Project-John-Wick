@@ -8,7 +8,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
     PlayerMovement playerMovement => player.playerMovement;
 
     public INodeManager nodeManager { get => player.playerStateNodeManager ; set { } }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
+    public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get ; set; }
 
     float duration = 0.75f;
@@ -26,7 +26,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
     private Vector3 enterDir;
     public PlayerDodgeRollStateNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
-        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
 
@@ -101,6 +101,6 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
 
 
-    public void AddTransitionNode(INodeLeaf nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+    public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
    
 }

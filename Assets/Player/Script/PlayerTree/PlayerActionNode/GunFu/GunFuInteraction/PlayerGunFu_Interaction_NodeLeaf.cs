@@ -12,7 +12,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     #region ImplementINodeTransitionAble
     public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get; set; }
+    public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     #endregion
 
@@ -26,7 +26,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;
-        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
         _animationClip = gunFuInteraction_ScriptableObject.AinimnationClip;
@@ -39,7 +39,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;
-        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
         targetAdjustTransform = gunFuAble._targetAdjustTranform;
@@ -78,7 +78,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
     
-    public void AddTransitionNode(INodeLeaf nodeLeaf)=> nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+    public void AddTransitionNode(INode node)=> nodeLeafTransitionBehavior.AddTransistionNode(this, node);
    
 
  

@@ -14,7 +14,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
     public IGunFuAble gunFuAble { get; set; }
     public INodeManager nodeManager { get => base.player.playerStateNodeManager ; set { } }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
+    public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     protected GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
     public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
@@ -26,7 +26,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
         this._animationClip = gunFuNodeScriptableObject.animationClip;
 
         gunFuAble = player as IGunFuAble;
-        transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
     public override void Enter()
@@ -106,6 +106,6 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     }
 
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
-    public void AddTransitionNode(INodeLeaf nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+    public void AddTransitionNode(INode nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
    
 }

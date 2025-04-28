@@ -5,9 +5,9 @@ using System;
 public interface INodeLeafTransitionAble : INodeLeaf
 {
     public INodeManager nodeManager { get; set; }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get; set; }
+    public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public bool Transitioning();
-    public void AddTransitionNode(INodeLeaf nodeLeaf);
+    public void AddTransitionNode(INode node);
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
    
 }
@@ -15,28 +15,42 @@ public class NodeLeafTransitionBehavior
 {
     public bool Transitioning(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
-       Dictionary<INodeLeaf, bool> transitionAbleNode = nodeLeafTransitionAble.transitionAbleNode;
+       Dictionary<INode, bool> transitionAbleNode = nodeLeafTransitionAble.transitionAbleNode;
 
-        foreach(INodeLeaf node in transitionAbleNode.Keys)
+        foreach(INode node in transitionAbleNode.Keys)
         {
             if (transitionAbleNode[node] &&
                 node.Precondition())
             {
-                nodeLeafTransitionAble.nodeManager.curNodeLeaf.Exit();
-                nodeLeafTransitionAble.nodeManager.curNodeLeaf = node;
-                nodeLeafTransitionAble.nodeManager.curNodeLeaf.Enter();
+                if(node is INodeLeaf nodeLeaf)
+                {
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Exit();
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf = nodeLeaf;
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Enter();
+                }
+                else if(node is INodeSelector nodeSelector)
+                {
+                    nodeSelector.FindingNode(out INodeLeaf _nodeLeaf);
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Exit();
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf = _nodeLeaf;
+                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Enter();
+                }
+
                 return true;
             }
         }
         return false;
     }
 
-    public void AddTransistionNode(INodeLeafTransitionAble nodeLeafTransitionAble,INodeLeaf addNode)
+    public void AddTransistionNode(INodeLeafTransitionAble nodeLeafTransitionAble,INode addNode)
     {
-        addNode.isReset.Add(() => !addNode.preCondition.Invoke());
-        foreach (Func<bool> parentIsReset in nodeLeafTransitionAble.isReset)
+        if (addNode is INodeLeaf nodeLeaf)
         {
-            addNode.isReset.Add(parentIsReset);
+            nodeLeaf.isReset.Add(() => !nodeLeaf.preCondition.Invoke());
+            foreach (Func<bool> parentIsReset in nodeLeafTransitionAble.isReset)
+            {
+                nodeLeaf.isReset.Add(parentIsReset);
+            }
         }
         nodeLeafTransitionAble.transitionAbleNode.Add(addNode, false);
 
@@ -46,12 +60,12 @@ public class NodeLeafTransitionBehavior
         if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)
             return;
         // Create a temporary list of keys to iterate over safely
-        List<INodeLeaf> keys = new List<INodeLeaf>(nodeLeafTransitionAble.transitionAbleNode.Keys);
+        List<INode> keys = new List<INode>(nodeLeafTransitionAble.transitionAbleNode.Keys);
 
         // Modify dictionary using the stored keys
-        foreach (INodeLeaf nodeLeaf in keys)
+        foreach (INode node in keys)
         {
-            nodeLeafTransitionAble.transitionAbleNode[nodeLeaf] = true;
+            nodeLeafTransitionAble.transitionAbleNode[node] = true;
         }
     }
     public void DisableTransitionAbleAll(INodeLeafTransitionAble nodeLeafTransitionAble)
@@ -59,12 +73,12 @@ public class NodeLeafTransitionBehavior
         if (nodeLeafTransitionAble.transitionAbleNode.Count <= 0)
             return;
         // Create a temporary list of keys to iterate over safely
-        List<INodeLeaf> keys = new List<INodeLeaf>(nodeLeafTransitionAble.transitionAbleNode.Keys);
+        List<INode> keys = new List<INode>(nodeLeafTransitionAble.transitionAbleNode.Keys);
 
         // Modify dictionary using the stored keys
-        foreach (INodeLeaf nodeLeaf in keys)
+        foreach (INode node in keys)
         {
-            nodeLeafTransitionAble.transitionAbleNode[nodeLeaf] = false;
+            nodeLeafTransitionAble.transitionAbleNode[node] = false;
         }
     }
 }

@@ -15,7 +15,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
 
     public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
-    public Dictionary<INodeLeaf, bool> transitionAbleNode { get ; set ; }
+    public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     private HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
 
@@ -23,7 +23,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     {
         this.animator = animator;
 
-        this.transitionAbleNode = new Dictionary<INodeLeaf, bool>();
+        this.transitionAbleNode = new Dictionary<INode, bool>();
         this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
     }
@@ -104,6 +104,6 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
 
-    public void AddTransitionNode(INodeLeaf nodeLeaf) => nodeLeafTransitionBehavior.AddTransistionNode(this, nodeLeaf);
+    public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     
 }
