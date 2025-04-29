@@ -45,6 +45,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser._currentWeapon;
         isDisarmWeapon = false;
         isTransitionAbleAlready = false;
+        player._movementCompoent.CancleMomentum();
 
         base.Enter();
     }
@@ -68,7 +69,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                     if (elapesTime >= pullTime)
                     {
                         attackedAbleGunFu.TakeGunFuAttacked(this, player);
-                        player._movementCompoent.CancleMomentum();
+
                         player.animator.applyRootMotion = true;
                         curPhase = WeaponDisarmPhase.Disarming;
                     }
@@ -184,19 +185,23 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     }
     private void Pull(float t)
     {
-        //attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
-        //               attackedAbleGunFu._gunFuAttackedAble.position,
-        //               targetAdjustTransform.position,
-        //               t
-        //               );
         attackedAbleGunFu._movementCompoent.CancleMomentum();
 
-        player.transform.position = Vector3.Lerp(
-            player.transform.position,
-            attackedAbleGunFu.attackedPos,
-            t);
+        attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
+                       attackedAbleGunFu._gunFuAttackedAble.position,
+                       targetAdjustTransform.position,
+                       t
+                       );
 
-        Vector3 playerLookDir = (attackedAbleGunFu._gunFuAttackedAble.position - player.transform.position).normalized;
+
+        //Vector3 playerMovePos =attackedAbleGunFu.attackedPos + (player.transform.position - attackedAbleGunFu.attackedPos).normalized * 0.5f;
+
+        //player.transform.position = Vector3.Lerp(
+        //    player.transform.position,
+        //    playerMovePos,
+        //    t);
+
+        Vector3 playerLookDir = (attackedAbleGunFu.attackedPos - player.transform.position).normalized;
         playerLookDir = new Vector3(playerLookDir.x, 0, playerLookDir.z);
 
         player.transform.rotation = Quaternion.Lerp(
@@ -204,7 +209,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
             Quaternion.LookRotation(playerLookDir, Vector3.up),
             t);
 
-        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._gunFuAttackedAble.position).normalized;
+        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu.attackedPos).normalized;
         opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
 
         attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(
