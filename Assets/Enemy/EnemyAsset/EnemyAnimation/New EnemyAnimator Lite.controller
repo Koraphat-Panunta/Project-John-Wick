@@ -2602,6 +2602,32 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-2604084767881431830
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GotGunFuDisarmSecondaryWeapon
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 8bfcae903c6aed44995641082610749c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &-2494995810952554982
 BlendTree:
   m_ObjectHideFlags: 1
@@ -5487,7 +5513,7 @@ AnimatorStateMachine:
     m_Position: {x: -1370, y: 1170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6746394565102561223}
-    m_Position: {x: 970, y: 1070, z: 0}
+    m_Position: {x: 960, y: 1070, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5366641309114718592}
     m_Position: {x: -1280, y: 1060, z: 0}
@@ -5541,7 +5567,7 @@ AnimatorStateMachine:
     m_Position: {x: 1210, y: 1070, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6415342112033573719}
-    m_Position: {x: 970, y: 950, z: 0}
+    m_Position: {x: 960, y: 980, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9118993397932956431}
     m_Position: {x: -490, y: 1180, z: 0}
@@ -5560,6 +5586,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 7688312116121437969}
     m_Position: {x: 1210, y: 1170, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2604084767881431830}
+    m_Position: {x: 1210, y: 980, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -6318,7 +6347,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFuDisarmWeapon
+  m_Name: GotGunFuDisarmPrimaryWeapon
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -6331,7 +6360,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ec665a9df7215c544b94efb1cc8a19e9, type: 2}
+  m_Motion: {fileID: 7400000, guid: 214bb344c072f5a498438381e3297477, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -224,6 +224,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     [SerializeField] public GunFuInteraction_ScriptableObject humanThrow;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
+    [SerializeField] public WeaponDisarmGunFuScriptableObject primaryWeaponDisarmGunFuScriptableObject;
+    [SerializeField] public WeaponDisarmGunFuScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
 
     public void InitailizedGunFuComponent()
     {

@@ -16,4 +16,6 @@ public class WeaponDisarmGunFuScriptableObject : ScriptableObject
 
     [Range(0, 1)]
     public float exitTimeNormalized;
+
+    public Vector3 OffsetTargerAdjust;
 }

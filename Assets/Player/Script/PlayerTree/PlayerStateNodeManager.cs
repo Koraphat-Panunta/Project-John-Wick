@@ -46,7 +46,9 @@ public class PlayerStateNodeManager : INodeManager
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
-    public WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
+    public PlayerSelectorStateNode weaponDisarmSelector { get; private set; }
+    public WeaponDisarm_GunFuInteraction_NodeLeaf primary_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
+    public WeaponDisarm_GunFuInteraction_NodeLeaf secondart_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanThrowGunFuInteractionNodeLeaf humanThrow_GunFuInteraction_NodeLeaf { get; private set; }
     public Hit2GunFuNode Hit2GunFuNode { get; private set; }
     public KnockDown_GunFuNode knockDown_GunFuNode { get; private set; }
@@ -129,7 +131,8 @@ public class PlayerStateNodeManager : INodeManager
                 }
                 return false;
             });
-        weaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player,
+
+        weaponDisarmSelector = new PlayerSelectorStateNode(this.player,
             () => 
             {
                 if(player.isPickingUpWeaponCommand && player.attackedAbleGunFu != null)
@@ -140,6 +143,14 @@ public class PlayerStateNodeManager : INodeManager
                 return false;
             }
             );
+
+        primary_WeaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player.primaryWeaponDisarmGunFuScriptableObject
+            ,this.player
+            , () => player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon is PrimaryWeapon);
+        secondart_WeaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player.secondaryWeaponDisarmGunFuScriptableObject
+            , this.player
+            , () => player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon is SecondaryWeapon);
+
         humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
             () => this.player.isAimingCommand
             && this.player.attackedAbleGunFu != null
@@ -176,18 +187,22 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
+        weaponDisarmSelector.AddtoChildNode(primary_WeaponDisarm_GunFuInteraction_NodeLeaf);
+        weaponDisarmSelector.AddtoChildNode(secondart_WeaponDisarm_GunFuInteraction_NodeLeaf);
+
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNode);
 
         gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
 
         Hit1gunFuNode.AddTransitionNode(Hit2GunFuNode);
-        Hit1gunFuNode.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
+        Hit1gunFuNode.AddTransitionNode(weaponDisarmSelector);
         Hit1gunFuNode.AddTransitionNode(restrictGunFuStateNodeLeaf);
         humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanThrow_GunFuInteraction_NodeLeaf);
         Hit2GunFuNode.AddTransitionNode(knockDown_GunFuNode);
-        Hit2GunFuNode.AddTransitionNode(weaponDisarm_GunFuInteraction_NodeLeaf);
+        Hit2GunFuNode.AddTransitionNode(weaponDisarmSelector);
         Hit2GunFuNode.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);

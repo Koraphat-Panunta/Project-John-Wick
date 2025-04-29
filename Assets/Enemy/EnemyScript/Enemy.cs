@@ -498,6 +498,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
     [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
+    [SerializeField] public WeaponGotDisarmedScriptableObject primary_WeaponGotDisarmedScriptableObject;
+    [SerializeField] public WeaponGotDisarmedScriptableObject secondary_WeaponGotDisarmedScriptableObject;
 
     [SerializeField] public AnimationClip layUpExecutedAnim;
     [SerializeField] public AnimationClip layDownExecutedAnim;

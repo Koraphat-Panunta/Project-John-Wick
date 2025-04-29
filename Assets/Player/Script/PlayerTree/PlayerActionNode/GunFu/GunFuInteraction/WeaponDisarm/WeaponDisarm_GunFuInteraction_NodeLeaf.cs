@@ -31,9 +31,9 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
     public WeaponDisarmPhase curPhase { get; private set; }
 
-    public WeaponDisarm_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    public WeaponDisarm_GunFuInteraction_NodeLeaf(WeaponDisarmGunFuScriptableObject weaponDisarmGunFuScriptableObject,Player player, Func<bool> preCondition) : base(player, preCondition)
     {
-        
+        this.weaponDisarmGunFuScriptableObject = weaponDisarmGunFuScriptableObject;
     }
 
     public override void Enter()
@@ -43,7 +43,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         curPhase = WeaponDisarmPhase.Pulling;
         elapesTime = 0;
         disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser._currentWeapon;
-        attackedAbleGunFu.TakeGunFuAttacked(this, player);
         isDisarmWeapon = false;
         isTransitionAbleAlready = false;
 
@@ -54,6 +53,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         curPhase = WeaponDisarmPhase.None;
         attackedAbleGunFu = null;
+        player.animator.applyRootMotion = false;
         base.Exit();
     }
 
@@ -63,9 +63,13 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         {
             case WeaponDisarmPhase.Pulling:
                 {
-                    if(elapesTime >= pullTime)
+                    Pull(elapesTime / pullTime);
+                    Debug.Log("t disarm = " + elapesTime / pullTime);
+                    if (elapesTime >= pullTime)
                     {
-                        Pull(elapesTime / pullTime);
+                        attackedAbleGunFu.TakeGunFuAttacked(this, player);
+                        player._movementCompoent.CancleMomentum();
+                        player.animator.applyRootMotion = true;
                         curPhase = WeaponDisarmPhase.Disarming;
                     }
                 }
@@ -152,8 +156,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         disarmedWeapon.DropWeapon();
        
-
-        (attackedAbleGunFu._movementCompoent as IMotionImplusePushAble).AddForcePush(player.transform.forward * 2.5f, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
         if (player.weaponAdvanceUser._currentWeapon == null)
         {
             disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
@@ -187,9 +189,11 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         //               targetAdjustTransform.position,
         //               t
         //               );
+        attackedAbleGunFu._movementCompoent.CancleMomentum();
+
         player.transform.position = Vector3.Lerp(
             player.transform.position,
-            Vector3.MoveTowards(attackedAbleGunFu.attackedPos, player.transform.position, 1),
+            attackedAbleGunFu.attackedPos,
             t);
 
         Vector3 playerLookDir = (attackedAbleGunFu._gunFuAttackedAble.position - player.transform.position).normalized;
@@ -200,9 +204,12 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
             Quaternion.LookRotation(playerLookDir, Vector3.up),
             t);
 
+        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._gunFuAttackedAble.position).normalized;
+        opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
+
         attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(
             attackedAbleGunFu._gunFuAttackedAble.rotation, 
-            Quaternion.LookRotation(targetAdjustTransform.forward * -1, Vector3.up),
+            Quaternion.LookRotation(opponentLook, Vector3.up),
             t);
 
         player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
