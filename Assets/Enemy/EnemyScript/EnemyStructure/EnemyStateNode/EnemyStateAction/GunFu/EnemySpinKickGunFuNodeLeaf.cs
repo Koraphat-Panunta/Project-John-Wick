@@ -58,7 +58,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
                     target.TakeGunFuAttacked(this, enemy);
                     if(target._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
                     {
-                        Vector3 dir = target.attackedPos - enemy.transform.position;
+                        Vector3 dir = target._gunFuAttackedAble.position - enemy.transform.position;
                         motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                     }
                     enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuAttack);

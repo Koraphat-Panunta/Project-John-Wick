@@ -11,7 +11,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuAttackedAble { get => enemy._gunFuAttackedAble; set { } }
-    public Vector3 attackedPos { get; set; }
+    public Vector3 attackerPos { get; set; }
 
     public Vector3 forceSave;
     public Vector3 hitForcePositionSave;

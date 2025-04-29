@@ -192,7 +192,7 @@ public class GunFuDetectTarget : MonoBehaviour
         if (CastDetect(out IGunFuGotAttackedAble target))
         {
             Gizmos.DrawSphere(target._gunFuAttackedAble.position, 0.75f);
-            sphrerPos = this.CastTransform.position + (CastDir() * Vector3.Distance(_castTransform.position,target.attackedPos));
+            sphrerPos = this.CastTransform.position + (CastDir() * Vector3.Distance(_castTransform.position,target._gunFuAttackedAble.position));
 
         }
 

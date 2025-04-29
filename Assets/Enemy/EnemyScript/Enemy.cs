@@ -461,7 +461,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     #endregion
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set; }
-    public Vector3 attackedPos { get; set; }
+    public Vector3 attackerPos { get; set; }
     public Transform _gunFuAttackedAble { get { return transform; } set { } }
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IGunFuNode curAttackerGunFuNode { get; set; }
@@ -507,7 +507,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         _triggerHitedGunFu = true;
         curAttackerGunFuNode = gunFu_NodeLeaf;
-        attackedPos = attacker._gunFuUserTransform.position;
+        attackerPos = attacker._gunFuUserTransform.position;
         gunFuAbleAttacker = attacker;
     }
     #endregion

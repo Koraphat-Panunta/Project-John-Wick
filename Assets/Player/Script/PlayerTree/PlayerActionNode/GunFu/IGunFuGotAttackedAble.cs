@@ -4,7 +4,7 @@ public interface IGunFuGotAttackedAble
 {
     public bool _triggerHitedGunFu { get; set; }
     public Transform _gunFuAttackedAble { get; set; }
-    public Vector3 attackedPos { get; set; }
+    //public Vector3 attackerPos { get; set; }
     public IGunFuNode curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get; set; }
     public IGunFuAble gunFuAbleAttacker { get; set; }

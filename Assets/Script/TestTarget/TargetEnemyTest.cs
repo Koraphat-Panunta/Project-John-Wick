@@ -4,7 +4,7 @@ public class TargetEnemyTest : MonoBehaviour, IGunFuGotAttackedAble
 {
     public bool _triggerHitedGunFu { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public Transform _gunFuAttackedAble { get => transform; set => throw new System.NotImplementedException(); }
-    public Vector3 attackedPos { get => transform.position; set => throw new System.NotImplementedException(); }
+    public Vector3 attackerPos { get => transform.position; set => throw new System.NotImplementedException(); }
     public IGunFuNode curAttackerGunFuNode { get; set ; }
     public INodeLeaf curNodeLeaf { get ; set ; }
     public IGunFuAble gunFuAbleAttacker { get; set; }
