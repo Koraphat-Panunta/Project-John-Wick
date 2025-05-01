@@ -23,11 +23,15 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
         gameMaster.NotifyObserver(gameMaster);
 
+        DisableInput();
+
         OpeningDelay();
     }
 
     public override void Exit()
     {
+        EnableInput();
+
         player.gameObject.SetActive(true);
     }
 
@@ -57,6 +61,17 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         await Task.Delay(3000);
         gameMaster.gamePlayUICanvas.EnableGameplayUI();
         this.isComplete = true;
+    }
+
+    private void DisableInput()
+    {
+        gameMaster.user.userInput.PauseAction.Disable();
+        gameMaster.user.userInput.PlayerAction.Disable();
+    }
+    private void EnableInput()
+    {
+        gameMaster.user.userInput.PauseAction.Enable();
+        gameMaster.user.userInput.PlayerAction.Enable();
     }
   
 }

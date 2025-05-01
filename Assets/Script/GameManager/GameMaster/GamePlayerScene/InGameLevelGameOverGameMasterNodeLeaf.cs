@@ -3,10 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>, IGameManagerSendNotifyAble
+public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
-
-    private GameOverUICanvas gameOverUICanvas => gameMaster.gameOverUICanvas;
+    private bool isTriggerExit;
+    private bool isTriggerRestart;
+    private GameOverUICanvas gameOverUICanvas;
     public enum GameOverPhase
     {
         FadeIn,
@@ -17,17 +18,22 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
     public GameOverPhase gameOverPhase;
 
     private float eplapesTime;
-    private SetAlphaColorUI setAlphaColorUI;
 
     public GameManager gameManager { get => gameMaster.gameManager ; set { } }
 
-    public InGameLevelGameOverGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelGameOverGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,GameOverUICanvas gameOverUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-        setAlphaColorUI = new SetAlphaColorUI();
+        this.gameOverUICanvas = gameOverUICanvas;
+
+        this.gameOverUICanvas.gameOverRestartButton.onClick.AddListener(() => isTriggerRestart = true);
+        this.gameOverUICanvas.gameOverExitButton.onClick.AddListener(() => isTriggerExit = true);
     }
 
     public override void Enter()
     {
+        isTriggerExit = false;
+        isTriggerRestart = false;
+
         gameOverPhase = GameOverPhase.FadeIn;
         eplapesTime = 0;
         this.gameOverUICanvas.gameObject.SetActive(true);
@@ -64,13 +70,13 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
         }
         else if (gameOverPhase == GameOverPhase.Stay)
         {
-            if (gameMaster.isTriggerExit)
+            if (isTriggerExit)
             {
                 this.gameOverUICanvas.PlayFadeOutGameOverCanvas();
                 gameOverPhase = GameOverPhase.FadeOutExit;
                 return;
             }
-            if (gameMaster.isTriggerRestart)
+            if (isTriggerRestart)
             {
                 this.gameOverUICanvas.PlayFadeOutGameOverCanvas();
                 gameOverPhase = GameOverPhase.FadeOutRestart;
@@ -82,7 +88,7 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2)
             {
-                gameManager.OnNotify(this);
+                gameManager.RestartScene();
             }
         }
         else if (gameOverPhase == GameOverPhase.FadeOutExit)
@@ -90,7 +96,7 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2)
             {
-                gameManager.OnNotify(this);
+                gameManager.ExitToMainMenu();
             }
         }
     }

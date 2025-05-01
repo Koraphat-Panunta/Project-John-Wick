@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class LevelHotelGameMaster : InGameLevelGameMaster
@@ -11,17 +9,12 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     public List<Enemy> targetEliminationQuest;
     public Transform destination;
 
-    private bool isCompleteLoad = false;
     protected override void Start()
     {
         gameManager.soundTrackManager.TriggerSoundTrack(gameManager.soundTrackManager.theHotelTrack);
         base.Start();
     }
-    public async void DelaySceneLoaded()
-    {
-        await Task.Delay(1700);
-        isCompleteLoad = true;
-    }
+   
 
    
     public LevelHotelDelayOpeningGameMasterNodeLeaf levelHotelDelayOpeningGameMasterNodeLeaf { get; private set; }
@@ -30,19 +23,22 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public LevelHotelGameplayGameMasterNodeLeaf levelHotelGamePlayGameMasterNodeLeaf { get; protected set; }
-
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
     public override void InitailizedNode()
     {
         startNodeSelector = new GameMasterNodeSelector<InGameLevelGameMaster>(this, () => true);
 
-        levelHotelDelayOpeningGameMasterNodeLeaf = new LevelHotelDelayOpeningGameMasterNodeLeaf(this,()=> isCompleteLoad == false);
+        levelHotelDelayOpeningGameMasterNodeLeaf = new LevelHotelDelayOpeningGameMasterNodeLeaf(this,()=> base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, () => levelOpeningGameMasterNodeLeaf.isComplete == false);
-        levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, () => player.isDead);
+        levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this,gameOverUICanvas, () => player.isDead);
         levelHotelGamePlayGameMasterNodeLeaf = new LevelHotelGameplayGameMasterNodeLeaf(this, () => levelHotelGamePlayGameMasterNodeLeaf.isComplete == false);
-        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,()=> true);
+        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this,pauseCanvasUI,
+            () => pauseInGameGameMasterNodeLeaf.isPause );
+        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas,()=> true);
 
         startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelHotelGamePlayGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
 
@@ -135,7 +131,6 @@ public class LevelHotelDelayOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<Level
     public override void Enter()
     {
         gameMaster.gamePlayUICanvas.DisableGameplayUI();
-        gameMaster.DelaySceneLoaded();
     }
 
     public override void Exit()

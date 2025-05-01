@@ -65,12 +65,15 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     public override InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
 
     public override void InitailizedNode()
     {
         startNodeSelector = new GameMasterNodeSelector<TutorialLevelGameMaster>(this, () => true);
 
         levelOpeningGameMasterNodeLeaf = new TutorialOpeningGameMasterNodeLeaf(this,()=>levelOpeningGameMasterNodeLeaf.isComplete == false);
+
+        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => pauseInGameGameMasterNodeLeaf.isPause);
 
         this.TutorialGameplayGameMasterNodeLeaf_T1S1 = new TutorialGameplayGameMasterNodeLeaf_T1S1(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S1.isComplete == false);
         this.TutorialGameplayGameMasterNodeLeaf_T1S2 = new TutorialGameplayGameMasterNodeLeaf_T1S2(this, () => this.TutorialGameplayGameMasterNodeLeaf_T1S2.isComplete == false);
@@ -85,6 +88,7 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
         this.tutorialTitleGameMasterNodeLeaf = new TutorialTitleGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S1);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S2);
         startNodeSelector.AddtoChildNode(this.TutorialGameplayGameMasterNodeLeaf_T1S3);
@@ -568,7 +572,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         executeLastone.gameObject.SetActive(false);
     }
 }
-public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>, IGameManagerSendNotifyAble
+public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>
 {
 
     public TutorialTitleGameMasterNodeLeaf(TutorialLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
@@ -608,6 +612,6 @@ public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelG
     private async void Delay()
     {
         await Task.Delay(5000);
-        gameManager.OnNotify(this);
+        gameManager.ContinueGameplayScene();
     }
 }

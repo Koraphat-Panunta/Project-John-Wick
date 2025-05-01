@@ -1,26 +1,17 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
-public class DataBased : MonoBehaviour
+public class DataBased 
 {
-    //WeaponDatabase
-    public WeaponDataBased weaponDataBased;
-
-    //Level progression
-    //public Dictionary<InGameSceneManager, bool> levelProgressionClear = new Dictionary<InGameSceneManager, bool>();
-    //public InGameSceneManager curInGameScene;
-
-    //PlayerLoadout
-    public PrimaryWeapon primaryWeapon;
-    public SecondaryWeapon secondaryWeapon;
-    void Start()
+   public class SettingData
     {
-        DontDestroyOnLoad(this);
+        public float mouseSensitivivty = 1;
+        public float mouseAimDownSightSensitivity = 1;
+        public float volumeMaster = 1;
+        public float volumeEffect = 1;
+        public float volumeMusic = 1;
     }
+    public SettingData settingData = new SettingData();
 
-    // UpdateNode is called once per frame
-    void Update()
-    {
-        
-    }
 }

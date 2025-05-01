@@ -8,6 +8,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
     public LevelMansionGamePlaySequence1 levelMansionGamePlaySequence1 { get; protected set; }
     public override InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get ; protected set ; }
     public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
 
     public List<Enemy> target;
@@ -29,12 +30,14 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
         startNodeSelector = new GameMasterNodeSelector<LevelMansionGameMaster>(this, () => true);
 
         this.levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,()=> levelOpeningGameMasterNodeLeaf.isComplete == false);
+        this.pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this,pauseCanvasUI,()=> this.pauseInGameGameMasterNodeLeaf.isPause);
         this.levelMansionGamePlaySequence1 = new LevelMansionGamePlaySequence1(this,()=> curLevelMansionPhase == LevelMansionPhase.Gameplay1);
-        this.levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, () => curLevelMansionPhase == LevelMansionPhase.MissionComplete);
-        this.levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, () => curLevelMansionPhase == LevelMansionPhase.MissionFailed);
+        this.levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas, () => curLevelMansionPhase == LevelMansionPhase.MissionComplete);
+        this.levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this,gameOverUICanvas, () => curLevelMansionPhase == LevelMansionPhase.MissionFailed);
         this.levelRestGameMasterNodeLeaf = new InGameLevelRestGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(this.levelOpeningGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(this.pauseInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.levelMansionGamePlaySequence1);
         startNodeSelector.AddtoChildNode(this.levelMisstionCompleteGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.levelGameOverGameMasterNodeLeaf);

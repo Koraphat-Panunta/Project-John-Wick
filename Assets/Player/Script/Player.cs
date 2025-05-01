@@ -111,7 +111,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     {
         
     }
-
     public void OnNotify(Player player)
     {
     }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+
 using UnityEngine;
 public class GameManager : MonoBehaviour,INodeManager
 {
@@ -28,12 +28,14 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public TutorialGameManagerNodeLeaf tutorialGameManagerNodeLeaf{ get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
+    public DataBased dataBased { get; set; }
     private void Awake()
     {
         soundTrackManager = GetComponent<SoundTrackManager>();
         nodeManagerBehavior = new NodeManagerBehavior();
         Application.targetFrameRate = 60; // Match Editor
         QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
+        dataBased = new DataBased();
         DontDestroyOnLoad(gameObject);
     }
     public void InitailizedNode()
@@ -89,36 +91,53 @@ public class GameManager : MonoBehaviour,INodeManager
         this.FixedUpdateNode();
     }
     
-    public void OnNotify(IGameManagerSendNotifyAble gameManagerSendNotifyAble)
+    public void RestartScene()
     {
-        switch (gameManagerSendNotifyAble)
-        {
-            case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
-                {
-                    gameManagerSceneData = GameManagerState.Gameplay;
-                    gameplayLevelData = GameplayLevel.Tutorial;
-                }
-                break;
-            case InGameLevelGameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
-                {
-                    if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
-                        (curNodeLeaf as GameManagerNodeLeaf).Enter();
-
-                    if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
-                        gameManagerSceneData = GameManagerState.ForntScene;
-                }
-                break;
-            case TutorialTitleGameMasterNodeLeaf tutorialTitleGameMasterNodeLeaf:
-                {
-                    gameManagerSceneData = GameManagerState.Gameplay;
-                    gameplayLevelData = GameplayLevel.Hotel;
-                }
-                break;
-        }   
+        (curNodeLeaf as GameManagerNodeLeaf).Enter();
     }
-}
-public interface IGameManagerSendNotifyAble
-{
-    public GameManager gameManager { get; set; }
-    public void SendNotify(IGameManagerSendNotifyAble gameManagerSender) => gameManager.OnNotify(gameManagerSender);
+    public void StartGameplayScene(GameplayLevel gameplayLevel)
+    {
+        gameManagerSceneData = GameManagerState.Gameplay;
+        gameplayLevelData = gameplayLevel;
+    }
+    public void ContinueGameplayScene()
+    {
+        switch (gameplayLevelData)
+        {
+            case GameplayLevel.None:gameplayLevelData = GameplayLevel.Tutorial; break;
+
+            case GameplayLevel.Tutorial:gameplayLevelData = GameplayLevel.Mansion; break;
+        }
+    }
+    public void ExitToMainMenu()
+    {
+        gameManagerSceneData = GameManagerState.ForntScene;
+    }
+    //public void OnNotify()
+    //{
+    //    switch (gameManagerSendNotifyAble)
+    //    {
+    //        case MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf: 
+    //            {
+    //                gameManagerSceneData = GameManagerState.Gameplay;
+    //                gameplayLevelData = GameplayLevel.Tutorial;
+    //            }
+    //            break;
+    //        case InGameLevelGameOverGameMasterNodeLeaf gameOverGameMasterNodeLeaf: 
+    //            {
+    //                if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutRestart)
+    //                    (curNodeLeaf as GameManagerNodeLeaf).Enter();
+
+    //                if(gameOverGameMasterNodeLeaf.gameOverPhase == InGameLevelGameOverGameMasterNodeLeaf.GameOverPhase.FadeOutExit)
+    //                    gameManagerSceneData = GameManagerState.ForntScene;
+    //            }
+    //            break;
+    //        case TutorialTitleGameMasterNodeLeaf tutorialTitleGameMasterNodeLeaf:
+    //            {
+    //                gameManagerSceneData = GameManagerState.Gameplay;
+    //                gameplayLevelData = GameplayLevel.Hotel;
+    //            }
+    //            break;
+    //    }   
+    //}
 }

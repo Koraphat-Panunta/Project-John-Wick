@@ -48,9 +48,4 @@ public class FrontSceneGameMaster : GameMaster
     public override void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
     public override void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
 
-    public void NewGame()
-    {
-        menuSceneFrontSceneMasterNodeLeaf.isTriggerNewGame = true;
-    }
-
 }

@@ -4,18 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using static InGameLevelOpeningGameMasterNodeLeaf;
 
-public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>,IGameManagerSendNotifyAble
+public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
 
     private User user => gameMaster.user;
-    private MissionCompleteUICanvas misstionCompleteUICanvas => gameMaster.missionCompleteUICanvas;
+    private MissionCompleteUICanvas misstionCompleteUICanvas;
 
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
 
     private bool notifyAlready;
 
     private float eplapesTime;
-    private SetAlphaColorUI setAlphaColorUI;
+
+    private bool isTriggerRestart;
+    private bool isTriggerContinue;
 
     public enum MissionCompletePhase
     {
@@ -25,9 +27,12 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         FadeOutContinue
     }
     public MissionCompletePhase curPhase;
-    public InGameLevelMisstionCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelMisstionCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,MissionCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-        setAlphaColorUI = new SetAlphaColorUI();
+        this.misstionCompleteUICanvas = missionCompleteUICanvas;
+
+        this.misstionCompleteUICanvas.continueButton.onClick.AddListener(() => TriggerContinue());
+        this.misstionCompleteUICanvas.restartButton.onClick.AddListener(() => TriggerRestart());
     }
 
     public override void Enter()
@@ -35,6 +40,9 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         curPhase = MissionCompletePhase.FadeIn;
         eplapesTime = 0f;
         notifyAlready = false;
+        isTriggerContinue = false;
+        isTriggerRestart = false;
+
         misstionCompleteUICanvas.gameObject.SetActive(true);
         misstionCompleteUICanvas.PlayFadeIn();
         gameManager.soundTrackManager.StopSoundTrack(2);
@@ -56,7 +64,10 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
     {
         return false;
     }
-
+    public void TriggerContinue() => isTriggerContinue = true;
+  
+    public void TriggerRestart() => isTriggerRestart = true;    
+   
     public override void UpdateNode()
     {
         
@@ -74,12 +85,12 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         }
         else if (curPhase == MissionCompletePhase.Stay)
         {
-            if (gameMaster.isTriggerContinue){
+            if (isTriggerContinue){
                 curPhase = MissionCompletePhase.FadeOutContinue;
                 misstionCompleteUICanvas.PlayFadeOut();
                 return;
             }
-            if (gameMaster.isTriggerRestart){
+            if (isTriggerRestart){
                 curPhase = MissionCompletePhase.FadeOutRestart;
                 misstionCompleteUICanvas.PlayFadeOut();
                 return;
@@ -90,7 +101,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2 && notifyAlready == false)
             {
-                gameManager.OnNotify(this);
+                gameManager.RestartScene();
                 notifyAlready = true;
             }
         }
@@ -99,7 +110,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2 && notifyAlready == false)
             {
-                gameManager.OnNotify(this);
+                gameManager.ContinueGameplayScene();
                 notifyAlready = true;
             }
         }

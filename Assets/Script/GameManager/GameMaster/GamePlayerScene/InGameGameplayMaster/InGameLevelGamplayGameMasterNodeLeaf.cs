@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T>,IGameManagerSendNotifyAble,IObserveObjective where T : InGameLevelGameMaster
+public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T>,IObserveObjective where T : InGameLevelGameMaster
 {
     protected GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     protected User user => gameMaster.user;
@@ -26,13 +26,13 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
 
         Cursor.lockState = CursorLockMode.Locked;
 
-        user.EnableInput();
+        user.userInput.PlayerAction.Enable();
     }
 
     public override void Exit()
     {
         gameplayCanvasUI.enabled=false;
-        user.DisableInput();
+        user.userInput.PlayerAction.Disable();
     }
 
     public override void FixedUpdateNode()
@@ -47,36 +47,6 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
 
     public override void UpdateNode()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (gameMaster.isPause)
-            {
-                Time.timeScale = 1;
-                gameMaster.isPause = false;
-                pauseCanvasUI.gameObject.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-                user.EnableInput();
-            }
-            else
-            {
-                Time.timeScale = 0;
-                gameMaster.isPause = true;
-                pauseCanvasUI.gameObject.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
-                user.DisableInput();
-            }
-
-        }
-
-        if(gameMaster.isPause)
-            { return; }
-
-        if (gameMaster.isTriggerExit) 
-        {
-            gameManager.OnNotify(this);
-        }
-
-
     }
     public virtual void GetNotifyObjectiveUpdate(Objective objective)
     {

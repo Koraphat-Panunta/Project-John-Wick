@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -31,9 +32,9 @@ public abstract class InGameLevelGameMaster : GameMaster
     public User user;
     public Player player;
 
-    private bool isCompleteLoad = false;
+    protected bool isCompleteLoad = false;
 
-    private IEnumerator DelaySceneLoaded()
+    public IEnumerator DelaySceneLoaded()
     {
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
@@ -41,18 +42,13 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
-
-        gameOverUICanvas.gameOverExitButton.onClick.AddListener(TriggerExit);
-        gameOverUICanvas.gameOverRestartButton.onClick.AddListener(TriggerRestert);
         gameOverUICanvas.gameObject.SetActive(false);
 
-        missionCompleteUICanvas.continueButton.onClick.AddListener(TriggerContinue);
-        missionCompleteUICanvas.restartButton.onClick.AddListener(TriggerRestert);
         missionCompleteUICanvas.gameObject.SetActive(false);
 
-        pauseCanvasUI.resume.onClick.AddListener(Resume);
-        pauseCanvasUI.exit.onClick.AddListener(TriggerExit);
         pauseCanvasUI.gameObject.SetActive(false);
+
+        InitailizedUserInput();
 
         base.Awake();
     }
@@ -68,52 +64,51 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     public override void UpdateNode()
     {
-
         nodeManagerBehavior.UpdateNode(this);
     }
     protected virtual void LateUpdate()
     {
-        isTriggerExit = false;
-        isTriggerRestart = false;
-        isTriggerContinue = false;
+        //isTriggerExit = false;
+        //isTriggerRestart = false;
+        //isTriggerContinue = false;
     }
 
     public abstract InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public abstract InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public abstract InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }    
     public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
-   
+    public abstract PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
 
-    public bool isTriggerRestart;
-    public bool isTriggerContinue;
-    public bool isTriggerExit;
-    public void TriggerRestert()
-    {
-        isTriggerRestart = true;
-    }
-    public void TriggerContinue()
-    {
-        isTriggerContinue = true;
-    }
-    public void TriggerExit() 
-    {
-        isTriggerExit = true;
+    //public bool isTriggerRestart;
+    //public bool isTriggerContinue;
+    //public bool isTriggerExit;
+    //public void TriggerRestert()
+    //{
+    //    isTriggerRestart = true;
+    //}
+    //public void TriggerContinue()
+    //{
+    //    isTriggerContinue = true;
+    //}
+    //public void TriggerExit() 
+    //{
+    //    isTriggerExit = true;
 
-        if (isPause)
-        {
-            pauseCanvasUI.gameObject.SetActive(false);
-            Time.timeScale = 1;
-            isPause = false;
-        }
-    }
-    public void Resume()
-    {
-        pauseCanvasUI.gameObject.SetActive(false);
-        Time.timeScale = 1;
-        isPause = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        user.EnableInput();
-    }
+    //    if (isPause)
+    //    {
+    //        pauseCanvasUI.gameObject.SetActive(false);
+    //        Time.timeScale = 1;
+    //        isPause = false;
+    //    }
+    //}
+    //public void Resume()
+    //{
+    //    pauseCanvasUI.gameObject.SetActive(false);
+    //    Time.timeScale = 1;
+    //    isPause = false;
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //    user.EnableInput();
+    //}
 
     public void GetNotify(Player player)
     {
@@ -132,7 +127,6 @@ public abstract class InGameLevelGameMaster : GameMaster
             gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
         }
     }
-
     private void OnValidate()
     {
         user = FindAnyObjectByType<User>();
@@ -149,6 +143,10 @@ public abstract class InGameLevelGameMaster : GameMaster
        
         pauseCanvasUI = FindAnyObjectByType<PauseUICanvas>(FindObjectsInactive.Include);
        
+    }
+    private void InitailizedUserInput()
+    {
+        user.EnableInput();
     }
 }
 public interface IGameLevelMasterObserver

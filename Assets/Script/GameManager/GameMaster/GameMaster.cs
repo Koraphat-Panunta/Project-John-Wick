@@ -2,14 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GameMaster : MonoBehaviour, IGameManagerSendNotifyAble,INodeManager
+public abstract class GameMaster : MonoBehaviour,INodeManager
 {
     public GameManager gameManager { get ; set ; }
     public INodeLeaf curNodeLeaf { get ; set ; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
-
-    public bool isPause;
 
     public abstract void FixedUpdateNode();
     

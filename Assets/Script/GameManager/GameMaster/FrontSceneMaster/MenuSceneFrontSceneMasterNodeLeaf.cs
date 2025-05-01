@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGameMaster>,IGameManagerSendNotifyAble
+public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGameMaster>
 {
-    public bool isTriggerNewGame;
+    public bool isTriggerNewGame { get; protected set; }
     private float fadeInTimer;
     private float fadeOutTimer;
     public enum MenuPhase
@@ -77,7 +77,7 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
                     if (fadeOutTimer >= fadeOutduration)
                     {
-                        gameManager.OnNotify(this);
+                        gameManager.ContinueGameplayScene();
                     }
                 }
                 break;

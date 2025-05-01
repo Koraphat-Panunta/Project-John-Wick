@@ -576,6 +576,45 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PauseAction"",
+            ""id"": ""abee8302-3303-4230-adb2-795bc33f54be"",
+            ""actions"": [
+                {
+                    ""name"": ""PauseTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""5124c155-39b0-4235-8a4d-95a35dfde0c0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e8589ed3-dc5d-492b-8bc5-7462cb9fd242"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5f12ddc-b17b-4a2f-a761-14d50b4a2048"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -595,11 +634,15 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction_TriggerDodgeRoll = m_PlayerAction.FindAction("TriggerDodgeRoll", throwIfNotFound: true);
         m_PlayerAction_TriggerPickingUpWeapon = m_PlayerAction.FindAction("TriggerPickingUpWeapon", throwIfNotFound: true);
         m_PlayerAction_TriggerDropWeapon = m_PlayerAction.FindAction("TriggerDropWeapon", throwIfNotFound: true);
+        // PauseAction
+        m_PauseAction = asset.FindActionMap("PauseAction", throwIfNotFound: true);
+        m_PauseAction_PauseTrigger = m_PauseAction.FindAction("PauseTrigger", throwIfNotFound: true);
     }
 
     ~@UserInput()
     {
         UnityEngine.Debug.Assert(!m_PlayerAction.enabled, "This will cause a leak and performance issues, UserInput.PlayerAction.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PauseAction.enabled, "This will cause a leak and performance issues, UserInput.PauseAction.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -799,6 +842,52 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActionActions @PlayerAction => new PlayerActionActions(this);
+
+    // PauseAction
+    private readonly InputActionMap m_PauseAction;
+    private List<IPauseActionActions> m_PauseActionActionsCallbackInterfaces = new List<IPauseActionActions>();
+    private readonly InputAction m_PauseAction_PauseTrigger;
+    public struct PauseActionActions
+    {
+        private @UserInput m_Wrapper;
+        public PauseActionActions(@UserInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PauseTrigger => m_Wrapper.m_PauseAction_PauseTrigger;
+        public InputActionMap Get() { return m_Wrapper.m_PauseAction; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PauseActionActions set) { return set.Get(); }
+        public void AddCallbacks(IPauseActionActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PauseActionActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PauseActionActionsCallbackInterfaces.Add(instance);
+            @PauseTrigger.started += instance.OnPauseTrigger;
+            @PauseTrigger.performed += instance.OnPauseTrigger;
+            @PauseTrigger.canceled += instance.OnPauseTrigger;
+        }
+
+        private void UnregisterCallbacks(IPauseActionActions instance)
+        {
+            @PauseTrigger.started -= instance.OnPauseTrigger;
+            @PauseTrigger.performed -= instance.OnPauseTrigger;
+            @PauseTrigger.canceled -= instance.OnPauseTrigger;
+        }
+
+        public void RemoveCallbacks(IPauseActionActions instance)
+        {
+            if (m_Wrapper.m_PauseActionActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPauseActionActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PauseActionActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PauseActionActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PauseActionActions @PauseAction => new PauseActionActions(this);
     public interface IPlayerActionActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -814,5 +903,9 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         void OnTriggerDodgeRoll(InputAction.CallbackContext context);
         void OnTriggerPickingUpWeapon(InputAction.CallbackContext context);
         void OnTriggerDropWeapon(InputAction.CallbackContext context);
+    }
+    public interface IPauseActionActions
+    {
+        void OnPauseTrigger(InputAction.CallbackContext context);
     }
 }

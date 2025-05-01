@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class User : MonoBehaviour
 {
-    private UserInput userInput;
+    public UserInput userInput { get; protected set; }
     [SerializeField] private Player player;
 
     public void InitailizedInputAction(Player player)
