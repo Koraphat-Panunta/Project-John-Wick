@@ -113,6 +113,16 @@ public class GameManager : MonoBehaviour,INodeManager
     {
         gameManagerSceneData = GameManagerState.ForntScene;
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
+    }
     //public void OnNotify()
     //{
     //    switch (gameManagerSendNotifyAble)

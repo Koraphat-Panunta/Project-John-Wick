@@ -1,44 +1,34 @@
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
 public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGameMaster>
 {
-    private bool isComplete;
+    public bool isComplete { get; private set; }
     private Canvas splashSceneCanvas => gameMaster.splashScene;
     private TextMeshProUGUI tile => gameMaster.titleGame;
-    private float elapseTime;
 
-    private SetAlphaColorUI setAlphaColorUI;
+    private UIElementFader elementFader;
 
-    private const float splashDelay = 0.5f;
 
-    public enum SplashScenePhase
-    {
-        FadeIn,
-        Stay,
-        FadeOut
-    }
-
-    public SplashScenePhase curPhase;
 
     public SplashSceneFrontSceneMasterNodeLeaf(FrontSceneGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-        setAlphaColorUI = new SetAlphaColorUI();
+        elementFader = new UIElementFader();
     }
 
     public override void Enter()
     {
-        Debug.Log("Splash Enter");
-        elapseTime = 0;
-        curPhase = SplashScenePhase.FadeIn;
+      
         splashSceneCanvas.enabled = true;
         isComplete = false;
+        SplashSceneEvent();
         if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
         {
             soundTrack.TriggerSoundTrack(soundTrack.openingTrack);
         }
-        setAlphaColorUI.SetColorAlpha<TextMeshProUGUI>(tile,0);
+
     }
 
     public override void Exit()
@@ -48,7 +38,6 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
 
     public override void FixedUpdateNode()
     {
-        Debug.Log("Splash FixUpate");
     }
 
     public override bool IsComplete()
@@ -59,43 +48,20 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
     float elapsTimeDelay = 0;
     public override void UpdateNode()
     {
-        float fadeInduration = 1;
-        float stayDuration = 2;
-        float fadeOutduration = 1;
-        if (elapsTimeDelay < splashDelay)
-        {
-            elapsTimeDelay += Time.deltaTime;
-           return;
-        }
-        elapseTime += Time.deltaTime;
-        switch (curPhase)
-        {
-            case SplashScenePhase.FadeIn:
-                {
-                    setAlphaColorUI.SetColorAlpha(tile,elapseTime/fadeInduration);
 
-                    if(elapseTime >= fadeInduration)
-                        curPhase = SplashScenePhase.Stay;
-                }
-                break;
-            case SplashScenePhase.Stay:
-                {
-                    if(elapseTime >= fadeInduration + stayDuration)
-                        curPhase= SplashScenePhase.FadeOut;
-                }
-                break;
-            case SplashScenePhase.FadeOut: 
-                {
-                    setAlphaColorUI.SetColorAlpha(tile, fadeOutduration - (elapseTime -(fadeInduration + stayDuration)) / fadeOutduration);
+    }
 
-                    if (elapseTime >= fadeInduration + stayDuration + fadeOutduration)
-                    {
-                        gameMaster.frontSceneState = FrontSceneGameMaster.FrontSceneState.menu;
-                        isComplete = true;
-                    }
-                }
-                break;
-        }
-
+    private const float splashDelay = 0.5f;
+    private float fadeInDuration = 1;
+    private float stayDuration = 2;
+    private float fadeOutDuration = 1;  
+    private async void SplashSceneEvent()
+    {
+        elementFader.SetAlphaSceneFade(tile, 0);
+        await Task.Delay((int)(1000 * splashDelay));
+        await elementFader.FadeDisappear(tile,this.fadeInDuration);
+        await Task.Delay((int)(1000 * stayDuration));
+        await elementFader.FadeApprear(tile,this.fadeOutDuration);
+        isComplete = true;
     }
 }

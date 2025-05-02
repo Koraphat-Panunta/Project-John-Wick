@@ -9,23 +9,16 @@ public class FrontSceneGameMaster : GameMaster
     public Canvas menuScene;
     public Canvas settingScene;
 
+    public MainMenuUICanvas mainMenuUICanvas;
+
     public TextMeshProUGUI titleGame;
     public Image fadeImage;
 
     public SplashSceneFrontSceneMasterNodeLeaf splashSceneFrontSceneMasterNodeLeaf;
     public MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf;
 
-    public enum FrontSceneState
-    {
-        splash,
-        menu,
-        setting,
-    }
-    public FrontSceneState frontSceneState;
-
     protected override void Start()
     {
-        this.frontSceneState = FrontSceneState.splash;
         base.Start();
     }
 
@@ -33,8 +26,8 @@ public class FrontSceneGameMaster : GameMaster
     {
         startNodeSelector = new GameMasterNodeSelector(this, () => true);
 
-        splashSceneFrontSceneMasterNodeLeaf = new SplashSceneFrontSceneMasterNodeLeaf(this, () => this.frontSceneState == FrontSceneState.splash);
-        menuSceneFrontSceneMasterNodeLeaf = new MenuSceneFrontSceneMasterNodeLeaf(this, ()=> this.frontSceneState == FrontSceneState.menu);
+        splashSceneFrontSceneMasterNodeLeaf = new SplashSceneFrontSceneMasterNodeLeaf(this, () => splashSceneFrontSceneMasterNodeLeaf.isComplete == false);
+        menuSceneFrontSceneMasterNodeLeaf = new MenuSceneFrontSceneMasterNodeLeaf(this, this.mainMenuUICanvas , ()=> true);
 
         startNodeSelector.AddtoChildNode(splashSceneFrontSceneMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
