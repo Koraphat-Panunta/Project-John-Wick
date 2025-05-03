@@ -20,20 +20,17 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
 
     public override void Enter()
     {
-      
-        splashSceneCanvas.enabled = true;
         isComplete = false;
         SplashSceneEvent();
         if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
-        {
             soundTrack.TriggerSoundTrack(soundTrack.openingTrack);
-        }
+        
 
     }
 
     public override void Exit()
     {
-        splashSceneCanvas.enabled = false;
+
     }
 
     public override void FixedUpdateNode()
@@ -57,11 +54,13 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
     private float fadeOutDuration = 1;  
     private async void SplashSceneEvent()
     {
+        splashSceneCanvas.gameObject.SetActive(true);
         elementFader.SetAlphaSceneFade(tile, 0);
         await Task.Delay((int)(1000 * splashDelay));
-        await elementFader.FadeDisappear(tile,this.fadeInDuration);
+        await elementFader.FadeAppear(tile,this.fadeInDuration);
         await Task.Delay((int)(1000 * stayDuration));
-        await elementFader.FadeApprear(tile,this.fadeOutDuration);
+        await elementFader.FadeDisappear(tile, this.fadeOutDuration);
+        splashSceneCanvas.gameObject.SetActive(false);
         isComplete = true;
     }
 }

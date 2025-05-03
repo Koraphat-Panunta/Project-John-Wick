@@ -14,7 +14,7 @@ public class UIElementFader
         setAlphaColorUI = new SetAlphaColorUI();
     }
 
-    public async Task FadeApprear(Graphic graphic,float fadeDuration)
+    public async Task FadeAppear(Graphic graphic,float fadeDuration)
     {
         if (isFading) return;
         isFading = true;
@@ -32,7 +32,7 @@ public class UIElementFader
     }
     public async void FadeAppear(Graphic graphic,float fadeDuration,Action triggerEventFadeOut) 
     {
-        await FadeApprear(graphic,fadeDuration);
+        await FadeAppear(graphic,fadeDuration);
         
         if(triggerEventFadeOut != null)
             triggerEventFadeOut.Invoke();
@@ -50,7 +50,7 @@ public class UIElementFader
             await Task.Yield();
         }
 
-        setAlphaColorUI.SetColorAlpha<Graphic>(graphic, 1);
+        setAlphaColorUI.SetColorAlpha<Graphic>(graphic, 0);
         isFading = false;
     }
     public async void FadeDisappear(Graphic graphic,float fadeDuration,Action triggerEventFadeIn)

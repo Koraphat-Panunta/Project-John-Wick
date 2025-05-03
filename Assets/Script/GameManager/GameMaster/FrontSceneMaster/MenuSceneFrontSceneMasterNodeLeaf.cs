@@ -70,13 +70,13 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
    
     private async void TriggerNewGame()
     {
-        await UIElementFader.FadeApprear(fadeImgame, fadeOutduration);
+        await UIElementFader.FadeAppear(fadeImgame, fadeOutduration);
         gameManager.ContinueGameplayScene();
     }
     public void TriggerOption() => isTriggerOption = true;
     private async void TriggerExitGame()
     {
-        await UIElementFader.FadeApprear(fadeImgame, fadeInduration);
+        await UIElementFader.FadeAppear(fadeImgame, fadeInduration);
         gameManager.ExitGame();
     }
 
