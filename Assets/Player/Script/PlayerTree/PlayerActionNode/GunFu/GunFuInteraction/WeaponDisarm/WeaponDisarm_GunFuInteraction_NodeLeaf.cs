@@ -81,6 +81,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                         && elapesTime >= disarmTime)
                     {
                         Disarm();
+                        player.NotifyObserver(player,SubjectPlayer.PlayerAction.PickUpWeapon);
                         isDisarmWeapon = true;
                     }
                     if (isTransitionAbleAlready == false &&

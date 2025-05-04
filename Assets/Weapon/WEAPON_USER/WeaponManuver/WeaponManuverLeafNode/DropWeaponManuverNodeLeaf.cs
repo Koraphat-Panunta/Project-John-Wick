@@ -26,6 +26,7 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
         isComplete = true;
 
         nodeLeafTransitionBehavior.TransitionAbleAll(this);
+        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
     }
 
     public override void Exit()

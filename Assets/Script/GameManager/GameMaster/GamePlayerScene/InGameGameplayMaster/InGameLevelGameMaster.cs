@@ -42,6 +42,7 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
+
         gameOverUICanvas.gameObject.SetActive(false);
 
         missionCompleteUICanvas.gameObject.SetActive(false);

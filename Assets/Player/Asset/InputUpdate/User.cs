@@ -47,6 +47,9 @@ public class User : MonoBehaviour
 
     public void EnableInput()
     {
+        if(userInput == null)
+            userInput = new UserInput();
+
         userInput.Enable();
     }
     public void DisableInput()
@@ -57,7 +60,8 @@ public class User : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        userInput = new UserInput();
+        if(userInput == null)
+            userInput = new UserInput();
         InitailizedInputAction(this.player);
         EnableInput();
     }

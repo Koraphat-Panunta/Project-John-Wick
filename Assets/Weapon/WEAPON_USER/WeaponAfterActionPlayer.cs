@@ -120,6 +120,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponSwitchNodeLeaf)
     {
+       
         player.NotifyObserver(player, PlayerAction.SwitchWeapon);
     }
     public void QuickDraw(Weapon weapon,QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase)

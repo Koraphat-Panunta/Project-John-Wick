@@ -15,7 +15,6 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
         {
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
-            return;
         }
         else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
             && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
@@ -23,7 +22,6 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
             weaponAdvanceUser._currentWeapon.DropWeapon();
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
-            return;
         }
         else if(weaponAdvanceUser._currentWeapon != null
             &&weaponAdvanceUser._currentWeapon is PrimaryWeapon )
@@ -31,7 +29,6 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
             weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
-            return;
         }
         else if(weaponAdvanceUser._currentWeapon != null
             && weaponAdvanceUser._currentWeapon is SecondaryWeapon)
@@ -39,8 +36,9 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
             weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
             findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
             isComplete = true;
-            return;
         }
+
+        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
        
    
     }

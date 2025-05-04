@@ -26,6 +26,8 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
  
     public  void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {
+
+
        if(playerAction == SubjectPlayer.PlayerAction.Firing)
        {
             if (this.playerInfo._currentWeapon != null)
@@ -46,21 +48,8 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
-            if (playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
-            {
-                if (PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Switch)
-                {
-                    UpdateInfo();
-                }
-            }
-            else if (playerWeaponManuver.curNodeLeaf is SecondaryToPrimarySwitchWeaponManuverLeafNode STP)
-            {
-                if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Switch)
-                {
-                    UpdateInfo();
-                }
-            }
+            UpdateInfo();
+          
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.QuickDraw)

@@ -145,7 +145,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public bool isPickingUpWeaponCommand { get; set; }
     public bool isDropWeaponCommand { get; set; }
     private Weapon curWeapon;
-    public Weapon _currentWeapon { get { return curWeapon; } set { curWeapon = value; NotifyObserver(this, PlayerAction.SwitchWeapon);  } }
+    public Weapon _currentWeapon { get { return curWeapon; } 
+        set 
+        { curWeapon = value; 
+        } 
+    }
     public Transform currentWeaponSocket { get; set; }
     public Transform leftHandSocket { get; set; }
     public WeaponBelt weaponBelt { get; set;}

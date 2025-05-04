@@ -40,7 +40,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
     public override INodeSelector startNodeSelector { get; set; }
 
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
-
+    public RestAnimationConstrainNodeLeaf rest_gunfu_AnimationConstrainNodeLeaf { get; private set; }
     public AimDownSightAnimationConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
     public PlayerLeaningRotationConstrainNodeLeaf rifle_leaningRotationConstrainNodeLeaf { get; private set; }
     public AnimationConstrainCombineNode rifleADSConstrainCombineNode { get; private set; }
@@ -85,6 +85,8 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
         restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_pistol,
             () => player._currentWeapon is SecondaryWeapon);
 
+        rest_gunfu_AnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
+
         startNodeSelector.AddtoChildNode(gunFuConstraintSelector);
         startNodeSelector.AddtoChildNode(aimDownSightConstrainSelector);
         startNodeSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
@@ -94,7 +96,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
         gunFuConstraintSelector.AddtoChildNode(restrictConstraintSelector);
         gunFuConstraintSelector.AddtoChildNode(humanShieldConstrainSelector);
-        gunFuConstraintSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
+        gunFuConstraintSelector.AddtoChildNode(rest_gunfu_AnimationConstrainNodeLeaf);
 
         restrictConstraintSelector.AddtoChildNode(restrict_rifle_AnimationConstraintNodeLeaf);
         restrictConstraintSelector.AddtoChildNode(restrict_pistol_AnimationConstraintNodeLeaf);
@@ -125,9 +127,13 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
         {
             StandSplineLookConstrain.SetWeight(StandSplineLookConstrain.GetWeight() - Time.deltaTime);
             leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
-
         }
-      
+
+        if (curNodeLeaf is RestAnimationConstrainNodeLeaf)
+            rig.weight = 0;
+        else
+            rig.weight = 1;
+
     }
     public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
     {

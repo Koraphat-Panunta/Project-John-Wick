@@ -11,12 +11,10 @@ public class RestAnimationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void Enter()
     {
-        this.rig.weight = 0;
         base.Enter();
     }
     public override void Exit()
     {
-        this.rig.weight = 1;
         base.Exit();
     }
 }
