@@ -21,10 +21,13 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
 
     [SerializeField] private Rig rig;
 
+    [SerializeField] private string curState;
+
     public Player player;
 
     protected override void FixedUpdate()
     {
+        curState = curNodeLeaf.ToString();
         base.FixedUpdate();
     }
     private void LateUpdate()

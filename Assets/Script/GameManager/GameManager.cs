@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour,INodeManager
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public TutorialGameManagerNodeLeaf tutorialGameManagerNodeLeaf{ get; set; }
+    public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeLeaf { get; set; }
     public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
     public DataBased dataBased { get; set; }
     private void Awake()
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour,INodeManager
 
         this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
         this.tutorialGameManagerNodeLeaf = new TutorialGameManagerNodeLeaf("Tutorial_New", this,()=> gameplayLevelData == GameplayLevel.Tutorial);
-
+        this.levelMansionGameManagerNodeLeaf = new LevelMansionGameManagerNodeLeaf("MansionLevel", this,()=> gameplayLevelData == GameplayLevel.Mansion);
         this.levelHotelGameManagerNodeLeaf = new LevelHotelGameManagerNodeLeaf("HotelLevel", this, () => gameplayLevelData == GameplayLevel.Hotel);
 
 
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour,INodeManager
         startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
 
         ingameGameManagerNodeSelector.AddtoChildNode(tutorialGameManagerNodeLeaf);
+        ingameGameManagerNodeSelector.AddtoChildNode(levelMansionGameManagerNodeLeaf);
         ingameGameManagerNodeSelector.AddtoChildNode(levelHotelGameManagerNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
@@ -102,11 +104,15 @@ public class GameManager : MonoBehaviour,INodeManager
     }
     public void ContinueGameplayScene()
     {
+        gameManagerSceneData = GameManagerState.Gameplay;
+
         switch (gameplayLevelData)
         {
-            case GameplayLevel.None:gameplayLevelData = GameplayLevel.Tutorial; break;
+            case GameplayLevel.None: gameplayLevelData = GameplayLevel.Tutorial; break;
 
-            case GameplayLevel.Tutorial:gameplayLevelData = GameplayLevel.Mansion; break;
+            case GameplayLevel.Tutorial: gameplayLevelData = GameplayLevel.Mansion; break;
+
+            case GameplayLevel.Mansion: gameplayLevelData = GameplayLevel.Hotel; break;
         }
     }
     public void ExitToMainMenu()
