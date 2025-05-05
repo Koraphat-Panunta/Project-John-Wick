@@ -23,11 +23,13 @@ public class GunFuDetectTarget : MonoBehaviour
 
     [SerializeField, TextArea]
     private string gunFuDetectTargetDebug;
-    private void Start()
+    private void Awake()
     {
         gunFuAble = GetComponent<IGunFuAble>();
-        gunFuDetectTargetDebug += "gunFuAble = "+gunFuAble+"\n";
+        gunFuDetectTargetDebug += "gunFuAble = " + gunFuAble + "\n";
+
     }
+   
     public bool CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble gunFuGotExecuteAble)
     {
         gunFuGotExecuteAble = null;
@@ -92,6 +94,11 @@ public class GunFuDetectTarget : MonoBehaviour
 
         curPositionVolume = positionVolume;
         curRaduis = raduis;
+        if(colliders == null)
+            return false;
+
+        if(colliders.Length <=0)
+            return false;
 
         foreach (Collider item in colliders)
         {

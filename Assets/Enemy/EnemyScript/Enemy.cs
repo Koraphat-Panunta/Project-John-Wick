@@ -47,6 +47,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     protected override void Awake()
     {
         base.Awake();
+
+        targetMask.value = LayerMask.GetMask("Player");
+
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
@@ -439,7 +442,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuUserTransform { get => transform; set { } }
     public Transform _targetAdjustTranform { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public Vector3 _gunFuAimDir { get => transform.forward; set { } }
-    public GunFuDetectTarget gunFuDetectTarget { get ; set ; }
+
+    [SerializeField] private GunFuDetectTarget gunFuDetectTarget;
+    public GunFuDetectTarget _gunFuDetectTarget { get => gunFuDetectTarget; set => gunFuDetectTarget = value; }
     public LayerMask _layerTarget { get => targetMask; set { } }
     public IGunFuGotAttackedAble attackedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IGunFuGotAttackedAble executedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -565,10 +570,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
-    private void OnValidate()
-    {
-        gunFuDetectTarget = GetComponent<GunFuDetectTarget>();
-    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

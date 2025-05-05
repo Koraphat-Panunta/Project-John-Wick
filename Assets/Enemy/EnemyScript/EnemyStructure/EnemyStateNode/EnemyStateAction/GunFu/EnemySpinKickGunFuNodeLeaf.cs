@@ -84,7 +84,10 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
            && _timer < _enemySpinKickScriptable._hitTimeExitNormalized * _enemySpinKickScriptable.animationClip.length)
         {
             Vector3 castPos = enemy.transform.position + enemy.transform.forward * _enemySpinKickScriptable._distanceCastVolume + enemy.transform.up * _enemySpinKickScriptable._upperCastOffsetVolume;
-            gunFuAble.gunFuDetectTarget.CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> targets, castPos, _enemySpinKickScriptable._raduisSphereVolume);
+            gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> targets, castPos, _enemySpinKickScriptable._raduisSphereVolume);
+
+            if (targets == null)
+                return;
 
             if (targets.Count > 0)
                 targets.ForEach(target =>

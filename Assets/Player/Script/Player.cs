@@ -210,7 +210,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Transform _targetAdjustTranform { get; set; }
 
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
-    public GunFuDetectTarget gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
+    public GunFuDetectTarget _gunFuDetectTarget { get => this.GunFuDetectTarget ; set => this.GunFuDetectTarget = value; }
     public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
     public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get 
@@ -250,12 +250,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
             return;
 
-        if(gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
+        if(_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
             executedAbleGunFu = excecuteTarget;
         else
             executedAbleGunFu = null;
         
-        if (gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+        if (_gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
             attackedAbleGunFu = target;
         else
             attackedAbleGunFu = null;
