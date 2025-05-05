@@ -61,6 +61,8 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         await Task.Delay(3000);
         gameMaster.gamePlayUICanvas.EnableGameplayUI();
         this.isComplete = true;
+        await Task.Delay(6000);
+        gameMaster.openingUICanvas.gameObject.SetActive(false);
     }
 
     private void DisableInput()

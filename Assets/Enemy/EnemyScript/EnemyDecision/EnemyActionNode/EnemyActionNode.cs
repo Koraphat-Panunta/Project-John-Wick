@@ -58,13 +58,13 @@ public abstract class EnemyActionNodeLeaf : EnemyActionNode, INodeLeaf
 
     public virtual void Enter()
     {
-        Debug.Log("Enter "+this);
+
         isComplete = false;
     }
 
     public virtual void Exit()
     {
-        Debug.Log("Exit " + this);
+
     }
 
     public virtual void FixedUpdateNode()

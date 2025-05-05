@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,13 +15,20 @@ public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameM
 
     public override void Enter()
     {
-        isPause = false;
+        //Delay();
         this.Pause();
     }
 
+    //private async void Delay()
+    //{
+    //    Time.timeScale = 0f;
+    //    await Task.Delay((int)(1000f * 0.05f));
+    //    Time.timeScale = 1f;
+    //    isPause = false;
+
+    //}
     public override void Exit()
     {
-        isPause = false;
         UnPause();
     }
     public override bool IsComplete()
@@ -29,7 +37,7 @@ public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameM
     }
     public override bool IsReset()
     {
-        return isPause;
+        return !isPause;
     }
     public override void FixedUpdateNode()
     {

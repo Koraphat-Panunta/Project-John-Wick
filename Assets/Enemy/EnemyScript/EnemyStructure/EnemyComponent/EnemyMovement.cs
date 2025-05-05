@@ -117,7 +117,10 @@ public class EnemyMovement : IMovementCompoent, IMotionImplusePushAble, IMovemen
         return Direction;
     }
 
-    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode) => motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode) 
+    {
+        motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+    }
 
     public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
     {

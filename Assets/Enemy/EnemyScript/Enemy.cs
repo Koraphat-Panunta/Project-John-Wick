@@ -68,8 +68,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         base.HP = 100;
         base.maxHp = 100;
         enemyStateManagerNode = new EnemyStateManagerNode(this);
+
         if(startWeapon == null)
         startWeapon = Instantiate(startWeapon);
+
         startWeapon.AttatchWeaponTo(this);
 
     }
@@ -109,13 +111,14 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
+        if (NotifyGotAttack != null)
+            NotifyGotAttack.Invoke(damageVisitor);
+
         if (damageVisitor is Bullet bullet)
         {
             TakeDamage(bullet.hpDamage);
             bullet.weapon.userWeapon.weaponAfterAction.HitDamageAble(this);
         }
-
-
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {

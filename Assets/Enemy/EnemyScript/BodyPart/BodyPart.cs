@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, 
-    IThrowAbleObjectVisitable, IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
+     IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
@@ -75,6 +75,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
+
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
     }
 
@@ -82,29 +83,29 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
     public INodeLeaf curNodeLeaf { get => ((IGunFuGotAttackedAble)enemy).curNodeLeaf; set => ((IGunFuGotAttackedAble)enemy).curNodeLeaf = value; }
 
-    public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
-    {
-        switch (throwAbleObjectVisitor)
-        {
-            case BodyPart bodyPart: 
-                {
-                    if (bodyPart.enemy == enemy)
-                    {
-                        return;
-                    }
+    //public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
+    //{
+    //    switch (throwAbleObjectVisitor)
+    //    {
+    //        case BodyPart bodyPart: 
+    //            {
+    //                if (bodyPart.enemy == enemy)
+    //                {
+    //                    return;
+    //                }
 
-                    if(bodyPart.enemy.enemyStateManagerNode.curNodeLeaf is HumanThrowFallDown_GotInteract_NodeLeaf)
-                    {
-                        isForceSave = true;
-                        Vector3 hitDir = (this.bodyPartRigid.position - bodyPart.bodyPartRigid.position).normalized;
-                        float dot = Vector3.Dot(bodyPart.bodyPartRigid.linearVelocity.normalized, hitDir);
-                        forceSave = bodyPart.bodyPartRigid.linearVelocity.magnitude*dot*hitDir;
-                        enemy.GotVisit(throwAbleObjectVisitor);
-                    }
-                }
-                break;
-        }
-    }
+    //                if(bodyPart.enemy.enemyStateManagerNode.curNodeLeaf is HumanThrowFallDown_GotInteract_NodeLeaf)
+    //                {
+    //                    isForceSave = true;
+    //                    Vector3 hitDir = (this.bodyPartRigid.position - bodyPart.bodyPartRigid.position).normalized;
+    //                    float dot = Vector3.Dot(bodyPart.bodyPartRigid.linearVelocity.normalized, hitDir);
+    //                    forceSave = bodyPart.bodyPartRigid.linearVelocity.magnitude*dot*hitDir;
+    //                    enemy.GotVisit(throwAbleObjectVisitor);
+    //                }
+    //            }
+    //            break;
+    //    }
+    //}
 
     public virtual void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {

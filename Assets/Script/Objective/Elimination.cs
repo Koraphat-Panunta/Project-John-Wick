@@ -37,8 +37,8 @@ public class Elimination : Objective,IObserverEnemy
 
         if (targets.Count <= 0)
         {
-            NotifyObserver(this);
             base.status = ObjectiveStatus.Complete;
+            NotifyObserver(this);
             return true;
         }
 

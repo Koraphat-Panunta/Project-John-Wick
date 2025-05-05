@@ -13,27 +13,22 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 
     public List<Enemy> target;
 
+    public Transform reaceDestinate;
+
+
     protected override void Awake()
     {
-        curLevelMansionPhase = LevelMansionPhase.Gameplay1;
         base.Awake();
     }
-    public enum LevelMansionPhase
-    {
-        Gameplay1,
-        MissionComplete,
-        MissionFailed
-    }
-    public LevelMansionPhase curLevelMansionPhase;
     public override void InitailizedNode()
     {
         startNodeSelector = new GameMasterNodeSelector<LevelMansionGameMaster>(this, () => true);
 
         this.levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,()=> levelOpeningGameMasterNodeLeaf.isComplete == false);
         this.pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this,pauseCanvasUI,()=> this.pauseInGameGameMasterNodeLeaf.isPause);
-        this.levelMansionGamePlaySequence1 = new LevelMansionGamePlaySequence1(this,()=> curLevelMansionPhase == LevelMansionPhase.Gameplay1);
-        this.levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas, () => curLevelMansionPhase == LevelMansionPhase.MissionComplete);
-        this.levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this,gameOverUICanvas, () => curLevelMansionPhase == LevelMansionPhase.MissionFailed);
+        this.levelMansionGamePlaySequence1 = new LevelMansionGamePlaySequence1(this,()=> this.levelMansionGamePlaySequence1.isComplete == false);
+        this.levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas, ()=> true);
+        this.levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this,gameOverUICanvas,()=> player.isDead);
         this.levelRestGameMasterNodeLeaf = new InGameLevelRestGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(this.levelOpeningGameMasterNodeLeaf);
@@ -51,12 +46,16 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster>
 {
     protected Elimination elimination;
+    protected TravelingToDestination destination;
+    public bool isComplete { get; private set; }
+
     public LevelMansionGamePlaySequence1(LevelMansionGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         elimination = new Elimination(gameMaster.target);
+        destination = new TravelingToDestination(player.transform,gameMaster.reaceDestinate.position);
         elimination.AddNotifyUpdateObjective(this);
 
-
+        isComplete = false;
     }
     public override void Enter()
     {
@@ -71,6 +70,11 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
 
     public override void FixedUpdateNode()
     {
+        if (destination.PerformedDone() && gameMaster.curObjective == destination)
+        {
+            destination.RemoveNotifyUpdateObjective(this);
+            isComplete = true;
+        }
         base.FixedUpdateNode();
     }
 
@@ -87,12 +91,15 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
 
                     if(elimination.status == Objective.ObjectiveStatus.Complete)
                     {
+                        gameMaster.curObjective = destination;
                         elimination.RemoveNotifyUpdateObjective(this);
-                        gameMaster.curLevelMansionPhase = LevelMansionGameMaster.LevelMansionPhase.MissionComplete;
+
+                        destination.AddNotifyUpdateObjective(this);
                     }
                         
                 }
                 break;
+            
         }
 
         base.GetNotifyObjectiveUpdate(objective);
@@ -100,7 +107,7 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
 
     public override bool IsComplete()
     {
-        return base.IsComplete();
+        return isComplete;
     }
 
     public override void UpdateNode()

@@ -9,7 +9,7 @@ public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
 
     public override void Enter()
     {
-        animator.CrossFade(stateName,0.005f, 0);
+        animator.CrossFade(stateName,0.005f, 0,0);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotHit);
 
         base.Enter();
