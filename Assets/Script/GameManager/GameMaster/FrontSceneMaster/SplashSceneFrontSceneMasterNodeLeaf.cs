@@ -23,7 +23,7 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
         isComplete = false;
         SplashSceneEvent();
         if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
-            soundTrack.TriggerSoundTrack(soundTrack.openingTrack);
+            soundTrack.PlaySoundTrack(soundTrack.openingTrack);
         
 
     }

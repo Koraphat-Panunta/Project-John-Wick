@@ -43,53 +43,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
 
     public override void FixedUpdateNode()
     {
-        if(_timer >= _enemySpinKickScriptable._hitTimeEnterNormalized*_enemySpinKickScriptable.animationClip.length
-            && _timer < _enemySpinKickScriptable._hitTimeExitNormalized * _enemySpinKickScriptable.animationClip.length)
-        {
-            Vector3 castPos = enemy.transform.position + enemy.transform.forward*_enemySpinKickScriptable._distanceCastVolume + enemy.transform.up*_enemySpinKickScriptable._upperCastOffsetVolume;
-            gunFuAble.gunFuDetectTarget.CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> targets, castPos,_enemySpinKickScriptable._raduisSphereVolume);
-
-            if(targets.Count >0)
-            targets.ForEach(target => 
-            {
-                if (alreadyHittarget.ContainsKey(target) == false)
-                {
-                    alreadyHittarget.Add(target, true);
-                    target.TakeGunFuAttacked(this, enemy);
-                    if(target._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
-                    {
-                        Vector3 dir = target._gunFuAttackedAble.position - enemy.transform.position;
-                        motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-                    }
-                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuAttack);
-                }
-            }
-            );
-        }
-
-        if(_timer < _enemySpinKickScriptable._stopRotatingTimeNormalized * _enemySpinKickScriptable.animationClip.length)
-        {
-            Vector3 dir = targetPosition - enemy.transform.position;
-
-            enemy.enemyMovement.RotateToDirWorld(dir.normalized, _enemySpinKickScriptable._spicKickRotateSpeed);
-        }
-
-
-        if(_timer >= _enemySpinKickScriptable._pushForwardTimeNormalized*_enemySpinKickScriptable.animationClip.length && isAlreadyPush == false)//Push Enemy toward
-        {
-            enemy.enemyMovement.AddForcePush(enemy.transform.forward*_enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-            isAlreadyPush = true;
-        }
-        else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)
-        {    
-            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, _enemySpinKickScriptable._stopForceBeginStance, IMovementCompoent.MoveMode.MaintainMomentum);
-        }
-
-        if (_timer >= _enemySpinKickScriptable._onGroundTimeNormalized * _enemySpinKickScriptable.animationClip.length)
-        {
-            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, _enemySpinKickScriptable._stopingForceOnGround,IMovementCompoent.MoveMode.MaintainMomentum);
-        }
-        
+       
         base.FixedUpdateNode();
     }
 
@@ -125,6 +79,54 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
         _timer += Time.deltaTime;
         if(_timer >= _enemySpinKickScriptable.animationClip.length)
             isComplete = true;
+
+        if (_timer >= _enemySpinKickScriptable._hitTimeEnterNormalized * _enemySpinKickScriptable.animationClip.length
+           && _timer < _enemySpinKickScriptable._hitTimeExitNormalized * _enemySpinKickScriptable.animationClip.length)
+        {
+            Vector3 castPos = enemy.transform.position + enemy.transform.forward * _enemySpinKickScriptable._distanceCastVolume + enemy.transform.up * _enemySpinKickScriptable._upperCastOffsetVolume;
+            gunFuAble.gunFuDetectTarget.CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> targets, castPos, _enemySpinKickScriptable._raduisSphereVolume);
+
+            if (targets.Count > 0)
+                targets.ForEach(target =>
+                {
+                    if (alreadyHittarget.ContainsKey(target) == false)
+                    {
+                        alreadyHittarget.Add(target, true);
+                        target.TakeGunFuAttacked(this, enemy);
+                        if (target._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
+                        {
+                            Vector3 dir = target._gunFuAttackedAble.position - enemy.transform.position;
+                            motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+                        }
+                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuAttack);
+                    }
+                }
+                );
+        }
+
+        if (_timer < _enemySpinKickScriptable._stopRotatingTimeNormalized * _enemySpinKickScriptable.animationClip.length)
+        {
+            Vector3 dir = targetPosition - enemy.transform.position;
+
+            enemy.enemyMovement.RotateToDirWorld(dir.normalized, _enemySpinKickScriptable._spicKickRotateSpeed);
+        }
+
+
+        if (_timer >= _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length && isAlreadyPush == false)//Push Enemy toward
+        {
+            enemy.enemyMovement.AddForcePush(enemy.transform.forward * _enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            isAlreadyPush = true;
+        }
+        else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)
+        {
+            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, _enemySpinKickScriptable._stopForceBeginStance, IMovementCompoent.MoveMode.MaintainMomentum);
+        }
+
+        if (_timer >= _enemySpinKickScriptable._onGroundTimeNormalized * _enemySpinKickScriptable.animationClip.length)
+        {
+            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, _enemySpinKickScriptable._stopingForceOnGround, IMovementCompoent.MoveMode.MaintainMomentum);
+        }
+
         base.UpdateNode();
     }
 }

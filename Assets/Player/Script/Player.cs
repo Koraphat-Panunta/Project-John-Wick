@@ -32,7 +32,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         if (_triggerExecuteGunFu)
             Debug.Log("_triggerExecuteGunFu");
         _triggerExecuteGunFu = false;
-        _triggerHitedGunFu = false;
+
         if (_triggerGunFu == true)
         {
             triggerGunFuBufferTime -= Time.deltaTime;
@@ -92,6 +92,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
+
+        _triggerHitedGunFu = false;
 
     }
     private void LateUpdate()

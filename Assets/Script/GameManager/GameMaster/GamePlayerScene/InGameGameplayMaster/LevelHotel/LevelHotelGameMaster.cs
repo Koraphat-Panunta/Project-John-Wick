@@ -12,7 +12,7 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     protected override void Start()
     {
         if(gameManager != null)
-            gameManager.soundTrackManager.TriggerSoundTrack(gameManager.soundTrackManager.theHotelTrack);
+            gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theHotelTrack);
         base.Start();
     }
    

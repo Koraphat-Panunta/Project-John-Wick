@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundTrackManager : MonoBehaviour
@@ -22,9 +21,9 @@ public class SoundTrackManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
    
-    public void TriggerSoundTrack(AudioClip audioClip)
+    public void PlaySoundTrack(AudioClip audioClip)
     {
-        Debug.Log("TriggerSoundTrack");
+        Debug.Log("PlaySoundTrack");
         source.clip = audioClip;
         source.loop = true;
         source.Play();

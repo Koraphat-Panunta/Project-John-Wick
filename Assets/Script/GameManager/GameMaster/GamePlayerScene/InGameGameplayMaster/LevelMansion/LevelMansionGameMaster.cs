@@ -15,7 +15,11 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 
     public Transform reaceDestinate;
 
-
+    protected override void Start()
+    {
+        gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theMansionTrack);
+        base.Start();
+    }
     protected override void Awake()
     {
         base.Awake();

@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 1
+  m_CurrentQuality: 2
   m_QualitySettings:
   - serializedVersion: 4
     name: Performant
@@ -22,7 +22,7 @@ QualitySettings:
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
     anisotropicTextures: 0
-    antiAliasing: 0
+    antiAliasing: 4
     softParticles: 0
     softVegetation: 0
     realtimeReflectionProbes: 0
@@ -47,7 +47,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 11400000, guid: 6dcc0e50c0387bb46af2b651f925e89b,
+    customRenderPipeline: {fileID: 11400000, guid: 9744b909a1816c74bb8c2390f90212da,
       type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
@@ -153,7 +153,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 11400000, guid: 6dcc0e50c0387bb46af2b651f925e89b,
+    customRenderPipeline: {fileID: 11400000, guid: 9744b909a1816c74bb8c2390f90212da,
       type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1

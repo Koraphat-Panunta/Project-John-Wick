@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cddb50da69e6e845839ed8f2fc2066c, type: 3}
   m_Name: CameraExecuteScriptableObject
   m_EditorClassIdentifier: 
-  weight: 0.74
+  weight: 0.942
   executorAnchorOffset: {x: 0, y: 1, z: -0.28}
-  opponentExecutedAnchorOffset: {x: 0, y: -0.3, z: 0}
+  opponentExecutedAnchorOffset: {x: 0, y: -0.3, z: 0.5}
   cameraPosAnchorOffset: {x: 0, y: 0, z: 0}
-  cameraOffset: {x: 0, y: 0, z: 0.14}
-  transitionEnterDuration: 1.76
+  cameraOffset: {x: 0, y: -0.29, z: 0.14}
+  transitionEnterDuration: 0.6
   transitionExitDuration: 1.93
