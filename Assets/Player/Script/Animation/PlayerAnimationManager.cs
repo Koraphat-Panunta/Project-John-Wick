@@ -205,7 +205,6 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
-           
             animator.CrossFade(Sprint, 0.3f, 0, 0);
             isLayer_1_Enable = true;
         }

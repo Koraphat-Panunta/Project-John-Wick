@@ -1412,7 +1412,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1785,7 +1785,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6414908439600597232, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -2180,6 +2180,21 @@ PrefabInstance:
         type: 3}
       propertyPath: isImortal
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: breakMaxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: breakDecelerate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: sprintAccelerate
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
