@@ -110,9 +110,9 @@ public class GameManager : MonoBehaviour,INodeManager
         {
             case GameplayLevel.None: gameplayLevelData = GameplayLevel.Tutorial; break;
 
-            case GameplayLevel.Tutorial: gameplayLevelData = GameplayLevel.Mansion; break;
+            case GameplayLevel.Tutorial: gameplayLevelData = GameplayLevel.Hotel; break;
 
-            case GameplayLevel.Mansion: gameplayLevelData = GameplayLevel.Hotel; break;
+            //case GameplayLevel.Mansion: gameplayLevelData = GameplayLevel.Hotel; break;
         }
     }
     public void ExitToMainMenu()
