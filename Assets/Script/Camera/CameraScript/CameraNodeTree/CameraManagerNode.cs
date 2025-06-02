@@ -1,28 +1,45 @@
 using System;
 using UnityEngine;
 
-public class CameraManagerNode : INodeManager
+public class CameraManagerNode 
 {
     public INodeLeaf curNodeLeaf { get; set; }
-    public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public NodeSelector startNodeSelector { get ; set ; }
+    //public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
 
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
-        nodeManagerBehavior = new NodeManagerBehavior();
 
         InitailizedNode();
     }
 
     public void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        if (curNodeLeaf != null)
+            curNodeLeaf.FixedUpdateNode();
     }
     public void UpdateNode()
     {
-       nodeManagerBehavior.UpdateNode(this);
+        if (curNodeLeaf.IsReset())
+        {
+            try
+            {
+                curNodeLeaf.Exit();
+                curNodeLeaf = null;
+                startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
+                curNodeLeaf = nodeLeaf;
+                curNodeLeaf.Enter();
+            }
+            catch (Exception e) 
+            {
+                throw new Exception("curNodeLeaf is Null");
+            }
+        }
+
+        if (curNodeLeaf != null)
+            curNodeLeaf.UpdateNode();
     }
 
     public CameraSelectorNode cameraPlayerBasedSelector { get; protected set; }
