@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour,INodeManager
 
             case GameplayLevel.Tutorial: gameplayLevelData = GameplayLevel.Hotel; break;
 
-            //case GameplayLevel.Mansion: gameplayLevelData = GameplayLevel.Hotel; break;
+            case GameplayLevel.Hotel: RestartScene(); break;
         }
     }
     public void ExitToMainMenu()

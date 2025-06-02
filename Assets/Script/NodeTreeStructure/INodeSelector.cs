@@ -15,7 +15,6 @@ public interface INodeSelector : INode
 }
 public class NodeSelectorBehavior
 {
-
     private void PopulatePrecondition(out List<Func<bool>> nodeLeafReset, INode nodePosition,INodeSelector nodeSelector)
     {
         nodeLeafReset = new List<Func<bool>>();
@@ -50,7 +49,7 @@ public class NodeSelectorBehavior
       
     }
 
-    public void AddtoChildNode(INode childNode,INodeSelector nodeSelector)
+    public virtual void AddtoChildNode(INode childNode,INodeSelector nodeSelector)
     {
         Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
         List<INode> childNodes = nodeSelector.childNode;
@@ -68,7 +67,7 @@ public class NodeSelectorBehavior
         }
 
     }
-    public void RemoveChildNode(INode childNode,INodeSelector nodeSelector)
+    public virtual void RemoveChildNode(INode childNode,INodeSelector nodeSelector)
     {
         Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
         List<INode> childNodes = nodeSelector.childNode;
