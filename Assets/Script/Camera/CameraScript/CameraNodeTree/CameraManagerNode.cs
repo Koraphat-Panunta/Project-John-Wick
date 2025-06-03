@@ -3,46 +3,36 @@ using UnityEngine;
 
 public class CameraManagerNode 
 {
-    public INodeLeaf curNodeLeaf { get; set; }
+    public INode curNode { get; protected set; }
     public NodeSelector startNodeSelector { get ; set ; }
-    //public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
 
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
-
         InitailizedNode();
     }
 
     public void FixedUpdateNode()
     {
-        if (curNodeLeaf != null)
+        if (curNode != null && curNode is INodeLeaf curNodeLeaf)
             curNodeLeaf.FixedUpdateNode();
     }
     public void UpdateNode()
     {
-        if (curNodeLeaf.IsReset())
+        if (curNode is INodeLeaf curNodeLeaf 
+            && curNodeLeaf.IsReset())
         {
-            try
-            {
-                curNodeLeaf.Exit();
-                curNodeLeaf = null;
-                startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-                curNodeLeaf = nodeLeaf;
-                curNodeLeaf.Enter();
-            }
-            catch (Exception e) 
-            {
-                throw new Exception("curNodeLeaf is Null");
-            }
+            curNodeLeaf.Exit();
+            curNode = null;
+            this.SearchingNewNode();
         }
 
-        if (curNodeLeaf != null)
-            curNodeLeaf.UpdateNode();
+        if (curNode != null && curNode is INodeLeaf nodeLeaf)
+            nodeLeaf.UpdateNode();
     }
 
-    public CameraSelectorNode cameraPlayerBasedSelector { get; protected set; }
+    public NodeSelector cameraPlayerBasedSelector { get; protected set; }
     public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
     public CameraSprintViewNodeLeaf cameraSprintViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
@@ -54,17 +44,14 @@ public class CameraManagerNode
 
     public void InitailizedNode()
     {
-        startNodeSelector = new CameraSelectorNode(this.cameraController, () => true);
+        startNodeSelector = new NodeSelector(() => true,nameof(startNodeSelector));
 
-        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,
+        cameraPlayerBasedSelector = new NodeSelector(
             ()=> this.cameraController.player != null && this.cameraController.player.gameObject.activeSelf
-            );
+            ,nameof(cameraPlayerBasedSelector));
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
-
-        Debug.Log("Player = " + cameraController.player);
-        Debug.Log("Player ManageNode =" + cameraController.player.playerStateNodeManager);
 
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
             () => this.cameraController.player.isSprint || this.cameraController.player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
@@ -95,10 +82,22 @@ public class CameraManagerNode
         cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuHitViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
-       
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
+
+        this.SearchingNewNode();
+
+    }
+    private void SearchingNewNode()
+    {
+        if (startNodeSelector.FindingNode(out INode node))
+        {
+            curNode = node;
+            (curNode as INodeLeaf).Enter();
+        }
+        else
+        {
+            curNode = node;
+            throw new Exception(this.GetType().Name + " had state corrupt");
+        }
 
     }
 }

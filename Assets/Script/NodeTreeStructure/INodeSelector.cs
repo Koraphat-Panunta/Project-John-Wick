@@ -24,14 +24,14 @@ public class NodeSelectorBehavior
             if (Node == nodePosition)
                 break;
 
-            Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
+            //Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
 
             nodeLeafReset.Add(Node.preCondition);
         }
 
         nodeLeafReset.Add(() => !nodePosition.preCondition());
 
-        Debug.Log("Add isReset form Node " + nodePosition);
+        //Debug.Log("Add isReset form Node " + nodePosition);
 
         if (nodeSelector.parentNode == null)
             return;
