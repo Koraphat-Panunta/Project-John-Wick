@@ -1483,6 +1483,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: m_Name
@@ -1571,7 +1576,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 1140053862}
   m_SourcePrefab: {fileID: 100100000, guid: d701a55337d9aff4e8bcef9219851f97, type: 3}
 --- !u!4 &854395222 stripped
 Transform:
@@ -1853,6 +1862,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 339050575}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1140053852 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
+    type: 3}
+  m_PrefabInstance: {fileID: 851732912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1140053857 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+    type: 3}
+  m_PrefabInstance: {fileID: 851732912}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140053852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1d4d2e7dc7e124ab421742d1b00528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1140053862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140053852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab719ce5d4dc7f4db516fea57431273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curState: 
+  cameraController: {fileID: 1140053857}
+  request: 0
 --- !u!114 &1141523111 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1345896399359411582, guid: e9bca4023b8309f43bed691132c3fcb6,

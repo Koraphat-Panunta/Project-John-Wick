@@ -137,7 +137,7 @@ public class NodeSelector : INode
             if (Node == nodePosition)
                 break;
 
-            Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
+            //Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
 
             nodeLeafReset.Add(Node.preCondition);
         }
@@ -145,7 +145,7 @@ public class NodeSelector : INode
         // Add invert PreCondition of nodePosition as ResetCondition of nodeLeaf
         nodeLeafReset.Add(() => !nodePosition.preCondition());
 
-        Debug.Log("Add isReset form Node " + nodePosition);
+        //Debug.Log("Add isReset form Node " + nodePosition);
 
         if (parentNode == null)
             return;

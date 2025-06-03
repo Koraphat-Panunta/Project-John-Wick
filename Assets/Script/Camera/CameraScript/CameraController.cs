@@ -29,8 +29,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     public CameraManagerNode cameraManagerNode;
 
-    public string CameraNodeName;
-
     [Range(1, 10)]
     public float standardCameraSensivity;
     [Range(1, 10)]
@@ -75,8 +73,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         zoomingWeight = player.weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
-
-        this.CameraNodeName = cameraManagerNode.curNodeLeaf.ToString();
 
         //Debug.Log("CameraOffset = " + cameraOffset);
         //Debug.Log("CameraOffset value = " + cameraOffset.Offset);

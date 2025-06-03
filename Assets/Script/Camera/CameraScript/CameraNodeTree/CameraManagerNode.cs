@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraManagerNode 
+public class CameraManagerNode:IDebuggedAble
 {
     public INode curNode { get; protected set; }
     public NodeSelector startNodeSelector { get ; set ; }
@@ -99,6 +99,16 @@ public class CameraManagerNode
             throw new Exception(this.GetType().Name + " had state corrupt");
         }
 
+    }
+
+    public T Debugged<T>(IDebugger debugger)
+    {
+        if(debugger is CameraStateManagerDebugger cameraStateDebugger)
+        {
+            if(cameraStateDebugger.request == CameraStateManagerDebugger.CameraStateManagerDebuggerRequest.curState)
+                return (T)(object)curNode;
+        }
+        return default;
     }
 }
 public class CameraRestNodeLeaf : CameraNodeLeaf
