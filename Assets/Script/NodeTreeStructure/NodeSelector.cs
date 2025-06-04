@@ -42,6 +42,7 @@ public class NodeSelector : INode
         //IF ChildNode is NodeLeaf then PoppulateResetCondition of ChildNode
         if (childNode is INodeLeaf leafNode)
         {
+            leafNode.parentNode = this;
             PopulatePreCondition(out List<Func<bool>> isReset, childNode);
             isReset.ForEach(resetCon => leafNode.isReset.Add(resetCon));
         }
