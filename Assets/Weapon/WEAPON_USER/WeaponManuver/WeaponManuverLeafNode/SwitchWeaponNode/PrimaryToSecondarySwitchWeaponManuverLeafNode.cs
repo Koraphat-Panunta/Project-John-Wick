@@ -34,7 +34,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     public override void Enter()
     {
         curPhase = TransitionPhase.Enter;
-        weaponAfterAction.SwitchingWeapon(curWeapon, this);
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+            <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         elapsTime = 0;
         curWeapon.ChangeActionManualy(curWeapon.restNode);
         isComplete = false;
@@ -43,7 +44,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     public override void Exit()
     {
         curPhase = TransitionPhase.Exit;
-        weaponAfterAction.SwitchingWeapon(curWeapon, this);
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+            <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         elapsTime = 0;
     }
 
@@ -76,7 +78,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.HolsterPrimaryWeapon:
                 {
-                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+                    weaponAfterAction.SendFeedBackWeaponAfterAction
+                        <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     if (elapsTime >= holsterPrimaryWeaponTime)
                     {
                         curPhase = TransitionPhase.Switch;
@@ -87,13 +90,15 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 {
                     curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
                     secondaryWeapon.AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
-                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+                    weaponAfterAction.SendFeedBackWeaponAfterAction
+                        <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     curPhase = TransitionPhase.DrawSecondaryWeapon;
                 } 
                 break;
             case TransitionPhase.DrawSecondaryWeapon: 
                 {
-                    weaponAfterAction.SwitchingWeapon(curWeapon, this);
+                    weaponAfterAction.SendFeedBackWeaponAfterAction
+                        <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     if (elapsTime >= holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
                     {
                         curWeapon.AttatchWeaponTo(weaponAdvanceUser);

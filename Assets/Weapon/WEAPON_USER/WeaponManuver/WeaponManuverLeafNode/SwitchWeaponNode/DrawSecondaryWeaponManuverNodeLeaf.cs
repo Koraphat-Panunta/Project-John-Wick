@@ -25,7 +25,8 @@ public class DrawSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
         {
             throw new Exception("DrawSecondaryWeaponManuver corrupt");
         }
-        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
+        weaponAdvanceUser.weaponAfterAction.
+            SendFeedBackWeaponAfterAction<DrawSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()

@@ -13,7 +13,8 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Enter()
     {
-        weaponAfterAction.AimDownSight(curWeapon);
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+            <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
     }
 
     public override void Exit()
@@ -53,9 +54,10 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
         if(weaponManuverManager == null)
             weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
 
-        weaponAfterAction.AimDownSight(curWeapon);
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+            <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
-        if(weaponManuverManager.aimingWeight >= 1)
+        if (weaponManuverManager.aimingWeight >= 1)
         {
             weaponManuverManager.WeaponCommanding();
         }

@@ -12,7 +12,8 @@ public class HolsterSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
+        weaponAdvanceUser.weaponAfterAction.
+            SendFeedBackWeaponAfterAction<HolsterSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()

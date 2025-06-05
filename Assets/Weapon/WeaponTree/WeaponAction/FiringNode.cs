@@ -16,7 +16,8 @@ public class FiringNode : WeaponLeafNode
        Weapon.bulletStore[BulletStackType.Chamber] -= 1;
        Weapon.bulletSpawner.SpawnBullet(Weapon);
        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Firing);
-       Weapon.userWeapon.weaponAfterAction.Firing(Weapon);
+       Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <FiringNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
        isFiring = true;
     }
 

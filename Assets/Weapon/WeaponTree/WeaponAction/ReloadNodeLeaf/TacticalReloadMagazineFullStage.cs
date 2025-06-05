@@ -20,7 +20,8 @@ public class TacticalReloadMagazineFullStage : WeaponLeafNode ,IReloadMagazineNo
     {
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
         curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon,this);
+        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <TacticalReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
 
         elaspeTime = 0;
         isComplete = false;
@@ -30,7 +31,8 @@ public class TacticalReloadMagazineFullStage : WeaponLeafNode ,IReloadMagazineNo
     {
 
         curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, this);
+        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <TacticalReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
         isComplete = false;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static SubjectPlayer;
 
 public class WeaponAfterActionEnemy : WeaponAfterAction
 {
@@ -7,63 +8,62 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
     {
         this.enemy = enemy;
     }
-    public override void AfterFiringSingleAction(Weapon weapon)
+
+    public override void SendFeedBackWeaponAfterAction<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
     {
-       
-    }
-
-    public override void AimDownSight(Weapon weapon)
-    {
-       
-    }
-
-    public override void Firing(Weapon weapon)
-    {
-
-  
-        //Debug.Log("Call Back EnemyFiring");
-    }
-
-    public override void HitDamageAble(IBulletDamageAble bulletDamageAble)
-    {
-
-    }
-
-    public override void LowReady(Weapon weapon)
-    {
-    }
-
-  
-
-    public override void Reload(Weapon weapon, IReloadNode reloadNodePhase)
-    {
-        AutoRegenAmmo();
-        if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
-        {
-            switch (reloadMagazineNodePhase.curReloadPhase)
+        if (weaponAfterActionSending == WeaponAfterActionSending.WeaponStateNodeActive)
+            switch (Var)
             {
-                case IReloadMagazineNodePhase.ReloadMagazinePhase.Enter:
+                case FiringNode firingNode:
                     {
-                        if (reloadNodePhase is ReloadMagazineFullStage)
-                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
-
-                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
-                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                        //No logic yet
+                        break;
                     }
-                    break;
-
-                case IReloadMagazineNodePhase.ReloadMagazinePhase.Exit:
+                case ReloadMagazineFullStage:
                     {
-                        if (reloadNodePhase is ReloadMagazineFullStage)
-                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
-
-                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
-                            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                        enemy.NotifyObserver(enemy,SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
+                        break;
                     }
-                    break;
+                case TacticalReloadMagazineFullStage:
+                    {
+                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                        break;
+                    }
+                case AimDownSightWeaponManuverNodeLeaf:
+                    {
+                        //No logic yet
+                        break;
+                    }
+                case LowReadyWeaponManuverNodeLeaf:
+                    {
+                        //No logic yet
+                        break;
+                    }
+                case DropWeaponManuverNodeLeaf:
+                case PickUpWeaponNodeLeaf:
+                case HolsterPrimaryWeaponManuverNodeLeaf:
+                case HolsterSecondaryWeaponManuverNodeLeaf:
+                case DrawPrimaryWeaponManuverNodeLeaf:
+                case DrawSecondaryWeaponManuverNodeLeaf:
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+                    {
+                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
+                        break;
+                    }
+                case RestWeaponManuverLeafNode:
+                    {
+                        //No logic yet
+                        break;
+                    }
             }
-        }
-      
+        
+        else
+            this.NoneWeaponStateEvent<T>(weaponAfterActionSending, Var);
+    }
+    private void NoneWeaponStateEvent<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
+    {
+
     }
     private void AutoRegenAmmo()
     {
@@ -71,16 +71,5 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
         {
             enemy.weaponBelt.ammoProuch.AddAmmo(enemy._currentWeapon.bullet.myType, 100);
         }
-    }
-
-
-    public override void Resting(Weapon weapon)
-    {
-
-    }
-
-    public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponTransitionNodeLeaf)
-    {
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
     }
 }

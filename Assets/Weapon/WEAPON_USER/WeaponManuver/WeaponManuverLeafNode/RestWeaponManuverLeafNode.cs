@@ -16,7 +16,8 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
     }
     public override void Enter()
     {
-      this.weaponAfterAction.Resting(curWeapon);
+      this.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <RestWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
     }
 
     public override void Exit()
@@ -46,6 +47,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        this.weaponAfterAction.Resting(curWeapon);
+        this.weaponAfterAction.SendFeedBackWeaponAfterAction
+       <RestWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 }

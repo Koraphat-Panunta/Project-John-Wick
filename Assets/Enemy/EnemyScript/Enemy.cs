@@ -120,7 +120,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (damageVisitor is Bullet bullet)
         {
             TakeDamage(bullet.hpDamage);
-            bullet.weapon.userWeapon.weaponAfterAction.HitDamageAble(this);
+            bullet.weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+                <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
         }
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)

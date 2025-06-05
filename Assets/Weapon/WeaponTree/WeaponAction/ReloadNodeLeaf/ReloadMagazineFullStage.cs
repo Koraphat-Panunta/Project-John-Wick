@@ -59,7 +59,8 @@ public class ReloadMagazineFullStage : WeaponLeafNode,IReloadMagazineNodePhase
         curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
 
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, this);
+        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <ReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
 
         elaspeTime = 0;
     }
@@ -76,7 +77,8 @@ public class ReloadMagazineFullStage : WeaponLeafNode,IReloadMagazineNodePhase
         isComplete = false;
 
         curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
-        Weapon.userWeapon.weaponAfterAction.Reload(Weapon, this);
+        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+           <ReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
     }

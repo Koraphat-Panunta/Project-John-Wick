@@ -10,121 +10,128 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     {
         this.player = player;
     }
-    public override void AfterFiringSingleAction(Weapon weapon)
+
+    public override void SendFeedBackWeaponAfterAction<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
     {
-    }
-
-    public override void AimDownSight(Weapon weapon)
-    {
-
-        RotateObjectToward rotateObjectToward = new RotateObjectToward();
-        rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
-        player.NotifyObserver(player, PlayerAction.Aim);
-    }
-
-    public override void Firing(Weapon weapon)
-    {
-        player.NotifyObserver(player, PlayerAction.Firing);
-
-    }
-
-    public override void HitDamageAble(IBulletDamageAble bulletDamageAble)
-    {
-        Enemy enemy;
-        if (bulletDamageAble is BodyPart)
+        if (weaponAfterActionSending == WeaponAfterActionSending.WeaponStateNodeActive) 
         {
-            enemy = (bulletDamageAble as BodyPart).enemy;
-
-            if(isKilleComfirm.ContainsKey(enemy) == false)
-                isKilleComfirm.Add(enemy, false);
-
-            if (isKilleComfirm[enemy])
-                return;
-
-            if (enemy.isDead)
+            switch (Var)
             {
-                player.NotifyObserver(player, PlayerAction.OpponentKilled);
-                isKilleComfirm[enemy] = true;
-                return;
-            }
-
-            if (enemy._posture <= 0)
-            {
-                player.NotifyObserver(player, PlayerAction.OppenentStagger);
-
-            }
-        }
-        if(bulletDamageAble is Enemy thisenemy)
-        {
-            enemy = thisenemy;
-
-            if (isKilleComfirm.ContainsKey(enemy) == false)
-                isKilleComfirm.Add(enemy, false);
-
-            if (isKilleComfirm[enemy])
-                return;
-
-            if (enemy.isDead)
-            {
-                player.NotifyObserver(player, PlayerAction.OpponentKilled);
-                isKilleComfirm[enemy] = true;
-                return;
-            }
-
-            if (enemy._posture <= 0)
-            {
-                player.NotifyObserver(player, PlayerAction.OppenentStagger);
-
-            }
-        }
-    }
-
-    public override void LowReady(Weapon weapon)
-    {
-
-        player.NotifyObserver(player, PlayerAction.LowReady);
-    }
-    public override void Reload(Weapon weapon, IReloadNode reloadNodePhase)
-    {
-        if (reloadNodePhase is IReloadMagazineNodePhase reloadMagazineNodePhase)
-        {
-            switch (reloadMagazineNodePhase.curReloadPhase)
-            {
-                case IReloadMagazineNodePhase.ReloadMagazinePhase.Enter:
+                case FiringNode firingNode:
                     {
-                        if (reloadNodePhase is ReloadMagazineFullStage)
-                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+                        player.NotifyObserver(player, PlayerAction.Firing);
+                        break;
+                    }
+                case ReloadMagazineFullStage:
+                    {
+                        player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+                        break;
+                    }
+                case TacticalReloadMagazineFullStage:
+                    {
+                        player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                        break;
+                    }
+                case AimDownSightWeaponManuverNodeLeaf:
+                    {
+                        RotateObjectToward rotateObjectToward = new RotateObjectToward();
+                        rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
+                        player.NotifyObserver(player, PlayerAction.Aim);
 
-                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
-                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                        break;
+                    }
+                case LowReadyWeaponManuverNodeLeaf:
+                    {
+                        player.NotifyObserver(player, PlayerAction.LowReady);
+                        break;
+                    }
+                case DropWeaponManuverNodeLeaf:
+                case PickUpWeaponNodeLeaf:
+                case HolsterPrimaryWeaponManuverNodeLeaf:
+                case HolsterSecondaryWeaponManuverNodeLeaf:
+                case DrawPrimaryWeaponManuverNodeLeaf:
+                case DrawSecondaryWeaponManuverNodeLeaf:
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+                    {
+                        player.NotifyObserver(player, PlayerAction.SwitchWeapon);
+                        break;
+                    }
+                case RestWeaponManuverLeafNode:
+                    {
+                        player.NotifyObserver(player, PlayerAction.Resting);
+                        break;
+                    }
+                case QuickDrawWeaponManuverLeafNode quickDrawNodeLeaf:
+                    {
+                        player.NotifyObserver(player, PlayerAction.QuickDraw);
+                        RotateObjectToward rotateObjectToward = new RotateObjectToward();
+                        rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
+                        player.NotifyObserver(player, PlayerAction.Aim);
+                        break;
+                    }
+            }
+        }
+        else
+            this.NoneWeaponStateEvent<T>(weaponAfterActionSending, Var);
+    }
+    private void NoneWeaponStateEvent<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
+    {
+        switch (weaponAfterActionSending)
+        {
+            case WeaponAfterActionSending.HitConfirm:
+                {
+                    Enemy enemy;
+                    IBulletDamageAble bulletDamageAble = Var as IBulletDamageAble;
+                    if (bulletDamageAble is BodyPart)
+                    {
+                        enemy = (bulletDamageAble as BodyPart).enemy;
+
+                        if (isKilleComfirm.ContainsKey(enemy) == false)
+                            isKilleComfirm.Add(enemy, false);
+
+                        if (isKilleComfirm[enemy])
+                            return;
+
+                        if (enemy.isDead)
+                        {
+                            player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                            isKilleComfirm[enemy] = true;
+                            return;
+                        }
+
+                        if (enemy._posture <= 0)
+                        {
+                            player.NotifyObserver(player, PlayerAction.OppenentStagger);
+
+                        }
+                    }
+                    if (bulletDamageAble is Enemy thisenemy)
+                    {
+                        enemy = thisenemy;
+
+                        if (isKilleComfirm.ContainsKey(enemy) == false)
+                            isKilleComfirm.Add(enemy, false);
+
+                        if (isKilleComfirm[enemy])
+                            return;
+
+                        if (enemy.isDead)
+                        {
+                            player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                            isKilleComfirm[enemy] = true;
+                            return;
+                        }
+
+                        if (enemy._posture <= 0)
+                        {
+                            player.NotifyObserver(player, PlayerAction.OppenentStagger);
+
+                        }
                     }
                     break;
-
-                case IReloadMagazineNodePhase.ReloadMagazinePhase.Exit:
-                    {
-                        if (reloadNodePhase is ReloadMagazineFullStage)
-                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
-
-                        else if (reloadNodePhase is TacticalReloadMagazineFullStage)
-                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
-                    }
-                    break;
-            }
+                }
         }
-    }
-
-    public override void Resting(Weapon weapon)
-    {
-        player.NotifyObserver(player,PlayerAction.Resting);
-    }
-
-    public override void SwitchingWeapon(Weapon weapon, WeaponManuverLeafNode weaponSwitchNodeLeaf)
-    {
-       
-        player.NotifyObserver(player, PlayerAction.SwitchWeapon);
-    }
-    public void QuickDraw(Weapon weapon,QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase)
-    {
-        player.NotifyObserver(player, PlayerAction.QuickDraw);
+            
     }
 }
