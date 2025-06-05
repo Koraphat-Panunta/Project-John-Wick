@@ -213,8 +213,7 @@ public class PlayerStateNodeManager : INodeManager
         standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
         standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
 
-        startNodeSelector.FindingNode(out INodeLeaf playerActionNode);
-        curNodeLeaf = playerActionNode as PlayerStateNodeLeaf;
+        nodeManagerBehavior.SearchingNewNode(this);
     }
     public void ChangeNode(PlayerStateNodeLeaf playerStateNodeLeaf)
     {

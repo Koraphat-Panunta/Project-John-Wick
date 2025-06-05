@@ -62,7 +62,8 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
             UpdateInfo();
         }
 
-        if(player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
+        if(player.playerStateNodeManager != null &&
+            player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
             UpdateInfo();
     } 
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)

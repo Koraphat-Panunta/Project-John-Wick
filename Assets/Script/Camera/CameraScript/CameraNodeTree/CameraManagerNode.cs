@@ -24,7 +24,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         nodeManagerBehavior.UpdateNode(this);
     }
 
-    public NodeSelector cameraPlayerBasedSelector { get; protected set; }
+    public INodeSelector cameraPlayerBasedSelector { get; protected set; }
     public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
     public CameraSprintViewNodeLeaf cameraSprintViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
