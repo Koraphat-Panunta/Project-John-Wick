@@ -62,6 +62,7 @@ public class NodeSelectorBehavior
 
         if (childNode is INodeLeaf leafNode)
         {
+            childNode.parentNode = nodeSelector;
             PopulatePrecondition(out List<Func<bool>> isReset, childNode,nodeSelector);
             isReset.ForEach(resetCon => leafNode.isReset.Add(resetCon));
         }
