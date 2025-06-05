@@ -1,35 +1,27 @@
 using System;
 using UnityEngine;
 
-public class CameraManagerNode:IDebuggedAble
+public class CameraManagerNode:INodeManager,IDebuggedAble
 {
-    public INode curNode { get; protected set; }
-    public NodeSelector startNodeSelector { get ; set ; }
+    public INodeLeaf curNodeLeaf { get; set; }
+    public INodeSelector startNodeSelector { get ; set ; }
+    public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
 
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
+        this.nodeManagerBehavior = new NodeManagerBehavior();
         InitailizedNode();
     }
 
     public void FixedUpdateNode()
     {
-        if (curNode != null && curNode is INodeLeaf curNodeLeaf)
-            curNodeLeaf.FixedUpdateNode();
+        nodeManagerBehavior.FixedUpdateNode(this);
     }
     public void UpdateNode()
     {
-        if (curNode is INodeLeaf curNodeLeaf 
-            && curNodeLeaf.IsReset())
-        {
-            curNodeLeaf.Exit();
-            curNode = null;
-            this.SearchingNewNode();
-        }
-
-        if (curNode != null && curNode is INodeLeaf nodeLeaf)
-            nodeLeaf.UpdateNode();
+        nodeManagerBehavior.UpdateNode(this);
     }
 
     public NodeSelector cameraPlayerBasedSelector { get; protected set; }
@@ -44,11 +36,11 @@ public class CameraManagerNode:IDebuggedAble
 
     public void InitailizedNode()
     {
-        startNodeSelector = new NodeSelector(() => true,nameof(startNodeSelector));
+        startNodeSelector = new NodeSelector(() => true);
 
         cameraPlayerBasedSelector = new NodeSelector(
             ()=> this.cameraController.player != null && this.cameraController.player.gameObject.activeSelf
-            ,nameof(cameraPlayerBasedSelector));
+            );
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.isZooming);
@@ -83,30 +75,17 @@ public class CameraManagerNode:IDebuggedAble
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
 
-        this.SearchingNewNode();
+        this.nodeManagerBehavior.SearchingNewNode(this);
 
     }
-    private void SearchingNewNode()
-    {
-        if (startNodeSelector.FindingNode(out INode node))
-        {
-            curNode = node;
-            (curNode as INodeLeaf).Enter();
-        }
-        else
-        {
-            curNode = node;
-            throw new Exception(this.GetType().Name + " had state corrupt");
-        }
-
-    }
+   
 
     public T Debugged<T>(IDebugger debugger)
     {
         if(debugger is CameraStateManagerDebugger cameraStateDebugger)
         {
             if(cameraStateDebugger.request == CameraStateManagerDebugger.CameraStateManagerDebuggerRequest.curState)
-                return (T)(object)curNode;
+                return (T)(object)curNodeLeaf;
         }
         return default;
     }

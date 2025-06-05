@@ -10,7 +10,7 @@ public interface INodeSelector : INode
 
     public void AddtoChildNode(INode childNode);
     public void RemoveNode(INode childNode);
-    public void FindingNode(out INodeLeaf nodeLeaf);
+    public bool FindingNode(out INodeLeaf nodeLeaf);
 
 }
 public class NodeSelectorBehavior
@@ -108,6 +108,40 @@ public class NodeSelectorBehavior
         }
         return false;
 
+    }
+    public void FindingNodeLast(out INode node,INodeSelector nodeSelector) // Call for debug from the end path
+    {
+        node = null;
+
+        Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
+        List<INode> childNodes = nodeSelector.childNode;
+
+        node = null;
+
+        foreach (INode Node in nodeSelector.childNode)
+        {
+            if (Node.Precondition() == false)
+            {
+                continue;
+            }
+
+            //Debug.Log("Node " + nodeSelector + " -> " + node);
+
+            if (Node is INodeLeaf)
+            {
+                //Debug.Log("Node " + node + " isNodeLeaf ");
+                node = Node as INodeLeaf;
+                return;
+            }
+            else if (Node is INodeSelector SelectorNode)
+            {
+                //Debug.Log("Node " + node + " isNodeSelector ");
+                SelectorNode.nodeSelectorBehavior.FindingNodeLast(out node, SelectorNode);
+                return;
+            }
+            //Debug.Log("Node " + node + " not both ");
+        }
+        return;
     }
    
 }

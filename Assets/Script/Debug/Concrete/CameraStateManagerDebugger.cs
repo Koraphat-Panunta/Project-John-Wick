@@ -19,12 +19,14 @@ public class CameraStateManagerDebugger : MonoBehaviour,IDebugger
     public CameraStateManagerDebuggerRequest request = CameraStateManagerDebuggerRequest.curState;
     private void FixedUpdate()
     {
+#if UNITY_EDITOR
+        DebugCurStatePath();
+#endif
         request = CameraStateManagerDebuggerRequest.curState;
         curState = cameraManagerNode.Debugged<CameraNodeLeaf>(this).GetType().ToString();
     }
     private void Update()
     {
-        DebugCurStatePath();
         debugLog = this.cameraDebugLog.debugLog;
     }
 
@@ -34,7 +36,6 @@ public class CameraStateManagerDebugger : MonoBehaviour,IDebugger
 
         try
         {
-
             if(node.parentNode == null)
                 return;
 

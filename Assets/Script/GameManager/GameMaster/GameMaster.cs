@@ -91,7 +91,7 @@ public class GameMasterNodeSelector : GameMasterNode, INodeSelector
 
     public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode,this);
 
-    public void FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
+    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
 
     public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode,this);
     
@@ -111,10 +111,11 @@ public class GameMasterNodeSelector<T> : GameMasterNode<T>, INodeSelector where 
 
     public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode, this);
 
-    public void FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
+    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
 
     public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode, this);
 
+   
 }
 public abstract class GameMasterNodeLeaf : GameMasterNode, INodeLeaf
 {

@@ -9,18 +9,20 @@ public class NodeSelector : INodeSelector
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
     public Func<bool> preCondition { get; set; }
     public INode parentNode { get; set; }
-
-    public NodeSelector(Func<bool> preCondition)
+    public string nodeName { get; private set; }
+    public NodeSelector(Func<bool> preCondition) : this(preCondition, "None declare name SelectorNode") { }
+    public NodeSelector(Func<bool> preCondition, string nodeName)
     {
         this.preCondition = preCondition;
         this.nodeSelectorBehavior = new NodeSelectorBehavior();
         this.nodePrecondition = new Dictionary<INode, Func<bool>>();
         this.childNode = new List<INode>();
+        this.nodeName = nodeName;
     }
 
     public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode, this);
 
-    public void FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf,this);
+    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf,this);
     
     public bool Precondition() => preCondition.Invoke();
     
