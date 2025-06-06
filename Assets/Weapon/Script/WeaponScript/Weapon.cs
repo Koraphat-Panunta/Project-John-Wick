@@ -26,7 +26,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract float drawSpeed { get; set; }
 
     public bool isPullTrigger { get; protected set; }
-    public bool isReloadCommand;
     public bool isEquiped;
 
 
@@ -83,7 +82,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
         UpdateTree();
         isPullTrigger = false;
-        isReloadCommand = false;
     }
    
     protected virtual void FixedUpdate()
@@ -94,10 +92,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public virtual void PullTrigger() 
     {
         isPullTrigger = true;
-    }
-    public virtual void Reload() 
-    {
-        isReloadCommand = true;
     }
 
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)

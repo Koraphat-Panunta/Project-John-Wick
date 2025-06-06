@@ -354,13 +354,13 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
         {
-            if((player._currentWeapon.currentEventNode as ReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+            if(player.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStage)
             animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
         {
-            if ((player._currentWeapon.currentEventNode as TacticalReloadMagazineFullStage).curReloadPhase == IReloadMagazineNodePhase.ReloadMagazinePhase.Enter)
+            if (player._currentWeapon.currentEventNode is TacticalReloadMagazineFullStage)
                 animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
         }
 

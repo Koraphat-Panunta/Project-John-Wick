@@ -3,23 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticalReloadMagazineFullStage : WeaponLeafNode ,IReloadMagazineNodePhase
+public class TacticalReloadMagazineFullStage : WeaponManuverLeafNode/* ,IReloadMagazineNodePhase*/
 {
-    private MagazineType weaponMag;
+    private MagazineType weaponMag => base.weaponAdvanceUser._currentWeapon as MagazineType;
     private float elaspeTime;
+    private AmmoProuch ammoProuch => base.weaponAdvanceUser.weaponBelt.ammoProuch;
 
-    public IReloadMagazineNodePhase.ReloadMagazinePhase curReloadPhase { get; set; }
-    public TacticalReloadMagazineFullStage(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    //public IReloadMagazineNodePhase.ReloadMagazinePhase curReloadPhase { get; set; }
+    public TacticalReloadMagazineFullStage(IWeaponAdvanceUser weaponUser, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
-        weaponMag = weapon as MagazineType;
+
     }
-
-   
-
     public override void Enter()
     {
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
-        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
+        //curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
         Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
             <TacticalReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
 
@@ -30,7 +28,7 @@ public class TacticalReloadMagazineFullStage : WeaponLeafNode ,IReloadMagazineNo
     public override void Exit()
     {
 
-        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
+        //curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
         Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
             <TacticalReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
@@ -67,7 +65,7 @@ public class TacticalReloadMagazineFullStage : WeaponLeafNode ,IReloadMagazineNo
 
         if (elaspeTime >= reloadTime)
         {
-            new AmmoProchReload(Weapon.userWeapon.weaponBelt.ammoProuch).Performed(Weapon);
+            weaponMag.Performed(weaponMag,ammoProuch);
             isComplete = true;
         }
 

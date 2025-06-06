@@ -3,20 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReloadMagazineFullStage : WeaponLeafNode,IReloadMagazineNodePhase
+public class ReloadMagazineFullStage : WeaponManuverLeafNode,IReloadMagazineNode/*,IReloadMagazineNodePhase*/
 {
-    private float reloadTime;
+    public enum ReloadStage
+    {
+        Enter,
+        Reloading,
 
-    private MagazineType mag;
+        Cancel
+    }
+    private bool isComplete;
+    public ReloadStage curReloadStage { get; private set; }
+
+    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadSpeed;
+
+    private MagazineType weaponMag => weaponAdvanceUser._currentWeapon as MagazineType;
 
     private float elaspeTime;
 
-    public IReloadMagazineNodePhase.ReloadMagazinePhase curReloadPhase { get ; set ; }
+    private AmmoProuch ammoProuch => weaponAdvanceUser.weaponBelt.ammoProuch;
 
-    public ReloadMagazineFullStage(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    //public IReloadMagazineNodePhase.ReloadMagazinePhase curReloadPhase { get ; set ; }
+
+    public ReloadMagazineFullStage(IWeaponAdvanceUser weaponUser, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
-        this.reloadTime = weapon.reloadSpeed;
-        mag = weapon as MagazineType;
+
     }
 
     public override void FixedUpdateNode()
@@ -25,59 +36,50 @@ public class ReloadMagazineFullStage : WeaponLeafNode,IReloadMagazineNodePhase
     }
     public override bool IsComplete()
     {
-        return base.IsComplete();
+        return this.isComplete;
     }
     public override bool IsReset()
     {
         if (IsComplete())
             return true;
-        else if (Weapon.isEquiped == false)
-        {
-            return true;
-        } 
-        else return false;
+        if()
     }
 
     public override void UpdateNode()
     {
-        int chamberCount = Weapon.bulletStore[BulletStackType.Chamber];
-        int magCount = Weapon.bulletStore[BulletStackType.Magazine];
-        bool isMagIn = mag.isMagIn;
 
         elaspeTime += Time.deltaTime;
         if(elaspeTime >= reloadTime)
         {
+            this.isComplete = true;
+            weaponMag.ReloadMagzine(weaponMag, ammoProuch, this);
             Reloading();
         }
     }
 
     public override void Enter()
     {
-
-        isComplete = false;
-
-        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
-
-        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
-        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+        this.isComplete = false;
+        //curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Enter;
+        weaponMag.ReloadMagzine(weaponMag, ammoProuch, this);
+        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
             <ReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
 
         elaspeTime = 0;
     }
     private void Reloading()
     {
-        new AmmoProchReload(Weapon.userWeapon.weaponBelt.ammoProuch).Performed(Weapon);
-        Weapon.bulletStore[BulletStackType.Chamber] += 1;
-        Weapon.bulletStore[BulletStackType.Magazine] -= 1;
+        weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] += 1;
+        weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] -= 1;
         isComplete = true;
 
     }
     public override void Exit()
     {
         isComplete = false;
-
-        curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
-        Weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+        
+        //curReloadPhase = IReloadMagazineNodePhase.ReloadMagazinePhase.Exit;
+        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
            <ReloadMagazineFullStage>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;

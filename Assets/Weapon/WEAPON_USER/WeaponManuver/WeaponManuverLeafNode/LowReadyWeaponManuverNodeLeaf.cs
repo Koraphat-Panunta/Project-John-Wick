@@ -42,7 +42,7 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
         if (this.weaponManuverManager == null)
             this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
 
-        if (this.weaponManuverManager.isReloadManuver)
+        if (this.weaponManuverManager.isReloadManuverAble)
             curWeapon.Reload();
 
         this.weaponAfterAction.SendFeedBackWeaponAfterAction

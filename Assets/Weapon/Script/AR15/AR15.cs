@@ -1,16 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttachAble
+public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticAttachAble
 {
-
-    //[SerializeField] private Transform MuzzleSocket;
     [SerializeField] private Transform FrontGripSocket;
-    //[SerializeField] private Transform Scope;
-    //[SerializeField] private Transform Stock;
-    //[SerializeField] private Transform Magazine;
-    //[SerializeField] private Transform Laser;
 
     public int ChamberCount;
     public int MagCount;
@@ -61,7 +56,10 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
     public override float movementSpeed { get ; set ; }
     public override float drawSpeed { get => this.DrawSpeed ; set => this.DrawSpeed = value; }
 
-    public bool isMagIn { get; set; }
+    public bool _isMagIn { get; set; }
+
+    public Weapon _weapon { get => this; set { } }
+    public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
 
     protected override void Awake()
     {
@@ -70,11 +68,12 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
 
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
 
-        isMagIn = true;
+        _isMagIn = true;
 
         _556MmBullet = new _556mmBullet(this);
         bullet = _556MmBullet;
         _RecoilKickBack = bullet.recoilKickBack;
+        _reloadMagazineLogic = new ReloadMagazineLogic();
         base.Awake();
     }
     protected override void Start()
@@ -92,15 +91,28 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
     {
         base.FixedUpdate();
     }
+
+    public void InitailizedReloadStageSelector()
+    {
+        
+    }
+
+    public void ReloadMagzine(MagazineType magazineWeapon, AmmoProuch ammoProuch, IReloadMagazineNode reloadMagazineNode, Action action)
+    {
+       
+    }
+
+    #region Initilaized Node
     public override WeaponSelector startEventNode { get ; set ; }
     public WeaponSelector reloadStageSelector { get; private set; }
-    public ReloadMagazineFullStage reloadMagazineFullStage { get; set; }
-    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; set; }
+    public ReloadMagazineFullStage _reloadMagazineFullStage { get; set; }
+    public TacticalReloadMagazineFullStage _tacticalReloadMagazineFullStage { get; set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get ; set; }
     public override RestNode restNode { get; set ; }
-
+    #endregion
+   
 
     protected override void InitailizedTree()
     {
@@ -118,11 +130,11 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
            }
            );
 
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this, () => 
+        _reloadMagazineFullStage = new ReloadMagazineFullStage(this, () => 
         {
             int chamberCount = bulletStore[BulletStackType.Chamber];
             int magCount = bulletStore[BulletStackType.Magazine];
-            bool isMagIn = this.isMagIn;
+            bool isMagIn = this._isMagIn;
 
             if
                 (
@@ -135,10 +147,10 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
                 return false;
         });
 
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this, 
+        _tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this, 
             () => 
             {
-                bool IsMagIn = this.isMagIn;
+                bool IsMagIn = this._isMagIn;
                 int MagCount = bulletStore[BulletStackType.Magazine];
                 if (
                     IsMagIn == true
@@ -178,8 +190,8 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
 
       
 
-        reloadStageSelector.AddtoChildNode(reloadMagazineFullStage);
-        reloadStageSelector.AddtoChildNode(tacticalReloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(_reloadMagazineFullStage);
+        reloadStageSelector.AddtoChildNode(_tacticalReloadMagazineFullStage);
 
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
@@ -232,7 +244,6 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
     [SerializeField] private MicroOpticWeaponAttachment microOptic;
     public MicroOpticWeaponAttachment _microOptic { get => this.microOptic; set => microOptic = value; }
 
-
     private void OnValidate()
     {
         if(_microOptic != null)
@@ -240,5 +251,9 @@ public class AR15 :Weapon, PrimaryWeapon,MagazineType,IBlowBack,IMicroOpticAttac
             _microOptic.Attach(this);
         }
     }
+
+   
+
+
     #endregion
 }

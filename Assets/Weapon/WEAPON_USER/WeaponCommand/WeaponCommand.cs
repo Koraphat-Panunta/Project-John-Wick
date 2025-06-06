@@ -12,27 +12,27 @@ public class WeaponCommand
     }
     public virtual void PullTrigger()
     {
-        this.weaponManuverManager.isPullTriggerManuver = true;
+        this.weaponManuverManager.isPullTriggerManuverAble = true;
     }
     public virtual void CancleTrigger()
     {
-        this.weaponManuverManager.isPullTriggerManuver = false;
+        this.weaponManuverManager.isPullTriggerManuverAble = false;
     }
     public virtual void Reload(AmmoProuch ammoProuch)
     {
-        this.weaponManuverManager.isReloadManuver = true;
+        this.weaponManuverManager.isReloadManuverAble = true;
     }
     public virtual void LowReady()
     {
-        weaponUser.weaponManuverManager.isAimingManuver = false;
+        weaponUser.weaponManuverManager.isAimingManuverAble = false;
     }
     public virtual void AimDownSight()
     {
-        weaponUser.weaponManuverManager.isAimingManuver = true;    
+        weaponUser.weaponManuverManager.isAimingManuverAble = true;    
     }
     public virtual void SwitchWeapon()
     {
-       weaponManuverManager.isSwitchWeaponManuver = true;
+       weaponManuverManager.isSwitchWeaponManuverAble = true;
     }
     public void DropWeapon()
     {

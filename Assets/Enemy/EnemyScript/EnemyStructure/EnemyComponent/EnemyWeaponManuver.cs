@@ -8,6 +8,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
         this.enemy = enemy;
     }
 
+    public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get ; protected set ; }
     public WeaponManuverSelectorNode curWeaponManuverSelector { get; set; }
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
@@ -29,7 +30,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
             ()=> 
             {
 
-                if (isPickingUpWeaponManuver)
+                if (isPickingUpWeaponManuverAble)
                 {
                     if (weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
                     {
@@ -45,15 +46,16 @@ public class EnemyWeaponManuver : WeaponManuverManager
             ()=> curWeapon != null);
 
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(weaponAdvanceUser,
-            () => isDropWeaponManuver || (enemy.isDead && enemy._currentWeapon != null));
+            () => isDropWeaponManuverAble || (enemy.isDead && enemy._currentWeapon != null));
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
-             () => isSwitchWeaponManuver);
+             () => isSwitchWeaponManuverAble);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon is PrimaryWeapon);
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon is SecondaryWeapon);
+        reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => isAimingManuver);
+            () => isAimingManuverAble);
         lowReadyWeaponManuverNodeLeaf = new LowReadyWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => curWeapon != null);
 
@@ -68,14 +70,14 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
         curWeaponManuverSelector.AddtoChildNode(dropWeaponManuverNodeLeaf);
         curWeaponManuverSelector.AddtoChildNode(swtichingWeaponManuverSelector);
+        curWeaponManuverSelector.AddtoChildNode(reloadNodeAttachAbleSelector);
         curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf); 
         curWeaponManuverSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
         swtichingWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
 
-        startNodeSelector.FindingNode(out INodeLeaf weaponManuverLeafNode);
-        curNodeLeaf = weaponManuverLeafNode as WeaponManuverLeafNode;
+        nodeManagerBehavior.SearchingNewNode(this);
     }
     public override void UpdateNode()
     {
@@ -92,23 +94,23 @@ public class EnemyWeaponManuver : WeaponManuverManager
             || enemy.isDead
             || enemy.enemyStateManagerNode.curNodeLeaf is IGotGunFuAttackAbleNode)
         {
-            isAimingManuver = false;
-            isPullTriggerManuver = false;
-            isReloadManuver = false;
-            isSwitchWeaponManuver = false;
-            isPickingUpWeaponManuver = false;
+            isAimingManuverAble = false;
+            isPullTriggerManuverAble = false;
+            isReloadManuverAble = false;
+            isSwitchWeaponManuverAble = false;
+            isPickingUpWeaponManuverAble = false;
             return;
         }
 
         if (enemyActionNodeLeaf is EnemySprintStateNode)
         {
             if (weaponAdvanceUser.isReloadCommand)
-                isReloadManuver = true;
+                isReloadManuverAble = true;
             if (weaponAdvanceUser.isSwitchWeaponCommand)
-                isSwitchWeaponManuver = true;
+                isSwitchWeaponManuverAble = true;
 
-            isAimingManuver = false;
-            isPullTriggerManuver = false;
+            isAimingManuverAble = false;
+            isPullTriggerManuverAble = false;
 
             return;
         }
@@ -122,14 +124,14 @@ public class EnemyWeaponManuver : WeaponManuverManager
     private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)
     {
 
-        isAimingManuver = weaponAdvanceUser.isAimingCommand;
+        isAimingManuverAble = weaponAdvanceUser.isAimingCommand;
 
-        isReloadManuver = weaponAdvanceUser.isReloadCommand;
+        isReloadManuverAble = weaponAdvanceUser.isReloadCommand;
 
-        isSwitchWeaponManuver = weaponAdvanceUser.isSwitchWeaponCommand;
+        isSwitchWeaponManuverAble = weaponAdvanceUser.isSwitchWeaponCommand;
 
-        isPullTriggerManuver = weaponAdvanceUser.isPullTriggerCommand;
+        isPullTriggerManuverAble = weaponAdvanceUser.isPullTriggerCommand;
 
-        isPickingUpWeaponManuver = weaponAdvanceUser.isPickingUpWeaponCommand;
+        isPickingUpWeaponManuverAble = weaponAdvanceUser.isPickingUpWeaponCommand;
     }
 }
