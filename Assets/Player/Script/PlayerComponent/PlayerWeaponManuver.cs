@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerWeaponManuver : WeaponManuverManager
 {
-    private Player player;
+    private Player player => weaponAdvanceUser as Player;
     public PlayerWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser,Player player) : base(weaponAdvanceUser)
     {
-        this.player = player;
+
     }
     #region Initailized WeaponManuver Property
     public override bool isAimingManuverAble { get 
@@ -148,21 +148,38 @@ public class PlayerWeaponManuver : WeaponManuverManager
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
             ()=> 
             {
-                if(isPickingUpWeaponManuverAble)
-                    if(weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
-                        return true;
+
+                if(isPickingUpWeaponManuverAble == false)
+                    return false;
+                   
+                if(weaponAdvanceUser.isPickingUpWeaponCommand && 
+                weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                    return true;
                 else return false;
-                else return false;
+
             }
            
             );  
         curWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => curWeapon != null);
-        dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(this.weaponAdvanceUser, () => isDropWeaponManuverAble);
+        dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(this.weaponAdvanceUser, 
+            () => 
+            {
+                if (isDropWeaponManuverAble == false)
+                    return false;
+
+                if(weaponAdvanceUser.isDropWeaponCommand)
+                    return true;
+
+                return false;
+                }
+            );
         quickDrawWeaponManuverAtAmmoOutLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => 
             {
                 if (this.isQuickDrawWeaponManuverAble == false)
                     return false;
+
+               
 
                 if (curWeapon == null)
                     return false;
@@ -178,9 +195,13 @@ public class PlayerWeaponManuver : WeaponManuverManager
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () =>
              {
-                if(isSwitchWeaponManuverAble)
+                if(isSwitchWeaponManuverAble == false)
+                     return false;
+
+                 if (weaponAdvanceUser.isSwitchWeaponCommand)
                      return true;
-                return false;
+
+                 return false;
              }
             
              );
@@ -191,7 +212,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if(this.isQuickDrawWeaponManuverAble == false)
                     return false;
 
-                if(curWeapon == null)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (curWeapon == null)
                     return false;
 
                 if(isAimingManuverAble && curWeapon is PrimaryWeapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
@@ -205,7 +229,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if(this.isSwitchWeaponManuverAble == false)
                     return false;
 
-                if(weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
                     return false;
 
                 if(weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon
@@ -219,6 +246,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
             () => 
             {
                 if (this.isSwitchWeaponManuverAble == false)
+                    return false;
+
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
                     return false;
 
                 if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
@@ -236,7 +266,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if (this.isSwitchWeaponManuverAble == false)
                     return false;
 
-                if(curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
                     return true;
 
                 return false;
@@ -248,7 +281,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if (this.isSwitchWeaponManuverAble == false)
                     return false;
 
-                if(curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.primaryWeapon != null)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.primaryWeapon != null)
                     return true;
                 
                 return false;
@@ -260,7 +296,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if( this.isSwitchWeaponManuverAble == false)
                     return false;
 
-                if(curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
                     return true;
 
                 return false;
@@ -272,7 +311,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 if(this.isSwitchWeaponManuverAble == false)
                     return false;
 
-                if(curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+                if (weaponAdvanceUser.isSwitchWeaponCommand == false)
+                    return false;
+
+                if (curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
                     return true;
 
                 return false;
@@ -280,13 +322,15 @@ public class PlayerWeaponManuver : WeaponManuverManager
         restWeaponSwitchManuver = new RestWeaponManuverLeafNode(weaponAdvanceUser,()=> true);
 
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
+
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => isAimingManuverAble);
+            () => isAimingManuverAble && weaponAdvanceUser.isAimingCommand);
         lowReadyWeaponManuverNodeLeaf = new LowReadyWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => true);
 
         drawWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
-            () => isSwitchWeaponManuverAble && (weaponAdvanceUser.weaponBelt.primaryWeapon != null || weaponAdvanceUser.weaponBelt.secondaryWeapon != null));
+            () => isSwitchWeaponManuverAble && weaponAdvanceUser.isSwitchWeaponCommand
+            && (weaponAdvanceUser.weaponBelt.primaryWeapon != null || weaponAdvanceUser.weaponBelt.secondaryWeapon != null));
         drawPrimaryWeaponManuverNodeLeaf = new DrawPrimaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
          () => weaponAdvanceUser.weaponBelt.primaryWeapon != null);
         drawSecondaryWeaponManuverNodeLeaf = new DrawSecondaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,

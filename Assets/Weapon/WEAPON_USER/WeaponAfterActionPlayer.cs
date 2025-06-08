@@ -13,6 +13,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
     public override void SendFeedBackWeaponAfterAction<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
     {
+
         if (weaponAfterActionSending == WeaponAfterActionSending.WeaponStateNodeActive) 
         {
             switch (Var)
@@ -22,14 +23,19 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, PlayerAction.Firing);
                         break;
                     }
-                case ReloadMagazineFullStageNodeLeaf:
+                case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
                     {
-                        player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+                        if(_reloadMagFullStage.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
+                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
                         break;
                     }
-                case TacticalReloadMagazineFullStageNodeLeaf:
+                case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
                     {
-                        player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+
+                        if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
+                        {
+                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                        }
                         break;
                     }
                 case AimDownSightWeaponManuverNodeLeaf:

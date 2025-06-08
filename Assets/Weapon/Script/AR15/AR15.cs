@@ -57,6 +57,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticA
     public bool _isMagIn { get; set; }
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
+    public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
     public NodeSelector _reloadStageSelector { get; set; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }

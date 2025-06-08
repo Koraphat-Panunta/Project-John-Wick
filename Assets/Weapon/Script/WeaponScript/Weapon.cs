@@ -123,7 +123,9 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             Enemy enemy = WeaponUser as Enemy;
             WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
         }
-        if(this is PrimaryWeapon){
+        ;
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(this._reloadSelecotrOverriden);
+        if (this is PrimaryWeapon){
             if (WeaponUser.weaponBelt.primaryWeapon == null)
                 WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
         }
@@ -269,6 +271,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                     WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, userWeapon._animatorOverride);
                 }
             }
+            userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this._reloadSelecotrOverriden);
             userWeapon._currentWeapon = null;
         }
         if (this is PrimaryWeapon)
@@ -292,6 +295,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract WeaponSelector startEventNode { get; set; }
 
     public abstract RestNode restNode { get; set; }
+    public abstract NodeSelector _reloadSelecotrOverriden { get; }
     protected virtual void FixedUpdateTree()
     {
         if (currentEventNode != null)

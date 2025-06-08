@@ -355,13 +355,16 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
         {
             if(player.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
-            animator.CrossFade("ReloadMagazineFullStageNodeLeaf", 0.4f, 1);
+            animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
         {
-            if (player._currentWeapon.currentEventNode is TacticalReloadMagazineFullStageNodeLeaf)
-                animator.CrossFade("TacticalReloadMagazineFullStageNodeLeaf", 0.4f, 1);
+
+            if (player.weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf)
+            {
+                animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+            }
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)

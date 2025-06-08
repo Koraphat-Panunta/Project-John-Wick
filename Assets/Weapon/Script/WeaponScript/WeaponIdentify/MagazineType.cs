@@ -33,6 +33,14 @@ public class ReloadMagazineLogic
                         this.RefillAmmo(weapon, ammoProuch);
                     break;
                 }
+            case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
+                {
+                    if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
+                        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
+                    else if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Reloading)
+                        this.RefillAmmo(weapon, ammoProuch);
+                    break;
+                }
         }
        
     }
@@ -40,17 +48,11 @@ public class ReloadMagazineLogic
     {
 
         Weapon weapon = magazineType._weapon;
-        IWeaponAdvanceUser userWeapon = weapon.userWeapon;
-        Bullet bullet = weapon.bullet;
 
-        NodeSelector _reloadStageSelector = magazineType._reloadStageSelector;
-        ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage = magazineType._reloadMagazineFullStage;
-        TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage = magazineType._tacticalReloadMagazineFullStage;
-
-        _reloadStageSelector = new NodeSelector(
+        magazineType._reloadStageSelector = new NodeSelector(
            () => {
-               if (userWeapon.isReloadCommand
-              && userWeapon.weaponBelt.ammoProuch.amountOf_ammo[bullet.myType] > 0
+               if (weapon.userWeapon.isReloadCommand
+              && weapon.userWeapon.weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
               &&weapon.bulletStore[BulletStackType.Magazine] <weapon.bulletCapacity)
                    return true;
                else
@@ -58,8 +60,10 @@ public class ReloadMagazineLogic
            }
            );
 
-        _reloadMagazineFullStage = new ReloadMagazineFullStageNodeLeaf(
-            userWeapon, () =>
+        magazineType._reloadMagazineFullStage = new ReloadMagazineFullStageNodeLeaf(
+            weapon.userWeapon, 
+            magazineType,
+            () =>
             {
                 int chamberCount = weapon.bulletStore[BulletStackType.Chamber];
                 int magCount = weapon.bulletStore[BulletStackType.Magazine];
@@ -76,8 +80,9 @@ public class ReloadMagazineLogic
                     return false;
             });
 
-        _tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStageNodeLeaf(userWeapon
-            ,
+        magazineType._tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStageNodeLeaf(
+            weapon.userWeapon,
+            magazineType,
             () =>
             {
                 bool IsMagIn = magazineType._isMagIn;
@@ -92,8 +97,8 @@ public class ReloadMagazineLogic
             }
             );
 
-        _reloadStageSelector.AddtoChildNode(_reloadMagazineFullStage);
-        _reloadStageSelector.AddtoChildNode(_tacticalReloadMagazineFullStage);
+        magazineType._reloadStageSelector.AddtoChildNode(magazineType._reloadMagazineFullStage);
+        magazineType._reloadStageSelector.AddtoChildNode(magazineType._tacticalReloadMagazineFullStage);
     }
     private void RefillAmmo(Weapon weapon,AmmoProuch ammoProuch)
     {

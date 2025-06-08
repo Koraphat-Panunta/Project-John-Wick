@@ -44,9 +44,6 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
         
         Vector3 CoverPos = coverUseable.coverPos;
 
-      
-        enemy.weaponCommand.LowReady();
-
         Vector3 moveDir = (CoverPos - enemy.transform.position).normalized;
 
         if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.15f)

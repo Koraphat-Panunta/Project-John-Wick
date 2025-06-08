@@ -174,7 +174,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
-    public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
 
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
@@ -189,7 +188,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000
             , 1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
-        weaponCommand = new WeaponCommand(this);
         weaponManuverManager = new EnemyWeaponManuver(this, this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
         _animatorOverride = this.AnimatorOverrideController;

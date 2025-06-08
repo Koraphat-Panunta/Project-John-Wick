@@ -19,8 +19,8 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void Look(InputAction.CallbackContext context)
     {
-        float screenW = 2560;
-        float screenH = 1440;
+        //float screenW = 2560;
+        //float screenH = 1440;
 
         player.inputLookDir_Local = context.ReadValue<Vector2>();
         //player.inputLookDir_Local *= ((Screen.width * Screen.height) / (screenW * screenH));

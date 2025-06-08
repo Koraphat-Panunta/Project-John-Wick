@@ -113,7 +113,8 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
                     }
 
-                    weaponManuverManager.WeaponCommanding();
+                    if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser.isPullTriggerCommand)
+                        weapon.PullTrigger();
 
                     if(weaponManuverManager.isAimingManuverAble == false)
                         quickDrawPhase = QuickDrawPhase.HolsterPrimary;

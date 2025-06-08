@@ -48,12 +48,6 @@ public abstract class WeaponManuverManager : INodeManager
         nodeManagerBehavior.UpdateNode(this);
     }
     public virtual void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
- 
-    public virtual void WeaponCommanding()
-    {
-        if (isPullTriggerManuverAble)
-            curWeapon.PullTrigger();
-    }
 
     
 }

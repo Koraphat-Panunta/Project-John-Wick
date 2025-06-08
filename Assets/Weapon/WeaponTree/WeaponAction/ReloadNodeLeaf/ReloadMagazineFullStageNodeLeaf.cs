@@ -17,15 +17,16 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
     private float reloadTime => weaponAdvanceUser._currentWeapon.reloadSpeed;
 
-    private MagazineType weaponMag => weaponAdvanceUser._currentWeapon as MagazineType;
+    private MagazineType weaponMag;
+    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }
 
     private float elaspeTime;
 
     private AmmoProuch ammoProuch => weaponAdvanceUser.weaponBelt.ammoProuch;
 
-    public ReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, Func<bool> preCondition) : base(weaponUser, preCondition)
+    public ReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType weaponMag, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
-
+        this.weaponMag = weaponMag;
     }
 
     public override bool IsComplete()

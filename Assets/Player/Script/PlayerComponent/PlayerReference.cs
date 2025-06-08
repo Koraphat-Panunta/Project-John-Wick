@@ -10,7 +10,6 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public Vector3 shootingPos { get => player.shootingPos; set => player.shootingPos = value; }
     public WeaponBelt weaponBelt { get => player.weaponBelt; set => player.weaponBelt = value; }
     public WeaponAfterAction weaponAfterAction { get => player.weaponAfterAction; set => player.weaponAfterAction = value; }
-    public WeaponCommand weaponCommand { get => player.weaponCommand; set => player.weaponCommand = value; }
     public Character userWeapon => player;
     public Vector3 pointingPos { get => player.pointingPos; set => player.pointingPos = value; }
     public WeaponManuverManager weaponManuverManager { get => player.weaponManuverManager; set => player.weaponManuverManager = value; }
