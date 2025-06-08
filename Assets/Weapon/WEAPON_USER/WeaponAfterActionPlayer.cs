@@ -22,12 +22,12 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, PlayerAction.Firing);
                         break;
                     }
-                case ReloadMagazineFullStage:
+                case ReloadMagazineFullStageNodeLeaf:
                     {
                         player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
                         break;
                     }
-                case TacticalReloadMagazineFullStage:
+                case TacticalReloadMagazineFullStageNodeLeaf:
                     {
                         player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
                         break;

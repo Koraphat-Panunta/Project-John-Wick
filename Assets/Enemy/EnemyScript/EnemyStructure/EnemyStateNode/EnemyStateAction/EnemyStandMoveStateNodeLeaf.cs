@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStandMoveStateNode : EnemyStateLeafNode
+public class EnemyStandMoveStateNodeLeaf : EnemyStateLeafNode
 {
     
     RotateObjectToward objectToward;
     NavMeshAgent agent;
     IMovementCompoent enemyMovement;
   
-    public EnemyStandMoveStateNode(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
+    public EnemyStandMoveStateNodeLeaf(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.objectToward = new RotateObjectToward();
         this.agent = enemy.agent;

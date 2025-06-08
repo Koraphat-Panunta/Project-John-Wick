@@ -53,7 +53,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     private void PlayVolumeMove()
     {
         EnemyStateLeafNode enemyState = enemy.enemyStateManagerNode.curNodeLeaf as EnemyStateLeafNode;
-        if (enemyState is EnemyStandMoveStateNode)
+        if (enemyState is EnemyStandMoveStateNodeLeaf)
         {
             float timingRate = 1.2f;
             footStepTiming += Time.deltaTime * timingRate;

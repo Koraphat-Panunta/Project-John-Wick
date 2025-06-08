@@ -10,17 +10,112 @@ public class PlayerWeaponManuver : WeaponManuverManager
         this.player = player;
     }
     #region Initailized WeaponManuver Property
-    public override bool isAimingManuverAble => throw new System.NotImplementedException();
+    public override bool isAimingManuverAble { get 
+        {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+                || player.curNodeLeaf is RestrictGunFuStateNodeLeaf
+                || player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf
+                )
+                return true;
+            return false; 
+        } 
+    }
 
-    public override bool isPullTriggerManuverAble => throw new System.NotImplementedException();
+    public override bool isPullTriggerManuverAble {
+        get 
+        {
+            if(aimingWeight >= 1)
+                return true;
+            return false;
+        }
+    }
 
-    public override bool isReloadManuverAble => throw new System.NotImplementedException();
+    public override bool isReloadManuverAble
+    {
+        get {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerSprintNode
+               )
+                return true;
+            return false;
+        }
+    }
 
-    public override bool isSwitchWeaponManuverAble => throw new System.NotImplementedException();
+    public override bool isSwitchWeaponManuverAble 
+    {
+        get
+        {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerSprintNode
+               )
+                return true;
+            return false;
+        }
+    }
 
-    public override bool isPickingUpWeaponManuverAble => throw new System.NotImplementedException();
+    public override bool isPickingUpWeaponManuverAble 
+    {
+        get
+        {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerSprintNode
+               )
+                return true;
+            return false;
+        }
+    }
 
-    public override bool isDropWeaponManuverAble => throw new System.NotImplementedException();
+    public override bool isDropWeaponManuverAble 
+    {
+        get
+        {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+               || player.curNodeLeaf is PlayerSprintNode
+               )
+                return true;
+            return false;
+        }
+    }
+    private bool isQuickDrawWeaponManuverAble
+    {
+        get 
+        {
+            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
+                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
+                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+                )
+                return true;
+            return false;
+        }
+    }
 
     #endregion
 
@@ -66,7 +161,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
         quickDrawWeaponManuverAtAmmoOutLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => 
             {
-                if(curWeapon == null)
+                if (this.isQuickDrawWeaponManuverAble == false)
+                    return false;
+
+                if (curWeapon == null)
                     return false;
 
                 if (weaponAdvanceUser.weaponBelt.secondaryWeapon == null)
@@ -90,6 +188,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
         quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => 
             {
+                if(this.isQuickDrawWeaponManuverAble == false)
+                    return false;
+
                 if(curWeapon == null)
                     return false;
 
@@ -101,6 +202,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
         drawPrimaryWeaponInWeaponManuvering = new DrawPrimaryWeaponManuverNodeLeaf(weaponAdvanceUser,
             () =>
             {
+                if(this.isSwitchWeaponManuverAble == false)
+                    return false;
+
                 if(weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
                     return false;
 
@@ -114,6 +218,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
         drawSecondaryWeaponInWeaponManuveringNodeLeaf = new DrawSecondaryWeaponManuverNodeLeaf(weaponAdvanceUser,
             () => 
             {
+                if (this.isSwitchWeaponManuverAble == false)
+                    return false;
+
                 if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
                     return false;
 
@@ -124,13 +231,52 @@ public class PlayerWeaponManuver : WeaponManuverManager
             }
             );
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
-            () => curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null);
+            () => 
+            {
+                if (this.isSwitchWeaponManuverAble == false)
+                    return false;
+
+                if(curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.secondaryWeapon != null)
+                    return true;
+
+                return false;
+                }
+            );
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
-            () => curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.primaryWeapon != null);
+            () => 
+            {
+                if (this.isSwitchWeaponManuverAble == false)
+                    return false;
+
+                if(curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon && weaponAdvanceUser.weaponBelt.primaryWeapon != null)
+                    return true;
+                
+                return false;
+                }
+            );
         holsterPrimaryWeaponManuverNodeLeaf = new HolsterPrimaryWeaponManuverNodeLeaf(this.weaponAdvanceUser, 
-            () => curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon);
+            () => 
+            {
+                if( this.isSwitchWeaponManuverAble == false)
+                    return false;
+
+                if(curWeapon == weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon)
+                    return true;
+
+                return false;
+            }
+            );
         holsterSecondaryWeaponManuverNodeLeaf = new HolsterSecondaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon);
+            () => 
+            {
+                if(this.isSwitchWeaponManuverAble == false)
+                    return false;
+
+                if(curWeapon == weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+                    return true;
+
+                return false;
+            });
         restWeaponSwitchManuver = new RestWeaponManuverLeafNode(weaponAdvanceUser,()=> true);
 
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();

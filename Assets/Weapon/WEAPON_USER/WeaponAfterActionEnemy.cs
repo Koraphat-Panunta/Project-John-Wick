@@ -19,12 +19,12 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                         //No logic yet
                         break;
                     }
-                case ReloadMagazineFullStage:
+                case ReloadMagazineFullStageNodeLeaf:
                     {
                         enemy.NotifyObserver(enemy,SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
                         break;
                     }
-                case TacticalReloadMagazineFullStage:
+                case TacticalReloadMagazineFullStageNodeLeaf:
                     {
                         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
                         break;

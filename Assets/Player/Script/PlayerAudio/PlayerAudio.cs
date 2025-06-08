@@ -31,9 +31,9 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     private void MoveSound()
     {
         PlayerStateNodeLeaf playerState = player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf;
-        if (playerState is PlayerStandMoveNode
+        if (playerState is PlayerStandMoveNodeLeaf
             || playerState is PlayerCrouch_Move_NodeLeaf
-            || playerState is PlayerInCoverStandMoveNode)
+            || playerState is PlayerInCoverStandMoveNodeLeaf)
         {
 
             footStepTiming += Time.deltaTime * timingRateWalk;

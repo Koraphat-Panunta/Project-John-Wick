@@ -24,6 +24,89 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
     public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
 
+    public override bool isAimingManuverAble 
+    {
+        get 
+        {
+            if (enemy.curNodeLeaf is EnemyStandIdleStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
+                )
+                return true;
+            return false;
+        }
+    }
+
+    public override bool isPullTriggerManuverAble
+    {
+        get
+        {
+            if (aimingWeight >= 1)
+                return true;
+            return false;
+        }
+    }
+
+    public override bool isReloadManuverAble { 
+        get 
+        {
+            if (enemy.curNodeLeaf is EnemyStandIdleStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
+                || enemy.curNodeLeaf is EnemySprintStateNode
+                )
+                return true;
+            return false;
+        } 
+    }
+
+    public override bool isSwitchWeaponManuverAble 
+    {
+        get 
+        {
+            if (enemy.curNodeLeaf is EnemyStandIdleStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
+                || enemy.curNodeLeaf is EnemySprintStateNode
+                )
+                return true;
+            return false;
+        }
+    }
+
+    public override bool isPickingUpWeaponManuverAble 
+    {
+        get
+        {
+            if (enemy.curNodeLeaf is EnemyStandIdleStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
+                || enemy.curNodeLeaf is EnemySprintStateNode
+                )
+                return true;
+            return false;
+        }
+    }
+
+    public override bool isDropWeaponManuverAble 
+    {
+        get
+        {
+            if (enemy.curNodeLeaf is EnemyStandIdleStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
+                || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
+                || enemy.curNodeLeaf is EnemySprintStateNode
+                )
+                return true;
+            return false;
+        }
+    }
+
     public override void InitailizedNode()
     {
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
@@ -81,57 +164,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
     }
     public override void UpdateNode()
     {
-        OnserveEnemyStateNode(this.enemy);
         base.UpdateNode();
     }
-    public void OnserveEnemyStateNode(Enemy enemy)
-    {
-        IWeaponAdvanceUser weaponAdvanceUser = enemy;
-        EnemyStateLeafNode enemyActionNodeLeaf = enemy.enemyStateManagerNode.curNodeLeaf as EnemyStateLeafNode;
-
-        if (enemy._isInPain 
-            || enemyActionNodeLeaf is FallDown_EnemyState_NodeLeaf
-            || enemy.isDead
-            || enemy.enemyStateManagerNode.curNodeLeaf is IGotGunFuAttackAbleNode)
-        {
-            isAimingManuverAble = false;
-            isPullTriggerManuverAble = false;
-            isReloadManuverAble = false;
-            isSwitchWeaponManuverAble = false;
-            isPickingUpWeaponManuverAble = false;
-            return;
-        }
-
-        if (enemyActionNodeLeaf is EnemySprintStateNode)
-        {
-            if (weaponAdvanceUser.isReloadCommand)
-                isReloadManuverAble = true;
-            if (weaponAdvanceUser.isSwitchWeaponCommand)
-                isSwitchWeaponManuverAble = true;
-
-            isAimingManuverAble = false;
-            isPullTriggerManuverAble = false;
-
-            return;
-        }
-        
-            
-        WeaponAdvanceCommanding(weaponAdvanceUser);
-            return;
-        
-    }
-
-    private void WeaponAdvanceCommanding(IWeaponAdvanceUser weaponAdvanceUser)
-    {
-
-        isAimingManuverAble = weaponAdvanceUser.isAimingCommand;
-
-        isReloadManuverAble = weaponAdvanceUser.isReloadCommand;
-
-        isSwitchWeaponManuverAble = weaponAdvanceUser.isSwitchWeaponCommand;
-
-        isPullTriggerManuverAble = weaponAdvanceUser.isPullTriggerCommand;
-
-        isPickingUpWeaponManuverAble = weaponAdvanceUser.isPickingUpWeaponCommand;
-    }
+   
 }

@@ -2,32 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStandMoveNode : PlayerStateNodeLeaf
+public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
 {
-    public PlayerStandMoveNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    public PlayerStandIdleNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandMove);
+        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandIdle);
         base.Enter();
     }
     public override void FixedUpdateNode()
     {
         PlayerMovement playerMovement = base.player.playerMovement;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed * player.inputMoveDir_World.magnitude, IMovementCompoent.MoveMode.MaintainMomentum);
-        playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.StandMoveRotateSpeed);
-
+        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
-
     public override void UpdateNode()
     {
         InputPerformed();
         base.UpdateNode();
     }
+
     private void InputPerformed()
     {
         if (player.isSwapShoulder)

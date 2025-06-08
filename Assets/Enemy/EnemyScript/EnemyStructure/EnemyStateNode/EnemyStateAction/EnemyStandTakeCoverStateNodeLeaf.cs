@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyStandTakeCoverStateNode : EnemyStateLeafNode
+public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
     IMovementCompoent movementCompoent;
-    public EnemyStandTakeCoverStateNode(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
+    public EnemyStandTakeCoverStateNodeLeaf(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
     {
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();

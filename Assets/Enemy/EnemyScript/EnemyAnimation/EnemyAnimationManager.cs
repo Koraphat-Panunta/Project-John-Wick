@@ -73,17 +73,17 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
         {
-            if (enemy.weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStage)
+            if (enemy.weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf)
             {
-                animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
+                animator.CrossFade("TacticalReloadMagazineFullStageNodeLeaf", 0.3f, 1);
                 is_Layer1_Enable = true;
             }
         }
         if (enemyEvent == SubjectEnemy.EnemyEvent.ReloadMagazineFullStage)
         {
-            if (enemy.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStage)
+            if (enemy.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
             {
-                animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
+                animator.CrossFade("ReloadMagazineFullStageNodeLeaf", 0.3f, 1);
                 is_Layer1_Enable = true;
             }
         }

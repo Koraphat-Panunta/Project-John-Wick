@@ -38,10 +38,10 @@ public class EnemyStateManagerNode : INodeManager
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
     public EnemySprintStateNode enemySprintState { get; private set; }
-    public EnemyStandIdleStateNode enemyStandIdleState { get; private set; }
-    public EnemyStandMoveStateNode enemyStandMoveState { get; private set; }
-    public EnemyStandTakeCoverStateNode enemyStandTakeCoverState { get; private set; }
-    public EnemyStandTakeAimStateNode enemyStandTakeAimState { get; private set; }
+    public EnemyStandIdleStateNodeLeaf enemyStandIdleState { get; private set; }
+    public EnemyStandMoveStateNodeLeaf enemyStandMoveState { get; private set; }
+    public EnemyStandTakeCoverStateNodeLeaf enemyStandTakeCoverState { get; private set; }
+    public EnemyStandTakeAimStateNodeLeaf enemyStandTakeAimState { get; private set; }
 
     public EnemyStateSelectorNode gunFuSelector { get; private set; }
     public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
@@ -249,19 +249,19 @@ public class EnemyStateManagerNode : INodeManager
             () => this.enemy.isSprintCommand
             );
 
-        enemyStandIdleState = new EnemyStandIdleStateNode(this.enemy,
+        enemyStandIdleState = new EnemyStandIdleStateNodeLeaf(this.enemy,
             () => true //Precondition
             );
 
-        enemyStandMoveState = new EnemyStandMoveStateNode(this.enemy,
+        enemyStandMoveState = new EnemyStandMoveStateNodeLeaf(this.enemy,
             () => this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
             );
 
-        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNode(this.enemy,
+        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNodeLeaf(this.enemy,
             () => this.enemy.isInCover
             , this.enemy);
 
-        enemyStandTakeAimState = new EnemyStandTakeAimStateNode(this.enemy,
+        enemyStandTakeAimState = new EnemyStandTakeAimStateNodeLeaf(this.enemy,
             () => this.enemy.isInCover && this.enemy.isAimingCommand
             , this.enemy);
 

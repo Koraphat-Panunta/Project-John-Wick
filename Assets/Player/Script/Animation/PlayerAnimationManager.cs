@@ -71,8 +71,8 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (player.curShoulderSide == Player.ShoulderSide.Right)
             SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
-        if(player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandIdleNode ||
-            player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandMoveNode)
+        if(player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf ||
+            player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf)
             CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
@@ -354,14 +354,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
         {
-            if(player.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStage)
-            animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
+            if(player.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
+            animator.CrossFade("ReloadMagazineFullStageNodeLeaf", 0.4f, 1);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
         {
-            if (player._currentWeapon.currentEventNode is TacticalReloadMagazineFullStage)
-                animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+            if (player._currentWeapon.currentEventNode is TacticalReloadMagazineFullStageNodeLeaf)
+                animator.CrossFade("TacticalReloadMagazineFullStageNodeLeaf", 0.4f, 1);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
