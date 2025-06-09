@@ -122,7 +122,6 @@ public class PlayerWeaponManuver : WeaponManuverManager
     #region InitializedNode
     public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get ; protected set ; }
     public WeaponManuverSelectorNode curWeaponManuverSelectorNode { get; protected set; }
-    public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverAtAmmoOutLeafNode { get; protected set; }
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get ;protected set; }
     public RestWeaponManuverLeafNode restWeaponSwitchManuver { get; set; }
     public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverLeafNode { get ;protected set; }
@@ -173,25 +172,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 return false;
                 }
             );
-        quickDrawWeaponManuverAtAmmoOutLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
-            () => 
-            {
-                if (this.isQuickDrawWeaponManuverAble == false)
-                    return false;
-
-               
-
-                if (curWeapon == null)
-                    return false;
-
-                if (weaponAdvanceUser.weaponBelt.secondaryWeapon == null)
-                    return false;
-
-                if(curWeapon is PrimaryWeapon && isAimingManuverAble && curWeapon.bulletStore[BulletStackType.Chamber]<=0 && curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.triggerState == TriggerState.IsDown)
-                    return true;
-
-                return false;
-            }); 
+        
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () =>
              {
@@ -343,16 +324,16 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
         startNodeSelector.AddtoChildNode(pickUpWeaponNodeLeaf);
         startNodeSelector.AddtoChildNode(curWeaponManuverSelectorNode);
+        startNodeSelector.AddtoChildNode(drawWeaponManuverSelectorNode);
+        startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         curWeaponManuverSelectorNode.AddtoChildNode(dropWeaponManuverNodeLeaf);
-        curWeaponManuverSelectorNode.AddtoChildNode(quickDrawWeaponManuverAtAmmoOutLeafNode);
         curWeaponManuverSelectorNode.AddtoChildNode(swtichingWeaponManuverSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(reloadNodeAttachAbleSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
         curWeaponManuverSelectorNode.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
-        startNodeSelector.AddtoChildNode(drawWeaponManuverSelectorNode);
-        startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
+
 
         swtichingWeaponManuverSelector.AddtoChildNode(quickDrawWeaponManuverLeafNode);
         swtichingWeaponManuverSelector.AddtoChildNode(drawPrimaryWeaponInWeaponManuvering);

@@ -79,7 +79,12 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     }
     public override void FixedUpdateNode()
     {
-
+        if (weaponAdvanceUser.isAimingCommand && weaponAdvanceUser.weaponManuverManager.isAimingManuverAble)
+            weaponAdvanceUser.weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
+        else
+            weaponAdvanceUser.weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
     }
    
 

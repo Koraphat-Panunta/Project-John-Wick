@@ -20,7 +20,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     public ScrpCameraViewAttribute cameraViewAttribute;
 
-    public bool isZooming = false;
     public float zoomingWeight;
     public float cameraSwitchSholderVelocity = 3.5f;
 
@@ -74,10 +73,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
         cameraManagerNode.UpdateNode();
 
-        //Debug.Log("CameraOffset = " + cameraOffset);
-        //Debug.Log("CameraOffset value = " + cameraOffset.Offset);
-
-
     }
     private void FixedUpdate()
     {
@@ -119,14 +114,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         {
             cameraKickBack.Performed(player._currentWeapon);
             cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
-        }
-        if(playerAction == SubjectPlayer.PlayerAction.Aim)
-        {
-            isZooming = true;
-        }
-        if(playerAction == SubjectPlayer.PlayerAction.LowReady || playerAction == SubjectPlayer.PlayerAction.Resting)
-        {
-            isZooming = false;
         }
         
         if(playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack)

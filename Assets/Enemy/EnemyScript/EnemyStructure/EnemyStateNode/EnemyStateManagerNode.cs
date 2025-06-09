@@ -352,7 +352,7 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
 
         gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(gotHumanThrow_GunFuNodeLeaf);
-
+        
         standSelector.AddtoChildNode(enemySprintState);
         standSelector.AddtoChildNode(takeCoverSelector);
         standSelector.AddtoChildNode(enemyStandMoveState);
@@ -363,6 +363,7 @@ public class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.FindingNode(out INodeLeaf enemyStateActionNode);
         curNodeLeaf = enemyStateActionNode as EnemyStateLeafNode;
+        Debug.Log(curNodeLeaf);
         curNodeLeaf.Enter();
     }
 }

@@ -50,14 +50,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         targetMask.value = LayerMask.GetMask("Player");
 
+        posture = 100;
+        base.HP = 100;
+        base.maxHp = 100;
+
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyMovement = new EnemyMovement(agent, this);
 
         _isGotAttackedAble = true;
-
         MotionControlInitailized();
+        enemyStateManagerNode = new EnemyStateManagerNode(this);
         Initialized_IWeaponAdvanceUser();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
@@ -66,17 +70,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyCommunicator = new EnemyCommunicator(this);
 
-        posture = 100;
-
-        base.HP = 100;
-        base.maxHp = 100;
-        enemyStateManagerNode = new EnemyStateManagerNode(this);
 
         if(startWeapon == null)
         startWeapon = Instantiate(startWeapon);
 
         startWeapon.AttatchWeaponTo(this);
-
     }
 
 
@@ -188,8 +186,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000
             , 1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
-        weaponManuverManager = new EnemyWeaponManuver(this, this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
+        weaponManuverManager = new EnemyWeaponManuver(this, this);
         _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion

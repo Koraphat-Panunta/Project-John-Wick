@@ -20,7 +20,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     public float _timer { get; set; }
     public AnimationClip _animationClip { get; set; }
     public string stateName { get; protected set; }
-    protected Transform targetAdjustTransform;
+    protected Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
    
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
@@ -32,8 +32,6 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
         _animationClip = gunFuInteraction_ScriptableObject.AinimnationClip;
         _transitionAbleTime_Nornalized = gunFuInteraction_ScriptableObject.TransitionAbleTime_Normalized;
         stateName = gunFuInteraction_ScriptableObject.StateName;
-
-        targetAdjustTransform = gunFuAble._targetAdjustTranform;
     }
 
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
@@ -42,7 +40,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
-        targetAdjustTransform = gunFuAble._targetAdjustTranform;
+
     }
 
     public override void Enter()

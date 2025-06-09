@@ -96,27 +96,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                 }
                 break;
         }
-
-        //if(elapesTime <= pull)
-        //{
-        //    curPhase = WeaponDisarmPhase.Pulling;
-        //    Pull(elapesTime / this.pull);
-        //}
-        
-        //if(elapesTime > pull && isDisarmWeapon == false)
-        //{
-        //    curPhase = WeaponDisarmPhase.Disarming;
-        //    Disarm();
-        //    isDisarmWeapon = true;
-        //    player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
-        //}
-       
-        //player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
-
-        //if (elapesTime >= duration)
-        //{
-        //    this.isComplete = true;
-        //}
         
         base.FixedUpdateNode();
     }
@@ -140,20 +119,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         base.UpdateNode();
     }
 
-    IEnumerator SlowMotion()
-    {
-        float originalFixdeltaTime = Time.fixedDeltaTime;
-
-        yield return new WaitForSecondsRealtime(duration*0.5f);
-
-        Time.timeScale = 0.25f; // Set slow motion (25% speed)
-        Time.fixedDeltaTime *= Time.timeScale; // Adjust physics for smoothness
-
-        yield return new WaitForSecondsRealtime(1f); // Use unscaled time so the delay isn't affected by slow motion
-
-        Time.timeScale = 1f; // Reset to normal speed
-        Time.fixedDeltaTime = originalFixdeltaTime; // Restore original physics update rate
-    }
     private void Disarm()
     {
         disarmedWeapon.DropWeapon();
@@ -181,8 +146,8 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
             player.weaponAdvanceUser._currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
             disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
         }
-        else
-            throw new Exception("WeaponDisarm");
+        //else
+        //    throw new Exception("WeaponDisarm");
     }
     private Vector3 playerEnterPos;
     private void Pull(float t)
