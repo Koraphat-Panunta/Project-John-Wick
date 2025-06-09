@@ -379,7 +379,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
             switch (quickDrawPhase)
             {
-                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:animator.CrossFade("QuickDraw",0.1f,1);
+                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw: animator.CrossFade("QuickDraw",0.1f,1);
                     break;
 
                 case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary: animator.CrossFade("QuickHolster", 0.1f, 1);

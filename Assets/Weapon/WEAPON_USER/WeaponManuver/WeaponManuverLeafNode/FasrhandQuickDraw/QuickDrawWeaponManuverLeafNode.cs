@@ -53,21 +53,26 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
     {
        
     }
-
     public override bool IsComplete()
     {
         return isComplete;
     }
-
     public override bool IsReset()
     {
         if (IsComplete())
             return true;
 
+        if (weaponManuverManager.isReloadManuverAble 
+            && weaponAdvanceUser.isReloadCommand
+            && weaponAdvanceUser._currentWeapon._reloadSelecotrOverriden.Precondition())
+        {
+            HolsteringPrimaryWeapon();
+            return true;
+        }
+
         return false;
 
     }
-
     public override bool Precondition()
     {
         return base.Precondition();
@@ -105,7 +110,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
                     weaponManuverManager.aimingWeight = 1;
 
-                    if (weaponManuverManager.isSwitchWeaponManuverAble)
+                    if (weaponManuverManager.isSwitchWeaponManuverAble && weaponAdvanceUser.isSwitchWeaponCommand)
                     {
                         quickDrawPhase = QuickDrawPhase.HolsterSecondary;
                         weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
@@ -116,17 +121,9 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser.isPullTriggerCommand)
                         weapon.PullTrigger();
 
-                    if(weaponManuverManager.isAimingManuverAble == false)
+                    if(weaponManuverManager.isAimingManuverAble == false || weaponAdvanceUser.isAimingCommand == false)
                         quickDrawPhase = QuickDrawPhase.HolsterPrimary;
 
-                    //if (weaponManuverManager.curWeapon.currentEventNode is IReloadNode)
-                    //{
-                    //    HolsteringPrimaryWeapon();
-                    //    weapon.Reload();
-                    //    isComplete = true;
-                    //}
-     
-                        
                 }
                 break;
             case QuickDrawPhase.HolsterSecondary:
@@ -153,8 +150,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                 }
                 break;
         }
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
-            <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
     }
 
     private void HolsteringPrimaryWeapon()//++

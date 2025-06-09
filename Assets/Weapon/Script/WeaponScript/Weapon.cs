@@ -185,7 +185,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         
         parentConstraint.weight = 1;
-       
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
         if (userWeapon._currentWeapon == this)
         {
             if (userWeapon is Player)
@@ -222,6 +222,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
         if (userWeapon._currentWeapon == this)
         {
+            userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
             userWeapon._currentWeapon = null;
         }
     }
@@ -242,7 +243,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
         parentConstraint.weight = 1;
     }
     public void DropWeapon()

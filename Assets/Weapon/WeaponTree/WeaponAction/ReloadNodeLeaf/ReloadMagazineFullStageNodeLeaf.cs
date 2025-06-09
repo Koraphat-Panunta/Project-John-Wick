@@ -41,6 +41,10 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         if(weaponAdvanceUser.weaponManuverManager.isReloadManuverAble == false)
             return true;
 
+        if(weaponAdvanceUser.weaponManuverManager.isSwitchWeaponManuverAble 
+            && weaponAdvanceUser.isSwitchWeaponCommand)
+            return true;
+
         return false;
     }
     public override void Enter()

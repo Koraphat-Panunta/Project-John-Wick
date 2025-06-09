@@ -34,6 +34,11 @@ public class NodeAttachAbleSelector : INodeSelector
     {
         if(this.childNode.Count > 0)
         {
+            this.RemoveNode(this.childNode[0]);
+        }
+
+        if(this.childNode.Count > 0)
+        {
             throw new Exception("Cannot Attach chlidNode "+childNode+" to this node "+this);
         }
         nodeSelectorBehavior.AddtoChildNode(childNode,this);

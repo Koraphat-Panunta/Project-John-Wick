@@ -67,6 +67,10 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         if (weaponAdvanceUser.weaponManuverManager.isReloadManuverAble == false)
             return true;
 
+        if (weaponAdvanceUser.weaponManuverManager.isSwitchWeaponManuverAble
+            && weaponAdvanceUser.isSwitchWeaponCommand)
+            return true;
+
         return false;
     }
 
