@@ -30,7 +30,6 @@ public class EnemySprintStateNode : EnemyStateLeafNode
         enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, enemy.sprintAccelerate, enemy.sprintMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
         enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.sprintRotateSpeed);
 
-        enemy.weaponCommand.LowReady();
         base.FixedUpdateNode();
     }
 

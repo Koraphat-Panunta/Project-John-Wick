@@ -103,6 +103,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         {
             CrosshairSpread.Performed(player._currentWeapon);
             CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
+            CrosshairSpread.TriggerFocusSpanRate();
         }
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
@@ -115,10 +116,11 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             CrosshairSpread.TriggerFocusSpanRate();
         }
 
-        if (player._currentWeapon.currentEventNode is IReloadNode)
+        if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage
+            || playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
             CrosshairSpread.TriggerFocusSpanRate();
-        
-        if(playerAction == SubjectPlayer.PlayerAction.Aim)
+
+        if (playerAction == SubjectPlayer.PlayerAction.Aim)
             CrosshairSpread.isAiming = true;
         if (playerAction == SubjectPlayer.PlayerAction.LowReady)
         {

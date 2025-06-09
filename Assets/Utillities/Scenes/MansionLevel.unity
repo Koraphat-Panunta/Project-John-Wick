@@ -20511,7 +20511,7 @@ PrefabInstance:
     - target: {fileID: 322764349666258317, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1188106929524884181, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
         type: 3}
@@ -20648,18 +20648,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27eed4d488c2a2e4dafc0b845f3d5c37, type: 3}
---- !u!114 &535110059 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 172040894886386629, guid: 27eed4d488c2a2e4dafc0b845f3d5c37,
-    type: 3}
-  m_PrefabInstance: {fileID: 535110058}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e58352242517342a2841bdbc58fe09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &542597757
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61424,7 +61412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a137b988ed93a6a4082f603c26ca65b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openingUICanvas: {fileID: 535110059}
+  openingUICanvas: {fileID: 0}
   gamePlayUICanvas: {fileID: 177231076}
   gameOverUICanvas: {fileID: 283033187}
   missionCompleteUICanvas: {fileID: 678065734}

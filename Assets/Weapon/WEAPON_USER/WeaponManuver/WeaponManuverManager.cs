@@ -12,12 +12,12 @@ public abstract class WeaponManuverManager : INodeManager
 
     public float aimingWeight;
 
-    public bool isAimingManuver;
-    public bool isPullTriggerManuver;
-    public bool isReloadManuver;
-    public bool isSwitchWeaponManuver;
-    public bool isPickingUpWeaponManuver;
-    public bool isDropWeaponManuver;
+    public abstract bool isAimingManuverAble { get; }
+    public abstract bool isPullTriggerManuverAble { get; }
+    public abstract bool isReloadManuverAble { get; }
+    public abstract bool isSwitchWeaponManuverAble { get; }
+    public abstract bool isPickingUpWeaponManuverAble { get; }
+    public abstract bool isDropWeaponManuverAble { get; }
 
     public abstract PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
     public abstract DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get;protected set; }
@@ -31,6 +31,7 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
+    public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
    
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
@@ -47,15 +48,6 @@ public abstract class WeaponManuverManager : INodeManager
         nodeManagerBehavior.UpdateNode(this);
     }
     public virtual void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
- 
-    public virtual void WeaponCommanding()
-    {
-        if (isPullTriggerManuver)
-            curWeapon.PullTrigger();
-
-        if (isReloadManuver)
-            curWeapon.Reload();
-    }
 
     
 }

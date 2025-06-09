@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
+public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBlowBack
 {
     //SetUpStats
     private int _magazineCapacity = 15;
@@ -32,7 +34,6 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         get => this.DrawSpeed ; 
         set => this.DrawSpeed = value ; 
     }
-
     public override int bulletCapacity
     {
         get { return _magazineCapacity; }
@@ -84,13 +85,24 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         get { return max_percision; }
         set { max_percision = value; }
     }
-
     public float quickDrawTime { get ; set ; }
     public override Bullet bullet { get; set; }
     public override float movementSpeed { get; set; }
 
-    public bool isMagIn { get { return true; } set { } }
-    
+
+
+    #region Initialized MagazineType
+    public Weapon _weapon { get => this; set { } }
+    public bool _isMagIn { get { return true; } set { } }
+    public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
+    public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
+    public NodeSelector _reloadStageSelector { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
+    public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
+    public void InitailizedReloadStageSelector() => _reloadMagazineLogic.InitailizedReloadStageSelector(this);
+    public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch, IReloadMagazineNode reloadMagazineNode)
+        => _reloadMagazineLogic.ReloadMagazine(magazineWeapon, ammoProuch, reloadMagazineNode);
+    #endregion
 
     protected override void FixedUpdate()
     {
@@ -105,19 +117,19 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         fireMode = FireMode.Single;
         bullet = new _9mmBullet(this);
         RecoilKickBack = bullet.recoilKickBack;
-
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
+
+        _reloadMagazineLogic = new ReloadMagazineLogic();
+        InitailizedReloadStageSelector();
+
         base.Awake();
     }
     protected override void Start()
     {
         base.Start();
-        
     }
+
     public override WeaponSelector startEventNode { get; set; }
-    public WeaponSelector reloadStageSelector { get; private set; }
-    public ReloadMagazineFullStage reloadMagazineFullStage { get; set; }
-    public TacticalReloadMagazineFullStage tacticalReloadMagazineFullStage { get; set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get; set; }
@@ -127,50 +139,6 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
     {
 
         startEventNode = new WeaponSelector(this, () => true);
-
-        reloadStageSelector = new WeaponSelector(this,
-           () => {
-               if (isReloadCommand
-               && userWeapon.weaponBelt.ammoProuch.amountOf_ammo[bullet.myType] > 0
-               && bulletStore[BulletStackType.Magazine] < bulletCapacity)
-                   return true;
-               else
-                   return false;
-           }
-           );
-
-        reloadMagazineFullStage = new ReloadMagazineFullStage(this, 
-            () => 
-            {
-                int chamberCount = bulletStore[BulletStackType.Chamber];
-                int magCount = bulletStore[BulletStackType.Magazine];
-                bool isMagIn = this.isMagIn;
-                if
-                    (
-                     isMagIn == true
-                    && chamberCount == 0
-                    && magCount == 0
-                    )
-                    return true;
-                else
-                    return false;
-            }
-            );
-
-        tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStage(this, 
-            () => 
-            {
-                bool IsMagIn = this.isMagIn;
-                int MagCount = bulletStore[BulletStackType.Magazine];
-                if (
-                    IsMagIn == true
-                    && MagCount >= 0
-                    )
-                    return true;
-                else
-                    return false;
-            }
-            );
 
         firingAutoLoad = new WeaponSequenceNode(this,
             () => {
@@ -185,12 +153,8 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
 
         restNode = new RestNode(this,()=>true);
 
-        startEventNode.AddtoChildNode(reloadStageSelector);
         startEventNode.AddtoChildNode(firingAutoLoad);
         startEventNode.AddtoChildNode(restNode);
-
-        reloadStageSelector.AddtoChildNode(reloadMagazineFullStage);
-        reloadStageSelector.AddtoChildNode(tacticalReloadMagazineFullStage);
 
         firingAutoLoad.AddChildNode(fire);
         firingAutoLoad.AddChildNode(autoLoadChamber);
@@ -199,4 +163,6 @@ public class STI_9mm :Weapon,SecondaryWeapon,MagazineType,IBlowBack
         currentEventNode = eventNode as WeaponLeafNode ;
      
     }
+
+   
 }

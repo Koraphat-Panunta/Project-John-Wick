@@ -16,7 +16,8 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Enter()
     {
-        this.weaponAfterAction.LowReady(curWeapon);
+        this.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <LowReadyWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
     }
 
     public override void Exit()
@@ -41,9 +42,7 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
         if (this.weaponManuverManager == null)
             this.weaponManuverManager = weaponAdvanceUser.weaponManuverManager;
 
-        if (this.weaponManuverManager.isReloadManuver)
-            curWeapon.Reload();
-
-        this.weaponAfterAction.LowReady(curWeapon);
+        this.weaponAfterAction.SendFeedBackWeaponAfterAction
+           <LowReadyWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 }

@@ -10,7 +10,6 @@ public interface IWeaponAdvanceUser
     public Vector3 pointingPos { get; set; } //Position of aiming
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
-    public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon { get;}
     public WeaponManuverManager weaponManuverManager { get; set; }
     public FindingWeaponBehavior findingWeaponBehavior { get; set; }

@@ -59,6 +59,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         base.SetHP(100);
 
         AddObserver(this);
+        playerStateNodeManager = new PlayerStateNodeManager(this);
 
         InitailizedGunFuComponent();
 
@@ -69,7 +70,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         //new WeaponFactoryAR15().CreateWeapon(this);
 
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-        playerStateNodeManager = new PlayerStateNodeManager(this);
+
 
         aimPosRef.transform.SetParent(null, true);
     }
@@ -156,7 +157,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Transform leftHandSocket { get; set; }
     public WeaponBelt weaponBelt { get; set;}
     public WeaponAfterAction weaponAfterAction { get; set; }
-    public WeaponCommand weaponCommand { get; set; }
     public WeaponManuverManager weaponManuverManager { get ; set ; }
     public Vector3 shootingPos { get 
         { 
@@ -182,12 +182,14 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         currentWeaponSocket = weaponMainSocket;
         leftHandSocket = weaponSecondHandSocket;
         weaponUserAnimator = animator;
+        findingWeaponBehavior = new FindingWeaponBehavior(this);
         weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(45, 45, 30, 30
             ,45,45,60,60));
         weaponAfterAction = new WeaponAfterActionPlayer(this);
-        weaponCommand = new WeaponCommand(this);
+
         weaponManuverManager = new PlayerWeaponManuver(this,this);
-        findingWeaponBehavior = new FindingWeaponBehavior(this);
+
+
         _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion

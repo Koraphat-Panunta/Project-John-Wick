@@ -11,7 +11,6 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     private void Awake()
     {
         this.maxHP_BAR_Lenght = HP_bar.rectTransform.sizeDelta.y;
-        Debug.Log("HP_bar.rectTransform.sizeDelta.x = " + HP_bar.rectTransform.sizeDelta.y);
         playerInfo.AddObserver(this);
         UpdateInfo();
     }

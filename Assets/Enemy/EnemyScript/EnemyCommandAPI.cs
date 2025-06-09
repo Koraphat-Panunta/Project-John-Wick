@@ -4,21 +4,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Enemy))]
 public class EnemyCommandAPI :MonoBehaviour
 {
-
-    //private float time;
     public NormalFiringPattern NormalFiringPattern;
-    //private bool isShooting;
-
-    //[SerializeField] Transform moveToPos;
-    //[SerializeField] Transform sprintToPos;
-
-    //int caseEvent = 0;
-    //public float CoverTiming = 0;
-
-    //public bool isKilled;
-
-    //public bool TriigerPainLeg;
-    //public bool TriggerPainBody;
+   
     public Enemy _enemy;
     private EnemyCommunicator enemyCommunicator;
 
@@ -387,16 +374,12 @@ public class EnemyCommandAPI :MonoBehaviour
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-
-        //weaponAdvanceUser.weaponCommand.LowReady();
         weaponAdvanceUser.isAimingCommand = false;
         weaponAdvanceUser.isPullTriggerCommand = false;
     }
     public void AimDownSight()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-
-        //weaponAdvanceUser.weaponCommand.AimDownSight();
         weaponAdvanceUser.isAimingCommand = true;
     }
     public void AimDownSight(Vector3 aimTargetPos,float rotateSpeed)
@@ -404,31 +387,21 @@ public class EnemyCommandAPI :MonoBehaviour
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         RotateToPosition(aimTargetPos,rotateSpeed);
 
-        //weaponAdvanceUser.weaponCommand.AimDownSight();
         weaponAdvanceUser.isAimingCommand = true;
     }
     public void PullTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        //weaponAdvanceUser.weaponCommand.PullTrigger();
         weaponAdvanceUser.isPullTriggerCommand = true;
     }
-    //public void CancleTrigger()
-    //{
-    //    IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-    //    //weaponAdvanceUser.weaponCommand.CancleTrigger();
-    //    weaponAdvanceUser.isPullTriggerCommand = false;
-    //}
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isReloadCommand = true;
     }
     public void PickUpWeapon()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        //weaponAdvanceUser.weaponCommand.Reload(weaponAdvanceUser.weaponBelt.ammoProuch);
         weaponAdvanceUser.isPickingUpWeaponCommand = true;
         Debug.Log("Enemy isPickingUpWeaponManuver = " + weaponAdvanceUser.isPickingUpWeaponCommand);
     }
@@ -440,7 +413,6 @@ public class EnemyCommandAPI :MonoBehaviour
     public LayerMask NotifyAbleMask;
     public void NotifyFriendly(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage) 
     {
-        //Debug.Log("NotifyFriendly Layer =" + LayerMask.LayerToName(NotifyAbleMask));
         enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage); 
     }
 

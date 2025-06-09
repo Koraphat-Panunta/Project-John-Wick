@@ -26,7 +26,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract float drawSpeed { get; set; }
 
     public bool isPullTrigger { get; protected set; }
-    public bool isReloadCommand;
     public bool isEquiped;
 
 
@@ -83,7 +82,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
         UpdateTree();
         isPullTrigger = false;
-        isReloadCommand = false;
     }
    
     protected virtual void FixedUpdate()
@@ -94,10 +92,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public virtual void PullTrigger() 
     {
         isPullTrigger = true;
-    }
-    public virtual void Reload() 
-    {
-        isReloadCommand = true;
     }
 
     public void AttatchWeaponTo(IWeaponAdvanceUser WeaponUser)
@@ -129,7 +123,9 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
             Enemy enemy = WeaponUser as Enemy;
             WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, _weaponOverrideControllerEnemy);
         }
-        if(this is PrimaryWeapon){
+        ;
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(this._reloadSelecotrOverriden);
+        if (this is PrimaryWeapon){
             if (WeaponUser.weaponBelt.primaryWeapon == null)
                 WeaponUser.weaponBelt.primaryWeapon = this as PrimaryWeapon;
         }
@@ -189,7 +185,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.constraintActive = true;
         
         parentConstraint.weight = 1;
-       
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
         if (userWeapon._currentWeapon == this)
         {
             if (userWeapon is Player)
@@ -226,6 +222,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 
         if (userWeapon._currentWeapon == this)
         {
+            userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
             userWeapon._currentWeapon = null;
         }
     }
@@ -246,7 +243,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
         parentConstraint.constraintActive = true;
-
+        userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(_reloadSelecotrOverriden);
         parentConstraint.weight = 1;
     }
     public void DropWeapon()
@@ -275,6 +272,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
                     WeaponAnimatorOverrider.OverrideAnimator(enemy.animator, userWeapon._animatorOverride);
                 }
             }
+            userWeapon.weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this._reloadSelecotrOverriden);
             userWeapon._currentWeapon = null;
         }
         if (this is PrimaryWeapon)
@@ -298,6 +296,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract WeaponSelector startEventNode { get; set; }
 
     public abstract RestNode restNode { get; set; }
+    public abstract NodeSelector _reloadSelecotrOverriden { get; }
     protected virtual void FixedUpdateTree()
     {
         if (currentEventNode != null)

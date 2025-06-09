@@ -4857,6 +4857,26 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.035153456
       objectReference: {fileID: 0}
+    - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1832677630274825749, guid: f13e372cfd72b144c8ba5d5995403388,
         type: 3}
       propertyPath: m_Layer
@@ -5061,7 +5081,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootBone
       value: 
-      objectReference: {fileID: 8877307200162965192}
+      objectReference: {fileID: 2786898738590694138}
     - target: {fileID: 2870368429104124029, guid: f13e372cfd72b144c8ba5d5995403388,
         type: 3}
       propertyPath: m_AABB.m_Center.x
@@ -6697,8 +6717,7 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.07262127
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1454034995552668153, guid: f13e372cfd72b144c8ba5d5995403388, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2826455489770857999, guid: f13e372cfd72b144c8ba5d5995403388,

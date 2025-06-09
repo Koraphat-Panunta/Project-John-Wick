@@ -42,10 +42,6 @@ public class MicroOpticWeaponAttachment :MonoBehaviour, IWeaponAttachment<IMicro
         parentConstraint.weight = 1;
 
         attachmentAble._microOptic = this;
-        //attachmentAble._min_PrecisionAdditional += min_Precision_PN;
-        //attachmentAble._max_PrecisionAdditional += max_Precision_PN;
-        //attachmentAble._accuracyAdditional += accuracy_PN;
-        //attachmentAble._aimDownSightSpeedAdditional += aimDownSightSpeed_N;
         isAttaching = true ;
     }
 

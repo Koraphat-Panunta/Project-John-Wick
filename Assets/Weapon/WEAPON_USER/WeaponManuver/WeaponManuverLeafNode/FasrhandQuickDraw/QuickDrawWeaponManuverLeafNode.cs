@@ -19,8 +19,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
     WeaponManuverManager weaponManuverManager => weaponAdvanceUser.weaponManuverManager;
     protected float elapseDrawTime;
     protected float elapseHolsterTime;
-
-    private Vector3 beforeEnter_AimProcedural;
     public QuickDrawWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
 
@@ -33,7 +31,8 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         {
             weapon.AttachWeaponToSecondHand(weaponAdvanceUser.leftHandSocket);
             quickDrawPhase = QuickDrawPhase.Draw;
-            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+            weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
             weapon.ChangeActionManualy(weapon.restNode);
         }
         isComplete = false;
@@ -46,28 +45,34 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         secondHandWeapon = null;
         quickDrawPhase = QuickDrawPhase.Exit;
         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+            weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void FixedUpdateNode()
     {
        
     }
-
     public override bool IsComplete()
     {
         return isComplete;
     }
-
     public override bool IsReset()
     {
         if (IsComplete())
             return true;
 
+        if (weaponManuverManager.isReloadManuverAble 
+            && weaponAdvanceUser.isReloadCommand
+            && weaponAdvanceUser._currentWeapon._reloadSelecotrOverriden.Precondition())
+        {
+            HolsteringPrimaryWeapon();
+            return true;
+        }
+
         return false;
 
     }
-
     public override bool Precondition()
     {
         return base.Precondition();
@@ -92,38 +97,33 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                         quickDrawPhase = QuickDrawPhase.Stay;
 
                         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-                            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+                            weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     }
                 }
                 break;
             case QuickDrawPhase.Stay:
                 {
                     WeaponAfterActionPlayer weaponAfterActionPlayer = weaponAdvanceUser.weaponAfterAction as WeaponAfterActionPlayer;    
-                    weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+                    weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                        <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
                     weaponManuverManager.aimingWeight = 1;
 
-                    if (weaponManuverManager.isSwitchWeaponManuver)
+                    if (weaponManuverManager.isSwitchWeaponManuverAble && weaponAdvanceUser.isSwitchWeaponCommand)
                     {
                         quickDrawPhase = QuickDrawPhase.HolsterSecondary;
-
-                            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+                        weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                            <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
                     }
 
-                    weaponManuverManager.WeaponCommanding();
+                    if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser.isPullTriggerCommand)
+                        weapon.PullTrigger();
 
-                    if(weaponManuverManager.isAimingManuver == false)
+                    if(weaponManuverManager.isAimingManuverAble == false || weaponAdvanceUser.isAimingCommand == false)
                         quickDrawPhase = QuickDrawPhase.HolsterPrimary;
 
-                    if (weaponManuverManager.curWeapon.currentEventNode is IReloadNode)
-                    {
-                        HolsteringPrimaryWeapon();
-                        weapon.Reload();
-                        isComplete = true;
-                    }
-     
-                        
                 }
                 break;
             case QuickDrawPhase.HolsterSecondary:
@@ -150,7 +150,6 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                 }
                 break;
         }
-        weaponAdvanceUser.weaponAfterAction.AimDownSight(weapon);
     }
 
     private void HolsteringPrimaryWeapon()//++
@@ -163,7 +162,8 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         weapon.AttatchWeaponTo(weaponAdvanceUser);
 
         if (weaponAdvanceUser.weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
-            weaponAfterActionPlayer.QuickDraw(weapon, quickDrawPhase);
+            weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
+                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
    

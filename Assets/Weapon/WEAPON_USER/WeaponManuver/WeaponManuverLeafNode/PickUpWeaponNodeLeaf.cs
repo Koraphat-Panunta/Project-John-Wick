@@ -38,7 +38,8 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
             isComplete = true;
         }
 
-        weaponAdvanceUser.weaponAfterAction.SwitchingWeapon(weaponAdvanceUser._currentWeapon, this);
+        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+            <PickUpWeaponNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
        
    
     }

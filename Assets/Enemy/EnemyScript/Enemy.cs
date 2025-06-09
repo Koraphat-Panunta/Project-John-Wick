@@ -50,14 +50,18 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         targetMask.value = LayerMask.GetMask("Player");
 
+        posture = 100;
+        base.HP = 100;
+        base.maxHp = 100;
+
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         enemyMovement = new EnemyMovement(agent, this);
 
         _isGotAttackedAble = true;
-
         MotionControlInitailized();
+        enemyStateManagerNode = new EnemyStateManagerNode(this);
         Initialized_IWeaponAdvanceUser();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
@@ -66,17 +70,11 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyCommunicator = new EnemyCommunicator(this);
 
-        posture = 100;
-
-        base.HP = 100;
-        base.maxHp = 100;
-        enemyStateManagerNode = new EnemyStateManagerNode(this);
 
         if(startWeapon == null)
         startWeapon = Instantiate(startWeapon);
 
         startWeapon.AttatchWeaponTo(this);
-
     }
 
 
@@ -120,7 +118,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (damageVisitor is Bullet bullet)
         {
             TakeDamage(bullet.hpDamage);
-            bullet.weapon.userWeapon.weaponAfterAction.HitDamageAble(this);
+            bullet.weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+                <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
         }
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
@@ -173,7 +172,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public WeaponBelt weaponBelt { get; set; }
     public WeaponAfterAction weaponAfterAction { get; set; }
-    public WeaponCommand weaponCommand { get; set; }
     public Character userWeapon => this;
 
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
@@ -188,9 +186,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000
             , 1000, 1000, 1000, 1000));
         weaponAfterAction = new WeaponAfterActionEnemy(this);
-        weaponCommand = new WeaponCommand(this);
-        weaponManuverManager = new EnemyWeaponManuver(this, this);
         findingWeaponBehavior = new FindingWeaponBehavior(this);
+        weaponManuverManager = new EnemyWeaponManuver(this, this);
         _animatorOverride = this.AnimatorOverrideController;
     }
     #endregion

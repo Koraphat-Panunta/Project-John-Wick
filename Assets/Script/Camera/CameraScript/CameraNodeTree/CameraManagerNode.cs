@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CameraManagerNode : INodeManager
+public class CameraManagerNode:INodeManager,IDebuggedAble
 {
     public INodeLeaf curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get ; set ; }
@@ -11,8 +11,7 @@ public class CameraManagerNode : INodeManager
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
-        nodeManagerBehavior = new NodeManagerBehavior();
-
+        this.nodeManagerBehavior = new NodeManagerBehavior();
         InitailizedNode();
     }
 
@@ -22,10 +21,10 @@ public class CameraManagerNode : INodeManager
     }
     public void UpdateNode()
     {
-       nodeManagerBehavior.UpdateNode(this);
+        nodeManagerBehavior.UpdateNode(this);
     }
 
-    public CameraSelectorNode cameraPlayerBasedSelector { get; protected set; }
+    public INodeSelector cameraPlayerBasedSelector { get; protected set; }
     public CameraAimDownSightViewNodeLeaf cameraAimDownSightViewNodeLeaf { get; protected set; }
     public CameraSprintViewNodeLeaf cameraSprintViewNodeLeaf { get; protected set; }
     public CameraCrouchViewNodeLeaf cameraCrouchViewNodeLeaf { get; protected set; }
@@ -37,17 +36,14 @@ public class CameraManagerNode : INodeManager
 
     public void InitailizedNode()
     {
-        startNodeSelector = new CameraSelectorNode(this.cameraController, () => true);
+        startNodeSelector = new NodeSelector(() => true);
 
-        cameraPlayerBasedSelector = new CameraSelectorNode(this.cameraController,
+        cameraPlayerBasedSelector = new NodeSelector(
             ()=> this.cameraController.player != null && this.cameraController.player.gameObject.activeSelf
             );
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
-            ()=> this.cameraController.isZooming);
-
-        Debug.Log("Player = " + cameraController.player);
-        Debug.Log("Player ManageNode =" + cameraController.player.playerStateNodeManager);
+            ()=> this.cameraController.player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf);
 
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
             () => this.cameraController.player.isSprint || this.cameraController.player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
@@ -78,11 +74,20 @@ public class CameraManagerNode : INodeManager
         cameraPlayerBasedSelector.AddtoChildNode(cameraGunFuHitViewNodeLeaf);
         cameraPlayerBasedSelector.AddtoChildNode(cameraStandViewNodeLeaf);
 
-       
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
 
+        this.nodeManagerBehavior.SearchingNewNode(this);
+
+    }
+   
+
+    public T Debugged<T>(IDebugger debugger)
+    {
+        if(debugger is CameraStateManagerDebugger cameraStateDebugger)
+        {
+            if(cameraStateDebugger.request == CameraStateManagerDebugger.CameraStateManagerDebuggerRequest.curState)
+                return (T)(object)curNodeLeaf;
+        }
+        return default;
     }
 }
 public class CameraRestNodeLeaf : CameraNodeLeaf

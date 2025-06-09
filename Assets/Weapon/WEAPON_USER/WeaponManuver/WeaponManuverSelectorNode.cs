@@ -18,7 +18,7 @@ public class WeaponManuverSelectorNode : WeaponManuverNode,INodeSelector
     }
 
     
-    public void FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf,this);
+    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf,this);
  
     public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode, this);
 

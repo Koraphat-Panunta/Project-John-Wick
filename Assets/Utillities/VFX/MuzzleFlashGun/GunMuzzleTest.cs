@@ -15,8 +15,10 @@ public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
     {
         //Debug.Log("WeaponFireVFX");
            
+        if(muzzleVFX != null)
         muzzleVFX.SendEvent("OnPlay");
         
+        if(bulletShell != null)
         bulletShell.SendEvent("OnPlay");
     }
 

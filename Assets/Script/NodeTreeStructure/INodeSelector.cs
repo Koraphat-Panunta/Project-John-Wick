@@ -10,12 +10,11 @@ public interface INodeSelector : INode
 
     public void AddtoChildNode(INode childNode);
     public void RemoveNode(INode childNode);
-    public void FindingNode(out INodeLeaf nodeLeaf);
+    public bool FindingNode(out INodeLeaf nodeLeaf);
 
 }
 public class NodeSelectorBehavior
 {
-
     private void PopulatePrecondition(out List<Func<bool>> nodeLeafReset, INode nodePosition,INodeSelector nodeSelector)
     {
         nodeLeafReset = new List<Func<bool>>();
@@ -25,14 +24,14 @@ public class NodeSelectorBehavior
             if (Node == nodePosition)
                 break;
 
-            Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
+            //Debug.Log("Add isReset form Node " + Node + " to " + nodePosition);
 
             nodeLeafReset.Add(Node.preCondition);
         }
 
         nodeLeafReset.Add(() => !nodePosition.preCondition());
 
-        Debug.Log("Add isReset form Node " + nodePosition);
+        //Debug.Log("Add isReset form Node " + nodePosition);
 
         if (nodeSelector.parentNode == null)
             return;
@@ -50,7 +49,7 @@ public class NodeSelectorBehavior
       
     }
 
-    public void AddtoChildNode(INode childNode,INodeSelector nodeSelector)
+    public virtual void AddtoChildNode(INode childNode,INodeSelector nodeSelector)
     {
         Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
         List<INode> childNodes = nodeSelector.childNode;
@@ -63,12 +62,13 @@ public class NodeSelectorBehavior
 
         if (childNode is INodeLeaf leafNode)
         {
+            childNode.parentNode = nodeSelector;
             PopulatePrecondition(out List<Func<bool>> isReset, childNode,nodeSelector);
             isReset.ForEach(resetCon => leafNode.isReset.Add(resetCon));
         }
 
     }
-    public void RemoveChildNode(INode childNode,INodeSelector nodeSelector)
+    public virtual void RemoveChildNode(INode childNode,INodeSelector nodeSelector)
     {
         Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
         List<INode> childNodes = nodeSelector.childNode;
@@ -108,6 +108,40 @@ public class NodeSelectorBehavior
         }
         return false;
 
+    }
+    public void FindingNodeLast(out INode node,INodeSelector nodeSelector) // Call for debug from the end path
+    {
+        node = null;
+
+        Dictionary<INode, Func<bool>> nodePrecondition = nodeSelector.nodePrecondition;
+        List<INode> childNodes = nodeSelector.childNode;
+
+        node = null;
+
+        foreach (INode Node in nodeSelector.childNode)
+        {
+            if (Node.Precondition() == false)
+            {
+                continue;
+            }
+
+            //Debug.Log("Node " + nodeSelector + " -> " + node);
+
+            if (Node is INodeLeaf)
+            {
+                //Debug.Log("Node " + node + " isNodeLeaf ");
+                node = Node as INodeLeaf;
+                return;
+            }
+            else if (Node is INodeSelector SelectorNode)
+            {
+                //Debug.Log("Node " + node + " isNodeSelector ");
+                SelectorNode.nodeSelectorBehavior.FindingNodeLast(out node, SelectorNode);
+                return;
+            }
+            //Debug.Log("Node " + node + " not both ");
+        }
+        return;
     }
    
 }

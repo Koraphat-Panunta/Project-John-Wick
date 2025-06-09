@@ -10,11 +10,11 @@ public class WeaponAnimationBasedEvent : MonoBehaviour
 
    public void ReloadMagazineOutEvent()
     {
-        (weapon as MagazineType).isMagIn = false;
+        (weapon as MagazineType)._isMagIn = false;
     }
     public void ReloadMagazineInEvent()
     {
-        (weapon as MagazineType).isMagIn = true;
+        (weapon as MagazineType)._isMagIn = true;
         weapon.bulletStore[BulletStackType.Magazine] = weapon.bulletCapacity;
     }
     public void ChamberLoadMagazineEvent()

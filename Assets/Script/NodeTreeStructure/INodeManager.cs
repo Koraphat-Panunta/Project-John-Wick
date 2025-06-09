@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public interface INodeManager<NodeLeafType, NodeSelectorType>
@@ -25,17 +26,14 @@ public interface INodeManager
 
 public class NodeManagerBehavior
 {
-
+    public INode errorNode { get;private set; }
     public void UpdateNode(INodeManager nodeManager) 
     {
         if (nodeManager.curNodeLeaf.IsReset())
         {
-
             nodeManager.curNodeLeaf.Exit();
             nodeManager.curNodeLeaf = null;
-            nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-            nodeManager.curNodeLeaf = nodeLeaf;
-            nodeManager.curNodeLeaf.Enter();
+            SearchingNewNode(nodeManager);
         }
 
         if (nodeManager.curNodeLeaf != null)
@@ -45,6 +43,20 @@ public class NodeManagerBehavior
     {
         if(nodeManager.curNodeLeaf != null)
             nodeManager.curNodeLeaf.FixedUpdateNode();
+    }
+    public void SearchingNewNode(INodeManager nodeManager)
+    {
+       if(nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf))
+        {
+            nodeManager.curNodeLeaf = nodeLeaf;
+            nodeManager.curNodeLeaf.Enter();
+        }
+        else
+        {
+            nodeManager.startNodeSelector.nodeSelectorBehavior.FindingNodeLast(out INode node, nodeManager.startNodeSelector);
+            errorNode = node;
+        }
+
     }
     public void ChangeNodeManual(INodeManager nodeManager,INodeLeaf nexNode)
     {

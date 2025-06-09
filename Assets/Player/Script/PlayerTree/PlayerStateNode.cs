@@ -14,6 +14,6 @@ public abstract class PlayerStateNode :INode
     public Func<bool> preCondition { get; set; }
     public INode parentNode { get ; set ; }
 
-    public bool Precondition()=>preCondition.Invoke();
+    public bool Precondition() => preCondition.Invoke();
    
 }

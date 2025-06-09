@@ -4,5 +4,4 @@ public enum BulletStackType
 {
    Chamber,
    Magazine,
-   Tube
 }
