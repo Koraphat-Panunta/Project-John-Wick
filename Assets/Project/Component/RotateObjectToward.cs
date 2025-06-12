@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateObjectToward : IUtilityMethod
+public class RotateObjectToward 
 {
-    public RotateObjectToward() 
-    {
-        
-    }
+   
     public void Performd()
     {
         
