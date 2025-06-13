@@ -1,16 +1,32 @@
 using UnityEngine;
 
-public class WeaponAttachingBehavior : MonoBehaviour
+public class WeaponAttachingBehavior
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
     {
-        
-    }
+        switch (weaponAttachingAble)
+        {
+            case MainHandSocket mainHandSocket:
+                {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+                    break;
+                }
+            case SecondHandSocket secondHandSocket: 
+                {
+                    
+                    break; 
+                }
+            case PrimaryWeaponSocket primaryWeaponSocket: 
+                { 
+
+                    break; 
+                }
+            case SecondaryWeaponSocket secondaryWeaponSocket: 
+                { 
+
+                    break; 
+                }
+        }
     }
+    
 }

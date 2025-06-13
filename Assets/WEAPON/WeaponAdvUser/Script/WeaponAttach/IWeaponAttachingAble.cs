@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IWeaponAttachingAble
+public interface IWeaponAttachingAble:IAttachAble
 {
-    public Transform weaponAttachingAbleTransform { get; }
+   
 }
