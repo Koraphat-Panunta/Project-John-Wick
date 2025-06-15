@@ -43,7 +43,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             );
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
-            ()=> this.cameraController.player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf);
+            ()=> this.cameraController.player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf);
 
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
             () => this.cameraController.player.isSprint || this.cameraController.player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);

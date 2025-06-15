@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticAttachAble
+public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticAttachAble
 {
     [SerializeField] private Transform FrontGripSocket;
 
@@ -34,8 +34,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticA
     private _556mmBullet _556MmBullet;
     public Transform forntGrip { get ; set ; }
     public Transform slingAnchor { get ; set ; }
-    public override Transform gripPos { get => transform; set { } }
-    public override Transform SecondHandgripPos { get => forntGrip ; set => forntGrip = value ; }
+    public override Transform mainHandGripTransform { get => transform; set { } }
+    public override Transform SecondHandGripTransform { get => forntGrip ; set => forntGrip = value ; }
     public override int bulletCapacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
     public override float rate_of_fire { get => _RateOfFire; set => _RateOfFire = value; }
     public override float reloadSpeed { get => _ReloadSpeed; set => _ReloadSpeed = value; }
@@ -54,6 +54,9 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticA
 
 
     #region Initialized MagazineType
+    [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
+    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
+    { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => this.MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
     public bool _isMagIn { get; set; }
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
@@ -192,6 +195,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBlowBack, IMicroOpticA
     public Transform _microOpticSocket { get => this.microOpticSocket; set => this.microOpticSocket = value; }
     [SerializeField] private MicroOpticWeaponAttachment microOptic;
     public MicroOpticWeaponAttachment _microOptic { get => this.microOptic; set => microOptic = value; }
+    
 
     private void OnValidate()
     {

@@ -79,7 +79,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
             return;
         }
 
-        AmmoCount = playerInfo.weaponBelt.ammoProuch.amountOf_ammo[playerInfo._currentWeapon.bullet.myType];
+        AmmoCount = playerInfo._weaponBelt.ammoProuch.amountOf_ammo[playerInfo._currentWeapon.bullet.myType];
         MagazineCount = this.playerInfo._currentWeapon.bulletStore[BulletStackType.Magazine] + this.playerInfo._currentWeapon.bulletStore[BulletStackType.Chamber];
         SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
     }

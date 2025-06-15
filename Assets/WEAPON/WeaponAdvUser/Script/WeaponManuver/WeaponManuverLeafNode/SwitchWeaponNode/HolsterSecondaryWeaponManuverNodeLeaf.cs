@@ -12,13 +12,13 @@ public class HolsterSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        weaponAdvanceUser.weaponAfterAction.
+        weaponAdvanceUser._weaponAfterAction.
             SendFeedBackWeaponAfterAction<HolsterSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()
     {
-        (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
+        (weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon).AttachWeaponToSocket(weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
     }
 
     public override void FixedUpdateNode()

@@ -23,7 +23,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     private float elaspeTime;
 
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ;}
-    private AmmoProuch ammoProuch => weaponAdvanceUser.weaponBelt.ammoProuch;
+    private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     public TacticalReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType magazineType, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
         this.weaponMag = magazineType;
@@ -34,7 +34,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         this.isComplete = false;
         this.curReloadStage = TacticalReloadStage.Enter;
         weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
             <TacticalReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
@@ -43,7 +43,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     public override void Exit()
     {
         isComplete = false;
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
            <TacticalReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
@@ -51,12 +51,12 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void FixedUpdateNode()
     {
-        if (weaponAdvanceUser.isAimingCommand && weaponAdvanceUser.weaponManuverManager.isAimingManuverAble)
-            weaponAdvanceUser.weaponManuverManager.aimingWeight
-                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
+        if (weaponAdvanceUser._isAimingCommand && weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            weaponAdvanceUser._weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
         else
-            weaponAdvanceUser.weaponManuverManager.aimingWeight
-                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
+            weaponAdvanceUser._weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
     }
 
     public override bool IsComplete()
@@ -69,11 +69,11 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         if (IsComplete())
             return true;
 
-        if (weaponAdvanceUser.weaponManuverManager.isReloadManuverAble == false)
+        if (weaponAdvanceUser._weaponManuverManager.isReloadManuverAble == false)
             return true;
 
-        if (weaponAdvanceUser.weaponManuverManager.isSwitchWeaponManuverAble
-            && weaponAdvanceUser.isSwitchWeaponCommand)
+        if (weaponAdvanceUser._weaponManuverManager.isSwitchWeaponManuverAble
+            && weaponAdvanceUser._isSwitchWeaponCommand)
             return true;
 
         return false;

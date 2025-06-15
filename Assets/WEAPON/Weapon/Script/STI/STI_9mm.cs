@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBlowBack
+public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 {
     //SetUpStats
     private int _magazineCapacity = 15;
@@ -26,8 +26,8 @@ public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBlowBack
     [SerializeField] private float max_percision /*= 65*/;
     private float DrawSpeed = 1;
 
-    public override Transform gripPos { get => transform;set { } }
-    public override Transform SecondHandgripPos { get => transform; set { } }
+    public override Transform mainHandGripTransform { get => transform;set { } }
+    public override Transform SecondHandGripTransform { get => transform; set { } }
 
     public override float drawSpeed 
     { 
@@ -92,6 +92,9 @@ public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBlowBack
 
 
     #region Initialized MagazineType
+    [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
+    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
+    { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
     public Weapon _weapon { get => this; set { } }
     public bool _isMagIn { get { return true; } set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
@@ -134,6 +137,7 @@ public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBlowBack
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get; set; }
     public override RestNode restNode { get ; set ; }
+   
 
     protected override void InitailizedTree()
     {

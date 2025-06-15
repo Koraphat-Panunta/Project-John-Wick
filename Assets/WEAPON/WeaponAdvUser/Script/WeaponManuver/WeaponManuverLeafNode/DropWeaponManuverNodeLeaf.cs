@@ -12,7 +12,7 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
 
     public DropWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        nodeManager = weaponAdvanceUser.weaponManuverManager;
+        nodeManager = weaponAdvanceUser._weaponManuverManager;
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
@@ -22,11 +22,11 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
 
         isComplete = false;
-        weaponAdvanceUser._currentWeapon.DropWeapon();
+        new WeaponAttachingBehavior().Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
         isComplete = true;
 
         nodeLeafTransitionBehavior.TransitionAbleAll(this);
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
             <DropWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 

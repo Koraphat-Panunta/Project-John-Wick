@@ -3,24 +3,25 @@ using UnityEngine;
 public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
 {
     [SerializeField] private Player player;
-    public Animator weaponUserAnimator { get => player.animator; set => player.animator = value; }
+    public Animator _weaponUserAnimator { get => player.animator; set => player.animator = value; }
     public Weapon _currentWeapon { get => player._currentWeapon; set => player._currentWeapon = value; }
-    public Transform currentWeaponSocket { get => player.currentWeaponSocket ; set => player.currentWeaponSocket = value; }
-    public Transform leftHandSocket { get => player.leftHandSocket; set => player.leftHandSocket = value; }
-    public Vector3 shootingPos { get => player.shootingPos; set => player.shootingPos = value; }
-    public WeaponBelt weaponBelt { get => player.weaponBelt; set => player.weaponBelt = value; }
-    public WeaponAfterAction weaponAfterAction { get => player.weaponAfterAction; set => player.weaponAfterAction = value; }
-    public Character userWeapon => player;
-    public Vector3 pointingPos { get => player.pointingPos; set => player.pointingPos = value; }
-    public WeaponManuverManager weaponManuverManager { get => player.weaponManuverManager; set => player.weaponManuverManager = value; }
-    public bool isSwitchWeaponCommand { get => player.isSwitchWeaponCommand; set => isSwitchWeaponCommand = value; }
-    public bool isPullTriggerCommand { get => player.isPullTriggerCommand; set => player.isPullTriggerCommand = value; }
-    public bool isAimingCommand { get => player.isAimingCommand; set => player.isAimingCommand = value; }
-    public bool isReloadCommand { get => player.isReloadCommand; set => player.isReloadCommand = value; }
-    public FindingWeaponBehavior findingWeaponBehavior { get => player.findingWeaponBehavior; set => player.findingWeaponBehavior = value; }
-    public bool isPickingUpWeaponCommand { get => player.isPickingUpWeaponCommand; set => player.isPickingUpWeaponCommand = value; }
-    public bool isDropWeaponCommand { get => player.isDropWeaponCommand; set => player.isDropWeaponCommand = value; }
-    public AnimatorOverrideController _animatorOverride { get => player._animatorOverride; set => player._animatorOverride = value; }
+  
+    public Vector3 _shootingPos { get => player._shootingPos; set => player._shootingPos = value; }
+    public WeaponBelt _weaponBelt { get => player._weaponBelt; set => player._weaponBelt = value; }
+    public WeaponAfterAction _weaponAfterAction { get => player._weaponAfterAction; set => player._weaponAfterAction = value; }
+    public Character _userWeapon => player;
+    public Vector3 _pointingPos { get => player._pointingPos; set => player._pointingPos = value; }
+    public WeaponManuverManager _weaponManuverManager { get => player._weaponManuverManager; set => player._weaponManuverManager = value; }
+    public bool _isSwitchWeaponCommand { get => player._isSwitchWeaponCommand; set => _isSwitchWeaponCommand = value; }
+    public bool _isPullTriggerCommand { get => player._isPullTriggerCommand; set => player._isPullTriggerCommand = value; }
+    public bool _isAimingCommand { get => player._isAimingCommand; set => player._isAimingCommand = value; }
+    public bool _isReloadCommand { get => player._isReloadCommand; set => player._isReloadCommand = value; }
+    public FindingWeaponBehavior _findingWeaponBehavior { get => player._findingWeaponBehavior; set => player._findingWeaponBehavior = value; }
+    public bool _isPickingUpWeaponCommand { get => player._isPickingUpWeaponCommand; set => player._isPickingUpWeaponCommand = value; }
+    public bool _isDropWeaponCommand { get => player._isDropWeaponCommand; set => player._isDropWeaponCommand = value; }
+    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get => player._animatorWeaponAdvanceUserOverride; set => player._animatorWeaponAdvanceUserOverride = value; }
+    public MainHandSocket _mainHandSocket { get => player._mainHandSocket; set => player._mainHandSocket = value; }
+    public SecondHandSocket _secondHandSocket { get => player._secondHandSocket; set => player._secondHandSocket = value; }
 
     public void Initialized_IWeaponAdvanceUser()
     {

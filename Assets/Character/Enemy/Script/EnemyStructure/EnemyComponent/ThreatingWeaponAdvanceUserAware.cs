@@ -33,11 +33,11 @@ public class ThreatingWeaponAdvanceUserAware
         if(target.layer != targetAware)
             return;
 
-        if(targetWeaponUser.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+        if(targetWeaponUser._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
         {
 
-            Vector3 pointingLine = targetWeaponUser.pointingPos - targetWeaponUser.userWeapon.transform.position;
-            Vector3 startPointerPos = targetWeaponUser.userWeapon.transform.position;
+            Vector3 pointingLine = targetWeaponUser._pointingPos - targetWeaponUser._userWeapon.transform.position;
+            Vector3 startPointerPos = targetWeaponUser._userWeapon.transform.position;
 
             if (IsLineOfSightCloseEnough(pointingLine, this.position, startPointerPos))
             {
@@ -73,11 +73,11 @@ public class ThreatingWeaponAdvanceUserAware
 
         IWeaponAdvanceUser weaponAdvanceUser = bullet.weapon.userWeapon;
 
-        if (weaponAdvanceUser.userWeapon.gameObject.layer != targetAware)
+        if (weaponAdvanceUser._userWeapon.gameObject.layer != targetAware)
             return;
 
-        Vector3 shootingLine = weaponAdvanceUser.shootingPos - weaponAdvanceUser.userWeapon.transform.position;
-        Vector3 startPointerPos = weaponAdvanceUser.userWeapon.transform.position;
+        Vector3 shootingLine = weaponAdvanceUser._shootingPos - weaponAdvanceUser._userWeapon.transform.position;
+        Vector3 startPointerPos = weaponAdvanceUser._userWeapon.transform.position;
 
         if (IsLineOfSightCloseEnough(shootingLine, this.position, startPointerPos))
         {

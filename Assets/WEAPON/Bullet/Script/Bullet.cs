@@ -55,7 +55,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         if(collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble damageAble))
         {
             damageAble.TakeDamage(this,hit.point,dir,bulletHitForce);
-            weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,damageAble);
         }
         

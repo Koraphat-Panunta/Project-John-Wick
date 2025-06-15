@@ -14,18 +14,18 @@ public class DrawSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
         elapseTime = 0;
 
         if (weaponAdvanceUser._currentWeapon == null)
-            (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
-        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
-            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+            (weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
         {
             weaponAdvanceUser._currentWeapon.DropWeapon();
-            (weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
+            (weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon).AttatchWeaponTo(weaponAdvanceUser);
         }
         else
         {
             throw new Exception("DrawSecondaryWeaponManuver corrupt");
         }
-        weaponAdvanceUser.weaponAfterAction.
+        weaponAdvanceUser._weaponAfterAction.
             SendFeedBackWeaponAfterAction<DrawSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 

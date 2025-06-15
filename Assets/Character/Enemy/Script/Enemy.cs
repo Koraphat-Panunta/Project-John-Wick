@@ -74,7 +74,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if(startWeapon == null)
         startWeapon = Instantiate(startWeapon);
 
-        startWeapon.AttatchWeaponTo(this);
+        new WeaponAttachingBehavior().Attach(startWeapon, _mainHandSocket);
     }
 
 
@@ -84,7 +84,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         findingTargetComponent.FindTarget(out GameObject target);
         //combatOffensiveInstinct.UpdateSening();
         enemyStateManagerNode.UpdateNode();
-        weaponManuverManager.UpdateNode();
+        _weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();
 
     }
@@ -96,7 +96,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     private void FixedUpdate()
     {
         enemyStateManagerNode.FixedUpdateNode();
-        weaponManuverManager.FixedUpdateNode();
+        _weaponManuverManager.FixedUpdateNode();
         enemyMovement.MovementFixedUpdate();
     }
 
@@ -118,7 +118,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         if (damageVisitor is Bullet bullet)
         {
             TakeDamage(bullet.hpDamage);
-            bullet.weapon.userWeapon.weaponAfterAction.SendFeedBackWeaponAfterAction
+            bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
         }
     }
@@ -126,7 +126,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         throw new NotImplementedException();
     }
-
     private void BlackBoardUpdate()
     {
         moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
@@ -135,60 +134,62 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     public void BlackBoardBufferUpdate()
     {
-        isSwitchWeaponCommand = false;
-        isAimingCommand = false;
-        isReloadCommand = false;
+        _isSwitchWeaponCommand = false;
+        _isAimingCommand = false;
+        _isReloadCommand = false;
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
         _tiggerThrowAbleObjectHit = false;
-        isPickingUpWeaponCommand = false;
-        isPullTriggerCommand = false;
+        _isPickingUpWeaponCommand = false;
+        _isPullTriggerCommand = false;
         _triggerGunFu = false;
 
     }
 
 
     #region Initailized WeaponAdvanceUser
-    [SerializeField] private Transform weaponMainSocket;
-    [SerializeField] private Transform primaryWeaponHoster;
-    [SerializeField] private Transform secondaryWeaponHoster;
+    [SerializeField] private MainHandSocket MainHandSocket;
+    [SerializeField] private SecondHandSocket SecondHandSocket;
+    [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
+    [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
 
-    public bool isSwitchWeaponCommand { get; set; }
-    public bool isPullTriggerCommand { get; set; }
-    public bool isAimingCommand { get; set; }
-    public bool isReloadCommand { get; set; }
-    public bool isPickingUpWeaponCommand { get; set; }
-    public bool isDropWeaponCommand { get; set; }
-    public Animator weaponUserAnimator { get; set; }
+    public bool _isSwitchWeaponCommand { get; set; }
+    public bool _isPullTriggerCommand { get; set; }
+    public bool _isAimingCommand { get; set; }
+    public bool _isReloadCommand { get; set; }
+    public bool _isPickingUpWeaponCommand { get; set; }
+    public bool _isDropWeaponCommand { get; set; }
+    public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
+    public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
+
+    public Animator _weaponUserAnimator { get; set; }
     public Weapon _currentWeapon { get; set; }
-    public Transform currentWeaponSocket { get; set; }
-    public Transform leftHandSocket { get; set; }
-    public Vector3 shootingPos {
+
+    public Vector3 _shootingPos {
         get { return enemyGetShootDirection.GetShootingPos(); }
         set { }
     }
-    public Vector3 pointingPos { get => enemyGetShootDirection.GetPointingPos();
+    public Vector3 _pointingPos { get => enemyGetShootDirection.GetPointingPos();
         set { } }
 
-    public WeaponBelt weaponBelt { get; set; }
-    public WeaponAfterAction weaponAfterAction { get; set; }
-    public Character userWeapon => this;
+    public WeaponBelt _weaponBelt { get; set; }
+    public WeaponAfterAction _weaponAfterAction { get; set; }
+    public Character _userWeapon => this;
 
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorOverride { get; set; }
-    public WeaponManuverManager weaponManuverManager { get; set; }
-    public FindingWeaponBehavior findingWeaponBehavior { get; set; }
+    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
+    public WeaponManuverManager _weaponManuverManager { get; set; }
+    public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
     public void Initialized_IWeaponAdvanceUser()
     {
-        weaponUserAnimator = animator;
-        currentWeaponSocket = weaponMainSocket;
-        weaponBelt = new WeaponBelt(primaryWeaponHoster, secondaryWeaponHoster, new AmmoProuch(1000, 1000, 1000, 1000
+        _weaponUserAnimator = animator;
+        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(1000, 1000, 1000, 1000
             , 1000, 1000, 1000, 1000));
-        weaponAfterAction = new WeaponAfterActionEnemy(this);
-        findingWeaponBehavior = new FindingWeaponBehavior(this);
-        weaponManuverManager = new EnemyWeaponManuver(this, this);
-        _animatorOverride = this.AnimatorOverrideController;
+        _weaponAfterAction = new WeaponAfterActionEnemy(this);
+        _findingWeaponBehavior = new FindingWeaponBehavior(this);
+        _weaponManuverManager = new EnemyWeaponManuver(this, this);
+        _animatorWeaponAdvanceUserOverride = this.AnimatorOverrideController;
     }
     #endregion
 
@@ -280,7 +281,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
             return;
 
         if (noiseMakingAble is Bullet bullet
-            && bullet.weapon.userWeapon.userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
         {
             targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
         }
@@ -526,8 +527,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-   
-
+    
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");

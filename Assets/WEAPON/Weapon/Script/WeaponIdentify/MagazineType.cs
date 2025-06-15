@@ -8,6 +8,7 @@ public interface MagazineType
     public NodeSelector _reloadStageSelector { get; set; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
+    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject { get; set; }
     public bool _isMagIn { get; set; }
     public void InitailizedReloadStageSelector();
     public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch,IReloadMagazineNode reloadMagazineNode);
@@ -51,8 +52,8 @@ public class ReloadMagazineLogic
 
         magazineType._reloadStageSelector = new NodeSelector(
            () => {
-               if (weapon.userWeapon.isReloadCommand
-              && weapon.userWeapon.weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
+               if (weapon.userWeapon._isReloadCommand
+              && weapon.userWeapon._weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
               &&weapon.bulletStore[BulletStackType.Magazine] <weapon.bulletCapacity)
                    return true;
                else

@@ -374,36 +374,36 @@ public class EnemyCommandAPI :MonoBehaviour
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        weaponAdvanceUser.isAimingCommand = false;
-        weaponAdvanceUser.isPullTriggerCommand = false;
+        weaponAdvanceUser._isAimingCommand = false;
+        weaponAdvanceUser._isPullTriggerCommand = false;
     }
     public void AimDownSight()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        weaponAdvanceUser.isAimingCommand = true;
+        weaponAdvanceUser._isAimingCommand = true;
     }
     public void AimDownSight(Vector3 aimTargetPos,float rotateSpeed)
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         RotateToPosition(aimTargetPos,rotateSpeed);
 
-        weaponAdvanceUser.isAimingCommand = true;
+        weaponAdvanceUser._isAimingCommand = true;
     }
     public void PullTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        weaponAdvanceUser.isPullTriggerCommand = true;
+        weaponAdvanceUser._isPullTriggerCommand = true;
     }
     public void Reload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        weaponAdvanceUser.isReloadCommand = true;
+        weaponAdvanceUser._isReloadCommand = true;
     }
     public void PickUpWeapon()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        weaponAdvanceUser.isPickingUpWeaponCommand = true;
-        Debug.Log("Enemy isPickingUpWeaponManuver = " + weaponAdvanceUser.isPickingUpWeaponCommand);
+        weaponAdvanceUser._isPickingUpWeaponCommand = true;
+        Debug.Log("Enemy isPickingUpWeaponManuver = " + weaponAdvanceUser._isPickingUpWeaponCommand);
     }
     public void SpinKick()
     {

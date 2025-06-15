@@ -129,7 +129,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                         isComplete = true;
 
                     if(_timer >= StayDuration
-                        ||player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf == false)
+                        ||player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf == false)
                     {
                         _timer = 0;
                        curRestrictGunFuPhase = RestrictGunFuPhase.Exit;

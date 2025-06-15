@@ -5,7 +5,7 @@ public class AimDownSightAnimationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 {
     private IWeaponAdvanceUser weaponAdvanceUser;
     private SplineLookConstrain splineLookConstrain;
-    private float weight => weaponAdvanceUser.weaponManuverManager.aimingWeight;
+    private float weight => weaponAdvanceUser._weaponManuverManager.aimingWeight;
     private AimSplineLookConstrainScriptableObject aimSplineLookConstrainScriptableObject;
     public AimDownSightAnimationConstrainNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser
         ,SplineLookConstrain splineLookConstrain

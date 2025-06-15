@@ -23,12 +23,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
    
     private void BlackBoardBufferUpdate()
     {
-        isReloadCommand = false;
+        _isReloadCommand = false;
         isSwapShoulder = false;
-        isSwitchWeaponCommand = false;
+        _isSwitchWeaponCommand = false;
         triggerDodgeRoll = false;
-        isPickingUpWeaponCommand = false;
-        isDropWeaponCommand = false;
+        _isPickingUpWeaponCommand = false;
+        _isDropWeaponCommand = false;
         if (_triggerExecuteGunFu)
             Debug.Log("_triggerExecuteGunFu");
         _triggerExecuteGunFu = false;
@@ -65,12 +65,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         Initialized_IWeaponAdvanceUser();
 
-        //new WeaponFactorySTI9mm().CreateWeapon(this);
-        //(weaponBelt.secondaryWeapon as Weapon).AttachWeaponToSocket(weaponBelt.secondaryWeaponSocket);
-        //new WeaponFactoryAR15().CreateWeapon(this);
-
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-
 
         aimPosRef.transform.SetParent(null, true);
     }
@@ -88,7 +83,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         UpdateDetectingTarget();
 
         playerStateNodeManager.UpdateNode();
-        weaponManuverManager.UpdateNode();
+        _weaponManuverManager.UpdateNode();
 
         playerMovement.MovementUpdate();
         hpRegenarate.Regenarate();
@@ -105,7 +100,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     private void FixedUpdate()
     {
         playerStateNodeManager.FixedUpdateNode();
-        weaponManuverManager.FixedUpdateNode();
+        _weaponManuverManager.FixedUpdateNode();
         playerMovement.MovementFixedUpdate();
     }
 
@@ -127,12 +122,11 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
     #region InitailizedWeaponAdvanceUser
 
-    //[SerializeField] private PrimaryWeapon primaryWeapon;
-    //[SerializeField] private SecondaryWeapon secondaryWeapon;
-    [SerializeField] private Transform primaryHolster;
-    [SerializeField] private Transform secondaryHolster;
-    [SerializeField] private Transform weaponMainSocket;
-    [SerializeField] private Transform weaponSecondHandSocket;
+    [SerializeField] private MainHandSocket MainHandSocket;
+    [SerializeField] private SecondHandSocket SecondHandSocket;
+    [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
+    [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
+
     public CrosshairController crosshairController;
     public enum ShoulderSide
     {
@@ -140,25 +134,20 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         Right
     }
     public ShoulderSide curShoulderSide;
-    public bool isSwitchWeaponCommand { get; set; }
-    public bool isPullTriggerCommand { get; set; }
-    public bool isAimingCommand { get; set; }
-    public bool isReloadCommand { get; set; }
+    public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
+    public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
+    public bool _isSwitchWeaponCommand { get; set; }
+    public bool _isPullTriggerCommand { get; set; }
+    public bool _isAimingCommand { get; set; }
+    public bool _isReloadCommand { get; set; }
     public bool isSwapShoulder;
-    public bool isPickingUpWeaponCommand { get; set; }
-    public bool isDropWeaponCommand { get; set; }
-    private Weapon curWeapon;
-    public Weapon _currentWeapon { get { return curWeapon; } 
-        set 
-        { curWeapon = value; 
-        } 
-    }
-    public Transform currentWeaponSocket { get; set; }
-    public Transform leftHandSocket { get; set; }
-    public WeaponBelt weaponBelt { get; set;}
-    public WeaponAfterAction weaponAfterAction { get; set; }
-    public WeaponManuverManager weaponManuverManager { get ; set ; }
-    public Vector3 shootingPos { get 
+    public bool _isPickingUpWeaponCommand { get; set; }
+    public bool _isDropWeaponCommand { get; set; }
+    public Weapon _currentWeapon { get; set; }
+    public WeaponBelt _weaponBelt { get; set; }
+    public WeaponAfterAction _weaponAfterAction { get; set; }
+    public WeaponManuverManager _weaponManuverManager { get ; set ; }
+    public Vector3 _shootingPos { get 
         { 
             if(playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf) 
             {
@@ -170,27 +159,26 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
             }    
             return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
         } set { } }
-    public Vector3 pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
-    public Animator weaponUserAnimator { get; set; }
-    public Character userWeapon { get => this;}
+    public Vector3 _pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
+    public Animator _weaponUserAnimator { get; set; }
+    public Character _userWeapon { get => this;}
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorOverride { get; set; }
-    public FindingWeaponBehavior findingWeaponBehavior { get ; set ; }
+    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
+    public FindingWeaponBehavior _findingWeaponBehavior { get ; set ; }
     public void Initialized_IWeaponAdvanceUser()
     {
-        shootingPos = new Vector3();
-        currentWeaponSocket = weaponMainSocket;
-        leftHandSocket = weaponSecondHandSocket;
-        weaponUserAnimator = animator;
-        findingWeaponBehavior = new FindingWeaponBehavior(this);
-        weaponBelt = new WeaponBelt(primaryHolster, secondaryHolster, new AmmoProuch(45, 45, 30, 30
+        _shootingPos = new Vector3();
+
+        _weaponUserAnimator = animator;
+        _findingWeaponBehavior = new FindingWeaponBehavior(this);
+        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(45, 45, 30, 30
             ,45,45,60,60));
-        weaponAfterAction = new WeaponAfterActionPlayer(this);
+        _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
-        weaponManuverManager = new PlayerWeaponManuver(this,this);
+        _weaponManuverManager = new PlayerWeaponManuver(this,this);
 
 
-        _animatorOverride = this.AnimatorOverrideController;
+        _animatorWeaponAdvanceUserOverride = this.AnimatorOverrideController;
     }
     #endregion
 
@@ -396,10 +384,10 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    if (weaponBelt.ammoProuch.amountOf_ammo[BulletType._9mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._9mm]
-                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._45mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._45mm]
-                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._556mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._556mm]
-                        || weaponBelt.ammoProuch.amountOf_ammo[BulletType._762mm] < weaponBelt.ammoProuch.maximunAmmo[BulletType._762mm])
+                    if (_weaponBelt.ammoProuch.amountOf_ammo[BulletType._9mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._9mm]
+                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._45mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._45mm]
+                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._556mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._556mm]
+                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._762mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._762mm])
                         return true;
                 }
                 break;
@@ -417,7 +405,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-
 
     #endregion
 

@@ -74,9 +74,9 @@ public class CombatOffensiveInstinct
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))
         {
             //Debug.Log("Out Target");
-            if (thisTarget.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+            if (thisTarget._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
                 return ;
-            Vector3 aimingLine = thisTarget.shootingPos - thisTarget._currentWeapon.bulletSpawnerPos.position;
+            Vector3 aimingLine = thisTarget._shootingPos - thisTarget._currentWeapon.bulletSpawnerPos.position;
             Vector3 referencePos = offensiveInstinct.objInstict.transform.position + new Vector3(0,1,0);
             Vector3 startPos = thisTarget._currentWeapon.bulletSpawnerPos.position;
 

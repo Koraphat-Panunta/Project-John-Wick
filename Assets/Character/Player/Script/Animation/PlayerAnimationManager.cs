@@ -112,7 +112,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
 
 
-        AimDownSightWeight = (player as IWeaponAdvanceUser).weaponManuverManager.aimingWeight;
+        AimDownSightWeight = (player as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
         
 
 
@@ -131,14 +131,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             if (isIn_C_A_R_aim)
             {
                 CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
-                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+                if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
                , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) > 24)
                     isIn_C_A_R_aim = false;
             }
             else if (isIn_C_A_R_aim == false)
             {
                 CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
-                if (Vector3.Distance((player as IWeaponAdvanceUser).shootingPos
+                if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
                , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) < 3.5f)
                     isIn_C_A_R_aim = true;
             }
@@ -327,7 +327,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
         {
-            PlayerWeaponManuver playerWeaponManuver = player.weaponManuverManager as PlayerWeaponManuver;
+            PlayerWeaponManuver playerWeaponManuver = player._weaponManuverManager as PlayerWeaponManuver;
             if(playerWeaponManuver.curNodeLeaf is HolsterPrimaryWeaponManuverNodeLeaf)
                 animator.CrossFade("HolsterPrimary", 0.1f, 1);
             if(playerWeaponManuver.curNodeLeaf is HolsterSecondaryWeaponManuverNodeLeaf)
@@ -353,14 +353,14 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
         {
-            if(player.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
+            if(player._weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
             animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
         }
 
         if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
         {
 
-            if (player.weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf)
+            if (player._weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf)
             {
                 animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
             }
@@ -374,7 +374,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
         {
-            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player.weaponManuverManager.curNodeLeaf as QuickDrawWeaponManuverLeafNode).quickDrawPhase;
+            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player._weaponManuverManager.curNodeLeaf as QuickDrawWeaponManuverLeafNode).quickDrawPhase;
 
             switch (quickDrawPhase)
             {

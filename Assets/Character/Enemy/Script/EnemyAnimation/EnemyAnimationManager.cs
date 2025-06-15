@@ -73,7 +73,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
         {
-            if (enemy.weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf
+            if (enemy._weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf
                 &&tacticalReloadMagazineFullStageNodeLeaf.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
             {
                 animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
@@ -82,7 +82,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         }
         if (enemyEvent == SubjectEnemy.EnemyEvent.ReloadMagazineFullStage)
         {
-            if (enemy.weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf
+            if (enemy._weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf
                 && reloadMagazineFullStageNodeLeaf.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
             {
                 animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
@@ -166,7 +166,7 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
             isSprint = false;
         }
 
-        AimDownSightWeight = (enemy as IWeaponAdvanceUser).weaponManuverManager.aimingWeight;
+        AimDownSightWeight = (enemy as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
             Vector3.Cross(enemy.transform.forward, Vector3.up).normalized

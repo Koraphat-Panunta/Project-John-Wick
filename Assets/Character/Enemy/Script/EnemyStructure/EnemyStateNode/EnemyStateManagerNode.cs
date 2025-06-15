@@ -262,7 +262,7 @@ public class EnemyStateManagerNode : INodeManager
             , this.enemy);
 
         enemyStandTakeAimState = new EnemyStandTakeAimStateNodeLeaf(this.enemy,
-            () => this.enemy.isInCover && this.enemy.isAimingCommand
+            () => this.enemy.isInCover && this.enemy._isAimingCommand
             , this.enemy);
 
         gunFuSelector = new EnemyStateSelectorNode(this.enemy, () 

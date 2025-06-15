@@ -37,15 +37,15 @@ public class PlayerDeBuger : MonoBehaviour
     void Update()
     {
 
-        isAimingCommand = player.isAimingCommand;
-        isReloadCommand = player.isReloadCommand;
-        isPullTriggerCommand = player.isPullTriggerCommand;
-        isReloadCommand = player.isReloadCommand;
+        isAimingCommand = player._isAimingCommand;
+        isReloadCommand = player._isReloadCommand;
+        isPullTriggerCommand = player._isPullTriggerCommand;
+        isReloadCommand = player._isReloadCommand;
 
-        isAimingManuver = player.weaponManuverManager.isAimingManuverAble;
-        isPullTriggerManuver = player.weaponManuverManager.isPullTriggerManuverAble;
-        isReloadManuver = player.weaponManuverManager.isReloadManuverAble;
-        isSwitchWeaponManuver = player.weaponManuverManager.isSwitchWeaponManuverAble;
+        isAimingManuver = player._weaponManuverManager.isAimingManuverAble;
+        isPullTriggerManuver = player._weaponManuverManager.isPullTriggerManuverAble;
+        isReloadManuver = player._weaponManuverManager.isReloadManuverAble;
+        isSwitchWeaponManuver = player._weaponManuverManager.isSwitchWeaponManuverAble;
 
         PlayerCurNodeLeaf = player.playerStateNodeManager.curNodeLeaf.ToString();
     }

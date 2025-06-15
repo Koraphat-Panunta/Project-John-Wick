@@ -35,23 +35,23 @@ public class PlayerInputAPI : MonoBehaviour
     public void Aim(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isAimingCommand = true;
+            player._isAimingCommand = true;
         if (context.canceled)
-            player.isAimingCommand = false;
+            player._isAimingCommand = false;
     }
     public void PullTrigger(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isPullTriggerCommand = true;
+            player._isPullTriggerCommand = true;
         if (context.canceled)
-            player.isPullTriggerCommand = false;
+            player._isPullTriggerCommand = false;
     }
     public void Reload(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isReloadCommand = true;
+            player._isReloadCommand = true;
         if (context.canceled)
-            player.isReloadCommand = false;
+            player._isReloadCommand = false;
     }
     public void SwapShoulder(InputAction.CallbackContext context)
     {
@@ -68,9 +68,9 @@ public class PlayerInputAPI : MonoBehaviour
     public void SwitchWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isSwitchWeaponCommand = true;
+            player._isSwitchWeaponCommand = true;
         if (context.canceled)
-            player.isSwitchWeaponCommand = false;
+            player._isSwitchWeaponCommand = false;
     }
     public void TriggerGunFu(InputAction.CallbackContext context)
     {
@@ -110,12 +110,12 @@ public class PlayerInputAPI : MonoBehaviour
     public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
     {
         if(context.performed)
-            player.isPickingUpWeaponCommand = true;
+            player._isPickingUpWeaponCommand = true;
     }
 
     public void TriggerDropWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player.isDropWeaponCommand = true;
+            player._isDropWeaponCommand = true;
     }
 }

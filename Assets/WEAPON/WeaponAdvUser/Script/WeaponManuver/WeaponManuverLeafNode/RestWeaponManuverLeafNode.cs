@@ -5,14 +5,14 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     Weapon curWeapon;
     WeaponAfterAction weaponAfterAction;
-    WeaponManuverManager weaponManuverManager => weaponAdvanceUser.weaponManuverManager;
+    WeaponManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     private float recoverFormAimDownSight = 2.5f;
 
 
     public RestWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.curWeapon = weaponAdvanceUser._currentWeapon;
-        this.weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
+        this.weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
     }
     public override void Enter()
     {

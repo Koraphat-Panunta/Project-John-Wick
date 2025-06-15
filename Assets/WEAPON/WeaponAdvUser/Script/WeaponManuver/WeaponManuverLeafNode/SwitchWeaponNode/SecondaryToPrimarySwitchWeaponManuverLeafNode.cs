@@ -26,7 +26,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private float drawPrimaryWeaponTime = 0.33f;
     public SecondaryToPrimarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
+        weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
 
         curPhase = TransitionPhase.None;
     }
@@ -65,8 +65,8 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     {
         elapsTime += Time.deltaTime;
 
-        Weapon primaryWeapon = weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon;
-        Weapon secondaryWeapon = weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon;
+        Weapon primaryWeapon = weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon;
+        Weapon secondaryWeapon = weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon;
         Weapon curWeapon = weaponAdvanceUser._currentWeapon;
 
         switch (curPhase)
@@ -88,7 +88,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.Switch:
                 {
-                    curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
+                    curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
                     primaryWeapon.AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
 
                     weaponAfterAction.SendFeedBackWeaponAfterAction

@@ -12,13 +12,14 @@ public class HolsterPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
             <HolsterPrimaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()
     {
-        (weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon).AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
+        new WeaponAttachingBehavior().Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+
     }
 
     public override void FixedUpdateNode()

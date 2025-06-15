@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IBlowBack 
+public interface IBoltBack 
 {
     public AutoLoadChamberNode autoLoadChamber { get; set; }
 }

@@ -22,7 +22,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
     private float elaspeTime;
 
-    private AmmoProuch ammoProuch => weaponAdvanceUser.weaponBelt.ammoProuch;
+    private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
 
     public ReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType weaponMag, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
@@ -38,11 +38,11 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         if (IsComplete())
             return true;
 
-        if(weaponAdvanceUser.weaponManuverManager.isReloadManuverAble == false)
+        if(weaponAdvanceUser._weaponManuverManager.isReloadManuverAble == false)
             return true;
 
-        if(weaponAdvanceUser.weaponManuverManager.isSwitchWeaponManuverAble 
-            && weaponAdvanceUser.isSwitchWeaponCommand)
+        if(weaponAdvanceUser._weaponManuverManager.isSwitchWeaponManuverAble 
+            && weaponAdvanceUser._isSwitchWeaponCommand)
             return true;
 
         return false;
@@ -52,7 +52,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         this.isComplete = false;
         this.curReloadStage = ReloadStage.Enter;
         weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
             <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
@@ -60,7 +60,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     public override void Exit()
     {
         isComplete = false;
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
            <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         elaspeTime = 0;
@@ -79,12 +79,12 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     }
     public override void FixedUpdateNode()
     {
-        if (weaponAdvanceUser.isAimingCommand && weaponAdvanceUser.weaponManuverManager.isAimingManuverAble)
-            weaponAdvanceUser.weaponManuverManager.aimingWeight
-                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
+        if (weaponAdvanceUser._isAimingCommand && weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            weaponAdvanceUser._weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
         else
-            weaponAdvanceUser.weaponManuverManager.aimingWeight
-                = Mathf.Clamp01(weaponAdvanceUser.weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
+            weaponAdvanceUser._weaponManuverManager.aimingWeight
+                = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
     }
    
 

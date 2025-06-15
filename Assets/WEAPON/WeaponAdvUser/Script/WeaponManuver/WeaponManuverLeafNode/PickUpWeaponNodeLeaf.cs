@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
 {
-    private FindingWeaponBehavior findingWeaponBehavior => weaponAdvanceUser.findingWeaponBehavior;
+    private FindingWeaponBehavior findingWeaponBehavior => weaponAdvanceUser._findingWeaponBehavior;
     private bool isComplete;
+    private WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
     public PickUpWeaponNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
     }
@@ -13,32 +14,32 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
         isComplete = false;
         if (weaponAdvanceUser._currentWeapon == null)
         {
-            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket);
             isComplete = true;
         }
-        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
-            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
         {
-            weaponAdvanceUser._currentWeapon.DropWeapon();
-            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            weaponAttachingBehavior.Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket);
             isComplete = true;
         }
         else if(weaponAdvanceUser._currentWeapon != null
             &&weaponAdvanceUser._currentWeapon is PrimaryWeapon )
         {
-            weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+            weaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket);
             isComplete = true;
         }
         else if(weaponAdvanceUser._currentWeapon != null
             && weaponAdvanceUser._currentWeapon is SecondaryWeapon)
         {
-            weaponAdvanceUser._currentWeapon.AttachWeaponToSocket(weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-            findingWeaponBehavior.weaponFindingSelecting.AttatchWeaponTo(weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
+            weaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket);
             isComplete = true;
         }
 
-        weaponAdvanceUser.weaponAfterAction.SendFeedBackWeaponAfterAction
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
             <PickUpWeaponNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
        
    

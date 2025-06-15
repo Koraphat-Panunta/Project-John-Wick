@@ -2,24 +2,24 @@ using UnityEngine;
 
 public interface IWeaponAdvanceUser
 {
-    public Animator weaponUserAnimator { get; set; }
+    public Animator _weaponUserAnimator { get; set; }
     public Weapon _currentWeapon { get; set; }
-    public Transform currentWeaponSocket { get; set; }
-    public Transform leftHandSocket { get; set; }//For Hoster Primary Weapon When QuickDraw
-    public Vector3 shootingPos { get; set; } //Position of bullet destinate
-    public Vector3 pointingPos { get; set; } //Position of aiming
-    public WeaponBelt weaponBelt { get; set; }
-    public WeaponAfterAction weaponAfterAction { get; set; }
-    public Character userWeapon { get;}
-    public WeaponManuverManager weaponManuverManager { get; set; }
-    public FindingWeaponBehavior findingWeaponBehavior { get; set; }
-    public bool isSwitchWeaponCommand { get; set; }
-    public bool isPullTriggerCommand { get; set; }
-    public bool isAimingCommand { get; set; }
-    public bool isReloadCommand { get; set; }
-    public bool isPickingUpWeaponCommand { get; set; }
-    public bool isDropWeaponCommand { get; set; }
-    public AnimatorOverrideController _animatorOverride{ get; set; }
+    public MainHandSocket _mainHandSocket { get; set; }
+    public SecondHandSocket _secondHandSocket { get; set; }//For Hoster Primary Weapon When QuickDraw
+    public Vector3 _shootingPos { get; set; } //Position of bullet destinate
+    public Vector3 _pointingPos { get; set; } //Position of aiming
+    public WeaponBelt _weaponBelt { get; set; }
+    public WeaponAfterAction _weaponAfterAction { get; set; }
+    public Character _userWeapon { get;}
+    public WeaponManuverManager _weaponManuverManager { get; set; }
+    public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
+    public bool _isSwitchWeaponCommand { get; set; }
+    public bool _isPullTriggerCommand { get; set; }
+    public bool _isAimingCommand { get; set; }
+    public bool _isReloadCommand { get; set; }
+    public bool _isPickingUpWeaponCommand { get; set; }
+    public bool _isDropWeaponCommand { get; set; }
+    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride{ get; set; }
     public void Initialized_IWeaponAdvanceUser();
 }
 public class FindingWeaponBehavior
@@ -38,7 +38,7 @@ public class FindingWeaponBehavior
     public bool FindingWeapon()
     {
         
-        if(FindingWeapon(weaponAdvanceUser.userWeapon.transform.position, findingWeaponRaduisDefault))
+        if(FindingWeapon(weaponAdvanceUser._userWeapon.transform.position, findingWeaponRaduisDefault))
             return true;
 
         return false;
@@ -66,8 +66,8 @@ public class FindingWeaponBehavior
                 continue;
             }
 
-            if (Vector3.Distance(weaponAdvanceUser.userWeapon.transform.position, weaponFindingSelecting.transform.position) >
-                Vector3.Distance(weaponAdvanceUser.userWeapon.transform.position, collider[i].transform.position))
+            if (Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, weaponFindingSelecting.transform.position) >
+                Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, collider[i].transform.position))
             {
                 if (collider[i].GetComponent<Weapon>().userWeapon == null)
                     weaponFindingSelecting = collider[i].GetComponent<Weapon>();

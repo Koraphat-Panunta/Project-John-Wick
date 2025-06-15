@@ -121,30 +121,32 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
     private void Disarm()
     {
-        disarmedWeapon.DropWeapon();
+        WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
+
+        weaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
        
         if (player.weaponAdvanceUser._currentWeapon == null)
         {
-            disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         }
-        else if (player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser.weaponBelt.primaryWeapon as Weapon
-            && player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser.weaponBelt.secondaryWeapon as Weapon)
+        else if (player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
         {
-            player.weaponAdvanceUser._currentWeapon.DropWeapon();
-            disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
+            weaponAttachingBehavior.Detach(player._currentWeapon, player);
+            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         }
         else if (player.weaponAdvanceUser._currentWeapon != null
             && player.weaponAdvanceUser._currentWeapon is PrimaryWeapon)
         {
-            player.weaponAdvanceUser._currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.primaryWeaponSocket);
-            disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
+            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
 
         }
         else if (player.weaponAdvanceUser._currentWeapon != null
             && player.weaponAdvanceUser._currentWeapon is SecondaryWeapon)
         {
-            player.weaponAdvanceUser._currentWeapon.AttachWeaponToSocketNoneAnimatorOverride(player.weaponAdvanceUser.weaponBelt.secondaryWeaponSocket);
-            disarmedWeapon.AttatchWeaponTo(player.weaponAdvanceUser);
+            weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
+            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         }
         //else
         //    throw new Exception("WeaponDisarm");
@@ -153,12 +155,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     private void Pull(float t)
     {
 
-        //Vector3 playerMovePos = attackedAbleGunFu._gunFuAttackedAble.position + (player.transform.position - attackedAbleGunFu._gunFuAttackedAble.position).normalized * 0.75f;
-
-        //player.transform.position = Vector3.Lerp(
-        //    playerEnterPos,
-        //    playerMovePos,
-        //    t);
 
         Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._gunFuAttackedAble.position).normalized;
         opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
@@ -167,15 +163,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
             attackedAbleGunFu._gunFuAttackedAble.rotation,
             Quaternion.LookRotation(opponentLook, Vector3.up),
             t);
-
-        //Vector3 playerLookDir = (attackedAbleGunFu._gunFuAttackedAble.position - player.transform.position).normalized;
-        //playerLookDir = new Vector3(playerLookDir.x, 0, playerLookDir.z);
-        //Debug.DrawLine(player.transform.position, player.transform.position + playerLookDir, Color.red);
-
-        //player.transform.rotation = Quaternion.Lerp(
-        //    player.transform.rotation,
-        //    Quaternion.LookRotation(playerLookDir, Vector3.up),
-        //    t);
 
         attackedAbleGunFu._movementCompoent.CancleMomentum();
 

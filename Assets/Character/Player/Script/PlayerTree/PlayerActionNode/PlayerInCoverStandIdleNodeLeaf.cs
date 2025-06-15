@@ -25,11 +25,11 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
 
         bool isAiming = false;
 
-        if (player.weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+        if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
         {
             isAiming = true;
         }
-        else if (player.weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNode quickDraw)
+        else if (player._weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNode quickDraw)
         {    
             isAiming = true;
         }
@@ -73,7 +73,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             if (Vector3.Distance(player.transform.position, warpDesPos + warpDesOffsetPos) < 0.07f)
                 warping = false;
         }
-        else if (player.weaponManuverManager.aimingWeight < 1
+        else if (player._weaponManuverManager.aimingWeight < 1
             && coverDetection.GetAimPos(player.curShoulderSide)
             )
             warping = true;
@@ -102,7 +102,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             
             
         }
-        else if (player.weaponManuverManager.aimingWeight > 0
+        else if (player._weaponManuverManager.aimingWeight > 0
             && playerMovement.moveInputVelocity_World == Vector3.zero
             && coverDetection.GetAimPos(player.curShoulderSide))
             warping = true;

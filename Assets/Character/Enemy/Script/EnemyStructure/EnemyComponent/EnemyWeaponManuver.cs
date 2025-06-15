@@ -114,11 +114,11 @@ public class EnemyWeaponManuver : WeaponManuverManager
             {
 
                 if (isPickingUpWeaponManuverAble 
-                && weaponAdvanceUser.isPickingUpWeaponCommand)
+                && weaponAdvanceUser._isPickingUpWeaponCommand)
                 {
-                    if (weaponAdvanceUser.findingWeaponBehavior.FindingWeapon())
+                    if (weaponAdvanceUser._findingWeaponBehavior.FindingWeapon())
                     {
-                        //Debug.Log("Enemy weaponAdvanceUser.findingWeaponBehavior.FindingWeapon()");
+                        //Debug.Log("Enemy weaponAdvanceUser._findingWeaponBehavior.FindingWeapon()");
                         return true;
                     }
                 }
@@ -130,16 +130,16 @@ public class EnemyWeaponManuver : WeaponManuverManager
             ()=> curWeapon != null);
 
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(weaponAdvanceUser,
-            () => (isDropWeaponManuverAble && weaponAdvanceUser.isDropWeaponCommand) || (enemy.isDead && enemy._currentWeapon != null));
+            () => (isDropWeaponManuverAble && weaponAdvanceUser._isDropWeaponCommand) || (enemy.isDead && enemy._currentWeapon != null));
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
-             () => isSwitchWeaponManuverAble && weaponAdvanceUser.isSwitchWeaponCommand);
+             () => isSwitchWeaponManuverAble && weaponAdvanceUser._isSwitchWeaponCommand);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon is PrimaryWeapon);
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => curWeapon is SecondaryWeapon);
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => isAimingManuverAble && weaponAdvanceUser.isAimingCommand);
+            () => isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
         lowReadyWeaponManuverNodeLeaf = new LowReadyWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => curWeapon != null);
 

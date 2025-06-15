@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
-    WeaponManuverManager weaponManuverManager => weaponAdvanceUser.weaponManuverManager;
+    WeaponManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
     Weapon curWeapon => weaponAdvanceUser._currentWeapon;
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
-        weaponAfterAction = weaponAdvanceUser.weaponAfterAction;
+        weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
     }
 
     public override void Enter()
@@ -56,7 +56,7 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
         weaponAfterAction.SendFeedBackWeaponAfterAction
             <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
-        if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser.isPullTriggerCommand)
+        if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser._isPullTriggerCommand)
             curWeapon.PullTrigger();
     }
 }

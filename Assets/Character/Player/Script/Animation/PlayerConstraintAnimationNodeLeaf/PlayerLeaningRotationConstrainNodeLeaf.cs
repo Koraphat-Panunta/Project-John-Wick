@@ -21,33 +21,33 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void UpdateNode()
     {
-        leaningRotation.SetWeight(weaponAdvanceUser.weaponManuverManager.aimingWeight, leaningScriptableObject);
+        leaningRotation.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight, leaningScriptableObject);
         if (player.curShoulderSide == Player.ShoulderSide.Left)
         {
-            Vector3 castDir = weaponAdvanceUser.pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
+            Vector3 castDir = weaponAdvanceUser._pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
             Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.down) * (leaningScriptableObject.recoveryStepCheck-leaningScriptableObject.weightAdd)*(1-leaningRotation.weight);
 
-            if (PointingBlock(castPos, weaponAdvanceUser.pointingPos))
+            if (PointingBlock(castPos, weaponAdvanceUser._pointingPos))
                 leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() - leaningScriptableObject.weightAdd * Time.deltaTime);
             
             else
             {
-                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
                     leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));   
             }
 
         }
         else if(player.curShoulderSide == Player.ShoulderSide.Right)
         {
-            Vector3 castDir = weaponAdvanceUser.pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
+            Vector3 castDir = weaponAdvanceUser._pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
             Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.up) * (leaningScriptableObject.recoveryStepCheck - leaningScriptableObject.weightAdd) * (1 - leaningRotation.weight);
 
-            if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+            if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
                 leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() + leaningScriptableObject.weightAdd * Time.deltaTime);
 
             else
             {
-                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser.pointingPos))
+                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
                     leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));
             }
         }

@@ -66,7 +66,7 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case DisarmTargetWeaponPhase.FindingWeapon:
                 {
                     findingWeaponElapseTime += Time.deltaTime;
-                    if (enemy.findingWeaponBehavior.FindingWeapon(enemy.transform.position, 3))
+                    if (enemy._findingWeaponBehavior.FindingWeapon(enemy.transform.position, 3))
                     {
                         findingWeaponElapseTime = 0;
                         curDisarmWeapon = DisarmTargetWeaponPhase.PickingUpWeapon;
@@ -80,10 +80,10 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 break;
             case DisarmTargetWeaponPhase.PickingUpWeapon:
                 {
-                    if (enemy.findingWeaponBehavior.weaponFindingSelecting == null)
+                    if (enemy._findingWeaponBehavior.weaponFindingSelecting == null)
                         curDisarmWeapon = DisarmTargetWeaponPhase.SprintToKick;
 
-                    if (enemyCommandAPI.MoveToPositionRotateToward(enemy.findingWeaponBehavior.weaponFindingSelecting.transform.position, 1, 1, enemy.findingWeaponBehavior.findingWeaponRaduisDefault))
+                    if (enemyCommandAPI.MoveToPositionRotateToward(enemy._findingWeaponBehavior.weaponFindingSelecting.transform.position, 1, 1, enemy._findingWeaponBehavior.findingWeaponRaduisDefault))
                     {
                         enemyCommandAPI.PickUpWeapon();
                     }

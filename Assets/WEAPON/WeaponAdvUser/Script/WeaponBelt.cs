@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class WeaponBelt 
 {
-    public Transform primaryWeaponSocket;
-    public Transform secondaryWeaponSocket;
+    public PrimaryWeaponSocket primaryWeaponSocket;
+    public SecondaryWeaponSocket secondaryWeaponSocket;
 
-    public PrimaryWeapon primaryWeapon;
-    public SecondaryWeapon secondaryWeapon;
+    public PrimaryWeapon myPrimaryWeapon;
+    public SecondaryWeapon mySecondaryWeapon;
 
     public AmmoProuch ammoProuch;
-    public WeaponBelt(Transform primaryWeaponSocket,Transform secondaryWeaponSocket,AmmoProuch ammoProuch)
+    public WeaponBelt(PrimaryWeaponSocket primaryWeaponSocket, SecondaryWeaponSocket secondaryWeaponSocket,AmmoProuch ammoProuch)
     {
         this.primaryWeaponSocket = primaryWeaponSocket;
         this.secondaryWeaponSocket = secondaryWeaponSocket;

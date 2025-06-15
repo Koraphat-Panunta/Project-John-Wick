@@ -124,7 +124,7 @@ public class PlayerStateNodeManager : INodeManager
         restrictGunFuStateNodeLeaf = new RestrictGunFuStateNodeLeaf(player.restrictScriptableObject, player,
             () =>
             {
-                if (player.isAimingCommand && player.attackedAbleGunFu != null)
+                if (player._isAimingCommand && player.attackedAbleGunFu != null)
                 {
                     if (player._currentWeapon != null)
                         return true;
@@ -135,7 +135,7 @@ public class PlayerStateNodeManager : INodeManager
         weaponDisarmSelector = new PlayerSelectorStateNode(this.player,
             () => 
             {
-                if(player.isPickingUpWeaponCommand && player.attackedAbleGunFu != null)
+                if(player._isPickingUpWeaponCommand && player.attackedAbleGunFu != null)
                 {
                     if(player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon != null)
                         return true;
@@ -152,11 +152,11 @@ public class PlayerStateNodeManager : INodeManager
             , () => player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon is SecondaryWeapon);
 
         humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
-            () => this.player.isAimingCommand
+            () => this.player._isAimingCommand
             && this.player.attackedAbleGunFu != null
             , this.player.humanShield);
         humanThrow_GunFuInteraction_NodeLeaf = new HumanThrowGunFuInteractionNodeLeaf(this.player,
-            () => this.player.isAimingCommand == false 
+            () => this.player._isAimingCommand == false 
             || humanShield_GunFuInteraction_NodeLeaf.attackedAbleGunFu._isDead
             || humanShield_GunFuInteraction_NodeLeaf.isComplete,
             player.humanThrow);

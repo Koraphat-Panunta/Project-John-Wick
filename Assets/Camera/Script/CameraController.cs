@@ -68,8 +68,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         if(gunFuCameraTimer >0)
             gunFuCameraTimer -= Time.deltaTime;
 
-        if(player != null && player.weaponManuverManager != null)
-        zoomingWeight = player.weaponManuverManager.aimingWeight;
+        if(player != null && player._weaponManuverManager != null)
+        zoomingWeight = player._weaponManuverManager.aimingWeight;
 
         cameraManagerNode.UpdateNode();
 

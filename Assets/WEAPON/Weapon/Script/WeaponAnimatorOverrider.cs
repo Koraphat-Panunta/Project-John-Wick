@@ -26,9 +26,9 @@ public static class WeaponAnimatorOverrider
         //    animator.Play(animatorStates[i].fullPathHash, i, animatorStateNormalized[i]);
         //}
     }
-    public static void OverrideAnimator(Animator animator,RigBuilder rigBuilder, AnimatorOverrideController animatorOverrideController)
-    {
-        OverrideAnimator(animator, animatorOverrideController);
-        rigBuilder.Build();
-    }
+    //public static void OverrideAnimator(Animator animator,RigBuilder rigBuilder, AnimatorOverrideController animatorOverrideController)
+    //{
+    //    OverrideAnimator(animator, animatorOverrideController);
+    //    rigBuilder.Build();
+    //}
 }
