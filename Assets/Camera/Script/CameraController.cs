@@ -137,12 +137,17 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             || playerAction == SubjectPlayer.NotifyEvent.CrouchMove)
         { curStance = player.playerStance; }
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+        switch (node)
+        {
+            case GunFu_GotHit_NodeLeaf gunFu_GotHit_NodeLeaf:
+                {
+                    if(gunFu_GotHit_NodeLeaf.cur)
+                    break;
+                }
+        }
     }
-
     public void ChangeCamera(CinemachineCamera cinemachineCamera,float time)
     {
         cinemachineBrain.DefaultBlend.Time = time;
@@ -166,4 +171,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         this.player = FindAnyObjectByType<Player>();
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
+
+    
 }
