@@ -26,8 +26,10 @@ public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
     [SerializeField] private float max_percision /*= 65*/;
     private float DrawSpeed = 1;
 
-    public override Transform mainHandGripTransform { get => transform;set { } }
-    public override Transform SecondHandGripTransform { get => transform; set { } }
+    [SerializeField] private Transform mainHandGripTransform;
+    [SerializeField] private Transform SecondHandGripTransform;
+    public override Transform _mainHandGripTransform { get => mainHandGripTransform; set { } }
+    public override Transform _SecondHandGripTransform { get => SecondHandGripTransform; set { } }
 
     public override float drawSpeed 
     { 
@@ -106,6 +108,9 @@ public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
     public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch, IReloadMagazineNode reloadMagazineNode)
         => _reloadMagazineLogic.ReloadMagazine(magazineWeapon, ammoProuch, reloadMagazineNode);
     #endregion
+
+    public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
+    { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
 
     protected override void FixedUpdate()
     {

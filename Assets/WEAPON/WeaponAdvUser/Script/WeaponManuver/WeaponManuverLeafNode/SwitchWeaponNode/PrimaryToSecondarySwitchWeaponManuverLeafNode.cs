@@ -24,6 +24,9 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
     private float holsterPrimaryWeaponTime = 0.3f;
     private float drawSecondaryWeaponTime = 0.3f;
+
+    WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
+
     public PrimaryToSecondarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
@@ -71,6 +74,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
 
         switch (curPhase)
         {
+
             case TransitionPhase.Enter:
                 {
                     curPhase = TransitionPhase.HolsterPrimaryWeapon;
@@ -88,8 +92,9 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                 break;
             case TransitionPhase.Switch:
                 {
-                    curWeapon.AttachWeaponToSocketNoneAnimatorOverride(weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
-                    secondaryWeapon.AttatchWeaponToNoneOverrideAnimator(weaponAdvanceUser);
+
+                    weaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+                    weaponAttachingBehavior.Attach(secondaryWeapon, weaponAdvanceUser._mainHandSocket);
                     weaponAfterAction.SendFeedBackWeaponAfterAction
                         <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     curPhase = TransitionPhase.DrawSecondaryWeapon;
@@ -101,7 +106,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                         <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     if (elapsTime >= holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
                     {
-                        curWeapon.AttatchWeaponTo(weaponAdvanceUser);
+                        weaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._mainHandSocket);
                         isComplete = true;
                     }
                 } 

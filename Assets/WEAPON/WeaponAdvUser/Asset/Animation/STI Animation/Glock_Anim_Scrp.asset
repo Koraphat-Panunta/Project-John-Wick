@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bea0129bc2aa594fa71a2cb659208de, type: 3}
+  m_Name: Glock_Anim_Scrp
+  m_EditorClassIdentifier: 
+  idleLowReady: {fileID: 7400000, guid: a8471b608200438469963372e59cbc8a, type: 2}
+  moveLowReady: {fileID: 7400000, guid: b4b0fb16b8f5f07429def0632ba63631, type: 2}
+  ADS_20: {fileID: 7400000, guid: 78005c8a439074449830a8e57f1c8625, type: 2}
+  CAR_20: {fileID: 7400000, guid: d03a582b7c50d5b4485ee5a20cbacd38, type: 2}
+  ADS_40: {fileID: 7400000, guid: e6ed80e30b3050f41961ed9d5fc7982b, type: 2}
+  CAR_40: {fileID: 7400000, guid: 6b0b56b833c045041b2c4c07c876fc41, type: 2}
+  ADS_60: {fileID: 7400000, guid: f21c88af853bd1243b389835d02e6756, type: 2}
+  CAR_60: {fileID: 7400000, guid: a39190c006458da47b4ae16c5ed3a7eb, type: 2}
+  ADS_80: {fileID: 7400000, guid: b77f796f05cea4243bdad6357cb76b0f, type: 2}
+  CAR_80: {fileID: 7400000, guid: 9a8ce3831e5649743a71e50e2c2ffdf7, type: 2}
+  ADS_100: {fileID: 7400000, guid: 63c99fe27b393174abcbffff9741e103, type: 2}
+  CAR_100: {fileID: 7400000, guid: 54dadc9ff77659948941c0368df35871, type: 2}
+  ADS_RecoilKick: {fileID: 7400000, guid: 63c99fe27b393174abcbffff9741e103, type: 2}
+  CAR_RecoilKick: {fileID: 7400000, guid: 54dadc9ff77659948941c0368df35871, type: 2}
+  TacticalSprint_LowReadySway: {fileID: 7400000, guid: b3ae64ea35a97ca4e8875bcebe74e90a,
+    type: 2}
+  TacticalSprint_HighReadySway: {fileID: 7400000, guid: d4c2c80c59227d64281dafa604309df7,
+    type: 2}
+  Reload: {fileID: 7400000, guid: 7de71fc5f705eb248a7cd2aa7784b5ef, type: 2}
+  TacticalReload: {fileID: 7400000, guid: db84dbe52d369824abbb9554352c68df, type: 2}

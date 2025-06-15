@@ -7,9 +7,9 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
 {
 
     public Transform bulletSpawnerPos;
-    public abstract Transform mainHandGripTransform { get; set; }
-    public abstract Transform SecondHandGripTransform { get; set; }
-    public WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject { get; set; }
+    public abstract Transform _mainHandGripTransform { get; set; }
+    public abstract Transform _SecondHandGripTransform { get; set; }
+    public abstract WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject { get; set; }
     public abstract int bulletCapacity { get; set; }
     public abstract float rate_of_fire { get;  set; }
     public abstract float reloadSpeed { get;  set; }
@@ -33,8 +33,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public IWeaponAdvanceUser userWeapon;
     public ParentConstraint parentConstraint;
     public Rigidbody rb;
-    public AnimatorOverrideController _weaponOverrideControllerPlayer;
-    public AnimatorOverrideController _weaponOverrideControllerEnemy;
     public BulletSpawner bulletSpawner;
     public enum FireMode
     {

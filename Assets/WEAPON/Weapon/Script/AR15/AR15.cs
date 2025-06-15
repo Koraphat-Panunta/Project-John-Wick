@@ -32,10 +32,12 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
 
     private float DrawSpeed = 1f;
     private _556mmBullet _556MmBullet;
-    public Transform forntGrip { get ; set ; }
+    public Transform forntGripAttachment { get ; set ; }
     public Transform slingAnchor { get ; set ; }
-    public override Transform mainHandGripTransform { get => transform; set { } }
-    public override Transform SecondHandGripTransform { get => forntGrip ; set => forntGrip = value ; }
+    [SerializeField] private Transform mainHandGripTransform;
+    [SerializeField] private Transform secondHnadGripTransform;
+    public override Transform _mainHandGripTransform { get => mainHandGripTransform; set { } }
+    public override Transform _SecondHandGripTransform { get => secondHnadGripTransform; set => secondHnadGripTransform = value ; }
     public override int bulletCapacity { get => _MagazineCapacity; set => _MagazineCapacity = value; }
     public override float rate_of_fire { get => _RateOfFire; set => _RateOfFire = value; }
     public override float reloadSpeed { get => _ReloadSpeed; set => _ReloadSpeed = value; }
@@ -57,6 +59,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
     { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => this.MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
+    public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
+    { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => this.magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
     public bool _isMagIn { get; set; }
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }

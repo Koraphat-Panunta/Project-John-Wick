@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7074491356039985985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1529970576853322839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780952088139185614}
+  m_Layer: 9
+  m_Name: SecondHandGripPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780952088139185614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529970576853322839}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.012, y: 0.0523, z: 0.222}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7074491356039985985}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2275023157894548265
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 121597156450861684}
   m_Layer: 9
-  m_Name: GripPosition
+  m_Name: MainHandGripPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +195,7 @@ Transform:
   - {fileID: 3437570849213029573}
   - {fileID: 3022661863309610859}
   - {fileID: 121597156450861684}
+  - {fileID: 1780952088139185614}
   - {fileID: 2483508153401217223}
   - {fileID: 7327806260083542802}
   - {fileID: 8264925792571598362}
@@ -182,14 +214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawnerPos: {fileID: 3022661863309610859}
-  isReloadCommand: 0
   isEquiped: 1
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
-  _weaponOverrideControllerPlayer: {fileID: 22100000, guid: 36b97e4862011594289606058a36ef21,
-    type: 2}
-  _weaponOverrideControllerEnemy: {fileID: 22100000, guid: aaca9e1ab7ac445408cc93df78faa61d,
-    type: 2}
   bulletSpawner: {fileID: 1537619354982768088}
   FrontGripSocket: {fileID: 0}
   ChamberCount: 0
@@ -201,6 +228,10 @@ MonoBehaviour:
   _RecoilKickBack: 180
   Min_percision: 23
   Max_percision: 284
+  mainHandGripTransform: {fileID: 121597156450861684}
+  secondHnadGripTransform: {fileID: 1780952088139185614}
+  MagazineWeaponAnimationStateOverrideScriptableObject: {fileID: 11400000, guid: e4f8d80dc09c9b140b184b9d52073b7d,
+    type: 2}
   microOpticSocket: {fileID: 7327806260083542802}
   microOptic: {fileID: 0}
 --- !u!114 &6335714959491028719

@@ -162,8 +162,8 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     public Vector3 _pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Animator _weaponUserAnimator { get; set; }
     public Character _userWeapon { get => this;}
-    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
+    [SerializeField] private AnimatorOverrideController AnimatorOverrideController;
+    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get => this.AnimatorOverrideController; set => this.AnimatorOverrideController = value; }
     public FindingWeaponBehavior _findingWeaponBehavior { get ; set ; }
     public void Initialized_IWeaponAdvanceUser()
     {
@@ -176,9 +176,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this,this);
-
-
-        _animatorWeaponAdvanceUserOverride = this.AnimatorOverrideController;
     }
     #endregion
 

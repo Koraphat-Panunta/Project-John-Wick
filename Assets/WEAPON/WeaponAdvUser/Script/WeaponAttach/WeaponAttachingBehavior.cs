@@ -97,8 +97,8 @@ public class WeaponAttachingBehavior
         }
         weapon.parentConstraint.AddSource(source);
 
-        Vector3 translationOffset = weapon.transform.InverseTransformPoint(weapon.mainHandGripTransform.position);
-        Quaternion rotationOffsetQuat = Quaternion.Inverse(weapon.transform.rotation) * weapon.mainHandGripTransform.rotation;
+        Vector3 translationOffset = weapon.transform.InverseTransformPoint(weapon._mainHandGripTransform.position);
+        Quaternion rotationOffsetQuat = Quaternion.Inverse(weapon.transform.rotation) * weapon._mainHandGripTransform.rotation;
         Vector3 rotationOffset = rotationOffsetQuat.eulerAngles;
 
         weapon.parentConstraint.SetTranslationOffset(0, translationOffset);

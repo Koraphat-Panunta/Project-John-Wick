@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface PrimaryWeapon 
 {
-    public abstract Transform forntGrip { get; set; }
+    public abstract Transform forntGripAttachment { get; set; }
     public abstract Transform slingAnchor { get; set; }
    
 }
