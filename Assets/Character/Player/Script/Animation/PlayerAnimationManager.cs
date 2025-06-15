@@ -41,7 +41,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         player = GetComponent<Player>();
         player.AddObserver(this);
 
-        isLayer_1_Enable = true;
+        isLayer_1_Enable = false;
         isIn_C_A_R_aim = false;
     }
 
@@ -50,7 +50,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     {
         BackBoardUpdate();
 
-        if (isLayer_1_Enable == true)
+        if (isLayer_1_Enable == true && player._currentWeapon != null)
             animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 10 * Time.deltaTime));
         else
             animator.SetLayerWeight(1,Mathf.Clamp01(animator.GetLayerWeight(1) - 10 * Time.deltaTime));
@@ -206,15 +206,20 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (playerAction == SubjectPlayer.PlayerAction.Sprint)
         {
             animator.CrossFade(Sprint, 0.3f, 0, 0);
+            animator.CrossFade("SprintWeaponSway", 0.25f,1);
             isLayer_1_Enable = true;
         }
        
         if(playerAction == SubjectPlayer.PlayerAction.StandMove||
             playerAction == SubjectPlayer.PlayerAction.StandIdle)
         {
-
             animator.CrossFade(Move_Idle, 0.3f, 0, 0);
             isLayer_1_Enable = true;
+            if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+            {
+                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
+            }
+
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.CrouchIdle||
@@ -222,6 +227,10 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         {
             animator.CrossFade(Crouch, 0.3f, 0, 0);
             isLayer_1_Enable = true;
+            if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+            {
+                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
+            }
         }
 
         if(playerAction == SubjectPlayer.PlayerAction.GetUp)
@@ -390,6 +399,19 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             
         }
 
+        if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+        {
+            if (playerAction == SubjectPlayer.PlayerAction.Sprint)
+            {
+                animator.CrossFade(Sprint, 0.3f, 0, 0);
+                animator.CrossFade("SprintWeaponSway", 0.25f, 1);
+                isLayer_1_Enable = true;
+            }
+            else
+            {
+                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1);
+            }
+        }
     }
 
     public void OnNotify(Player player)

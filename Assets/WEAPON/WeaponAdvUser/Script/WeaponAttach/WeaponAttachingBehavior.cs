@@ -34,7 +34,27 @@ public class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
 
-                    this.SetParentConstrain(weapon, secondHandSocket.weaponAttachingAbleTransform);
+                    ConstraintSource source = new ConstraintSource();
+                    source.sourceTransform = secondHandSocket.weaponAttachingAbleTransform;
+                    source.weight = 1;
+                    if (weapon.parentConstraint.sourceCount > 0)
+                    {
+                        weapon.parentConstraint.RemoveSource(0);
+                    }
+                    weapon.parentConstraint.AddSource(source);
+
+                    Vector3 translationOffset = weapon.transform.InverseTransformPoint(weapon._SecondHandGripTransform.position);
+                    Quaternion rotationOffsetQuat = Quaternion.Inverse(weapon.transform.rotation) * weapon._SecondHandGripTransform.rotation;
+                    Vector3 rotationOffset = rotationOffsetQuat.eulerAngles;
+
+                    weapon.parentConstraint.SetTranslationOffset(0, -translationOffset);
+                    weapon.parentConstraint.SetRotationOffset(0, rotationOffset);
+                    weapon.parentConstraint.constraintActive = true;
+                    weapon.parentConstraint.translationAtRest = Vector3.zero;
+                    weapon.parentConstraint.rotationAtRest = Vector3.zero;
+
+                    weapon.parentConstraint.constraintActive = true;
+                    weapon.parentConstraint.weight = 1;
                     break; 
                 }
             case PrimaryWeaponSocket primaryWeaponSocket: 
@@ -101,7 +121,7 @@ public class WeaponAttachingBehavior
         Quaternion rotationOffsetQuat = Quaternion.Inverse(weapon.transform.rotation) * weapon._mainHandGripTransform.rotation;
         Vector3 rotationOffset = rotationOffsetQuat.eulerAngles;
 
-        weapon.parentConstraint.SetTranslationOffset(0, translationOffset);
+        weapon.parentConstraint.SetTranslationOffset(0, - translationOffset);
         weapon.parentConstraint.SetRotationOffset(0, rotationOffset);
         weapon.parentConstraint.constraintActive = true;
         weapon.parentConstraint.translationAtRest = Vector3.zero;

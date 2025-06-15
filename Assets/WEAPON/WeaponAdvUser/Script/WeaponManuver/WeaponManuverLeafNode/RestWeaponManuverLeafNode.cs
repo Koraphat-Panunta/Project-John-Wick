@@ -47,7 +47,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        this.weaponAfterAction.SendFeedBackWeaponAfterAction
-       <RestWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+       // this.weaponAfterAction.SendFeedBackWeaponAfterAction
+       //<RestWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 }

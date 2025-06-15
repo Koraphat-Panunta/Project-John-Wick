@@ -42,7 +42,7 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
         if (this.weaponManuverManager == null)
             this.weaponManuverManager = weaponAdvanceUser._weaponManuverManager;
 
-        this.weaponAfterAction.SendFeedBackWeaponAfterAction
-           <LowReadyWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        //this.weaponAfterAction.SendFeedBackWeaponAfterAction
+        //   <LowReadyWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 }
