@@ -27,7 +27,7 @@ public class User : MonoBehaviour
         userInput.PlayerAction.Reload.performed += playerInputAPI.Reload;
         userInput.PlayerAction.Reload.canceled += playerInputAPI.Reload;
 
-        //userInput.PlayerAction.SwapShoulder.performed += playerInputAPI.SwapShoulder;
+        //userInput.NotifyEvent.SwapShoulder.performed += playerInputAPI.SwapShoulder;
         userInput.PlayerAction.SwapShoulder.canceled += playerInputAPI.SwapShoulder;
 
         userInput.PlayerAction.SwitchWeapon.performed += playerInputAPI.SwitchWeapon;

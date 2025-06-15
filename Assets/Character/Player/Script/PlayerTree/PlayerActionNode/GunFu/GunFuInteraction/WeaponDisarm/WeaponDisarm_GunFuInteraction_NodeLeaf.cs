@@ -81,7 +81,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                         && elapesTime >= disarmTime)
                     {
                         Disarm();
-                        player.NotifyObserver(player,SubjectPlayer.PlayerAction.PickUpWeapon);
+                        player.NotifyObserver(player,SubjectPlayer.NotifyEvent.PickUpWeapon);
                         isDisarmWeapon = true;
                     }
                     if (isTransitionAbleAlready == false &&
@@ -178,6 +178,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                        );
 
 
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
     }
 }

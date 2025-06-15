@@ -23,9 +23,9 @@ public class PlayerGunFuExecuteStackGauge : StackGague, IObserverPlayer
         player.AddObserver(this);
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuAttack && 
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuAttack && 
             player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute) 
         {
             if (this.amount >= this.max)

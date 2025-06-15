@@ -9,7 +9,7 @@ public class PlayerDeadNodeLeaf : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Dead);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.Dead);
         (player.playerMovement as IMovementCompoent).CancleMomentum();
     }
 

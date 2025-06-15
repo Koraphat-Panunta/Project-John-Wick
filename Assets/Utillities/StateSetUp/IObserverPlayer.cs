@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IObserverPlayer
 {
-    public void OnNotify(Player player,SubjectPlayer.PlayerAction playerAction);
-    public void OnNotify(Player player);
+    public void OnNotify<T>(Player player,T node)where T : INode;
+    public void OnNotify(Player player,SubjectPlayer.NotifyEvent notifyEvent);
 
     
 }

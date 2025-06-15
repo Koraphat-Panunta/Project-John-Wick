@@ -11,20 +11,20 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
 
     [SerializeField] private float CrouchCenterY;
     [SerializeField] private float CrouchHeight;
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         if (player.playerStateNodeManager.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
             || player.playerStateNodeManager.curNodeLeaf is PlayerCrouch_Move_NodeLeaf)
         {
             switch (playerAction)
             {
-                case SubjectPlayer.PlayerAction.LowReady:
+                case SubjectPlayer.NotifyEvent.LowReady:
                     {
                         characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
                         characterController.height = CrouchHeight;
                     }
                     break;
-                case SubjectPlayer.PlayerAction.Aim:
+                case SubjectPlayer.NotifyEvent.Aim:
                     {
                         characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
                         characterController.height = StandHeight;
@@ -34,14 +34,14 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
 
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.Dodge)
+        if (playerAction == SubjectPlayer.NotifyEvent.Dodge)
         {
             characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
             characterController.height = CrouchHeight;
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.StandMove
-            ||playerAction == SubjectPlayer.PlayerAction.StandIdle)
+        if (playerAction == SubjectPlayer.NotifyEvent.StandMove
+            ||playerAction == SubjectPlayer.NotifyEvent.StandIdle)
         {
             characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
             characterController.height = StandHeight;

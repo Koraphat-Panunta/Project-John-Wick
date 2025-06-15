@@ -310,10 +310,10 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         //weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
 
-        if (playerAction == SubjectPlayer.PlayerAction.Aim)
+        if (playerAction == SubjectPlayer.NotifyEvent.Aim)
         {
             if (taskUpdateYieldAllShooterOnPlayerAim == null)
                 taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();

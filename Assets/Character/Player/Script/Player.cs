@@ -105,7 +105,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
 
   
-    public void OnNotify(Player player, PlayerAction playerAction)
+    public void OnNotify(Player player, NotifyEvent playerAction)
     {
         
     }
@@ -367,12 +367,12 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     #region ImplementIAmmoGetAble & IHpGetAble
     public void Recived(AmmoGetAbleObject ammoGetAbleObject)
     {
-        NotifyObserver(this, PlayerAction.RecivedAmmo);
+        NotifyObserver(this, NotifyEvent.RecivedAmmo);
     }
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
-        NotifyObserver(this, PlayerAction.RecivedHp);
+        NotifyObserver(this, NotifyEvent.RecivedHp);
     }
 
     public bool PreCondition(ItemObject itemObject)

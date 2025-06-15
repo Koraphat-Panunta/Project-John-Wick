@@ -26,14 +26,14 @@ public class PlayerHpRegenarate:IObserverPlayer
         }
         else
         {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.HealthRegen);
+            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.HealthRegen);
             player.SetHP(Mathf.Clamp(player.GetHP() + regenarate_rate * Time.deltaTime, 0, player.GetMaxHp()));
         }
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GetDamaged)
+        if(playerAction == SubjectPlayer.NotifyEvent.GetDamaged)
             elapesTime = regenarate_countDown;
     }
 

@@ -15,12 +15,11 @@ public class PlayerInCoverStandMoveNodeLeaf : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandMove);
+        player.NotifyObserver(player,this);
         base.Enter();
     }
     public override void UpdateNode()
     {
-        InputPerformed();
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
@@ -104,11 +103,5 @@ public class PlayerInCoverStandMoveNodeLeaf : PlayerStateNodeLeaf
         playerMovement.RotateToDirWorld(coverStanceDir , 6);
     }
 
-    private  void InputPerformed()
-    {
-        if (player.isSwapShoulder)
-        {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
-        }
-    }
+    
 }

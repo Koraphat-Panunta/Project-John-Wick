@@ -14,9 +14,9 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         White
     }
     private ColorMarker curColorMarker;    
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == SubjectPlayer.PlayerAction.OppenentStagger)
+        if (playerAction == SubjectPlayer.NotifyEvent.OppenentStagger)
         {
             X_markker.color = Color.white;
             curColorMarker = ColorMarker.White;
@@ -24,7 +24,7 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
 
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.OpponentKilled)
+        if (playerAction == SubjectPlayer.NotifyEvent.OpponentKilled)
         {
             X_markker.color = Color.red;
             curColorMarker = ColorMarker.Red;

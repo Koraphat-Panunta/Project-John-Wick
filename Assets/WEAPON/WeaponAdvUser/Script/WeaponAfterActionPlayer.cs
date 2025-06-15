@@ -20,13 +20,13 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
             {
                 case FiringNode firingNode:
                     {
-                        player.NotifyObserver(player, PlayerAction.Firing);
+                        player.NotifyObserver(player, NotifyEvent.Firing);
                         break;
                     }
                 case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
                     {
                         if(_reloadMagFullStage.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
-                            player.NotifyObserver(player, PlayerAction.ReloadMagazineFullStage);
+                            player.NotifyObserver(player, NotifyEvent.ReloadMagazineFullStage);
                         break;
                     }
                 case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
@@ -34,7 +34,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
                         if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
                         {
-                            player.NotifyObserver(player, PlayerAction.TacticalReloadMagazineFullStage);
+                            player.NotifyObserver(player, NotifyEvent.TacticalReloadMagazineFullStage);
                         }
                         break;
                     }
@@ -42,13 +42,13 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     {
                         RotateObjectToward rotateObjectToward = new RotateObjectToward();
                         rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
-                        player.NotifyObserver(player, PlayerAction.Aim);
+                        player.NotifyObserver(player, NotifyEvent.Aim);
 
                         break;
                     }
                 case LowReadyWeaponManuverNodeLeaf:
                     {
-                        player.NotifyObserver(player, PlayerAction.LowReady);
+                        player.NotifyObserver(player, NotifyEvent.LowReady);
                         break;
                     }
                 case DropWeaponManuverNodeLeaf:
@@ -60,20 +60,20 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                 case PrimaryToSecondarySwitchWeaponManuverLeafNode:
                 case SecondaryToPrimarySwitchWeaponManuverLeafNode:
                     {
-                        player.NotifyObserver(player, PlayerAction.SwitchWeapon);
+                        player.NotifyObserver(player, NotifyEvent.SwitchWeapon);
                         break;
                     }
                 case RestWeaponManuverLeafNode:
                     {
-                        player.NotifyObserver(player, PlayerAction.Resting);
+                        player.NotifyObserver(player, NotifyEvent.Resting);
                         break;
                     }
                 case QuickDrawWeaponManuverLeafNode quickDrawNodeLeaf:
                     {
-                        player.NotifyObserver(player, PlayerAction.QuickDraw);
+                        player.NotifyObserver(player, NotifyEvent.QuickDraw);
                         RotateObjectToward rotateObjectToward = new RotateObjectToward();
                         rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
-                        player.NotifyObserver(player, PlayerAction.Aim);
+                        player.NotifyObserver(player, NotifyEvent.Aim);
                         break;
                     }
             }
@@ -101,14 +101,14 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
                         if (enemy.isDead)
                         {
-                            player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                            player.NotifyObserver(player, NotifyEvent.OpponentKilled);
                             isKilleComfirm[enemy] = true;
                             return;
                         }
 
                         if (enemy._posture <= 0)
                         {
-                            player.NotifyObserver(player, PlayerAction.OppenentStagger);
+                            player.NotifyObserver(player, NotifyEvent.OppenentStagger);
 
                         }
                     }
@@ -124,14 +124,14 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
 
                         if (enemy.isDead)
                         {
-                            player.NotifyObserver(player, PlayerAction.OpponentKilled);
+                            player.NotifyObserver(player, NotifyEvent.OpponentKilled);
                             isKilleComfirm[enemy] = true;
                             return;
                         }
 
                         if (enemy._posture <= 0)
                         {
-                            player.NotifyObserver(player, PlayerAction.OppenentStagger);
+                            player.NotifyObserver(player, NotifyEvent.OppenentStagger);
 
                         }
                     }

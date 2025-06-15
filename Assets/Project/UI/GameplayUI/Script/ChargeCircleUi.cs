@@ -27,9 +27,9 @@ public class ChargeCircleUi : GameplayUI, IObserverPlayer
         player.AddObserver(this);
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == SubjectPlayer.PlayerAction.GunFuAttack && player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
+        if (playerAction == SubjectPlayer.NotifyEvent.GunFuAttack && player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
         {
             if(targetFill <= 1)
                 ammoIcon.color = Color.white;

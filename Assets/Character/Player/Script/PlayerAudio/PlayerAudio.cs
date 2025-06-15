@@ -61,12 +61,12 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
         }
     }
     float footStepTiming = 0;
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == PlayerAction.Dodge)
+        if (playerAction == NotifyEvent.Dodge)
             PlayAudio(dodgeRollSound);
 
-        if(playerAction == PlayerAction.GunFuAttack)
+        if(playerAction == NotifyEvent.GunFuAttack)
         {
             if (player.playerStateNodeManager.curNodeLeaf is Hit1GunFuNode
                 || player.playerStateNodeManager.curNodeLeaf is Hit2GunFuNode

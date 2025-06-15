@@ -97,7 +97,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     if (elaspeTimmerEnter >= EnterDuration)
                     {
                         curIntphase = HumanShieldInteractionPhase.Stay;
-                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+                        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
                     }
                 }
                 break;
@@ -127,7 +127,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public Vector3 humanShieldGetShootDir { get; private set; }
     public void HumanShieldedOpponentGotShoot(Vector3 hitDir)
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.HumanShieldOpponentGetShoot);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.HumanShieldOpponentGetShoot);
         humanShieldGetShootDir = hitDir;
     }
 

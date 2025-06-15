@@ -20,17 +20,17 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     }
 
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == SubjectPlayer.PlayerAction.GetDamaged)
+        if (playerAction == SubjectPlayer.NotifyEvent.GetDamaged)
         {
            UpdateInfo();
         }
-        if (playerAction == SubjectPlayer.PlayerAction.HealthRegen)
+        if (playerAction == SubjectPlayer.NotifyEvent.HealthRegen)
         {
             UpdateInfo();
         }
-        if (playerAction == SubjectPlayer.PlayerAction.RecivedHp)
+        if (playerAction == SubjectPlayer.NotifyEvent.RecivedHp)
         {
             UpdateInfo();
         }

@@ -62,7 +62,7 @@ public class PlayerInputAPI : MonoBehaviour
 
         else if (player.curShoulderSide == ShoulderSide.Right)
         { player.curShoulderSide = ShoulderSide.Left; }
-        player.NotifyObserver(player, PlayerAction.SwapShoulder);
+        player.NotifyObserver(player, NotifyEvent.SwapShoulder);
 
     }
     public void SwitchWeapon(InputAction.CallbackContext context)

@@ -24,40 +24,40 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         this.playerInfo = FindAnyObjectByType<Player>();
     }
  
-    public  void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public  void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
 
 
-       if(playerAction == SubjectPlayer.PlayerAction.Firing)
+       if(playerAction == SubjectPlayer.NotifyEvent.Firing)
        {
             if (this.playerInfo._currentWeapon != null)
             {
                 UpdateInfo();
             }
        }
-       if(playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage
-            || playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage
-            || playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage
-            || playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
+       if(playerAction == SubjectPlayer.NotifyEvent.ReloadMagazineFullStage
+            || playerAction == SubjectPlayer.NotifyEvent.TacticalReloadMagazineFullStage
+            || playerAction == SubjectPlayer.NotifyEvent.InputMag_ReloadMagazineStage
+            || playerAction == SubjectPlayer.NotifyEvent.ChamberLoad_ReloadMagazineStage)
        {
             UpdateInfo();
        }
-       if(playerAction == SubjectPlayer.PlayerAction.PickUpWeapon)
+       if(playerAction == SubjectPlayer.NotifyEvent.PickUpWeapon)
         {
             UpdateInfo();
         }
-        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
+        if(playerAction == SubjectPlayer.NotifyEvent.SwitchWeapon)
         {
             UpdateInfo();
           
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.QuickDraw)
+        if (playerAction == SubjectPlayer.NotifyEvent.QuickDraw)
         {
            UpdateInfo();
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.RecivedAmmo)
+        if (playerAction == SubjectPlayer.NotifyEvent.RecivedAmmo)
         {
             UpdateInfo();
         }

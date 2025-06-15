@@ -36,12 +36,12 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
        
     }
 
-    public virtual void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public virtual void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         if(isEnable == false)
             return;
 
-        if (playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        if (playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
             ShowIndicator(hitDir);

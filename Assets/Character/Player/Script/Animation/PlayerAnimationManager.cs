@@ -29,7 +29,13 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     public float CAR_Weight;
     public float WeaponSwayRate_Normalized;
 
-    public bool isCover;
+    public bool isCover { 
+        get { 
+            if(player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf)
+                return true;
+            return false;
+        }
+    }
 
     public bool isLayer_1_Enable;
 
@@ -60,9 +66,6 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     {
         CalculateDeltaRotation();
     }
-
-    
-
     private void BackBoardUpdate()
     {
        
@@ -178,249 +181,22 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     }
 
     private bool isDead;
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent notifyEvent)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.Dodge)
-        {
-            isLayer_1_Enable = false;
-            animator.CrossFade("DodgeRoll", 0.05f, 0, 0);
-        }
-        if (playerAction == SubjectPlayer.PlayerAction.Dead)
-        {
-            if(isDead)
-                return;
-            isLayer_1_Enable = false;
-            animator.CrossFade("Dead", 0.05f, 0, 0);
-            isDead = true;
-        }
 
-        if (playerAction == SubjectPlayer.PlayerAction.TakeCover)
-            isCover = true;
-        
-        if(playerAction == SubjectPlayer.PlayerAction.GetOffCover)
-            isCover = false;
-
-        if(playerAction == SubjectPlayer.PlayerAction.Firing)
+        if(notifyEvent == SubjectPlayer.NotifyEvent.Firing)
             RecoilWeight = 1;
-
-        if (playerAction == SubjectPlayer.PlayerAction.Sprint)
-        {
-            animator.CrossFade(Sprint, 0.3f, 0, 0);
-            animator.CrossFade("SprintWeaponSway", 0.25f,1);
-            isLayer_1_Enable = true;
-        }
-       
-        if(playerAction == SubjectPlayer.PlayerAction.StandMove||
-            playerAction == SubjectPlayer.PlayerAction.StandIdle)
-        {
-            animator.CrossFade(Move_Idle, 0.3f, 0, 0);
-            isLayer_1_Enable = true;
-            if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
-            {
-                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
-            }
-
-        }
-
-        if(playerAction == SubjectPlayer.PlayerAction.CrouchIdle||
-            playerAction == SubjectPlayer.PlayerAction.CrouchMove)
-        {
-            animator.CrossFade(Crouch, 0.3f, 0, 0);
-            isLayer_1_Enable = true;
-            if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
-            {
-                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
-            }
-        }
-
-        if(playerAction == SubjectPlayer.PlayerAction.GetUp)
-        {
-            isLayer_1_Enable = false;
-            animator.CrossFade("PlayerSpringGetUp", 0.1f, 0);
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack)
-        {
-            isLayer_1_Enable = false;
-
-            if (player.curNodeLeaf is PlayerBrounceOffGotAttackGunFuNodeLeaf){
-                animator.CrossFade("PlayerBounceOff", 0.05f, 0);
-            }
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
-        {
-
-            isLayer_1_Enable = false;
-
-            if (player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
-            {
-                if (player._currentWeapon is PrimaryWeapon)
-                    animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.3f, 0, 0);
-                if (player._currentWeapon is SecondaryWeapon)
-                    animator.CrossFade("GunFu_EX_Knee", 0.3f, 0, 0);
-            }
-
-            if (player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm)
-            {
-                if (weaponDisarm.disarmedWeapon is PrimaryWeapon)
-                    animator.CrossFade("GunFuPrimaryDisarm", 0f, 0, 0);
-                if (weaponDisarm.disarmedWeapon is SecondaryWeapon)
-                    animator.CrossFade("GunFuSecondaryDisarm", 0f, 0, 0);
-            }
-
-            if (player.playerStateNodeManager.curNodeLeaf == (player.playerStateNodeManager as PlayerStateNodeManager).Hit1gunFuNode)
-                animator.CrossFade("Hit", 0.2f, 0, 0);
-
-            if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is Hit2GunFuNode)
-                animator.CrossFade("Hit2", 0.2f, 0, 0);
-
-            if (player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf is KnockDown_GunFuNode)
-                animator.CrossFade("KnockDown", 0.2f, 0, 0);
-
-            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-                animator.CrossFade("Restrict_Enter", 0.05f, 0, 0);
-
-            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
-                animator.CrossFade(humanShield.humandShieldEnter, 0.05f, 0, 0);
-
-            if (player.playerStateNodeManager.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf humanThrow)
-            {
-                animator.CrossFade("HumandThrow", 0.2f, 0, 0);
-            }
-
-            if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf) { 
-                animator.CrossFade("DodgeSpinKick", 0.2f, 0, 0);
-            }
-        }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
-        {
-            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
-                if(humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay) 
-                {
-                    animator.CrossFade(Move_Idle,0.05f,0,0);
-                    animator.CrossFade(humanShield.humandShieldStay, 0.05f, 1, 0);
-                    isLayer_1_Enable = true;
-                }
-
-            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-            {
-                if(restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
-                {
-                    animator.CrossFade(Move_Idle, 0.05f, 0, 0);
-                    animator.CrossFade("Restrict_Stay", 0.05f, 1, 0);
-                    isLayer_1_Enable = true;
-                }
-                else if(restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
-                {
-                    animator.CrossFade("Restrict_Exit", 0.05f, 0, 0);
-                    isLayer_1_Enable = false;
-                }
-            }
-        }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuExit)
-        {
-            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShield)
-                if (humanShield.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Release)
-                {
-                    animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
-                    isLayer_1_Enable = true;
-                }
-
-            if(player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-            {
-                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
-                isLayer_1_Enable = true;
-            }
-        }
-
-        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
-        {
-            PlayerWeaponManuver playerWeaponManuver = player._weaponManuverManager as PlayerWeaponManuver;
-            if(playerWeaponManuver.curNodeLeaf is HolsterPrimaryWeaponManuverNodeLeaf)
-                animator.CrossFade("HolsterPrimary", 0.1f, 1);
-            if(playerWeaponManuver.curNodeLeaf is HolsterSecondaryWeaponManuverNodeLeaf)
-                animator.CrossFade("HolsterSecondary", 0.1f, 1);
-            if (playerWeaponManuver.curNodeLeaf is DrawPrimaryWeaponManuverNodeLeaf)
-                animator.CrossFade("DrawPrimary", 0.1f, 1);
-            if(playerWeaponManuver.curNodeLeaf is DrawSecondaryWeaponManuverNodeLeaf)
-                animator.CrossFade("DrawSecondary", 0.1f, 1);
-
-            if (playerWeaponManuver.curNodeLeaf is PrimaryToSecondarySwitchWeaponManuverLeafNode PTS)
-            {
-                if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
-                    animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
-            }
-
-            if (playerWeaponManuver.curNodeLeaf is SecondaryToPrimarySwitchWeaponManuverLeafNode STP)
-            {
-                if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
-                    animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f, 1);
-            }
-               
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage)
-        {
-            if(player._weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf)
-            animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
-        {
-
-            if (player._weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf)
-            {
-                animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
-            }
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.InputMag_ReloadMagazineStage)
-            animator.CrossFade("MagIn_ReloadMagazineStage", 0.3f,1);
-
-        if (playerAction == SubjectPlayer.PlayerAction.ChamberLoad_ReloadMagazineStage)
-            animator.CrossFade("ChamberStage_ReloadMagazineStage", 0.3f, 1);
-
-        if(playerAction == SubjectPlayer.PlayerAction.QuickDraw)
-        {
-            QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = (player._weaponManuverManager.curNodeLeaf as QuickDrawWeaponManuverLeafNode).quickDrawPhase;
-
-            switch (quickDrawPhase)
-            {
-                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw: animator.CrossFade("QuickDraw",0.1f,1);
-                    break;
-
-                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary: animator.CrossFade("QuickHolster", 0.1f, 1);
-                    break;
-
-                case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterPrimary: animator.CrossFade("StandWeaponHand LowReady/ADS", 0.1f, 1);
-                    break;
-            }
-            
-        }
-
-        if (playerAction == SubjectPlayer.PlayerAction.LowReady)
-        {
-            if (playerAction == SubjectPlayer.PlayerAction.Sprint)
-            {
-                animator.CrossFade(Sprint, 0.3f, 0, 0);
-                animator.CrossFade("SprintWeaponSway", 0.25f, 1);
-                isLayer_1_Enable = true;
-            }
-            else
-            {
-                animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1);
-            }
-        }
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
+        if (node is PlayerStateNodeLeaf playerStateNode)
+            this.PlayerStateNodeNotifyManager(playerStateNode);
+        else if (node is WeaponManuverLeafNode weaponManuverLeaf)
+            this.PlayerWeaponManuverStateStateNodeNotifyManager(weaponManuverLeaf);
     }
 
     #region CalculateRotateRate
     private Vector3 previousDir;
-
     private void CalculateDeltaRotation()
     {
         Vector3 curDir = player.transform.forward;
@@ -429,7 +205,238 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         previousDir = curDir;
     }
 
+   
+
 
     #endregion
-    
+
+    private void PlayerStateNodeNotifyManager(PlayerStateNodeLeaf playerStateNode)
+    {
+
+        switch (playerStateNode)
+        {
+            case PlayerDodgeRollStateNodeLeaf:
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("DodgeRoll", 0.05f, 0, 0);
+                    break;
+                }
+            case PlayerDeadNodeLeaf: 
+                {
+                    if (isDead)
+                        return;
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("Dead", 0.05f, 0, 0);
+                    isDead = true;
+                    break;
+                }
+            case PlayerSprintNode:
+                {
+                    animator.CrossFade(Sprint, 0.3f, 0, 0);
+                    if(player.weaponAdvanceUser._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                        animator.CrossFade("SprintWeaponSway", 0.25f, 1);
+                    isLayer_1_Enable = true;
+                    break;
+                }
+            case PlayerStandMoveNodeLeaf:
+            case PlayerStandIdleNodeLeaf:
+                {
+                    animator.CrossFade(Move_Idle, 0.3f, 0, 0);
+                    isLayer_1_Enable = true;
+                    if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                        animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
+                    
+                    break;
+                }
+            case PlayerCrouch_Idle_NodeLeaf:
+            case PlayerCrouch_Move_NodeLeaf:
+                {
+                    animator.CrossFade(Crouch, 0.3f, 0, 0);
+                    isLayer_1_Enable = true;
+                    if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                        animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
+                    
+                    break;
+                }
+            case PlayerGetUpStateNodeLeaf: 
+                {   
+                    isLayer_1_Enable = false;   
+                    animator.CrossFade("PlayerSpringGetUp", 0.1f, 0);
+                    break;
+                }
+            case PlayerBrounceOffGotAttackGunFuNodeLeaf: 
+                {
+                    isLayer_1_Enable = false;    
+                    animator.CrossFade("PlayerBounceOff", 0.05f, 0);
+                    break;
+                }
+            case GunFuExecuteNodeLeaf:
+                {
+                    isLayer_1_Enable = false;
+                    if (player._currentWeapon is PrimaryWeapon)
+                        animator.CrossFade("GunFu_EX_stepOn_Rifle", 0.3f, 0, 0);
+                    if (player._currentWeapon is SecondaryWeapon)
+                        animator.CrossFade("GunFu_EX_Knee", 0.3f, 0, 0);
+                    break;
+                }
+            case WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarm: 
+                {
+                    isLayer_1_Enable = false;
+                    if (weaponDisarm.disarmedWeapon is PrimaryWeapon)
+                        animator.CrossFade("GunFuPrimaryDisarm", 0f, 0, 0);
+                    if (weaponDisarm.disarmedWeapon is SecondaryWeapon)
+                        animator.CrossFade("GunFuSecondaryDisarm", 0f, 0, 0);
+                    break;
+                }
+            case Hit1GunFuNode hit1: 
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("Hit", 0.2f, 0, 0);
+                    break;
+                }
+            case Hit2GunFuNode hit2: 
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("Hit2", 0.2f, 0, 0);
+                    break;
+                }
+            case KnockDown_GunFuNode knockDown: 
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("KnockDown", 0.2f, 0, 0);
+                    break;
+                }
+            case RestrictGunFuStateNodeLeaf restrict:
+                {
+                    if (restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+                    {
+                        isLayer_1_Enable = false;
+                        animator.CrossFade("Restrict_Enter", 0.05f, 0, 0);
+                    }
+                    else if (restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                    {
+                        animator.CrossFade(Move_Idle, 0.05f, 0, 0);
+                        animator.CrossFade("Restrict_Stay", 0.05f, 1, 0);
+                        isLayer_1_Enable = true;
+                    }
+                    else if (restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                    {
+                        animator.CrossFade("Restrict_Exit", 0.05f, 0, 0);
+                        isLayer_1_Enable = false;
+                    }
+
+                    break;
+                }
+            case HumanShield_GunFuInteraction_NodeLeaf humandShield_NodeLeaf:
+                {
+                    if (humandShield_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+                    {
+                        isLayer_1_Enable = false;
+                        animator.CrossFade(humandShield_NodeLeaf.humandShieldEnter, 0.05f, 0, 0);
+                    }
+                    else if (humandShield_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                    {
+                        animator.CrossFade(Move_Idle, 0.05f, 0, 0);
+                        animator.CrossFade(humandShield_NodeLeaf.humandShieldStay, 0.05f, 1, 0);
+                        isLayer_1_Enable = true;
+                    }
+                    else if (humandShield_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Release)
+                    {
+                        animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
+                        isLayer_1_Enable = true;
+                    }
+                    break;
+                }
+            case HumanThrowGunFuInteractionNodeLeaf humanThrowGunFuInteractionNodeLeaf: 
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("HumandThrow", 0.2f, 0, 0);
+                    break; 
+                }
+            case DodgeSpinKicklGunFuNodeLeaf dodgeSpinKicklGunFuNodeLeaf: 
+                {
+                    isLayer_1_Enable = false;
+                    animator.CrossFade("DodgeSpinKick", 0.2f, 0, 0);    
+                    break;
+                }
+            
+
+        }
+       
+
+       
+    }
+    private void PlayerWeaponManuverStateStateNodeNotifyManager(WeaponManuverLeafNode weaponManuverLeafNode)
+    {
+        switch (weaponManuverLeafNode)
+        {
+            case HolsterPrimaryWeaponManuverNodeLeaf: animator.CrossFade("HolsterPrimary", 0.1f, 1);    
+                break;
+            
+            case HolsterSecondaryWeaponManuverNodeLeaf: animator.CrossFade("HolsterPrimary", 0.1f, 1);
+                break;
+
+            case DrawPrimaryWeaponManuverNodeLeaf: animator.CrossFade("DrawPrimary", 0.1f, 1);
+                break;
+
+            case DrawSecondaryWeaponManuverNodeLeaf: animator.CrossFade("DrawSecondary", 0.1f, 1);
+                break;
+
+            case PrimaryToSecondarySwitchWeaponManuverLeafNode PTS:
+                {
+                    if(PTS.curPhase == PrimaryToSecondarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                        animator.CrossFade("SwitchWeaponPrimary -> Secondary", 0.1f, 1);
+                    break;
+                }
+            case SecondaryToPrimarySwitchWeaponManuverLeafNode STP:
+                {
+                    if (STP.curPhase == SecondaryToPrimarySwitchWeaponManuverLeafNode.TransitionPhase.Enter)
+                        animator.CrossFade("SwitchWeaponSecondary -> Primary", 0.1f, 1);
+                    break;
+                }
+            case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:
+                {    
+                    animator.CrossFade("ReloadMagazineFullStage", 0.4f, 1);
+                    break;
+                }
+            case TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf:
+                {
+                    animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
+                    break;
+                }
+            case QuickDrawWeaponManuverLeafNode QuickDrawWeaponManuverLeafNode: 
+                {
+                    QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = QuickDrawWeaponManuverLeafNode.quickDrawPhase;
+                    switch (quickDrawPhase)
+                    {
+                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:
+                            animator.CrossFade("QuickDraw", 0.1f, 1);
+                            break;
+
+                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary:
+                            animator.CrossFade("QuickHolster", 0.1f, 1);
+                            break;
+
+                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterPrimary:
+                            animator.CrossFade("StandWeaponHand LowReady/ADS", 0.1f, 1);
+                            break;
+                    }
+                    break;
+                }
+            case LowReadyWeaponManuverNodeLeaf LowReadyWeaponManuverLeafNode: 
+                {
+                    if(player.curNodeLeaf is PlayerSprintNode)
+                    {
+                        animator.CrossFade("SprintWeaponSway", 0.25f, 1);
+                        isLayer_1_Enable = true;
+                    }
+                    else
+                    {
+                        animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1);
+                    }
+                    break;
+                }
+
+        }
+    }
 }

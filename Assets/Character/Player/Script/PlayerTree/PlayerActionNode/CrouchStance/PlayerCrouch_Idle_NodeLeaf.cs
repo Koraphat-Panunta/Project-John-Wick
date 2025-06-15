@@ -9,7 +9,7 @@ public class PlayerCrouch_Idle_NodeLeaf : PlayerStateNodeLeaf
     }
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.CrouchIdle);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.CrouchIdle);
         base.Enter();
     }
 

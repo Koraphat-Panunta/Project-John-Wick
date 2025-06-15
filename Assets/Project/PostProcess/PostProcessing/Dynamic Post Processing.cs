@@ -11,9 +11,9 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
     public Volume volume;
     public GetShootFeedBack_PostProcessing getShootFeedBack;
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             getShootFeedBack.TriggerFeedBack();
         }

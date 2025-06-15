@@ -24,7 +24,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     ""name"": ""UserInput"",
     ""maps"": [
         {
-            ""name"": ""PlayerAction"",
+            ""name"": ""NotifyEvent"",
             ""id"": ""99432a28-8198-4efc-81e2-2ef3bb2ea75b"",
             ""actions"": [
                 {
@@ -619,8 +619,8 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // PlayerAction
-        m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
+        // NotifyEvent
+        m_PlayerAction = asset.FindActionMap("NotifyEvent", throwIfNotFound: true);
         m_PlayerAction_Move = m_PlayerAction.FindAction("Move", throwIfNotFound: true);
         m_PlayerAction_Look = m_PlayerAction.FindAction("Look", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
@@ -641,7 +641,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
 
     ~@UserInput()
     {
-        UnityEngine.Debug.Assert(!m_PlayerAction.enabled, "This will cause a leak and performance issues, UserInput.PlayerAction.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PlayerAction.enabled, "This will cause a leak and performance issues, UserInput.NotifyEvent.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_PauseAction.enabled, "This will cause a leak and performance issues, UserInput.PauseAction.Disable() has not been called.");
     }
 
@@ -701,7 +701,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerAction
+    // NotifyEvent
     private readonly InputActionMap m_PlayerAction;
     private List<IPlayerActionActions> m_PlayerActionActionsCallbackInterfaces = new List<IPlayerActionActions>();
     private readonly InputAction m_PlayerAction_Move;

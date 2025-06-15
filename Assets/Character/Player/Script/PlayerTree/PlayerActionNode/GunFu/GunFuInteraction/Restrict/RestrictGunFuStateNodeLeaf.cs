@@ -26,6 +26,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         Enter,
         Stay,
         Exit,
+        Done,
     }
     public RestrictGunFuPhase curRestrictGunFuPhase { get; private set; }
     public RestrictGunFuStateNodeLeaf(RestrictScriptableObject restrictScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
@@ -42,13 +43,13 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
         isRestrictExitHit = false;
         attackedAbleGunFu._movementCompoent.CancleMomentum();
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuEnter);
         base.Enter();
     }
 
     public override void Exit()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuExit);
         base.Exit();
     }
 
@@ -109,7 +110,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     {
                         curRestrictGunFuPhase = RestrictGunFuPhase.Stay;
                         _timer = 0;
-                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+                        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
                     }
                 }
                 break;
@@ -133,7 +134,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     {
                         _timer = 0;
                        curRestrictGunFuPhase = RestrictGunFuPhase.Exit;
-                        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+                        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
                     }
                 }
                 break;
@@ -150,7 +151,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     {
                         if(attackedAbleGunFu._movementCompoent is IMotionImplusePushAble movePush)
                         {
-                            player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuAttack);
+                            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
                             movePush.AddForcePush(gunFuAble._gunFuUserTransform.forward * restrictScriptableObject.restrictExit_HitForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                         }
                         isRestrictExitHit = true;

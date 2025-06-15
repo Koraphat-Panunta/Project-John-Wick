@@ -141,9 +141,9 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf,IObserverPlayer
         await Task.Delay(250);
         curPhase = Phase.Exit;
     }
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuAttack && player.curGunFuNode is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuAttack && player.curGunFuNode is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf)
         {
             ExitPhase();
         }

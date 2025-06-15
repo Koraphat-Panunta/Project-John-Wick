@@ -38,7 +38,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
             sprintPhase = SprintPhase.Stay;
         }
         player.playerStance = Player.PlayerStance.stand;
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.Sprint);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.Sprint);
         
         base.Enter();
     }
@@ -79,7 +79,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     {
         if (player.isSwapShoulder)
         {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
+            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.SwapShoulder);
         }
     }
    

@@ -117,7 +117,7 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
             gunFuExecuteAble._damageAble.TakeDamage(bulletExecute);
             player._currentWeapon.PullTrigger();
             isExecute = true;
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuAttack);
+            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
         }
         
         base.UpdateNode();

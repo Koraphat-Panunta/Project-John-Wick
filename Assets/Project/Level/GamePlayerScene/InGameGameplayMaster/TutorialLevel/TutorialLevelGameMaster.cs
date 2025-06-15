@@ -332,10 +332,10 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
     {
         base.UpdateNode();
     }
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         if(curPhase == Phase.KnockDown 
-            && playerAction == SubjectPlayer.PlayerAction.GunFuAttack
+            && playerAction == SubjectPlayer.NotifyEvent.GunFuAttack
             && player.curGunFuNode is KnockDown_GunFuNode)
         {
             gunFuKnockDown.gameObject.SetActive(false);
@@ -343,7 +343,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
             curPhase = Phase.restrict;
         }
         else if(curPhase == Phase.restrict
-            && playerAction == SubjectPlayer.PlayerAction.GunFuInteract
+            && playerAction == SubjectPlayer.NotifyEvent.GunFuInteract
             && player.curGunFuNode is RestrictGunFuStateNodeLeaf)
         {
             restrict.gameObject.SetActive(false);
@@ -351,7 +351,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
             curPhase = Phase.humanShield;
         }
         else if(curPhase == Phase.humanShield
-            && playerAction == SubjectPlayer.PlayerAction.GunFuInteract
+            && playerAction == SubjectPlayer.NotifyEvent.GunFuInteract
             && player.curGunFuNode is HumanShield_GunFuInteraction_NodeLeaf)
         {
             humanShield.gameObject.SetActive(false);
@@ -466,7 +466,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMas
         base.FixedUpdateNode();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         
     }
@@ -518,7 +518,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         base.FixedUpdateNode();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
        if(curPhase == Phase.ExecuteLastone 
             &&player.curGunFuNode is GunFuExecuteNodeLeaf)

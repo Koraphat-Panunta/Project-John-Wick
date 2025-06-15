@@ -85,19 +85,19 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     [Range(0, 5)]
     [SerializeField] private float gunFuCameraKickMultiply;
     public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuEnter)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuEnter)
         {
             gunFuCameraTimer = gunFuCameraDuration;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrict
                 && restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                 gunFuCameraTimer = gunFuCameraDuration;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuAttack)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuAttack)
         {
             if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf)
                 cameraImpluse.Performed(new Vector3(0,0.25f,0)*this.gunFuCameraKickMultiply);
@@ -106,35 +106,35 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             else
                 cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
         }
-        if(playerAction == SubjectPlayer.PlayerAction.SwapShoulder)
+        if(playerAction == SubjectPlayer.NotifyEvent.SwapShoulder)
         {
             curSide = player.curShoulderSide;
         }
-        if(playerAction == SubjectPlayer.PlayerAction.Firing)
+        if(playerAction == SubjectPlayer.NotifyEvent.Firing)
         {
             cameraKickBack.Performed(player._currentWeapon);
             cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
         }
         
-        if(playerAction == SubjectPlayer.PlayerAction.GotAttackGunFuAttack)
+        if(playerAction == SubjectPlayer.NotifyEvent.GotAttackGunFuAttack)
         {
             cameraImpluse.Performed(-0.2f);
         }
 
-        if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             cameraImpluse.Performed(-0.05f);
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.Sprint)
+        if (playerAction == SubjectPlayer.NotifyEvent.Sprint)
         { curStance = player.playerStance; }
 
-        if (playerAction == SubjectPlayer.PlayerAction.StandIdle
-            || playerAction == SubjectPlayer.PlayerAction.StandMove)
+        if (playerAction == SubjectPlayer.NotifyEvent.StandIdle
+            || playerAction == SubjectPlayer.NotifyEvent.StandMove)
         { curStance = player.playerStance; }
 
-        if (playerAction == SubjectPlayer.PlayerAction.CrouchIdle
-            || playerAction == SubjectPlayer.PlayerAction.CrouchMove)
+        if (playerAction == SubjectPlayer.NotifyEvent.CrouchIdle
+            || playerAction == SubjectPlayer.NotifyEvent.CrouchMove)
         { curStance = player.playerStance; }
     }
 

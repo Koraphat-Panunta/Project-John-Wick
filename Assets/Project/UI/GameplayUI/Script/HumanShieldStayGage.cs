@@ -16,9 +16,9 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
         this.player.AddObserver(this);
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuInteract)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuInteract)
         {
             if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShieldNode)
                 if (humanShieldNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
@@ -27,7 +27,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                     isShowGage = true;
                 }
         }
-        if(playerAction == SubjectPlayer.PlayerAction.GunFuExit)
+        if(playerAction == SubjectPlayer.NotifyEvent.GunFuExit)
             isShowGage = false;
     }
 

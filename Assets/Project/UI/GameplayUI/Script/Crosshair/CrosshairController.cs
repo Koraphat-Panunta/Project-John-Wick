@@ -85,12 +85,12 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         player = FindAnyObjectByType<Player>();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         if(player._currentWeapon == null)
         {
             this.Crosshair_CenterPosition.gameObject.SetActive(false);
-            if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+            if (playerAction == SubjectPlayer.NotifyEvent.LowReady)
             {
                 CrosshairSpread.TriggerFocusSpanRate();
                 CrosshairSpread.isAiming = false;
@@ -99,30 +99,30 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         }
         this.Crosshair_CenterPosition.gameObject.SetActive(true);
 
-        if (playerAction == SubjectPlayer.PlayerAction.Firing)
+        if (playerAction == SubjectPlayer.NotifyEvent.Firing)
         {
             CrosshairSpread.Performed(player._currentWeapon);
             CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
             CrosshairSpread.TriggerFocusSpanRate();
         }
-        if(playerAction == SubjectPlayer.PlayerAction.SwitchWeapon)
+        if(playerAction == SubjectPlayer.NotifyEvent.SwitchWeapon)
         {
             CrosshairSpread.Performed(player._currentWeapon);
         }
 
-        if(playerAction == SubjectPlayer.PlayerAction.GetShoot)
+        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             CrosshairSpread.Performed(35);
             CrosshairSpread.TriggerFocusSpanRate();
         }
 
-        if (playerAction == SubjectPlayer.PlayerAction.ReloadMagazineFullStage
-            || playerAction == SubjectPlayer.PlayerAction.TacticalReloadMagazineFullStage)
+        if (playerAction == SubjectPlayer.NotifyEvent.ReloadMagazineFullStage
+            || playerAction == SubjectPlayer.NotifyEvent.TacticalReloadMagazineFullStage)
             CrosshairSpread.TriggerFocusSpanRate();
 
-        if (playerAction == SubjectPlayer.PlayerAction.Aim)
+        if (playerAction == SubjectPlayer.NotifyEvent.Aim)
             CrosshairSpread.isAiming = true;
-        if (playerAction == SubjectPlayer.PlayerAction.LowReady)
+        if (playerAction == SubjectPlayer.NotifyEvent.LowReady)
         {
             CrosshairSpread.TriggerFocusSpanRate();
             CrosshairSpread.isAiming = false;

@@ -31,10 +31,10 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
         float damage = bulletObj.hpDamage;
 
         player.SetHP(player.GetHP() - damage * 0.68f);
-        player.NotifyObserver(this.player, PlayerAction.GetDamaged);
+        player.NotifyObserver(this.player, NotifyEvent.GetDamaged);
 
         if (player.GetHP() <= 0)
-            player.NotifyObserver(this.player, PlayerAction.Dead);
+            player.NotifyObserver(this.player, NotifyEvent.Dead);
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {
@@ -42,7 +42,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
         damageDetail.hitPos = hitPos;
         damageDetail.hitDir = hitDir;
         damageDetail.hitforce = hitforce;
-        player.NotifyObserver(this.player, PlayerAction.GetShoot);
+        player.NotifyObserver(this.player, NotifyEvent.GetShoot);
 
         TakeDamage(damageVisitor);
     }

@@ -10,7 +10,7 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.StandMove);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.StandMove);
         base.Enter();
     }
     public override void FixedUpdateNode()
@@ -32,7 +32,7 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
     {
         if (player.isSwapShoulder)
         {
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.SwapShoulder);
+            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.SwapShoulder);
         }
     }
 }

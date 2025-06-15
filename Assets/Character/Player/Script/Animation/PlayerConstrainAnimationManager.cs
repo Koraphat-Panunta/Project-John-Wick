@@ -135,7 +135,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
             rig.weight = 1;
 
     }
-    public void OnNotify(Player player, SubjectPlayer.PlayerAction playerAction)
+    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
 
     }

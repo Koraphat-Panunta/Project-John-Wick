@@ -42,7 +42,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
 
         (player.playerMovement as IMovementCompoent).CancleMomentum();
 
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuEnter);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuEnter);
 
         base.Enter();
     }
@@ -51,7 +51,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     {
         _timer = 0;
         (player.playerMovement as IMovementCompoent).CancleMomentum();
-        player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuExit);
+        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuExit);
 
         base.Exit();
     }
@@ -66,7 +66,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
                      warpPos,
                       _timer / (_animationClip.length * hitAbleTime_Normalized)
                       );
-            player.NotifyObserver(player, SubjectPlayer.PlayerAction.GunFuInteract);
+            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
             attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(attackedAbleGunFu._gunFuAttackedAble.rotation
                 , Quaternion.LookRotation(targetAdjustTransform.forward * -1, Vector3.up)
                 , _timer / (_animationClip.length * hitAbleTime_Normalized));
