@@ -8,12 +8,16 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
 
     void IObserverEnemy.Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Dead)
+    }
+
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if(node is EnemyDeadStateNode)
         {
-            if(isAlreadyExecuted)
+            if (isAlreadyExecuted)
                 return;
 
-            if(enemy.curNodeLeaf is GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround)
+            if (enemy.curNodeLeaf is GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround)
             {
                 StackGague gunFuExecuteStackGauge = enemy.gunFuAbleAttacker.gunFuExecuteStackGauge;
                 if (gunFuExecuteStackGauge.amount >= gunFuExecuteStackGauge.max)
@@ -25,7 +29,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
                 }
             }
         }
-       
     }
     private void Awake()
     {
@@ -33,6 +36,5 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
         enemy = GetComponent<Enemy>();
         enemy.AddObserver(this);
     }
-  
-    
+
 }

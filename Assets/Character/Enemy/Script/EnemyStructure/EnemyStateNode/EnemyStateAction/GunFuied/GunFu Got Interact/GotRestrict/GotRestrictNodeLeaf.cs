@@ -36,7 +36,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
         animator.CrossFade(gotRestrictEnter, 0.075f, 0,gotRestrictScriptableObject.gotRestrictEnter_enterNormalized);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         enemy.friendlyFirePreventingBehavior.DisableFriendlyFirePreventing();
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract); 
+        enemy.NotifyObserver(enemy, this); 
         base.Enter();
     }
 
@@ -88,7 +88,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
                         _timer = 0;
                         curGotHitRestrictPhase = GotRestrictPhase.Stay;
                         animator.CrossFade(gotRestrictStay, 0.075f, 0);
-                        enemy.NotifyObserver(enemy,SubjectEnemy.EnemyEvent.GunFuGotInteract);
+                        enemy.NotifyObserver(enemy,this);
                     }
                 }
                 break;
@@ -103,7 +103,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
                         _timer = 0;
                         curGotHitRestrictPhase = GotRestrictPhase.Exit;
                         animator.CrossFade(gotRestrictExit, 0.075f, 0,gotRestrictScriptableObject.gotRestrictExit_enterNormalized);
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+                        enemy.NotifyObserver(enemy, this);
                     }
                 }
                 break;
@@ -116,7 +116,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
                     {
                         isComplete = true;
                         _timer = 0;
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+                        enemy.NotifyObserver(enemy, this);
                     }
                 }
                 break;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Enemy))]
-public class EnemyDebuger :MonoBehaviour, IObserverEnemy
+public class EnemyDebuger :MonoBehaviour
 {
     public Enemy enemy;
     [SerializeField] private string CurrentEnemyState;
@@ -30,10 +30,5 @@ public class EnemyDebuger :MonoBehaviour, IObserverEnemy
     private void OnDrawGizmos()
     {
        
-    }
-
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-        
     }
 }

@@ -12,7 +12,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
 
     public override void Enter()
     {
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        enemy.NotifyObserver(enemy, this);
         enemy.animator.CrossFade(weaponGotDisarmedScriptableObject.StateName, 0.25f, 0,weaponGotDisarmedScriptableObject.enterNormalized);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
         base.Enter();

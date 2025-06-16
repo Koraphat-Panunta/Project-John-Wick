@@ -14,24 +14,15 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     [SerializeField] private Animator animator;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
             audioSource.spatialBlend = 0;
             audioSource.PlayOneShot(hit);
         }
-       
-
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Dead)
-        {
-            if (isdead == false)
-            {
-                if (Random.Range(0f, 1f) > 0.7f)
-                {
-                    audioSource.PlayOneShot(dead, 0.4f);
-                    isdead = true;
-                }
-            }
-        }
+    }
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        
     }
     bool isdead = false;
     private void Awake()

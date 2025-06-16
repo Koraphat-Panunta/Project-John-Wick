@@ -160,10 +160,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit
-            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
-            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract
-            || enemyEvent == SubjectEnemy.EnemyEvent.Dead)
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
             _takeCoverAble = false;
             takeCoverAbleDelay = 5;
@@ -174,9 +171,20 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     {
         enemyActionNodeManager = roleEnemy; 
     }
-   
 
-
-    
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if(node is EnemyStateLeafNode enemyStateLeafNode)
+            switch (enemyStateLeafNode)
+            {
+                case IGotGunFuAttackAbleNode:
+                case EnemyDeadStateNode:
+                    {
+                        _takeCoverAble = false;
+                        takeCoverAbleDelay = 5;
+                        break;
+                    }
+            }
+    }
 }
 

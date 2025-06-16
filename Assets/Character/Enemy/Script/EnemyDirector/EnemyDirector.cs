@@ -47,31 +47,30 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
-        {
-            enemy.RemoveObserver(this);
-            enemiesRole.Remove(enemysGetRole[enemy]);
-            enemysGetRole.Remove(enemy);
-            elapseTimeChaserChange = chaserChangeDelay;
-            CalcuateRoleCount();
-            return;
-        }
-
-        if (enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
-            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
-        {
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
+            && enemy._posture <= enemy._postureHeavy)
             AssignChaser(enemysGetRole[enemy]);
-        }
-        else if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
-        {
-            if (enemy._posture <= enemy._postureHeavy)
+    }
+    public void Notify<T>(Enemy enemy,T node)where T : INode
+    {
+        if(node is EnemyStateLeafNode enemyStateNodeLeaf)
+            switch (enemyStateNodeLeaf)
             {
-                AssignChaser(enemysGetRole[enemy]);
+                case EnemyDeadStateNode deadStateNodeDead:
+                    {
+                        enemy.RemoveObserver(this);
+                        enemiesRole.Remove(enemysGetRole[enemy]);
+                        enemysGetRole.Remove(enemy);
+                        elapseTimeChaserChange = chaserChangeDelay;
+                        CalcuateRoleCount();
+                        break;
+                    }
+                case IGotGunFuAttackAbleNode gotGunFuAttackAbleNode:
+                    {
+                        AssignChaser(enemysGetRole[enemy]);
+                        break;
+                    }
             }
-        }
-
-       
-
     }
     private void UpdateRoleManager()
     {

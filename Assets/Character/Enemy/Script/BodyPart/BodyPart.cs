@@ -121,5 +121,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
     public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
 
-
+    public virtual void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        
+    }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using static SubjectEnemy;
 
 public class Elimination : Objective,IObserverEnemy
 {
@@ -51,7 +52,12 @@ public class Elimination : Objective,IObserverEnemy
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.Dead)
+        
+    }
+
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if (node is EnemyDeadStateNode)
         {
             PerformedDone();
             enemy.RemoveObserver(this);

@@ -23,19 +23,7 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit)
-        {
-            ShowingUp();
-        }
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Dead)
-        {
-            hpBarImage.rectTransform.localScale = new Vector3(0 , hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
-
-            if (updateHpBar == null || updateHpBar.IsCompleted)
-                updateHpBar = UpdateHpBar();
-            return;
-        }
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit)
+        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
             hpBarImage.rectTransform.localScale = new Vector3(enemy.GetHP()/enemy.GetMaxHp(), hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
 
@@ -44,6 +32,26 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
         }
     }
 
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if(node is EnemyStateLeafNode enemyStateLeafNode)
+            switch (enemyStateLeafNode)
+            {
+                case IGotGunFuAttackAbleNode gotGunFuAttackAbleNode:
+                    {
+                        ShowingUp();
+                        break;
+                    }
+                case EnemyDeadStateNode gotDeadStateNode: 
+                    {
+                        hpBarImage.rectTransform.localScale = new Vector3(0, hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
+
+                        if (updateHpBar == null || updateHpBar.IsCompleted)
+                            updateHpBar = UpdateHpBar();
+                        break;
+                    }
+            }
+    }
     public void NotifyPointingAble(IPointerAble pointter) => ShowingUp();
    
     private void ShowingUp()
@@ -94,4 +102,5 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
     {
         enemy.AddObserver(this);
     }
+
 }
