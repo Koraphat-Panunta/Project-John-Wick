@@ -72,7 +72,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
             }
 
         }
-        else if(interactionPhase == HumanShieldInteractionPhase.Release
+        else if(interactionPhase == HumanShieldInteractionPhase.Exit
             || enemy.gunFuAbleAttacker.curGunFuNode is HumandShield_GotInteract_NodeLeaf == false)
             isComplete = true;
 

@@ -31,7 +31,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     {
         Enter,
         Stay,
-        Release
+        Exit
     }
     public HumanShieldInteractionPhase curIntphase;
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)
@@ -51,7 +51,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     public override void Exit()
     {
-        curIntphase = HumanShieldInteractionPhase.Release;
+        curIntphase = HumanShieldInteractionPhase.Exit;
         base.Exit();
     }
 
@@ -97,7 +97,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     if (elaspeTimmerEnter >= EnterDuration)
                     {
                         curIntphase = HumanShieldInteractionPhase.Stay;
-                        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
+                        player.NotifyObserver(player,this);
                     }
                 }
                 break;

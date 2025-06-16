@@ -26,7 +26,8 @@ public class Hit1GunFuNode : PlayerGunFuHitNodeLeaf
         { 
             attackedAbleGunFu.TakeGunFuAttacked(this,player);
             timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
-            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
+            curGunFuHitPhase = GunFuHitPhase.Hit;
+            player.NotifyObserver(player, this);
             isHitAlready = true;
         }
 

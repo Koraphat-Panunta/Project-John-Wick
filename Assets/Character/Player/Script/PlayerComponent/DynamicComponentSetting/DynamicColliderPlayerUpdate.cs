@@ -13,44 +13,42 @@ public class DynamicColliderPlayerUpdate : MonoBehaviour,IObserverPlayer
     [SerializeField] private float CrouchHeight;
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (player.playerStateNodeManager.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-            || player.playerStateNodeManager.curNodeLeaf is PlayerCrouch_Move_NodeLeaf)
-        {
-            switch (playerAction)
+    }
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        if (node is PlayerStateNodeLeaf playerStateNodeLeaf)
+            switch (playerStateNodeLeaf)
             {
-                case SubjectPlayer.NotifyEvent.LowReady: 
+                case PlayerCrouch_Idle_NodeLeaf playerCrouchIdleNodeLeaf:
+                case PlayerCrouch_Move_NodeLeaf playerCrouchMoveNodeLeaf:
+                    {
+                        if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+                        {
+                            capsuleCollider.center = new Vector3(capsuleCollider.center.x, StandCenterY, capsuleCollider.center.z);
+                            capsuleCollider.height = StandHeight;
+                        }
+                        else
+                        {
+                            capsuleCollider.center = new Vector3(capsuleCollider.center.x, CrouchCenterY, capsuleCollider.center.z);
+                            capsuleCollider.height = CrouchHeight;
+                        }
+                        break;
+                    }
+                case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf:
                     {
                         capsuleCollider.center = new Vector3(capsuleCollider.center.x, CrouchCenterY, capsuleCollider.center.z);
                         capsuleCollider.height = CrouchHeight;
+                        break;
                     }
-                    break;
-                case SubjectPlayer.NotifyEvent.Aim:
+                case PlayerStandMoveNodeLeaf playerStandMoveNodeLeaf:
+                case PlayerStandIdleNodeLeaf playerStandIdleNodeLeaf:
                     {
                         capsuleCollider.center = new Vector3(capsuleCollider.center.x, StandCenterY, capsuleCollider.center.z);
                         capsuleCollider.height = StandHeight;
+                        break;
                     }
-                    break;
+
             }
-          
-        }
-
-        if(playerAction == SubjectPlayer.NotifyEvent.Dodge)
-        {
-            capsuleCollider.center = new Vector3(capsuleCollider.center.x, CrouchCenterY, capsuleCollider.center.z);
-            capsuleCollider.height = CrouchHeight;
-        }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.StandMove
-             || playerAction == SubjectPlayer.NotifyEvent.StandIdle)
-        {
-            capsuleCollider.center = new Vector3(capsuleCollider.center.x, StandCenterY, capsuleCollider.center.z);
-            capsuleCollider.height = StandHeight;
-        }
-    }
-
-    public void OnNotify(Player player)
-    {
-        
     }
 
     void Start()

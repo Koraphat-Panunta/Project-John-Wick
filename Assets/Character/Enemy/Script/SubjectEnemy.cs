@@ -6,36 +6,36 @@ public class SubjectEnemy : Character
 {
     public enum EnemyEvent
     {
-        GotHit,
+        //GotHit,
 
-        GunFuGotHit,
-        GunFuGotInteract,
+        //GunFuGotHit,
+        //GunFuGotInteract,
 
-        GunFuEnter,
-        GunFuAttack,
-        GunFuExit,
+        //GunFuEnter,
+        //GunFuAttack,
+        //GunFuExit,
 
-        HeardingGunShoot,
+        //HeardingGunShoot,
 
-        Dead,
+        //Dead,
 
-        Idle,
-        Move,
-        Sprint,
+        //Idle,
+        //Move,
+        //Sprint,
 
-        FallDown,
-        GetUp,
+        //FallDown,
+        //GetUp,
 
-        Flanking,
-        TakeCover,
-        TakeAim,
-        Holding,
-        Searching,
-        WarpingMotion,
+        //Flanking,
+        //TakeCover,
+        //TakeAim,
+        //Holding,
+        //Searching,
+        //WarpingMotion,
 
-        ReloadMagazineFullStage,
-        TacticalReloadMagazineFullStage,
-        SwitchWeapon
+        //ReloadMagazineFullStage,
+        //TacticalReloadMagazineFullStage,
+        //SwitchWeapon
 
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
@@ -66,4 +66,24 @@ public class SubjectEnemy : Character
             }
         }
     }
+    public void NotifyObserver<T>(Enemy enemy,T node)where T : INode
+    {
+
+        if (Observers.Count > 0)
+        {
+            for (int i = Observers.Count - 1; i >= 0; i--)
+            {
+                if (Observers[i] == null)
+                {
+                    Observers.RemoveAt(i);
+                }
+                else
+                {
+                    Observers[i].Notify(enemy, node);
+                }
+
+            }
+        }
+    }
+
 }

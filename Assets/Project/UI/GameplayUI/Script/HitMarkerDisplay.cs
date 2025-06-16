@@ -33,11 +33,6 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         }
     }
 
-    public void OnNotify(Player player)
-    {
-
-    }
-
     private void Awake()
     {
         this.player.AddObserver(this);
@@ -64,5 +59,10 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
     public override void DisableUI()
     {
         this.X_markker.enabled = false;
+    }
+
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        
     }
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
+public class QuickDrawWeaponManuverLeafNodeLeaf : WeaponManuverLeafNode
 {
     Weapon weapon => weaponAdvanceUser._currentWeapon;
     private Weapon secondHandWeapon;
@@ -19,7 +19,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
     WeaponManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     protected float elapseDrawTime;
     protected float elapseHolsterTime;
-    public QuickDrawWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public QuickDrawWeaponManuverLeafNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
 
     }
@@ -32,7 +32,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
             new WeaponAttachingBehavior().Attach(weapon, weaponAdvanceUser._secondHandSocket);
             quickDrawPhase = QuickDrawPhase.Draw;
             weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
             weapon.ChangeActionManualy(weapon.restNode);
         }
         isComplete = false;
@@ -46,7 +46,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
         quickDrawPhase = QuickDrawPhase.Exit;
         if (weaponAdvanceUser._weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
             weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void FixedUpdateNode()
@@ -98,7 +98,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
                         if (weaponAdvanceUser._weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
                             weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                                <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     }
                 }
                 break;
@@ -106,7 +106,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                 {
                     WeaponAfterActionPlayer weaponAfterActionPlayer = weaponAdvanceUser._weaponAfterAction as WeaponAfterActionPlayer;    
                     weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                        <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                        <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
                     weaponManuverManager.aimingWeight = 1;
 
@@ -114,7 +114,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
                     {
                         quickDrawPhase = QuickDrawPhase.HolsterSecondary;
                         weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                            <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                            <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
                     }
 
@@ -165,7 +165,7 @@ public class QuickDrawWeaponManuverLeafNode : WeaponManuverLeafNode
 
         if (weaponAdvanceUser._weaponAfterAction is WeaponAfterActionPlayer weaponAfterActionPlayer)
             weaponAfterActionPlayer.SendFeedBackWeaponAfterAction
-                <QuickDrawWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+                <QuickDrawWeaponManuverLeafNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
    

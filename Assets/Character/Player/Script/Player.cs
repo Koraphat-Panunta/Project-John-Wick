@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
+public class Player : SubjectPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,IGunFuAble,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble,
     IGunFuGotAttackedAble
@@ -57,8 +57,6 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
 
         base.maxHp = 100;
         base.SetHP(100);
-
-        AddObserver(this);
         playerStateNodeManager = new PlayerStateNodeManager(this);
 
         InitailizedGunFuComponent();
@@ -105,14 +103,7 @@ public class Player : SubjectPlayer,IObserverPlayer,IWeaponAdvanceUser,
     }
 
   
-    public void OnNotify(Player player, NotifyEvent playerAction)
-    {
-        
-    }
-    public void OnNotify(Player player)
-    {
-    }
-
+   
     #region ImplementBulletDamageAble
     public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
     public void TakeDamage(IDamageVisitor damageVisitor) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);

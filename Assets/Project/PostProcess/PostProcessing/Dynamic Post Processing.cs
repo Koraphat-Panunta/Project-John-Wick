@@ -35,7 +35,9 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
         player.RemoveObserver(this);
     }
 
-    public void OnNotify(Player player)
+   
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
+       
     }
 }

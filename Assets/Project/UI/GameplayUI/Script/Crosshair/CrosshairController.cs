@@ -90,11 +90,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         if(player._currentWeapon == null)
         {
             this.Crosshair_CenterPosition.gameObject.SetActive(false);
-            if (playerAction == SubjectPlayer.NotifyEvent.LowReady)
-            {
-                CrosshairSpread.TriggerFocusSpanRate();
-                CrosshairSpread.isAiming = false;
-            }
             return;
         }
         this.Crosshair_CenterPosition.gameObject.SetActive(true);
@@ -105,32 +100,43 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
             CrosshairSpread.TriggerFocusSpanRate();
         }
-        if(playerAction == SubjectPlayer.NotifyEvent.SwitchWeapon)
-        {
-            CrosshairSpread.Performed(player._currentWeapon);
-        }
+     
 
         if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             CrosshairSpread.Performed(35);
             CrosshairSpread.TriggerFocusSpanRate();
         }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.ReloadMagazineFullStage
-            || playerAction == SubjectPlayer.NotifyEvent.TacticalReloadMagazineFullStage)
-            CrosshairSpread.TriggerFocusSpanRate();
-
-        if (playerAction == SubjectPlayer.NotifyEvent.Aim)
-            CrosshairSpread.isAiming = true;
-        if (playerAction == SubjectPlayer.NotifyEvent.LowReady)
-        {
-            CrosshairSpread.TriggerFocusSpanRate();
-            CrosshairSpread.isAiming = false;
-        }
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+            switch (weaponManuverLeafNode)
+            {
+                case LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverLeafNode:
+                    {
+                        CrosshairSpread.TriggerFocusSpanRate();
+                        CrosshairSpread.isAiming = false;
+                        break;
+                    }
+                case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
+                    {
+                        CrosshairSpread.isAiming = true;
+                        break;
+                    }
+                case ReloadMagazineFullStageNodeLeaf:
+                case TacticalReloadMagazineFullStageNodeLeaf:
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+                case DrawPrimaryWeaponManuverNodeLeaf:
+                case DrawSecondaryWeaponManuverNodeLeaf:
+                case HolsterPrimaryWeaponManuverNodeLeaf:
+                case HolsterSecondaryWeaponManuverNodeLeaf:
+                    {
+                        CrosshairSpread.TriggerFocusSpanRate();
+                        break;
+                    }
+            }
     }
 
 

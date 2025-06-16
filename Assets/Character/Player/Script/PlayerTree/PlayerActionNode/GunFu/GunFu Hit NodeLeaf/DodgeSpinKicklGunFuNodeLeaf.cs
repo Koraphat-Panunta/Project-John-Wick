@@ -11,7 +11,8 @@ public class DodgeSpinKicklGunFuNodeLeaf : PlayerGunFuHitNodeLeaf
         if (_timer >= _animationClip.length * hitAbleTime_Normalized && _timer <= _animationClip.length * endHitableTime_Normalized)
         {
             attackedAbleGunFu.TakeGunFuAttacked(this, player);
-            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
+            curGunFuHitPhase = GunFuHitPhase.Hit;
+            player.NotifyObserver(player, this);
         }
 
         base.UpdateNode();

@@ -8,11 +8,8 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 {
 
     [SerializeField] protected List<EnemyRoleBasedDecision> enemiesRole = new List<EnemyRoleBasedDecision>();
-    //private List<Enemy> enemies = new List<Enemy>();
-    protected Dictionary<Enemy,EnemyRoleBasedDecision> enemysGetRole = new Dictionary<Enemy,EnemyRoleBasedDecision>();
 
-    //[SerializeField] private EnemyObjectPooling enemyObjectPooling;
-    //[SerializeField] private WeaponObjectPooling weaponObjectPooling;
+    protected Dictionary<Enemy,EnemyRoleBasedDecision> enemysGetRole = new Dictionary<Enemy,EnemyRoleBasedDecision>();
 
     [SerializeField] public int MAX_ChaserCount;
     [SerializeField] private int chaserCount;
@@ -267,32 +264,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         return false;
     }
     #endregion
-
-    //public void ClearEnemyAll()
-    //{
-    //    if(enemies.Count <= 0)
-    //        return;
-
-    //    enemies.ForEach(enemy => { enemyObjectPooling.ReturnEnemy(enemy);});
-    //    enemies.Clear();
-    //}
-    //public void ClearEnemy(Enemy enemy)
-    //{
-    //    enemyObjectPooling.ReturnEnemy(enemy);
-    //}
-    //public void SpawnEnemy(EnemySpawner enemySpawner)
-    //{
-    //    Enemy enemy = enemyObjectPooling.PullEnemy();
-    //    enemy.transform.position = enemySpawner.transform.position;
-    //    enemy.transform.rotation = enemySpawner.transform.rotation;
-    //    enemysGetRole.Add(enemy,enemy.GetComponent<EnemyRoleBasedDecision>());
-    //    enemiesRole.Add(enemysGetRole[enemy]);
-    //    enemies.Add(enemy);
-    //    enemy.AddObserver(this);
-    //    Weapon weapon = weaponObjectPooling.Pull();
-    //    weapon.AttatchWeaponTo(enemy);
-    //    CalcuateRoleCount();
-    //}
     public List<Enemy> GetAllEnemyAlive()
     {
         List<Enemy> enemies = new List<Enemy>();
@@ -305,25 +276,23 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     }
     private void OnValidate()
     {
-        player = FindAnyObjectByType<Player>();
-        //enemyObjectPooling = FindAnyObjectByType<EnemyObjectPooling>();
-        //weaponObjectPooling = FindAnyObjectByType<WeaponObjectPooling>();
+        if(player == null)
+            player = FindAnyObjectByType<Player>();
     }
 
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
 
-        if (playerAction == SubjectPlayer.NotifyEvent.Aim)
-        {
-            if (taskUpdateYieldAllShooterOnPlayerAim == null)
-                taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();
-        }
+       
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+            switch (weaponManuverLeafNode)
+            {
+                case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf :
+                    taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();
+                    break;
+            }
     }
-
-    //public Action<Enemy> OnEnemyBeenEliminate;
 }

@@ -20,7 +20,8 @@ public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
                 player.attackedAbleGunFu = null;
                 isKicking = true;
                 timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration, gunFuNodeScriptableObject.HitResetDuration);
-                player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
+                curGunFuHitPhase = GunFuHitPhase.Hit;
+                player.NotifyObserver(player, this);
             }
         }
 

@@ -29,7 +29,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
         {
             isAiming = true;
         }
-        else if (player._weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNode quickDraw)
+        else if (player._weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNodeLeaf quickDraw)
         {    
             isAiming = true;
         }

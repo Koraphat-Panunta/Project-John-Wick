@@ -32,9 +32,6 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
 
         player.SetHP(player.GetHP() - damage * 0.68f);
         player.NotifyObserver(this.player, NotifyEvent.GetDamaged);
-
-        if (player.GetHP() <= 0)
-            player.NotifyObserver(this.player, NotifyEvent.Dead);
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {

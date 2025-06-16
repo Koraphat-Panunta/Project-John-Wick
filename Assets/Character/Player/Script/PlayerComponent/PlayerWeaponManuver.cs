@@ -124,7 +124,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public WeaponManuverSelectorNode curWeaponManuverSelectorNode { get; protected set; }
     public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get ;protected set; }
     public RestWeaponManuverLeafNode restWeaponSwitchManuver { get; set; }
-    public QuickDrawWeaponManuverLeafNode quickDrawWeaponManuverLeafNode { get ;protected set; }
+    public QuickDrawWeaponManuverLeafNodeLeaf quickDrawWeaponManuverLeafNode { get ;protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get ; protected set ; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
@@ -187,7 +187,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
             
              );
        
-        quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNode(this.weaponAdvanceUser,
+        quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNodeLeaf(this.weaponAdvanceUser,
             () => 
             {
                 if(this.isQuickDrawWeaponManuverAble == false)

@@ -16,7 +16,7 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
         _timer = 0;
         isComplete = false;
         (player.playerMovement as IMovementCompoent).CancleMomentum();
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GetUp);
+        player.NotifyObserver(player,this);
         base.Enter();
     }
 

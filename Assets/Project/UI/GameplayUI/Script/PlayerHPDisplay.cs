@@ -50,5 +50,9 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
    
 
     public override void DisableUI() => this.HP_bar.enabled = false;
-    
+
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        
+    }
 }

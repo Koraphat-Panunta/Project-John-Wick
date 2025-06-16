@@ -38,14 +38,12 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
             sprintPhase = SprintPhase.Stay;
         }
         player.playerStance = Player.PlayerStance.stand;
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.Sprint);
+        player.NotifyObserver(player,this);
         
         base.Enter();
     }
     public override void UpdateNode()
     {
-        InputPerformed();
-
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
@@ -75,12 +73,6 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         playerMovement.RotateToDirWorld(sprintDir, rotateCharSpeed);
 
     }
-    private  void InputPerformed()
-    {
-        if (player.isSwapShoulder)
-        {
-            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.SwapShoulder);
-        }
-    }
+   
    
 }

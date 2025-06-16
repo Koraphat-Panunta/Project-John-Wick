@@ -48,8 +48,6 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
         }
     }
 
-    public void OnNotify(Player player) { }
-
     protected void ShowIndicator(Vector3 hitDir)
     {
         Vector2 dir = new Vector2(hitDir.x, hitDir.z).normalized;
@@ -65,7 +63,10 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
     
 
     public override void DisableUI() => isEnable = false;
-   
+
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+    }
 }
 
 public class Indicator

@@ -18,22 +18,24 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuInteract)
-        {
-            if (player.playerStateNodeManager.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf humanShieldNode)
-                if (humanShieldNode.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
-                {
-                    this.humanShield_GunFuInteraction_NodeLeaf = humanShieldNode;
-                    isShowGage = true;
-                }
-        }
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuExit)
-            isShowGage = false;
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+        if(node is PlayerStateNodeLeaf playerStateNodeLeaf)
+            switch (playerStateNodeLeaf)
+            {
+                case HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf:
+                    {
+                        if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                        {
+                            this.humanShield_GunFuInteraction_NodeLeaf = humanShieldNodeLeaf;
+                            isShowGage = true;
+                        }
+                        else if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+                            isShowGage = false;
+                        break;
+                    }
+            }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,10 +68,5 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
     }
 
     public override void EnableUI() => this.humanShieldGage.enabled = true;
-   
-
     public override void DisableUI() => this.humanShieldGage.enabled=false;
-    
-        
-    
 }

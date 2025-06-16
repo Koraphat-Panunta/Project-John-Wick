@@ -37,8 +37,8 @@ public class PlayerHpRegenarate:IObserverPlayer
             elapesTime = regenarate_countDown;
     }
 
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+       
     }
 }

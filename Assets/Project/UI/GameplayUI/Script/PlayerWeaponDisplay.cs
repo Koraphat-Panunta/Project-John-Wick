@@ -26,8 +26,6 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
  
     public  void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-
-
        if(playerAction == SubjectPlayer.NotifyEvent.Firing)
        {
             if (this.playerInfo._currentWeapon != null)
@@ -35,28 +33,6 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
                 UpdateInfo();
             }
        }
-       if(playerAction == SubjectPlayer.NotifyEvent.ReloadMagazineFullStage
-            || playerAction == SubjectPlayer.NotifyEvent.TacticalReloadMagazineFullStage
-            || playerAction == SubjectPlayer.NotifyEvent.InputMag_ReloadMagazineStage
-            || playerAction == SubjectPlayer.NotifyEvent.ChamberLoad_ReloadMagazineStage)
-       {
-            UpdateInfo();
-       }
-       if(playerAction == SubjectPlayer.NotifyEvent.PickUpWeapon)
-        {
-            UpdateInfo();
-        }
-        if(playerAction == SubjectPlayer.NotifyEvent.SwitchWeapon)
-        {
-            UpdateInfo();
-          
-        }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.QuickDraw)
-        {
-           UpdateInfo();
-        }
-
         if (playerAction == SubjectPlayer.NotifyEvent.RecivedAmmo)
         {
             UpdateInfo();
@@ -65,7 +41,31 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         if(player.playerStateNodeManager != null &&
             player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
             UpdateInfo();
-    } 
+    }
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+        {
+            switch (weaponManuverLeafNode)
+            {
+                case ReloadMagazineFullStageNodeLeaf:
+                case TacticalReloadMagazineFullStageNodeLeaf:
+                case PickUpWeaponNodeLeaf:
+                case DropWeaponManuverNodeLeaf:
+                case DrawPrimaryWeaponManuverNodeLeaf:
+                case DrawSecondaryWeaponManuverNodeLeaf:
+                case HolsterPrimaryWeaponManuverNodeLeaf:
+                case HolsterSecondaryWeaponManuverNodeLeaf:
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+                case QuickDrawWeaponManuverLeafNodeLeaf:
+                    {
+                        UpdateInfo();
+                        break;
+                    }
+            }
+        }
+    }
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {
         textGUI.text = inLoad + " / " + Ammoprouch;
@@ -83,17 +83,10 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         MagazineCount = this.playerInfo._currentWeapon.bulletStore[BulletStackType.Magazine] + this.playerInfo._currentWeapon.bulletStore[BulletStackType.Chamber];
         SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
     }
-
-    public void OnNotify(Player player)
-    {
-        
-    }
-
     public override void EnableUI()=>this.AmmoDisplay.enabled = true;
   
 
     public override void DisableUI()=>this.AmmoDisplay.enabled=false;
-    
-       
-    
+
+   
 }

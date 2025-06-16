@@ -75,7 +75,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, restWeaponManuverLeafNode);
                         break;
                     }
-                case QuickDrawWeaponManuverLeafNode quickDrawNodeLeaf:
+                case QuickDrawWeaponManuverLeafNodeLeaf quickDrawNodeLeaf:
                     {
                         player.NotifyObserver(player, quickDrawNodeLeaf);
                         RotateObjectToward rotateObjectToward = new RotateObjectToward();

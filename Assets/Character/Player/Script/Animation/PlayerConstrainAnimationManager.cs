@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObserverPlayer
+public class PlayerConstrainAnimationManager : AnimationConstrainManager
 {
     public SplineLookConstrain StandSplineLookConstrain;
     public LeaningRotation leaningRotation;
@@ -133,15 +133,6 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager, IObser
             rig.weight = 0;
         else
             rig.weight = 1;
-
-    }
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-
-    }
-
-    public void OnNotify(Player player)
-    {
 
     }
 }

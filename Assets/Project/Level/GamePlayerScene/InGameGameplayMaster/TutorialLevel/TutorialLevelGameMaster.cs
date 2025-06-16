@@ -334,31 +334,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
     }
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(curPhase == Phase.KnockDown 
-            && playerAction == SubjectPlayer.NotifyEvent.GunFuAttack
-            && player.curGunFuNode is KnockDown_GunFuNode)
-        {
-            gunFuKnockDown.gameObject.SetActive(false);
-            restrict.gameObject.SetActive(true);
-            curPhase = Phase.restrict;
-        }
-        else if(curPhase == Phase.restrict
-            && playerAction == SubjectPlayer.NotifyEvent.GunFuInteract
-            && player.curGunFuNode is RestrictGunFuStateNodeLeaf)
-        {
-            restrict.gameObject.SetActive(false);
-            humanShield.gameObject.SetActive(true);
-            curPhase = Phase.humanShield;
-        }
-        else if(curPhase == Phase.humanShield
-            && playerAction == SubjectPlayer.NotifyEvent.GunFuInteract
-            && player.curGunFuNode is HumanShield_GunFuInteraction_NodeLeaf)
-        {
-            humanShield.gameObject.SetActive(false);
-            EliminateEnemy();
-            curPhase = Phase.Eliminate;
-        }
-        else if(curPhase == Phase.Eliminate)
+        if(curPhase == Phase.Eliminate)
         {
             enemy_T2S1.isImortal = false;
             if (enemy_T2S1.isDead)
@@ -371,16 +347,53 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
             }
         }
     }
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        if (node is PlayerStateNodeLeaf playerStateNodeLeaf)
+            switch (playerStateNodeLeaf)
+            {
+                case KnockDown_GunFuNode knockDown_GunFuNode:
+                    {
+                        if (knockDown_GunFuNode.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Hit
+                            && curPhase == Phase.KnockDown)
+                        {
+                            gunFuKnockDown.gameObject.SetActive(false);
+                            restrict.gameObject.SetActive(true);
+                            curPhase = Phase.restrict;
+                        }
+                        break;
+                    }
+                case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+                    {
+                        if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay
+                            && curPhase == Phase.restrict)
+                        {
+                            restrict.gameObject.SetActive(false);
+                            humanShield.gameObject.SetActive(true);
+                            curPhase = Phase.humanShield;
+                        }
+                        break;
+                    }
+                case HumanShield_GunFuInteraction_NodeLeaf humanShieldGunFuInteractionNodeLeaf:
+                    {
+                        if (humanShieldGunFuInteractionNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay
+                            && curPhase == Phase.humanShield)
+                        {
+                            humanShield.gameObject.SetActive(false);
+                            EliminateEnemy();
+                            curPhase = Phase.Eliminate;
+                        }
+                        break;
+                    }
+            }
+    }
     private async void EliminateEnemy()
     {
         eliminate.gameObject.SetActive(true);
         await Task.Delay(4000);
         eliminate.gameObject.SetActive(false);
     }
-    public void OnNotify(Player player)
-    {
-       
-    }
+  
 }
 public class TutorialGameplayGameMasterNodeLeaf_T2S2 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>
 {
@@ -428,7 +441,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S2 : InGameLevelGamplayGameMas
         elimination.gameObject.SetActive(false);
     }
 }
-public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>, IObserverPlayer
+public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMasterNodeLeaf<TutorialLevelGameMaster>
 {
     private TextMeshProUGUI execute => gameMaster.execute;
     private Enemy enemy => gameMaster.enemy_T3S1;
@@ -440,7 +453,6 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMas
 
     public override void Enter()
     {
-        player.AddObserver(this);
         execute.gameObject.SetActive(true);
         isComplete = false;
         base.Enter();
@@ -448,7 +460,6 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMas
 
     public override void Exit()
     {
-        player.RemoveObserver(this);
         base.Exit();
     }
 
@@ -465,17 +476,6 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S1 : InGameLevelGamplayGameMas
         }
         base.FixedUpdateNode();
     }
-
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        
-    }
-
-    public void OnNotify(Player player)
-    {
-       
-    }
-
     public override void UpdateNode()
     {
         base.UpdateNode();
@@ -526,10 +526,10 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
             lastEnemy.isImortal = false;
         }
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-        
+       if(node is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf && curPhase == Phase.ExecuteLastone)
+            lastEnemy.isImortal = false;
     }
 
     public override void UpdateNode()
@@ -571,6 +571,8 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         await Task.Delay(4000);
         executeLastone.gameObject.SetActive(false);
     }
+
+   
 }
 public class TutorialTitleGameMasterNodeLeaf : GameMasterNodeLeaf<TutorialLevelGameMaster>
 {

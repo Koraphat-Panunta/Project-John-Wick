@@ -339,7 +339,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                         animator.CrossFade(humandShield_NodeLeaf.humandShieldStay, 0.05f, 1, 0);
                         isLayer_1_Enable = true;
                     }
-                    else if (humandShield_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Release)
+                    else if (humandShield_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
                     {
                         animator.CrossFade("StandWeaponHand LowReady/ADS", 0.05f, 1, 0);
                         isLayer_1_Enable = true;
@@ -403,20 +403,20 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                     animator.CrossFade("TacticalReloadMagazineFullStage", 0.4f, 1);
                     break;
                 }
-            case QuickDrawWeaponManuverLeafNode QuickDrawWeaponManuverLeafNode: 
+            case QuickDrawWeaponManuverLeafNodeLeaf QuickDrawWeaponManuverLeafNode: 
                 {
-                    QuickDrawWeaponManuverLeafNode.QuickDrawPhase quickDrawPhase = QuickDrawWeaponManuverLeafNode.quickDrawPhase;
+                    QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase quickDrawPhase = QuickDrawWeaponManuverLeafNode.quickDrawPhase;
                     switch (quickDrawPhase)
                     {
-                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.Draw:
+                        case QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Draw:
                             animator.CrossFade("QuickDraw", 0.1f, 1);
                             break;
 
-                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterSecondary:
+                        case QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.HolsterSecondary:
                             animator.CrossFade("QuickHolster", 0.1f, 1);
                             break;
 
-                        case QuickDrawWeaponManuverLeafNode.QuickDrawPhase.HolsterPrimary:
+                        case QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.HolsterPrimary:
                             animator.CrossFade("StandWeaponHand LowReady/ADS", 0.1f, 1);
                             break;
                     }

@@ -29,9 +29,9 @@ public abstract class SubjectPlayer : Character
         //Dodge,
 
         GetShoot,
-        //HumanShieldOpponentGetShoot,
-        //GetDamaged,
-        //HealthRegen,
+        HumanShieldOpponentGetShoot,
+        GetDamaged,
+        HealthRegen,
         //Dead,
 
         //TakeCover,
@@ -49,8 +49,8 @@ public abstract class SubjectPlayer : Character
         OppenentStagger,
         OpponentKilled,
 
-        //RecivedAmmo,
-        //RecivedHp,
+        RecivedAmmo,
+        RecivedHp,
 
     }
     

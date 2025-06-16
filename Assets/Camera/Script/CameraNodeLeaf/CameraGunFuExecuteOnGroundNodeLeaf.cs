@@ -143,14 +143,13 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf,IObserverPlayer
     }
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuAttack && player.curGunFuNode is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf)
-        {
-            ExitPhase();
-        }
+       
     }
 
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
-       
+        if(node is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf 
+            && gunFuExecuteNodeLeaf.curPhase == GunFuExecuteNodeLeaf.GunFuExecutePhase.Execute)
+            ExitPhase();
     }
 }
