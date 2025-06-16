@@ -55,7 +55,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
                 footStepTiming = 0;
             }
         }
-        else if (enemyState is EnemySprintStateNode)
+        else if (enemyState is EnemySprintStateNodeLeaf)
         {
             float timingRate = 2.4f;
             footStepTiming += Time.deltaTime * timingRate;

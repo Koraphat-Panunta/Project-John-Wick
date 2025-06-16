@@ -79,7 +79,7 @@ public class GotExecuteOnGround_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLea
         AlignPositionToHips();
         PopulateBoneTransforms(_ragdollBoneTransforms);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract); 
+        enemy.NotifyObserver(enemy, this); 
 
         base.Enter();
     }
@@ -135,7 +135,7 @@ public class GotExecuteOnGround_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLea
                     if (_elapsedResetBonesTime >= _timeToResetBones)
                     {
                         beforeRootPos = enemy.transform.position;
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetUp);
+                        enemy.NotifyObserver(enemy, this);
                         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
 
                         if (isFacingUp)

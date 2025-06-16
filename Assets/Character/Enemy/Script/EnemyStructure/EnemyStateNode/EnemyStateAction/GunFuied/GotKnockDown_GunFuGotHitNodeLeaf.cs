@@ -12,7 +12,7 @@ public class GotKnockDown_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
         animator.CrossFade(stateName, 0.005f, 0, 0);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotHit);
+        enemy.NotifyObserver(enemy, this);
 
         base.Enter();
     }

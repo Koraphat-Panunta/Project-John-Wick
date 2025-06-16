@@ -104,11 +104,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         if (isImortal == false)
             HP -= Damage;
-
-        if (base.HP <= 0 && isImortal == false)
-        {
-            NotifyObserver(this, EnemyEvent.Dead);
-        }
     }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {

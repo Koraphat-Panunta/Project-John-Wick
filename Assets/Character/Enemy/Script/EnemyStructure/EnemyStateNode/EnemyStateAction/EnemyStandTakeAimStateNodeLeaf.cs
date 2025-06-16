@@ -19,7 +19,7 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TakeAim);
+        enemy.NotifyObserver(enemy, this);
         base.Enter();
     }
 

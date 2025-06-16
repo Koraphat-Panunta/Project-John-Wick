@@ -84,21 +84,21 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
         animator.CrossFade(stateNameEnter, 0.075f, 0);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        enemy.NotifyObserver(enemy, this);
     }
     public void StateStay()
     {
         animator.CrossFade(stateNameStay, 0.075f, 0);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        enemy.NotifyObserver(enemy, this);
     }
     public void StateExit()
     {
         animator.CrossFade(stateNameExit, 0.075f, 0);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        enemy.NotifyObserver(enemy, this);
         enemy._posture = 0;
     }
 

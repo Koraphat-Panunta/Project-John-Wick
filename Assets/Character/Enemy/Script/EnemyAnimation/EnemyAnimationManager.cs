@@ -36,59 +36,64 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public bool is_Layer1_Enable;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Idle 
-            ||enemyEvent == SubjectEnemy.EnemyEvent.Move
-            ||enemyEvent == SubjectEnemy.EnemyEvent.TakeCover
-            ||enemyEvent == SubjectEnemy.EnemyEvent.TakeAim)
-        {
-            animator.CrossFade("Move/Idle", 0.45f, 0);
-            is_Layer1_Enable = true;
-        }
-
-        if(enemyEvent == SubjectEnemy.EnemyEvent.Sprint)
-        {
-            animator.CrossFade("Sprint", 0.45f, 0);
-            is_Layer1_Enable = true;
-        }
-
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotHit
-            ||enemyEvent == SubjectEnemy.EnemyEvent.FallDown
-            ||enemyEvent == SubjectEnemy.EnemyEvent.GetUp
-            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotHit
-            || enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
-        {
-            is_Layer1_Enable = false;
-        }
-
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GunFuEnter
-            ||enemyEvent == SubjectEnemy.EnemyEvent.GunFuAttack
-            )
-        {
-            is_Layer1_Enable = false;
-            if(enemy.enemyStateManagerNode.curNodeLeaf is EnemySpinKickGunFuNodeLeaf spinKick)
+    }
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if(node is EnemyStateLeafNode enemyStateLeafNode)
+            switch (enemyStateLeafNode)
             {
-                animator.CrossFade("EnemySpinKick", 0.05f, 0);
+                case EnemyStandIdleStateNodeLeaf:
+                case EnemyStandMoveStateNodeLeaf:
+                case EnemyStandTakeCoverStateNodeLeaf:
+                case EnemyStandTakeAimStateNodeLeaf:
+                    {
+                        animator.CrossFade("Move/Idle", 0.45f, 0);
+                        is_Layer1_Enable = true;
+                        break;
+                    }
+                case EnemySprintStateNodeLeaf:
+                    {
+                        animator.CrossFade("Sprint", 0.45f, 0);
+                        is_Layer1_Enable = true;
+                        break;
+                    }
+                case FallDown_EnemyState_NodeLeaf:
+                case GunFu_GotHit_NodeLeaf:
+                case GunFu_GotInteract_NodeLeaf:
+                case EnemyPainStateNodeLeaf:
+                    {
+                        is_Layer1_Enable = false;
+                        break;
+                    }
+                case EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf:
+                    {
+                        if(enemySpinKickGunFuNodeLeaf.curPhase == EnemySpinKickGunFuNodeLeaf.SpinKickPhase.Enter)
+                            animator.CrossFade("EnemySpinKick", 0.05f, 0);
+                        break;
+                    }
             }
-        }
-
-        if (enemyEvent == SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage)
-        {
-            if (enemy._weaponManuverManager.curNodeLeaf is TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf
-                &&tacticalReloadMagazineFullStageNodeLeaf.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
+        else if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+            switch (weaponManuverLeafNode)
             {
-                animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
-                is_Layer1_Enable = true;
+                case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:
+                    {
+                        if(reloadMagazineFullStageNodeLeaf.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
+                        {
+                            animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
+                            is_Layer1_Enable = true;
+                        }
+                        break;
+                    }
+                case TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf:
+                    {
+                        if(tacticalReloadMagazineFullStageNodeLeaf.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
+                        {
+                            animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
+                            is_Layer1_Enable = true;
+                        }
+                        break;
+                    }
             }
-        }
-        if (enemyEvent == SubjectEnemy.EnemyEvent.ReloadMagazineFullStage)
-        {
-            if (enemy._weaponManuverManager.curNodeLeaf is ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf
-                && reloadMagazineFullStageNodeLeaf.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
-            {
-                animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
-                is_Layer1_Enable = true;
-            }
-        }
     }
     private void Awake()
     {

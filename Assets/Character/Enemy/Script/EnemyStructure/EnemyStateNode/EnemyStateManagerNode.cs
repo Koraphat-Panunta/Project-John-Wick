@@ -37,7 +37,7 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStateSelectorNode takeCoverSelector { get; private set; }
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
-    public EnemySprintStateNode enemySprintState { get; private set; }
+    public EnemySprintStateNodeLeaf enemySprintState { get; private set; }
     public EnemyStandIdleStateNodeLeaf enemyStandIdleState { get; private set; }
     public EnemyStandMoveStateNodeLeaf enemyStandMoveState { get; private set; }
     public EnemyStandTakeCoverStateNodeLeaf enemyStandTakeCoverState { get; private set; }
@@ -245,7 +245,7 @@ public class EnemyStateManagerNode : INodeManager
             }
        );
 
-        enemySprintState = new EnemySprintStateNode(this.enemy,
+        enemySprintState = new EnemySprintStateNodeLeaf(this.enemy,
             () => this.enemy.isSprintCommand
             );
 

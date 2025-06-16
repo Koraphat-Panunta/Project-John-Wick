@@ -55,7 +55,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
                 || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
-                || enemy.curNodeLeaf is EnemySprintStateNode
+                || enemy.curNodeLeaf is EnemySprintStateNodeLeaf
                 )
                 return true;
             return false;
@@ -70,7 +70,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
                 || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
-                || enemy.curNodeLeaf is EnemySprintStateNode
+                || enemy.curNodeLeaf is EnemySprintStateNodeLeaf
                 )
                 return true;
             return false;
@@ -85,7 +85,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
                 || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
-                || enemy.curNodeLeaf is EnemySprintStateNode
+                || enemy.curNodeLeaf is EnemySprintStateNodeLeaf
                 )
                 return true;
             return false;
@@ -100,7 +100,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
                 || enemy.curNodeLeaf is EnemyStandMoveStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeCoverStateNodeLeaf
                 || enemy.curNodeLeaf is EnemyStandTakeAimStateNodeLeaf
-                || enemy.curNodeLeaf is EnemySprintStateNode
+                || enemy.curNodeLeaf is EnemySprintStateNodeLeaf
                 )
                 return true;
             return false;

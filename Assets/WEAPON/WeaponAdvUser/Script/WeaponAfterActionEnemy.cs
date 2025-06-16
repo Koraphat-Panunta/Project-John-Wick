@@ -19,14 +19,14 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                         //No logic yet
                         break;
                     }
-                case ReloadMagazineFullStageNodeLeaf:
+                case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:
                     {
-                        enemy.NotifyObserver(enemy,SubjectEnemy.EnemyEvent.ReloadMagazineFullStage);
+                        enemy.NotifyObserver(enemy,reloadMagazineFullStageNodeLeaf);
                         break;
                     }
-                case TacticalReloadMagazineFullStageNodeLeaf:
+                case TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf:
                     {
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.TacticalReloadMagazineFullStage);
+                        enemy.NotifyObserver(enemy,tacticalReloadMagazineFullStageNodeLeaf);
                         break;
                     }
                 case AimDownSightWeaponManuverNodeLeaf:
@@ -39,18 +39,23 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                         //No logic yet
                         break;
                     }
-                case DropWeaponManuverNodeLeaf:
-                case PickUpWeaponNodeLeaf:
-                case HolsterPrimaryWeaponManuverNodeLeaf:
-                case HolsterSecondaryWeaponManuverNodeLeaf:
-                case DrawPrimaryWeaponManuverNodeLeaf:
-                case DrawSecondaryWeaponManuverNodeLeaf:
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
-                    {
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.SwitchWeapon);
-                        break;
-                    }
+                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, dropWeaponManuverNodeLeaf);
+                    break;
+                case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf: enemy.NotifyObserver(enemy, pickUpWeaponNodeLeaf);
+                    break;
+                case HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, holsterPrimaryWeaponManuverNodeLeaf);
+                    break;
+                case HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, holsterSecondaryWeaponManuverNodeLeaf);
+                    break;
+                case DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, drawPrimaryWeaponManuverNodeLeaf);
+                    break;
+                case DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, drawSecondaryWeaponManuverNodeLeaf);
+                    break;
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode: enemy.NotifyObserver(enemy, primaryToSecondarySwitchWeaponManuverLeafNode);
+                    break;
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode: enemy.NotifyObserver(enemy, secondaryToPrimarySwitchWeaponManuverLeafNode);
+                    break;
+                  
                 case RestWeaponManuverLeafNode:
                     {
                         //No logic yet

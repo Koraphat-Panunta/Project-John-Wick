@@ -16,7 +16,7 @@ public class SubjectEnemy : Character
         //GunFuAttack,
         //GunFuExit,
 
-        //HeardingGunShoot,
+        HeardingGunShoot,
 
         //Dead,
 

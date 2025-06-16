@@ -16,6 +16,14 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     private Dictionary<IGunFuGotAttackedAble, bool> alreadyHittarget;
 
     private Vector3 targetPosition => enemy.targetKnewPos;
+
+    public enum SpinKickPhase
+    {
+        Enter,
+        Hit,
+        Exit
+    }
+    public SpinKickPhase curPhase { get; set; }
     public EnemySpinKickGunFuNodeLeaf(EnemySpinKickScriptable enemySpinKickScriptable,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._enemySpinKickScriptable = enemySpinKickScriptable;
@@ -31,13 +39,15 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
 
        
         alreadyHittarget.Clear();
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuEnter);
+        curPhase = SpinKickPhase.Enter;
+        enemy.NotifyObserver(enemy, this);
         base.Enter();
     }
 
     public override void Exit()
     {
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuExit);
+        curPhase = SpinKickPhase.Exit;
+        enemy.NotifyObserver(enemy, this);
         base.Exit();
     }
 
@@ -101,7 +111,8 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
                             Vector3 dir = target._gunFuAttackedAble.position - enemy.transform.position;
                             motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                         }
-                        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuAttack);
+                        curPhase = SpinKickPhase.Hit;
+                        enemy.NotifyObserver(enemy, this);
                     }
                 }
                 );

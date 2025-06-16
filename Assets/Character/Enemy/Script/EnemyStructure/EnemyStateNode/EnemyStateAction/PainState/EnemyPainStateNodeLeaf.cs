@@ -16,7 +16,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         (enemy.enemyMovement as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
         animator.CrossFade(stateName, 0.1f, 0,0);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
+        enemy.NotifyObserver(enemy, this);
 
         base.Enter();
     }

@@ -54,16 +54,21 @@ public class ChestBodyPart : BodyPart
     }
     public override void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.GunFuGotInteract)
-        {
-            Debug.Log("enemy.enemyStateManagerNode.curNodeLeaf = " + enemy.enemyStateManagerNode.curNodeLeaf);
-            if (enemy.enemyStateManagerNode.curNodeLeaf is HumanThrowFallDown_GotInteract_NodeLeaf humanThrowFallDown_GotInteract)
-            {
-                isForceSave = true;
-                forceSave = humanThrowFallDown_GotInteract.GetForceThrow();
-
-            }
-        }
         base.Notify(enemy, enemyEvent);
+    }
+    public override void Notify<T>(Enemy enemy, T node)
+    {
+        if(node is EnemyStateLeafNode enemyStateLeafNode)
+            switch (enemyStateLeafNode)
+            {
+                case HumanThrowFallDown_GotInteract_NodeLeaf humanThrowFallDown_GotInteract:
+                    {
+                        if(humanThrowFallDown_GotInteract.curState == FallDown_EnemyState_NodeLeaf.FallDownState.RagdollState)
+                        isForceSave = true;
+                        forceSave = humanThrowFallDown_GotInteract.GetForceThrow();
+                        break;
+                    }
+            }
+        base.Notify(enemy, node);
     }
 }

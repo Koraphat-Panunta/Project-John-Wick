@@ -55,7 +55,7 @@ public class HumandThrow_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
         {
             humanThrowFallDown_GotInteract_NodeLeaf.GotThorwForce(enemy.transform.forward * 100 + (Vector3.up*10));
             enemy.enemyStateManagerNode.nodeManagerBehavior.ChangeNodeManual(enemy.enemyStateManagerNode, humanThrowFallDown_GotInteract_NodeLeaf);
-            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
+            enemy.NotifyObserver(enemy, this);
         }
         base.UpdateNode();
     }
@@ -73,7 +73,7 @@ public class HumanThrowFallDown_GotInteract_NodeLeaf : FallDown_EnemyState_NodeL
     public Vector3 GetForceThrow() => this.forceThrow;
     public override void Enter()
     {
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GunFuGotInteract);
+        enemy.NotifyObserver(enemy, this);
         base.Enter();
     }
     public override void UpdateNode()

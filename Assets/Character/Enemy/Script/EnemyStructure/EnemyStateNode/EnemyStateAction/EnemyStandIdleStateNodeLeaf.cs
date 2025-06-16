@@ -22,7 +22,7 @@ public class EnemyStandIdleStateNodeLeaf : EnemyStateLeafNode
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Idle);
+        enemy.NotifyObserver(enemy, this);
         base.Enter();
     }
 

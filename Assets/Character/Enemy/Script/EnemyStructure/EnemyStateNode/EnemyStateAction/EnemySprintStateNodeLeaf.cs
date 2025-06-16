@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class EnemySprintStateNode : EnemyStateLeafNode
+public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
 {
     IMovementCompoent enemyMovement;
     
-    public EnemySprintStateNode(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
+    public EnemySprintStateNodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
         enemyMovement = enemy.enemyMovement;        
     }
@@ -15,8 +15,7 @@ public class EnemySprintStateNode : EnemyStateLeafNode
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.Sprint);
-        base.Enter();
+        enemy.NotifyObserver(enemy,this);
     }
 
     public override void Exit()

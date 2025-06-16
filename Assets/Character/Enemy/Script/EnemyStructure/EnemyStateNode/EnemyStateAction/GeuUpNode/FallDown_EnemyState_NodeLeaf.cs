@@ -73,8 +73,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         enemy._posture = 0;
 
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
+        enemy.NotifyObserver(enemy,this);
+        enemy.NotifyObserver(enemy,this);
     }
 
     public override void Exit()
@@ -104,8 +104,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
             enemy._posture = 0;
 
-            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotHit);
-            enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.FallDown);
+            enemy.NotifyObserver(enemy, this);
+            enemy.NotifyObserver(enemy, this);
         }
         switch (curState)
         {
@@ -161,7 +161,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
                 {
                     beforeRootPos = enemy.transform.position;
                     curState = FallDownState.StandingUp;
-                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GetUp);
+                    enemy.NotifyObserver(enemy, this);
                     enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
 
                     if (isFacingUp)
