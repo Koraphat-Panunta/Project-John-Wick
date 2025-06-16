@@ -49,13 +49,13 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
         _timer = 0;
         attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
 
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuEnter);
+        player.NotifyObserver(player,this);
 
         base.Enter();
     }
     public override void Exit()
     {
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuExit);
+        player.NotifyObserver(player,this);
         base.Exit();
     }
     public override void UpdateNode()

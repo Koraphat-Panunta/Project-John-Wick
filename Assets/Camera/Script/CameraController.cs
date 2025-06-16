@@ -2,6 +2,7 @@ using Unity.Cinemachine;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static PlayerGunFuHitNodeLeaf;
 
 
 public class CameraController : MonoBehaviour,IObserverPlayer
@@ -87,25 +88,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuEnter)
-        {
-            gunFuCameraTimer = gunFuCameraDuration;
-        }
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuInteract)
-        {
-            if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf restrict
-                && restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
-                gunFuCameraTimer = gunFuCameraDuration;
-        }
-        if(playerAction == SubjectPlayer.NotifyEvent.GunFuAttack)
-        {
-            if (player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf)
-                cameraImpluse.Performed(new Vector3(0,0.25f,0)*this.gunFuCameraKickMultiply);
-            else if (player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
-                cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
-            else
-                cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
-        }
+        
         if(playerAction == SubjectPlayer.NotifyEvent.SwapShoulder)
         {
             curSide = player.curShoulderSide;
@@ -115,35 +98,56 @@ public class CameraController : MonoBehaviour,IObserverPlayer
             cameraKickBack.Performed(player._currentWeapon);
             cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
         }
-        
-        if(playerAction == SubjectPlayer.NotifyEvent.GotAttackGunFuAttack)
-        {
-            cameraImpluse.Performed(-0.2f);
-        }
 
         if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
         {
             cameraImpluse.Performed(-0.05f);
         }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.Sprint)
-        { curStance = player.playerStance; }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.StandIdle
-            || playerAction == SubjectPlayer.NotifyEvent.StandMove)
-        { curStance = player.playerStance; }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.CrouchIdle
-            || playerAction == SubjectPlayer.NotifyEvent.CrouchMove)
-        { curStance = player.playerStance; }
+       
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {
         switch (node)
         {
-            case GunFu_GotHit_NodeLeaf gunFu_GotHit_NodeLeaf:
+           case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    if(gunFu_GotHit_NodeLeaf.cur)
+                    if(gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
+                        gunFuCameraTimer = gunFuCameraDuration;
+
+                    if(gunFuHitNodeLeaf is KnockDown_GunFuNode knock && knock.curGunFuHitPhase == GunFuHitPhase.Hit)
+                        cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
+                    else if(gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Hit)
+                        cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
+                    break;
+                }
+            case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+                {
+                    if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                        gunFuCameraTimer = gunFuCameraDuration;
+                    else if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
+                        cameraImpluse.Performed(new Vector3(0, 0.25f, 0) * this.gunFuCameraKickMultiply);
+                    break;
+                }
+            case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf: 
+                {
+                    cameraImpluse.Performed(-0.2f);
+                    break;
+                }
+            case PlayerSprintNode playerSprintNode: 
+                {
+                    curStance = player.playerStance;
+                    break;
+                }
+            case PlayerStandIdleNodeLeaf:
+            case PlayerStandMoveNodeLeaf: 
+                {
+                    curStance = player.playerStance;
+                    break;
+                }
+            case PlayerCrouch_Idle_NodeLeaf:
+            case PlayerCrouch_Move_NodeLeaf: 
+                {
+                    curStance = player.playerStance;
                     break;
                 }
         }

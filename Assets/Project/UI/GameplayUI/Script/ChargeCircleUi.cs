@@ -29,16 +29,23 @@ public class ChargeCircleUi : GameplayUI, IObserverPlayer
 
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == SubjectPlayer.NotifyEvent.GunFuAttack && player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf gunFuExecute)
+       
+    }
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        switch (node)
         {
-            if(targetFill <= 1)
-                ammoIcon.color = Color.white;
-            StartFillingAsync();
+            case GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf:
+                {
+                    if(gunFuExecuteNodeLeaf.curPhase == GunFuExecuteNodeLeaf.GunFuExecutePhase.Execute)
+
+                    if (targetFill <= 1)
+                        ammoIcon.color = Color.white;
+                    StartFillingAsync();
+                    break;
+                }
         }
     }
-
-    public void OnNotify(Player player) { }
-
     private async void StartFillingAsync()
     {
         if (updateCircleUI == null)
@@ -78,4 +85,6 @@ public class ChargeCircleUi : GameplayUI, IObserverPlayer
         cirCleUI.enabled = false;
         ammoIcon.enabled = false;
     }
+
+ 
 }

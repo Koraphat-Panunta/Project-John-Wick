@@ -212,7 +212,6 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
     private void PlayerStateNodeNotifyManager(PlayerStateNodeLeaf playerStateNode)
     {
-
         switch (playerStateNode)
         {
             case PlayerDodgeRollStateNodeLeaf:

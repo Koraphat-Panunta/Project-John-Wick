@@ -24,56 +24,62 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         break;
                     }
                 case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
-                    {
-                        if(_reloadMagFullStage.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
-                            player.NotifyObserver(player, NotifyEvent.ReloadMagazineFullStage);
+                    {    
+                        player.NotifyObserver(player,_reloadMagFullStage);
                         break;
                     }
                 case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
                     {
-
-                        if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
-                        {
-                            player.NotifyObserver(player, NotifyEvent.TacticalReloadMagazineFullStage);
-                        }
+                        player.NotifyObserver(player, _tacticalReloadMagFullStage);
                         break;
                     }
-                case AimDownSightWeaponManuverNodeLeaf:
+                case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
                         RotateObjectToward rotateObjectToward = new RotateObjectToward();
                         rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
-                        player.NotifyObserver(player, NotifyEvent.Aim);
+                        player.NotifyObserver(player, aimDownSightWeaponManuverNodeLeaf);
 
                         break;
                     }
-                case LowReadyWeaponManuverNodeLeaf:
+                case LowReadyWeaponManuverNodeLeaf lowReady:
                     {
-                        player.NotifyObserver(player, NotifyEvent.LowReady);
+                        player.NotifyObserver(player, lowReady);
                         break;
                     }
-                case DropWeaponManuverNodeLeaf:
-                case PickUpWeaponNodeLeaf:
-                case HolsterPrimaryWeaponManuverNodeLeaf:
-                case HolsterSecondaryWeaponManuverNodeLeaf:
-                case DrawPrimaryWeaponManuverNodeLeaf:
-                case DrawSecondaryWeaponManuverNodeLeaf:
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf: 
+                    player.NotifyObserver(player, dropWeaponManuverNodeLeaf);
+                    break ;
+                case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf:
+                    player.NotifyObserver(player, pickUpWeaponNodeLeaf);
+                    break;
+                case HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf:
+                    player.NotifyObserver(player, holsterPrimaryWeaponManuverNodeLeaf);
+                    break;
+                case HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf:
+                    player.NotifyObserver(player, holsterSecondaryWeaponManuverNodeLeaf);
+                    break;
+                case DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf:
+                    player.NotifyObserver(player, drawPrimaryWeaponManuverNodeLeaf);
+                    break;
+                case DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf:
+                    player.NotifyObserver(player, drawSecondaryWeaponManuverNodeLeaf);
+                    break;
+                case PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode:
+                    player.NotifyObserver(player, primaryToSecondarySwitchWeaponManuverLeafNode);
+                    break;
+                case SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode:
+                    player.NotifyObserver(player, secondaryToPrimarySwitchWeaponManuverLeafNode);
+                    break;
+                case RestWeaponManuverLeafNode restWeaponManuverLeafNode:
                     {
-                        player.NotifyObserver(player, NotifyEvent.SwitchWeapon);
-                        break;
-                    }
-                case RestWeaponManuverLeafNode:
-                    {
-                        player.NotifyObserver(player, NotifyEvent.Resting);
+                        player.NotifyObserver(player, restWeaponManuverLeafNode);
                         break;
                     }
                 case QuickDrawWeaponManuverLeafNode quickDrawNodeLeaf:
                     {
-                        player.NotifyObserver(player, NotifyEvent.QuickDraw);
+                        player.NotifyObserver(player, quickDrawNodeLeaf);
                         RotateObjectToward rotateObjectToward = new RotateObjectToward();
                         rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
-                        player.NotifyObserver(player, NotifyEvent.Aim);
                         break;
                     }
             }

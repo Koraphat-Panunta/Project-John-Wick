@@ -5,7 +5,7 @@ public abstract class SubjectPlayer : Character
 {
     public enum NotifyEvent
     {
-        //SwapShoulder,
+        SwapShoulder,
         //Aim,
         //AimHumandShield,
         //LowReady,
@@ -28,7 +28,7 @@ public abstract class SubjectPlayer : Character
         //Sprint,
         //Dodge,
 
-        //GetShoot,
+        GetShoot,
         //HumanShieldOpponentGetShoot,
         //GetDamaged,
         //HealthRegen,
@@ -46,8 +46,8 @@ public abstract class SubjectPlayer : Character
         //GunFuAttack,
         //GunFuExit,
 
-        //OppenentStagger,
-        //OpponentKilled,
+        OppenentStagger,
+        OpponentKilled,
 
         //RecivedAmmo,
         //RecivedHp,

@@ -128,12 +128,13 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             CrosshairSpread.isAiming = false;
         }
     }
-
-    public void OnNotify(Player player)
+    public void OnNotify<T>(Player player, T node) where T : INode
     {
+        
     }
 
-   
+
+
     public override void EnableUI()
     {
         this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;
@@ -152,4 +153,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
         Cursor.lockState = CursorLockMode.None;
     }
+
+   
 }

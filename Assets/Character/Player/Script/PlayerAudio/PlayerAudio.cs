@@ -63,30 +63,31 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     float footStepTiming = 0;
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
-        if (playerAction == NotifyEvent.Dodge)
-            PlayAudio(dodgeRollSound);
-
-        if(playerAction == NotifyEvent.GunFuAttack)
+        
+    }
+    public void OnNotify<T>(Player player, T node) where T : INode
+    {
+        switch (node)
         {
-            if (player.playerStateNodeManager.curNodeLeaf is Hit1GunFuNode
-                || player.playerStateNodeManager.curNodeLeaf is Hit2GunFuNode
-                || player.playerStateNodeManager.curNodeLeaf is RestrictGunFuStateNodeLeaf)
-                PlayAudio(hit);
-
-            else if (player.playerStateNodeManager.curNodeLeaf is DodgeSpinKicklGunFuNodeLeaf
-                || player.playerStateNodeManager.curNodeLeaf is KnockDown_GunFuNode)
-                PlayAudio(kick);
-                
+            case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
+                {
+                    if (gunFuHitNodeLeaf is DodgeSpinKicklGunFuNodeLeaf
+                        || gunFuHitNodeLeaf is KnockDown_GunFuNode)
+                        PlayAudio(kick);
+                    break;
+                }
+            case PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf:
+                {
+                    PlayAudio(dodgeRollSound);
+                    break;
+                }
         }
-
-
     }
     private void PlayAudio(AudioClip audioClip)
     {
         audioSource.clip = audioClip;
         audioSource.Play();
     }
-    public void OnNotify(Player player)
-    {
-    }
+
+   
 }

@@ -19,6 +19,13 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     protected GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
     public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
+    public enum GunFuHitPhase
+    {
+        Enter,
+        Hit,
+        Exit
+    }
+    public GunFuHitPhase curGunFuHitPhase { get; protected set; }
 
     public PlayerGunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
@@ -42,7 +49,8 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
 
         (player.playerMovement as IMovementCompoent).CancleMomentum();
 
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuEnter);
+        curGunFuHitPhase = GunFuHitPhase.Enter;
+        player.NotifyObserver(player, this);
 
         base.Enter();
     }
@@ -51,7 +59,8 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     {
         _timer = 0;
         (player.playerMovement as IMovementCompoent).CancleMomentum();
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuExit);
+        curGunFuHitPhase -= GunFuHitPhase.Exit;
+        player.NotifyObserver(player,this);
 
         base.Exit();
     }
@@ -66,7 +75,8 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
                      warpPos,
                       _timer / (_animationClip.length * hitAbleTime_Normalized)
                       );
-            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuInteract);
+            curGunFuHitPhase = GunFuHitPhase.Hit;
+            player.NotifyObserver(player, this);
             attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(attackedAbleGunFu._gunFuAttackedAble.rotation
                 , Quaternion.LookRotation(targetAdjustTransform.forward * -1, Vector3.up)
                 , _timer / (_animationClip.length * hitAbleTime_Normalized));

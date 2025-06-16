@@ -18,12 +18,22 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
     private bool isWarping;
 
     AnimationCurve warpingCurve;
+
+    public enum GunFuExecutePhase
+    {
+        Enter,
+        Execute,
+        Exit,
+    }
+    public GunFuExecutePhase curPhase;
     public GunFuExecuteNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
 
     public override void Enter()
     {
+        curPhase = GunFuExecutePhase.Enter;
+
         gunFuExecuteAble = player.executedAbleGunFu;
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
@@ -47,6 +57,7 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
 
     public override void Exit()
     {
+        curPhase = GunFuExecutePhase.Enter;
         base.Exit();
     }
 
@@ -117,7 +128,8 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
             gunFuExecuteAble._damageAble.TakeDamage(bulletExecute);
             player._currentWeapon.PullTrigger();
             isExecute = true;
-            player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunFuAttack);
+            curPhase = GunFuExecutePhase.Execute;
+            player.NotifyObserver(player,this);
         }
         
         base.UpdateNode();

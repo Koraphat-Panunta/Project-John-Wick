@@ -6,9 +6,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
     public float _exitTime_Normalized { get ; set ; }
     public float _timer { get ; set ; }
     public AnimationClip _animationClip { get => brounceOffGotAttackGunFuScriptableObject.animationClip ; set => brounceOffGotAttackGunFuScriptableObject.animationClip = value; }
-
     private PlayerBrounceOffGotAttackGunFuScriptableObject brounceOffGotAttackGunFuScriptableObject;
-    
     public PlayerBrounceOffGotAttackGunFuNodeLeaf(PlayerBrounceOffGotAttackGunFuScriptableObject playerBrounceOffGotAttackGunFuScriptableObject,Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         this.brounceOffGotAttackGunFuScriptableObject = playerBrounceOffGotAttackGunFuScriptableObject;
@@ -24,8 +22,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
         player.playerMovement.SetRotateCharacter(rotateDir);
         if (player._currentWeapon != null)
             new WeaponAttachingBehavior().Detach(player._currentWeapon,player);
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GotAttackGunFuEnter);
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GotAttackGunFuAttack);
+        player.NotifyObserver(player, this);
         base.Enter();
     }
 
@@ -33,7 +30,6 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
     {
         player.curAttackerGunFuNode = null;
         player.gunFuAbleAttacker = null;
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.GunAttackGunFuExit);
         base.Exit();
     }
 
