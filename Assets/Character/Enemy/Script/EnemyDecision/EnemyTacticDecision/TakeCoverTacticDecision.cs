@@ -35,7 +35,7 @@ public class TakeCoverTacticDecision : TacticDecision
     public override void Exit()
     {
         this.coverPoint = null;
-        enemyCommand.GetOffCover();
+        enemyCommand.CheckOutCover();
     }
 
     public override void FixedUpdate()

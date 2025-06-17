@@ -257,31 +257,11 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         _enemy.lookRotationCommand = _enemy.transform.forward;
     }
-    public void Rotate(Vector3 dir, float rotSpeedScale)
+    private void Rotate(Vector3 dir, float rotSpeedScale)
     {
         rotSpeedScale = Mathf.Clamp01((float)rotSpeedScale);
         _enemy.lookRotationCommand = Vector3.Lerp(_enemy.transform.forward, dir, rotSpeedScale);
     }
-    public void Sprint()
-    {
-        _enemy.isSprintCommand = true;
-    }
-
-    public void Stand()
-    {
-        _enemy.enemyMovement.curStance = IMovementCompoent.Stance.Stand;
-    }
-    public void Crouch()
-    {
-        _enemy.enemyMovement.curStance = IMovementCompoent.Stance.Crouch;
-        _enemy.isSprintCommand = false;
-    }
-    public void Dodge()
-    {
-        
-    }
-
-
     public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
     {
         coverPoint = null;
@@ -304,7 +284,7 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-    public void TakeCover()
+    private void TakeCover()
     {
         Freez();
         _enemy.isInCover = true;
@@ -331,26 +311,26 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-    public bool MoveToTakeCover(float coverInRaduis, float velocityScale, float rotateTowardDirSpeedScale)
-    {
-        if (_enemy.coverPoint == null)
-        {
-            if (_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis, out CoverPoint coverPoint))
-            {
-                coverPoint.TakeThisCover(_enemy);
-            }
-            else
-                return false;
-        }
-        if (MoveToPositionRotateToward(_enemy.coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 0.5f))
-        {
-            TakeCover();
-            return true;
-        }
-        return false;
+    //public bool MoveToTakeCover(float coverInRaduis, float velocityScale, float rotateTowardDirSpeedScale)
+    //{
+    //    if (_enemy.coverPoint == null)
+    //    {
+    //        if (_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis, out CoverPoint coverPoint))
+    //        {
+    //            coverPoint.TakeThisCover(_enemy);
+    //        }
+    //        else
+    //            return false;
+    //    }
+    //    if (MoveToPositionRotateToward(_enemy.coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 0.5f))
+    //    {
+    //        TakeCover();
+    //        return true;
+    //    }
+    //    return false;
 
 
-    }
+    //}
     public bool SprintToCover(CoverPoint coverPoint)
     {
         coverPoint.TakeThisCover(_enemy);
@@ -362,7 +342,7 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-    public void GetOffCover()
+    public void CheckOutCover()
     {
         if(_enemy.coverPoint != null)
         _enemy.coverPoint.OffThisCover();
@@ -370,7 +350,6 @@ public class EnemyCommandAPI :MonoBehaviour
         _enemy.coverPoint = null;
         _enemy.isInCover = false;
     }
-
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
