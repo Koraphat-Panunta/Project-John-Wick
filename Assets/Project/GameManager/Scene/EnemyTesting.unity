@@ -357,6 +357,7 @@ MonoBehaviour:
   moveTransPos1: {fileID: 421140276}
   rotateTransPos2: {fileID: 1913442414}
   sprintTransPos3: {fileID: 1051575068}
+  pickedUpPrimaryWeapon: {fileID: 220927924}
   freezTimer: 3
   debugLog: 
 --- !u!4 &160688022 stripped
@@ -365,6 +366,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 317626111}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &220927924 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2761170129473076366, guid: 462d94adf4c852c429f55445d516ab1b,
+    type: 3}
+  m_PrefabInstance: {fileID: 103388487}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3eccfa7ddfbfd48af8e7be52496a04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &282129375
 GameObject:
   m_ObjectHideFlags: 0

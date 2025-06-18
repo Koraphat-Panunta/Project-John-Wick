@@ -172,7 +172,8 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     private void OnValidate()
     {
-        this.player = FindAnyObjectByType<Player>();
+        if(this.player == null)
+            this.player = FindAnyObjectByType<Player>();
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
 

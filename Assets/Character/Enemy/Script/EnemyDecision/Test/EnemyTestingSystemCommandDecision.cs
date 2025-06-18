@@ -35,6 +35,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     [SerializeField] private Transform moveTransPos1;
     [SerializeField] private Transform rotateTransPos2;
     [SerializeField] private Transform sprintTransPos3;
+    [SerializeField] private Weapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
 
     [SerializeField,TextArea(10,10)] private string debugLog;
@@ -50,21 +51,32 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             enemyCommand = GetComponent<EnemyCommandAPI>();
 
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
-        Debug.Log(moveTransPos1.position);
         rotateToPos2 = new EnemyRotateToPos(enemy.transform, rotateTransPos2.position, enemy.aimingRotateSpeed, enemyCommand);
-        freez_3s = new EnemyTestingCommand(
-            () =>
-            {
-                this.freezTimer -= Time.deltaTime;
-                enemyCommand.FreezPosition();
-            },
-            () => this.freezTimer <= 0);
         sprintToPos3 = new EnemyTestingCommand(() => { }, ()=>enemyCommand.SprintToPosition(this.sprintTransPos3.position,enemy.sprintRotateSpeed));
+        freez_3s = new EnemyTestingCommand(
+    () =>
+    {
+        this.freezTimer -= Time.deltaTime;
+        enemyCommand.FreezPosition();
+    },
+    () => this.freezTimer <= 0);
+        moveToWeaponPickedUpPrimary = new EnemyTestingCommand(() => { },
+            ()=> 
+            { if (enemyCommand.MoveToPositionRotateToward(pickedUpPrimaryWeapon.transform.position, enemy.moveMaxSpeed, enemy.moveRotateSpeed))
+                {
+                    enemyCommand.FreezPosition();
+                    return true;
+                }
+            return false;
+            });
+        pickUpWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> { return enemy._currentWeapon ? true : false; });
 
         enemyTestingCommands.Enqueue(moveToPos1);
         enemyTestingCommands.Enqueue(rotateToPos2);
         enemyTestingCommands.Enqueue(sprintToPos3);
         enemyTestingCommands.Enqueue(freez_3s);
+        enemyTestingCommands.Enqueue(moveToWeaponPickedUpPrimary);
+        enemyTestingCommands.Enqueue(pickUpWeaponPrimary);
 
     }
 
