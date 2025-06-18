@@ -1,8 +1,7 @@
-using NUnit.Framework;
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class EnemyTestingSystemCommandDecision : EnemyDecision
 {
@@ -13,10 +12,22 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     private IEnemyTestingCommand rotateToPos2;
     private IEnemyTestingCommand sprintToPos3;
     private IEnemyTestingCommand freez_3s;
-    private IEnemyTestingCommand moveToWeaponPickedUpPromary;
-    private IEnemyTestingCommand pickUpWeapon;
+    private IEnemyTestingCommand moveToWeaponPickedUpPrimary;
+    private IEnemyTestingCommand pickUpWeaponPrimary;
     private IEnemyTestingCommand holsterWeaponPrimary;
-    private IEnemyTestingCommand drawWeapon;
+    private IEnemyTestingCommand drawWeaponPrimary;
+    private IEnemyTestingCommand dropWeaponPrimary;
+    private IEnemyTestingCommand pickUpWeaponPrimary2;
+    private IEnemyTestingCommand moveToWeaponPickedUpSecondary;
+    private IEnemyTestingCommand pickUpWeaponSecondary;
+    private IEnemyTestingCommand switchWeaponSecondaryToPrimary;
+    private IEnemyTestingCommand switchWeaponPrimaryToSecondary;
+    private IEnemyTestingCommand ADS_PullTrigger_Reload_PullTriggerAllOut_Reload;
+    private IEnemyTestingCommand findAndBookCover1;
+    private IEnemyTestingCommand moveToTakeCover1;
+    private IEnemyTestingCommand coverManuver1;
+    private IEnemyTestingCommand findAndBookCover2;
+    private IEnemyTestingCommand sprintToTakeCover;
     protected override void Awake()
     {
         base.Awake();
