@@ -30,7 +30,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override void Exit()
     {
-        enemyCommandAPI.GetOffCover();
+        enemyCommandAPI.CheckOutCover();
         base.Exit();
     }
     public override void Enter()
