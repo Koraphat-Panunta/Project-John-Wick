@@ -57,7 +57,7 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         if (curvePath._curvePoint.Count > 0)
             if (enemyCommandAPI.MoveToPosition(curvePath._curvePoint.Peek(), 1,2.25f))
             {
-                enemyCommandAPI.Freez();
+                enemyCommandAPI.FreezPosition();
                 curvePath._curvePoint.Dequeue();
             }
 

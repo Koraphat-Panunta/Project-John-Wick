@@ -43,7 +43,7 @@ public class GuardingEnemyActionNodeLeaf : EnemyActionNodeLeaf
     {
         if (enemyCommandAPI.MoveToPositionRotateToward(destinate, enemy.moveMaxSpeed, 0.7f, 0.25f))
         {
-            enemyCommandAPI.Freez();
+            enemyCommandAPI.FreezPosition();
             waitiming -= Time.deltaTime;
             if (waitiming <= 0)
             {

@@ -19,7 +19,7 @@ public class SearchingTacticDecision : TacticDecision
     }
     public override void Exit()
     {
-        enemyCommand.Freez();
+        enemyCommand.FreezPosition();
 
     }
 
@@ -38,7 +38,7 @@ public class SearchingTacticDecision : TacticDecision
                 {
                     if (enemyCommand.MoveToPositionRotateToward(searchingPos, 1, 1))
                     {
-                        enemyCommand.Freez();
+                        enemyCommand.FreezPosition();
 
                         if (waitTime > 0)
                             waitTime -= Time.deltaTime;

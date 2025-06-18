@@ -45,20 +45,20 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
-                    enemyCommandAPI.Freez();
+                    enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
                     if (Vector3.Distance(insistPos, enemy.transform.position) < distance)
                         enemyCommandAPI.MoveToPosition(enemy.targetKnewPos, enemy.moveMaxSpeed);
                     else
-                        enemyCommandAPI.Freez();
+                        enemyCommandAPI.FreezPosition();
 
                 }
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
-                    enemyCommandAPI.Freez();
+                    enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
 
                 }

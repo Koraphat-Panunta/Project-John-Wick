@@ -42,7 +42,7 @@ public class HoldingTacticDecision : TacticDecision
         {
             case EnemyTacticDecision.CombatPhase.Alert:
                 {
-                    enemyCommand.Freez();
+                    enemyCommand.FreezPosition();
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
                     enemyCommand.NormalFiringPattern.Performing();
 
@@ -50,7 +50,7 @@ public class HoldingTacticDecision : TacticDecision
                 break;
             case EnemyTacticDecision.CombatPhase.Aware:
                 {
-                    enemyCommand.Freez();
+                    enemyCommand.FreezPosition();
                     enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
 
                 }

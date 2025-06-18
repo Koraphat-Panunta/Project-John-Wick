@@ -71,10 +71,10 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         enemyCommunicator = new EnemyCommunicator(this);
 
 
-        if(startWeapon == null)
-        startWeapon = Instantiate(startWeapon);
+        //if(startWeapon == null)
+        //startWeapon = Instantiate(startWeapon);
 
-        new WeaponAttachingBehavior().Attach(startWeapon, _mainHandSocket);
+        //new WeaponAttachingBehavior().Attach(startWeapon, _mainHandSocket);
     }
 
 

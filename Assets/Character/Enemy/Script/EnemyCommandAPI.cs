@@ -162,14 +162,7 @@ public class EnemyCommandAPI :MonoBehaviour
 
     public bool MoveToPosition(Vector3 DestinatePos, float velocityScale)
     {
-        NavMeshAgent agent = _enemy.agent;
-        if(agent.hasPath == false|| Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
-            agent.SetDestination(DestinatePos);
-       
-        Vector3 moveDir = agent.steeringTarget-_enemy.transform.position;
-        Move(moveDir, velocityScale);
-
-        return Vector3.Distance(DestinatePos, _enemy.transform.position) < 0.5f;
+        return this.MoveToPosition(DestinatePos, velocityScale, 0.5f);
     }
     public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale,float rotateTowardDirSpeedScale)
     {
@@ -233,17 +226,11 @@ public class EnemyCommandAPI :MonoBehaviour
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
 
-        RotateToPosition(Destination, rotSpeedScale);
+        RotateToPosition(agent.steeringTarget, rotSpeedScale);
 
         return Vector3.Distance(Destination, _enemy.transform.position) < reachDestinationDistance;
     }
-    public void Freez(Vector3 rotateToDes, float rotateSpeed)
-    {
-        _enemy.isSprintCommand = false;
-        _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
-        RotateToPosition(rotateToDes, rotateSpeed);
-    }
-    public void Freez()
+    public void FreezPosition()
     {
         _enemy.isSprintCommand = false;
         _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
@@ -286,7 +273,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     private void TakeCover()
     {
-        Freez();
+        FreezPosition();
         _enemy.isInCover = true;
     }
     public bool MoveToTakeCover(CoverPoint coverPoint,float velocityScale,float rotateTowardDirSpeedScale)
@@ -311,26 +298,6 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-    //public bool MoveToTakeCover(float coverInRaduis, float velocityScale, float rotateTowardDirSpeedScale)
-    //{
-    //    if (_enemy.coverPoint == null)
-    //    {
-    //        if (_enemy.findingCover.FindCoverInRaduisInGunFight(coverInRaduis, out CoverPoint coverPoint))
-    //        {
-    //            coverPoint.TakeThisCover(_enemy);
-    //        }
-    //        else
-    //            return false;
-    //    }
-    //    if (MoveToPositionRotateToward(_enemy.coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 0.5f))
-    //    {
-    //        TakeCover();
-    //        return true;
-    //    }
-    //    return false;
-
-
-    //}
     public bool SprintToCover(CoverPoint coverPoint)
     {
         coverPoint.TakeThisCover(_enemy);

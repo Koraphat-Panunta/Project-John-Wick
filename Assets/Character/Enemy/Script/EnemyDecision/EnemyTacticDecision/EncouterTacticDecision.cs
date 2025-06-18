@@ -17,7 +17,7 @@ public class EncouterTacticDecision : TacticDecision
     public override void Enter()
     {
         curvePath.GenaratePath(enemy.targetKnewPos,enemy.transform.position);
-        enemyCommand.Freez();
+        enemyCommand.FreezPosition();
 
     }
 
@@ -68,7 +68,7 @@ public class EncouterTacticDecision : TacticDecision
         if (curvePath._curvePoint.Count > 0)
         if (enemyCommand.MoveToPosition(curvePath._curvePoint.Peek(), 1))
         {
-            enemyCommand.Freez();
+            enemyCommand.FreezPosition();
             curvePath._curvePoint.Dequeue();
         }
 
