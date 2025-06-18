@@ -101,7 +101,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
         _weaponManuverManager.FixedUpdateNode();
         playerMovement.MovementFixedUpdate();
     }
-
+    
   
    
     #region ImplementBulletDamageAble
