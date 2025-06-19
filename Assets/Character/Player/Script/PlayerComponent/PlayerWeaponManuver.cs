@@ -159,6 +159,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
                     return true;
                 else return false;
             });  
+
         curWeaponManuverSelectorNode = new NodeSelector( 
             () => curWeapon != null);
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(this.weaponAdvanceUser, 
@@ -171,21 +172,14 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
                 return false;
                 });
-        
-        swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
-             () =>
-             {
-                if(isSwitchWeaponManuverAble == false)
-                     return false;
 
-                 if (weaponAdvanceUser._isSwitchWeaponCommand)
-                     return true;
+        switchDrawPrimaryNodeSelector = new NodeSelector(
+            ()=> weaponAdvanceUser._isDrawPrimaryWeaponCommand && isSwitchWeaponManuverAble);
+        secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
+           () => weaponAdvanceUser._currentWeapon is SecondaryWeapon && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
+        switchDrawSecondaryNodeSelector = new NodeSelector(
+            () => weaponAdvanceUser._isDrawSecondaryWeaponCommand && isSwitchWeaponManuverAble);
 
-                 return false;
-             }
-            
-             );
-       
         quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNodeLeaf(this.weaponAdvanceUser,
             () => 
             {
@@ -255,21 +249,7 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 return false;
                 }
             );
-        secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
-            () => 
-            {
-                if (this.isSwitchWeaponManuverAble == false)
-                    return false;
-
-                if (weaponAdvanceUser._isSwitchWeaponCommand == false)
-                    return false;
-
-                if (curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null)
-                    return true;
-                
-                return false;
-                }
-            );
+       
         holsterPrimaryWeaponManuverNodeLeaf = new HolsterPrimaryWeaponManuverNodeLeaf(this.weaponAdvanceUser, 
             () => 
             {
