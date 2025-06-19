@@ -69,12 +69,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
 
         enemyCommunicator = new EnemyCommunicator(this);
-
-
-        //if(startWeapon == null)
-        //startWeapon = Instantiate(startWeapon);
-
-        //new WeaponAttachingBehavior().Attach(startWeapon, _mainHandSocket);
     }
 
 
@@ -82,7 +76,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     {
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
-        //combatOffensiveInstinct.UpdateSening();
         enemyStateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         enemyMovement.MovementUpdate();

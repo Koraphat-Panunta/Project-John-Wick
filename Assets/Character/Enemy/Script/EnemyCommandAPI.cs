@@ -349,7 +349,26 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isPickingUpWeaponCommand = true;
-        Debug.Log("Enemy isPickingUpWeaponManuver = " + weaponAdvanceUser._isPickingUpWeaponCommand);
+    }
+    public void HolsterWeapon()
+    {
+        (_enemy as IWeaponAdvanceUser)._isPickingUpWeaponCommand = true;
+    }
+    public void DrawWeaponPrimary()
+    {
+
+    }
+    public void DrawWeaponSecondary()
+    {
+
+    }
+    public void DropWeapon()
+    {
+
+    }
+    public void SwitchWeapon()
+    {
+        (_enemy as IWeaponAdvanceUser)._isSwitchWeaponCommand = true;
     }
     public void SpinKick()
     {

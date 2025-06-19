@@ -23,20 +23,25 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     private IEnemyTestingCommand pickUpWeaponSecondary;
     private IEnemyTestingCommand switchWeaponSecondaryToPrimary;
     private IEnemyTestingCommand switchWeaponPrimaryToSecondary;
-    private IEnemyTestingCommand ADS_PullTrigger_Reload_PullTriggerAllOut_Reload;
+    private IEnemyTestingCommand ADS_PullTrigger;
+    private IEnemyTestingCommand tacticalReload;
+    private IEnemyTestingCommand ADS_PillTriggerAllOutMag;
+    private IEnemyTestingCommand reload;
     private IEnemyTestingCommand findAndBookCover1;
     private IEnemyTestingCommand moveToTakeCover1;
     private IEnemyTestingCommand coverManuver1;
-    private IEnemyTestingCommand findAndBookCover2;
-    private IEnemyTestingCommand sprintToTakeCover;
-    private IEnemyTestingCommand coverManuver2;
-    private IEnemyTestingCommand approuchingSpinKick;
+    private IEnemyTestingCommand moveToSpinKick;
+    private IEnemyTestingCommand spinKick;
 
     [SerializeField] private Transform moveTransPos1;
     [SerializeField] private Transform rotateTransPos2;
     [SerializeField] private Transform sprintTransPos3;
     [SerializeField] private Weapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
+    [SerializeField] private Weapon pickedUpSecondaryWeapon;
+    [SerializeField] private CoverPoint coverPoint;
+    [SerializeField] private float timerCoverManuver = 9;
+    [SerializeField] private Transform targetPos;
 
     [SerializeField,TextArea(10,10)] private string debugLog;
     protected override void Awake()
@@ -70,6 +75,51 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             return false;
             });
         pickUpWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> { return enemy._currentWeapon ? true : false; });
+        holsterWeaponPrimary = new EnemyTestingCommand(()=>enemyCommand.HolsterWeapon(),()=> enemy._currentWeapon == null);
+        drawWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as Weapon);
+        dropWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DropWeapon(), () => enemy._currentWeapon == null);
+        pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> enemy._currentWeapon != null);
+        moveToWeaponPickedUpSecondary = new EnemyMoveToPos(enemy.transform, pickedUpSecondaryWeapon.transform.position, true, enemyCommand);
+        pickUpWeaponSecondary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
+        switchWeaponSecondaryToPrimary = new EnemyTestingCommand(() => enemyCommand.SwitchWeapon(),()=> enemy._currentWeapon is PrimaryWeapon);
+        switchWeaponPrimaryToSecondary = new EnemyTestingCommand(() => enemyCommand.SwitchWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
+        ADS_PullTrigger = new EnemyTestingCommand(
+            () =>
+            {
+                enemyCommand.AimDownSight();
+                enemyCommand.PullTrigger();
+            }, () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] <= enemy._currentWeapon.bulletCapacity * 0.7f);
+        reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] == enemy._currentWeapon.bulletCapacity);
+        findAndBookCover1 = new EnemyTestingCommand(() => 
+        {
+            enemyCommand.FindCoverAndBook(10, out CoverPoint coverPoint);
+            
+        }, () => enemy.coverPoint != null);
+        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToCover(coverPoint));
+        coverManuver1 = new EnemyTestingCommand(
+            () => 
+            {
+                if(timerCoverManuver > 7)
+                {
+                    enemyCommand.AimDownSight();
+                }
+                else if(timerCoverManuver > 4)
+                {
+                    enemyCommand.AimDownSight();
+                    enemyCommand.PullTrigger();
+                }
+                else if(timerCoverManuver > 2)
+                {
+                    enemyCommand.AimDownSight();
+                }
+                else
+                {
+
+                }
+            },
+            () => timerCoverManuver <= 0);
+        moveToSpinKick = new EnemyMoveToPos(enemy.transform, targetPos.position, true, enemyCommand);
+        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.curNodeLeaf is EnemySpinKickGunFuNodeLeaf);
 
         enemyTestingCommands.Enqueue(moveToPos1);
         enemyTestingCommands.Enqueue(rotateToPos2);
@@ -77,6 +127,21 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         enemyTestingCommands.Enqueue(freez_3s);
         enemyTestingCommands.Enqueue(moveToWeaponPickedUpPrimary);
         enemyTestingCommands.Enqueue(pickUpWeaponPrimary);
+        enemyTestingCommands.Enqueue(holsterWeaponPrimary);
+        enemyTestingCommands.Enqueue(drawWeaponPrimary);
+        enemyTestingCommands.Enqueue(dropWeaponPrimary);
+        enemyTestingCommands.Enqueue(pickUpWeaponPrimary2);
+        enemyTestingCommands.Enqueue(moveToWeaponPickedUpSecondary);
+        enemyTestingCommands.Enqueue(pickUpWeaponSecondary);
+        enemyTestingCommands.Enqueue(switchWeaponSecondaryToPrimary);
+        enemyTestingCommands.Enqueue(switchWeaponPrimaryToSecondary);
+        enemyTestingCommands.Enqueue(ADS_PullTrigger);
+        enemyTestingCommands.Enqueue(reload);
+        enemyTestingCommands.Enqueue(findAndBookCover1);
+        enemyTestingCommands.Enqueue(moveToTakeCover1);
+        enemyTestingCommands.Enqueue(coverManuver1);
+        enemyTestingCommands.Enqueue(moveToSpinKick);
+        enemyTestingCommands.Enqueue(spinKick);
 
     }
 
