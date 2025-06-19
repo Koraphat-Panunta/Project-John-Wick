@@ -13,12 +13,14 @@ public interface IWeaponAdvanceUser
     public Character _userWeapon { get;}
     public WeaponManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
-    public bool _isSwitchWeaponCommand { get; set; }
     public bool _isPullTriggerCommand { get; set; }
     public bool _isAimingCommand { get; set; }
     public bool _isReloadCommand { get; set; }
-    public bool _isPickingUpWeaponCommand { get; set; }
     public bool _isDropWeaponCommand { get; set; }
+    public bool _isPickingUpWeaponCommand { get; set; }
+    public bool _isHolsterWeaponCommand { get; set; }
+    public bool _isDrawPrimaryWeaponCommand { get; set; }
+    public bool _isDrawSecondaryWeaponCommand { get; set; }
     public AnimatorOverrideController _animatorWeaponAdvanceUserOverride{ get; set; }
     public void Initialized_IWeaponAdvanceUser();
 }

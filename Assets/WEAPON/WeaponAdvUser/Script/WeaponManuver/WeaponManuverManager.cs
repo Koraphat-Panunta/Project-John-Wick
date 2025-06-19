@@ -15,9 +15,9 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract bool isAimingManuverAble { get; }
     public abstract bool isPullTriggerManuverAble { get; }
     public abstract bool isReloadManuverAble { get; }
-    public abstract bool isSwitchWeaponManuverAble { get; }
-    public abstract bool isPickingUpWeaponManuverAble { get; }
     public abstract bool isDropWeaponManuverAble { get; }
+    public abstract bool isPickingUpWeaponManuverAble { get; }
+    public abstract bool isSwitchWeaponManuverAble { get; }
 
     public abstract PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
     public abstract DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get;protected set; }
@@ -25,7 +25,6 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
     public abstract HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
     public abstract HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get; protected set; }
-    public abstract WeaponManuverSelectorNode swtichingWeaponManuverSelector { get; protected set; }
     public abstract PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
     public abstract SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
     public abstract AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }

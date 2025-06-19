@@ -120,26 +120,30 @@ public class PlayerWeaponManuver : WeaponManuverManager
     #endregion
 
     #region InitializedNode
-    public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get ; protected set ; }
-    public WeaponManuverSelectorNode curWeaponManuverSelectorNode { get; protected set; }
-    public override WeaponManuverSelectorNode swtichingWeaponManuverSelector { get ;protected set; }
-    public RestWeaponManuverLeafNode restWeaponSwitchManuver { get; set; }
-    public QuickDrawWeaponManuverLeafNodeLeaf quickDrawWeaponManuverLeafNode { get ;protected set; }
-    public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get ; protected set ; }
+    public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get; protected set; }
+
+    public NodeSelector curWeaponManuverSelectorNode { get; protected set; }
+    public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
+    public QuickDrawWeaponManuverLeafNodeLeaf quickDrawWeaponManuverLeafNode { get; protected set; }
+
+    public NodeSelector switchDrawPrimaryNodeSelector { get; protected set; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
+    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get; protected set; }
+
+    public NodeSelector switchDrawSecondaryNodeSelector { get; protected set; }
+    public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
+    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
+
+
+    public NodeSelector holsterSelector { get; protected set; }
+    public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
+    public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get; protected set; }
+
+    public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
+
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
-    public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get;protected set; }
-    public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set ; }
-
-    public WeaponManuverSelectorNode drawWeaponManuverSelectorNode { get; protected set; }
-    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get; protected set; }
-    public DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponInWeaponManuvering;
-    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
-    public DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponInWeaponManuveringNodeLeaf;
-    public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get ; protected set ; }
-    public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get ; protected set ; }
 
     #endregion
     public override void InitailizedNode()
@@ -147,31 +151,26 @@ public class PlayerWeaponManuver : WeaponManuverManager
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
             ()=> 
             {
-
                 if(isPickingUpWeaponManuverAble == false)
                     return false;
-                   
+                  
                 if(weaponAdvanceUser._isPickingUpWeaponCommand && 
                 weaponAdvanceUser._findingWeaponBehavior.FindingWeapon())
                     return true;
                 else return false;
-
-            }
-           
-            );  
-        curWeaponManuverSelectorNode = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => curWeapon != null);
+            });  
+        curWeaponManuverSelectorNode = new NodeSelector( 
+            () => curWeapon != null);
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(this.weaponAdvanceUser, 
             () => 
             {
                 if (isDropWeaponManuverAble == false)
                     return false;
-
                 if(weaponAdvanceUser._isDropWeaponCommand)
                     return true;
 
                 return false;
-                }
-            );
+                });
         
         swtichingWeaponManuverSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser,
              () =>

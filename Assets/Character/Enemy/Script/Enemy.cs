@@ -122,7 +122,9 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     }
     public void BlackBoardBufferUpdate()
     {
-        _isSwitchWeaponCommand = false;
+        _isHolsterWeaponCommand = false;
+        _isDrawPrimaryWeaponCommand = false;
+        _isDrawSecondaryWeaponCommand = false;
         _isAimingCommand = false;
         _isReloadCommand = false;
         _isPainTrigger = false;
@@ -141,12 +143,15 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
     [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
 
-    public bool _isSwitchWeaponCommand { get; set; }
     public bool _isPullTriggerCommand { get; set; }
     public bool _isAimingCommand { get; set; }
     public bool _isReloadCommand { get; set; }
-    public bool _isPickingUpWeaponCommand { get; set; }
     public bool _isDropWeaponCommand { get; set; }
+    public bool _isPickingUpWeaponCommand { get; set; }
+    public bool _isHolsterWeaponCommand { get; set; }
+    public bool _isDrawPrimaryWeaponCommand { get; set; }
+    public bool _isDrawSecondaryWeaponCommand { get; set; }
+
     public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 
@@ -515,7 +520,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-    
+
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");

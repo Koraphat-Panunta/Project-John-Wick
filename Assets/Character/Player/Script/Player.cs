@@ -23,9 +23,11 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
    
     private void BlackBoardBufferUpdate()
     {
+        _isHolsterWeaponCommand = false;
+        _isDrawPrimaryWeaponCommand = false;
+        _isDrawSecondaryWeaponCommand = false;
         _isReloadCommand = false;
         isSwapShoulder = false;
-        _isSwitchWeaponCommand = false;
         triggerDodgeRoll = false;
         _isPickingUpWeaponCommand = false;
         _isDropWeaponCommand = false;
@@ -127,13 +129,17 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public ShoulderSide curShoulderSide;
     public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
-    public bool _isSwitchWeaponCommand { get; set; }
+
     public bool _isPullTriggerCommand { get; set; }
     public bool _isAimingCommand { get; set; }
     public bool _isReloadCommand { get; set; }
     public bool isSwapShoulder;
     public bool _isPickingUpWeaponCommand { get; set; }
     public bool _isDropWeaponCommand { get; set; }
+    public bool _isHolsterWeaponCommand { get; set; }
+    public bool _isDrawPrimaryWeaponCommand { get; set; }
+    public bool _isDrawSecondaryWeaponCommand { get; set; }
+
     public Weapon _currentWeapon { get; set; }
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
@@ -393,7 +399,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-
+  
     #endregion
 
     private void OnValidate()
