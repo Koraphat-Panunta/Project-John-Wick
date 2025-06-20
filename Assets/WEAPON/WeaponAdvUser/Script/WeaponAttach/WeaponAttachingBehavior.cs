@@ -63,6 +63,8 @@ public class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     this.SetParentConstrain(weapon, primaryWeaponSocket.weaponAttachingAbleTransform);
+                    if(primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
+                        primaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
                     break; 
                 }
             case SecondaryWeaponSocket secondaryWeaponSocket: 
@@ -71,6 +73,8 @@ public class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     this.SetParentConstrain(weapon, secondaryWeaponSocket.weaponAttachingAbleTransform);
+                    if(secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
+                        secondaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
                     break; 
                 }
         }

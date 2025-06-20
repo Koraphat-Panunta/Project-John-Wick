@@ -30,8 +30,14 @@ public class User : MonoBehaviour
         //userInput.NotifyEvent.SwapShoulder.performed += playerInputAPI.SwapShoulder;
         userInput.PlayerAction.SwapShoulder.canceled += playerInputAPI.SwapShoulder;
 
-        userInput.PlayerAction.SwitchWeapon.performed += playerInputAPI.SwitchWeapon;
-        userInput.PlayerAction.SwitchWeapon.canceled += playerInputAPI.SwitchWeapon;
+        userInput.PlayerAction.TriggerSwitchDrawPrimary.performed += playerInputAPI.TriggerSwitchDrawPrimaryWeapon;
+        userInput.PlayerAction.TriggerSwitchDrawPrimary.canceled += playerInputAPI.TriggerSwitchDrawPrimaryWeapon;
+
+        userInput.PlayerAction.TriggerSwitchDrawSecondary.performed += playerInputAPI.TriggerSwitchDrawSecondaryWeapon;
+        userInput.PlayerAction.TriggerSwitchDrawSecondary.canceled += playerInputAPI.TriggerSwitchDrawSecondaryWeapon;
+
+        userInput.PlayerAction.HolsterWeapon.performed += playerInputAPI.HolsterWeapon;
+        userInput.PlayerAction.HolsterWeapon.canceled += playerInputAPI.HolsterWeapon;
 
         userInput.PlayerAction.TrggerGunFu.performed += playerInputAPI.TriggerGunFu;
 

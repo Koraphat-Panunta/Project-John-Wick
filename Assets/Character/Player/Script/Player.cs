@@ -31,8 +31,6 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
         triggerDodgeRoll = false;
         _isPickingUpWeaponCommand = false;
         _isDropWeaponCommand = false;
-        if (_triggerExecuteGunFu)
-            Debug.Log("_triggerExecuteGunFu");
         _triggerExecuteGunFu = false;
 
         if (_triggerGunFu == true)
@@ -74,8 +72,6 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
        
 
     }
-
-
     private void Update()
     {
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);

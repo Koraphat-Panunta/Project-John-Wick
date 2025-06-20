@@ -110,7 +110,7 @@ public class QuickDrawWeaponManuverLeafNodeLeaf : WeaponManuverLeafNode
 
                     weaponManuverManager.aimingWeight = 1;
 
-                    if (weaponManuverManager.isSwitchWeaponManuverAble && weaponAdvanceUser._isSwitchWeaponCommand)
+                    if (weaponManuverManager.isSwitchWeaponManuverAble && weaponAdvanceUser._isDrawPrimaryWeaponCommand)
                     {
                         quickDrawPhase = QuickDrawPhase.HolsterSecondary;
                         weaponAfterActionPlayer.SendFeedBackWeaponAfterAction

@@ -8,29 +8,24 @@ public class EnemyWeaponManuver : WeaponManuverManager
 
     }
 
-    public WeaponManuverSelectorNode curWeaponManuverSelector { get; set; }
-
-    public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
     public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get; protected set; }
 
-    public NodeSelector switchDrawPrimaryWeaponSelector { get; set; }
+    public NodeSelector curWeaponManuverSelector { get; set; }
+    public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
-    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get ; protected set ; }
-
-    public NodeSelector switchDrawSecondaryWeaponSelector { get; set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
-    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get ; protected set; }
 
     public NodeSelector holsterWeaponSelector { get; set; }
     public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
     public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get; protected set; }
 
     public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
-
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set; }
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
+
+    public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get ; protected set ; }
+    public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get ; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
-   
 
     public override bool isAimingManuverAble 
     {

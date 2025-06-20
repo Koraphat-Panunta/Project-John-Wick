@@ -26,6 +26,9 @@ public class PlayerDeBuger : MonoBehaviour
     Player player;
 
     [SerializeField] private string PlayerCurNodeLeaf;
+    [SerializeField] private Weapon curWeapon;
+    [SerializeField] private Weapon myPrimaryWeapon;
+    [SerializeField] private Weapon mySecondaryWeapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +51,10 @@ public class PlayerDeBuger : MonoBehaviour
         isSwitchWeaponManuver = player._weaponManuverManager.isSwitchWeaponManuverAble;
 
         PlayerCurNodeLeaf = player.playerStateNodeManager.curNodeLeaf.ToString();
+
+        curWeapon = player._currentWeapon;
+        myPrimaryWeapon = player._weaponBelt.myPrimaryWeapon as Weapon;
+        mySecondaryWeapon = player._weaponBelt.mySecondaryWeapon as Weapon;
     }
    
     private void OnDrawGizmos()
