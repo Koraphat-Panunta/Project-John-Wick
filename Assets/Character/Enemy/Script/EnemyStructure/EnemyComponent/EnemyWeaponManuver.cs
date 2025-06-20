@@ -154,7 +154,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
            && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon 
            && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
-            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
+            () => weaponAdvanceUser._isDrawSecondaryWeaponCommand
            && isSwitchWeaponManuverAble
            && curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
