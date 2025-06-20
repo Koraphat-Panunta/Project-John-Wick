@@ -69,15 +69,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchWeapon",
-                    "type": "Button",
-                    "id": "9a50d9e1-0439-48df-aeb4-c6e40adcc9a1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "TrggerGunFu",
                     "type": "Button",
                     "id": "bab15d60-90f2-4680-b0c5-32d1798bb5ee",
@@ -120,6 +111,33 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerSwitchDrawPrimary",
+                    "type": "Button",
+                    "id": "0761e849-2c33-4a80-b875-e1f7c034ecfa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerSwitchDrawSecondary",
+                    "type": "Button",
+                    "id": "fd80c774-97ac-4411-aa68-8af1978c6660",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HolsterWeapon",
+                    "type": "Button",
+                    "id": "ff9d865e-8cbd-433d-ac26-5518afd90ff8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -456,39 +474,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c4049473-c331-4ba4-b23c-81f3d08d1e33",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3632df65-442f-46cd-928c-b54423615d48",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9975dc34-a6e0-42a7-9457-c4bae5fed403",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SwitchWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2079e9f8-8059-4712-a1e0-828e1ae6bd05",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -550,6 +535,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "TriggerDropWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba6c5146-efef-49de-9d0a-b23258572671",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerSwitchDrawPrimary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a6fda00-eeeb-428c-9633-fcde3206ecbe",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerSwitchDrawSecondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dfa1d145-76b0-444e-b647-8358a8272c05",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HolsterWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

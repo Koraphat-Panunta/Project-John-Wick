@@ -65,12 +65,26 @@ public class PlayerInputAPI : MonoBehaviour
         player.NotifyObserver(player, NotifyEvent.SwapShoulder);
 
     }
-    public void SwitchWeapon(InputAction.CallbackContext context)
+    public void TriggerSwitchDrawPrimaryWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player._isSwitchWeaponCommand = true;
-        if (context.canceled)
-            player._isSwitchWeaponCommand = false;
+            player._isDrawPrimaryWeaponCommand = true;
+        if(context.canceled)
+            player._isDrawPrimaryWeaponCommand = false;
+    }
+    public void TriggerSwitchDrawSecondaryWeapon(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player._isDrawSecondaryWeaponCommand = true;
+        if(context.canceled)
+            player._isDrawSecondaryWeaponCommand = false;
+    }
+    public void HolsterWeapon(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player._isHolsterWeaponCommand = true;
+        else if(context.canceled)
+            player._isHolsterWeaponCommand= false;
     }
     public void TriggerGunFu(InputAction.CallbackContext context)
     {
@@ -106,13 +120,11 @@ public class PlayerInputAPI : MonoBehaviour
         if(context.performed)
             player.triggerDodgeRoll = true;
     }
-
     public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
     {
         if(context.performed)
             player._isPickingUpWeaponCommand = true;
     }
-
     public void TriggerDropWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)

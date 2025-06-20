@@ -81,8 +81,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> enemy._currentWeapon != null);
         moveToWeaponPickedUpSecondary = new EnemyMoveToPos(enemy.transform, pickedUpSecondaryWeapon.transform.position, true, enemyCommand);
         pickUpWeaponSecondary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
-        switchWeaponSecondaryToPrimary = new EnemyTestingCommand(() => enemyCommand.SwitchWeapon(),()=> enemy._currentWeapon is PrimaryWeapon);
-        switchWeaponPrimaryToSecondary = new EnemyTestingCommand(() => enemyCommand.SwitchWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
+        switchWeaponSecondaryToPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(),()=> enemy._currentWeapon is PrimaryWeapon);
+        switchWeaponPrimaryToSecondary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponSecondary(), () => enemy._currentWeapon is SecondaryWeapon);
         ADS_PullTrigger = new EnemyTestingCommand(
             () =>
             {

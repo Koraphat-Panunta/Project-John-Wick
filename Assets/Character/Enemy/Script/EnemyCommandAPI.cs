@@ -366,10 +366,6 @@ public class EnemyCommandAPI :MonoBehaviour
     {
 
     }
-    public void SwitchWeapon()
-    {
-        (_enemy as IWeaponAdvanceUser)._isSwitchWeaponCommand = true;
-    }
     public void SpinKick()
     {
         _enemy._triggerGunFu = true;
