@@ -39,8 +39,12 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                         //No logic yet
                         break;
                     }
-                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, dropWeaponManuverNodeLeaf);
-                    break;
+                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf:
+                    {
+                        enemy.NotifyObserver(enemy, dropWeaponManuverNodeLeaf);
+                        Debug.Log("enemy Drop Weapon");
+                        break;
+                    }
                 case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf: enemy.NotifyObserver(enemy, pickUpWeaponNodeLeaf);
                     break;
                 case HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, holsterPrimaryWeaponManuverNodeLeaf);

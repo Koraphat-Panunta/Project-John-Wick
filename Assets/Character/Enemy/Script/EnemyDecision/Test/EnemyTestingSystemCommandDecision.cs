@@ -75,11 +75,28 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             return false;
             });
         pickUpWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> { return enemy._currentWeapon ? true : false; });
-        holsterWeaponPrimary = new EnemyTestingCommand(()=>enemyCommand.HolsterWeapon(),()=> enemy._currentWeapon == null);
+        holsterWeaponPrimary = new EnemyTestingCommand(()=> enemyCommand.HolsterWeapon(),()=> enemy._currentWeapon == null);
         drawWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as Weapon);
         dropWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DropWeapon(), () => enemy._currentWeapon == null);
-        pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> enemy._currentWeapon != null);
-        moveToWeaponPickedUpSecondary = new EnemyMoveToPos(enemy.transform, pickedUpSecondaryWeapon.transform.position, true, enemyCommand);
+        pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), 
+            () => 
+            { if(enemy._currentWeapon != null)
+                {
+                    debugLog += enemy._currentWeapon;
+                    return true;
+                }
+            return false;
+                    });
+        moveToWeaponPickedUpSecondary = new EnemyTestingCommand(() => { },
+            () =>
+            {
+                if (enemyCommand.MoveToPositionRotateToward(pickedUpSecondaryWeapon.transform.position, enemy.moveMaxSpeed, enemy.moveRotateSpeed))
+                {
+                    enemyCommand.FreezPosition();
+                    return true;
+                }
+                return false;
+            });
         pickUpWeaponSecondary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
         switchWeaponSecondaryToPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(),()=> enemy._currentWeapon is PrimaryWeapon);
         switchWeaponPrimaryToSecondary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponSecondary(), () => enemy._currentWeapon is SecondaryWeapon);

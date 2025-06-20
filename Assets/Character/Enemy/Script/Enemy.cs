@@ -117,14 +117,13 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     private void BlackBoardUpdate()
     {
         moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
-
-        //posture = Mathf.Clamp(posture, 0, 100);
     }
     public void BlackBoardBufferUpdate()
     {
         _isHolsterWeaponCommand = false;
         _isDrawPrimaryWeaponCommand = false;
         _isDrawSecondaryWeaponCommand = false;
+        _isDropWeaponCommand = false;
         _isAimingCommand = false;
         _isReloadCommand = false;
         _isPainTrigger = false;

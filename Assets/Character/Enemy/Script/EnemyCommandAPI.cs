@@ -347,24 +347,29 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void PickUpWeapon()
     {
+        Debug.Log("PickUpWeapon ");
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isPickingUpWeaponCommand = true;
     }
     public void HolsterWeapon()
     {
-        (_enemy as IWeaponAdvanceUser)._isPickingUpWeaponCommand = true;
+        Debug.Log("HolsterWeapon " + _enemy._currentWeapon);
+        (_enemy as IWeaponAdvanceUser)._isHolsterWeaponCommand = true;
     }
     public void DrawWeaponPrimary()
     {
-
+        Debug.Log("DrawWeaponPrimary " + _enemy._weaponBelt.myPrimaryWeapon);
+        (_enemy as IWeaponAdvanceUser)._isDrawPrimaryWeaponCommand = true;
     }
     public void DrawWeaponSecondary()
     {
-
+        Debug.Log("DrawWeaponPrimary " + _enemy._weaponBelt.mySecondaryWeapon);
+        (_enemy as IWeaponAdvanceUser)._isDrawSecondaryWeaponCommand = true;
     }
     public void DropWeapon()
     {
-
+        Debug.Log("DropWeapon " + _enemy._currentWeapon);
+        (_enemy as IWeaponAdvanceUser)._isDropWeaponCommand = true;
     }
     public void SpinKick()
     {

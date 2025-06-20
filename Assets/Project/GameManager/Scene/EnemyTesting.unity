@@ -359,6 +359,10 @@ MonoBehaviour:
   sprintTransPos3: {fileID: 1051575068}
   pickedUpPrimaryWeapon: {fileID: 220927924}
   freezTimer: 3
+  pickedUpSecondaryWeapon: {fileID: 1098629920}
+  coverPoint: {fileID: 695967943}
+  timerCoverManuver: 9
+  targetPos: {fileID: 1965705105}
   debugLog: 
 --- !u!4 &160688022 stripped
 Transform:
@@ -886,6 +890,18 @@ Transform:
   - {fileID: 519461310}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &695967943 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6841922110501536514, guid: 6dd879458c517dd44a3ffe003582fbf5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045747216}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa35e15f9ab738499448a7dfbcdb114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1026604792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1316,6 +1332,18 @@ Transform:
   - {fileID: 1036322345}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1098629920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 521215783090903122, guid: e08ae2fdefb857443b186d66db18d1fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1026604792}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f46b8cbeadb0cc48bb4022f63b96052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1317308764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,8 +1851,8 @@ GameObject:
   - component: {fileID: 1965705104}
   - component: {fileID: 1965705103}
   - component: {fileID: 1965705102}
-  m_Layer: 0
-  m_Name: Cylinder
+  m_Layer: 8
+  m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

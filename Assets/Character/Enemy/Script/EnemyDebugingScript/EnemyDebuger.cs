@@ -14,6 +14,10 @@ public class EnemyDebuger :MonoBehaviour
 
     [SerializeField,TextArea] 
     private string Debug;
+
+    [SerializeField] private Weapon curWeapon;
+    [SerializeField] private Weapon myPrimaryWeapon;
+    [SerializeField] private Weapon mySecondaryWeapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +30,10 @@ public class EnemyDebuger :MonoBehaviour
        CurrentEnemyState = this.enemy.enemyStateManagerNode.curNodeLeaf.ToString();
        posture = enemy._posture;
        PainPart = enemy._painPart;
+
+        this.curWeapon = enemy._currentWeapon;
+        this.myPrimaryWeapon = enemy._weaponBelt.myPrimaryWeapon as Weapon;
+        this.mySecondaryWeapon = enemy._weaponBelt.mySecondaryWeapon as Weapon;
     }
     private void OnDrawGizmos()
     {
