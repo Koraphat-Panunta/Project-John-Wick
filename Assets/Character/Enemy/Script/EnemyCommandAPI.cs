@@ -363,7 +363,7 @@ public class EnemyCommandAPI :MonoBehaviour
     }
     public void DrawWeaponSecondary()
     {
-        Debug.Log("DrawWeaponPrimary " + _enemy._weaponBelt.mySecondaryWeapon);
+        Debug.Log("DrawWeaponSecondary " + _enemy._weaponBelt.mySecondaryWeapon);
         (_enemy as IWeaponAdvanceUser)._isDrawSecondaryWeaponCommand = true;
     }
     public void DropWeapon()

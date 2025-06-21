@@ -18,6 +18,9 @@ public class EnemyDebuger :MonoBehaviour
     [SerializeField] private Weapon curWeapon;
     [SerializeField] private Weapon myPrimaryWeapon;
     [SerializeField] private Weapon mySecondaryWeapon;
+
+    [SerializeField] private int curWeaponMagCount;
+    [SerializeField] private int curWeaponBulletCapacity;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,12 @@ public class EnemyDebuger :MonoBehaviour
     // UpdateNode is called once per frame
     void Update()
     {
+        if (curWeapon != null)
+        {
+            curWeaponBulletCapacity = curWeapon.bulletCapacity;
+            curWeaponMagCount = (int)(enemy._currentWeapon.bulletCapacity * 0.7f);
+        }
+
        CurrentEnemyState = this.enemy.enemyStateManagerNode.curNodeLeaf.ToString();
        posture = enemy._posture;
        PainPart = enemy._painPart;
