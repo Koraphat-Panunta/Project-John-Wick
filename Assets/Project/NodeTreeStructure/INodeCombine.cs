@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface INodeCombine : INodeLeaf
@@ -11,32 +12,36 @@ public interface INodeCombine : INodeLeaf
 }
 public class NodeCombineBehavior
 {
-    public void AddCombineNode(INodeCombine nodeCombine,INode addCombineNode)
+    public void AddCombineNode(INodeCombine nodeCombine, INode addCombineNode)
     {
         nodeCombine.combineNodeActivate.Add(addCombineNode, false);
         nodeCombine.combineNodeLeaf.Add(addCombineNode, null);
     }
-    public void RemoveCombineNode(INodeCombine nodeCombine,INode removeCombineNode) 
+
+    public void RemoveCombineNode(INodeCombine nodeCombine, INode removeCombineNode)
     {
         nodeCombine.combineNodeActivate.Remove(removeCombineNode);
         nodeCombine.combineNodeLeaf.Remove(removeCombineNode);
     }
+
     public void Enter(INodeCombine nodeCombine)
     {
         if (nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
             return;
 
-        foreach (INode node in nodeCombine.combineNodeActivate.Keys)
+        List<INode> keys = nodeCombine.combineNodeActivate.Keys.ToList<INode>();
+        for (int i = 0; i < keys.Count; i++)
         {
+            INode node = keys[i];
             if (node.Precondition())
             {
-                if(node is INodeLeaf nodeLeaf)
+                if (node is INodeLeaf nodeLeaf)
                 {
                     nodeLeaf.Enter();
                     nodeCombine.combineNodeActivate[node] = true;
-                    nodeCombine.combineNodeLeaf[node] = nodeLeaf;   
+                    nodeCombine.combineNodeLeaf[node] = nodeLeaf;
                 }
-                else if(node is INodeSelector nodeSelector)
+                else if (node is INodeSelector nodeSelector)
                 {
                     nodeSelector.FindingNode(out INodeLeaf outNodeLeaf);
                     outNodeLeaf.Enter();
@@ -46,29 +51,35 @@ public class NodeCombineBehavior
             }
         }
     }
-    public void Exit(INodeCombine nodeCombine) 
+
+    public void Exit(INodeCombine nodeCombine)
     {
-        if(nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
+        if (nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
             return;
 
-        foreach(INode node in nodeCombine.combineNodeActivate.Keys)
+        var keys = nodeCombine.combineNodeActivate.Keys.ToList();
+        for (int i = 0; i < keys.Count; i++)
         {
-            if (nodeCombine.combineNodeActivate[node] == false)
+            INode node = keys[i];
+            if (!nodeCombine.combineNodeActivate[node])
                 continue;
 
             if (nodeCombine.combineNodeLeaf[node] != null)
             {
                 nodeCombine.combineNodeLeaf[node].Exit();
                 nodeCombine.combineNodeActivate[node] = false;
-                nodeCombine.combineNodeLeaf = null;
+                nodeCombine.combineNodeLeaf[node] = null;
             }
         }
     }
+
     public void Update(INodeCombine nodeCombine)
     {
-        foreach (INode node in nodeCombine.combineNodeActivate.Keys)
+        var keys = nodeCombine.combineNodeActivate.Keys.ToList();
+        for (int i = 0; i < keys.Count; i++)
         {
-            if (nodeCombine.combineNodeActivate[node] == true)
+            INode node = keys[i];
+            if (nodeCombine.combineNodeActivate[node])
             {
                 if (node is INodeLeaf nodeLeaf)
                 {
@@ -77,9 +88,10 @@ public class NodeCombineBehavior
                         nodeLeaf.Exit();
                         nodeCombine.combineNodeActivate[node] = false;
                         nodeCombine.combineNodeLeaf[node] = null;
+                        continue;
                     }
-                } //Case NodeCombine is NodeLeaf
-                if (node is INodeSelector nodeSelector)
+                }
+                else if (node is INodeSelector nodeSelector)
                 {
                     if (nodeCombine.combineNodeLeaf[node].IsReset())
                     {
@@ -94,55 +106,43 @@ public class NodeCombineBehavior
                         {
                             nodeCombine.combineNodeActivate[node] = false;
                             nodeCombine.combineNodeLeaf[node] = null;
+                            continue;
                         }
                     }
-                } //Case NodeCombine is NodeSelector
-
-                if (nodeCombine.combineNodeLeaf[node] != null)
-                    nodeCombine.combineNodeLeaf[node].UpdateNode();
-            } // NodeCombine is Active
-
-            else if (nodeCombine.combineNodeActivate[node] == false)
+                }
+                nodeCombine.combineNodeLeaf[node]?.UpdateNode();
+            }
+            else
             {
-                if (node is INodeLeaf nodeLeaf)
+                if (node is INodeLeaf nodeLeaf && nodeLeaf.Precondition())
                 {
-                    if (nodeLeaf.Precondition() == false)
-                        continue;
-
                     nodeLeaf.Enter();
                     nodeCombine.combineNodeLeaf[node] = nodeLeaf;
                     nodeCombine.combineNodeActivate[node] = true;
-                }//Case NodeCombine is NodeLeaf
-                if (node is INodeSelector nodeSelector)
+                    nodeLeaf.UpdateNode();
+                }
+                else if (node is INodeSelector nodeSelector && nodeSelector.Precondition())
                 {
-                    if (nodeSelector.Precondition() == false)
-                        continue;
-
                     nodeSelector.FindingNode(out INodeLeaf outNodeLeaf);
                     outNodeLeaf.Enter();
                     nodeCombine.combineNodeLeaf[node] = outNodeLeaf;
                     nodeCombine.combineNodeActivate[node] = true;
-                } //Case NodeCombine is NodeSelector
-
-                if (nodeCombine.combineNodeLeaf[node] != null)
-                    nodeCombine.combineNodeLeaf[node].UpdateNode();
-            }// NodeCombine is InActive
-
-        }
-    }
-    public void FixedUpdate(INodeCombine nodeCombine)
-    {
-        foreach(INode node in nodeCombine.combineNodeActivate.Keys)
-        {
-            if (nodeCombine.combineNodeActivate[node])
-            {
-                if (nodeCombine.combineNodeLeaf[node] != null)
-                    nodeCombine.combineNodeLeaf[node].FixedUpdateNode();
+                    outNodeLeaf.UpdateNode();
+                }
             }
         }
     }
-    private void UpdateNodeCombineManager(INodeCombine nodeCombine)
+
+    public void FixedUpdate(INodeCombine nodeCombine)
     {
-       
+        var keys = nodeCombine.combineNodeActivate.Keys.ToList();
+        for (int i = 0; i < keys.Count; i++)
+        {
+            INode node = keys[i];
+            if (nodeCombine.combineNodeActivate[node] && nodeCombine.combineNodeLeaf[node] != null)
+            {
+                nodeCombine.combineNodeLeaf[node].FixedUpdateNode();
+            }
+        }
     }
 }
