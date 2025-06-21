@@ -3,7 +3,6 @@ using UnityEngine;
 
 public interface INodeCombine : INodeLeaf
 {
-    //public List<INodeLeaf> combineNodes { get; set; }
     public Dictionary<INode, bool> combineNodeActivate { get; set; } //Combine Node is Activate
     public Dictionary<INode, INodeLeaf> combineNodeLeaf { get; set; } //NodeLeaf of Combine ,can be selfNode or childNode
     public NodeCombineBehavior nodeCombineBehavior { get; set; }
@@ -24,7 +23,10 @@ public class NodeCombineBehavior
     }
     public void Enter(INodeCombine nodeCombine)
     {
-        foreach(INode node in nodeCombine.combineNodeActivate.Keys)
+        if (nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
+            return;
+
+        foreach (INode node in nodeCombine.combineNodeActivate.Keys)
         {
             if (node.Precondition())
             {
@@ -46,7 +48,10 @@ public class NodeCombineBehavior
     }
     public void Exit(INodeCombine nodeCombine) 
     {
-       foreach(INode node in nodeCombine.combineNodeActivate.Keys)
+        if(nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
+            return;
+
+        foreach(INode node in nodeCombine.combineNodeActivate.Keys)
         {
             if (nodeCombine.combineNodeActivate[node] == false)
                 continue;

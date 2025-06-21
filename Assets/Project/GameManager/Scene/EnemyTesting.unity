@@ -364,6 +364,8 @@ MonoBehaviour:
   timerCoverManuver: 9
   targetPos: {fileID: 1965705105}
   debugLog: 
+  queueCount: 0
+  raduisFindCover: 20
 --- !u!4 &160688022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
@@ -1873,7 +1875,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1943,7 +1945,7 @@ Transform:
   m_GameObject: {fileID: 1965705101}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.61, y: 1.79, z: 11.3368225}
+  m_LocalPosition: {x: 9.61, y: -0.06, z: 11.3368225}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
