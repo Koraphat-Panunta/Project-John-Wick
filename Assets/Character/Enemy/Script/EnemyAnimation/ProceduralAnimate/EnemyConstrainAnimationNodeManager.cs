@@ -3,7 +3,6 @@ using UnityEngine.Animations.Rigging;
 
 public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
 {
-    public override INodeLeaf curNodeLeaf { get; set; }
     public override INodeSelector startNodeSelector { get; set; }
 
 
@@ -40,12 +39,12 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
     {
         startNodeSelector = new AnimationConstrainNodeSelector(() => true);
 
-        Debug.Log("enemy.enemyStateManagerNode.curNodeLeaf = " + enemy.enemyStateManagerNode.curNodeLeaf);
+        Debug.Log("enemy.enemyStateManagerNode.curNodeLeaf = " + (enemy.enemyStateManagerNode as INodeManager).GetCurNodeLeaf());
 
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
-                return enemy.enemyStateManagerNode.curNodeLeaf is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureLight;
+                return (enemy.enemyStateManagerNode as INodeManager).GetCurNodeLeaf() is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureLight;
             }
             );
         restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);

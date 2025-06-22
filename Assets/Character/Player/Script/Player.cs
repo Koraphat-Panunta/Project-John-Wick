@@ -142,7 +142,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public WeaponManuverManager _weaponManuverManager { get ; set ; }
     public Vector3 _shootingPos { get 
         { 
-            if(playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf) 
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuExecuteNodeLeaf>()) 
             {
                 Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
@@ -195,7 +195,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get 
         {
-            if(playerStateNodeManager.curNodeLeaf is IGunFuNode gunFuNode)
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode))
                 return gunFuNode;
             return null;
         } set { } 
@@ -227,7 +227,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public void UpdateDetectingTarget()
     {
 
-        if(playerStateNodeManager.curNodeLeaf is IGunFuNode)
+        if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode))
             return;
 
         if(_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
@@ -246,7 +246,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public Transform _gunFuAttackedAble { get => transform; set { } }
     public Vector3 attackerPos { get => transform.position; set { } }
     public IGunFuNode curAttackerGunFuNode { get; set; }
-    public INodeLeaf curNodeLeaf { get => playerStateNodeManager.curNodeLeaf; set =>playerStateNodeManager.curNodeLeaf = value; }
+    public INodeLeaf curNodeLeaf { get => (playerStateNodeManager as INodeManager).GetCurNodeLeaf(); set => (playerStateNodeManager as INodeManager).SetCurNodeLeaf(value); }
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IMovementCompoent _movementCompoent { get => playerMovement; set { } }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
@@ -254,7 +254,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public bool _isDead { get => base.isDead; set { } }
     public bool _isGotAttackedAble { get 
         {
-            if(playerStateNodeManager.curNodeLeaf is PlayerBrounceOffGotAttackGunFuNodeLeaf)
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>())
                 return false;
             return true;
         } set { } }

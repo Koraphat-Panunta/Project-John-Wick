@@ -39,7 +39,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         }
 
         if(player.playerStateNodeManager != null &&
-            player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf)
+            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>())
             UpdateInfo();
     }
     public void OnNotify<T>(Player player, T node) where T : INode

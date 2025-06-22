@@ -40,7 +40,7 @@ public class EnemyDebugerPanelIngame : MonoBehaviour
     {
         transform.LookAt(canvas.worldCamera.transform,Vector3.up);
 
-        stateText = "State = " + enemy.enemyStateManagerNode.curNodeLeaf;
+        stateText = "State = " + enemy.enemyStateManagerNode.GetCurNodeLeaf();
         curRole = "Role = " + enemyRole.enemyActionNodeManager;
         actionText = "Action = "+enemyRole.enemyActionNodeManager.curNodeLeaf;
         combatPhaseText = "CombatPhase = "+enemyRole._curCombatPhase;

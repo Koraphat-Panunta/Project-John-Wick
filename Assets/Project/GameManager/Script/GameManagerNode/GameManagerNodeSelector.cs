@@ -7,6 +7,7 @@ public class GameManagerNodeSelector : GameManagerNode, INodeSelector
     public List<INode> childNode { get; set; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
+    public INodeLeaf curNodeLeaf { get ; set ; }
 
     public GameManagerNodeSelector(Func<bool> preCondition) : base(preCondition)
     {

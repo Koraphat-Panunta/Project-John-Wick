@@ -149,7 +149,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
     public override HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf { get; protected set; }
 
+    public NodeCombine weaponHandling_Reload_NodeCombine { get; protected set; }
     public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
+    public NodeSelector handlingWeaponNodeSelector { get; protected set; }
 
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
@@ -211,7 +213,9 @@ public class PlayerWeaponManuver : WeaponManuverManager
         holsterSecondaryWeaponManuverNodeLeaf = new HolsterSecondaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon);
 
+        weaponHandling_Reload_NodeCombine = new NodeCombine(()=> true);
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
+        handlingWeaponNodeSelector = new NodeSelector(()=>true);
 
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
@@ -242,9 +246,13 @@ public class PlayerWeaponManuver : WeaponManuverManager
         curWeaponManuverSelectorNode.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
         curWeaponManuverSelectorNode.AddtoChildNode(switchDrawSecondaryNodeSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(holsterSelector);
-        curWeaponManuverSelectorNode.AddtoChildNode(reloadNodeAttachAbleSelector);
-        curWeaponManuverSelectorNode.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
-        curWeaponManuverSelectorNode.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
+        curWeaponManuverSelectorNode.AddtoChildNode(weaponHandling_Reload_NodeCombine);
+
+        weaponHandling_Reload_NodeCombine.AddCombineNode(reloadNodeAttachAbleSelector);
+        weaponHandling_Reload_NodeCombine.AddCombineNode(handlingWeaponNodeSelector);
+
+        handlingWeaponNodeSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
+        handlingWeaponNodeSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
         switchDrawSecondaryNodeSelector.AddtoChildNode(quickDrawWeaponManuverLeafNode);
         switchDrawSecondaryNodeSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);

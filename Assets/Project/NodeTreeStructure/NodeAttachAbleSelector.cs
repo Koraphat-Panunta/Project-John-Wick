@@ -22,6 +22,7 @@ public class NodeAttachAbleSelector : INodeSelector
         set { }
     }
     public INode parentNode { get; set; }
+    public INodeLeaf curNodeLeaf { get; set ; }
 
     public NodeAttachAbleSelector()
     {

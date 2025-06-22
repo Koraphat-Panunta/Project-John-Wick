@@ -10,6 +10,7 @@ public class NodeSelector : INodeSelector
     public Func<bool> preCondition { get; set; }
     public INode parentNode { get; set; }
     public string nodeName { get; private set; }
+    public INodeLeaf curNodeLeaf { get ; set ; }
 
     //public NodeSelector() : this("None declare name SelectorNode") { }
     //public NodeSelector(string nodeName)

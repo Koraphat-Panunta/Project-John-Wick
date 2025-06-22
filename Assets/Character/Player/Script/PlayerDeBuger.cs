@@ -50,7 +50,7 @@ public class PlayerDeBuger : MonoBehaviour
         isReloadManuver = player._weaponManuverManager.isReloadManuverAble;
         isSwitchWeaponManuver = player._weaponManuverManager.isSwitchWeaponManuverAble;
 
-        PlayerCurNodeLeaf = player.playerStateNodeManager.curNodeLeaf.ToString();
+        PlayerCurNodeLeaf = (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf().ToString();
 
         curWeapon = player._currentWeapon;
         myPrimaryWeapon = player._weaponBelt.myPrimaryWeapon as Weapon;

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public abstract class AnimationConstrainManager : MonoBehaviour,INodeManager
 {
-    public abstract INodeLeaf curNodeLeaf { get ; set ; }
+    protected INodeLeaf curNodeLeaf;
+    INodeLeaf INodeManager.curNodeLeaf { get; set; }
     public abstract INodeSelector startNodeSelector { get; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
 

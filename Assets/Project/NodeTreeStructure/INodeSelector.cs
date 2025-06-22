@@ -7,7 +7,7 @@ public interface INodeSelector : INode
     public List<INode> childNode { get; set; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
-
+    public INodeLeaf curNodeLeaf { get; set; }
     public void AddtoChildNode(INode childNode);
     public void RemoveNode(INode childNode);
     public bool FindingNode(out INodeLeaf nodeLeaf);
@@ -96,12 +96,14 @@ public class NodeSelectorBehavior
             {
                 //Debug.Log("Node " + node + " isNodeLeaf ");
                 leafNode = node as INodeLeaf;
+                nodeSelector.curNodeLeaf = leafNode;
                 return true;
             }
             else if (node is INodeSelector SelectorNode)
             {
                 //Debug.Log("Node " + node + " isNodeSelector ");
                 SelectorNode.nodeSelectorBehavior.FindingNode(out leafNode,SelectorNode);
+                nodeSelector.curNodeLeaf = leafNode;
                 return true;
             }
             //Debug.Log("Node " + node + " not both ");

@@ -3,7 +3,8 @@ using UnityEngine;
 public abstract class WeaponManuverManager : INodeManager
 {
     public NodeManagerBehavior nodeManagerBehavior { get; set ; }
-    public INodeLeaf curNodeLeaf { get; set; }
+    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get; set; }
 
     public IWeaponAdvanceUser weaponAdvanceUser;
@@ -31,7 +32,8 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
     public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
-   
+
+
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;

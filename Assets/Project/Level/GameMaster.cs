@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public abstract class GameMaster : MonoBehaviour,INodeManager
 {
     public GameManager gameManager { get ; set ; }
-    public INodeLeaf curNodeLeaf { get ; set ; }
+    private INodeLeaf curNodeLeaf;
+    INodeLeaf INodeManager.curNodeLeaf { get ; set ; }
+
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+
 
     public abstract void FixedUpdateNode();
     
@@ -88,6 +91,7 @@ public class GameMasterNodeSelector : GameMasterNode, INodeSelector
     public List<INode> childNode { get; set ; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get ; set ; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
+    public INodeLeaf curNodeLeaf { get ; set; }
 
     public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode,this);
 
@@ -108,6 +112,7 @@ public class GameMasterNodeSelector<T> : GameMasterNode<T>, INodeSelector where 
     public List<INode> childNode { get; set; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
+    public INodeLeaf curNodeLeaf { get ; set ; }
 
     public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode, this);
 

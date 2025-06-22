@@ -7,6 +7,7 @@ public class WeaponSelector : WeaponNode, INodeSelector
     public List<INode> childNode { get; set; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
+    public INodeLeaf curNodeLeaf { get ; set ; }
 
     public WeaponSelector(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {

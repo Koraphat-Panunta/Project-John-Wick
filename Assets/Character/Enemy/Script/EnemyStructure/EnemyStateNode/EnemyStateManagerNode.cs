@@ -4,7 +4,8 @@ using static IPainStateAble;
 
 public class EnemyStateManagerNode : INodeManager
 {
-    public INodeLeaf curNodeLeaf { get ; set; }
+    private INodeLeaf curNodeLeaf;
+    INodeLeaf INodeManager.curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public Enemy enemy { get; protected set; }

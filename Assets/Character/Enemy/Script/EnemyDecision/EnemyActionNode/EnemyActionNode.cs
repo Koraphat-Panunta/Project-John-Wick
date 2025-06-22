@@ -23,6 +23,7 @@ public class EnemyActionSelectorNode : EnemyActionNode, INodeSelector
     public List<INode> childNode { get; set; }
     public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
+    public INodeLeaf curNodeLeaf { get ; set ; }
 
     public EnemyActionSelectorNode(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition) : base(enemy, enemyCommandAPI, preCondition)
     {

@@ -15,13 +15,17 @@ public interface INodeManager<NodeLeafType, NodeSelectorType>
 
 public interface INodeManager
 {
-    public INodeLeaf curNodeLeaf { get; set; }
+    protected INodeLeaf curNodeLeaf { get; set; } 
     public INodeSelector startNodeSelector { get; set; }
     NodeManagerBehavior nodeManagerBehavior { get; set; }
 
     public void UpdateNode();
     public void FixedUpdateNode();
     public void InitailizedNode();
+    public INodeLeaf GetCurNodeLeaf() => curNodeLeaf;
+    //public bool TryGetCurNodeLeaf<T>() where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(this);
+    //public bool TryGetCurNodeLeaf<T>(out T nodeLeaf) where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(out nodeLeaf, this);
+    public void SetCurNodeLeaf(INodeLeaf nodeLeaf) => curNodeLeaf = nodeLeaf;   
 }
 
 public class NodeManagerBehavior
@@ -29,27 +33,27 @@ public class NodeManagerBehavior
     public INode errorNode { get;private set; }
     public void UpdateNode(INodeManager nodeManager) 
     {
-        if (nodeManager.curNodeLeaf.IsReset())
+        if (nodeManager.GetCurNodeLeaf().IsReset())
         {
-            nodeManager.curNodeLeaf.Exit();
-            nodeManager.curNodeLeaf = null;
+            nodeManager.GetCurNodeLeaf().Exit();
+            nodeManager.SetCurNodeLeaf(null);
             SearchingNewNode(nodeManager);
         }
 
-        if (nodeManager.curNodeLeaf != null)
-            nodeManager.curNodeLeaf.UpdateNode();
+        if (nodeManager.GetCurNodeLeaf() != null)
+            nodeManager.GetCurNodeLeaf().UpdateNode();
     }
     public void FixedUpdateNode(INodeManager nodeManager)
     {
-        if(nodeManager.curNodeLeaf != null)
-            nodeManager.curNodeLeaf.FixedUpdateNode();
+        if(nodeManager.GetCurNodeLeaf() != null)
+            nodeManager.GetCurNodeLeaf().FixedUpdateNode();
     }
     public void SearchingNewNode(INodeManager nodeManager)
     {
        if(nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf))
         {
-            nodeManager.curNodeLeaf = nodeLeaf;
-            nodeManager.curNodeLeaf.Enter();
+            nodeManager.SetCurNodeLeaf(nodeLeaf);
+            nodeManager.GetCurNodeLeaf().Enter();
         }
         else
         {
@@ -60,9 +64,89 @@ public class NodeManagerBehavior
     }
     public void ChangeNodeManual(INodeManager nodeManager,INodeLeaf nexNode)
     {
-        nodeManager.curNodeLeaf.Exit();
-        nodeManager.curNodeLeaf = nexNode;
-        nodeManager.curNodeLeaf.Enter();
+        nodeManager.GetCurNodeLeaf().Exit();
+        nodeManager.SetCurNodeLeaf(nexNode);
+        nodeManager.GetCurNodeLeaf().Enter();
     }
-  
+    public bool TryGetCurNodeLeafAs<T>(INodeManager nodeManager) where T : INodeLeaf
+    {
+        
+
+        if (nodeManager.GetCurNodeLeaf() is INodeCombine nodeCombine)
+        {
+            if (nodeCombine is T)
+                return true;
+            
+
+            foreach (INode childNodeCombine in nodeCombine.combineNodeActivate.Keys)
+            {
+                if (nodeCombine.combineNodeActivate[childNodeCombine] == false)
+                    continue;
+
+                if (childNodeCombine is INodeLeaf childNodeCombineLeaf
+                    && childNodeCombineLeaf is T)
+                    return true;
+                
+
+                if (childNodeCombine is INodeSelector childNodeCombineSelector
+                    && childNodeCombineSelector.curNodeLeaf is T)
+                    return true;
+                
+            }
+
+
+        }
+        else if (nodeManager.GetCurNodeLeaf() is INodeLeaf outNodeLeaf)
+        {
+            if (outNodeLeaf is T)
+                return true;
+            
+        }
+        return false;
+    }
+    public bool TryGetCurNodeLeafAs<T>(out T nodeLeaf,INodeManager nodeManager) where T : INodeLeaf
+    {
+        nodeLeaf = default(T);
+
+        if(nodeManager.GetCurNodeLeaf() is INodeCombine nodeCombine)
+        {
+            if(nodeCombine is T)
+            {
+                nodeLeaf = (T)nodeCombine;
+                return true;
+            }
+
+            foreach(INode childNodeCombine in nodeCombine.combineNodeActivate.Keys)
+            {
+                if (nodeCombine.combineNodeActivate[childNodeCombine] == false)
+                    continue;
+
+                if (childNodeCombine is INodeLeaf childNodeCombineLeaf
+                    && childNodeCombineLeaf is T)
+                {
+                    nodeLeaf = (T)childNodeCombineLeaf;
+                    return true;
+                }
+
+                if (childNodeCombine is INodeSelector childNodeCombineSelector
+                    && childNodeCombineSelector.curNodeLeaf is T)
+                {
+                    nodeLeaf = (T)childNodeCombineSelector.curNodeLeaf;
+                    return true;
+                }
+            }
+
+           
+        }
+        else if(nodeManager.GetCurNodeLeaf() is INodeLeaf outNodeLeaf)
+        {
+            if (outNodeLeaf is T)
+            {
+                nodeLeaf = (T)outNodeLeaf;
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

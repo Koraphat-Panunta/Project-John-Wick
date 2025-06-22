@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     [Range(0, 5)]
     [SerializeField] private float gunFuCameraKickMultiply;
-    public bool isWeaponDisarm => player.playerStateNodeManager.curNodeLeaf is WeaponDisarm_GunFuInteraction_NodeLeaf;
+    public bool isWeaponDisarm => (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>();
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         

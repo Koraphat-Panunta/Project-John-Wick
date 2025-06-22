@@ -1,12 +1,25 @@
 using System;
 using UnityEngine;
 
-public class CameraManagerNode:INodeManager,IDebuggedAble
+public partial class CameraManagerNode:INodeManager,IDebuggedAble
 {
-    public INodeLeaf curNodeLeaf { get; set; }
+    //protected INodeLeaf curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
+
+    #region CameraManagerNodeBlackBoard
+    private bool playerIsAiming 
+    { 
+        get
+        {
+            if((this.cameraController.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
+                return true;
+            return false;
+        } 
+    }
+
+    #endregion
 
     public CameraManagerNode(CameraController cameraController)
     {
@@ -33,6 +46,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraGunFuExecuteOnGroundNodeLeaf cameraGunFuExecuteOnGroundNodeLeaf { get; protected set; }
     public CameraGunFuHitViewNodeLeaf cameraGunFuHitViewNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
+    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    protected INodeLeaf curNodeLeaf;
 
     public void InitailizedNode()
     {
@@ -43,10 +58,10 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             );
 
         cameraAimDownSightViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(this.cameraController,
-            ()=> this.cameraController.player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf);
+            () => playerIsAiming);
 
         cameraSprintViewNodeLeaf = new CameraSprintViewNodeLeaf(this.cameraController,
-            () => this.cameraController.player.isSprint || this.cameraController.player.playerStateNodeManager.curNodeLeaf is PlayerDodgeRollStateNodeLeaf);
+            () => this.cameraController.player.isSprint || (this.cameraController.player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>());
 
         cameraCrouchViewNodeLeaf = new CameraCrouchViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.curStance == Player.PlayerStance.crouch);
@@ -54,7 +69,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => cameraController.isWeaponDisarm);
         cameraGunFuExecuteOnGroundNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(this.cameraController,
            cameraController.cameraExecuteScriptableObject,
-            () => this.cameraController.player.playerStateNodeManager.curNodeLeaf is GunFuExecuteNodeLeaf);
+            () => (this.cameraController.player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuExecuteNodeLeaf>());
         cameraGunFuHitViewNodeLeaf = new CameraGunFuHitViewNodeLeaf(this.cameraController,
             ()=> this.cameraController.gunFuCameraTimer > 0);
 
@@ -78,8 +93,6 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.nodeManagerBehavior.SearchingNewNode(this);
 
     }
-   
-
     public T Debugged<T>(IDebugger debugger)
     {
         if(debugger is CameraStateManagerDebugger cameraStateDebugger)

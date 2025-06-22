@@ -27,7 +27,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     public EnemyGetShootDirection enemyGetShootDirection;
     public EnemyMovement enemyMovement;
-    public EnemyStateManagerNode enemyStateManagerNode;
+    public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
     [SerializeField] Weapon startWeapon;
@@ -440,7 +440,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IGunFuGotAttackedAble executedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IGunFuNode curGunFuNode { get 
         {
-            if (enemyStateManagerNode.curNodeLeaf is IGunFuNode gunFuNode)
+            if (enemyStateManagerNode.GetCurNodeLeaf() is IGunFuNode gunFuNode)
                 return gunFuNode;
             return null;
 
@@ -463,7 +463,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public Transform _gunFuAttackedAble { get { return transform; } set { } }
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IGunFuNode curAttackerGunFuNode { get; set; }
-    public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.curNodeLeaf; set { } }
+    public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.GetCurNodeLeaf(); set { } }
     public IMovementCompoent _movementCompoent { get => this.enemyMovement; set { } }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }

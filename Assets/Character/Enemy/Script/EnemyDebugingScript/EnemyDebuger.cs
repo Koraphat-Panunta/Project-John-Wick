@@ -36,7 +36,7 @@ public class EnemyDebuger :MonoBehaviour
             curWeaponMagCount = (int)(enemy._currentWeapon.bulletCapacity * 0.7f);
         }
 
-       CurrentEnemyState = this.enemy.enemyStateManagerNode.curNodeLeaf.ToString();
+       CurrentEnemyState = this.enemy.enemyStateManagerNode.GetCurNodeLeaf().ToString();
        posture = enemy._posture;
        PainPart = enemy._painPart;
 

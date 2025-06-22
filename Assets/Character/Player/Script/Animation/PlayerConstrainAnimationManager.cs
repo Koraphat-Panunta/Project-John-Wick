@@ -35,8 +35,6 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
         RecoveryUpdateWeight();
     }
   
-
-    public override INodeLeaf curNodeLeaf { get; set; }
     public override INodeSelector startNodeSelector { get; set; }
 
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
@@ -123,7 +121,7 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
         {
             RightHandConstrainLookAtManager.SetWeight(RightHandConstrainLookAtManager.GetWeight() - Time.deltaTime);
         }
-        else if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf == false)
+        else if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
         {
             StandSplineLookConstrain.SetWeight(StandSplineLookConstrain.GetWeight() - Time.deltaTime);
             leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
