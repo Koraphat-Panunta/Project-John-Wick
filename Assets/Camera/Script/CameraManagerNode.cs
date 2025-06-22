@@ -7,24 +7,20 @@ public partial class CameraManagerNode:INodeManager,IDebuggedAble
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
-
-    #region CameraManagerNodeBlackBoard
-    private bool playerIsAiming 
-    { 
-        get
-        {
-            if((this.cameraController.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
-                return true;
-            return false;
-        } 
-    }
-
-    #endregion
+    public BlackBoard blackBoard = new BlackBoard();
 
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
         this.nodeManagerBehavior = new NodeManagerBehavior();
+
+        blackBoard.Set<bool>("isAiming",false);
+        blackBoard.Set<bool>("isSprinting", false);
+        blackBoard.Set<bool>("isPerformGunFu", false);
+        blackBoard.Set<bool>("isCrouching", false);
+        blackBoard.Set<bool>("isOnPlayerThirdPersonController", false);
+        blackBoard.Set<IGunFuNode>("curGunFuNode", null);
+
         InitailizedNode();
     }
 
