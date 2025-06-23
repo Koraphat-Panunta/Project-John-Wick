@@ -152,9 +152,9 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         float changeSprintStayRate = 9;
         if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode sprintNode)
         {
-            if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Out)
+            if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Out)
                 WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
-            else if (sprintNode.sprintPhase == PlayerSprintNode.SprintPhase.Stay)
+            else if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Stay)
                 WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized,1, changeSprintStayRate * Time.deltaTime);
         }
         else

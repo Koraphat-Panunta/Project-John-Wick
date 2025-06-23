@@ -5,7 +5,7 @@ using UnityEngine;
 using static PlayerGunFuHitNodeLeaf;
 
 
-public class CameraController : MonoBehaviour,IObserverPlayer
+public partial class CameraController : MonoBehaviour,IObserverPlayer
 {
     [SerializeField] public CinemachineBrain cinemachineBrain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
     public float gunFuCameraTimer = 0;
     public const float gunFuCameraDuration = 1.25f;
 
-    public CameraManagerNode cameraManagerNode;
+    public CameraController cameraManagerNode;
 
     [Range(1, 10)]
     public float standardCameraSensivity;
@@ -58,7 +58,7 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
         cameraImpluse = new CameraImpulseShake(this);
 
-        cameraManagerNode = new CameraManagerNode(this);
+        cameraManagerNode = new CameraController(this);
     }
     void Start()
     {
@@ -85,7 +85,6 @@ public class CameraController : MonoBehaviour,IObserverPlayer
 
     [Range(0, 5)]
     [SerializeField] private float gunFuCameraKickMultiply;
-    public bool isWeaponDisarm => (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>();
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
         
@@ -111,8 +110,19 @@ public class CameraController : MonoBehaviour,IObserverPlayer
         {
            case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    if(gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
-                        gunFuCameraTimer = gunFuCameraDuration;
+                    if (gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
+                    {
+                        blackBoard.Set<bool>("isPerformGunFu", true);
+                        blackBoard.Set<IGunFuNode>("curGunFuNode", gunFuHitNodeLeaf);
+                    }
+
+                    if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
+                    {
+                        blackBoard.Set<bool>("isPerformGunFu", false);
+                        if(blackBoard.Get<IGunFuNode>("curGunFuNode") == gunFuHitNodeLeaf)
+                            blackBoard.Set<IGunFuNode>("curGunFuNode", null);
+                    }
+                        
 
                     if(gunFuHitNodeLeaf is KnockDown_GunFuNode knock && knock.curGunFuHitPhase == GunFuHitPhase.Hit)
                         cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);

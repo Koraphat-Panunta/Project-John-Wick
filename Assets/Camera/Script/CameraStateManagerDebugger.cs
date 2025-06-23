@@ -6,7 +6,7 @@ public class CameraStateManagerDebugger : MonoBehaviour,IDebugger
     [SerializeField] private CameraController cameraController;
     [SerializeField] private DebugLogScriptableObjectSave cameraDebugLog;
     [SerializeField, TextArea(10, 20)] public string debugLog;
-    private CameraManagerNode cameraManagerNode => cameraController.cameraManagerNode;
+    private CameraController cameraManagerNode => cameraController.cameraManagerNode;
 
     public enum CameraStateManagerDebuggerRequest
     {

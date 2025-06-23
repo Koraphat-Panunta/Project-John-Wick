@@ -6,13 +6,19 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
 {
     private PlayerMovement playerMovement => player.playerMovement;
     private Vector3 sprintDir;
-    public enum SprintPhase
+    public enum SprintManuver
     {
         Out,
         Stay
     }
-    public SprintPhase sprintPhase;
-
+    public SprintManuver sprintPhase;
+    public enum SprintPhase
+    {
+        Enter,
+        Update,
+        Exit,
+    }
+    public SprintPhase curSprintPhase;
     public PlayerSprintNode(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         
@@ -30,38 +36,46 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         if (player.playerMovement.curMoveVelocity_World.magnitude <= sprintSpeedZone)
         {
             sprintDir = player.inputMoveDir_World;
-            sprintPhase = SprintPhase.Out;
+            sprintPhase = SprintManuver.Out;
         }
         else //(player.playerMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
         {
             sprintDir = player.playerMovement.forwardDir;
-            sprintPhase = SprintPhase.Stay;
+            sprintPhase = SprintManuver.Stay;
         }
         player.playerStance = Player.PlayerStance.stand;
+        curSprintPhase = SprintPhase.Enter;
         player.NotifyObserver(player,this);
         
         base.Enter();
     }
     public override void UpdateNode()
     {
+        curSprintPhase = SprintPhase.Update;
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
     {
-        if (sprintPhase == SprintPhase.Out)
+        if (sprintPhase == SprintManuver.Out)
         {
             SprintMaintainMomentum();
             if (Vector3.Dot(player.playerMovement.forwardDir.normalized, sprintDir.normalized) >= 0.95f
                 && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone * 0.95f)
-                sprintPhase = SprintPhase.Stay;
+                sprintPhase = SprintManuver.Stay;
         }
-        else if (sprintPhase == SprintPhase.Stay)
+        else if (sprintPhase == SprintManuver.Stay)
         {
             playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
             playerMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
         }
         
         base.FixedUpdateNode();
+    }
+    public override void Exit()
+    {
+        curSprintPhase = SprintPhase.Exit;
+        player.NotifyObserver(player,this);
+        base.Exit();
     }
     private void SprintMaintainMomentum()
     {
