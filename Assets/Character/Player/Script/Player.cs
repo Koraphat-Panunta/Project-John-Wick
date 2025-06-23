@@ -74,6 +74,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     }
     private void Update()
     {
+
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
         _gunFuAimDir = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
         UpdateDetectingTarget();

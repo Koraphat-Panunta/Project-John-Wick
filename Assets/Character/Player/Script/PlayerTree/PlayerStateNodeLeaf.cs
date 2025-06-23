@@ -30,7 +30,7 @@ public class PlayerStateNodeLeaf : PlayerStateNode, INodeLeaf
     public virtual void Exit()
     {
         isComplete = false;
-        curPhase = NodePhase.Enter;
+        curPhase = NodePhase.Exit;
         player.NotifyObserver(player, this);
     }
 

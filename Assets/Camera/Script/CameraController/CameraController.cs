@@ -14,12 +14,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
 
-    [SerializeField] public CameraExecuteScriptableObject cameraExecuteScriptableObject;
-
     public CameraKickBack cameraKickBack;
     public CameraImpulseShake cameraImpluse;
-
-    public ScrpCameraViewAttribute cameraViewAttribute;
 
     public float zoomingWeight;
     public float cameraSwitchSholderVelocity = 3.5f;
@@ -51,6 +47,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
 
         player.AddObserver(this);
 
+        this.isOnPlayerThirdPersonController = true;
+
         cameraKickBack = new CameraKickBack(this);
 
         cameraImpluse = new CameraImpulseShake(this);
@@ -59,7 +57,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     }
     void Start()
     {
-        cameraManagerNode.blackBoard.Set<bool>("isOnPlayerThirdPersonController", true);
+        
     }
     private void Update()
     {
@@ -103,21 +101,23 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {
+
+
         switch (node)
         {
            case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
                     {
-                        cameraManagerNode.blackBoard.Set<bool>("isPerformGunFu", true);
-                        cameraManagerNode.blackBoard.Set<IGunFuNode>("curGunFuNode", gunFuHitNodeLeaf);
+                        this.isPerformGunFu = true;
+                        this.curGunFuNode = gunFuHitNodeLeaf;
                     }
 
                     if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
                     {
-                        cameraManagerNode.blackBoard.Set<bool>("isPerformGunFu", false);
-                        if(cameraManagerNode.blackBoard.Get<IGunFuNode>("curGunFuNode") == gunFuHitNodeLeaf)
-                            cameraManagerNode.blackBoard.Set<IGunFuNode>("curGunFuNode", null);
+                        this.isPerformGunFu = false;
+                        if(this.curGunFuNode == gunFuHitNodeLeaf)
+                            this.curGunFuNode = null;
                     }
                         
 
@@ -143,9 +143,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
             case PlayerSprintNode playerSprintNode: 
                 {
                     if (playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
-                        cameraManagerNode.blackBoard.Set<bool>("isSprinting", true);
+                        this.isSprint = true;
                     else if(playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-                        cameraManagerNode.blackBoard.Set<bool>("isSprinting", false);
+                        this.isSprint = false;
                     break;
                 }
             case PlayerStandIdleNodeLeaf:
@@ -158,9 +158,17 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
             case PlayerCrouch_Move_NodeLeaf: 
                 {
                     if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
-                        cameraManagerNode.blackBoard.Set<bool>("isCrouching", true);
+                        this.isCrouching = true;
                     else if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-                        cameraManagerNode.blackBoard.Set<bool>("isCrouching", false);
+                        this.isPerformGunFu = false;
+                    break;
+                }
+            case AimDownSightWeaponManuverNodeLeaf adsNodeLeaf:
+                {
+                   if(adsNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
+                        isAiming = true;
+                   else if(adsNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Exit)
+                        isAiming = false;
                     break;
                 }
         }

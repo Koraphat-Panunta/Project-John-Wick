@@ -117,14 +117,14 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf,IObserverPlayer
     {
         float cameraOffsetZ = Mathf.Lerp(this.cameraOffset.z, 0, 1-t);
         float cameraOffsetX;
-        float cameraOffsetY = Mathf.Lerp(this.cameraOffset.y, cameraController.cameraViewAttribute.StandView_Offset_Right.y, 1 - t);
+        float cameraOffsetY = Mathf.Lerp(this.cameraOffset.y, cameraController.cameraTPSStandView_SCRP.viewOffsetRight.y, 1 - t);
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {
-            cameraOffsetX = Mathf.Lerp(this.cameraOffset.x, cameraController.cameraViewAttribute.StandView_Offset_Right.x, 1 - t);
+            cameraOffsetX = Mathf.Lerp(this.cameraOffset.x, cameraController.cameraTPSStandView_SCRP.viewOffsetRight.x, 1 - t);
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
-            cameraOffsetX = Mathf.Lerp(this.cameraOffset.x, cameraController.cameraViewAttribute.StandView_Offset_Right.x, 1 - t);
+            cameraOffsetX = Mathf.Lerp(this.cameraOffset.x, cameraController.cameraTPSStandView_SCRP.viewOffsetRight.x, 1 - t);
         }
 
         thirdPersonCamera.cameraOffset = new Vector3(cameraOffsetX, cameraOffsetY, cameraOffsetZ);

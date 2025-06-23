@@ -70,7 +70,8 @@ public class NodeManagerBehavior
     }
     public bool TryGetCurNodeLeafAs<T>(INodeManager nodeManager) where T : INodeLeaf
     {
-        
+        if(nodeManager.GetCurNodeLeaf() == null)
+            return false;
 
         if (nodeManager.GetCurNodeLeaf() is INodeCombine nodeCombine)
         {
@@ -108,7 +109,10 @@ public class NodeManagerBehavior
     {
         nodeLeaf = default(T);
 
-        if(nodeManager.GetCurNodeLeaf() is INodeCombine nodeCombine)
+        if (nodeManager.GetCurNodeLeaf() == null)
+            return false;
+
+        if (nodeManager.GetCurNodeLeaf() is INodeCombine nodeCombine)
         {
             if(nodeCombine is T)
             {

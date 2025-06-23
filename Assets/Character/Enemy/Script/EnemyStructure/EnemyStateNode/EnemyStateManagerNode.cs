@@ -5,7 +5,7 @@ using static IPainStateAble;
 public class EnemyStateManagerNode : INodeManager
 {
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get; set; }
+    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public Enemy enemy { get; protected set; }
@@ -362,9 +362,6 @@ public class EnemyStateManagerNode : INodeManager
         takeCoverSelector.AddtoChildNode(enemyStandTakeAimState);
         takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
 
-        startNodeSelector.FindingNode(out INodeLeaf enemyStateActionNode);
-        curNodeLeaf = enemyStateActionNode as EnemyStateLeafNode;
-        Debug.Log(curNodeLeaf);
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
     }
 }

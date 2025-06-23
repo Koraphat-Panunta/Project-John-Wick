@@ -39,12 +39,10 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
     {
         startNodeSelector = new AnimationConstrainNodeSelector(() => true);
 
-        Debug.Log("enemy.enemyStateManagerNode.curNodeLeaf = " + (enemy.enemyStateManagerNode as INodeManager).GetCurNodeLeaf());
-
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
-                return (enemy.enemyStateManagerNode as INodeManager).GetCurNodeLeaf() is EnemyPainStateNodeLeaf && enemy._posture <= enemy._postureLight;
+                return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() && enemy._posture <= enemy._postureLight;
             }
             );
         restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
@@ -52,9 +50,7 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
         startNodeSelector.AddtoChildNode(enemyPainStateProceduralAnimateNodeLeaf);
         startNodeSelector.AddtoChildNode(restProceduralAnimateNodeLeaf);
 
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
     }
 
     private void OnDrawGizmos()

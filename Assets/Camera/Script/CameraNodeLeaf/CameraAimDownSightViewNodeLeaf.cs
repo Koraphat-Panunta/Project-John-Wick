@@ -33,7 +33,7 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
 
     public override void UpdateNode()
     {
-        ScrpCameraViewAttribute viewAttribute = this.cameraController.cameraViewAttribute;
+        CameraThirdPersonControllerViewScriptableObject viewAttribute = this.cameraController.cameraAimDownSightView_SCRP;
         float offsetX;
 
         thirdPersonCamera.InputRotateCamera(inputLook.x,-inputLook.y);
@@ -41,22 +41,22 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {
-            offsetX = Mathf.Lerp(base.enteringOffset.x, 
-                viewAttribute.AimDownSight_Offset_Right.x,
-                this.cameraController.cameraSwitchSholderVelocity*Time.deltaTime);
+            offsetX = Mathf.Lerp(cameraController.thirdPersonCinemachineCamera.cameraOffset.x, 
+                viewAttribute.viewOffsetRight.x,
+                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
            
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
-            offsetX = Mathf.Lerp(this.enteringOffset.x,
-                - viewAttribute.AimDownSight_Offset_Right.x,
+            offsetX = Mathf.Lerp(cameraController.thirdPersonCinemachineCamera.cameraOffset.x,
+                - viewAttribute.viewOffsetRight.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
         }
 
-        this.cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(base.enteringFOV, cameraController.cameraViewAttribute.AimDownSight_FOV, cameraController.zoomingWeight);
+        this.cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(base.enteringFOV, viewAttribute.fov, cameraController.zoomingWeight);
 
-        float offsetY = Mathf.Lerp(this.enteringOffset.y, viewAttribute.AimDownSight_Offset_Right.y, this.cameraController.zoomingWeight);
-        float offsetZ = Mathf.Lerp(this.enteringOffset.z, viewAttribute.AimDownSight_Offset_Right.z, this.cameraController.zoomingWeight);
+        float offsetY = Mathf.Lerp(this.enteringOffset.y, viewAttribute.viewOffsetRight.y, this.cameraController.zoomingWeight);
+        float offsetZ = Mathf.Lerp(this.enteringOffset.z, viewAttribute.viewOffsetRight.z, this.cameraController.zoomingWeight);
 
         cameraController.thirdPersonCinemachineCamera.cameraOffset = new Vector3(offsetX, offsetY, offsetZ);
     }

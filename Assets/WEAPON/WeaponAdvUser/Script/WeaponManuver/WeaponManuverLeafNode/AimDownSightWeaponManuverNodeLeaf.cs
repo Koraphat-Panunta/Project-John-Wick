@@ -6,6 +6,13 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
     WeaponManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
     Weapon curWeapon => weaponAdvanceUser._currentWeapon;
+    public enum AimDownSightPhase
+    {
+        Enter,
+        Update,
+        Exit
+    }
+    public AimDownSightPhase curPhase { get; protected set; }
     public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
@@ -13,13 +20,16 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Enter()
     {
+        curPhase = AimDownSightPhase.Enter;
         weaponAfterAction.SendFeedBackWeaponAfterAction
             <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
     }
 
     public override void Exit()
     {
-        
+        curPhase = AimDownSightPhase.Exit;
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+            <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void FixedUpdateNode()
@@ -29,6 +39,8 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
             Debug.Log(weaponManuverManager + "is null");
 
         weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
+
+        curPhase = AimDownSightPhase.Update;
     }
 
     public override bool IsComplete()

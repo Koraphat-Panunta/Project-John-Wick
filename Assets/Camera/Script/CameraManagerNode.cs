@@ -7,20 +7,12 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
-    public BlackBoard blackBoard = new BlackBoard();
     private Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject> cameraTPPC_ScriptableObject;
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
         this.nodeManagerBehavior = new NodeManagerBehavior();
         this.cameraTPPC_ScriptableObject = new Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject>();
-
-        blackBoard.Set<bool>("isAiming",false);
-        blackBoard.Set<bool>("isSprinting", false);
-        blackBoard.Set<bool>("isPerformGunFu", false);
-        blackBoard.Set<bool>("isCrouching", false);
-        blackBoard.Set<bool>("isOnPlayerThirdPersonController", false);
-        blackBoard.Set<IGunFuNode>("curGunFuNode", null);
 
         InitailizedNode();
     }
@@ -53,52 +45,22 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     {
         startNodeSelector = new NodeSelector(() => true);
 
-        cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => this.blackBoard.Get<bool>("isOnPlayerThirdPersonController"));
+        cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => cameraController.isOnPlayerThirdPersonController);
         cameraAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraAimDownSightView_SCRP,
-            () => this.blackBoard.Get<bool>("isAiming"));
+            () => cameraController.isAiming);
         this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
-            () => this.blackBoard.Get<bool>("isSprinting"));
+            () => cameraController.isSprint);
 
-        this.cameraPerformGunFuSelector = new NodeSelector(() => this.blackBoard.Get<bool>("isPerformGunFu"));
+        this.cameraPerformGunFuSelector = new NodeSelector(() => cameraController.isPerformGunFu);
         this.cameraPerformGunFuWeaponDisarmNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuWeaponDisarm_SCRP,
-            () => 
-            {
-                IGunFuNode curGunFuNode = this.blackBoard.Get<IGunFuNode>("curGunFuNode");
-
-                if(curGunFuNode == null)
-                    return false;
-
-                if(curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf)
-                    return true;
-                return false;
-            });
+            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf );
         this.cameraPerformGunFuExecuteViewNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(cameraController, cameraController.cameraExecuteScriptableObject,
-           () =>
-           {
-               IGunFuNode curGunFuNode = this.blackBoard.Get<IGunFuNode>("curGunFuNode");
-
-               if (curGunFuNode == null)
-                   return false;
-
-               if (curGunFuNode is GunFuExecuteNodeLeaf)
-                   return true;
-               return false;
-           });
+           () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuExecuteNodeLeaf);
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
-            () =>
-            {
-                IGunFuNode curGunFuNode = this.blackBoard.Get<IGunFuNode>("curGunFuNode");
-
-                if (curGunFuNode == null)
-                    return false;
-
-                if (curGunFuNode is PlayerGunFuHitNodeLeaf)
-                    return true;
-                return false;
-            });
+            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is PlayerGunFuHitNodeLeaf);
 
         cameraTPSCrouchViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSCrouchView_SCRP,
-            () => this.blackBoard.Get<bool>("isCrouching"));
+            () => cameraController.isCrouching);
         cameraTPSStandViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSStandView_SCRP,
             () => true);
 
@@ -133,16 +95,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         return default;
     }
 }
-public partial class CameraController
-{
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSStandView_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSCrouchView_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraPerformGunFuWeaponDisarm_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraPerformGunFuExecuteView_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraPerformGunFuHitView_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSSprintView_SCRP;
-    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraAimDownSightView_SCRP;
-}
+
 public class CameraRestNodeLeaf : CameraNodeLeaf
 {
     public CameraRestNodeLeaf(CameraController cameraController, Func<bool> preCondition) : base(cameraController, preCondition)
