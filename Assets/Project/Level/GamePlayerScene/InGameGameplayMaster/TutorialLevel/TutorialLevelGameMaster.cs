@@ -101,9 +101,7 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
 
         startNodeSelector.AddtoChildNode(this.tutorialTitleGameMasterNodeLeaf);
 
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
 
     }
 }

@@ -27,7 +27,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     public float gunFuCameraTimer = 0;
     public const float gunFuCameraDuration = 1.25f;
 
-    public CameraController cameraManagerNode;
+    public CameraManagerNode cameraManagerNode;
 
     [Range(1, 10)]
     public float standardCameraSensivity;
@@ -43,13 +43,10 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     }
     
     public Player.ShoulderSide curSide;
-    public Player.PlayerStance curStance;
 
     private void Awake()
     {
-        allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
-
-        curStance = player.playerStance;
+        //allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
         curSide = player.curShoulderSide;
 
         player.AddObserver(this);
@@ -58,11 +55,11 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
 
         cameraImpluse = new CameraImpulseShake(this);
 
-        cameraManagerNode = new CameraController(this);
+        cameraManagerNode = new CameraManagerNode(this);
     }
     void Start()
     {
-
+        cameraManagerNode.blackBoard.Set<bool>("isOnPlayerThirdPersonController", true);
     }
     private void Update()
     {
@@ -112,15 +109,15 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                 {
                     if (gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
                     {
-                        blackBoard.Set<bool>("isPerformGunFu", true);
-                        blackBoard.Set<IGunFuNode>("curGunFuNode", gunFuHitNodeLeaf);
+                        cameraManagerNode.blackBoard.Set<bool>("isPerformGunFu", true);
+                        cameraManagerNode.blackBoard.Set<IGunFuNode>("curGunFuNode", gunFuHitNodeLeaf);
                     }
 
                     if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
                     {
-                        blackBoard.Set<bool>("isPerformGunFu", false);
-                        if(blackBoard.Get<IGunFuNode>("curGunFuNode") == gunFuHitNodeLeaf)
-                            blackBoard.Set<IGunFuNode>("curGunFuNode", null);
+                        cameraManagerNode.blackBoard.Set<bool>("isPerformGunFu", false);
+                        if(cameraManagerNode.blackBoard.Get<IGunFuNode>("curGunFuNode") == gunFuHitNodeLeaf)
+                            cameraManagerNode.blackBoard.Set<IGunFuNode>("curGunFuNode", null);
                     }
                         
 
@@ -145,19 +142,25 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                 }
             case PlayerSprintNode playerSprintNode: 
                 {
-                    curStance = player.playerStance;
+                    if (playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        cameraManagerNode.blackBoard.Set<bool>("isSprinting", true);
+                    else if(playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        cameraManagerNode.blackBoard.Set<bool>("isSprinting", false);
                     break;
                 }
             case PlayerStandIdleNodeLeaf:
             case PlayerStandMoveNodeLeaf: 
                 {
-                    curStance = player.playerStance;
+                    
                     break;
                 }
             case PlayerCrouch_Idle_NodeLeaf:
             case PlayerCrouch_Move_NodeLeaf: 
                 {
-                    curStance = player.playerStance;
+                    if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        cameraManagerNode.blackBoard.Set<bool>("isCrouching", true);
+                    else if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        cameraManagerNode.blackBoard.Set<bool>("isCrouching", false);
                     break;
                 }
         }

@@ -8,7 +8,6 @@ public class PlayerCrouch_Move_NodeLeaf : PlayerStateNodeLeaf
     }
     public override void Enter()
     {
-        player.NotifyObserver(player, this);
         base.Enter();
     }
 

@@ -22,7 +22,6 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
         player.playerMovement.SetRotateCharacter(rotateDir);
         if (player._currentWeapon != null)
             new WeaponAttachingBehavior().Detach(player._currentWeapon,player);
-        player.NotifyObserver(player, this);
         base.Enter();
     }
 

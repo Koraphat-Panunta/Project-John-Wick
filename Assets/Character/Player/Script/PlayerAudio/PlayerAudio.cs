@@ -30,7 +30,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     }
     private void MoveSound()
     {
-        PlayerStateNodeLeaf playerState = player.playerStateNodeManager.curNodeLeaf as PlayerStateNodeLeaf;
+        PlayerStateNodeLeaf playerState = (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() as PlayerStateNodeLeaf;
         if (playerState is PlayerStandMoveNodeLeaf
             || playerState is PlayerCrouch_Move_NodeLeaf
             || playerState is PlayerInCoverStandMoveNodeLeaf)

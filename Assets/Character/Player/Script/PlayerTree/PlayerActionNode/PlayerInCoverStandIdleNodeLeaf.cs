@@ -25,11 +25,11 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
 
         bool isAiming = false;
 
-        if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+        if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
         {
             isAiming = true;
         }
-        else if (player._weaponManuverManager.curNodeLeaf is QuickDrawWeaponManuverLeafNodeLeaf quickDraw)
+        else if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>())
         {    
             isAiming = true;
         }

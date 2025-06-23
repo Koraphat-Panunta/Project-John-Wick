@@ -9,4 +9,7 @@ public class CameraThirdPersonControllerViewScriptableObject : ScriptableObject
     public float fov;
     public AnimationCurve transitionCurve;
 
+    [Range(0, 10)]
+    public float transitionInSpeed;
+
 }

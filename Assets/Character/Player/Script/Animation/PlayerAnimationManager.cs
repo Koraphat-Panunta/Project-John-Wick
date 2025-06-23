@@ -1,4 +1,5 @@
 
+using TreeEditor;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
@@ -74,8 +75,8 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         if (player.curShoulderSide == Player.ShoulderSide.Right)
             SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
-        if(player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf ||
-            player.playerStateNodeManager.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf)
+        if((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandIdleNodeLeaf>()  ||
+            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandMoveNodeLeaf>() )
             CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
@@ -100,7 +101,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 Vector3.Cross(player.transform.forward, Vector3.up))
             ,3.5f*Time.deltaTime) ;
 
-        if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode)
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>())
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
@@ -150,7 +151,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         float changeSprintLowRate = 5;
         float changeSprintOutRate = 6;
         float changeSprintStayRate = 9;
-        if (player.playerStateNodeManager.curNodeLeaf is PlayerSprintNode sprintNode)
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>(out PlayerSprintNode sprintNode) )
         {
             if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Out)
                 WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
@@ -232,7 +233,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
             case PlayerSprintNode:
                 {
                     animator.CrossFade(Sprint, 0.3f, 0, 0);
-                    if(player.weaponAdvanceUser._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                    if((player.weaponAdvanceUser._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<LowReadyWeaponManuverNodeLeaf>())
                         animator.CrossFade("SprintWeaponSway", 0.25f, 1);
                     isLayer_1_Enable = true;
                     break;
@@ -242,7 +243,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 {
                     animator.CrossFade(Move_Idle, 0.3f, 0, 0);
                     isLayer_1_Enable = true;
-                    if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                    if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<LowReadyWeaponManuverNodeLeaf>())
                         animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
                     
                     break;
@@ -252,7 +253,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
                 {
                     animator.CrossFade(Crouch, 0.3f, 0, 0);
                     isLayer_1_Enable = true;
-                    if (player._weaponManuverManager.curNodeLeaf is LowReadyWeaponManuverNodeLeaf)
+                    if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<LowReadyWeaponManuverNodeLeaf>())
                         animator.CrossFade("StandWeaponHand LowReady/ADS", 0.35f, 1);
                     
                     break;

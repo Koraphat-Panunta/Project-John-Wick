@@ -33,6 +33,6 @@ public class GotKnockDown_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
     {
         base.UpdateNode();
         if (IsComplete())
-            enemy.enemyStateManagerNode.nodeManagerBehavior.ChangeNodeManual(enemy.enemyStateManagerNode, enemy.enemyStateManagerNode.fallDown_EnemyState_NodeLeaf);
+            enemy.enemyStateManagerNode.nodeManagerBehavior.ChangeNodeManual(enemy.enemyStateManagerNode, (enemy.enemyStateManagerNode as EnemyStateManagerNode).fallDown_EnemyState_NodeLeaf);
     }
 }

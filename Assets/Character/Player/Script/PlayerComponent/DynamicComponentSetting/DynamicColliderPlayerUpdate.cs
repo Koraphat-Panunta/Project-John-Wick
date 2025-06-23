@@ -22,7 +22,7 @@ public class DynamicColliderPlayerUpdate : MonoBehaviour,IObserverPlayer
                 case PlayerCrouch_Idle_NodeLeaf playerCrouchIdleNodeLeaf:
                 case PlayerCrouch_Move_NodeLeaf playerCrouchMoveNodeLeaf:
                     {
-                        if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+                        if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
                         {
                             capsuleCollider.center = new Vector3(capsuleCollider.center.x, StandCenterY, capsuleCollider.center.z);
                             capsuleCollider.height = StandHeight;

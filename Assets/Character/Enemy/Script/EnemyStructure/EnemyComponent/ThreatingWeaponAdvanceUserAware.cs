@@ -33,7 +33,7 @@ public class ThreatingWeaponAdvanceUserAware
         if(target.layer != targetAware)
             return;
 
-        if(targetWeaponUser._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+        if((targetWeaponUser._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
         {
 
             Vector3 pointingLine = targetWeaponUser._pointingPos - targetWeaponUser._userWeapon.transform.position;

@@ -24,16 +24,16 @@ public class NodeLeafTransitionBehavior
             {
                 if(node is INodeLeaf nodeLeaf)
                 {
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Exit();
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf = nodeLeaf;
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Enter();
+                    nodeLeafTransitionAble.nodeManager.GetCurNodeLeaf().Exit();
+                    nodeLeafTransitionAble.nodeManager.SetCurNodeLeaf(nodeLeaf);
+                    nodeLeafTransitionAble.nodeManager.GetCurNodeLeaf().Enter();
                 }
                 else if(node is INodeSelector nodeSelector)
                 {
                     nodeSelector.FindingNode(out INodeLeaf _nodeLeaf);
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Exit();
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf = _nodeLeaf;
-                    nodeLeafTransitionAble.nodeManager.curNodeLeaf.Enter();
+                    nodeLeafTransitionAble.nodeManager.GetCurNodeLeaf().Exit();
+                    nodeLeafTransitionAble.nodeManager.SetCurNodeLeaf(_nodeLeaf);
+                    nodeLeafTransitionAble.nodeManager.GetCurNodeLeaf().Enter();
                 }
 
                 return true;

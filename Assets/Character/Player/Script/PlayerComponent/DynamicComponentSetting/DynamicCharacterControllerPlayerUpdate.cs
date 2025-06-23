@@ -28,7 +28,7 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
             case PlayerCrouch_Idle_NodeLeaf playerCrouchIdleNodeLeaf:
             case PlayerCrouch_Move_NodeLeaf playerCrouchMoveNodeLeaf:
                 {
-                    if (player._weaponManuverManager.curNodeLeaf is AimDownSightWeaponManuverNodeLeaf)
+                    if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
                     {
                         characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
                         characterController.height = StandHeight;

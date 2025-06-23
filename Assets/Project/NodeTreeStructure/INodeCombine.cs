@@ -26,6 +26,7 @@ public class NodeCombineBehavior
 
     public void Enter(INodeCombine nodeCombine)
     {
+
         if (nodeCombine.combineNodeActivate == null || nodeCombine.combineNodeActivate.Count <= 0)
             return;
 

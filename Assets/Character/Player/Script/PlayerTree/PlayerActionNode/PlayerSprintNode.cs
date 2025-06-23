@@ -12,13 +12,6 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         Stay
     }
     public SprintManuver sprintPhase;
-    public enum SprintPhase
-    {
-        Enter,
-        Update,
-        Exit,
-    }
-    public SprintPhase curSprintPhase;
     public PlayerSprintNode(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         
@@ -44,14 +37,10 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
             sprintPhase = SprintManuver.Stay;
         }
         player.playerStance = Player.PlayerStance.stand;
-        curSprintPhase = SprintPhase.Enter;
-        player.NotifyObserver(player,this);
-        
         base.Enter();
     }
     public override void UpdateNode()
     {
-        curSprintPhase = SprintPhase.Update;
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
@@ -73,8 +62,6 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     }
     public override void Exit()
     {
-        curSprintPhase = SprintPhase.Exit;
-        player.NotifyObserver(player,this);
         base.Exit();
     }
     private void SprintMaintainMomentum()

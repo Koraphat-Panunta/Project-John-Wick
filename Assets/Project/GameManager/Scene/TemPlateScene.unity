@@ -1590,6 +1590,12 @@ PrefabInstance:
       objectReference: {fileID: 1584861673}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
+      propertyPath: cameraTPSStandView_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: ea66ad0e041ea984abb314eebdfff9bf,
+        type: 2}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
       propertyPath: gunFuCameraKickMultiply
       value: 0.26
       objectReference: {fileID: 0}
@@ -1600,6 +1606,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
+      propertyPath: cameraTPSCrouchView_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 967b395d5c17f6945aa37952ea03c065,
+        type: 2}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: cameraTPSSprintView_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 9abd9fedf24c3084da68b7ade97337f5,
+        type: 2}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
       propertyPath: aimDownSightCameraSensivity
       value: 1
       objectReference: {fileID: 0}
@@ -1608,6 +1626,18 @@ PrefabInstance:
       propertyPath: thirdPersonCinemachineCamera
       value: 
       objectReference: {fileID: 1275695493}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: cameraPerformGunFuHitView_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 10ef7d973d1e8db469aac77fec85ac44,
+        type: 2}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: cameraPerformGunFuWeaponDisarm_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e29a2b5ed436df45b8e29003c692cd8,
+        type: 2}
     - target: {fileID: 8522622513793723404, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
       propertyPath: ImpulseDefinition.ImpulseType

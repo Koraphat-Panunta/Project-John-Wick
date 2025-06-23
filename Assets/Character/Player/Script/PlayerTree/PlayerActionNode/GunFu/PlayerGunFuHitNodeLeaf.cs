@@ -50,8 +50,6 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
         (player.playerMovement as IMovementCompoent).CancleMomentum();
 
         curGunFuHitPhase = GunFuHitPhase.Enter;
-        player.NotifyObserver(player, this);
-
         base.Enter();
     }
 
@@ -60,8 +58,6 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
         _timer = 0;
         (player.playerMovement as IMovementCompoent).CancleMomentum();
         curGunFuHitPhase -= GunFuHitPhase.Exit;
-        player.NotifyObserver(player,this);
-
         base.Exit();
     }
 

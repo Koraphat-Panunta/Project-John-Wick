@@ -9,9 +9,9 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
     private ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
     private Vector2 inputLook => cameraController.player.inputLookDir_Local * Time.deltaTime * cameraController.standardCameraSensivity;
-    private Vector3 enteringOffset;
+    protected Vector3 enteringOffset;
     private float normalizedTime;
-    private float enteringFOV;
+    protected float enteringFOV;
     public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController
         ,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
         , Func<bool> preCondition) : base(cameraController, preCondition)
@@ -40,7 +40,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     public override void UpdateNode()
     {
         float offsetX;
-        normalizedTime = Mathf.Clamp01(normalizedTime += Time.deltaTime);
+        normalizedTime = Mathf.Clamp01(normalizedTime += Time.deltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
         thirdPersonCamera.UpdateCameraPosition();

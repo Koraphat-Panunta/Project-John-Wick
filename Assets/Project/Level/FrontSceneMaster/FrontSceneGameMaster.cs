@@ -34,8 +34,7 @@ public class FrontSceneGameMaster : GameMaster
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
 
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public override void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
