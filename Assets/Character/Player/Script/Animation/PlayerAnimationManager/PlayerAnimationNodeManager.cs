@@ -16,8 +16,7 @@ public partial class PlayerAnimationManager : INodeManager
     }
     public void FixedUpdateNode()
     {
-        
-
+        nodeManagerBehavior.FixedUpdateNode(this);
     }
 
     public void InitailizedNode()
@@ -30,6 +29,6 @@ public partial class PlayerAnimationManager : INodeManager
 
     public void UpdateNode()
     {
-        throw new System.NotImplementedException();
+       nodeManagerBehavior.UpdateNode(this);
     }
 }

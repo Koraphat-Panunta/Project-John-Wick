@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IReloadNode
+public interface IReloadNode:INodeLeaf
 {
    
 }
