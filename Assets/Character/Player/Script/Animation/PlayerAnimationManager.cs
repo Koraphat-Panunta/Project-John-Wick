@@ -3,7 +3,7 @@ using TreeEditor;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
+public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 {
     public Animator animator;   
     public Player player;
@@ -48,7 +48,7 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         player = GetComponent<Player>();
         player.AddObserver(this);
 
-        isLayer_1_Enable = false;
+        //isLayer_1_Enable = false;
         isIn_C_A_R_aim = false;
     }
 
@@ -57,10 +57,10 @@ public class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     {
         BackBoardUpdate();
 
-        if (isLayer_1_Enable == true && player._currentWeapon != null)
-            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 10 * Time.deltaTime));
-        else
-            animator.SetLayerWeight(1,Mathf.Clamp01(animator.GetLayerWeight(1) - 10 * Time.deltaTime));
+        //if (isLayer_1_Enable == true && player._currentWeapon != null)
+        //    animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 10 * Time.deltaTime));
+        //else
+        //    animator.SetLayerWeight(1,Mathf.Clamp01(animator.GetLayerWeight(1) - 10 * Time.deltaTime));
    
     }
     private void FixedUpdate()
