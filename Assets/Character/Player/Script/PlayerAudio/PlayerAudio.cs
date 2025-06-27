@@ -78,6 +78,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
                 }
             case PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf:
                 {
+                    if(dodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
                     PlayAudio(dodgeRollSound);
                     break;
                 }

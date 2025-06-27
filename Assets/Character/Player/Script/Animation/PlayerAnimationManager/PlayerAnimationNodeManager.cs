@@ -123,7 +123,7 @@ public partial class PlayerAnimationManager : INodeManager
         basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
 
         gunFuBaseLayerNodeSelector.AddtoChildNode(executeNodeSelector);
         gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
@@ -229,7 +229,7 @@ public partial class PlayerAnimationManager : INodeManager
             animator, "Crouch", 0, .4f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>(),
-            animator, "Move/Idle", 0, .3f,0);
+            animator, "Move/Idle", 0, .3f);
     }
     private void InitializedGunFuBasedLayer() 
     {

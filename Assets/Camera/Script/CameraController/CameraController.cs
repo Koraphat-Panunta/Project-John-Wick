@@ -101,20 +101,19 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {
-
-
         switch (node)
         {
            case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
                     {
+                        Debug.Log("Camera get notify hit enter");
                         this.isPerformGunFu = true;
                         this.curGunFuNode = gunFuHitNodeLeaf;
                     }
-
-                    if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
+                    else if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
                     {
+                        Debug.Log("Camera get notify hit exit");
                         this.isPerformGunFu = false;
                         if(this.curGunFuNode == gunFuHitNodeLeaf)
                             this.curGunFuNode = null;
@@ -160,7 +159,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                     if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
                         this.isCrouching = true;
                     else if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-                        this.isPerformGunFu = false;
+                        this.isCrouching = false;
                     break;
                 }
             case AimDownSightWeaponManuverNodeLeaf adsNodeLeaf:
