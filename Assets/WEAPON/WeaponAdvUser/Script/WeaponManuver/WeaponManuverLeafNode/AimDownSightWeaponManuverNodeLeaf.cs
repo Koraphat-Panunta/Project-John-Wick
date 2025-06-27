@@ -40,7 +40,7 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
         weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
 
-        curPhase = AimDownSightPhase.Update;
+
     }
 
     public override bool IsComplete()
@@ -65,6 +65,9 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
     {
         //weaponAfterAction.SendFeedBackWeaponAfterAction
         //    <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        curPhase = AimDownSightPhase.Update;
+        weaponAfterAction.SendFeedBackWeaponAfterAction
+           <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
         if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser._isPullTriggerCommand)
             curWeapon.PullTrigger();

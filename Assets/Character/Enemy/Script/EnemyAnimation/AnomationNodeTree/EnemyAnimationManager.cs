@@ -1,7 +1,7 @@
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(Animator))]
-public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
+public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Animator animator;
@@ -32,68 +32,12 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public bool isSprint;
 
     public string AnimationStateName;
-
-    public bool is_Layer1_Enable;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
     }
     public void Notify<T>(Enemy enemy, T node) where T : INode
     {
-        if(node is EnemyStateLeafNode enemyStateLeafNode)
-            switch (enemyStateLeafNode)
-            {
-                case EnemyStandIdleStateNodeLeaf:
-                case EnemyStandMoveStateNodeLeaf:
-                case EnemyStandTakeCoverStateNodeLeaf:
-                case EnemyStandTakeAimStateNodeLeaf:
-                    {
-                        animator.CrossFade("Move/Idle", 0.45f, 0);
-                        is_Layer1_Enable = true;
-                        break;
-                    }
-                case EnemySprintStateNodeLeaf:
-                    {
-                        animator.CrossFade("Sprint", 0.45f, 0);
-                        is_Layer1_Enable = true;
-                        break;
-                    }
-                case FallDown_EnemyState_NodeLeaf:
-                case GunFu_GotHit_NodeLeaf:
-                case GunFu_GotInteract_NodeLeaf:
-                case EnemyPainStateNodeLeaf:
-                    {
-                        is_Layer1_Enable = false;
-                        break;
-                    }
-                case EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf:
-                    {
-                        if(enemySpinKickGunFuNodeLeaf.curPhase == EnemySpinKickGunFuNodeLeaf.SpinKickPhase.Enter)
-                            animator.CrossFade("EnemySpinKick", 0.05f, 0);
-                        break;
-                    }
-            }
-        else if(node is WeaponManuverLeafNode weaponManuverLeafNode)
-            switch (weaponManuverLeafNode)
-            {
-                case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:
-                    {
-                        if(reloadMagazineFullStageNodeLeaf.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
-                        {
-                            animator.CrossFade("ReloadMagazineFullStage", 0.3f, 1);
-                            is_Layer1_Enable = true;
-                        }
-                        break;
-                    }
-                case TacticalReloadMagazineFullStageNodeLeaf tacticalReloadMagazineFullStageNodeLeaf:
-                    {
-                        if(tacticalReloadMagazineFullStageNodeLeaf.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
-                        {
-                            animator.CrossFade("TacticalReloadMagazineFullStage", 0.3f, 1);
-                            is_Layer1_Enable = true;
-                        }
-                        break;
-                    }
-            }
+       
     }
     private void Awake()
     {
@@ -101,25 +45,22 @@ public class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         animator = GetComponent<Animator>();
 
         enemy.AddObserver(this);
+        nodeManagerBehavior = new NodeManagerBehavior();
 
-        is_Layer1_Enable = true;
+        this.InitailizedNode();
+      
     }
    
 
     // UpdateNode is called once per frame
     void Update()
     {
+        UpdateNode();
         BackBoardUpdate();
-
-        if (is_Layer1_Enable)
-            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) + 100 * Time.deltaTime));
-        else
-            animator.SetLayerWeight(1, Mathf.Clamp01(animator.GetLayerWeight(1) - 100 * Time.deltaTime));
     }
     private void FixedUpdate()
     {
-
-        
+        FixedUpdateNode();
     }
     [Range(0,50)]
     [SerializeField] private float lerpingTvelocityAnimation;

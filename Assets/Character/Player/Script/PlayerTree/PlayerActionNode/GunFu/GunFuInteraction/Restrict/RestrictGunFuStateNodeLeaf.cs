@@ -160,12 +160,17 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                         isRestrictExitHit = true;
                     }
 
+                    break;
+
+                }
+            case RestrictGunFuPhase.ExitAttack:
+                {
+                    _timer += Time.deltaTime;
                     if (_timer >= restrictExitClip.length * restrictScriptableObject.restrictExit_exitNormalized)
                     {
                         isComplete = true;
                         _timer = 0;
                     }
-
                 }
                 break;
 
