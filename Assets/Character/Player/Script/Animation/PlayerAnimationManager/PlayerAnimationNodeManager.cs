@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public partial class PlayerAnimationManager : INodeManager
@@ -66,10 +67,7 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf moveStandNodeLeaf { get; set; }
     public NodeSelector upperLayerEnableDisableSelector { get; set; }
 
-    public void Awake()
-    {
-        nodeManagerBehavior = new NodeManagerBehavior();
-    }
+   
     public void FixedUpdateNode()
     {
         nodeManagerBehavior.FixedUpdateNode(this);
@@ -85,6 +83,67 @@ public partial class PlayerAnimationManager : INodeManager
         this.InitializedBasedLayer();
 
         upperLayerEnableDisableSelector = new NodeSelector(()=> true);
+        enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(()=> isEnableUpperLayer
+        ,animator,1,0.75f,1);
+        disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
+        , animator, 1, 0.75f, 0);
+
+        startNodeSelector.AddtoChildNode(upperLayerEnableDisableSelector);
+        startNodeSelector.AddtoChildNode(upperLayerNodeSelector);
+        startNodeSelector.AddtoChildNode(basedLayerNodeSelector);
+
+        upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
+        upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
+
+        upperLayerNodeSelector.AddtoChildNode(performReloadNodeSelector);
+        upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
+        upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
+        upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
+        upperLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
+
+        performReloadNodeSelector.AddtoChildNode(reloadNodeLeaf);
+        performReloadNodeSelector.AddtoChildNode(tacticalReloadNodeLeaf);
+
+        performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldPrimaryStayNodeLeaf);
+        performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldSecondaryStayNodeLeaf);
+        performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldPrimaryStayNodeLeaf);
+        performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldSecondaryStayNodeLeaf);
+
+        drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
+        drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
+        drawSwitchSelector.AddtoChildNode(holsterPrimaryNodeLeaf);
+        drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
+        drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
+        drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
+
+        basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
+        basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
+
+        gunFuBaseLayerNodeSelector.AddtoChildNode(executeNodeSelector);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(hit2NodeLeaf);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);
+        gunFuBaseLayerNodeSelector.AddtoChildNode(spinKickNodeLeaf);
+
+        executeNodeSelector.AddtoChildNode(executePrimaryNodeLeaf);
+        executeNodeSelector.AddtoChildNode(executeSecondaryNodeLeaf);
+
+        restrictShieldSelector.AddtoChildNode(restrictShieldPrimaryEnterNodeLeaf);
+        restrictShieldSelector.AddtoChildNode(restrictShieldSecondaryEnterNodeLeaf);
+        restrictShieldSelector.AddtoChildNode(restrictShieldExitNodeLeaf);
+        restrictShieldSelector.AddtoChildNode(restrictShieldMoveNodeLeaf);
+
+        humanShieldSelector.AddtoChildNode(humanShieldPrimaryEnterNodeLeaf);
+        humanShieldSelector.AddtoChildNode(humanShieldSecondaryEnterNodeLeaf);
+        humanShieldSelector.AddtoChildNode(humanShieldExitNodeLeaf);
+        humanShieldSelector.AddtoChildNode(humanShieldMoveNodeLeaf);
+
+        nodeManagerBehavior.SearchingNewNode(this);
 
     }
     private void InitializedUpperLayer()
@@ -158,6 +217,16 @@ public partial class PlayerAnimationManager : INodeManager
         basedLayerNodeSelector = new NodeSelector(() => true);
         InitializedGunFuBasedLayer();
 
+        dodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>(),
+            animator, "DodgeRoll",0,.2f);
+        sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
+            animator, "Sprint", 0, .5f);
+        moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>(),
+            animator, "Crouch", 0, .4f);
+        moveStandNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>(),
+            animator, "Move/Idle", 0, .3f);
     }
     private void InitializedGunFuBasedLayer() 
     {
@@ -170,7 +239,50 @@ public partial class PlayerAnimationManager : INodeManager
         executeSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> player._currentWeapon is SecondaryWeapon,animator, "GunFu_EX_Knee",0,0.35f);
 
+        restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
+        restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        && player._currentWeapon is PrimaryWeapon
+        ,animator, "Restrict_Enter",0,0.35f);
+        restrictShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        && player._currentWeapon is SecondaryWeapon
+        ,animator, "Restrict_Enter", 0,.35f);
+        restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+        , animator, "Restrict_Exit", 0, .35f);
+        restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+        , animator, "Move/Idle", 0, .35f);
 
+        humanShieldSelector = new NodeSelector(()=> playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>());
+        humanShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
+        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter) 
+        && player._currentWeapon is PrimaryWeapon
+        , animator, "HS_P_Enter", 0, .35f);
+        humanShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
+        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+        && player._currentWeapon is SecondaryWeapon
+        , animator, "HS_P_Enter", 0, .35f);
+        humanShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
+       && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+       , animator, "HS_Exit", 0, .35f);
+        humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
+       && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+       , animator, "Move/Idle", 0, .35f);
+
+        hit1NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<Hit1GunFuNode>(),
+            animator, "Hit", 0, .1f);
+        hit2NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<Hit2GunFuNode>(),
+            animator, "Hit2", 0, .1f);
+        hit3NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<KnockDown_GunFuNode>(),
+            animator, "KnockDown", 0, .1f);
+        spinKickNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<DodgeSpinKicklGunFuNodeLeaf>(),
+            animator, "DodgeSpinKick", 0, .1f);
     }
 
     public void UpdateNode()

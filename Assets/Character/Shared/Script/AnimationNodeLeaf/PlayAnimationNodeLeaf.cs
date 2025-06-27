@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayAnimationNodeLeaf : AnimationNodeLeaf
 {
     protected Animator animator;
-    protected string stateName;
+    public string stateName;
     protected int layer;
     protected float transitionDurationNormalized;
     protected float transitionOffsetNormalized;

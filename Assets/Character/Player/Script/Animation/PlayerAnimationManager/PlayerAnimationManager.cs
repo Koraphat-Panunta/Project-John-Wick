@@ -4,42 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 {
-    public Animator animator;   
-    public Player player;
 
-    public string Sprint = "Sprint";
-    public string Move_Idle = "Move/Idle";
-    public string Crouch = "Crouch";
-    
-
-    public float CoverWeight;
-    public float SholderSide;//-1 -> 1
-    public float InputMoveMagnitude_Normalized;
-    public float VelocityMoveMagnitude_Normalized;
-    public float MoveInputLocalFoward_Normalized;
-    public float MoveInputLocalSideWard_Normalized;
-    public float MoveVelocityForward_Normalized;
-    public float MoveVelocitySideward_Normalized;
-    public float DotMoveInputWordl_VelocityWorld_Normalized;
-    public float DotVectorLeftwardDir_MoveInputVelocity_Normallized;
-    public float Rotating;
-    public float AimDownSightWeight;
-    public float DotVelocityWorld_Leftward_Normalized;
-    public float RecoilWeight;
-    public float CAR_Weight;
-    public float WeaponSwayRate_Normalized;
-
-    public bool isCover { 
-        get { 
-            if(player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf)
-                return true;
-            return false;
-        }
-    }
-
-    private bool isIn_C_A_R_aim;
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
-    void Start()
+    public void Awake()
     {
         animator = GetComponent<Animator>();
         player = GetComponent<Player>();
@@ -47,16 +14,20 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         //isLayer_1_Enable = false;
         isIn_C_A_R_aim = false;
-    }
+        nodeManagerBehavior = new NodeManagerBehavior();
 
-    // UpdateNode is called once per frame
+        this.InitailizedNode();
+    }
+  
     void Update()
     {
         BackBoardUpdate();
+        UpdateNode();
     }
     private void FixedUpdate()
     {
         CalculateDeltaRotation();
+        FixedUpdateNode();
     }
     private void BackBoardUpdate()
     {
@@ -170,14 +141,21 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
 
+        //try
+        //{
+        //    curBaseLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
+        //    curUpperLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
+        //}
+        //catch
+        //{
+
+        //}
     }
 
 
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent notifyEvent)
     {
 
-        //if (notifyEvent == SubjectPlayer.NotifyEvent.Firing)
-        //    RecoilWeight = 1;
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {

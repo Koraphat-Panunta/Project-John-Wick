@@ -11,16 +11,6 @@ public class NodeSelector : INodeSelector
     public INode parentNode { get; set; }
     public string nodeName { get; private set; }
     public INodeLeaf curNodeLeaf { get ; set ; }
-
-    //public NodeSelector() : this("None declare name SelectorNode") { }
-    //public NodeSelector(string nodeName)
-    //{
-    //    this.preCondition = () => true;
-    //    this.nodeSelectorBehavior = new NodeSelectorBehavior();
-    //    this.nodePrecondition = new Dictionary<INode, Func<bool>>();
-    //    this.childNode = new List<INode>();
-    //    this.nodeName = nodeName;
-    //}
     public NodeSelector(Func<bool> preCondition) : this(preCondition, "None declare name SelectorNode") { }
     public NodeSelector(Func<bool> preCondition, string nodeName)
     {
