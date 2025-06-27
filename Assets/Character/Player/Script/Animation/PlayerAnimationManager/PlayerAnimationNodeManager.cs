@@ -4,7 +4,7 @@ using UnityEngine;
 public partial class PlayerAnimationManager : INodeManager
 {
     public INodeSelector startNodeSelector { get; set; }
-    private INodeLeaf curNodeLeaf;
+    INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set; }
     public NodeCombine upper_based_LayerCombineNode { get; set; }
@@ -88,9 +88,12 @@ public partial class PlayerAnimationManager : INodeManager
         disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
         , animator, 1, 0.75f, 0);
 
-        startNodeSelector.AddtoChildNode(upperLayerEnableDisableSelector);
-        startNodeSelector.AddtoChildNode(upperLayerNodeSelector);
-        startNodeSelector.AddtoChildNode(basedLayerNodeSelector);
+
+        startNodeSelector.AddtoChildNode(upper_based_LayerCombineNode);
+
+        upper_based_LayerCombineNode.AddCombineNode(upperLayerEnableDisableSelector);
+        upper_based_LayerCombineNode.AddCombineNode(upperLayerNodeSelector);
+        upper_based_LayerCombineNode.AddCombineNode(basedLayerNodeSelector);
 
         upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
         upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
@@ -226,7 +229,7 @@ public partial class PlayerAnimationManager : INodeManager
             animator, "Crouch", 0, .4f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>(),
-            animator, "Move/Idle", 0, .3f);
+            animator, "Move/Idle", 0, .3f,0);
     }
     private void InitializedGunFuBasedLayer() 
     {

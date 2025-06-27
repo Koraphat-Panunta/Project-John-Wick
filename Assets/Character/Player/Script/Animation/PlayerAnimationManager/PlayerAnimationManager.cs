@@ -141,15 +141,15 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
 
-        //try
-        //{
-        //    curBaseLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
-        //    curUpperLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
-        //}
-        //catch
-        //{
+        try
+        {
+            curBaseLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
+            curUpperLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
+        }
+        catch
+        {
 
-        //}
+        }
     }
 
 
