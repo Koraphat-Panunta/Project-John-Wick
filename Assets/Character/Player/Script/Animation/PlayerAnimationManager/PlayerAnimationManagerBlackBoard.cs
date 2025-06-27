@@ -40,7 +40,17 @@ public partial class PlayerAnimationManager
             if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<RestWeaponManuverLeafNode>())
                 return false;
 
-            if(playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGunFuHitNodeLeaf>()
+            if(playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFuInteraction_NodeLeaf humanShiedl) 
+                && humanShiedl.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                return true;
+
+            if (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf restrict)
+               && restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                return true;
+
+
+
+            if (playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGunFuHitNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
                 || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
                 || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFuInteraction_NodeLeaf humanShield)   && (humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))

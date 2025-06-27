@@ -30,6 +30,10 @@ public class EnemyDebuger :MonoBehaviour
     // UpdateNode is called once per frame
     void Update()
     {
+        this.curWeapon = enemy._currentWeapon;
+        this.myPrimaryWeapon = enemy._weaponBelt.myPrimaryWeapon as Weapon;
+        this.mySecondaryWeapon = enemy._weaponBelt.mySecondaryWeapon as Weapon;
+
         if (curWeapon != null)
         {
             curWeaponBulletCapacity = curWeapon.bulletCapacity;
@@ -40,9 +44,7 @@ public class EnemyDebuger :MonoBehaviour
        posture = enemy._posture;
        PainPart = enemy._painPart;
 
-        this.curWeapon = enemy._currentWeapon;
-        this.myPrimaryWeapon = enemy._weaponBelt.myPrimaryWeapon as Weapon;
-        this.mySecondaryWeapon = enemy._weaponBelt.mySecondaryWeapon as Weapon;
+
     }
     private void OnDrawGizmos()
     {

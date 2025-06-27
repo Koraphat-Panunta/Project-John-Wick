@@ -19,9 +19,9 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
     private RestrictGunFuStateNodeLeaf attackerRestrict ;
     private Animator animator { get => enemy.animator; }
 
-    private string gotRestrictEnter = "GotRestrictEnter";
-    private string gotRestrictStay = "GotRestricting_Stay";
-    private string gotRestrictExit = "GotRestrict_Exit";
+    private string gotRestrictEnter = "GotRestrict Enter";
+    private string gotRestrictStay = "GotRestricting Stay";
+    private string gotRestrictExit = "GotRestrict Exit";
     public GotRestrictNodeLeaf(GotRestrictScriptableObject gotRestrictScriptableObject,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.gotRestrictScriptableObject = gotRestrictScriptableObject;

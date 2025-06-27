@@ -6,9 +6,9 @@ using static HumanShield_GunFuInteraction_NodeLeaf;
 public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INodeLeafTransitionAble
 {
     public Animator animator;
-    public string stateNameEnter = "HumandShielded Enter";
-    public string stateNameStay = "HumandShielded Stay";
-    public string stateNameExit = "HumandShielded Throw";
+    public string stateNameEnter = "Got HumandShielded Enter";
+    public string stateNameStay = "Got HumandShielded Stay";
+    public string stateNameExit = "Got HumandShielded Throw";
 
     float got_threwDown_time = 0;
 

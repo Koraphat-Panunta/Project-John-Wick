@@ -70,7 +70,12 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
         enemyCommunicator = new EnemyCommunicator(this);
     }
-
+    protected override void Start()
+    {
+        if (startWeapon != null)
+            new WeaponAttachingBehavior().Attach(startWeapon, MainHandSocket);
+        base.Start();
+    }
 
     void Update()
     {

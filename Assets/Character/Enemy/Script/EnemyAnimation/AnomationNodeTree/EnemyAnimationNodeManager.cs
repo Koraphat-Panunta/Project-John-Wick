@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public partial class EnemyAnimationManager : INodeManager
@@ -33,7 +34,7 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf crouchBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf standMoveIdleBaseLayerNodeLeaf { get; set; }
-
+    private RestNodeLeaf restBaseNodeLeaf { get; set; }
     public void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(()=>true);
@@ -48,6 +49,8 @@ public partial class EnemyAnimationManager : INodeManager
 
         InitializedUpperLayer();
         InitializedBaseLayer();
+
+        restBaseNodeLeaf = new RestNodeLeaf(()=>true);
 
         startNodeSelector.AddtoChildNode(enemyAnimationCombineNode);
 
@@ -77,6 +80,7 @@ public partial class EnemyAnimationManager : INodeManager
         baseLayerSelector.AddtoChildNode(sprintBaseLayerNodeLeaf);
         baseLayerSelector.AddtoChildNode(crouchBaseLayerNodeLeaf);
         baseLayerSelector.AddtoChildNode(standMoveIdleBaseLayerNodeLeaf);
+        baseLayerSelector.AddtoChildNode(restBaseNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
@@ -128,7 +132,9 @@ public partial class EnemyAnimationManager : INodeManager
             () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>()
             , animator, "Crouch", 0, .2f);
         standMoveIdleBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => true
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>()
             , animator, "Move/Idle", 0, .2f);
     }
     public void FixedUpdateNode()
@@ -140,5 +146,11 @@ public partial class EnemyAnimationManager : INodeManager
     public void UpdateNode()
     {
        nodeManagerBehavior.UpdateNode(this);
+    }
+    private class RestNodeLeaf : AnimationNodeLeaf
+    {
+        public RestNodeLeaf(Func<bool> preCondition) : base(preCondition)
+        {
+        }
     }
 }
