@@ -16,6 +16,10 @@ public class PlayAnimationNodeLeaf : AnimationNodeLeaf
         this.transitionDurationNormalized = transitionDurationNormalized;
         this.transitionOffsetNormalized = transitionOffsetNormalized;
     }
+    public PlayAnimationNodeLeaf(Func<bool> preCondition, Animator animator, string stateName, int layer, float transitionDurationNormalized) : this(preCondition,animator,stateName,layer,transitionDurationNormalized,0)
+    {
+
+    }
 
     public override void Enter()
     {
