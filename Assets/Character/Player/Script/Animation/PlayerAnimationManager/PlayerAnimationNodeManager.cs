@@ -87,9 +87,9 @@ public partial class PlayerAnimationManager : INodeManager
 
         upperLayerEnableDisableSelector = new NodeSelector(()=> true);
         enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(()=> isEnableUpperLayer
-        ,animator,1,0.75f,1);
+        ,animator,1,3f,1);
         disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
-        , animator, 1, 0.75f, 0);
+        , animator, 1, 3f, 0);
 
 
         startNodeSelector.AddtoChildNode(upper_based_LayerCombineNode);
@@ -261,7 +261,7 @@ public partial class PlayerAnimationManager : INodeManager
         executePrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> player._currentWeapon is PrimaryWeapon,animator, "GunFu_EX_stepOn_Rifle",0,.35f);
         executeSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> player._currentWeapon is SecondaryWeapon,animator, "GunFu_EX_Knee",0,0.35f);
+            ()=> player._currentWeapon is SecondaryWeapon,animator, "GunFu_EX_Knee",0,.35f);
 
         restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
         restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)

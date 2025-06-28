@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class LeaningRotation : MonoBehaviour
+public class LeaningRotation : MonoBehaviour, IConstraintManager
 {
     // Start is called before the first frame update
     [Range(0, 1)]

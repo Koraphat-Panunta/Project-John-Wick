@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AnimationConstrainManager : MonoBehaviour,INodeManager
+public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
 {
     protected INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }

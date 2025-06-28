@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Splines;
 
-public class RightHandConstrainLookAtManager : MonoBehaviour
+public class RightHandConstrainLookAtManager : MonoBehaviour,IConstraintManager
 {
     [Range(0, 1)] 
     [SerializeField] private float weight;
 
-    [SerializeField] private RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject;
+    [SerializeField] private RightHandConstrainLookAtScriptableObject rightHandConstrainLookAtScriptableObject;
 
     [SerializeField] private MultiAimConstraint rightArm_MultiAimConstraint;
     [SerializeField] private MultiAimConstraint rightForeArm_MultiAimConstraint;
@@ -18,10 +18,10 @@ public class RightHandConstrainLookAtManager : MonoBehaviour
     private Vector3 rightHand_Offset;
 
     // Update is called once per frame
-    public void SetWeight(float w, RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject)
+    public void SetWeight(float w, RightHandConstrainLookAtScriptableObject rightHandConstrainLookAtScriptableObject)
     {
         SetWeight(w);
-        this.humanShieldRightHandConstrainLookAtScriptableObject = humanShieldRightHandConstrainLookAtScriptableObject;
+        this.rightHandConstrainLookAtScriptableObject = rightHandConstrainLookAtScriptableObject;
     }
     public void SetWeight(float w)
     {
@@ -33,9 +33,9 @@ public class RightHandConstrainLookAtManager : MonoBehaviour
         if(weight <= 0)
             return;
 
-        rightArm_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightArm_Offset, humanShieldRightHandConstrainLookAtScriptableObject.offset_RightArmAim, humanShieldRightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
-        rightForeArm_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightForeArm_Offset, humanShieldRightHandConstrainLookAtScriptableObject.offset_RightForeArmAim, humanShieldRightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
-        rightHand_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightHand_Offset, humanShieldRightHandConstrainLookAtScriptableObject.offset_RightHandAim, humanShieldRightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
+        rightArm_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightArm_Offset, rightHandConstrainLookAtScriptableObject.offset_RightArmAim, rightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
+        rightForeArm_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightForeArm_Offset, rightHandConstrainLookAtScriptableObject.offset_RightForeArmAim, rightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
+        rightHand_MultiAimConstraint.data.offset = Vector3.MoveTowards(rightHand_Offset, rightHandConstrainLookAtScriptableObject.offset_RightHandAim, rightHandConstrainLookAtScriptableObject.offsetChangedRate * Time.deltaTime);
 
         rightArm_Offset = rightForeArm_MultiAimConstraint.data.offset;
         rightForeArm_Offset = rightForeArm_MultiAimConstraint.data.offset;
@@ -43,9 +43,9 @@ public class RightHandConstrainLookAtManager : MonoBehaviour
 
         weight = Mathf.Clamp(weight, 0f, 1f);
 
-        rightArm_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightArmAim * this.weight;
-        rightForeArm_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightForeArmAim * this.weight;
-        rightHand_MultiAimConstraint.weight = humanShieldRightHandConstrainLookAtScriptableObject.weightRightHandAim * this.weight;
+        rightArm_MultiAimConstraint.weight = rightHandConstrainLookAtScriptableObject.weightRightArmAim * this.weight;
+        rightForeArm_MultiAimConstraint.weight = rightHandConstrainLookAtScriptableObject.weightRightForeArmAim * this.weight;
+        rightHand_MultiAimConstraint.weight = rightHandConstrainLookAtScriptableObject.weightRightHandAim * this.weight;
 
        
     }

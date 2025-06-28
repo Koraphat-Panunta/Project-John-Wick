@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class EnemyConstrainAnimationNodeManager : AnimationConstrainManager
+public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 {
     public override INodeSelector startNodeSelector { get; set; }
 

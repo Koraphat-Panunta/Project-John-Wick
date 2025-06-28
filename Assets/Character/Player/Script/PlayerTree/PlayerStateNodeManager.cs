@@ -184,7 +184,6 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(gunFuExecuteNodeLeaf);
         standSelectorNode.AddtoChildNode(Hit1gunFuNode);
         standSelectorNode.AddtoChildNode(playerSprintNode);
-        standSelectorNode.AddtoChildNode(standIncoverSelector);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
@@ -210,9 +209,6 @@ public class PlayerStateNodeManager : INodeManager
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);
 
         proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
-
-        standIncoverSelector.AddtoChildNode(playerInCoverStandMoveNode);
-        standIncoverSelector.AddtoChildNode(playerInCoverStandIdleNode);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

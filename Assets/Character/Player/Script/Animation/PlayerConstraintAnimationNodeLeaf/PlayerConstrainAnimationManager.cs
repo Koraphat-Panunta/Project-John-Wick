@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerConstrainAnimationManager : AnimationConstrainManager
+public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeManager
 {
     public SplineLookConstrain StandSplineLookConstrain;
     public LeaningRotation leaningRotation;
@@ -36,7 +36,12 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
     }
   
     public override INodeSelector startNodeSelector { get; set; }
-
+    public NodeCombine playerConstraintCombineNode { get; set; }
+    public NodeSelector enableDisableConstraintWeightNodeSelector { get; set; }
+    public SetWeightConstraintNodeLeaf enableConstraintWeight { get; set; }
+    public SetWeightConstraintNodeLeaf disableConstraintWeight { get; set; }   
+    
+    public NodeSelector constraintNodeStateSelector { get; set; }
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
     public RestAnimationConstrainNodeLeaf rest_gunfu_AnimationConstrainNodeLeaf { get; private set; }
     public AimDownSightAnimationConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
@@ -60,6 +65,14 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
     {
         startNodeSelector = new AnimationConstrainNodeSelector(()=>true);
 
+        playerConstraintCombineNode = new NodeCombine(()=> true);
+
+        enableDisableConstraintWeightNodeSelector = new NodeSelector(() => true, "enableDisableConstraintWeightNodeSelector");
+        enableConstraintWeight = new SetWeightConstraintNodeLeaf(()=> isConstraintEnable,rig,4,1);
+        disableConstraintWeight = new SetWeightConstraintNodeLeaf(() => true, rig, 5, 0);
+
+        constraintNodeStateSelector = new NodeSelector(()=> isConstraintEnable);
+
         aimDownSightConstrainSelector = new AnimationConstrainNodeSelector(()=>player._currentWeapon != null && player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0);
         rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player,this.StandSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject,()=> player._currentWeapon is PrimaryWeapon);
         rifle_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.rifileLeaningConstrainScriptableObject, leaningRotation,player, () => player._currentWeapon is PrimaryWeapon);
@@ -70,14 +83,18 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
         pistolADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is SecondaryWeapon);
         restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig,() => true);
 
-        gunFuConstraintSelector = new AnimationConstrainNodeSelector(()=> player.curNodeLeaf is IGunFuNode);
-        humanShieldConstrainSelector = new AnimationConstrainNodeSelector(() => player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf || player.curNodeLeaf is HumanThrowGunFuInteractionNodeLeaf);
+        gunFuConstraintSelector = new AnimationConstrainNodeSelector(
+            ()=> playerStateManaher.TryGetCurNodeLeaf<IGunFuNode>());
+        humanShieldConstrainSelector = new AnimationConstrainNodeSelector(
+            () => playerStateManaher.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() 
+            || playerStateManaher.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>());
         humanShield_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,humanShieldRightHandConstrainLookAtScriptableObject_rifle,
             ()=> player._currentWeapon is PrimaryWeapon);
         humanShield_secondary_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, humanShieldRightHandConstrainLookAtScriptableObject_pistol,
             () => player._currentWeapon is SecondaryWeapon);
 
-        restrictConstraintSelector = new AnimationConstrainNodeSelector(() => player.curNodeLeaf is RestrictGunFuStateNodeLeaf);
+        restrictConstraintSelector = new AnimationConstrainNodeSelector(
+            () => playerStateManaher.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
         restrict_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_rifle,
             ()=> player._currentWeapon is PrimaryWeapon);
         restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_pistol,
@@ -85,9 +102,17 @@ public class PlayerConstrainAnimationManager : AnimationConstrainManager
 
         rest_gunfu_AnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
-        startNodeSelector.AddtoChildNode(gunFuConstraintSelector);
-        startNodeSelector.AddtoChildNode(aimDownSightConstrainSelector);
-        startNodeSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
+        startNodeSelector.AddtoChildNode(playerConstraintCombineNode);
+
+        playerConstraintCombineNode.AddCombineNode(enableDisableConstraintWeightNodeSelector);
+        playerConstraintCombineNode.AddCombineNode(constraintNodeStateSelector);
+
+        enableDisableConstraintWeightNodeSelector.AddtoChildNode(enableConstraintWeight);
+        enableDisableConstraintWeightNodeSelector.AddtoChildNode(disableConstraintWeight);
+
+        constraintNodeStateSelector.AddtoChildNode(gunFuConstraintSelector);
+        constraintNodeStateSelector.AddtoChildNode(aimDownSightConstrainSelector);
+        constraintNodeStateSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
 
         aimDownSightConstrainSelector.AddtoChildNode(rifleADSConstrainCombineNode);
         aimDownSightConstrainSelector.AddtoChildNode(pistolADSConstrainCombineNode);

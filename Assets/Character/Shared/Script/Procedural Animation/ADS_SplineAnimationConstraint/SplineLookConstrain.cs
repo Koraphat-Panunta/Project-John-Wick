@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class SplineLookConstrain : MonoBehaviour
+public class SplineLookConstrain : MonoBehaviour, IConstraintManager
 {
     [SerializeField] private float weight;
 
