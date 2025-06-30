@@ -17,7 +17,7 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
             if (isAlreadyExecuted)
                 return;
 
-            if (enemy.curNodeLeaf is GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround)
+            if (enemy.curNodeLeaf is GotExecuteOnGround_NodeLeaf gotExecuteOnGround)
             {
                 StackGague gunFuExecuteStackGauge = enemy.gunFuAbleAttacker.gunFuExecuteStackGauge;
                 if (gunFuExecuteStackGauge.amount >= gunFuExecuteStackGauge.max)

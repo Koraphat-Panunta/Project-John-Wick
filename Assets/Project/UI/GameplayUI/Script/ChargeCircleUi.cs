@@ -35,9 +35,9 @@ public class ChargeCircleUi : GameplayUI, IObserverPlayer
     {
         switch (node)
         {
-            case GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf:
+            case GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf:
                 {
-                    if(gunFuExecuteNodeLeaf.curPhase == GunFuExecuteNodeLeaf.GunFuExecutePhase.Execute)
+                    if(gunFuExecuteNodeLeaf.curPhase == GunFuExecute_OnGround_Single_NodeLeaf.GunFuExecutePhase.Execute)
 
                     if (targetFill <= 1)
                         ammoIcon.color = Color.white;

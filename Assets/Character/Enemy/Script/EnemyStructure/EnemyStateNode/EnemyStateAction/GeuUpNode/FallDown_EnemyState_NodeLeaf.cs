@@ -260,7 +260,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
-        if(enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf)
+        if(enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
             return true;
 
         if(IsComplete())

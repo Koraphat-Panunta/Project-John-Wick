@@ -519,14 +519,14 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
        if(curPhase == Phase.ExecuteLastone 
-            &&player.curGunFuNode is GunFuExecuteNodeLeaf)
+            &&player.curGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
         {
             lastEnemy.isImortal = false;
         }
     }
     public void OnNotify<T>(Player player, T node) where T : INode
     {
-       if(node is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf && curPhase == Phase.ExecuteLastone)
+       if(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf && curPhase == Phase.ExecuteLastone)
             lastEnemy.isImortal = false;
     }
 

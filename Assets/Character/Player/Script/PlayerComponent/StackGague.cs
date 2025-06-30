@@ -29,8 +29,8 @@ public class PlayerGunFuExecuteStackGauge : StackGague, IObserverPlayer
 
     public void OnNotify<T>(Player player, T node) where T : INode
     {
-        if(node is GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            && gunFuExecuteNodeLeaf.curPhase == GunFuExecuteNodeLeaf.GunFuExecutePhase.Execute)
+        if(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf
+            && gunFuExecuteNodeLeaf.curPhase == GunFuExecute_OnGround_Single_NodeLeaf.GunFuExecutePhase.Execute)
         {
             if (this.amount >= this.max)
             {

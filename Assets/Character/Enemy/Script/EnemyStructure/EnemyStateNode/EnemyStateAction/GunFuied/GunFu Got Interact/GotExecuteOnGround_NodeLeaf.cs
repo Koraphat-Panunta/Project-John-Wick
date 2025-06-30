@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GotExecuteOnGround_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf
+public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuExecuteNodeLeaf
 {
     private Transform _root;
     private Transform _hipsBone;
@@ -27,7 +27,7 @@ public class GotExecuteOnGround_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLea
     }
     public ExecutedPhase executedPhase { get; set; }
 
-    public GotExecuteOnGround_GotInteract_NodeLeaf(Enemy enemy,AnimationClip layUp,AnimationClip layDown, Func<bool> preCondition) : base(enemy, preCondition)
+    public GotExecuteOnGround_NodeLeaf(Enemy enemy,AnimationClip layUp,AnimationClip layDown, Func<bool> preCondition) : base(enemy, preCondition)
     {
         _animator = enemy.animator;
 

@@ -187,25 +187,14 @@ public class GunFuDetectTarget : MonoBehaviour
     [SerializeField] private bool EnableDebug;
     private void OnDrawGizmos()
     {
-       
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(curPositionVolume, curRaduis);
 
         if (EnableDebug == false)
             return;
 
         Gizmos.color = Color.red;
         Vector3 sphrerPos = this.CastTransform.position + (CastDir() * this._sphere_Distance_Detection);
-        if (CastDetect(out IGunFuGotAttackedAble target))
-        {
-            Gizmos.DrawSphere(target._gunFuAttackedAble.position, 0.75f);
-            sphrerPos = this.CastTransform.position + (CastDir() * Vector3.Distance(_castTransform.position,target._gunFuAttackedAble.position));
-
-        }
-
         Gizmos.color = Color.blue;
       
-        
         Gizmos.DrawLine(_castTransform.position, sphrerPos);
         Gizmos.DrawWireSphere(sphrerPos,  this.Shpere_Raduis_Detecion);
 

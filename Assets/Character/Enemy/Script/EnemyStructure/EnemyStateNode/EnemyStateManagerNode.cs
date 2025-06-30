@@ -48,7 +48,7 @@ public class EnemyStateManagerNode : INodeManager
     public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
 
     public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
-    public GotExecuteOnGround_GotInteract_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
+    public GotExecuteOnGround_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
     public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
@@ -272,10 +272,10 @@ public class EnemyStateManagerNode : INodeManager
 
         gotGunFuAttackSelector = new EnemyStateSelectorNode(this.enemy, 
             () => enemy._triggerHitedGunFu);
-        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_GotInteract_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
+        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
             () => 
             {
-                return enemy.curAttackerGunFuNode is GunFuExecuteNodeLeaf;
+                return enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf;
             }
             );
         gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,

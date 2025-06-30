@@ -143,7 +143,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public WeaponManuverManager _weaponManuverManager { get ; set ; }
     public Vector3 _shootingPos { get 
         { 
-            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuExecuteNodeLeaf>()) 
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuExecute_OnGround_Single_NodeLeaf>()) 
             {
                 Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
@@ -402,6 +402,22 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     private void OnValidate()
     {
         crosshairController = FindAnyObjectByType<CrosshairController>();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(attackedAbleGunFu != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(attackedAbleGunFu._gunFuAttackedAble.position,.15f);
+        }
+
+        if(executedAbleGunFu != null)
+        {
+            Gizmos.color= Color.red;
+            Gizmos.DrawSphere(executedAbleGunFu._gunFuAttackedAble.position,.15f);
+        }
+
     }
 }
 

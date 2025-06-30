@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
+public partial class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
     IPainStateAble, IFallDownGetUpAble,
@@ -406,26 +406,6 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #endregion
 
-    #region InitailizedFallDownGetUp Properties
-    [SerializeField] private AnimationClip standUpClip;
-    [SerializeField] private AnimationClip pushUpClip;
-    public AnimationClip _standUpClip => standUpClip;
-
-    public AnimationClip _pushUpClip => pushUpClip;
-
-    Animator IFallDownGetUpAble._animator => animator;
-
-    [SerializeField] private Transform hipsBone;
-    public Transform _hipsBone => hipsBone;
-
-    [SerializeField] private Transform rootModel;
-    public Transform _root => rootModel;
-    public Transform[] _bones => hipsBone.GetComponentsInChildren<Transform>();
-
-    public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
-
-    #endregion
-
     #region IBulletDamageAble
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
     public Action<IDamageVisitor> NotifyGotAttack;
@@ -475,7 +455,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
     public bool _isGotAttackedAble { get
         {
-            if (curNodeLeaf is KnockDown_GunFuNode)
+            if (curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
                 return false;
             if (curNodeLeaf is HumandThrow_GotInteract_NodeLeaf)
                 return false;
@@ -494,6 +474,7 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
         {
             if(curNodeLeaf is FallDown_EnemyState_NodeLeaf)
                 return true;
+            //return true;
             return false;
         } set { } }
 
@@ -524,10 +505,8 @@ public class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
-
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
-        Debug.Log("Enemy Got _tiggerThrowAbleObjectHit");
         _tiggerThrowAbleObjectHit = true;
     }
     #endregion

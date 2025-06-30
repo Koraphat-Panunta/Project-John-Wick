@@ -152,10 +152,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
         }
 
-        if (curNodeLeaf is RestAnimationConstrainNodeLeaf)
-            rig.weight = 0;
-        else
-            rig.weight = 1;
+      
 
     }
 }

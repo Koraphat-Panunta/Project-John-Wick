@@ -43,7 +43,7 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
     public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
 
-    public GunFuExecuteNodeLeaf gunFuExecuteNodeLeaf { get; private set; }
+    public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf { get; private set; }
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
@@ -105,7 +105,7 @@ public class PlayerStateNodeManager : INodeManager
             () => player.curAttackerGunFuNode is EnemySpinKickGunFuNodeLeaf);
 
 
-        gunFuExecuteNodeLeaf = new GunFuExecuteNodeLeaf(player,
+        gunFuExecuteNodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
             () => 
             {
                 if(player._triggerExecuteGunFu == false)

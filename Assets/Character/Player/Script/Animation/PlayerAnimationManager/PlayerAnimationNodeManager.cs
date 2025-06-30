@@ -38,6 +38,8 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf moveIdleUpperNodeLeaf { get; set; }
 
     public NodeSelector basedLayerNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector gunFuBaseLayerNodeSelector { get; set; }
 
     public NodeSelector weaponDisarmSelector { get; set; }
@@ -126,6 +128,8 @@ public partial class PlayerAnimationManager : INodeManager
         drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
         drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
 
+        basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
         basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
@@ -229,6 +233,12 @@ public partial class PlayerAnimationManager : INodeManager
     private void InitializedBasedLayer() 
     {
         basedLayerNodeSelector = new NodeSelector(() => true);
+        getUpNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
+            ,animator, "PlayerSpringGetUp",0,.2f);
+        boundOffNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>()
+            ,animator, "PlayerBounceOff",0,.05f);
         InitializedGunFuBasedLayer();
 
         dodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>(),
@@ -257,7 +267,7 @@ public partial class PlayerAnimationManager : INodeManager
             , animator, "GunFuSecondaryDisarm", 0, 0.2f);
 
         executeNodeSelector = new NodeSelector(
-            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<GunFuExecuteNodeLeaf>());
+            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<GunFuExecute_OnGround_Single_NodeLeaf>());
         executePrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> player._currentWeapon is PrimaryWeapon,animator, "GunFu_EX_stepOn_Rifle",0,.35f);
         executeSecondaryNodeLeaf = new PlayAnimationNodeLeaf(

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GunFuNode", menuName = "ScriptableObjects/GunFuNode")]
+[CreateAssetMenu(fileName = "GunFuHitNode", menuName = "ScriptableObjects/GunFuNode/GunFuHit")]
 public class GunFuHitNodeScriptableObject : ScriptableObject
 {
     public AnimationClip animationClip;

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTransitionAble
+public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTransitionAble,IGunFuExecuteNodeLeaf
 {
     IGunFuGotAttackedAble gunFuExecuteAble;
     private BulletExecute bulletExecute;
@@ -17,8 +17,6 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
     private bool isExecute;
     private bool isWarping;
 
-    AnimationCurve warpingCurve;
-
     public enum GunFuExecutePhase
     {
         Enter,
@@ -26,7 +24,7 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
         Exit,
     }
     public GunFuExecutePhase curPhase;
-    public GunFuExecuteNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
 
@@ -57,7 +55,7 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
 
     public override void Exit()
     {
-        curPhase = GunFuExecutePhase.Enter;
+        curPhase = GunFuExecutePhase.Exit;
         base.Exit();
     }
 
@@ -91,7 +89,7 @@ public class GunFuExecuteNodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTr
 
         if(elapesTime <= warpingTime)
         {
-            if (gunFuExecuteAble.curNodeLeaf is GotExecuteOnGround_GotInteract_NodeLeaf gotEx)
+            if (gunFuExecuteAble.curNodeLeaf is GotExecuteOnGround_NodeLeaf gotEx)
             {
                 if (isWarping == false)
                 {

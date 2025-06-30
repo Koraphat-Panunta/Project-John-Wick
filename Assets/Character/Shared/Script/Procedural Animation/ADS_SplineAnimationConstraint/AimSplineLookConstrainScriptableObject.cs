@@ -17,4 +17,5 @@ public class AimSplineLookConstrainScriptableObject : ScriptableObject
 
     [Range(0, 500)]
     [SerializeField] public float offsetChangedRate;
+
 }
