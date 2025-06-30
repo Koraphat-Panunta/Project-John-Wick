@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class Player : SubjectPlayer,IWeaponAdvanceUser,
+public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,IGunFuAble,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble,
     IGunFuGotAttackedAble
@@ -32,6 +32,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
         _isPickingUpWeaponCommand = false;
         _isDropWeaponCommand = false;
         _triggerExecuteGunFu = false;
+        _isParkourCommand = false;
 
         if (_triggerGunFu == true)
         {
@@ -396,7 +397,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-  
+
     #endregion
 
     private void OnValidate()

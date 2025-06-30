@@ -40,6 +40,8 @@ public partial class PlayerAnimationManager : INodeManager
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
+    public NodeSelector parkourNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf climbLowNodeLeaf { get; set; }
     public NodeSelector gunFuBaseLayerNodeSelector { get; set; }
 
     public NodeSelector weaponDisarmSelector { get; set; }
@@ -130,6 +132,7 @@ public partial class PlayerAnimationManager : INodeManager
 
         basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
+        basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
         basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
         basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
@@ -160,6 +163,8 @@ public partial class PlayerAnimationManager : INodeManager
 
         weaponDisarmSelector.AddtoChildNode(weaponDisarmPrimaryNodeLeaf);
         weaponDisarmSelector.AddtoChildNode(weaponDisarmSecondaryNodeLeaf);
+
+        parkourNodeSelector.AddtoChildNode(climbLowNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
 
@@ -239,6 +244,11 @@ public partial class PlayerAnimationManager : INodeManager
         boundOffNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>()
             ,animator, "PlayerBounceOff",0,.05f);
+        parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>());
+        climbLowNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbLowNodeLeaf)
+            , animator, "ClimbLow", 0, .23f);
+
         InitializedGunFuBasedLayer();
 
         dodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>(),

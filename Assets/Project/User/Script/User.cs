@@ -49,6 +49,8 @@ public class User : MonoBehaviour
         userInput.PlayerAction.TriggerPickingUpWeapon.performed += playerInputAPI.TriggerPickingUpWeapon;
 
         userInput.PlayerAction.TriggerDropWeapon.performed += playerInputAPI.TriggerDropWeapon;
+
+        userInput.PlayerAction.TriggerParkour.performed += playerInputAPI.TriggerParkour;
     }
 
     public void EnableInput()
