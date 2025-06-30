@@ -396,7 +396,7 @@ public class Player : SubjectPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-  
+
     #endregion
 
     private void OnValidate()

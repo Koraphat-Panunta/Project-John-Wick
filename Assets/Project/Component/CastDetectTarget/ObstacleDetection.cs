@@ -8,9 +8,10 @@ public class ObstacleDetection
     public List<Vector3> GetSphereCast(float sphereRaduis, Vector3 castDir,Vector3 startPos,Vector3 destinatePos)
     {
         List<Vector3> sphereCast = new List<Vector3>();
-        for (float i = 0; i <= 1; i = i + sphereRaduis * 2)
+        Vector3 curPos = startPos;
+        for (float i = 0; i <= Vector3.Distance(startPos,destinatePos); i = i + sphereRaduis * 2)
         {
-            Vector3 castPos = Vector3.Lerp(startPos, destinatePos, i);
+            Vector3 castPos = Vector3.MoveTowards(startPos, destinatePos, i);
             if (Physics.SphereCast(castPos, sphereRaduis, castDir, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
             {
                 sphereCast.Add(hit.point);
@@ -19,6 +20,7 @@ public class ObstacleDetection
             {
                 sphereCast.Add(castPos+(castDir*10));
             }
+            castPos = Vector3.MoveTowards(castPos, destinatePos, i);
         }
         return sphereCast;
     }
