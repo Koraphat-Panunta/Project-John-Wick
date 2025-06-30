@@ -20,5 +20,7 @@ public class ParkourScriptableObject : ScriptableObject
     public float hieght;
 
     public AnimationCurve curve;
+    public AnimationClip clip;
+    public string stateName;
 
 }

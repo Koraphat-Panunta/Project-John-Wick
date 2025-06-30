@@ -11,6 +11,15 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
 
     [SerializeField] private float CrouchCenterY;
     [SerializeField] private float CrouchHeight;
+
+    [SerializeField] private float parkourCenterY;
+    [SerializeField] private float parkourHeight;
+    private Player player;
+    private INodeManager playerStateNodeManager => player.playerStateNodeManager;
+    private void Update()
+    {
+        
+    }
     public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
     {
        
@@ -22,6 +31,7 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
 
     public void OnNotify<T>(Player player, T node) where T : INode
     {
+
         if(node is PlayerStateNodeLeaf playerStateNodeLeaf)
             switch (playerStateNodeLeaf)
         {
@@ -53,6 +63,12 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
                     characterController.height = StandHeight;
                     break;
                 }
+            case IParkourNodeLeaf parkourNodeLeaf: 
+                    {
+                        characterController.center = new Vector3(characterController.center.x, parkourCenterY, characterController.center.z);
+                        characterController.height = parkourHeight;
+                        break;
+                    }
             
         }
     }
@@ -61,7 +77,8 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GetComponent<Player>().AddObserver(this);
+        this.player = GetComponent<Player>();
+        this.player.AddObserver(this);
         characterController = GetComponent<CharacterController>();
 
         StandCenterY = characterController.center.y;

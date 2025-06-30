@@ -24,8 +24,8 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standSelectorNode { get; private set; }
-
     public PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf { get; private set; }
+    public ClimbParkourNodeLeaf climbLowNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNodeLeaf playerStandIdleNode { get; private set; }
@@ -63,7 +63,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return true; });
         playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player, () => player.triggerDodgeRoll);
-
+        climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,()=>player._isParkourCommand,player.playerMovement,player.climbLowScrp);
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
         playerSprintNode = new PlayerSprintNode(this.player, () => { return this.player.isSprint; });
@@ -177,6 +177,7 @@ public class PlayerStateNodeManager : INodeManager
 
         stanceSelectorNode.AddtoChildNode(gotGunFuAttackSelectorNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);

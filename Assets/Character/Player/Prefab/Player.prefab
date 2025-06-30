@@ -1065,6 +1065,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _isParkourCommand: 0
+  climbLowScrp: {fileID: 0}
+  climbHighScrp: {fileID: 0}
+  vaultingScrp: {fileID: 0}
 --- !u!114 &4449691354107149587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,6 +1120,8 @@ MonoBehaviour:
   StandHeight: 0
   CrouchCenterY: 0.6
   CrouchHeight: 1.25
+  parkourCenterY: 0
+  parkourHeight: 0
 --- !u!114 &3521077618753225899
 MonoBehaviour:
   m_ObjectHideFlags: 0

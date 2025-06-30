@@ -130,4 +130,9 @@ public class PlayerInputAPI : MonoBehaviour
         if (context.performed)
             player._isDropWeaponCommand = true;
     }
+    public void TriggerParkour(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+            player._isParkourCommand = true;
+    }
 }
