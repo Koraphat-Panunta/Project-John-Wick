@@ -7,7 +7,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     #region ImplementIGunFuNode
     public IGunFuAble gunFuAble { get; set; }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
     #endregion
 
     #region ImplementINodeTransitionAble

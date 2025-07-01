@@ -5,14 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GunFuSingleExecute", menuName = "ScriptableObjects/GunFuNode/GunFuExecute")]
 public class GunFuExecute_Single_ScriptableObject : ScriptableObject
 {
-    public string stateName;
-    public AnimationClip clip;
+    public string gunFuStateName;
+    public string gotGunFuStateName;
+
+    public AnimationClip executeClip;
+    public AnimationClip gotExecuteClip;
 
     [Range(0, 1)]
     public float warpingPhaseTimeNormalized;
     [Range(0, 1)]
     public float executeTimeNormalized;
 
+    [Range(0, 1)]
+    public float playerAnimationOffset;
     [Range(-10, 10)]
     public float playerForwardRelativePosition;
     [Range(-10, 10)]
@@ -20,6 +25,8 @@ public class GunFuExecute_Single_ScriptableObject : ScriptableObject
     [Range(0, 360)]
     public float playerRotationRelative;
 
+    [Range(0, 1)]
+    public float opponentAnimationOffset;
     [Range(-10, 10)]
     public float opponentForwardRelative;
     [Range(-10,10)]

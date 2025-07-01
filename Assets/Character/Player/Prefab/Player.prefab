@@ -1000,22 +1000,6 @@ MonoBehaviour:
   AnimatorOverrideController: {fileID: 22100000, guid: 41fa012b524e5134cb0de4bd495fa7f9,
     type: 2}
   aimPosRef: {fileID: 3039372999945744660}
-  targetAdjustTranform: {fileID: 4967964261953637315}
-  GunFuDetectTarget: {fileID: 9030984288096570306}
-  hit1: {fileID: 11400000, guid: a6b643af0f29df04783f4051a220183e, type: 2}
-  hit2: {fileID: 11400000, guid: e6c2c90297d52b648af2fd9d4c9548b5, type: 2}
-  knockDown: {fileID: 11400000, guid: 821ecc9fbacd24e49b7ba2a6adfe52aa, type: 2}
-  dodgeSpinKick: {fileID: 11400000, guid: cf9d9dcbc6b970a4e9608a131add4666, type: 2}
-  humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
-  humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
-  restrictScriptableObject: {fileID: 11400000, guid: 16f6dc4f51dc84d4cbf76eeb1d2ea8ad,
-    type: 2}
-  primaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 60dd86b5b6df6df4495921a73651890e,
-    type: 2}
-  secondaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: a79bc9663207df54f9b6e6b2de1d9f2d,
-    type: 2}
-  PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
-    type: 2}
   StandMoveAccelerate: 4.9
   StandMoveMaxSpeed: 2.8
   StandMoveRotateSpeed: 3
@@ -1065,6 +1049,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
+    type: 2}
+  targetAdjustTranform: {fileID: 4967964261953637315}
+  GunFuDetectTarget: {fileID: 9030984288096570306}
+  hit1: {fileID: 11400000, guid: a6b643af0f29df04783f4051a220183e, type: 2}
+  hit2: {fileID: 11400000, guid: e6c2c90297d52b648af2fd9d4c9548b5, type: 2}
+  knockDown: {fileID: 11400000, guid: 821ecc9fbacd24e49b7ba2a6adfe52aa, type: 2}
+  dodgeSpinKick: {fileID: 11400000, guid: cf9d9dcbc6b970a4e9608a131add4666, type: 2}
+  humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
+  humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
+  restrictScriptableObject: {fileID: 11400000, guid: 16f6dc4f51dc84d4cbf76eeb1d2ea8ad,
+    type: 2}
+  primaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 60dd86b5b6df6df4495921a73651890e,
+    type: 2}
+  secondaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: a79bc9663207df54f9b6e6b2de1d9f2d,
+    type: 2}
+  gunFuExecute_Single_ScriptableObject_I: {fileID: 0}
   _isParkourCommand: 0
   climbLowScrp: {fileID: 0}
   climbHighScrp: {fileID: 0}

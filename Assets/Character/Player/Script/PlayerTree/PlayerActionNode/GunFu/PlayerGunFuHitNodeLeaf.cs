@@ -11,7 +11,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     public float endHitableTime_Normalized => gunFuNodeScriptableObject.EndHitAbleTime_Normalized;
     public AnimationClip _animationClip { get; set; }
 
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
     public IGunFuAble gunFuAble { get; set; }
     public INodeManager nodeManager { get => base.player.playerStateNodeManager ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }

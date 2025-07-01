@@ -48,6 +48,8 @@ public class EnemyStateManagerNode : INodeManager
     public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
 
     public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
+    public NodeSelector gotExecuteSelector { get; private set; }
+    public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
     public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
     public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
@@ -272,6 +274,9 @@ public class EnemyStateManagerNode : INodeManager
 
         gotGunFuAttackSelector = new EnemyStateSelectorNode(this.enemy, 
             () => enemy._triggerHitedGunFu);
+        gotExecuteSelector = new NodeSelector(
+            ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
+        gotExecute_I = new GotGunFuExecuteNodeLeaf(enemy,()=> true, "GotGunFuDodgeExecuteSecondary");
         gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
             () => 
             {
@@ -344,7 +349,7 @@ public class EnemyStateManagerNode : INodeManager
         weaponGotDisarmSelector.AddtoChildNode(primaryWeaponDisarmedGunFuGotInteractNodeLeaf);
         weaponGotDisarmSelector.AddtoChildNode(secondaryWeaponDisarmGunFuGotInteractNodeLeaf);
 
-        gotGunFuAttackSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotExecuteSelector);
         gotGunFuAttackSelector.AddtoChildNode(weaponGotDisarmSelector);
         gotGunFuAttackSelector.AddtoChildNode(gotRestrictNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
@@ -361,6 +366,9 @@ public class EnemyStateManagerNode : INodeManager
 
         takeCoverSelector.AddtoChildNode(enemyStandTakeAimState);
         takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
+
+        gotExecuteSelector.AddtoChildNode(gotExecute_I);
+        gotExecuteSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

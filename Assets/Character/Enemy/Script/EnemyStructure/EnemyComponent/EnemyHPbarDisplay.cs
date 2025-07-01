@@ -37,7 +37,7 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
         if(node is EnemyStateLeafNode enemyStateLeafNode)
             switch (enemyStateLeafNode)
             {
-                case IGotGunFuAttackAbleNode gotGunFuAttackAbleNode:
+                case IGotGunFuAttackNode gotGunFuAttackAbleNode:
                     {
                         ShowingUp();
                         break;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAttackAbleNode
+public abstract class GunFu_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAttackNode
 {
     
     public GunFu_GotInteract_NodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)

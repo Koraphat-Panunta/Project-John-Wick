@@ -13,7 +13,7 @@ public partial class EnemyAnimationManager
                 return false;
 
             if (enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-                || enemyStateManager.TryGetCurNodeLeaf<IGotGunFuAttackAbleNode>()
+                || enemyStateManager.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
                 )
                 return false;
 

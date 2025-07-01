@@ -7,13 +7,13 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => enemy; set { } }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
     public AnimationClip _animationClip { get => _enemySpinKickScriptable.animationClip; set => _enemySpinKickScriptable.animationClip = value; }
     public override bool isComplete { get => base.isComplete; protected set => base.isComplete = value; }
     private EnemySpinKickScriptable _enemySpinKickScriptable { get; set; }
 
     private bool isAlreadyPush;
-    private Dictionary<IGunFuGotAttackedAble, bool> alreadyHittarget;
+    private Dictionary<IGotGunFuAttackedAble, bool> alreadyHittarget;
 
     private Vector3 targetPosition => enemy.targetKnewPos;
 
@@ -27,7 +27,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     public EnemySpinKickGunFuNodeLeaf(EnemySpinKickScriptable enemySpinKickScriptable,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._enemySpinKickScriptable = enemySpinKickScriptable;
-        alreadyHittarget = new Dictionary<IGunFuGotAttackedAble, bool> ();
+        alreadyHittarget = new Dictionary<IGotGunFuAttackedAble, bool> ();
     }
 
   
@@ -94,7 +94,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
            && _timer < _enemySpinKickScriptable._hitTimeExitNormalized * _enemySpinKickScriptable.animationClip.length)
         {
             Vector3 castPos = enemy.transform.position + enemy.transform.forward * _enemySpinKickScriptable._distanceCastVolume + enemy.transform.up * _enemySpinKickScriptable._upperCastOffsetVolume;
-            gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGunFuGotAttackedAble> targets, castPos, _enemySpinKickScriptable._raduisSphereVolume);
+            gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, castPos, _enemySpinKickScriptable._raduisSphereVolume);
 
             if (targets == null)
                 return;

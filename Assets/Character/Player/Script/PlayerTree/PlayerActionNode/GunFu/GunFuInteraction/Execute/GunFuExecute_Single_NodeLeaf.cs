@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNodeLeaf
 {
+    public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
     string IGunFuExecuteNodeLeaf._stateName { get => this.stateName ; }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
-    private string stateName => gunFuExecute_Single_ScriptableObject.stateName;
-    private GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject;
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
+    public string stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
+    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => gunFuExecute_Single_ScriptableObject;
+    public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
     private Dictionary<float,bool> isShootAlready = new Dictionary<float,bool>();
     private List<float> shootimingNormalized => gunFuExecute_Single_ScriptableObject.firingTimingNormalized;
-    public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.clip; set { } }
+    public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.executeClip; set { } }
   
     private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
     private Transform gunFuAttackerTransform => player.transform;
@@ -42,6 +44,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         this.gunFuAble = player;
         this.gunFuExecute_Single_ScriptableObject = gunFuExecute_Single_ScriptableObject;
+        weaponAdvanceUser = player;
         PopulateIsShootAlready();
     }
 
@@ -58,6 +61,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void Exit()
     {
         ResetIsShootAlready();
+        gunFuAble._gunFuAnimator.applyRootMotion = false;
         base.Exit();
     }
 
@@ -79,6 +83,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             case GunFuExecuteSinglePhase.Interacting:
                 {
                     ShootingCheck();
+                    ExecuteCheck();
                     break;
                 }
         }
@@ -107,18 +112,24 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private void ShootingCheck()
     {
+        if(shootimingNormalized.Count>0)
         foreach(float shootimingNormal in shootimingNormalized)
         {
             if(_timer >= _animationClip.length * shootimingNormal
                 && isShootAlready[shootimingNormal] == false)
-            {
-                //ShootBlank
-            }
+                WeaponShootBlank.ShootBlank(weaponAdvanceUser._currentWeapon);
         }
-        if(_timer >= _animationClip.length * gunFuExecute_Single_ScriptableObject.executeTimeNormalized
-            && isExecuteAlready == false)
+        
+       
+    }
+    private void ExecuteCheck()
+    {
+        if (_timer >= _animationClip.length * gunFuExecute_Single_ScriptableObject.executeTimeNormalized
+           && isExecuteAlready == false)
         {
-            //Execute
+            BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
+            weaponAdvanceUser._currentWeapon.PullTrigger();
+            gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
         }
     }
     private bool WarpingComplete()
@@ -149,6 +160,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private void PopulateIsShootAlready()
     {
+        if(shootimingNormalized.Count >0)
         foreach(float shootimingNor in shootimingNormalized)
         {
             isShootAlready.Add(shootimingNor, false);
@@ -156,6 +168,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private void ResetIsShootAlready()
     {
+        if(shootimingNormalized.Count >0)
         foreach (float shootimingNor in shootimingNormalized)
         {
             isShootAlready[shootimingNor] = false;

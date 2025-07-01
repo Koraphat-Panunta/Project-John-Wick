@@ -14,7 +14,7 @@ public abstract class EnemyStateNode:INode
 
     protected Enemy enemy { get; set; }
   
-    public  bool Precondition() => preCondition.Invoke();
+    public virtual bool Precondition() => preCondition.Invoke();
     
 
 

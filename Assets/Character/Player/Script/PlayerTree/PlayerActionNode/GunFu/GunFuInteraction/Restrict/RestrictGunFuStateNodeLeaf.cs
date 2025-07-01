@@ -7,7 +7,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => player; set { } }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get => player.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get => player.attackedAbleGunFu; set { } }
     public AnimationClip _animationClip { get; set; }
 
     private Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;

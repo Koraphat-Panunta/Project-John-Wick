@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackAbleNode
+public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
 {
     public float _exitTime_Normalized { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public float _timer { get ; set ; }

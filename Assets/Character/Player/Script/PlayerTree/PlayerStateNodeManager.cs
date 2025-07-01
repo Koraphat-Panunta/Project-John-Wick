@@ -43,7 +43,9 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
     public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
 
-    public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf { get; private set; }
+    public NodeSelector executeGunFuSelector { get; set; }
+    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf_I { get; set; }
+    public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_NodeLeaf { get; private set; }
     public Hit1GunFuNode Hit1gunFuNode { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
@@ -104,8 +106,12 @@ public class PlayerStateNodeManager : INodeManager
         playerBrounceOffGotAttackGunFuNodeLeaf = new PlayerBrounceOffGotAttackGunFuNodeLeaf(player.PlayerBrounceOffGotAttackGunFuScriptableObject, this.player,
             () => player.curAttackerGunFuNode is EnemySpinKickGunFuNodeLeaf);
 
-
-        gunFuExecuteNodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
+        executeGunFuSelector = new NodeSelector(
+            ()=> player._triggerExecuteGunFu
+            && player.executedAbleGunFu != null);
+        gunFuExecute_Single_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
+            ()=> player._triggerExecuteGunFu,player.gunFuExecute_Single_ScriptableObject_I);
+        gunFuExecute_OnGround_NodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
             () => 
             {
                 if(player._triggerExecuteGunFu == false)
@@ -182,7 +188,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);
 
-        standSelectorNode.AddtoChildNode(gunFuExecuteNodeLeaf);
+        standSelectorNode.AddtoChildNode(executeGunFuSelector);
         standSelectorNode.AddtoChildNode(Hit1gunFuNode);
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
@@ -210,6 +216,9 @@ public class PlayerStateNodeManager : INodeManager
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);
 
         proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
+
+        executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_NodeLeaf_I);
+        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

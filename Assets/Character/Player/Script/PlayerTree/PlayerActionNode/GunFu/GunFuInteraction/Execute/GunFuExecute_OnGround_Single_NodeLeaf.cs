@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf,INodeLeafTransitionAble,IGunFuExecuteNodeLeaf
 {
-    IGunFuGotAttackedAble gunFuExecuteAble;
+    IGotGunFuAttackedAble gunFuExecuteAble;
     private BulletExecute bulletExecute;
 
     private bool isNextFrame;
@@ -29,6 +29,8 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecute; set => isExecute = value; }
 
+    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => throw new NotImplementedException();
+
     public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
@@ -37,7 +39,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_Nod
     {
         curPhase = GunFuExecutePhase.Enter;
 
-        gunFuExecuteAble = player.executedAbleGunFu;
+        gunFuExecuteAble = gunFuAble.executedAbleGunFu;
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
 
@@ -138,15 +140,4 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_Nod
         base.UpdateNode();
     }
 }
-public class BulletExecute : Bullet
-{
-    public BulletExecute(Weapon weapon) : base(weapon)
-    {
-        myType = weapon.bullet.myType;
-    }
 
-    public override float hpDamage { get => 10000 ; set { } }
-    public override float impactDamage { get => 0 ; set { } }
-    public override float recoilKickBack { get => 0; set { } }
-    public override BulletType myType { get ; set; }
-}

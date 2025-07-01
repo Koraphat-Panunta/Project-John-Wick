@@ -5,8 +5,8 @@ using UnityEngine.Animations.Rigging;
 
 public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     IBulletDamageAble,
-    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble,
-    IGunFuGotAttackedAble
+    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
+    
 {
     public PlayerMovement playerMovement;
     public PlayerHpRegenarate hpRegenarate;
@@ -144,7 +144,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     public WeaponManuverManager _weaponManuverManager { get ; set ; }
     public Vector3 _shootingPos { get 
         { 
-            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuExecute_OnGround_Single_NodeLeaf>()) 
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()) 
             {
                 Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
@@ -178,34 +178,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
     [SerializeField] private Transform aimPosRef;
     public Transform _aimPosRef { get => aimPosRef; set => aimPosRef = value; }
-    #endregion
-
-  
-    #region InitializedGotAttackedGunFu
-    public bool _triggerHitedGunFu { get; set; }
-    public Transform _gunFuAttackedAble { get => transform; set { } }
-    public Vector3 attackerPos { get => transform.position; set { } }
-    public IGunFuNode curAttackerGunFuNode { get; set; }
-    public INodeLeaf curNodeLeaf { get => (playerStateNodeManager as INodeManager).GetCurNodeLeaf(); set => (playerStateNodeManager as INodeManager).SetCurNodeLeaf(value); }
-    public IGunFuAble gunFuAbleAttacker { get; set; }
-    public IMovementCompoent _movementCompoent { get => playerMovement; set { } }
-    public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
-    public IDamageAble _damageAble { get => this; set { } }
-    public bool _isDead { get => base.isDead; set { } }
-    public bool _isGotAttackedAble { get 
-        {
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>())
-                return false;
-            return true;
-        } set { } }
-    public bool _isGotExecutedAble { get; set; }
-    public PlayerBrounceOffGotAttackGunFuScriptableObject PlayerBrounceOffGotAttackGunFuScriptableObject;
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble)
-    {
-        _triggerHitedGunFu = true;
-        gunFuAbleAttacker = gunFuAble;
-        curAttackerGunFuNode = gunFu_NodeLeaf;
-    }
     #endregion
 
     #region TransformLocalWorld

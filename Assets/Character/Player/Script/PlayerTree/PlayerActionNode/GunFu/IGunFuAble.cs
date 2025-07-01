@@ -11,8 +11,8 @@ public interface IGunFuAble
     public Vector3 _gunFuAimDir { get; set; }
     public GunFuDetectTarget _gunFuDetectTarget { get; set; }
     public LayerMask _layerTarget { get; set; }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
-    public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get; set; }
     public StackGague gunFuExecuteStackGauge { get; set; }
     public void InitailizedGunFuComponent();

@@ -15,8 +15,8 @@ public partial class Player : IGunFuAble
 
     [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
     public GunFuDetectTarget _gunFuDetectTarget { get => this.GunFuDetectTarget; set => this.GunFuDetectTarget = value; }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get; set; }
-    public IGunFuGotAttackedAble executedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode
     {
         get
@@ -40,6 +40,7 @@ public partial class Player : IGunFuAble
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
     [SerializeField] public WeaponDisarmGunFuScriptableObject primaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public WeaponDisarmGunFuScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject_I;
 
     public void InitailizedGunFuComponent()
     {
@@ -59,12 +60,12 @@ public partial class Player : IGunFuAble
         if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode))
             return;
 
-        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGunFuGotAttackedAble excecuteTarget))
+        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
             executedAbleGunFu = excecuteTarget;
         else
             executedAbleGunFu = null;
 
-        if (_gunFuDetectTarget.CastDetect(out IGunFuGotAttackedAble target))
+        if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
             attackedAbleGunFu = target;
         else
             attackedAbleGunFu = null;

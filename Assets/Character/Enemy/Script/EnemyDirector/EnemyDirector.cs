@@ -65,7 +65,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
                         CalcuateRoleCount();
                         break;
                     }
-                case IGotGunFuAttackAbleNode gotGunFuAttackAbleNode:
+                case IGotGunFuAttackNode gotGunFuAttackAbleNode:
                     {
                         AssignChaser(enemysGetRole[enemy]);
                         break;

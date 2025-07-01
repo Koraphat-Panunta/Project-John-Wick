@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotGunFuAttackAbleNode
+public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotGunFuAttackNode
 {
     public float _exitTime_Normalized { get ; set ; }
     public float _timer { get ; set ; }

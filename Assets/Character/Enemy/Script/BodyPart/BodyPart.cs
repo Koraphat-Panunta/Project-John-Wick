@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAttackedAble, IFriendlyFirePreventing, 
+public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAttackedAble, IFriendlyFirePreventing, 
      IThrowAbleObjectVisitor,IObserverEnemy,IGotPointingAble
 {
     [SerializeField] public Enemy enemy;
@@ -81,7 +81,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGunFuGotAtta
 
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
-    public INodeLeaf curNodeLeaf { get => ((IGunFuGotAttackedAble)enemy).curNodeLeaf; set => ((IGunFuGotAttackedAble)enemy).curNodeLeaf = value; }
+    public INodeLeaf curNodeLeaf { get => ((IGotGunFuAttackedAble)enemy).curNodeLeaf; set => ((IGotGunFuAttackedAble)enemy).curNodeLeaf = value; }
+    public Animator _animator { get => enemy.animator; }
 
     //public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     //{

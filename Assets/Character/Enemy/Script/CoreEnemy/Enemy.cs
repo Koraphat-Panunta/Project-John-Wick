@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
-public partial class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
+public partial class Enemy : SubjectEnemy
+    , IWeaponAdvanceUser, IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
     IPainStateAble, IFallDownGetUpAble,
-    IGunFuGotAttackedAble, IFriendlyFirePreventing,
+     IFriendlyFirePreventing,
     IThrowAbleObjectVisitable, ICommunicateAble
-    , IBulletDamageAble,IGunFuAble
+    , IBulletDamageAble
 {
     [Range(0, 100)]
     public float intelligent;
@@ -410,91 +411,8 @@ public partial class Enemy : SubjectEnemy, IWeaponAdvanceUser, IMotionDriven,
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
-    #region ImplementGunFuAble
-    public bool _triggerGunFu { get; set ; }
-    public bool _triggerExecuteGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public float triggerGunFuBufferTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Transform _gunFuUserTransform { get => transform; set { } }
-    public Transform _targetAdjustTranform { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Vector3 _gunFuAimDir { get => transform.forward; set { } }
+   
 
-    [SerializeField] private GunFuDetectTarget gunFuDetectTarget;
-    public GunFuDetectTarget _gunFuDetectTarget { get => gunFuDetectTarget; set => gunFuDetectTarget = value; }
-    public LayerMask _layerTarget { get => targetMask; set { } }
-    public IGunFuGotAttackedAble attackedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public IGunFuGotAttackedAble executedAbleGunFu { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public IGunFuNode curGunFuNode { get 
-        {
-            if (enemyStateManagerNode.GetCurNodeLeaf() is IGunFuNode gunFuNode)
-                return gunFuNode;
-            return null;
-
-        } set { } }
-    public StackGague gunFuExecuteStackGauge { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    [SerializeField] public EnemySpinKickScriptable EnemySpinKickScriptable;
-    public void InitailizedGunFuComponent()
-    {
-        _gunFuUserTransform = transform;
-    }
-
-    public void UpdateDetectingTarget()
-    {
-       throw new NotImplementedException();
-    }
-    #endregion
-    #region ImplementGunFuGotHitAble
-    public bool _triggerHitedGunFu { get; set; }
-    public Vector3 attackerPos { get; set; }
-    public Transform _gunFuAttackedAble { get { return transform; } set { } }
-    public IGunFuAble gunFuAbleAttacker { get; set; }
-    public IGunFuNode curAttackerGunFuNode { get; set; }
-    public INodeLeaf curNodeLeaf { get => enemyStateManagerNode.GetCurNodeLeaf(); set { } }
-    public IMovementCompoent _movementCompoent { get => this.enemyMovement; set { } }
-    public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
-    public IDamageAble _damageAble { get => this; set { } }
-    bool IGunFuGotAttackedAble._isDead { get => this.isDead; set { } }
-    public bool _isGotAttackedAble { get
-        {
-            if (curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
-                return false;
-            if (curNodeLeaf is HumandThrow_GotInteract_NodeLeaf)
-                return false;
-            if (curNodeLeaf is FallDown_EnemyState_NodeLeaf fallNode)
-            {
-                return false;
-            }
-            if(curNodeLeaf is EnemySpinKickGunFuNodeLeaf)
-                return false;
-
-            return true;
-        } set { } }
-
-    public bool _isGotExecutedAble { 
-        get 
-        {
-            if(curNodeLeaf is FallDown_EnemyState_NodeLeaf)
-                return true;
-            //return true;
-            return false;
-        } set { } }
-
-    [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
-    [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
-    [SerializeField] public GunFu_GotHit_ScriptableObject KnockDown;
-    [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
-    [SerializeField] public WeaponGotDisarmedScriptableObject primary_WeaponGotDisarmedScriptableObject;
-    [SerializeField] public WeaponGotDisarmedScriptableObject secondary_WeaponGotDisarmedScriptableObject;
-
-    [SerializeField] public AnimationClip layUpExecutedAnim;
-    [SerializeField] public AnimationClip layDownExecutedAnim;
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
-    {
-        _triggerHitedGunFu = true;
-        curAttackerGunFuNode = gunFu_NodeLeaf;
-        attackerPos = attacker._gunFuUserTransform.position;
-        gunFuAbleAttacker = attacker;
-    }
-    #endregion
 
     #region ImplementIFriendlyFire
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }

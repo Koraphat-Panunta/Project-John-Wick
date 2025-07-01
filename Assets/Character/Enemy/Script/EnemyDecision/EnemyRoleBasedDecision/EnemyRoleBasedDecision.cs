@@ -177,7 +177,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         if(node is EnemyStateLeafNode enemyStateLeafNode)
             switch (enemyStateLeafNode)
             {
-                case IGotGunFuAttackAbleNode:
+                case IGotGunFuAttackNode:
                 case EnemyDeadStateNode:
                     {
                         _takeCoverAble = false;
