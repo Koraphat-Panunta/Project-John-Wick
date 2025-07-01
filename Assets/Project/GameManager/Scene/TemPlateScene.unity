@@ -2440,6 +2440,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 49239cd2a387ae548b74272cb7493a38,
         type: 2}
+    - target: {fileID: 1968153037591969261, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine1'\n\tTransform
+        'mixamorig:Hips'\n\tTransform 'mixamorig:Spine'\n\tTransform 'mixamorig:RightArm'\n\tTransform
+        'mixamorig:Spine2'\n\tTransform 'mixamorig:RightShoulder'\n\tTransform 'mixamorig:RightHand'\n\tTransform
+        'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine1'\n\tand more ..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968153037591969261, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2458408193446765874, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.12003951
+      objectReference: {fileID: 0}
     - target: {fileID: 2924356794520634210, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2474,6 +2494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2993268220600484696, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.008000001
       objectReference: {fileID: 0}
     - target: {fileID: 3349443084406340725, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -2552,7 +2577,7 @@ PrefabInstance:
     - target: {fileID: 4449691354107149587, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6047431390247363099, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}

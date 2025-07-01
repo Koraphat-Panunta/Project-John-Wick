@@ -52,7 +52,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     public override void Enter()
     {
-        this._timer = 0;
+        this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
         curGunFuPhase = GunFuExecuteSinglePhase.Warping;
         CalculateAdjustTransform();
         (player.playerMovement as IMovementCompoent).CancleMomentum();
@@ -61,8 +61,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     public override void Exit()
     {
-        ResetIsShootAlready();
         gunFuAble._gunFuAnimator.applyRootMotion = false;
+        ResetIsShootAlready();
         base.Exit();
     }
 
@@ -85,6 +85,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                 {
                     ShootingCheck();
                     ExecuteCheck();
+                    MoveCharacter();
                     break;
                 }
         }
@@ -92,7 +93,16 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         base.FixedUpdateNode();
     }
+    private void MoveCharacter()
+    {
+        // Get delta from Animator root
+        Vector3 deltaPosition = gunFuAble._gunFuAnimator.deltaPosition;
+        Quaternion deltaRotation = gunFuAble._gunFuAnimator.deltaRotation;
 
+        // Apply the delta relative to the start position
+        gunFuAttackerTransform.position += deltaPosition; // keeps it relative to where you started
+        gunFuAttackerTransform.rotation = gunFuAttackerTransform.rotation * deltaRotation; // smooth rotation from root
+    }
     public override bool IsComplete()
     {
         if(_timer > _animationClip.length)
@@ -196,7 +206,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
 
         gunFuAttackerTargetRotation
-            = gunFuAttackerTransform.rotation * Quaternion.Euler(0,gunFuExecute_Single_ScriptableObject.playerRotationRelative,0);
+            = Quaternion.LookRotation(enterDir,Vector3.up) * Quaternion.Euler(0,gunFuExecute_Single_ScriptableObject.playerRotationRelative,0);
 
         opponentGunFuTargetPosition
             = gunFuAttackerTransform.position
@@ -204,6 +214,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
 
         opponentGunFuTargetRotation
-            = gunFuGotAttackedTransform.rotation * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
+            = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
     }
 }
