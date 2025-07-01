@@ -284,7 +284,7 @@ public partial class PlayerAnimationManager : INodeManager
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuExecute_Single_NodeLeaf>
             (out GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf)
             && gunFuExecute_Single_NodeLeaf.stateName == "GunFuDodgeExecuteSecondary"
-            , animator, "GunFuDodgeExecuteSecondary", 0, 0.1f
+            , animator, "GunFuDodgeExecuteSecondary", 0, 0.3f
             , player.gunFuExecute_Single_ScriptableObject_I.playerAnimationOffset);
         executePrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> player._currentWeapon is PrimaryWeapon,animator, "GunFu_EX_stepOn_Rifle",0,.35f);

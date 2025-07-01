@@ -62,6 +62,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void Exit()
     {
         gunFuAble._gunFuAnimator.applyRootMotion = false;
+        isExecuteAlready = false;
         ResetIsShootAlready();
         base.Exit();
     }
@@ -69,39 +70,14 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void FixedUpdateNode()
     {
 
-        switch (curGunFuPhase)
-        {
-            case GunFuExecuteSinglePhase.Warping:
-                {
-                    if (WarpingComplete())
-                    {
-                        gunFuAble._gunFuAnimator.applyRootMotion = true;
-                        gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this,gunFuAble);
-                        curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
-                    }
-                    break;
-                }
-            case GunFuExecuteSinglePhase.Interacting:
-                {
-                    ShootingCheck();
-                    ExecuteCheck();
-                    MoveCharacter();
-                    break;
-                }
-        }
+       
         
 
         base.FixedUpdateNode();
     }
     private void MoveCharacter()
     {
-        // Get delta from Animator root
-        Vector3 deltaPosition = gunFuAble._gunFuAnimator.deltaPosition;
-        Quaternion deltaRotation = gunFuAble._gunFuAnimator.deltaRotation;
-
-        // Apply the delta relative to the start position
-        gunFuAttackerTransform.position += deltaPosition; // keeps it relative to where you started
-        gunFuAttackerTransform.rotation = gunFuAttackerTransform.rotation * deltaRotation; // smooth rotation from root
+        AnimationRootMotionMover.MoveTransformByClipDelta(player.transform, _animationClip, _timer / _animationClip.length);
     }
     public override bool IsComplete()
     {
@@ -120,7 +96,25 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
-        
+        switch (curGunFuPhase)
+        {
+            case GunFuExecuteSinglePhase.Warping:
+                {
+                    if (WarpingComplete())
+                    {
+                        gunFuAble._gunFuAnimator.applyRootMotion = true;
+                        gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
+                        curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
+                    }
+                    break;
+                }
+            case GunFuExecuteSinglePhase.Interacting:
+                {
+                    ShootingCheck();
+                    ExecuteCheck();
+                    break;
+                }
+        }
         base.UpdateNode();
     }
     private void ShootingCheck()
@@ -151,10 +145,15 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private bool WarpingComplete()
     {
-        float t = _timer / (_animationClip.length * warpingNormalized);
+        float lenghtOffset = _animationClip.length * gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
 
-        if(t>1)
-            return true;
+        float t = _timer - lenghtOffset / (_animationClip.length - lenghtOffset)*warpingNormalized;
+
+        Debug.Log("t = " + t);
+        Debug.Log("player pos = " + gunFuAttackerTransform.position);
+
+        t = Mathf.Clamp01(t);
+
 
         TransformWarper.WarpTransform
             (gunFuAttackerEnterPosition
@@ -171,6 +170,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
+
+        if (t >= 1)
+            return true;
 
         return false;
 
