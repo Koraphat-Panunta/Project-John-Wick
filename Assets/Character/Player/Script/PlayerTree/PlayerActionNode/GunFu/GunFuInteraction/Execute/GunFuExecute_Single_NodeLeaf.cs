@@ -149,6 +149,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         float t = _timer - lenghtOffset / (_animationClip.length - lenghtOffset)*warpingNormalized;
 
+        Debug.Log("_timer - lenghtOffset = "+ (_timer - lenghtOffset));
+        Debug.Log("(_animationClip.length - lenghtOffset)*warpingNormalized = " + (_animationClip.length - lenghtOffset) * warpingNormalized);
         Debug.Log("t = " + t);
         Debug.Log("player pos = " + gunFuAttackerTransform.position);
 
