@@ -247,7 +247,7 @@ public partial class PlayerAnimationManager : INodeManager
         parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>());
         climbLowNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbLowNodeLeaf)
-            , animator, "ClimbLow", 0, .23f);
+            , animator, "ClimbLow", 0, .7f);
 
         InitializedGunFuBasedLayer();
 

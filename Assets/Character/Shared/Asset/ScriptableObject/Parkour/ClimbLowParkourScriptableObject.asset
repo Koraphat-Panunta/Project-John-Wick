@@ -12,24 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df02b2946ce7e4c4fb6f546ec5ed2c71, type: 3}
   m_Name: ClimbLowParkourScriptableObject
   m_EditorClassIdentifier: 
-  forWardControlPoint_1_offset: -0.6
-  upWardControlPoint_1_offset: 0.96
-  forwardExitPoint_offset: 0.69
-  upWardExitPoint_offset: 1.03
-  speed: 1
+  forWardControlPoint_1_offset: -0.7
+  upWardControlPoint_1_offset: 0.3
+  forwardExitPoint_offset: 0.8
+  upWardExitPoint_offset: 0.1
+  speed: 0
   hieght: 1.3
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
+      time: -0.13666534
+      value: 0.022613525
+      inSlope: -0.0092994515
+      outSlope: -0.0092994515
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.9506093
+    - serializedVersion: 3
+      time: 0.26576275
+      value: 0.17126715
+      inSlope: 1.2751461
+      outSlope: 1.2751461
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1

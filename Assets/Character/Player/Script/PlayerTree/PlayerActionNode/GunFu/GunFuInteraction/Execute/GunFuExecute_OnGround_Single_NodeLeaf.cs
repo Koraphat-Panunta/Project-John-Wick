@@ -24,6 +24,11 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_Nod
         Exit,
     }
     public GunFuExecutePhase curPhase;
+
+    public string _stateName => throw new NotImplementedException();
+
+    bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecute; set => isExecute = value; }
+
     public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }

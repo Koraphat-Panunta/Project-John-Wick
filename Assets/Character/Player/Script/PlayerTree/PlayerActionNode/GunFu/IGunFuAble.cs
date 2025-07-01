@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IGunFuAble
 {
+    public Animator _gunFuAnimator { get; }
     public bool _triggerGunFu { get; set; }
     public bool _triggerExecuteGunFu { get; set; }
     public float triggerGunFuBufferTime { get; set; }

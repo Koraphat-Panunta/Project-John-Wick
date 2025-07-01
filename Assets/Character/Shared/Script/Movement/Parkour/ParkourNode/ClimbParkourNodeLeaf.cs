@@ -13,6 +13,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public AnimationClip clip { get => climbParkourScriptableObject.clip; }
     private Transform parkourAble => player.transform;
 
+    private Vector3 enterPos;
     private Vector3 ct1;
     private Vector3 exit;
 
@@ -53,18 +54,22 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public override void Enter()
     {
         timer = 0;
+        this.movementCompoent.CancleMomentum();
         this.movementCompoent.isEnable = false;
+        this.enterPos = player.transform.position;
+
         base.Enter();
     }
     public override void Exit()
     {
         this.movementCompoent.isEnable = true;
+        cts.Clear();
         base.Exit();
     }
     public override void UpdateNode()
     {
         timer += Time.deltaTime;
-        BezierurveMove.MoveTransformOnBezierCurve(parkourAble, parkourAble.position, cts, exit, parkourTimeNormalized);
+        BezierurveMove.MoveTransformOnBezierCurve(parkourAble, enterPos, cts, exit, parkourTimeNormalized);
 
         base.UpdateNode();
     }
