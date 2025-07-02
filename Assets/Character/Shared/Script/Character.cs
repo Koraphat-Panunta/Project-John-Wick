@@ -26,7 +26,7 @@ public abstract class Character : MonoBehaviour
     }
     protected virtual void Awake()
     {
-
+        animator = GetComponent<Animator>();
     }
     public float GetHP()
     {

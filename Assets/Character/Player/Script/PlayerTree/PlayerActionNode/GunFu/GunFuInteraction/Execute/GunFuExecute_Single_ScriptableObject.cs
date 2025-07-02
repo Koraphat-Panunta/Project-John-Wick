@@ -35,4 +35,5 @@ public class GunFuExecute_Single_ScriptableObject : ScriptableObject
     public float opponentRotationRelative;
 
     [SerializeField] public List<float> firingTimingNormalized;
+
 }

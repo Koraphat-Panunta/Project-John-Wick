@@ -58,12 +58,10 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
         base.maxHp = 100;
         base.SetHP(100);
+
         playerStateNodeManager = new PlayerStateNodeManager(this);
-
         InitailizedGunFuComponent();
-
         Initialized_IWeaponAdvanceUser();
-
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
 
         aimPosRef.transform.SetParent(null, true);

@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Cinemachine;
-using System.Threading.Tasks;
-using System.Threading;
+
 using System;
 
 
