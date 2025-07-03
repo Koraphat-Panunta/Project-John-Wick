@@ -31,6 +31,8 @@ public partial class Enemy : IGunFuAble
 
     Animator IGunFuAble._gunFuAnimator => animator;
 
+    public Character _character { get => this; }
+
     [SerializeField] public EnemySpinKickScriptable EnemySpinKickScriptable;
     public void InitailizedGunFuComponent()
     {

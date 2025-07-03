@@ -24,7 +24,7 @@ public class GunFuAdJustPointTest : MonoBehaviour
         attackerAdjustPosition 
             = attackerTransform.position 
             + (dir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
-            + (dir * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
+            + (Vector3.Cross(dir,Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
 
         Quaternion attackerRotation
             = Quaternion.LookRotation(dir,Vector3.up)
@@ -35,7 +35,7 @@ public class GunFuAdJustPointTest : MonoBehaviour
         opponetAdjustPosition
            = attackerTransform.position
            + (dir * gunFuExecute_Single_ScriptableObject.opponentForwardRelative)
-           + (dir * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
+           + (Vector3.Cross(dir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
 
         Quaternion opponentRotation
             = Quaternion.LookRotation(dir, Vector3.up)

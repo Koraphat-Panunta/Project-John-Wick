@@ -66,11 +66,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
         aimPosRef.transform.SetParent(null, true);
     }
-    protected override void Start()
-    {
-       
-
-    }
     private void Update()
     {
 

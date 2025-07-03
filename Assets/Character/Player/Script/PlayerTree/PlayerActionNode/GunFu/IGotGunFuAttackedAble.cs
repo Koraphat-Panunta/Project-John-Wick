@@ -12,6 +12,7 @@ public interface IGotGunFuAttackedAble
     public IWeaponAdvanceUser _weaponAdvanceUser { get; set; }
     public IDamageAble _damageAble { get; set; }
     public Animator _animator { get; }
+    public Character _character { get; }
     public bool _isDead { get; set; }
     public bool _isGotAttackedAble { get; set; }
     public bool _isGotExecutedAble { get; set; }

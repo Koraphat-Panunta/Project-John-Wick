@@ -27,6 +27,8 @@ public partial class Player: IGotGunFuAttackedAble
 
     public Animator _animator => animator;
 
+    public Character _character { get => this; }
+
     public PlayerBrounceOffGotAttackGunFuScriptableObject PlayerBrounceOffGotAttackGunFuScriptableObject;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble)
     {

@@ -7,6 +7,7 @@ public abstract class Character : MonoBehaviour
 {
     protected float HP;
     protected float maxHp;
+    public bool enableRootMotion;
     public bool isDead { get 
         {
             if(HP <=0)
@@ -19,7 +20,16 @@ public abstract class Character : MonoBehaviour
     //public Weapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
-
+    private void OnAnimatorMove()
+    {
+        if (enableRootMotion)
+        {
+            Debug.Log("name = " + this + " deltaPos = " + animator.deltaPosition);
+            transform.position += animator.deltaPosition;
+            transform.rotation *= animator.deltaRotation;
+        }
+        
+    }
     protected virtual void Start()
     {
 

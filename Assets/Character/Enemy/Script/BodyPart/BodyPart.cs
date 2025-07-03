@@ -84,6 +84,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public INodeLeaf curNodeLeaf { get => ((IGotGunFuAttackedAble)enemy).curNodeLeaf; set => ((IGotGunFuAttackedAble)enemy).curNodeLeaf = value; }
     public Animator _animator { get => enemy.animator; }
 
+    public Character _character => enemy;
+
     //public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     //{
     //    switch (throwAbleObjectVisitor)
