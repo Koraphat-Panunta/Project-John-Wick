@@ -4,11 +4,11 @@ using UnityEngine;
 public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
 {
 
-    private TimeControlBehavior timeControlBehavior;
+
     private bool isAlreadyHit;
     public Hit2GunFuNode(Player player, Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
-        timeControlBehavior = new TimeControlBehavior();
+
     }
     public override void UpdateNode()
     {
@@ -20,7 +20,7 @@ public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
             attackedAbleGunFu.TakeGunFuAttacked(this, player);
             curGunFuHitPhase = GunFuHitPhase.Hit;
             player.NotifyObserver(player,this);
-            timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
+            TimeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
             isAlreadyHit = true;
         }
 

@@ -59,7 +59,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         (player.playerMovement as IMovementCompoent).CancleMomentum();
         (player.playerMovement as IMovementCompoent).isEnable = false;
 
-       
         base.Enter();
     }
 
@@ -67,6 +66,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         isExecuteAlready = false;
         gunFuAble._character.enableRootMotion = false;
+        isTriggerSlowMotion = false;
         (player.playerMovement as IMovementCompoent).isEnable = true;
         ResetIsShootAlready();
         base.Exit();
@@ -89,7 +89,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             return true;
         return false;
     }
-
+    private bool isTriggerSlowMotion;
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
@@ -108,6 +108,13 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                 }
             case GunFuExecuteSinglePhase.Interacting:
                 {
+                    if(isTriggerSlowMotion == false
+                        &&_timer >= gunFuExecute_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
+                    {
+                        TimeControlBehavior.TriggerTimeStop(0, 1.2f);
+                        isTriggerSlowMotion = true;
+                    }
+
                     ShootingCheck();
                     ExecuteCheck();
                     break;

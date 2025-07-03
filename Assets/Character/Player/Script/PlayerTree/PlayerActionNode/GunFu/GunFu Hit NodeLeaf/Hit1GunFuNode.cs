@@ -6,11 +6,11 @@ public class Hit1GunFuNode : PlayerGunFuHitNodeLeaf
 {
 
 
-    private TimeControlBehavior timeControlBehavior;
+
     private bool isHitAlready;
     public Hit1GunFuNode(Player player,Func<bool> preCondition , GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
-        timeControlBehavior = new TimeControlBehavior();
+
     }
     public override void Enter()
     {
@@ -25,7 +25,7 @@ public class Hit1GunFuNode : PlayerGunFuHitNodeLeaf
             && isHitAlready == false)
         { 
             attackedAbleGunFu.TakeGunFuAttacked(this,player);
-            timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
+            TimeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);
             curGunFuHitPhase = GunFuHitPhase.Hit;
             player.NotifyObserver(player, this);
             isHitAlready = true;

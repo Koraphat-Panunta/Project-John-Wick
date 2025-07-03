@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class TimeControlBehavior 
 {
-    public async void TriggerTimeStop(float duration)
+    public static async void TriggerTimeStop(float duration)
     {
         Time.timeScale = 0;
         await Task.Delay((int)(1000*duration));
         Time.timeScale = 1;
     }
-    public async void TriggerTimeStop(float durationStop, float durationReset)
+    public static async void TriggerTimeStop(float durationStop, float durationReset)
     {
         float originalFixdeltatime = Time.fixedDeltaTime;
 

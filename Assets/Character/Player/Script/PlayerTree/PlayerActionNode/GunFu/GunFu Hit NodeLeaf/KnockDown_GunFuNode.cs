@@ -4,10 +4,10 @@ using UnityEngine;
 public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
 {
     private bool isKicking;
-    private TimeControlBehavior timeControlBehavior;
+
     public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
-        timeControlBehavior = new TimeControlBehavior();
+
     }
 
     public override void UpdateNode()
@@ -19,7 +19,7 @@ public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
                 attackedAbleGunFu.TakeGunFuAttacked(this, player);
                 player.attackedAbleGunFu = null;
                 isKicking = true;
-                timeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration, gunFuNodeScriptableObject.HitResetDuration);
+                TimeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration, gunFuNodeScriptableObject.HitResetDuration);
                 curGunFuHitPhase = GunFuHitPhase.Hit;
                 player.NotifyObserver(player, this);
             }

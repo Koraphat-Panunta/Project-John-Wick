@@ -34,6 +34,9 @@ public class GunFuExecute_Single_ScriptableObject : ScriptableObject
     [Range(0,360)]
     public float opponentRotationRelative;
 
+    [Range(0, 1)]
+    public float slowMotionTriggerNormailzed;
+
     [SerializeField] public List<float> firingTimingNormalized;
 
 }
