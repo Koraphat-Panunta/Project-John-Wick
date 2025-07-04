@@ -18,9 +18,9 @@ public class PlayerCrouch_Move_NodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        PlayerMovement playerMovement = base.player.playerMovement;
+        MovementCompoent playerMovement = base.player._movementCompoent;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.CrouchMoveAccelerate, player.CrouchMoveMaxSpeed * player.inputMoveDir_World.magnitude, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.CrouchMoveAccelerate, player.CrouchMoveMaxSpeed * player.inputMoveDir_World.magnitude, MovementCompoent.MoveMode.MaintainMomentum);
         playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.CrouchMoveRotateSpeed);
 
         base.FixedUpdateNode();

@@ -6,10 +6,10 @@ public class MotionWarpingByCharacterController : IMovementMotionWarping
     public bool isWarping { get; set; }
     private bool isWarpingComplete;
     public Coroutine motionWarping { get; set; }
-    public IMovementCompoent movementComponent { get; set; }
+    public MovementCompoent movementComponent { get; set; }
 
     public CharacterController characterController { get; set; }
-    public MotionWarpingByCharacterController(IMovementCompoent movementComponent,CharacterController characterController)
+    public MotionWarpingByCharacterController(MovementCompoent movementComponent,CharacterController characterController)
     {
         this.movementComponent = movementComponent;
         this.characterController = characterController;

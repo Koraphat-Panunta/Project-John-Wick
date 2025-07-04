@@ -20,9 +20,9 @@ public class PlayerCrouch_Idle_NodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        PlayerMovement playerMovement = base.player.playerMovement;
+        MovementCompoent playerMovement = base.player._movementCompoent;
 
-        playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }

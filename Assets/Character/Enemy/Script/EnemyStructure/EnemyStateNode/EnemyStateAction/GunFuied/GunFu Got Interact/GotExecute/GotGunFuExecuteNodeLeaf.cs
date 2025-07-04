@@ -34,17 +34,15 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     }
     public override void Enter()
     {
-        gunFuGotAttackedAble._animator.CrossFade(gotExecuteStateName, 0.05f, 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
+        gunFuGotAttackedAble._character.animator.CrossFade(gotExecuteStateName, 0.05f, 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
         _timer = this.gunFuExecuteScriptableObject.executeClip.length * gunFuExecuteScriptableObject.opponentAnimationOffset;
         gunFuGotAttackedAble._character.enableRootMotion = true;
-        gunFuGotAttackedAble._movementCompoent.isEnable = false;
        
         base.Enter();
     }
     public override void Exit()
     {
         gunFuGotAttackedAble._character.enableRootMotion = false;
-        gunFuGotAttackedAble._movementCompoent.isEnable = true;
         base.Exit();
     }
     public override void UpdateNode()

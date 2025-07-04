@@ -43,7 +43,7 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
 
-        PlayerMovement playerMovement = player.playerMovement;
+        MovementCompoent playerMovement = player._movementCompoent;
         Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
         Vector3 inputVelocity_Local = playerMovement.moveInputVelocity_Local;
         Vector3 curVelocity_Local = playerMovement.curMoveVelocity_Local;

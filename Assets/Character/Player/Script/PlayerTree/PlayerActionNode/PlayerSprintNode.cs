@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSprintNode : PlayerStateNodeLeaf
 {
-    private PlayerMovement playerMovement => player.playerMovement;
+    private PlayerMovement playerMovement => player._movementCompoent as PlayerMovement;
     private Vector3 sprintDir;
     public enum SprintManuver
     {
@@ -26,14 +26,14 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        if (player.playerMovement.curMoveVelocity_World.magnitude <= sprintSpeedZone)
+        if (player._movementCompoent.curMoveVelocity_World.magnitude <= sprintSpeedZone)
         {
             sprintDir = player.inputMoveDir_World;
             sprintPhase = SprintManuver.Out;
         }
         else //(player.playerMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
         {
-            sprintDir = player.playerMovement.forwardDir;
+            sprintDir = player._movementCompoent.forwardDir;
             sprintPhase = SprintManuver.Stay;
         }
         player.playerStance = Player.PlayerStance.stand;
@@ -48,13 +48,13 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         if (sprintPhase == SprintManuver.Out)
         {
             SprintMaintainMomentum();
-            if (Vector3.Dot(player.playerMovement.forwardDir.normalized, sprintDir.normalized) >= 0.95f
+            if (Vector3.Dot(player._movementCompoent.forwardDir.normalized, sprintDir.normalized) >= 0.95f
                 && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone * 0.95f)
                 sprintPhase = SprintManuver.Stay;
         }
         else if (sprintPhase == SprintManuver.Stay)
         {
-            playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, IMovementCompoent.MoveMode.IgnoreMomenTum);
+            playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MovementCompoent.MoveMode.IgnoreMomenTum);
             playerMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
         }
         
@@ -70,7 +70,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         float rotateCharSpeed = sprintRotateSpeed * 1.24f;
 
         sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
-        playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion, sprintSpeedZone, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion, sprintSpeedZone, MovementCompoent.MoveMode.MaintainMomentum);
         playerMovement.RotateToDirWorld(sprintDir, rotateCharSpeed);
 
     }

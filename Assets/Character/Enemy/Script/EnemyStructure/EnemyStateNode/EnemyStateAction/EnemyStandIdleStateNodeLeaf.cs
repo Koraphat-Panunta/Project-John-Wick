@@ -8,12 +8,12 @@ public class EnemyStandIdleStateNodeLeaf : EnemyStateLeafNode
     RotateObjectToward objectToward;
     NavMeshAgent agent;
     public float decelerate = 4;
-    IMovementCompoent enemyMovement;
+    MovementCompoent enemyMovement;
     public EnemyStandIdleStateNodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
         objectToward = new RotateObjectToward();
         agent = enemy.agent;
-        enemyMovement = enemy.enemyMovement;
+        enemyMovement = enemy._movementCompoent;
        
 
     }
@@ -33,7 +33,7 @@ public class EnemyStandIdleStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed,IMovementCompoent.MoveMode.MaintainMomentum);
+        enemyMovement.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed,MovementCompoent.MoveMode.MaintainMomentum);
         enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.moveRotateSpeed);
 
         base.FixedUpdateNode();

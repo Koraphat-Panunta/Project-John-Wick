@@ -106,9 +106,9 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
                     {
                         alreadyHittarget.Add(target, true);
                         target.TakeGunFuAttacked(this, enemy);
-                        if (target._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
+                        if (target._character._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
                         {
-                            Vector3 dir = target._gunFuAttackedAble.position - enemy.transform.position;
+                            Vector3 dir = target._character.transform.position - enemy.transform.position;
                             motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                         }
                         curPhase = SpinKickPhase.Hit;
@@ -122,23 +122,23 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
         {
             Vector3 dir = targetPosition - enemy.transform.position;
 
-            enemy.enemyMovement.RotateToDirWorld(dir.normalized, _enemySpinKickScriptable._spicKickRotateSpeed);
+            enemy._movementCompoent.RotateToDirWorld(dir.normalized, _enemySpinKickScriptable._spicKickRotateSpeed);
         }
 
 
         if (_timer >= _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length && isAlreadyPush == false)//Push Enemy toward
         {
-            enemy.enemyMovement.AddForcePush(enemy.transform.forward * _enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.transform.forward * _enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
             isAlreadyPush = true;
         }
         else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)
         {
-            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, _enemySpinKickScriptable._stopForceBeginStance, IMovementCompoent.MoveMode.MaintainMomentum);
+            enemy._movementCompoent.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, _enemySpinKickScriptable._stopForceBeginStance, MovementCompoent.MoveMode.MaintainMomentum);
         }
 
         if (_timer >= _enemySpinKickScriptable._onGroundTimeNormalized * _enemySpinKickScriptable.animationClip.length)
         {
-            enemy.enemyMovement.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, _enemySpinKickScriptable._stopingForceOnGround, IMovementCompoent.MoveMode.MaintainMomentum);
+            enemy._movementCompoent.MoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, _enemySpinKickScriptable._stopingForceOnGround, MovementCompoent.MoveMode.MaintainMomentum);
         }
 
         base.UpdateNode();

@@ -5,8 +5,8 @@ using UnityEngine;
 public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 {
     EdgeObstacleDetection IParkourNodeLeaf._edgeObstacleDetection { get => this.edgeObstacleDetection; set => this.edgeObstacleDetection = value; }
-    IMovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
-    private IMovementCompoent movementCompoent;
+    MovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
+    private MovementCompoent movementCompoent;
     private EdgeObstacleDetection edgeObstacleDetection;
     private VaultingParkourScriptableObject vaultingParkourScriptableObject { get; set; }
 
@@ -16,7 +16,7 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 
     Transform parkourAbleTransform => player.transform;
 
-    public VaultingNodeLeaf(Player player, Func<bool> preCondition,IMovementCompoent movementCompoent,VaultingParkourScriptableObject vaultingParkourScriptableObject) : base(player, preCondition)
+    public VaultingNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent,VaultingParkourScriptableObject vaultingParkourScriptableObject) : base(player, preCondition)
     {
         this.movementCompoent = movementCompoent;
         edgeObstacleDetection = new EdgeObstacleDetection();

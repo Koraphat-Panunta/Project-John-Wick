@@ -37,7 +37,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
     private float maxOffset = 1.5f;
     protected Vector3 footplacementOffsetDistance => Vector3.ClampMagnitude(proceduralAnimateNodeManager.FootstepPlacementOffsetDistance * curVelocity, maxOffset);
 
-    protected Vector3 curVelocity => enemy.enemyMovement.curMoveVelocity_World;
+    protected Vector3 curVelocity => enemy._movementCompoent.curMoveVelocity_World;
 
     private float transitionVelocity = 3;
 

@@ -10,8 +10,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public abstract float hpReciverMultiplyRate { get; set; }
     public abstract float postureReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
-    public Transform _gunFuAttackedAble { get => enemy._gunFuAttackedAble; set { } }
-    public Vector3 attackerPos { get; set; }
 
     public Vector3 forceSave;
     public Vector3 hitForcePositionSave;
@@ -38,11 +36,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
-    public IMovementCompoent _movementCompoent { get => enemy._movementCompoent; set => enemy._movementCompoent = value; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
     public IDamageAble _damageAble { get => enemy._damageAble; set => enemy._damageAble = value; }
-
-    public bool _isDead { get => enemy.isDead; set { } }
 
     public bool _triggerGotThrowed { get => enemy._tiggerThrowAbleObjectHit; set { } }
 
@@ -82,7 +77,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
     public INodeLeaf curNodeLeaf { get => ((IGotGunFuAttackedAble)enemy).curNodeLeaf; set => ((IGotGunFuAttackedAble)enemy).curNodeLeaf = value; }
-    public Animator _animator { get => enemy.animator; }
 
     public Character _character => enemy;
 

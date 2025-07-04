@@ -105,19 +105,19 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerGunFu_Interaction_Nod
                     Vector3 warpPos;
                     if (gotEx.isFacingUp)
                     
-                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward * offsetForward - gunFuExecuteAble._gunFuAttackedAble.right * offsetRight;
+                        warpPos = gunFuExecuteAble._character.transform.position + gunFuExecuteAble._character.transform.forward * offsetForward - gunFuExecuteAble._character.transform.right * offsetRight;
                     
                     else
-                        warpPos = gunFuExecuteAble._gunFuAttackedAble.position + gunFuExecuteAble._gunFuAttackedAble.forward * -offsetForward + gunFuExecuteAble._gunFuAttackedAble.right * offsetRight;
+                        warpPos = gunFuExecuteAble._character.transform.position + gunFuExecuteAble._character.transform.forward * -offsetForward + gunFuExecuteAble._character.transform.right * offsetRight;
 
 
-                    player.playerMovement.StartWarpingLinear(player.transform.position, warpPos, warpingTime, player.moveWarping, player.playerMovement);
+                    (player._movementCompoent as PlayerMovement).StartWarpingLinear(player.transform.position, warpPos, warpingTime, player.moveWarping, player._movementCompoent);
                     isWarping = true;
                 }
                 if (gotEx.isFacingUp)
-                    player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(gunFuExecuteAble._gunFuAttackedAble.forward * -1), elapesTime / warpingTime);
+                    player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(gunFuExecuteAble._character.transform.forward * -1), elapesTime / warpingTime);
                 else
-                    player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(gunFuExecuteAble._gunFuAttackedAble.forward), elapesTime / warpingTime);
+                    player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.LookRotation(gunFuExecuteAble._character.transform.forward), elapesTime / warpingTime);
             }
             
         }

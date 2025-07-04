@@ -24,18 +24,18 @@ public class PlayerInCoverStandMoveNodeLeaf : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        PlayerMovement playerMovement = base.player.playerMovement;
+        PlayerMovement playerMovement = base.player._movementCompoent as PlayerMovement;
         
 
         CoverDetection coverDetection = player.coverDetection;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
 
     private void WarpingToAimPos()
     {
-        PlayerMovement playerMovement = player.playerMovement;
+        PlayerMovement playerMovement = player._movementCompoent as PlayerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
         if (player._currentWeapon == null)
@@ -68,7 +68,7 @@ public class PlayerInCoverStandMoveNodeLeaf : PlayerStateNodeLeaf
     }
     private void WarpingToCoverPos()
     {
-        PlayerMovement playerMovement = player.playerMovement;
+        PlayerMovement playerMovement = player._movementCompoent as PlayerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
         if (warping == true)

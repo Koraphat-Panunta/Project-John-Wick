@@ -1187,6 +1187,7 @@ GameObject:
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
+  - component: {fileID: 503465992030002378}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1312,6 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c4a03aa701892e45b5ebd0265d3289b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableRootMotion: 0
   animator: {fileID: 1113618680042977909}
   intelligent: 0
   strength: 0
@@ -1419,7 +1421,6 @@ MonoBehaviour:
   isGround: 0
   isSprint: 0
   AnimationStateName: 
-  is_Layer1_Enable: 0
   lerpingTvelocityAnimation: 7.9
 --- !u!114 &-7130791345041273299
 MonoBehaviour:
@@ -1799,6 +1800,11 @@ MonoBehaviour:
   posture: 0
   PainPart: 0
   Debug: 
+  curWeapon: {fileID: 0}
+  myPrimaryWeapon: {fileID: 0}
+  mySecondaryWeapon: {fileID: 0}
+  curWeaponMagCount: 0
+  curWeaponBulletCapacity: 0
 --- !u!114 &1068420054499277711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,6 +1840,31 @@ MonoBehaviour:
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
   EnableDebug: 0
+--- !u!143 &503465992030002378
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.67
+  m_Radius: 0.19
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.0001
+  m_Center: {x: 0, y: 0.83, z: -0.12}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

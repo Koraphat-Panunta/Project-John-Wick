@@ -48,7 +48,7 @@ public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
         if (IsComplete())
             return true;
 
-        if (player.playerMovement.isGround == false)
+        if (player._movementCompoent.isGround == false)
             return true;
 
         return false;

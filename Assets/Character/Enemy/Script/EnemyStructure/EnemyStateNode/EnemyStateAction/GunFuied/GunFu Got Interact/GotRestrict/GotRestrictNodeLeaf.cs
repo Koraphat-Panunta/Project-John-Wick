@@ -111,7 +111,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
                 {
                     _timer += Time.deltaTime;
 
-                    enemy.enemyMovement.MoveToDirWorld(Vector3.zero,gotRestrictScriptableObject.gotRestrictExit_BreakForce,gotRestrictScriptableObject.gotRestrictExit_BreakForce,IMovementCompoent.MoveMode.MaintainMomentum);
+                    enemy._movementCompoent.MoveToDirWorld(Vector3.zero,gotRestrictScriptableObject.gotRestrictExit_BreakForce,gotRestrictScriptableObject.gotRestrictExit_BreakForce,MovementCompoent.MoveMode.MaintainMomentum);
                     if(_timer >= gotRestrictScriptableObject.gotRestrictExitClip.length * gotRestrictScriptableObject.gotRestrictExit_exitNormalized)
                     {
                         isComplete = true;

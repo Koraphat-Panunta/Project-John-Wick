@@ -21,7 +21,7 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGotGunFuAttack
     {
         _timer = 0;
         Vector3 hitPushDir = (enemy.transform.position - enemy.gunFuAbleAttacker._gunFuUserTransform.position).normalized;
-        (enemy.enemyMovement as EnemyMovement).AddForcePush(hitPushDir*forcePush, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+        (enemy._movementCompoent as EnemyMovement).AddForcePush(hitPushDir*forcePush, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
 
         base.Enter();
     }
@@ -41,7 +41,7 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGotGunFuAttack
     }
     public override void FixedUpdateNode()
     {
-        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, forceStop, forceStop, IMovementCompoent.MoveMode.MaintainMomentum);    
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, forceStop, forceStop, MovementCompoent.MoveMode.MaintainMomentum);    
         base.FixedUpdateNode();
     }
 

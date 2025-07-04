@@ -7,10 +7,10 @@ public class MotionWarpingByNavmeshAgent : IMovementMotionWarping
     public bool isWarping { get; set; }
     private bool isWarpingComplete;
     public Coroutine motionWarping { get; set; }
-    public IMovementCompoent movementComponent { get; set; }
+    public MovementCompoent movementComponent { get; set; }
 
     public NavMeshAgent agent { get; set; }
-    public MotionWarpingByNavmeshAgent(IMovementCompoent movementComponent, NavMeshAgent agent)
+    public MotionWarpingByNavmeshAgent(MovementCompoent movementComponent, NavMeshAgent agent)
     {
         this.movementComponent = movementComponent;
         this.agent = agent;

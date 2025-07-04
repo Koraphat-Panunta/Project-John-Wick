@@ -13,7 +13,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     {
 
         time = 0;
-        (enemy.enemyMovement as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+        (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
         animator.CrossFade(stateName, 0.1f, 0,0);
 
         enemy.NotifyObserver(enemy, this);
@@ -57,7 +57,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        enemy.enemyMovement.MoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, IMovementCompoent.MoveMode.MaintainMomentum);
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, MovementCompoent.MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
     public abstract float painDuration { get; set; }

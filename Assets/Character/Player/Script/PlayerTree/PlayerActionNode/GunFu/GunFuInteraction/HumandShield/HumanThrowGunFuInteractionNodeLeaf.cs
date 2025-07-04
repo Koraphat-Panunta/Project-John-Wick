@@ -19,7 +19,7 @@ public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLe
     {
         Debug.Log("Human Throw Enter");
         attackedAbleGunFu = player.attackedAbleGunFu;
-        (player.playerMovement as IMovementCompoent).CancleMomentum();
+        (player._movementCompoent as MovementCompoent).CancleMomentum();
 
         curThrowPhase = HumanThrowPhase.beforeThrow;
         attackedAbleGunFu.TakeGunFuAttacked(this, player);
@@ -55,8 +55,8 @@ public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLe
         {
             case HumanThrowPhase.beforeThrow:{
 
-                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position;
-                    attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
+                    attackedAbleGunFu._character.transform.position = targetAdjustTransform.position;
+                    attackedAbleGunFu._character.transform.rotation = targetAdjustTransform.rotation;
 
                     if (_timer >= beforeThrowDuration)
                         curThrowPhase = HumanThrowPhase.Throwing;

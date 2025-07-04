@@ -93,10 +93,10 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf,IObserverPlayer
             + cameraController.player.transform.right * cameraExecuteScriptableObject.executorAnchorOffset.x
             + cameraController.player.transform.forward * cameraExecuteScriptableObject.executorAnchorOffset.z;
 
-        Vector3 opponentAnchorPos = cameraController.player.executedAbleGunFu._gunFuAttackedAble.position 
-            + cameraController.player.executedAbleGunFu._gunFuAttackedAble.up * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.y
-            + cameraController.player.executedAbleGunFu._gunFuAttackedAble.right * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.x
-            + cameraController.player.executedAbleGunFu._gunFuAttackedAble.forward * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.z;
+        Vector3 opponentAnchorPos = cameraController.player.executedAbleGunFu._character.transform.position 
+            + cameraController.player.executedAbleGunFu._character.transform.up * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.y
+            + cameraController.player.executedAbleGunFu._character.transform.right * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.x
+            + cameraController.player.executedAbleGunFu._character.transform.forward * cameraExecuteScriptableObject.opponentExecutedAnchorOffset.z;
 
         Vector3 centreAnchor = Vector3.Lerp(playerAnchorPos
             , opponentAnchorPos

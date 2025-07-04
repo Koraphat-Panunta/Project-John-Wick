@@ -47,7 +47,7 @@ public class GunFuDetectTarget : MonoBehaviour
                 continue;
             }
 
-            if (gunFuGotAttackedAble._isDead)
+            if (gunFuGotAttackedAble._character.isDead)
                 continue;
 
             if (gunFuGotAttackedAble._isGotExecutedAble == false)
@@ -109,7 +109,7 @@ public class GunFuDetectTarget : MonoBehaviour
 
             gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
 
-            if (gunFuGotAttackedAble._isDead
+            if (gunFuGotAttackedAble._character.isDead
                 || gunFuGotAttackedAble._isGotAttackedAble == false
                 || gunFuGotAttackedAble == gunFuAble)
                 continue;
@@ -133,7 +133,7 @@ public class GunFuDetectTarget : MonoBehaviour
             if(hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
-            if(gunFuGotAttackedAble._isDead 
+            if(gunFuGotAttackedAble._character.isDead 
                 || gunFuGotAttackedAble._isGotAttackedAble == false
                 || gunFuGotAttackedAble == gunFuAble)
                 continue ;

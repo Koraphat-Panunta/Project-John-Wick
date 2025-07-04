@@ -20,7 +20,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        PlayerMovement playerMovement = base.player.playerMovement;
+        PlayerMovement playerMovement = base.player._movementCompoent as PlayerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
         bool isAiming = false;
@@ -40,7 +40,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             WarpingToAimPos();
 
 
-        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }
@@ -51,7 +51,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
     }
     private void WarpingToAimPos()
     {
-        PlayerMovement playerMovement = player.playerMovement;
+        PlayerMovement playerMovement = player._movementCompoent as PlayerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
         if(player._currentWeapon == null){
@@ -82,7 +82,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
     }
     private void WarpingToCoverPos()
     {
-        PlayerMovement playerMovement = player.playerMovement;
+        PlayerMovement playerMovement = player._movementCompoent as PlayerMovement;
         CoverDetection coverDetection = player.coverDetection;
 
         if (warping == true)

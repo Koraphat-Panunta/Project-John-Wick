@@ -5,9 +5,9 @@ using UnityEngine;
 public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 {
     EdgeObstacleDetection IParkourNodeLeaf._edgeObstacleDetection { get => edgeObstacleDetection; set => edgeObstacleDetection = value; }
-    IMovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
+    MovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
     private EdgeObstacleDetection edgeObstacleDetection;
-    private IMovementCompoent movementCompoent;
+    private MovementCompoent movementCompoent;
     private ParkourScriptableObject climbParkourScriptableObject;
     public string nameState { get => climbParkourScriptableObject.stateName; }
     public AnimationClip clip { get => climbParkourScriptableObject.clip; }
@@ -21,7 +21,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 
     public float timer { get; protected set; }
     public float parkourTimeNormalized { get => (timer / clip.length); }
-    public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,IMovementCompoent movementCompoent, ParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
+    public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent, ParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
     {
         this.movementCompoent = movementCompoent;
         this.climbParkourScriptableObject = climbParkourScriptableObject;
@@ -55,14 +55,12 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     {
         timer = 0;
         this.movementCompoent.CancleMomentum();
-        this.movementCompoent.isEnable = false;
         this.enterPos = player.transform.position;
 
         base.Enter();
     }
     public override void Exit()
     {
-        this.movementCompoent.isEnable = true;
         cts.Clear();
         base.Exit();
     }

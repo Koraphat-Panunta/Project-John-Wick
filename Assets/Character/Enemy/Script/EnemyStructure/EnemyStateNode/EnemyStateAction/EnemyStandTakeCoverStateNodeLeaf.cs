@@ -8,13 +8,13 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
     ICoverUseable coverUseable;
     RotateObjectToward rotateObject;
     NavMeshAgent agent;
-    IMovementCompoent movementCompoent;
+    MovementCompoent movementCompoent;
     public EnemyStandTakeCoverStateNodeLeaf(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
     {
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();
         agent = enemy.agent;
-        movementCompoent = enemy.enemyMovement;
+        movementCompoent = enemy._movementCompoent;
     }
 
     public override void Enter()
@@ -47,9 +47,9 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
         Vector3 moveDir = (CoverPos - enemy.transform.position).normalized;
 
         if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.15f)
-            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
         else
-            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
               
 
         movementCompoent.RotateToDirWorld(coverUseable.coverPoint.coverDir, 6);

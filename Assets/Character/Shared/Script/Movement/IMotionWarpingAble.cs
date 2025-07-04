@@ -8,5 +8,5 @@ public interface IMotionWarpingAble
         Vector3 cT2,
         Vector3 exit,
         float duration,
-        AnimationCurve animationCurve,IMovementCompoent movementCompoent);
+        AnimationCurve animationCurve,MovementCompoent movementCompoent);
 }

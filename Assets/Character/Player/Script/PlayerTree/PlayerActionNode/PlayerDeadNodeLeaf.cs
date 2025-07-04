@@ -10,7 +10,7 @@ public class PlayerDeadNodeLeaf : PlayerStateNodeLeaf
     public override void Enter()
     {
         player.NotifyObserver(player,this);
-        (player.playerMovement as IMovementCompoent).CancleMomentum();
+        (player._movementCompoent as MovementCompoent).CancleMomentum();
     }
 
     public override void Exit()
@@ -20,7 +20,7 @@ public class PlayerDeadNodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        player.playerMovement.MoveToDirWorld(Vector3.zero, 10, 10, IMovementCompoent.MoveMode.IgnoreMomenTum);
+        player._movementCompoent.MoveToDirWorld(Vector3.zero, 10, 10, MovementCompoent.MoveMode.IgnoreMomenTum);
         base.FixedUpdateNode();
     }
 

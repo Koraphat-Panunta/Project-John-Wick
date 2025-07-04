@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SubjectEnemy : Character
+public abstract class SubjectEnemy : Character
 {
     public enum EnemyEvent
     {

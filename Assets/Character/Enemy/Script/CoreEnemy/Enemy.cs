@@ -25,12 +25,10 @@ public partial class Enemy : SubjectEnemy
     public LayerMask targetMask;
     public LayerMask targetSpoterMask;
     public FieldOfView enemyFieldOfView;
-
+    public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
-    public EnemyMovement enemyMovement;
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
-
     [SerializeField] Weapon startWeapon;
 
 
@@ -39,7 +37,7 @@ public partial class Enemy : SubjectEnemy
     public float myHP;
     private float posture;
 
-
+    
     [SerializeField] public bool isImortal;
     public Transform rayCastPos;
 
@@ -58,8 +56,6 @@ public partial class Enemy : SubjectEnemy
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
-        enemyMovement = new EnemyMovement(agent, this);
-
         _isGotAttackedAble = true;
         MotionControlInitailized();
         enemyStateManagerNode = new EnemyStateManagerNode(this);
@@ -68,7 +64,7 @@ public partial class Enemy : SubjectEnemy
         InitailizedCoverUsable();
         InitailizedGunFuComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
-
+        _movementCompoent = new EnemyMovement(this,transform,this,characterController);
         enemyCommunicator = new EnemyCommunicator(this);
     }
     protected override void Start()
@@ -84,7 +80,7 @@ public partial class Enemy : SubjectEnemy
         findingTargetComponent.FindTarget(out GameObject target);
         enemyStateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
-        enemyMovement.MovementUpdate();
+        _movementCompoent.UpdateNode();
 
     }
     private void LateUpdate()
@@ -96,7 +92,7 @@ public partial class Enemy : SubjectEnemy
     {
         enemyStateManagerNode.FixedUpdateNode();
         _weaponManuverManager.FixedUpdateNode();
-        enemyMovement.MovementFixedUpdate();
+        _movementCompoent.FixedUpdateNode();
     }
 
     public void TakeDamage(float Damage)
@@ -423,6 +419,8 @@ public partial class Enemy : SubjectEnemy
 
     #region ImplementIThrowAbleVisitable
     [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
+ 
+
     public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
     {
         _tiggerThrowAbleObjectHit = true;

@@ -27,7 +27,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
 
-    public IMovementCompoent.Stance enemyStance;
+
     public bool isGround;
     public bool isSprint;
 
@@ -66,14 +66,14 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     [SerializeField] private float lerpingTvelocityAnimation;
     private void BackBoardUpdate()
     {
-        this.enemyStance = enemy.enemyMovement.curStance;
+
 
         if (enemy.isInCover)
             CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1) - AimDownSightWeight;
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
-        IMovementCompoent movementComponent = enemy.enemyMovement;
+        MovementCompoent movementComponent = enemy._movementCompoent;
 
         this.inputVelocity_World = Vector3.Lerp(this.inputVelocity_World,movementComponent.moveInputVelocity_World,Time.deltaTime*lerpingTvelocityAnimation);
         this.inputVelocity_Local = Vector3.Lerp(this.inputVelocity_Local, movementComponent.moveInputVelocity_Local, Time.deltaTime * lerpingTvelocityAnimation);

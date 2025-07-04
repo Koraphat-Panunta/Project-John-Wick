@@ -19,7 +19,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
         player.playerStance = Player.PlayerStance.prone;
 
         Vector3 rotateDir =    player.gunFuAbleAttacker._gunFuUserTransform.position - player.transform.position ;
-        player.playerMovement.SetRotateCharacter(rotateDir);
+        player._movementCompoent.SetRotation(Quaternion.LookRotation(rotateDir));
         if (player._currentWeapon != null)
             new WeaponAttachingBehavior().Detach(player._currentWeapon,player);
         base.Enter();
@@ -35,10 +35,10 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
     public override void FixedUpdateNode()
     {
         if (_timer >= _animationClip.length * brounceOffGotAttackGunFuScriptableObject.onGroundNormalized)
-            player.playerMovement.MoveToDirWorld(Vector3.zero, 
+            player._movementCompoent.MoveToDirWorld(Vector3.zero, 
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
-                IMovementCompoent.MoveMode.MaintainMomentum);
+                MovementCompoent.MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }

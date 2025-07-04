@@ -8,11 +8,10 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
     
 {
-    public PlayerMovement playerMovement;
     public PlayerHpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
-
+    public override MovementCompoent _movementCompoent { get; set; }
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
     public Character selfNPCTarget => this;
@@ -50,7 +49,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         animator = GetComponent<Animator>();
-        playerMovement = new PlayerMovement(this);
         coverDetection = new CoverDetection();
         hpRegenarate = new PlayerHpRegenarate(this);
 
@@ -63,7 +61,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         InitailizedGunFuComponent();
         Initialized_IWeaponAdvanceUser();
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-
+        _movementCompoent = new PlayerMovement(this,transform,this,characterController);
         aimPosRef.transform.SetParent(null, true);
     }
     private void Update()
@@ -76,7 +74,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         playerStateNodeManager.UpdateNode();
         _weaponManuverManager.UpdateNode();
 
-        playerMovement.MovementUpdate();
+        _movementCompoent.UpdateNode();
         hpRegenarate.Regenarate();
         MyHP = base.HP;
 
@@ -92,7 +90,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     {
         playerStateNodeManager.FixedUpdateNode();
         _weaponManuverManager.FixedUpdateNode();
-        playerMovement.MovementFixedUpdate();
+        _movementCompoent.FixedUpdateNode();
     }
     
   
@@ -300,6 +298,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
+    
 
     #endregion
 
@@ -313,13 +312,13 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         if(attackedAbleGunFu != null)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(attackedAbleGunFu._gunFuAttackedAble.position,.15f);
+            Gizmos.DrawSphere(attackedAbleGunFu._character.transform.position,.15f);
         }
 
         if(executedAbleGunFu != null)
         {
             Gizmos.color= Color.red;
-            Gizmos.DrawSphere(executedAbleGunFu._gunFuAttackedAble.position,.15f);
+            Gizmos.DrawSphere(executedAbleGunFu._character.transform.position,.15f);
         }
 
         Gizmos.color = Color.blue;

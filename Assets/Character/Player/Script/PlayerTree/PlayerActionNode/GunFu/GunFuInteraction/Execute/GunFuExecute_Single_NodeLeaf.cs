@@ -19,7 +19,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
   
     private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
     private Transform gunFuAttackerTransform => player.transform;
-    private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._gunFuAttackedAble;
+    private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character.transform;
 
     private Vector3 gunFuAttackerEnterPosition;
     private Quaternion gunFuAttackerEnterRotation;
@@ -56,8 +56,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
         curGunFuPhase = GunFuExecuteSinglePhase.Warping;
         CalculateAdjustTransform();
-        (player.playerMovement as IMovementCompoent).CancleMomentum();
-        (player.playerMovement as IMovementCompoent).isEnable = false;
+        (player._movementCompoent as MovementCompoent).CancleMomentum();
 
         base.Enter();
     }
@@ -67,7 +66,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         isExecuteAlready = false;
         gunFuAble._character.enableRootMotion = false;
         isTriggerSlowMotion = false;
-        (player.playerMovement as IMovementCompoent).isEnable = true;
         ResetIsShootAlready();
         base.Exit();
     }

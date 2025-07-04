@@ -11,7 +11,7 @@ public class GravityMovement
     {
         enableGravity = true;
     }
-    public  void GravityMovementUpdate(IMovementCompoent movementCompoent)
+    public  void GravityMovementUpdate(MovementCompoent movementCompoent)
     {
         float gravitySclae = 0.005f;
 

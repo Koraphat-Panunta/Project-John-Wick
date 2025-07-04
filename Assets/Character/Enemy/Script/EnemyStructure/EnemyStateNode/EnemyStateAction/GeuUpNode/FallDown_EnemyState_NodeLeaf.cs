@@ -59,7 +59,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
-        (enemy.enemyMovement as IMovementCompoent).CancleMomentum();
+        (enemy._movementCompoent as MovementCompoent).CancleMomentum();
 
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
@@ -90,7 +90,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger || enemy._tiggerThrowAbleObjectHit)
         {
             PopulateBoneTransforms(_ragdollBoneTransforms);
-            (enemy.enemyMovement as IMovementCompoent).CancleMomentum();
+            (enemy._movementCompoent as MovementCompoent).CancleMomentum();
 
             if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
                 enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);

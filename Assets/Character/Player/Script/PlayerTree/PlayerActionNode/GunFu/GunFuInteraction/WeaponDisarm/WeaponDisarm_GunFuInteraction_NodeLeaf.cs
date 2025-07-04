@@ -55,7 +55,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         curPhase = WeaponDisarmPhase.None;
         attackedAbleGunFu = null;
-        player.animator.applyRootMotion = false;
+        gunFuAble._character.enableRootMotion = false;
         base.Exit();
     }
 
@@ -70,7 +70,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                     if (elapesTime >= pullTime)
                     {
                         attackedAbleGunFu.TakeGunFuAttacked(this, player);
-                        player.animator.applyRootMotion = true;
+                        gunFuAble._character.enableRootMotion = true;
                         curPhase = WeaponDisarmPhase.Disarming;
                     }
                 }
@@ -156,23 +156,23 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
 
 
-        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._gunFuAttackedAble.position).normalized;
+        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._character.transform.position).normalized;
         opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
 
-        attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(
-            attackedAbleGunFu._gunFuAttackedAble.rotation,
+        attackedAbleGunFu._character.transform.rotation = Quaternion.Lerp(
+            attackedAbleGunFu._character.transform.rotation,
             Quaternion.LookRotation(opponentLook, Vector3.up),
             t);
 
-        attackedAbleGunFu._movementCompoent.CancleMomentum();
+        attackedAbleGunFu._character._movementCompoent.CancleMomentum();
 
         Vector3 opponentMovePos = targetAdjustTransform.position 
             + targetAdjustTransform.forward * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.z
             + targetAdjustTransform.right * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.x
             + targetAdjustTransform.up * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.y;
          
-        attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
-                       attackedAbleGunFu._gunFuAttackedAble.position,
+        attackedAbleGunFu._character.transform.position = Vector3.Lerp(
+                       attackedAbleGunFu._character.transform.position,
                       opponentMovePos,
                        t
                        );

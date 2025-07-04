@@ -82,14 +82,14 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
                     attackedAbleGunFu.TakeGunFuAttacked(this, player);
 
-                    attackedAbleGunFu._gunFuAttackedAble.position = Vector3.Lerp(
-                        attackedAbleGunFu._gunFuAttackedAble.position, 
+                    attackedAbleGunFu._character.transform.position = Vector3.Lerp(
+                        attackedAbleGunFu._character.transform.position, 
                         targetAdjustTransform.position + (targetAdjustTransform.right*distanceRightOffset) + (targetAdjustTransform.up* distanceUpOffset), 
                         elaspeTimmerEnter / EnterDuration
                         );
 
-                    attackedAbleGunFu._gunFuAttackedAble.rotation = Quaternion.Lerp(
-                        attackedAbleGunFu._gunFuAttackedAble.rotation,
+                    attackedAbleGunFu._character.transform.rotation = Quaternion.Lerp(
+                        attackedAbleGunFu._character.transform.rotation,
                         targetAdjustTransform.rotation,
                         elaspeTimmerEnter / EnterDuration
                         );
@@ -107,14 +107,14 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     elapesTimmerStay += Time.deltaTime;
                     nodeLeafTransitionBehavior.TransitionAbleAll(this);
 
-                    attackedAbleGunFu._gunFuAttackedAble.position = targetAdjustTransform.position + (targetAdjustTransform.right * distanceRightOffset) + (targetAdjustTransform.up * distanceUpOffset);
-                    attackedAbleGunFu._gunFuAttackedAble.rotation = targetAdjustTransform.rotation;
+                    attackedAbleGunFu._character.transform.position = targetAdjustTransform.position + (targetAdjustTransform.right * distanceRightOffset) + (targetAdjustTransform.up * distanceUpOffset);
+                    attackedAbleGunFu._character.transform.rotation = targetAdjustTransform.rotation;
 
-                    player.playerMovement.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, IMovementCompoent.MoveMode.MaintainMomentum);
+                    player._movementCompoent.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
 
                     Debug.Log("attackedAbleGunFu = " + attackedAbleGunFu);
 
-                    if(attackedAbleGunFu._isDead)
+                    if(attackedAbleGunFu._character.isDead)
                         isComplete = true;
 
                     if(elapesTimmerStay >= StayDuration)

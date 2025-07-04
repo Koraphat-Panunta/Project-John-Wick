@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionAble
 {
-    IMotionImplusePushAble motionImplusePushAble => player.playerMovement;
-    PlayerMovement playerMovement => player.playerMovement;
+    IMotionImplusePushAble motionImplusePushAble => player._movementCompoent as PlayerMovement;
+    PlayerMovement playerMovement => player._movementCompoent as PlayerMovement;
 
     public INodeManager nodeManager { get => player.playerStateNodeManager ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
@@ -35,7 +35,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         elapesTime = 0;
         enterDir = player.inputMoveDir_World;
-        player.playerMovement.AddForcePush(player.dodgeImpluseForce * player.inputMoveDir_World, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+        (player._movementCompoent as IMotionImplusePushAble).AddForcePush(player.dodgeImpluseForce * player.inputMoveDir_World, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
         dodgePhase = DodgePhase.pushOut;
         //player.NotifyObserver(player,this);
         player.playerStance = Player.PlayerStance.stand;
@@ -77,13 +77,13 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         if(dodgePhase == DodgePhase.pushOut)
         {
             float t = (1 / Mathf.Pow(duration * pushOutNormalized, 2)) * (Mathf.Pow(elapesTime, 2));
-            player.playerMovement.RotateToDirWorldSlerp(player.playerMovement.curMoveVelocity_World.normalized, t);
+            player._movementCompoent.RotateToDirWorldSlerp(player._movementCompoent.curMoveVelocity_World.normalized, t);
             if(elapesTime > duration*pushOutNormalized)
                 dodgePhase = DodgePhase.InAir;
         }
         else if(dodgePhase == DodgePhase.InAir)
         {
-            playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeInAirStopForce, player.dodgeInAirStopForce, IMovementCompoent.MoveMode.MaintainMomentum);
+            playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeInAirStopForce, player.dodgeInAirStopForce, MovementCompoent.MoveMode.MaintainMomentum);
             if (elapesTime > InAirNormalized)
             {
                 dodgePhase = DodgePhase.Landing;
@@ -92,7 +92,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         }
         else if(dodgePhase == DodgePhase.Landing)
         {
-            playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeOnGroundStopForce, player.dodgeOnGroundStopForce, IMovementCompoent.MoveMode.MaintainMomentum);
+            playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeOnGroundStopForce, player.dodgeOnGroundStopForce, MovementCompoent.MoveMode.MaintainMomentum);
             //playerMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();

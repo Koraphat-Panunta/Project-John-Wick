@@ -3,7 +3,7 @@ using static IMotionImplusePushAble;
 
 public interface IMotionImplusePushAble 
 {
-    public IMovementCompoent movementCompoent { get; }
+    public MovementCompoent movementCompoent { get; }
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
     public enum PushMode 
     {
@@ -17,7 +17,7 @@ public class MotionImplusePushAbleBehavior
    
     public void AddForecPush(IMotionImplusePushAble motionImplusePushAble,Vector3 force, PushMode pushMode)
     {
-        IMovementCompoent movementCompoent = motionImplusePushAble.movementCompoent;
+        MovementCompoent movementCompoent = motionImplusePushAble.movementCompoent;
         switch (pushMode)
         {
             case PushMode.InstanlyIgnoreMomentum:

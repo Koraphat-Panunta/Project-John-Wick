@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class EnemyDeadStateNode : EnemyStateLeafNode
 {
-    IMovementCompoent movementCompoent;
+    MovementCompoent movementCompoent;
     public EnemyDeadStateNode(Enemy enemy,Func<bool> preCondition) : base(enemy, preCondition)
     {
-        this.movementCompoent = enemy.enemyMovement;
+        this.movementCompoent = enemy._movementCompoent;
     }
 
     public override void Enter()

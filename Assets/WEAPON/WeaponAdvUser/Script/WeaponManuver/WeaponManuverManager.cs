@@ -8,7 +8,7 @@ public abstract class WeaponManuverManager : INodeManager
     public INodeSelector startNodeSelector { get; set; }
 
     public IWeaponAdvanceUser weaponAdvanceUser;
-    public IMovementCompoent movementCompoent;
+    public MovementCompoent movementCompoent;
     public Weapon curWeapon => weaponAdvanceUser._currentWeapon;
 
     public float aimingWeight;
