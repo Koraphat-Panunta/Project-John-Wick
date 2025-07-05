@@ -39,10 +39,10 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     public override void Enter()
     {
         isComplete = true;
-        attackedAbleGunFu = player.attackedAbleGunFu;
+        gotGunFuAttackedAble = player.attackedAbleGunFu;
         curPhase = WeaponDisarmPhase.Pulling;
         elapesTime = 0;
-        disarmedWeapon = attackedAbleGunFu._weaponAdvanceUser._currentWeapon;
+        disarmedWeapon = gotGunFuAttackedAble._weaponAdvanceUser._currentWeapon;
         isDisarmWeapon = false;
         isTransitionAbleAlready = false;
         playerEnterPos = player.transform.position;
@@ -54,7 +54,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     public override void Exit()
     {
         curPhase = WeaponDisarmPhase.None;
-        attackedAbleGunFu = null;
+        gotGunFuAttackedAble = null;
         gunFuAble._character.enableRootMotion = false;
         base.Exit();
     }
@@ -69,7 +69,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                     Debug.Log("t disarm = " + elapesTime / pullTime);
                     if (elapesTime >= pullTime)
                     {
-                        attackedAbleGunFu.TakeGunFuAttacked(this, player);
+                        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
                         gunFuAble._character.enableRootMotion = true;
                         curPhase = WeaponDisarmPhase.Disarming;
                     }
@@ -156,23 +156,23 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
 
 
-        Vector3 opponentLook = (player.transform.position - attackedAbleGunFu._character.transform.position).normalized;
+        Vector3 opponentLook = (player.transform.position - gotGunFuAttackedAble._character.transform.position).normalized;
         opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
 
-        attackedAbleGunFu._character.transform.rotation = Quaternion.Lerp(
-            attackedAbleGunFu._character.transform.rotation,
+        gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(
+            gotGunFuAttackedAble._character.transform.rotation,
             Quaternion.LookRotation(opponentLook, Vector3.up),
             t);
 
-        attackedAbleGunFu._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
 
         Vector3 opponentMovePos = targetAdjustTransform.position 
             + targetAdjustTransform.forward * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.z
             + targetAdjustTransform.right * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.x
             + targetAdjustTransform.up * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.y;
          
-        attackedAbleGunFu._character.transform.position = Vector3.Lerp(
-                       attackedAbleGunFu._character.transform.position,
+        gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
+                       gotGunFuAttackedAble._character.transform.position,
                       opponentMovePos,
                        t
                        );

@@ -11,12 +11,12 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     public float endHitableTime_Normalized => gunFuNodeScriptableObject.EndHitAbleTime_Normalized;
     public AnimationClip _animationClip { get; set; }
 
-    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public IGunFuAble gunFuAble { get; set; }
     public INodeManager nodeManager { get => base.player.playerStateNodeManager ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
-    protected GunFuHitNodeScriptableObject gunFuNodeScriptableObject;
+    protected OldGunFuHitScriptableObject gunFuNodeScriptableObject;
     public Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
     public enum GunFuHitPhase
@@ -27,7 +27,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     }
     public GunFuHitPhase curGunFuHitPhase { get; protected set; }
 
-    public PlayerGunFuHitNodeLeaf(Player player,Func<bool> preCondition,GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
+    public PlayerGunFuHitNodeLeaf(Player player,Func<bool> preCondition,OldGunFuHitScriptableObject gunFuNodeScriptableObject) : base(player,preCondition)
     {
         this.gunFuNodeScriptableObject = gunFuNodeScriptableObject;
         this._animationClip = gunFuNodeScriptableObject.animationClip;
@@ -38,8 +38,8 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
     }
     public override void Enter()
     {
-        this.attackedAbleGunFu = gunFuAble.attackedAbleGunFu;
-        targetEnterPos = attackedAbleGunFu._character.transform.position;
+        this.gotGunFuAttackedAble = gunFuAble.attackedAbleGunFu;
+        targetEnterPos = gotGunFuAttackedAble._character.transform.position;
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
@@ -68,14 +68,14 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
         if (_timer <= _animationClip.length * hitAbleTime_Normalized)
         {
             Vector3 warpPos = targetAdjustTransform.position + targetAdjustTransform.forward * 0.2f; 
-            attackedAbleGunFu._character.transform.position = Vector3.Lerp(
-                      attackedAbleGunFu._character.transform.position,
+            gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
+                      gotGunFuAttackedAble._character.transform.position,
                      warpPos,
                       _timer / (_animationClip.length * hitAbleTime_Normalized)
                       );
             curGunFuHitPhase = GunFuHitPhase.Hit;
             player.NotifyObserver(player, this);
-            attackedAbleGunFu._character.transform.rotation = Quaternion.Lerp(attackedAbleGunFu._character.transform.rotation
+            gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(gotGunFuAttackedAble._character.transform.rotation
                 , Quaternion.LookRotation(targetAdjustTransform.forward * -1, Vector3.up)
                 , _timer / (_animationClip.length * hitAbleTime_Normalized));
         }
@@ -108,7 +108,7 @@ public abstract class PlayerGunFuHitNodeLeaf : PlayerStateNodeLeaf ,IGunFuNode,I
 
         if (Vector3.Distance(targetPos, player.transform.position) > 0.6f)
         {
-            player._movementCompoent.RotateToDirWorld(attackedAbleGunFu._character.transform.position - player.transform.position, 15);
+            player._movementCompoent.RotateToDirWorld(gotGunFuAttackedAble._character.transform.position - player.transform.position, 15);
             (player._movementCompoent as IMovementSnaping).SnapingMovement(targetPos, Vector3.zero, 300 * Time.deltaTime);
         }
     }

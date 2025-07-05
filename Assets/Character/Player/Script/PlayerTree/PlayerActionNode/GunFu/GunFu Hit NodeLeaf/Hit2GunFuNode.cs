@@ -6,7 +6,7 @@ public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
 
 
     private bool isAlreadyHit;
-    public Hit2GunFuNode(Player player, Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
+    public Hit2GunFuNode(Player player, Func<bool> preCondition, OldGunFuHitScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
 
     }
@@ -17,7 +17,7 @@ public class Hit2GunFuNode : PlayerGunFuHitNodeLeaf
             && _timer <= _animationClip.length * endHitableTime_Normalized
             && isAlreadyHit == false)
         {
-            attackedAbleGunFu.TakeGunFuAttacked(this, player);
+            gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
             curGunFuHitPhase = GunFuHitPhase.Hit;
             player.NotifyObserver(player,this);
             TimeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration,gunFuNodeScriptableObject.HitResetDuration);

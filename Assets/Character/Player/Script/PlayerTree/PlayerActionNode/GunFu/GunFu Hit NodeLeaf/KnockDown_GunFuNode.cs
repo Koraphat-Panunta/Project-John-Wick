@@ -5,7 +5,7 @@ public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
 {
     private bool isKicking;
 
-    public KnockDown_GunFuNode(Player player,Func<bool> preCondition, GunFuHitNodeScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
+    public KnockDown_GunFuNode(Player player,Func<bool> preCondition, OldGunFuHitScriptableObject gunFuNodeScriptableObject) : base(player,preCondition, gunFuNodeScriptableObject)
     {
 
     }
@@ -16,7 +16,7 @@ public class KnockDown_GunFuNode : PlayerGunFuHitNodeLeaf
         {
             if (isKicking == false)
             {
-                attackedAbleGunFu.TakeGunFuAttacked(this, player);
+                gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
                 player.attackedAbleGunFu = null;
                 isKicking = true;
                 TimeControlBehavior.TriggerTimeStop(gunFuNodeScriptableObject.HitStopDuration, gunFuNodeScriptableObject.HitResetDuration);

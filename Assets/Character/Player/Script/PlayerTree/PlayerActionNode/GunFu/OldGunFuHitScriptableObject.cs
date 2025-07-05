@@ -1,8 +1,8 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GunFuHitNode", menuName = "ScriptableObjects/GunFuNode/GunFuHit")]
-public class GunFuHitNodeScriptableObject : ScriptableObject
+[CreateAssetMenu(fileName = "OldGunFuHitNode", menuName = "ScriptableObjects/GunFuNode/OldGunFuHit")]
+public class OldGunFuHitScriptableObject : ScriptableObject
 {
     public AnimationClip animationClip;
     public float ExitTime_Normalized;
