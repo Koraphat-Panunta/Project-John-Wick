@@ -33,15 +33,16 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
+            if (posture < postureMedium)
+                return true;
+
             if (curNodeLeaf is FallDown_EnemyState_NodeLeaf)
                 return true;
-            return true;
+
             return false;
         }
         set { }
     }
-
-
 
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit1;
     [SerializeField] public GunFu_GotHit_ScriptableObject GotHit2;
