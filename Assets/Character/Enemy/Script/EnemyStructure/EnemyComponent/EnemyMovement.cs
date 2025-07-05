@@ -6,14 +6,15 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
 {
    
     public Enemy enemy { get; set; }
- 
+    private NavMeshAgent agent;
     public MovementCompoent movementCompoent => this;
 
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
     public override bool isOnUpdateEnable { get => true; protected set { } }
-    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement, characterController)
+    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement,NavMeshAgent agent) : base(transform, myMovement)
     {
         this.enemy = enemy;
+        this.agent = agent;
     }
 
   
@@ -47,9 +48,14 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
 
         if (Vector3.Distance(enemy.transform.position, finalDestination) <= speed * Time.deltaTime)
         {
-            characterController.Move((finalDestination - enemy.transform.position).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
+            Move((finalDestination - enemy.transform.position).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
             return;
         }
-        characterController.Move((finalDestination - enemy.transform.position).normalized * speed * Time.deltaTime);
+        Move((finalDestination - enemy.transform.position).normalized * speed * Time.deltaTime);
+    }
+
+    public override void Move(Vector3 position)
+    {
+        agent.Move(position);
     }
 }

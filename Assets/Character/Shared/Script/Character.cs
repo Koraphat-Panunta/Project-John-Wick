@@ -17,7 +17,6 @@ public abstract class Character : MonoBehaviour
     }
 
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
-    [SerializeField] public CharacterController characterController;
     //public Weapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
@@ -25,11 +24,12 @@ public abstract class Character : MonoBehaviour
     {
         if (enableRootMotion)
         {
+            _movementCompoent.Move(animator.deltaPosition);
             Debug.Log("name = " + this + " deltaPos = " + animator.deltaPosition);
-            transform.position += animator.deltaPosition;
+            //transform.position += animator.deltaPosition;
             transform.rotation *= animator.deltaRotation;
         }
-        
+
     }
     protected virtual void Start()
     {
@@ -38,7 +38,6 @@ public abstract class Character : MonoBehaviour
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
     }
     public float GetHP()
     {

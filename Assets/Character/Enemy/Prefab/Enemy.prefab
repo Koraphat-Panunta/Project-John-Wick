@@ -1187,7 +1187,6 @@ GameObject:
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
-  - component: {fileID: 503465992030002378}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1417,7 +1416,6 @@ MonoBehaviour:
   AimDownSightWeight: 0
   DotVelocityWorld_Leftward_Normalized: 0
   RecoilWeight: 0
-  enemyStance: 0
   isGround: 0
   isSprint: 0
   AnimationStateName: 
@@ -1840,31 +1838,6 @@ MonoBehaviour:
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
   EnableDebug: 0
---- !u!143 &503465992030002378
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 64
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.67
-  m_Radius: 0.19
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.0001
-  m_Center: {x: 0, y: 0.83, z: -0.12}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

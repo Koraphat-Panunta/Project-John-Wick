@@ -14,6 +14,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     public override MovementCompoent _movementCompoent { get; set; }
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
+    [SerializeField] private CharacterController characterController;
     public Character selfNPCTarget => this;
 
     [SerializeField] public bool isImortal;
@@ -61,7 +62,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         InitailizedGunFuComponent();
         Initialized_IWeaponAdvanceUser();
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-        _movementCompoent = new PlayerMovement(this,transform,this,characterController);
+        _movementCompoent = new PlayerMovement(this,transform,this,this.characterController);
         aimPosRef.transform.SetParent(null, true);
     }
     private void Update()

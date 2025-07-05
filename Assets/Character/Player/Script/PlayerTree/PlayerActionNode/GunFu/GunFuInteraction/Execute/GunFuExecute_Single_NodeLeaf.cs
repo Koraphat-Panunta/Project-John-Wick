@@ -156,18 +156,18 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         t = Mathf.Clamp01(t);
 
 
-        TransformWarper.WarpTransform
+        MovementWarper.WarpMovement
             (gunFuAttackerEnterPosition
             , gunFuAttackerEnterRotation
-            , gunFuAttackerTransform
+            , gunFuAble._character._movementCompoent
             , gunFuAttackerTargetPosition
             , gunFuAttackerTargetRotation
             , t);
 
-        TransformWarper.WarpTransform
+        MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
-            , gunFuGotAttackedTransform
+            , attackedAbleGunFu._character._movementCompoent
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);

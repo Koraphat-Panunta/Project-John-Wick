@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAble,IMotionImplusePushAble
-
 {
 
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MovementCompoent movementCompoent => this;
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
+    private CharacterController characterController;
     public override bool isOnUpdateEnable 
     { get 
         {
@@ -19,9 +19,10 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
 
     private Player player;
 
-    public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement, characterController)
+    public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement)
     {
         this.player = player;
+        this.characterController = characterController;
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
@@ -49,10 +50,10 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
 
         if (Vector3.Distance(player.transform.position, finalDestination) <= speed*Time.deltaTime)
         {
-            characterController.Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed*Time.deltaTime) * Time.deltaTime);
+            Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed*Time.deltaTime) * Time.deltaTime);
             return;
         }
-        characterController.Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
+        Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
     }
     public void DrawLine()
     {
@@ -83,5 +84,8 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     }
     public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
 
-    
+    public override void Move(Vector3 position)
+    {
+       characterController.Move(position);
+    }
 }

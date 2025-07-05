@@ -29,7 +29,7 @@ public class PlayerInCoverStandMoveNodeLeaf : PlayerStateNodeLeaf
 
         CoverDetection coverDetection = player.coverDetection;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
 

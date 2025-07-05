@@ -40,7 +40,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             WarpingToAimPos();
 
 
-        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }

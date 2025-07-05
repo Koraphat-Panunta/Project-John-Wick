@@ -6,6 +6,7 @@ public class MovementNodeLeaf : MovementNode,INodeLeaf
 {
     public MovementNodeLeaf(Func<bool> preCondition) : base(preCondition)
     {
+        isReset = new List<Func<bool>>();
         nodeLeafBehavior = new NodeLeafBehavior();
     }
 

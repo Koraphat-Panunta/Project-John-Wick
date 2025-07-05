@@ -17,7 +17,7 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
     {
         PlayerMovement playerMovement = base.player._movementCompoent as PlayerMovement;
 
-        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed * player.inputMoveDir_World.magnitude, MovementCompoent.MoveMode.MaintainMomentum);
+        playerMovement.MoveToDirWorld(player.inputMoveDir_World, player.StandMoveAccelerate, player.StandMoveMaxSpeed * player.inputMoveDir_World.magnitude, MoveMode.MaintainMomentum);
         playerMovement.RotateToDirWorld(Camera.main.transform.forward, player.StandMoveRotateSpeed);
 
         base.FixedUpdateNode();

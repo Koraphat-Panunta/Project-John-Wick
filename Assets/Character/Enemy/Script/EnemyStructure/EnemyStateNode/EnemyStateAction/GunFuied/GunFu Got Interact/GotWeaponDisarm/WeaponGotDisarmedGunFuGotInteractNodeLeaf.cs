@@ -48,7 +48,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
     {
         if(_timer >= duration)
             isComplete = true;
-        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakMaxSpeed, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakMaxSpeed, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
         base.UpdateNode();
     }
 }

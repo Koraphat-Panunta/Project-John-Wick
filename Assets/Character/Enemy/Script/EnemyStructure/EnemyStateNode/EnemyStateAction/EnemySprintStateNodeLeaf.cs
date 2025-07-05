@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
 {
-    MovementCompoent enemyMovement;
+    MovementCompoent enemyMovement => enemy._movementCompoent;
     
     public EnemySprintStateNodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
-        enemyMovement = enemy._movementCompoent;        
+   
     }
 
     public override void Enter()
@@ -26,7 +26,7 @@ public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
     public override void FixedUpdateNode()
     {
 
-        enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, enemy.sprintAccelerate, enemy.sprintMaxSpeed, MovementCompoent.MoveMode.IgnoreMomenTum);
+        enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, enemy.sprintAccelerate, enemy.sprintMaxSpeed, MoveMode.IgnoreMomenTum);
         enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.sprintRotateSpeed);
 
         base.FixedUpdateNode();

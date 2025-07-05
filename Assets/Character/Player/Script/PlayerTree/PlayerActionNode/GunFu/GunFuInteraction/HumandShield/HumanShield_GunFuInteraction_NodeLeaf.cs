@@ -110,7 +110,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     attackedAbleGunFu._character.transform.position = targetAdjustTransform.position + (targetAdjustTransform.right * distanceRightOffset) + (targetAdjustTransform.up * distanceUpOffset);
                     attackedAbleGunFu._character.transform.rotation = targetAdjustTransform.rotation;
 
-                    player._movementCompoent.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                    player._movementCompoent.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MoveMode.MaintainMomentum);
 
                     Debug.Log("attackedAbleGunFu = " + attackedAbleGunFu);
 

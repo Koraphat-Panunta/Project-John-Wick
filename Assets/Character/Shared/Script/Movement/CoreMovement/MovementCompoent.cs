@@ -4,7 +4,6 @@ using UnityEngine;
 public abstract partial class MovementCompoent : INodeManager
 {
     public MonoBehaviour userMovement { get; set; }
-    public CharacterController characterController { get;protected set; }
     public Vector3 moveInputVelocity_World { get; set; }
     public Vector3 curMoveVelocity_World { get;  set; }
     public Vector3 moveInputVelocity_Local { get => TransformWorldToLocalVector(moveInputVelocity_World, transform.forward); }
@@ -18,20 +17,15 @@ public abstract partial class MovementCompoent : INodeManager
             else return false;
         } }
     public abstract bool isOnUpdateEnable { get;protected set; }
-    public enum MoveMode
-    {
-        MaintainMomentum,
-        IgnoreMomenTum,
-    }
+   
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set ; }
 
-    public MovementCompoent(Transform transform,MonoBehaviour myMovement,CharacterController characterController)
+    public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
         this.transform = transform;
-        this.characterController = characterController;
         this.userMovement = myMovement;
         nodeManagerBehavior = new NodeManagerBehavior();
         InitailizedNode();
@@ -56,12 +50,12 @@ public abstract partial class MovementCompoent : INodeManager
 
         switch (moveMode)
         {
-            case MovementCompoent.MoveMode.MaintainMomentum:
+            case MoveMode.MaintainMomentum:
                 {
                     curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
                 }
                 break;
-            case MovementCompoent.MoveMode.IgnoreMomenTum:
+            case MoveMode.IgnoreMomenTum:
                 {
                     curMoveVelocity_World = moveInputVelocity_World
                         * Mathf.Lerp(curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
@@ -77,12 +71,12 @@ public abstract partial class MovementCompoent : INodeManager
 
         switch (moveMode)
         {
-            case MovementCompoent.MoveMode.MaintainMomentum:
+            case MoveMode.MaintainMomentum:
                 {
                     curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
                 }
                 break;
-            case MovementCompoent.MoveMode.IgnoreMomenTum:
+            case MoveMode.IgnoreMomenTum:
                 {
                     curMoveVelocity_World = moveInputVelocity_World
                         * Mathf.Lerp(curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
@@ -113,9 +107,10 @@ public abstract partial class MovementCompoent : INodeManager
 
         transform.gameObject.transform.rotation = Quaternion.Lerp(transform.gameObject.transform.rotation, targetRotation, t);
     }
+    public abstract void Move(Vector3 position);
     public void SetPosition(Vector3 position)
     {
-        characterController.Move(position - transform.position);
+        this.Move(position - transform.position);
     }
     public void SetRotation(Quaternion rotation)
     {
@@ -157,4 +152,9 @@ public abstract partial class MovementCompoent : INodeManager
         return mask;
     }
 
+}
+public enum MoveMode
+{
+    MaintainMomentum,
+    IgnoreMomenTum,
 }

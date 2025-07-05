@@ -64,7 +64,7 @@ public partial class Enemy : SubjectEnemy
         InitailizedCoverUsable();
         InitailizedGunFuComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
-        _movementCompoent = new EnemyMovement(this,transform,this,characterController);
+        _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
     protected override void Start()
@@ -99,6 +99,7 @@ public partial class Enemy : SubjectEnemy
     {
         if (isImortal == false)
             HP -= Damage;
+        
     }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {

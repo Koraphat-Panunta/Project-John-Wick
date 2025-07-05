@@ -57,7 +57,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, MovementCompoent.MoveMode.MaintainMomentum);
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
     public abstract float painDuration { get; set; }

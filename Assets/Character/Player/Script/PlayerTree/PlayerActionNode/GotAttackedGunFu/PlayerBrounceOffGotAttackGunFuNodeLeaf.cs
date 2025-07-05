@@ -38,7 +38,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
             player._movementCompoent.MoveToDirWorld(Vector3.zero, 
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
-                MovementCompoent.MoveMode.MaintainMomentum);
+                MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }

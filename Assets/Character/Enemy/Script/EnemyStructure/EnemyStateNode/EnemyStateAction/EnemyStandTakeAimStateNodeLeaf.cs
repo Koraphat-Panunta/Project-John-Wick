@@ -7,12 +7,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
     NavMeshAgent agent;
-    MovementCompoent movementCompoent;
+    MovementCompoent movementCompoent => enemy._movementCompoent;
     public EnemyStandTakeAimStateNodeLeaf(Enemy enemy, Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy,preCondition)
     {
         this.coverUseable = coverUseable;
         agent = enemy.agent;
-        this.movementCompoent = enemy._movementCompoent;
     }
 
     public override void Enter()
@@ -37,11 +36,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
                     if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                     {
-                        movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                        movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
                     }
                     else
                     {
-                        movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                        movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
                     }
                 }
                 break;
@@ -54,11 +53,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
                         if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
-                            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
                         }
                         else
                         {
-                            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
                         }
                     }
                     else
@@ -67,11 +66,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
                         if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
-                            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                            movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
                         }
                         else
                         {
-                            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                            movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
                         }
                     }
                 }
@@ -83,11 +82,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
                     if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                     {
-                        movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                        movementCompoent.MoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
                     }
                     else
                     {
-                        movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MovementCompoent.MoveMode.MaintainMomentum);
+                        movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
                     }
                 }
                 break;

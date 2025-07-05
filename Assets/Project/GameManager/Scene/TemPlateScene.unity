@@ -1519,7 +1519,7 @@ PrefabInstance:
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.023548532
+      value: 0.02354854
       objectReference: {fileID: 0}
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1529,7 +1529,7 @@ PrefabInstance:
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0072786273
+      value: 0.0072786296
       objectReference: {fileID: 0}
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1629,11 +1629,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1620286274}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84c69ff9c82bc70449b7e18c9854f0cb, type: 3}
 --- !u!4 &846169793 stripped
 Transform:
@@ -2704,37 +2700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1046c632cb273049831c79840123d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1620286259 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 764269470}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &1620286274
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620286259}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 192
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.67
-  m_Radius: 0.19
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.0001
-  m_Center: {x: 0, y: 0.83, z: -0.12}
 --- !u!1001 &1652453537
 PrefabInstance:
   m_ObjectHideFlags: 0

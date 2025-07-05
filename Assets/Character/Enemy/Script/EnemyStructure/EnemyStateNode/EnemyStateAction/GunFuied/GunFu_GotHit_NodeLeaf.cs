@@ -41,7 +41,7 @@ public abstract class GunFu_GotHit_NodeLeaf : EnemyStateLeafNode,IGotGunFuAttack
     }
     public override void FixedUpdateNode()
     {
-        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, forceStop, forceStop, MovementCompoent.MoveMode.MaintainMomentum);    
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, forceStop, forceStop, MoveMode.MaintainMomentum);    
         base.FixedUpdateNode();
     }
 
