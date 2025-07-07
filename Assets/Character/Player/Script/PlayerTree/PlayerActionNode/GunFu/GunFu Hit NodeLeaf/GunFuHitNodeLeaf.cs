@@ -62,8 +62,12 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             (gotGunFuAttackedAble._character._movementCompoent as IMotionImplusePushAble).AddForcePush
                 ((gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized * gunFuHitScriptableObject.hitPush[hitCount]
                 , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            curPhaseGunFuHit = GunFuPhaseHit.Attacking;
             gotGunFuAttackedAble.TakeGunFuAttacked(this,gunFuAble);
-            hitCount++;
+            Debug.Log("HIT count = " + hitCount);
+            if(hitCount < gunFuHitScriptableObject.hitTimesNormalized.Count -1)
+                hitCount++;
+
         }
 
         PullUpdate();

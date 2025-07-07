@@ -23,6 +23,7 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     {
         this.player = player;
         this.characterController = characterController;
+        motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }

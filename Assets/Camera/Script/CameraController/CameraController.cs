@@ -117,6 +117,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                         if(this.curGunFuNode == gunFuHitNodeLeaf)
                             this.curGunFuNode = null;
                     }
+
+                    Debug.Log("gunFuHitNodeLeaf = " + gunFuHitNodeLeaf.curPhaseGunFuHit);
                         
 
                     if(gunFuHitNodeLeaf.stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
