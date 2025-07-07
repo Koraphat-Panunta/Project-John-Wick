@@ -350,9 +350,9 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
         if (node is PlayerStateNodeLeaf playerStateNodeLeaf)
             switch (playerStateNodeLeaf)
             {
-                case KnockDown_GunFuNode knockDown_GunFuNode:
+                case GunFuHitNodeLeaf knockDown_GunFuNode:
                     {
-                        if (knockDown_GunFuNode.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Hit
+                        if (knockDown_GunFuNode.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking
                             && curPhase == Phase.KnockDown)
                         {
                             gunFuKnockDown.gameObject.SetActive(false);

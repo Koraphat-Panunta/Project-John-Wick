@@ -21,8 +21,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         , Vector3.up);
     public enum GunFuPhaseHit
     {
-        Anticipate,
-        Attacking
+        Enter,
+        Attacking,
+        Exit,
     }
     public GunFuPhaseHit curPhaseGunFuHit { get; protected set; }
     public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
@@ -37,7 +38,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     }
     public override void Enter()
     {
-        curPhaseGunFuHit = GunFuPhaseHit.Anticipate;
+        curPhaseGunFuHit = GunFuPhaseHit.Enter;
         _timer = 0;
         hitCount = 0;
         isWarping = true;
@@ -76,6 +77,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
     public override void Exit()
     {
+        curPhaseGunFuHit = GunFuPhaseHit.Exit;
         base.Exit();
     }
 

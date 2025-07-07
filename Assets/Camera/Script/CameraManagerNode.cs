@@ -57,7 +57,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraPerformGunFuExecuteViewNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(cameraController, cameraController.cameraExecuteScriptableObject,
            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf);
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
-            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is PlayerGunFuHitNodeLeaf);
+            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
 
         cameraTPSCrouchViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSCrouchView_SCRP,
             () => cameraController.isCrouching);

@@ -2,7 +2,6 @@ using Unity.Cinemachine;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static PlayerGunFuHitNodeLeaf;
 
 
 public partial class CameraController : MonoBehaviour,IObserverPlayer
@@ -103,15 +102,15 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     {
         switch (node)
         {
-           case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
+           case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    if (gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Enter)
+                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
                     {
                         Debug.Log("Camera get notify hit enter");
                         this.isPerformGunFu = true;
                         this.curGunFuNode = gunFuHitNodeLeaf;
                     }
-                    else if (gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Exit)
+                    else if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Exit)
                     {
                         Debug.Log("Camera get notify hit exit");
                         this.isPerformGunFu = false;
@@ -120,9 +119,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                     }
                         
 
-                    if(gunFuHitNodeLeaf is KnockDown_GunFuNode knock && knock.curGunFuHitPhase == GunFuHitPhase.Hit)
+                    if(gunFuHitNodeLeaf.stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                         cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
-                    else if(gunFuHitNodeLeaf.curGunFuHitPhase == GunFuHitPhase.Hit)
+                    else if(gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                         cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
                     break;
                 }

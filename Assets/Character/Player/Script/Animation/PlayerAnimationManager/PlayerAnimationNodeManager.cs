@@ -334,16 +334,20 @@ public partial class PlayerAnimationManager : INodeManager
        , animator, "Move/Idle", 0, .35f);
 
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<Hit1GunFuNode>(),
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
+            && gunFuHitNodeLeaf.stateName == "Hit1",
             animator, "Hit", 0, .1f);
         hit2NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<Hit2GunFuNode>(),
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
+            && gunFuHitNodeLeaf.stateName == "Hit2",
             animator, "Hit2", 0, .1f);
         hit3NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<KnockDown_GunFuNode>(),
-            animator, "KnockDown", 0, .1f);
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
+            && gunFuHitNodeLeaf.stateName == "Hit3",
+            animator, "Hit3", 0, .1f);
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<DodgeSpinKicklGunFuNodeLeaf>(),
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf) 
+            && gunFuHitNodeLeaf.stateName == "DodgeSpinKick",
             animator, "DodgeSpinKick", 0, .1f);
     }
 

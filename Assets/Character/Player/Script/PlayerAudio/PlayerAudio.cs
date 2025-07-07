@@ -69,25 +69,25 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
     {
         switch (node)
         {
-            case PlayerGunFuHitNodeLeaf gunFuHitNodeLeaf:
+            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    switch (gunFuHitNodeLeaf)
+                    switch (gunFuHitNodeLeaf.stateName)
                     {
-                        case DodgeSpinKicklGunFuNodeLeaf dodgeSpinKick:
+                        case "DodgeSpinKick":
                             {
-                                if (dodgeSpinKick.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Hit)
+                                if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                                     PlayAudio(kick);
                                 break;
                             }
-                        case KnockDown_GunFuNode knockDown_GunFuNodeLeaf:
+                        case "Hit3":
                             {
-                                if (knockDown_GunFuNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Hit)
+                                if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                                     PlayAudio(kick);
                                 break;
                             }
                         default:
                             {
-                                if(gunFuHitNodeLeaf.curGunFuHitPhase == PlayerGunFuHitNodeLeaf.GunFuHitPhase.Hit)
+                                if(gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                                     PlayAudio(hit);
                                 break;
                             }
