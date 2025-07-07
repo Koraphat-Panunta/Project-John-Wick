@@ -31,10 +31,12 @@ public partial class Player : IGunFuAble
 
     public Animator _gunFuAnimator => animator;
 
-    [SerializeField] public OldGunFuHitScriptableObject hit1;
-    [SerializeField] public OldGunFuHitScriptableObject hit2;
-    [SerializeField] public OldGunFuHitScriptableObject knockDown;
-    [SerializeField] public OldGunFuHitScriptableObject dodgeSpinKick;
+    Character IGunFuAble._character => this;
+
+    [SerializeField] public GunFuHitScriptableObject hit1;
+    [SerializeField] public GunFuHitScriptableObject hit2;
+    [SerializeField] public GunFuHitScriptableObject hit3;
+    [SerializeField] public GunFuHitScriptableObject dodgeSpinKick;
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     [SerializeField] public GunFuInteraction_ScriptableObject humanThrow;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;

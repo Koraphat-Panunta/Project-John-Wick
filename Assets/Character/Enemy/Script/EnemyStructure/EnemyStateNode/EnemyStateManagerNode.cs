@@ -51,9 +51,11 @@ public class EnemyStateManagerNode : INodeManager
     public NodeSelector gotExecuteSelector { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
-    public GotHit1_GunFuGotHitNodeLeaf gotHit1_GunFuHitNodeLeaf { get; private set; }
-    public GotHit2_GunFuGotHitNodeLeaf gotHit2_GunFuHitNodeLeaf { get; private set; }
-    public GotKnockDown_GunFuGotHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
+    public GotGunFuHitNodeLeaf gotHit1_P_GunFuHitNodeLeaf { get; private set; }
+    public GotGunFuHitNodeLeaf gotHit1_A_GunFuHitNodeLeaf { get; private set; }
+    public GotGunFuHitNodeLeaf gotHit2_P_GunFuHitNodeLeaf { get; private set; }
+    public GotGunFuHitNodeLeaf gotHit2_A_GunFuHitNodeLeaf { get; private set; }
+    public GotGunFuHitNodeLeaf gotKnockDown_GunFuNodeLeaf { get; private set; }
     public EnemyStateSelectorNode weaponGotDisarmSelector { get; private set; }
     public WeaponGotDisarmedGunFuGotInteractNodeLeaf primaryWeaponDisarmedGunFuGotInteractNodeLeaf { get; private set; }
     public WeaponGotDisarmedGunFuGotInteractNodeLeaf secondaryWeaponDisarmGunFuGotInteractNodeLeaf { get; private set; }
@@ -283,24 +285,64 @@ public class EnemyStateManagerNode : INodeManager
                 return enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf;
             }
             );
-        gotHit1_GunFuHitNodeLeaf = new GotHit1_GunFuGotHitNodeLeaf(this.enemy,
+        gotHit1_P_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curAttackerGunFuNode is Hit1GunFuNode || enemy.curAttackerGunFuNode is DodgeSpinKicklGunFuNodeLeaf;
+                if(enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+                && gunFuHitNodeLeaf.stateName == "Hit1"
+                && gunFuHitNodeLeaf.hitCount == 0)
+                    return true;
+                return false;
             }
-            , this.enemy.GotHit1);
+            , this.enemy.GotHit1_P);
 
-        gotHit2_GunFuHitNodeLeaf = new GotHit2_GunFuGotHitNodeLeaf(this.enemy,
+        gotHit1_A_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curAttackerGunFuNode is Hit2GunFuNode;
+                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+                && gunFuHitNodeLeaf.stateName == "Hit1"
+                && gunFuHitNodeLeaf.hitCount == 1)
+                    return true;
+
+                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitDodgeSpinNodeLeaf
+                && gunFuHitDodgeSpinNodeLeaf.stateName == "DodgeSpinKick"
+                && gunFuHitDodgeSpinNodeLeaf.hitCount == 0)
+                    return true;
+
+                return false;
             }
-            , this.enemy.GotHit2);
+            , this.enemy.GotHit1_A);
 
-        gotKnockDown_GunFuNodeLeaf = new GotKnockDown_GunFuGotHitNodeLeaf(this.enemy,
+        gotHit2_P_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+                && gunFuHitNodeLeaf.stateName == "Hit2"
+                && gunFuHitNodeLeaf.hitCount == 0)
+                    return true;
+                return false;
+            }
+            , this.enemy.GotHit2_P);
+
+        gotHit2_A_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
+           () =>
+           {
+               if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+               && gunFuHitNodeLeaf.stateName == "Hit2"
+               && gunFuHitNodeLeaf.hitCount == 1)
+                   return true;
+               return false;
+           }
+           , this.enemy.GotHit2_A);
+
+        gotKnockDown_GunFuNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                return enemy.curAttackerGunFuNode is KnockDown_GunFuNode;
+                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+               && gunFuHitNodeLeaf.stateName == "Hit3"
+               )
+                    return true;
+                return false;
             }
             , this.enemy.KnockDown);
 
@@ -354,8 +396,12 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotRestrictNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotKnockDown_GunFuNodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(gotHit2_GunFuHitNodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(gotHit1_GunFuHitNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit1_P_GunFuHitNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit1_A_GunFuHitNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit2_P_GunFuHitNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(gotHit2_A_GunFuHitNodeLeaf);
+
+        (gotKnockDown_GunFuNodeLeaf as INodeLeafTransitionAble).AddTransitionNode(fallDown_EnemyState_NodeLeaf);
 
         gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(gotHumanThrow_GunFuNodeLeaf);
         

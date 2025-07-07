@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
+public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeLeafTransitionAble
 {
     protected Animator animator;
     protected string gotHitstateName;
@@ -13,6 +14,9 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     float forceStop => enemy.hitedForceStop;
     public GotGunFuHitScriptableObject gotGunFuHitScriptableObject { get => _gotGunFuHitScriptableObject; }
     private GotGunFuHitScriptableObject _gotGunFuHitScriptableObject { get; set; }
+    public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
+    public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public GotGunFuHitNodeLeaf(Enemy enemy,Func<bool> preCondition,GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
     {
         this._gotGunFuHitScriptableObject = gunFu_GotHit_ScriptableObject;
@@ -20,6 +24,8 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
         _animationClip = gunFu_GotHit_ScriptableObject.AnimationClip;
         this.animator = enemy.animator;
         gotHitstateName = gunFu_GotHit_ScriptableObject.gotHitStateName;
+        transitionAbleNode = new Dictionary<INode, bool>();
+        nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
     public override void Enter()
     {
@@ -62,5 +68,15 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
             return true;
 
         return false;
+    }
+
+    public bool Transitioning()
+    {
+        return nodeLeafTransitionBehavior.Transitioning(this);
+    }
+
+    public void AddTransitionNode(INode node)
+    {
+        nodeLeafTransitionBehavior.AddTransistionNode(this,node);
     }
 }

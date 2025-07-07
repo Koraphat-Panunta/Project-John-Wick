@@ -21,7 +21,9 @@ public partial class Player: IGotGunFuAttackedAble
     }
     public bool _isGotExecutedAble { get; set; }
 
-    public Character _character { get => this; }
+    Character IGotGunFuAttackedAble._character => this;
+
+    //public Character _character { get => this; }
 
     public PlayerBrounceOffGotAttackGunFuScriptableObject PlayerBrounceOffGotAttackGunFuScriptableObject;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble)

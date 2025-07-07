@@ -44,8 +44,10 @@ public partial class Enemy : IGotGunFuAttackedAble
         set { }
     }
 
-    [SerializeField] public GotGunFuHitScriptableObject GotHit1;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit2;
+    [SerializeField] public GotGunFuHitScriptableObject GotHit1_P;
+    [SerializeField] public GotGunFuHitScriptableObject GotHit1_A;
+    [SerializeField] public GotGunFuHitScriptableObject GotHit2_P;
+    [SerializeField] public GotGunFuHitScriptableObject GotHit2_A;
     [SerializeField] public GotGunFuHitScriptableObject KnockDown;
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
     [SerializeField] public WeaponGotDisarmedScriptableObject primary_WeaponGotDisarmedScriptableObject;

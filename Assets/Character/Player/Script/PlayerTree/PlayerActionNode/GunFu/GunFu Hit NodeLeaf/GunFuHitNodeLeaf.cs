@@ -5,8 +5,8 @@ using UnityEngine;
 public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransitionAble
 {
     public float _timer { get; set; }
-    public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public IGunFuAble gunFuAble { get => player; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => player.attackedAbleGunFu; set { } }
     public AnimationClip _animationClip { get => gunFuHitScriptableObject.animationClip_GunFuHits; set { } }
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
@@ -103,8 +103,14 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             t = Mathf.Clamp01(_timer / _animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[0]);
             if(t <1)
             {
+                if (gunFuAble == null)
+                    Debug.Log("gunFuAble == null");
+
+                if (gunFuAble._character == null)
+                    Debug.Log("gunFuAble._character == null");
+
                 //warp
-                if(isWarping)
+                if (isWarping)
                 MovementWarper.WarpMovement(
                     gunFuAble._character.transform.position
                     , gunFuAble._character.transform.rotation
@@ -148,7 +154,11 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
     }
     public bool Transitioning()
-    => nodeLeafTransitionBehavior.Transitioning(this);
+    { 
+        return nodeLeafTransitionBehavior.Transitioning(this); 
+    }
     public void AddTransitionNode(INode node)
-    => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
+    {
+        nodeLeafTransitionBehavior.AddTransistionNode(this, node);
+    }
 }
