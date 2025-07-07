@@ -15,5 +15,5 @@ public class OldGunFuHitScriptableObject : ScriptableObject
     [Range(0.001f,5)]
     public float HitResetDuration;
 
-    public GunFu_GotHit_ScriptableObject GunFu_GotHit_ScriptableObject;
+    public GotGunFuHitScriptableObject GunFu_GotHit_ScriptableObject;
 }

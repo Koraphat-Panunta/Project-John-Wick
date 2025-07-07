@@ -1,16 +1,16 @@
 using System;
 using UnityEngine;
 
-public class GotKnockDown_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
+public class GotKnockDown_GunFuGotHitNodeLeaf : GotGunFuHitNodeLeaf
 {
-    public GotKnockDown_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition, gunFu_GotHit_ScriptableObject)
+    public GotKnockDown_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition, gunFu_GotHit_ScriptableObject)
     {
     }
 
     public override void Enter()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
-        animator.CrossFade(stateName, 0.005f, 0, 0);
+        animator.CrossFade(gotHitstateName, 0.005f, 0, 0);
 
         enemy.NotifyObserver(enemy, this);
 

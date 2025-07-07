@@ -1,0 +1,66 @@
+using System;
+using UnityEngine;
+
+public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
+{
+    protected Animator animator;
+    protected string gotHitstateName;
+    public IGunFuAble gunFuAble => enemy.gunFuAbleAttacker;
+    public IGotGunFuAttackedAble gotGunFuAttackedAble => enemy;
+    public float _exitTime_Normalized { get; set; }
+    public float _timer { get; set; }
+    public AnimationClip _animationClip { get; set; }
+    float forceStop => enemy.hitedForceStop;
+    public GotGunFuHitScriptableObject gotGunFuHitScriptableObject { get => _gotGunFuHitScriptableObject; }
+    private GotGunFuHitScriptableObject _gotGunFuHitScriptableObject { get; set; }
+    public GotGunFuHitNodeLeaf(Enemy enemy,Func<bool> preCondition,GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
+    {
+        this._gotGunFuHitScriptableObject = gunFu_GotHit_ScriptableObject;
+        _exitTime_Normalized = gunFu_GotHit_ScriptableObject.exitTimeNormalized;
+        _animationClip = gunFu_GotHit_ScriptableObject.AnimationClip;
+        this.animator = enemy.animator;
+        gotHitstateName = gunFu_GotHit_ScriptableObject.gotHitStateName;
+    }
+    public override void Enter()
+    {
+        _timer = 0;
+        enemy._movementCompoent.SetRotation(Quaternion.LookRotation((gunFuAble._character.transform.position - enemy.transform.position).normalized
+            ,Vector3.up));
+        animator.CrossFade(gotHitstateName, 0.005f, 0,_gotGunFuHitScriptableObject.enterAnimationOffsetNormalized);
+        base.Enter();
+    }
+    public override void Exit()
+    {
+        enemy.curAttackerGunFuNode = null;
+        base.Exit();
+    }
+    public override void UpdateNode()
+    {
+        _timer += Time.deltaTime;
+
+        if(_timer >= _animationClip.length*_exitTime_Normalized)
+            isComplete = true;
+
+        base.UpdateNode();
+    }
+    public override void FixedUpdateNode()
+    {
+        enemy._movementCompoent.MoveToDirWorld(Vector3.zero, forceStop, forceStop, MoveMode.MaintainMomentum);    
+        base.FixedUpdateNode();
+    }
+
+    public override bool IsReset()
+    {
+        if(IsComplete())
+            return true;
+
+        if(enemy.isDead)
+            return true;
+
+        if(enemy._isPainTrigger
+            ||enemy._triggerHitedGunFu)
+            return true;
+
+        return false;
+    }
+}

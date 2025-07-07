@@ -17,11 +17,12 @@ public class EnemyStateLeafNode : EnemyStateNode, INodeLeaf
     public virtual void Enter()
     {
         isComplete = false;
+        enemy.NotifyObserver(enemy, this);
     }
 
     public virtual void Exit()
     {
-        
+        enemy.NotifyObserver(enemy, this);
     }
 
     public virtual void FixedUpdateNode()

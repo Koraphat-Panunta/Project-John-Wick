@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-public class GotHit1_GunFuGotHitNodeLeaf : GunFu_GotHit_NodeLeaf
+public class GotHit1_GunFuGotHitNodeLeaf : GotGunFuHitNodeLeaf
 {
-    public GotHit1_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GunFu_GotHit_ScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, preCondition, gunFu_GotHit_ScriptableObject)
+    public GotHit1_GunFuGotHitNodeLeaf(Enemy enemy,Func<bool> preCondition, GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy, preCondition, gunFu_GotHit_ScriptableObject)
     {
     }
 
     public override void Enter()
     {
-        animator.CrossFade(stateName,0.005f, 0,0);
+        animator.CrossFade(gotHitstateName,0.005f, 0,0);
         enemy.NotifyObserver(enemy, this);
 
         base.Enter();

@@ -10,27 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
-  m_Name: Hit2
+  m_Name: SpinKick
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: 4b5960c6b150f1c44a2b2ca56bdd4b4d,
-    type: 2}
-  gunFuHitStateName: Hit2
-  hitTimesNormalized:
-  - 0.26
-  - 0.57
-  hitPush:
-  - 1
-  - 1
-  hitStopDuration:
-  - 0.05
-  - 0.05
-  hitResetDuration:
-  - 0
-  - 0
-  warpKeyFrameNormalized:
-  - 0.139
-  - 0.315
-  - 0.554
+  animationClip_GunFuHits: {fileID: 0}
+  gunFuHitStateName: 
+  hitTimesNormalized: []
+  hitPush: []
+  hitStopDuration: []
+  hitResetDuration: []
+  warpKeyFrameNormalized: []
   animationGunFuHitOffset: 0
-  ExitTime_Normalized: 1
-  TransitionAbleTime_Normalized: 0.71
+  ExitTime_Normalized: 0
+  TransitionAbleTime_Normalized: 0

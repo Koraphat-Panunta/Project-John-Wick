@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d329f3642e6d9c34b8adc4cc55854ed1, type: 3}
-  m_Name: Got Hit2
+  m_Script: {fileID: 11500000, guid: eed6e37ea9c017f48bc2fb26742bddc5, type: 3}
+  m_Name: GotGunFuHit3
   m_EditorClassIdentifier: 
-  AnimationClip: {fileID: 7400000, guid: 71a2d7fd07883114e8fcc02fa268b17e, type: 2}
-  ExitTime_Normalized: 1
-  StateName: Got hit 2
+  AnimationClip: {fileID: 7400000, guid: a341cc2225ce9304881e5bc91243f9ff, type: 2}
+  enterAnimationOffsetNormalized: 0.454
+  exitTimeNormalized: 1
+  gotHitStateName: Got KnockDown
