@@ -9,6 +9,9 @@ public partial class EnemyAnimationManager
     {
         get
         {
+            if (enemyStateManager.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
+                return false;
+
             if (enemyWeaponManuver.TryGetCurNodeLeaf<RestWeaponManuverLeafNode>())
                 return false;
 

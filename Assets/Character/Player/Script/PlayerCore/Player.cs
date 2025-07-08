@@ -20,6 +20,8 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     [SerializeField] public bool isImortal;
 
     public float MyHP;
+
+    public CommandBufferManager commandBufferManager;
    
     private void BlackBoardBufferUpdate()
     {
@@ -42,7 +44,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         animator = GetComponent<Animator>();
         coverDetection = new CoverDetection();
         hpRegenarate = new PlayerHpRegenarate(this);
-
+        commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
 
         base.maxHp = 100;
@@ -54,6 +56,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
         _movementCompoent = new PlayerMovement(this,transform,this,this.characterController);
         aimPosRef.transform.SetParent(null, true);
+
     }
     private void Update()
     {
@@ -69,8 +72,9 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         hpRegenarate.Regenarate();
         MyHP = base.HP;
 
-        _triggerHitedGunFu = false;
+        commandBufferManager.CommandBufferProcess();
 
+        _triggerHitedGunFu = false;
     }
     private void LateUpdate()
     {

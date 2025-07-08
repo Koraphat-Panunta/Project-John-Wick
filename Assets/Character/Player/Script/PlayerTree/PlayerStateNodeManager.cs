@@ -124,7 +124,7 @@ public class PlayerStateNodeManager : INodeManager
             }
             );
         Hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => this.player._triggerGunFu 
+            () => (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)) )
             && this.player.attackedAbleGunFu != null
             ,this.player.hit1);
 
@@ -168,14 +168,15 @@ public class PlayerStateNodeManager : INodeManager
             || humanShield_GunFuInteraction_NodeLeaf.isComplete,
             player.humanThrow);
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => (this.player._triggerGunFu || Hit1gunFuNodeLeaf.isTriggerHitBuffer)
+            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
             && this.player.attackedAbleGunFu != null
             , this.player.hit2);
         Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => (this.player._triggerGunFu || Hit2GunFuNodeLeaf.isTriggerHitBuffer) 
+            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu))) 
         && this.player.attackedAbleGunFu != null
         , this.player.hit3);
-        dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, () => this.player._triggerGunFu
+        dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
+            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
         && this.player.attackedAbleGunFu != null, player.dodgeSpinKick);
 
 

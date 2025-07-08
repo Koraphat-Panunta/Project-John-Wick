@@ -84,6 +84,10 @@ public class NodeManagerBehavior
                 if (nodeCombine.combineNodeActivate[childNodeCombine] == false)
                     continue;
 
+                if(childNodeCombine is INodeSequence childNodeSequence
+                    && childNodeSequence.curNodeLeaf is T)
+                    return true;
+
                 if (childNodeCombine is INodeLeaf childNodeCombineLeaf
                     && childNodeCombineLeaf is T)
                     return true;
@@ -96,6 +100,11 @@ public class NodeManagerBehavior
             }
 
 
+        }
+        else if(nodeManager.GetCurNodeLeaf() is INodeSequence outNodeSequence)
+        {
+            if(outNodeSequence is T)
+                return true;
         }
         else if (nodeManager.GetCurNodeLeaf() is INodeLeaf outNodeLeaf)
         {
@@ -124,8 +133,13 @@ public class NodeManagerBehavior
             {
                 if (nodeCombine.combineNodeActivate[childNodeCombine] == false)
                     continue;
-
-                if (childNodeCombine is INodeLeaf childNodeCombineLeaf
+                if(childNodeCombine is INodeSequence childNodeCombineSequence
+                    && childNodeCombineSequence.curNodeLeaf is T)
+                {
+                    nodeLeaf = (T)childNodeCombineSequence.curNodeLeaf;
+                    return true;
+                }
+                else if (childNodeCombine is INodeLeaf childNodeCombineLeaf
                     && childNodeCombineLeaf is T)
                 {
                     nodeLeaf = (T)childNodeCombineLeaf;
@@ -141,6 +155,14 @@ public class NodeManagerBehavior
             }
 
            
+        }
+        else if(nodeManager.GetCurNodeLeaf() is INodeSequence outNodeSequence)
+        {
+            if(outNodeSequence.curNodeLeaf is T)
+            {
+                nodeLeaf = (T)outNodeSequence.curNodeLeaf;
+                return true;
+            }
         }
         else if(nodeManager.GetCurNodeLeaf() is INodeLeaf outNodeLeaf)
         {

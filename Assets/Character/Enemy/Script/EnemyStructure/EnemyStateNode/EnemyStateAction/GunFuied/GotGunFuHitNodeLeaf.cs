@@ -17,6 +17,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
+    private float legnhtOffset => _animationClip.length*gotGunFuHitScriptableObject.enterAnimationOffsetNormalized;
     public GotGunFuHitNodeLeaf(Enemy enemy,Func<bool> preCondition,GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
     {
         this._gotGunFuHitScriptableObject = gunFu_GotHit_ScriptableObject;
@@ -44,7 +45,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     {
         _timer += Time.deltaTime;
 
-        if(_timer >= _animationClip.length*_exitTime_Normalized)
+        if(_timer >= _animationClip.length*_exitTime_Normalized - legnhtOffset)
             isComplete = true;
 
         base.UpdateNode();

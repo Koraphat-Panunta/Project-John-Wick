@@ -29,7 +29,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get;set; }
-    public bool isTriggerHitBuffer { get; private set; }
 
     public GunFuHitNodeLeaf(Player player, Func<bool> preCondition,GunFuHitScriptableObject gunFuHitScriptableObject) : base(player, preCondition)
     {
@@ -45,15 +44,12 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         isWarping = true;
         curWarpKeyFrame = 0;
         isComplete = false;
-        isTriggerHitBuffer = false;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         gunFuAble._character._movementCompoent.CancleMomentum();
-        Debug.Log("state hit = " + stateName);
         base.Enter();
     }
     public override void UpdateNode()
     {
-        Debug.Log("isTriggerHitBuffer = "+ isTriggerHitBuffer);
 
         _timer += Time.deltaTime;
 
@@ -77,10 +73,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
             }
         }
-        if(_timer > 
-            ((_animationClip.length * gunFuHitScriptableObject.ExitTime_Normalized/2) - lenghtOffset) 
-            && player._triggerGunFu)
-            isTriggerHitBuffer = true;
+       
 
         PullUpdate();
         nodeLeafTransitionBehavior.Transitioning(this);
@@ -95,7 +88,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     public override void Exit()
     {
         curPhaseGunFuHit = GunFuPhaseHit.Exit;
-        isTriggerHitBuffer = false;
         base.Exit();
     }
 
@@ -118,18 +110,13 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     {
         float t;
 
-        Debug.Log("curWarpKeyFrame = " + curWarpKeyFrame);
-        Debug.Log("isWarping = " + isWarping);
-
         
         if (curWarpKeyFrame == 0)
         {
             t = Mathf.Clamp01(_timer / ((_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[0] 
                 )- lenghtOffset));
-            Debug.Log("t = "+t);
             if(t <1)
             {
-                Debug.Log("t < 1");
               
                 //warp
                 if (isWarping)
@@ -143,7 +130,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             }
             else
             {
-                Debug.Log("curWarpFrame ++");
 
                 curWarpKeyFrame += 1;
                 if (isWarping == true)
@@ -162,7 +148,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             t = Mathf.Clamp01((_timer - (_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame -1] - _animationClip.length * gunFuHitScriptableObject.animationGunFuHitOffset))
                 / (_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame] - _animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame - 1]));
             //warp
-            Debug.Log("t = " + t);
             if (t < 1)
             {
                 if (isWarping)

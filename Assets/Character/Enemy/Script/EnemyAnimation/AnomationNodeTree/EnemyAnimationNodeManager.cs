@@ -45,7 +45,7 @@ public partial class EnemyAnimationManager : INodeManager
         enableUpperLayer = new SetLayerAnimationNodeLeaf(()=> isEnableUpperLayer
         ,animator,1,0.7f,1);
         disableUpperLayer = new SetLayerAnimationNodeLeaf(() => true
-        , animator, 1, 0.7f, 0);
+        , animator, 1, 5f, 0);
 
         InitializedUpperLayer();
         InitializedBaseLayer();

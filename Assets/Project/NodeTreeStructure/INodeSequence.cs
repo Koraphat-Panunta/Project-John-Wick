@@ -63,10 +63,10 @@ public class NodeSequenceBehavior
 
     public bool IsReset(INodeSequence nodeSequence)
     {
-        if(IsComplete(nodeSequence) == true)
-            return false;
+        if(IsComplete(nodeSequence))
+            return true;
 
-        return nodeSequence.nodeLeafBehavior.IsReset(nodeSequence.isReset);
+        return false;
     }
     public void AddNode(INodeSequence nodeSequence,INodeLeaf nodeLeaf)
     {

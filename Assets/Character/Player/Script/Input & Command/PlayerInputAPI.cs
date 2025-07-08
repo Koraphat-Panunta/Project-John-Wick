@@ -95,6 +95,7 @@ public class PlayerInputAPI : MonoBehaviour
         else if(context.interaction is PressInteraction)
         {
             player._triggerGunFu = true;
+            player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.1f);
         }
 
     }

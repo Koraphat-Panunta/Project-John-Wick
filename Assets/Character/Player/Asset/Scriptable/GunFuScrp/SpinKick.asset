@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: SpinKick
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 0}
-  gunFuHitStateName: 
-  hitTimesNormalized: []
-  hitPush: []
-  hitStopDuration: []
-  hitResetDuration: []
-  warpKeyFrameNormalized: []
-  animationGunFuHitOffset: 0
-  ExitTime_Normalized: 0
-  TransitionAbleTime_Normalized: 0
+  animationClip_GunFuHits: {fileID: 7400000, guid: 7595206ddc2ee104597b0ae5aa5419c8,
+    type: 2}
+  gunFuHitStateName: DodgeSpinKick
+  hitTimesNormalized:
+  - 0.4
+  hitPush:
+  - 3
+  hitStopDuration:
+  - 0.05
+  hitResetDuration:
+  - 0
+  warpKeyFrameNormalized:
+  - 0.35
+  animationGunFuHitOffset: 0.15
+  ExitTime_Normalized: 1
+  TransitionAbleTime_Normalized: 0.887
