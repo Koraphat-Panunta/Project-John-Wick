@@ -288,10 +288,18 @@ public class EnemyStateManagerNode : INodeManager
         gotHit1_P_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                if(enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
+                Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
+                Debug.Log("enemy.curAttackerGunFuNode stateName = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf).stateName);
+                Debug.Log("enemy.curAttackerGunFuNode hitCount = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf).hitCount);
+
+                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                 && gunFuHitNodeLeaf.stateName == "Hit1"
-                && gunFuHitNodeLeaf.hitCount == 0)
+                && gunFuHitNodeLeaf.hitCount == 1)
+                {
+                    //Debug.Log("enemy.curAttackerGunFuNode stateName = " + gunFuHitNodeLeaf.stateName);
+                    //Debug.Log("enemy.curAttackerGunFuNode hitCount = " + gunFuHitNodeLeaf.hitCount);
                     return true;
+                }
                 return false;
             }
             , this.enemy.GotHit1_P);
@@ -301,12 +309,12 @@ public class EnemyStateManagerNode : INodeManager
             {
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                 && gunFuHitNodeLeaf.stateName == "Hit1"
-                && gunFuHitNodeLeaf.hitCount == 1)
+                && gunFuHitNodeLeaf.hitCount == 2)
                     return true;
 
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitDodgeSpinNodeLeaf
                 && gunFuHitDodgeSpinNodeLeaf.stateName == "DodgeSpinKick"
-                && gunFuHitDodgeSpinNodeLeaf.hitCount == 0)
+                && gunFuHitDodgeSpinNodeLeaf.hitCount == 1)
                     return true;
 
                 return false;
@@ -318,7 +326,7 @@ public class EnemyStateManagerNode : INodeManager
             {
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                 && gunFuHitNodeLeaf.stateName == "Hit2"
-                && gunFuHitNodeLeaf.hitCount == 0)
+                && gunFuHitNodeLeaf.hitCount == 1)
                     return true;
                 return false;
             }
@@ -329,7 +337,7 @@ public class EnemyStateManagerNode : INodeManager
            {
                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                && gunFuHitNodeLeaf.stateName == "Hit2"
-               && gunFuHitNodeLeaf.hitCount == 1)
+               && gunFuHitNodeLeaf.hitCount == 2)
                    return true;
                return false;
            }

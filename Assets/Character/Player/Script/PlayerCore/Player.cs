@@ -33,17 +33,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         _isDropWeaponCommand = false;
         _triggerExecuteGunFu = false;
         _isParkourCommand = false;
-
-        if (_triggerGunFu == true)
-        {
-            triggerGunFuBufferTime -= Time.deltaTime;
-
-            if (triggerGunFuBufferTime <= 0)
-            {
-                _triggerGunFu = false;
-                triggerGunFuBufferTime = 2;
-            }
-        }
+        _triggerGunFu = false;
 
     }
     protected override void Awake()

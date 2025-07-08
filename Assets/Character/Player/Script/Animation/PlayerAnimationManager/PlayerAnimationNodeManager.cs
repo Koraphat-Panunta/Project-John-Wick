@@ -311,8 +311,6 @@ public partial class PlayerAnimationManager : INodeManager
         humanThrowNodeLeaf = new PlayAnimationNodeLeaf(
            () => 
            {
-               Debug.Log("playerStateNodeMnager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>() = " + playerStateNodeMnager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>());
-               Debug.Log("player curState = " + playerStateNodeMnager.GetCurNodeLeaf());
                if(playerStateNodeMnager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>())
                    return true;
 
