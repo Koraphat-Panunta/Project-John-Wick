@@ -16,7 +16,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
     private bool isExecute;
     private bool isWarping;
 
-    private float lenghtOffset => _animationClip.length*_gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
+    private float lenghtOffset => _animationClip.length*_gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
     public enum GunFuExecutePhase
     {
         Enter,

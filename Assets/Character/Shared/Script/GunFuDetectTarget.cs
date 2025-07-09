@@ -162,18 +162,18 @@ public class GunFuDetectTarget : MonoBehaviour
     {
         Vector3 casrDir;
 
-        if (Vector3.Angle(gunFuAble._gunFuUserTransform.forward, gunFuAble._gunFuAimDir) <= _limitAimAngleDegrees)
+        if (Vector3.Angle(gunFuAble._character.transform.forward, gunFuAble._gunFuAimDir) <= _limitAimAngleDegrees)
         {
             casrDir = new Vector3(gunFuAble._gunFuAimDir.x, 0, gunFuAble._gunFuAimDir.z);
         }
         else
         {
-            if (Vector3.Dot(gunFuAble._gunFuUserTransform.right, gunFuAble._gunFuAimDir) < 0)
+            if (Vector3.Dot(gunFuAble._character.transform.right, gunFuAble._gunFuAimDir) < 0)
             {
-                casrDir = Quaternion.Euler(0,-LimitAimAngleDegrees,0) * gunFuAble._gunFuUserTransform.forward;
+                casrDir = Quaternion.Euler(0,-LimitAimAngleDegrees,0) * gunFuAble._character.transform.forward;
             }
             else
-                casrDir = Quaternion.Euler(0, LimitAimAngleDegrees, 0) * gunFuAble._gunFuUserTransform.forward;
+                casrDir = Quaternion.Euler(0, LimitAimAngleDegrees, 0) * gunFuAble._character.transform.forward;
 
         }
 

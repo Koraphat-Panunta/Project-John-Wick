@@ -52,7 +52,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     public override void Enter()
     {
-        this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
+        this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
         curGunFuPhase = GunFuExecuteSinglePhase.Warping;
         CalculateAdjustTransform();
         (player._movementCompoent as MovementCompoent).CancleMomentum();
@@ -148,7 +148,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private bool WarpingComplete()
     {
-        float lenghtOffset = _animationClip.length * gunFuExecute_Single_ScriptableObject.playerAnimationOffset;
+        float lenghtOffset = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
 
         float t = (_timer - lenghtOffset) / ((_animationClip.length - lenghtOffset)*warpingNormalized);
 

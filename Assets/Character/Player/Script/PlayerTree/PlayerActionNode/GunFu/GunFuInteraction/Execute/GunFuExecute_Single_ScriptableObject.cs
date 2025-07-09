@@ -19,7 +19,7 @@ public class GunFuExecute_Single_ScriptableObject : ScriptableObject
     public float executeAnimationExitNormarlized;
 
     [Range(0, 1)]
-    public float playerAnimationOffset;
+    public float executeAnimationOffset;
     [Range(-10, 10)]
     public float playerForwardRelativePosition;
     [Range(-10, 10)]
