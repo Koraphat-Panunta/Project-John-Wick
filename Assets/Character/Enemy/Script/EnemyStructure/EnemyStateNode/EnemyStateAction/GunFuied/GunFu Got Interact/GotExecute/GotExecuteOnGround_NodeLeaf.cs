@@ -1,23 +1,25 @@
 using System;
 using UnityEngine;
 
-public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuExecuteNodeLeaf
+public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNodeLeaf
 {
     private Transform _root;
     private Transform _hipsBone;
     private Transform[] _bones;
     private BoneTransform[] _ragdollBoneTransforms;
-    private BoneTransform[] _layUpBoneTransforms;
-    private BoneTransform[] _layDownBoneTransforms;
+    private BoneTransform[] _startAnimBoneTransforms;
     private float _elapsedResetBonesTime;
 
-    private Animator _animator;
+    private Animator _animator => enemy.animator;
     private float _timeToResetBones = 0.16f;
 
     private float elapsedTime;
     private float duration { get => 1 + _timeToResetBones; }
 
-    public bool isFacingUp { get =>   Vector3.Dot(_hipsBone.forward, Vector3.up) > 0;}
+    public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
+
+    public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
+    private string gotExecuteStateName;
 
     public enum ExecutedPhase
     {
@@ -27,29 +29,45 @@ public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuE
     }
     public ExecutedPhase executedPhase { get; set; }
 
-    public GotExecuteOnGround_NodeLeaf(Enemy enemy,AnimationClip layUp,AnimationClip layDown, Func<bool> preCondition) : base(enemy, preCondition)
+    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => this.gunFuExecute_Single_ScriptableObject;
+
+    public float _timer { get; set; }
+    public AnimationClip _animationClip { get => _gunFuExecute_Single_ScriptableObject.gotExecuteClip; set { } }
+
+    private GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject ;
+    private bool isPopulateBone;
+    public GotExecuteOnGround_NodeLeaf(Enemy enemy,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
     {
-        _animator = enemy.animator;
+        this._root = root;
+        this._hipsBone =hipsBone;
+        this._bones = bones;
+        this.gotExecuteStateName = gotExecuteStateName;
 
-        _root = enemy._root;
-        _hipsBone = enemy._hipsBone;
-        _bones = enemy._bones;
+        this._ragdollBoneTransforms = new BoneTransform[_bones.Length];
+        this._startAnimBoneTransforms = new BoneTransform[_bones.Length];
 
-        _ragdollBoneTransforms = new BoneTransform[_bones.Length];
-        _layUpBoneTransforms = new BoneTransform[_bones.Length];
-        _layDownBoneTransforms = new BoneTransform[_bones.Length];
+        this.isPopulateBone = false;
 
         for (int i = 0; i < _bones.Length; i++)
         {
-            _ragdollBoneTransforms[i] = new BoneTransform();
-            _layUpBoneTransforms[i] = new BoneTransform();
-            _layDownBoneTransforms[i] = new BoneTransform();
+            this._ragdollBoneTransforms[i] = new BoneTransform();
+            this._startAnimBoneTransforms[i] = new BoneTransform();
+        }
+    }
+    public override bool Precondition()
+    {
+        if (base.Precondition() == false)
+            return false;
+
+        if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
+            && gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
+        {
+            gunFuExecute_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject;
+            return true;
         }
 
-        PopulateAnimationStartBoneTransforms(layUp, _layUpBoneTransforms);
-        PopulateAnimationStartBoneTransforms(layDown, _layDownBoneTransforms);
+        return false;
     }
-
     public override bool IsComplete()
     {
         if(elapsedTime >= duration)
@@ -71,6 +89,12 @@ public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuE
 
     public override void Enter()
     {
+        if(isPopulateBone == false)
+        {
+            PopulateAnimationStartBoneTransforms(_animationClip, _startAnimBoneTransforms);
+            isPopulateBone = true;
+        }
+
         elapsedTime = 0;
         _elapsedResetBonesTime = 0;
         executedPhase = ExecutedPhase.ResetingBone;
@@ -105,44 +129,25 @@ public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuE
                     _elapsedResetBonesTime += Time.deltaTime;
                     float elapsedPercentage = Mathf.Clamp01(_elapsedResetBonesTime / _timeToResetBones);
 
-                    if (isFacingUp)
+                    for (int i = 0; i < _bones.Length; i++)
+                    {
+                        _bones[i].localPosition = Vector3.Lerp(
+                        _ragdollBoneTransforms[i].Position,
+                        _startAnimBoneTransforms[i].Position,
+                        elapsedPercentage);
 
-                        for (int i = 0; i < _bones.Length; i++)
-                        {
-                            _bones[i].localPosition = Vector3.Lerp(
-                            _ragdollBoneTransforms[i].Position,
-                            _layUpBoneTransforms[i].Position,
+                        _bones[i].localRotation = Quaternion.Lerp(
+                            _ragdollBoneTransforms[i].Rotation,
+                            _startAnimBoneTransforms[i].Rotation,
                             elapsedPercentage);
+                    }
 
-                            _bones[i].localRotation = Quaternion.Lerp(
-                                _ragdollBoneTransforms[i].Rotation,
-                                _layUpBoneTransforms[i].Rotation,
-                                elapsedPercentage);
-                        }
-                    else
-                        for (int i = 0; i < _bones.Length; i++)
-                        {
-                            _bones[i].localPosition = Vector3.Lerp(
-                                _ragdollBoneTransforms[i].Position,
-                                _layDownBoneTransforms[i].Position,
-                                elapsedPercentage);
-
-                            _bones[i].localRotation = Quaternion.Lerp(
-                                _ragdollBoneTransforms[i].Rotation,
-                                _layDownBoneTransforms[i].Rotation,
-                                elapsedPercentage);
-                        }
                     if (_elapsedResetBonesTime >= _timeToResetBones)
                     {
                         beforeRootPos = enemy.transform.position;
                         enemy.NotifyObserver(enemy, this);
                         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
-
-                        if (isFacingUp)
-                            _animator.CrossFade("Enemy_LayUp_Executed", 0, 0, 0);
-                        else
-                            _animator.CrossFade("Enemy_LayDown_Executed", 0, 0, 0);
-
+                        _animator.CrossFade(gotExecuteStateName, 0, 0, 0);
                         executedPhase = ExecutedPhase.Animate;
                     }
                 }
@@ -166,11 +171,9 @@ public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuE
         enemy.transform.position = _hipsBone.position + hipOffset;
 
         Vector3 positionOffset;
-
-        if (isFacingUp)
-            positionOffset = _layUpBoneTransforms[0].Position;//HipsBonePosition
-        else
-            positionOffset = _layDownBoneTransforms[0].Position;//HipsBonePosition
+    
+        positionOffset = _startAnimBoneTransforms[0].Position;//HipsBonePosition
+  
 
 
         positionOffset.y = 0;
@@ -193,7 +196,7 @@ public class GotExecuteOnGround_NodeLeaf : GunFu_GotInteract_NodeLeaf,IGotGunFuE
 
         Vector3 desiredDirection = _hipsBone.up;
 
-        if (isFacingUp)
+        if (Vector3.Dot(_hipsBone.forward, Vector3.up) > 0)
         {
             desiredDirection *= -1;
         }

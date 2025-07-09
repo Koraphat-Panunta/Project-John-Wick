@@ -7,13 +7,18 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
 {
     public float _timer { get;set; }
     public AnimationClip _animationClip { get => gunFuExecuteScriptableObject.gotExecuteClip ; set { } }
-    private IGunFuAble gunFuAbleAttacker => enemy.gunFuAbleAttacker;
-    private IGotGunFuAttackedAble gunFuGotAttackedAble => enemy;
+    public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
+    public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
 
     private string gotExecuteStateName;
     private GunFuExecute_Single_ScriptableObject gunFuExecuteScriptableObject;
 
     private Transform gunFuGotAttackedTransform => enemy.transform;
+
+    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => this.gunFuExecuteScriptableObject;
+
+
+
     public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition,string gotExecuteStateName) : base(enemy, preCondition)
     {
         this.gotExecuteStateName = gotExecuteStateName;
@@ -23,7 +28,7 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
         if (base.Precondition() == false)
             return false;
 
-        if (gunFuAbleAttacker.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
+        if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
             && gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
         {
             gunFuExecuteScriptableObject = gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject;
@@ -34,15 +39,15 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     }
     public override void Enter()
     {
-        gunFuGotAttackedAble._character.animator.CrossFade(gotExecuteStateName, 0.05f, 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
+        _gotExecutedGunFu._character.animator.CrossFade(gotExecuteStateName, 0.05f, 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
         _timer = this.gunFuExecuteScriptableObject.executeClip.length * gunFuExecuteScriptableObject.opponentAnimationOffset;
-        gunFuGotAttackedAble._character.enableRootMotion = true;
+        _gotExecutedGunFu._character.enableRootMotion = true;
        
         base.Enter();
     }
     public override void Exit()
     {
-        gunFuGotAttackedAble._character.enableRootMotion = false;
+        _gotExecutedGunFu._character.enableRootMotion = false;
         base.Exit();
     }
     public override void UpdateNode()
