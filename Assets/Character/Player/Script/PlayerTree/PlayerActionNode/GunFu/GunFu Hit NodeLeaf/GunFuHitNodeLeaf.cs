@@ -10,7 +10,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     public AnimationClip _animationClip { get => gunFuHitScriptableObject.animationClip_GunFuHits; set { } }
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
-    public string stateName => _gunFuHitScriptableObject.gunFuHitStateName;
+    public string _stateName => _gunFuHitScriptableObject.gunFuHitStateName;
     public int hitCount { get; protected set; }
     private float hitDistance = 0.7f;
     private bool isWarping;

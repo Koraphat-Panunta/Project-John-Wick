@@ -7,6 +7,8 @@ public class RestrictScriptableObject : ScriptableObject
     public Vector3 offset;
     public Vector3 rotationOffset;
 
+    public string stateName;
+
     [Range(0,1)]
     public float restrictEnter_exitNormalized;
 

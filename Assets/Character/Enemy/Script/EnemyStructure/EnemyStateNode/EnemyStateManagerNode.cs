@@ -290,11 +290,11 @@ public class EnemyStateManagerNode : INodeManager
             () => 
             {
                 Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
-                Debug.Log("enemy.curAttackerGunFuNode stateName = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf).stateName);
+                Debug.Log("enemy.curAttackerGunFuNode stateName = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf)._stateName);
                 Debug.Log("enemy.curAttackerGunFuNode hitCount = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf).hitCount);
 
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-                && gunFuHitNodeLeaf.stateName == "Hit1"
+                && gunFuHitNodeLeaf._stateName == "Hit1"
                 && gunFuHitNodeLeaf.hitCount == 1)
                 {
                     //Debug.Log("enemy.curAttackerGunFuNode stateName = " + gunFuHitNodeLeaf.stateName);
@@ -309,12 +309,12 @@ public class EnemyStateManagerNode : INodeManager
             () => 
             {
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-                && gunFuHitNodeLeaf.stateName == "Hit1"
+                && gunFuHitNodeLeaf._stateName == "Hit1"
                 && gunFuHitNodeLeaf.hitCount == 2)
                     return true;
 
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitDodgeSpinNodeLeaf
-                && gunFuHitDodgeSpinNodeLeaf.stateName == "DodgeSpinKick"
+                && gunFuHitDodgeSpinNodeLeaf._stateName == "DodgeSpinKick"
                 && gunFuHitDodgeSpinNodeLeaf.hitCount == 1)
                     return true;
 
@@ -326,7 +326,7 @@ public class EnemyStateManagerNode : INodeManager
             () =>
             {
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-                && gunFuHitNodeLeaf.stateName == "Hit2"
+                && gunFuHitNodeLeaf._stateName == "Hit2"
                 && gunFuHitNodeLeaf.hitCount == 1)
                     return true;
                 return false;
@@ -337,7 +337,7 @@ public class EnemyStateManagerNode : INodeManager
            () =>
            {
                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-               && gunFuHitNodeLeaf.stateName == "Hit2"
+               && gunFuHitNodeLeaf._stateName == "Hit2"
                && gunFuHitNodeLeaf.hitCount == 2)
                    return true;
                return false;
@@ -345,13 +345,13 @@ public class EnemyStateManagerNode : INodeManager
            , this.enemy.GotHit2_A);
 
         gotHit3_KnockDown_SequenceNodeLeaf = new NodeSequence(() => enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-               && gunFuHitNodeLeaf.stateName == "Hit3");
+               && gunFuHitNodeLeaf._stateName == "Hit3");
 
         gotHit3_GunFuNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
-               && gunFuHitNodeLeaf.stateName == "Hit3"
+               && gunFuHitNodeLeaf._stateName == "Hit3"
                )
                     return true;
                 return false;

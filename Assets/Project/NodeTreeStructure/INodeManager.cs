@@ -103,7 +103,7 @@ public class NodeManagerBehavior
         }
         else if(nodeManager.GetCurNodeLeaf() is INodeSequence outNodeSequence)
         {
-            if(outNodeSequence is T)
+            if(outNodeSequence.curNodeLeaf is T)
                 return true;
         }
         else if (nodeManager.GetCurNodeLeaf() is INodeLeaf outNodeLeaf)

@@ -71,7 +71,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
         {
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    switch (gunFuHitNodeLeaf.stateName)
+                    switch (gunFuHitNodeLeaf._stateName)
                     {
                         case "DodgeSpinKick":
                             {

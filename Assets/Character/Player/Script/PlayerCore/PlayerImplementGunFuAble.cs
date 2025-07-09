@@ -43,6 +43,10 @@ public partial class Player : IGunFuAble
     [SerializeField] public WeaponDisarmGunFuScriptableObject primaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public WeaponDisarmGunFuScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Pistol_Laydown_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Pistol_Layup_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Laydown_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Layup_I;
 
     public void InitailizedGunFuComponent()
     {

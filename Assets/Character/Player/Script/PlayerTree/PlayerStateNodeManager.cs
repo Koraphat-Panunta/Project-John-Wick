@@ -114,14 +114,15 @@ public class PlayerStateNodeManager : INodeManager
         gunFuExecute_OnGround_NodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
             () => 
             {
-                if(player._triggerExecuteGunFu == false)
-                    return false;
                 if (player._currentWeapon == null || player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0)
                     return false;
-                if (player.executedAbleGunFu == null)
-                    return false;
-                return true;
+                if (
+                player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
+                && downGetUpAble._isFallDown)  
+                    return true;
+                return false;
             }
+            ,player.gunFu_Single_Execute_OnGround_Pistol_Laydown_I
             );
         Hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)) )
@@ -219,8 +220,8 @@ public class PlayerStateNodeManager : INodeManager
 
         proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
 
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_NodeLeaf_I);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_NodeLeaf);
+        executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_NodeLeaf_I);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

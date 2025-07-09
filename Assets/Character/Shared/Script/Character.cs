@@ -25,8 +25,6 @@ public abstract class Character : MonoBehaviour
         if (enableRootMotion)
         {
             _movementCompoent.Move(animator.deltaPosition);
-            Debug.Log("name = " + this + " deltaPos = " + animator.deltaPosition);
-            //transform.position += animator.deltaPosition;
             transform.rotation *= animator.deltaRotation;
         }
 

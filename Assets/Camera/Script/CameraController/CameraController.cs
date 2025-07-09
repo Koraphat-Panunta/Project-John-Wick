@@ -121,7 +121,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                     Debug.Log("gunFuHitNodeLeaf = " + gunFuHitNodeLeaf.curPhaseGunFuHit);
                         
 
-                    if(gunFuHitNodeLeaf.stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                    if(gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                         cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
                     else if(gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                         cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);

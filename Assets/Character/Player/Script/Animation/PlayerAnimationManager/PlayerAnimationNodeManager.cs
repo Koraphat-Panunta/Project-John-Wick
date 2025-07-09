@@ -283,7 +283,7 @@ public partial class PlayerAnimationManager : INodeManager
         executeSingleSecondaryStand_I = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuExecute_Single_NodeLeaf>
             (out GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf)
-            && gunFuExecute_Single_NodeLeaf.stateName == "GunFuDodgeExecuteSecondary"
+            && gunFuExecute_Single_NodeLeaf._stateName == "GunFuDodgeExecuteSecondary"
             , animator, "GunFuDodgeExecuteSecondary", 0, 0.1f
             , player.gunFuExecute_Single_ScriptableObject_I.playerAnimationOffset);
         executePrimaryNodeLeaf = new PlayAnimationNodeLeaf(
@@ -333,19 +333,19 @@ public partial class PlayerAnimationManager : INodeManager
 
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf.stateName == "Hit1",
+            && gunFuHitNodeLeaf._stateName == "Hit1",
             animator, "Hit1", 0, .1f,player.hit1.animationGunFuHitOffset);
         hit2NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf.stateName == "Hit2",
+            && gunFuHitNodeLeaf._stateName == "Hit2",
             animator, "Hit2", 0, .1f, player.hit2.animationGunFuHitOffset);
         hit3NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf.stateName == "Hit3",
+            && gunFuHitNodeLeaf._stateName == "Hit3",
             animator, "Hit3", 0, .1f, player.hit3.animationGunFuHitOffset);
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf) 
-            && gunFuHitNodeLeaf.stateName == "DodgeSpinKick",
+            && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
             animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.animationGunFuHitOffset);
     }
 

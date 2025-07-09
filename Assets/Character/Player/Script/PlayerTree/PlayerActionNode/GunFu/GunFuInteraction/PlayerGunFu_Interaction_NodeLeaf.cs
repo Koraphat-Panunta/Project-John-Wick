@@ -22,7 +22,8 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     public string stateName { get; protected set; }
     protected Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
-   
+    public string _stateName { get => stateName; }
+
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
         gunFuAble = player as IGunFuAble;

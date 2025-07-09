@@ -8,9 +8,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
-    string IGunFuExecuteNodeLeaf._stateName { get => this.stateName ; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.attackedAbleGunFu; set { } }
-    public string stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
+    public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
     public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
     private Dictionary<float,bool> isShootAlready = new Dictionary<float,bool>();

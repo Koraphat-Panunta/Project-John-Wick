@@ -20,7 +20,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
     private float StayDuration => restrictScriptableObject.StayDuration;
     private bool isRestrictExitHit;
     private RestrictScriptableObject restrictScriptableObject { get; set; }
-
+    public string _stateName => restrictScriptableObject.stateName;
     public enum RestrictGunFuPhase
     {
         Enter,
@@ -30,6 +30,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         Done,
     }
     public RestrictGunFuPhase curRestrictGunFuPhase { get; private set; }
+
     public RestrictGunFuStateNodeLeaf(RestrictScriptableObject restrictScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         this.restrictScriptableObject = restrictScriptableObject;

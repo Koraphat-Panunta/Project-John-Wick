@@ -11,7 +11,7 @@ public class AnimationNode : INode
         this.preCondition = preCondition;
     }
 
-    public bool Precondition()
+    public virtual bool Precondition()
     {
         return preCondition.Invoke();
     }

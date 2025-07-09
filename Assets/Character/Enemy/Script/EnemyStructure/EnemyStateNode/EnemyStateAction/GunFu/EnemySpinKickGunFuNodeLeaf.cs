@@ -16,6 +16,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     private Dictionary<IGotGunFuAttackedAble, bool> alreadyHittarget;
 
     private Vector3 targetPosition => enemy.targetKnewPos;
+    public string _stateName { get; }
 
     public enum SpinKickPhase
     {
@@ -24,6 +25,9 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
         Exit
     }
     public SpinKickPhase curPhase { get; set; }
+
+
+
     public EnemySpinKickGunFuNodeLeaf(EnemySpinKickScriptable enemySpinKickScriptable,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._enemySpinKickScriptable = enemySpinKickScriptable;
