@@ -91,7 +91,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     {
         if(isPopulateBone == false)
         {
-            PopulateAnimationStartBoneTransforms(_animationClip, _startAnimBoneTransforms);
+            RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(_animationClip,enemy.gameObject,this._bones,_startAnimBoneTransforms, enemy.transform);
             isPopulateBone = true;
         }
 
@@ -99,9 +99,9 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         _elapsedResetBonesTime = 0;
         executedPhase = ExecutedPhase.ResetingBone;
 
-        AlignRotationToHips();
-        AlignPositionToHips();
-        PopulateBoneTransforms(_ragdollBoneTransforms);
+        RagdollBoneBehavior.AlignRotationToHips(_hipsBone,enemy.transform);
+        RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
+        RagdollBoneBehavior.PopulateBoneTransforms(_bones,_ragdollBoneTransforms);
 
         enemy.NotifyObserver(enemy, this); 
 
@@ -129,19 +129,9 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
                     _elapsedResetBonesTime += Time.deltaTime;
                     float elapsedPercentage = Mathf.Clamp01(_elapsedResetBonesTime / _timeToResetBones);
 
-                    for (int i = 0; i < _bones.Length; i++)
-                    {
-                        _bones[i].localPosition = Vector3.Lerp(
-                        _ragdollBoneTransforms[i].Position,
-                        _startAnimBoneTransforms[i].Position,
-                        elapsedPercentage);
+                    RagdollBoneBehavior.LerpBoneTransforms(_bones,_ragdollBoneTransforms,_startAnimBoneTransforms,elapsedPercentage);
 
-                        _bones[i].localRotation = Quaternion.Lerp(
-                            _ragdollBoneTransforms[i].Rotation,
-                            _startAnimBoneTransforms[i].Rotation,
-                            elapsedPercentage);
-                    }
-
+                  
                     if (_elapsedResetBonesTime >= _timeToResetBones)
                     {
                         beforeRootPos = enemy.transform.position;
@@ -162,75 +152,6 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
         elapsedTime += Time.deltaTime;
         base.UpdateNode();
-    }
-
-    private void AlignPositionToHips()
-    {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        Vector3 hipOffset = enemy.transform.position - _root.transform.position;
-        enemy.transform.position = _hipsBone.position + hipOffset;
-
-        Vector3 positionOffset;
-    
-        positionOffset = _startAnimBoneTransforms[0].Position;//HipsBonePosition
-  
-
-
-        positionOffset.y = 0;
-        positionOffset = enemy.transform.rotation * positionOffset;
-
-        enemy.transform.position -= positionOffset;
-
-        if (Physics.Raycast(enemy.transform.position, Vector3.down, out RaycastHit hitInfo))
-        {
-            enemy.transform.position = new Vector3(enemy.transform.position.x, hitInfo.point.y, enemy.transform.position.z);
-        }
-
-        _hipsBone.position = originalHipsPosition;
-    }
-
-    private void AlignRotationToHips()
-    {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        Quaternion originalHipsRotation = _hipsBone.rotation;
-
-        Vector3 desiredDirection = _hipsBone.up;
-
-        if (Vector3.Dot(_hipsBone.forward, Vector3.up) > 0)
-        {
-            desiredDirection *= -1;
-        }
-
-        desiredDirection.y = 0;
-        desiredDirection.Normalize();
-
-        Quaternion fromToRotation = Quaternion.FromToRotation(enemy.transform.forward, desiredDirection);
-
-        enemy.transform.rotation *= fromToRotation;
-
-        _hipsBone.position = originalHipsPosition;
-        _hipsBone.rotation = originalHipsRotation;
-    }
-    private void PopulateBoneTransforms(BoneTransform[] boneTransforms)
-    {
-
-        for (int i = 0; i < _bones.Length; i++)
-        {
-            boneTransforms[i].Position = _bones[i].localPosition;
-            boneTransforms[i].Rotation = _bones[i].localRotation;
-        }
-    }
-
-    private void PopulateAnimationStartBoneTransforms(AnimationClip clip, BoneTransform[] boneTransforms)
-    {
-        Vector3 positionBeforeSampling = enemy.transform.position;
-        Quaternion rotationBeforeSampling = enemy.transform.rotation;
-
-        clip.SampleAnimation(enemy.gameObject, 0);
-        PopulateBoneTransforms(boneTransforms);
-
-        enemy.transform.position = positionBeforeSampling;
-        enemy.transform.rotation = rotationBeforeSampling;
     }
 }
  

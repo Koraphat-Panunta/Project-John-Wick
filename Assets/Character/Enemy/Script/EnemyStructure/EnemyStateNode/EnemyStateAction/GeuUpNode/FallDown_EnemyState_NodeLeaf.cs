@@ -53,8 +53,11 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
             _pushUpBoneTransforms[i] = new BoneTransform();
         }
 
-        PopulateAnimationStartBoneTransforms(standingUpClip, _standUpBoneTransforms);
-        PopulateAnimationStartBoneTransforms(pushingUpClip, _pushUpBoneTransforms);
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(standingUpClip, enemy.gameObject, _bones, _standUpBoneTransforms, enemy.transform);
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(pushingUpClip, enemy.gameObject, _bones, _pushUpBoneTransforms, enemy.transform);
+
+        //PopulateAnimationStartBoneTransforms(standingUpClip, _standUpBoneTransforms);
+        //PopulateAnimationStartBoneTransforms(pushingUpClip, _pushUpBoneTransforms);
     }
 
     public override void Enter()
@@ -89,7 +92,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     {
         if(enemy._isPainTrigger || enemy._tiggerThrowAbleObjectHit)
         {
-            PopulateBoneTransforms(_ragdollBoneTransforms);
+            RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
+            //PopulateBoneTransforms(_ragdollBoneTransforms);
             (enemy._movementCompoent as MovementCompoent).CancleMomentum();
 
             if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
@@ -116,9 +120,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
                 {
                     isFacingUp = IsFacingUp();
 
-                    AlignRotationToHips();
-                    AlignPositionToHips();
-                    PopulateBoneTransforms(_ragdollBoneTransforms);
+                    RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
+                    RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
+                    RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
 
                     curState = FallDownState.ResettingBones;
                     _elapsedResetBonesTime = 0f;
@@ -130,32 +134,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
                 float elapsedPercentage = Mathf.Clamp01(_elapsedResetBonesTime / _timeToResetBones);
 
                 if (isFacingUp)
-
-                    for (int i = 0; i < _bones.Length; i++)
-                    {
-                        _bones[i].localPosition = Vector3.Lerp(
-                        _ragdollBoneTransforms[i].Position,
-                        _standUpBoneTransforms[i].Position,
-                        elapsedPercentage);
-
-                        _bones[i].localRotation = Quaternion.Lerp(
-                            _ragdollBoneTransforms[i].Rotation,
-                            _standUpBoneTransforms[i].Rotation,
-                            elapsedPercentage);
-                    }
+                    RagdollBoneBehavior.LerpBoneTransforms(_bones, _ragdollBoneTransforms, _standUpBoneTransforms,elapsedPercentage);
                 else
-                    for (int i = 0; i < _bones.Length; i++)
-                    {
-                        _bones[i].localPosition = Vector3.Lerp(
-                            _ragdollBoneTransforms[i].Position,
-                            _pushUpBoneTransforms[i].Position,
-                            elapsedPercentage);
-
-                        _bones[i].localRotation = Quaternion.Lerp(
-                            _ragdollBoneTransforms[i].Rotation,
-                            _pushUpBoneTransforms[i].Rotation,
-                            elapsedPercentage);
-                    }
+                    RagdollBoneBehavior.LerpBoneTransforms(_bones, _ragdollBoneTransforms, _pushUpBoneTransforms, elapsedPercentage);
 
                 if (elapsedPercentage >= 1f)
                 {
@@ -185,78 +166,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     private bool IsFacingUp()
     {
         return Vector3.Dot(_hipsBone.forward, Vector3.up) > 0;
-    }
-
-    private void AlignPositionToHips()
-    {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        Vector3 hipOffset = enemy.transform.position - _root.transform.position;
-        enemy.transform.position = _hipsBone.position + hipOffset;
-
-        Vector3 positionOffset;
-
-        if (isFacingUp) 
-            positionOffset = _standUpBoneTransforms[0].Position;//HipsBonePosition
-        else
-            positionOffset = _pushUpBoneTransforms[0].Position;//HipsBonePosition
-
-
-        positionOffset.y = 0;
-        positionOffset = enemy.transform.rotation * positionOffset;
-
-        enemy.transform.position -= positionOffset;
-
-        if (Physics.Raycast(enemy.transform.position, Vector3.down, out RaycastHit hitInfo))
-        {
-            enemy.transform.position = new Vector3(enemy.transform.position.x, hitInfo.point.y, enemy.transform.position.z);
-        }
-
-        _hipsBone.position = originalHipsPosition;
-    }
-
-    private void AlignRotationToHips()
-    {
-        Vector3 originalHipsPosition = _hipsBone.position;
-        Quaternion originalHipsRotation = _hipsBone.rotation;
-
-        Vector3 desiredDirection = _hipsBone.up;
-
-        if (isFacingUp)
-        {
-            desiredDirection *= -1;
-        }
-
-        desiredDirection.y = 0;
-        desiredDirection.Normalize();
-
-        Quaternion fromToRotation = Quaternion.FromToRotation(enemy.transform.forward, desiredDirection);
-
-        enemy.transform.rotation *= fromToRotation;
-
-        _hipsBone.position = originalHipsPosition;
-        _hipsBone.rotation = originalHipsRotation;
-    }
-
-    private void PopulateBoneTransforms(BoneTransform[] boneTransforms)
-    {
-
-        for (int i = 0; i < _bones.Length; i++)
-        {
-            boneTransforms[i].Position = _bones[i].localPosition;
-            boneTransforms[i].Rotation = _bones[i].localRotation;
-        }
-    }
-
-    private void PopulateAnimationStartBoneTransforms(AnimationClip clip, BoneTransform[] boneTransforms)
-    {
-        Vector3 positionBeforeSampling = enemy.transform.position;
-        Quaternion rotationBeforeSampling = enemy.transform.rotation;
-
-        clip.SampleAnimation(enemy.gameObject, 0);
-        PopulateBoneTransforms(boneTransforms);
-
-        enemy.transform.position = positionBeforeSampling;
-        enemy.transform.rotation = rotationBeforeSampling;
     }
     public override bool IsReset()
     {

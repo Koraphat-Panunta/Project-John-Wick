@@ -272,7 +272,7 @@ public partial class PlayerAnimationManager : INodeManager
             && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
             , animator, "GunFuSecondaryDisarm", 0, 0.2f);
 
-        executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(()=>true,player,animator);
+        executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(()=>executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null,player,animator);
 
         restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
         restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)

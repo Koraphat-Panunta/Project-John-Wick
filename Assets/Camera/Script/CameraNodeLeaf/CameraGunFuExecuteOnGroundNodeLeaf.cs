@@ -149,7 +149,7 @@ public class CameraGunFuExecuteOnGroundNodeLeaf : CameraNodeLeaf,IObserverPlayer
     public void OnNotify<T>(Player player, T node) where T : INode
     {
         if(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf 
-            && gunFuExecuteNodeLeaf.curExecutePhase == GunFuExecute_OnGround_Single_NodeLeaf.GunFuExecutePhase.Execute)
+            && gunFuExecuteNodeLeaf.curGunFuPhase == GunFuExecute_OnGround_Single_NodeLeaf.GunFuExecuteSinglePhase.Execute)
             ExitPhase();
     }
 }

@@ -280,7 +280,7 @@ public class EnemyStateManagerNode : INodeManager
         gotExecuteSelector = new NodeSelector(
             ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecute_I = new GotGunFuExecuteNodeLeaf(enemy,()=> true, "GotGunFuDodgeExecuteSecondary");
-        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,enemy.layUpExecutedAnim,enemy.layDownExecutedAnim,
+        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,enemy.transform.root,enemy._hipsBone,enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Layup_I",
             () => 
             {
                 return enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf;

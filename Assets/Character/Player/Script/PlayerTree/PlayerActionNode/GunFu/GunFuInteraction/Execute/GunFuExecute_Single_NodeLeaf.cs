@@ -34,7 +34,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public enum GunFuExecuteSinglePhase 
     {
         Warping,
-        Interacting
+        Interacting,
+        Execute,
     }
     public GunFuExecuteSinglePhase curGunFuPhase { get;protected set; }
     public float _timer { get ; set ; }
@@ -140,10 +141,12 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         if (_timer >= _animationClip.length * gunFuExecute_Single_ScriptableObject.executeTimeNormalized
            && isExecuteAlready == false)
         {
+            curGunFuPhase = GunFuExecuteSinglePhase.Execute;
             BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
             weaponAdvanceUser._currentWeapon.PullTrigger();
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
+            player.NotifyObserver(player, this);
         }
     }
     private bool WarpingComplete()

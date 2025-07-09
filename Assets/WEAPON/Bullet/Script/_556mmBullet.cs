@@ -14,8 +14,8 @@ public class _556mmBullet : Bullet
         myType = BulletType._556mm;
     }
 
-    //public override void Shoot(Vector3 spawnerPosition, Vector3 pointPos,)
+    //public override void Execute(Vector3 spawnerPosition, Vector3 pointPos,)
     //{
-    //    base.Shoot(spawnerPosition, pointPos);
+    //    base.Execute(spawnerPosition, pointPos);
     //}
 }

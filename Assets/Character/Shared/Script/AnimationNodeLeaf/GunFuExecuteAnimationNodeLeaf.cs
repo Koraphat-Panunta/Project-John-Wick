@@ -5,7 +5,7 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
 {
     private IGunFuAble gunFuAble;
     private Animator animator;
-    private IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf 
+    public IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf 
     {
         get 
         {
