@@ -5,20 +5,17 @@ public static class RagdollBoneBehavior
     public static void AlignPositionToHips(Transform root, Transform hipsBone, Transform enemyTransform, BoneTransform hipsAnimStartTransform)
     {
         Vector3 originalHipsPosition = hipsBone.position;
-        Vector3 hipOffset = enemyTransform.position - root.position;
-        enemyTransform.position = hipsBone.position + hipOffset;
+        Vector3 originalPos = enemyTransform.position;
+        //Vector3 hipOffset = enemyTransform.position - root.position;
+        enemyTransform.position = hipsBone.position;
 
         Vector3 positionOffset = hipsAnimStartTransform.Position;
         positionOffset.y = 0;
         positionOffset = enemyTransform.rotation * positionOffset;
 
         enemyTransform.position -= positionOffset;
-
-        if (Physics.Raycast(enemyTransform.position, Vector3.down, out RaycastHit hitInfo))
-        {
-            enemyTransform.position = new Vector3(enemyTransform.position.x, hitInfo.point.y, enemyTransform.position.z);
-        }
-
+        enemyTransform.position = new Vector3(enemyTransform.position.x, originalPos.y, enemyTransform.position.z);
+       
         hipsBone.position = originalHipsPosition;
     }
 
@@ -89,4 +86,5 @@ public static class RagdollBoneBehavior
                 t);
         }
     }
+   
 }
