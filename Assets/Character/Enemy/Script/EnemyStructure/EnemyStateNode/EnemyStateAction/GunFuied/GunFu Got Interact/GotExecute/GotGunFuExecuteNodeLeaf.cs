@@ -15,9 +15,7 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
 
     private Transform gunFuGotAttackedTransform => enemy.transform;
 
-    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => this.gunFuExecuteScriptableObject;
-
-
+    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecuteScriptableObject;
 
     public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition,string gotExecuteStateName) : base(enemy, preCondition)
     {
@@ -29,9 +27,9 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
             return false;
 
         if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            && gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
+            && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
         {
-            gunFuExecuteScriptableObject = gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject;
+            gunFuExecuteScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_Single_ScriptableObject;
             return true;
         }
 

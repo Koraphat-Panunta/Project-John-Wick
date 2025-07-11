@@ -1634,7 +1634,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 995724956}
   m_SourcePrefab: {fileID: 100100000, guid: 84c69ff9c82bc70449b7e18c9854f0cb, type: 3}
 --- !u!4 &846169793 stripped
 Transform:
@@ -1798,12 +1802,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 675624841}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &976845150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 764269470}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &995724955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
     type: 3}
   m_PrefabInstance: {fileID: 764269470}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &995724956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976845150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f76dbde16030944abab7dcfd317ad60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunFuExecute_OnGround_Single_ScriptableObject: {fileID: 11400000, guid: 905aa12982e00884f99c2fcfa2cc8147,
+    type: 2}
+  hipTransform: {fileID: 1312762760}
 --- !u!1 &1094698495
 GameObject:
   m_ObjectHideFlags: 0
@@ -2598,25 +2623,25 @@ PrefabInstance:
         type: 3}
       propertyPath: gunFu_Single_Execute_OnGround_Pistol_Layup_I
       value: 
-      objectReference: {fileID: 11400000, guid: a37c7fe5c3dea5c4eb253edb09c0d4bd,
+      objectReference: {fileID: 11400000, guid: fc82b5dec796bbb4da4ebe32ee293546,
         type: 2}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: gunFu_Single_Execute_OnGround_Primary_Layup_I
       value: 
-      objectReference: {fileID: 11400000, guid: e3fa22e479af79f4397ec4c61f869a59,
+      objectReference: {fileID: 11400000, guid: de760c2e3a368e345b8f37aac30e6deb,
         type: 2}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: gunFu_Single_Execute_OnGround_Pistol_Laydown_I
       value: 
-      objectReference: {fileID: 11400000, guid: d41a7e6a4dee8f947bfea96f43b20055,
+      objectReference: {fileID: 11400000, guid: 905aa12982e00884f99c2fcfa2cc8147,
         type: 2}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: gunFu_Single_Execute_OnGround_Primary_Laydown_I
       value: 
-      objectReference: {fileID: 11400000, guid: 4827f5da1d137c64ba4cdbd7bb8209c9,
+      objectReference: {fileID: 11400000, guid: 8f112f0243f04cc4b9129c9ee35efec0,
         type: 2}
     - target: {fileID: 3883691192315787588, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -2746,6 +2771,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3eccfa7ddfbfd48af8e7be52496a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1312762760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2724998908371769539, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 764269470}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1584861673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,

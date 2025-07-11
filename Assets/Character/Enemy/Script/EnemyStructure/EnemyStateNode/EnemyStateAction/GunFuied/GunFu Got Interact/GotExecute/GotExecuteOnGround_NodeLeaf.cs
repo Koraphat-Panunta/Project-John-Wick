@@ -29,12 +29,13 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     }
     public ExecutedPhase executedPhase { get; set; }
 
-    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => this.gunFuExecute_Single_ScriptableObject;
 
     public float _timer { get; set; }
-    public AnimationClip _animationClip { get => _gunFuExecute_Single_ScriptableObject.gotExecuteClip; set { } }
+    public AnimationClip _animationClip { get => gunFuExecute_OnGround_Single_ScriptableObject.gotExecuteClip; set { } }
 
-    private GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject ;
+    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
+
+    private GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject ;
     private bool isPopulateBone;
     public GotExecuteOnGround_NodeLeaf(Enemy enemy,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
     {
@@ -60,9 +61,9 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
             return false;
 
         if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            && gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
+            && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
         {
-            gunFuExecute_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject;
+            gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_OnGround_Single_ScriptableObject;
             return true;
         }
 

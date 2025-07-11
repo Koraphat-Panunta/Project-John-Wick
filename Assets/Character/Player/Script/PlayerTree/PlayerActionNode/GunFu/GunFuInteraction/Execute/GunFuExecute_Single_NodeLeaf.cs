@@ -10,7 +10,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public IGunFuAble gunFuAble { get; set; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.attackedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
-    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject => gunFuExecute_Single_ScriptableObject;
+    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
     private Dictionary<float,bool> isShootAlready = new Dictionary<float,bool>();
     private List<float> shootimingNormalized => gunFuExecute_Single_ScriptableObject.firingTimingNormalized;
@@ -40,6 +40,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public GunFuExecuteSinglePhase curGunFuPhase { get;protected set; }
     public float _timer { get ; set ; }
     bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecuteAlready; set => isExecuteAlready = value; }
+
     private bool isExecuteAlready;
     public GunFuExecute_Single_NodeLeaf(Player player, Func<bool> preCondition,GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
     {

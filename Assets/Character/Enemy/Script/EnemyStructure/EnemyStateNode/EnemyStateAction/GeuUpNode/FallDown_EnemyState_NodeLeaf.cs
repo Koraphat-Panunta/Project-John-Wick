@@ -56,8 +56,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
         RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(standingUpClip, enemy.gameObject, _bones, _standUpBoneTransforms, enemy.transform);
         RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(pushingUpClip, enemy.gameObject, _bones, _pushUpBoneTransforms, enemy.transform);
 
-        //PopulateAnimationStartBoneTransforms(standingUpClip, _standUpBoneTransforms);
-        //PopulateAnimationStartBoneTransforms(pushingUpClip, _pushUpBoneTransforms);
     }
 
     public override void Enter()

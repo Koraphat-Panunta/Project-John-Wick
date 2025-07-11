@@ -23,7 +23,7 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
     }
     public override void Enter()
     {
-        animator.CrossFade(gunFuExecuteNodeLeaf._stateName,0.1f,0,gunFuExecuteNodeLeaf._gunFuExecute_Single_ScriptableObject.executeAnimationOffset);
+        animator.CrossFade(gunFuExecuteNodeLeaf._stateName,0.1f,0,gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.executeAnimationOffset);
         base.Enter();
     }
 

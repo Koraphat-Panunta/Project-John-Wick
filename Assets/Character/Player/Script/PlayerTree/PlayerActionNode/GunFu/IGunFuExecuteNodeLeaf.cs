@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
 {
-    public GunFuExecute_Single_ScriptableObject _gunFuExecute_Single_ScriptableObject { get; }
+    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject { get; }
     protected bool _isExecuteAldready { get; set; }
 }
 public class BulletExecute : Bullet

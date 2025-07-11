@@ -9,23 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18740a9455ac29419def181a67d509c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cdb007b2690cd34086b84b2bd7a4509, type: 3}
   m_Name: GunFu_Single_Execute_OnGround_Primary_Laydown_I
   m_EditorClassIdentifier: 
   gunFuStateName: GunFu_EX_stepOn_Pistol
   gotGunFuStateName: GotGunFu_Single_Execute_OnGround_Primary_Laydown_I
-  executeClip: {fileID: 0}
-  gotExecuteClip: {fileID: 0}
-  warpingPhaseTimeNormalized: 0
-  executeTimeNormalized: 0
-  executeAnimationExitNormarlized: 0
-  executeAnimationOffset: 0
+  executeClip: {fileID: 7400000, guid: 7713d10494788654e932c3f2d06a253e, type: 2}
+  gotExecuteClip: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
+  warpingPhaseTimeNormalized: 0.22
+  executeTimeNormalized: 0.56
+  executeAnimationExitNormarlized: 0.87
+  executeAnimationOffset: 0.05
+  slowMotionTriggerNormailzed: 0
   playerForwardRelativePosition: 0
   playerRightwardRelativePosition: 0
   playerRotationRelative: 0
-  opponentAnimationOffset: 0
-  opponentForwardRelative: 0
-  opponentRightwardRelative: 0
-  opponentRotationRelative: 0
-  slowMotionTriggerNormailzed: 0
   firingTimingNormalized: []

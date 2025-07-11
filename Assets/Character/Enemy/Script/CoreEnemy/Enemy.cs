@@ -468,8 +468,8 @@ public partial class Enemy : SubjectEnemy
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(transform.position, 0.15f);
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.forward);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawRay(transform.position, transform.forward);
     }
 
    
