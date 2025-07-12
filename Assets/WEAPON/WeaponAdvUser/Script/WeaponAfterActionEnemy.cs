@@ -42,7 +42,6 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                 case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf:
                     {
                         enemy.NotifyObserver(enemy, dropWeaponManuverNodeLeaf);
-                        Debug.Log("enemy Drop Weapon");
                         break;
                     }
                 case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf: enemy.NotifyObserver(enemy, pickUpWeaponNodeLeaf);

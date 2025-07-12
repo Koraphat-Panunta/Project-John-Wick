@@ -45,7 +45,7 @@ public class PlayerStateNodeManager : INodeManager
 
     public NodeSelector executeGunFuSelector { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf_I { get; set; }
-    public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_NodeLeaf { get; private set; }
+    public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit1gunFuNodeLeaf { get; private set; }
     public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
@@ -111,7 +111,7 @@ public class PlayerStateNodeManager : INodeManager
             && player.executedAbleGunFu != null);
         gunFuExecute_Single_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
             ()=> player._triggerExecuteGunFu,player.gunFuExecute_Single_ScriptableObject_I);
-        gunFuExecute_OnGround_NodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
+        gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
             () => 
             {
                 if (player._currentWeapon == null || player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0)
@@ -122,7 +122,7 @@ public class PlayerStateNodeManager : INodeManager
                     return true;
                 return false;
             }
-            ,player.gunFu_Single_Execute_OnGround_Pistol_Laydown_I
+            ,player.gunFu_Single_Execute_OnGround_Pistol_Layup_I
             );
         Hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)) )
@@ -220,7 +220,7 @@ public class PlayerStateNodeManager : INodeManager
 
         proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
 
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_NodeLeaf);
+        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_NodeLeaf_I);
 
         nodeManagerBehavior.SearchingNewNode(this);

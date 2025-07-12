@@ -9,10 +9,12 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
     {
         get 
         {
-            if(gunFuAble.curGunFuNode != null
+            if (gunFuAble.curGunFuNode != null
                 && gunFuAble.curGunFuNode is IGunFuExecuteNodeLeaf executeNodeLeaf)
+            {
                 return executeNodeLeaf;
-                else
+            }
+            else
                 return null;
         }
     }

@@ -50,7 +50,7 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
-    public GotExecuteOnGround_NodeLeaf gotExecuteOnGround_GotInteract_NodeLeaf { get; private set; }
+    public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit1_P_GunFuHitNodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit1_A_GunFuHitNodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit2_P_GunFuHitNodeLeaf { get; private set; }
@@ -280,27 +280,24 @@ public class EnemyStateManagerNode : INodeManager
         gotExecuteSelector = new NodeSelector(
             ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecute_I = new GotGunFuExecuteNodeLeaf(enemy,()=> true, "GotGunFuDodgeExecuteSecondary");
-        gotExecuteOnGround_GotInteract_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,enemy.transform.root,enemy._hipsBone,enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Layup_I",
+        gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,this.enemy.layUpExecutedAnim,enemy.transform.root,enemy._hipsBone,enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Layup_I",
             () => 
             {
-                return enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf;
+
+                if(enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf execute_OnGround_Single_NodeLeaf
+                && execute_OnGround_Single_NodeLeaf.gunFuExecute_OnGround_Single_ScriptableObject.gotGunFuStateName == gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf.gotExecuteStateName)
+                    return true;
+                return false;
             }
             );
         gotHit1_P_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
-                Debug.Log("enemy.curAttackerGunFuNode stateName = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf)._stateName);
-                Debug.Log("enemy.curAttackerGunFuNode hitCount = " + (enemy.curAttackerGunFuNode as GunFuHitNodeLeaf).hitCount);
-
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                 && gunFuHitNodeLeaf._stateName == "Hit1"
                 && gunFuHitNodeLeaf.hitCount == 1)
-                {
-                    //Debug.Log("enemy.curAttackerGunFuNode stateName = " + gunFuHitNodeLeaf.stateName);
-                    //Debug.Log("enemy.curAttackerGunFuNode hitCount = " + gunFuHitNodeLeaf.hitCount);
                     return true;
-                }
+                
                 return false;
             }
             , this.enemy.GotHit1_P);
@@ -427,7 +424,7 @@ public class EnemyStateManagerNode : INodeManager
         takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
 
         gotExecuteSelector.AddtoChildNode(gotExecute_I);
-        gotExecuteSelector.AddtoChildNode(gotExecuteOnGround_GotInteract_NodeLeaf);
+        gotExecuteSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

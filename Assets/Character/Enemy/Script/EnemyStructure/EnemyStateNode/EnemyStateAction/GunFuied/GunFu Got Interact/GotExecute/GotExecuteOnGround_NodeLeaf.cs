@@ -19,7 +19,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
 
     public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
-    private string gotExecuteStateName;
+    public string gotExecuteStateName { get; private set; }
 
     public enum ExecutedPhase
     {
@@ -31,13 +31,12 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
 
     public float _timer { get; set; }
-    public AnimationClip _animationClip { get => gunFuExecute_OnGround_Single_ScriptableObject.gotExecuteClip; set { } }
+    public AnimationClip _animationClip { get; set; }
 
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
 
     private GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject ;
-    private bool isPopulateBone;
-    public GotExecuteOnGround_NodeLeaf(Enemy enemy,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
+    public GotExecuteOnGround_NodeLeaf(Enemy enemy,AnimationClip gotExecuteClip,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._root = root;
         this._hipsBone =hipsBone;
@@ -47,27 +46,25 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         this._ragdollBoneTransforms = new BoneTransform[_bones.Length];
         this._startAnimBoneTransforms = new BoneTransform[_bones.Length];
 
-        this.isPopulateBone = false;
-
         for (int i = 0; i < _bones.Length; i++)
         {
             this._ragdollBoneTransforms[i] = new BoneTransform();
             this._startAnimBoneTransforms[i] = new BoneTransform();
         }
+
+
+        this._animationClip = gotExecuteClip;
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(_animationClip, enemy.gameObject, this._bones, _startAnimBoneTransforms, enemy.transform);
     }
     public override bool Precondition()
     {
-        if (base.Precondition() == false)
-            return false;
-
         if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
             && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
         {
             gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_OnGround_Single_ScriptableObject;
-            return true;
         }
 
-        return false;
+        return base.Precondition();
     }
     public override bool IsComplete()
     {
@@ -90,19 +87,17 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void Enter()
     {
-        if(isPopulateBone == false)
-        {
-            RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(_animationClip,enemy.gameObject,this._bones,_startAnimBoneTransforms, enemy.transform);
-            isPopulateBone = true;
-        }
+        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
+        RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
+        RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
 
         elapsedTime = 0;
         _elapsedResetBonesTime = 0;
         executedPhase = ExecutedPhase.ResetingBone;
 
-        RagdollBoneBehavior.AlignRotationToHips(_hipsBone,enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
-        RagdollBoneBehavior.PopulateBoneTransforms(_bones,_ragdollBoneTransforms);
+        //RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
+        //RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
+        //RagdollBoneBehavior.PopulateBoneTransforms(_bones,_ragdollBoneTransforms);
 
         enemy.NotifyObserver(enemy, this); 
 
