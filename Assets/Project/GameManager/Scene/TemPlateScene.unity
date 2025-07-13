@@ -2479,12 +2479,7 @@ PrefabInstance:
     - target: {fileID: 1968153037591969261, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine1'\n\tTransform
-        'mixamorig:Hips'\n\tTransform 'mixamorig:Spine'\n\tTransform 'mixamorig:RightArm'\n\tTransform
-        'mixamorig:Spine2'\n\tTransform 'mixamorig:RightShoulder'\n\tTransform 'mixamorig:RightHand'\n\tTransform
-        'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine1'\n\tand more ..."
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1968153037591969261, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -2642,6 +2637,18 @@ PrefabInstance:
       propertyPath: gunFu_Single_Execute_OnGround_Primary_Laydown_I
       value: 
       objectReference: {fileID: 11400000, guid: 8f112f0243f04cc4b9129c9ee35efec0,
+        type: 2}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: gunFu_Single_Execute_OnGround_Secondary_Layup_I
+      value: 
+      objectReference: {fileID: 11400000, guid: fc82b5dec796bbb4da4ebe32ee293546,
+        type: 2}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: gunFu_Single_Execute_OnGround_Secondary_Laydown_I
+      value: 
+      objectReference: {fileID: 11400000, guid: 905aa12982e00884f99c2fcfa2cc8147,
         type: 2}
     - target: {fileID: 3883691192315787588, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}

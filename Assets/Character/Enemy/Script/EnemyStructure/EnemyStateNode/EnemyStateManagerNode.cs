@@ -51,6 +51,9 @@ public class EnemyStateManagerNode : INodeManager
     public NodeSelector gotExecuteSelector { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
+    public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf { get; private set; }
+    public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Primary_LayUp_I_NodeLeaf { get; private set; }
+    public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Primary_LayDown_I_NodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit1_P_GunFuHitNodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit1_A_GunFuHitNodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit2_P_GunFuHitNodeLeaf { get; private set; }
