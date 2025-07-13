@@ -49,6 +49,7 @@ public class EnemyStateManagerNode : INodeManager
 
     public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
+    public NodeSelector gotExecuteOnGroundSelector { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf { get; private set; }
@@ -282,13 +283,41 @@ public class EnemyStateManagerNode : INodeManager
             () => enemy._triggerHitedGunFu);
         gotExecuteSelector = new NodeSelector(
             ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
+        gotExecuteOnGroundSelector = new NodeSelector(
+            ()=> enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf);
         gotExecute_I = new GotGunFuExecuteNodeLeaf(enemy,()=> true, "GotGunFuDodgeExecuteSecondary");
         gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,this.enemy.layUpExecutedAnim,enemy.transform.root,enemy._hipsBone,enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Layup_I",
             () => 
             {
-
                 if(enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf execute_OnGround_Single_NodeLeaf
                 && execute_OnGround_Single_NodeLeaf.gunFuExecute_OnGround_Single_ScriptableObject.gotGunFuStateName == gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            );
+        gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy, this.enemy.layUpExecutedAnim, enemy.transform.root, enemy._hipsBone, enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Laydown_I",
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf execute_OnGround_Single_NodeLeaf
+                && execute_OnGround_Single_NodeLeaf.gunFuExecute_OnGround_Single_ScriptableObject.gotGunFuStateName == gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            );
+        gotExecute_OnGround_Primary_LayUp_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy, this.enemy.layUpExecutedAnim, enemy.transform.root, enemy._hipsBone, enemy._bones, "GotGunFu_Single_Execute_OnGround_Primary_Layup_I",
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf execute_OnGround_Single_NodeLeaf
+                && execute_OnGround_Single_NodeLeaf.gunFuExecute_OnGround_Single_ScriptableObject.gotGunFuStateName == gotExecute_OnGround_Primary_LayUp_I_NodeLeaf.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            );
+        gotExecute_OnGround_Primary_LayDown_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy, this.enemy.layUpExecutedAnim, enemy.transform.root, enemy._hipsBone, enemy._bones, "GotGunFu_Single_Execute_OnGround_Primary_Laydown_I",
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf execute_OnGround_Single_NodeLeaf
+                && execute_OnGround_Single_NodeLeaf.gunFuExecute_OnGround_Single_ScriptableObject.gotGunFuStateName == gotExecute_OnGround_Primary_LayDown_I_NodeLeaf.gotExecuteStateName)
                     return true;
                 return false;
             }
@@ -426,8 +455,13 @@ public class EnemyStateManagerNode : INodeManager
         takeCoverSelector.AddtoChildNode(enemyStandTakeAimState);
         takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
 
+        gotExecuteSelector.AddtoChildNode(gotExecuteOnGroundSelector);
         gotExecuteSelector.AddtoChildNode(gotExecute_I);
-        gotExecuteSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
+
+        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
+        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf);
+        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Primary_LayUp_I_NodeLeaf);
+        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Primary_LayDown_I_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

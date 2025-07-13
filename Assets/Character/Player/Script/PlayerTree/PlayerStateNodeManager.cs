@@ -19,8 +19,6 @@ public class PlayerStateNodeManager : INodeManager
    
     public void UpdateNode()=>nodeManagerBehavior.UpdateNode(this);
    
-
-
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standSelectorNode { get; private set; }
@@ -113,6 +111,9 @@ public class PlayerStateNodeManager : INodeManager
         executeGunFuSelector = new NodeSelector(
             ()=> player._triggerExecuteGunFu
             && player.executedAbleGunFu != null);
+        executeGunFuOnGroundSelector = new NodeSelector(
+            () => player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble 
+            && downGetUpAble._isFallDown);
         gunFuExecute_Single_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
             ()=> player._triggerExecuteGunFu,player.gunFuExecute_Single_ScriptableObject_I);
         gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf = new GunFuExecute_OnGround_Single_NodeLeaf(player,
@@ -120,11 +121,12 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if (player._currentWeapon == null 
                 && player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0
-                && player._currentWeapon is SecondaryWeapon)
+                )
                     return false;
                 if (
                 player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
-                && downGetUpAble._isFallDown && downGetUpAble._isFacingUp)  
+                && downGetUpAble._isFallDown && downGetUpAble._isFacingUp
+                && player._currentWeapon is SecondaryWeapon)
                     return true;
                 return false;
             }
@@ -135,11 +137,12 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if (player._currentWeapon == null
                && player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0
-               && player._currentWeapon is SecondaryWeapon)
+              )
                     return false;
                 if (
                 player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
-                && downGetUpAble._isFallDown )
+                && downGetUpAble._isFallDown 
+                && player._currentWeapon is SecondaryWeapon)
                     return true;
                 return false;
             },player.gunFu_Single_Execute_OnGround_Secondary_Laydown_I
@@ -149,11 +152,12 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if (player._currentWeapon == null
                && player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0
-               && player._currentWeapon is SecondaryWeapon)
+               )
                     return false;
                 if (
                 player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
-                && downGetUpAble._isFallDown )
+                && downGetUpAble._isFallDown && downGetUpAble._isFacingUp
+                && player._currentWeapon is PrimaryWeapon)
                     return true;
                 return false;
             },player.gunFu_Single_Execute_OnGround_Primary_Layup_I
@@ -163,11 +167,12 @@ public class PlayerStateNodeManager : INodeManager
             {
                 if (player._currentWeapon == null
               && player._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0
-              && player._currentWeapon is PrimaryWeapon)
+              )
                     return false;
                 if (
                 player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
-                && downGetUpAble._isFallDown)
+                && downGetUpAble._isFallDown
+                && player._currentWeapon is PrimaryWeapon)
                     return true;
                 return false;
             }
@@ -269,11 +274,13 @@ public class PlayerStateNodeManager : INodeManager
 
         proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
 
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_LayDown_I_NodeLeaf);
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayUp_I_NodeLeaf);
-        executeGunFuSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayDown_I_NodeLeaf);
+        executeGunFuSelector.AddtoChildNode(executeGunFuOnGroundSelector);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_NodeLeaf_I);
+
+        executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
+        executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_LayDown_I_NodeLeaf);
+        executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayUp_I_NodeLeaf);
+        executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayDown_I_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
