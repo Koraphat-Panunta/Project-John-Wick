@@ -73,9 +73,10 @@ public partial class Enemy : SubjectEnemy
             new WeaponAttachingBehavior().Attach(startWeapon, MainHandSocket);
         base.Start();
     }
-
+    [SerializeField] private float _staggerGauge;
     void Update()
     {
+        this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
         enemyStateManagerNode.UpdateNode();
@@ -87,7 +88,9 @@ public partial class Enemy : SubjectEnemy
     {
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
+
     }
+
     private void FixedUpdate()
     {
         enemyStateManagerNode.FixedUpdateNode();
@@ -361,6 +364,9 @@ public partial class Enemy : SubjectEnemy
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
+            if(enemyStateManagerNode == null)
+                return false;
+
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
             return false;

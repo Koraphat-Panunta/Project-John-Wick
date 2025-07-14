@@ -50,9 +50,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
         enemy._isPainTrigger = true;
 
-        if (enemy._posture > 0)
+        if(enemy._posture > 0)
             enemy._posture -= pressureDamage;
-
         if(enemy.staggerGauge > 0)
             enemy.staggerGauge -= pressureDamage;
 

@@ -13,4 +13,8 @@ public partial class Enemy : IStaggerAble
         }
     }
     public float staggerGauge { get; set; }
+
+    [SerializeField] private float _maxStaggerGauge;
+    public float maxStaggerGauge => _maxStaggerGauge;
+    public RecoveryStaggerNodeLeaf recoveryStaggerNodeLeaf { get; set; }
 }

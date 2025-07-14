@@ -232,6 +232,10 @@ public class EnemyStateManagerNode : INodeManager
     {
         startNodeSelector = new EnemyStateSelectorNode(enemy, () => true);
         enemyCombineNode = new NodeCombine(()=>true,()=>false);
+
+        enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
+            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,4);
+
         enemyStateSelector = new NodeSelector(() => true);
 
         standSelector = new EnemyStateSelectorNode(this.enemy,
@@ -422,6 +426,7 @@ public class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemyCombineNode);
         enemyCombineNode.AddCombineNode(enemyStateSelector);
+        enemyCombineNode.AddCombineNode(enemy.recoveryStaggerNodeLeaf);
 
         enemyStateSelector.AddtoChildNode(enemtDeadState);
         enemyStateSelector.AddtoChildNode(gotGunFuAttackSelector);
