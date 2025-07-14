@@ -155,7 +155,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                     });
         sprintToSpinKick = new EnemyTestingCommand(() => { },
             ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,1.25f));
-        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.curNodeLeaf is EnemySpinKickGunFuNodeLeaf);
+        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
         enemyTestingCommands.Enqueue(moveToPos1);//21
         enemyTestingCommands.Enqueue(rotateToPos2);//20

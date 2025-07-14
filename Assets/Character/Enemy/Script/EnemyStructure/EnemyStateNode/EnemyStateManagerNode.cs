@@ -34,6 +34,10 @@ public class EnemyStateManagerNode : INodeManager
     
 
     #region Initailized State Node
+    public NodeCombine enemyCombineNode { get;private set; }
+    public NodeSelector enemyStateSelector { get; private set; }
+
+
     public EnemyStateSelectorNode standSelector { get; private set; }
     public EnemyStateSelectorNode takeCoverSelector { get; private set; }
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
@@ -227,6 +231,8 @@ public class EnemyStateManagerNode : INodeManager
     public void InitailizedNode()
     {
         startNodeSelector = new EnemyStateSelectorNode(enemy, () => true);
+        enemyCombineNode = new NodeCombine(()=>true,()=>false);
+        enemyStateSelector = new NodeSelector(() => true);
 
         standSelector = new EnemyStateSelectorNode(this.enemy,
             () => true
@@ -414,14 +420,16 @@ public class EnemyStateManagerNode : INodeManager
             }
             , enemy.animator);
 
+        startNodeSelector.AddtoChildNode(enemyCombineNode);
+        enemyCombineNode.AddCombineNode(enemyStateSelector);
 
-        startNodeSelector.AddtoChildNode(enemtDeadState);
-        startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
-        startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        enemyStateSelector.AddtoChildNode(enemtDeadState);
+        enemyStateSelector.AddtoChildNode(gotGunFuAttackSelector);
+        enemyStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
-        startNodeSelector.AddtoChildNode(painStateSelector);
-        startNodeSelector.AddtoChildNode(gunFuSelector);
-        startNodeSelector.AddtoChildNode(standSelector);
+        enemyStateSelector.AddtoChildNode(painStateSelector);
+        enemyStateSelector.AddtoChildNode(gunFuSelector);
+        enemyStateSelector.AddtoChildNode(standSelector);
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
 

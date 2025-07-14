@@ -53,12 +53,13 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         if (enemy._posture > 0)
             enemy._posture -= pressureDamage;
 
+        if(enemy.staggerGauge > 0)
+            enemy.staggerGauge -= pressureDamage;
+
         enemy.TakeDamage(damage);
     }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
-
-
 
     protected virtual void ForceCalulate()
     {
@@ -79,13 +80,11 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
-
         enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
     }
 
     public Vector3 velocity { get => bodyPartRigid.linearVelocity; set { } }
     public Vector3 position { get => enemy.transform.position; set => enemy.transform.position = value; }
-    public INodeLeaf curNodeLeaf { get => ((IGotGunFuAttackedAble)enemy).curNodeLeaf; set => ((IGotGunFuAttackedAble)enemy).curNodeLeaf = value; }
 
     public Character _character => enemy;
     public virtual void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)

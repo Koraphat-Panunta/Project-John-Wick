@@ -361,7 +361,7 @@ public partial class Enemy : SubjectEnemy
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
-            if(curNodeLeaf is EnemyPainStateNodeLeaf)
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
             return false;
         } set { } }
