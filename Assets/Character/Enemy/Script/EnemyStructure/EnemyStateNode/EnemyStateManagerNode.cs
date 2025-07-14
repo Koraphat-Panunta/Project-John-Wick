@@ -337,15 +337,11 @@ public class EnemyStateManagerNode : INodeManager
         gotHit1_P_GunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,
             () => 
             {
-                Debug.Log("gotHit1_P_GunFuHitNodeLeaf 1");
 
                 if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf
                 && gunFuHitNodeLeaf._stateName == "Hit1"
                 && gunFuHitNodeLeaf.hitCount == 1)
                     return true;
-
-                Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
-                Debug.Log("gotHit1_P_GunFuHitNodeLeaf 2");
                 return false;
             }
             , this.enemy.GotHit1_P);

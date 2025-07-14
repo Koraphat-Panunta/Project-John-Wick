@@ -30,11 +30,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     }
     public override void Enter()
     {
-        Debug.Log("timer = " + _timer);
-        //Debug.Log("IsReset = " + this.IsReset());
-        Debug.Log("GotGunFuHitNodeLeaf name = " + gotHitstateName);
-        Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
-
+       
         _timer = 0;
         enemy._movementCompoent.SetRotation(Quaternion.LookRotation((gunFuAble._character.transform.position - enemy.transform.position).normalized
             ,Vector3.up));
@@ -43,16 +39,11 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     }
     public override void Exit()
     {
-        Debug.Log("timer = " + _timer);
-        //Debug.Log("IsReset = " + this.IsReset());
-        Debug.Log("GotGunFuHitNodeLeaf name = " + gotHitstateName);
-        Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
-        //enemy.curAttackerGunFuNode = null;
+        
         base.Exit();
     }
     public override void UpdateNode()
     {
-        Debug.Log("timer = " + _timer);
         _timer += Time.deltaTime;
 
         if(_timer >= _animationClip.length*_exitTime_Normalized - legnhtOffset)
@@ -68,7 +59,6 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
 
     public override bool IsReset()
     {
-        Debug.Log("timer = " + _timer);
 
         if (IsComplete())
             return true;
