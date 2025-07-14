@@ -231,7 +231,7 @@ public class EnemyStateManagerNode : INodeManager
     public void InitailizedNode()
     {
         startNodeSelector = new EnemyStateSelectorNode(enemy, () => true);
-        enemyCombineNode = new NodeCombine(()=>true,()=>false);
+        enemyCombineNode = new NodeCombine(()=>true,()=> false);
 
         enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
             () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,4);
@@ -344,6 +344,7 @@ public class EnemyStateManagerNode : INodeManager
                 && gunFuHitNodeLeaf.hitCount == 1)
                     return true;
 
+                Debug.Log("enemy.curAttackerGunFuNode = " + enemy.curAttackerGunFuNode);
                 Debug.Log("gotHit1_P_GunFuHitNodeLeaf 2");
                 return false;
             }
