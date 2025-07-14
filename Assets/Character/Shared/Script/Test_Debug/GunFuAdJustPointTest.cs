@@ -15,7 +15,7 @@ public class GunFuAdJustPointTest : MonoBehaviour
     Vector3 dir => (opponentTransform.position - attackerTransform.position).normalized;
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame

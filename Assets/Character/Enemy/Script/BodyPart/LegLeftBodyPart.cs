@@ -16,18 +16,8 @@ public class LegLeftBodyPart : BodyPart
     
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
-        Bullet bulletObj = damageVisitor as Bullet;
-
-        float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
-        float pressureDamage = bulletObj.impactDamage * postureReciverRate;
-
-        enemy._isPainTrigger = true;
         enemy._painPart = IPainStateAble.PainPart.LegLeft;
-
-        if (enemy._posture > 0)
-            enemy._posture -= pressureDamage;
-
-        enemy.TakeDamage(damage);
+        base.TakeDamage(damageVisitor);
     }
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {

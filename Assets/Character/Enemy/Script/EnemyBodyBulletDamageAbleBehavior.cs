@@ -13,7 +13,6 @@ public class EnemyBodyBulletDamageAbleBehavior : IBulletDamageAble
         enemyBody.forceSave = hitDir * hitforce;
         enemyBody.hitForcePositionSave = hitPos;
         enemyBody.isForceSave = true;
-
     }
 
     public void TakeDamage(IDamageVisitor damageVisitor)

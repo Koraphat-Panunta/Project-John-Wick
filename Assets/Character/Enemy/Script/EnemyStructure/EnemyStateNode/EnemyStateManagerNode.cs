@@ -247,10 +247,6 @@ public class EnemyStateManagerNode : INodeManager
             {
                 if (this.enemy._isPainTrigger && this.enemy._posture <= 0)
                     return true;
-
-                if(this.enemy._tiggerThrowAbleObjectHit)
-                    return true;
-
                 return false;
             }
        );

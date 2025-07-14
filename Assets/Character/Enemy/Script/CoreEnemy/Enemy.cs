@@ -11,7 +11,7 @@ public partial class Enemy : SubjectEnemy
     IHeardingAble, IPatrolComponent,
     IPainStateAble, IFallDownGetUpAble,
      IFriendlyFirePreventing,
-    IThrowAbleObjectVisitable, ICommunicateAble
+     ICommunicateAble
     , IBulletDamageAble
 {
     [Range(0, 100)]
@@ -131,7 +131,6 @@ public partial class Enemy : SubjectEnemy
         _isReloadCommand = false;
         _isPainTrigger = false;
         _triggerHitedGunFu = false;
-        _tiggerThrowAbleObjectHit = false;
         _isPickingUpWeaponCommand = false;
         _isPullTriggerCommand = false;
         _triggerGunFu = false;
@@ -416,16 +415,6 @@ public partial class Enemy : SubjectEnemy
     public int allieID { get ; set ; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
 
-    #endregion
-
-    #region ImplementIThrowAbleVisitable
-    [SerializeField] public bool _tiggerThrowAbleObjectHit { get;private set; }
- 
-
-    public void GotVisit(IThrowAbleObjectVisitor throwAbleObjectVisitor)
-    {
-        _tiggerThrowAbleObjectHit = true;
-    }
     #endregion
 
     #region TransformLocalWorld

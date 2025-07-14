@@ -92,7 +92,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
-        if(enemy._isPainTrigger || enemy._tiggerThrowAbleObjectHit)
+        if(enemy._isPainTrigger )
         {
             RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
             (enemy._movementCompoent as MovementCompoent).CancleMomentum();
