@@ -32,7 +32,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-            if (posture < postureMedium)
+            if (isStagger)
                 return true;
 
             if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
