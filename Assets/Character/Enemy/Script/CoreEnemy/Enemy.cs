@@ -9,7 +9,7 @@ public partial class Enemy : SubjectEnemy
     , IWeaponAdvanceUser, IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
-    IPainStateAble, IFallDownGetUpAble,
+    IPainStateAble, 
      IFriendlyFirePreventing,
      ICommunicateAble
     , IBulletDamageAble

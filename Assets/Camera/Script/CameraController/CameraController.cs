@@ -106,19 +106,15 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
                     {
-                        Debug.Log("Camera get notify hit enter");
                         this.isPerformGunFu = true;
                         this.curGunFuNode = gunFuHitNodeLeaf;
                     }
                     else if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Exit)
                     {
-                        Debug.Log("Camera get notify hit exit");
                         this.isPerformGunFu = false;
                         if(this.curGunFuNode == gunFuHitNodeLeaf)
                             this.curGunFuNode = null;
                     }
-
-                    Debug.Log("gunFuHitNodeLeaf = " + gunFuHitNodeLeaf.curPhaseGunFuHit);
                         
 
                     if(gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public partial class Enemy
+public partial class Enemy: IFallDownGetUpAble
 {
     #region InitailizedFallDownGetUp Properties
     [SerializeField] private AnimationClip standUpClip;

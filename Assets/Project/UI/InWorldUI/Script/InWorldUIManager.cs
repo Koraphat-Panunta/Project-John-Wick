@@ -46,4 +46,16 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
+    private void OnValidate()
+    {
+        if(mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+        if(player == null)
+        {
+            player = FindAnyObjectByType<Player>();
+        }
+            
+    }
 }
