@@ -9,7 +9,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     private ObjectPooling<InWorldUI> objectPooling;
     private Camera camera;
     private LayerMask enemyMask;
-    private List<InWorldUI> enemyStatusInWorldUIs;
+    private Dictionary<Enemy, InWorldUI> assignInWorldEnemy;
     public EnemyStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
         ,Camera camera
         ,IGunFuAble gunFuAble
@@ -18,7 +18,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         this.fieldOfView = new FieldOfView(7.5f,camera.fieldOfView,camera.transform);
         this.gunFuAble = gunFuAble;
         objectPooling = new ObjectPooling<InWorldUI>(enemyStatusInWorldUI,10,5,Vector3.zero);
-        enemyStatusInWorldUIs = new List<InWorldUI>();
+        assignInWorldEnemy = new Dictionary<Enemy, InWorldUI>();
         this.enemyMask = LayerMask.GetMask("Enemy");
     }
     public override void FixedUpdateNode()
@@ -29,10 +29,10 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     }
     private void UpdateUIActivate()
     {
-        if(enemyStatusInWorldUIs.Count <= 0)
+        if(assignInWorldEnemy.Count <= 0)
             return;
 
-        for (int i = 0; i < enemyStatusInWorldUIs.Count; i++) 
+        for (int i = 0; i < assignInWorldEnemy.Count; i++) 
         {
             //if (enemyStatusInWorldUIs[i].curEnemyStatusInWorldUIPhase == EnemyStatusInWorldUI.EnemyStatusInWorldUIPhase.none) 
             //{
@@ -48,17 +48,22 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
         foreach (GameObject obj in fieldOfView.FindMultipleTargetsInView(this.enemyMask))
         {
+
             if (obj.TryGetComponent<HeadBodyPart>(out HeadBodyPart headBodyPart) == false)
                 return;
 
             if (enemyDected.Contains(headBodyPart.enemy))
                 return;
 
+            enemyDected.Add(headBodyPart.enemy);
+
+            if (assignInWorldEnemy.ContainsKey(headBodyPart.enemy))
+                return;
+
             if (headBodyPart.enemy.isStagger)
             {
                 InWorldUI enemyStatusInWorldUI = objectPooling.Get();
-                enemyStatusInWorldUIs.Add(enemyStatusInWorldUI);
-                enemyDected.Add(headBodyPart.enemy);
+                assignInWorldEnemy.Add(headBodyPart.enemy,enemyStatusInWorldUI);
             }
         }
     }
