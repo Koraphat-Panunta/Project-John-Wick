@@ -4,7 +4,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
 {
 
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private EnemyStatusInWorldUI executeInWorldUI;
+    [SerializeField] private InWorldUI executeInWorldUI;
     [SerializeField] private Player player;
 
     public INodeSelector startNodeSelector { get; set; }

@@ -6,19 +6,19 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 {
     private FieldOfView fieldOfView;
     private IGunFuAble gunFuAble;
-    private ObjectPooling<EnemyStatusInWorldUI> objectPooling;
+    private ObjectPooling<InWorldUI> objectPooling;
     private Camera camera;
     private LayerMask enemyMask;
-    private List<EnemyStatusInWorldUI> enemyStatusInWorldUIs;
+    private List<InWorldUI> enemyStatusInWorldUIs;
     public EnemyStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
         ,Camera camera
         ,IGunFuAble gunFuAble
-        ,EnemyStatusInWorldUI enemyStatusInWorldUI) : base(preCondition)
+        , InWorldUI enemyStatusInWorldUI) : base(preCondition)
     {
         this.fieldOfView = new FieldOfView(7.5f,camera.fieldOfView,camera.transform);
         this.gunFuAble = gunFuAble;
-        objectPooling = new ObjectPooling<EnemyStatusInWorldUI>(enemyStatusInWorldUI,10,5,Vector3.zero);
-        enemyStatusInWorldUIs = new List<EnemyStatusInWorldUI>();
+        objectPooling = new ObjectPooling<InWorldUI>(enemyStatusInWorldUI,10,5,Vector3.zero);
+        enemyStatusInWorldUIs = new List<InWorldUI>();
         this.enemyMask = LayerMask.GetMask("Enemy");
     }
     public override void FixedUpdateNode()
@@ -34,10 +34,10 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
         for (int i = 0; i < enemyStatusInWorldUIs.Count; i++) 
         {
-            if (enemyStatusInWorldUIs[i].curEnemyStatusInWorldUIPhase == EnemyStatusInWorldUI.EnemyStatusInWorldUIPhase.none) 
-            {
-                objectPooling.ReturnToPool(enemyStatusInWorldUIs[i]);
-            }
+            //if (enemyStatusInWorldUIs[i].curEnemyStatusInWorldUIPhase == EnemyStatusInWorldUI.EnemyStatusInWorldUIPhase.none) 
+            //{
+            //    objectPooling.ReturnToPool(enemyStatusInWorldUIs[i]);
+            //}
         }
        
     }
@@ -56,7 +56,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
             if (headBodyPart.enemy.isStagger)
             {
-                EnemyStatusInWorldUI enemyStatusInWorldUI = objectPooling.Get();
+                InWorldUI enemyStatusInWorldUI = objectPooling.Get();
                 enemyStatusInWorldUIs.Add(enemyStatusInWorldUI);
                 enemyDected.Add(headBodyPart.enemy);
             }
