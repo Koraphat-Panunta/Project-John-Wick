@@ -56,8 +56,6 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationClip layDownExecutedAnim;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
-        Debug.Log("TakeGunFuAttacked = " + curAttackerGunFuNode);
-
         _triggerHitedGunFu = true;
         curAttackerGunFuNode = gunFu_NodeLeaf;
         gunFuAbleAttacker = attacker;

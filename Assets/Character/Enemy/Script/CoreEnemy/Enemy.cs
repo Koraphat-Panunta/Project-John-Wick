@@ -52,6 +52,7 @@ public partial class Enemy : SubjectEnemy
         posture = 100;
         base.HP = 100;
         base.maxHp = 100;
+        staggerGauge = maxStaggerGauge;
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);

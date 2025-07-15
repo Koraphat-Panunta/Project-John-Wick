@@ -26,6 +26,10 @@ public class InWorldUI : MonoBehaviour
     {
         this._offsetUIPos = offset;
     }
+    public void PlayAnimation(string animationName)
+    {
+        this.animator.CrossFade(animationName,0.05f,0);
+    }
     public void SetCameraLookAt(Camera camera)
     {
         this._lookToCamera = camera;

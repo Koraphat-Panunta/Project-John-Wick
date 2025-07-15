@@ -34,8 +34,6 @@ public class RecoveryStaggerNodeLeaf : INodeLeaf
     {
         this.timer += Time.deltaTime;
 
-        Debug.Log("RecoveryStaggerTime = " + this.timer);
-
         if(this.timer >= this.recoverTime)
         {
             this.isComplete = true;
