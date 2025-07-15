@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble
+public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorldPlaceAble
 {
     public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }

@@ -690,8 +690,9 @@ GameObject:
   - component: {fileID: 1392175823519093556}
   - component: {fileID: 2952097923134337874}
   - component: {fileID: 1576967869659561845}
+  - component: {fileID: 7153622357686120071}
   m_Layer: 5
-  m_Name: GameplayUI
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -814,6 +815,21 @@ MonoBehaviour:
   - {fileID: 4902085867966858287}
   - {fileID: 2153676537989341232}
   - {fileID: 8795274415941893491}
+--- !u!114 &7153622357686120071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172305961655887961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41595cf1f1cd425458cd797ee7775a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  executeInWorldUI: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1001 &482253626148303335
 PrefabInstance:
   m_ObjectHideFlags: 0

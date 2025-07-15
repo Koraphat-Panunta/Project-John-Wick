@@ -17,7 +17,7 @@ public class CoverPointTallDoubleSide : CoverPoint
         target = null;
         fieldOfView = new FieldOfView(fovDistance, fovAngleDegrees, peekPos);
 
-        if (fieldOfView.FindSingleObjectInView(targetMask, out GameObject targetObj))
+        if (fieldOfView.TryFindSingleTarget(targetMask, out GameObject targetObj))
         {
             target = targetObj;
             return true;

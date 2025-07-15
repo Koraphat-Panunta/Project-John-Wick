@@ -68,7 +68,7 @@ public class CombatOffensiveInstinct
     {
         float lineOfsightAwareIntensity = 20;
 
-        if(fieldOfView.FindSingleObjectInView(offensiveInstinct.targetLayer,new Vector3(0, 1.23f, 0),out GameObject target) == false)
+        if(fieldOfView.TryFindSingleTarget(offensiveInstinct.targetLayer,out GameObject target,new Vector3(0, 1.23f, 0)) == false)
         return;
 
         if(target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser thisTarget))

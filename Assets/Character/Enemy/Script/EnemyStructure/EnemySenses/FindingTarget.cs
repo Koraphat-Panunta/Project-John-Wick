@@ -21,7 +21,7 @@ public class FindingTarget
     public bool FindTarget(out GameObject target)
     {
         target = null;
-        if (fieldOfView.FindSingleObjectInView(this.targetMask, new Vector3(0, 1.3f, 0), out GameObject spottedTarget))
+        if (fieldOfView.TryFindSingleTarget(this.targetMask, out GameObject spottedTarget, new Vector3(0, 1.3f, 0)))
         {
 
             lastSeenPos = spottedTarget.transform.position;

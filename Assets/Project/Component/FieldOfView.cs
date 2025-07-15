@@ -5,185 +5,78 @@ using UnityEngine;
 
 public class FieldOfView
 {
-    private float Radiant;
-    private float AngelInDegree;
-    private Transform objView;
-    private LayerMask defualtLayerMask;
-    public FieldOfView(float radiant, float angelInDegree, Transform objView)
-    {
-        Radiant = radiant;
-        AngelInDegree = angelInDegree;
-        this.objView = objView;
-        defualtLayerMask = LayerMask.GetMask("Default");
-    }
-    public GameObject FindSingleObjectInView(LayerMask targetMask)
-    {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        GameObject returnObj = null;
-        if (obj[0] != null)
-        {
-            Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
-            Objdirection.Normalize();
-            if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
-            {
+    private float radius;
+    private float angleInDegrees;
+    private Transform viewOrigin;
+    private LayerMask defaultLayerMask;
 
-                if (Physics.Raycast(objView.transform.position, (obj[0].transform.position-objView.transform.position).normalized, out RaycastHit hit, 1000,defualtLayerMask+targetMask))
-                {                   
-                    if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
-                    {
-                        returnObj = obj[0].gameObject;
-                    }
-                }
-            }
-        }
-        return returnObj;
+    public FieldOfView(float radius, float angleInDegrees, Transform viewOrigin)
+    {
+        this.radius = radius;
+        this.angleInDegrees = angleInDegrees;
+        this.viewOrigin = viewOrigin;
+        this.defaultLayerMask = LayerMask.GetMask("Default");
     }
 
-    public bool FindSingleObjectInView(LayerMask targetMask,Vector3 offsetView,out GameObject targetObj)
+    public GameObject FindSingleTarget(LayerMask targetMask, Vector3? offset = null, Vector3? customLookDir = null, float? customAngle = null)
     {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        targetObj = null;
+        Collider[] hits = Physics.OverlapSphere(viewOrigin.position, radius, targetMask);
+        if (hits.Length == 0) return null;
 
-        if(obj.Length <=0)
-            return false;
+        Vector3 origin = viewOrigin.position + (offset ?? Vector3.zero);
+        Vector3 forward = customLookDir ?? viewOrigin.forward;
+        float angleLimit = (customAngle ?? angleInDegrees) / 2f;
 
-        Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
-        Objdirection.Normalize();
-        if (Vector3.Angle(objView.transform.forward, Objdirection) >= AngelInDegree / 2)
-            return false;
-
-        if (Physics.Raycast(objView.transform.position, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
+        foreach (Collider target in hits)
         {
-            if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
+            Vector3 toTarget = (target.transform.position - origin).normalized;
+            if (Vector3.Angle(forward, toTarget) > angleLimit) continue;
+
+            if (Physics.Raycast(origin, toTarget, out RaycastHit hit, radius, defaultLayerMask | targetMask))
             {
-                targetObj = obj[0].gameObject;
-                return true;
+                if (hit.collider.gameObject == target.gameObject)
+                    return target.gameObject;
             }
         }
-        return false;
-    }
-    public bool FindSingleObjectInView(LayerMask targetMask, out GameObject targetObj)
-    {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        targetObj = null;
-
-        if (obj.Length <= 0)
-            return false;
-
-        Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
-        Objdirection.Normalize();
-        if (Vector3.Angle(objView.transform.forward, Objdirection) >= AngelInDegree / 2)
-            return false;
-
-        if (Physics.Raycast(objView.transform.position, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
-        {
-            if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
-            {
-                targetObj = obj[0].gameObject;
-                return true;
-            }
-        }
-        return false;
+        return null;
     }
 
-    public bool FindSingleObjectInView(LayerMask targetMask,Vector3 lookDir,float angleInDegrees, out GameObject targetObj)
+    public bool TryFindSingleTarget(LayerMask targetMask, out GameObject targetObj, Vector3? offset = null, Vector3? customLookDir = null, float? customAngle = null)
     {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        targetObj = null;
-
-        if (obj.Length <= 0)
-            return false;
-
-        Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
-        Objdirection.Normalize();
-        if (Vector3.Angle(lookDir, Objdirection) >= angleInDegrees / 2)
-            return false;
-
-        if (Physics.Raycast(objView.transform.position, (obj[0].transform.position - objView.transform.position).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
-        {
-            if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
-            {
-                targetObj = obj[0].gameObject;
-                return true;
-            }
-        }
-        return false;
+        targetObj = FindSingleTarget(targetMask, offset, customLookDir, customAngle);
+        return targetObj != null;
     }
 
+    public List<GameObject> FindMultipleTargetsInView(LayerMask targetMask)
+    {
+        return FindMultipleTargets(targetMask, inViewOnly: true);
+    }
 
-    public GameObject FindSingleObjectInView(LayerMask targetMask,Vector3 offsetView)
+    public List<GameObject> FindMultipleTargetsInArea(LayerMask targetMask, float? customRadius = null)
     {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        GameObject returnObj = null;
-        if(obj.Length <= 0)
-        {
-            return null;
-        }
-        if (obj[0] != null)
-        {
-            Vector3 Objdirection = obj[0].transform.position - objView.transform.position;
-            Objdirection.Normalize();
-            if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
-            {
-                if (Physics.Raycast(objView.transform.position + offsetView, (obj[0].transform.position - (objView.transform.position+ offsetView)).normalized, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
-                {
-                    if (hit.collider.gameObject.layer == obj[0].gameObject.layer)
-                    {
-                        returnObj = obj[0].gameObject;
-                    }
-                }
-            }
-        }
-        return returnObj;
+        return FindMultipleTargets(targetMask, customRadius ?? radius, false);
     }
-    public List<GameObject> FindMutipleObjectInView(LayerMask targetMask)
+
+    private List<GameObject> FindMultipleTargets(LayerMask targetMask, float searchRadius = -1f, bool inViewOnly = true)
     {
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        List<GameObject> returnObj = new List<GameObject>();
-        if (obj.Length > 0)
+        List<GameObject> results = new List<GameObject>();
+        float actualRadius = searchRadius > 0 ? searchRadius : radius;
+        Collider[] hits = Physics.OverlapSphere(viewOrigin.position, actualRadius, targetMask);
+
+        if (hits.Length == 0) return results;
+
+        foreach (Collider target in hits)
         {
-            foreach (Collider tarObj in obj)
+            Vector3 toTarget = (target.transform.position - viewOrigin.position).normalized;
+            if (inViewOnly && Vector3.Angle(viewOrigin.forward, toTarget) > angleInDegrees / 2f)
+                continue;
+
+            if (Physics.Raycast(viewOrigin.position, toTarget, out RaycastHit hit, actualRadius, defaultLayerMask | targetMask))
             {
-                Vector3 Objdirection = tarObj.transform.position - objView.transform.position;
-                Objdirection.Normalize();
-                if (Vector3.Angle(objView.transform.forward, Objdirection) < AngelInDegree / 2)
-                {
-                    if (Physics.Raycast(objView.transform.position, tarObj.transform.position, out RaycastHit hit, 1000, defualtLayerMask + targetMask))
-                    {
-                        if (hit.collider.gameObject == tarObj.gameObject)
-                        {
-                            returnObj.Add(tarObj.gameObject);
-                        }
-                    }
-                }
+                if (hit.collider.gameObject == target.gameObject)
+                    results.Add(target.gameObject);
             }
         }
-        return returnObj;
-    }
-    public List<GameObject> FindMutipleOnjectInArea(LayerMask targetMask)
-    {
-        List<GameObject> returnObj = new List<GameObject>();
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position, this.Radiant, targetMask);
-        if (obj.Length > 0)
-        {
-            foreach(Collider tarObj in obj) 
-            {
-                returnObj.Add(tarObj.gameObject);
-            }
-        }
-        return returnObj;
-    }
-    public List<GameObject> FindMutipleOnjectInArea(LayerMask targetMask,float Radians)
-    {
-        List<GameObject> returnObj = new List<GameObject>();
-        Collider[] obj = Physics.OverlapSphere(objView.transform.position,Radians, targetMask);
-        if (obj.Length > 0)
-        {
-            foreach (Collider tarObj in obj)
-            {
-                returnObj.Add(tarObj.gameObject);
-            }
-        }
-        return returnObj;
+        return results;
     }
 }
