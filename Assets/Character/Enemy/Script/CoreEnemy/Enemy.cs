@@ -349,8 +349,6 @@ public partial class Enemy : SubjectEnemy
     public float aimingRotateSpeed;
 
     [Range(0, 100)]
-    public float hitedForcePush;
-    [Range(0, 100)]
     public float hitedForceStop;
 
     [Range(0, 100)]
@@ -415,7 +413,6 @@ public partial class Enemy : SubjectEnemy
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
    
-
 
     #region ImplementIFriendlyFire
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }

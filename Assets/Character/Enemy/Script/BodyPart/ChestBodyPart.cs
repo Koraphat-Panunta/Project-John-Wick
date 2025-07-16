@@ -37,7 +37,7 @@ public class ChestBodyPart : BodyPart
     }
     public override void Notify<T>(Enemy enemy, T node)
     {
-        if(node is EnemyStateLeafNode enemyStateLeafNode)
+        if (node is EnemyStateLeafNode enemyStateLeafNode)
             switch (enemyStateLeafNode)
             {
                 case HumanThrowFallDown_GotInteract_NodeLeaf humanThrowFallDown_GotInteract:

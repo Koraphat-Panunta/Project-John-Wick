@@ -25,12 +25,14 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
     }
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
-
         TakeDamage(damageVisitor);
-
         base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
-
+    public override void Notify<T>(Enemy enemy, T node)
+    {
+       
+        base.Notify(enemy, node);
+    }
     #region ImplementCommunicate
     public GameObject communicateAble => enemy.communicateAble;
     public Action<Communicator> NotifyCommunicate { get => enemy.NotifyCommunicate; set => enemy.NotifyCommunicate = value; }

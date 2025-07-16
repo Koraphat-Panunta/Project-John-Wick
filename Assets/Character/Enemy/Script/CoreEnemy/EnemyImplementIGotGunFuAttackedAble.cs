@@ -13,7 +13,8 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<GotKnockDown_GunFuGotHitNodeLeaf>())
+            if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
+                && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
                 return false;
             if (enemyStateManagerNode.TryGetCurNodeLeaf<HumandThrow_GotInteract_NodeLeaf>())
                 return false;
@@ -38,7 +39,6 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
                 return true;
 
-            return true;
             return false;
         }
         set { }
@@ -48,7 +48,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public GotGunFuHitScriptableObject GotHit1_A;
     [SerializeField] public GotGunFuHitScriptableObject GotHit2_P;
     [SerializeField] public GotGunFuHitScriptableObject GotHit2_A;
-    [SerializeField] public GotGunFuHitScriptableObject KnockDown;
+    [SerializeField] public GotGunFuHitScriptableObject GotHit3;
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
     [SerializeField] public WeaponGotDisarmedScriptableObject primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public WeaponGotDisarmedScriptableObject secondary_WeaponGotDisarmedScriptableObject;

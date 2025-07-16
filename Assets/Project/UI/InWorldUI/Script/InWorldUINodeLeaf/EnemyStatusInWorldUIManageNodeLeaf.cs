@@ -115,7 +115,6 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
             if (headBodyPart.enemy.isStagger)
             {
-                Debug.Log(obj);
                 InWorldUI enemyStatusInWorldUI = objectPooling.Get();
                 assignInWorldEnemy.Add(headBodyPart.enemy,enemyStatusInWorldUI);
             }

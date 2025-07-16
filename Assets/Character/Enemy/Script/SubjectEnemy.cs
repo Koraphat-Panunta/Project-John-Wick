@@ -6,38 +6,8 @@ public abstract class SubjectEnemy : Character
 {
     public enum EnemyEvent
     {
-        //GotHit,
         GotBulletHit,
-
-        //GunFuGotHit,
-        //GunFuGotInteract,
-
-        //GunFuEnter,
-        //GunFuAttack,
-        //GunFuExit,
-
         HeardingGunShoot,
-
-        //Dead,
-
-        //Idle,
-        //Move,
-        //Sprint,
-
-        //FallDown,
-        //GetUp,
-
-        //Flanking,
-        //TakeCover,
-        //TakeAim,
-        //Holding,
-        //Searching,
-        //WarpingMotion,
-
-        //ReloadMagazineFullStage,
-        //TacticalReloadMagazineFullStage,
-        //SwitchWeapon
-
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
     public void AddObserver(IObserverEnemy observer)

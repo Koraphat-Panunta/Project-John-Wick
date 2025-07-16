@@ -59,8 +59,13 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
-
-    protected virtual void ForceCalulate()
+    public virtual void StackingForce(Vector3 forceDir,Vector3 forcePos)
+    {
+        isForceSave = true;
+        this.forceSave = forceDir;
+        this.hitForcePositionSave = forcePos;
+    }
+    private void ForceCalulate()
     {
         if (isForceSave == false)
             return;
@@ -69,6 +74,10 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
+            Debug.Log("Add Force rigid");
+            Debug.Log("forceSave = "+forceSave);
+            Debug.Log("hitForcePositionSave = " + hitForcePositionSave);
+
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
 
             forceSave = Vector3.zero;

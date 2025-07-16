@@ -397,7 +397,7 @@ public class EnemyStateManagerNode : INodeManager
                     return true;
                 return false;
             }
-            , this.enemy.KnockDown);
+            , this.enemy.GotHit3);
 
         weaponGotDisarmSelector = new EnemyStateSelectorNode(this.enemy,
             () => enemy.curAttackerGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf);

@@ -105,14 +105,14 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                         curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
                         gunFuAble._character.enableRootMotion = true;
 
-                        //gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
-                        //gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
+                        gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
+                        gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
 
-                        //gunFuAble.executedAbleGunFu._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
-                        //gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
+                        gunFuAble.executedAbleGunFu._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
+                        gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
 
-                        Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
-                        Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
+                        //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
+                        //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
                     }
                     else if (WarpingComplete())
                         isWarpingComplete = true;
