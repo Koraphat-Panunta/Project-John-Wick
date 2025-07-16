@@ -64,7 +64,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Firing"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""d2013bd1-ee9b-4a87-b228-15b98b164987"",
                     ""expectedControlType"": """",
@@ -91,12 +91,12 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""TrggerGunFu"",
+                    ""name"": ""TrggerGunFuExecute"",
                     ""type"": ""Button"",
                     ""id"": ""bab15d60-90f2-4680-b0c5-32d1798bb5ee"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold,Press(behavior=1)"",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -444,7 +444,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Firing"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -455,7 +455,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": ""Press(pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Firing"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -510,7 +510,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TrggerGunFu"",
+                    ""action"": ""TrggerGunFuExecute"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -521,7 +521,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TrggerGunFu"",
+                    ""action"": ""TrggerGunFuExecute"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -663,10 +663,10 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction_Look = m_PlayerAction.FindAction("Look", throwIfNotFound: true);
         m_PlayerAction_Sprint = m_PlayerAction.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerAction_Aim = m_PlayerAction.FindAction("Aim", throwIfNotFound: true);
-        m_PlayerAction_Firing = m_PlayerAction.FindAction("Firing", throwIfNotFound: true);
+        m_PlayerAction_Attack = m_PlayerAction.FindAction("Attack", throwIfNotFound: true);
         m_PlayerAction_Reload = m_PlayerAction.FindAction("Reload", throwIfNotFound: true);
         m_PlayerAction_SwapShoulder = m_PlayerAction.FindAction("SwapShoulder", throwIfNotFound: true);
-        m_PlayerAction_TrggerGunFu = m_PlayerAction.FindAction("TrggerGunFu", throwIfNotFound: true);
+        m_PlayerAction_TrggerGunFuExecute = m_PlayerAction.FindAction("TrggerGunFuExecute", throwIfNotFound: true);
         m_PlayerAction_ToggleChangeStance = m_PlayerAction.FindAction("ToggleChangeStance", throwIfNotFound: true);
         m_PlayerAction_TriggerDodgeRoll = m_PlayerAction.FindAction("TriggerDodgeRoll", throwIfNotFound: true);
         m_PlayerAction_TriggerPickingUpWeapon = m_PlayerAction.FindAction("TriggerPickingUpWeapon", throwIfNotFound: true);
@@ -749,10 +749,10 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_Look;
     private readonly InputAction m_PlayerAction_Sprint;
     private readonly InputAction m_PlayerAction_Aim;
-    private readonly InputAction m_PlayerAction_Firing;
+    private readonly InputAction m_PlayerAction_Attack;
     private readonly InputAction m_PlayerAction_Reload;
     private readonly InputAction m_PlayerAction_SwapShoulder;
-    private readonly InputAction m_PlayerAction_TrggerGunFu;
+    private readonly InputAction m_PlayerAction_TrggerGunFuExecute;
     private readonly InputAction m_PlayerAction_ToggleChangeStance;
     private readonly InputAction m_PlayerAction_TriggerDodgeRoll;
     private readonly InputAction m_PlayerAction_TriggerPickingUpWeapon;
@@ -769,10 +769,10 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_PlayerAction_Look;
         public InputAction @Sprint => m_Wrapper.m_PlayerAction_Sprint;
         public InputAction @Aim => m_Wrapper.m_PlayerAction_Aim;
-        public InputAction @Firing => m_Wrapper.m_PlayerAction_Firing;
+        public InputAction @Attack => m_Wrapper.m_PlayerAction_Attack;
         public InputAction @Reload => m_Wrapper.m_PlayerAction_Reload;
         public InputAction @SwapShoulder => m_Wrapper.m_PlayerAction_SwapShoulder;
-        public InputAction @TrggerGunFu => m_Wrapper.m_PlayerAction_TrggerGunFu;
+        public InputAction @TrggerGunFuExecute => m_Wrapper.m_PlayerAction_TrggerGunFuExecute;
         public InputAction @ToggleChangeStance => m_Wrapper.m_PlayerAction_ToggleChangeStance;
         public InputAction @TriggerDodgeRoll => m_Wrapper.m_PlayerAction_TriggerDodgeRoll;
         public InputAction @TriggerPickingUpWeapon => m_Wrapper.m_PlayerAction_TriggerPickingUpWeapon;
@@ -802,18 +802,18 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
-            @Firing.started += instance.OnFiring;
-            @Firing.performed += instance.OnFiring;
-            @Firing.canceled += instance.OnFiring;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
             @SwapShoulder.started += instance.OnSwapShoulder;
             @SwapShoulder.performed += instance.OnSwapShoulder;
             @SwapShoulder.canceled += instance.OnSwapShoulder;
-            @TrggerGunFu.started += instance.OnTrggerGunFu;
-            @TrggerGunFu.performed += instance.OnTrggerGunFu;
-            @TrggerGunFu.canceled += instance.OnTrggerGunFu;
+            @TrggerGunFuExecute.started += instance.OnTrggerGunFuExecute;
+            @TrggerGunFuExecute.performed += instance.OnTrggerGunFuExecute;
+            @TrggerGunFuExecute.canceled += instance.OnTrggerGunFuExecute;
             @ToggleChangeStance.started += instance.OnToggleChangeStance;
             @ToggleChangeStance.performed += instance.OnToggleChangeStance;
             @ToggleChangeStance.canceled += instance.OnToggleChangeStance;
@@ -854,18 +854,18 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
-            @Firing.started -= instance.OnFiring;
-            @Firing.performed -= instance.OnFiring;
-            @Firing.canceled -= instance.OnFiring;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
             @SwapShoulder.started -= instance.OnSwapShoulder;
             @SwapShoulder.performed -= instance.OnSwapShoulder;
             @SwapShoulder.canceled -= instance.OnSwapShoulder;
-            @TrggerGunFu.started -= instance.OnTrggerGunFu;
-            @TrggerGunFu.performed -= instance.OnTrggerGunFu;
-            @TrggerGunFu.canceled -= instance.OnTrggerGunFu;
+            @TrggerGunFuExecute.started -= instance.OnTrggerGunFuExecute;
+            @TrggerGunFuExecute.performed -= instance.OnTrggerGunFuExecute;
+            @TrggerGunFuExecute.canceled -= instance.OnTrggerGunFuExecute;
             @ToggleChangeStance.started -= instance.OnToggleChangeStance;
             @ToggleChangeStance.performed -= instance.OnToggleChangeStance;
             @ToggleChangeStance.canceled -= instance.OnToggleChangeStance;
@@ -959,10 +959,10 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnFiring(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnSwapShoulder(InputAction.CallbackContext context);
-        void OnTrggerGunFu(InputAction.CallbackContext context);
+        void OnTrggerGunFuExecute(InputAction.CallbackContext context);
         void OnToggleChangeStance(InputAction.CallbackContext context);
         void OnTriggerDodgeRoll(InputAction.CallbackContext context);
         void OnTriggerPickingUpWeapon(InputAction.CallbackContext context);

@@ -39,13 +39,27 @@ public class PlayerInputAPI : MonoBehaviour
         if (context.canceled)
             player._isAimingCommand = false;
     }
-    public void PullTrigger(InputAction.CallbackContext context)
+    public void Attack(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player._isPullTriggerCommand = true;
-        if (context.canceled)
+        {
+            if (player._isAimingCommand)
+            {
+                player._isPullTriggerCommand = true;
+            }
+            else
+            {
+                player._triggerGunFu = true;
+                player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.1f);
+                player._isPullTriggerCommand = false;
+            }
+        }
+        else if (context.canceled)
+        {
             player._isPullTriggerCommand = false;
+        }
     }
+   
     public void Reload(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -86,18 +100,12 @@ public class PlayerInputAPI : MonoBehaviour
         else if(context.canceled)
             player._isHolsterWeaponCommand= false;
     }
-    public void TriggerGunFu(InputAction.CallbackContext context)
+    public void TriggerGunFuExecute(InputAction.CallbackContext context)
     {
-        if (context.interaction is HoldInteraction)
+        if (context.performed)
         {
             player._triggerExecuteGunFu = true;
         }
-        else if(context.interaction is PressInteraction)
-        {
-            player._triggerGunFu = true;
-            player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.1f);
-        }
-
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)
     {

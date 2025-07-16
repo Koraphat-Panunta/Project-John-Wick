@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Firing",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "d2013bd1-ee9b-4a87-b228-15b98b164987",
                     "expectedControlType": "",
@@ -69,12 +69,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TrggerGunFu",
+                    "name": "TrggerGunFuExecute",
                     "type": "Button",
                     "id": "bab15d60-90f2-4680-b0c5-32d1798bb5ee",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold,Press(behavior=1)",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -422,7 +422,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Firing",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -433,7 +433,7 @@
                     "interactions": "Press(pressPoint=0.5)",
                     "processors": "",
                     "groups": "",
-                    "action": "Firing",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -488,7 +488,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TrggerGunFu",
+                    "action": "TrggerGunFuExecute",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -499,7 +499,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TrggerGunFu",
+                    "action": "TrggerGunFuExecute",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

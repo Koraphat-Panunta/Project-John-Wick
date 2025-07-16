@@ -21,8 +21,8 @@ public class User : MonoBehaviour
         userInput.PlayerAction.Aim.performed += playerInputAPI.Aim;
         userInput.PlayerAction.Aim.canceled += playerInputAPI.Aim;
 
-        userInput.PlayerAction.Firing.performed += playerInputAPI.PullTrigger; ;
-        userInput.PlayerAction.Firing.canceled += playerInputAPI.PullTrigger;
+        userInput.PlayerAction.Attack.performed += playerInputAPI.Attack; ;
+        userInput.PlayerAction.Attack.canceled += playerInputAPI.Attack;
 
         userInput.PlayerAction.Reload.performed += playerInputAPI.Reload;
         userInput.PlayerAction.Reload.canceled += playerInputAPI.Reload;
@@ -39,7 +39,7 @@ public class User : MonoBehaviour
         userInput.PlayerAction.HolsterWeapon.performed += playerInputAPI.HolsterWeapon;
         userInput.PlayerAction.HolsterWeapon.canceled += playerInputAPI.HolsterWeapon;
 
-        userInput.PlayerAction.TrggerGunFu.performed += playerInputAPI.TriggerGunFu;
+        userInput.PlayerAction.TrggerGunFuExecute.performed += playerInputAPI.TriggerGunFuExecute;
 
         userInput.PlayerAction.ToggleChangeStance.performed += playerInputAPI.ToggleCrouchStand;
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;

@@ -38,7 +38,7 @@ public class InWorldUI : MonoBehaviour
     {
         transform.position = _anchorPos + _offsetUIPos;
         transform.rotation = Quaternion.LookRotation
-            (_lookToCamera.transform.position - transform.position, Vector3.up);
+            ((_lookToCamera.transform.position - transform.position).normalized, Vector3.up);
     }
 
 }

@@ -40,6 +40,12 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         for (int i = 0; i < enemyList.Count; i++) 
         {
             assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].transform.position);
+            if (enemyList[i].isDead)
+            {
+                objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
+                assignInWorldEnemy.Remove(enemyList[i]);
+                continue;
+            }
 
             if (CheckExecuteTargetInAssinged(enemyList[i]))
                 continue;
@@ -99,6 +105,10 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
                 return;
 
             enemyDected.Add(headBodyPart.enemy);
+
+            if(headBodyPart.enemy.isDead
+                ||headBodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+                return;
 
             if (assignInWorldEnemy.ContainsKey(headBodyPart.enemy))
                 return;
