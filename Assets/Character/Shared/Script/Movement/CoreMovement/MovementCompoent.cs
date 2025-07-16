@@ -98,7 +98,7 @@ public abstract partial class MovementCompoent : INodeManager
             Quaternion targetRotation = Quaternion.LookRotation(lookDirWorldNomalized);
 
             // Smoothly rotate towards the target rotation
-            transform.gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            this.SetRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));
         }
     }
     public void RotateToDirWorldSlerp(Vector3 dir, float t)

@@ -95,6 +95,8 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         _elapsedResetBonesTime = 0;
         executedPhase = ExecutedPhase.ResetingBone;
 
+        _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
+
         //RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
         //RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
         //RagdollBoneBehavior.PopulateBoneTransforms(_bones,_ragdollBoneTransforms);

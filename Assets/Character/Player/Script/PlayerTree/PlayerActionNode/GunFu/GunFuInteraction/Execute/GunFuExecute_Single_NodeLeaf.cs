@@ -58,6 +58,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         curGunFuPhase = GunFuExecuteSinglePhase.Warping;
         CalculateAdjustTransform();
         (player._movementCompoent as MovementCompoent).CancleMomentum();
+        isWarpingComplete = false;  
 
         base.Enter();
     }
@@ -68,6 +69,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         gunFuAble._character.enableRootMotion = false;
         isTriggerSlowMotion = false;
         ResetIsShootAlready();
+
         base.Exit();
     }
 
@@ -89,6 +91,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         return false;
     }
     private bool isTriggerSlowMotion;
+    private bool isWarpingComplete;
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
@@ -96,13 +99,24 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         {
             case GunFuExecuteSinglePhase.Warping:
                 {
-                    if (WarpingComplete())
+                    if (isWarpingComplete)
                     {
                         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
                         curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
                         gunFuAble._character.enableRootMotion = true;
 
+                        //gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
+                        //gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
+
+                        //gunFuAble.executedAbleGunFu._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
+                        //gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
+
+                        Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
+                        Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
                     }
+                    else if (WarpingComplete())
+                        isWarpingComplete = true;
+                        
                     break;
                 }
             case GunFuExecuteSinglePhase.Interacting:
@@ -147,6 +161,13 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             weaponAdvanceUser._currentWeapon.PullTrigger();
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
+
+            //Debug.Log("Distance player int-Ex = " + Vector3.Distance(attackerPosAtInteractBegin, gunFuAble._character.transform.position));
+
+            //Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
+
+            //Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
+
             player.NotifyObserver(player, this);
         }
     }
@@ -221,5 +242,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         opponentGunFuTargetRotation
             = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
+
     }
 }

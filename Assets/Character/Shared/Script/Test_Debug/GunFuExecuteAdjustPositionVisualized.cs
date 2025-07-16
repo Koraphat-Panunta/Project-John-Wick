@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GunFuAdJustPointTest : MonoBehaviour
+public class GunFuExecuteAdjustPositionVisualized : MonoBehaviour
 {
     [SerializeField] private GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject;
     Vector3 attackerAdjustPosition = new Vector3();

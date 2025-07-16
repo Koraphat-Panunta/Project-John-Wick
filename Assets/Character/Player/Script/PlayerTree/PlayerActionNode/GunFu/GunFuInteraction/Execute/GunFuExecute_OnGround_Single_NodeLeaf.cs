@@ -92,7 +92,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
                     {
                         curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
                         gunFuAble._character.enableRootMotion = true;
-
+                        gunFuAble._character._movementCompoent.CancleMomentum();
                     }
                     break;
                 }
@@ -206,7 +206,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
         gunFuAttackerTargetRotation
             = Quaternion.LookRotation(anChorDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_OnGround_Single_ScriptableObject.playerRotationRelative, 0);
 
-       
+    
     }
 }
 
