@@ -18,7 +18,7 @@ public class GravityMovement
         if(enableGravity == false)
             return;
 
-        if (movementCompoent.isGround == false)
+        if (movementCompoent.IsGround(out Vector3 hitGroundPos) == false)
         {
             _velocityY += GRAVITY * gravitySclae;
             _velocityY = Mathf.Clamp(_velocityY, 0, 1.3f);
@@ -26,6 +26,11 @@ public class GravityMovement
         }
         else
         {
+            movementCompoent.SetPosition(new Vector3
+                (movementCompoent.transform.position.x, 
+                hitGroundPos.y,
+                movementCompoent.transform.position.z)
+                );
             _velocityY = 0;
         }
     }

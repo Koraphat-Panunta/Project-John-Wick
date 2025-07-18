@@ -8,26 +8,35 @@ public class TimeControlBehavior
         await Task.Delay((int)(1000*duration));
         Time.timeScale = 1;
     }
-    public static async void TriggerTimeStop(float durationStop, float durationReset)
+    public static async void TriggerTimeStop(float durationStop, float durationReset, AnimationCurve animationCurve = null)
     {
-        float originalFixdeltatime = Time.fixedDeltaTime;
+        float originalFixedDeltaTime = Time.fixedDeltaTime;
 
-        Time.timeScale = 0;
-        //Time.fixedDeltaTime *= Mathf.Clamp(Time.timeScale,0.01f,1);
+        // Freeze time
+        Time.timeScale = 0f;
 
-        await Task.Delay((int)(1000*durationStop));
+        // Wait in real time while time is stopped
+        await Task.Delay((int)(durationStop * 1000));
 
-        float t = 0f;
-        while (t < durationReset)
+        float elapsed = 0f;
+
+        while (elapsed < durationReset)
         {
-            t += Time.unscaledDeltaTime; // use unscaledDeltaTime because timeScale is changing
-            float normalized = Mathf.Clamp01(t / durationReset);
-            Time.timeScale = normalized; // smoothly increase timescale from 0 to 1
+            elapsed += Time.unscaledDeltaTime;
+            float normalizedTime = Mathf.Clamp01(elapsed / durationReset);
 
-            await Task.Yield(); // wait for next frame
+            // Evaluate with curve if provided, else use linear
+            float timeScale = animationCurve != null
+                ? animationCurve.Evaluate(normalizedTime)
+                : normalizedTime;
+
+            Time.timeScale = timeScale;
+
+            await Task.Yield();
         }
 
-        Time.timeScale = 1;
-        Time.fixedDeltaTime = originalFixdeltatime;
+        // Restore time
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = originalFixedDeltaTime;
     }
 }

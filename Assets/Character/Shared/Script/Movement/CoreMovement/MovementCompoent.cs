@@ -10,12 +10,12 @@ public abstract partial class MovementCompoent : INodeManager
     public Vector3 curMoveVelocity_Local { get => TransformWorldToLocalVector(curMoveVelocity_World, transform.forward); }
     public Vector3 forwardDir { get => transform.forward; }
     public Transform transform { get; protected set; }
-    public virtual bool isGround { get 
-        {
-            if (Physics.Raycast(transform.position, Vector3.down, 1, GetGroundLayerMask()))
-                return true;
-            else return false;
-        } }
+    //public virtual bool isGround { get 
+    //    {
+    //        if (Physics.Raycast(transform.position, Vector3.down, .5f, GetGroundLayerMask()))
+    //            return true;
+    //        else return false;
+    //    } }
     public abstract bool isOnUpdateEnable { get;protected set; }
    
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
@@ -151,7 +151,17 @@ public abstract partial class MovementCompoent : INodeManager
         LayerMask mask = +LayerMask.GetMask("Ground") + LayerMask.GetMask("Default");
         return mask;
     }
+    public bool IsGround(out Vector3 hitGroundPosition)
+    {
+        hitGroundPosition = Vector3.zero;
 
+        if (Physics.Raycast(transform.position, Vector3.down,out RaycastHit hitGroundPos, .2f, GetGroundLayerMask()))
+        {
+            hitGroundPosition = hitGroundPos.point;
+            return true;
+        }
+        return false;
+    }
 }
 public enum MoveMode
 {
