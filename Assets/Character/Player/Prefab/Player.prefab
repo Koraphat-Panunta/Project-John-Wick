@@ -925,6 +925,7 @@ GameObject:
   - component: {fileID: 5397646546792058823}
   - component: {fileID: 1428774212975845543}
   - component: {fileID: 1698431301351499249}
+  - component: {fileID: 729545231305981233}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -989,7 +990,7 @@ MonoBehaviour:
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
-  characterController: {fileID: 0}
+  characterController: {fileID: 6726992041350314495}
   isImortal: 1
   MyHP: 0
   MainHandSocket: {fileID: 6803714471603600979}
@@ -1008,11 +1009,11 @@ MonoBehaviour:
   CrouchMoveAccelerate: 4.5
   CrouchMoveMaxSpeed: 2.5
   CrouchMoveRotateSpeed: 3
-  sprintAccelerate: 5.3
+  sprintAccelerate: 4
   sprintMaxSpeed: 5
   sprintRotateSpeed: 1
-  breakDecelerate: 7.3
-  breakMaxSpeed: 6.6
+  breakDecelerate: 3
+  breakMaxSpeed: 5
   aimingRotateSpeed: 3.08
   dodgeImpluseForce: 5
   dodgeInAirStopForce: 0.1
@@ -1055,10 +1056,10 @@ MonoBehaviour:
     type: 2}
   targetAdjustTranform: {fileID: 4967964261953637315}
   GunFuDetectTarget: {fileID: 9030984288096570306}
-  hit1: {fileID: 0}
-  hit2: {fileID: 0}
-  hit3: {fileID: 0}
-  dodgeSpinKick: {fileID: 0}
+  hit1: {fileID: 11400000, guid: a6b643af0f29df04783f4051a220183e, type: 2}
+  hit2: {fileID: 11400000, guid: 98cdcf689ce8d054288d671c563d1603, type: 2}
+  hit3: {fileID: 11400000, guid: 5b2815f46698a074a872c96bb2d8390f, type: 2}
+  dodgeSpinKick: {fileID: 11400000, guid: eb65ecafafc9cec4ea675535df415985, type: 2}
   humanShield: {fileID: 11400000, guid: 2a93b16dd6738064195d3d9471d22bbf, type: 2}
   humanThrow: {fileID: 11400000, guid: 78db25bcdf2001547bd001405b5f503c, type: 2}
   restrictScriptableObject: {fileID: 11400000, guid: 16f6dc4f51dc84d4cbf76eeb1d2ea8ad,
@@ -1067,13 +1068,18 @@ MonoBehaviour:
     type: 2}
   secondaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: a79bc9663207df54f9b6e6b2de1d9f2d,
     type: 2}
-  gunFuExecute_Single_ScriptableObject_I: {fileID: 0}
-  gunFu_Single_Execute_OnGround_Secondary_Laydown_I: {fileID: 0}
-  gunFu_Single_Execute_OnGround_Secondary_Layup_I: {fileID: 0}
-  gunFu_Single_Execute_OnGround_Primary_Laydown_I: {fileID: 0}
-  gunFu_Single_Execute_OnGround_Primary_Layup_I: {fileID: 0}
+  gunFuExecute_Single_ScriptableObject_I: {fileID: 11400000, guid: b27531c180c76984dbc845fa3117749c,
+    type: 2}
+  gunFu_Single_Execute_OnGround_Secondary_Laydown_I: {fileID: 11400000, guid: 905aa12982e00884f99c2fcfa2cc8147,
+    type: 2}
+  gunFu_Single_Execute_OnGround_Secondary_Layup_I: {fileID: 11400000, guid: fc82b5dec796bbb4da4ebe32ee293546,
+    type: 2}
+  gunFu_Single_Execute_OnGround_Primary_Laydown_I: {fileID: 11400000, guid: 8f112f0243f04cc4b9129c9ee35efec0,
+    type: 2}
+  gunFu_Single_Execute_OnGround_Primary_Layup_I: {fileID: 11400000, guid: de760c2e3a368e345b8f37aac30e6deb,
+    type: 2}
   _isParkourCommand: 0
-  climbLowScrp: {fileID: 0}
+  climbLowScrp: {fileID: 11400000, guid: 6c29a1a6394bfac42a8e4ccc6017a558, type: 2}
   climbHighScrp: {fileID: 0}
   vaultingScrp: {fileID: 0}
 --- !u!114 &4449691354107149587
@@ -1127,8 +1133,8 @@ MonoBehaviour:
   StandHeight: 0
   CrouchCenterY: 0.6
   CrouchHeight: 1.25
-  parkourCenterY: 0
-  parkourHeight: 0
+  parkourCenterY: 0.75
+  parkourHeight: 0.39
 --- !u!114 &3521077618753225899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1215,7 @@ CharacterController:
     m_Bits: 4
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -1447,6 +1453,22 @@ MonoBehaviour:
   - {fileID: 625386969791167504}
   - {fileID: 4933948263510430520}
   - {fileID: 4104487121850279231}
+--- !u!114 &729545231305981233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9b06e80824f3b4d86585d6c54e1326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunFuExecute_Single_ScriptableObject: {fileID: 11400000, guid: b27531c180c76984dbc845fa3117749c,
+    type: 2}
+  attackerTransform: {fileID: 1376691160772055220}
+  opponentTransform: {fileID: 0}
 --- !u!1 &8634437143804881152
 GameObject:
   m_ObjectHideFlags: 0
@@ -4394,6 +4416,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.206
       objectReference: {fileID: 0}
     - target: {fileID: 1829818522857021897, guid: f13e372cfd72b144c8ba5d5995403388,
         type: 3}
@@ -7494,6 +7521,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410719912333206572, guid: 207919db351c96c4288f9bd666f28232,
+        type: 3}
+      propertyPath: m_Data.m_MaxLimit
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410719912333206572, guid: 207919db351c96c4288f9bd666f28232,
+        type: 3}
+      propertyPath: m_Data.m_MinLimit
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 7410719912333206572, guid: 207919db351c96c4288f9bd666f28232,
         type: 3}

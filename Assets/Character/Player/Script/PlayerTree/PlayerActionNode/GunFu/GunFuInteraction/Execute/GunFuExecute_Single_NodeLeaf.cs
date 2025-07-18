@@ -57,7 +57,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
         curGunFuPhase = GunFuExecuteSinglePhase.Warping;
         CalculateAdjustTransform();
-        (player._movementCompoent as MovementCompoent).CancleMomentum();
+        gunFuAble._character._movementCompoent.CancleMomentum();
+        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
         isWarpingComplete = false;  
 
         base.Enter();
@@ -92,6 +93,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private bool isTriggerSlowMotion;
     private bool isWarpingComplete;
+
+    Vector3 attackerPosAtInteractBegin;
+    Vector3 opponentPosAtInteractBegun;
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
@@ -111,6 +115,10 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                         gunFuAble.executedAbleGunFu._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
                         gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
 
+                        attackerPosAtInteractBegin = gunFuAble._character.transform.position;
+                        opponentPosAtInteractBegun = gunFuAble.executedAbleGunFu._character.transform.position;
+
+                        Debug.Log("distance enemyRealPos - enemyAdjustPos = " + Vector3.Distance(gunFuGotAttackedTransform.position,opponentGunFuTargetPosition));
                         //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
                         //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
                     }
@@ -162,11 +170,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
 
-            //Debug.Log("Distance player int-Ex = " + Vector3.Distance(attackerPosAtInteractBegin, gunFuAble._character.transform.position));
+            Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
 
-            //Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
-
-            //Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
+            Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
 
             player.NotifyObserver(player, this);
         }
@@ -187,7 +193,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , gunFuAttackerTargetPosition
             , gunFuAttackerTargetRotation
             , t);
-
+        Debug.Log("player curvelocity at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
@@ -195,7 +201,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
-
+        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        Debug.Log("enemy curvelocity at warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
         if (t >= 1)
             return true;
 
@@ -227,6 +234,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         opponentGunFuEnterPosition = gunFuGotAttackedTransform.position;
         opponentGunFuEnterRotation = gunFuGotAttackedTransform.rotation;
 
+        Vector3 anchor = gunFuAttackerTransform.position;
+
         gunFuAttackerTargetPosition
             = gunFuAttackerTransform.position
             + (enterDir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
@@ -242,6 +251,5 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         opponentGunFuTargetRotation
             = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
-
     }
 }

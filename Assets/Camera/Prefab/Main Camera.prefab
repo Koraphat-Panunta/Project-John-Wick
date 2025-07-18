@@ -32,13 +32,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3806568399460747138}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05135815, y: -0.45090732, z: 0.025999144, w: 0.8907126}
+  m_LocalRotation: {x: 0.0513582, y: -0.4509073, z: 0.025999168, w: 0.8907126}
   m_LocalPosition: {x: 1.4474406, y: 1.4772563, z: -0.5297048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 7.7, y: -53.7, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.6, y: -53.7, z: 0}
 --- !u!20 &3210506969022920912
 Camera:
   m_ObjectHideFlags: 0
@@ -70,7 +70,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 0.1
   far clip plane: 5000
   field of view: 70
   orthographic: 0
@@ -182,23 +182,36 @@ MonoBehaviour:
   thirdPersonCinemachineCamera: {fileID: 0}
   impulseSource: {fileID: 8522622513793723404}
   player: {fileID: 0}
-  cameraExecuteScriptableObject: {fileID: 11400000, guid: 545652aae22148b448ba79c5688da00f,
-    type: 2}
-  cameraViewAttribute: {fileID: 11400000, guid: 4108872fe8dfb1a43bd8c8b28da56794,
-    type: 2}
-  isZooming: 0
   zoomingWeight: 0
   cameraSwitchSholderVelocity: 3.5
   gunFuCameraTimer: 0
-  CameraNodeName: 
   standardCameraSensivity: 1
   aimDownSightCameraSensivity: 1
   inputLook: 
   curSide: 0
-  curStance: 0
   cameraKickbackMultiple: 0.001
   cameraKickUpMultiple: 0.004
-  gunFuCameraKickMultiply: 0
+  gunFuCameraKickMultiply: 0.26
+  cameraTPSStandView_SCRP: {fileID: 11400000, guid: ea66ad0e041ea984abb314eebdfff9bf,
+    type: 2}
+  cameraTPSCrouchView_SCRP: {fileID: 11400000, guid: 967b395d5c17f6945aa37952ea03c065,
+    type: 2}
+  cameraPerformGunFuWeaponDisarm_SCRP: {fileID: 11400000, guid: 8e29a2b5ed436df45b8e29003c692cd8,
+    type: 2}
+  cameraPerformGunFuExecuteView_SCRP: {fileID: 0}
+  cameraPerformGunFuHitView_SCRP: {fileID: 11400000, guid: 10ef7d973d1e8db469aac77fec85ac44,
+    type: 2}
+  cameraTPSSprintView_SCRP: {fileID: 11400000, guid: 9abd9fedf24c3084da68b7ade97337f5,
+    type: 2}
+  cameraAimDownSightView_SCRP: {fileID: 11400000, guid: 72dba61857966d94a822eb704bfc4988,
+    type: 2}
+  cameraExecuteScriptableObject: {fileID: 11400000, guid: 545652aae22148b448ba79c5688da00f,
+    type: 2}
+  isAiming: 0
+  isSprint: 0
+  isPerformGunFu: 0
+  isCrouching: 0
+  isOnPlayerThirdPersonController: 0
 --- !u!114 &6424261375681497480
 MonoBehaviour:
   m_ObjectHideFlags: 0

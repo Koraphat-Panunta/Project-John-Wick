@@ -20,6 +20,11 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
   
     public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
+
+    public override void UpdateNode()
+    {
+        base.UpdateNode();
+    }
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true, "enemy movementComponent startSelector");

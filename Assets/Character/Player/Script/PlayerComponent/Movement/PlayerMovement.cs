@@ -28,7 +28,10 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
     public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
-
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
+    }
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(()=> true,"StartNodeSelector PlayerMovement");
