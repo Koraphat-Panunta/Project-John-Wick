@@ -27,12 +27,16 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected override void FixedUpdate()
     {
-        curState = curNodeLeaf.ToString();
+        try
+        {
+            curState = constraintNodeStateSelector.curNodeLeaf.ToString();
+        }
+        catch { }
+        
         base.FixedUpdate();
     }
     private void LateUpdate()
     {
-        RecoveryUpdateWeight();
     }
   
     public override INodeSelector startNodeSelector { get; set; }
@@ -139,20 +143,5 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         curNodeLeaf = nodeLeaf;
         curNodeLeaf.Enter();
     }
-    private void RecoveryUpdateWeight()
-    {
-
-        if (curNodeLeaf is RightHandLookControlAnimationConstraintNodeLeaf == false)
-        {
-            RightHandConstrainLookAtManager.SetWeight(RightHandConstrainLookAtManager.GetWeight() - Time.deltaTime);
-        }
-        else if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
-        {
-            StandSplineLookConstrain.SetWeight(StandSplineLookConstrain.GetWeight() - Time.deltaTime);
-            leaningRotation.SetWeight(leaningRotation.weight - Time.deltaTime);
-        }
-
-      
-
-    }
+    
 }
