@@ -22,7 +22,49 @@ MonoBehaviour:
   hitStopDuration:
   - 0.1
   hitResetDuration:
-  - 0.75
+  - 0.5
+  hitSlowMotionCurve:
+  - serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.1292049
+      value: 0.018134922
+      inSlope: 0.13976729
+      outSlope: 0.13976729
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.24015948
+      value: 0.08984322
+      inSlope: 0.71265894
+      outSlope: 0.71265894
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.73999023
+      value: 1.0056534
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   warpKeyFrameNormalized:
   - 0.25
   animationGunFuHitOffset: 0

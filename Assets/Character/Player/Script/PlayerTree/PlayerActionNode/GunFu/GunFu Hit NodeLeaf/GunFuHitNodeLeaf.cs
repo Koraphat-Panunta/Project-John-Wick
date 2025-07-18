@@ -68,6 +68,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
                     , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+
+                   
                 hitCount++;
                 player.NotifyObserver(player,this);
 

@@ -41,6 +41,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     protected override void Awake()
     {
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
+        this.AddObserver(this);
         animator = GetComponent<Animator>();
         coverDetection = new CoverDetection();
         hpRegenarate = new PlayerHpRegenarate(this);

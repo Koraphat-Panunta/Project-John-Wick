@@ -11,6 +11,7 @@ public class GunFuHitScriptableObject : ScriptableObject
     [SerializeField] public List<float> hitPush;
     [SerializeField] public List<float> hitStopDuration;
     [SerializeField] public List<float> hitResetDuration;
+    [SerializeField] public List<AnimationCurve> hitSlowMotionCurve;
     [SerializeField] public List<float> warpKeyFrameNormalized;
     [Range(0, 1)]
     public float animationGunFuHitOffset;
