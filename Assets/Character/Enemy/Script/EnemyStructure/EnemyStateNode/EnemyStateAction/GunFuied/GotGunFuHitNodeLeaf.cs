@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeLeafTransitionAble
+public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
 {
     protected Animator animator;
     public string gotHitstateName { get; protected set; }
@@ -14,7 +14,6 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     float forceStop => enemy.hitedForceStop;
     public GotGunFuHitScriptableObject gotGunFuHitScriptableObject { get => _gotGunFuHitScriptableObject; }
     private GotGunFuHitScriptableObject _gotGunFuHitScriptableObject { get; set; }
-    public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     private float legnhtOffset => _animationClip.length*gotGunFuHitScriptableObject.enterAnimationOffsetNormalized;
@@ -78,15 +77,5 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
             return true;
 
         return false;
-    }
-
-    public bool Transitioning()
-    {
-        return nodeLeafTransitionBehavior.Transitioning(this);
-    }
-
-    public void AddTransitionNode(INode node)
-    {
-        nodeLeafTransitionBehavior.AddTransistionNode(this,node);
     }
 }

@@ -40,19 +40,24 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         for (int i = 0; i < enemyList.Count; i++) 
         {
             assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].transform.position);
-            if (enemyList[i].isDead)
-            {
+            if (enemyList[i].isDead){
                 objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
                 assignInWorldEnemy.Remove(enemyList[i]);
+                //Debug.Log(enemyList[i] + "is dead");
                 continue;
             }
 
-            if (CheckExecuteTargetInAssinged(enemyList[i]))
+            if (CheckExecuteTargetInAssinged(enemyList[i])){
+                //Debug.Log(enemyList[i] + "is executeAble");
                 continue;
+            }
 
-            if (CheckIsStaggerTargetInAssinged(enemyList[i]))
+            if (CheckIsStaggerTargetInAssinged(enemyList[i])){
+                //Debug.Log(enemyList[i] + "is Stagger");
                 continue;
+            }
 
+            //Debug.Log(enemyList[i] + " last");
             objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
             assignInWorldEnemy.Remove(enemyList[i]);
         }
@@ -125,7 +130,10 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         for (int i = 0; i < assignEnemy.Count; i++) 
         {
             if (enemyDected.Contains(assignEnemy[i]) == false)
+            {
+                objectPooling.ReturnToPool(assignInWorldEnemy[assignEnemy[i]]);
                 assignInWorldEnemy.Remove(assignEnemy[i]);
+            }
         }
     }
 }

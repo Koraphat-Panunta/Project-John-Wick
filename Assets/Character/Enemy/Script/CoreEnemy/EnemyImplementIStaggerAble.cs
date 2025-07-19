@@ -10,7 +10,7 @@ public partial class Enemy : IStaggerAble
                 || _isFallDown)
                 && (isDead == false))
                 return true;
-            return true;
+
             return false;
         }
     }

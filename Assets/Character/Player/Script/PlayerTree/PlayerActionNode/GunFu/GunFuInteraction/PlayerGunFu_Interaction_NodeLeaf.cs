@@ -23,6 +23,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     protected Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
 
     public string _stateName { get => stateName; }
+    public INodeLeaf transitioningNodeLeaf { get; set; }
 
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
@@ -46,6 +47,8 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     public override void Enter()
     {
+        transitioningNodeLeaf = null;
+
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
         gotGunFuAttackedAble = gunFuAble.attackedAbleGunFu;
@@ -56,25 +59,35 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     }
     public override void Exit()
     {
+       
+
         player.NotifyObserver(player,this);
         base.Exit();
     }
     public override void UpdateNode()
     {
+        
+
         Transitioning();
 
         _timer += Time.deltaTime;
-        base.UpdateNode();
+        base.UpdateNode(); 
     }
 
     public override bool IsReset()
     {
-        if(IsComplete())
+       
+
+        if (IsComplete())
             return true;
 
         return base.IsReset();
     }
+    public override bool IsComplete()
+    {
 
+        return base.IsComplete();
+    }
     public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
     
     public void AddTransitionNode(INode node)=> nodeLeafTransitionBehavior.AddTransistionNode(this, node);

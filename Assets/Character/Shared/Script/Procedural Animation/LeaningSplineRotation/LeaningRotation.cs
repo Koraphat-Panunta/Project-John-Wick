@@ -36,6 +36,7 @@ public class LeaningRotation : MonoBehaviour, IConstraintManager
     {
         this.weight = weight;
     }
+    public float GetWeight() => this.weight;
     public void SetLeaningLeftRight(float weight)
     {
         leaningLeftRightSpline = Mathf.Clamp(weight, -1, 1);

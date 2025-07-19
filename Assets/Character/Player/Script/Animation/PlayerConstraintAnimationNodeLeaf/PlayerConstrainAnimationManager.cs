@@ -45,6 +45,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public SetWeightConstraintNodeLeaf enableConstraintWeight { get; set; }
     public SetWeightConstraintNodeLeaf disableConstraintWeight { get; set; }   
     
+    public RecoveryConstraintManagerWeightNodeLeaf rightHandRecoveryWeightConstraintNodeLeaf { get; set; }
+    public RecoveryConstraintManagerWeightNodeLeaf aimDownSightRecoveryWeightConstraintNodeLeaf { get; set; }
+    public RecoveryConstraintManagerWeightNodeLeaf leanRotationRecoveryWeightConstraintNodeLeaf {get; set; }
+
     public NodeSelector constraintNodeStateSelector { get; set; }
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
     public RestAnimationConstrainNodeLeaf rest_gunfu_AnimationConstrainNodeLeaf { get; private set; }
@@ -75,6 +79,27 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         enableConstraintWeight = new SetWeightConstraintNodeLeaf(()=> isConstraintEnable,rig,4,1);
         disableConstraintWeight = new SetWeightConstraintNodeLeaf(() => true, rig, 5, 0);
 
+        rightHandRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            ()=> 
+            {
+
+                if (playerStateManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() || playerStateManager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>())
+                    return false;
+                if(playerStateManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>())
+                    return false;
+
+                return true;
+            }
+            ,this.RightHandConstrainLookAtManager,1);
+
+        aimDownSightRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
+            , StandSplineLookConstrain, 1);
+
+        leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
+            , leaningRotation,1);
+
         constraintNodeStateSelector = new NodeSelector(()=> isConstraintEnable);
 
         aimDownSightConstrainSelector = new AnimationConstrainNodeSelector(()=>player._currentWeapon != null && player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0);
@@ -88,17 +113,17 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig,() => true);
 
         gunFuConstraintSelector = new AnimationConstrainNodeSelector(
-            ()=> playerStateManaher.TryGetCurNodeLeaf<IGunFuNode>());
+            ()=> playerStateManager.TryGetCurNodeLeaf<IGunFuNode>());
         humanShieldConstrainSelector = new AnimationConstrainNodeSelector(
-            () => playerStateManaher.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() 
-            || playerStateManaher.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>());
+            () => playerStateManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() 
+            || playerStateManager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>());
         humanShield_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,humanShieldRightHandConstrainLookAtScriptableObject_rifle,
             ()=> player._currentWeapon is PrimaryWeapon);
         humanShield_secondary_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, humanShieldRightHandConstrainLookAtScriptableObject_pistol,
             () => player._currentWeapon is SecondaryWeapon);
 
         restrictConstraintSelector = new AnimationConstrainNodeSelector(
-            () => playerStateManaher.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
+            () => playerStateManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
         restrict_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_rifle,
             ()=> player._currentWeapon is PrimaryWeapon);
         restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager,restrictRightHandConstrainLookAtScriptableObject_pistol,
@@ -109,6 +134,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         startNodeSelector.AddtoChildNode(playerConstraintCombineNode);
 
         playerConstraintCombineNode.AddCombineNode(enableDisableConstraintWeightNodeSelector);
+        playerConstraintCombineNode.AddCombineNode(rightHandRecoveryWeightConstraintNodeLeaf);
+        playerConstraintCombineNode.AddCombineNode(aimDownSightRecoveryWeightConstraintNodeLeaf);
+        playerConstraintCombineNode.AddCombineNode(leanRotationRecoveryWeightConstraintNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(constraintNodeStateSelector);
 
         enableDisableConstraintWeightNodeSelector.AddtoChildNode(enableConstraintWeight);

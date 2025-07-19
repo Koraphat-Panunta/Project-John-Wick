@@ -2,7 +2,7 @@ using UnityEngine;
 
 public partial class PlayerConstrainAnimationManager 
 {
-    protected INodeManager playerStateManaher => player.playerStateNodeManager;
+    protected INodeManager playerStateManager => player.playerStateNodeManager;
     protected INodeManager playerWeaponManuverStateManager => player._weaponManuverManager;
    
     protected bool isConstraintEnable 
