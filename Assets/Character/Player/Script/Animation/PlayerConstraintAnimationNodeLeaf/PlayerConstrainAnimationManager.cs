@@ -27,6 +27,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected override void FixedUpdate()
     {
+        Debug.Log("playerStateManager curNodeleaf from procedural = " + playerStateManager.GetCurNodeLeaf());
         try
         {
             curState = constraintNodeStateSelector.curNodeLeaf.ToString();
@@ -82,11 +83,12 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         rightHandRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             ()=> 
             {
-
                 if (playerStateManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() || playerStateManager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>())
                     return false;
-                if(playerStateManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>())
+                if (playerStateManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>())
+                {
                     return false;
+                }
 
                 return true;
             }
@@ -165,11 +167,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         pistolADSConstrainCombineNode.AddCombineNode(pistol_leaningRotationConstrainNodeLeaf);
         pistolADSConstrainCombineNode.AddCombineNode(pistol_ADS_ConstrainNodeLeaf);
 
-       
-
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
     }
     
 }

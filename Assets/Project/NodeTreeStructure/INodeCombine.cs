@@ -16,6 +16,10 @@ public class NodeCombineBehavior
     {
         nodeCombine.combineNodeActivate.Add(addCombineNode, false);
         nodeCombine.combineNodeLeaf.Add(addCombineNode, null);
+        if(addCombineNode is INodeLeaf nodeleaf)
+        {
+            nodeleaf.isReset.Add(() => !nodeleaf.Precondition());
+        }
     }
 
     public void RemoveCombineNode(INodeCombine nodeCombine, INode removeCombineNode)
