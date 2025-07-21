@@ -71,19 +71,7 @@ public abstract class SubjectPlayer : Character
         if(observers.Contains(observer))
             observers.Remove(observer);
     }
-    public void NotifyObserver(Player player,NotifyEvent playerAction)
-    {
-        foreach (IObserverPlayer observer in this.observers)
-        {
-            if (observer == null)
-                this.observers.Remove(observer);
-            else
-            {
-                observer.OnNotify(player, playerAction);
-            }
-        }
-    }
-    public void NotifyObserver<T>(Player player,T node) where T : INode
+    public void NotifyObserver<T>(Player player,T node)
     {
         foreach (IObserverPlayer observer in this.observers)
         {

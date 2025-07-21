@@ -157,7 +157,7 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     {
 
     }
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public void OnNotify<T>(Player player, T node)
     {
 
     }

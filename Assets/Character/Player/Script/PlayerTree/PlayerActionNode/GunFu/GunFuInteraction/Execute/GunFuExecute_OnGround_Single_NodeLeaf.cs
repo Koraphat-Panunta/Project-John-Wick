@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuExecuteNodeLeaf
+public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNodeLeaf
 {
 
     public IWeaponAdvanceUser weaponAdvanceUser => player;
@@ -24,16 +24,10 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
 
     private Vector3 gunFuAttackerTargetPosition;
     private Quaternion gunFuAttackerTargetRotation;
-
-    public enum GunFuExecuteSinglePhase
-    {
-        Warping,
-        Interacting,
-        Execute,
-    }
-    public GunFuExecuteSinglePhase curGunFuPhase { get; protected set; }
     public float _timer { get; set; }
     bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecuteAlready; set => isExecuteAlready = value; }
+    IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => curGunFuPhase = value; }
+    private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase;
     private bool isExecuteAlready;
 
     public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition, GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
@@ -46,7 +40,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
     {
 
         this._timer = _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeAnimationOffset;
-        curGunFuPhase = GunFuExecuteSinglePhase.Warping;
+        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
         CalculateAdjustTransform();
         (player._movementCompoent as MovementCompoent).CancleMomentum();
@@ -86,17 +80,17 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
         _timer += Time.deltaTime;
         switch (curGunFuPhase)
         {
-            case GunFuExecuteSinglePhase.Warping:
+            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping:
                 {
                     if (WarpingComplete())
                     {
-                        curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
+                        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
                         gunFuAble._character.enableRootMotion = true;
                         gunFuAble._character._movementCompoent.CancleMomentum();
                     }
                     break;
                 }
-            case GunFuExecuteSinglePhase.Interacting:
+            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting:
                 {
                     if (isTriggerSlowMotion == false
                         && _timer >= gunFuExecute_OnGround_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
@@ -133,11 +127,12 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf,IGunFuE
         if (_timer >= _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeTimeNormalized
            && isExecuteAlready == false)
         {
-            curGunFuPhase = GunFuExecuteSinglePhase.Execute;
+            curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
             BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
             weaponAdvanceUser._currentWeapon.PullTrigger();
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
+            player.NotifyObserver(player, curGunFuPhase);
             player.NotifyObserver(player, this);
         }
     }

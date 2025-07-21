@@ -11,14 +11,6 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
     public Volume volume;
     public GetShootFeedBack_PostProcessing getShootFeedBack;
 
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
-        {
-            getShootFeedBack.TriggerFeedBack();
-        }
-    }
-
     void Start()
     {
         player = FindAnyObjectByType<Player>();
@@ -36,8 +28,12 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer
     }
 
    
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public void OnNotify<T>(Player player, T node)
     {
-       
+        if(node is SubjectPlayer.NotifyEvent playerEvent)
+        if (playerEvent == SubjectPlayer.NotifyEvent.GetShoot)
+        {
+            getShootFeedBack.TriggerFeedBack();
+        }
     }
 }

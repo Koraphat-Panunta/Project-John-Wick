@@ -79,27 +79,28 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
 
     [Range(0, 5)]
     [SerializeField] private float gunFuCameraKickMultiply;
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+ 
+    public void OnNotify<T>(Player player, T node)
     {
-        
-        if(playerAction == SubjectPlayer.NotifyEvent.SwapShoulder)
+        if (node is SubjectPlayer.NotifyEvent notifyEvent)
         {
-            curSide = player.curShoulderSide;
-        }
-        if(playerAction == SubjectPlayer.NotifyEvent.Firing)
-        {
-            cameraKickBack.Performed(player._currentWeapon);
-            cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
-        }
+            if (notifyEvent == SubjectPlayer.NotifyEvent.SwapShoulder)
+            {
+                curSide = player.curShoulderSide;
+            }
+            if (notifyEvent == SubjectPlayer.NotifyEvent.Firing)
+            {
+                cameraKickBack.Performed(player._currentWeapon);
+                cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
+            }
 
-        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
-        {
-            cameraImpluse.Performed(-0.05f);
+            if (notifyEvent == SubjectPlayer.NotifyEvent.GetShoot)
+            {
+                cameraImpluse.Performed(-0.05f);
+            }
         }
-       
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
-    {
+        else
+        if (node is INode)
         switch (node)
         {
            case GunFuHitNodeLeaf gunFuHitNodeLeaf:

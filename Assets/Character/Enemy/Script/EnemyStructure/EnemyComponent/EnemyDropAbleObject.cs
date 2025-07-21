@@ -16,18 +16,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
         {
             if (isAlreadyExecuted)
                 return;
-
-            if (enemy.enemyStateManagerNode.TryGetCurNodeLeaf<GotExecuteOnGround_NodeLeaf>())
-            {
-                StackGague gunFuExecuteStackGauge = enemy.gunFuAbleAttacker.gunFuExecuteStackGauge;
-                if (gunFuExecuteStackGauge.amount >= gunFuExecuteStackGauge.max)
-                {
-                    isAlreadyExecuted = true;
-                    DropObject(AmmoGetAbleObject);
-                    DropObject(AmmoGetAbleObject);
-                    DropObject(AmmoGetAbleObject);
-                }
-            }
         }
     }
     private void Awake()

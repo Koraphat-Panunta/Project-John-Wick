@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class BodyShieldHitIndicator : HittedIndicator
 {
-    public override void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+    public override void OnNotify<T>(Player player, T node)
     {
-        if(playerAction == SubjectPlayer.NotifyEvent.HumanShieldOpponentGetShoot)
+        if(node is SubjectPlayer.NotifyEvent playerEvent)
+        if (playerEvent == SubjectPlayer.NotifyEvent.HumanShieldOpponentGetShoot)
         {
             Debug.Log("Hit Indicate OnNotify");
             Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
             base.ShowIndicator(hitDir);
         }
+
+        base.OnNotify(player, node);
     }
+   
+
 }

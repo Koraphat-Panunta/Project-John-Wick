@@ -32,6 +32,10 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     {
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
+        if (player._currentWeapon == null)
+            this.Crosshair_CenterPosition.gameObject.SetActive(false);
+        else
+            this.Crosshair_CenterPosition.gameObject.SetActive(true);
     }
 
     // UpdateNode is called once per frame
@@ -85,32 +89,36 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         player = FindAnyObjectByType<Player>();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+    
+    public void OnNotify<T>(Player player, T node)
     {
-        if(player._currentWeapon == null)
+
+        if (player._currentWeapon == null)
         {
             this.Crosshair_CenterPosition.gameObject.SetActive(false);
             return;
         }
+        else
         this.Crosshair_CenterPosition.gameObject.SetActive(true);
-
-        if (playerAction == SubjectPlayer.NotifyEvent.Firing)
+        if (node is SubjectPlayer.NotifyEvent playerEvent)
         {
-            CrosshairSpread.Performed(player._currentWeapon);
-            CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
-            CrosshairSpread.TriggerFocusSpanRate();
-        }
-     
 
-        if(playerAction == SubjectPlayer.NotifyEvent.GetShoot)
-        {
-            CrosshairSpread.Performed(35);
-            CrosshairSpread.TriggerFocusSpanRate();
+            if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
+            {
+                CrosshairSpread.Performed(player._currentWeapon);
+                CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
+                CrosshairSpread.TriggerFocusSpanRate();
+            }
+
+
+            if (playerEvent == SubjectPlayer.NotifyEvent.GetShoot)
+            {
+                CrosshairSpread.Performed(35);
+                CrosshairSpread.TriggerFocusSpanRate();
+            }
         }
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
-    {
-        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+            
+        else if (node is WeaponManuverLeafNode weaponManuverLeafNode)
             switch (weaponManuverLeafNode)
             {
                 case LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverLeafNode:

@@ -330,9 +330,9 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
     {
         base.UpdateNode();
     }
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+    public void OnNotify<T>(Player player, T node)
     {
-        if(curPhase == Phase.Eliminate)
+        if (curPhase == Phase.Eliminate)
         {
             enemy_T2S1.isImortal = false;
             if (enemy_T2S1.isDead)
@@ -344,9 +344,7 @@ public class TutorialGameplayGameMasterNodeLeaf_T2S1 : InGameLevelGamplayGameMas
                 }
             }
         }
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
-    {
+        else
         if (node is PlayerStateNodeLeaf playerStateNodeLeaf)
             switch (playerStateNodeLeaf)
             {
@@ -516,17 +514,15 @@ public class TutorialGameplayGameMasterNodeLeaf_T3S2 : InGameLevelGamplayGameMas
         base.FixedUpdateNode();
     }
 
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+   
+    public void OnNotify<T>(Player player, T node) 
     {
-       if(curPhase == Phase.ExecuteLastone 
-            &&player.curGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
+        if (curPhase == Phase.ExecuteLastone
+            && player.curGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
         {
             lastEnemy.isImortal = false;
         }
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
-    {
-       if(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf && curPhase == Phase.ExecuteLastone)
+        if (node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecuteNodeLeaf && curPhase == Phase.ExecuteLastone)
             lastEnemy.isImortal = false;
     }
 

@@ -24,26 +24,28 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         this.playerInfo = FindAnyObjectByType<Player>();
     }
  
-    public  void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
+  
+    public void OnNotify<T>(Player player, T node)
     {
-       if(playerAction == SubjectPlayer.NotifyEvent.Firing)
-       {
-            if (this.playerInfo._currentWeapon != null)
+        if(node is SubjectPlayer.NotifyEvent playerEvent)
+        {
+            if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
+            {
+                if (this.playerInfo._currentWeapon != null)
+                {
+                    UpdateInfo();
+                }
+            }
+            if (playerEvent == SubjectPlayer.NotifyEvent.RecivedAmmo)
             {
                 UpdateInfo();
             }
-       }
-        if (playerAction == SubjectPlayer.NotifyEvent.RecivedAmmo)
-        {
-            UpdateInfo();
-        }
 
-        if(player.playerStateNodeManager != null &&
-            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>())
-            UpdateInfo();
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
-    {
+            if (player.playerStateNodeManager != null &&
+                (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>())
+                UpdateInfo();
+        }
+        else
         if(node is WeaponManuverLeafNode weaponManuverLeafNode)
         {
             switch (weaponManuverLeafNode)

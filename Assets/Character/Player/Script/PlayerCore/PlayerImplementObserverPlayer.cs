@@ -3,8 +3,20 @@ using UnityEngine;
 
 public partial class Player : IObserverPlayer
 {
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public void OnNotify<T>(Player player, T node)
     {
+        if(node is IGunFuExecuteNodeLeaf.GunFuExecutePhase gunFuExecutePhase)
+        {
+            switch (gunFuExecutePhase)
+            {
+                case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute:
+                    {
+                        AddHP(40);
+                        player.NotifyObserver<SubjectPlayer.NotifyEvent>(player, SubjectPlayer.NotifyEvent.HealthRegen);
+                        break;
+                    }
+            }
+        }
         switch (node)
         {
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
@@ -16,10 +28,6 @@ public partial class Player : IObserverPlayer
                     break;
                 }
         }
-    }
-
-    public void OnNotify(Player player, NotifyEvent notifyEvent)
-    {
     }
     private static class PlayerImlementObserverBehavior
     {

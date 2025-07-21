@@ -27,7 +27,6 @@ public partial class Player : IGunFuAble
         }
         set { }
     }
-    public StackGague gunFuExecuteStackGauge { get; set; }
 
     public Animator _gunFuAnimator => animator;
 
@@ -50,7 +49,6 @@ public partial class Player : IGunFuAble
 
     public void InitailizedGunFuComponent()
     {
-        gunFuExecuteStackGauge = new PlayerGunFuExecuteStackGauge(this, 4, 0);
 
         _weaponUser = this;
         _gunFuUserTransform = RayCastPos;

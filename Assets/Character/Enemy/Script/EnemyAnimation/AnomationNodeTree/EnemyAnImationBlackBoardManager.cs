@@ -20,6 +20,7 @@ public partial class EnemyAnimationManager
                 )
                 return false;
 
+
             return true;
         }
     }

@@ -27,7 +27,6 @@ public partial class Enemy : IGunFuAble
         }
         set { }
     }
-    public StackGague gunFuExecuteStackGauge { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     Animator IGunFuAble._gunFuAnimator => animator;
 

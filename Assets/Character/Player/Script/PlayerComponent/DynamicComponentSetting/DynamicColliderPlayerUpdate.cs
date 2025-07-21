@@ -11,10 +11,8 @@ public class DynamicColliderPlayerUpdate : MonoBehaviour,IObserverPlayer
 
     [SerializeField] private float CrouchCenterY;
     [SerializeField] private float CrouchHeight;
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
+    
+    public void OnNotify<T>(Player player, T node)
     {
         if (node is PlayerStateNodeLeaf playerStateNodeLeaf)
             switch (playerStateNodeLeaf)

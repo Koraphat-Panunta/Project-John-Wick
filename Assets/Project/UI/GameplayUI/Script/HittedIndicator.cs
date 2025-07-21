@@ -36,17 +36,7 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
        
     }
 
-    public virtual void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        if(isEnable == false)
-            return;
-
-        if (playerAction == SubjectPlayer.NotifyEvent.GetShoot)
-        {
-            Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
-            ShowIndicator(hitDir);
-        }
-    }
+   
 
     protected void ShowIndicator(Vector3 hitDir)
     {
@@ -64,8 +54,18 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
 
     public override void DisableUI() => isEnable = false;
 
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public virtual void OnNotify<T>(Player player, T node)
     {
+        if (isEnable == false)
+            return;
+        if (node is SubjectPlayer.NotifyEvent playerEvent)
+        {
+            if (playerEvent == SubjectPlayer.NotifyEvent.GetShoot)
+            {
+                Vector3 hitDir = -player.playerBulletDamageAbleBehavior.damageDetail.hitDir; // Reverse direction
+                ShowIndicator(hitDir);
+            }
+        }
     }
 }
 

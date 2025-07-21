@@ -31,15 +31,12 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     private Vector3 opponentGunFuTargetPosition;
     private Quaternion opponentGunFuTargetRotation;
-    public enum GunFuExecuteSinglePhase 
-    {
-        Warping,
-        Interacting,
-        Execute,
-    }
-    public GunFuExecuteSinglePhase curGunFuPhase { get;protected set; }
+
+    IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => this.curGunFuPhase = value; }
+    private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase { get; set; }
     public float _timer { get ; set ; }
     bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecuteAlready; set => isExecuteAlready = value; }
+    
 
     private bool isExecuteAlready;
     public GunFuExecute_Single_NodeLeaf(Player player, Func<bool> preCondition,GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
@@ -55,7 +52,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void Enter()
     {
         this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
-        curGunFuPhase = GunFuExecuteSinglePhase.Warping;
+        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         CalculateAdjustTransform();
         gunFuAble._character._movementCompoent.CancleMomentum();
         gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
@@ -101,14 +98,14 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         _timer += Time.deltaTime;
         switch (curGunFuPhase)
         {
-            case GunFuExecuteSinglePhase.Warping:
+            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping:
                 {
                     if (isWarpingComplete)
                     {
                         //gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
 
                         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
-                        curGunFuPhase = GunFuExecuteSinglePhase.Interacting;
+                        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
                         gunFuAble._character.enableRootMotion = true;
 
                         gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
@@ -130,7 +127,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                         
                     break;
                 }
-            case GunFuExecuteSinglePhase.Interacting:
+            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting:
                 {
                     if(isTriggerSlowMotion == false
                         &&_timer >= gunFuExecute_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
@@ -167,7 +164,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         if (_timer >= _animationClip.length * gunFuExecute_Single_ScriptableObject.executeTimeNormalized
            && isExecuteAlready == false)
         {
-            curGunFuPhase = GunFuExecuteSinglePhase.Execute;
+            curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
             BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
             weaponAdvanceUser._currentWeapon.PullTrigger();
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
@@ -175,7 +172,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
             Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
             //Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
-
+            player.NotifyObserver(player, curGunFuPhase);
             player.NotifyObserver(player, this);
         }
     }

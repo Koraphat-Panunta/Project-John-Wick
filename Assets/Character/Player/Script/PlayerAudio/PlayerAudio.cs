@@ -61,11 +61,8 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
         }
     }
     float footStepTiming = 0;
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        
-    }
-    public void OnNotify<T>(Player player, T node) where T : INode
+  
+    public void OnNotify<T>(Player player, T node)
     {
         switch (node)
         {

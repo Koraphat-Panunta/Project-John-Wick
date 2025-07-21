@@ -1,7 +1,15 @@
 using UnityEngine;
+using static GunFuExecute_Single_NodeLeaf;
 
 public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
 {
+    public enum GunFuExecutePhase
+    {
+        Warping,
+        Interacting,
+        Execute,
+    }
+    public GunFuExecutePhase _curGunFuPhase { get; protected set; }
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject { get; }
     protected bool _isExecuteAldready { get; set; }
 }

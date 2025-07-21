@@ -12,33 +12,14 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     {
         this.maxHP_BAR_Lenght = HP_bar.rectTransform.sizeDelta.y;
         playerInfo.AddObserver(this);
+    }
+    private void Start()
+    {
         UpdateInfo();
     }
     private void OnValidate()
     {
         playerInfo = FindAnyObjectByType<Player>();
-    }
-
-
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        if (playerAction == SubjectPlayer.NotifyEvent.GetDamaged)
-        {
-           UpdateInfo();
-        }
-        if (playerAction == SubjectPlayer.NotifyEvent.HealthRegen)
-        {
-            UpdateInfo();
-        }
-        if (playerAction == SubjectPlayer.NotifyEvent.RecivedHp)
-        {
-            UpdateInfo();
-        }
-    }
-
-    public void OnNotify(Player player)
-    {
-        
     }
 
     public void UpdateInfo()
@@ -51,8 +32,22 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 
     public override void DisableUI() => this.HP_bar.enabled = false;
 
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public void OnNotify<T>(Player player, T node)
     {
-        
+        if (node is SubjectPlayer.NotifyEvent playerEvent)
+        {
+            if (playerEvent == SubjectPlayer.NotifyEvent.GetDamaged)
+            {
+                UpdateInfo();
+            }
+            if (playerEvent == SubjectPlayer.NotifyEvent.HealthRegen)
+            {
+                UpdateInfo();
+            }
+            if (playerEvent == SubjectPlayer.NotifyEvent.RecivedHp)
+            {
+                UpdateInfo();
+            }
+        }
     }
 }

@@ -14,25 +14,7 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         White
     }
     private ColorMarker curColorMarker;    
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent playerAction)
-    {
-        if (playerAction == SubjectPlayer.NotifyEvent.OppenentStagger)
-        {
-            X_markker.color = Color.white;
-            curColorMarker = ColorMarker.White;
-            markerWeight = 1;
-
-        }
-
-        if (playerAction == SubjectPlayer.NotifyEvent.OpponentKilled)
-        {
-            X_markker.color = Color.red;
-            curColorMarker = ColorMarker.Red;
-            markerWeight = 1;
-
-        }
-    }
-
+  
     private void Awake()
     {
         this.player.AddObserver(this);
@@ -61,8 +43,25 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         this.X_markker.enabled = false;
     }
 
-    public void OnNotify<T>(Player player, T node) where T : INode
+    public void OnNotify<T>(Player player, T node)
     {
-        
+        if(node is SubjectPlayer.NotifyEvent playerEvent)
+        {
+            if (playerEvent == SubjectPlayer.NotifyEvent.OppenentStagger)
+            {
+                X_markker.color = Color.white;
+                curColorMarker = ColorMarker.White;
+                markerWeight = 1;
+
+            }
+
+            if (playerEvent == SubjectPlayer.NotifyEvent.OpponentKilled)
+            {
+                X_markker.color = Color.red;
+                curColorMarker = ColorMarker.Red;
+                markerWeight = 1;
+
+            }
+        }
     }
 }

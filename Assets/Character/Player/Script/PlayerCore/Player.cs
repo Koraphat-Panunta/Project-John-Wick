@@ -8,7 +8,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
     
 {
-    public PlayerHpRegenarate hpRegenarate;
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
     public override MovementCompoent _movementCompoent { get; set; }
@@ -44,7 +43,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         this.AddObserver(this);
         animator = GetComponent<Animator>();
         coverDetection = new CoverDetection();
-        hpRegenarate = new PlayerHpRegenarate(this);
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
 
@@ -70,7 +68,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         _weaponManuverManager.UpdateNode();
 
         _movementCompoent.UpdateNode();
-        hpRegenarate.Regenarate();
         MyHP = base.HP;
 
         commandBufferManager.CommandBufferProcess();
