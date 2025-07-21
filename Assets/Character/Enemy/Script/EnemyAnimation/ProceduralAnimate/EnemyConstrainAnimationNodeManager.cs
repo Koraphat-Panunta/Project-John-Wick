@@ -47,7 +47,7 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
             );
         restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
-        //startNodeSelector.AddtoChildNode(enemyPainStateProceduralAnimateNodeLeaf);
+        startNodeSelector.AddtoChildNode(enemyPainStateProceduralAnimateNodeLeaf);
         startNodeSelector.AddtoChildNode(restProceduralAnimateNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);

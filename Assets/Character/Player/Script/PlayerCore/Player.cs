@@ -90,8 +90,11 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
    
     #region ImplementBulletDamageAble
     public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
-    public void TakeDamage(IDamageVisitor damageVisitor) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) => playerBulletDamageAbleBehavior.TakeDamage(damageVisitor,hitPos,hitDir,hitforce);
+    public void TakeDamage(IDamageVisitor damageVisitor)
+    {
+
+    }
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) { playerBulletDamageAbleBehavior.TakeDamage(damageVisitor, hitPos, hitDir, hitforce); }
 
     #endregion
 

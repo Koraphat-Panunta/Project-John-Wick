@@ -24,8 +24,6 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
-        if (player.isImortal)
-            return;
 
         Bullet bulletObj = damageVisitor as Bullet;
         float damage = bulletObj.hpDamage;
