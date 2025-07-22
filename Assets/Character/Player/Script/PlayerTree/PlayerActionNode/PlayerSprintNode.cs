@@ -47,15 +47,16 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     {
         if (sprintPhase == SprintManuver.Out)
         {
-            SprintMaintainMomentum();
+            SprintMaintainMomentum(sprintRotateSpeed * 2.75f, sprintRotateSpeed * 1.65f);
             if (Vector3.Dot(player._movementCompoent.forwardDir.normalized, sprintDir.normalized) >= 0.95f
                 && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone * 0.95f)
                 sprintPhase = SprintManuver.Stay;
         }
         else if (sprintPhase == SprintManuver.Stay)
         {
-            playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MoveMode.IgnoreMomenTum);
-            playerMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
+            //playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MoveMode.IgnoreMomenTum);
+            //playerMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
+            SprintMaintainMomentum(sprintRotateSpeed * 2.75f, sprintRotateSpeed * 1.65f);
         }
         
         base.FixedUpdateNode();
@@ -64,11 +65,8 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     {
         base.Exit();
     }
-    private void SprintMaintainMomentum()
+    private void SprintMaintainMomentum(float sprintDirRotateSpeed,float rotateCharSpeed)
     {
-        float sprintDirRotateSpeed = sprintRotateSpeed * 4f;
-        float rotateCharSpeed = sprintRotateSpeed * 1.24f;
-
         sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
         playerMovement.MoveToDirWorld(sprintDir, sprintAcceletion, sprintSpeedZone, MoveMode.MaintainMomentum);
         playerMovement.RotateToDirWorld(sprintDir, rotateCharSpeed);

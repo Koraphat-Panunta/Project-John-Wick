@@ -33,9 +33,9 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
         if (player._currentWeapon == null)
-            this.Crosshair_CenterPosition.gameObject.SetActive(false);
+            this.DisableUI();
         else
-            this.Crosshair_CenterPosition.gameObject.SetActive(true);
+            this.EnableUI();
     }
 
     // UpdateNode is called once per frame
@@ -44,6 +44,13 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         CrosshairUpdate();
         if(player != null)
         CrosshairSpread.CrosshairSpreadUpdate();
+        if (player._currentWeapon == null || player.weaponAdvanceUser._weaponManuverManager.aimingWeight <= 0)
+        {
+            this.DisableUI();
+            return;
+        }
+        else
+            this.EnableUI();
     }
     float lerpSpeed = 25;
     void CrosshairUpdate()
@@ -93,13 +100,9 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     public void OnNotify<T>(Player player, T node)
     {
 
-        if (player._currentWeapon == null)
-        {
-            this.Crosshair_CenterPosition.gameObject.SetActive(false);
+        if (player._currentWeapon == null || player.weaponAdvanceUser._weaponManuverManager.aimingWeight <=0 )
             return;
-        }
-        else
-        this.Crosshair_CenterPosition.gameObject.SetActive(true);
+        
         if (node is SubjectPlayer.NotifyEvent playerEvent)
         {
 
@@ -155,8 +158,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = true;
         this.Crosshair_lineRight.GetComponent<RawImage>().enabled = true;
-
-        Cursor.lockState = CursorLockMode.Locked;
     }
     public override void DisableUI() 
     {
@@ -164,8 +165,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         this.Crosshair_lineDown.GetComponent<RawImage>().enabled = false;
         this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = false;
         this.Crosshair_lineRight.GetComponent<RawImage>().enabled = false;
-
-        Cursor.lockState = CursorLockMode.None;
     }
 
    
