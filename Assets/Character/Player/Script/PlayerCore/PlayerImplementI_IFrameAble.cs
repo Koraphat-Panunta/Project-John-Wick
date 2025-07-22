@@ -2,7 +2,16 @@ using UnityEngine;
 using System.Threading.Tasks;
 public partial class Player : I_IFrameAble
 {
-    bool I_IFrameAble._isIFrame { get => isIFrame; set => isIFrame = value; }
+    bool I_IFrameAble._isIFrame { get 
+        { 
+            if(isIFrame)
+                return true;
+            
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
+                return true;
+
+            return false;
+            } set => isIFrame = value; }
     public bool isIFrame { get; private set; }
     private float iFrameTime;
     private async void TriggerIFrame(float iFrameTime)

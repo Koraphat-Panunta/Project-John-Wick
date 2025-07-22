@@ -38,6 +38,7 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf moveIdleUpperNodeLeaf { get; set; }
 
     public NodeSelector basedLayerNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
@@ -129,6 +130,7 @@ public partial class PlayerAnimationManager : INodeManager
         drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
         drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
 
+        basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
@@ -234,6 +236,8 @@ public partial class PlayerAnimationManager : INodeManager
     private void InitializedBasedLayer() 
     {
         basedLayerNodeSelector = new NodeSelector(() => true);
+        deadNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDeadNodeLeaf>(),animator,"Dead",0,0.14f);
         getUpNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
             ,animator, "PlayerSpringGetUp",0,.2f);

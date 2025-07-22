@@ -39,7 +39,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
         damageDetail.hitforce = hitforce;
         player.NotifyObserver(this.player, NotifyEvent.GetShoot);
 
-        TakeDamage(damageVisitor);
+        player.TakeDamage(damageVisitor);
     }
 
 }

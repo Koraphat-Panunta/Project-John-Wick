@@ -17,6 +17,7 @@ public partial class Player : IObserverPlayer
                     }
             }
         }
+        
         switch (node)
         {
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
@@ -28,6 +29,18 @@ public partial class Player : IObserverPlayer
                     break;
                 }
         }
+        if((node is GunFuExecute_Single_NodeLeaf execute_Single_NodeLeaf
+            && execute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            ||(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Single_NodeLeaf
+            && gunFuExecute_OnGround_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
+        {
+            TriggerIFrame(1);
+        }
+        if(node is SubjectPlayer.NotifyEvent.GetDamaged)
+        {
+            TriggerIFrame(1);
+        }
+           
     }
     private static class PlayerImlementObserverBehavior
     {

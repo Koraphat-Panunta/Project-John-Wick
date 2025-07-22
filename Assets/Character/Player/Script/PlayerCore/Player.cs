@@ -73,7 +73,9 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         commandBufferManager.CommandBufferProcess();
 
         _triggerHitedGunFu = false;
+        debugIsIFrame = (this as I_IFrameAble)._isIFrame;
     }
+    [SerializeField] bool debugIsIFrame;
     private void LateUpdate()
     {
         BlackBoardBufferUpdate();
@@ -92,9 +94,18 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
+        if((this as I_IFrameAble)._isIFrame)
+            return;
 
+        playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
     }
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) { playerBulletDamageAbleBehavior.TakeDamage(damageVisitor, hitPos, hitDir, hitforce); }
+    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) 
+    {
+        if ((this as I_IFrameAble)._isIFrame)
+            return;
+
+        playerBulletDamageAbleBehavior.TakeDamage(damageVisitor, hitPos, hitDir, hitforce); 
+    }
 
     #endregion
 
