@@ -198,7 +198,7 @@ public partial class PlayerAnimationManager : INodeManager
         quickSwitchSelector = new NodeSelector(()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>());
         quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>(out QuickDrawWeaponManuverLeafNodeLeaf quickSwitchNodeLeaf)
-            && quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Draw
+            && (quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Draw || quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Stay || quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.HolsterPrimary)
             ,animator, "QuickDraw",1,0.1f);
         quickSwithcHolsterNodeLeaf = new PlayAnimationNodeLeaf(
           () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>(out QuickDrawWeaponManuverLeafNodeLeaf quickSwitchNodeLeaf)

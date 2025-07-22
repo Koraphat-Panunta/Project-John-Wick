@@ -12,7 +12,6 @@ public class RecoveryConstraintManagerWeightNodeLeaf : AnimationConstrainNodeLea
     }
     public override void UpdateNode()
     {
-        Debug.Log("Recovery");
         constraintManager.SetWeight(Mathf.Clamp01(constraintManager.GetWeight() - recoverySpeed*Time.deltaTime));
         base.UpdateNode();
     }

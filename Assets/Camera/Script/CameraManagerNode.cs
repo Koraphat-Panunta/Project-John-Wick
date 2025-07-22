@@ -8,6 +8,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public CameraController cameraController { get;protected set; }
     private Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject> cameraTPPC_ScriptableObject;
+    private INodeManager playerStateManager => cameraController.player.playerStateNodeManager;
+    private INodeManager playerWeaponManuverStateManager => cameraController.player.weaponAdvanceUser._weaponManuverManager;
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
@@ -47,7 +49,13 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
         cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => cameraController.isOnPlayerThirdPersonController);
         cameraAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraAimDownSightView_SCRP,
-            () => cameraController.isAiming);
+            () => 
+            {
+                if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0)
+                    return true;
+                    
+                return false;
+            });
         this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
             () => cameraController.isSprint);
 
@@ -70,11 +78,9 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         startNodeSelector.AddtoChildNode(cameraThirdPersonControllerPlayerBasedSelector);
         startNodeSelector.AddtoChildNode(cameraRestNodeLeaf);
 
-
-
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraAimDownSightNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSSprintViewNodeLeaf);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraPerformGunFuSelector);
+        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSSprintViewNodeLeaf);
+        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraAimDownSightNodeLeaf);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSCrouchViewNodeLeaf);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSStandViewNodeLeaf);
 

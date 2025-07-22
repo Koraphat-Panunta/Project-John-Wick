@@ -27,7 +27,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected override void FixedUpdate()
     {
-        Debug.Log("playerStateManager curNodeleaf from procedural = " + playerStateManager.GetCurNodeLeaf());
         try
         {
             curState = constraintNodeStateSelector.curNodeLeaf.ToString();

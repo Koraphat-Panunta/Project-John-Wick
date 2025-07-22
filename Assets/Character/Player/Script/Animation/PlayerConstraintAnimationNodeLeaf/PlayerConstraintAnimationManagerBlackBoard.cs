@@ -9,7 +9,7 @@ public partial class PlayerConstrainAnimationManager
     { 
         get 
         {
-            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
+            if(player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0)
                 return true;
             return false;
         } 

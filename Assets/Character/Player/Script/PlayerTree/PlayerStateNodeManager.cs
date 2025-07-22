@@ -240,7 +240,7 @@ public class PlayerStateNodeManager : INodeManager
 
         stanceSelectorNode.AddtoChildNode(gotGunFuAttackSelectorNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
-        stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
+        //stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);
