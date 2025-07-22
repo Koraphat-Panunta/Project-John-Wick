@@ -436,7 +436,7 @@ public class EnemyStateManagerNode : INodeManager
 
         enemyStateSelector.AddtoChildNode(enemtDeadState);
         enemyStateSelector.AddtoChildNode(gotGunFuAttackSelector);
-        //enemyStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        enemyStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
         enemyStateSelector.AddtoChildNode(painStateSelector);
         enemyStateSelector.AddtoChildNode(gunFuSelector);

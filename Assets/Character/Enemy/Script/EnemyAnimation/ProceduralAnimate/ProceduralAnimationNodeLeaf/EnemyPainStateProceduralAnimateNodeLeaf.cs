@@ -78,7 +78,8 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
 
         if (Physics.Raycast(rayLeftLeg, out RaycastHit hitInfoLeft, 10, stepAbleLayer))
         {
-            Vector3 pos = hitInfoLeft.point + hipTransform.forward * 0.2f;
+            Vector3 pos = hitInfoLeft.point + (hipTransform.forward * 0.2f);
+            relativeNewLeftFootPos = pos - hipTransform.position;
             leftLeg.data.target.position = pos;
             newLeftFootPos = pos;
             oldLeftFootPos = pos;
@@ -86,7 +87,8 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
         Ray rayRightLeg = new Ray(hipTransform.position + (hipTransform.right * hipLegsSpace), Vector3.down);
         if (Physics.Raycast(rayRightLeg, out RaycastHit hitInfoRight, 10, stepAbleLayer))
         {
-            Vector3 pos = hitInfoRight.point + hipTransform.forward * -0.2f;
+            Vector3 pos = hitInfoRight.point + (hipTransform.forward * -0.2f);
+            relativeNewRightFootPos = pos - hipTransform.position ;
             rightLeg.data.target.position = pos;
             newRightFootPos = pos;
             oldRightFootPos = pos;
