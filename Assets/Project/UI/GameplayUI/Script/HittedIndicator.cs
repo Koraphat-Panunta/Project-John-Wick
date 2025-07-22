@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class HittedIndicator : GameplayUI, IObserverPlayer
 {
     [SerializeField] Player player;
-    [SerializeField] public RectTransform uiScreenCanvas;
+    [SerializeField] public CanvasScaler uiScreenCanvas;
     [SerializeField] public RawImage hitIndicatorPrefab;
 
     public float heightIndicatorPos;
@@ -16,9 +16,9 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
     private void Awake()
     {
         this.player.AddObserver(this);
-
-        heightIndicatorPos = uiScreenCanvas.rect.height / 4;
-        widthIndicatorPos = uiScreenCanvas.rect.width / 4;
+        uiScreenCanvas = GetComponentInParent<CanvasScaler>();
+        heightIndicatorPos = uiScreenCanvas.referenceResolution.y / 4;
+        widthIndicatorPos = uiScreenCanvas.referenceResolution.x / 4;
     }
     private void Update()
     {
@@ -41,7 +41,7 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
     protected void ShowIndicator(Vector3 hitDir)
     {
         Vector2 dir = new Vector2(hitDir.x, hitDir.z).normalized;
-        RawImage indicate = Instantiate(hitIndicatorPrefab, uiScreenCanvas);
+        RawImage indicate = Instantiate(hitIndicatorPrefab, uiScreenCanvas.transform);
         hitIndicators.Add(new Indicator(this, indicate, dir, 3f));
     }
     private void OnValidate()

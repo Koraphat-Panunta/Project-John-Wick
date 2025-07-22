@@ -1574,7 +1574,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -2169,6 +2169,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 584403867928213704, guid: 95467ee5d775ed9418eec277148fbbdb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1225149894965950858, guid: 95467ee5d775ed9418eec277148fbbdb,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2309,6 +2314,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1584861673}
+    - target: {fileID: 7427847686772486835, guid: 95467ee5d775ed9418eec277148fbbdb,
+        type: 3}
+      propertyPath: isEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7714483739842748104, guid: 95467ee5d775ed9418eec277148fbbdb,
         type: 3}
       propertyPath: player

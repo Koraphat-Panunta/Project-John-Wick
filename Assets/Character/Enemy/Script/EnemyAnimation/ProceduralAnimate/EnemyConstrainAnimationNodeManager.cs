@@ -42,6 +42,7 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
+                return true;
                 return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() && enemy._posture <= enemy._postureLight;
             }
             );
@@ -59,5 +60,12 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 
         Gizmos.DrawWireSphere(centre.position + (centre.right * hipLegSpace), 0.05f);
         Gizmos.DrawWireSphere(centre.position - (centre.right * hipLegSpace), 0.05f);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newLeftFootPos,0.15f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
+
     }
 }

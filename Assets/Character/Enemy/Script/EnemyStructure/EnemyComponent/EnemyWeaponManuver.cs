@@ -54,6 +54,9 @@ public class EnemyWeaponManuver : WeaponManuverManager
     public override bool isReloadManuverAble { 
         get 
         {
+            if (enemy._isInPain)
+                return false;
+
             if (enemy._currentWeapon == null)
                 return false;
 

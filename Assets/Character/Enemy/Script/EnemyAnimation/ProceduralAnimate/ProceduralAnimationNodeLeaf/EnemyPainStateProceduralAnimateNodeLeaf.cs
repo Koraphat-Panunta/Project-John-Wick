@@ -11,12 +11,14 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
 
     protected TwoBoneIKConstraint leftLeg => proceduralAnimateNodeManager.leftLeg;
     protected Vector3 oldLeftFootPos;
-    protected Vector3 newLeftFootPos;
+    public Vector3 newLeftFootPos;
+    protected Vector3 relativeNewLeftFootPos;
     protected float lerpLeftLeg;
 
     protected TwoBoneIKConstraint rightLeg => proceduralAnimateNodeManager.rightLeg;
     protected Vector3 oldRightFootPos;
-    protected Vector3 newRightFootPos;
+    public Vector3 newRightFootPos;
+    protected Vector3 relativeNewRightFootPos;
     protected float lerpRightLeg;
 
     protected Transform hipTransform => proceduralAnimateNodeManager.centre;
@@ -129,29 +131,24 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
         Ray rayLeftLeg = new Ray(hipTransform.position + (hipTransform.right * -hipLegsSpace) - hipTransform.forward * 0.2f, Vector3.down);
         if (Physics.Raycast(rayLeftLeg, out RaycastHit hitInfoLeft, 10, stepAbleLayer))
         {
-            if (Vector3.Distance(newLeftFootPos, hitInfoLeft.point) > stepDistance && lerpRightLeg >= 1)
+            if (Vector3.Distance(newLeftFootPos, hitInfoLeft.point) > stepDistance && lerpRightLeg >= 1 && lerpLeftLeg >= 1 )
             {
-                if (lerpLeftLeg < 1)
-                {
-                    oldLeftFootPos = newLeftFootPos;
-                }
+                Debug.Log("Perform Left Leg");
                 lerpLeftLeg = 0;
-                newLeftFootPos = hitInfoLeft.point + footplacementOffsetDistance;
+                relativeNewLeftFootPos = (hitInfoLeft.point + footplacementOffsetDistance) - hipTransform.position;
+                newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
             }
         }
 
         Ray rayRightLeg = new Ray(hipTransform.position + (hipTransform.right * hipLegsSpace) - hipTransform.forward * 0.2f, Vector3.down);
         if (Physics.Raycast(rayRightLeg, out RaycastHit hitInfoRight, 10, stepAbleLayer))
         {
-            if (Vector3.Distance(newRightFootPos, hitInfoRight.point) > stepDistance && lerpLeftLeg >= 1)
+            if (Vector3.Distance(newRightFootPos, hitInfoRight.point) > stepDistance && lerpLeftLeg >= 1 && lerpRightLeg >= 1)
             {
-                if (lerpRightLeg < 1)
-                {
-                    oldRightFootPos = newRightFootPos;
-                }
+                Debug.Log("Perform Right Leg");
                 lerpRightLeg = 0;
-
-                newRightFootPos = hitInfoRight.point + footplacementOffsetDistance;
+                relativeNewRightFootPos = (hitInfoRight.point + footplacementOffsetDistance) - hipTransform.position;
+                newRightFootPos = hipTransform.position + relativeNewRightFootPos;
 
             }
         }
@@ -165,9 +162,13 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
             lerpLeftLeg += Time.deltaTime * stepSpeed;
 
             leftLeg.data.target.position = posL;
+            newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
+
+            Debug.Log("LerpLeftLeg = " + lerpLeftLeg);
         }
         else
         {
+            newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
             oldLeftFootPos = newLeftFootPos;
             leftLeg.data.target.position = oldLeftFootPos;
         }
@@ -179,9 +180,13 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
             lerpRightLeg += Time.deltaTime * stepSpeed;
 
             rightLeg.data.target.position = posR;
+            newRightFootPos = hipTransform.position + relativeNewRightFootPos;
+
+            Debug.Log("LerpRightLeg = " + lerpRightLeg);
         }
         else
         {
+            newRightFootPos = hipTransform.position + relativeNewRightFootPos   ;
             oldRightFootPos = newRightFootPos;
             rightLeg.data.target.position = oldRightFootPos;
         }
