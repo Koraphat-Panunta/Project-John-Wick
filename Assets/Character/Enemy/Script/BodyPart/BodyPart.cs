@@ -46,7 +46,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         Bullet bulletObj = damageVisitor as Bullet;
 
         float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
-        float pressureDamage = bulletObj.impactDamage * postureReciverRate;
+        float pressureDamage = bulletObj.impactDamage * postureReciverRate * 0.2f;
 
         enemy._isPainTrigger = true;
 
