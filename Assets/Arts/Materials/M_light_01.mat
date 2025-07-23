@@ -7,24 +7,23 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: shader_ceiling_01
-  m_Shader: {fileID: -6465566751694194690, guid: c9d24f1671c4b334bb86155c9ec8ede8,
+  m_Name: M_light_01
+  m_Shader: {fileID: -6465566751694194690, guid: 33989aa4a3580f64a8f3785c4553e45f,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _DITHER
-  - _GRADEINT
-  - _HARDEDGE_1
-  m_InvalidKeywords:
-  - _HARDEDGE
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
+  - DepthOnly
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -104,11 +103,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -117,7 +118,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DitherSize: 15.5
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _DstBlendAlpha: 0
     - _Edge: 0
     - _EdgePower_1: 1.92
@@ -157,23 +158,25 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
+    - _SrcBlend: 5
     - _SrcBlendAlpha: 1
     - _Strenght: 6.68
     - _Strength_1: 1
     - _Strength_2: 0.04
-    - _Surface: 0
+    - _Surface: 1
     - _UVSec: 0
     - _WorkflowMode: 1
-    - _ZWrite: 1
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 0.21905372, b: 0, a: 1}
+    - _Color: {r: 2.145682, g: 1.499833, b: 0.31375536, a: 1}
     - _DitherColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientColor: {r: 0.24483801, g: 0.36347842, b: 0.3962264, a: 0}
     - _LightColor: {r: 0.11320752, g: 0.052865773, b: 0.052865773, a: 1}
-    - _MainColor: {r: 0.0753827, g: 0.14129718, b: 0.20754719, a: 1}
+    - _MainColor: {r: 0.9528302, g: 0.7074315, b: 0.6606889, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 1}
