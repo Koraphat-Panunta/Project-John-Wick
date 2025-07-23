@@ -9,19 +9,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cdb007b2690cd34086b84b2bd7a4509, type: 3}
+  m_Script: {fileID: 11500000, guid: c18740a9455ac29419def181a67d509c, type: 3}
   m_Name: GunFu_Single_Execute_OnGround_Primary_Layup_I
   m_EditorClassIdentifier: 
   gunFuStateName: GunFu_Single_Execute_OnGround_Primary_Layup_I
   gotGunFuStateName: GotGunFu_Single_Execute_OnGround_Primary_Layup_I
   executeClip: {fileID: 7400000, guid: 11dc16514898bc54a857c53a4f80991c, type: 2}
-  gotExecuteClip: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
+  gotExecuteClip: {fileID: 7400000, guid: daa8446c6cecbf64bbfa3a89be4da16f, type: 2}
   warpingPhaseTimeNormalized: 0.22
   executeTimeNormalized: 0.56
   executeAnimationExitNormarlized: 0.87
   executeAnimationOffset: 0.05
+  playerForwardRelativePosition: -0.36
+  playerRightwardRelativePosition: 0.63
+  playerRotationRelative: 327
+  opponentAnimationOffset: 0
+  opponentForwardRelative: 0
+  opponentRightwardRelative: 0
+  opponentRotationRelative: 180
   slowMotionTriggerNormailzed: 0
-  playerForwardRelativePosition: 0
-  playerRightwardRelativePosition: 0
-  playerRotationRelative: 0
+  slowMotionDurarion: 0
+  slowMotionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   firingTimingNormalized: []

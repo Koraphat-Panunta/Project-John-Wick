@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cdb007b2690cd34086b84b2bd7a4509, type: 3}
+  m_Script: {fileID: 11500000, guid: c18740a9455ac29419def181a67d509c, type: 3}
   m_Name: GunFu_Single_Execute_OnGround_Pistol_Laydown_I
   m_EditorClassIdentifier: 
   gunFuStateName: GunFu_Single_Execute_OnGround_Pistol_Laydown_I
@@ -20,8 +20,19 @@ MonoBehaviour:
   executeTimeNormalized: 0.56
   executeAnimationExitNormarlized: 0.87
   executeAnimationOffset: 0.05
+  playerForwardRelativePosition: -0.22
+  playerRightwardRelativePosition: 0.85
+  playerRotationRelative: 317
+  opponentAnimationOffset: 0
+  opponentForwardRelative: 0
+  opponentRightwardRelative: 0
+  opponentRotationRelative: 0
   slowMotionTriggerNormailzed: 0
-  playerForwardRelativePosition: -0.47
-  playerRightwardRelativePosition: 0.05
-  playerRotationRelative: 15.6
+  slowMotionDurarion: 0
+  slowMotionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   firingTimingNormalized: []
