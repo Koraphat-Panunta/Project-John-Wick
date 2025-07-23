@@ -39,7 +39,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
         _timer = 0;
         enemy._movementCompoent.SetRotation(Quaternion.LookRotation((gunFuAble._character.transform.position - enemy.transform.position).normalized
             ,Vector3.up));
-        animator.CrossFade(gotHitstateName, 0.005f, 0,_gotGunFuHitScriptableObject.enterAnimationOffsetNormalized);
+        animator.CrossFade(gotHitstateName, 0.0005f, 0,_gotGunFuHitScriptableObject.enterAnimationOffsetNormalized);
         curGotHitPhase = GotHitPhase.Enter;
         base.Enter();
     }

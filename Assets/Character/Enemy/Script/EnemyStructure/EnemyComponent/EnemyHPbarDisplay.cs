@@ -23,10 +23,8 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        Debug.Log("Enemy Notify ");
         if (enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
-            Debug.Log("Enemy Notify GotBulletHit");
             hpBarImage.rectTransform.localScale = new Vector3(enemy.GetHP()/enemy.GetMaxHp(), hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
 
             if(updateHpBar == null || updateHpBar.IsCompleted)

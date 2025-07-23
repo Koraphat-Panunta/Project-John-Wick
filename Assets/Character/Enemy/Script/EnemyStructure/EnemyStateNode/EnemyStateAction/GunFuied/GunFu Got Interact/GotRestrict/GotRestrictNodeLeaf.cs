@@ -34,7 +34,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
         this.attackerRestrict = enemy.gunFuAbleAttacker.curGunFuNode as RestrictGunFuStateNodeLeaf;
 
         animator.CrossFade(gotRestrictEnter, 0.075f, 0,gotRestrictScriptableObject.gotRestrictEnter_enterNormalized);
-        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+        //enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         enemy.friendlyFirePreventingBehavior.DisableFriendlyFirePreventing();
         enemy.NotifyObserver(enemy, this); 
         base.Enter();
@@ -60,6 +60,9 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     {
 
         if (IsComplete())
+            return true;
+
+        if(enemy._triggerHitedGunFu)
             return true;
 
         if (enemy.isDead)

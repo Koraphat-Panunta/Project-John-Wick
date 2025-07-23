@@ -45,6 +45,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
         isRestrictExitHit = false;
         gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
         player.NotifyObserver(player, this);
         base.Enter();
     }
@@ -87,8 +88,6 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
             case RestrictGunFuPhase.Enter:
                 {
                     _timer += Time.deltaTime;
-
-                    gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
 
                     player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
 

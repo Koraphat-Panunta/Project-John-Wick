@@ -26,4 +26,20 @@ public class BezierurveMove
     {
         moveTransform.position = GetPointOnBezierCurve(startPos, controlPoints, endPos, t);
     }
+    public static Vector3 GetPointOnBezierCurve(List<Vector3> controlPoints, float t)
+    {
+        
+        while (controlPoints.Count > 1)
+        {
+            List<Vector3> newPoints = new List<Vector3>();
+            for (int i = 0; i < controlPoints.Count - 1; i++)
+            {
+                Vector3 interpolated = Vector3.Lerp(controlPoints[i], controlPoints[i + 1], t);
+                newPoints.Add(interpolated);
+            }
+            controlPoints = newPoints;
+        }
+
+        return controlPoints[0];
+    }
 }

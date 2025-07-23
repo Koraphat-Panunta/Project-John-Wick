@@ -59,7 +59,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
             () => cameraController.isSprint);
 
-        this.cameraPerformGunFuSelector = new NodeSelector(() => cameraController.isPerformGunFu);
+        this.cameraPerformGunFuSelector = new NodeSelector(
+            () => cameraController.isPerformGunFu);
         this.cameraPerformGunFuWeaponDisarmNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuWeaponDisarm_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf );
         this.cameraPerformGunFuExecuteViewNodeLeaf = new CameraGunFuExecuteOnGroundNodeLeaf(cameraController, cameraController.cameraExecuteScriptableObject,
