@@ -65,7 +65,6 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
 
     public override bool IsReset()
     {
-
         if (IsComplete())
             return true;
 

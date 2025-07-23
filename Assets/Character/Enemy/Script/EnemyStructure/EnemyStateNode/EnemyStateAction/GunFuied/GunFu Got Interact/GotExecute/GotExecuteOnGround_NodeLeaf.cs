@@ -8,13 +8,9 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     private Transform[] _bones;
     private BoneTransform[] _ragdollBoneTransforms;
     private BoneTransform[] _startAnimBoneTransforms;
-    private float _elapsedResetBonesTime;
 
     private Animator _animator => enemy.animator;
-    private float _timeToResetBones = 0.16f;
-
-    private float elapsedTime;
-    private float duration { get => 1 + _timeToResetBones; }
+    private float duration => _animationClip.length;
 
     public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
 
@@ -35,7 +31,14 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
 
-    private GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject ;
+    private GunFuExecute_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject ;
+    private GunFuExecute_OnGround_Single_NodeLeaf _executerGunFuNodeLeaf;
+
+    private float resetBoneTime 
+        => ((_executerGunFuNodeLeaf._animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.warpingPhaseTimeNormalized)
+                        - _executerGunFuNodeLeaf.lenghtOffset)*0.25f;
+
+    private float warpingTime => _executerGunFuNodeLeaf._animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.warpingPhaseTimeNormalized;
     public GotExecuteOnGround_NodeLeaf(Enemy enemy,AnimationClip gotExecuteClip,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._root = root;
@@ -54,21 +57,28 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
 
         this._animationClip = gotExecuteClip;
-        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(_animationClip, enemy.gameObject, this._bones, _startAnimBoneTransforms, enemy.transform);
+
     }
     public override bool Precondition()
     {
         if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
             && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
         {
-            gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_OnGround_Single_ScriptableObject;
+            gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_Single_ScriptableObject;
+            RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(
+                _animationClip,
+                enemy.gameObject,
+                this._bones,
+                _startAnimBoneTransforms,
+                enemy.transform,
+                _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.opponentAnimationOffset);
         }
 
         return base.Precondition();
     }
     public override bool IsComplete()
     {
-        if(elapsedTime >= duration)
+        if(this._timer >= duration)
             return true;
 
         return false;
@@ -91,15 +101,12 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
         RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
 
-        elapsedTime = 0;
-        _elapsedResetBonesTime = 0;
+        _timer = 0;
         executedPhase = ExecutedPhase.ResetingBone;
 
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
-        //RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
-        //RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
-        //RagdollBoneBehavior.PopulateBoneTransforms(_bones,_ragdollBoneTransforms);
+        _executerGunFuNodeLeaf = _executerGunFu.curGunFuNode as GunFuExecute_OnGround_Single_NodeLeaf;
 
         enemy.NotifyObserver(enemy, this); 
 
@@ -117,22 +124,23 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         base.FixedUpdateNode();
     }
 
-    private Vector3 beforeRootPos;
     public override void UpdateNode()
     {
+        _timer += Time.deltaTime;
+
         switch (executedPhase)
         {
             case ExecutedPhase.ResetingBone:
                 {
-                    _elapsedResetBonesTime += Time.deltaTime;
-                    float elapsedPercentage = Mathf.Clamp01(_elapsedResetBonesTime / _timeToResetBones);
+                    float elapsedPercentage = Mathf.Clamp01(
+                        _timer 
+                        / resetBoneTime);
 
                     RagdollBoneBehavior.LerpBoneTransforms(_bones,_ragdollBoneTransforms,_startAnimBoneTransforms,elapsedPercentage);
 
                   
-                    if (_elapsedResetBonesTime >= _timeToResetBones)
+                    if (_timer >= resetBoneTime)
                     {
-                        beforeRootPos = enemy.transform.position;
                         enemy.NotifyObserver(enemy, this);
                         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
                         _animator.CrossFade(gotExecuteStateName, 0, 0, 0);
@@ -143,12 +151,10 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
                 
             case ExecutedPhase.Animate:
                 {
-                    enemy.transform.position = beforeRootPos;
+
                 }
                 break ;
         }
-
-        elapsedTime += Time.deltaTime;
         base.UpdateNode();
     }
 }

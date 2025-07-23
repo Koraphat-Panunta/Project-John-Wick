@@ -54,12 +54,13 @@ public static class RagdollBoneBehavior
         GameObject enemyGO,
         Transform[] bones,
         BoneTransform[] boneTransforms,
-        Transform enemyTransform)
+        Transform enemyTransform,
+        float sampleTime)
     {
         Vector3 positionBeforeSampling = enemyTransform.position;
         Quaternion rotationBeforeSampling = enemyTransform.rotation;
 
-        clip.SampleAnimation(enemyGO, 0);
+        clip.SampleAnimation(enemyGO, sampleTime);
         PopulateBoneTransforms(bones, boneTransforms);
 
         enemyTransform.position = positionBeforeSampling;

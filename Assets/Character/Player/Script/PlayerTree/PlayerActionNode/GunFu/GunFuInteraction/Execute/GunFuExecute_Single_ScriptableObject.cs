@@ -6,8 +6,6 @@ using UnityEngine;
 public class GunFuExecute_Single_ScriptableObject : GunFuExecuteScriptableObject
 {
 
-    
-
     [Range(-10, 10)]
     public float playerForwardRelativePosition;
     [Range(-10, 10)]
@@ -26,6 +24,9 @@ public class GunFuExecute_Single_ScriptableObject : GunFuExecuteScriptableObject
 
     [Range(0, 1)]
     public float slowMotionTriggerNormailzed;
+    [Range(0, 6)]
+    public float slowMotionDurarion;
+    [SerializeField] public AnimationCurve slowMotionCurve;
 
     [SerializeField] public List<float> firingTimingNormalized;
 

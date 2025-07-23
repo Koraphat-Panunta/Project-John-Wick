@@ -66,6 +66,9 @@ public class NodeSequenceBehavior
         if(IsComplete(nodeSequence))
             return true;
 
+        if(nodeSequence.curNodeLeaf.IsReset() && nodeSequence.curNodeLeaf.IsComplete() == false)
+            return true;
+
         return false;
     }
     public void AddNode(INodeSequence nodeSequence,INodeLeaf nodeLeaf)

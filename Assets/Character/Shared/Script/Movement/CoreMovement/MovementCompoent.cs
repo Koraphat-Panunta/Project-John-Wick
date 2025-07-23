@@ -105,7 +105,8 @@ public abstract partial class MovementCompoent : INodeManager
     {
         Quaternion targetRotation = Quaternion.LookRotation(dir);
 
-        transform.gameObject.transform.rotation = Quaternion.Lerp(transform.gameObject.transform.rotation, targetRotation, t);
+        Quaternion resault = Quaternion.Lerp(transform.gameObject.transform.rotation, targetRotation, t);
+        SetRotation(resault);
     }
     public abstract void Move(Vector3 position);
     public void SetPosition(Vector3 position)

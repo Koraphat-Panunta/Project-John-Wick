@@ -53,14 +53,14 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
             _pushUpBoneTransforms[i] = new BoneTransform();
         }
 
-        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(standingUpClip, enemy.gameObject, _bones, _standUpBoneTransforms, enemy.transform);
-        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(pushingUpClip, enemy.gameObject, _bones, _pushUpBoneTransforms, enemy.transform);
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(standingUpClip, enemy.gameObject, _bones, _standUpBoneTransforms, enemy.transform,0);
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(pushingUpClip, enemy.gameObject, _bones, _pushUpBoneTransforms, enemy.transform, 0);
 
     }
 
     public override void Enter()
     {
-        (enemy._movementCompoent as MovementCompoent).CancleMomentum();
+        (enemy._movementCompoent).CancleMomentum();
 
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
@@ -92,10 +92,10 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
-        if(enemy._isPainTrigger )
+        if (enemy._isPainTrigger )
         {
             RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
-            (enemy._movementCompoent as MovementCompoent).CancleMomentum();
+            (enemy._movementCompoent).CancleMomentum();
 
             if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
                 enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
@@ -171,8 +171,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
-        if(enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
+        if (enemy._triggerHitedGunFu && enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf)
             return true;
+        
 
         if(IsComplete())
             return true;

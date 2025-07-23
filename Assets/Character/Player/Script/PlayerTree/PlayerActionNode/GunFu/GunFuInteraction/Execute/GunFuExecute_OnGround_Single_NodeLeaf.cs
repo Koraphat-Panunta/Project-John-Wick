@@ -6,11 +6,11 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
 {
 
     public IWeaponAdvanceUser weaponAdvanceUser => player;
-    public IGunFuAble gunFuAble { get => base.player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.attackedAbleGunFu; set { } }
+    public IGunFuAble gunFuAble { get; set; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_OnGround_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
-    public GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject { get; protected set; }
+    public GunFuExecute_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject { get; protected set; }
     private Dictionary<float, bool> isShootAlready = new Dictionary<float, bool>();
     private List<float> shootimingNormalized => gunFuExecute_OnGround_Single_ScriptableObject.firingTimingNormalized;
     public AnimationClip _animationClip { get => gunFuExecute_OnGround_Single_ScriptableObject.executeClip; set { } }
@@ -24,22 +24,30 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
 
     private Vector3 gunFuAttackerTargetPosition;
     private Quaternion gunFuAttackerTargetRotation;
+
+    private Vector3 opponentGunFuEnterPosition;
+    private Quaternion opponentGunFuEnterRotation;
+
+    private Vector3 opponentGunFuTargetPosition;
+    private Quaternion opponentGunFuTargetRotation;
     public float _timer { get; set; }
     bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecuteAlready; set => isExecuteAlready = value; }
     IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => curGunFuPhase = value; }
     private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase;
     private bool isExecuteAlready;
 
-    public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition, GunFuExecute_OnGround_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
+    public float lenghtOffset => _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeAnimationOffset;
+    public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition, GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
     {
         this.gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecute_Single_ScriptableObject;
+        gunFuAble = player;
         PopulateIsShootAlready();
     }
 
     public override void Enter()
     {
 
-        this._timer = _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeAnimationOffset;
+        this._timer = 0;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
         CalculateAdjustTransform();
@@ -63,7 +71,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
     }
     public override bool IsComplete()
     {
-        if (_timer > _animationClip.length)
+        if (_timer > _animationClip.length - lenghtOffset)
             return true;
         return false;
     }
@@ -92,10 +100,13 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
                 }
             case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting:
                 {
-                    if (isTriggerSlowMotion == false
-                        && _timer >= gunFuExecute_OnGround_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
+
+                    if (isTriggerSlowMotion == false 
+                        && _timer >= gunFuExecute_OnGround_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length - lenghtOffset)
                     {
-                        TimeControlBehavior.TriggerTimeStop(0, 1.2f);
+                        TimeControlBehavior.TriggerTimeStop(0
+                            , gunFuExecute_OnGround_Single_ScriptableObject.slowMotionDurarion
+                            ,gunFuExecute_OnGround_Single_ScriptableObject.slowMotionCurve);
                         isTriggerSlowMotion = true;
                     }
 
@@ -112,7 +123,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
         if (shootimingNormalized != null && shootimingNormalized.Count > 0)
             foreach (float shootimingNormal in shootimingNormalized)
             {
-                if (_timer >= _animationClip.length * shootimingNormal
+                if (_timer >= _animationClip.length * shootimingNormal - lenghtOffset
                     && isShootAlready[shootimingNormal] == false)
                 {
                     isShootAlready[shootimingNormal] = true;
@@ -124,7 +135,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
     }
     private void ExecuteCheck()
     {
-        if (_timer >= _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeTimeNormalized
+        if (_timer >= _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeTimeNormalized - lenghtOffset
            && isExecuteAlready == false)
         {
             curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
@@ -138,7 +149,6 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
     }
     private bool WarpingComplete()
     {
-        float lenghtOffset = _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeAnimationOffset;
 
         float t = (_timer - lenghtOffset) / ((_animationClip.length - lenghtOffset) * warpingNormalized);
 
@@ -152,7 +162,16 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
             , gunFuAttackerTargetPosition
             , gunFuAttackerTargetRotation
             , t);
-
+        //Debug.Log("player curvelocity at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
+        MovementWarper.WarpMovement
+            (opponentGunFuEnterPosition
+            , opponentGunFuEnterRotation
+            , gotGunFuAttackedAble._character._movementCompoent
+            , opponentGunFuTargetPosition
+            , opponentGunFuTargetRotation
+            , t);
+        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        //Debug.Log("enemy curvelocity at warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
         if (t >= 1)
             return true;
 
@@ -180,26 +199,30 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
     }
     private void CalculateAdjustTransform()
     {
-        Vector3 anchorPos = gunFuGotAttackedTransform.position;
-        Vector3 anChorDir;
-
-        if (gotGunFuAttackedAble is IFallDownGetUpAble fallDownGetUpAble)
-        {
-            anChorDir = new Vector3(fallDownGetUpAble._hipsBone.up.x, 0, fallDownGetUpAble._hipsBone.up.z);
-        } else
-            anChorDir = Vector3.zero;
-
+        Vector3 enterDir = (gunFuGotAttackedTransform.position - gunFuAttackerTransform.position).normalized;
 
         gunFuAttackerEnterPosition = gunFuAttackerTransform.position;
         gunFuAttackerEnterRotation = gunFuAttackerTransform.rotation;
+        opponentGunFuEnterPosition = gunFuGotAttackedTransform.position;
+        opponentGunFuEnterRotation = gunFuGotAttackedTransform.rotation;
+
+        Vector3 anchor = gunFuGotAttackedTransform.position;
 
         gunFuAttackerTargetPosition
-            = anchorPos
-            + (anChorDir * gunFuExecute_OnGround_Single_ScriptableObject.playerForwardRelativePosition)
-            + (Vector3.Cross(anChorDir, Vector3.down) * gunFuExecute_OnGround_Single_ScriptableObject.playerRightwardRelativePosition);
+            = gunFuAttackerTransform.position
+            + (enterDir * gunFuExecute_OnGround_Single_ScriptableObject.playerForwardRelativePosition)
+            + (Vector3.Cross(enterDir, Vector3.down) * gunFuExecute_OnGround_Single_ScriptableObject.playerRightwardRelativePosition);
 
         gunFuAttackerTargetRotation
-            = Quaternion.LookRotation(anChorDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_OnGround_Single_ScriptableObject.playerRotationRelative, 0);
+            = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_OnGround_Single_ScriptableObject.playerRotationRelative, 0);
+
+        opponentGunFuTargetPosition
+            = gunFuAttackerTransform.position
+            + (enterDir * gunFuExecute_OnGround_Single_ScriptableObject.opponentForwardRelative)
+            + (Vector3.Cross(enterDir, Vector3.down) * gunFuExecute_OnGround_Single_ScriptableObject.opponentRightwardRelative);
+
+        opponentGunFuTargetRotation
+            = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_OnGround_Single_ScriptableObject.opponentRotationRelative, 0);
 
     
     }

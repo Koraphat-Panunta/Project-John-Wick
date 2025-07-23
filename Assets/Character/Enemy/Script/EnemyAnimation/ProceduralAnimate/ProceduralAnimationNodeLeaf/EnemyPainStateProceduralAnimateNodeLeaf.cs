@@ -197,8 +197,6 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
             rightLeg.data.target.position = posR;
             newRightFootPos = hipTransform.position + relativeNewRightFootPos;
 
-            Debug.Log("LerpRightLeg = " + lerpRightLeg);
-
             if(lerpRightLeg >= 1)
             {
                 newRightFootPos = hipTransform.position + relativeNewRightFootPos;
