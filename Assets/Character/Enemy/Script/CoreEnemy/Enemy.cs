@@ -115,6 +115,7 @@ public partial class Enemy : SubjectEnemy
             TakeDamage(bullet.hpDamage);
             bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
+            NotifyObserver(this, EnemyEvent.GotBulletHit);
         }
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)

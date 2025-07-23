@@ -11,9 +11,6 @@ public class EnemyBodyBulletDamageAbleBehavior : IBulletDamageAble
     {
         enemyBody.enemy.forceSave = hitDir * hitforce*0.03f;
         enemyBody.StackingForce(hitDir*hitforce*1.5f,hitPos);
-        //enemyBody.forceSave = hitDir * hitforce;
-        //enemyBody.hitForcePositionSave = hitPos;
-        //enemyBody.isForceSave = true;
     }
 
     public void TakeDamage(IDamageVisitor damageVisitor)

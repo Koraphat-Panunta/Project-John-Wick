@@ -56,6 +56,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
             enemy.staggerGauge -= pressureDamage;
 
         enemy.TakeDamage(damage);
+        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
     }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);

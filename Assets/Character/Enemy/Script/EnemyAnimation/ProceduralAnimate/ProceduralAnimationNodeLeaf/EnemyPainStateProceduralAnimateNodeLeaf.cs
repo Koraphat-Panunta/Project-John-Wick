@@ -146,7 +146,6 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
         {
             if (Vector3.Distance(newLeftFootPos, hitInfoLeft.point) > stepDistance && lerpRightLeg >= 1 && lerpLeftLeg >= 1 )
             {
-                Debug.Log("Perform Left Leg");
                 lerpLeftLeg = 0;
                 relativeNewLeftFootPos = (hitInfoLeft.point + footplacementOffsetDistance) - hipTransform.position;
                 newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
@@ -156,7 +155,6 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
         {
             if (Vector3.Distance(newRightFootPos, hitInfoRight.point) > stepDistance && lerpLeftLeg >= 1 && lerpRightLeg >= 1)
             {
-                Debug.Log("Perform Right Leg");
                 lerpRightLeg = 0;
                 relativeNewRightFootPos = (hitInfoRight.point + footplacementOffsetDistance) - hipTransform.position;
                 newRightFootPos = hipTransform.position + relativeNewRightFootPos;
@@ -174,8 +172,6 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
 
             leftLeg.data.target.position = posL;
             newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
-
-            Debug.Log("LerpLeftLeg = " + lerpLeftLeg);
 
             if(lerpLeftLeg >= 1)
             {
