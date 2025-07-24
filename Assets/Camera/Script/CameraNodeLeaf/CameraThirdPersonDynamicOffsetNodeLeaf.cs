@@ -13,7 +13,8 @@ public class CameraThirdPersonDynamicOffsetNodeLeaf : CameraNodeLeaf
     protected float _timer;
     protected AnimationCurve animationCurve => thirdPersonDynamicOffsetScriptableObject.animationCurve;
     protected List<Vector3> offsetKeyFrames => thirdPersonDynamicOffsetScriptableObject.offsetKeyFrame;
-
+    private Vector3 enterCameraOffsetEnter;
+    private Vector2 inputLook => cameraController.player.inputLookDir_Local * Time.deltaTime * cameraController.standardCameraSensivity;
     protected ThirdPersonCinemachineCamera thirdPersonCinemachineCamera => cameraController.thirdPersonCinemachineCamera;
     public CameraThirdPersonDynamicOffsetNodeLeaf(
         CameraController cameraController
@@ -30,6 +31,7 @@ public class CameraThirdPersonDynamicOffsetNodeLeaf : CameraNodeLeaf
     {
         _timer = 0;
         transitionInNormalized = 0;
+        this.enterCameraOffsetEnter = thirdPersonCinemachineCamera.cameraOffset;
         this.TransitionIn();
         base.Enter();
     }
@@ -59,10 +61,13 @@ public class CameraThirdPersonDynamicOffsetNodeLeaf : CameraNodeLeaf
     {
         _timer += Time.deltaTime;
         this.UpdateTargetOffset(out Vector3 targetOffset);
-        
-        float offsetX = Vector3.Lerp(,,transitionInNormalized);
-        float offsetY;
-        float offsetZ;
+
+        Vector3 setOffserThirdPerson = Vector3.Lerp(enterCameraOffsetEnter, targetOffset, transitionInNormalized);
+ 
+        thirdPersonCinemachineCamera.cameraOffset = setOffserThirdPerson;
+
+        thirdPersonCinemachineCamera.InputRotateCamera(inputLook.x, -inputLook.y);
+        thirdPersonCinemachineCamera.UpdateCameraPosition();
 
         base.UpdateNode();
     }

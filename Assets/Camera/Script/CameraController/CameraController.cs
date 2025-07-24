@@ -103,6 +103,21 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
         if (node is INode)
         switch (node)
         {
+           case IGunFuExecuteNodeLeaf gunFuExecute_NodeLeaf:
+                    {
+                        if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        {
+                            this.isPerformGunFu = true;
+                            this.curGunFuNode = gunFuExecute_NodeLeaf;
+                        }
+                        else if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        {
+                            this.isPerformGunFu = false;
+                            if (this.curGunFuNode == gunFuExecute_NodeLeaf)
+                                this.curGunFuNode = null;
+                        }
+                        break;
+                    }
            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)

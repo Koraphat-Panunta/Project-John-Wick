@@ -25,6 +25,7 @@ public interface INodeManager
     public INodeLeaf GetCurNodeLeaf() => curNodeLeaf;
     public bool TryGetCurNodeLeaf<T>() where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(this);
     public bool TryGetCurNodeLeaf<T>(out T nodeLeaf) where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(out nodeLeaf, this);
+    public T GetCurNodeLeafAs<T>() where T : INodeLeaf => nodeManagerBehavior.GetCurNodeLeafAs<T>(this);
     public void SetCurNodeLeaf(INodeLeaf nodeLeaf) => curNodeLeaf = nodeLeaf;   
 }
 
@@ -89,6 +90,14 @@ public class NodeManagerBehavior
             return true;
         return false;
 
+    }
+    public T GetCurNodeLeafAs<T>(INodeManager nodeManager) where T : INodeLeaf
+    {
+       if(this.TryGetCurNodeLeafAs<T>(out T nodeLeaf,nodeManager))
+        {
+            return nodeLeaf;
+        }
+        return nodeLeaf;
     }
 
 }

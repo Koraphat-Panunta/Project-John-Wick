@@ -418,6 +418,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bd10e9086c056241af014e235eb23e1, type: 3}
+--- !u!114 &205292351 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8662423462059608260, guid: 95467ee5d775ed9418eec277148fbbdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1213806398}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d26168af3786a44bd6ca1c01e49496, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &258194213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8373089153652914099, guid: 7610df03b6259ea409d446dc8358715b,
@@ -1761,6 +1773,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
+      propertyPath: cameraExecute_Single_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: fda8c9140bee9384099f46fc07992d54,
+        type: 2}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
       propertyPath: cameraAimDownSightView_SCRP
       value: 
       objectReference: {fileID: 11400000, guid: 72dba61857966d94a822eb704bfc4988,
@@ -2519,6 +2537,11 @@ PrefabInstance:
       propertyPath: characterController
       value: 
       objectReference: {fileID: 1939669752}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: crosshairController
+      value: 
+      objectReference: {fileID: 205292351}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: gunFuExecute_Single_ScriptableObject_I
