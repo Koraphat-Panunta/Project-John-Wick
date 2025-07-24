@@ -25,6 +25,7 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -85,6 +86,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: ae7505ebcd5b0dd4c9577fbc5dbb3e7f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a67d82a7c57148dca9477798e029d465_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -109,7 +114,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
@@ -125,6 +130,7 @@ Material:
     - _EdgePower_2: 13.12
     - _EdgeSubtract: 0.382
     - _EnvironmentReflections: 1
+    - _Float: 0
     - _Fuzzie: 0.89
     - _GRADEINT: 1
     - _GlossMapScale: 0
@@ -135,6 +141,7 @@ Material:
     - _HalfOffsets: 0.47
     - _HalfThreshold: 0.0353
     - _HardEdgeStrength_1: 1
+    - _IS_WALL: 0
     - _LightEdge: 1.53
     - _LightOffsets: 0.186
     - _LightSize: 6.9
@@ -178,7 +185,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientColor: {r: 0.4528302, g: 0.08322357, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
+    - _MainColor: {r: 0.3962264, g: 0.28799132, b: 0.15886436, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.4509804, g: 0.5019608, b: 0.48424134, a: 1}

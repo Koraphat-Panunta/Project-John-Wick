@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Settings:
-    technique: 0
+    technique: 1
     maxDrawDistance: 1000
     decalLayers: 1
     dBufferSettings:
-      surfaceData: 2
+      surfaceData: 0
     screenSpaceSettings:
       normalBlend: 0
 --- !u!114 &11400000
@@ -95,12 +95,12 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 1.22
-    DirectLightingStrength: 0.556
-    Radius: 0.24
+    Intensity: 0.84
+    DirectLightingStrength: 1
+    Radius: 2.79
     Samples: 1
     BlurQuality: 0
-    Falloff: 11.11
+    Falloff: 55.26
     SampleCount: -1
   m_BlueNoise256Textures:
   - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}

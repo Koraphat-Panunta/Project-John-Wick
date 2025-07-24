@@ -14,7 +14,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _GRADEINT
-  - _RECEIVE_SHADOWS_OFF
   - _USE_SCREEN_SPACE
   m_InvalidKeywords:
   - _HARDEDGE
@@ -126,6 +125,7 @@ Material:
     - _EdgePower_2: 13.12
     - _EdgeSubtract: 0.382
     - _EnvironmentReflections: 1
+    - _Float: 0
     - _Fuzzie: 0.89
     - _GRADEINT: 1
     - _GlossMapScale: 0
@@ -151,7 +151,7 @@ Material:
     - _QueueOffset: 0
     - _RIM_LIGHT01: 0
     - _RIM_LIGHT02: 0
-    - _ReceiveShadows: 0
+    - _ReceiveShadows: 1
     - _Remap: 0.247
     - _RimLightPatternSize: 10
     - _ShadowPower_1: 0.22
@@ -179,7 +179,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientColor: {r: 0.4509804, g: 0.08235294, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.46226418, g: 0.0152634485, b: 0.07649641, a: 1}
+    - _MainColor: {r: 0.4339623, g: 0, b: 0.13601796, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.6929957, g: 0.7249355, b: 0.8207547, a: 1}
