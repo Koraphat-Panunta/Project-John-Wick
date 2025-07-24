@@ -7,14 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_mainObject_04
+  m_Name: M_floor
   m_Shader: {fileID: -6465566751694194690, guid: c9d24f1671c4b334bb86155c9ec8ede8,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _GRADEINT
-  - _RECEIVE_SHADOWS_OFF
   - _USE_SCREEN_SPACE
   m_InvalidKeywords:
   - _HARDEDGE
@@ -151,7 +150,7 @@ Material:
     - _QueueOffset: 0
     - _RIM_LIGHT01: 0
     - _RIM_LIGHT02: 0
-    - _ReceiveShadows: 0
+    - _ReceiveShadows: 1
     - _Remap: 0.247
     - _RimLightPatternSize: 10
     - _ShadowPower_1: 0.22
@@ -179,10 +178,10 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GradientColor: {r: 0.4528302, g: 0.08322357, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
+    - _MainColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
-    - _PatternColor: {r: 0.4509804, g: 0.5019608, b: 0.48235294, a: 1}
+    - _PatternColor: {r: 0.4509804, g: 0.5019608, b: 0.48424134, a: 1}
     - _ShadowColor_1: {r: 1, g: 0, b: 0, a: 1}
     - _ShadowColor_2: {r: 0.8773585, g: 0.33464098, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

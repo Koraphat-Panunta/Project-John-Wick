@@ -13,9 +13,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _DITHER
-  - _GRADEINT
-  - _RIM_LIGHT01
+  - _RECEIVE_SHADOWS_OFF
+  - _USE_SCREEN_SPACE
   m_InvalidKeywords:
   - _HARDEDGE
   m_LightmapFlags: 4
@@ -51,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DitherTex:
-        m_Texture: {fileID: 2800000, guid: ae7505ebcd5b0dd4c9577fbc5dbb3e7f, type: 3}
+        m_Texture: {fileID: 2800000, guid: e6c5b8a7c3414de4db0a3361d074756a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -115,10 +114,10 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 0
     - _Cutoff: 0.5
-    - _DITHER: 1
+    - _DITHER: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DitherSize: 15.5
+    - _DitherSize: 13.4
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _Edge: 0
@@ -127,18 +126,18 @@ Material:
     - _EdgeSubtract: 0.382
     - _EnvironmentReflections: 1
     - _Fuzzie: 0.89
-    - _GRADEINT: 1
+    - _GRADEINT: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HARDEDGE_1: 0
-    - _HalfEdge: 0.52
+    - _HalfEdge: 0.99
     - _HalfOffsets: 0.21
     - _HalfThreshold: 0.0723
     - _HardEdgeStrength_1: 1
-    - _LightEdge: 1.54
+    - _LightEdge: 1.39
     - _LightOffsets: 0.186
-    - _LightSize: 8.8
+    - _LightSize: 5.6
     - _LightThreshold: 0.0537
     - _MASK: 0
     - _MaskColorRange: 0.1
@@ -149,9 +148,10 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RIM_LIGHT01: 1
+    - _RIM_LIGHT01: 0
     - _RIM_LIGHT02: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
+    - _Remap: 0.2
     - _RimLightPatternSize: 10
     - _ShadowPower_1: 0.22
     - _ShadowPower_2: 28.3
@@ -165,6 +165,7 @@ Material:
     - _Strength_1: 1
     - _Strength_2: 0.04
     - _Surface: 0
+    - _USE_SCREEN_SPACE: 1
     - _UVSec: 0
     - _WorkflowMode: 1
     - _ZTest: 4
@@ -173,14 +174,14 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 0.21905372, b: 0, a: 1}
-    - _DitherColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+    - _DitherColor: {r: 0.35933605, g: 0.63105035, b: 0.8018868, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.8113208, g: 0.10181281, b: 0, a: 1}
-    - _LightColor: {r: 1, g: 0.8287669, b: 0.4481132, a: 1}
-    - _MainColor: {r: 0.9056604, g: 0.44858983, b: 0.14097545, a: 1}
+    - _GradientColor: {r: 0.6886792, g: 0.4329641, b: 0, a: 1}
+    - _LightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
-    - _PatternColor: {r: 0.19339621, g: 0.3043637, b: 1, a: 1}
+    - _PatternColor: {r: 0.66206837, g: 0.6819344, b: 0.8113208, a: 1}
     - _ShadowColor_1: {r: 1, g: 0, b: 0, a: 1}
     - _ShadowColor_2: {r: 0.8773585, g: 0.33464098, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

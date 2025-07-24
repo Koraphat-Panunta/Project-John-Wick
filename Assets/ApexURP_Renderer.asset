@@ -16,7 +16,7 @@ MonoBehaviour:
   m_Settings:
     technique: 0
     maxDrawDistance: 1000
-    decalLayers: 0
+    decalLayers: 1
     dBufferSettings:
       surfaceData: 2
     screenSpaceSettings:
@@ -90,17 +90,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Settings:
-    AOMethod: 0
+    AOMethod: 1
     Downsample: 0
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 3
-    DirectLightingStrength: 0.567
-    Radius: 0.035
+    Intensity: 1.22
+    DirectLightingStrength: 0.556
+    Radius: 0.24
     Samples: 1
     BlurQuality: 0
-    Falloff: 100
+    Falloff: 11.11
     SampleCount: -1
   m_BlueNoise256Textures:
   - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
