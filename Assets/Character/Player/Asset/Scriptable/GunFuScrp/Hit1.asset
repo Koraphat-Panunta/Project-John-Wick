@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit1
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: 7cdb4f058be473141b91a2d5d52ba2c0,
+  animationClip_GunFuHits: {fileID: 7400000, guid: 5430a8b74b7120f429c657d5ff5ec158,
     type: 2}
   gunFuHitStateName: Hit1
   hitTimesNormalized:
-  - 0.4
-  - 0.61
+  - 0.34
+  - 0.51
   hitPush:
   - 1
   - 3
@@ -32,6 +32,6 @@ MonoBehaviour:
   - 0.41
   - 0.5
   - 0.59
-  animationGunFuHitOffset: 0.335
-  ExitTime_Normalized: 0.77
-  TransitionAbleTime_Normalized: 0.68
+  animationGunFuHitOffset: 0.27
+  ExitTime_Normalized: 0.87
+  TransitionAbleTime_Normalized: 0.67

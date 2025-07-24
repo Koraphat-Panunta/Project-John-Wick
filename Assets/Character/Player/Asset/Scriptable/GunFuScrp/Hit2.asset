@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit2
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: 4b5960c6b150f1c44a2b2ca56bdd4b4d,
+  animationClip_GunFuHits: {fileID: 7400000, guid: fe20e1dc0c7589b4499653fd174f7948,
     type: 2}
   gunFuHitStateName: Hit2
   hitTimesNormalized:
-  - 0.26
-  - 0.57
+  - 0.456
+  - 0.59
   hitPush:
   - 1
   - 3
@@ -27,10 +27,11 @@ MonoBehaviour:
   hitResetDuration:
   - 0
   - 0
+  hitSlowMotionCurve: []
   warpKeyFrameNormalized:
-  - 0.139
-  - 0.315
-  - 0.554
-  animationGunFuHitOffset: 0
-  ExitTime_Normalized: 1
-  TransitionAbleTime_Normalized: 0.71
+  - 0.41
+  - 0.51
+  - 0.56
+  animationGunFuHitOffset: 0.37
+  ExitTime_Normalized: 0.9
+  TransitionAbleTime_Normalized: 0.74

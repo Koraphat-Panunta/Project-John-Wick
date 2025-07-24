@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunFuStateName: GunFuDodgeExecuteSecondary
   gotGunFuStateName: GotGunFuDodgeExecuteSecondary
-  executeClip: {fileID: 7400000, guid: f96fc1f1354cb1a479d2bdcccf39b2cc, type: 2}
+  executeClip: {fileID: 7400000, guid: 9ed3ac60735c7db42864d60f9e054b47, type: 2}
   gotExecuteClip: {fileID: 7400000, guid: b1df9f14362283d4db30b4f14a23dbb2, type: 2}
   warpingPhaseTimeNormalized: 0.124
   executeTimeNormalized: 0.72
@@ -28,4 +28,11 @@ MonoBehaviour:
   opponentRightwardRelative: -0.3
   opponentRotationRelative: 158
   slowMotionTriggerNormailzed: 0.487
+  slowMotionDurarion: 0
+  slowMotionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   firingTimingNormalized: []
