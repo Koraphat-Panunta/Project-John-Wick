@@ -53,9 +53,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
-        CalculateAdjustTransform();
         gunFuAble._character._movementCompoent.CancleMomentum();
         gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        CalculateAdjustTransform();
         isWarpingComplete = false;  
 
         base.Enter();
@@ -184,7 +184,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         t = Mathf.Clamp01(t);
 
-
+        Debug.Log("player curvelocity before at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
         MovementWarper.WarpMovement
             (gunFuAttackerEnterPosition
             , gunFuAttackerEnterRotation
@@ -192,7 +192,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , gunFuAttackerTargetPosition
             , gunFuAttackerTargetRotation
             , t);
-        //Debug.Log("player curvelocity at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
+
+        gunFuAble._character._movementCompoent.CancleMomentum();
+        Debug.Log("enemy curvelocity at before warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
@@ -201,7 +203,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , opponentGunFuTargetRotation
             , t);
         gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
-        //Debug.Log("enemy curvelocity at warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
+
         if (t >= 1)
             return true;
 
