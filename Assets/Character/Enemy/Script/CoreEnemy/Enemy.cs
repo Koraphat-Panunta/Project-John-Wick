@@ -101,8 +101,10 @@ public partial class Enemy : SubjectEnemy
 
     public void TakeDamage(float Damage)
     {
-        if (isImortal == false)
-            HP -= Damage;
+        if (isImortal)
+            return;
+
+        SetHP(Mathf.Clamp(HP - Damage, 0, maxHp));
         
     }
     public void TakeDamage(IDamageVisitor damageVisitor)

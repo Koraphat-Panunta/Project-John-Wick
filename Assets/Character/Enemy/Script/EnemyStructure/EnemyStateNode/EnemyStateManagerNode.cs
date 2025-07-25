@@ -283,8 +283,9 @@ public class EnemyStateManagerNode : INodeManager
             () => this.enemy.isInCover && this.enemy._isAimingCommand
             , this.enemy);
 
-        gunFuSelector = new EnemyStateSelectorNode(this.enemy, () 
-            => enemy._triggerGunFu);
+        gunFuSelector = new EnemyStateSelectorNode(this.enemy, 
+            () => enemy._triggerGunFu && enemy._isInPain == false);
+
         enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
 
         gotGunFuAttackSelector = new EnemyStateSelectorNode(this.enemy, 

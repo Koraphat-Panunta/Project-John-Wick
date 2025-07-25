@@ -8,7 +8,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
@@ -117,8 +117,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                         attackerPosAtInteractBegin = gunFuAble._character.transform.position;
                         opponentPosAtInteractBegun = gunFuAble.executedAbleGunFu._character.transform.position;
 
-                        Debug.Log("distance enemyRealPos - enemyAdjustPos = " + Vector3.Distance(gunFuGotAttackedTransform.position, opponentGunFuTargetPosition));
-                        Debug.Log("deltaRotate enemyRealRot - enemyAdjustRot = " + Quaternion.Angle(gunFuGotAttackedTransform.rotation,opponentGunFuTargetRotation));
+                        //Debug.Log("distance enemyRealPos - enemyAdjustPos = " + Vector3.Distance(gunFuGotAttackedTransform.position, opponentGunFuTargetPosition));
+                        //Debug.Log("deltaRotate enemyRealRot - enemyAdjustRot = " + Quaternion.Angle(gunFuGotAttackedTransform.rotation,opponentGunFuTargetRotation));
                         //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
                         //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
                     }
@@ -170,7 +170,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
 
-            Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
+            //Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
             //Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
             player.NotifyObserver(player, curGunFuPhase);
             player.NotifyObserver(player, this);
