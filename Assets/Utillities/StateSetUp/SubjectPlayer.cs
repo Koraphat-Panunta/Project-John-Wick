@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class SubjectPlayer : Character
 {
@@ -75,10 +76,16 @@ public abstract class SubjectPlayer : Character
     {
         foreach (IObserverPlayer observer in this.observers)
         {
+            Debug.Log("Observer " + observer);
             if (observer == null)
+            {
+                Debug.Log("Remove Observer " + observer);
                 this.observers.Remove(observer);
+            }
             else
+            {
                 observer.OnNotify(player, node);
+            }
         }
     }
 

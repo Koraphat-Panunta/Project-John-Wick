@@ -956,10 +956,10 @@ MonoBehaviour:
   enemy: {fileID: 2619394019457856660}
   curNodeName: 
   enemyProceduralAnimateNodeManagerDebug: 
-  hipLegSpace: 0.24
-  StepHeight: 0.39
+  hipLegSpace: 0.26
+  StepHeight: 0.35
   StepDistacne: 0.45
-  StepVelocity: 4.6
+  StepVelocity: 4.4
   FootstepPlacementOffsetDistance: 0.35
   rig: {fileID: 5516182650316109378}
 --- !u!1 &5567671712728705941
@@ -1256,7 +1256,7 @@ NavMeshAgent:
   m_AngularSpeed: 0
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1.73
   m_BaseOffset: 0
@@ -1326,7 +1326,7 @@ MonoBehaviour:
     m_Bits: 256
   startWeapon: {fileID: 0}
   forceSave: {x: 0, y: 0, z: 0}
-  myHP: 100
+  myHP: 120
   isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
   selfLayerMask:

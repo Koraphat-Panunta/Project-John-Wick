@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors: []
 --- !u!114 &1552842334254810572
 MonoBehaviour:
@@ -473,7 +473,6 @@ GameObject:
   - component: {fileID: 1968153037591969261}
   - component: {fileID: 5397646546792058823}
   - component: {fileID: 1428774212975845543}
-  - component: {fileID: 729545231305981233}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -539,7 +538,7 @@ MonoBehaviour:
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
   characterController: {fileID: 6726992041350314495}
-  isImortal: 1
+  isImortal: 0
   MyHP: 0
   debugIsIFrame: 0
   MainHandSocket: {fileID: 6803714471603600979}
@@ -915,22 +914,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &729545231305981233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8373089153652914099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a9b06e80824f3b4d86585d6c54e1326, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gunFuExecute_Single_ScriptableObject: {fileID: 11400000, guid: b27531c180c76984dbc845fa3117749c,
-    type: 2}
-  attackerTransform: {fileID: 1376691160772055220}
-  opponentTransform: {fileID: 0}
 --- !u!1001 &2167733301244317916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1933,11 +1916,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.059
       objectReference: {fileID: 0}
+    - target: {fileID: 295875366702273807, guid: a167b61794665e1429d9f389107d92d9,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 319139129733914045}
     - target: {fileID: 2063740445607394601, guid: a167b61794665e1429d9f389107d92d9,
         type: 3}
       propertyPath: m_Name
       value: LeaningRotationConstrain
       objectReference: {fileID: 0}
+    - target: {fileID: 5263111181221110663, guid: a167b61794665e1429d9f389107d92d9,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 4864922312799572872}
     - target: {fileID: 5511129501720670275, guid: a167b61794665e1429d9f389107d92d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2180,6 +2173,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerZone
       objectReference: {fileID: 0}
+    - target: {fileID: 2376950824229505287, guid: 91c6ea86442f5144d9c7be10205674a7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7606334992421935182, guid: 91c6ea86442f5144d9c7be10205674a7,
         type: 3}
       propertyPath: m_Size.x
@@ -2189,6 +2187,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.z
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606334992421935182, guid: 91c6ea86442f5144d9c7be10205674a7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2465,14 +2468,29 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 75910322290255620}
+    - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
+        type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 3039372999945744660}
     - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 4864922312799572872}
+    - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
+        type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 3039372999945744660}
+    - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 319139129733914045}
     - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
@@ -2566,9 +2584,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 692651566547501788, guid: 207919db351c96c4288f9bd666f28232,
         type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 7314802283775132639}
+    - target: {fileID: 692651566547501788, guid: 207919db351c96c4288f9bd666f28232,
+        type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 3039372999945744660}
+    - target: {fileID: 1729439960099485940, guid: 207919db351c96c4288f9bd666f28232,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 6415553568576793929}
     - target: {fileID: 1729439960099485940, guid: 207919db351c96c4288f9bd666f28232,
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
@@ -2639,6 +2667,11 @@ PrefabInstance:
       propertyPath: m_Data.m_MinLimit
       value: -60
       objectReference: {fileID: 0}
+    - target: {fileID: 7410719912333206572, guid: 207919db351c96c4288f9bd666f28232,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 8078382805465159858}
     - target: {fileID: 7410719912333206572, guid: 207919db351c96c4288f9bd666f28232,
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
