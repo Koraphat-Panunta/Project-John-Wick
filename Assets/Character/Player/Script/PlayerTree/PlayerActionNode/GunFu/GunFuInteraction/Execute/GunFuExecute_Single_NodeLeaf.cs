@@ -229,6 +229,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     private void CalculateAdjustTransform()
     {
         Vector3 enterDir = (gunFuGotAttackedTransform.position - gunFuAttackerTransform.position).normalized;
+        enterDir = new Vector3 (enterDir.x,0,enterDir.z).normalized;
 
         gunFuAttackerEnterPosition = gunFuAttackerTransform.position;
         gunFuAttackerEnterRotation = gunFuAttackerTransform.rotation;

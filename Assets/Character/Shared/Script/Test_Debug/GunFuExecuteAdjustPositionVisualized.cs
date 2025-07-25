@@ -21,24 +21,27 @@ public class GunFuExecuteAdjustPositionVisualized : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 enterDir = dir;
+        enterDir = new Vector3(enterDir.x, 0, enterDir.z).normalized;
+
         attackerAdjustPosition 
             = attackerTransform.position 
-            + (dir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
-            + (Vector3.Cross(dir,Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
+            + (enterDir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
+            + (Vector3.Cross(enterDir, Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
 
         Quaternion attackerRotation
-            = Quaternion.LookRotation(dir,Vector3.up)
+            = Quaternion.LookRotation(enterDir, Vector3.up)
             * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.playerRotationRelative, 0);
 
         attackerAdjustDir = attackerRotation * Vector3.forward;
 
         opponetAdjustPosition
            = attackerTransform.position
-           + (dir * gunFuExecute_Single_ScriptableObject.opponentForwardRelative)
-           + (Vector3.Cross(dir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
+           + (enterDir * gunFuExecute_Single_ScriptableObject.opponentForwardRelative)
+           + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
 
         Quaternion opponentRotation
-            = Quaternion.LookRotation(dir, Vector3.up)
+            = Quaternion.LookRotation(enterDir, Vector3.up)
             * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
 
         opponetAdjustDir = opponentRotation * Vector3.forward;

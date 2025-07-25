@@ -113,7 +113,8 @@ public class PlayerStateNodeManager : INodeManager
         executeGunFuSelector = new NodeSelector(
             ()=> player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
-            && player._currentWeapon != null);
+            && player._currentWeapon != null
+            && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0);
         executeGunFuOnGroundSelector = new NodeSelector(
             () => player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble 
             && downGetUpAble._isFallDown);
@@ -121,6 +122,7 @@ public class PlayerStateNodeManager : INodeManager
             ()=> (player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
+            && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
             && player._currentWeapon is SecondaryWeapon)
             ,player.gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I);
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
