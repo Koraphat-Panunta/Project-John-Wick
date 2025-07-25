@@ -10,7 +10,7 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
     public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
 
-    private string gotExecuteStateName;
+    public string gotExecuteStateName { get; protected set; }
     private GunFuExecute_Single_ScriptableObject gunFuExecuteScriptableObject;
 
     private Transform gunFuGotAttackedTransform => enemy.transform;

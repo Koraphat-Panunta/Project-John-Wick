@@ -132,7 +132,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                     if(isTriggerSlowMotion == false
                         &&_timer >= gunFuExecute_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
                     {
-                        TimeControlBehavior.TriggerTimeStop(0, 1.2f);
+                        TimeControlBehavior.TriggerTimeStop(0, gunFuExecute_Single_ScriptableObject.slowMotionDurarion);
                         isTriggerSlowMotion = true;
                     }
 

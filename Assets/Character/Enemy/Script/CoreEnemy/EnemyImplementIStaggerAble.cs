@@ -11,6 +11,7 @@ public partial class Enemy : IStaggerAble
                 && (isDead == false))
                 return true;
 
+            return true;
             return false;
         }
     }

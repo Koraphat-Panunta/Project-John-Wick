@@ -33,6 +33,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
+
             if (isStagger)
                 return true;
 

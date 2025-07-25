@@ -41,7 +41,11 @@ public partial class Player : IGunFuAble
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
     [SerializeField] public WeaponDisarmGunFuScriptableObject primaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public WeaponDisarmGunFuScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject_I;
+
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
+
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Secondary_Laydown_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Secondary_Layup_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Laydown_I;

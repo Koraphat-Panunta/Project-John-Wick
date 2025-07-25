@@ -54,7 +54,9 @@ public class EnemyStateManagerNode : INodeManager
     public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
     public NodeSelector gotExecuteOnGroundSelector { get; private set; }
-    public GotGunFuExecuteNodeLeaf gotExecute_I { get; private set; }
+    public GotGunFuExecuteNodeLeaf gotExecute_Dodge_Secondary_I { get; private set; }
+    public GotGunFuExecuteNodeLeaf gotExecute_Secondary_NodeLeaf_I { get; private set; }
+    public GotGunFuExecuteNodeLeaf gotExecute_Primary_NodeLeaf_I { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_Primary_LayUp_I_NodeLeaf { get; private set; }
@@ -297,7 +299,33 @@ public class EnemyStateManagerNode : INodeManager
             ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecuteOnGroundSelector = new NodeSelector(
             ()=> enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf);
-        gotExecute_I = new GotGunFuExecuteNodeLeaf(enemy,()=> true, "GotGunFuDodgeExecuteSecondary");
+        gotExecute_Dodge_Secondary_I = new GotGunFuExecuteNodeLeaf(enemy,
+            ()=> 
+            {
+                if(enemy.curAttackerGunFuNode is GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf
+                && gunFuExecute_Single_NodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == gotExecute_Dodge_Secondary_I.gotExecuteStateName)
+                    return true;
+                return false;  
+            }
+            , "GotGunFuDodgeExecuteSecondary");
+        gotExecute_Primary_NodeLeaf_I = new GotGunFuExecuteNodeLeaf(enemy,
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf
+               && gunFuExecute_Single_NodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == gotExecute_Primary_NodeLeaf_I.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            , "GotGunFu_Execute_Single_Primary_I");
+        gotExecute_Secondary_NodeLeaf_I = new GotGunFuExecuteNodeLeaf(enemy,
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf
+               && gunFuExecute_Single_NodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == gotExecute_Secondary_NodeLeaf_I.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            , "GotGunFu_Execute_Single_Secondary_I");
         gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy,this.enemy.layUpExecutedAnim,enemy.transform.root,enemy._hipsBone,enemy._bones, "GotGunFu_Single_Execute_OnGround_Pistol_Layup_I",
             () => 
             {
@@ -471,7 +499,9 @@ public class EnemyStateManagerNode : INodeManager
         takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
 
         gotExecuteSelector.AddtoChildNode(gotExecuteOnGroundSelector);
-        gotExecuteSelector.AddtoChildNode(gotExecute_I);
+        gotExecuteSelector.AddtoChildNode(gotExecute_Dodge_Secondary_I);
+        gotExecuteSelector.AddtoChildNode(gotExecute_Primary_NodeLeaf_I);
+        gotExecuteSelector.AddtoChildNode(gotExecute_Secondary_NodeLeaf_I);
 
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayUp_I_NodeLeaf);
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Secondary_LayDown_I_NodeLeaf);
