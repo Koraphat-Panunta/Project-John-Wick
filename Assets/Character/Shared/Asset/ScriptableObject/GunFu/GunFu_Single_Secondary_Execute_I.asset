@@ -16,22 +16,58 @@ MonoBehaviour:
   gotGunFuStateName: GotGunFu_Execute_Single_Secondary_I
   executeClip: {fileID: 7400000, guid: a722caec2180cbe4a96224f1980d183c, type: 2}
   gotExecuteClip: {fileID: 7400000, guid: f4cedb024c128a448a28a929c9722533, type: 2}
-  warpingPhaseTimeNormalized: 0
-  executeTimeNormalized: 0
-  executeAnimationExitNormarlized: 0
-  executeAnimationOffset: 0
+  warpingPhaseTimeNormalized: 0.1
+  executeTimeNormalized: 0.75
+  executeAnimationExitNormarlized: 0.97
+  executeAnimationOffset: 0.05
   playerForwardRelativePosition: 0
   playerRightwardRelativePosition: 0
   playerRotationRelative: 0
-  opponentAnimationOffset: 0
-  opponentForwardRelative: 0
+  opponentAnimationOffset: 0.14
+  opponentForwardRelative: 0.8
   opponentRightwardRelative: 0
-  opponentRotationRelative: 0
-  slowMotionTriggerNormailzed: 0
-  slowMotionDurarion: 0
+  opponentRotationRelative: 180
+  slowMotionTriggerNormailzed: 0.42
+  slowMotionDurarion: 1.5
   slowMotionCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9294797
+      value: 0.22761308
+      inSlope: 0.85208046
+      outSlope: 0.85208046
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.9666509
+      value: 0.46371803
+      inSlope: 1.9354901
+      outSlope: 1.9354901
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.8115705
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

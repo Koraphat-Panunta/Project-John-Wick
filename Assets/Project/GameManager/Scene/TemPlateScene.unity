@@ -2440,13 +2440,19 @@ PrefabInstance:
     - target: {fileID: 729545231305981233, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 729545231305981233, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: opponentTransform
       value: 
       objectReference: {fileID: 995724955}
+    - target: {fileID: 729545231305981233, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: gunFuExecute_Single_ScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: c7421ecece721034c94fb1c26f06ece6,
+        type: 2}
     - target: {fileID: 826268755687377505, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_RotationAtRest.x
@@ -2656,6 +2662,12 @@ PrefabInstance:
       propertyPath: gunFu_Single_Execute_OnGround_Secondary_Laydown_I
       value: 
       objectReference: {fileID: 11400000, guid: 905aa12982e00884f99c2fcfa2cc8147,
+        type: 2}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I
+      value: 
+      objectReference: {fileID: 11400000, guid: b27531c180c76984dbc845fa3117749c,
         type: 2}
     - target: {fileID: 3606655501166950633, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
@@ -3402,7 +3414,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258194213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 815876518ca234340aeb66ee81d83be3, type: 3}
   m_Name: 

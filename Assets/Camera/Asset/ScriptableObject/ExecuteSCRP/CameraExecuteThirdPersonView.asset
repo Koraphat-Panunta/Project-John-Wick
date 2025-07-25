@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec47217e62c0a44e8580e7f8c5222f7, type: 3}
   m_Name: CameraExecuteThirdPersonView
   m_EditorClassIdentifier: 
-  viewOffsetRight: {x: 0, y: -0.21, z: 0}
+  viewOffsetRight: {x: 0, y: -0.21, z: -0.12}
   fov: 70
   transitionCurve:
     serializedVersion: 2
@@ -38,4 +38,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  transitionInSpeed: 1.48
+  transitionInSpeed: 2.07
