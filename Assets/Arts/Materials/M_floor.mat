@@ -13,6 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _GRADEINT
   - _HEIGHT_GRADIENT
   - _IS_WALL
   - _USE_SCREEN_SPACE
@@ -26,7 +27,6 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
-  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -115,7 +115,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _CastShadows: 0
+    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
@@ -134,7 +134,7 @@ Material:
     - _Float: 0
     - _Float_1: 0
     - _Fuzzie: 0.89
-    - _GRADEINT: 0
+    - _GRADEINT: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -191,9 +191,9 @@ Material:
     - _Color_1: {r: 0, g: 0, b: 0, a: 0}
     - _DitherColor: {r: 0.35933605, g: 0.63105035, b: 0.8018868, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.4528302, g: 0.08322357, b: 0, a: 1}
+    - _GradientColor: {r: 0.4509804, g: 0.39607844, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.41509432, g: 0.2917408, b: 0.17426129, a: 1}
+    - _MainColor: {r: 0.019757915, g: 0.068093926, b: 0.11320752, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.4509804, g: 0.5019608, b: 0.48424134, a: 1}

@@ -17,6 +17,7 @@ Material:
   - _GRADEINT
   - _HEIGHT_GRADIENT
   - _IS_WALL
+  - _LINE
   - _USE_SCREEN_SPACE
   m_InvalidKeywords:
   - _HARDEDGE
@@ -132,7 +133,7 @@ Material:
     - _EdgePower_2: 13.12
     - _EdgeSubtract: 0.382
     - _EnvironmentReflections: 1
-    - _Float: 4.69
+    - _Float: 1.42
     - _Float_1: -1.23
     - _Fuzzie: 0.89
     - _GRADEINT: 1
@@ -145,10 +146,10 @@ Material:
     - _HalfOffsets: 0.47
     - _HalfThreshold: 0.0353
     - _HardEdgeStrength_1: 1
-    - _Height: -0.59
+    - _Height: 0.35
     - _Height_1: 0.72
     - _IS_WALL: 1
-    - _LINE: 0
+    - _LINE: 1
     - _LightEdge: 1.53
     - _LightOffsets: 0.186
     - _LightSize: 6.9
@@ -189,12 +190,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.40521538, g: 0.44405633, b: 0.5471698, a: 1}
-    - _Color_1: {r: 0.27153793, g: 0.4239325, b: 0.509434, a: 0}
+    - _Color_1: {r: 0, g: 0.65165347, b: 0.6886792, a: 0}
     - _DitherColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.4509804, g: 0.39680317, b: 0, a: 1}
+    - _GradientColor: {r: 0.4509804, g: 0.39607844, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.7735849, g: 0.74895424, b: 0.6750623, a: 1}
+    - _MainColor: {r: 0.8018868, g: 0.62075573, b: 0.26855645, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.8962264, g: 0.8864707, b: 0.83281416, a: 1}
