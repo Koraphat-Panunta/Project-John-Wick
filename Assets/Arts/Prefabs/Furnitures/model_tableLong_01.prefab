@@ -76,5 +76,58 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 48b97981e59d75b4f950daeb5f43872e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3622834154559074063}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 48b97981e59d75b4f950daeb5f43872e,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8428743682864087158}
   m_SourcePrefab: {fileID: 100100000, guid: 48b97981e59d75b4f950daeb5f43872e, type: 3}
+--- !u!1 &2315646350446547142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 48b97981e59d75b4f950daeb5f43872e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3234637623465536919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3622834154559074063
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315646350446547142}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7807538432633192378, guid: 48b97981e59d75b4f950daeb5f43872e, type: 3}
+--- !u!114 &8428743682864087158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315646350446547142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_Size: {x: 1.795227, y: 0.7938736, z: 3.3196392}
+  m_Center: {x: 1.0089259, y: 0.3484697, z: 1.99296}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
