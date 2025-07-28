@@ -14,9 +14,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DITHER
+  - _GRADEINT
   - _HEIGHT_GRADIENT
   - _IS_WALL
-  - _RECEIVE_SHADOWS_OFF
   - _USE_SCREEN_SPACE
   m_InvalidKeywords:
   - _HARDEDGE
@@ -135,7 +135,7 @@ Material:
     - _Float: 4.69
     - _Float_1: 0
     - _Fuzzie: 0.89
-    - _GRADEINT: 0
+    - _GRADEINT: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -164,7 +164,7 @@ Material:
     - _QueueOffset: 0
     - _RIM_LIGHT01: 0
     - _RIM_LIGHT02: 0
-    - _ReceiveShadows: 0
+    - _ReceiveShadows: 1
     - _Remap: 0.247
     - _RimLightPatternSize: 10
     - _ShadowPower_1: 0.22
@@ -192,7 +192,7 @@ Material:
     - _Color_1: {r: 0, g: 0, b: 0, a: 0}
     - _DitherColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.4509804, g: 0.39680317, b: 0, a: 1}
+    - _GradientColor: {r: 0.4509804, g: 0.39607844, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}

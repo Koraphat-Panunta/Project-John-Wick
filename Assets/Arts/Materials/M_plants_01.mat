@@ -13,6 +13,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _GRADEINT
   - _HEIGHT_GRADIENT
   - _USE_SCREEN_SPACE
   m_InvalidKeywords:
@@ -132,7 +133,7 @@ Material:
     - _Float: 4.69
     - _Float_1: 0
     - _Fuzzie: 0.89
-    - _GRADEINT: 0
+    - _GRADEINT: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -166,7 +167,7 @@ Material:
     - _RimLightPatternSize: 10
     - _ShadowPower_1: 0.22
     - _ShadowPower_2: 28.3
-    - _Size: 100
+    - _Size: 2.8
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -189,9 +190,9 @@ Material:
     - _Color_1: {r: 0, g: 0, b: 0, a: 0}
     - _DitherColor: {r: 0.35933605, g: 0.63105035, b: 0.8018868, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GradientColor: {r: 0.4528302, g: 0.08322357, b: 0, a: 1}
+    - _GradientColor: {r: 0.4509804, g: 0.39607844, b: 0, a: 1}
     - _LightColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 0.11681202, g: 0.7075472, b: 0.664853, a: 1}
+    - _MainColor: {r: 0, g: 1, b: 0.9333334, a: 1}
     - _MaskColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 1}
     - _MaskColorTarget: {r: 0, g: 0, b: 0, a: 0}
     - _PatternColor: {r: 0.5, g: 0.4504717, b: 0.4504717, a: 1}
