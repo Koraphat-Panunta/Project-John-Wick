@@ -38,7 +38,7 @@ public partial class Player : IObserverPlayer
         }
         if(node is SubjectPlayer.NotifyEvent.GetDamaged)
         {
-            TriggerIFrame(1);
+            TriggerIFrame(0.6f);
         }
            
     }

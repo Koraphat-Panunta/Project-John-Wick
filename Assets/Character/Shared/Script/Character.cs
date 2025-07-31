@@ -44,7 +44,7 @@ public abstract class Character : MonoBehaviour
     public float GetMaxHp() => maxHp;
     public void SetHP(float HP)
     {
-        this.HP = HP;
+        this.HP = Mathf.Clamp(HP,0,GetMaxHp());
     }
     public void AddHP(float HP)
     {
