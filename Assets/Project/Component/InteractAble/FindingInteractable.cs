@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class FindingInteractable 
+{
+    public static bool FindingInteractableObject(LayerMask layerMask,float distanceDetect,float sphereCastRadius, Vector3 startCast,Vector3 dirCast,out I_Interactable i_Interactable)
+    {
+        i_Interactable = null;
+
+        // Raycast check
+        if (Physics.Raycast(startCast, dirCast, out RaycastHit rayHit, distanceDetect, layerMask))
+        {
+            if (rayHit.collider.TryGetComponent<I_Interactable>(out i_Interactable))
+                return true;
+        }
+
+        // SphereCast fallback
+        if (Physics.SphereCast(startCast, sphereCastRadius, dirCast, out RaycastHit sphereHit, distanceDetect, layerMask))
+        {
+            if (sphereHit.collider.TryGetComponent<I_Interactable>(out i_Interactable))
+                return true;
+        }
+
+        return false;
+    }
+}

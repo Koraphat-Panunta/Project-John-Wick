@@ -8,7 +8,7 @@ public abstract class Character : MonoBehaviour
     protected float HP;
     protected float maxHp;
     public bool enableRootMotion;
-    public bool isDead { get 
+    public virtual bool isDead { get 
         {
             if(HP <=0)
                 return true;

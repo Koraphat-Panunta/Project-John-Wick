@@ -97,7 +97,6 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract WeaponSelector startEventNode { get; set; }
     public abstract RestNode restNode { get; set; }
     public abstract NodeSelector _reloadSelecotrOverriden { get; }
-
     protected virtual void FixedUpdateTree()
     {
         if (currentEventNode != null)
