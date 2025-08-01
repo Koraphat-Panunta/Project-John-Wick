@@ -10,6 +10,8 @@ public partial class Player : I_Interacter
 
     [Range(0, 10)]
     [SerializeField] private float interacter_sphereCastDetect;
+
+    [SerializeField] private string interactableName;
     private void UpdateFindingInteractableObject()
     {
         Vector3 castPos = this.centreTransform.position;
@@ -25,5 +27,10 @@ public partial class Player : I_Interacter
             currentInteractable = i_Interactable;
         else
             currentInteractable = null;
+
+        if(currentInteractable != null)
+            interactableName = currentInteractable.ToString();
+        else
+            interactableName = " none";
     }
 }

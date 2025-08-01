@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class Weapon : WeaponSubject ,IObserverWeapon
+public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
 {
 
     public Transform bulletSpawnerPos;
@@ -50,6 +50,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
         weaponLayerMask = gameObject.layer;
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
         bulletStore.Add(BulletStackType.Chamber, 1);
         InitailizedTree();
 
@@ -97,6 +98,7 @@ public abstract class Weapon : WeaponSubject ,IObserverWeapon
     public abstract WeaponSelector startEventNode { get; set; }
     public abstract RestNode restNode { get; set; }
     public abstract NodeSelector _reloadSelecotrOverriden { get; }
+
     protected virtual void FixedUpdateTree()
     {
         if (currentEventNode != null)
