@@ -168,11 +168,17 @@ public class PlayerWeaponManuver : WeaponManuverManager
             {
                 if(isPickingUpWeaponManuverAble == false)
                     return false;
-                  
-                if(weaponAdvanceUser._isPickingUpWeaponCommand && 
-                weaponAdvanceUser._findingWeaponBehavior.FindingWeapon())
+
+                if (weaponAdvanceUser._isPickingUpWeaponCommand &&
+                player.currentInteractable != null &&
+                player.currentInteractable is Weapon selectFindingWeapon
+               )
+                {
+                    weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(selectFindingWeapon);
                     return true;
-                else return false;
+                }
+                weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(null);
+                return false;
             });  
 
         curWeaponManuverSelectorNode = new NodeSelector( 

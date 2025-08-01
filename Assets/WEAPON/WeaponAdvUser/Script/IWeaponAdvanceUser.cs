@@ -28,6 +28,7 @@ public class FindingWeaponBehavior
 {
     private IWeaponAdvanceUser weaponAdvanceUser;
     public Weapon weaponFindingSelecting { get;private set; }
+    public void SetWeaponFindingSelecting(Weapon weapon) => weaponFindingSelecting = weapon;
 
     public readonly float findingWeaponRaduisDefault = 1;
 
