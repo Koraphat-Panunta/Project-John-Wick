@@ -88,9 +88,6 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     } 
     private async Task UpdateNegativeHP(CancellationToken token)
     {
-        Debug.Log("UpdateNegativeHP");
-        Debug.Log("this.back_HP_bar_image.rectTransform.sizeDelta.y = " + this.back_HP_bar_image.rectTransform.localScale.y);
-        Debug.Log("curHP_OnBar = " + curHP_OnBar);
 
         this.back_HP_bar_image.color = negativeHP_Bar_Color;
         this.front_HP_bar_image.rectTransform.localScale
@@ -101,8 +98,6 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
             while (this.back_HP_bar_image.rectTransform.localScale.y > this.curHP_OnBar)
             {
                 token.ThrowIfCancellationRequested();
-
-                Debug.Log("Minus back hp bar");
 
                 this.back_HP_bar_image.rectTransform.localScale
                     = new Vector2(this.back_HP_bar_image.rectTransform.localScale.x

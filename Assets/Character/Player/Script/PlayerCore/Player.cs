@@ -20,6 +20,14 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
     public float MyHP;
 
+    public override bool isDead { get 
+        {
+            if(isImortal)
+                return false;
+
+            return base.isDead;
+        } }
+
     public CommandBufferManager commandBufferManager;
    
     private void BlackBoardBufferUpdate()
@@ -62,7 +70,9 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
         _gunFuAimDir = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
+
         UpdateDetectingTarget();
+        UpdateFindingInteractableObject();
 
         playerStateNodeManager.UpdateNode();
         _weaponManuverManager.UpdateNode();
@@ -314,23 +324,6 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
         crosshairController = FindAnyObjectByType<CrosshairController>();
     }
 
-    private void OnDrawGizmos()
-    {
-        if(attackedAbleGunFu != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(attackedAbleGunFu._character.transform.position,.15f);
-        }
-
-        if(executedAbleGunFu != null)
-        {
-            Gizmos.color= Color.red;
-            Gizmos.DrawSphere(executedAbleGunFu._character.transform.position,.15f);
-        }
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position,.2f);
-
-    }
+ 
 }
 

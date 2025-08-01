@@ -40,5 +40,13 @@ public class InWorldUI : MonoBehaviour
         transform.rotation = Quaternion.LookRotation
             ((_lookToCamera.transform.position - transform.position).normalized, Vector3.up);
     }
+    private void OnValidate()
+    {
+        if(this._canvas == null)
+        {
+            if(gameObject.TryGetComponent<Canvas>(out Canvas canvasComponent))
+                this._canvas = canvasComponent;
+        }
+    }
 
 }
