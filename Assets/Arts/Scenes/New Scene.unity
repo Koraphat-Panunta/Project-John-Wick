@@ -6672,12 +6672,27 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: chaserChangeDelay
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: enemiesRole.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: maxNumberChaserShooter
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: delayChaserShooterPoint
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: yieldShooterOnPlayerAim
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
@@ -6718,6 +6733,21 @@ PrefabInstance:
         type: 3}
       propertyPath: 'enemiesRole.Array.data[7]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: maxNumberOverwatchShooter
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: delayOverwatchShooterPoint
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: delayYieldShooterOnPlayerAim
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
