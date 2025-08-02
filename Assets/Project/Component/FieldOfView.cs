@@ -7,15 +7,19 @@ public class FieldOfView
 {
     private float radius;
     private float angleInDegrees;
-    private Transform viewOrigin;
-    private LayerMask defaultLayerMask;
+    public Transform viewOrigin { get; private set; }
+    private LayerMask collideLayerMask;
 
-    public FieldOfView(float radius, float angleInDegrees, Transform viewOrigin)
+    public FieldOfView(float radius, float angleInDegrees, Transform viewOrigin) : this(radius,angleInDegrees,viewOrigin, LayerMask.GetMask("Default"))
+    {
+       
+    }
+    public FieldOfView(float radius, float angleInDegrees, Transform viewOrigin, LayerMask collideLayerMask) 
     {
         this.radius = radius;
         this.angleInDegrees = angleInDegrees;
         this.viewOrigin = viewOrigin;
-        this.defaultLayerMask.value = LayerMask.GetMask("Default");
+        this.collideLayerMask.value = collideLayerMask.value;
     }
 
     public GameObject FindSingleTarget(LayerMask targetMask, Vector3? offset = null, Vector3? customLookDir = null, float? customAngle = null)
@@ -32,7 +36,7 @@ public class FieldOfView
             Vector3 toTarget = (target.transform.position - origin).normalized;
             if (Vector3.Angle(forward, toTarget) > angleLimit) continue;
 
-            if (Physics.Raycast(origin, toTarget, out RaycastHit hit, radius, defaultLayerMask.value | targetMask))
+            if (Physics.Raycast(origin, toTarget, out RaycastHit hit, radius, collideLayerMask.value | targetMask.value))
             {
                 if (hit.collider.gameObject == target.gameObject)
                     return target.gameObject;
@@ -71,7 +75,7 @@ public class FieldOfView
             if (inViewOnly && Vector3.Angle(viewOrigin.forward, toTarget) > angleInDegrees / 2f)
                 continue;
 
-            if (Physics.Raycast(viewOrigin.position, toTarget, out RaycastHit hit, actualRadius, defaultLayerMask.value | targetMask))
+            if (Physics.Raycast(viewOrigin.position, toTarget, out RaycastHit hit, actualRadius, collideLayerMask.value | targetMask.value))
             {
                 if (hit.collider.gameObject == target.gameObject)
                     results.Add(target.gameObject);

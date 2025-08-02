@@ -8,7 +8,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunExecutedAble { get => gunFuAble.executedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
@@ -17,8 +17,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.executeClip; set { } }
   
     private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
-    private Transform gunFuAttackerTransform => player.transform;
-    private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character.transform;
+    //private Transform gunFuAttackerTransform => player.transform;
+    //private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character.transform;
 
     private Vector3 gunFuAttackerEnterPosition;
     private Quaternion gunFuAttackerEnterRotation;
@@ -198,7 +198,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
-            , gotGunFuAttackedAble._character._movementCompoent
+            , gotGunExecutedAble._character._movementCompoent
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
@@ -228,18 +228,18 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private void CalculateAdjustTransform()
     {
-        Vector3 enterDir = (gunFuGotAttackedTransform.position - gunFuAttackerTransform.position).normalized;
+        Vector3 enterDir = (gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position);
         enterDir = new Vector3 (enterDir.x,0,enterDir.z).normalized;
 
-        gunFuAttackerEnterPosition = gunFuAttackerTransform.position;
-        gunFuAttackerEnterRotation = gunFuAttackerTransform.rotation;
-        opponentGunFuEnterPosition = gunFuGotAttackedTransform.position;
-        opponentGunFuEnterRotation = gunFuGotAttackedTransform.rotation;
+        gunFuAttackerEnterPosition = gunFuAble._character.transform.position;
+        gunFuAttackerEnterRotation = gunFuAble._character.transform.rotation;
+        opponentGunFuEnterPosition = gotGunExecutedAble._character.transform.position;
+        opponentGunFuEnterRotation = gotGunExecutedAble._character.transform.rotation;
 
-        Vector3 anchor = gunFuAttackerTransform.position;
+        Vector3 anchor = gunFuAble._character.transform.position;
 
         gunFuAttackerTargetPosition
-            = gunFuAttackerTransform.position
+            = anchor
             + (enterDir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
             + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
 
@@ -247,11 +247,13 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             = Quaternion.LookRotation(enterDir,Vector3.up) * Quaternion.Euler(0,gunFuExecute_Single_ScriptableObject.playerRotationRelative,0);
 
         opponentGunFuTargetPosition
-            = gunFuAttackerTransform.position
+            = anchor
             + (enterDir * gunFuExecute_Single_ScriptableObject.opponentForwardRelative)
             + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
 
         opponentGunFuTargetRotation
             = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
+
+        
     }
 }

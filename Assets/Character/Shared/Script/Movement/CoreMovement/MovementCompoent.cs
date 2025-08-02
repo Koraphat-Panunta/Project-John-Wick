@@ -10,21 +10,16 @@ public abstract partial class MovementCompoent : INodeManager
     public Vector3 curMoveVelocity_Local { get => TransformWorldToLocalVector(curMoveVelocity_World, transform.forward); }
     public Vector3 forwardDir { get => transform.forward; }
     public Transform transform { get; protected set; }
-    //public virtual bool isGround { get 
-    //    {
-    //        if (Physics.Raycast(transform.position, Vector3.down, .5f, GetGroundLayerMask()))
-    //            return true;
-    //        else return false;
-    //    } }
-    public abstract bool isOnUpdateEnable { get;protected set; }
+    public bool isOnUpdateEnable { get; set; }
    
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set ; }
-
+    public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
+        isOnUpdateEnable = true;
         this.transform = transform;
         this.userMovement = myMovement;
         nodeManagerBehavior = new NodeManagerBehavior();

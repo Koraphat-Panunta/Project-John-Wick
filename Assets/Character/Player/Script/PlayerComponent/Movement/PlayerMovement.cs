@@ -11,12 +11,7 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     public MovementCompoent movementCompoent => this;
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
     private CharacterController characterController;
-    public override bool isOnUpdateEnable 
-    { get 
-        {
-            return true;
-        } protected set { }  }
-
+   
     private Player player;
 
     public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement)
@@ -27,7 +22,6 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
-    public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
     public override void FixedUpdateNode()
     {
         base.FixedUpdateNode();

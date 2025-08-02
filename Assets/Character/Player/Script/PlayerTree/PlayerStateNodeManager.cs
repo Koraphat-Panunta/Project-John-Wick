@@ -236,7 +236,7 @@ public class PlayerStateNodeManager : INodeManager
             , this.player.humanShield);
         humanThrow_GunFuInteraction_NodeLeaf = new HumanThrowGunFuInteractionNodeLeaf(this.player,
             () => this.player._isAimingCommand == false 
-            || humanShield_GunFuInteraction_NodeLeaf.gotGunFuAttackedAble._character.isDead
+            || humanShield_GunFuInteraction_NodeLeaf.gotGunExecutedAble._character.isDead
             || humanShield_GunFuInteraction_NodeLeaf.isComplete,
             player.humanThrow);
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 

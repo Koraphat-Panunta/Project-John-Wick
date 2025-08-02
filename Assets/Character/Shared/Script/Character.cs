@@ -24,8 +24,9 @@ public abstract class Character : MonoBehaviour
     {
         if (enableRootMotion)
         {
-            _movementCompoent.Move(animator.deltaPosition);
-            transform.rotation *= animator.deltaRotation;
+            Debug.Log(this + " is root motion drive");
+            _movementCompoent.SetPosition(transform.position + animator.deltaPosition);
+            _movementCompoent.SetRotation(transform.rotation * animator.deltaRotation);
         }
 
     }

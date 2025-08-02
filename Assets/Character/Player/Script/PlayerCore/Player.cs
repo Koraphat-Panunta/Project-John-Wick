@@ -323,7 +323,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     {
         crosshairController = FindAnyObjectByType<CrosshairController>();
     }
-
  
 }
 
+ 

@@ -6,7 +6,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 {
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => player.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunExecutedAble { get => player.attackedAbleGunFu; set { } }
     public AnimationClip _animationClip { get => gunFuHitScriptableObject.animationClip_GunFuHits; set { } }
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
@@ -17,7 +17,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     private int curWarpKeyFrame;
     private float lenghtOffset => _animationClip.length * gunFuHitScriptableObject.animationGunFuHitOffset;
     private Quaternion lookAtTarget => Quaternion.LookRotation(
-        (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized
+        (gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position).normalized
         , Vector3.up);
     public enum GunFuPhaseHit
     {
@@ -63,11 +63,11 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         {
             if (_timer > (_animationClip.length * gunFuHitScriptableObject.hitTimesNormalized[hitCount])- lenghtOffset)
             {
-                (gotGunFuAttackedAble._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                    ((gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized * gunFuHitScriptableObject.hitPush[hitCount]
+                (gotGunExecutedAble._character._movementCompoent as IMotionImplusePushAble).AddForcePush
+                    ((gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position).normalized * gunFuHitScriptableObject.hitPush[hitCount]
                     , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
-                gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+                gotGunExecutedAble.TakeGunFuAttacked(this, gunFuAble);
 
                    
                 hitCount++;
@@ -126,7 +126,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
                     gunFuAble._character.transform.position
                     , gunFuAble._character.transform.rotation
                     , gunFuAble._character._movementCompoent
-                    , gotGunFuAttackedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position ).normalized * hitDistance
+                    , gotGunExecutedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunExecutedAble._character.transform.position ).normalized * hitDistance
                     , lookAtTarget
                     , t);
             }
@@ -158,7 +158,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
                         gunFuAble._character.transform.position
                         , gunFuAble._character.transform.rotation
                         , gunFuAble._character._movementCompoent
-                        , gotGunFuAttackedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position).normalized * hitDistance
+                        , gotGunExecutedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunExecutedAble._character.transform.position).normalized * hitDistance
                         , lookAtTarget
                         , t);
                 }

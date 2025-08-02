@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 {
@@ -22,7 +23,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         assignInWorldEnemy = new Dictionary<Enemy, InWorldUI>();
 
 
-        this.enemyMask.value = LayerMask.GetMask("Enemy");
+        this.enemyMask = LayerMask.GetMask("Enemy");
     }
     public override void FixedUpdateNode()
     {
@@ -100,28 +101,30 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
         List<Enemy> enemyDected = new List<Enemy>();
 
-        foreach (GameObject obj in fieldOfView.FindMultipleTargetsInView(this.enemyMask.value))
+        foreach (GameObject obj in fieldOfView.FindMultipleTargetsInView(this.enemyMask))
         {
 
-            if (obj.TryGetComponent<BodyPart>(out BodyPart headBodyPart) == false)
-                return;
+            if (obj.TryGetComponent<BodyPart>(out BodyPart bodyPart) == false)
+                continue;
 
-            if (enemyDected.Contains(headBodyPart.enemy))
-                return;
+            Debug.DrawLine(fieldOfView.viewOrigin.position, bodyPart.position,Color.red);
 
-            enemyDected.Add(headBodyPart.enemy);
+            if (enemyDected.Contains(bodyPart.enemy))
+                continue;
 
-            if(headBodyPart.enemy.isDead
-                ||headBodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
-                return;
+            enemyDected.Add(bodyPart.enemy);
 
-            if (assignInWorldEnemy.ContainsKey(headBodyPart.enemy))
-                return;
+            if(bodyPart.enemy.isDead
+                ||bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+                continue;
 
-            if (headBodyPart.enemy.isStagger)
+            if (assignInWorldEnemy.ContainsKey(bodyPart.enemy))
+                continue;
+
+            if (bodyPart.enemy.isStagger)
             {
                 InWorldUI enemyStatusInWorldUI = objectPooling.Get();
-                assignInWorldEnemy.Add(headBodyPart.enemy,enemyStatusInWorldUI);
+                assignInWorldEnemy.Add(bodyPart.enemy,enemyStatusInWorldUI);
             }
         }
 
