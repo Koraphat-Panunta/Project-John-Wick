@@ -5,6 +5,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
 
     [SerializeField] private Camera mainCamera;
     [SerializeField] private InWorldUI executeInWorldUI;
+    [SerializeField] private InWorldUI interactableInWorldUI;
     [SerializeField] private Player player;
 
     public INodeSelector startNodeSelector { get; set; }
@@ -35,14 +36,18 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
 
     public NodeCombine inWorldUINodeCombine; 
     public EnemyStatusInWorldUIManageNodeLeaf enemyStatusInWorldUIManageNodeLeaf;
+    public InteractablePointUIManagerNodeLeaf interactablePointUIManagerNodeLeaf;
     public void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true);
         inWorldUINodeCombine = new NodeCombine(()=> true);
+
         enemyStatusInWorldUIManageNodeLeaf = new EnemyStatusInWorldUIManageNodeLeaf(()=> true,mainCamera,player,executeInWorldUI);
+        interactablePointUIManagerNodeLeaf = new InteractablePointUIManagerNodeLeaf(() => true, interactableInWorldUI, mainCamera, player, LayerMask.GetMask("Weapon"));
 
         startNodeSelector.AddtoChildNode(inWorldUINodeCombine);
         inWorldUINodeCombine.AddCombineNode(enemyStatusInWorldUIManageNodeLeaf);
+        inWorldUINodeCombine.AddCombineNode(interactablePointUIManagerNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

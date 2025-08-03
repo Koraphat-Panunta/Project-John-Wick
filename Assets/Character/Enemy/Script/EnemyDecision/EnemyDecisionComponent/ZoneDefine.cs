@@ -21,7 +21,7 @@ public class ZoneDefine
     public Vector3 GetRandomPositionInZone()
     {
         float angle = Random.Range(0f, 2f * Mathf.PI); // Random angle in radians
-        float distance = Random.Range(0f, this.raduis); // Random distance within radius
+        float distance = Random.Range(0f, this.raduis); // Random distance within distance
 
         float xOffset = Mathf.Cos(angle) * distance;
         float zOffset = Mathf.Sin(angle) * distance;
@@ -36,7 +36,7 @@ public class ZoneDefine
         Vector3 forwardDir = (pos - zonePosition).normalized; // Direction from pos to the zone center
         forwardDir = Quaternion.Euler(0, randomAngleOffset, 0) * forwardDir; // Rotate direction within the given angle
 
-        float distance = Random.Range(0f, this.raduis); // Random distance within the radius
+        float distance = Random.Range(0f, this.raduis); // Random distance within the distance
 
         Vector3 randomPos = zonePosition + forwardDir * distance; // Move along the rotated direction
         randomPos.y = zonePosition.y; // Keep Y position the same

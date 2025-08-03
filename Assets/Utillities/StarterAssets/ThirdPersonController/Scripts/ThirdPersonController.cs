@@ -53,7 +53,7 @@ namespace StarterAssets
         [Tooltip("Useful for rough ground")]
         public float GroundedOffset = -0.14f;
 
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+        [Tooltip("The distance of the grounded check. Should match the distance of the CharacterController")]
         public float GroundedRadius = 0.28f;
 
         [Tooltip("What layers the character uses as ground")]
@@ -363,7 +363,7 @@ namespace StarterAssets
             if (Grounded) Gizmos.color = transparentGreen;
             else Gizmos.color = transparentRed;
 
-            // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
+            // when selected, draw a gizmo in the position of, and matching distance of, the grounded collider
             Gizmos.DrawSphere(
                 new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
                 GroundedRadius);
