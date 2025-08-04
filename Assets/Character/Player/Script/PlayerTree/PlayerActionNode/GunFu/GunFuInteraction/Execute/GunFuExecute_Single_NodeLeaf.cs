@@ -170,8 +170,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
 
-            //Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
-            //Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
+            Debug.Log("Distance enemy int-Ex = " + Vector3.Distance(opponentPosAtInteractBegun, gunFuAble.executedAbleGunFu._character.transform.position));
+            Debug.Log("Distance PlayerEnemy Ex = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
             player.NotifyObserver(player, curGunFuPhase);
             player.NotifyObserver(player, this);
         }
@@ -184,7 +184,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         t = Mathf.Clamp01(t);
 
-        Debug.Log("player curvelocity before at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
+        //Debug.Log("player curvelocity before at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
         MovementWarper.WarpMovement
             (gunFuAttackerEnterPosition
             , gunFuAttackerEnterRotation
@@ -194,7 +194,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , t);
 
         gunFuAble._character._movementCompoent.CancleMomentum();
-        Debug.Log("enemy curvelocity at before warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
+        //Debug.Log("enemy curvelocity at before warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation

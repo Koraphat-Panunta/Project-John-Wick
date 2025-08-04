@@ -107,8 +107,6 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
             if (obj.TryGetComponent<BodyPart>(out BodyPart bodyPart) == false)
                 continue;
 
-            Debug.DrawLine(fieldOfView.viewOrigin.position, bodyPart.position,Color.red);
-
             if (enemyDected.Contains(bodyPart.enemy))
                 continue;
 

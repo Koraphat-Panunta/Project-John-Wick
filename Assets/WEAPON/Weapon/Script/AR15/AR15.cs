@@ -12,7 +12,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
 
     //SetUpStats
     private int _MagazineCapacity = 30;
-    private float _RateOfFire = 720;
+    private float _RateOfFire = 670;
     private float _ReloadSpeed = 2;
 
     [Range(0,600)]

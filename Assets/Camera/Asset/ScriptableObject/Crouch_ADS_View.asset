@@ -10,14 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ec47217e62c0a44e8580e7f8c5222f7, type: 3}
-  m_Name: ADS_View
+  m_Name: Crouch_ADS_View
   m_EditorClassIdentifier: 
-  viewOffsetRight: {x: 0.46, y: 0.25, z: 0.85}
+  viewOffsetRight: {x: 0.46, y: 0, z: 0.85}
   fov: 65
   transitionCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  transitionInSpeed: 0
+  transitionInSpeed: 7

@@ -68,7 +68,9 @@ public class PlayerStateNodeManager : INodeManager
 
         stanceSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return true; });
-        playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player, () => player.triggerDodgeRoll);
+        playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player,
+            () => player.triggerDodgeRoll && player.inputMoveDir_World.magnitude > 0
+            );
         climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
