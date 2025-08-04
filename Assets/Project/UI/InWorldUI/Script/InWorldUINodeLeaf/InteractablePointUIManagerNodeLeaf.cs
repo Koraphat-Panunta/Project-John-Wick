@@ -12,6 +12,7 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     private LayerMask interactableMask;
     public Dictionary<I_Interactable, InWorldUI> assignInWorldInteractable;
     private I_Interacter interacter;
+    private Vector3 offset = Vector3.zero;
     public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask) : base(preCondition)
     {
         this.interacter = i_Interacter;
@@ -86,7 +87,12 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 
         for (int i = 0; i < interactables.Count; i++) 
         {
-            assignInWorldInteractable[interactables[i]].SetAnchorPosition(interactables[i]._collider.transform.position);
+            Vector3 setPos = interactables[i]._collider.transform.position 
+                + interactables[i]._collider.transform.forward * offset.z
+                + interactables[i]._collider.transform.up * offset.y
+                + interactables[i]._collider.transform.right * offset.x;
+
+            assignInWorldInteractable[interactables[i]].SetAnchorPosition(setPos);
 
             if (interactables[i].isBeenInteractAble == false)
             {
