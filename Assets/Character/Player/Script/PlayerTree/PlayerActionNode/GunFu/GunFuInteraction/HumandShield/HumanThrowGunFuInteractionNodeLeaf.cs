@@ -4,7 +4,7 @@ using UnityEngine;
 public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 {
     private readonly float throwDuration = 0.9f;
-    private readonly float beforeThrowDuration = 0.63f;
+    private readonly float beforeThrowDuration = 0.335f;
     public enum HumanThrowPhase
     {
         beforeThrow,
