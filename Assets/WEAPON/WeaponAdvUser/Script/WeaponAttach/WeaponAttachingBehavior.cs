@@ -184,6 +184,7 @@ public class WeaponAttachingBehavior
         {
             animator.Play(animator.GetAnimatorTransitionInfo(0).fullPathHash, 0, animatorStateNormalizedTime);
         }
+        else
         animator.Play(animatorStateInfo.fullPathHash, 0, animatorStateNormalizedTime);
     }
     private void SetWeaponAdvacneUserProperty(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
