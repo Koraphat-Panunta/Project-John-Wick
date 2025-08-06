@@ -75,8 +75,10 @@ public partial class Enemy : SubjectEnemy
         base.Start();
     }
     [SerializeField] private float _staggerGauge;
+    [SerializeField] private bool isGround;
     void Update()
     {
+        this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);
