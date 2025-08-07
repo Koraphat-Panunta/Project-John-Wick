@@ -43,7 +43,12 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
         inWorldUINodeCombine = new NodeCombine(()=> true);
 
         enemyStatusInWorldUIManageNodeLeaf = new EnemyStatusInWorldUIManageNodeLeaf(()=> true,mainCamera,player,executeInWorldUI);
-        interactablePointUIManagerNodeLeaf = new InteractablePointUIManagerNodeLeaf(() => true, interactableInWorldUI, mainCamera, player, LayerMask.GetMask("Weapon"));
+        interactablePointUIManagerNodeLeaf = new InteractablePointUIManagerNodeLeaf(
+            () => true, 
+            interactableInWorldUI, 
+            mainCamera,
+            player,
+            LayerMask.GetMask("Weapon") | LayerMask.GetMask("Default"));
 
         startNodeSelector.AddtoChildNode(inWorldUINodeCombine);
         inWorldUINodeCombine.AddCombineNode(enemyStatusInWorldUIManageNodeLeaf);

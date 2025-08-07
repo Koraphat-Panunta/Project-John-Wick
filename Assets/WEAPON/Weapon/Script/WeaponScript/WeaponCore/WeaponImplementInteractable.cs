@@ -10,4 +10,9 @@ public partial class Weapon : I_Interactable
 
             return true;
         }set { } }
+
+    public void DoInteract(I_Interacter i_Interacter)
+    {
+        
+    }
 }

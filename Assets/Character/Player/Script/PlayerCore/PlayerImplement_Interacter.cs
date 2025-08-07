@@ -33,4 +33,12 @@ public partial class Player : I_Interacter
         else
             interactableName = " none";
     }
+
+    public void Interact()
+    {
+        if (currentInteractable != null && currentInteractable.isBeenInteractAble)
+        {
+            currentInteractable.DoInteract(this);
+        }
+    }
 }
