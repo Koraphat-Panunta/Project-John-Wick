@@ -26,6 +26,9 @@ public class GunFuExecute_Single_ScriptableObject : GunFuExecuteScriptableObject
     public float slowMotionTriggerNormailzed;
     [Range(0, 6)]
     public float slowMotionDurarion;
+
+
+
     [SerializeField] public AnimationCurve slowMotionCurve;
 
     [SerializeField] public List<float> firingTimingNormalized;

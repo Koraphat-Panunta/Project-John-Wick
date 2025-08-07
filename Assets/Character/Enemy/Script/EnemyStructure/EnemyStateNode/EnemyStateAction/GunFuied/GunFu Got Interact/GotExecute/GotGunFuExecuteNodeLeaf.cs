@@ -37,9 +37,9 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     }
     public override void Enter()
     {
-        _gotExecutedGunFu._character.animator.CrossFade(gotExecuteStateName, 0.05f, 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
+        _gotExecutedGunFu._character.animator.CrossFade(gotExecuteStateName, this.gunFuExecuteScriptableObject.transitionRootDrivenAnimationDuration , 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
         _timer = this.gunFuExecuteScriptableObject.executeClip.length * gunFuExecuteScriptableObject.opponentAnimationOffset;
-        _gotExecutedGunFu._character.enableRootMotion = true;
+        _ = DelayRootMotionEnable();
 
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
@@ -63,5 +63,9 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
             return true;
         return false;
     }
-
+    private async Task DelayRootMotionEnable()
+    {
+        await Task.Delay((int)(gunFuExecuteScriptableObject.transitionRootDrivenAnimationDuration * 1000));
+        _gotExecutedGunFu._character.enableRootMotion = true;
+    }
 }

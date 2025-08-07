@@ -106,7 +106,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
                         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
                         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
-                        gunFuAble._character.enableRootMotion = true;
+                        _ = DelayRootMotionEnable();
 
                         gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
                         gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
@@ -256,4 +256,11 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         
     }
+
+    private async Task DelayRootMotionEnable()
+    {
+        await Task.Delay((int)(gunFuExecute_Single_ScriptableObject.transitionRootDrivenAnimationDuration * 1000));
+        gunFuAble._character.enableRootMotion = true;
+    }
+   
 }
