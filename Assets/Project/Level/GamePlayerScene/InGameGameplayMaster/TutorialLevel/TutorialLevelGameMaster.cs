@@ -9,11 +9,11 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
 {
 
     public Door door_T1S1;
-    [SerializeField] public TextMeshProUGUI movementTutorial;
+    [SerializeField] public GameObject movementTutorial;
 
     public Door door_T1S2;
-    [SerializeField] public TextMeshProUGUI gunFuDisarmTutorial;
-    [SerializeField] public TextMeshProUGUI reloadTutorial;
+    [SerializeField] public GameObject gunFuDisarmTutorial;
+    [SerializeField] public GameObject reloadTutorial;
     [SerializeField] public Enemy enemy_T1S2;
 
     public Door door_T1S3;
@@ -66,6 +66,7 @@ public class TutorialLevelGameMaster : InGameLevelGameMaster
     public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
+    public override InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public override void InitailizedNode()
     {

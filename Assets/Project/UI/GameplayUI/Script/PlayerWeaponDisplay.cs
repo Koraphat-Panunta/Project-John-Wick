@@ -7,6 +7,8 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
 {
     private Image WeaponIcon;
     [SerializeField] private TextMeshProUGUI AmmoDisplay;
+    [SerializeField] private Graphic line1;
+    [SerializeField] private Graphic line2;
     [SerializeField] private Player playerInfo;
     private Weapon currentWeapon => playerInfo._currentWeapon;
     public int MagazineCount;
@@ -85,10 +87,20 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         MagazineCount = this.playerInfo._currentWeapon.bulletStore[BulletStackType.Magazine] + this.playerInfo._currentWeapon.bulletStore[BulletStackType.Chamber];
         SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
     }
-    public override void EnableUI()=>this.AmmoDisplay.enabled = true;
-  
+    public override void EnableUI() 
+    { 
+        this.AmmoDisplay.enabled = true; 
+        this.line1.enabled = true;
+        this.line2.enabled = true;
+    }
 
-    public override void DisableUI()=>this.AmmoDisplay.enabled=false;
+
+    public override void DisableUI() 
+    { 
+        this.AmmoDisplay.enabled = false;
+        this.line1.enabled = false;
+        this.line2.enabled = false;
+    }
 
    
 }

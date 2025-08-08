@@ -10,6 +10,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
     public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
+    public override InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public List<Enemy> target;
 

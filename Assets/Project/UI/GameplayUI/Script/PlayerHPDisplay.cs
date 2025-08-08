@@ -118,10 +118,18 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
             /*Task been Cancel*/
         }
     }
-    
 
-    public override void EnableUI() => this.front_HP_bar_image.enabled = true;
-    public override void DisableUI() => this.front_HP_bar_image.enabled = false;
+
+    public override void EnableUI() 
+    {
+        this.front_HP_bar_image.enabled = true;
+        this.back_HP_bar_image.enabled = true;
+    }
+    public override void DisableUI() 
+    { 
+        this.front_HP_bar_image.enabled = false; 
+        this.back_HP_bar_image.enabled = false;
+    }
     private void OnDisable()
     {
         this.tokenSource.Cancel();

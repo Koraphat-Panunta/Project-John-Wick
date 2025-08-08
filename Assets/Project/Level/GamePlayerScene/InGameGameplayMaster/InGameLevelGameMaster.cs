@@ -79,37 +79,7 @@ public abstract class InGameLevelGameMaster : GameMaster
     public abstract InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }    
     public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
     public abstract PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
-
-    //public bool isTriggerRestart;
-    //public bool isTriggerContinue;
-    //public bool isTriggerExit;
-    //public void TriggerRestert()
-    //{
-    //    isTriggerRestart = true;
-    //}
-    //public void TriggerContinue()
-    //{
-    //    isTriggerContinue = true;
-    //}
-    //public void TriggerExit() 
-    //{
-    //    isTriggerExit = true;
-
-    //    if (isPause)
-    //    {
-    //        pauseCanvasUI.gameObject.SetActive(false);
-    //        Time.timeScale = 1;
-    //        isPause = false;
-    //    }
-    //}
-    //public void Resume()
-    //{
-    //    pauseCanvasUI.gameObject.SetActive(false);
-    //    Time.timeScale = 1;
-    //    isPause = false;
-    //    Cursor.lockState = CursorLockMode.Locked;
-    //    user.EnableInput();
-    //}
+    public abstract InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get; protected set; }
 
     public void GetNotify(Player player)
     {
@@ -145,7 +115,7 @@ public abstract class InGameLevelGameMaster : GameMaster
         pauseCanvasUI = FindAnyObjectByType<PauseUICanvas>(FindObjectsInactive.Include);
        
     }
-    private void InitailizedUserInput()
+    protected void InitailizedUserInput()
     {
         user.EnableInput();
     }
