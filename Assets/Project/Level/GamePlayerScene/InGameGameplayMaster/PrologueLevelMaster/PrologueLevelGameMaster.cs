@@ -13,9 +13,12 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public override InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
     protected PrologueInGameLevelGameplayGameMasterNodeLeaf prologueInGameLevelGameplayGameMasterNodeLeaf;
 
+    [SerializeField] private DoorKeyItem key;
+
     public Door door_A21;
     public Door door_A31;
     public Door door_A42;
+    public Door door_A43_locked;
     public Door door_A52;
 
     public EnemyDirector enemyDirectorA2;
@@ -36,7 +39,27 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public GameObject executeHP_refillHint;
     public GameObject showGunFuCommboHint;
 
-    
+    protected override void Start()
+    {
+        door_A43_locked.isLocked = true;
+        base.Start();
+    }
+    protected override void FixedUpdate()
+    {
+        try
+        {
+            if (Vector3.Distance(player.transform.position, key.transform.position) < 0.4f)
+            {
+                door_A43_locked.isLocked = false;
+            }
+        }
+        catch 
+        {
+            Debug.Log("LockedDoor is open");
+        }
+        base.FixedUpdate();
+    }
+
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(()=>true,"PrologueStartNodeSelector");
@@ -57,6 +80,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
+
     }
 
     private void OnValidate()

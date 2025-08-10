@@ -18,7 +18,7 @@ public class Door : MonoBehaviour,I_Interactable
             }
             return lockedValue;
         } 
-        private set 
+        set 
         { 
             lockedValue = value; 
         } 
