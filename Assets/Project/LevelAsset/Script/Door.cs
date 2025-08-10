@@ -3,11 +3,26 @@ using UnityEngine;
 public class Door : MonoBehaviour,I_Interactable
 {
     [SerializeField] private Animator animator;
-    public bool isOpen { get; private set; }
-    public Collider _collider { get => this.collider; set => this.collider = value; }
-    [SerializeField] private Collider collider;
-    public bool isBeenInteractAble { get ; set ; }
-
+    public virtual bool isOpen { get; private set; }
+    public virtual Collider _collider { get => this.collider; set => this.collider = value; }
+    [SerializeField]  private Collider collider;
+    public virtual bool isBeenInteractAble { get ; set ; }
+    [SerializeField] bool lockedValue;
+    public virtual bool isLocked { 
+        get 
+        {
+            if (isOpen)
+            {
+                lockedValue = false;
+                return false;
+            }
+            return lockedValue;
+        } 
+        private set 
+        { 
+            lockedValue = value; 
+        } 
+    }
     private void Awake()
     {
         isBeenInteractAble = true;
@@ -23,8 +38,11 @@ public class Door : MonoBehaviour,I_Interactable
         isOpen = false;
     }
 
-    public void DoInteract(I_Interacter i_Interacter)
+    public virtual void DoInteract(I_Interacter i_Interacter)
     {
+        if(isLocked)
+            return;
+
         if(isOpen)
             Close();
         else

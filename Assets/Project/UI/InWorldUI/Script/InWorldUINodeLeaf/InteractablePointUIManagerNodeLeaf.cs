@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 {
-    private FieldOfView fieldOfView;
-    private InWorldUI inWorldUI;
-    private Camera camera;
-    private ObjectPooling<InWorldUI> objectPooling;
-    private LayerMask interactableMask;
-    public Dictionary<I_Interactable, InWorldUI> assignInWorldInteractable;
-    private I_Interacter interacter;
-    private Vector3 offset = Vector3.zero;
+    protected FieldOfView fieldOfView;
+    protected InWorldUI inWorldUI;
+    protected Camera camera;
+    protected ObjectPooling<InWorldUI> objectPooling;
+    protected LayerMask interactableMask;
+    protected Dictionary<I_Interactable, InWorldUI> assignInWorldInteractable;
+    protected I_Interacter interacter;
+    protected Vector3 offset = Vector3.zero;
     public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask) : base(preCondition)
     {
         this.interacter = i_Interacter;
@@ -77,7 +77,7 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 
 
     }
-    private void UpdateAssignedUI()
+    protected virtual void UpdateAssignedUI()
     {
         bool isFoundCurrentInteractAble = false;
         List<I_Interactable> interactables = assignInWorldInteractable.Keys.ToList();

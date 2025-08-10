@@ -6,6 +6,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
     [SerializeField] private Camera mainCamera;
     [SerializeField] private InWorldUI executeInWorldUI;
     [SerializeField] private InWorldUI interactableInWorldUI;
+    [SerializeField] private InWorldUI doorInteractableInWorldUI;
     [SerializeField] private Player player;
 
     public INodeSelector startNodeSelector { get; set; }
@@ -37,6 +38,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
     public NodeCombine inWorldUINodeCombine; 
     public EnemyStatusInWorldUIManageNodeLeaf enemyStatusInWorldUIManageNodeLeaf;
     public InteractablePointUIManagerNodeLeaf interactablePointUIManagerNodeLeaf;
+    public InteractablePointUIManagerNodeLeaf doorInteractablePointUIManagerNodeLeaf;
     public void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true);
@@ -48,11 +50,20 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
             interactableInWorldUI, 
             mainCamera,
             player,
-            LayerMask.GetMask("Weapon") | LayerMask.GetMask("Default"));
+            LayerMask.GetMask("Weapon")
+            );
+        doorInteractablePointUIManagerNodeLeaf = new DoorInteractablePointUIManagerNodeLeaf(
+            () => true
+            , doorInteractableInWorldUI
+            , mainCamera
+            , player
+            , LayerMask.GetMask("Default")
+            );
 
         startNodeSelector.AddtoChildNode(inWorldUINodeCombine);
         inWorldUINodeCombine.AddCombineNode(enemyStatusInWorldUIManageNodeLeaf);
         inWorldUINodeCombine.AddCombineNode(interactablePointUIManagerNodeLeaf);
+        inWorldUINodeCombine.AddCombineNode(doorInteractablePointUIManagerNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

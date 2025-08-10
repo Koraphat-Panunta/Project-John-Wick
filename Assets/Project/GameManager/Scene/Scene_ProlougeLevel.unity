@@ -6035,6 +6035,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 629169130}
     m_Modifications:
+    - target: {fileID: 3178494730945147714, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
+        type: 3}
+      propertyPath: lockedValue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6539206421756581604, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
         type: 3}
       propertyPath: m_Name
@@ -8111,6 +8116,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7153622357686120071, guid: 95467ee5d775ed9418eec277148fbbdb,
+        type: 3}
+      propertyPath: doorInteractableInWorldUI
+      value: 
+      objectReference: {fileID: 566313392294925690, guid: 1c93050da3a09b24abfe8b82c5199723,
+        type: 3}
     - target: {fileID: 9172305961655887961, guid: 95467ee5d775ed9418eec277148fbbdb,
         type: 3}
       propertyPath: m_Name
