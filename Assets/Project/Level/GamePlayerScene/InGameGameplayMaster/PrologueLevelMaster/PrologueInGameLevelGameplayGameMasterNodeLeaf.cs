@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-using TMPro;
 using UnityEngine;
 
 public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>, IObserverPlayer
@@ -29,6 +28,11 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
 
         tutorialHintTask = new Queue<ITaskingExecute>();
 
+        gameMaster.enemyDirectorA2.gameObject.SetActive(false);
+        gameMaster.enemyDirectirA3.gameObject.SetActive(false);
+        gameMaster.enemyDirectirA4.gameObject.SetActive(false);
+        gameMaster.enemyDirectirA5.gameObject.SetActive(false);
+
         this.InitializedTaskingTutotialHint();
 
         tutorialHintTask.Enqueue(movementTutorial);
@@ -43,47 +47,24 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
 
     public override void Enter()
     {
-
         gameMaster.player.AddObserver(this);
         base.Enter();
     }
 
     public override void Exit()
     {
-
         gameMaster.player.RemoveObserver(this);
         base.Exit();
     }
 
     public override void FixedUpdateNode()
     {
-        if (tutorialHintTask.Count <= 0)
-            return;
-    
-        tutorialHintTask.Peek().FixedUpdate();
-
-        if (tutorialHintTask.Peek().IsComplete())
-            tutorialHintTask.Dequeue();
-
-
+        this.UpdateTutorialHint();
+        this.UpdateEnemySpawnEvent();
 
         base.FixedUpdateNode();
     }
 
-    public override void GetNotifyObjectiveUpdate(Objective objective)
-    {
-        base.GetNotifyObjectiveUpdate(objective);
-    }
-
-    public override bool IsComplete()
-    {
-        return base.IsComplete();
-    }
-
-    public override bool IsReset()
-    {
-        return base.IsReset();
-    }
 
     public void OnNotify<T>(Player player, T node)
     {
@@ -110,14 +91,40 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
         
     }
 
-    public override bool Precondition()
+    private void UpdateEnemySpawnEvent()
     {
-        return base.Precondition();
+        if(gameMaster.enemyDirectorA2.gameObject.activeSelf == false)
+        {
+            if(gameMaster.door_A21.isOpen)
+                gameMaster.enemyDirectorA2.gameObject.SetActive(true);
+        }
+        if(gameMaster.enemyDirectirA3.gameObject.activeSelf == false)
+        {
+            if(gameMaster.door_A31.isOpen)
+                gameMaster.enemyDirectirA3.gameObject.SetActive(true);
+        }
+        if(gameMaster.enemyDirectirA4.gameObject.activeSelf == false)
+        {
+            if(gameMaster.door_A42.isOpen)
+                gameMaster.enemyDirectirA4.gameObject.SetActive(true);
+        }
+        if(gameMaster.enemyDirectirA5.gameObject.activeSelf == false)
+        {
+            if(gameMaster.door_A52.isOpen)
+                gameMaster.enemyDirectirA5.gameObject.SetActive(true);
+        }
     }
 
-    public override void UpdateNode()
+    private void UpdateTutorialHint()
     {
-        base.UpdateNode();
+        if (tutorialHintTask.Count <= 0)
+            return;
+
+        tutorialHintTask.Peek().FixedUpdate();
+
+        if (tutorialHintTask.Peek().IsComplete())
+            tutorialHintTask.Dequeue();
+
     }
     private void InitializedTaskingTutotialHint()
     {

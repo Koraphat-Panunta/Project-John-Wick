@@ -44,6 +44,12 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     {
         door_A43_locked.isLocked = true;
         door_A41_locked.isLocked = true;
+
+        enemyDirectorA2.gameObject.SetActive(false);
+        enemyDirectirA3.gameObject.SetActive(false);
+        enemyDirectirA4 .gameObject.SetActive(false);
+        enemyDirectirA5 .gameObject.SetActive(false);
+
         base.Start();
     }
     protected override void FixedUpdate()
