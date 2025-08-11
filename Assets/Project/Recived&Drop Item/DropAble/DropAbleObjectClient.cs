@@ -3,8 +3,7 @@ using UnityEngine;
 public abstract class DropAbleObjectClient : MonoBehaviour,IHPDropAble,IAmmoDropAble
 {
     Transform IDropAble.transform { get => transform; }
-    [SerializeField] protected HpGetAbleObject HpGetAbleObject ;
-    [SerializeField] protected AmmoGetAbleObject AmmoGetAbleObject ;
+
 
     [Range(0, 100)]
     [SerializeField] protected float SpawnForceUp;

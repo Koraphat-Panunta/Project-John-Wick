@@ -7,7 +7,7 @@ public class Door : MonoBehaviour,I_Interactable
     public virtual Collider _collider { get => this.collider; set => this.collider = value; }
     [SerializeField]  private Collider collider;
     public virtual bool isBeenInteractAble { get ; set ; }
-    [SerializeField] bool lockedValue;
+    [SerializeField] protected bool lockedValue;
     public virtual bool isLocked { 
         get 
         {

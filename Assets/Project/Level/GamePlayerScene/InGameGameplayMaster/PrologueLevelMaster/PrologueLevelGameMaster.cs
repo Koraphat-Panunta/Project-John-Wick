@@ -17,6 +17,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
 
     public Door door_A21;
     public Door door_A31;
+    public Door door_A41_locked;
     public Door door_A42;
     public Door door_A43_locked;
     public Door door_A52;
@@ -42,15 +43,18 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     protected override void Start()
     {
         door_A43_locked.isLocked = true;
+        door_A41_locked.isLocked = true;
         base.Start();
     }
     protected override void FixedUpdate()
     {
         try
         {
-            if (Vector3.Distance(player.transform.position, key.transform.position) < 0.4f)
+            if (Vector3.Distance(player.transform.position, key.transform.position) < 1f)
             {
                 door_A43_locked.isLocked = false;
+                door_A41_locked.isLocked = false;
+                Destroy(key.gameObject);
             }
         }
         catch 

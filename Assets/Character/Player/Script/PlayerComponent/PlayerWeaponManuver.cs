@@ -29,6 +29,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public override bool isPullTriggerManuverAble {
         get 
         {
+            if((weaponAdvanceUser._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadMagazineNode>())
+                return false;
             if(aimingWeight >= 1)
                 return true;
             return false;
