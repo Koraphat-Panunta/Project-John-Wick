@@ -29,6 +29,7 @@ public partial class Enemy : SubjectEnemy
     public EnemyGetShootDirection enemyGetShootDirection;
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
+
     [SerializeField] Weapon startWeapon;
 
 
