@@ -30,6 +30,7 @@ public partial class Enemy : SubjectEnemy
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
+
     public Vector3 forceSave;
 
     public float myHP;
@@ -66,10 +67,7 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
-    protected override void Start()
-    {
-        base.Start();
-    }
+   
     [SerializeField] private float _staggerGauge;
     [SerializeField] private bool isGround;
     void Update()
