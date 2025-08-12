@@ -30,9 +30,6 @@ public partial class Enemy : SubjectEnemy
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
-    [SerializeField] Weapon startWeapon;
-
-
     public Vector3 forceSave;
 
     public float myHP;
@@ -71,8 +68,6 @@ public partial class Enemy : SubjectEnemy
     }
     protected override void Start()
     {
-        if (startWeapon != null)
-            new WeaponAttachingBehavior().Attach(startWeapon, MainHandSocket);
         base.Start();
     }
     [SerializeField] private float _staggerGauge;

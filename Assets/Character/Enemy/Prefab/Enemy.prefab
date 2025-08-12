@@ -1187,6 +1187,7 @@ GameObject:
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
+  - component: {fileID: 2216804310733466684}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1333,6 +1334,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _staggerGauge: 0
+  isGround: 0
   MainHandSocket: {fileID: 5924970197975984463}
   SecondHandSocket: {fileID: 7305386784492792415}
   PrimaryWeaponSocket: {fileID: 8447973264255660244}
@@ -1818,11 +1820,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a54564462433d54a94cb9ee5f8372d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HpGetAbleObject: {fileID: 0}
-  AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
-    type: 3}
   SpawnForceUp: 2.8
   SpawnForceSide: 3.1
+  AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
+    type: 3}
 --- !u!114 &7512234974047621189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,6 +1842,23 @@ MonoBehaviour:
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
   EnableDebug: 0
+--- !u!114 &2216804310733466684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 451251e159f42df43821290a3b9300d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2619394019457856660}
+  weaponsPrefab:
+  - {fileID: 521215783090903122, guid: e08ae2fdefb857443b186d66db18d1fb, type: 3}
+  - {fileID: 2761170129473076366, guid: 462d94adf4c852c429f55445d516ab1b, type: 3}
+  weaponTypeSelected: 1
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

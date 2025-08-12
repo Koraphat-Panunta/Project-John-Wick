@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class STI_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
+public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 {
     //SetUpStats
     private int _magazineCapacity = 15;
