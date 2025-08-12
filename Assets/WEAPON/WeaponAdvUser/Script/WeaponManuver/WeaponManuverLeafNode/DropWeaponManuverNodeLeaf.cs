@@ -50,10 +50,10 @@ public class DropWeaponManuverNodeLeaf : WeaponManuverLeafNode,INodeLeafTransiti
 
     public override void UpdateNode()
     {
-        Transitioning();
+        TransitioningCheck();
     }
 
-    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     

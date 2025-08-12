@@ -78,7 +78,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
        
 
         PullUpdate();
-        nodeLeafTransitionBehavior.Transitioning(this);
+        nodeLeafTransitionBehavior.TransitioningCheck(this);
         base.UpdateNode();
     }
 
@@ -175,9 +175,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
        
 
     }
-    public bool Transitioning()
+    public bool TransitioningCheck()
     { 
-        return nodeLeafTransitionBehavior.Transitioning(this); 
+        return nodeLeafTransitionBehavior.TransitioningCheck(this); 
     }
     public void AddTransitionNode(INode node)
     {

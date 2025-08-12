@@ -57,7 +57,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     private bool isStayOnEnter;
     public override void UpdateNode()
     {
-        Transitioning();
+        TransitioningCheck();
         if(interactionPhase == HumanShieldInteractionPhase.Enter)
         {
 
@@ -102,7 +102,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
         enemy._posture = 0;
     }
 
-    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     

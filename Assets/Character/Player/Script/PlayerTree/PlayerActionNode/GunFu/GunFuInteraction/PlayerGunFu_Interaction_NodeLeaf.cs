@@ -68,7 +68,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
     {
         
 
-        Transitioning();
+        TransitioningCheck();
 
         _timer += Time.deltaTime;
         base.UpdateNode(); 
@@ -88,7 +88,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
         return base.IsComplete();
     }
-    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
     
     public void AddTransitionNode(INode node)=> nodeLeafTransitionBehavior.AddTransistionNode(this, node);
    
