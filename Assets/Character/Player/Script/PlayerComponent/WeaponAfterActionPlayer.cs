@@ -75,6 +75,11 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, restWeaponManuverLeafNode);
                         break;
                     }
+                case IQuickSwitchNode quickSwitchNode:
+                    {
+                        player.NotifyObserver(player, quickSwitchNode);
+                        break;
+                    }
                
             }
         }

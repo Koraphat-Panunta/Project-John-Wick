@@ -74,7 +74,7 @@ public class PlayerStateNodeManager : INodeManager
         climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
-        playerSprintNode = new PlayerSprintNode(this.player, () => { return this.player.isSprint; });
+        playerSprintNode = new PlayerSprintNode(this.player, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
 
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
             () => { return this.player.isInCover; });
