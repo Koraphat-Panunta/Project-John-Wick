@@ -76,10 +76,8 @@ public abstract class SubjectPlayer : Character
     {
         foreach (IObserverPlayer observer in this.observers)
         {
-            Debug.Log("Observer " + observer);
             if (observer == null)
             {
-                Debug.Log("Remove Observer " + observer);
                 this.observers.Remove(observer);
             }
             else

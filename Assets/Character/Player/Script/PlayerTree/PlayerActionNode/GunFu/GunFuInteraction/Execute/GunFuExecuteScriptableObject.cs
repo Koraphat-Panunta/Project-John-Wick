@@ -16,4 +16,7 @@ public abstract class GunFuExecuteScriptableObject : ScriptableObject
     public float executeAnimationExitNormarlized;
     [Range(0, 1)]
     public float executeAnimationOffset;
+
+    [Range(0.001f, 1)]
+    public float transitionRootDrivenAnimationDuration;
 }

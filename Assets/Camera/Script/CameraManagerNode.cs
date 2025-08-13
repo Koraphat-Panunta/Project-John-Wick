@@ -38,7 +38,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuHitViewNodeLeaf { get; protected set; }
 
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
-    public CameraThirdPersonControllerViewNodeLeaf cameraAimDownSightNodeLeaf { get; protected set; }
+    public CameraThirdPersonControllerViewNodeLeaf cameraStandAimDownSightNodeLeaf { get; protected set; }
+    public CameraThirdPersonControllerViewNodeLeaf cameraCrouchAimDownSightNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     protected INodeLeaf curNodeLeaf;
@@ -48,16 +49,30 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         startNodeSelector = new NodeSelector(() => true);
 
         cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => cameraController.isOnPlayerThirdPersonController);
-        cameraAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraAimDownSightView_SCRP,
+        cameraStandAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraStandAimDownSightView_SCRP,
+            cameraController.cameraTPSStandView_SCRP.viewOffsetRight.z,
             () => 
             {
-                if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0)
+                if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
+                && cameraController.player.playerStance == Player.PlayerStance.stand)
                     return true;
-                    
+
+                return false;
+            });
+        cameraCrouchAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController,cameraController.cameraCrouchAimDownSightView_SCRP,
+            cameraController.cameraTPSCrouchView_SCRP.viewOffsetRight.z,
+            () => 
+            {
+                if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
+                && cameraController.player.playerStance == Player.PlayerStance.crouch)
+                    return true;
+                
                 return false;
             });
         this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
-            () => cameraController.isSprint);
+            () => 
+            cameraController.isSprint 
+            ||playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>());
 
         this.cameraPerformGunFuSelector = new NodeSelector(
             () => cameraController.isPerformGunFu);
@@ -81,7 +96,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraPerformGunFuSelector);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSSprintViewNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraAimDownSightNodeLeaf);
+        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraStandAimDownSightNodeLeaf);
+        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraCrouchAimDownSightNodeLeaf);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSCrouchViewNodeLeaf);
         cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSStandViewNodeLeaf);
 

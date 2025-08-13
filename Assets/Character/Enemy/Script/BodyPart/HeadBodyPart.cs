@@ -13,7 +13,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
     {
         base.Start();
 
-        hpReciverMultiplyRate = 6.0f;
+        hpReciverMultiplyRate = 2.0f;
         postureReciverRate = 3.0f;
 
     }

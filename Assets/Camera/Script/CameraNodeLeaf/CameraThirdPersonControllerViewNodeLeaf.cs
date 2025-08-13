@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 {
-    private CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject;
+    protected CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject;
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
     private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
     private ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
     private Vector2 inputLook => cameraController.player.inputLookDir_Local * Time.deltaTime * cameraController.standardCameraSensivity;
     protected Vector3 enteringOffset;
-    private float normalizedTime;
+    protected float normalizedTime;
     protected float enteringFOV;
     public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController
         ,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject

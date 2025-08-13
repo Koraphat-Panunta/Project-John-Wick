@@ -68,11 +68,13 @@ public class PlayerStateNodeManager : INodeManager
 
         stanceSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return true; });
-        playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player, () => player.triggerDodgeRoll);
+        playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player,
+            () => player.triggerDodgeRoll && player.inputMoveDir_World.magnitude > 0
+            );
         climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
-        playerSprintNode = new PlayerSprintNode(this.player, () => { return this.player.isSprint; });
+        playerSprintNode = new PlayerSprintNode(this.player, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
 
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
             () => { return this.player.isInCover; });
@@ -236,7 +238,7 @@ public class PlayerStateNodeManager : INodeManager
             , this.player.humanShield);
         humanThrow_GunFuInteraction_NodeLeaf = new HumanThrowGunFuInteractionNodeLeaf(this.player,
             () => this.player._isAimingCommand == false 
-            || humanShield_GunFuInteraction_NodeLeaf.gotGunFuAttackedAble._character.isDead
+            || humanShield_GunFuInteraction_NodeLeaf.gotGunExecutedAble._character.isDead
             || humanShield_GunFuInteraction_NodeLeaf.isComplete,
             player.humanThrow);
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 

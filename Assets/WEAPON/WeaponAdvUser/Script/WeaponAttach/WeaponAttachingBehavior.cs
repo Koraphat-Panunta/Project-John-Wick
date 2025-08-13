@@ -9,11 +9,25 @@ public class WeaponAttachingBehavior
         {
             case MainHandSocket mainHandSocket:
                 {
+                    //Detach form other weaponsocket
+                    if (weapon.userWeapon != null)
+                    {
+                        if (weapon.userWeapon._secondHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._secondHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket = null;
+                    }
+
+                    mainHandSocket.curWeaponAtSocket = weapon;
+
                     //SetWeapon Property
                     weapon.isEquiped = true;
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weaponAttachingAble.weaponAdvanceUser._currentWeapon = weapon;
                     weapon.rb.isKinematic = true;
+                    weapon._collider.isTrigger = true;
 
                     //Set Parent Constraint
                     this.SetParentConstrain(weapon, mainHandSocket.weaponAttachingAbleTransform);
@@ -30,9 +44,22 @@ public class WeaponAttachingBehavior
                 }
             case SecondHandSocket secondHandSocket: 
                 {
+                    //Detach form other weaponsocket
+                    if (weapon.userWeapon != null)
+                    {
+                        if (weapon.userWeapon._mainHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._mainHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket = null;
+                    }
+                    secondHandSocket.curWeaponAtSocket = weapon;
+
                     weapon.isEquiped = false;
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
+                    weapon._collider.isTrigger = true;
 
                     ConstraintSource source = new ConstraintSource();
                     source.sourceTransform = secondHandSocket.weaponAttachingAbleTransform;
@@ -59,9 +86,23 @@ public class WeaponAttachingBehavior
                 }
             case PrimaryWeaponSocket primaryWeaponSocket: 
                 {
+                    //Detach form other weaponsocket
+                    if (weapon.userWeapon != null)
+                    {
+                        if (weapon.userWeapon._mainHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._mainHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._secondHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._secondHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket = null;
+                    }
+
+                    primaryWeaponSocket.curWeaponAtSocket = weapon;
+
                     weapon.isEquiped = false;
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
+                    weapon._collider.isTrigger = true;
                     this.SetParentConstrain(weapon, primaryWeaponSocket.weaponAttachingAbleTransform);
                     if(primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         primaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
@@ -69,9 +110,23 @@ public class WeaponAttachingBehavior
                 }
             case SecondaryWeaponSocket secondaryWeaponSocket: 
                 {
+                    //Detach form other weaponsocket
+                    if (weapon.userWeapon != null)
+                    {
+                        if (weapon.userWeapon._mainHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._mainHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._secondHandSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._secondHandSocket.curWeaponAtSocket = null;
+                        else if (weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket == weapon)
+                            weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket = null;
+                    }
+
+                    secondaryWeaponSocket.curWeaponAtSocket = weapon;
+
                     weapon.isEquiped = false;
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
+                    weapon._collider.isTrigger = true;
                     this.SetParentConstrain(weapon, secondaryWeaponSocket.weaponAttachingAbleTransform);
                     if(secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         secondaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
@@ -81,8 +136,21 @@ public class WeaponAttachingBehavior
     }
     public void Detach(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
     {
+        if (weapon.userWeapon != null)
+        {
+            if (weapon.userWeapon._mainHandSocket.curWeaponAtSocket == weapon)
+                weapon.userWeapon._mainHandSocket.curWeaponAtSocket = null;
+            else if (weapon.userWeapon._secondHandSocket.curWeaponAtSocket == weapon)
+                weapon.userWeapon._secondHandSocket.curWeaponAtSocket = null;
+            else if (weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket == weapon)
+                weapon.userWeapon._weaponBelt.primaryWeaponSocket.curWeaponAtSocket = null;
+            else if(weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket == weapon)
+                weapon.userWeapon._weaponBelt.secondaryWeaponSocket.curWeaponAtSocket= null;
+        }
+
         weapon.isEquiped = false;
         weapon.rb.isKinematic = false;
+        weapon._collider.isTrigger = false;
         if (weapon.parentConstraint.sourceCount > 0)
         {
             weapon.parentConstraint.RemoveSource(0);
@@ -109,7 +177,6 @@ public class WeaponAttachingBehavior
        weapon.userWeapon = null;
 
     }
-
     private void SetParentConstrain(Weapon weapon, Transform transform)
     {
         ConstraintSource source = new ConstraintSource();
@@ -179,6 +246,7 @@ public class WeaponAttachingBehavior
         {
             animator.Play(animator.GetAnimatorTransitionInfo(0).fullPathHash, 0, animatorStateNormalizedTime);
         }
+        else
         animator.Play(animatorStateInfo.fullPathHash, 0, animatorStateNormalizedTime);
     }
     private void SetWeaponAdvacneUserProperty(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)

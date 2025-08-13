@@ -4,7 +4,7 @@ using UnityEngine;
 public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 {
     private readonly float throwDuration = 0.9f;
-    private readonly float beforeThrowDuration = 0.63f;
+    private readonly float beforeThrowDuration = 0.335f;
     public enum HumanThrowPhase
     {
         beforeThrow,
@@ -18,11 +18,11 @@ public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLe
     public override void Enter()
     {
         Debug.Log("Human Throw Enter");
-        gotGunFuAttackedAble = player.attackedAbleGunFu;
+        gotGunExecutedAble = player.attackedAbleGunFu;
         (player._movementCompoent as MovementCompoent).CancleMomentum();
 
         curThrowPhase = HumanThrowPhase.beforeThrow;
-        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+        gotGunExecutedAble.TakeGunFuAttacked(this, player);
 
         base.Enter();
     }
@@ -55,8 +55,8 @@ public class HumanThrowGunFuInteractionNodeLeaf : PlayerGunFu_Interaction_NodeLe
         {
             case HumanThrowPhase.beforeThrow:{
 
-                    gotGunFuAttackedAble._character.transform.position = targetAdjustTransform.position;
-                    gotGunFuAttackedAble._character.transform.rotation = targetAdjustTransform.rotation;
+                    gotGunExecutedAble._character.transform.position = targetAdjustTransform.position;
+                    gotGunExecutedAble._character.transform.rotation = targetAdjustTransform.rotation;
 
                     if (_timer >= beforeThrowDuration)
                         curThrowPhase = HumanThrowPhase.Throwing;

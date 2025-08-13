@@ -71,7 +71,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         if(elapesTime > duration)
             isComplete = true;
 
-        if(Transitioning())
+        if(TransitioningCheck())
             return;
 
         if(dodgePhase == DodgePhase.pushOut)
@@ -98,7 +98,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         base.UpdateNode();
     }
 
-    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 
 
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);

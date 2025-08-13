@@ -1,0 +1,36 @@
+using System;
+using UnityEngine;
+
+public class QuickSwitch_Reload_NodeLeaf : WeaponManuverLeafNode, IQuickSwitchNode
+{
+
+    public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
+    public QuickSwitch_Reload_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    {
+        this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
+    }
+    public override void Enter()
+    {
+        
+    }
+
+    public override void Exit()
+    {
+        weaponAdvanceUser._isReloadCommand = true;
+    }
+
+    public override void FixedUpdateNode()
+    {
+        
+    }
+
+    public override bool IsComplete()
+    {
+        return true;
+    }
+
+    public override void UpdateNode()
+    {
+        
+    }
+}

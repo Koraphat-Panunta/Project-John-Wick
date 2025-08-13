@@ -131,8 +131,11 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
+        {
             player._isPickingUpWeaponCommand = true;
+            player.Interact();
+        }
     }
     public void TriggerDropWeapon(InputAction.CallbackContext context)
     {

@@ -76,5 +76,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ffc509d169450e4f963035867f20477,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 293437935790611077}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ffc509d169450e4f963035867f20477,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4337431153535969539}
   m_SourcePrefab: {fileID: 100100000, guid: 6ffc509d169450e4f963035867f20477, type: 3}
+--- !u!1 &530507216736971638 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ffc509d169450e4f963035867f20477,
+    type: 3}
+  m_PrefabInstance: {fileID: 837058551601845799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &293437935790611077
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530507216736971638}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.38277933, y: 0.9475232, z: 0.38042387}
+  m_Center: {x: -0.003370836, y: 0.4737616, z: -0.0045759375}
+--- !u!114 &4337431153535969539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530507216736971638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_Size: {x: 0.3881253, y: 1.0341275, z: 0.38459152}
+  m_Center: {x: -0.0064546466, y: 0.45998144, z: -0.00195086}
+  m_Area: 1
+  m_AffectedAgents: ffffffff

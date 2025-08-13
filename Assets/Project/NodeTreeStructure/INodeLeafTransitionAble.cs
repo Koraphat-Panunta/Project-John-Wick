@@ -6,14 +6,14 @@ public interface INodeLeafTransitionAble : INodeLeaf
 {
     public INodeManager nodeManager { get; set; }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
-    public bool Transitioning();
+    public bool TransitioningCheck();
     public void AddTransitionNode(INode node);
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
    
 }
 public class NodeLeafTransitionBehavior 
 {
-    public bool Transitioning(INodeLeafTransitionAble nodeLeafTransitionAble)
+    public bool TransitioningCheck(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
        Dictionary<INode, bool> transitionAbleNode = nodeLeafTransitionAble.transitionAbleNode;
 

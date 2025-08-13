@@ -4,7 +4,7 @@ using UnityEngine;
 public class OnUpdateMovementNodeLeaf : MovementNodeLeaf
 {
     private MovementCompoent movementCompoent;
-    private GravityMovement gravityMovement;
+    public GravityMovement gravityMovement { get; private set; }
     public OnUpdateMovementNodeLeaf(Func<bool> preCondition,MovementCompoent movementCompoent) : base(preCondition)
     {
         gravityMovement = new GravityMovement();

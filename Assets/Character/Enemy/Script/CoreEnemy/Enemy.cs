@@ -29,7 +29,6 @@ public partial class Enemy : SubjectEnemy
     public EnemyGetShootDirection enemyGetShootDirection;
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
-    [SerializeField] Weapon startWeapon;
 
 
     public Vector3 forceSave;
@@ -68,15 +67,12 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
-    protected override void Start()
-    {
-        if (startWeapon != null)
-            new WeaponAttachingBehavior().Attach(startWeapon, MainHandSocket);
-        base.Start();
-    }
+   
     [SerializeField] private float _staggerGauge;
+    [SerializeField] private bool isGround;
     void Update()
     {
+        this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
         findingTargetComponent.FindTarget(out GameObject target);

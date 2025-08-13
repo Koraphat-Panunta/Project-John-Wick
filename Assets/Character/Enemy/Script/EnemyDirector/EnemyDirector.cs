@@ -277,6 +277,12 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     {
         if(player == null)
             player = FindAnyObjectByType<Player>();
+
+        foreach(EnemyRoleBasedDecision enemyRoleBasedDecision in gameObject.GetComponentsInChildren<EnemyRoleBasedDecision>())
+        {
+            if(enemiesRole.Contains(enemyRoleBasedDecision) == false)
+                enemiesRole.Add(enemyRoleBasedDecision);
+        }
     }
 
    
@@ -290,4 +296,5 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
                     break;
             }
     }
+    public List<EnemyRoleBasedDecision> GetAllEnemyRoleBasedDecision() => enemiesRole;
 }

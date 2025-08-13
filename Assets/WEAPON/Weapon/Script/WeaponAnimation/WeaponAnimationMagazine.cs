@@ -16,15 +16,20 @@ public class WeaponAnimationMagazine : WeaponAnimation
     [SerializeField] private string OpenChamber;
     [SerializeField] private string CloseChamber;
     [SerializeField] private string FiringMechanic;
+
+    [Range(0,1)] 
+    [SerializeField] private float reloadFullStageNormalizedTime;
+    [Range(0, 1)] 
+    [SerializeField] private float tacticalReloadFullStageNormalziedTime;
     public override void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
        if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
        {
-            animator.CrossFade(ReloadMagazineFullStage, 0f, 0);
+            animator.CrossFade(ReloadMagazineFullStage, 0f, 0, reloadFullStageNormalizedTime);
         }
        else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
        {
-            animator.CrossFade(TacticalReloadMagazineFullStage,0f, 0);
+            animator.CrossFade(TacticalReloadMagazineFullStage,0f, 0, tacticalReloadFullStageNormalziedTime);
        }
 
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing) 

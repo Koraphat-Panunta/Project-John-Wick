@@ -64,7 +64,7 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
     public override void UpdateNode()
     {
-        this.Transitioning();
+        this.TransitioningCheck();
     }
 
    
@@ -80,7 +80,7 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
         gameManager.ExitGame();
     }
 
-    public bool Transitioning() => nodeLeafTransitionBehavior.Transitioning(this);
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
    
 }

@@ -77,7 +77,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         enableDisableConstraintWeightNodeSelector = new NodeSelector(() => true, "enableDisableConstraintWeightNodeSelector");
         enableConstraintWeight = new SetWeightConstraintNodeLeaf(()=> isConstraintEnable,rig,4,1);
-        disableConstraintWeight = new SetWeightConstraintNodeLeaf(() => true, rig, 5, 0);
+        disableConstraintWeight = new SetWeightConstraintNodeLeaf(() => true, rig, 5,.2f, 0);
 
         rightHandRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             ()=> 

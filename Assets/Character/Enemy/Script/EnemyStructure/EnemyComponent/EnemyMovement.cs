@@ -10,7 +10,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public MovementCompoent movementCompoent => this;
 
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
-    public override bool isOnUpdateEnable { get => true; protected set { } }
     public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement,NavMeshAgent agent) : base(transform, myMovement)
     {
         this.enemy = enemy;
@@ -18,7 +17,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     }
 
   
-    public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
 
     public override void UpdateNode()
@@ -59,6 +57,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
         Move((finalDestination - enemy.transform.position).normalized * speed * Time.deltaTime);
     }
 
+  
     public override void Move(Vector3 position)
     {
         agent.Move(position);

@@ -8,7 +8,7 @@ public abstract class Character : MonoBehaviour
     protected float HP;
     protected float maxHp;
     public bool enableRootMotion;
-    public bool isDead { get 
+    public virtual bool isDead { get 
         {
             if(HP <=0)
                 return true;
@@ -24,8 +24,8 @@ public abstract class Character : MonoBehaviour
     {
         if (enableRootMotion)
         {
-            _movementCompoent.Move(animator.deltaPosition);
-            transform.rotation *= animator.deltaRotation;
+            _movementCompoent.SetPosition(transform.position + animator.deltaPosition);
+            _movementCompoent.SetRotation(transform.rotation * animator.deltaRotation);
         }
 
     }
@@ -44,7 +44,7 @@ public abstract class Character : MonoBehaviour
     public float GetMaxHp() => maxHp;
     public void SetHP(float HP)
     {
-        this.HP = HP;
+        this.HP = Mathf.Clamp(HP,0,GetMaxHp());
     }
     public void AddHP(float HP)
     {

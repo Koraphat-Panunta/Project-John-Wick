@@ -67,7 +67,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
     public EnemyPainStateProceduralAnimateNodeLeaf(EnemyConstrainAnimationNodeManager enemyProceduralAnimateNodeManager, Func<bool> preCondition) : base(preCondition)
     {
         this.proceduralAnimateNodeManager = enemyProceduralAnimateNodeManager;
-        stepAbleLayer = LayerMask.GetMask("Ground");
+        stepAbleLayer = LayerMask.GetMask("Ground") | LayerMask.GetMask("Default");
     }
 
     public override void Enter()

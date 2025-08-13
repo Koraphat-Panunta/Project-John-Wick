@@ -39,10 +39,10 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     public override void Enter()
     {
         isComplete = true;
-        gotGunFuAttackedAble = player.attackedAbleGunFu;
+        gotGunExecutedAble = player.attackedAbleGunFu;
         curPhase = WeaponDisarmPhase.Pulling;
         elapesTime = 0;
-        disarmedWeapon = gotGunFuAttackedAble._weaponAdvanceUser._currentWeapon;
+        disarmedWeapon = gotGunExecutedAble._weaponAdvanceUser._currentWeapon;
         isDisarmWeapon = false;
         isTransitionAbleAlready = false;
         playerEnterPos = player.transform.position;
@@ -54,7 +54,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     public override void Exit()
     {
         curPhase = WeaponDisarmPhase.None;
-        gotGunFuAttackedAble = null;
+        gotGunExecutedAble = null;
         gunFuAble._character.enableRootMotion = false;
         base.Exit();
     }
@@ -69,7 +69,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
                     Debug.Log("t disarm = " + elapesTime / pullTime);
                     if (elapesTime >= pullTime)
                     {
-                        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+                        gotGunExecutedAble.TakeGunFuAttacked(this, player);
                         gunFuAble._character.enableRootMotion = true;
                         curPhase = WeaponDisarmPhase.Disarming;
                     }
@@ -124,30 +124,22 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
 
         weaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
-       
-        if (player.weaponAdvanceUser._currentWeapon == null)
-        {
-            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
-        }
-        else if (player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
-            && player.weaponAdvanceUser._currentWeapon != player.weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
-        {
-            weaponAttachingBehavior.Detach(player._currentWeapon, player);
-            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
-        }
-        else if (player.weaponAdvanceUser._currentWeapon != null
-            && player.weaponAdvanceUser._currentWeapon is PrimaryWeapon)
-        {
-            weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
-            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
 
-        }
-        else if (player.weaponAdvanceUser._currentWeapon != null
-            && player.weaponAdvanceUser._currentWeapon is SecondaryWeapon)
+        if (disarmedWeapon is PrimaryWeapon && player._weaponBelt.myPrimaryWeapon != null)
+            weaponAttachingBehavior.Detach(player._weaponBelt.myPrimaryWeapon as Weapon, player);
+
+        if (disarmedWeapon is SecondaryWeapon && player._weaponBelt.mySecondaryWeapon != null)
+            weaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as Weapon, player);
+
+        if (player._currentWeapon != null)
         {
-            weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
-            weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
+            if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
+                weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
+            else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
+                weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
         }
+
+        weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         //else
         //    throw new Exception("WeaponDisarm");
     }
@@ -156,23 +148,23 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
 
 
-        Vector3 opponentLook = (player.transform.position - gotGunFuAttackedAble._character.transform.position).normalized;
+        Vector3 opponentLook = (player.transform.position - gotGunExecutedAble._character.transform.position).normalized;
         opponentLook = new Vector3(opponentLook.x, 0, opponentLook.z);
 
-        gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(
-            gotGunFuAttackedAble._character.transform.rotation,
+        gotGunExecutedAble._character.transform.rotation = Quaternion.Lerp(
+            gotGunExecutedAble._character.transform.rotation,
             Quaternion.LookRotation(opponentLook, Vector3.up),
             t);
 
-        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
+        gotGunExecutedAble._character._movementCompoent.CancleMomentum();
 
         Vector3 opponentMovePos = targetAdjustTransform.position 
             + targetAdjustTransform.forward * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.z
             + targetAdjustTransform.right * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.x
             + targetAdjustTransform.up * weaponDisarmGunFuScriptableObject.OffsetTargerAdjust.y;
          
-        gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
-                       gotGunFuAttackedAble._character.transform.position,
+        gotGunExecutedAble._character.transform.position = Vector3.Lerp(
+                       gotGunExecutedAble._character.transform.position,
                       opponentMovePos,
                        t
                        );

@@ -52,7 +52,8 @@ public class ReloadMagazineLogic
 
         magazineType._reloadStageSelector = new NodeSelector(
            () => {
-               if (weapon.userWeapon._isReloadCommand
+               if (weapon.userWeapon != null
+               && weapon.userWeapon._isReloadCommand
               && weapon.userWeapon._weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
               &&weapon.bulletStore[BulletStackType.Magazine] <weapon.bulletCapacity)
                    return true;

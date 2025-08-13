@@ -7,7 +7,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
 
     public IWeaponAdvanceUser weaponAdvanceUser => player;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunExecutedAble { get => gunFuAble.executedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_OnGround_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject { get; protected set; }
@@ -166,7 +166,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
-            , gotGunFuAttackedAble._character._movementCompoent
+            , gotGunExecutedAble._character._movementCompoent
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);

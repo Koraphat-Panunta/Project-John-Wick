@@ -1,9 +1,8 @@
 
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 
-public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
+public partial class Player : SubjectPlayer,
     IBulletDamageAble,
     IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
     
@@ -19,6 +18,14 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     [SerializeField] public bool isImortal;
 
     public float MyHP;
+
+    public override bool isDead { get 
+        {
+            if(isImortal)
+                return false;
+
+            return base.isDead;
+        } }
 
     public CommandBufferManager commandBufferManager;
    
@@ -62,7 +69,9 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
         inputMoveDir_World = TransformLocalToWorldVector(new Vector3(inputMoveDir_Local.x,0,inputMoveDir_Local.y),Camera.main.transform.forward);
         _gunFuAimDir = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
+
         UpdateDetectingTarget();
+        UpdateFindingInteractableObject();
 
         playerStateNodeManager.UpdateNode();
         _weaponManuverManager.UpdateNode();
@@ -109,68 +118,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
 
     #endregion
 
-    #region InitailizedWeaponAdvanceUser
-
-    [SerializeField] private MainHandSocket MainHandSocket;
-    [SerializeField] private SecondHandSocket SecondHandSocket;
-    [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
-    [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
-
-    public CrosshairController crosshairController;
-    public enum ShoulderSide
-    {
-        Left,
-        Right
-    }
-    public ShoulderSide curShoulderSide;
-    public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
-    public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
-
-    public bool _isPullTriggerCommand { get; set; }
-    public bool _isAimingCommand { get; set; }
-    public bool _isReloadCommand { get; set; }
-    public bool isSwapShoulder;
-    public bool _isPickingUpWeaponCommand { get; set; }
-    public bool _isDropWeaponCommand { get; set; }
-    public bool _isHolsterWeaponCommand { get; set; }
-    public bool _isDrawPrimaryWeaponCommand { get; set; }
-    public bool _isDrawSecondaryWeaponCommand { get; set; }
-
-    public Weapon _currentWeapon { get; set; }
-    public WeaponBelt _weaponBelt { get; set; }
-    public WeaponAfterAction _weaponAfterAction { get; set; }
-    public WeaponManuverManager _weaponManuverManager { get ; set ; }
-    public Vector3 _shootingPos { get 
-        { 
-            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()) 
-            {
-                Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
-                    return hitInfo.point;
-                else
-                    return ray.GetPoint(100);
-            }    
-            return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
-        } set { } }
-    public Vector3 _pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
-    public Animator _weaponUserAnimator { get; set; }
-    public Character _userWeapon { get => this;}
-    [SerializeField] private AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get => this.AnimatorOverrideController; set => this.AnimatorOverrideController = value; }
-    public FindingWeaponBehavior _findingWeaponBehavior { get ; set ; }
-    public void Initialized_IWeaponAdvanceUser()
-    {
-        _shootingPos = new Vector3();
-
-        _weaponUserAnimator = animator;
-        _findingWeaponBehavior = new FindingWeaponBehavior(this);
-        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(45, 45, 30, 30
-            ,45,45,60,60));
-        _weaponAfterAction = new WeaponAfterActionPlayer(this);
-
-        _weaponManuverManager = new PlayerWeaponManuver(this,this);
-    }
-    #endregion
+  
 
     #region ProceduralAim_Lean
 
@@ -313,24 +261,7 @@ public partial class Player : SubjectPlayer,IWeaponAdvanceUser,
     {
         crosshairController = FindAnyObjectByType<CrosshairController>();
     }
-
-    private void OnDrawGizmos()
-    {
-        if(attackedAbleGunFu != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(attackedAbleGunFu._character.transform.position,.15f);
-        }
-
-        if(executedAbleGunFu != null)
-        {
-            Gizmos.color= Color.red;
-            Gizmos.DrawSphere(executedAbleGunFu._character.transform.position,.15f);
-        }
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position,.2f);
-
-    }
+ 
 }
 
+ 

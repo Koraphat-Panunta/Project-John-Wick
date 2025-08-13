@@ -5,22 +5,26 @@ using UnityEngine;
 
 public class FieldOfView
 {
-    private float radius;
+    private float distance;
     private float angleInDegrees;
-    private Transform viewOrigin;
-    private LayerMask defaultLayerMask;
+    public Transform viewOrigin { get; private set; }
+    private LayerMask collideLayerMask;
 
-    public FieldOfView(float radius, float angleInDegrees, Transform viewOrigin)
+    public FieldOfView(float distance, float angleInDegrees, Transform viewOrigin) : this(distance,angleInDegrees,viewOrigin, LayerMask.GetMask("Default"))
     {
-        this.radius = radius;
+       
+    }
+    public FieldOfView(float distance, float angleInDegrees, Transform viewOrigin, LayerMask collideLayerMask) 
+    {
+        this.distance = distance;
         this.angleInDegrees = angleInDegrees;
         this.viewOrigin = viewOrigin;
-        this.defaultLayerMask.value = LayerMask.GetMask("Default");
+        this.collideLayerMask.value = collideLayerMask.value;
     }
 
     public GameObject FindSingleTarget(LayerMask targetMask, Vector3? offset = null, Vector3? customLookDir = null, float? customAngle = null)
     {
-        Collider[] hits = Physics.OverlapSphere(viewOrigin.position, radius, targetMask.value);
+        Collider[] hits = Physics.OverlapSphere(viewOrigin.position, distance, targetMask.value);
         if (hits.Length == 0) return null;
 
         Vector3 origin = viewOrigin.position + (offset ?? Vector3.zero);
@@ -32,7 +36,7 @@ public class FieldOfView
             Vector3 toTarget = (target.transform.position - origin).normalized;
             if (Vector3.Angle(forward, toTarget) > angleLimit) continue;
 
-            if (Physics.Raycast(origin, toTarget, out RaycastHit hit, radius, defaultLayerMask.value | targetMask))
+            if (Physics.Raycast(origin, toTarget, out RaycastHit hit, distance, collideLayerMask.value | targetMask.value))
             {
                 if (hit.collider.gameObject == target.gameObject)
                     return target.gameObject;
@@ -54,13 +58,13 @@ public class FieldOfView
 
     public List<GameObject> FindMultipleTargetsInArea(LayerMask targetMask, float? customRadius = null)
     {
-        return FindMultipleTargets(targetMask, customRadius ?? radius, false);
+        return FindMultipleTargets(targetMask, customRadius ?? distance, false);
     }
 
     private List<GameObject> FindMultipleTargets(LayerMask targetMask, float searchRadius = -1f, bool inViewOnly = true)
     {
         List<GameObject> results = new List<GameObject>();
-        float actualRadius = searchRadius > 0 ? searchRadius : radius;
+        float actualRadius = searchRadius > 0 ? searchRadius : distance;
         Collider[] hits = Physics.OverlapSphere(viewOrigin.position, actualRadius, targetMask.value);
 
         if (hits.Length == 0) return results;
@@ -71,7 +75,7 @@ public class FieldOfView
             if (inViewOnly && Vector3.Angle(viewOrigin.forward, toTarget) > angleInDegrees / 2f)
                 continue;
 
-            if (Physics.Raycast(viewOrigin.position, toTarget, out RaycastHit hit, actualRadius, defaultLayerMask.value | targetMask))
+            if (Physics.Raycast(viewOrigin.position, toTarget, out RaycastHit hit, actualRadius, collideLayerMask.value | targetMask.value))
             {
                 if (hit.collider.gameObject == target.gameObject)
                     results.Add(target.gameObject);

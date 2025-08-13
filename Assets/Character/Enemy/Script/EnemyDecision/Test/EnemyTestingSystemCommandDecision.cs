@@ -8,31 +8,31 @@ using static UnityEngine.Rendering.HableCurve;
 public class EnemyTestingSystemCommandDecision : EnemyDecision
 {
     public override EnemyCommandAPI enemyCommand { get ; set ; }
-    private Queue<IEnemyTestingCommand> enemyTestingCommands = new Queue<IEnemyTestingCommand>();
+    private Queue<ITaskingExecute> enemyTestingCommands = new Queue<ITaskingExecute>();
 
-    private IEnemyTestingCommand moveToPos1;
-    private IEnemyTestingCommand rotateToPos2;
-    private IEnemyTestingCommand sprintToPos3;
-    private IEnemyTestingCommand freez_3s;
-    private IEnemyTestingCommand moveToWeaponPickedUpPrimary;
-    private IEnemyTestingCommand pickUpWeaponPrimary;
-    private IEnemyTestingCommand holsterWeaponPrimary;
-    private IEnemyTestingCommand drawWeaponPrimary;
-    private IEnemyTestingCommand dropWeaponPrimary;
-    private IEnemyTestingCommand pickUpWeaponPrimary2;
-    private IEnemyTestingCommand moveToWeaponPickedUpSecondary;
-    private IEnemyTestingCommand pickUpWeaponSecondary;
-    private IEnemyTestingCommand switchWeaponSecondaryToPrimary;
-    private IEnemyTestingCommand switchWeaponPrimaryToSecondary;
-    private IEnemyTestingCommand ADS_PullTrigger;
-    private IEnemyTestingCommand tacticalReload;
-    private IEnemyTestingCommand ADS_PillTriggerAllOutMag;
-    private IEnemyTestingCommand reload;
-    private IEnemyTestingCommand findAndBookCover1;
-    private IEnemyTestingCommand moveToTakeCover1;
-    private IEnemyTestingCommand coverManuver1;
-    private IEnemyTestingCommand sprintToSpinKick;
-    private IEnemyTestingCommand spinKick;
+    private ITaskingExecute moveToPos1;
+    private ITaskingExecute rotateToPos2;
+    private ITaskingExecute sprintToPos3;
+    private ITaskingExecute freez_3s;
+    private ITaskingExecute moveToWeaponPickedUpPrimary;
+    private ITaskingExecute pickUpWeaponPrimary;
+    private ITaskingExecute holsterWeaponPrimary;
+    private ITaskingExecute drawWeaponPrimary;
+    private ITaskingExecute dropWeaponPrimary;
+    private ITaskingExecute pickUpWeaponPrimary2;
+    private ITaskingExecute moveToWeaponPickedUpSecondary;
+    private ITaskingExecute pickUpWeaponSecondary;
+    private ITaskingExecute switchWeaponSecondaryToPrimary;
+    private ITaskingExecute switchWeaponPrimaryToSecondary;
+    private ITaskingExecute ADS_PullTrigger;
+    private ITaskingExecute tacticalReload;
+    private ITaskingExecute ADS_PillTriggerAllOutMag;
+    private ITaskingExecute reload;
+    private ITaskingExecute findAndBookCover1;
+    private ITaskingExecute moveToTakeCover1;
+    private ITaskingExecute coverManuver1;
+    private ITaskingExecute sprintToSpinKick;
+    private ITaskingExecute spinKick;
 
     [SerializeField] private Transform moveTransPos1;
     [SerializeField] private Transform rotateTransPos2;
@@ -229,7 +229,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     {
          
     }
-    private class EnemyMoveToPos : IEnemyTestingCommand
+    private class EnemyMoveToPos : ITaskingExecute
     {
         private Vector3 pos;
         private bool isRotateTowardDes;
@@ -264,7 +264,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 enemyCommandAPI.MoveToPosition(this.pos, enemyCommandAPI._enemy.moveMaxSpeed, reachDes);
         }
     }
-    private class EnemyRotateToPos:IEnemyTestingCommand
+    private class EnemyRotateToPos:ITaskingExecute
     {
         private float rotateSpeed;
         private Vector3 towardedPos;
@@ -298,7 +298,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             enemyCommandAPI.RotateToPosition(this.towardedPos,this.rotateSpeed);
         }
     }
-    private class EnemyTestingCommand:IEnemyTestingCommand
+    private class EnemyTestingCommand:ITaskingExecute
     {
         private Action update;
         private Action fixUpdate;
@@ -329,12 +329,6 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             if(this.update != null)
                 this.update.Invoke();
         }
-    }
-    private interface IEnemyTestingCommand
-    {
-        public void Update();
-        public void FixedUpdate();
-        public bool IsComplete();
     }
     private void OnDrawGizmos()
     {

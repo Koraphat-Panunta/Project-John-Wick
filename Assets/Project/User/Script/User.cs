@@ -73,7 +73,10 @@ public class User : MonoBehaviour
         InitailizedInputAction(this.player);
         EnableInput();
     }
-
+    private void OnDisable()
+    {
+        DisableInput();
+    }
     private void OnValidate()
     {
         player = FindAnyObjectByType<Player>();
