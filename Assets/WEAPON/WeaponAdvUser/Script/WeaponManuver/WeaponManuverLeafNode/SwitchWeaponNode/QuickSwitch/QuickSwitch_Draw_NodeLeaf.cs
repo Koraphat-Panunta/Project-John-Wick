@@ -9,8 +9,12 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     private AnimationTriggerEventSCRP animationTriggerEventSCRP;
     private bool isDrawSecondary;
     private Weapon secondHandWeapon;
-    public QuickSwitch_Draw_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition,AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
+
+    public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get ; set ; }
+
+    public QuickSwitch_Draw_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition,AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
+        this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
         this.weaponAttachingBehavior = new WeaponAttachingBehavior();
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
     }

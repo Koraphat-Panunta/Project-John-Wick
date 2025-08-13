@@ -24259,7 +24259,7 @@ PrefabInstance:
     - target: {fileID: 7074491356039985985, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.203
+      value: -12.03
       objectReference: {fileID: 0}
     - target: {fileID: 7074491356039985985, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
@@ -30552,7 +30552,7 @@ PrefabInstance:
     - target: {fileID: 7074491356039985985, guid: 462d94adf4c852c429f55445d516ab1b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.4251175
+      value: -13.252117
       objectReference: {fileID: 0}
     - target: {fileID: 7074491356039985985, guid: 462d94adf4c852c429f55445d516ab1b,
         type: 3}
@@ -37042,41 +37042,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2035971799}
     m_Modifications:
-    - target: {fileID: 3997568579388826905, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.07200003
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997568579388826905, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.006000042
-      objectReference: {fileID: 0}
-    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_TranslationAtRest.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_TranslationAtRest.y
-      value: 0.07200003
-      objectReference: {fileID: 0}
-    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_TranslationAtRest.z
-      value: 0.006000042
-      objectReference: {fileID: 0}
-    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
-        type: 3}
-      propertyPath: m_TranslationOffsets.Array.data[0].y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2761170129473076366, guid: 462d94adf4c852c429f55445d516ab1b,
         type: 3}
       propertyPath: microOptic
@@ -37136,6 +37101,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AR15_556_With_Optic 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997568579388826905, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.07200003
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997568579388826905, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.006000042
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_TranslationAtRest.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_TranslationAtRest.y
+      value: 0.07200003
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_TranslationAtRest.z
+      value: 0.006000042
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327298666492343125, guid: 9e2b4231ef030494691a212803fd888d,
+        type: 3}
+      propertyPath: m_TranslationOffsets.Array.data[0].y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -43789,6 +43789,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}

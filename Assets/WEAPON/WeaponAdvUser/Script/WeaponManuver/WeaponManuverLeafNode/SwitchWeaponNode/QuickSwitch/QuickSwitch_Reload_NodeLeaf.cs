@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class QuickSwitch_Reload_NodeLeaf : WeaponManuverLeafNode, IQuickSwitchNode
 {
-    public QuickSwitch_Reload_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
-    {
-    }
 
+    public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
+    public QuickSwitch_Reload_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    {
+        this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
+    }
     public override void Enter()
     {
         

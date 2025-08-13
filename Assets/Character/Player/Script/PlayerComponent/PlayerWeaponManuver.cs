@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class PlayerWeaponManuver : WeaponManuverManager
+public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuverAble
 {
     private Player player => weaponAdvanceUser as Player;
     public PlayerWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser,Player player) : base(weaponAdvanceUser)
@@ -118,7 +118,8 @@ public class PlayerWeaponManuver : WeaponManuverManager
             return false;
         }
     }
-    private bool isQuickDrawWeaponManuverAble
+    #region ImplementQuickSwitchWeaponManuver
+    public bool isQuickSwtichWeaponManuverAble
     {
         get 
         {
@@ -132,7 +133,10 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 return true;
             return false;
         }
+        set { }
     }
+    public IWeaponAdvanceUser _weaponAdvanceUser { get => weaponAdvanceUser ; set { } }
+    #endregion
 
     #endregion
 
@@ -141,10 +145,15 @@ public class PlayerWeaponManuver : WeaponManuverManager
 
     public NodeSelector curWeaponManuverSelectorNode { get; protected set; }
     public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
+    public NodeSelector quickSwitchExitSelector;
+    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterSecondHandWeapon_To_Reload;
+    public QuickSwitch_Reload_NodeLeaf quickSwitch_Reload_NodeLeaf;
+    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterSecondary_NodeLeaf;
+    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterPrimary_NodeLeaf;
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
 
     public NodeSelector switchDrawSecondaryNodeSelector { get; protected set; }
-    public QuickDrawWeaponManuverLeafNodeLeaf quickDrawWeaponManuverLeafNode { get; protected set; }
+    public QuickSwitch_Draw_NodeLeaf quickSwitch_Draw_NodeLeaf { get; protected set; }
     public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
 
     public NodeSelector holsterSelector { get; protected set; }
@@ -155,12 +164,15 @@ public class PlayerWeaponManuver : WeaponManuverManager
     public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
     public NodeSelector handlingWeaponNodeSelector { get; protected set; }
 
+    public QuickSwitch_AimDownSight_NodeLeaf quickSwitch_AimDownSight_NodeLeaf { get; protected set; }
+    public QuickSwitch_LowReady_NodeLeaf quickSwitch_LowReady_NodeLeaf { get; protected set; }
     public override AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf { get; protected set    ; }
     public override LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
 
     public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get; protected set; }
     public override DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf { get; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
+   
 
     #endregion
     public override void InitailizedNode()
@@ -196,6 +208,32 @@ public class PlayerWeaponManuver : WeaponManuverManager
                 return false;
                 });
 
+        quickSwitchExitSelector = new NodeSelector(
+            ()=> (weaponAdvanceUser._isDrawPrimaryWeaponCommand 
+            || weaponAdvanceUser._isDrawSecondaryWeaponCommand 
+            || weaponAdvanceUser._isHolsterWeaponCommand
+            || weaponAdvanceUser._isReloadCommand) 
+            && isSwitchWeaponManuverAble
+            && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon
+            && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            ,"QuickSwitchExitSelector");
+
+        quickSwitch_HolsterSecondHandWeapon_To_Reload = new QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(this.weaponAdvanceUser,this
+            ,()=> weaponAdvanceUser._isReloadCommand
+            ,player.quickSiwthcHolsterPrimarySCRP);
+        quickSwitch_Reload_NodeLeaf = new QuickSwitch_Reload_NodeLeaf(this.weaponAdvanceUser,this
+            ,()=>true);
+
+        quickSwitch_HolsterSecondary_NodeLeaf = new QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(this.weaponAdvanceUser,this
+            , () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
+            , player.quickSwitchHoslterSecondarySCRP);
+
+        quickSwitch_HolsterPrimary_NodeLeaf = new QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(this.weaponAdvanceUser,this
+            ,()=> true
+            ,player.quickSiwthcHolsterPrimarySCRP);
+
+        
+
        
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand 
@@ -208,9 +246,12 @@ public class PlayerWeaponManuver : WeaponManuverManager
             && isSwitchWeaponManuverAble
             && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
-        quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNodeLeaf(this.weaponAdvanceUser,
-            () => isQuickDrawWeaponManuverAble 
-            && isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
+        //quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNodeLeaf(this.weaponAdvanceUser,
+        //    () => isQuickDrawWeaponManuverAble 
+        //    && isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
+        quickSwitch_Draw_NodeLeaf = new QuickSwitch_Draw_NodeLeaf(weaponAdvanceUser,this
+            ,()=> isQuickSwtichWeaponManuverAble
+            , player.quickSwitchDrawSCRP);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => true );
 
@@ -224,6 +265,16 @@ public class PlayerWeaponManuver : WeaponManuverManager
         weaponHandling_Reload_NodeCombine = new NodeCombine(()=> true);
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
         handlingWeaponNodeSelector = new NodeSelector(()=>true);
+
+        quickSwitch_AimDownSight_NodeLeaf = new QuickSwitch_AimDownSight_NodeLeaf(this.weaponAdvanceUser,this
+            ,()=> 
+            isAimingManuverAble
+            && weaponAdvanceUser._isAimingCommand
+            && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            && isQuickSwtichWeaponManuverAble);
+        quickSwitch_LowReady_NodeLeaf = new QuickSwitch_LowReady_NodeLeaf(this.weaponAdvanceUser, this
+            , () => weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            && isQuickSwtichWeaponManuverAble);
 
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () => isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
@@ -251,18 +302,27 @@ public class PlayerWeaponManuver : WeaponManuverManager
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         curWeaponManuverSelectorNode.AddtoChildNode(dropWeaponManuverNodeLeaf);
+        curWeaponManuverSelectorNode.AddtoChildNode(quickSwitchExitSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
         curWeaponManuverSelectorNode.AddtoChildNode(switchDrawSecondaryNodeSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(holsterSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(weaponHandling_Reload_NodeCombine);
 
+        quickSwitchExitSelector.AddtoChildNode(quickSwitch_HolsterSecondHandWeapon_To_Reload);
+        quickSwitchExitSelector.AddtoChildNode(quickSwitch_HolsterSecondary_NodeLeaf);
+        quickSwitchExitSelector.AddtoChildNode(quickSwitch_HolsterPrimary_NodeLeaf);
+
+        quickSwitch_HolsterSecondHandWeapon_To_Reload.AddTransitionNode(quickSwitch_Reload_NodeLeaf);
+
         weaponHandling_Reload_NodeCombine.AddCombineNode(reloadNodeAttachAbleSelector);
         weaponHandling_Reload_NodeCombine.AddCombineNode(handlingWeaponNodeSelector);
 
+        handlingWeaponNodeSelector.AddtoChildNode(quickSwitch_AimDownSight_NodeLeaf);
+        handlingWeaponNodeSelector.AddtoChildNode(quickSwitch_LowReady_NodeLeaf);
         handlingWeaponNodeSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
         handlingWeaponNodeSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
 
-        switchDrawSecondaryNodeSelector.AddtoChildNode(quickDrawWeaponManuverLeafNode);
+        switchDrawSecondaryNodeSelector.AddtoChildNode(quickSwitch_Draw_NodeLeaf);
         switchDrawSecondaryNodeSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
 
         holsterSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickSwitch_HolsterSecondHandWeapon_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode,INodeLeafTransitionAble
+public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode,INodeLeafTransitionAble
 {
     private bool isComplete;
     private bool isHolsterPrimaryWeapon;
@@ -14,10 +14,11 @@ public class QuickSwitch_HolsterSecondHandWeapon_NodeLeaf : WeaponManuverLeafNod
     public INodeManager nodeManager { get; set; }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
-
-    public QuickSwitch_HolsterSecondHandWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
+    public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
+    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
         this.nodeManager = weaponAdvanceUser._weaponManuverManager;
+        this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
         this.transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         weaponAttachingBehavior = new WeaponAttachingBehavior();
@@ -30,12 +31,13 @@ public class QuickSwitch_HolsterSecondHandWeapon_NodeLeaf : WeaponManuverLeafNod
         isComplete = false;
         isHolsterPrimaryWeapon = false;
         secondHandWeapon = weaponAdvanceUser._secondHandSocket.curWeaponAtSocket;
-        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondHandWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()
     {
-        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondHandWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
     public override void UpdateNode()
     {
@@ -44,16 +46,9 @@ public class QuickSwitch_HolsterSecondHandWeapon_NodeLeaf : WeaponManuverLeafNod
         timer += Time.deltaTime;
         if(timer >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.triggerNormalizedTime && isHolsterPrimaryWeapon == false)
         {
-            if(secondHandWeapon is PrimaryWeapon)
-            {
-                weaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
-            }
-            else if(secondHandWeapon is SecondaryWeapon)
-            {
-                weaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
-            }
+            weaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
             isHolsterPrimaryWeapon = true;
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondHandWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
             nodeLeafTransitionBehavior.TransitionAbleAll(this);
         }
         if(timer >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.endNormalizedTime)

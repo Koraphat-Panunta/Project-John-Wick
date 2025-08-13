@@ -541,15 +541,6 @@ MonoBehaviour:
   isImortal: 0
   MyHP: 0
   debugIsIFrame: 0
-  MainHandSocket: {fileID: 6803714471603600979}
-  SecondHandSocket: {fileID: 4823683803531187892}
-  PrimaryWeaponSocket: {fileID: 8296545121001024165}
-  SecondaryWeaponSocket: {fileID: 7183239051956620366}
-  crosshairController: {fileID: 0}
-  curShoulderSide: 0
-  isSwapShoulder: 0
-  AnimatorOverrideController: {fileID: 22100000, guid: 41fa012b524e5134cb0de4bd495fa7f9,
-    type: 2}
   aimPosRef: {fileID: 3039372999945744660}
   StandMoveAccelerate: 4.9
   StandMoveMaxSpeed: 2.8
@@ -629,6 +620,21 @@ MonoBehaviour:
   gunFu_Single_Execute_OnGround_Primary_Laydown_I: {fileID: 11400000, guid: 8f112f0243f04cc4b9129c9ee35efec0,
     type: 2}
   gunFu_Single_Execute_OnGround_Primary_Layup_I: {fileID: 11400000, guid: de760c2e3a368e345b8f37aac30e6deb,
+    type: 2}
+  MainHandSocket: {fileID: 6803714471603600979}
+  SecondHandSocket: {fileID: 4823683803531187892}
+  PrimaryWeaponSocket: {fileID: 8296545121001024165}
+  SecondaryWeaponSocket: {fileID: 7183239051956620366}
+  quickSwitchDrawSCRP: {fileID: 11400000, guid: 97cfb6ac23dd94541b3be03e68b2c4aa,
+    type: 2}
+  quickSiwthcHolsterPrimarySCRP: {fileID: 11400000, guid: 89d9642b05a86224ca2f740732250f36,
+    type: 2}
+  quickSwitchHoslterSecondarySCRP: {fileID: 11400000, guid: 416b85d0a415d2a4ba9b1bb1cdc76ef8,
+    type: 2}
+  crosshairController: {fileID: 0}
+  curShoulderSide: 0
+  isSwapShoulder: 0
+  AnimatorOverrideController: {fileID: 22100000, guid: 41fa012b524e5134cb0de4bd495fa7f9,
     type: 2}
   findInteractAbleObject:
     serializedVersion: 2
