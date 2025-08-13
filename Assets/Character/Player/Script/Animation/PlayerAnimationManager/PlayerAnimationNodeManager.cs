@@ -25,6 +25,9 @@ public partial class PlayerAnimationManager : INodeManager
     public NodeSelector drawSwitchSelector { get; set; }
     public NodeSelector quickSwitchSelector { get; set; }
     public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHolsterSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHoslterPrimaryNodeLeaf { get; set; }
+
 
     public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
@@ -129,6 +132,8 @@ public partial class PlayerAnimationManager : INodeManager
         drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
 
         quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
+        quickSwitchSelector.AddtoChildNode(quickSwitchHolsterSecondaryNodeLeaf);
+        quickSwitchSelector.AddtoChildNode(quickSwitchHoslterPrimaryNodeLeaf);
 
         basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
@@ -198,10 +203,22 @@ public partial class PlayerAnimationManager : INodeManager
         quickSwitchSelector = new NodeSelector(()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
         quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
             ()=>playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
-        ,animator
-        , "QuickSwitchDraw"
-        ,1
-        ,0.1f);
+            ,animator
+            , "QuickSwitchDraw"
+            ,1
+            ,0.1f);
+        quickSwitchHolsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>()
+            , animator
+            , "QuickSwitchHolsterSecondary"
+            , 1
+            , 0.25f);
+        quickSwitchHoslterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>()
+            , animator
+            , "QuickSwitchHolsterPrimary"
+            , 1
+            , 0.25f);
       
 
         drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(

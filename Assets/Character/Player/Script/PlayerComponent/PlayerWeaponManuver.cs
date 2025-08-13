@@ -148,7 +148,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
     public NodeSelector quickSwitchExitSelector;
     public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterSecondHandWeapon_To_Reload;
     public QuickSwitch_Reload_NodeLeaf quickSwitch_Reload_NodeLeaf;
-    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterSecondary_NodeLeaf;
+    public QuickSwitch_HolsterSecondaryWeapon_NodeLeaf quickSwitch_HolsterSecondary_NodeLeaf;
     public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterPrimary_NodeLeaf;
     public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
 
@@ -224,7 +224,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
         quickSwitch_Reload_NodeLeaf = new QuickSwitch_Reload_NodeLeaf(this.weaponAdvanceUser,this
             ,()=>true);
 
-        quickSwitch_HolsterSecondary_NodeLeaf = new QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(this.weaponAdvanceUser,this
+        quickSwitch_HolsterSecondary_NodeLeaf = new QuickSwitch_HolsterSecondaryWeapon_NodeLeaf(this.weaponAdvanceUser,this
             , () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
             , player.quickSwitchHoslterSecondarySCRP);
 

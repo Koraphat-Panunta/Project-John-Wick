@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 1529970576853322839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.004, y: -0.003, z: 0.186}
+  m_LocalPosition: {x: 0.0024, y: -0.003, z: 0.186}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87,7 +87,7 @@ Transform:
   m_GameObject: {fileID: 2275023157894548265}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0054, y: -0.038, z: -0.101}
+  m_LocalPosition: {x: 0.004, y: -0.0511, z: -0.1041}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -226,6 +226,8 @@ MonoBehaviour:
   OpenChamber: 
   CloseChamber: 
   FiringMechanic: 
+  reloadFullStageNormalizedTime: 0.333
+  tacticalReloadFullStageNormalziedTime: 0.112
   magMain: {fileID: 6495938229049864826}
   magSecond: {fileID: 3057724576907943671}
 --- !u!1773428102 &-4776787860471616378
@@ -790,6 +792,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5652391551511251932, guid: e6e8a7ad227f1c6468b8fbe3552ab6c3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5231664132276181660, guid: e6e8a7ad227f1c6468b8fbe3552ab6c3,
         type: 3}
