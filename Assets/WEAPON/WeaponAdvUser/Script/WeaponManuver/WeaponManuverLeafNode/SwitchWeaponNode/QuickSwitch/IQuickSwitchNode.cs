@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IQuickSwitchNode 
+public interface IQuickSwitchNode : INodeLeaf
 {
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
 }

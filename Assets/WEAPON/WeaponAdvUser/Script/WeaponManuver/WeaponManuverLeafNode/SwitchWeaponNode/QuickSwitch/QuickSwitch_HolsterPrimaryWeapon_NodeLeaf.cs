@@ -11,13 +11,13 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     private Weapon secondHandWeapon;
     private float timer;
 
-    public INodeManager nodeManager { get; set; }
+    public INodeManager nodeManager { get => weaponAdvanceUser._weaponManuverManager; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
     public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
-        this.nodeManager = weaponAdvanceUser._weaponManuverManager;
+
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
         this.transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();

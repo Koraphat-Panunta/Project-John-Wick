@@ -25,7 +25,6 @@ public partial class PlayerAnimationManager : INodeManager
     public NodeSelector drawSwitchSelector { get; set; }
     public NodeSelector quickSwitchSelector { get; set; }
     public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwithcHolsterNodeLeaf { get; set; }
 
     public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
@@ -35,6 +34,7 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
     public PlayAnimationNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }  
     public PlayAnimationNodeLeaf moveIdleUpperNodeLeaf { get; set; }
 
     public NodeSelector basedLayerNodeSelector { get; set; }
@@ -109,6 +109,7 @@ public partial class PlayerAnimationManager : INodeManager
         upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
         upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
         upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
+        upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
         upperLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
 
         performReloadNodeSelector.AddtoChildNode(reloadNodeLeaf);
@@ -119,9 +120,6 @@ public partial class PlayerAnimationManager : INodeManager
         performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldPrimaryStayNodeLeaf);
         performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldSecondaryStayNodeLeaf);
 
-        quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
-        quickSwitchSelector.AddtoChildNode(quickSwithcHolsterNodeLeaf);
-
         drawSwitchSelector.AddtoChildNode(quickSwitchSelector);
         drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
         drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
@@ -129,6 +127,8 @@ public partial class PlayerAnimationManager : INodeManager
         drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
         drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
         drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
+
+        quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
 
         basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
         basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
@@ -195,15 +195,14 @@ public partial class PlayerAnimationManager : INodeManager
 
         drawSwitchSelector = new NodeSelector(()=> isDrawSwitchWeapon);
 
-        quickSwitchSelector = new NodeSelector(()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>());
+        quickSwitchSelector = new NodeSelector(()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
         quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>(out QuickDrawWeaponManuverLeafNodeLeaf quickSwitchNodeLeaf)
-            && (quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Draw || quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.Stay || quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.HolsterPrimary)
-            ,animator, "QuickDraw",1,0.1f);
-        quickSwithcHolsterNodeLeaf = new PlayAnimationNodeLeaf(
-          () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>(out QuickDrawWeaponManuverLeafNodeLeaf quickSwitchNodeLeaf)
-          && quickSwitchNodeLeaf.quickDrawPhase == QuickDrawWeaponManuverLeafNodeLeaf.QuickDrawPhase.HolsterSecondary
-          , animator, "QuickHolster", 1, 0.2f);
+            ()=>playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
+        ,animator
+        , "QuickSwitchDraw"
+        ,1
+        ,0.1f);
+      
 
         drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
@@ -227,6 +226,12 @@ public partial class PlayerAnimationManager : INodeManager
         sprintUpperNodeLeaf = new PlayAnimationNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
          animator, "SprintWeaponSway", 1, .2f);
+
+        quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=>
+            playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_AimDownSight_NodeLeaf>()
+            ||playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
+            ,animator, "QuickSwitchWeaponManuver",1,.25f);
 
         moveIdleUpperNodeLeaf = new PlayAnimationNodeLeaf(
         () =>true,

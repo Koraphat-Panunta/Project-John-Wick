@@ -62,7 +62,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
                 case HolsterSecondaryWeaponManuverNodeLeaf:
                 case PrimaryToSecondarySwitchWeaponManuverLeafNode:
                 case SecondaryToPrimarySwitchWeaponManuverLeafNode:
-                case QuickDrawWeaponManuverLeafNodeLeaf:
+                case IQuickSwitchNode:
                     {
                         UpdateInfo();
                         break;

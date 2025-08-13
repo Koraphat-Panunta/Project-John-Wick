@@ -29,10 +29,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
         {
             isAiming = true;
         }
-        else if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<QuickDrawWeaponManuverLeafNodeLeaf>())
-        {    
-            isAiming = true;
-        }
+      
 
         if (isAiming == false)
             WarpingToCoverPos();
