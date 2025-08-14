@@ -37,8 +37,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
             eRole.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(eRole.enemyCommand, this, eRole);
         });
         assingTime = 0;
-        chaserShooterPoint = maxNumberChaserShooter;
-        overwatchShooterPoint = maxNumberOverwatchShooter;
     }
     // Update is called once per frame
     void Update()
@@ -181,41 +179,14 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     [SerializeField] private int maxNumberChaserShooter;
     [SerializeField] private int maxNumberOverwatchShooter;
 
-    [SerializeField] private float delayChaserShooterPoint;
-    [SerializeField] private float delayOverwatchShooterPoint;
 
-    [SerializeField] private int chaserShooterPoint;
-    [SerializeField] private int overwatchShooterPoint;
 
-    private Task taskUpdateChaserShooterPoint;
-    private Task taskUpdateOverwatchShooterPoint;
     private Task taskUpdateYieldAllShooterOnPlayerAim;
 
     [SerializeField] private float yieldShooterOnPlayerAim;
     [SerializeField] private float delayYieldShooterOnPlayerAim;
     [SerializeField] private bool isYieldAllShooter;
-    private async Task UpdatingChaserShooterPoint()
-    {
-        while(chaserShooterPoint < maxNumberChaserShooter)
-        {
-            float delay = delayChaserShooterPoint * 1000;
-            await Task.Delay((int)delay);
-            chaserShooterPoint++;
-        }
-
-        taskUpdateChaserShooterPoint = null;
-    }
-    private async Task UpdatingOverwatchShooterPoint()
-    {
-        while(overwatchShooterPoint < maxNumberOverwatchShooter)
-        {
-            float delay = delayOverwatchShooterPoint * 1000;
-            await Task.Delay((int)delay);
-            overwatchShooterPoint++;
-        }
-
-        taskUpdateOverwatchShooterPoint = null;
-    }
+   
     private async Task UpdatingYieldAllShooterOnPlayerAim()
     {
        
@@ -237,26 +208,44 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         {
             case EnemyChaserRoleNodeManager enemyChaserRole:
                 {
-                    if (chaserShooterPoint > 0)
+                    //if (chaserShooterPoint > 0)
+                    //{
+                    //    chaserShooterPoint -= 1;
+                    //    if (taskUpdateChaserShooterPoint == null)
+                    //        taskUpdateChaserShooterPoint = UpdatingChaserShooterPoint();
+                    //    return true;
+                    //}
+                    int isShootChaser = 0;
+                    foreach(EnemyRoleBasedDecision enemyRoleBD in enemiesRole)
                     {
-                        chaserShooterPoint -= 1;
-                        if (taskUpdateChaserShooterPoint == null)
-                            taskUpdateChaserShooterPoint = UpdatingChaserShooterPoint();
-                        return true;
+                        if(enemyRoleBD.enemyActionNodeManager == enemyRoleBD.chaserRoleNodeManager
+                            &&enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
+                            isShootChaser++;
                     }
+                    if(isShootChaser < maxNumberChaserShooter)
+                        return true;
                 }
                 break;
             case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
                 {
-                    
 
-                    if (overwatchShooterPoint > 0)
+
+                    //if (overwatchShooterPoint > 0)
+                    //{
+                    //    overwatchShooterPoint -= 1;
+                    //    if (taskUpdateOverwatchShooterPoint == null)
+                    //        taskUpdateOverwatchShooterPoint = UpdatingOverwatchShooterPoint();
+                    //    return true;
+                    //}
+                    int isShootOverwatch = 0;
+                    foreach (EnemyRoleBasedDecision enemyRoleBD in enemiesRole)
                     {
-                        overwatchShooterPoint -= 1;
-                        if (taskUpdateOverwatchShooterPoint == null)
-                            taskUpdateOverwatchShooterPoint = UpdatingOverwatchShooterPoint();
-                        return true;
+                        if (enemyRoleBD.enemyActionNodeManager == enemyRoleBD.overwatchRoleNodeManager
+                            && enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
+                            isShootOverwatch++;
                     }
+                    if (isShootOverwatch < maxNumberOverwatchShooter)
+                        return true;
                 }
                 break;
         }

@@ -30,14 +30,35 @@ public class NormalFiringPattern : EnemyFiringPattern
             deltaFireTiming = 0;
             randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
             reachRoundTime = Random.Range(MIN_REACH_ROUND_TIME,MAX_REACH_ROUND_TIME);
+            isCheckShoot = false;
+            isWillShoot = false;
         }
 
         deltaFireTiming += Time.deltaTime;
 
+        if(deltaFireTiming >= randomFireTiming && isCheckShoot == false)
+        {
+            WillShoot();
+            isCheckShoot = true;
+        }
+            
         if(isReadyToShoot == false)
             return;
 
-        if(isShootAble == false)
+        this.ShootingPerform();
+    }
+    private bool isCheckShoot;
+    public bool isWillShoot;
+    protected virtual void WillShoot()
+    {
+        isWillShoot = true;
+    }
+    protected void ShootingPerform()
+    {
+        if(isWillShoot == false)
+            return;
+
+        if (isShootAble == false)
             return;
 
         if (curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.bulletStore[BulletStackType.Chamber] <= 0)
@@ -72,6 +93,11 @@ public class NormalFiringPattern : EnemyFiringPattern
         if (enemy._currentWeapon.fireMode == Weapon.FireMode.Single && enemy._currentWeapon.triggerState == TriggerState.Up)
         {
             base.Shoot();
+            deltaFireTiming = 0;
+            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+            reachRoundTime = Random.Range(MIN_REACH_ROUND_TIME, MAX_REACH_ROUND_TIME);
+            isCheckShoot = false;
+            isWillShoot = false;
         }
         else if(enemy._currentWeapon.fireMode == Weapon.FireMode.FullAuto)
             base.Shoot();

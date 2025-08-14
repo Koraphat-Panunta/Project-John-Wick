@@ -24,6 +24,8 @@ public partial class Enemy : IGotGunFuAttackedAble
             }
             if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
                 return false;
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+                return false;
 
             return true;
         }

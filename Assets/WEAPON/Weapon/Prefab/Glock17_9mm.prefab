@@ -189,6 +189,8 @@ MonoBehaviour:
   OpenChamber: BarrelOpen
   CloseChamber: BarrelClose
   FiringMechanic: BarrelFiring
+  reloadFullStageNormalizedTime: 0
+  tacticalReloadFullStageNormalziedTime: 0
   magMain: {fileID: 5225518317768642967}
   magSecond: {fileID: 8164010443256410042}
 --- !u!1773428102 &-4776787860471616378
@@ -280,7 +282,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.501
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -308,7 +310,7 @@ AudioSource:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
+      time: 0.10101318
       value: 0
       inSlope: 0
       outSlope: 0

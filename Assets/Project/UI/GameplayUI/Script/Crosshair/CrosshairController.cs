@@ -126,7 +126,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             {
                 case LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverLeafNode:
                     {
-                        CrosshairSpread.TriggerFocusSpanRate();
+                        //CrosshairSpread.TriggerFocusSpanRate();
                         CrosshairSpread.isAiming = false;
                         break;
                     }
