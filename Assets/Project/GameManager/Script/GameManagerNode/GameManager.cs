@@ -11,9 +11,7 @@ public class GameManager : MonoBehaviour,INodeManager
     public enum GameplayLevel
     {
         None,
-        Tutorial,
-        Mansion,
-        Hotel, 
+        Prologue,
     }
     public GameplayLevel gameplayLevelData;
 
@@ -21,15 +19,13 @@ public class GameManager : MonoBehaviour,INodeManager
     public AudioClip gamePlaySoundTrack { get; set; }
 
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get; set; }
+    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
-    public TutorialGameManagerNodeLeaf tutorialGameManagerNodeLeaf{ get; set; }
-    public LevelMansionGameManagerNodeLeaf levelMansionGameManagerNodeLeaf { get; set; }
-    public LevelHotelGameManagerNodeLeaf levelHotelGameManagerNodeLeaf { get; set; }  
+    public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
     public DataBased dataBased { get; set; }
     private void Awake()
     {
@@ -47,23 +43,17 @@ public class GameManager : MonoBehaviour,INodeManager
         this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this,()=> gameManagerSceneData == GameManagerState.ForntScene);
 
         this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
-        this.tutorialGameManagerNodeLeaf = new TutorialGameManagerNodeLeaf("Tutorial_New", this,()=> gameplayLevelData == GameplayLevel.Tutorial);
-        this.levelMansionGameManagerNodeLeaf = new LevelMansionGameManagerNodeLeaf("MansionLevel", this,()=> gameplayLevelData == GameplayLevel.Mansion);
-        this.levelHotelGameManagerNodeLeaf = new LevelHotelGameManagerNodeLeaf("HotelLevel", this, () => gameplayLevelData == GameplayLevel.Hotel);
+        this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => gameplayLevelData == GameplayLevel.Prologue);
 
 
 
         startNodeSelector.AddtoChildNode(this.frontSceneGameManagerNodeLeaf);
         startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
 
-        ingameGameManagerNodeSelector.AddtoChildNode(tutorialGameManagerNodeLeaf);
-        ingameGameManagerNodeSelector.AddtoChildNode(levelMansionGameManagerNodeLeaf);
-        ingameGameManagerNodeSelector.AddtoChildNode(levelHotelGameManagerNodeLeaf);
+        ingameGameManagerNodeSelector.AddtoChildNode(this.prologue_GameManagerSceneNodeLeaf);
 
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-        curNodeLeaf = nodeLeaf;
 
-        curNodeLeaf.Enter();
+        nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public void FixedUpdateNode()
@@ -109,11 +99,14 @@ public class GameManager : MonoBehaviour,INodeManager
 
         switch (gameplayLevelData)
         {
-            case GameplayLevel.None: gameplayLevelData = GameplayLevel.Tutorial; break;
-
-            case GameplayLevel.Tutorial: gameplayLevelData = GameplayLevel.Hotel; break;
-
-            case GameplayLevel.Hotel: RestartScene(); break;
+            case GameplayLevel.None: gameplayLevelData = GameplayLevel.Prologue; 
+                break;
+            case GameplayLevel.Prologue:
+                {
+                    gameManagerSceneData = GameManagerState.ForntScene;
+                    gameplayLevelData = GameplayLevel.None;
+                    break;
+                }
         }
     }
     public void ExitToMainMenu()

@@ -16,7 +16,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
             {
                 case FiringNode firingNode:
                     {
-                        //No logic yet
+                        enemy.NotifyObserver(enemy, firingNode);
                         break;
                     }
                 case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:

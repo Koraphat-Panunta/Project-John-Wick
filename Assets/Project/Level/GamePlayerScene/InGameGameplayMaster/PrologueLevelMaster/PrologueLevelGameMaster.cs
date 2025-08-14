@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
+using System.Threading.Tasks;
 
 public class PrologueLevelGameMaster : InGameLevelGameMaster
 {
@@ -42,14 +43,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
 
     protected override void Start()
     {
-        door_A43_locked.isLocked = true;
-        door_A41_locked.isLocked = true;
 
-        enemyDirectorA2.gameObject.SetActive(false);
-        enemyDirectirA3.gameObject.SetActive(false);
-        enemyDirectirA4 .gameObject.SetActive(false);
-        enemyDirectirA5 .gameObject.SetActive(false);
-
+        _ = DelayInitialized();
         base.Start();
     }
     protected override void FixedUpdate()
@@ -127,6 +122,17 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
                     enemyA5.Add(enemyRoleBasedDecision);
             }
         }
+    }
+    private async Task DelayInitialized() 
+    {
+        await Task.Yield();
+        door_A43_locked.isLocked = true;
+        door_A41_locked.isLocked = true;
+
+        enemyDirectorA2.gameObject.SetActive(false);
+        enemyDirectirA3.gameObject.SetActive(false);
+        enemyDirectirA4.gameObject.SetActive(false);
+        enemyDirectirA5.gameObject.SetActive(false);
     }
 
 }

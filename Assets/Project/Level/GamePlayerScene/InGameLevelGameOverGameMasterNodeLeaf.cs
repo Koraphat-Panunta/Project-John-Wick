@@ -38,6 +38,11 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
         eplapesTime = 0;
         this.gameOverUICanvas.gameObject.SetActive(true);
         this.gameOverUICanvas.PlayFadeInGameOverCanvas();
+        try
+        {
+            gameManager.soundTrackManager.StopSoundTrack(0.5f);
+        }
+        catch { }
         gameMaster.NotifyObserver(gameMaster);
     }
 

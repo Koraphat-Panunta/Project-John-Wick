@@ -125,7 +125,8 @@ public class PlayerStateNodeManager : INodeManager
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
             && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
-            && player._currentWeapon is SecondaryWeapon)
+            && player._currentWeapon is SecondaryWeapon
+            && (player.executedAbleGunFu._character as IFallDownGetUpAble)._isFallDown)
             ,player.gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I);
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,

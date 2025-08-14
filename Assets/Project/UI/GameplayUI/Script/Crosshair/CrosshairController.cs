@@ -110,14 +110,14 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             {
                 CrosshairSpread.Performed(player._currentWeapon);
                 CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
-                CrosshairSpread.TriggerFocusSpanRate();
+                //CrosshairSpread.TriggerFocusSpanRate();
             }
 
 
             if (playerEvent == SubjectPlayer.NotifyEvent.GetShoot)
             {
                 CrosshairSpread.Performed(35);
-                CrosshairSpread.TriggerFocusSpanRate();
+                //CrosshairSpread.TriggerFocusSpanRate();
             }
         }
             
@@ -144,7 +144,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
                 case HolsterPrimaryWeaponManuverNodeLeaf:
                 case HolsterSecondaryWeaponManuverNodeLeaf:
                     {
-                        CrosshairSpread.TriggerFocusSpanRate();
+                        //CrosshairSpread.TriggerFocusSpanRate();
                         break;
                     }
             }
