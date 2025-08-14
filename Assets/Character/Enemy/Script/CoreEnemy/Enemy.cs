@@ -41,7 +41,6 @@ public partial class Enemy : SubjectEnemy
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;
-
     protected override void Awake()
     {
         base.Awake();
@@ -67,7 +66,12 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
-   
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     [SerializeField] private float _staggerGauge;
     [SerializeField] private bool isGround;
     void Update()

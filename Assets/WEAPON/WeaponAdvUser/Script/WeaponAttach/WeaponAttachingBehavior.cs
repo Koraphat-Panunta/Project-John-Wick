@@ -204,29 +204,29 @@ public class WeaponAttachingBehavior
     private void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
     {
         Animator animator = weaponAdvanceUser._weaponUserAnimator;
-        AnimatorOverrideController animatorOverrideController = weaponAdvanceUser._animatorWeaponAdvanceUserOverride;
+        AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAdvanceUser._animatorWeaponAdvanceUserOverride);
         WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject = weapon.weaponAnimationStateOverrideScriptableObject;
 
         AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         float animatorStateNormalizedTime = animatorStateInfo.normalizedTime;
 
-        animatorOverrideController["Idle_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.idleLowReady;
-        animatorOverrideController["Move_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.moveLowReady;
-        animatorOverrideController["ADS_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_20;
-        animatorOverrideController["C.A.R_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_20;
-        animatorOverrideController["ADS_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_40;
-        animatorOverrideController["C.A.R_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_40;
-        animatorOverrideController["ADS_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_60;
-        animatorOverrideController["C.A.R_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_60;
-        animatorOverrideController["ADS_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_80;
-        animatorOverrideController["C.A.R_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_80;
-        animatorOverrideController["ADS_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_100;
-        animatorOverrideController["C.A.R_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_100;
-        animatorOverrideController["RecoildKickBack_ADS_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_RecoilKick;
-        animatorOverrideController["RecoildKickBack_C.A.R_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_RecoilKick;
+        overrideController["Idle_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.idleLowReady;
+        overrideController["Move_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.moveLowReady;
+        overrideController["ADS_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_20;
+        overrideController["C.A.R_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_20;
+        overrideController["ADS_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_40;
+        overrideController["C.A.R_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_40;
+        overrideController["ADS_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_60;
+        overrideController["C.A.R_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_60;
+        overrideController["ADS_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_80;
+        overrideController["C.A.R_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_80;
+        overrideController["ADS_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_100;
+        overrideController["C.A.R_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_100;
+        overrideController["RecoildKickBack_ADS_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_RecoilKick;
+        overrideController["RecoildKickBack_C.A.R_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_RecoilKick;
 
-        animatorOverrideController["LowReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_LowReadySway;
-        animatorOverrideController["HighReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_HighReadySway;
+        overrideController["LowReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_LowReadySway;
+        overrideController["HighReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_HighReadySway;
 
         //OverrideLocoMotion
 
@@ -235,13 +235,13 @@ public class WeaponAttachingBehavior
         {
             case MagazineType magazineType:
                 {
-                    animatorOverrideController["ReloadMagazineFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.Reload;
-                    animatorOverrideController["TacReloadFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.TacticalReload;
+                    overrideController["ReloadMagazineFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.Reload;
+                    overrideController["TacReloadFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.TacticalReload;
                     break;
                 }
         }
 
-        animator.runtimeAnimatorController = animatorOverrideController;
+        animator.runtimeAnimatorController = overrideController;
         if (animator.IsInTransition(0))
         {
             animator.Play(animator.GetAnimatorTransitionInfo(0).fullPathHash, 0, animatorStateNormalizedTime);
