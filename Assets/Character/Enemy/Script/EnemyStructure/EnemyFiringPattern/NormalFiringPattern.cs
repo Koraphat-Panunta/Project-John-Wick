@@ -7,19 +7,30 @@ public class NormalFiringPattern : EnemyFiringPattern
 
     private double deltaFireTiming = 0;
     private double randomFireTiming = 0;
+    private float reachRoundTime = 0;
     private const float MAXRANG_TIMING_FIRE = 0.6f;
     private const float MINRANG_TIMING_FIRE = 0.25f;
+    private const float MAX_REACH_ROUND_TIME = 1.5f;
+    private const float MIN_REACH_ROUND_TIME = 0.8f;
+
 
     public override bool isReadyToShoot { get => deltaFireTiming >= randomFireTiming; set { } }
 
     public NormalFiringPattern(EnemyCommandAPI enemyController) : base(enemyController)
     {
         randomFireTiming = MAXRANG_TIMING_FIRE;
+        reachRoundTime = MIN_REACH_ROUND_TIME;
     }
     public override void Performing()
     {
         if (curWeapon == null)
             return;
+        if(deltaFireTiming >= reachRoundTime)
+        {
+            deltaFireTiming = 0;
+            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+            reachRoundTime = Random.Range(MIN_REACH_ROUND_TIME,MAX_REACH_ROUND_TIME);
+        }
 
         deltaFireTiming += Time.deltaTime;
 
@@ -32,8 +43,6 @@ public class NormalFiringPattern : EnemyFiringPattern
         if (curWeapon.bulletStore[BulletStackType.Magazine] <= 0 && curWeapon.bulletStore[BulletStackType.Chamber] <= 0)
         {
             enemyController.Reload();
-            deltaFireTiming = 0;
-            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
             return;
         }
 
@@ -57,9 +66,16 @@ public class NormalFiringPattern : EnemyFiringPattern
 
 
         }
-        deltaFireTiming = 0;
-        randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
     }
-   
+    protected override void Shoot()
+    {
+        if (enemy._currentWeapon.fireMode == Weapon.FireMode.Single && enemy._currentWeapon.triggerState == TriggerState.Up)
+        {
+            base.Shoot();
+        }
+        else if(enemy._currentWeapon.fireMode == Weapon.FireMode.FullAuto)
+            base.Shoot();
+    }
+
 }
 

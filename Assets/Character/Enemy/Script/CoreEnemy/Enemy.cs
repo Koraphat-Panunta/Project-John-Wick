@@ -371,6 +371,11 @@ public partial class Enemy : SubjectEnemy
 
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
+
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
+                || enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+                return true;
+
             return false;
         } set { } }
     public float _posture { get => posture; set => posture = value; }
