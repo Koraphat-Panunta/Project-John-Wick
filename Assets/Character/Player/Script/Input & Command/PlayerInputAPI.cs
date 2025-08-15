@@ -134,6 +134,7 @@ public class PlayerInputAPI : MonoBehaviour
         if (context.performed)
         {
             player._isPickingUpWeaponCommand = true;
+            player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.25f);
             player.Interact();
         }
     }

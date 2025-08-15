@@ -209,7 +209,8 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                 return false;
                 });
         quickSwitch_Draw_OnEmpty_NodeLeaf = new QuickSwitch_Draw_NodeLeaf(weaponAdvanceUser, this,
-            () => weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            () => weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null
+            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null
             && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0 && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] <= 0
             && isQuickSwtichWeaponManuverAble

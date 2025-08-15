@@ -16,6 +16,7 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
     public ITaskingExecute showGunFuTutorial;
 
     private Door doorA21 => gameMaster.door_A21;
+    private bool isDodge;
     private bool isMove;
     private bool isSprint;
     private bool isPickingUpWeapon;
@@ -84,6 +85,9 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
         if(node is PlayerSprintNode)
             isSprint = true;
 
+        if(node is PlayerDodgeRollStateNodeLeaf)
+            isDodge = true;
+
         if(player._currentWeapon != null)
             isPickingUpWeapon = true;
 
@@ -149,8 +153,7 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
         movementTutorial = new TutorialHintTasking(gameMaster.movementHint,
             () =>
             {
-                if ((isMove && isSprint)
-                || (isPickingUpWeapon))
+                if ((isMove && isSprint && isDodge) || shootCount <=0)
                     return true;
                 return false;
             });

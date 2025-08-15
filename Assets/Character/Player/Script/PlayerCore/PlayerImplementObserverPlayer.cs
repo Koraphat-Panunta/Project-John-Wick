@@ -11,7 +11,7 @@ public partial class Player : IObserverPlayer
             {
                 case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute:
                     {
-                        AddHP(40);
+                        AddHP(25);
                         player.NotifyObserver<SubjectPlayer.NotifyEvent>(player, SubjectPlayer.NotifyEvent.HealthRegen);
                         break;
                     }
