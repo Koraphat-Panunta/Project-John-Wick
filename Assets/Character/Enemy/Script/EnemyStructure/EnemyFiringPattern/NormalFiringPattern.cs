@@ -94,7 +94,7 @@ public class NormalFiringPattern : EnemyFiringPattern
         {
             base.Shoot();
             deltaFireTiming = 0;
-            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE);
+            randomFireTiming = Random.Range(MINRANG_TIMING_FIRE, MAXRANG_TIMING_FIRE-((MAXRANG_TIMING_FIRE - MINRANG_TIMING_FIRE)/2));
             reachRoundTime = Random.Range(MIN_REACH_ROUND_TIME, MAX_REACH_ROUND_TIME);
             isCheckShoot = false;
             isWillShoot = false;

@@ -7,8 +7,8 @@ using UnityEngine;
 public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 {
     //SetUpStats
-    private int _magazineCapacity = 15;
-    private float _rateOfFire = 400;
+    private int _magazineCapacity = 17;
+    private float _rateOfFire = 600;
     private float _reloadSpeed = 1.2f;
     [Range(0,600)]
     [SerializeField] private float _accuracy /*= 136*/;

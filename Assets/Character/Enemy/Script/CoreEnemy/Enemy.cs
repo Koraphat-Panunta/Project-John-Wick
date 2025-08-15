@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public partial class Enemy : SubjectEnemy
     , IWeaponAdvanceUser, IMotionDriven,
@@ -118,6 +119,16 @@ public partial class Enemy : SubjectEnemy
             bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
             NotifyObserver(this, EnemyEvent.GotBulletHit);
+        }
+        if(damageVisitor is GunFuHitNodeLeaf gotGunFuHitNodeLeaf)
+        {
+            if (gotGunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+            {
+                float gunFuHitStaggerDamage = 12;
+
+                if (this.staggerGauge > 0)
+                    this.staggerGauge -= gunFuHitStaggerDamage;
+            }
         }
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)

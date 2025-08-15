@@ -48,6 +48,12 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
         float pressureDamage = bulletObj.impactDamage * postureReciverRate ;
 
+        if(bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+        {
+            damage *= 0.35f;
+            pressureDamage = 0;
+        }
+
         enemy._isPainTrigger = true;
 
         if(enemy._posture > 0)

@@ -29241,6 +29241,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1738655652}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: standardCameraSensivity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: aimDownSightCameraSensivity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: thirdPersonCinemachineCamera
+      value: 
+      objectReference: {fileID: 1953809368}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42998,6 +43018,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.024432182
       objectReference: {fileID: 0}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: dodgeOnGroundStopForce
+      value: 3.8
+      objectReference: {fileID: 0}
     - target: {fileID: 3883691192315787588, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43053,6 +43078,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7610df03b6259ea409d446dc8358715b, type: 3}
+--- !u!114 &1953809368 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 104828536550568714, guid: 7610df03b6259ea409d446dc8358715b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1953809367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf95954ed218c5f4e92982d293acb0e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1957298740
 PrefabInstance:
   m_ObjectHideFlags: 0

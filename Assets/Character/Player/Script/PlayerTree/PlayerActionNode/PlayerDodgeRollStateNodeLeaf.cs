@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionAble
@@ -13,6 +14,9 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
 
     float duration = 0.75f;
     float elapesTime;
+
+    float coolDownTime = 0.5f;
+    public bool isCoolDown;
     public enum DodgePhase
     {
         pushOut,
@@ -29,13 +33,19 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
     }
+    public override bool Precondition()
+    {
+        if(isCoolDown)
+            return false;
 
+        return base.Precondition();
+    }
     public override void Enter()
     {
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         elapesTime = 0;
         enterDir = player.inputMoveDir_World;
-        playerMovement.AddForcePush(player.dodgeImpluseForce * player.inputMoveDir_World, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+        playerMovement.AddForcePush(player.dodgeImpluseForce * player.inputMoveDir_World.normalized, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
         dodgePhase = DodgePhase.pushOut;
         //player.NotifyObserver(player,this);
         player.playerStance = Player.PlayerStance.stand;
@@ -44,6 +54,8 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
 
     public override void Exit()
     {
+        isCoolDown = true;
+        _ = CoolDownDodge();
         base.Exit();
     }
 
@@ -97,7 +109,11 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         }
         base.UpdateNode();
     }
-
+    private async Task CoolDownDodge()
+    {
+        await Task.Delay((int)(coolDownTime * 1000));
+        isCoolDown = false;
+    }
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 
 

@@ -63,6 +63,7 @@ public partial class Enemy : IGotGunFuAttackedAble
         _triggerHitedGunFu = true;
         curAttackerGunFuNode = gunFu_NodeLeaf;
         gunFuAbleAttacker = attacker;
+        TakeDamage(gunFu_NodeLeaf);
     }
     #endregion
 }
