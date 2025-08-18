@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 public partial class Player : I_IFrameAble
 {
-    bool I_IFrameAble._isIFrame { get 
+    public bool _isIFrame { get 
         { 
             if(isIFrame)
                 return true;
@@ -12,8 +12,8 @@ public partial class Player : I_IFrameAble
 
             return false;
             } set => isIFrame = value; }
-    public bool isIFrame { get; private set; }
-    private float iFrameTime;
+    private bool isIFrame { get;  set; }
+    public float iFrameTime { get; private set; }
     private async void TriggerIFrame(float iFrameTime)
     {
         if (this.iFrameTime > 0)
@@ -28,7 +28,8 @@ public partial class Player : I_IFrameAble
     private async Task TaskIFrame()
     {
         isIFrame = true;
-        while(this.iFrameTime > 0)
+
+        while (this.iFrameTime > 0)
         {
             this.iFrameTime -= Time.deltaTime;
             await Task.Yield();

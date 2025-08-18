@@ -272,7 +272,12 @@ public class EnemyStateManagerNode : INodeManager
             );
 
         enemyStandMoveState = new EnemyStandMoveStateNodeLeaf(this.enemy,
-            () => this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
+            () =>
+            {
+                if (this.enemy.moveInputVelocity_WorldCommand.magnitude > 0)
+                    return true;
+            return false;
+            }
             );
 
         enemyStandTakeCoverState = new EnemyStandTakeCoverStateNodeLeaf(this.enemy,
@@ -461,7 +466,7 @@ public class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemyCombineNode);
         enemyCombineNode.AddCombineNode(enemyStateSelector);
-        enemyCombineNode.AddCombineNode(enemy.recoveryStaggerNodeLeaf);
+        //enemyCombineNode.AddCombineNode(enemy.recoveryStaggerNodeLeaf);
 
         enemyStateSelector.AddtoChildNode(enemtDeadState);
         enemyStateSelector.AddtoChildNode(gotGunFuAttackSelector);

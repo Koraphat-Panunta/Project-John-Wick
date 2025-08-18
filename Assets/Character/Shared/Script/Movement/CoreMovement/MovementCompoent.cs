@@ -52,6 +52,7 @@ public abstract partial class MovementCompoent : INodeManager
                 break;
             case MoveMode.IgnoreMomenTum:
                 {
+                    Debug.Log("movementComppnent update moveInputVelocity_World = " + moveInputVelocity_World);
                     curMoveVelocity_World = moveInputVelocity_World
                         * Mathf.Lerp(curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
                 }

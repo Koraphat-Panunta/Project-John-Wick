@@ -1,9 +1,10 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CurvePath
+public class EnemyMoveCurvePath
 {
     public List<Vector3> _markPoint = new List<Vector3>();
     public Queue<Vector3> _curvePoint = new Queue<Vector3>();   
@@ -11,9 +12,12 @@ public class CurvePath
     public Vector3 targetAnchor;
     public Vector3 _curPos;
 
-    public CurvePath()
+    private float minCurve;
+    private float maxCurve;
+    public EnemyMoveCurvePath(float minCurve, float maxCurve)
     {
-
+        this.minCurve = minCurve;
+        this.maxCurve = maxCurve;
     }
     public void AutoRegenaratePath(Vector3 tarPos,Vector3 CurPos,float distanceRePath)
     {
@@ -32,20 +36,44 @@ public class CurvePath
         _curPos = curPos;
         //
         float distance = Vector3.Distance(target, curPos);
-        Vector3 _conP_1 = Vector3.Lerp(curPos, target, 0.5f);
+       
         Vector3 dir = (target - curPos).normalized;
         dir = Quaternion.AngleAxis(90,Vector3.up)*dir;
-        dir = dir * Random.Range(Random.Range(-8,-5), Random.Range(5,8));
-        _conP_1 = _conP_1 + dir;
+
+        Vector3[] cp = new Vector3[3];
+        if(Random.Range(0,1) > 0)
+            dir = dir * Random.Range(minCurve, maxCurve);
+        else
+            dir = dir * Random.Range(-minCurve,-maxCurve);
+
+        cp[0] = Vector3.Lerp(curPos, target, 0) + dir;
+        if (Random.Range(0, 1) > 0) 
+        {
+            dir = dir * Random.Range(minCurve, maxCurve);
+            cp[1] = Vector3.Lerp(curPos, target, 0.5f) + dir;
+            dir = dir * Random.Range(minCurve, maxCurve);
+            cp[2] = Vector3.Lerp(curPos, target, 1) + dir;
+        }
+
+        else
+        {
+            dir = dir * Random.Range(-minCurve, -maxCurve);
+            cp[1] = Vector3.Lerp(curPos, target, 0.5f) + dir;
+            dir = dir * Random.Range(-minCurve, -maxCurve);
+            cp[2] = Vector3.Lerp(curPos, target, 1) + dir;
+        }
+       
+
+        
         for (float T = 0; T <= 1; T = T + 0.2f)
         {
             Vector3 markPos;
-            Vector3 A = Vector3.Lerp(curPos, _conP_1, T);
-            Vector3 B = Vector3.Lerp(_conP_1, target, T);
-            markPos = Vector3.Lerp(A, B, T);
+
+            markPos = BezierurveMove.GetPointOnBezierCurve(_curPos, cp.ToList<Vector3>(), target, T);
+
             IsPositionOnNavMesh(markPos, 2f);
         }
-    }
+    } 
    
     public void ResetPath()
     {

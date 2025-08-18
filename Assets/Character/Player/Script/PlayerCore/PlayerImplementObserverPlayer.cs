@@ -34,13 +34,26 @@ public partial class Player : IObserverPlayer
             ||(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Single_NodeLeaf
             && gunFuExecute_OnGround_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
         {
-            TriggerIFrame(1);
+            TriggerIFrame(.75f);
+            NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
         }
+
+        if (node is RestrictGunFuStateNodeLeaf gunFuStateNodeLeaf && gunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        {
+            TriggerIFrame(1.5f);
+            NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
+        }
+        if (node is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction && humanShield_GunFuInteraction.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+        {
+            TriggerIFrame(1.7f);
+            NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
+        }
+        
         if(node is SubjectPlayer.NotifyEvent.GetDamaged)
         {
-            TriggerIFrame(0.45f);
+            TriggerIFrame(0.35f);
         }
-           
+
     }
     private static class PlayerImlementObserverBehavior
     {

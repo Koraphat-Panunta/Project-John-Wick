@@ -39,9 +39,6 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (isStagger)
                 return true;
 
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
-                return true;
-
             return false;
         }
         set { }

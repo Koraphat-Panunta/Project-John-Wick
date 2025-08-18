@@ -9,6 +9,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
     public abstract float hpReciverMultiplyRate { get; set; }
     public abstract float postureReciverRate { get; set; }
+    public abstract float staggerReciverRate { get; set; }
     public bool _triggerHitedGunFu { get; set; }
 
     public Vector3 forceSave;
@@ -46,20 +47,22 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         Bullet bulletObj = damageVisitor as Bullet;
 
         float damage = bulletObj.hpDamage * hpReciverMultiplyRate;
-        float pressureDamage = bulletObj.impactDamage * postureReciverRate ;
+        float postureDamaged = bulletObj.impactDamage * postureReciverRate;
+        float staggerDamaged = bulletObj.impactDamage * staggerReciverRate;
 
-        if(bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+        if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
         {
             damage *= 0.35f;
-            pressureDamage = 0;
+            postureDamaged = 0;
+            staggerDamaged = 0;
         }
 
         enemy._isPainTrigger = true;
 
         if(enemy._posture > 0)
-            enemy._posture -= pressureDamage;
+            enemy._posture -= postureDamaged;
         if(enemy.staggerGauge > 0)
-            enemy.staggerGauge -= pressureDamage;
+            enemy.staggerGauge -= staggerDamaged;
 
         enemy.TakeDamage(damage);
         enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);

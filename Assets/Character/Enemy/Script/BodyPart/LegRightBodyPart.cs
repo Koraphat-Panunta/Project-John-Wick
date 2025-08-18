@@ -4,12 +4,14 @@ public class LegRightBodyPart : BodyPart
 {
     public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }
+    public override float staggerReciverRate { get; set; }
 
     protected override void Start()
     {
         base.Start();
         hpReciverMultiplyRate = 0.5f;
         postureReciverRate = 2f;
+        staggerReciverRate = 0.5f;
     }
    
     public override void TakeDamage(IDamageVisitor damageVisitor)

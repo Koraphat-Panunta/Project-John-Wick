@@ -9,7 +9,7 @@ public class _9mmBullet : Bullet
     public _9mmBullet(Weapon weapon):base(weapon)
     {
         hpDamage = 12.5f;
-        impactDamage = 25f;
+        impactDamage = 18.65f;
         myType = BulletType._9mm;
         recoilKickBack = 140;
     }

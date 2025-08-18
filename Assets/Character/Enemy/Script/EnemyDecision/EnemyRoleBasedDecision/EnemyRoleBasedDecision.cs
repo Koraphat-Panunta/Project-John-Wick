@@ -156,6 +156,18 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                 , chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.raduis);
         }
 
+        if(chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
+        {
+            if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._curvePoint.Count > 0)
+            {
+                Gizmos.color = Color.red;
+                for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
+                {
+                    Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.35f);
+                }
+            }
+        }
+
     }
 
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
@@ -186,5 +198,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                     }
             }
     }
+
+    
 }
 

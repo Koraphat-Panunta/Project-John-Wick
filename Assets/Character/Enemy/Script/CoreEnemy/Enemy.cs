@@ -152,6 +152,7 @@ public partial class Enemy : SubjectEnemy
         _isPickingUpWeaponCommand = false;
         _isPullTriggerCommand = false;
         _triggerGunFu = false;
+        moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
 

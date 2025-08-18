@@ -1296,7 +1296,7 @@ MonoBehaviour:
   CombatPhase: 0
   YingYang: 70.3
   TakeCoverAble: 0
-  enegyWithIn: 0
+  enegyWithIn: 50
   YingYangCalulate: 0
   elapesLostSightTime: 0
   lostSightTime: 0
@@ -1371,14 +1371,14 @@ MonoBehaviour:
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
   lookRotationCommand: {x: 0, y: 0, z: 0}
-  moveAccelerate: 1.94
+  moveAccelerate: 3.9
   moveMaxSpeed: 2.32
   moveRotateSpeed: 8.3
   sprintAccelerate: 2.6
   sprintMaxSpeed: 3.49
   sprintRotateSpeed: 2.63
-  breakAccelerate: 1.66
-  breakMaxSpeed: 1.65
+  breakAccelerate: 3.1
+  breakMaxSpeed: 3.68
   aimingRotateSpeed: 7.12
   hitedForceStop: 10
   painStateForceStop: 0.5
@@ -1407,7 +1407,7 @@ MonoBehaviour:
     type: 2}
   layUpExecutedAnim: {fileID: 7400000, guid: daa8446c6cecbf64bbfa3a89be4da16f, type: 2}
   layDownExecutedAnim: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
-  _maxStaggerGauge: 50
+  _maxStaggerGauge: 100
 --- !u!114 &6414908439600597232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1791,6 +1791,8 @@ MonoBehaviour:
   SpawnForceUp: 2.8
   SpawnForceSide: 3.1
   AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
+    type: 3}
+  HpGetAbleObject: {fileID: 2275463908204227942, guid: bab5162ec9f0dfa4aa8a60bc256c35ee,
     type: 3}
 --- !u!114 &7512234974047621189
 MonoBehaviour:
@@ -3766,7 +3768,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1198469431008621809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4099,7 +4101,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &3978389804131672843
 CharacterJoint:
   m_ObjectHideFlags: 0

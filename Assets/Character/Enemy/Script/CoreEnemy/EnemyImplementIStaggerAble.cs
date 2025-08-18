@@ -7,8 +7,7 @@ public partial class Enemy : IStaggerAble
         get 
         {
 
-            if (( staggerGauge <= 0
-                || _isFallDown)
+            if (( staggerGauge <= 0)
                 && (isDead == false))
                 return true;
             return false;

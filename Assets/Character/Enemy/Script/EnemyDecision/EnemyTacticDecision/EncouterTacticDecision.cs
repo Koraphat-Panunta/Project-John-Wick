@@ -5,13 +5,13 @@ public class EncouterTacticDecision : TacticDecision
     private float backToSerchTiming = 2;
     private float exitTacticCost;
     private float cost_DrainRate;
-    public CurvePath curvePath;
+    public EnemyMoveCurvePath curvePath;
 
     public EncouterTacticDecision(Enemy enemy, EnemyTacticDecision enemyTacticDecision) : base(enemy, enemyTacticDecision)
     {
         cost_DrainRate = Random.Range(9, 15);
         exitTacticCost = Random.Range(29, 42);
-        curvePath = new CurvePath();
+        curvePath = new EnemyMoveCurvePath(5,10 );
     }
 
     public override void Enter()

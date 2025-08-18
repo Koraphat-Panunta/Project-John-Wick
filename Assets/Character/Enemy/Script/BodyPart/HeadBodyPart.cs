@@ -7,7 +7,8 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
 {
     public override float hpReciverMultiplyRate { get; set; }
     public override float postureReciverRate { get; set; }
-  
+    public override float staggerReciverRate { get; set; }
+
 
     protected override void Start()
     {
@@ -15,7 +16,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
 
         hpReciverMultiplyRate = 2.0f;
         postureReciverRate = 3.0f;
-
+        staggerReciverRate = 3.0f;
     }
    
     public override void TakeDamage(IDamageVisitor damageVisitor)
@@ -41,6 +42,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
 
     #region ImplementGotHearding
     public Action<INoiseMakingAble> NotifyGotHearing { get => enemy.NotifyGotHearing; set => enemy.NotifyGotHearing = value; }
+
     public void GotHearding(INoiseMakingAble noiseMaker) => enemy.GotHearding(noiseMaker);
     #endregion
 
