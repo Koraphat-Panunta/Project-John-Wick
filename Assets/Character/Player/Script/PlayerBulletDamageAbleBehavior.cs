@@ -26,7 +26,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
     {
 
         Bullet bulletObj = damageVisitor as Bullet;
-        float damage = bulletObj.hpDamage;
+        float damage = bulletObj._hpDamage;
 
         player.SetHP(player.GetHP() - damage * 1f);
         player.NotifyObserver(this.player, NotifyEvent.GetDamaged);

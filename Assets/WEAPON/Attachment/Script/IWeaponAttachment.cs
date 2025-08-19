@@ -1,4 +1,4 @@
-using UnityEngine;
+
 using UnityEngine.Animations;
 
 public interface IWeaponAttachment<T> where T : IWeaponAttachmentAttachAble

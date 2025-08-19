@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class ArmLeftBodyPart : BodyPart
 {
-    public override float hpReciverMultiplyRate { get; set; }
-    public override float postureReciverRate { get; set; }
-    public override float staggerReciverRate { get; set; }
+
 
     protected override void Start()
     {
-        hpReciverMultiplyRate = 0.25f;
-        postureReciverRate = 0.25f;
-        staggerReciverRate = 0.25f;
         base.Start();
     }
 

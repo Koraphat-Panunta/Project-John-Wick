@@ -17,8 +17,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.executeClip; set { } }
   
     private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
-    //private Transform gunFuAttackerTransform => player.transform;
-    //private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character.transform;
+    //private Transform gunFuAttackerTransform => player._transform;
+    //private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character._transform;
 
     private Vector3 gunFuAttackerEnterPosition;
     private Quaternion gunFuAttackerEnterRotation;
@@ -119,8 +119,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
                         //Debug.Log("distance enemyRealPos - enemyAdjustPos = " + Vector3.Distance(gunFuGotAttackedTransform.position, opponentGunFuTargetPosition));
                         //Debug.Log("deltaRotate enemyRealRot - enemyAdjustRot = " + Quaternion.Angle(gunFuGotAttackedTransform.rotation,opponentGunFuTargetRotation));
-                        //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character.transform.position, gunFuAble.executedAbleGunFu._character.transform.position));
-                        //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character.transform.rotation, gunFuAble.executedAbleGunFu._character.transform.rotation));
+                        //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character._transform.position, gunFuAble.executedAbleGunFu._character._transform.position));
+                        //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character._transform.rotation, gunFuAble.executedAbleGunFu._character._transform.rotation));
                     }
                     else if (WarpingComplete())
                         isWarpingComplete = true;

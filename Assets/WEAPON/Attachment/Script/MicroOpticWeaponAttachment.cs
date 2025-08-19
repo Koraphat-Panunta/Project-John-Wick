@@ -36,7 +36,7 @@ public class MicroOpticWeaponAttachment :MonoBehaviour, IWeaponAttachment<IMicro
         parentConstraint.translationAtRest = Vector3.zero;
         parentConstraint.rotationAtRest = Vector3.zero;
 
-        //parentConstraint.SetTranslationOffset(0, offset);
+        //_parentConstraint.SetTranslationOffset(0, offset);
         parentConstraint.constraintActive = true;
 
         parentConstraint.weight = 1;

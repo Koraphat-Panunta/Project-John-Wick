@@ -5,18 +5,12 @@ using UnityEngine;
 
 public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorldPlaceAble
 {
-    public override float hpReciverMultiplyRate { get; set; }
-    public override float postureReciverRate { get; set; }
-    public override float staggerReciverRate { get; set; }
+
 
 
     protected override void Start()
     {
         base.Start();
-
-        hpReciverMultiplyRate = 2.0f;
-        postureReciverRate = 3.0f;
-        staggerReciverRate = 3.0f;
     }
    
     public override void TakeDamage(IDamageVisitor damageVisitor)

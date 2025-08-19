@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public partial class Enemy : SubjectEnemy
     , IWeaponAdvanceUser, IMotionDriven,
@@ -115,7 +114,7 @@ public partial class Enemy : SubjectEnemy
 
         if (damageVisitor is Bullet bullet)
         {
-            TakeDamage(bullet.hpDamage);
+            TakeDamage(bullet._hpDamage);
             bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
             NotifyObserver(this, EnemyEvent.GotBulletHit);
@@ -482,7 +481,7 @@ public partial class Enemy : SubjectEnemy
         Gizmos.DrawSphere(transform.position, 0.15f);
 
         //Gizmos.color = Color.green;
-        //Gizmos.DrawRay(transform.position, transform.forward);
+        //Gizmos.DrawRay(_transform.position, _transform.forward);
     }
 
    

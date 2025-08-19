@@ -152,7 +152,7 @@ public class EnemyCommandAPI :MonoBehaviour
 
     //                MoveToPosition(_enemy.targetKnewPos, 1);
 
-    //                if (Vector3.Distance(_enemy.targetKnewPos, _enemy.transform.position) < 1.5f)
+    //                if (Vector3.Distance(_enemy.targetKnewPos, _enemy._transform.position) < 1.5f)
     //                    caseEvent = 0;
     //            }
     //            break;

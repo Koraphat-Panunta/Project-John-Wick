@@ -157,10 +157,10 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         Gizmos.DrawWireSphere(targetFollow.position, distance);
 
         //Gizmos.color = Color.white;
-        //Gizmos.DrawWireSphere(transform.position, collisionRaduisCheck);
+        //Gizmos.DrawWireSphere(_transform.position, collisionRaduisCheck);
 
         //Gizmos.color = Color.blue;
-        //Gizmos.DrawLine(transform.position + transform.forward * -collisionRaduisCheck, (transform.position + transform.forward * -collisionRaduisCheck)+transform.forward*collisionPushForward);
+        //Gizmos.DrawLine(_transform.position + _transform.forward * -collisionRaduisCheck, (_transform.position + _transform.forward * -collisionRaduisCheck)+_transform.forward*collisionPushForward);
 
     }
 #endif

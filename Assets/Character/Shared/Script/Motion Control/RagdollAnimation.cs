@@ -44,7 +44,7 @@ public class RagdollAnimation : MonoBehaviour
     {
         //if(enableRagdoll == true)
         //{
-        //    rootPosRagdoll = hip.transform.position;
+        //    rootPosRagdoll = hip._transform.position;
         //}
     }
     //private void OnValidate()

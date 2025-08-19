@@ -2,11 +2,13 @@ using Unity.Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 {
-    public abstract float hpDamage { get; set; }
-    public abstract float impactDamage { get; set; }
+    public abstract float _hpDamage { get; set; }
+    public abstract float _postureDamage { get; set; }
+    public abstract float _destructionDamage { get; set; }
     public abstract float recoilKickBack { get; set; }
 
     protected virtual float bulletHitForce { get; set; }
@@ -17,12 +19,14 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
     public Weapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawnerPos.position; set { } }
     public NoiseMakingBehavior noiseMakingBehavior { get ; set ; }
+    public Action<Collider,Vector3,Vector3> bulletHitNotify;
 
     public Bullet(Weapon weapon)
     {
         bulletHitForce = 60;
         this.weapon = weapon;
         noiseMakingBehavior = new NoiseMakingBehavior(this);
+
     }
     public virtual Vector3 Shoot(Vector3 spawnerPosition,Vector3 pointPos)
     {
@@ -39,8 +43,10 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;
         Ray ray = new Ray(spawnerPosition,rayDir);
-        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer))
+        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer,QueryTriggerInteraction.Collide))
         {
+            if (bulletHitNotify != null)
+                bulletHitNotify.Invoke(hit.collider,hit.point,rayDir);
             HitExecute(hit,rayDir);
         }
         else

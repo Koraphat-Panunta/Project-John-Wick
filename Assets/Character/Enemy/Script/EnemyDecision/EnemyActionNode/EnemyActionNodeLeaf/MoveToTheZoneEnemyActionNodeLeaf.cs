@@ -24,7 +24,7 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     {
        
 
-        //if (Vector3.Distance(assignZone.zonePosition, enemy.transform.position) > assignZone.raduis*1.8f)
+        //if (Vector3.Distance(assignZone.zonePosition, enemy._transform.position) > assignZone.raduis*1.8f)
         //{
         //    enemyCommandAPI.SprintToPosition(this.destinateInZone, enemy.sprintRotateSpeed);
         //    enemyCommandAPI.LowReady();
