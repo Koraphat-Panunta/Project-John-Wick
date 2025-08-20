@@ -14,11 +14,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     [SerializeField] private Animator animator;
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
-        {
-            audioSource.spatialBlend = 0;
-            audioSource.PlayOneShot(hit);
-        }
+       
     }
     public void Notify<T>(Enemy enemy, T node) where T : INode
     {

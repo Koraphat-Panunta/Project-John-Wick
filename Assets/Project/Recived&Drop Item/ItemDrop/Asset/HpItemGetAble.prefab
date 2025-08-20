@@ -145,7 +145,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.3
+  m_fontSize: 0.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.25396347, y: 0, z: -0.24967957, w: 0}
+  m_margin: {x: 0.024635702, y: 0.14691043, z: 0.02674368, w: 0.029769301}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -370,10 +370,10 @@ MonoBehaviour:
   isBeenPull: 0
   elapseTimePullAble: 0
   colliding: {fileID: 6805972519152621761}
-  detectRecievedRagne: 1
+  detectRecievedRagne: 2
   pullStrenght: 9.2
   maxSpeedPull: 4.4
-  amoutOfHpAdd: 15
+  amoutOfHpAdd: 35
 --- !u!114 &3378361939179039653
 MonoBehaviour:
   m_ObjectHideFlags: 0

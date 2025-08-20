@@ -186,6 +186,8 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     [SerializeField] private float yieldShooterOnPlayerAim;
     [SerializeField] private float delayYieldShooterOnPlayerAim;
     [SerializeField] private bool isYieldAllShooter;
+
+    
    
     private async Task UpdatingYieldAllShooterOnPlayerAim()
     {

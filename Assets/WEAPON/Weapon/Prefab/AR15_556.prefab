@@ -417,10 +417,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source_Sound: {fileID: 5323522424945707105}
   firing: {fileID: 8300000, guid: f4c3ad2ba59a39e4cbc08b35277b0e32, type: 3}
-  trigger: {fileID: 0}
+  trigger: {fileID: 8300000, guid: 27bee43cad8e7f8439dcaf6f88b79e79, type: 3}
   reload_1: {fileID: 8300000, guid: e7e5934352627ee4893b01f0d6f9e215, type: 3}
   reload_2: {fileID: 8300000, guid: e8ca3a79335f0bf47a59089d06ea344e, type: 3}
-  reload_3: {fileID: 8300000, guid: d293ca5060cf60641a224ac0981935b3, type: 3}
+  reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
   weapon: {fileID: 0}
 --- !u!65 &1475053527945465068
 BoxCollider:
@@ -664,6 +664,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 2761170129473076366}
   spark: {fileID: 7440191685052868192, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
+  bloodSplit: {fileID: 1903839483200921912, guid: dce64985075625d4dad0262be6a758df,
+    type: 3}
+  bulletHitPrefab: {fileID: 3939261903344632742, guid: c89e6f69359eb52439940b98577659e2,
+    type: 3}
+  hitArmor: {fileID: 8300000, guid: e4b229d1cd4c5954c982c44b6f42eb27, type: 3}
+  hitFresh: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}
 --- !u!1001 &8446592658956927473
 PrefabInstance:
   m_ObjectHideFlags: 0

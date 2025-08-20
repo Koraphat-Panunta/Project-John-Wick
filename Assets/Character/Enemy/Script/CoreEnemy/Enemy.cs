@@ -119,14 +119,13 @@ public partial class Enemy : SubjectEnemy
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
             NotifyObserver(this, EnemyEvent.GotBulletHit);
         }
-        if(damageVisitor is GunFuHitNodeLeaf gotGunFuHitNodeLeaf)
+        if(damageVisitor is GunFuHitNodeLeaf gunFuHitNodeLeaf)
         {
-            if (gotGunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+            if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
             {
-                float gunFuHitStaggerDamage = 12;
 
                 if (this.staggerGauge > 0)
-                    this.staggerGauge -= gunFuHitStaggerDamage;
+                    this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
             }
         }
     }

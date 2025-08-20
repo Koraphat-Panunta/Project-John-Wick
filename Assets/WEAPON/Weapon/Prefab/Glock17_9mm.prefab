@@ -380,7 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source_Sound: {fileID: 0}
   firing: {fileID: 8300000, guid: bd0065e86a9878148b2fe7ca02af9a2f, type: 3}
-  trigger: {fileID: 0}
+  trigger: {fileID: 8300000, guid: 27bee43cad8e7f8439dcaf6f88b79e79, type: 3}
   reload_1: {fileID: 8300000, guid: 008e8cc9307967a42872017e9f7dbae2, type: 3}
   reload_2: {fileID: 8300000, guid: bf8568d2294de8c45a7850f9bcfc6f45, type: 3}
   reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
@@ -720,6 +720,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 521215783090903122}
   spark: {fileID: 7440191685052868192, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
+  bloodSplit: {fileID: 1903839483200921912, guid: dce64985075625d4dad0262be6a758df,
+    type: 3}
+  bulletHitPrefab: {fileID: 3939261903344632742, guid: c89e6f69359eb52439940b98577659e2,
+    type: 3}
+  hitArmor: {fileID: 8300000, guid: e4b229d1cd4c5954c982c44b6f42eb27, type: 3}
+  hitFresh: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}
 --- !u!4 &2257692584473007763 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7812903018758069732, guid: 2796d983e13486c45acbcb2041aeb034,

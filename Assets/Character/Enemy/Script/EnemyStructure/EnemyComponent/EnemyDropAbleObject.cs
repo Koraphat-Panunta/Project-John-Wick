@@ -20,8 +20,8 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
 
        if(node is EnemyDeadStateNode && isAlreadyDrop == false)
         {
-            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(5, 10);
-            HpGetAbleObject.amoutOfHpAdd = 20;
+            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(5, 7);
+            HpGetAbleObject.amoutOfHpAdd = 25;
             base.DropObject(AmmoGetAbleObject);
             base.DropObject(HpGetAbleObject);
             isAlreadyDrop = true;

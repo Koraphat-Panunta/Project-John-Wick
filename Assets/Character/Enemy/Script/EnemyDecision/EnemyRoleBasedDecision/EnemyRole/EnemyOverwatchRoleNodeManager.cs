@@ -55,6 +55,9 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
                 if (Vector3.Distance(enemy.targetKnewPos, overWatchZone.zonePosition) < overWatchZone.raduis)
                     return false;
 
+                if(takeCoverEnemyActionNodeLeaf.IsTargetInCoverSight() == false)
+                    return false;
+
                 if (enemy.coverPoint != null)
                     return true;
 
@@ -63,6 +66,7 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
                     overWatchZone.SetZone(coverPoint.coverPos.position);
                     return true;
                 }
+
                     
 
                 return false;

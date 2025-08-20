@@ -35,9 +35,10 @@ public abstract class ItemObject : MonoBehaviour
         elapseTimePullAble = 0;
     }
     // UpdateNode is called once per frame
+    private float delay = 0.35f;
     protected virtual void Update()
     {
-        if(elapseTimePullAble < 2)
+        if(elapseTimePullAble < delay)
         elapseTimePullAble += Time.deltaTime;
 
         if (isBeenPull == false)
@@ -56,7 +57,7 @@ public abstract class ItemObject : MonoBehaviour
             }
         }
 
-        if (isBeenPull && elapseTimePullAble >= 2)
+        if (isBeenPull && elapseTimePullAble >= delay)
         {
             rb.useGravity = false;
             colliding.enabled = false;

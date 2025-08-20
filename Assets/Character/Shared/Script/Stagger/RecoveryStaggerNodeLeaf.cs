@@ -37,7 +37,7 @@ public class RecoveryStaggerNodeLeaf : INodeLeaf
         if(this.timer >= this.recoverTime)
         {
             this.isComplete = true;
-            this.staggerAble.staggerGauge = staggerAble.maxStaggerGauge;
+            this.staggerAble.staggerGauge = staggerAble.maxStaggerGauge*(staggerAble._character.GetHP()/staggerAble._character.GetMaxHp());
         }
     }
     public void FixedUpdateNode()

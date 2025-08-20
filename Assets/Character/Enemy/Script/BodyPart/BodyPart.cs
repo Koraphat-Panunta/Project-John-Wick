@@ -80,28 +80,52 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
-        Bullet bulletObj = damageVisitor as Bullet;
-
-        float damage = bulletObj._hpDamage * _hpReciverMultiplyRate;
-        float postureDamaged = bulletObj._postureDamage * _postureReciverRate;
-        float staggerDamaged = bulletObj._postureDamage * _staggerReciverRate;
-
-        if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+        switch (damageVisitor)
         {
-            damage *= 0.35f;
-            postureDamaged = 0;
-            staggerDamaged = 0;
+            case Bullet bulletObj:
+                {
+                    float damage = bulletObj._hpDamage * _hpReciverMultiplyRate;
+                    float postureDamaged = bulletObj._postureDamage * _postureReciverRate;
+                    float staggerDamaged = bulletObj._postureDamage * _staggerReciverRate;
+
+                    if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+                    {
+                        damage *= 0.35f;
+                        postureDamaged = 0;
+                        staggerDamaged = 0;
+                    }
+
+                    enemy._isPainTrigger = true;
+
+                    if (enemy._posture > 0)
+                        enemy._posture -= postureDamaged;
+                    if (enemy.staggerGauge > 0)
+                        enemy.staggerGauge -= staggerDamaged;
+
+                    enemy.TakeDamage(damage);
+                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+                    break;
+                }
+            case Armored_Protection armored_Protection:
+                {
+                    float damage = armored_Protection.hpDamage;
+                    float postureDamaged = armored_Protection.postureDamage;
+                    float staggerDamaged = armored_Protection.staggerDamage;
+
+                    enemy._isPainTrigger = true;
+
+                    if (enemy._posture > 0)
+                        enemy._posture -= postureDamaged;
+                    if (enemy.staggerGauge > 0)
+                        enemy.staggerGauge -= staggerDamaged;
+
+                    enemy.TakeDamage(damage);
+                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+                    break;
+                }
         }
 
-        enemy._isPainTrigger = true;
-
-        if (enemy._posture > 0)
-            enemy._posture -= postureDamaged;
-        if (enemy.staggerGauge > 0)
-            enemy.staggerGauge -= staggerDamaged;
-
-        enemy.TakeDamage(damage);
-        enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+       
     }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);

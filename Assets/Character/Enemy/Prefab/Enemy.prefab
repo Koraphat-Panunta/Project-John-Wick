@@ -248,6 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 463041512469725749}
+  - component: {fileID: 5908462562219755892}
   m_Layer: 7
   m_Name: RayCastPos
   m_TagString: Untagged
@@ -263,13 +264,40 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363245527421253538}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.0000001872535, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.496, z: 0.124}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6454910191179571215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1773428102 &5908462562219755892
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363245527421253538}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 1.496, z: 0.124}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0.0000039565953, y: -0.026815653, z: 0.13340335}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 2906082121477527637}
+    weight: 1
 --- !u!1 &1372201388475654632
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,7 +646,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
   enemyHPbarDisplay: {fileID: 8440024617626377136}
-  bodyPartDamageRecivedSCRP: {fileID: 0}
+  bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 17a6691fe95497b4c93d02b2b264f9b0,
+    type: 2}
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
@@ -1340,6 +1369,7 @@ Transform:
   - {fileID: 5052746342045902257}
   - {fileID: 2861584278091384852}
   - {fileID: 3771087107018314454}
+  - {fileID: 864483812167061471}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1113618680042977909
@@ -1848,7 +1878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawnForceUp: 2.8
-  SpawnForceSide: 3.1
+  SpawnForceSide: 0.74
   AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
     type: 3}
   HpGetAbleObject: {fileID: 2275463908204227942, guid: bab5162ec9f0dfa4aa8a60bc256c35ee,
@@ -2477,6 +2507,111 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8643696947785815863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 864483812167061471}
+  - component: {fileID: 6073442766541891383}
+  - component: {fileID: 9069138010927027483}
+  - component: {fileID: 6522488341590940735}
+  m_Layer: 7
+  m_Name: MaskArmored
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &864483812167061471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643696947785815863}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.0000001872535, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0000039968804, y: 1.5228157, z: -0.009403348}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6454910191179571215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1773428102 &6073442766541891383
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643696947785815863}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: -0.0000039968804, y: 1.5228157, z: -0.009403348}
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_RotationOffsets:
+  - {x: 0, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 2906082121477527637}
+    weight: 1
+--- !u!65 &9069138010927027483
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643696947785815863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.16, y: 0.23814285, z: 0.08997965}
+  m_Center: {x: 7.959467e-16, y: 0.07499379, z: 0.08100784}
+--- !u!114 &6522488341590940735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643696947785815863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d90f9f45c1769748a9b2f092cc5020c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2619394019457856660}
+  enemyHPbarDisplay: {fileID: 8440024617626377136}
+  bodyPartDamageRecivedSCRP: {fileID: 0}
+  forceSave: {x: 0, y: 0, z: 0}
+  hitForcePositionSave: {x: 0, y: 0, z: 0}
+  isForceSave: 0
+  syncBodyPart: {fileID: 2622685816577133962}
+  armorHP: 50
+  armored_ProtectionSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
+    type: 2}
+  skinnedMeshRendererArmored: {fileID: 3866542549477129403}
 --- !u!1001 &972072574551711555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4012,6 +4147,12 @@ Transform:
 --- !u!4 &3743362739200504178 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5527258545086210911, guid: 35742cf5674a7674baafa24c668f698b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9171541949103051309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3866542549477129403 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5399652374227054230, guid: 35742cf5674a7674baafa24c668f698b,
     type: 3}
   m_PrefabInstance: {fileID: 9171541949103051309}
   m_PrefabAsset: {fileID: 0}

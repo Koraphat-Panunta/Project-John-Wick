@@ -37,6 +37,12 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     private void FixedUpdate()
     {
         if ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
+            || 
+            ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
+                && restrictGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
+                || 
+                ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction)
+                && humanShield_GunFuInteraction._timer < playerInfo.humanShiedlIFrame)
             || iFrameTime > 0)
         {
             setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations;
-
+[ExecuteInEditMode]
 public class Armored_Protection : BodyPart,IDamageVisitor
 {
     [SerializeField] public BodyPart syncBodyPart;
@@ -10,11 +10,11 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRendererArmored;
 
+    public float hpDamage { get; protected set; }
+    public float postureDamage { get; protected set; }
+    public float staggerDamage { get; protected set; }
 
 
-    private float originBody_hpReciverMultiplyRate;
-    private float originBody_postureReciverRate;
-    private float originBody_staggerReciverRate;
     protected override void Awake()
     {
         base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
@@ -43,10 +43,22 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         if(damageVisitor is Bullet bullet)
         {
             armorHP -= bullet._destructionDamage;
+            hpDamage = bullet._hpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate);
+            postureDamage = bullet._postureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate);
+            staggerDamage = bullet._hpDamage * (_staggerReciverRate * syncBodyPart._staggerReciverRate);
+
+            if (bullet.weapon.userWeapon != null && bullet.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+            {
+                hpDamage *= 0.35f;
+                postureDamage = 0;
+                staggerDamage = 0;
+            }
         }
+       
         if (armorHP <= 0)
             ArmoredDestroyed();
-        syncBodyPart.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
+
+        syncBodyPart.TakeDamage(this, hitPart, hitDir, hitforce);
     }
     
     protected virtual void ArmoredDestroyed()
@@ -58,23 +70,37 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     public void Attach(BodyPart attachable)
     {
-        this.originBody_hpReciverMultiplyRate = attachable._hpReciverMultiplyRate;
-        this.originBody_postureReciverRate = attachable._postureReciverRate;
-        this.originBody_staggerReciverRate = attachable._staggerReciverRate;
 
-        attachable._hpReciverMultiplyRate = this._hpReciverMultiplyRate * attachable._hpReciverMultiplyRate;
-        attachable._postureReciverRate = this._postureReciverRate * attachable._postureReciverRate;
-        attachable._staggerReciverRate = this._staggerReciverRate * attachable._staggerReciverRate;
 
     }
 
     public void Detach()
     {
 
-        syncBodyPart._hpReciverMultiplyRate = originBody_hpReciverMultiplyRate;
-        syncBodyPart._postureReciverRate = originBody_postureReciverRate;
-        syncBodyPart._staggerReciverRate = originBody_staggerReciverRate;
+    }
+    private void OnValidate()
+    {
+        if (gameObject.activeSelf)
+        {
+            if (skinnedMeshRendererArmored != null)
+                skinnedMeshRendererArmored.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (skinnedMeshRendererArmored != null)
+                skinnedMeshRendererArmored.gameObject.SetActive(false);
+        }
 
     }
-  
+    private void OnDisable()
+    {
+        if(skinnedMeshRendererArmored != null)
+            skinnedMeshRendererArmored.gameObject.SetActive(false);
+    }
+    private void OnEnable()
+    {
+        if (skinnedMeshRendererArmored != null)
+            skinnedMeshRendererArmored.gameObject.SetActive(true);
+    }
+
 }

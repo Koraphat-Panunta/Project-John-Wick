@@ -2,12 +2,22 @@ using UnityEngine;
 using System.Threading.Tasks;
 public partial class Player : I_IFrameAble
 {
+    [SerializeField] public float humanShiedlIFrame;
+    [SerializeField] public float restrictShieldIFrame;
     public bool _isIFrame { get 
         { 
             if(isIFrame)
                 return true;
             
             if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
+                return true;
+
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
+                && restrictGunFuStateNodeLeaf._timer < restrictShieldIFrame)
+                return true;
+
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction)
+               && humanShield_GunFuInteraction._timer < humanShiedlIFrame)
                 return true;
 
             return false;

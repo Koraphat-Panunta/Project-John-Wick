@@ -52,6 +52,9 @@ public class CoverPointShort : CoverPoint
     }
     private void OnDrawGizmos()
     {
+        if (isDrawGizmos == false)
+            return;
+
         if (coverPos == null || peekPos == null)
             return;
         Gizmos.color = Color.blue;
