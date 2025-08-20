@@ -39,7 +39,7 @@ public class BulletHitEvent : MonoBehaviour
                         ParticleSystem particle = particleSpark.Get();
                         particle.transform.position = hitPos;
                         particle.transform.forward = bulletDir * -1;
-                        _ = ParticleUpdate(particle);
+                        _ = ParticleUpdate(particle,particleSpark);
 
                         AudioSource hitSound = bulletHitSound.Get();
                         hitSound.transform.position = hitPos;
@@ -52,7 +52,7 @@ public class BulletHitEvent : MonoBehaviour
                         ParticleSystem particle = bloodSplits.Get();
                         particle.transform.position = hitPos;
                         particle.transform.forward = bulletDir * -1;
-                        _ = ParticleUpdate(particle);
+                        _ = ParticleUpdate(particle,bloodSplits);
 
                         AudioSource hitSound = bulletHitSound.Get();
                         hitSound.transform.position = hitPos;
@@ -65,14 +65,14 @@ public class BulletHitEvent : MonoBehaviour
         }
 
     }
-    private async Task ParticleUpdate(ParticleSystem particle)
+    private async Task ParticleUpdate(ParticleSystem particle,ObjectPooling<ParticleSystem> objectPoolingReturn)
     {
         particle.Play();
         while (particle.isPlaying)
         {
             await Task.Yield();
         }
-        particleSpark.ReturnToPool(particle);
+        objectPoolingReturn.ReturnToPool(particle);
     }
     private async Task AudioHitUpdate(AudioSource audioSource)
     {

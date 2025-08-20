@@ -72,7 +72,6 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         if (curPhase == MissionCompletePhase.FadeIn)
         {
             eplapesTime += Time.deltaTime;
-            Debug.Log("Opening eplapesTime fadeIn = " + eplapesTime);
 
             if (eplapesTime >= 1f)
             {

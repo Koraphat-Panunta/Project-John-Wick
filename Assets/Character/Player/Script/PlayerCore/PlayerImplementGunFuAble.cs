@@ -69,19 +69,22 @@ public partial class Player : IGunFuAble
         //    executedAbleGunFu = null;
         //if(attackedAbleGunFu != null && attackedAbleGunFu._character.isDead)
         //    attackedAbleGunFu = null;
+        if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>(out IGunFuExecuteNodeLeaf gunFuExecuteNode) == false)
+        {
+            if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
+                executedAbleGunFu = excecuteTarget;
+            else
+                executedAbleGunFu = null;
+        }
+            
 
-        if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode))
-            return;
-
-        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
-            executedAbleGunFu = excecuteTarget;
-        else
-            executedAbleGunFu = null;
-
-        if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
-            attackedAbleGunFu = target;
-        else
-            attackedAbleGunFu = null;
+        if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode) == false)
+        {
+            if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
+                attackedAbleGunFu = target;
+            else
+                attackedAbleGunFu = null;
+        }
     }
     #endregion
 }

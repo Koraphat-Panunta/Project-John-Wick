@@ -279,16 +279,19 @@ public class PlayerStateNodeManager : INodeManager
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I);
 
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
 
         gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
 
+        Hit1gunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         Hit1gunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
         Hit1gunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit1gunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
         humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanThrow_GunFuInteraction_NodeLeaf);
+        Hit2GunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
