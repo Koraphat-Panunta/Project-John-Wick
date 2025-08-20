@@ -82,6 +82,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public bool IsTargetInCoverSight()
     {
+
         Vector3 dirTotargetKnow = enemy.targetKnewPos - coverPoint.coverPos.position;
 
         float coverDirDotTargetDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, dirTotargetKnow);
