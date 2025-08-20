@@ -21,11 +21,13 @@ public abstract class EnemyFiringPattern
 
     protected virtual void Shoot()
     {
+
         if (isShootAble == false)
             return;
 
         if (DetectObstacle(1))
             return;
+
         enemyController.PullTrigger();
 
     }

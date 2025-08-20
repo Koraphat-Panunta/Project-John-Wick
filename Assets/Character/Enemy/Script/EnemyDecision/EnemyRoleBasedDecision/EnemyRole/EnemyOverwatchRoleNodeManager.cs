@@ -57,12 +57,17 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
 
                 if (enemy.coverPoint != null)
                     return true;
+               
 
                 if(enemyCommandAPI.FindCoverAndBook(overWatchZoneRaduis,enemy.targetKnewPos,out CoverPoint coverPoint))
                 {
+                    if (takeCoverEnemyActionNodeLeaf.IsTargetInCoverSight())
+                        return false;
+
                     overWatchZone.SetZone(coverPoint.coverPos.position);
                     return true;
                 }
+
                     
 
                 return false;

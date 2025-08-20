@@ -3,7 +3,7 @@
 public static class TransformWarper
 {
     /// <summary>
-    /// Warps a transform smoothly from enterPosition/enterRotation to targetPosition/targetRotation at interpolation t ∈ [0,1].
+    /// Warps a _transform smoothly from enterPosition/enterRotation to targetPosition/targetRotation at interpolation t ∈ [0,1].
     /// </summary>
     public static void WarpTransform(
         Vector3 enterPosition,

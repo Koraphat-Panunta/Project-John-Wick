@@ -2,7 +2,9 @@ using UnityEngine;
 using System.Threading.Tasks;
 public partial class Player : I_IFrameAble
 {
-    bool I_IFrameAble._isIFrame { get 
+    [SerializeField] public float humanShiedlIFrame;
+    [SerializeField] public float restrictShieldIFrame;
+    public bool _isIFrame { get 
         { 
             if(isIFrame)
                 return true;
@@ -10,10 +12,18 @@ public partial class Player : I_IFrameAble
             if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
                 return true;
 
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
+                && restrictGunFuStateNodeLeaf._timer < restrictShieldIFrame)
+                return true;
+
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction)
+               && humanShield_GunFuInteraction._timer < humanShiedlIFrame)
+                return true;
+
             return false;
             } set => isIFrame = value; }
-    public bool isIFrame { get; private set; }
-    private float iFrameTime;
+    private bool isIFrame { get;  set; }
+    public float iFrameTime { get; private set; }
     private async void TriggerIFrame(float iFrameTime)
     {
         if (this.iFrameTime > 0)
@@ -28,7 +38,8 @@ public partial class Player : I_IFrameAble
     private async Task TaskIFrame()
     {
         isIFrame = true;
-        while(this.iFrameTime > 0)
+
+        while (this.iFrameTime > 0)
         {
             this.iFrameTime -= Time.deltaTime;
             await Task.Yield();

@@ -145,6 +145,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
 
     public NodeSelector curWeaponManuverSelectorNode { get; protected set; }
     public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
+    public QuickSwitch_Draw_NodeLeaf quickSwitch_Draw_OnEmpty_NodeLeaf { get; protected set; }
     public NodeSelector quickSwitchExitSelector;
     public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf quickSwitch_HolsterSecondHandWeapon_To_Reload;
     public QuickSwitch_Reload_NodeLeaf quickSwitch_Reload_NodeLeaf;
@@ -207,7 +208,14 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
 
                 return false;
                 });
-
+        quickSwitch_Draw_OnEmpty_NodeLeaf = new QuickSwitch_Draw_NodeLeaf(weaponAdvanceUser, this,
+            () => weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null
+            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null
+            && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0 && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] <= 0
+            && isQuickSwtichWeaponManuverAble
+            && weaponAdvanceUser._isPullTriggerCommand
+            , player.quickSwitchDrawSCRP);
         quickSwitchExitSelector = new NodeSelector(
             ()=> (weaponAdvanceUser._isDrawPrimaryWeaponCommand 
             || weaponAdvanceUser._isDrawSecondaryWeaponCommand 
@@ -302,6 +310,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         curWeaponManuverSelectorNode.AddtoChildNode(dropWeaponManuverNodeLeaf);
+        curWeaponManuverSelectorNode.AddtoChildNode(quickSwitch_Draw_OnEmpty_NodeLeaf);
         curWeaponManuverSelectorNode.AddtoChildNode(quickSwitchExitSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
         curWeaponManuverSelectorNode.AddtoChildNode(switchDrawSecondaryNodeSelector);

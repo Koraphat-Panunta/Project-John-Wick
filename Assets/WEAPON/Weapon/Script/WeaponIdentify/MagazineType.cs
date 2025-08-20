@@ -54,6 +54,7 @@ public class ReloadMagazineLogic
            () => {
                if (weapon.userWeapon != null
                && weapon.userWeapon._isReloadCommand
+               && weapon.userWeapon._weaponManuverManager.isReloadManuverAble
               && weapon.userWeapon._weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
               &&weapon.bulletStore[BulletStackType.Magazine] <weapon.bulletCapacity)
                    return true;

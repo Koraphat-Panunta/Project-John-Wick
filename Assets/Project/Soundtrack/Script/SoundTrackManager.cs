@@ -32,7 +32,7 @@ public class SoundTrackManager : MonoBehaviour
     {
         StartCoroutine(Stop(fadeDuration));
     }
-
+    public AudioClip GetCurSoundTrack() => source.clip; 
     private float fadeElapesTime = 0;
     private IEnumerator Stop(float fadeDuration)
     {

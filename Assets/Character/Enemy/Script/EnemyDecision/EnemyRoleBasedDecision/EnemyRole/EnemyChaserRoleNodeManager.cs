@@ -79,7 +79,7 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
         enemyAlertActionSelectorNode.AddtoChildNode(moveToCombatZone);
         enemyAlertActionSelectorNode.AddtoChildNode(disarmTargetWeaponEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(approuchingTargetEnemyActionNodeLeaf);
-        enemyAlertActionSelectorNode.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
+        //enemyAlertActionSelectorNode.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(insistEnemyActionNodeLeaf);
         
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
@@ -95,7 +95,7 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
             yingYangCalculate -= Time.deltaTime * 2f;
         else if (curNodeLeaf is InsistEnemyActionNodeLeaf
             || curNodeLeaf is TakeCoverEnemyActionNodeLeaf)
-            yingYangCalculate += Time.deltaTime * 7f;
+            yingYangCalculate += Time.deltaTime * 15f;
 
         yingYangCalculate = Mathf.Clamp(yingYangCalculate,0, 100);
     }

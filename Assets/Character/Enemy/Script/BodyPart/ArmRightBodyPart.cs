@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class ArmRightBodyPart : BodyPart
 {
-    public override float hpReciverMultiplyRate { get; set; }
-    public override float postureReciverRate { get; set; }
+
     protected override void Start()
     {
-        hpReciverMultiplyRate = 0.25f;
-        postureReciverRate = 0.9f;
+       
         base.Start();
     }
     public override void TakeDamage(IDamageVisitor damageVisitor)

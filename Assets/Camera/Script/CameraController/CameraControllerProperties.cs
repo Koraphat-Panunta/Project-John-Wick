@@ -4,6 +4,7 @@ public partial class CameraController
 {
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSStandView_SCRP;
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSCrouchView_SCRP;
+    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSDodgeView_SCRP;
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraPerformGunFuWeaponDisarm_SCRP;
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraPerformGunFuHitView_SCRP;
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraTPSSprintView_SCRP;

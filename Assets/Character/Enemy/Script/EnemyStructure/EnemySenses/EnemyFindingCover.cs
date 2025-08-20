@@ -22,7 +22,7 @@ public class EnemyFindingCover
     //    // Step 1 เช็คObstacleว่าอยู่ในระยะและมองเห็นได้ //
     //    enemyCoverObstacles.Clear();
     //    coverPositionEnemies.Clear();
-    //    Collider[] col = Physics.OverlapSphere(_enemy.transform.position, raduisDetection, LayerMask.GetMask("Default"));
+    //    Collider[] col = Physics.OverlapSphere(_enemy._transform.position, raduisDetection, LayerMask.GetMask("Default"));
     //    if (col.Length <= 0)
     //    {
     //        return false;
@@ -46,7 +46,7 @@ public class EnemyFindingCover
     //                if (col[i].gameObject.tag != "IgnoreCover")
     //                {
     //                    //Debug.Log(col[i].tag);
-    //                    enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo, _enemy.transform.position));
+    //                    enemyCoverObstacles.Add(new EnemyCoverObstacle(col[i], hitInfo, _enemy._transform.position));
     //                }
     //            }
     //        }
@@ -113,7 +113,7 @@ public class EnemyFindingCover
     //            {
     //                if (collider.TryGetComponent<BoxCollider>(out BoxCollider boxCollider))
     //                {
-    //                    if (Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.x) % 360 != 0 ||Convert.ToInt32(boxCollider.transform.rotation.eulerAngles.z) % 360 != 0)
+    //                    if (Convert.ToInt32(boxCollider._transform.rotation.eulerAngles.x) % 360 != 0 ||Convert.ToInt32(boxCollider._transform.rotation.eulerAngles.z) % 360 != 0)
     //                    {
     //                        Bounds bounds = collider.bounds;
     //                        if (bounds.Contains(CoverPos) || bounds.Contains(AimPos)||bounds.Contains(CoverPosPivot))
@@ -173,7 +173,7 @@ public class EnemyFindingCover
     //                if (enemyInCol.GetHP() > 0 && enemyInCol != _enemy)
     //                {
     //                    Vector3 coverPos = coverPositionEnemies[i].coverPos;
-    //                    if (Vector3.Distance(enemyInCol.transform.position, new Vector3(coverPos.x, enemyInCol.transform.position.y, coverPos.z)) < 0.13f)
+    //                    if (Vector3.Distance(enemyInCol._transform.position, new Vector3(coverPos.x, enemyInCol._transform.position.y, coverPos.z)) < 0.13f)
     //                    {
     //                        coverPositionEnemies.RemoveAt(i);
     //                        break;
@@ -195,7 +195,7 @@ public class EnemyFindingCover
     //            {
     //                this.coverPositionEnemy = coverPositionEnemy;
     //            }
-    //            Vector3 DirTTE = _enemy.targetKnewPos.normalized- _enemy.transform.position.normalized;
+    //            Vector3 DirTTE = _enemy.targetKnewPos.normalized- _enemy._transform.position.normalized;
     //            Vector3 DirTTC = _enemy.targetKnewPos.normalized - coverPositionEnemy.coverPos.normalized;
 
     //            Vector3 DirTTc = _enemy.targetKnewPos.normalized - this.coverPositionEnemy.coverPos.normalized;

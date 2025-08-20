@@ -206,7 +206,7 @@ public partial class PlayerAnimationManager : INodeManager
             ,animator
             , "QuickSwitchDraw"
             ,1
-            ,0.1f);
+            ,0.2f);
         quickSwitchHolsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>()
             , animator
@@ -274,7 +274,7 @@ public partial class PlayerAnimationManager : INodeManager
         InitializedGunFuBasedLayer();
 
         dodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>(),
-            animator, "DodgeRoll",0,.2f);
+            animator, "DodgeRoll",0,.2f,0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
             animator, "Sprint", 0, .5f);
         moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(

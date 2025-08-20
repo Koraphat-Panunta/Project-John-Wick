@@ -30,9 +30,9 @@ public abstract class SubjectPlayer : Character
         //Dodge,
 
         GetShoot,
-        HumanShieldOpponentGetShoot,
         GetDamaged,
         HealthRegen,
+        TriggerIframe,
         //Dead,
 
         //TakeCover,

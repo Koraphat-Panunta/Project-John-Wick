@@ -69,6 +69,9 @@ public class CoverPointTallDoubleSide : CoverPoint
     }
     private void OnDrawGizmos()
     {
+        if (isDrawGizmos == false)
+            return;
+
         if (coverPos == null || peekPosL == null || peekPosR == null)
             return;
         Gizmos.color = Color.blue;

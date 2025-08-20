@@ -9,7 +9,9 @@ public class EnemyStandMoveStateNodeLeaf : EnemyStateLeafNode
     RotateObjectToward objectToward;
     NavMeshAgent agent;
     MovementCompoent enemyMovement => enemy._movementCompoent;
-  
+    private Vector3 moveInputVelocity_WorldCommand;
+    private Vector3 lookRotationCommand;
+
     public EnemyStandMoveStateNodeLeaf(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.objectToward = new RotateObjectToward();
@@ -32,15 +34,16 @@ public class EnemyStandMoveStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-
-        this.enemyMovement.MoveToDirWorld(enemy.moveInputVelocity_WorldCommand, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.IgnoreMomenTum);
-        this.enemyMovement.RotateToDirWorld(enemy.lookRotationCommand, enemy.moveRotateSpeed);
+        this.enemyMovement.MoveToDirWorld(moveInputVelocity_WorldCommand, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
+        this.enemyMovement.RotateToDirWorld(lookRotationCommand, enemy.moveRotateSpeed);
 
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
+        this.moveInputVelocity_WorldCommand = enemy.moveInputVelocity_WorldCommand;
+        this.lookRotationCommand = enemy.lookRotationCommand;
         base.UpdateNode();
     }
 }

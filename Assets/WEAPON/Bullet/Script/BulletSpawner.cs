@@ -10,20 +10,20 @@ public class BulletSpawner : MonoBehaviour
     public void SpawnBullet(Weapon weapon)
     {
         Transform transform = gameObject.transform;
-        //GameObject Bullet = Instantiate(weapon.bullet, transform.position, gameObject.transform.rotation);
+        //GameObject Bullet = Instantiate(weapon.bullet, _transform.position, gameObject._transform.rotation);
         Vector3 shootPos = weapon.userWeapon._shootingPos;
-        //Bullet.GetComponent<Bullet>().Execute(transform.position,shootPos);
+        //Bullet.GetComponent<Bullet>().Execute(_transform.position,shootPos);
 
-        //BulletObj thisBullet = Instantiate(bulletObj, transform.position, Quaternion.identity);
+        //BulletObj thisBullet = Instantiate(bulletObj, _transform.position, Quaternion.identity);
         //thisBullet.bullet = weapon.bullet;
-        //thisBullet.travelDri = (shootPos - transform.position).normalized ;    
+        //thisBullet.travelDri = (shootPos - _transform.position).normalized ;    
         Vector3 bulletHitPos = weapon.bullet.Shoot(transform.position, shootPos);
 
        
         StartCoroutine(SpawnTrail(transform.position, bulletHitPos, this.bulletTrail));
         //if(weapon._userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
-        //    Bullet.GetComponent<Bullet>().Execute(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject.transform.position));
+        //    Bullet.GetComponent<Bullet>().Execute(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject._transform.position));
         //}
         //else if((weapon._userWeapon.TryGetComponent<Enemy>(out Enemy _enemy)))
         //{

@@ -19,4 +19,7 @@ public class GunFuHitScriptableObject : ScriptableObject
     public float ExitTime_Normalized;
     [Range(0, 1)]
     public float TransitionAbleTime_Normalized;
+
+    [Range(0, 100)]
+    public float staggerHitDamage;
 }

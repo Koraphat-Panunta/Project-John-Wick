@@ -15,15 +15,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override bool IsReset()
     {
-        Vector3 dirTotargetKnow = enemy.targetKnewPos - coverPoint.coverPos.position;
-
-        float coverDirDotTargetDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, dirTotargetKnow);
-        float coverDirDotCoverDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, coverPoint.coverDir * this.coverPointThreatDistance);
-
-        Debug.Log("coverDirDotTargetDir = " + coverDirDotTargetDir);
-        Debug.Log("coverDirDotCoverDir = " + coverDirDotCoverDir);
-
-        if(coverDirDotTargetDir < coverDirDotCoverDir)
+        if (IsTargetInCoverSight())
             return true;
 
         return base.IsReset();
@@ -86,6 +78,23 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill: enemyCommandAPI.LowReady(); break;
         }
+    }
+
+    public bool IsTargetInCoverSight()
+    {
+
+        Vector3 dirTotargetKnow = enemy.targetKnewPos - coverPoint.coverPos.position;
+
+        float coverDirDotTargetDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, dirTotargetKnow);
+        float coverDirDotCoverDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, coverPoint.coverDir * this.coverPointThreatDistance);
+
+        Debug.Log("coverDirDotTargetDir = " + coverDirDotTargetDir);
+        Debug.Log("coverDirDotCoverDir = " + coverDirDotCoverDir);
+
+        if (coverDirDotTargetDir < coverDirDotCoverDir)
+            return true;
+
+        return false;
     }
   
 }

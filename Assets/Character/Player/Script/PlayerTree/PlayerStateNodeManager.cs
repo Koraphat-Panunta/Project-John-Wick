@@ -125,7 +125,8 @@ public class PlayerStateNodeManager : INodeManager
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
             && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
-            && player._currentWeapon is SecondaryWeapon)
+            && player._currentWeapon is SecondaryWeapon
+            && (player.executedAbleGunFu._character as IFallDownGetUpAble)._isFallDown == false)
             ,player.gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I);
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,
@@ -200,6 +201,7 @@ public class PlayerStateNodeManager : INodeManager
         Hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)) )
             && this.player.attackedAbleGunFu != null
+            && this.player.attackedAbleGunFu._character.isDead == false
             ,this.player.hit1);
 
         restrictGunFuStateNodeLeaf = new RestrictGunFuStateNodeLeaf(player.restrictScriptableObject, player,
@@ -216,7 +218,7 @@ public class PlayerStateNodeManager : INodeManager
         weaponDisarmSelector = new PlayerSelectorStateNode(this.player,
             () => 
             {
-                if(player._isPickingUpWeaponCommand && player.attackedAbleGunFu != null)
+                if((player._isPickingUpWeaponCommand || player.commandBufferManager.TryGetCommand(nameof(player._isPickingUpWeaponCommand))) && player.attackedAbleGunFu != null)
                 {
                     if(player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon != null)
                         return true;
@@ -235,10 +237,11 @@ public class PlayerStateNodeManager : INodeManager
         humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
             () => this.player._isAimingCommand
             && this.player.attackedAbleGunFu != null
+            && this.player.attackedAbleGunFu._character.isDead == false
+
             , this.player.humanShield);
         humanThrow_GunFuInteraction_NodeLeaf = new HumanThrowGunFuInteractionNodeLeaf(this.player,
             () => this.player._isAimingCommand == false 
-            || humanShield_GunFuInteraction_NodeLeaf.gotGunExecutedAble._character.isDead
             || humanShield_GunFuInteraction_NodeLeaf.isComplete,
             player.humanThrow);
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 

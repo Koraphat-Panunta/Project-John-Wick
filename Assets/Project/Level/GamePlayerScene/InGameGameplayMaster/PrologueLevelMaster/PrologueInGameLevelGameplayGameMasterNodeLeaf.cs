@@ -16,6 +16,7 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
     public ITaskingExecute showGunFuTutorial;
 
     private Door doorA21 => gameMaster.door_A21;
+    private bool isDodge;
     private bool isMove;
     private bool isSprint;
     private bool isPickingUpWeapon;
@@ -23,9 +24,17 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
     private bool isReload;
     private bool isExecute;
     private float showExecuteRefill_time = 6;
+
+    public bool isComplete { get 
+        {
+            if(gameMaster.enemyDirectirA5.gameObject.activeSelf && gameMaster.enemyDirectirA5.allEnemiesAliveCount <= 0 )
+                return true;
+            return false;
+        } }
+    
     public PrologueInGameLevelGameplayGameMasterNodeLeaf(PrologueLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-
+        
         tutorialHintTask = new Queue<ITaskingExecute>();
 
         gameMaster.enemyDirectorA2.gameObject.SetActive(false);
@@ -47,12 +56,14 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
 
     public override void Enter()
     {
+        
         gameMaster.player.AddObserver(this);
         base.Enter();
     }
 
     public override void Exit()
     {
+      
         gameMaster.player.RemoveObserver(this);
         base.Exit();
     }
@@ -73,6 +84,9 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
 
         if(node is PlayerSprintNode)
             isSprint = true;
+
+        if(node is PlayerDodgeRollStateNodeLeaf)
+            isDodge = true;
 
         if(player._currentWeapon != null)
             isPickingUpWeapon = true;
@@ -95,8 +109,15 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
     {
         if(gameMaster.enemyDirectorA2.gameObject.activeSelf == false)
         {
-            if(gameMaster.door_A21.isOpen)
+            if (gameMaster.door_A21.isOpen)
+            {
                 gameMaster.enemyDirectorA2.gameObject.SetActive(true);
+                try
+                {
+                    gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theHotelTrack);
+                }
+                catch { }
+            }
         }
         if(gameMaster.enemyDirectirA3.gameObject.activeSelf == false)
         {
@@ -132,8 +153,7 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
         movementTutorial = new TutorialHintTasking(gameMaster.movementHint,
             () =>
             {
-                if ((isMove && isSprint)
-                || (isPickingUpWeapon))
+                if ((isMove && isSprint && isDodge) || shootCount <=0)
                     return true;
                 return false;
             });
@@ -188,7 +208,10 @@ public class PrologueInGameLevelGameplayGameMasterNodeLeaf : InGameLevelGamplayG
                 return true;
             });
     }
-
+    public override bool IsComplete()
+    {
+        return isComplete;
+    }
     private class TutorialHintTasking : ITaskingExecute
     {
         private GameObject tutorialGUI;

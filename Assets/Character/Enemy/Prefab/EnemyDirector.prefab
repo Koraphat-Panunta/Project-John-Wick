@@ -45,16 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesRole: []
-  MAX_ChaserCount: 3
+  MAX_ChaserCount: 2
   chaserCount: 0
   overwatchCount: 0
-  chaserChangeDelay: 5
+  chaserChangeDelay: 2
   assingTime: 0
   player: {fileID: 0}
   maxNumberChaserShooter: 2
-  maxNumberOverwatchShooter: 3
-  delayChaserShooterPoint: 0.25
-  delayOverwatchShooterPoint: 0.75
+  maxNumberOverwatchShooter: 1
+  delayChaserShooterPoint: 0.1
+  delayOverwatchShooterPoint: 0.25
   chaserShooterPoint: 0
   overwatchShooterPoint: 0
   yieldShooterOnPlayerAim: 0.28

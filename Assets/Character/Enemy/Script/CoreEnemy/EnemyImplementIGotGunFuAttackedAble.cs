@@ -24,6 +24,8 @@ public partial class Enemy : IGotGunFuAttackedAble
             }
             if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
                 return false;
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+                return false;
 
             return true;
         }
@@ -35,9 +37,6 @@ public partial class Enemy : IGotGunFuAttackedAble
         {
 
             if (isStagger)
-                return true;
-
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
                 return true;
 
             return false;
@@ -61,6 +60,7 @@ public partial class Enemy : IGotGunFuAttackedAble
         _triggerHitedGunFu = true;
         curAttackerGunFuNode = gunFu_NodeLeaf;
         gunFuAbleAttacker = attacker;
+        TakeDamage(gunFu_NodeLeaf);
     }
     #endregion
 }

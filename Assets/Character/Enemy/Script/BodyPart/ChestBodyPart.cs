@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class ChestBodyPart : BodyPart
 {
-    public override float hpReciverMultiplyRate { get; set; }
-    public override float postureReciverRate { get; set; }
+
 
     protected override void Start()
     {
-        hpReciverMultiplyRate = 1.0f;
-        postureReciverRate = 1.0f;
         base.Start();
     }
     

@@ -12,6 +12,7 @@ public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameM
         this.pauseUICanvas = pauseUICanvas;
         gameMaster.user.userInput.PauseAction.PauseTrigger.performed += this.TriggerPause;
         pauseUICanvas.resume.onClick.AddListener(() => isPause = false);
+        pauseUICanvas.exit.onClick.AddListener(() => gameMaster.gameManager.ExitToMainMenu());
     }
 
     public override void Enter()

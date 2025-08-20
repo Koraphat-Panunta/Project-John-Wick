@@ -6,6 +6,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
+    private float phaseTimer;
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunExecutedAble { get => player.attackedAbleGunFu; set { } }
     public AnimationClip _animationClip { get; set; }
@@ -41,6 +42,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
 
     public override void Enter()
     {
+        _timer = 0;
         base.isComplete = false;
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
         isRestrictExitHit = false;
@@ -83,15 +85,16 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
 
     public override void UpdateNode()
     {
+        _timer += Time.deltaTime;
         switch (curRestrictGunFuPhase)
         {
             case RestrictGunFuPhase.Enter:
                 {
-                    _timer += Time.deltaTime;
+                    phaseTimer += Time.deltaTime;
 
                     player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
 
-                    float w = _timer / restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized;
+                    float w = phaseTimer / restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized;
                    
 
                     gotGunExecutedAble._character.transform.position = Vector3.Lerp(
@@ -108,17 +111,17 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
 
        
 
-                    if (_timer >= restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized)
+                    if (phaseTimer >= restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized)
                     {
                         curRestrictGunFuPhase = RestrictGunFuPhase.Stay;
-                        _timer = 0;
+                        phaseTimer = 0;
                         player.NotifyObserver(player, this);
                     }
                 }
                 break;
             case RestrictGunFuPhase.Stay:
                 {
-                    _timer += Time.deltaTime;
+                    phaseTimer += Time.deltaTime;
 
                     gotGunExecutedAble._character.transform.position = targetAdjustPosition;
                     gotGunExecutedAble._character.transform.rotation = targetAdjustRotation;
@@ -131,10 +134,10 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     if (gotGunExecutedAble._character.isDead)
                         isComplete = true;
 
-                    if(_timer >= StayDuration
+                    if(phaseTimer >= StayDuration
                         ||(player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() == false)
                     {
-                        _timer = 0;
+                        phaseTimer = 0;
                        curRestrictGunFuPhase = RestrictGunFuPhase.Exit;
                         player.NotifyObserver(player, this);
                     }
@@ -142,14 +145,14 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                 break;
             case RestrictGunFuPhase.Exit:
                 {
-                    _timer += Time.deltaTime;
+                    phaseTimer += Time.deltaTime;
                     player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
                     if(isRestrictExitHit == false)
                     {
                         gotGunExecutedAble._character.transform.position = targetAdjustPosition;
                         gotGunExecutedAble._character.transform.rotation = targetAdjustRotation;
                     }
-                    if (isRestrictExitHit == false && _timer > restrictExitClip.length * restrictScriptableObject.restrictExit_hitNormalized)
+                    if (isRestrictExitHit == false && phaseTimer > restrictExitClip.length * restrictScriptableObject.restrictExit_hitNormalized)
                     {
                         if(gotGunExecutedAble._character._movementCompoent is IMotionImplusePushAble movePush)
                         {
@@ -165,11 +168,11 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                 }
             case RestrictGunFuPhase.ExitAttack:
                 {
-                    _timer += Time.deltaTime;
-                    if (_timer >= restrictExitClip.length * restrictScriptableObject.restrictExit_exitNormalized)
+                    phaseTimer += Time.deltaTime;
+                    if (phaseTimer >= restrictExitClip.length * restrictScriptableObject.restrictExit_exitNormalized)
                     {
                         isComplete = true;
-                        _timer = 0;
+                        phaseTimer = 0;
                     }
                 }
                 break;

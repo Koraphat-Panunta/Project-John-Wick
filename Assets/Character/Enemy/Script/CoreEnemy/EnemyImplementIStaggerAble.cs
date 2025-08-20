@@ -7,8 +7,7 @@ public partial class Enemy : IStaggerAble
         get 
         {
 
-            if (( staggerGauge <= 0
-                || _isFallDown)
+            if (( staggerGauge <= 0)
                 && (isDead == false))
                 return true;
             return false;
@@ -19,4 +18,5 @@ public partial class Enemy : IStaggerAble
     [SerializeField] private float _maxStaggerGauge;
     public float maxStaggerGauge => _maxStaggerGauge;
     public RecoveryStaggerNodeLeaf recoveryStaggerNodeLeaf { get; set; }
+    Character IStaggerAble._character { get => this ; set {} }
 }

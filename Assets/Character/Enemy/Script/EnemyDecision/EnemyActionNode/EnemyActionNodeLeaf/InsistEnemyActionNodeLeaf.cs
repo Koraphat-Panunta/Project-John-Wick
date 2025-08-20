@@ -49,7 +49,8 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
-                    if (Vector3.Distance(insistPos, enemy.transform.position) < distance)
+                    if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
+                        && Vector3.Distance(enemy.transform.position, enemy.targetKnewPos) > 4f)
                         enemyCommandAPI.MoveToPosition(enemy.targetKnewPos, enemy.moveMaxSpeed);
                     else
                         enemyCommandAPI.FreezPosition();

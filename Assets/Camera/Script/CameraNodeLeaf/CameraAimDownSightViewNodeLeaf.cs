@@ -16,13 +16,11 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
     }
     public override void Enter()
     {
-        Debug.Log("CameraAimDownSightViewNodeLeaf Enter");
         base.Enter();
     }
 
     public override void Exit()
     {
-        Debug.Log("CameraAimDownSightViewNodeLeaf Exit");
         base.Exit();
     }
 

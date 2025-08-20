@@ -77,6 +77,7 @@ public class NodeManagerBehavior
 
         if (NodeBehavior.TryGetRootNodeAs<T>(nodeManager.GetCurNodeLeaf(), out T rootNodeLeaf))
             return true;
+
         return false;
     }
     public bool TryGetCurNodeLeafAs<T>(out T nodeLeaf,INodeManager nodeManager) where T : INodeLeaf

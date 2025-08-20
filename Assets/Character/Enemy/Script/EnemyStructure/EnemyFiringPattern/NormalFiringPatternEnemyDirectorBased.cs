@@ -9,10 +9,10 @@ public class NormalFiringPatternEnemyDirectorBased : NormalFiringPattern
         this.enemyDirector = enemyDirector;
         this.enemyRoleBasedDecision = enemyRoleBasedDecision;
     }
-    protected override void Shoot()
+    protected override void WillShoot()
     {
-        if(enemyDirector.GetShooterPermission(enemyRoleBasedDecision))
-        base.Shoot();
+        if (enemyDirector.GetShooterPermission(enemyRoleBasedDecision))
+            base.WillShoot();
     }
 
 

@@ -321,7 +321,7 @@
                     "id": "a78f254c-ae72-4e34-98d1-f1191151eb99",
                     "path": "2DVector(mode=2)",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=8.53,y=3.88)",
+                    "processors": "ScaleVector2(x=10,y=5)",
                     "groups": "",
                     "action": "Look",
                     "isComposite": true,
@@ -495,7 +495,7 @@
                 {
                     "name": "",
                     "id": "0281fe30-3535-4924-b503-78c7c4168e5f",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -516,6 +516,17 @@
                 },
                 {
                     "name": "",
+                    "id": "16ba6035-24cd-42a3-a37c-d6d4aa841b48",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleChangeStance",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a396e759-2543-4ce5-a52d-c6367f45a656",
                     "path": "<Keyboard>/space",
                     "interactions": "Press",
@@ -527,8 +538,30 @@
                 },
                 {
                     "name": "",
+                    "id": "60e6aa35-753a-472b-9e4c-f701577f45a9",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerDodgeRoll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "41ac34d3-cff2-4c91-85d6-876d1de53a3c",
                     "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerPickingUpWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "136ce3bb-c90e-435a-8fed-85d40ad10f11",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -560,8 +593,30 @@
                 },
                 {
                     "name": "",
+                    "id": "934a4c3c-7634-487b-8ff8-6424df3aff88",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerSwitchDrawPrimary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8a6fda00-eeeb-428c-9633-fcde3206ecbe",
                     "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerSwitchDrawSecondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4b1f7ff-cf79-43c9-99b8-083c99f4e9ff",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

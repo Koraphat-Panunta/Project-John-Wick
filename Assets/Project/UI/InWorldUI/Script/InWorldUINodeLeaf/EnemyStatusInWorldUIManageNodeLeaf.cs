@@ -17,7 +17,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         ,IGunFuAble gunFuAble
         , InWorldUI enemyStatusInWorldUI) : base(preCondition)
     {
-        this.fieldOfView = new FieldOfView(7.5f,90,camera.transform);
+        this.fieldOfView = new FieldOfView(19f,90,camera.transform);
         this.gunFuAble = gunFuAble;
         objectPooling = new ObjectPooling<InWorldUI>(enemyStatusInWorldUI,10,5,Vector3.zero);
         assignInWorldEnemy = new Dictionary<Enemy, InWorldUI>();

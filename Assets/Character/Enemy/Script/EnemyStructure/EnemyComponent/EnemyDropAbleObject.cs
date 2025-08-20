@@ -4,10 +4,10 @@ using UnityEngine;
 public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
 {
     protected Enemy enemy;
-    bool isAlreadyExecuted;
-    bool isBeenExecute;
+    bool isAlreadyDrop;
 
     [SerializeField] protected AmmoGetAbleObject AmmoGetAbleObject;
+    [SerializeField] protected HpGetAbleObject HpGetAbleObject;
 
     void IObserverEnemy.Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
@@ -15,19 +15,22 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
 
     public void Notify<T>(Enemy enemy, T node) where T : INode
     {
-       if(node is IGotGunFuExecuteNodeLeaf gotGunFuExecuteNodeLeaf)
-            isBeenExecute = true;
+     
 
-       if(node is EnemyDeadStateNode && isBeenExecute && isAlreadyExecuted == false)
+
+       if(node is EnemyDeadStateNode && isAlreadyDrop == false)
         {
-            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(7, 10);
+            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(5, 7);
+            HpGetAbleObject.amoutOfHpAdd = 25;
             base.DropObject(AmmoGetAbleObject);
-            isAlreadyExecuted = true;
+            base.DropObject(HpGetAbleObject);
+            isAlreadyDrop = true;
+            return;
         }
+
     }
     private void Awake()
     {
-        isAlreadyExecuted = false;
         enemy = GetComponent<Enemy>();
         enemy.AddObserver(this);
     }

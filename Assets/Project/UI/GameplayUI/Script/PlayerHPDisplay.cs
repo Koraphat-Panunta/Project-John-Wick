@@ -8,6 +8,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 {
     [SerializeField] private RawImage front_HP_bar_image;
     [SerializeField] private RawImage back_HP_bar_image;
+    [SerializeField] private Image iframe_HP_image;
 
     [SerializeField] private Color positiveHP_Bar_Color;
     [SerializeField] private Color negativeHP_Bar_Color;
@@ -15,10 +16,14 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     [SerializeField] private Player playerInfo;
 
     [Range(0, 1)]
-    [SerializeField] private float changeVelocityBar; 
+    [SerializeField] private float changeVelocityBar;
 
-    private float curHP_OnBar => (playerInfo.GetHP()/playerInfo.GetMaxHp());
+    private float curHP_OnBar => (playerInfo.GetHP() / playerInfo.GetMaxHp());
     private float saveHP;
+
+    float alphaColorIframeUI = 0;
+    float changeSpeed = 29f;
+    SetAlphaColorUI setAlphaColorUI = new SetAlphaColorUI();
     private void Awake()
     {
         playerInfo.AddObserver(this);
@@ -28,6 +33,28 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     {
         UpdateInfo();
     }
+    private float iFrameTime = 0;   
+    private void FixedUpdate()
+    {
+        if ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
+            || 
+            ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
+                && restrictGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
+                || 
+                ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction)
+                && humanShield_GunFuInteraction._timer < playerInfo.humanShiedlIFrame)
+            || iFrameTime > 0)
+        {
+            setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);
+            alphaColorIframeUI = Mathf.Clamp01(alphaColorIframeUI + (Time.deltaTime * changeSpeed));
+            iFrameTime -= Time.deltaTime;   
+        }
+        else
+        {
+            alphaColorIframeUI = Mathf.Clamp01(alphaColorIframeUI - (Time.deltaTime * changeSpeed));
+            setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);
+        }
+    }
     private void OnValidate()
     {
         playerInfo = FindAnyObjectByType<Player>();
@@ -35,7 +62,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 
     public void UpdateInfo()
     {
-        if(tokenSource != null)
+        if (tokenSource != null)
         {
             tokenSource.Cancel();
             tokenSource.Dispose();
@@ -46,7 +73,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 
         if (saveHP < curHP_OnBar)
         {
-           _ = UpdatePositiveHP(tokenSource.Token);
+            _ = UpdatePositiveHP(tokenSource.Token);
         }
         else
         {
@@ -66,11 +93,11 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 
         try
         {
-            while(this.front_HP_bar_image.rectTransform.localScale.y < this.curHP_OnBar)
+            while (this.front_HP_bar_image.rectTransform.localScale.y < this.curHP_OnBar)
             {
                 token.ThrowIfCancellationRequested();
 
-                this.front_HP_bar_image.rectTransform.localScale 
+                this.front_HP_bar_image.rectTransform.localScale
                     = new Vector2(front_HP_bar_image.rectTransform.localScale.x, front_HP_bar_image.rectTransform.localScale.y + (Time.deltaTime * changeVelocityBar));
 
                 await Task.Yield();
@@ -85,14 +112,14 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
                    = new Vector2(front_HP_bar_image.rectTransform.localScale.x, this.curHP_OnBar);
             /*Task been Cancel*/
         }
-    } 
+    }
     private async Task UpdateNegativeHP(CancellationToken token)
     {
 
         this.back_HP_bar_image.color = negativeHP_Bar_Color;
         this.front_HP_bar_image.rectTransform.localScale
             = new Vector2(this.front_HP_bar_image.rectTransform.localScale.x, curHP_OnBar);
-     
+
         try
         {
             while (this.back_HP_bar_image.rectTransform.localScale.y > this.curHP_OnBar)
@@ -101,7 +128,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 
                 this.back_HP_bar_image.rectTransform.localScale
                     = new Vector2(this.back_HP_bar_image.rectTransform.localScale.x
-                    ,Mathf.MoveTowards(this.back_HP_bar_image.rectTransform.localScale.y,this.curHP_OnBar,this.changeVelocityBar * Time.deltaTime));
+                    , Mathf.MoveTowards(this.back_HP_bar_image.rectTransform.localScale.y, this.curHP_OnBar, this.changeVelocityBar * Time.deltaTime));
 
                 await Task.Yield();
             }
@@ -119,15 +146,15 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
         }
     }
 
-
-    public override void EnableUI() 
+    
+    public override void EnableUI()
     {
         this.front_HP_bar_image.enabled = true;
         this.back_HP_bar_image.enabled = true;
     }
-    public override void DisableUI() 
-    { 
-        this.front_HP_bar_image.enabled = false; 
+    public override void DisableUI()
+    {
+        this.front_HP_bar_image.enabled = false;
         this.back_HP_bar_image.enabled = false;
     }
     private void OnDisable()
@@ -152,6 +179,8 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
             {
                 UpdateInfo();
             }
+            if(playerEvent == SubjectPlayer.NotifyEvent.TriggerIframe)
+                iFrameTime = playerInfo.iFrameTime;
         }
     }
 }

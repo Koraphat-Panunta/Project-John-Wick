@@ -2,14 +2,9 @@ using UnityEngine;
 
 public class LegRightBodyPart : BodyPart
 {
-    public override float hpReciverMultiplyRate { get; set; }
-    public override float postureReciverRate { get; set; }
-
     protected override void Start()
     {
         base.Start();
-        hpReciverMultiplyRate = 0.5f;
-        postureReciverRate = 2f;
     }
    
     public override void TakeDamage(IDamageVisitor damageVisitor)

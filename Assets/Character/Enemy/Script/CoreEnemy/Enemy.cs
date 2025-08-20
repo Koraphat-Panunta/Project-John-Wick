@@ -41,7 +41,6 @@ public partial class Enemy : SubjectEnemy
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;
-
     protected override void Awake()
     {
         base.Awake();
@@ -67,7 +66,12 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
-   
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     [SerializeField] private float _staggerGauge;
     [SerializeField] private bool isGround;
     void Update()
@@ -110,10 +114,19 @@ public partial class Enemy : SubjectEnemy
 
         if (damageVisitor is Bullet bullet)
         {
-            TakeDamage(bullet.hpDamage);
+            TakeDamage(bullet._hpDamage);
             bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
             NotifyObserver(this, EnemyEvent.GotBulletHit);
+        }
+        if(damageVisitor is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+        {
+            if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+            {
+
+                if (this.staggerGauge > 0)
+                    this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
+            }
         }
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
@@ -137,6 +150,7 @@ public partial class Enemy : SubjectEnemy
         _isPickingUpWeaponCommand = false;
         _isPullTriggerCommand = false;
         _triggerGunFu = false;
+        moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
 
@@ -367,6 +381,11 @@ public partial class Enemy : SubjectEnemy
 
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
+
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
+                || enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+                return true;
+
             return false;
         } set { } }
     public float _posture { get => posture; set => posture = value; }
@@ -461,7 +480,7 @@ public partial class Enemy : SubjectEnemy
         Gizmos.DrawSphere(transform.position, 0.15f);
 
         //Gizmos.color = Color.green;
-        //Gizmos.DrawRay(transform.position, transform.forward);
+        //Gizmos.DrawRay(_transform.position, _transform.forward);
     }
 
    

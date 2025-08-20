@@ -236,7 +236,7 @@ public class EnemyStateManagerNode : INodeManager
         enemyCombineNode = new NodeCombine(()=>true,()=> false);
 
         enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
-            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,4);
+            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,8);
 
         enemyStateSelector = new NodeSelector(() => true);
 
@@ -272,7 +272,12 @@ public class EnemyStateManagerNode : INodeManager
             );
 
         enemyStandMoveState = new EnemyStandMoveStateNodeLeaf(this.enemy,
-            () => this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
+            () =>
+            {
+                if (this.enemy.moveInputVelocity_WorldCommand.magnitude > 0)
+                    return true;
+            return false;
+            }
             );
 
         enemyStandTakeCoverState = new EnemyStandTakeCoverStateNodeLeaf(this.enemy,

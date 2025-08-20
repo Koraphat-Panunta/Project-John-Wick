@@ -9,6 +9,8 @@ public abstract class CoverPoint : MonoBehaviour
     public Vector3 coverDir;
     public FieldOfView fieldOfView;
     public ICoverUseable coverUser;
+
+    [SerializeField] protected bool isDrawGizmos;
     public abstract float fovDistance { get; set; }
     public abstract float fovAngleDegrees { get; set; }
     protected virtual void Start()

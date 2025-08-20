@@ -127,7 +127,6 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public Vector3 humanShieldGetShootDir { get; private set; }
     public void HumanShieldedOpponentGotShoot(Vector3 hitDir)
     {
-        player.NotifyObserver(player, SubjectPlayer.NotifyEvent.HumanShieldOpponentGetShoot);
         humanShieldGetShootDir = hitDir;
     }
 

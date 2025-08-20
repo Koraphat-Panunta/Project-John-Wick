@@ -319,7 +319,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.696
+  m_Volume: 0.504
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -340,89 +340,17 @@ AudioSource:
     - serializedVersion: 3
       time: 0.002
       value: 1
-      inSlope: -500.20065
-      outSlope: -500.20065
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.004
-      value: 0.5
-      inSlope: -125.05016
-      outSlope: -125.05016
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.008
-      value: 0.25
-      inSlope: -31.26254
-      outSlope: -31.26254
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.011925904
-      value: 0.11602783
-      inSlope: -7.815635
-      outSlope: -7.815635
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.018751558
-      value: 0.040100098
-      inSlope: -1.9539088
-      outSlope: -1.9539088
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.06298529
-      value: 0.0072631836
-      inSlope: -0.4884772
-      outSlope: -0.4884772
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.13411115
-      value: 0.009643555
-      inSlope: -0.1221193
-      outSlope: -0.1221193
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.256
-      value: 0.0078125
-      inSlope: -0.030529825
-      outSlope: -0.030529825
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.512
-      value: 0.00390625
-      inSlope: -0.0076324563
-      outSlope: -0.0076324563
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0.002
-      inSlope: -0.002000801
-      outSlope: -0.002000801
+      time: 0.10101318
+      value: 0
+      inSlope: -1.002004
+      outSlope: -1.002004
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -435,7 +363,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -489,10 +417,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source_Sound: {fileID: 5323522424945707105}
   firing: {fileID: 8300000, guid: f4c3ad2ba59a39e4cbc08b35277b0e32, type: 3}
-  trigger: {fileID: 0}
+  trigger: {fileID: 8300000, guid: 27bee43cad8e7f8439dcaf6f88b79e79, type: 3}
   reload_1: {fileID: 8300000, guid: e7e5934352627ee4893b01f0d6f9e215, type: 3}
   reload_2: {fileID: 8300000, guid: e8ca3a79335f0bf47a59089d06ea344e, type: 3}
-  reload_3: {fileID: 8300000, guid: d293ca5060cf60641a224ac0981935b3, type: 3}
+  reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
   weapon: {fileID: 0}
 --- !u!65 &1475053527945465068
 BoxCollider:
@@ -594,6 +522,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 689629234585156760}
+    - targetCorrespondingSourceObject: {fileID: 8952477213709997539, guid: 2796d983e13486c45acbcb2041aeb034,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5810314684116479246}
   m_SourcePrefab: {fileID: 100100000, guid: 2796d983e13486c45acbcb2041aeb034, type: 3}
 --- !u!114 &1537619354982768088 stripped
 MonoBehaviour:
@@ -657,7 +589,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1, y: 0.69837266, z: 0.33018857, w: 0}
+        m_Name: Muzzle Color
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -715,6 +650,26 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5810314684116479246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4152936242715084652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bee9eb31c39070f408352f6dda59b8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 2761170129473076366}
+  spark: {fileID: 7440191685052868192, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
+  bloodSplit: {fileID: 1903839483200921912, guid: dce64985075625d4dad0262be6a758df,
+    type: 3}
+  bulletHitPrefab: {fileID: 3939261903344632742, guid: c89e6f69359eb52439940b98577659e2,
+    type: 3}
+  hitArmor: {fileID: 8300000, guid: e4b229d1cd4c5954c982c44b6f42eb27, type: 3}
+  hitFresh: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}
 --- !u!1001 &8446592658956927473
 PrefabInstance:
   m_ObjectHideFlags: 0

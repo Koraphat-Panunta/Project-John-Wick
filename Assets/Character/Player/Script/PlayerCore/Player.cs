@@ -54,7 +54,7 @@ public partial class Player : SubjectPlayer,
         curShoulderSide = ShoulderSide.Right;
 
         base.maxHp = 100;
-        base.SetHP(100);
+        base.SetHP(maxHp);
 
         playerStateNodeManager = new PlayerStateNodeManager(this);
         InitailizedGunFuComponent();
