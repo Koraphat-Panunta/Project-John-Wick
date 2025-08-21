@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 {
@@ -31,10 +32,8 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     private void Start()
     {
         enemiesRole.ForEach(eRole => 
-        { 
-            eRole.enemy.AddObserver(this);
-            this.enemysGetRole.Add(eRole.enemy, eRole);
-            eRole.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(eRole.enemyCommand, this, eRole);
+        {
+            this.AddEnemy(eRole);
         });
         assingTime = 0;
     }
@@ -49,6 +48,22 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
             && enemy._posture <= enemy._postureHeavy)
             AssignChaser(enemysGetRole[enemy]);
     }
+    public void AddEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
+    {
+        enemyRoleBasedDecision.enemy.AddObserver(this);
+        this.enemysGetRole.Add(enemyRoleBasedDecision.enemy, enemyRoleBasedDecision);
+        enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyRoleBasedDecision.enemyCommand, this, enemyRoleBasedDecision);
+    }
+    public void RemoveEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
+    {
+       this.RemoveEnemy(enemyRoleBasedDecision.enemy);
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        enemy.RemoveObserver(this);
+        enemiesRole.Remove(enemysGetRole[enemy]);
+        enemysGetRole.Remove(enemy);
+    }
     public void Notify<T>(Enemy enemy,T node)where T : INode
     {
         if(node is EnemyStateLeafNode enemyStateNodeLeaf)
@@ -56,9 +71,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
             {
                 case EnemyDeadStateNode deadStateNodeDead:
                     {
-                        enemy.RemoveObserver(this);
-                        enemiesRole.Remove(enemysGetRole[enemy]);
-                        enemysGetRole.Remove(enemy);
+                        this.RemoveEnemy(enemy);
                         elapseTimeChaserChange = chaserChangeDelay;
                         CalcuateRoleCount();
                         break;

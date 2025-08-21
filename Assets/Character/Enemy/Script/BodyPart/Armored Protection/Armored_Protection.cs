@@ -64,8 +64,8 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     protected virtual void ArmoredDestroyed()
     {
         skinnedMeshRendererArmored.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         Detach();
-        Destroy(gameObject);
     }
 
     public void Attach(BodyPart attachable)
@@ -101,6 +101,12 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
         if (skinnedMeshRendererArmored != null)
             skinnedMeshRendererArmored.gameObject.SetActive(true);
+
+        base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
+        armorHP = armored_ProtectionSCRP.armorHP;
+        _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
+        _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
+        _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
     }
 
 }
