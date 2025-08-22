@@ -16,13 +16,16 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
     public void Notify<T>(Enemy enemy, T node) where T : INode
     {
      
+        
 
-
-       if(node is EnemyDeadStateNode && isAlreadyDrop == false)
+       if (node is EnemyDeadStateNode && isAlreadyDrop == false)
         {
-            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(5, 7);
-            HpGetAbleObject.amoutOfHpAdd = 30;
+
+
+            AmmoGetAbleObject.amoutAmmoAdd = 6;
             base.DropObject(AmmoGetAbleObject);
+
+            HpGetAbleObject.amoutOfHpAdd = 20;
             base.DropObject(HpGetAbleObject);
             isAlreadyDrop = true;
             return;

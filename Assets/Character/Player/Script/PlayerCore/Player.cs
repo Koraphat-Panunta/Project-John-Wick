@@ -80,6 +80,7 @@ public partial class Player : SubjectPlayer,
         MyHP = base.HP;
 
         commandBufferManager.CommandBufferProcess();
+        this.RegenHPUpdate();
 
         _triggerHitedGunFu = false;
         debugIsIFrame = (this as I_IFrameAble)._isIFrame;
@@ -223,6 +224,10 @@ public partial class Player : SubjectPlayer,
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
+        if ((GetHP()/GetMaxHp()) < 0.35f)
+            AddHP(hpGetAbleObject.amoutOfHpAdd * 2);
+        else
+            AddHP(hpGetAbleObject.amoutOfHpAdd);
         NotifyObserver(this, NotifyEvent.RecivedHp);
     }
 

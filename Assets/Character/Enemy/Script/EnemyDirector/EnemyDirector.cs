@@ -40,7 +40,8 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     // Update is called once per frame
     void Update()
     {
-       this.UpdateRoleManager();    
+        this.UpdateOverwatchShootPoint();
+        this.UpdateRoleManager();    
     }
     public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
@@ -213,6 +214,23 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
         taskUpdateYieldAllShooterOnPlayerAim = null;
     }
+    [SerializeField] private int maxOverwatchShootPoint;
+    [SerializeField] private int overwatchShootPoint;
+    [SerializeField] private float shootPointCoolDown;
+    [SerializeField] private float shootPointCoolDownTimer;
+    private void UpdateOverwatchShootPoint()
+    {
+        if(overwatchShootPoint >= maxOverwatchShootPoint)
+            return;
+
+        if (shootPointCoolDownTimer >= shootPointCoolDown)
+        {
+            overwatchShootPoint++;
+            shootPointCoolDownTimer = 0;
+        }
+        else
+            shootPointCoolDownTimer += Time.deltaTime;
+    }
     public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
        EnemyActionNodeManager roleAction = enemyRoleBasedDecision.enemyActionNodeManager;
@@ -259,8 +277,11 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
                             && enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
                             isShootOverwatch++;
                     }
-                    if (isShootOverwatch < maxNumberOverwatchShooter)
+                    if (isShootOverwatch < maxNumberOverwatchShooter && overwatchShootPoint > 0)
+                    {
+                        overwatchShootPoint--;
                         return true;
+                    }
                 }
                 break;
         }

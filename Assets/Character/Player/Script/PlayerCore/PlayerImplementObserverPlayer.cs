@@ -54,6 +54,7 @@ public partial class Player : IObserverPlayer
         
         if(node is SubjectPlayer.NotifyEvent.GetDamaged)
         {
+            regenHPDisableTimer = regenHPDisableTime;
             TriggerIFrame(0.30f);
         }
 
