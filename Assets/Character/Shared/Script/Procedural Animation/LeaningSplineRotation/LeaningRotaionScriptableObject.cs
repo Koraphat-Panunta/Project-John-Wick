@@ -12,15 +12,17 @@ public class LeaningRotaionScriptableObject : ScriptableObject
     [Range(0, 2)]
     [SerializeField] public float multiplyleaningLeftRightSpline1;
 
-    [Range(0, 100)]
-    [SerializeField] public float weightAdd;
-
-    [Range(0, 100)]
-    [SerializeField] public float recoveryStepCheck;
+    [Range(0, 2)]
+    [SerializeField] public float checkDistance;
+    [Range(0, 30)]
+    [SerializeField] public int numberRaycast;
+    [Range(0, 10)]
+    [SerializeField] public float leaningSpeed;
 
     [Range(0, 100)]
     [SerializeField] public float distanceCheck;
 
     [SerializeField] public LayerMask castingCheckLayer;
 
+    public AnimationCurve leanWeightCurve;
 }

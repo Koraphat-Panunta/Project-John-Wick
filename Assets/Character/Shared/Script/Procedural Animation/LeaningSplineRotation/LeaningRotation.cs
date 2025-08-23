@@ -23,6 +23,8 @@ public class LeaningRotation : MonoBehaviour, IConstraintManager
 
     [SerializeField] private LeaningRotaionScriptableObject leaningRotaionScriptable;
 
+    public float leaningLeftRightSplineMax { get => leaningRotaionScriptable.leaningLeftRightSplineMax; private set { } }
+
     void Start()
     {
 

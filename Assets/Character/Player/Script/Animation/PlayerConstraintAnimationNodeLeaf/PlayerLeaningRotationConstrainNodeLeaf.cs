@@ -6,7 +6,12 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     private LeaningRotaionScriptableObject leaningScriptableObject;
     private LeaningRotation leaningRotation;
     private IWeaponAdvanceUser weaponAdvanceUser;
+    private float checkDistance => leaningScriptableObject.checkDistance;
+    private int numberRaycast => leaningScriptableObject.numberRaycast;
+    private float targetLeanWeight;
+    private float leaningSpeed => leaningScriptableObject.leaningSpeed;
     private Player player;
+    private Vector3 playerCastAnchorPos => player.RayCastPos.position;
     public PlayerLeaningRotationConstrainNodeLeaf(Player player,LeaningRotaionScriptableObject leaningScriptableObject,LeaningRotation leaningRotation,IWeaponAdvanceUser weaponAdvanceUser,Func<bool> precondition) : base(precondition)
     {
         this.leaningScriptableObject = leaningScriptableObject;
@@ -17,46 +22,71 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void Enter()
     {
+        targetLeanWeight = 0;
         base.Enter();
     }
     public override void UpdateNode()
     {
         leaningRotation.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight, leaningScriptableObject);
-        if (player.curShoulderSide == Player.ShoulderSide.Left)
-        {
-            Vector3 castDir = weaponAdvanceUser._pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
-            Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.down) * (leaningScriptableObject.recoveryStepCheck-leaningScriptableObject.weightAdd)*(1-leaningRotation.weight);
+        leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight() 
+            , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax, leaningSpeed * Time.deltaTime));
 
-            if (PointingBlock(castPos, weaponAdvanceUser._pointingPos))
-                leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() - leaningScriptableObject.weightAdd * Time.deltaTime);
-            
-            else
-            {
-                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
-                    leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));   
-            }
-
-        }
-        else if(player.curShoulderSide == Player.ShoulderSide.Right)
-        {
-            Vector3 castDir = weaponAdvanceUser._pointingPos - weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position;
-            Vector3 castPos = weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position + Vector3.Cross(castDir.normalized, Vector3.up) * (leaningScriptableObject.recoveryStepCheck - leaningScriptableObject.weightAdd) * (1 - leaningRotation.weight);
-
-            if (PointingBlock(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
-                leaningRotation.SetLeaningLeftRight(leaningRotation.GetLeaningLeftRight() + leaningScriptableObject.weightAdd * Time.deltaTime);
-
-            else
-            {
-                if (RecoveryCheck(weaponAdvanceUser._currentWeapon.bulletSpawnerPos.position, weaponAdvanceUser._pointingPos))
-                    leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight(), 0, leaningScriptableObject.weightAdd * Time.deltaTime));
-            }
-        }
-            
         base.UpdateNode();
     }
     public override void FixedUpdateNode()
     {
-       
+        float targetWeight = 0;
+        if (player.curShoulderSide == Player.ShoulderSide.Left)
+        {
+            Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
+
+            targetWeight = 1;
+            for (int i = 0; i < numberRaycast; i++)
+            {
+                float distance = checkDistance * (float)((float)i / (float)numberRaycast);
+                Vector3 castPos = playerCastAnchorPos + (Vector3.Cross(castDir.normalized, Vector3.down)
+                    * distance);
+
+                if (PointingBlock(castPos, castDir, out RaycastHit hit))
+                {
+                    if (Vector3.Distance(hit.point, weaponAdvanceUser._pointingPos) < .67f)
+                        targetWeight = 0f;
+                   
+                    break;
+                }
+                else
+                    targetWeight -= (float)(1f / (float)numberRaycast);
+
+            }
+            this.targetLeanWeight = - leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
+
+        }
+        else if (player.curShoulderSide == Player.ShoulderSide.Right)
+        {
+            Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
+            targetWeight = 1;
+            for (int i = 0; i < numberRaycast; i++)
+            {
+                float distance = checkDistance * (float)((float)i/(float)numberRaycast);
+                Vector3 castPos = playerCastAnchorPos + (Vector3.Cross(castDir.normalized, Vector3.up)
+                    * distance);
+               
+                if (PointingBlock(castPos,castDir,out RaycastHit hit))
+                {
+                    if(Vector3.Distance(hit.point,weaponAdvanceUser._pointingPos) < .67f)
+                        targetWeight = 0f;
+                   
+                    break;
+                }
+                else
+                    targetWeight -= (float)(1f / (float)numberRaycast);
+
+            }
+            this.targetLeanWeight = leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
+
+        }
+        Debug.Log("targetLeanWeight = " + this.targetLeanWeight);
+
         base.FixedUpdateNode();
     }
     public override void Exit()
@@ -64,17 +94,13 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         base.Exit();
     }
 
-    private bool PointingBlock(Vector3 startCastPos,Vector3 targetPos)
+    private bool PointingBlock(Vector3 startCastPos,Vector3 castDir,out RaycastHit hit)
     {
-        Vector3 castDir = targetPos - startCastPos;
-        Debug.DrawLine(startCastPos, targetPos, Color.green);
 
-        if(Physics.Raycast(startCastPos,castDir.normalized, out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
+
+        if(Physics.Raycast(startCastPos,castDir.normalized, out hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
         {
-            if (Vector3.Distance(hit.point, targetPos) > 0.67f)
-                return true;
-            else
-                return false;
+            return true;
         }
         //if(Physics.Raycast(startCastPos,castDir.normalized,out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
         //{
@@ -84,36 +110,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
         return false;
     }
-    private bool RecoveryCheck(Vector3 startCastPos, Vector3 targetPos)
-    {
-        Vector3 castDir = targetPos - startCastPos;
-
-        Vector3 recoveryDir =Vector3.zero;
-
-
-        if (leaningRotation.GetLeaningLeftRight() > 0)//LeanRight
-        {
-            recoveryDir = Vector3.Cross(castDir.normalized, Vector3.up);
-        }
-        else if (leaningRotation.GetLeaningLeftRight() < 0)//LeanLeft
-        {
-            recoveryDir = Vector3.Cross(castDir.normalized, Vector3.down);
-        }
-
-        Vector3 recoveryCheckStart = startCastPos + (recoveryDir * leaningScriptableObject.recoveryStepCheck*leaningRotation.weight);
-
-
-        
-        if (Physics.Raycast(recoveryCheckStart,(targetPos-recoveryCheckStart).normalized , out RaycastHit hit, leaningScriptableObject.distanceCheck, leaningScriptableObject.castingCheckLayer.value))
-        {
-            if (Vector3.Distance(hit.point, targetPos) < 0.1f)
-                return true;
-            else
-                return false;
-        }
-        return true;
-
-
-    }
+  
    
 }
