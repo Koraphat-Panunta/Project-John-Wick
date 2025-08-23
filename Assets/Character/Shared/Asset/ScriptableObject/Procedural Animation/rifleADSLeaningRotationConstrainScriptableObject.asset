@@ -16,9 +16,43 @@ MonoBehaviour:
   leaningLeftRightSplineOffset: {x: 0, y: 0, z: 0}
   leaningLeftRightSpline1Offset: {x: 0, y: 0, z: 0}
   multiplyleaningLeftRightSpline1: 1.44
-  weightAdd: 0.4
-  recoveryStepCheck: 0.34
+  checkDistance: 1
+  numberRaycast: 20
+  leaningSpeed: 0.7
   distanceCheck: 5.1
   castingCheckLayer:
     serializedVersion: 2
     m_Bits: 2177
+  leanWeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6531653
+      value: 0.41778877
+      inSlope: 0.9948038
+      outSlope: 0.9948038
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2888063
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
