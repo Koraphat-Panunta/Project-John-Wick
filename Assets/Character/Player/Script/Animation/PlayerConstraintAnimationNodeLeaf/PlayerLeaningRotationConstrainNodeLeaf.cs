@@ -28,7 +28,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     public override void UpdateNode()
     {
         leaningRotation.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight, leaningScriptableObject);
-        leaningRotation.SetLeaningLeftRight(Mathf.MoveTowards(leaningRotation.GetLeaningLeftRight() 
+        leaningRotation.SetLeaningLeftRight(Mathf.Lerp(leaningRotation.GetLeaningLeftRight() 
             , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax, leaningSpeed * Time.deltaTime));
 
         base.UpdateNode();
@@ -36,26 +36,42 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     public override void FixedUpdateNode()
     {
         float targetWeight = 0;
+        Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
+        Vector3 castFindTargetWeightBeginPos = playerCastAnchorPos;
+        Vector3 castFindTargetWeightEndPos = playerCastAnchorPos;
         if (player.curShoulderSide == Player.ShoulderSide.Left)
         {
-            Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
 
-            targetWeight = 1;
-            for (int i = 0; i < numberRaycast; i++)
+            for (int i = 0; i <= numberRaycast; i++)
             {
                 float distance = checkDistance * (float)((float)i / (float)numberRaycast);
-                Vector3 castPos = playerCastAnchorPos + (Vector3.Cross(castDir.normalized, Vector3.down)
+                Vector3 castPosDir = Vector3.Cross(castDir.normalized, Vector3.down);
+                Vector3 castPos = playerCastAnchorPos + (castPosDir
                     * distance);
 
                 if (PointingBlock(castPos, castDir, out RaycastHit hit))
                 {
+                    castFindTargetWeightBeginPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
+                    castFindTargetWeightEndPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
+                    Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
+                    Debug.DrawRay(castFindTargetWeightEndPos, castPosDir,Color.green,0.1f);
+                    Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
+                    if (PointingBlock(castFindTargetWeightEndPos, (hit.point - castFindTargetWeightEndPos).normalized , out RaycastHit hit2))
+                    {
+                        targetWeight = 1- Mathf.Clamp01(Vector3.Distance(castFindTargetWeightBeginPos, hit2.point)/checkDistance);
+                    }
+                    else
+                    {
+                        targetWeight = 1 - ((float)i / numberRaycast);
+                    }
+
                     if (Vector3.Distance(hit.point, weaponAdvanceUser._pointingPos) < .67f)
                         targetWeight = 0f;
                    
                     break;
                 }
                 else
-                    targetWeight -= (float)(1f / (float)numberRaycast);
+                    castFindTargetWeightEndPos = castPos;
 
             }
             this.targetLeanWeight = - leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
@@ -63,17 +79,33 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         }
         else if (player.curShoulderSide == Player.ShoulderSide.Right)
         {
-            Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
-            targetWeight = 1;
-            for (int i = 0; i < numberRaycast; i++)
+            for (int i = 0; i <= numberRaycast; i++)
             {
                 float distance = checkDistance * (float)((float)i/(float)numberRaycast);
-                Vector3 castPos = playerCastAnchorPos + (Vector3.Cross(castDir.normalized, Vector3.up)
+                Vector3 castPosDir = Vector3.Cross(castDir.normalized, Vector3.up);
+                Vector3 castPos = playerCastAnchorPos + (castPosDir
                     * distance);
-               
+
+                if (i == 0)
+                    castFindTargetWeightBeginPos = castPos;
+
                 if (PointingBlock(castPos,castDir,out RaycastHit hit))
                 {
-                    if(Vector3.Distance(hit.point,weaponAdvanceUser._pointingPos) < .67f)
+
+                    castFindTargetWeightBeginPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
+                    castFindTargetWeightEndPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
+                    Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
+                    Debug.DrawRay(castFindTargetWeightEndPos, castPosDir, Color.green, 0.1f);
+                    Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
+                    if (PointingBlock(castFindTargetWeightEndPos, (hit.point - castFindTargetWeightEndPos).normalized, out RaycastHit hit2))
+                    {
+                        targetWeight = 1 - Mathf.Clamp01(Vector3.Distance(castFindTargetWeightBeginPos, hit2.point) / checkDistance);
+                    }
+                    else
+                    {
+                        targetWeight = 1 - ((float)i / numberRaycast);
+                    }
+                    if (Vector3.Distance(hit.point,weaponAdvanceUser._pointingPos) < .67f)
                         targetWeight = 0f;
                    
                     break;
@@ -110,6 +142,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
         return false;
     }
-  
+   
    
 }
