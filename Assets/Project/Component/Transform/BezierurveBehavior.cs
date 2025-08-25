@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BezierurveMove 
+public class BezierurveBehavior 
 {
     public static Vector3 GetPointOnBezierCurve(Vector3 startPos, List<Vector3> controlPoints, Vector3 endPos, float t)
     {
@@ -41,5 +41,45 @@ public class BezierurveMove
         }
 
         return controlPoints[0];
+    }
+    public static void DrawBezierCurve(Vector3 startPos, List<Vector3> controlPoints, Vector3 endPos)
+    {
+        float curveResolution = 30;
+
+        if (controlPoints == null || controlPoints.Count == 0)
+            return;
+
+        Vector3 previousPoint = startPos;
+
+        for (int i = 1; i <= curveResolution; i++)
+        {
+            float t = i / (float)curveResolution;
+            Vector3 pointOnCurve = GetPointOnBezierCurve( startPos, controlPoints, endPos,t);
+
+            Debug.DrawLine(previousPoint, pointOnCurve,Color.green);
+            previousPoint = pointOnCurve;
+        }
+
+       
+    }
+    public static void DrawBezierCurve(Vector3 startPos, List<Vector3> controlPoints, Vector3 endPos, float time)
+    {
+        float curveResolution = 30;
+
+        if (controlPoints == null || controlPoints.Count == 0)
+            return;
+
+        Vector3 previousPoint = startPos;
+
+        for (int i = 1; i <= curveResolution; i++)
+        {
+            float t = i / (float)curveResolution;
+            Vector3 pointOnCurve = GetPointOnBezierCurve(startPos, controlPoints, endPos, t);
+
+            Debug.DrawLine(previousPoint, pointOnCurve, Color.green,time);
+            previousPoint = pointOnCurve;
+        }
+
+
     }
 }

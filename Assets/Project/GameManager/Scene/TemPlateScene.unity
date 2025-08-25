@@ -1189,6 +1189,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
+      propertyPath: climbHighScrp
+      value: 
+      objectReference: {fileID: 11400000, guid: e59af1dd7f14da4409ab34d60655ed35,
+        type: 2}
+    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
       propertyPath: crosshairController
       value: 
       objectReference: {fileID: 1463018669}
@@ -2133,7 +2139,7 @@ PrefabInstance:
     - target: {fileID: 3938986911789629728, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4355368927131558458, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -2293,7 +2299,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2664,7 +2670,7 @@ PrefabInstance:
     - target: {fileID: 3938986911789629728, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5052746342045902257, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -2819,7 +2825,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3695,7 +3701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1884135335
 MonoBehaviour:
   m_ObjectHideFlags: 0

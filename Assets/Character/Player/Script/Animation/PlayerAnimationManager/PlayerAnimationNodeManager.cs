@@ -45,7 +45,9 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf vaultingNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf climbLowNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf climbHighNodeLeaf { get; set; }
     public NodeSelector gunFuBaseLayerNodeSelector { get; set; }
 
     public NodeSelector weaponDisarmSelector { get; set; }
@@ -167,6 +169,8 @@ public partial class PlayerAnimationManager : INodeManager
         weaponDisarmSelector.AddtoChildNode(weaponDisarmPrimaryNodeLeaf);
         weaponDisarmSelector.AddtoChildNode(weaponDisarmSecondaryNodeLeaf);
 
+        parkourNodeSelector.AddtoChildNode(vaultingNodeLeaf);
+        parkourNodeSelector.AddtoChildNode(climbHighNodeLeaf);
         parkourNodeSelector.AddtoChildNode(climbLowNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
@@ -267,9 +271,18 @@ public partial class PlayerAnimationManager : INodeManager
             ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>()
             ,animator, "PlayerBounceOff",0,.05f);
         parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>());
+        vaultingNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<VaultingNodeLeaf>(out VaultingNodeLeaf vaultingNodeLeaf)
+            && vaultingNodeLeaf.nameState == "Vaulting"
+            , animator, "Vaulting", 0, .2f);
+        climbHighNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbHighNodeLeaf) 
+            && climbHighNodeLeaf.nameState == "ClimbHigh"
+            , animator, "ClimbHigh", 0, .2f);
         climbLowNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbLowNodeLeaf)
-            , animator, "ClimbLow", 0, .7f);
+            && climbLowNodeLeaf.nameState == "ClimbLow"
+            , animator, "ClimbLow", 0, .2f);
 
         InitializedGunFuBasedLayer();
 
@@ -282,7 +295,7 @@ public partial class PlayerAnimationManager : INodeManager
             animator, "Crouch", 0, .4f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>(),
-            animator, "Move/Idle", 0, .3f);
+            animator, "Move/Idle", 0, .6f);
     }
     private void InitializedGunFuBasedLayer() 
     {

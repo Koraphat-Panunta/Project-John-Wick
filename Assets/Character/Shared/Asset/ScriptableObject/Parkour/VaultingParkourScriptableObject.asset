@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: VaultingParkourScriptableObject
   m_EditorClassIdentifier: 
   forWardControlPoint_1_offset: -0.7
-  upWardControlPoint_1_offset: 1.1
-  forwardExitPoint_offset: -0
-  upWardExitPoint_offset: -2
+  upWardControlPoint_1_offset: 0
+  forwardExitPoint_offset: 0.58
+  upWardExitPoint_offset: -1
   speed: 1
-  hieght: 1.74
+  hieght: 1.3
+  minHieght: 0.37
+  detectDistance: 1.2
   curve:
     serializedVersion: 2
     m_Curve:
@@ -42,6 +44,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clip: {fileID: 7400000, guid: 20384a366693aec45be7dde4283f0ebb, type: 2}
+  stateName: Vaulting
   forwardControlPoint_2_offset: 0.7
-  upWardControlPoint_2_offset: 1.2
-  vaultingLenght: 2
+  upWardControlPoint_2_offset: 0
+  vaultingLenght: 2.5

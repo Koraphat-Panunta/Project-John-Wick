@@ -69,7 +69,7 @@ public class EnemyMoveCurvePath
         {
             Vector3 markPos;
 
-            markPos = BezierurveMove.GetPointOnBezierCurve(_curPos, cp.ToList<Vector3>(), target, T);
+            markPos = BezierurveBehavior.GetPointOnBezierCurve(_curPos, cp.ToList<Vector3>(), target, T);
 
             IsPositionOnNavMesh(markPos, 2f);
         }

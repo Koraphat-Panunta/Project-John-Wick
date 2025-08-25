@@ -124,12 +124,17 @@ public class PlayerInputAPI : MonoBehaviour
            
         }
     }
+    public void TriggerSpecialMove(InputAction.CallbackContext context)
+    {
+        TriggerDodgeRoll(context);
+        TriggerParkour(context);
+    }
     public void TriggerDodgeRoll(InputAction.CallbackContext context)
     {
         if(context.performed)
             player.triggerDodgeRoll = true;
     }
-    public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
+    public void TriggerInteract(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -145,7 +150,8 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void TriggerParkour(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
             player._isParkourCommand = true;
+        
     }
 }

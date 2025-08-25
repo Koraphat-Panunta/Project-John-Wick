@@ -44,13 +44,11 @@ public class User : MonoBehaviour
         userInput.PlayerAction.ToggleChangeStance.performed += playerInputAPI.ToggleCrouchStand;
         userInput.PlayerAction.ToggleChangeStance.canceled += playerInputAPI.ToggleCrouchStand;
 
-        userInput.PlayerAction.TriggerDodgeRoll.performed += playerInputAPI.TriggerDodgeRoll;
+        userInput.PlayerAction.TriggerDodgeRoll.performed += playerInputAPI.TriggerSpecialMove;
 
-        userInput.PlayerAction.TriggerPickingUpWeapon.performed += playerInputAPI.TriggerPickingUpWeapon;
+        userInput.PlayerAction.TriggerPickingUpWeapon.performed += playerInputAPI.TriggerInteract;
 
         userInput.PlayerAction.TriggerDropWeapon.performed += playerInputAPI.TriggerDropWeapon;
-
-        userInput.PlayerAction.TriggerParkour.performed += playerInputAPI.TriggerParkour;
     }
 
     public void EnableInput()

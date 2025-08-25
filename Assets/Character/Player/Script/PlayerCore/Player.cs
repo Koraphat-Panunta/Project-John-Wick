@@ -56,11 +56,12 @@ public partial class Player : SubjectPlayer,
         base.maxHp = 100;
         base.SetHP(maxHp);
 
+        _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
         playerStateNodeManager = new PlayerStateNodeManager(this);
         InitailizedGunFuComponent();
         Initialized_IWeaponAdvanceUser();
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-        _movementCompoent = new PlayerMovement(this,transform,this,this.characterController);
+
         aimPosRef.transform.SetParent(null, true);
 
     }

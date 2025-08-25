@@ -53,9 +53,9 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
                 {
                     castFindTargetWeightBeginPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
                     castFindTargetWeightEndPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
-                    Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
-                    Debug.DrawRay(castFindTargetWeightEndPos, castPosDir,Color.green,0.1f);
-                    Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
+                    //Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
+                    //Debug.DrawRay(castFindTargetWeightEndPos, castPosDir,Color.green,0.1f);
+                    //Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
                     if (PointingBlock(castFindTargetWeightEndPos, (hit.point - castFindTargetWeightEndPos).normalized , out RaycastHit hit2))
                     {
                         targetWeight = 1- Mathf.Clamp01(Vector3.Distance(castFindTargetWeightBeginPos, hit2.point)/checkDistance);
@@ -94,9 +94,9 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
                     castFindTargetWeightBeginPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
                     castFindTargetWeightEndPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
-                    Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
-                    Debug.DrawRay(castFindTargetWeightEndPos, castPosDir, Color.green, 0.1f);
-                    Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
+                    //Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
+                    //Debug.DrawRay(castFindTargetWeightEndPos, castPosDir, Color.green, 0.1f);
+                    //Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
                     if (PointingBlock(castFindTargetWeightEndPos, (hit.point - castFindTargetWeightEndPos).normalized, out RaycastHit hit2))
                     {
                         targetWeight = 1 - Mathf.Clamp01(Vector3.Distance(castFindTargetWeightBeginPos, hit2.point) / checkDistance);
@@ -117,7 +117,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
             this.targetLeanWeight = leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
 
         }
-        Debug.Log("targetLeanWeight = " + this.targetLeanWeight);
 
         base.FixedUpdateNode();
     }

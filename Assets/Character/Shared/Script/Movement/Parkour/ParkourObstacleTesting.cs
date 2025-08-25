@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 
 public class ParkourObstacleTesting : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private EdgeObstacleDetection edgeObstacleDetection;
     [SerializeField] private ParkourScriptableObject curParkourScriptableObject;
     [SerializeField] Transform startCastPoint;
     [Range(0.01f,1)]
@@ -14,12 +12,9 @@ public class ParkourObstacleTesting : MonoBehaviour
     public float sphereDistanceDifference;
     private void Awake()
     {
-        edgeObstacleDetection = new EdgeObstacleDetection();
     }
     private void OnDrawGizmos()
     {
-        if (edgeObstacleDetection == null)
-            return;
 
         if(curParkourScriptableObject is VaultingParkourScriptableObject vaultingParkourScriptableObject)
         {
@@ -37,8 +32,9 @@ public class ParkourObstacleTesting : MonoBehaviour
     {
         List<Vector3> cts = new List<Vector3>();
 
-        if (edgeObstacleDetection.GetEdgeObstaclePos(
+        if (EdgeObstacleDetection.GetEdgeObstaclePos(
               sphereCastRaduis
+              , 10
               , startCastPoint.forward
               , startCastPoint.position
               , startCastPoint.position + (Vector3.up * vaultingParkourScriptableObject.hieght)
@@ -80,8 +76,9 @@ public class ParkourObstacleTesting : MonoBehaviour
         Vector3 destinationCaswDown = startCastDown + startCastPoint.forward * vaultingParkourScriptableObject.vaultingLenght;
         Vector3 exitPos;
 
-        if (edgeObstacleDetection.GetEdgeObstaclePos(
+        if (EdgeObstacleDetection.GetEdgeObstaclePos(
             sphereCastRaduis
+            ,10
             , Vector3.down
             , startCastDown
             , destinationCaswDown
@@ -97,7 +94,7 @@ public class ParkourObstacleTesting : MonoBehaviour
             cts.Add(ct2);
 
             exitPos
-                = ct2
+                = edgePos2
                 + startCastPoint.forward * vaultingParkourScriptableObject.forwardExitPoint_offset
                 + startCastPoint.up * vaultingParkourScriptableObject.upWardExitPoint_offset;
 
@@ -119,13 +116,15 @@ public class ParkourObstacleTesting : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(exitPos, .15f);
-
         DrawBezierCurve(startCastPoint.position,cts,exitPos);
     }
     private void DrawGizmosParkourClimb(ParkourScriptableObject parkourScriptableObject)
     {
-        if (edgeObstacleDetection.GetEdgeObstaclePos(
+        
+
+        if (EdgeObstacleDetection.GetEdgeObstaclePos(
               sphereCastRaduis
+              ,10
               , startCastPoint.forward
               , startCastPoint.position
               , startCastPoint.position + (Vector3.up * parkourScriptableObject.hieght)
@@ -157,6 +156,7 @@ public class ParkourObstacleTesting : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(exit, 0.15f);
 
+
             List<Vector3> cts = new List<Vector3>();
             cts.Add(ct1);
             DrawBezierCurve(startPos, cts, exit);
@@ -168,6 +168,9 @@ public class ParkourObstacleTesting : MonoBehaviour
                 Gizmos.DrawSphere(spherePos, sphereCastRaduis);
         }
 
+        Gizmos.color = Color.green;
+        Vector3 atLowestObs = new Vector3(edgePos.x, startCastPoint.position.y, edgePos.z);
+        Gizmos.DrawSphere(atLowestObs + (Vector3.up * parkourScriptableObject.minHieght), 0.15f);
     }
     private void DrawBezierCurve(Vector3 startPos,List<Vector3> controlPoints , Vector3 endPos)
     {
