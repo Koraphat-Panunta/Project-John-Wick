@@ -31,7 +31,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
             return false;
 
         if ((Physics.Raycast(parkourAble.position, parkourAble.forward, out RaycastHit hit, this.climbParkourScriptableObject.detectDistance, obstacleLayer)
-            && Vector3.Dot(hit.normal * -1, (parkourAble.forward + movementCompoent.moveInputVelocity_World).normalized) > 0.8f) == false)
+            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.72f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.72f) == false)
             return false;
 
         if (CheckEdge())

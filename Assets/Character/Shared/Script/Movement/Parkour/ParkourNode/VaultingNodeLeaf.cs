@@ -36,7 +36,7 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 
 
         if ((Physics.Raycast(parkourAble.position, parkourAble.forward, out RaycastHit hit, this.vaultingParkourScriptableObject.detectDistance, obstacleLayer)
-            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.8f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.8f) == false)
+            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.72f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.72f) == false)
             return false;
 
 
