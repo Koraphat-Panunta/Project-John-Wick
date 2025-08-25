@@ -36,7 +36,7 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 
 
         if ((Physics.Raycast(parkourAble.position, parkourAble.forward, out RaycastHit hit, this.vaultingParkourScriptableObject.detectDistance, obstacleLayer)
-            && Vector3.Dot(hit.normal * -1, (parkourAble.forward  + movementCompoent.moveInputVelocity_World).normalized) > 0.8f) == false)
+            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.8f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.8f) == false)
             return false;
 
 
@@ -116,8 +116,11 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         else
             return false;
 
-        Vector3 startCastDown = edgePos1 + (Vector3.up * 2);
+        Vector3 startCastDown = edgePos1 + (Vector3.up * 1);
         Vector3 destinationCaswDown = startCastDown + parkourAble.forward * vaultingParkourScriptableObject.vaultingLenght;
+
+        if(Physics.Raycast(startCastDown,parkourAble.forward,vaultingParkourScriptableObject.vaultingLenght,obstacleLayer))
+            return false;
 
         if (EdgeObstacleDetection.GetEdgeObstaclePos(
             IParkourNodeLeaf.sphereRaduis
