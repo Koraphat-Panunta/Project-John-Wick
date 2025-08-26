@@ -84,7 +84,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         Vector3 castDir = transform.position - startCastPos;
 
         //CheckCameraBeenBlocked
-        if(Physics.Raycast(targetLookAt, (transform.position - targetLookAt).normalized, out RaycastHit hit, (transform.position - targetLookAt).magnitude+0.2f, collisionLayers))
+        if(Physics.Raycast(targetLookAt, (transform.position - targetLookAt).normalized, out RaycastHit hit, (transform.position - targetLookAt).magnitude+0.2f, collisionLayers,QueryTriggerInteraction.Ignore))
         {
             Vector3 camToHitDir = hit.point - transform.position;
 

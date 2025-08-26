@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManagerNodeLeaf
 {
-    public DoorInteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera, I_Interacter i_Interacter, LayerMask interactAbleMask) : base(preCondition, inWorldUI, camera, i_Interacter, interactAbleMask)
+    public DoorInteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera, I_Interacter i_Interacter, LayerMask interactAbleMask,Vector3 offset) : base(preCondition, inWorldUI, camera, i_Interacter, interactAbleMask,offset)
     {
     }
     protected override void UpdateAssignedUI()
@@ -23,12 +23,14 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
 
         for (int i = 0; i < doors.Count; i++) 
         {
-            Vector3 setPos = doors[i]._collider.transform.position 
-                + doors[i]._collider.transform.forward * offset.z
-                + doors[i]._collider.transform.up * offset.y
-                + doors[i]._collider.transform.right * offset.x;
+            Vector3 setPos = doors[i]._transform.position 
+                + doors[i]._transform.forward * offset.z
+                + doors[i]._transform.up * offset.y
+                + doors[i]._transform.right * offset.x;
 
             assignInWorldInteractable[doors[i]].SetAnchorPosition(setPos);
+
+            Debug.DrawLine(camera.transform.position, doors[i].transform.position);
 
             if (doors[i].isBeenInteractAble == false)
             {
@@ -51,8 +53,6 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
                     assignInWorldInteractable[doors[i]].PlayAnimation("InteractableAppear");
                 else
                     assignInWorldInteractable[doors[i]].PlayAnimation("DoorLockedAppear");
-
-                Debug.Log("Door is locked = " + curDoor.isLocked);
 
                 continue;
             }

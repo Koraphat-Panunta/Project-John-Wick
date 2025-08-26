@@ -11,6 +11,8 @@ public partial class Weapon : I_Interactable
             return true;
         }set { } }
 
+    public Transform _transform { get => transform; set { } }
+
     public void DoInteract(I_Interacter i_Interacter)
     {
         

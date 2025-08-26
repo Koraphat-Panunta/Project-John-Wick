@@ -12,8 +12,8 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     protected LayerMask interactableMask;
     protected Dictionary<I_Interactable, InWorldUI> assignInWorldInteractable;
     protected I_Interacter interacter;
-    protected Vector3 offset = Vector3.zero;
-    public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask) : base(preCondition)
+    protected Vector3 offset;
+    public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask,Vector3 offset) : base(preCondition)
     {
         this.interacter = i_Interacter;
         this.inWorldUI = inWorldUI;
@@ -22,6 +22,7 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
         this.objectPooling = new ObjectPooling<InWorldUI>(this.inWorldUI,12,5,camera.transform.position);
         this.assignInWorldInteractable = new Dictionary<I_Interactable, InWorldUI>();
         this.interactableMask = interactAbleMask;
+        this.offset = offset;
     }
 
     public override void Enter()
@@ -43,10 +44,12 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     private void UpdateInteractableDetected()
     {
         List<I_Interactable> interactableDetected = new List<I_Interactable>();
-        foreach(GameObject obj in fieldOfView.FindMultipleTargetsInView(interactableMask))
+        foreach(GameObject obj in fieldOfView.FindMultipleTargetsInView(interactableMask,QueryTriggerInteraction.Collide))
         {
             if(obj.TryGetComponent<I_Interactable>(out I_Interactable i_Interactable) == false)
                 continue;
+
+            Debug.Log(i_Interactable);
 
             if(interactableDetected.Contains(i_Interactable))
                 continue;
@@ -87,10 +90,10 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 
         for (int i = 0; i < interactables.Count; i++) 
         {
-            Vector3 setPos = interactables[i]._collider.transform.position 
-                + interactables[i]._collider.transform.forward * offset.z
-                + interactables[i]._collider.transform.up * offset.y
-                + interactables[i]._collider.transform.right * offset.x;
+            Vector3 setPos = interactables[i]._transform.position 
+                + interactables[i]._transform.forward * offset.z
+                + interactables[i]._transform.up * offset.y
+                + interactables[i]._transform.right * offset.x;
 
             assignInWorldInteractable[interactables[i]].SetAnchorPosition(setPos);
 

@@ -65,14 +65,14 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         RaycastHit hit;
 
 
-        if (Physics.Raycast(ray, out hit, 10, layerMask))
+        if (Physics.Raycast(ray, out hit, 10, layerMask,QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;
             if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
                 gotPointingAble.NotifyPointingAble(this);
         }
-        else if (Physics.Raycast(ray, out hit, 10, 1))
+        else if (Physics.Raycast(ray, out hit, 10, 1, QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
             TargetAim.transform.position = worldPosition;

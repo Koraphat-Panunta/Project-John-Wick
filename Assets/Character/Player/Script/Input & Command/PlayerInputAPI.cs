@@ -127,7 +127,6 @@ public class PlayerInputAPI : MonoBehaviour
     public void TriggerSpecialMove(InputAction.CallbackContext context)
     {
         TriggerDodgeRoll(context);
-        TriggerParkour(context);
     }
     public void TriggerDodgeRoll(InputAction.CallbackContext context)
     {
@@ -141,6 +140,8 @@ public class PlayerInputAPI : MonoBehaviour
             player._isPickingUpWeaponCommand = true;
             player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.25f);
             player.Interact();
+            if(player.currentInteractable == null)
+                TriggerParkour(context);
         }
     }
     public void TriggerDropWeapon(InputAction.CallbackContext context)

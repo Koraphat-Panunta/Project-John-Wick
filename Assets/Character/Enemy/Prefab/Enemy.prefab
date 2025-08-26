@@ -652,7 +652,7 @@ MonoBehaviour:
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
   syncBodyPart: {fileID: 6183801970392732339}
-  armorHP: 0
+  armorHP: 100
   armored_ProtectionSCRP: {fileID: 11400000, guid: 17a6691fe95497b4c93d02b2b264f9b0,
     type: 2}
   skinnedMeshRendererArmored: {fileID: 3005850444562900054}
@@ -1813,7 +1813,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
   m_Name: 
@@ -2603,7 +2603,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
   enemyHPbarDisplay: {fileID: 8440024617626377136}
-  bodyPartDamageRecivedSCRP: {fileID: 0}
+  bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
+    type: 2}
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0

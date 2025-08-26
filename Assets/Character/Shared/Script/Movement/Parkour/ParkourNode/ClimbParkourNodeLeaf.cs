@@ -20,6 +20,9 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public float timer { get; protected set; }
     public float parkourTimeNormalized { get => climbParkourScriptableObject.curve.Evaluate((timer / clip.length)); }
     private LayerMask obstacleLayer = LayerMask.GetMask("Default");
+
+    private Vector3 obstacleSurfaceDir;
+    private float rotateToWardSurfaceDir = 0.2f;
     public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent, ParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
     {
         this.movementCompoent = movementCompoent;
@@ -31,8 +34,10 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
             return false;
 
         if ((Physics.Raycast(parkourAble.position, parkourAble.forward, out RaycastHit hit, this.climbParkourScriptableObject.detectDistance, obstacleLayer)
-            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.72f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.72f) == false)
+            && Vector3.Dot(hit.normal * -1, parkourAble.forward.normalized) > 0.7f && Vector3.Dot(hit.normal * -1, movementCompoent.moveInputVelocity_World.normalized) > 0.7f) == false)
             return false;
+
+        obstacleSurfaceDir = (hit.normal*-1).normalized;
 
         if (CheckEdge())
         {
@@ -74,9 +79,19 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     {
         timer += Time.deltaTime;
         movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, exit, parkourTimeNormalized));
-       
+        this.MovementRotateToWardSurface();
 
         base.UpdateNode();
+    }
+    private void MovementRotateToWardSurface()
+    {
+        float t = Mathf.Clamp(parkourTimeNormalized / rotateToWardSurfaceDir, 0, rotateToWardSurfaceDir);
+
+        Quaternion rotate = Quaternion.Lerp(
+            Quaternion.LookRotation(parkourAble.forward, Vector3.up)
+            , Quaternion.LookRotation(obstacleSurfaceDir, Vector3.up)
+            , t);
+        movementCompoent.SetRotation(rotate);
     }
     private bool CheckEdge()
     {
@@ -86,10 +101,11 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         if(EdgeObstacleDetection.GetEdgeObstaclePos(
             IParkourNodeLeaf.sphereRaduis
             ,10
-            ,parkourAble.forward
-            ,parkourAble.position
-            ,castUpDes
+            ,obstacleSurfaceDir
+            , parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght)
+            , castUpDes
             ,IParkourNodeLeaf.sphereDistanceDifferenc
+            ,true
             ,out Vector3 edgePos1
             )
             )
@@ -98,11 +114,11 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
                 return false;
 
             ct1 = edgePos1
-                + (parkourAble.transform.forward * climbParkourScriptableObject.forWardControlPoint_1_offset)
+                + (obstacleSurfaceDir * climbParkourScriptableObject.forWardControlPoint_1_offset)
                 + (parkourAble.transform.up * climbParkourScriptableObject.upWardControlPoint_1_offset);
 
             exit = edgePos1
-                + (parkourAble.forward * climbParkourScriptableObject.forwardExitPoint_offset)
+                + (obstacleSurfaceDir * climbParkourScriptableObject.forwardExitPoint_offset)
                 + (parkourAble.up * climbParkourScriptableObject.upWardExitPoint_offset);
 
             cts.Add(ct1);
