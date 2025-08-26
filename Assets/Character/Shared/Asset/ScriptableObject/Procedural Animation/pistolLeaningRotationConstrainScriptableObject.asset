@@ -17,9 +17,10 @@ MonoBehaviour:
   leaningLeftRightSpline1Offset: {x: 0, y: 0, z: 0}
   multiplyleaningLeftRightSpline1: 1.848
   checkDistance: 1
-  numberRaycast: 4
+  numberRaycast: 5
   leaningSpeed: 5.5
-  distanceCheck: 3
+  maxDistanceCheck: 6
+  minDistanceCheck: 2.5
   castingCheckLayer:
     serializedVersion: 2
     m_Bits: 2177
