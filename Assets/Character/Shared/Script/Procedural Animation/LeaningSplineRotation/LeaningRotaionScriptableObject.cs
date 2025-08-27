@@ -20,7 +20,10 @@ public class LeaningRotaionScriptableObject : ScriptableObject
     [SerializeField] public float leaningSpeed;
 
     [Range(0, 100)]
-    [SerializeField] public float distanceCheck;
+    [SerializeField] public float maxDistanceCheck;
+
+    [Range(0, 100)]
+    [SerializeField] public float minDistanceCheck;
 
     [SerializeField] public LayerMask castingCheckLayer;
 
