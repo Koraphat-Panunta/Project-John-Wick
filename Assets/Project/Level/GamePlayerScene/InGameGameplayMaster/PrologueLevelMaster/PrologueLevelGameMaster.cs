@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using TMPro;
 using System.Threading.Tasks;
 
 public class PrologueLevelGameMaster : InGameLevelGameMaster
 {
-    public override InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
-    public override InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
-    public override InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
+    [SerializeField] private OpeningUICanvas openingUICanvas;
+    [SerializeField] private GameOverUICanvas gameOverUICanvas;
+    [SerializeField] private PauseUICanvas pauseCanvasUI;
+    [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
+
+    public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
+    public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
+    public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
-    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
-    public override InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
+    public PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
+    public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
     protected PrologueInGameLevelGameplayGameMasterNodeLeaf prologueInGameLevelGameplayGameMasterNodeLeaf;
 
     [SerializeField] private DoorKeyItem key;
@@ -70,7 +74,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         startNodeSelector = new NodeSelector(()=>true,"PrologueStartNodeSelector");
 
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
-        levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, () => levelOpeningGameMasterNodeLeaf.isComplete == false);
+        levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
         prologueInGameLevelGameplayGameMasterNodeLeaf = new PrologueInGameLevelGameplayGameMasterNodeLeaf(this,()=> prologueInGameLevelGameplayGameMasterNodeLeaf.IsComplete() == false);
         pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI,

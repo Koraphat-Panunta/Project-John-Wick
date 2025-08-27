@@ -2,12 +2,10 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T>,IObserveObjective where T : InGameLevelGameMaster
+public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
 {
     protected GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     protected User user => gameMaster.user;
-
-    protected PauseUICanvas pauseCanvasUI => gameMaster.pauseCanvasUI;
 
     protected Player player => gameMaster.player;
 
@@ -48,10 +46,6 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
     public override void UpdateNode()
     {
     }
-    public virtual void GetNotifyObjectiveUpdate(Objective objective)
-    {
-        if(gameMaster.OnObjectiveUpdate != null)
-            gameMaster.OnObjectiveUpdate(objective);
-    }
+    
    
 }

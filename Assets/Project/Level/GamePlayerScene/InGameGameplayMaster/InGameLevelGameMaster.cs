@@ -7,27 +7,8 @@ using UnityEngine;
 
 public abstract class InGameLevelGameMaster : GameMaster
 {
-    public OpeningUICanvas openingUICanvas;
 
     public GamePlayUICanvas gamePlayUICanvas;
-
-    public GameOverUICanvas gameOverUICanvas;
-
-    public MissionCompleteUICanvas missionCompleteUICanvas;
-
-    public PauseUICanvas pauseCanvasUI;
-
-    public Objective curObjective { 
-        get { return objective; } 
-        set{ 
-            objective = value; 
-            if(OnObjectiveUpdate != null)
-            OnObjectiveUpdate.Invoke(objective);
-        } 
-    }
-    private Objective objective;
-
-    public Action<Objective> OnObjectiveUpdate;
 
     public User user;
     public Player player;
@@ -42,12 +23,6 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
-
-        gameOverUICanvas.gameObject.SetActive(false);
-
-        missionCompleteUICanvas.gameObject.SetActive(false);
-
-        pauseCanvasUI.gameObject.SetActive(false);
 
         InitailizedUserInput();
 
@@ -73,14 +48,9 @@ public abstract class InGameLevelGameMaster : GameMaster
         //isTriggerRestart = false;
         //isTriggerContinue = false;
     }
-
-    public abstract InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
-    public abstract InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
-    public abstract InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }    
+   
     public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
-    public abstract PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
-    public abstract InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get; protected set; }
-
+    
     public void GetNotify(Player player)
     {
         this.player = player;
@@ -104,15 +74,9 @@ public abstract class InGameLevelGameMaster : GameMaster
 
         player = FindAnyObjectByType<Player>();
 
-        openingUICanvas = FindAnyObjectByType<OpeningUICanvas>();
-
+     
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
 
-        gameOverUICanvas = FindAnyObjectByType<GameOverUICanvas>(FindObjectsInactive.Include);
-
-        missionCompleteUICanvas = FindAnyObjectByType<MissionCompleteUICanvas>(FindObjectsInactive.Include);
-       
-        pauseCanvasUI = FindAnyObjectByType<PauseUICanvas>(FindObjectsInactive.Include);
        
     }
     protected void InitailizedUserInput()

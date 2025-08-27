@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    private OpeningUICanvas openingCanvasUI => gameMaster.openingUICanvas;
+    private OpeningUICanvas openingCanvasUI;
     public bool isComplete { get; protected set; }
     private Player player => gameMaster.player;
-    public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,OpeningUICanvas openingUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
-
+        this.openingCanvasUI = openingUICanvas;
     }
 
     public override void Enter()
@@ -64,7 +64,7 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         await Task.Delay(6000);
         try
         {
-            gameMaster.openingUICanvas.gameObject.SetActive(false);
+            openingCanvasUI.gameObject.SetActive(false);
         }
         catch
         {
