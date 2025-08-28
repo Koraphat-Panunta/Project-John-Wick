@@ -43,7 +43,8 @@ public class BulletHitEvent : MonoBehaviour
 
                         AudioSource hitSound = bulletHitSound.Get();
                         hitSound.transform.position = hitPos;
-                        hitSound.PlayOneShot(hitArmor);
+                        hitSound.clip = hitArmor;
+                        hitSound.Play();
                         _ = AudioHitUpdate(hitSound);
                         break;
                     }
@@ -56,7 +57,8 @@ public class BulletHitEvent : MonoBehaviour
 
                         AudioSource hitSound = bulletHitSound.Get();
                         hitSound.transform.position = hitPos;
-                        hitSound.PlayOneShot(hitFresh);
+                        hitSound.clip = hitFresh;
+                        hitSound.Play();
                         _ = AudioHitUpdate(hitSound);
                         break;
                     }

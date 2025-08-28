@@ -46,12 +46,12 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
     public LayerMask weaponLayerMask { get; private set; }
     protected virtual void Awake()
     {
-        triggerState = TriggerState.Up;
         weaponLayerMask = gameObject.layer;
         parentConstraint = GetComponent<ParentConstraint>();
         rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
-        bulletStore.Add(BulletStackType.Chamber, 1);
+        triggerState = TriggerState.Up;
+        this.SetDefaultAttribute();
         InitailizedTree();
 
     }
@@ -92,8 +92,19 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
         isPullTrigger = true;
     }
 
+    protected virtual void OnEnable()
+    {
+        SetDefaultAttribute();
+    }
+
+    protected virtual void SetDefaultAttribute()
+    {
+        triggerState = TriggerState.Up;
+    }
+
+
     #region InitailizedWeaponTree
-   
+
     public WeaponLeafNode currentEventNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
     public abstract RestNode restNode { get; set; }

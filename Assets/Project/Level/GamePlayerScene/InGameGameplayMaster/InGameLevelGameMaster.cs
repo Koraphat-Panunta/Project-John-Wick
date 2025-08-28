@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 
 
@@ -68,7 +67,7 @@ public abstract class InGameLevelGameMaster : GameMaster
             gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
         }
     }
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         user = FindAnyObjectByType<User>();
 

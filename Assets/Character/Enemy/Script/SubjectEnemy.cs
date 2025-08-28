@@ -8,6 +8,8 @@ public abstract class SubjectEnemy : Character
     {
         GotBulletHit,
         HeardingGunShoot,
+        OnEnable,
+        OnDisable,
     } 
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
     public void AddObserver(IObserverEnemy observer)

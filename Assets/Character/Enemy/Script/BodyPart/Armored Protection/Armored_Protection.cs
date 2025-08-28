@@ -10,6 +10,8 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRendererArmored;
 
+    [SerializeField] private Collider collider;
+
     public float hpDamage { get; protected set; }
     public float postureDamage { get; protected set; }
     public float staggerDamage { get; protected set; }
@@ -29,8 +31,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     }
     protected override void Start()
     {
-
-
+        enemy.AddObserver(this);
         if (syncBodyPart != null)
         {
             skinnedMeshRendererArmored.gameObject.SetActive(true);
@@ -64,7 +65,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     protected virtual void ArmoredDestroyed()
     {
         skinnedMeshRendererArmored.gameObject.SetActive(false);
-        gameObject.SetActive(false);
+        collider.enabled = false;
         Detach();
     }
 
@@ -77,6 +78,14 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     public void Detach()
     {
 
+    }
+    public override void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+        if(enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
+        {
+            SetDefaultAttribute();
+        }
+        base.Notify(enemy, enemyEvent);
     }
     private void OnValidate()
     {
@@ -107,6 +116,15 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
+    }
+    private void SetDefaultAttribute()
+    {
+        armorHP = armored_ProtectionSCRP.armorHP;
+        _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
+        _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
+        _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
+        collider.enabled = true;
+        skinnedMeshRendererArmored.gameObject.SetActive(true);
     }
 
 }

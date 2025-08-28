@@ -30,8 +30,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
     private float delayRecovery = 0;
     public override void UpdateNode()
     {
-        Debug.Log(multipleTargetWeight);
-        Debug.Log("distacne = "+distance);
 
         leaningRotation.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight, leaningScriptableObject);
         if (targetLeanWeight == 0) 

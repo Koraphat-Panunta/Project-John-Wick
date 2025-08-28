@@ -9,7 +9,7 @@ public class EnemyObjectManager
     private Camera mainCamera;
     private Enemy enemyPrefab;
     protected ObjectPooling<Enemy> enemyObjPooling;
-    protected Dictionary<Enemy, float> corpseEnemy;
+    public Dictionary<Enemy, float> clearEnemyList { get; protected set; }
 
     protected readonly int corpseDisapearTime = 10;
     protected readonly int corpseDisapearDistance = 20;
@@ -18,12 +18,8 @@ public class EnemyObjectManager
     {
         this.enemyPrefab = enemy;
         this.mainCamera = mainCamera;
-        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 10, 5, Vector3.zero);
-    }
-    private void Awake()
-    {
-        enemyObjPooling = new ObjectPooling<Enemy>(enemyPrefab, 10, 7, Vector3.zero);
-        corpseEnemy = new Dictionary<Enemy, float>();
+        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 10, 4, Vector3.zero);
+        clearEnemyList = new Dictionary<Enemy, float>();
     }
 
     public Enemy SpawnEnemy(Vector3 position, Quaternion rotation, EnemyDirector enemyDirector)
@@ -40,16 +36,16 @@ public class EnemyObjectManager
         Enemy enemy = this.enemyObjPooling.Get();
         enemy.transform.position = position;
         enemy.transform.rotation = rotation;
-
+        AssignEnemyCleaner(enemy);
         return enemy;
     }
     public void ReturnEnemy(Enemy enemy)
     {
         enemyObjPooling.ReturnToPool(enemy);
     }
-    public void AssignEnemyCorpseCleaner(Enemy enemyCorpse)
+    public void AssignEnemyCleaner(Enemy enemyCorpse)
     {
-        corpseEnemy.Add(enemyCorpse, 0);
+        clearEnemyList.Add(enemyCorpse, 0);
         if (clearCorpse == null)
         {
             clearCorpse = ClearCorpseEnemyUpdate();
@@ -65,24 +61,31 @@ public class EnemyObjectManager
     private Task clearCorpse;
     private async Task ClearCorpseEnemyUpdate()
     {
-        while (corpseEnemy.Count > 0)
+        while (clearEnemyList.Count > 0)
         {
-            List<Enemy> enemies = corpseEnemy.Keys.ToList();
+            List<Enemy> enemies = clearEnemyList.Keys.ToList();
             foreach (Enemy enemy in enemies)
             {
-                if (corpseEnemy[enemy] > this.corpseDisapearTime)
+
+                //Debug.Log("enemy "+ enemy + " check");
+                if (enemy.isDead == false)
+                    continue;
+                //Debug.Log("enemy " + enemy + " isdead");
+
+                if (clearEnemyList[enemy] > this.corpseDisapearTime)
                 {
+                    //Debug.Log("enemy " + enemy + " isDisapearTime");
                     if (this.IsObjectInCameraView(mainCamera, enemy.transform.position))
                         continue;
-
+                    //Debug.Log("enemy " + enemy + " outsideCamera View");
                     if (Vector3.Distance(mainCamera.transform.position, enemy.transform.position) < corpseDisapearDistance)
                         continue;
-
-                    enemyObjPooling.ReturnToPool(enemy);
-                    corpseEnemy.Remove(enemy);
+                    //Debug.Log("enemy " + enemy + " outsideCamera Distance");
+                    this.ReturnEnemy(enemy);
+                    clearEnemyList.Remove(enemy);
                 }
                 else
-                    corpseEnemy[enemy] += Time.deltaTime;
+                    clearEnemyList[enemy] += Time.deltaTime;
             }
             await Task.Yield();
         }

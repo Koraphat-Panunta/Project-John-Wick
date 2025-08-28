@@ -49,8 +49,6 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
             if(obj.TryGetComponent<I_Interactable>(out I_Interactable i_Interactable) == false)
                 continue;
 
-            Debug.Log(i_Interactable);
-
             if(interactableDetected.Contains(i_Interactable))
                 continue;
 
