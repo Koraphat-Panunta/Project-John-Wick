@@ -43,7 +43,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         }
         else
         {
-            delayRecovery = 1.2f;
+            delayRecovery = .5f;
             leaningRotation.SetLeaningLeftRight(Mathf.Lerp(leaningRotation.GetLeaningLeftRight()
                 , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax * multipleTargetWeight, leaningSpeed * Time.deltaTime));
         }
@@ -55,9 +55,14 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         LeaningUpdate();
         base.FixedUpdateNode();
     }
-
+    private float checkTimer;
+    private float checkTimeInterval = 0.067f;
     private void LeaningUpdate()
     {
+        checkTimer += Time.deltaTime;
+
+        if(checkTimer < checkTimeInterval)
+            return;
 
         float targetWeight = 0;
         Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
@@ -142,6 +147,8 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
             this.targetLeanWeight = leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
 
         }
+
+        checkTimer = 0f;
     }
     
     public override void Exit()

@@ -27,7 +27,14 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraMain);
         base.Awake();
     }
-   
+
+    protected override void LateUpdate()
+    {
+        enemyObjectManager.ClearCorpseEnemyUpdate();
+        ar15_MK1_weaponObjManager.ClearWeaponUpdate();
+        glock17_MK1_weaponobjManager.ClearWeaponUpdate();
+        base.LateUpdate();
+    }
     private class TemplateSceneInGameLevel_Gameplay_Nodeleaf : InGameLevelGamplayGameMasterNodeLeaf<TemplateSceneInGameLevelGameMaster>
     {
         private bool isSpawnWave1;
@@ -52,7 +59,6 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         {
             if (isSpawnWave1 == false && delaySpawn <= 0 && gameMaster.stopSpawning == false && gameMaster.enemyObjectManager.clearEnemyList.Count <= 0)
             {
-
                 Enemy enemy1 = gameMaster.enemyObjectManager.SpawnEnemy(
               gameMaster.enemyMK1SpawnPoint_1.position
               , gameMaster.enemyMK1SpawnPoint_1.rotation
@@ -93,6 +99,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 
             base.UpdateNode();
         }
+        
         public override void Exit()
         {
             base.Exit();

@@ -14,7 +14,8 @@ public abstract class SubjectEnemy : Character
     protected List<IObserverEnemy> Observers = new List<IObserverEnemy>();
     public void AddObserver(IObserverEnemy observer)
     {
-        Observers.Add(observer);
+        if(Observers.Contains(observer) == false)
+            Observers.Add(observer);
     }
     public void RemoveObserver(IObserverEnemy observer) 
     {

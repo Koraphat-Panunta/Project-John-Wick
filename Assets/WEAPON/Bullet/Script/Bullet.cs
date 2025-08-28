@@ -23,7 +23,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 
     public Bullet(Weapon weapon)
     {
-        bulletHitForce = 60;
+        bulletHitForce = 40;
         this.weapon = weapon;
         noiseMakingBehavior = new NoiseMakingBehavior(this);
 

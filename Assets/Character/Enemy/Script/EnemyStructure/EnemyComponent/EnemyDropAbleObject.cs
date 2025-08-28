@@ -11,16 +11,16 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
 
     void IObserverEnemy.Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
     {
+        if (enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
+            isAlreadyDrop = false;
     }
 
     public void Notify<T>(Enemy enemy, T node) where T : INode
     {
      
-        
 
-       if (node is EnemyDeadStateNode && isAlreadyDrop == false)
+       if (node is EnemyDeadStateNode deadState && deadState.curstate == EnemyStateLeafNode.Curstate.Enter && isAlreadyDrop == false)
         {
-
 
             AmmoGetAbleObject.amoutAmmoAdd = 6;
             base.DropObject(AmmoGetAbleObject);

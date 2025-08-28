@@ -1,24 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
-public class EnemyObjectManager
+public class EnemyObjectManager:IObserverEnemy
 {
     private Camera mainCamera;
     private Enemy enemyPrefab;
     protected ObjectPooling<Enemy> enemyObjPooling;
     public Dictionary<Enemy, float> clearEnemyList { get; protected set; }
 
-    protected readonly int corpseDisapearTime = 10;
-    protected readonly int corpseDisapearDistance = 20;
+    protected readonly int corpseDisapearTime = 30;
+    protected readonly int corpseDisapearDistance = 10;
 
     public EnemyObjectManager(Enemy enemy, Camera mainCamera)
     {
         this.enemyPrefab = enemy;
         this.mainCamera = mainCamera;
-        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 10, 4, Vector3.zero);
+        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 10, 2, Vector3.zero);
         clearEnemyList = new Dictionary<Enemy, float>();
     }
 
@@ -36,32 +34,28 @@ public class EnemyObjectManager
         Enemy enemy = this.enemyObjPooling.Get();
         enemy.transform.position = position;
         enemy.transform.rotation = rotation;
-        AssignEnemyCleaner(enemy);
+        enemy.AddObserver(this);
         return enemy;
-    }
-    public void ReturnEnemy(Enemy enemy)
-    {
-        enemyObjPooling.ReturnToPool(enemy);
-    }
-    public void AssignEnemyCleaner(Enemy enemyCorpse)
-    {
-        clearEnemyList.Add(enemyCorpse, 0);
-        if (clearCorpse == null)
-        {
-            clearCorpse = ClearCorpseEnemyUpdate();
-        }
-    }
+    }    
     private bool IsObjectInCameraView(Camera camera, Vector3 objectPos)
     {
         Vector3 viewPos = camera.WorldToViewportPoint(objectPos);
-        bool isInView = viewPos.z > 0 && viewPos.x > 0 && viewPos.x < 1 && viewPos.y > 0 && viewPos.y < 1;
+        bool volume = viewPos.z > 0 && viewPos.x > 0 && viewPos.x < 1 && viewPos.y > 0 && viewPos.y < 1;
 
-        return isInView;
+        return volume;
     }
-    private Task clearCorpse;
-    private async Task ClearCorpseEnemyUpdate()
+
+    float checkTimer = 0f;
+    float checkInterval = 0.25f;
+    public void ClearCorpseEnemyUpdate()
     {
-        while (clearEnemyList.Count > 0)
+        checkTimer += Time.deltaTime;
+
+        if(checkTimer < checkInterval)
+            return;
+
+
+        if(clearEnemyList.Count > 0)
         {
             List<Enemy> enemies = clearEnemyList.Keys.ToList();
             foreach (Enemy enemy in enemies)
@@ -81,16 +75,32 @@ public class EnemyObjectManager
                     if (Vector3.Distance(mainCamera.transform.position, enemy.transform.position) < corpseDisapearDistance)
                         continue;
                     //Debug.Log("enemy " + enemy + " outsideCamera Distance");
-                    this.ReturnEnemy(enemy);
+                    enemyObjPooling.ReturnToPool(enemy);
                     clearEnemyList.Remove(enemy);
                 }
                 else
-                    clearEnemyList[enemy] += Time.deltaTime;
+                {
+                    Debug.Log("enemy " + enemy + " DisapearTime = " + clearEnemyList[enemy]);
+                    clearEnemyList[enemy] += checkInterval;
+                }
             }
-            await Task.Yield();
         }
-        clearCorpse = null;
 
+        checkTimer = 0f;
+    }
+
+    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    {
+       
+    }
+
+    public void Notify<T>(Enemy enemy, T node) where T : INode
+    {
+        if (node is EnemyDeadStateNode enemyDead)
+        {
+            clearEnemyList.Add(enemy, 0);
+            enemy.RemoveObserver(this);
+        }
     }
 }
 
