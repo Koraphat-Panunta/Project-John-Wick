@@ -9,14 +9,14 @@ public class EnemyObjectManager:IObserverEnemy
     protected ObjectPooling<Enemy> enemyObjPooling;
     public Dictionary<Enemy, float> clearEnemyList { get; protected set; }
 
-    protected readonly int corpseDisapearTime = 30;
-    protected readonly int corpseDisapearDistance = 10;
+    protected readonly int corpseDisapearTime = 5;
+    protected readonly int corpseDisapearDistance = 6;
 
     public EnemyObjectManager(Enemy enemy, Camera mainCamera)
     {
         this.enemyPrefab = enemy;
         this.mainCamera = mainCamera;
-        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 10, 2, Vector3.zero);
+        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 20, 20, Vector3.zero);
         clearEnemyList = new Dictionary<Enemy, float>();
     }
 

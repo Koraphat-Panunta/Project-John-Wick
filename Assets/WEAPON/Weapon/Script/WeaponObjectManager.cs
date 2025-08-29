@@ -10,8 +10,8 @@ public class WeaponObjectManager
     protected ObjectPooling<Weapon> weaponObjPooling;
     public Dictionary<Weapon, float> clearWeaponList { get; protected set; }
 
-    protected readonly int weaponDisapearTime = 60;
-    protected readonly int weaponDisapearDistance = 20;
+    protected readonly int weaponDisapearTime = 10;
+    protected readonly int weaponDisapearDistance = 6;
 
     public WeaponObjectManager(Weapon weapon, Camera mainCamera)
     {
