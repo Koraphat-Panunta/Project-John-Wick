@@ -11,10 +11,8 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private EnemyDirector enemyDirector;
     [SerializeField] private Enemy enemyMK1;
 
-    public EnemySpawnPointRoom enemySpawnPointRoom_1;
-    public EnemySpawnPointRoom enemySpawnPointRoom_2;
+    public EnemySpawnPointRoom[] enemySpawnPointRoomWave;
     public EnemyObjectManager enemyObjectManager { get; set; }
-
     public Weapon ar15_MK1_origin;
     public WeaponObjectManager ar15_MK1_weaponObjManager { get; set; }
     public Weapon glock17_MK1_origin;
@@ -37,14 +35,59 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     }
     private class TemplateSceneInGameLevel_Gameplay_Nodeleaf : InGameLevelGamplayGameMasterNodeLeaf<TemplateSceneInGameLevelGameMaster>
     {
-        private bool isSpawnWave1;
-        private float delaySpawn = 3;
-
-        private List<Enemy> enemies;
+        public EnemyWaveManager enemyWaveManager { get; set; }
         public TemplateSceneInGameLevel_Gameplay_Nodeleaf(TemplateSceneInGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
         {
-            isSpawnWave1 = false;
-            enemies = new List<Enemy>();
+            enemyWaveManager = new EnemyWaveManager(gameMaster.player.transform, gameMaster.enemySpawnPointRoomWave, gameMaster.enemyDirector);
+
+            EnemyWave enemyWave1 = new EnemyWave(
+                () => true
+                , new EnemyWave.EnemyListSpawn[]
+                {
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4),
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
+                }
+                );
+
+            EnemyWave enemyWave2 = new EnemyWave(
+                () => enemyWaveManager.numberOfEnemy <= 2
+                , new EnemyWave.EnemyListSpawn[]
+                {
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4)
+                }
+                , 2);
+
+            EnemyWave enemyWave3 = new EnemyWave(
+               () => enemyWaveManager.numberOfEnemy <= 2
+               , new EnemyWave.EnemyListSpawn[]
+               {
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
+               }
+               , 2);
+
+            EnemyWave enemyWave4 = new EnemyWave(
+              () => enemyWaveManager.numberOfEnemy <= 0
+              , new EnemyWave.EnemyListSpawn[]
+              {
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4)
+              }
+              , 5);
+
+            EnemyWave enemyWave5 = new EnemyWave(
+              () => enemyWaveManager.numberOfEnemy <= 2
+              , new EnemyWave.EnemyListSpawn[]
+              {
+                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4),
+              }
+              , 3);
+
+            enemyWaveManager.AddEnemyWave(enemyWave1);
+            enemyWaveManager.AddEnemyWave(enemyWave2);
+            enemyWaveManager.AddEnemyWave(enemyWave3);
+            enemyWaveManager.AddEnemyWave(enemyWave4);
+            enemyWaveManager.AddEnemyWave(enemyWave5);
         }
         public override void Enter()
         {
@@ -57,43 +100,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         }
         public override void UpdateNode()
         {
-            if (isSpawnWave1 == false && delaySpawn <= 0 && gameMaster.stopSpawning == false && gameMaster.enemyObjectManager.clearEnemyList.Count <= 0)
-            {
-                
-                gameMaster.enemySpawnPointRoom_1.SpawnEnemy(
-                    gameMaster.enemyObjectManager
-                    , gameMaster.enemyDirector
-                    , gameMaster.ar15_MK1_weaponObjManager, false, out Enemy enemy1);
-
-                gameMaster.enemySpawnPointRoom_2.SpawnEnemy(
-                    gameMaster.enemyObjectManager
-                    , gameMaster.enemyDirector
-                    , gameMaster.glock17_MK1_weaponobjManager, false, out Enemy enemy2);
-
-                enemies.Add(enemy1);
-                enemies.Add(enemy2);
-                isSpawnWave1 = true;
-            }
-            else
-                Debug.Log("Delay spawn 1 = " + delaySpawn);
-            int deadNum = enemies.Count;
-            if (enemies.Count > 0)
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.isDead)
-                        deadNum--;
-                }
-                if (deadNum <= 0)
-                {
-                    enemies.Clear();
-                    isSpawnWave1 = false;
-                    delaySpawn = 3;
-                }
-            }
-
-            delaySpawn = Mathf.Clamp(delaySpawn - Time.deltaTime, 0, delaySpawn);
-
+            enemyWaveManager.EnemyWaveUpdate();
             base.UpdateNode();
         }
         

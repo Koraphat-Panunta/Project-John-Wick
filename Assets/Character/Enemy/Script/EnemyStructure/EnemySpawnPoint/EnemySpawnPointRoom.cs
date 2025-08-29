@@ -9,6 +9,8 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     [SerializeField] Transform exitPoint;
     [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy;
     [SerializeField] Door door;
+    private readonly float exitMaxTime =3 ;
+    private float exitTimer;
     protected override  void Awake()
     {
         spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI>();
@@ -19,15 +21,25 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
         if(spawnedEnemy.Count <= 0)
             return;
 
+        exitTimer -= Time.deltaTime;    
+
         List<Enemy> enemies = this.spawnedEnemy.Keys.ToList<Enemy>();
+
         for(int i = 0; i < enemies.Count; i++)
         {
+            if(exitTimer <= 0)
+            {
+                enemies[i]._movementCompoent.SetPosition(exitPoint.position);
+                spawnedEnemy.Remove(enemies[i]);
+                continue;
+            }
             if (spawnedEnemy[enemies[i]].MoveToPositionRotateToward(exitPoint.position, 1, 1))
             {
                 spawnedEnemy[enemies[i]].GetComponent<EnemyDecision>().enabled = true;
                 spawnedEnemy.Remove(enemies[i]);
             }
         }
+
 
         if(spawnedEnemy.Count <=0)
             door.Close();
@@ -39,6 +51,7 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     {
         if(base.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, isForceSpawn, out enemy))
         {
+            exitTimer = exitMaxTime;
             spawnedEnemy.Add(enemy,enemy.GetComponent<EnemyCommandAPI>());
             enemy.GetComponent<EnemyDecision>().enabled = false;
             door.Open();

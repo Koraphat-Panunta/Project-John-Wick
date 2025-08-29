@@ -25,7 +25,10 @@ public class EnemyObjectManager:IObserverEnemy
         Enemy enemy = this.SpawnEnemy(position, rotation);
 
         if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision))
+        {
             enemyDirector.AddEnemy(enemyRoleBasedDecision);
+        }
+
 
         return enemy;
     }
@@ -80,7 +83,6 @@ public class EnemyObjectManager:IObserverEnemy
                 }
                 else
                 {
-                    Debug.Log("enemy " + enemy + " DisapearTime = " + clearEnemyList[enemy]);
                     clearEnemyList[enemy] += checkInterval;
                 }
             }

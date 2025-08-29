@@ -52,6 +52,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     public void AddEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
         enemyRoleBasedDecision.enemy.AddObserver(this);
+        this.enemiesRole.Add(enemyRoleBasedDecision);
         this.enemysGetRole.Add(enemyRoleBasedDecision.enemy, enemyRoleBasedDecision);
         enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyRoleBasedDecision.enemyCommand, this, enemyRoleBasedDecision);
     }
@@ -72,9 +73,12 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
             {
                 case EnemyDeadStateNode deadStateNodeDead:
                     {
-                        this.RemoveEnemy(enemy);
-                        elapseTimeChaserChange = chaserChangeDelay;
-                        CalcuateRoleCount();
+                        if (deadStateNodeDead.curstate == EnemyStateLeafNode.Curstate.Enter)
+                        {
+                            this.RemoveEnemy(enemy);
+                            elapseTimeChaserChange = chaserChangeDelay;
+                            CalcuateRoleCount();
+                        }
                         break;
                     }
                 case IGotGunFuAttackNode gotGunFuAttackAbleNode:

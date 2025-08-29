@@ -18,30 +18,29 @@ public class EnemySpawnerPoint : MonoBehaviour
         enemy = null;
         if(preCondition.Invoke() == false && isForceSpawn == false)
             return false;
-
         enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation, enemyDirector);
         Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
         return true;
     }
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager, bool isForceSpawn)
-    {
-        if (preCondition.Invoke() == false && isForceSpawn == false)
-            return false;
+    //public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager, bool isForceSpawn)
+    //{
+    //    if (preCondition.Invoke() == false && isForceSpawn == false)
+    //        return false;
 
-        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
-        Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
+    //    Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
+    //    Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
-        return true;
-    }
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, bool isForceSpawn)
-    {
-        if (preCondition.Invoke() == false && isForceSpawn == false)
-            return false;
+    //    return true;
+    //}
+    //public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, bool isForceSpawn)
+    //{
+    //    if (preCondition.Invoke() == false && isForceSpawn == false)
+    //        return false;
 
-        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
+    //    Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
 
-        return true;
-    }
+    //    return true;
+    //}
    
 }
