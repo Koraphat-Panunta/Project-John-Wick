@@ -11,8 +11,8 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private EnemyDirector enemyDirector;
     [SerializeField] private Enemy enemyMK1;
 
-    public Transform enemyMK1SpawnPoint_1;
-    public Transform enemyMK1SpawnPoint_2;
+    public EnemySpawnPointRoom enemySpawnPointRoom_1;
+    public EnemySpawnPointRoom enemySpawnPointRoom_2;
     public EnemyObjectManager enemyObjectManager { get; set; }
 
     public Weapon ar15_MK1_origin;
@@ -59,19 +59,16 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         {
             if (isSpawnWave1 == false && delaySpawn <= 0 && gameMaster.stopSpawning == false && gameMaster.enemyObjectManager.clearEnemyList.Count <= 0)
             {
-                Enemy enemy1 = gameMaster.enemyObjectManager.SpawnEnemy(
-              gameMaster.enemyMK1SpawnPoint_1.position
-              , gameMaster.enemyMK1SpawnPoint_1.rotation
-              , gameMaster.enemyDirector);
+                
+                gameMaster.enemySpawnPointRoom_1.SpawnEnemy(
+                    gameMaster.enemyObjectManager
+                    , gameMaster.enemyDirector
+                    , gameMaster.ar15_MK1_weaponObjManager, false, out Enemy enemy1);
 
-                Weapon weapon1 = gameMaster.ar15_MK1_weaponObjManager.SpawnWeapon(enemy1);
-
-                Enemy enemy2 = gameMaster.enemyObjectManager.SpawnEnemy(
-                   gameMaster.enemyMK1SpawnPoint_2.position
-                   , gameMaster.enemyMK1SpawnPoint_2.rotation
-                   , gameMaster.enemyDirector);
-
-                Weapon weapon2 = gameMaster.glock17_MK1_weaponobjManager.SpawnWeapon(enemy2);
+                gameMaster.enemySpawnPointRoom_2.SpawnEnemy(
+                    gameMaster.enemyObjectManager
+                    , gameMaster.enemyDirector
+                    , gameMaster.glock17_MK1_weaponobjManager, false, out Enemy enemy2);
 
                 enemies.Add(enemy1);
                 enemies.Add(enemy2);

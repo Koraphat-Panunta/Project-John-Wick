@@ -12,6 +12,7 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     protected override  void Awake()
     {
         spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI>();
+        base.Awake();
     }
     protected virtual void Update()
     {
