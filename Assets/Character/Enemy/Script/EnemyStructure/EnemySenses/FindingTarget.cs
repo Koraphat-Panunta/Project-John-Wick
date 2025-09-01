@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FindingTarget 
@@ -12,7 +10,8 @@ public class FindingTarget
     public Vector3 lastSeenPos { get; private set; }
 
     public Action<GameObject> OnSpottingTarget;
-
+    private float checkTimer;
+    private float checkTimeInterval = 0.067f;
     public FindingTarget(LayerMask targetMask,FieldOfView fieldOfView)
     {
         this.fieldOfView = fieldOfView;
@@ -21,6 +20,13 @@ public class FindingTarget
     public bool FindTarget(out GameObject target)
     {
         target = null;
+
+        checkTimer += Time.deltaTime;
+        if (checkTimer < checkTimeInterval)
+            return false;
+
+
+
         if (fieldOfView.TryFindSingleTarget(this.targetMask, out GameObject spottedTarget, new Vector3(0, 1.3f, 0)))
         {
 
@@ -32,16 +38,19 @@ public class FindingTarget
             if(OnSpottingTarget != null)
             OnSpottingTarget.Invoke(target);
 
+            checkTimer = 0;
             return true;
         }
         else
         {
             isSpottingTarget = false;
-            lostSightTiming += Time.deltaTime;
+            lostSightTiming += checkTimer;
 
+            checkTimer = 0;
             return false;
         }
        
+
     }
 
 

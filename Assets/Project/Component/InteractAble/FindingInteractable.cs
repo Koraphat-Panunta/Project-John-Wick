@@ -7,7 +7,7 @@ public class FindingInteractable
         i_Interactable = null;
 
         // Raycast check
-        if (Physics.Raycast(startCast, dirCast, out RaycastHit rayHit, distanceDetect, layerMask,QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(startCast, dirCast, out RaycastHit rayHit, distanceDetect, layerMask,QueryTriggerInteraction.Collide))
         {
             if (rayHit.collider.TryGetComponent<I_Interactable>(out i_Interactable)
                 && i_Interactable.isBeenInteractAble)
@@ -15,7 +15,7 @@ public class FindingInteractable
         }
 
         // SphereCast fallback
-        if (Physics.SphereCast(startCast, sphereCastRadius, dirCast, out RaycastHit sphereHit, distanceDetect, layerMask,QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(startCast, sphereCastRadius, dirCast, out RaycastHit sphereHit, distanceDetect, layerMask,QueryTriggerInteraction.Collide))
         {
             if (sphereHit.collider.TryGetComponent<I_Interactable>(out i_Interactable)
                 && i_Interactable.isBeenInteractAble)

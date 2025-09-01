@@ -32,8 +32,8 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
                 {
                     if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
                     {
-                        characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
-                        characterController.height = StandHeight;
+                        characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
+                        characterController.height = CrouchHeight;
                     }
                     else
                     {
@@ -50,6 +50,7 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
                 }
             case PlayerStandMoveNodeLeaf playerStandMoveNodeLeaf:
             case PlayerStandIdleNodeLeaf playerStandIdleNodeLeaf:
+                case PlayerSprintNode:
                 {
                     characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
                     characterController.height = StandHeight;

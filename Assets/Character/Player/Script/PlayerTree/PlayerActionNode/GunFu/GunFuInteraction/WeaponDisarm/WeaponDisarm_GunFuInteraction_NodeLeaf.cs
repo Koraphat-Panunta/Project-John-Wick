@@ -66,7 +66,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
             case WeaponDisarmPhase.Pulling:
                 {
                     Pull(elapesTime / pullTime);
-                    Debug.Log("t disarm = " + elapesTime / pullTime);
                     if (elapesTime >= pullTime)
                     {
                         gotGunExecutedAble.TakeGunFuAttacked(this, player);
@@ -121,25 +120,24 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
     private void Disarm()
     {
-        WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
 
-        weaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
+        WeaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
 
         if (disarmedWeapon is PrimaryWeapon && player._weaponBelt.myPrimaryWeapon != null)
-            weaponAttachingBehavior.Detach(player._weaponBelt.myPrimaryWeapon as Weapon, player);
+            WeaponAttachingBehavior.Detach(player._weaponBelt.myPrimaryWeapon as Weapon, player);
 
         if (disarmedWeapon is SecondaryWeapon && player._weaponBelt.mySecondaryWeapon != null)
-            weaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as Weapon, player);
+            WeaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as Weapon, player);
 
         if (player._currentWeapon != null)
         {
             if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
-                weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
             else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
-                weaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
         }
 
-        weaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
+        WeaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         //else
         //    throw new Exception("WeaponDisarm");
     }

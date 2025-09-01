@@ -597,7 +597,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -652,10 +652,11 @@ MonoBehaviour:
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
   syncBodyPart: {fileID: 6183801970392732339}
-  armorHP: 0
+  armorHP: 100
   armored_ProtectionSCRP: {fileID: 11400000, guid: 17a6691fe95497b4c93d02b2b264f9b0,
     type: 2}
   skinnedMeshRendererArmored: {fileID: 3005850444562900054}
+  collider: {fileID: 4355368927131558458}
 --- !u!1 &3579995183458225762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,7 +1339,6 @@ GameObject:
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
-  - component: {fileID: 2216804310733466684}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1383,12 +1383,12 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 35742cf5674a7674baafa24c668f698b, type: 3}
   m_Controller: {fileID: 9100000, guid: 57e2c988ed24de940be8f361798781fd, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 1
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1813,7 +1813,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
   m_Name: 
@@ -1901,20 +1901,6 @@ MonoBehaviour:
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
   EnableDebug: 0
---- !u!114 &2216804310733466684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 451251e159f42df43821290a3b9300d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 2619394019457856660}
-  curWeaponUsed: {fileID: 0}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,7 +2567,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -2603,7 +2589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
   enemyHPbarDisplay: {fileID: 8440024617626377136}
-  bodyPartDamageRecivedSCRP: {fileID: 0}
+  bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
+    type: 2}
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
@@ -2612,6 +2599,7 @@ MonoBehaviour:
   armored_ProtectionSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
     type: 2}
   skinnedMeshRendererArmored: {fileID: 3866542549477129403}
+  collider: {fileID: 9069138010927027483}
 --- !u!1001 &972072574551711555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4049,7 +4037,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!144 &2396856782160730406
 CharacterJoint:
   m_ObjectHideFlags: 0

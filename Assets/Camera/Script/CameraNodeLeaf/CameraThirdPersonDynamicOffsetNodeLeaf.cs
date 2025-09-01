@@ -83,6 +83,6 @@ public class CameraThirdPersonDynamicOffsetNodeLeaf : CameraNodeLeaf
     private void UpdateTargetOffset(out Vector3 targetOffset)
     {
         targetOffset = this.targetOffset;
-        targetOffset = BezierurveMove.GetPointOnBezierCurve(this.offsetKeyFrames, _timer / duration);
+        targetOffset = BezierurveBehavior.GetPointOnBezierCurve(this.offsetKeyFrames, _timer / duration);
     }
 }

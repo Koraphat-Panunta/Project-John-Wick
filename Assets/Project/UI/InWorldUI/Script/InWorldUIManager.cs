@@ -50,7 +50,8 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
             interactableInWorldUI, 
             mainCamera,
             player,
-            LayerMask.GetMask("Weapon")
+            LayerMask.GetMask("Weapon"),
+            Vector3.zero
             );
         doorInteractablePointUIManagerNodeLeaf = new DoorInteractablePointUIManagerNodeLeaf(
             () => true
@@ -58,6 +59,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
             , mainCamera
             , player
             , LayerMask.GetMask("Default")
+            , Vector3.zero
             );
 
         startNodeSelector.AddtoChildNode(inWorldUINodeCombine);

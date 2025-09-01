@@ -7,10 +7,7 @@ public class AmmoProuch
     public Dictionary<BulletType,int> amountOf_ammo = new Dictionary<BulletType,int>();
     public Dictionary<BulletType,int> maximunAmmo = new Dictionary<BulletType,int>();
 
-    private int max_9mmDefault = 90;
-    private int max_45mmDefault = 90;
-    private int max_556mmDefault = 30;
-    private int max_762mmDefault = 30;
+
     public AmmoProuch(int start9mm,int start45mm,int start556mm,int start762mm,
         int max9mm,int max45mm,int max556mm,int max762mm) 
     {

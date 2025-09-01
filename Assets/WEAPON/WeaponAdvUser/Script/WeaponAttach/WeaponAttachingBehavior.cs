@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class WeaponAttachingBehavior
+public static class WeaponAttachingBehavior
 {
-    public void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
+    public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
     {
         switch (weaponAttachingAble)
         {
@@ -30,7 +30,7 @@ public class WeaponAttachingBehavior
                     weapon._collider.isTrigger = true;
 
                     //Set Parent Constraint
-                    this.SetParentConstrain(weapon, mainHandSocket.weaponAttachingAbleTransform);
+                    SetParentConstrain(weapon, mainHandSocket.weaponAttachingAbleTransform);
 
                     //Set AnimationState Override
                     AnimatorOverrideController animatorOverrideController = weaponAttachingAble.weaponAdvanceUser._animatorWeaponAdvanceUserOverride;
@@ -103,7 +103,7 @@ public class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     weapon._collider.isTrigger = true;
-                    this.SetParentConstrain(weapon, primaryWeaponSocket.weaponAttachingAbleTransform);
+                    SetParentConstrain(weapon, primaryWeaponSocket.weaponAttachingAbleTransform);
                     if(primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         primaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
                     break; 
@@ -127,14 +127,14 @@ public class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     weapon._collider.isTrigger = true;
-                    this.SetParentConstrain(weapon, secondaryWeaponSocket.weaponAttachingAbleTransform);
+                    SetParentConstrain(weapon, secondaryWeaponSocket.weaponAttachingAbleTransform);
                     if(secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         secondaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
                     break; 
                 }
         }
     }
-    public void Detach(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
+    public static void Detach(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
     {
         if (weapon.userWeapon != null)
         {
@@ -177,7 +177,7 @@ public class WeaponAttachingBehavior
        weapon.userWeapon = null;
 
     }
-    private void SetParentConstrain(Weapon weapon, Transform transform)
+    private static void SetParentConstrain(Weapon weapon, Transform transform)
     {
         ConstraintSource source = new ConstraintSource();
         source.sourceTransform = transform;
@@ -201,7 +201,7 @@ public class WeaponAttachingBehavior
         weapon.parentConstraint.constraintActive = true;
         weapon.parentConstraint.weight = 1;
     }
-    private void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
+    private static void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
     {
         Animator animator = weaponAdvanceUser._weaponUserAnimator;
         AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAdvanceUser._animatorWeaponAdvanceUserOverride);
@@ -249,7 +249,7 @@ public class WeaponAttachingBehavior
         else
         animator.Play(animatorStateInfo.fullPathHash, 0, animatorStateNormalizedTime);
     }
-    private void SetWeaponAdvacneUserProperty(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
+    private static void SetWeaponAdvacneUserProperty(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
     {
         if (weapon is PrimaryWeapon)
         {

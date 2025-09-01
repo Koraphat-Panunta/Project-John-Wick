@@ -7,7 +7,6 @@ public class HpGetAbleObject : ItemObject
 
     protected override void SetVisitorClient(IRecivedAble client)
     {
-        (client as IHPReciveAble).character.AddHP(amoutOfHpAdd);
         (client as IHPReciveAble).Recived(this);
     }
 }

@@ -161,15 +161,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TriggerParkour"",
-                    ""type"": ""Button"",
-                    ""id"": ""a48362e1-1a7f-403b-9cd8-4b78e1eb79e3"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -656,17 +647,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""action"": ""HolsterWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""08e1a128-aec1-4084-9ddc-d6b77c0149f3"",
-                    ""path"": ""<Keyboard>/leftAlt"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TriggerParkour"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -729,7 +709,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         m_PlayerAction_TriggerSwitchDrawPrimary = m_PlayerAction.FindAction("TriggerSwitchDrawPrimary", throwIfNotFound: true);
         m_PlayerAction_TriggerSwitchDrawSecondary = m_PlayerAction.FindAction("TriggerSwitchDrawSecondary", throwIfNotFound: true);
         m_PlayerAction_HolsterWeapon = m_PlayerAction.FindAction("HolsterWeapon", throwIfNotFound: true);
-        m_PlayerAction_TriggerParkour = m_PlayerAction.FindAction("TriggerParkour", throwIfNotFound: true);
         // PauseAction
         m_PauseAction = asset.FindActionMap("PauseAction", throwIfNotFound: true);
         m_PauseAction_PauseTrigger = m_PauseAction.FindAction("PauseTrigger", throwIfNotFound: true);
@@ -815,7 +794,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerAction_TriggerSwitchDrawPrimary;
     private readonly InputAction m_PlayerAction_TriggerSwitchDrawSecondary;
     private readonly InputAction m_PlayerAction_HolsterWeapon;
-    private readonly InputAction m_PlayerAction_TriggerParkour;
     public struct PlayerActionActions
     {
         private @UserInput m_Wrapper;
@@ -835,7 +813,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         public InputAction @TriggerSwitchDrawPrimary => m_Wrapper.m_PlayerAction_TriggerSwitchDrawPrimary;
         public InputAction @TriggerSwitchDrawSecondary => m_Wrapper.m_PlayerAction_TriggerSwitchDrawSecondary;
         public InputAction @HolsterWeapon => m_Wrapper.m_PlayerAction_HolsterWeapon;
-        public InputAction @TriggerParkour => m_Wrapper.m_PlayerAction_TriggerParkour;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -890,9 +867,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @HolsterWeapon.started += instance.OnHolsterWeapon;
             @HolsterWeapon.performed += instance.OnHolsterWeapon;
             @HolsterWeapon.canceled += instance.OnHolsterWeapon;
-            @TriggerParkour.started += instance.OnTriggerParkour;
-            @TriggerParkour.performed += instance.OnTriggerParkour;
-            @TriggerParkour.canceled += instance.OnTriggerParkour;
         }
 
         private void UnregisterCallbacks(IPlayerActionActions instance)
@@ -942,9 +916,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
             @HolsterWeapon.started -= instance.OnHolsterWeapon;
             @HolsterWeapon.performed -= instance.OnHolsterWeapon;
             @HolsterWeapon.canceled -= instance.OnHolsterWeapon;
-            @TriggerParkour.started -= instance.OnTriggerParkour;
-            @TriggerParkour.performed -= instance.OnTriggerParkour;
-            @TriggerParkour.canceled -= instance.OnTriggerParkour;
         }
 
         public void RemoveCallbacks(IPlayerActionActions instance)
@@ -1025,7 +996,6 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
         void OnTriggerSwitchDrawPrimary(InputAction.CallbackContext context);
         void OnTriggerSwitchDrawSecondary(InputAction.CallbackContext context);
         void OnHolsterWeapon(InputAction.CallbackContext context);
-        void OnTriggerParkour(InputAction.CallbackContext context);
     }
     public interface IPauseActionActions
     {

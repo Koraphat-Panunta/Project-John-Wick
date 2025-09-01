@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
+using static UnityEngine.EventSystems.EventTrigger;
+using static SubjectEnemy;
 
 public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 {
@@ -31,36 +33,54 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     private void Start()
     {
         enemiesRole.ForEach(eRole => 
-        { 
-            eRole.enemy.AddObserver(this);
-            this.enemysGetRole.Add(eRole.enemy, eRole);
-            eRole.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(eRole.enemyCommand, this, eRole);
+        {
+            this.AddEnemy(eRole);
         });
         assingTime = 0;
     }
     // Update is called once per frame
     void Update()
     {
-       this.UpdateRoleManager();    
+        this.UpdateOverwatchShootPoint();
+        this.UpdateRoleManager();    
     }
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    
+    public void AddEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
+        enemyRoleBasedDecision.enemy.AddObserver(this);
+        this.enemiesRole.Add(enemyRoleBasedDecision);
+        this.enemysGetRole.Add(enemyRoleBasedDecision.enemy, enemyRoleBasedDecision);
+        enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyRoleBasedDecision.enemyCommand, this, enemyRoleBasedDecision);
+    }
+    public void RemoveEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
+    {
+       this.RemoveEnemy(enemyRoleBasedDecision.enemy);
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        enemy.RemoveObserver(this);
+        enemiesRole.Remove(enemysGetRole[enemy]);
+        enemysGetRole.Remove(enemy);
+    }
+    public void Notify<T>(Enemy enemy,T node)
+    {
+
+        if (node is EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
             && enemy._posture <= enemy._postureHeavy)
             AssignChaser(enemysGetRole[enemy]);
-    }
-    public void Notify<T>(Enemy enemy,T node)where T : INode
-    {
-        if(node is EnemyStateLeafNode enemyStateNodeLeaf)
+
+        if (node is EnemyStateLeafNode enemyStateNodeLeaf)
             switch (enemyStateNodeLeaf)
             {
                 case EnemyDeadStateNode deadStateNodeDead:
                     {
-                        enemy.RemoveObserver(this);
-                        enemiesRole.Remove(enemysGetRole[enemy]);
-                        enemysGetRole.Remove(enemy);
-                        elapseTimeChaserChange = chaserChangeDelay;
-                        CalcuateRoleCount();
+                        if (deadStateNodeDead.curstate == EnemyStateLeafNode.Curstate.Enter)
+                        {
+                            this.RemoveEnemy(enemy);
+                            elapseTimeChaserChange = chaserChangeDelay;
+                            CalcuateRoleCount();
+                        }
                         break;
                     }
                 case IGotGunFuAttackNode gotGunFuAttackAbleNode:
@@ -200,6 +220,23 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
         taskUpdateYieldAllShooterOnPlayerAim = null;
     }
+    [SerializeField] private int maxOverwatchShootPoint;
+    [SerializeField] private int overwatchShootPoint;
+    [SerializeField] private float shootPointCoolDown;
+    [SerializeField] private float shootPointCoolDownTimer;
+    private void UpdateOverwatchShootPoint()
+    {
+        if(overwatchShootPoint >= maxOverwatchShootPoint)
+            return;
+
+        if (shootPointCoolDownTimer >= shootPointCoolDown)
+        {
+            overwatchShootPoint++;
+            shootPointCoolDownTimer = 0;
+        }
+        else
+            shootPointCoolDownTimer += Time.deltaTime;
+    }
     public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
        EnemyActionNodeManager roleAction = enemyRoleBasedDecision.enemyActionNodeManager;
@@ -246,8 +283,11 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
                             && enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
                             isShootOverwatch++;
                     }
-                    if (isShootOverwatch < maxNumberOverwatchShooter)
+                    if (isShootOverwatch < maxNumberOverwatchShooter && overwatchShootPoint > 0)
+                    {
+                        overwatchShootPoint--;
                         return true;
+                    }
                 }
                 break;
         }

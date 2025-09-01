@@ -25,8 +25,6 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private float holsterPrimaryWeaponTime = 0.3f;
     private float drawSecondaryWeaponTime = 0.3f;
 
-    WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
-
     public PrimaryToSecondarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
@@ -93,8 +91,8 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
             case TransitionPhase.Switch:
                 {
 
-                    weaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
-                    weaponAttachingBehavior.Attach(secondaryWeapon, weaponAdvanceUser._mainHandSocket);
+                    WeaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+                    WeaponAttachingBehavior.Attach(secondaryWeapon, weaponAdvanceUser._mainHandSocket);
                     weaponAfterAction.SendFeedBackWeaponAfterAction
                         <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     curPhase = TransitionPhase.DrawSecondaryWeapon;
@@ -106,7 +104,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
                         <PrimaryToSecondarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
                     if (elapsTime >= holsterPrimaryWeaponTime + drawSecondaryWeaponTime)
                     {
-                        weaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._mainHandSocket);
+                        WeaponAttachingBehavior.Attach(curWeapon, weaponAdvanceUser._mainHandSocket);
                         isComplete = true;
                     }
                 } 

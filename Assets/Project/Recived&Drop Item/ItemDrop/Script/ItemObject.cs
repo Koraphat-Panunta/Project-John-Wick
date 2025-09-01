@@ -35,7 +35,7 @@ public abstract class ItemObject : MonoBehaviour
         elapseTimePullAble = 0;
     }
     // UpdateNode is called once per frame
-    private float delay = 0.35f;
+    private float delay = 0.25f;
     protected virtual void Update()
     {
         if(elapseTimePullAble < delay)

@@ -18,6 +18,11 @@ public class ParkourScriptableObject : ScriptableObject
 
     [Range(0, 10)]
     public float hieght;
+    [Range(0,10)]
+    public float minHieght;
+
+    [Range(0, 10)]
+    public float detectDistance;
 
     public AnimationCurve curve;
     public AnimationClip clip;

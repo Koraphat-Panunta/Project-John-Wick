@@ -78,15 +78,12 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     {
 
         fireMode = FireMode.FullAuto;
-
-        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
-
         _isMagIn = true;
-
+        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
+        bulletStore.Add(BulletStackType.Chamber, 1);
         _556MmBullet = new _556mmBullet(this);
         bullet = _556MmBullet;
         _RecoilKickBack = bullet.recoilKickBack;
-
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
 
@@ -153,7 +150,13 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         startEventNode.FindingNode(out INodeLeaf eventNode);
         currentEventNode = eventNode as WeaponLeafNode;
     }
-
+    protected override void SetDefaultAttribute()
+    {
+        bulletStore[BulletStackType.Chamber] = 1;
+        bulletStore[BulletStackType.Magazine] = bulletCapacity;
+        _isMagIn = true;
+        base.SetDefaultAttribute();
+    }
     #endregion
 
     #region WeaponAttachment

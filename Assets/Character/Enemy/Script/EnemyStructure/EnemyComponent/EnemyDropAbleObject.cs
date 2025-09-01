@@ -1,4 +1,5 @@
 using UnityEngine;
+using static SubjectEnemy;
 
 [RequireComponent(typeof(Enemy))]
 public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
@@ -9,20 +10,22 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
     [SerializeField] protected AmmoGetAbleObject AmmoGetAbleObject;
     [SerializeField] protected HpGetAbleObject HpGetAbleObject;
 
-    void IObserverEnemy.Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    
+
+    public void Notify<T>(Enemy enemy, T node) 
     {
-    }
-
-    public void Notify<T>(Enemy enemy, T node) where T : INode
-    {
-     
+        if (node is SubjectEnemy.EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
+            isAlreadyDrop = false;
 
 
-       if(node is EnemyDeadStateNode && isAlreadyDrop == false)
+        if (node is EnemyDeadStateNode deadState && deadState.curstate == EnemyStateLeafNode.Curstate.Enter && isAlreadyDrop == false)
         {
-            AmmoGetAbleObject.amoutAmmoAdd = Random.Range(5, 7);
-            HpGetAbleObject.amoutOfHpAdd = 25;
+
+            AmmoGetAbleObject.amoutAmmoAdd = 6;
             base.DropObject(AmmoGetAbleObject);
+
+            HpGetAbleObject.amoutOfHpAdd = 20;
             base.DropObject(HpGetAbleObject);
             isAlreadyDrop = true;
             return;

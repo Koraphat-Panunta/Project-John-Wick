@@ -25,7 +25,7 @@ public class EnemyDeadStateNode : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
-        return false;
+        return enemy.isDead == false;
     }
     public override void FixedUpdateNode()
     {

@@ -2,16 +2,14 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T>,IObserveObjective where T : InGameLevelGameMaster
+public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
 {
     protected GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     protected User user => gameMaster.user;
 
-    protected PauseUICanvas pauseCanvasUI => gameMaster.pauseCanvasUI;
-
     protected Player player => gameMaster.player;
-
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
+    public virtual bool isComplete { get; set; }
 
     public InGameLevelGamplayGameMasterNodeLeaf(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
@@ -48,10 +46,7 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
     public override void UpdateNode()
     {
     }
-    public virtual void GetNotifyObjectiveUpdate(Objective objective)
-    {
-        if(gameMaster.OnObjectiveUpdate != null)
-            gameMaster.OnObjectiveUpdate(objective);
-    }
+    public virtual void RestartCheckPoint() { }
+
    
 }

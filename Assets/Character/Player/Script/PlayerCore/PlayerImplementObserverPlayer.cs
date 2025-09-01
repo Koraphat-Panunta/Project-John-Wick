@@ -11,7 +11,7 @@ public partial class Player : IObserverPlayer
             {
                 case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute:
                     {
-                        AddHP(20);
+                        AddHP(10);
                         player.NotifyObserver<SubjectPlayer.NotifyEvent>(player, SubjectPlayer.NotifyEvent.HealthRegen);
                         break;
                     }
@@ -48,12 +48,13 @@ public partial class Player : IObserverPlayer
         }
         if(node is PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf && dodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
         {
-            TriggerIFrame(0.4f);
+            TriggerIFrame(0.45f);
             NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
         }
         
         if(node is SubjectPlayer.NotifyEvent.GetDamaged)
         {
+            regenHPDisableTimer = regenHPDisableTime;
             TriggerIFrame(0.30f);
         }
 

@@ -23,7 +23,9 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standSelectorNode { get; private set; }
     public PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf { get; private set; }
+    public VaultingNodeLeaf vaultingNodeLeaf { get; private set; }
     public ClimbParkourNodeLeaf climbLowNodeLeaf { get; private set; }
+    public ClimbParkourNodeLeaf climbHighNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNodeLeaf playerStandIdleNode { get; private set; }
@@ -71,7 +73,12 @@ public class PlayerStateNodeManager : INodeManager
         playerDodgeRollStateNodeLeaf = new PlayerDodgeRollStateNodeLeaf(player,
             () => player.triggerDodgeRoll && player.inputMoveDir_World.magnitude > 0
             );
-        climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
+        vaultingNodeLeaf = new VaultingNodeLeaf(player,
+            () => player._isParkourCommand && player.isSprint, player._movementCompoent, player.vaultingScrp);
+        climbLowNodeLeaf = new ClimbParkourNodeLeaf(player,
+            ()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
+        climbHighNodeLeaf = new ClimbParkourNodeLeaf(player,
+            () => player._isParkourCommand, player._movementCompoent, player.climbHighScrp);
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == PlayerStance.stand || player.isSprint; });
         playerSprintNode = new PlayerSprintNode(this.player, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
@@ -261,8 +268,10 @@ public class PlayerStateNodeManager : INodeManager
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
         stanceSelectorNode.AddtoChildNode(gotGunFuAttackSelectorNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(vaultingNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(climbHighNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
-        //stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);
@@ -279,16 +288,19 @@ public class PlayerStateNodeManager : INodeManager
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I);
 
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
 
         gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
 
+        Hit1gunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         Hit1gunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
         Hit1gunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit1gunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
         humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanThrow_GunFuInteraction_NodeLeaf);
+        Hit2GunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);

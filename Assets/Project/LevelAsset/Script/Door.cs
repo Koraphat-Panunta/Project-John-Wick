@@ -23,6 +23,8 @@ public class Door : MonoBehaviour,I_Interactable
             lockedValue = value; 
         } 
     }
+    public Transform _transform { get => transform; set {} }
+
     private void Awake()
     {
         isBeenInteractAble = true;

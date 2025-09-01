@@ -8,7 +8,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 {
     //SetUpStats
     private int _magazineCapacity = 17;
-    private float _rateOfFire = 600;
+    private float _rateOfFire = 400;
     private float _reloadSpeed = 1.2f;
     [Range(0,600)]
     [SerializeField] private float _accuracy /*= 136*/;
@@ -126,7 +126,8 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
         bullet = new _9mmBullet(this);
         RecoilKickBack = bullet.recoilKickBack;
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
-
+        bulletStore.Add(BulletStackType.Chamber, 1);
+        _isMagIn = true;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
 
@@ -173,5 +174,12 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
      
     }
 
-   
+    protected override void SetDefaultAttribute()
+    {
+        bulletStore[BulletStackType.Chamber] = 1;
+        bulletStore[BulletStackType.Magazine] = bulletCapacity;
+        _isMagIn = true;
+        base.SetDefaultAttribute();
+    }
+
 }

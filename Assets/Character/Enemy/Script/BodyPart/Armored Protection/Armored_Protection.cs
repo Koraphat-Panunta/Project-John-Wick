@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations;
+using static SubjectEnemy;
 [ExecuteInEditMode]
 public class Armored_Protection : BodyPart,IDamageVisitor
 {
@@ -9,6 +10,8 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     [SerializeField] private Armored_ProtectionSCRP armored_ProtectionSCRP;
 
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRendererArmored;
+
+    [SerializeField] private Collider collider;
 
     public float hpDamage { get; protected set; }
     public float postureDamage { get; protected set; }
@@ -29,8 +32,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     }
     protected override void Start()
     {
-
-
+        enemy.AddObserver(this);
         if (syncBodyPart != null)
         {
             skinnedMeshRendererArmored.gameObject.SetActive(true);
@@ -64,8 +66,8 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     protected virtual void ArmoredDestroyed()
     {
         skinnedMeshRendererArmored.gameObject.SetActive(false);
+        collider.enabled = false;
         Detach();
-        Destroy(gameObject);
     }
 
     public void Attach(BodyPart attachable)
@@ -78,6 +80,16 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
 
     }
+    public override void Notify<T>(Enemy enemy, T node)
+    {
+        if (node is SubjectEnemy.EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
+        {
+            SetDefaultAttribute();
+        }
+        base.Notify(enemy, node);
+    }
+  
     private void OnValidate()
     {
         if (gameObject.activeSelf)
@@ -101,6 +113,21 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
         if (skinnedMeshRendererArmored != null)
             skinnedMeshRendererArmored.gameObject.SetActive(true);
+
+        base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
+        armorHP = armored_ProtectionSCRP.armorHP;
+        _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
+        _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
+        _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
+    }
+    private void SetDefaultAttribute()
+    {
+        armorHP = armored_ProtectionSCRP.armorHP;
+        _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
+        _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
+        _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
+        collider.enabled = true;
+        skinnedMeshRendererArmored.gameObject.SetActive(true);
     }
 
 }

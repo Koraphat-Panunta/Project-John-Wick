@@ -124,18 +124,24 @@ public class PlayerInputAPI : MonoBehaviour
            
         }
     }
+    public void TriggerSpecialMove(InputAction.CallbackContext context)
+    {
+        TriggerDodgeRoll(context);
+    }
     public void TriggerDodgeRoll(InputAction.CallbackContext context)
     {
         if(context.performed)
             player.triggerDodgeRoll = true;
     }
-    public void TriggerPickingUpWeapon(InputAction.CallbackContext context)
+    public void TriggerInteract(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             player._isPickingUpWeaponCommand = true;
             player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.25f);
             player.Interact();
+            if(player.currentInteractable == null)
+                TriggerParkour(context);
         }
     }
     public void TriggerDropWeapon(InputAction.CallbackContext context)
@@ -145,7 +151,8 @@ public class PlayerInputAPI : MonoBehaviour
     }
     public void TriggerParkour(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
             player._isParkourCommand = true;
+        
     }
 }

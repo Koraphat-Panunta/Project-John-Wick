@@ -11,17 +11,15 @@ public class DrawPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Enter()
     {
-        WeaponAttachingBehavior weaponAttachingBehavior = new WeaponAttachingBehavior();
 
         elapesTime = 0;
-        Debug.Log("DrawPrimaryWeaponManuverNodeLeaf");
         if(weaponAdvanceUser._currentWeapon == null)
-            weaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
         else if(weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon 
             && weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
         {
-            weaponAttachingBehavior.Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
-            weaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
+            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
         }
         else
         {

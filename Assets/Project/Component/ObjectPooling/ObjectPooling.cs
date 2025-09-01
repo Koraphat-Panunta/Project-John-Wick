@@ -36,6 +36,6 @@ public class ObjectPooling<T> where T : Component
         if(pool.Count < poolMaxSize)
             pool.Enqueue(obj);
         else
-            UnityEngine.GameObject.Destroy(obj);
+            GameManager.Destroy(obj.gameObject);
     }
 }

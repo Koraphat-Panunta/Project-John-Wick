@@ -139,15 +139,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "TriggerParkour",
-                    "type": "Button",
-                    "id": "a48362e1-1a7f-403b-9cd8-4b78e1eb79e3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -632,17 +623,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "HolsterWeapon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "08e1a128-aec1-4084-9ddc-d6b77c0149f3",
-                    "path": "<Keyboard>/leftAlt",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TriggerParkour",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

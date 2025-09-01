@@ -251,7 +251,7 @@ public class EnemyStateManagerNode : INodeManager
         
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
-            () => this.enemy.GetHP() <= 0
+            () => this.enemy.isDead
             );
 
         fallDown_EnemyState_NodeLeaf = new FallDown_EnemyState_NodeLeaf(this.enemy, this.enemy,

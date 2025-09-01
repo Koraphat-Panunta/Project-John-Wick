@@ -11,7 +11,7 @@ public class QuickSwitch_AimDownSight_NodeLeaf : AimDownSightWeaponManuverNodeLe
     public override void Exit()
     {
         if (quickSwitchWeaponManuverAble.isQuickSwtichWeaponManuverAble == false)
-            new WeaponAttachingBehavior().Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
         base.Exit();
     }
 

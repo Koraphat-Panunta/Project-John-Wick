@@ -47,10 +47,7 @@ public partial class Enemy : SubjectEnemy
 
         targetMask.value = LayerMask.GetMask("Player");
 
-        posture = 100;
-        base.HP = 100;
-        base.maxHp = 100;
-        staggerGauge = maxStaggerGauge;
+        this.SetDefaultAttribute();
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -471,6 +468,22 @@ public partial class Enemy : SubjectEnemy
 
     #endregion
 
+    private void SetDefaultAttribute()
+    {
+        posture = 100;
+        base.HP = 100;
+        base.maxHp = 100;
+        staggerGauge = maxStaggerGauge;
+    }
+    private void OnEnable()
+    {
+        this.SetDefaultAttribute();
+        NotifyObserver(this, SubjectEnemy.EnemyEvent.OnEnable);
+    }
+    private void OnDisable()
+    {
+        NotifyObserver(this, SubjectEnemy.EnemyEvent.OnDisable);
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
