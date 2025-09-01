@@ -132,11 +132,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
 
 
-    public virtual void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-       
-    }
-    public virtual void Notify<T>(Enemy enemy, T node) where T : INode
+   
+    public virtual void Notify<T>(Enemy enemy, T node) 
     {
 
     }

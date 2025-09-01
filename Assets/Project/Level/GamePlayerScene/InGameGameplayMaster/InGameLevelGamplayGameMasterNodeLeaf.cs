@@ -8,8 +8,8 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
     protected User user => gameMaster.user;
 
     protected Player player => gameMaster.player;
-
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
+    public virtual bool isComplete { get; set; }
 
     public InGameLevelGamplayGameMasterNodeLeaf(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
@@ -46,6 +46,7 @@ public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLe
     public override void UpdateNode()
     {
     }
-    
+    public virtual void RestartCheckPoint() { }
+
    
 }

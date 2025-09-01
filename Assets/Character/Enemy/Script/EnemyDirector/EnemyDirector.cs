@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine.Rendering;
 using static UnityEngine.EventSystems.EventTrigger;
+using static SubjectEnemy;
 
 public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 {
@@ -43,12 +44,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         this.UpdateOverwatchShootPoint();
         this.UpdateRoleManager();    
     }
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
-            && enemy._posture <= enemy._postureHeavy)
-            AssignChaser(enemysGetRole[enemy]);
-    }
+    
     public void AddEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
         enemyRoleBasedDecision.enemy.AddObserver(this);
@@ -66,9 +62,15 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         enemiesRole.Remove(enemysGetRole[enemy]);
         enemysGetRole.Remove(enemy);
     }
-    public void Notify<T>(Enemy enemy,T node)where T : INode
+    public void Notify<T>(Enemy enemy,T node)
     {
-        if(node is EnemyStateLeafNode enemyStateNodeLeaf)
+
+        if (node is EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
+            && enemy._posture <= enemy._postureHeavy)
+            AssignChaser(enemysGetRole[enemy]);
+
+        if (node is EnemyStateLeafNode enemyStateNodeLeaf)
             switch (enemyStateNodeLeaf)
             {
                 case EnemyDeadStateNode deadStateNodeDead:

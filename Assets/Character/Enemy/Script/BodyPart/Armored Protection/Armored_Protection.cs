@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations;
+using static SubjectEnemy;
 [ExecuteInEditMode]
 public class Armored_Protection : BodyPart,IDamageVisitor
 {
@@ -79,14 +80,16 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
 
     }
-    public override void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+    public override void Notify<T>(Enemy enemy, T node)
     {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
+        if (node is SubjectEnemy.EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
         {
             SetDefaultAttribute();
         }
-        base.Notify(enemy, enemyEvent);
+        base.Notify(enemy, node);
     }
+  
     private void OnValidate()
     {
         if (gameObject.activeSelf)

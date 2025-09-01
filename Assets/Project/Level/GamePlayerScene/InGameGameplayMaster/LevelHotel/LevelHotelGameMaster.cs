@@ -125,4 +125,9 @@ public class LevelHotelGameplayGameMasterNodeLeaf : InGameLevelGamplayGameMaster
         
         base.UpdateNode();
     }
+
+    public override void RestartCheckPoint()
+    {
+        throw new NotImplementedException();
+    }
 }

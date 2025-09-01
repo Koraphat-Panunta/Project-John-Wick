@@ -28,10 +28,7 @@ public class ChestBodyPart : BodyPart
         this.TakeDamage(damageVisitor);
         base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
     }
-    public override void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-        base.Notify(enemy, enemyEvent);
-    }
+   
     public override void Notify<T>(Enemy enemy, T node)
     {
         if (node is EnemyStateLeafNode enemyStateLeafNode)

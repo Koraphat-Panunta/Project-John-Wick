@@ -12,14 +12,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     [SerializeField] private AudioClip footStep;
     [SerializeField] private Enemy enemy;
     [SerializeField] private Animator animator;
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-       
-    }
-    public void Notify<T>(Enemy enemy, T node) where T : INode
-    {
-        
-    }
+   
     bool isdead = false;
     private void Awake()
     {
@@ -66,5 +59,10 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
         {
             footStepTiming = 0;
         }
+    }
+
+    public void Notify<T>(Enemy enemy, T node)
+    {
+       
     }
 }

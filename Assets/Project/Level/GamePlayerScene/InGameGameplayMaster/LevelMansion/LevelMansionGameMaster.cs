@@ -121,6 +121,11 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
     {
         base.UpdateNode();
     }
+
+    public override void RestartCheckPoint()
+    {
+        throw new NotImplementedException();
+    }
 }
 public class LevelMansionGameOlaySequence2 : InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster>
 {
@@ -147,6 +152,11 @@ public class LevelMansionGameOlaySequence2 : InGameLevelGamplayGameMasterNodeLea
     public override bool IsComplete()
     {
         return base.IsComplete();
+    }
+
+    public override void RestartCheckPoint()
+    {
+        throw new NotImplementedException();
     }
 
     public override void UpdateNode()

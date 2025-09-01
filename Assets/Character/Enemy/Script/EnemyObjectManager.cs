@@ -24,7 +24,7 @@ public class EnemyObjectManager:IObserverEnemy
     {
         Enemy enemy = this.SpawnEnemy(position, rotation);
 
-        if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision))
+        if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision) && enemyDirector != null)
         {
             enemyDirector.AddEnemy(enemyRoleBasedDecision);
         }
@@ -91,12 +91,9 @@ public class EnemyObjectManager:IObserverEnemy
         checkTimer = 0f;
     }
 
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-       
-    }
+    
 
-    public void Notify<T>(Enemy enemy, T node) where T : INode
+    public void Notify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode enemyDead)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using static SubjectEnemy;
 
 public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImplementDecision,IObserverEnemy
 {
@@ -170,23 +171,23 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     }
 
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-        if(enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
-        {
-            _takeCoverAble = false;
-            takeCoverAbleDelay = 5;
-        }
-    }
+    
 
     public void ChangeRole(EnemyActionNodeManager roleEnemy)
     {
         enemyActionNodeManager = roleEnemy; 
     }
 
-    public void Notify<T>(Enemy enemy, T node) where T : INode
+    public void Notify<T>(Enemy enemy, T node) 
     {
-        if(node is EnemyStateLeafNode enemyStateLeafNode)
+        if (node is EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
+        {
+            _takeCoverAble = false;
+            takeCoverAbleDelay = 5;
+        }
+
+        if (node is EnemyStateLeafNode enemyStateLeafNode)
             switch (enemyStateLeafNode)
             {
                 case IGotGunFuAttackNode:

@@ -50,12 +50,9 @@ public class Elimination : Objective,IObserverEnemy
         ObjDescribe = "Eliminate All target" + "There is " + targetRemain + " target remain";
     }
 
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
-        
-    }
+   
 
-    public void Notify<T>(Enemy enemy, T node) where T : INode
+    public void Notify<T>(Enemy enemy, T node)
     {
         if (node is EnemyDeadStateNode)
         {

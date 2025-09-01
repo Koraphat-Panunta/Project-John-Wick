@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static SubjectEnemy;
 
 public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
 {
@@ -21,20 +22,20 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
     Task showHpBarFading;
     private bool isDead => enemy.isDead;
 
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
+   
+
+    public void Notify<T>(Enemy enemy, T node)
     {
-        if (enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
+        if (node is SubjectEnemy.EnemyEvent enemyEvent 
+            && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
-            hpBarImage.rectTransform.localScale = new Vector3(enemy.GetHP()/enemy.GetMaxHp(), hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
+            hpBarImage.rectTransform.localScale = new Vector3(enemy.GetHP() / enemy.GetMaxHp(), hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
 
-            if(updateHpBar == null || updateHpBar.IsCompleted)
-            updateHpBar = UpdateHpBar();
+            if (updateHpBar == null || updateHpBar.IsCompleted)
+                updateHpBar = UpdateHpBar();
         }
-    }
 
-    public void Notify<T>(Enemy enemy, T node) where T : INode
-    {
-        if(node is EnemyStateLeafNode enemyStateLeafNode)
+        if (node is EnemyStateLeafNode enemyStateLeafNode)
             switch (enemyStateLeafNode)
             {
                 case IGotGunFuAttackNode gotGunFuAttackAbleNode:

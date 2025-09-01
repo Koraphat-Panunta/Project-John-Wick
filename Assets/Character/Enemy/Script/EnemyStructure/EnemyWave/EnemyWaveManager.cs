@@ -78,12 +78,9 @@ public class EnemyWaveManager : IObserverEnemy
         return selectedSpawnPoint;
     }
    
-    public void Notify(Enemy enemy, SubjectEnemy.EnemyEvent enemyEvent)
-    {
+ 
 
-    }
-
-    public void Notify<T>(Enemy enemy, T node) where T : INode
+    public void Notify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)
         {

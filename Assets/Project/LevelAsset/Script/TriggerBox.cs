@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,36 +7,23 @@ using UnityEngine.UIElements;
 public class TriggerBox : MonoBehaviour
 {
     [SerializeField] private BoxCollider boxCollider;
-    public enum TriggerEvent
+   
+    public Action<Collider> onTriggerBoxEnterEvent { get; protected set; }
+    public void AddTriggerBoxEvent(Action<Collider> actionEvent)
     {
-        Enter,
-        Stay,
-        Exit
+        this.onTriggerBoxEnterEvent += actionEvent;
     }
-    public Action<Collision, TriggerEvent> onTriggerBoxEvent { get; protected set; }
-    public void AddTriggerBoxEvent(Action<Collision,TriggerEvent> actionEvent)
+    public void RemoveTriggerBoxEvent(Action<Collider> actionEvent)
     {
-        this.onTriggerBoxEvent += actionEvent;
+        this.onTriggerBoxEnterEvent -= actionEvent;
     }
-    public void RemoveTriggerBoxEvent(Action<Collision, TriggerEvent> actionEvent)
+    private void OnTriggerEnter(Collider other)
     {
-        this.onTriggerBoxEvent -= actionEvent;
+        Debug.Log("TriggerEnter");
+        if (onTriggerBoxEnterEvent != null)
+            onTriggerBoxEnterEvent.Invoke(other);
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (onTriggerBoxEvent != null)
-            onTriggerBoxEvent.Invoke(collision, TriggerEvent.Enter);
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-        if (onTriggerBoxEvent != null)
-            onTriggerBoxEvent.Invoke(collision, TriggerEvent.Stay);
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (onTriggerBoxEvent != null)
-            onTriggerBoxEvent.Invoke(collision, TriggerEvent.Exit);
-    }
+    
     private void OnValidate()
     {
         if (this.boxCollider == null)
