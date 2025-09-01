@@ -16,7 +16,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
-    protected PrologueInGameLevelGameplayGameMaster_Part1_NodeLeaf prologueInGameLevelGameplayGameMasterNodeLeaf;
+    protected PrologueInGameLevelGameplayGameMasterNodeLeaf prologueInGameLevelGameplayGameMasterNodeLeaf;
 
     [SerializeField] private DoorKeyItem key;
 
@@ -90,7 +90,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
-        prologueInGameLevelGameplayGameMasterNodeLeaf = new PrologueInGameLevelGameplayGameMaster_Part1_NodeLeaf(this,()=> prologueInGameLevelGameplayGameMasterNodeLeaf.IsComplete() == false);
+        prologueInGameLevelGameplayGameMasterNodeLeaf = new PrologueInGameLevelGameplayGameMasterNodeLeaf(this,()=> prologueInGameLevelGameplayGameMasterNodeLeaf.IsComplete() == false);
         pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI,
             () => pauseInGameGameMasterNodeLeaf.isPause);
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => true);
