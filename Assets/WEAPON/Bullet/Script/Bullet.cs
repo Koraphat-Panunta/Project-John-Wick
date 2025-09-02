@@ -43,7 +43,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         Vector3 force = (pointPos-spawnerPosition).normalized;
         Vector3 rayDir = (pointPos - spawnerPosition).normalized;
         Ray ray = new Ray(spawnerPosition,rayDir);
-        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer,QueryTriggerInteraction.Collide))
+        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer, QueryTriggerInteraction.Ignore))
         {
             if (bulletHitNotify != null)
                 bulletHitNotify.Invoke(hit.collider,hit.point,rayDir);

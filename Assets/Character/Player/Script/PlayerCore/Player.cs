@@ -53,7 +53,7 @@ public partial class Player : SubjectPlayer,
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
 
-        base.maxHp = 100;
+        base.maxHp = 200;
         base.SetHP(maxHp);
 
         _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);

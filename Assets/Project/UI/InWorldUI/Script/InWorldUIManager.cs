@@ -58,7 +58,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
             , doorInteractableInWorldUI
             , mainCamera
             , player
-            , LayerMask.GetMask("Default")
+            , LayerMask.GetMask("InteractAble")
             , Vector3.zero
             );
 

@@ -318,7 +318,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
             enemySpawnPoint_A4_6[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_6[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_6[2].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
-            enemySpawnPoint_A4_6[3].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
         });
 
         gameMasterEvent.Add(() => door_A4_Exit.isOpen
