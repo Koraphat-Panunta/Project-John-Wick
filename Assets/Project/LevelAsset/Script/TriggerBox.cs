@@ -8,12 +8,12 @@ public class TriggerBox : MonoBehaviour
 {
     [SerializeField] private BoxCollider boxCollider;
    
-    public Action<Collider> onTriggerBoxEnterEvent { get; protected set; }
-    public void AddTriggerBoxEvent(Action<Collider> actionEvent)
+    public Action<Collider,TriggerBox> onTriggerBoxEnterEvent { get; protected set; }
+    public void AddTriggerBoxEvent(Action<Collider, TriggerBox> actionEvent)
     {
         this.onTriggerBoxEnterEvent += actionEvent;
     }
-    public void RemoveTriggerBoxEvent(Action<Collider> actionEvent)
+    public void RemoveTriggerBoxEvent(Action<Collider, TriggerBox> actionEvent)
     {
         this.onTriggerBoxEnterEvent -= actionEvent;
     }
@@ -21,7 +21,7 @@ public class TriggerBox : MonoBehaviour
     {
         Debug.Log("TriggerEnter");
         if (onTriggerBoxEnterEvent != null)
-            onTriggerBoxEnterEvent.Invoke(other);
+            onTriggerBoxEnterEvent.Invoke(other,this);
     }
     
     private void OnValidate()

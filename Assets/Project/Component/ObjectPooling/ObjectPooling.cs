@@ -25,7 +25,13 @@ public class ObjectPooling<T> where T : Component
 
     public T Get()
     {
-        T obj = pool.Count > 0 ? pool.Dequeue() : GameObject.Instantiate(prefab, voidPos,Quaternion.identity);
+        return this.Get(voidPos, Quaternion.identity);
+    }
+    public T Get(Vector3 position,Quaternion rotation)
+    {
+        T obj = pool.Count > 0 ? pool.Dequeue() : GameObject.Instantiate(prefab, voidPos, Quaternion.identity);
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
         obj.gameObject.SetActive(true);
         return obj;
     }

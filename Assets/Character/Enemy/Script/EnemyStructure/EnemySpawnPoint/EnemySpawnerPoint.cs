@@ -13,35 +13,39 @@ public class EnemySpawnerPoint : MonoBehaviour
     }
     public void SetPrecondition(Func<bool> preCondition)=> this.preCondition = preCondition;
 
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager,EnemyDirector enemyDirector,WeaponObjectManager weaponObjectManager,bool isForceSpawn,out Enemy enemy)
+    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager,EnemyDirector enemyDirector,WeaponObjectManager weaponObjectManager,out Enemy enemy)
     {
         enemy = null;
-        if(preCondition.Invoke() == false && isForceSpawn == false)
+        if(preCondition.Invoke() == false)
             return false;
         enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation, enemyDirector);
         Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
         return true;
     }
-    //public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager, bool isForceSpawn)
-    //{
-    //    if (preCondition.Invoke() == false && isForceSpawn == false)
-    //        return false;
+    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager)
+    {
+        return this.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, out Enemy enemy); ;
+    }
+    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager)
+    {
+        if (preCondition.Invoke() == false)
+            return false;
 
-    //    Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
-    //    Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
+        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
+        Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
-    //    return true;
-    //}
-    //public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, bool isForceSpawn)
-    //{
-    //    if (preCondition.Invoke() == false && isForceSpawn == false)
-    //        return false;
+        return true;
+    }
+    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager)
+    {
+        if (preCondition.Invoke() == false)
+            return false;
 
-    //    Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
+        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
 
-    //    return true;
-    //}
+        return true;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

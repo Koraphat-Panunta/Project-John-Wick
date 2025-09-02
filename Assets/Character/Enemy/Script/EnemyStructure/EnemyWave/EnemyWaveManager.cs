@@ -40,7 +40,7 @@ public class EnemyWaveManager : IObserverEnemy
                 //SpawnEnemyNumber
                 for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
                 {
-                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, false, out Enemy spawnedEnemy);
+                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, out Enemy spawnedEnemy);
                     spawnedEnemy.AddObserver(this);
                     enemies.Add(spawnedEnemy);
                 }

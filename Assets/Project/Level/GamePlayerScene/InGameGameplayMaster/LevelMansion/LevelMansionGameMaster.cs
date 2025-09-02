@@ -50,6 +50,11 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
+
+    protected override void InitialziedGameMasterEvent()
+    {
+        throw new NotImplementedException();
+    }
 }
 public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster>, IObserveObjective
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -14,6 +15,7 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     protected bool isCompleteLoad = false;
 
+    public Dictionary<Func<bool>, Action> gameMasterEvent = new Dictionary<Func<bool>, Action>();
     public IEnumerator DelaySceneLoaded()
     {
         yield return new WaitForSeconds(1.7f);
@@ -22,9 +24,7 @@ public abstract class InGameLevelGameMaster : GameMaster
    
     protected override void Awake()
     {
-
-        InitailizedUserInput();
-
+        this.InitialziedGameMasterEvent();
         base.Awake();
     }
     protected override void Start()
@@ -75,13 +75,26 @@ public abstract class InGameLevelGameMaster : GameMaster
 
      
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
+    }
 
-       
-    }
-    protected void InitailizedUserInput()
+    protected abstract void InitialziedGameMasterEvent();
+    protected void UpdateingEvent()
     {
-        user.EnableInput();
+        if(gameMasterEvent == null || gameMasterEvent.Count <=0)
+            return;
+
+        List<Func<bool>> preConditionEvent = gameMasterEvent.Keys.ToList();
+
+        for (int i = 0; i < preConditionEvent.Count; i++)
+        {
+            if (preConditionEvent[i].Invoke() == true)
+            {
+                gameMasterEvent[preConditionEvent[i]].Invoke();
+                gameMasterEvent.Remove(preConditionEvent[i]);
+            }
+        }
     }
+
 }
 public interface IGameLevelMasterObserver
 {

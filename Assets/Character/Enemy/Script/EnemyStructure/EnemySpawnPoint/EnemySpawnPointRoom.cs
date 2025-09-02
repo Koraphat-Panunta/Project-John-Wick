@@ -47,9 +47,9 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     public override Vector3 spawnPosition { get => spawnPoint.position; protected set => spawnPoint.position = value; }
     public override Quaternion spawnRotiation { get => spawnPoint.rotation; protected set => spawnPoint.rotation = value; }
 
-    public override bool SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager, bool isForceSpawn,out Enemy enemy)
+    public override bool SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager,out Enemy enemy)
     {
-        if(base.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, isForceSpawn, out enemy))
+        if(base.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, out enemy))
         {
             exitTimer = exitMaxTime;
             spawnedEnemy.Add(enemy,enemy.GetComponent<EnemyCommandAPI>());
