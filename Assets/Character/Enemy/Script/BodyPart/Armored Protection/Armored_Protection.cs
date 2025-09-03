@@ -26,10 +26,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
     }
-    protected override void Update()
-    {
-
-    }
+   
     protected override void Start()
     {
         enemy.AddObserver(this);

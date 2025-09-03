@@ -300,6 +300,7 @@ public partial class Enemy : SubjectEnemy
     }
 
     #endregion
+
     #region ImplementCommunicateAble
 
     public Action<Communicator> NotifyCommunicate { get; set; }
@@ -428,7 +429,6 @@ public partial class Enemy : SubjectEnemy
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
    
-
     #region ImplementIFriendlyFire
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
     public int allieID { get ; set ; }
