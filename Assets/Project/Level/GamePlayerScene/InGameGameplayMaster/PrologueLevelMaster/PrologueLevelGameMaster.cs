@@ -77,6 +77,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public EnemySpawnPointRoom[] enemySpawnPointRooms_A5;
 
     [SerializeField] private Camera cameraMain;
+
+    [SerializeField] private int Wave1;
     protected override void Awake()
     {
         this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin,this.cameraMain);
@@ -114,6 +116,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     }
     protected override void Update()
     {
+        Wave1 = this.enemyWaveManager1.enemyWaves.Count;
+
         if (isEnableEnemyWaveManager1 && this.enemyWaveManager1.waveIsClear == false)
         {
             this.enemyWaveManager1.EnemyWaveUpdate();
