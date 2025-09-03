@@ -11,7 +11,7 @@ public class FindingTarget
 
     public Action<GameObject> OnSpottingTarget;
     private float checkTimer;
-    private float checkTimeInterval = 0.067f;
+    private float checkTimeInterval = 0.25f;
     public FindingTarget(LayerMask targetMask,FieldOfView fieldOfView)
     {
         this.fieldOfView = fieldOfView;

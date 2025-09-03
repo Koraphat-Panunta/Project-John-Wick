@@ -10,7 +10,7 @@ public class _556mmBullet : Bullet
 
     public _556mmBullet(Weapon weapon):base(weapon)
     {
-        _hpDamage = 16.65f;
+        _hpDamage = 18f;
         _postureDamage = 20f;
         _destructionDamage = 17;
         recoilKickBack = 180;

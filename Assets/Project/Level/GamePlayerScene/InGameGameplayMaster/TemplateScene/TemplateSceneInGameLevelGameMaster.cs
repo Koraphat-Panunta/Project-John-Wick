@@ -20,7 +20,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private bool stopSpawning;
 
     public TriggerBox triggerBoxTest;
-    public void PlayerEnterTriggerBox(Collider collision)
+    public void PlayerEnterTriggerBox(Collider collision,TriggerBox triggerBox)
     {
        
     }
@@ -134,6 +134,11 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         startNodeSelector.AddtoChildNode(templateSceneInGameLevel_Gameplay_Nodeleaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
+    }
+
+    protected override void InitialziedGameMasterEvent()
+    {
+        throw new NotImplementedException();
     }
 }
 

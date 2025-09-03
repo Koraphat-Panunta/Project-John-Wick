@@ -34,9 +34,7 @@ public class EnemyObjectManager:IObserverEnemy
     }
     public Enemy SpawnEnemy(Vector3 position, Quaternion rotation)
     {
-        Enemy enemy = this.enemyObjPooling.Get();
-        enemy.transform.position = position;
-        enemy.transform.rotation = rotation;
+        Enemy enemy = this.enemyObjPooling.Get(position,rotation);
         enemy.AddObserver(this);
         return enemy;
     }    

@@ -67,7 +67,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
-            Debug.Log("Been ad force");
             forceSave = Vector3.zero;
             hitForcePositionSave = Vector3.zero;
             isForceSave = false;

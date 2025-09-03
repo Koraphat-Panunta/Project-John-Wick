@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
+public class InGameLevelGamplayGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
 {
     protected GamePlayUICanvas gameplayCanvasUI => gameMaster.gamePlayUICanvas;
     protected User user => gameMaster.user;

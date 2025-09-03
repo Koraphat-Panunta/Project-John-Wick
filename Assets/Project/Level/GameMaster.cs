@@ -36,8 +36,6 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
 
     protected virtual void Update()
     {
-        if(gameManager == null)
-            gameManager = FindAnyObjectByType<GameManager>();
 
         this.UpdateNode();
     }

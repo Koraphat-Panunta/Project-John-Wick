@@ -11,7 +11,7 @@ public class EnemyWaveManager : IObserverEnemy
     public EnemySpawnerPoint[] enemySpawnerPoints;
     public EnemyDirector enemyDirector;
 
-    public bool waveIsClear => enemyWaves.Count <= 0;
+    public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
     public EnemyWaveManager(Transform fartestRefSpawnPos, EnemySpawnerPoint[] enemySpawnerPoints,EnemyDirector enemyDirector)
     {
         enemyWaves = new Queue<EnemyWave>();
@@ -40,7 +40,7 @@ public class EnemyWaveManager : IObserverEnemy
                 //SpawnEnemyNumber
                 for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
                 {
-                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, false, out Enemy spawnedEnemy);
+                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, out Enemy spawnedEnemy);
                     spawnedEnemy.AddObserver(this);
                     enemies.Add(spawnedEnemy);
                 }
