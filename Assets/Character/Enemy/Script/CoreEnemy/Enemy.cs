@@ -289,9 +289,9 @@ public partial class Enemy : SubjectEnemy
             return;
 
         if (noiseMakingAble is Bullet bullet
-            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
         {
-            targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
+            targetKnewPos = i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position;
         }
 
         NotifyObserver(this, EnemyEvent.HeardingGunShoot);

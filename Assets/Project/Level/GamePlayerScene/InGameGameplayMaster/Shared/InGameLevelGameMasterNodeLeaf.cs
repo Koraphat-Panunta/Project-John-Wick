@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public abstract class InGameLevelGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
+public class InGameLevelGameMasterNodeLeaf<T> : GameMasterNodeLeaf<T> where T : InGameLevelGameMaster
 {
     public virtual bool isComplete { get;protected set; }
-    protected InGameLevelGameMasterNodeLeaf(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelGameMasterNodeLeaf(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         
     }

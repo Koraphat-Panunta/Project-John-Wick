@@ -26,6 +26,7 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         this.InitialziedGameMasterEvent();
         base.Awake();
+
     }
     protected override void Start()
     {

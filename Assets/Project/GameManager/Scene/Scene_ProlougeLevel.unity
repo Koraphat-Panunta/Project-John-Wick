@@ -1403,7 +1403,7 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: shootPointCoolDown
-      value: 0.45
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
@@ -1413,7 +1413,7 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: maxOverwatchShootPoint
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
@@ -1459,6 +1459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'enemiesRole.Array.data[8]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
+        type: 3}
+      propertyPath: maxNumberOverwatchShooter
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3809,7 +3814,9 @@ MonoBehaviour:
   - {fileID: 1775936676}
   cameraMain: {fileID: 1418156419}
   Wave1: 0
+  numberOfEnemyWave1: 0
   wave2: 0
+  numberOfEnemyWave2: 0
 --- !u!4 &227362760
 Transform:
   m_ObjectHideFlags: 0
@@ -28862,7 +28869,7 @@ PrefabInstance:
     - target: {fileID: 7021870867729737807, guid: 990cedfab4a42cc41b483c827638f2ca,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8579696410895572244, guid: 990cedfab4a42cc41b483c827638f2ca,
         type: 3}
@@ -36189,7 +36196,7 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: MAX_ChaserCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
@@ -36199,7 +36206,7 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: shootPointCoolDown
-      value: 0.5
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}

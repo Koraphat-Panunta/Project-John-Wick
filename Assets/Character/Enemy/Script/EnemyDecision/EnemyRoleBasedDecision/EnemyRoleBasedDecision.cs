@@ -105,7 +105,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
             return;
         if (noiseMaker is Bullet bullet
-            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
         {
             _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
             _targetZone.SetZone(noiseMaker.position, raduisTargetZone);

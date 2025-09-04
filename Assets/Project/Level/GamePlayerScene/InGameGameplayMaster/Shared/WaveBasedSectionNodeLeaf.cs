@@ -1,33 +1,21 @@
 using System;
-using UnityEngine;
 
-public class WaveBasedSectionNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class WaveBasedSectionNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>,IGameMasterSectorNodeLeaf
 {
-    private EnemyWaveManager _enemyWaveManager;
-    private InGameLevelGameMaster gameLevelGameMaster;
+    public EnemyWaveManager _enemyWaveManager { get; protected set; }
+    public bool isEnable { get; set; }
 
     public WaveBasedSectionNodeLeaf(InGameLevelGameMaster gameMaster,EnemyWaveManager enemyWaveManager, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
+        _enemyWaveManager = enemyWaveManager;
     }
-
-    public override void Enter()
-    {
-        this.gameLevelGameMaster.NotifyObserver<WaveBasedSectionNodeLeaf>(gameLevelGameMaster, this);
-    }
-
-    public override void Exit()
-    {
-        this.gameLevelGameMaster.NotifyObserver<WaveBasedSectionNodeLeaf>(gameLevelGameMaster, this);
-    }
-
-    public override void FixedUpdateNode()
-    {
-        throw new System.NotImplementedException();
-    }
-
+   
     public override bool IsComplete()
     {
-        throw new System.NotImplementedException();
+        if(_enemyWaveManager.waveIsClear)
+            return true;
+
+        return false;
     }
 
     public override void UpdateNode()

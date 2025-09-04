@@ -66,6 +66,8 @@ public class User : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        Debug.Log("User awake");
+
         if(userInput == null)
             userInput = new UserInput();
         InitailizedInputAction(this.player);

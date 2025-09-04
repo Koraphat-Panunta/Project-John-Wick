@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 
-public class PrologueLevelGameMaster : InGameLevelGameMaster
+public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObserver
 {
     [SerializeField] private OpeningUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
@@ -15,7 +15,10 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public NodeSelector gameMasterModeNodeSelector;
     public NodeSelector gameMasterSectionNodeSelector;
 
-    public InGameLevelRestGameMasterNodeLeaf freeRomeSectionNodeLeaf;
+    public WaveBasedSectionNodeLeaf waveBaseSection_1_Nodeleaf;
+    public WaveBasedSectionNodeLeaf waveBaseSection_2_Nodeleaf;
+
+    public InGameLevelGameMasterNodeLeaf<PrologueLevelGameMaster> freeRomeSectionNodeLeaf;
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
@@ -115,6 +118,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         this.triggerBoxA4_1.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
         this.triggerBoxA4_2.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
 
+
+        this.AddObserver(this);
+
         base.Awake();
     }
     protected override void Start()
@@ -128,17 +134,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         this.numberOfEnemyWave1 = this.enemyWaveManager1.numberOfEnemy;
         wave2 = this.enemyWaveManager2.enemyWaves.Count;
         this.numberOfEnemyWave2 = this.enemyWaveManager2.numberOfEnemy;
-
-        if (isEnableEnemyWaveManager1 && this.enemyWaveManager1.waveIsClear == false)
-        {
-            this.enemyWaveManager1.EnemyWaveUpdate();
-            if (this.enemyWaveManager1.waveIsClear)
-                UpdateingEvent();
-        }
-        else if(isEnableEnemyWaveManager2 && this.enemyWaveManager2.waveIsClear == false)
-        {
-            this.enemyWaveManager2.EnemyWaveUpdate();
-        }
         
         base.Update();
     }
@@ -164,20 +159,37 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         gameMasterModeNodeSelector = new NodeSelector(()=> true);
         gameMasterSectionNodeSelector = new NodeSelector(()=> true);
 
+        waveBaseSection_1_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager1, 
+            () => waveBaseSection_1_Nodeleaf.isEnable && enemyDirectirA3.allEnemiesAliveCount <= 2 
+            && waveBaseSection_1_Nodeleaf._enemyWaveManager.waveIsClear == false);
+        waveBaseSection_2_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager2, 
+            () => waveBaseSection_2_Nodeleaf.isEnable && enemyDirectirA5.allEnemiesAliveCount <= 2 
+            && waveBaseSection_2_Nodeleaf._enemyWaveManager.waveIsClear == false);
+        freeRomeSectionNodeLeaf = new InGameLevelGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
+
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
-        prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> enemyWaveManager2.waveIsClear == false);
         pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI,
-            () => pauseInGameGameMasterNodeLeaf.isPause);
-        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => true);
+    () => pauseInGameGameMasterNodeLeaf.isPause);
+        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => enemyWaveManager2.waveIsClear);
+        prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
 
-        startNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(gameMasterNodeCombine);
+
+        gameMasterNodeCombine.AddCombineNode(gameMasterSectionNodeSelector);
+        gameMasterNodeCombine.AddCombineNode(gameMasterModeNodeSelector);
+
+        gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_1_Nodeleaf);
+        gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_2_Nodeleaf);
+        gameMasterSectionNodeSelector.AddtoChildNode(freeRomeSectionNodeLeaf);
+
+        gameMasterModeNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
 
@@ -195,10 +207,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     #region WaveEvent
     private Enemy[] enemyA3After = new Enemy[4];
 
-    private bool isEnableEnemyWaveManager1;
     private EnemyWaveManager enemyWaveManager1;
 
-    private bool isEnableEnemyWaveManager2;
     private EnemyWaveManager enemyWaveManager2;
     private void InitializedWave()
     {
@@ -265,6 +275,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[2]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[3]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[4]);
+
+
     }
     #endregion
 
@@ -315,7 +327,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         gameMasterEvent.Add(() => isTriggerBox4_1BeenTrigger
         , () =>
         {
-            Debug.Log("isTriggerBox4_1BeenTrigger");
             enemySpawnPoint_A4_2[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_2[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_2[2].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA4, ar15_weaponObjectManager);
@@ -354,7 +365,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
             enemySpawnerPoint_A3_After[1].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA3, glock17_weaponObjectManager, out enemyA3After[1]);
             enemySpawnerPoint_A3_After[2].SpawnEnemy(enemy_ObjectManager, enemyDirectirA3, glock17_weaponObjectManager, out enemyA3After[2]);
             enemySpawnerPoint_A3_After[3].SpawnEnemy(enemy_ObjectManager, enemyDirectirA3, glock17_weaponObjectManager, out enemyA3After[3]);
-            isEnableEnemyWaveManager1 = true;
+            waveBaseSection_1_Nodeleaf.isEnable = true;
             this.door_A3_Exit.isBeenInteractAble = false;
         });
 
@@ -368,9 +379,21 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
             enemySpawnPoint_A5[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA5, glock17_weaponObjectManager);
             enemySpawnPoint_A5[2].SpawnEnemy(enemy_ObjectManager, enemyDirectirA5, ar15_weaponObjectManager);
             enemySpawnPoint_A5[3].SpawnEnemy(enemy_ObjectManager, enemyDirectirA5, ar15_weaponObjectManager);
-            isEnableEnemyWaveManager2 = true;
+            waveBaseSection_2_Nodeleaf.isEnable = true;
         });
     }
+   
+    public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster, T var)
+    {
+        if(inGameLevelGameMaster == this 
+            && var is WaveBasedSectionNodeLeaf enemyWavebase 
+            )
+        {
+            if(enemyWavebase == waveBaseSection_1_Nodeleaf && enemyWavebase.curPhase == InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>.InGameLevelPhase.Exit)
+                this.door_A3_Exit.isBeenInteractAble = true;
+        }
+    }
 
+    
 }
 

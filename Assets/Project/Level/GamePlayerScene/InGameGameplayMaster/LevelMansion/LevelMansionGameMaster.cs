@@ -55,6 +55,8 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
     {
         throw new NotImplementedException();
     }
+
+    
 }
 public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLeaf<LevelMansionGameMaster>, IObserveObjective
 {

@@ -53,6 +53,8 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     {
         throw new NotImplementedException();
     }
+
+  
 }
 public class LevelHotelGameplayGameMasterNodeLeaf : InGameLevelGamplayGameMasterNodeLeaf<LevelHotelGameMaster>,IObserveObjective
 {

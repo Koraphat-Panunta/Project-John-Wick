@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player : SubjectPlayer,
     IBulletDamageAble,
-    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
+    IAmmoRecivedAble,IHPReciveAble,I_EnemyAITargeted
     
 {
     public CoverDetection coverDetection;
@@ -13,7 +13,7 @@ public partial class Player : SubjectPlayer,
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
     [SerializeField] private CharacterController characterController;
-    public Character selfNPCTarget => this;
+    public Character selfEnemyAIBeenTargeted => this;
 
     [SerializeField] public bool isImortal;
 

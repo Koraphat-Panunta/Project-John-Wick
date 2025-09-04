@@ -24,14 +24,17 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
 
     protected virtual void Awake()
     {
+        Debug.Log("GameMaster awake");
         gameManager = FindAnyObjectByType<GameManager>();
+        nodeManagerBehavior = new NodeManagerBehavior();
+        this.InitailizedNode();
     }
 
     protected virtual void Start()
     {
-        nodeManagerBehavior = new NodeManagerBehavior();
 
-        this.InitailizedNode();
+
+       
     }
 
     protected virtual void Update()
