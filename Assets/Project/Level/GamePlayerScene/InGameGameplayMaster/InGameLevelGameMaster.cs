@@ -58,13 +58,13 @@ public abstract class InGameLevelGameMaster : GameMaster
     private List<IGameLevelMasterObserver> gameLevelMasterObservers = new List<IGameLevelMasterObserver>();
     public void AddObserver(IGameLevelMasterObserver gameLevelMasterObserver)=>this.gameLevelMasterObservers.Add(gameLevelMasterObserver);
     public void RemoveObserver(IGameLevelMasterObserver gameLevelMasterObserver)=> this.gameLevelMasterObservers.Remove(gameLevelMasterObserver);  
-    public void NotifyObserver(InGameLevelGameMaster inGameLevelGameMaster)
+    public void NotifyObserver<T>(InGameLevelGameMaster inGameLevelGameMaster,T var)
     {
         if(gameLevelMasterObservers.Count <= 0)
             return;
         foreach(IGameLevelMasterObserver gameLevelMasterObserver in this.gameLevelMasterObservers)
         {
-            gameLevelMasterObserver.OnNotify(inGameLevelGameMaster);
+            gameLevelMasterObserver.OnNotify(inGameLevelGameMaster,var);
         }
     }
     protected virtual void OnValidate()
@@ -98,9 +98,9 @@ public abstract class InGameLevelGameMaster : GameMaster
 }
 public interface IGameLevelMasterObserver
 {
-    public void OnNotify(InGameLevelGameMaster inGameLevelGameMaster);
+    public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster,T var);
 }
-public class InGameLevelRestGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelRestGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
     public InGameLevelRestGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {

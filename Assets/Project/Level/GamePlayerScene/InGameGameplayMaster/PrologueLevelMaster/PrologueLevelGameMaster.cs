@@ -11,6 +11,11 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private PauseUICanvas pauseCanvasUI;
     [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
 
+    public NodeCombine gameMasterNodeCombine;
+    public NodeSelector gameMasterModeNodeSelector;
+    public NodeSelector gameMasterSectionNodeSelector;
+
+    public InGameLevelRestGameMasterNodeLeaf freeRomeSectionNodeLeaf;
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
@@ -153,6 +158,11 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(()=>true,"PrologueStartNodeSelector");
+
+        gameMasterNodeCombine = new NodeCombine(()=> true);
+
+        gameMasterModeNodeSelector = new NodeSelector(()=> true);
+        gameMasterSectionNodeSelector = new NodeSelector(()=> true);
 
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);

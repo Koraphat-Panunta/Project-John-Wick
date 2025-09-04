@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class PauseInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
     private PauseUICanvas pauseUICanvas;
     public bool isPause { get; protected set; }

@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using static InGameLevelOpeningGameMasterNodeLeaf;
 
-public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelMisstionCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
 
     private User user => gameMaster.user;
@@ -24,7 +23,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         FadeOutRestart,
         FadeOutContinue
     }
-    public MissionCompletePhase curPhase;
+    public MissionCompletePhase curMissionCompletePhase;
     public InGameLevelMisstionCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,MissionCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.misstionCompleteUICanvas = missionCompleteUICanvas;
@@ -35,7 +34,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
 
     public override void Enter()
     {
-        curPhase = MissionCompletePhase.FadeIn;
+        curMissionCompletePhase = MissionCompletePhase.FadeIn;
         eplapesTime = 0f;
         notifyAlready = false;
         isTriggerContinue = false;
@@ -45,7 +44,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
         misstionCompleteUICanvas.PlayFadeIn();
         gameManager.soundTrackManager.StopSoundTrack(2);
 
-        gameMaster.NotifyObserver(gameMaster);
+        gameMaster.NotifyObserver(gameMaster,this);
     }
 
     public override void Exit()
@@ -69,31 +68,31 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
     public override void UpdateNode()
     {
         
-        if (curPhase == MissionCompletePhase.FadeIn)
+        if (curMissionCompletePhase == MissionCompletePhase.FadeIn)
         {
             eplapesTime += Time.deltaTime;
 
             if (eplapesTime >= 1f)
             {
-                curPhase = MissionCompletePhase.Stay;
+                curMissionCompletePhase = MissionCompletePhase.Stay;
                 user.DisableInput();
                 Cursor.lockState = CursorLockMode.None;
             }
         }
-        else if (curPhase == MissionCompletePhase.Stay)
+        else if (curMissionCompletePhase == MissionCompletePhase.Stay)
         {
             if (isTriggerContinue){
-                curPhase = MissionCompletePhase.FadeOutContinue;
+                curMissionCompletePhase = MissionCompletePhase.FadeOutContinue;
                 misstionCompleteUICanvas.PlayFadeOut();
                 return;
             }
             if (isTriggerRestart){
-                curPhase = MissionCompletePhase.FadeOutRestart;
+                curMissionCompletePhase = MissionCompletePhase.FadeOutRestart;
                 misstionCompleteUICanvas.PlayFadeOut();
                 return;
             }
         }
-        else if (curPhase == MissionCompletePhase.FadeOutRestart)
+        else if (curMissionCompletePhase == MissionCompletePhase.FadeOutRestart)
         {
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2 && notifyAlready == false)
@@ -102,7 +101,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : GameMasterNodeLeaf<
                 notifyAlready = true;
             }
         }
-        else if(curPhase == MissionCompletePhase.FadeOutContinue)
+        else if(curMissionCompletePhase == MissionCompletePhase.FadeOutContinue)
         {
             eplapesTime += Time.deltaTime;
             if (eplapesTime >= 2 && notifyAlready == false)

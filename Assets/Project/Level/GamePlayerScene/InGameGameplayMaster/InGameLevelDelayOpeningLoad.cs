@@ -9,11 +9,12 @@ public class InGameLevelDelayOpeningLoad : GameMasterNodeLeaf<InGameLevelGameMas
     public override void Enter()
     {
         gameMaster.gamePlayUICanvas.DisableGameplayUI();
+        gameMaster.user.DisableInput();
     }
 
     public override void Exit()
     {
-
+        gameMaster.user.EnableInput();
     }
     public override void UpdateNode()
     {
