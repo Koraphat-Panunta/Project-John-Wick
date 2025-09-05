@@ -49,7 +49,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         public EnemyWaveManager enemyWaveManager { get; set; }
         public TemplateSceneInGameLevel_Gameplay_Nodeleaf(TemplateSceneInGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
         {
-            enemyWaveManager = new EnemyWaveManager(gameMaster.player.transform, gameMaster.enemySpawnPointRoomWave, gameMaster.enemyDirector);
+            enemyWaveManager = new EnemyWaveManager(gameMaster.player, gameMaster.enemySpawnPointRoomWave, gameMaster.enemyDirector);
 
             EnemyWave enemyWave1 = new EnemyWave(
                 () => true

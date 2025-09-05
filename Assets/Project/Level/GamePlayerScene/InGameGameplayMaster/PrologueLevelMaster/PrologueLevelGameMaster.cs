@@ -227,7 +227,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager,numberSpawn = 1 }
         }, 3);
 
-        enemyWaveManager1 = new EnemyWaveManager(player.transform,this.enemySpawnPointRooms_A3, enemyDirectirA3);
+        enemyWaveManager1 = new EnemyWaveManager(player,this.enemySpawnPointRooms_A3, enemyDirectirA3);
         enemyWaveManager1.AddEnemyWave(enemyWaves[0]);
         enemyWaveManager1.AddEnemyWave(enemyWaves[1]);
 
@@ -269,7 +269,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
        }
        , 3);
 
-        this.enemyWaveManager2 = new EnemyWaveManager(player.transform,enemySpawnPointRooms_A5,enemyDirectirA5);
+        this.enemyWaveManager2 = new EnemyWaveManager(player,enemySpawnPointRooms_A5,enemyDirectirA5);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[0]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[1]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[2]);

@@ -226,6 +226,9 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         {
             case EnemyChaserRoleNodeManager enemyChaserRole:
                 {
+                    if (Vector3.Distance(enemyChaserRole.enemy.targetKnewPos, enemyChaserRole.enemy.transform.position) < 3.5f)
+                        return true;
+
                     int isShootChaser = 0;
                     foreach(EnemyRoleBasedDecision enemyRoleBD in enemiesRole)
                     {
@@ -241,7 +244,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
                 break;
             case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
                 {
-                    if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnewPos,enemyOverwatchRole.enemy.transform.position) < 3)
+                    if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnewPos,enemyOverwatchRole.enemy.transform.position) < 3.5f)
                         return true;
 
                     if(overwatchShootPoint <=0)

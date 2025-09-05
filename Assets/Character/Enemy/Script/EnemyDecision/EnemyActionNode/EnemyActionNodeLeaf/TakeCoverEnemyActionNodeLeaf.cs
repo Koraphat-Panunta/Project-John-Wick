@@ -7,7 +7,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     private float elapseCoverTime;
     private float coverTimePerRound = 6;
-    private float peekTime =2.5f;
+    private float peekTime =2f;
 
     private float coverPointThreatDistance = 1.25f;
     public TakeCoverEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
@@ -37,7 +37,6 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
         if (enemy.isInCover == false)
         {
-           
                 enemyCommandAPI.MoveToTakeCover(this.coverPoint, 1);
                 enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
                 enemyCommandAPI.NormalFiringPattern.Performing();
@@ -87,9 +86,6 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
         float coverDirDotTargetDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, dirTotargetKnow);
         float coverDirDotCoverDir = Vector3.Dot(coverPoint.coverDir * this.coverPointThreatDistance, coverPoint.coverDir * this.coverPointThreatDistance);
-
-        Debug.Log("coverDirDotTargetDir = " + coverDirDotTargetDir);
-        Debug.Log("coverDirDotCoverDir = " + coverDirDotCoverDir);
 
         if (coverDirDotTargetDir < coverDirDotCoverDir)
             return true;
