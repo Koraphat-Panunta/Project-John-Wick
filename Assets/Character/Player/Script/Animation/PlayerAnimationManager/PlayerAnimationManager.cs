@@ -1,8 +1,9 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
+public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
 {
 
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
@@ -18,11 +19,12 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
         this.InitailizedNode();
     }
-  
+
     void Update()
     {
         BackBoardUpdate();
         UpdateNode();
+        CalculateCrouchWeight();
     }
     private void FixedUpdate()
     {
@@ -31,14 +33,9 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     }
     private void BackBoardUpdate()
     {
-       
-        if (player.curShoulderSide == Player.ShoulderSide.Left)
-            SholderSide = Mathf.Clamp(SholderSide - 100*Time.deltaTime, -1, 1);
-        if (player.curShoulderSide == Player.ShoulderSide.Right)
-            SholderSide = Mathf.Clamp(SholderSide + 100 * Time.deltaTime, -1, 1);
 
-        if((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandIdleNodeLeaf>()  ||
-            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandMoveNodeLeaf>() )
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandIdleNodeLeaf>() ||
+            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandMoveNodeLeaf>())
             CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
         else
             CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
@@ -54,20 +51,20 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         this.MoveInputLocalFoward_Normalized = inputVelocity_Local.normalized.z;
         this.MoveInputLocalSideWard_Normalized = inputVelocity_Local.normalized.x;
 
-       
-        this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(curVelocity_World.normalized
-            , inputVelocity_World.normalized)*(curVelocity_World.magnitude/inputVelocity_World.magnitude);
 
-        this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized, 
-                Vector3.Dot(player.inputMoveDir_World, 
+        this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(curVelocity_World.normalized
+            , inputVelocity_World.normalized) * (curVelocity_World.magnitude / inputVelocity_World.magnitude);
+
+        this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized,
+                Vector3.Dot(player.inputMoveDir_World,
                 Vector3.Cross(player.transform.forward, Vector3.up))
-            ,3.5f*Time.deltaTime) ;
+            , 3.5f * Time.deltaTime);
 
         if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>())
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;   
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;
         }
         else
         {
@@ -79,7 +76,7 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
 
 
         AimDownSightWeight = (player as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
-        
+
 
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
@@ -107,33 +104,33 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
         float changeSprintLowRate = 5;
         float changeSprintOutRate = 6;
         float changeSprintStayRate = 9;
-        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>(out PlayerSprintNode sprintNode) )
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>(out PlayerSprintNode sprintNode))
         {
             if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Out)
                 WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
             else if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Stay)
-                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized,1, changeSprintStayRate * Time.deltaTime);
+                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 1, changeSprintStayRate * Time.deltaTime);
         }
         else
             WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
 
 
         animator.SetFloat("CoverWeight", CoverWeight);
-        animator.SetFloat("SholderSide", SholderSide);
         animator.SetFloat("InputMoveMagnitude_Normalized", InputMoveMagnitude_Normalized);
-        animator.SetFloat("VelocityMoveMagnitude_Normalized",VelocityMoveMagnitude_Normalized);
+        animator.SetFloat("VelocityMoveMagnitude_Normalized", VelocityMoveMagnitude_Normalized);
         animator.SetFloat("MoveInputLocalFoward_Normalized", MoveInputLocalFoward_Normalized);
         animator.SetFloat("MoveInputLocalSideWard_Normalized", MoveInputLocalSideWard_Normalized);
-        animator.SetFloat("MoveVelocityForward_Normalized",MoveVelocityForward_Normalized);
+        animator.SetFloat("MoveVelocityForward_Normalized", MoveVelocityForward_Normalized);
         animator.SetFloat("MoveVelocitySideward_Normalized", MoveVelocitySideward_Normalized);
-        animator.SetFloat("DotMoveInputWordl_VelocityWorld_Normalized",DotMoveInputWordl_VelocityWorld_Normalized);
-        animator.SetFloat("Rotating",Rotating);
-        animator.SetFloat("AimDownSightWeight",AimDownSightWeight);
+        animator.SetFloat("DotMoveInputWordl_VelocityWorld_Normalized", DotMoveInputWordl_VelocityWorld_Normalized);
+        animator.SetFloat("Rotating", Rotating);
+        animator.SetFloat("AimDownSightWeight", AimDownSightWeight);
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
         animator.SetFloat("CAR_Weight", CAR_Weight);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
+        animator.SetFloat("CrouchWeight", crouchWeight);
 
         try
         {
@@ -153,15 +150,15 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     }
     public void OnNotify<T>(Player player, T node)
     {
-        if(node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
-        {   
+        if (node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
+        {
             if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
                , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) > 8)
-                    isIn_C_A_R_aim = false;
-                
+                isIn_C_A_R_aim = false;
+
             if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
                , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) < 3.5f)
-                    isIn_C_A_R_aim = true;
+                isIn_C_A_R_aim = true;
         }
     }
 
@@ -171,14 +168,65 @@ public partial class PlayerAnimationManager : MonoBehaviour,IObserverPlayer
     {
         Vector3 curDir = player.transform.forward;
 
-        Rotating = Mathf.Lerp(Rotating,Vector3.SignedAngle(previousDir, curDir,Vector3.up) * Time.deltaTime/0.5f,10*Time.deltaTime);
+        Rotating = Mathf.Lerp(Rotating, Vector3.SignedAngle(previousDir, curDir, Vector3.up) * Time.deltaTime / 0.5f, 10 * Time.deltaTime);
         previousDir = curDir;
     }
 
-   
+
 
 
     #endregion
+    #region CalculateCrouchWeight
+    private float crouchWeightChange = 5;
+    private float crouchUpdateTimeInterval = 0.25f;
+    private float crouchUpdateTimer;
 
-   
+    private Vector3 crouchCastPosStart => player.transform.position + Vector3.up * .5f;
+    private Vector3 crouchCastPosEnd => player.transform.position + Vector3.up * 2f;
+    private Vector3 crouchCastDir => player._pointingPos -  new Vector3(player.transform.position.x,player._pointingPos.y, player.transform.position.z);
+    private float crouchSphereRaduis = .2f;
+    [SerializeField] private float crouchWeight;
+    private List<Vector3> crouchSphereSurface;
+    private void CalculateCrouchWeight()
+    {
+        crouchUpdateTimer += Time.deltaTime;
+
+        if (crouchUpdateTimer < crouchUpdateTimeInterval)
+            return;
+
+        if ((playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+            || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
+            && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
+        {
+            if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, 2.3f, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
+            {
+                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) -0.35f);
+                crouchWeight = Mathf.Lerp(crouchWeight, targetCrouchWeight, crouchWeightChange * Time.deltaTime);
+            }
+            else
+            {
+                crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
+            }
+            crouchSphereSurface = sphereSurface;
+        }
+        else
+        {
+            crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
+        }
+
+    }
+    #endregion
+
+    private void OnDrawGizmos()
+    {
+        if (crouchSphereSurface != null)
+        {
+            for (int i = 0; i < crouchSphereSurface.Count; i++)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(this.crouchSphereSurface[i],crouchSphereRaduis);
+            }
+        }
+
+    }
 }

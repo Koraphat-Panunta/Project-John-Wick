@@ -11,7 +11,6 @@ public partial class PlayerAnimationManager
 
 
     public float CoverWeight;
-    public float SholderSide;//-1 -> 1
     public float InputMoveMagnitude_Normalized;
     public float VelocityMoveMagnitude_Normalized;
     public float MoveInputLocalFoward_Normalized;

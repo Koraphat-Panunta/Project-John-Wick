@@ -6,7 +6,7 @@ public static class EdgeObstacleDetection
     public static bool GetEdgeObstaclePos(float sphereRaduis,float distance, Vector3 castDir, Vector3 startPos, Vector3 destinatePos, float difDistance, out Vector3 edgePos,out List<Vector3> sphere)
     {
         sphere = new List<Vector3>();
-        List<Vector3> sphereCast = ObstacleDetection.GetSphereCast(sphereRaduis,distance, castDir, startPos, destinatePos);
+        List<Vector3> sphereCast = ObstacleDetectionSurface.GetSphereCast(sphereRaduis,distance, castDir, startPos, destinatePos);
         sphere = sphereCast;
 
         edgePos = new Vector3();
@@ -18,8 +18,13 @@ public static class EdgeObstacleDetection
 
             if (Vector3.Distance(sphereCast[i], sphereCast[i + 1]) >= difDistance)
             {
-                edgePos = sphereCast[i];
-                break;
+                Vector3 desStartDir = (destinatePos - startPos).normalized;
+                Vector3 secondCastCheck = sphereCast[i] + (desStartDir * sphereRaduis * 2) + (castDir * sphereRaduis);
+                if (Physics.SphereCast(secondCastCheck, sphereRaduis, desStartDir * -1, out RaycastHit hit, sphereRaduis * 2.5f, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore))
+                    edgePos = hit.point;
+                else
+                    edgePos = sphereCast[i];
+                return true;
             }
         }
         return true;
@@ -43,7 +48,7 @@ public static class EdgeObstacleDetection
         )
     {
         sphere = new List<Vector3>();
-        List<Vector3> sphereCast = ObstacleDetection.GetSphereCast(sphereRadius, distance, castDir, startPos, destinatePos);
+        List<Vector3> sphereCast = ObstacleDetectionSurface.GetSphereCast(sphereRadius, distance, castDir, startPos, destinatePos);
         sphere = sphereCast;
 
         edgePos = new Vector3();
@@ -60,7 +65,13 @@ public static class EdgeObstacleDetection
 
                 if ((onlyForward && isForward) || (!onlyForward && !isForward))
                 {
-                    edgePos = sphereCast[i];
+                    Vector3 desStartDir = (destinatePos - startPos).normalized;
+                    Vector3 secondCastCheck = sphereCast[i] + (desStartDir * sphereRadius * 2) + (castDir.normalized * sphereRadius);
+                    Debug.DrawRay(secondCastCheck, desStartDir * -1, Color.red);
+                    if (Physics.SphereCast(secondCastCheck,sphereRadius, desStartDir * -1, out RaycastHit hit, sphereRadius * 2.5f, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore))
+                        edgePos = hit.point;
+                    else
+                        edgePos = sphereCast[i];
                     return true;
                 }
             }

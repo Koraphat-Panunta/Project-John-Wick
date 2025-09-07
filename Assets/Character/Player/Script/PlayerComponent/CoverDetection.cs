@@ -81,12 +81,12 @@ public class CoverDetection
         if (shoulderSide == Player.ShoulderSide.Left)
         {
             detecEdgeDes = detecEdgeOri + Vector3.Cross(Vector3.up, obstacleSurfaceDir);
-            sphereCast = ObstacleDetection.GetSphereCast(sphereRaduis, detecEdgeDetect, castDir,detecEdgeOri,detecEdgeDes);
+            sphereCast = ObstacleDetectionSurface.GetSphereCast(sphereRaduis, detecEdgeDetect, castDir,detecEdgeOri,detecEdgeDes);
         }
         else
         {
             detecEdgeDes = detecEdgeOri + Vector3.Cross(Vector3.down, obstacleSurfaceDir);
-            sphereCast = ObstacleDetection.GetSphereCast(sphereRaduis, detecEdgeDetect, castDir, detecEdgeOri, detecEdgeDes);
+            sphereCast = ObstacleDetectionSurface.GetSphereCast(sphereRaduis, detecEdgeDetect, castDir, detecEdgeOri, detecEdgeDes);
         }
         return sphereCast;
     }

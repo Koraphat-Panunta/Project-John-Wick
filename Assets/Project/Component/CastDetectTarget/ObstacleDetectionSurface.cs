@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ObstacleDetection 
+public static class ObstacleDetectionSurface 
 {
     public static List<Vector3> GetSphereCast(float sphereRaduis,float distance, Vector3 castDir,Vector3 startPos,Vector3 destinatePos)
     {
