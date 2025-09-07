@@ -82,13 +82,13 @@ public class TakeCoverTacticDecision : TacticDecision
         {
             case EnemyTacticDecision.CombatPhase.Alert:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 4);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                     enemyCommand.NormalFiringPattern.Performing();
                 }
                 break;
             case EnemyTacticDecision.CombatPhase.Aware:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 4);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                     enemyCommand.NormalFiringPattern.Performing();
                 }
                 break;

@@ -43,7 +43,7 @@ public class HoldingTacticDecision : TacticDecision
             case EnemyTacticDecision.CombatPhase.Alert:
                 {
                     enemyCommand.FreezPosition();
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                     enemyCommand.NormalFiringPattern.Performing();
 
                 }
@@ -51,13 +51,13 @@ public class HoldingTacticDecision : TacticDecision
             case EnemyTacticDecision.CombatPhase.Aware:
                 {
                     enemyCommand.FreezPosition();
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, 5);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
 
                 }
                 break;
             default: 
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos,5);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                     enemyCommand.MoveToPosition(enemy.targetKnewPos, 1);
                 }
                 break;

@@ -328,10 +328,15 @@ public class EnemyCommandAPI :MonoBehaviour
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
     }
-    public void AimDownSight(Vector3 aimTargetPos,float rotateSpeed)
+    public void AimDownSight(Vector3 aimTargetPos)
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
-        RotateToPosition(aimTargetPos,rotateSpeed);
+        _enemy.enemyGetShootDirection.SetPointingPos(aimTargetPos);
+
+        if (_enemy.enemyGetShootDirection.outOfHorizontalLimit)
+        {
+            RotateToPosition(aimTargetPos, .5f);
+        }
 
         weaponAdvanceUser._isAimingCommand = true;
     }

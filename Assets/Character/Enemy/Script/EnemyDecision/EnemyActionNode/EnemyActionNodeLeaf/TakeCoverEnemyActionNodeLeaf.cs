@@ -38,7 +38,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
         if (enemy.isInCover == false)
         {
                 enemyCommandAPI.MoveToTakeCover(this.coverPoint, 1);
-                enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                 enemyCommandAPI.NormalFiringPattern.Performing();
         }
         else
@@ -66,13 +66,13 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
                 }
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                 }
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill: enemyCommandAPI.LowReady(); break;

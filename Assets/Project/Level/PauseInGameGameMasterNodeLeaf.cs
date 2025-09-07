@@ -10,7 +10,6 @@ public class PauseInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGam
     public PauseInGameGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,PauseUICanvas pauseUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.pauseUICanvas = pauseUICanvas;
-        Debug.Log("Debug PauseInGameMaster : " + gameMaster.user.userInput);
         gameMaster.user.userInput.PauseAction.PauseTrigger.performed += this.TriggerPause;
         pauseUICanvas.resume.onClick.AddListener(() => isPause = false);
         pauseUICanvas.exit.onClick.AddListener(() => gameMaster.gameManager.ExitToMainMenu());
