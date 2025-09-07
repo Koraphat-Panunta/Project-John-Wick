@@ -40,8 +40,8 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
-  - SHADOWCASTER
   - DepthOnly
+  - SHADOWCASTER
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -113,7 +113,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 0.1
+    - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 2
@@ -128,7 +128,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 1
     - _DstBlendAlpha: 0
-    - _Edge: 0.174
+    - _Edge: 0.66
     - _EnvironmentReflections: 1
     - _Fequenzy: 5.3
     - _Float: 0.72
@@ -145,14 +145,14 @@ Material:
     - _Metallic: 0
     - _Min_Size: 0.1
     - _OcclusionStrength: 1
-    - _Offsets: 0.669
+    - _Offsets: 0.15
     - _POSITION_FROM: 0
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SCALE_WITH_CAMERA_POSITION: 1
-    - _Size: 0.631
+    - _Size: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -167,7 +167,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 0.8922937, b: 0.80566037, a: 0}
+    - _Color: {r: 0.32602972, g: 0.14640717, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Pattern_Color: {r: 2.5945864, g: 1.165127, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
