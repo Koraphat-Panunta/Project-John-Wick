@@ -23,8 +23,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
     [SerializeField] private int assingTime;
 
-    //[SerializeField, TextArea] private string debugEnemyDirector;
-
     [SerializeField] private Player player;
     private void Awake()
     {
@@ -201,25 +199,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
 
 
 
-    private Task taskUpdateYieldAllShooterOnPlayerAim;
 
-    [SerializeField] private float yieldShooterOnPlayerAim;
-    [SerializeField] private float delayYieldShooterOnPlayerAim;
-    [SerializeField] private bool isYieldAllShooter;
-
-    
-   
-    private async Task UpdatingYieldAllShooterOnPlayerAim()
-    {
-       
-        isYieldAllShooter = true;
-        float delay = yieldShooterOnPlayerAim * 1000;
-        await Task.Delay((int)delay);
-        isYieldAllShooter = false;
-        await Task.Delay((int)delayYieldShooterOnPlayerAim * 1000);
-
-        taskUpdateYieldAllShooterOnPlayerAim = null;
-    }
     [SerializeField] private int maxOverwatchShootPoint;
     [SerializeField] private int overwatchShootPoint;
     [SerializeField] private float shootPointCoolDown;
@@ -240,54 +220,49 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     public bool GetShooterPermission(EnemyRoleBasedDecision enemyRoleBasedDecision)
     {
        EnemyActionNodeManager roleAction = enemyRoleBasedDecision.enemyActionNodeManager;
-        if (isYieldAllShooter)
-            return false;
+
 
         switch (roleAction)
         {
             case EnemyChaserRoleNodeManager enemyChaserRole:
                 {
-                    //if (chaserShooterPoint > 0)
-                    //{
-                    //    chaserShooterPoint -= 1;
-                    //    if (taskUpdateChaserShooterPoint == null)
-                    //        taskUpdateChaserShooterPoint = UpdatingChaserShooterPoint();
-                    //    return true;
-                    //}
+                    if (Vector3.Distance(enemyChaserRole.enemy.targetKnewPos, enemyChaserRole.enemy.transform.position) < 3.5f)
+                        return true;
+
                     int isShootChaser = 0;
                     foreach(EnemyRoleBasedDecision enemyRoleBD in enemiesRole)
                     {
                         if(enemyRoleBD.enemyActionNodeManager == enemyRoleBD.chaserRoleNodeManager
                             &&enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
                             isShootChaser++;
+
+                        if (isShootChaser >= maxNumberChaserShooter)
+                            return false;
                     }
-                    if(isShootChaser < maxNumberChaserShooter)
-                        return true;
+                    return true;
                 }
                 break;
             case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
                 {
+                    if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnewPos,enemyOverwatchRole.enemy.transform.position) < 3.5f)
+                        return true;
 
+                    if(overwatchShootPoint <=0)
+                        return false;
 
-                    //if (overwatchShooterPoint > 0)
-                    //{
-                    //    overwatchShooterPoint -= 1;
-                    //    if (taskUpdateOverwatchShooterPoint == null)
-                    //        taskUpdateOverwatchShooterPoint = UpdatingOverwatchShooterPoint();
-                    //    return true;
-                    //}
                     int isShootOverwatch = 0;
                     foreach (EnemyRoleBasedDecision enemyRoleBD in enemiesRole)
                     {
                         if (enemyRoleBD.enemyActionNodeManager == enemyRoleBD.overwatchRoleNodeManager
                             && enemyRoleBD.enemyCommand.NormalFiringPattern.isWillShoot)
                             isShootOverwatch++;
+
+                        if(isShootOverwatch >= maxNumberOverwatchShooter)
+                            return false;
                     }
-                    if (isShootOverwatch < maxNumberOverwatchShooter && overwatchShootPoint > 0)
-                    {
-                        overwatchShootPoint--;
-                        return true;
-                    }
+                    overwatchShootPoint--;
+                    return true;
+                  
                 }
                 break;
         }
@@ -319,13 +294,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
    
     public void OnNotify<T>(Player player, T node)
     {
-        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
-            switch (weaponManuverLeafNode)
-            {
-                case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf :
-                    taskUpdateYieldAllShooterOnPlayerAim = UpdatingYieldAllShooterOnPlayerAim();
-                    break;
-            }
+       
     }
     public List<EnemyRoleBasedDecision> GetAllEnemyRoleBasedDecision() => enemiesRole;
 }

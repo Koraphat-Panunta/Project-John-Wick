@@ -6,18 +6,18 @@ public class EnemyWaveManager : IObserverEnemy
     public EnemyWave curWave;
     public List<Enemy> enemies;
     public int numberOfEnemy => enemies.Count;
-    public Transform fartestRefSpawnPos;
+    public Player player;
 
     public EnemySpawnerPoint[] enemySpawnerPoints;
     public EnemyDirector enemyDirector;
 
-    public bool waveIsClear => enemyWaves.Count <= 0;
-    public EnemyWaveManager(Transform fartestRefSpawnPos, EnemySpawnerPoint[] enemySpawnerPoints,EnemyDirector enemyDirector)
+    public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
+    public EnemyWaveManager(Player player, EnemySpawnerPoint[] enemySpawnerPoints,EnemyDirector enemyDirector)
     {
         enemyWaves = new Queue<EnemyWave>();
         enemies = new List<Enemy>();
         this.enemySpawnerPoints = enemySpawnerPoints;
-        this.fartestRefSpawnPos = fartestRefSpawnPos;
+        this.player = player;
         this.enemyDirector = enemyDirector;
     }
     public void AddEnemyWave(EnemyWave enemyWave)
@@ -40,8 +40,10 @@ public class EnemyWaveManager : IObserverEnemy
                 //SpawnEnemyNumber
                 for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
                 {
-                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, false, out Enemy spawnedEnemy);
+                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, out Enemy spawnedEnemy);
                     spawnedEnemy.AddObserver(this);
+                    spawnedEnemy.targetKnewPos = player.transform.position;
+                    spawnedEnemy.NotifyEnemySpottingTarget.Invoke(player.gameObject);
                     enemies.Add(spawnedEnemy);
                 }
 
@@ -71,8 +73,8 @@ public class EnemyWaveManager : IObserverEnemy
 
 
             if (enemySpawnerPoints[i].preCondition.Invoke()
-                && Vector3.Distance(fartestRefSpawnPos.position, enemySpawnerPoints[i].transform.position)
-                > Vector3.Distance(fartestRefSpawnPos.position, selectedSpawnPoint.transform.position))
+                && Vector3.Distance(player.transform.position, enemySpawnerPoints[i].transform.position)
+                > Vector3.Distance(player.transform.position, selectedSpawnPoint.transform.position))
                 selectedSpawnPoint = enemySpawnerPoints[i];
         }
         return selectedSpawnPoint;
@@ -89,3 +91,4 @@ public class EnemyWaveManager : IObserverEnemy
         }
     }
 }
+

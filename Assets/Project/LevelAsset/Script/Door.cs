@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Door : MonoBehaviour,I_Interactable
@@ -29,15 +30,20 @@ public class Door : MonoBehaviour,I_Interactable
     {
         isBeenInteractAble = true;
     }
+    public Action<Door> doorTriggerEvent;
     public void Open()
     {
         animator.SetTrigger("DoorTrigger");
         isOpen = true;
+        if (doorTriggerEvent != null)
+            doorTriggerEvent.Invoke(this);
     }
     public void Close()
     {
         animator.SetTrigger("DoorTrigger");
         isOpen = false;
+        if (doorTriggerEvent != null)
+            doorTriggerEvent.Invoke(this);
     }
 
     public virtual void DoInteract(I_Interacter i_Interacter)

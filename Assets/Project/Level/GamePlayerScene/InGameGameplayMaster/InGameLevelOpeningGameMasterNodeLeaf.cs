@@ -2,10 +2,9 @@
 using System;
 using System.Threading.Tasks;
 
-public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelOpeningGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
     private OpeningUICanvas openingCanvasUI;
-    public bool isComplete { get; protected set; }
     private Player player => gameMaster.player;
     public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,OpeningUICanvas openingUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
@@ -14,18 +13,17 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
 
     public override void Enter()
     {
-        //gameMaster.player.gameObject.SetActive(false);
         gameMaster.gamePlayUICanvas.DisableGameplayUI();
 
 
         isComplete = false;
         openingCanvasUI.PlayOpeningAnimationUI();
 
-        gameMaster.NotifyObserver(gameMaster);
-
         DisableInput();
 
         OpeningDelay();
+
+        gameMaster.NotifyObserver<InGameLevelOpeningGameMasterNodeLeaf>(gameMaster, this);
     }
 
     public override void Exit()
@@ -33,6 +31,8 @@ public class InGameLevelOpeningGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLev
         EnableInput();
 
         player.gameObject.SetActive(true);
+
+        gameMaster.NotifyObserver<InGameLevelOpeningGameMasterNodeLeaf>(gameMaster, this);
     }
 
     public override void FixedUpdateNode()

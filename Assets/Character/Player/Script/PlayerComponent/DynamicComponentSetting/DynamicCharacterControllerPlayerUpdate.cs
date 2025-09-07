@@ -23,47 +23,28 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
  
     public void OnNotify<T>(Player player, T node)
     {
-
-        if(node is PlayerStateNodeLeaf playerStateNodeLeaf)
-            switch (playerStateNodeLeaf)
+        if (playerStateNodeManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>())
         {
-            case PlayerCrouch_Idle_NodeLeaf playerCrouchIdleNodeLeaf:
-            case PlayerCrouch_Move_NodeLeaf playerCrouchMoveNodeLeaf:
-                {
-                    if ((player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
-                    {
-                        characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
-                        characterController.height = CrouchHeight;
-                    }
-                    else
-                    {
-                        characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
-                        characterController.height = CrouchHeight;
-                    }
-                    break;
-                }
-            case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf: 
-                {
-                    characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
-                    characterController.height = CrouchHeight;
-                    break;
-                }
-            case PlayerStandMoveNodeLeaf playerStandMoveNodeLeaf:
-            case PlayerStandIdleNodeLeaf playerStandIdleNodeLeaf:
-                case PlayerSprintNode:
-                {
-                    characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
-                    characterController.height = StandHeight;
-                    break;
-                }
-            case IParkourNodeLeaf parkourNodeLeaf: 
-                    {
-                        characterController.center = new Vector3(characterController.center.x, parkourCenterY, characterController.center.z);
-                        characterController.height = parkourHeight;
-                        break;
-                    }
-            
+            characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
+            characterController.height = CrouchHeight;
         }
+        else if (playerStateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
+            || playerStateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>())
+        {
+            characterController.center = new Vector3(characterController.center.x, CrouchCenterY, characterController.center.z);
+            characterController.height = CrouchHeight;
+        }
+        else if ((playerStateNodeManager.TryGetCurNodeLeaf<IParkourNodeLeaf>()))
+        {
+            characterController.center = new Vector3(characterController.center.x, parkourCenterY, characterController.center.z);
+            characterController.height = parkourHeight;
+        }
+        else
+        {
+            characterController.center = new Vector3(characterController.center.x, StandCenterY, characterController.center.z);
+            characterController.height = StandHeight;
+        }
+       
     }
 
 

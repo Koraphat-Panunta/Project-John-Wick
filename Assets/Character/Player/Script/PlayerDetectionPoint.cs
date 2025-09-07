@@ -1,7 +1,7 @@
 using UnityEngine;
 
-public class PlayerDetectionPoint : MonoBehaviour,I_NPCTargetAble
+public class PlayerDetectionPoint : MonoBehaviour,I_EnemyAITargeted
 {
     [SerializeField] private Player player;
-    public Character selfNPCTarget => player.selfNPCTarget;
+    public Character selfEnemyAIBeenTargeted => player.selfEnemyAIBeenTargeted;
 }

@@ -25,19 +25,19 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
     protected virtual void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        nodeManagerBehavior = new NodeManagerBehavior();
+        this.InitailizedNode();
     }
 
     protected virtual void Start()
     {
-        nodeManagerBehavior = new NodeManagerBehavior();
 
-        this.InitailizedNode();
+
+       
     }
 
     protected virtual void Update()
     {
-        if(gameManager == null)
-            gameManager = FindAnyObjectByType<GameManager>();
 
         this.UpdateNode();
     }

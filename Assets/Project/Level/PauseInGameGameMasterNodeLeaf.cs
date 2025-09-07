@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class PauseInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
     private PauseUICanvas pauseUICanvas;
     public bool isPause { get; protected set; }
@@ -14,6 +14,7 @@ public class PauseInGameGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameM
         pauseUICanvas.resume.onClick.AddListener(() => isPause = false);
         pauseUICanvas.exit.onClick.AddListener(() => gameMaster.gameManager.ExitToMainMenu());
     }
+
 
     public override void Enter()
     {

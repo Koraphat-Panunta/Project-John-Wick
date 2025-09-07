@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 
 public partial class Enemy : SubjectEnemy
-    , IWeaponAdvanceUser, IMotionDriven,
+    , IMotionDriven,
      IFindingTarget, ICoverUseable,
     IHeardingAble, IPatrolComponent,
     IPainStateAble, 
@@ -76,7 +76,7 @@ public partial class Enemy : SubjectEnemy
         this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
-        findingTargetComponent.FindTarget(out GameObject target);
+        this.FindingTargetUpdate();
         enemyStateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
@@ -133,6 +133,10 @@ public partial class Enemy : SubjectEnemy
     private void BlackBoardUpdate()
     {
         moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
+        if (this.findingTargetComponent.isSpottingTarget)
+            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate));
+        else
+            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate));
     }
     public void BlackBoardBufferUpdate()
     {
@@ -150,56 +154,37 @@ public partial class Enemy : SubjectEnemy
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
-
-
-    #region Initailized WeaponAdvanceUser
-    [SerializeField] private MainHandSocket MainHandSocket;
-    [SerializeField] private SecondHandSocket SecondHandSocket;
-    [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
-    [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
-
-    public bool _isPullTriggerCommand { get; set; }
-    public bool _isAimingCommand { get; set; }
-    public bool _isReloadCommand { get; set; }
-    public bool _isDropWeaponCommand { get; set; }
-    public bool _isPickingUpWeaponCommand { get; set; }
-    public bool _isHolsterWeaponCommand { get; set; }
-    public bool _isDrawPrimaryWeaponCommand { get; set; }
-    public bool _isDrawSecondaryWeaponCommand { get; set; }
-
-    public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
-    public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
-
-    public Animator _weaponUserAnimator { get; set; }
-    public Weapon _currentWeapon { get; set; }
-
-    public Vector3 _shootingPos {
-        get { return enemyGetShootDirection.GetShootingPos(); }
-        set { }
-    }
-    public Vector3 _pointingPos { get => enemyGetShootDirection.GetPointingPos();
-        set { } }
-
-    public WeaponBelt _weaponBelt { get; set; }
-    public WeaponAfterAction _weaponAfterAction { get; set; }
-    public Character _userWeapon => this;
-
-    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
-    public WeaponManuverManager _weaponManuverManager { get; set; }
-    public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
-
-    public void Initialized_IWeaponAdvanceUser()
+    private float findingTargetTimeInterval = .25f;
+    private float findingTargetTimer;
+    private void FindingTargetUpdate()
     {
-        _weaponUserAnimator = animator;
-        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(1000, 1000, 1000, 1000
-            , 1000, 1000, 1000, 1000));
-        _weaponAfterAction = new WeaponAfterActionEnemy(this);
-        _findingWeaponBehavior = new FindingWeaponBehavior(this);
-        _weaponManuverManager = new EnemyWeaponManuver(this, this);
-        _animatorWeaponAdvanceUserOverride = this.AnimatorOverrideController;
+        if(this.target != null
+            && (Physics.Raycast(rayCastPos.position
+                , (this.target.transform.position - rayCastPos.position).normalized
+                , Vector3.Distance(rayCastPos.position, this.target.transform.position)
+                , LayerMask.GetMask("Default")) == false)) 
+        {
+            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate);
+            this.targetKnewPos = this.target.transform.position;
+        }
+        else
+        {
+            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate);
+        }
+        
+
+        findingTargetTimer += Time.deltaTime;
+
+        if(findingTargetTimer < findingTargetTimeInterval)
+            return;
+
+        if(findingTargetComponent.FindTarget(out GameObject target))
+            this.target = target;
+        else
+            this.target = null;
+       
+        findingTargetTimer = 0;
     }
-    #endregion
 
     #region InitializedMotionControl
 
@@ -243,6 +228,7 @@ public partial class Enemy : SubjectEnemy
 
     public FindingTarget findingTargetComponent { get; set; }
     public Vector3 targetKnewPos;
+    private GameObject target;
     public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
     {
@@ -254,6 +240,7 @@ public partial class Enemy : SubjectEnemy
     {
         if (isDead)
             return;
+
 
         targetKnewPos = target.transform.position;
         enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
@@ -289,9 +276,9 @@ public partial class Enemy : SubjectEnemy
             return;
 
         if (noiseMakingAble is Bullet bullet
-            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_NPCTargetAble>(out I_NPCTargetAble i_NPCTargetAble))
+            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
         {
-            targetKnewPos = i_NPCTargetAble.selfNPCTarget.transform.position;
+            targetKnewPos = i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position;
         }
 
         NotifyObserver(this, EnemyEvent.HeardingGunShoot);
@@ -300,6 +287,7 @@ public partial class Enemy : SubjectEnemy
     }
 
     #endregion
+
     #region ImplementCommunicateAble
 
     public Action<Communicator> NotifyCommunicate { get; set; }
@@ -428,7 +416,6 @@ public partial class Enemy : SubjectEnemy
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
    
-
     #region ImplementIFriendlyFire
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
     public int allieID { get ; set ; }

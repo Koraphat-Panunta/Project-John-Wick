@@ -107,7 +107,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         ADS_PullTrigger = new EnemyTestingCommand(
             () =>
             {
-                enemyCommand.AimDownSight(enemy.targetKnewPos,enemy.aimingRotateSpeed);
+                enemyCommand.AimDownSight(enemy.targetKnewPos);
                 if(enemy._currentWeapon.triggerState == TriggerState.Up)
                     enemyCommand.PullTrigger();
             }, () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] <= (int)(enemy._currentWeapon.bulletCapacity * 0.7f));
@@ -124,17 +124,17 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 timerCoverManuver -= Time.deltaTime;
                 if(timerCoverManuver > 7)
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                 }
                 else if(timerCoverManuver > 4)
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                     if(enemy._currentWeapon.triggerState == TriggerState.Up)
                     enemyCommand.PullTrigger();
                 }
                 else if(timerCoverManuver > 2)
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos, enemy.aimingRotateSpeed);
+                    enemyCommand.AimDownSight(enemy.targetKnewPos);
                 }
                 else
                 {

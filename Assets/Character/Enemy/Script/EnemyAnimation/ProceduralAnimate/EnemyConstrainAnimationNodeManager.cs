@@ -4,15 +4,16 @@ using UnityEngine.Animations.Rigging;
 public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 {
     public override INodeSelector startNodeSelector { get; set; }
-
-
     public Transform centre;
     public TwoBoneIKConstraint leftLeg;
     public TwoBoneIKConstraint rightLeg;
     public Enemy enemy;
 
+    public SplineLookConstrain splineLookConstrain;
     public string curNodeName;
-
+    [SerializeField] private AimSplineLookConstrainScriptableObject primaryAimSplineLookConstrainScriptableObject;
+    [SerializeField] private AimSplineLookConstrainScriptableObject secondaryAimSplineLookConstrainScriptableObject;
+    #region PainStateWalk
     [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
 
     [Range(0, 10)]
@@ -29,7 +30,12 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 
     [Range(0, 10)]
     public float FootstepPlacementOffsetDistance;
+    #endregion
 
+    NodeCombine nodeCombineConstrainAnimationNodeLeaf;
+    NodeSelector aimNodeSelector;
+    AimDownSightAnimationConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
+    AimDownSightAnimationConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
     EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf { get; set; }
     RestAnimationConstrainNodeLeaf restProceduralAnimateNodeLeaf { get; set; }
 
@@ -39,6 +45,19 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
     {
         startNodeSelector = new AnimationConstrainNodeSelector(() => true);
 
+        nodeCombineConstrainAnimationNodeLeaf = new NodeCombine(()=> true);
+        aimNodeSelector = new NodeSelector(()=> enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0);
+        primaryAnimationConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            enemy
+            ,splineLookConstrain
+            ,primaryAimSplineLookConstrainScriptableObject
+            ,()=> enemy._currentWeapon is PrimaryWeapon);
+        secondaryAnimationConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            enemy
+            , splineLookConstrain
+            , secondaryAimSplineLookConstrainScriptableObject
+            , () => enemy._currentWeapon is SecondaryWeapon);
+
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
@@ -47,8 +66,14 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
             );
         restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
-        startNodeSelector.AddtoChildNode(enemyPainStateProceduralAnimateNodeLeaf);
+        startNodeSelector.AddtoChildNode(nodeCombineConstrainAnimationNodeLeaf);
         startNodeSelector.AddtoChildNode(restProceduralAnimateNodeLeaf);
+
+        nodeCombineConstrainAnimationNodeLeaf.AddCombineNode(aimNodeSelector);
+        nodeCombineConstrainAnimationNodeLeaf.AddCombineNode(enemyPainStateProceduralAnimateNodeLeaf);
+
+        aimNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
+        aimNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

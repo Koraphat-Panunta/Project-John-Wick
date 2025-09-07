@@ -51,7 +51,7 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
             movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
               
 
-        movementCompoent.RotateToDirWorld(coverUseable.coverPoint.coverDir, 6);
+        movementCompoent.RotateToDirWorld((enemy.targetKnewPos - enemy.transform.position).normalized, 6);
 
         base.UpdateNode();
     }

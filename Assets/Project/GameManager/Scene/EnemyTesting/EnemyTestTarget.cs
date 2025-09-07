@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class EnemyTestTarget : Character,I_NPCTargetAble
+public class EnemyTestTarget : Character,I_EnemyAITargeted
 {
-    public Character selfNPCTarget => this;
+    public Character selfEnemyAIBeenTargeted => this;
 
     public override MovementCompoent _movementCompoent { get; set; }
     protected override void Awake()

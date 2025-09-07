@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Player : SubjectPlayer,
     IBulletDamageAble,
-    IAmmoRecivedAble,IHPReciveAble,I_NPCTargetAble
+    IAmmoRecivedAble,IHPReciveAble,I_EnemyAITargeted
     
 {
     public CoverDetection coverDetection;
@@ -13,7 +13,7 @@ public partial class Player : SubjectPlayer,
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
     [SerializeField] private CharacterController characterController;
-    public Character selfNPCTarget => this;
+    public Character selfEnemyAIBeenTargeted => this;
 
     [SerializeField] public bool isImortal;
 
@@ -53,7 +53,7 @@ public partial class Player : SubjectPlayer,
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
 
-        base.maxHp = 100;
+        base.maxHp = 150;
         base.SetHP(maxHp);
 
         _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
@@ -119,8 +119,6 @@ public partial class Player : SubjectPlayer,
     }
 
     #endregion
-
-  
 
     #region ProceduralAim_Lean
 

@@ -22,8 +22,18 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     {
         base.UpdateNode();
     }
+    private void UpdateYingYang()
+    {
+        if (curNodeLeaf is ApprouchingTargetEnemyActionNodeLeaf)
+            yingYangCalculate -= Time.deltaTime * 2f;
+        else if (curNodeLeaf is InsistEnemyActionNodeLeaf
+            || curNodeLeaf is TakeCoverEnemyActionNodeLeaf)
+            yingYangCalculate += Time.deltaTime * 15f;
 
-    public GuardingEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get ; set ; }
+        yingYangCalculate = Mathf.Clamp(yingYangCalculate, 0, 100);
+    }
+
+    public InsistEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get ; set ; }
 
     public EnemyActionSelectorNode overwatchAwareAlertActionSelector { get; set; }
 
@@ -36,7 +46,7 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     {
         startNodeSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI, () => true);
 
-        guardingEnemyActionNodeLeaf = new GuardingEnemyActionNodeLeaf(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill, this);
+        guardingEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill, this);
 
         overwatchAwareAlertActionSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI, () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware
         || curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert);

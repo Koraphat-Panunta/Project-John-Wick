@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelGameOverGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
     private bool isTriggerExit;
     private bool isTriggerRestart;
@@ -43,12 +43,12 @@ public class InGameLevelGameOverGameMasterNodeLeaf : GameMasterNodeLeaf<InGameLe
             gameManager.soundTrackManager.StopSoundTrack(0.5f);
         }
         catch { }
-        gameMaster.NotifyObserver(gameMaster);
+        gameMaster.NotifyObserver(gameMaster,this);
     }
 
     public override void Exit()
     {
-        
+        gameMaster.NotifyObserver(gameMaster, this);
     }
 
     public override void FixedUpdateNode()

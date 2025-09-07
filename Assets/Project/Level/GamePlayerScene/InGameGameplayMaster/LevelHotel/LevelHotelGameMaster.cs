@@ -48,6 +48,13 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
+
+    protected override void InitialziedGameMasterEvent()
+    {
+        throw new NotImplementedException();
+    }
+
+  
 }
 public class LevelHotelGameplayGameMasterNodeLeaf : InGameLevelGamplayGameMasterNodeLeaf<LevelHotelGameMaster>,IObserveObjective
 {

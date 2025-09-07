@@ -33,11 +33,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         enemy.AddObserver(this);
 
     }
-    protected virtual void Update()
-    {
-        ForceCalulate();
-
-    }
+    
     protected Rigidbody bodyPartRigid;
     public IGunFuNode curAttackerGunFuNode { get => enemy.curAttackerGunFuNode; set => enemy.curAttackerGunFuNode = value; }
     public bool _isGotAttackedAble { get => enemy._isGotAttackedAble; set => enemy._isGotAttackedAble = value ; }
@@ -67,7 +63,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
-            Debug.Log("Been ad force");
             forceSave = Vector3.zero;
             hitForcePositionSave = Vector3.zero;
             isForceSave = false;
@@ -135,7 +130,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
    
     public virtual void Notify<T>(Enemy enemy, T node) 
     {
-
+        this.ForceCalulate();
     }
     public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
 
