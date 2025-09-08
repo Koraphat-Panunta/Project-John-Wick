@@ -35,12 +35,13 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
     IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => curGunFuPhase = value; }
     private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase;
     private bool isExecuteAlready;
-
+    private TimeControlBehavior timeControlBehavior;
     public float lenghtOffset => _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.executeAnimationOffset;
     public GunFuExecute_OnGround_Single_NodeLeaf(Player player, Func<bool> preCondition, GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
     {
         this.gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecute_Single_ScriptableObject;
         gunFuAble = player;
+        timeControlBehavior = new TimeControlBehavior(player);
         PopulateIsShootAlready();
     }
 
@@ -104,7 +105,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
                     if (isTriggerSlowMotion == false 
                         && _timer >= gunFuExecute_OnGround_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length - lenghtOffset)
                     {
-                        TimeControlBehavior.TriggerTimeStop(0
+                        timeControlBehavior.TriggerTimeStop(0
                             , gunFuExecute_OnGround_Single_ScriptableObject.slowMotionDurarion
                             ,gunFuExecute_OnGround_Single_ScriptableObject.slowMotionCurve);
                         isTriggerSlowMotion = true;

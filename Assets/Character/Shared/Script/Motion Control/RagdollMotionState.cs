@@ -49,8 +49,5 @@ public class RagdollMotionState : MotionState
             rb.isKinematic = true;
         }
     }
-    public void AddForce(Vector3 force,ForceMode forceMode)
-    {
-        hipsRigid.AddForce(force,forceMode);
-    }
+   
 }

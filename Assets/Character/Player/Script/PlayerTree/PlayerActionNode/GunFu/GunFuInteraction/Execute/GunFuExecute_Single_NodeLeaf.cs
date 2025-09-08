@@ -15,7 +15,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     private Dictionary<float,bool> isShootAlready = new Dictionary<float,bool>();
     private List<float> shootimingNormalized => gunFuExecute_Single_ScriptableObject.firingTimingNormalized;
     public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.executeClip; set { } }
-  
+    private TimeControlBehavior timeControlBehavior;
     private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
     //private Transform gunFuAttackerTransform => player._transform;
     //private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character._transform;
@@ -44,6 +44,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this.gunFuAble = player;
         this.gunFuExecute_Single_ScriptableObject = gunFuExecute_Single_ScriptableObject;
         weaponAdvanceUser = player;
+        timeControlBehavior = new TimeControlBehavior(player);
         PopulateIsShootAlready();
     }
 
@@ -102,7 +103,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                 {
                     if (isWarpingComplete)
                     {
-                        //gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
+
 
                         gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
                         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
@@ -117,10 +118,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                         attackerPosAtInteractBegin = gunFuAble._character.transform.position;
                         opponentPosAtInteractBegun = gunFuAble.executedAbleGunFu._character.transform.position;
 
-                        //Debug.Log("distance enemyRealPos - enemyAdjustPos = " + Vector3.Distance(gunFuGotAttackedTransform.position, opponentGunFuTargetPosition));
-                        //Debug.Log("deltaRotate enemyRealRot - enemyAdjustRot = " + Quaternion.Angle(gunFuGotAttackedTransform.rotation,opponentGunFuTargetRotation));
-                        //Debug.Log("deltaPos = " + Vector3.Distance(gunFuAble._character._transform.position, gunFuAble.executedAbleGunFu._character._transform.position));
-                        //Debug.Log("deltaRotation = " + Quaternion.Angle(gunFuAble._character._transform.rotation, gunFuAble.executedAbleGunFu._character._transform.rotation));
+             
                     }
                     else if (WarpingComplete())
                         isWarpingComplete = true;
@@ -132,7 +130,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                     if(isTriggerSlowMotion == false
                         &&_timer >= gunFuExecute_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
                     {
-                        TimeControlBehavior.TriggerTimeStop(0, gunFuExecute_Single_ScriptableObject.slowMotionDurarion);
+                        timeControlBehavior.TriggerTimeStop(0, gunFuExecute_Single_ScriptableObject.slowMotionDurarion);
                         isTriggerSlowMotion = true;
                     }
 

@@ -62,7 +62,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
-            bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Force);
+            Debug.Log("AddForce");
+            bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
             forceSave = Vector3.zero;
             hitForcePositionSave = Vector3.zero;
             isForceSave = false;
@@ -127,7 +128,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
     public virtual void Notify<T>(Enemy enemy, T node) 
     {
-       
         this.ForceCalulate();
     }
     public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);

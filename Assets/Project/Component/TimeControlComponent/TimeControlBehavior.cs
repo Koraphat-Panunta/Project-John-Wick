@@ -1,42 +1,64 @@
+using System.Collections;
 using UnityEngine;
-using System.Threading.Tasks;
+
 public class TimeControlBehavior 
 {
-    public static async void TriggerTimeStop(float duration)
+    private MonoBehaviour coroutineCaller;
+
+    public TimeControlBehavior(MonoBehaviour coroutineCaller)
     {
-        Time.timeScale = 0;
-        await Task.Delay((int)(1000*duration));
-        Time.timeScale = 1;
+        this.coroutineCaller = coroutineCaller;
     }
-    public static async void TriggerTimeStop(float durationStop, float durationReset, AnimationCurve animationCurve = null)
+
+    // --- Simple time stop ---
+    public void TriggerTimeStop(float duration)
+    {
+        coroutineCaller.StartCoroutine(TimeStopRoutine(duration));
+    }
+
+    private IEnumerator TimeStopRoutine(float duration)
     {
         float originalFixedDeltaTime = Time.fixedDeltaTime;
 
-        // Freeze time
         Time.timeScale = 0f;
 
-        // Wait in real time while time is stopped
-        await Task.Delay((int)(durationStop * 1000));
+        yield return new WaitForSecondsRealtime(duration); // unaffected by timeScale
+
+        Time.timeScale = 1f;
+    }
+
+    // --- Time stop with gradual reset ---
+    public void TriggerTimeStop(float durationStop, float durationReset, AnimationCurve animationCurve = null)
+    {
+        coroutineCaller.StartCoroutine(TimeStopResetRoutine(durationStop, durationReset, animationCurve));
+    }
+
+    private IEnumerator TimeStopResetRoutine(float durationStop, float durationReset, AnimationCurve animationCurve)
+    {
+        float originalFixedDeltaTime = Time.fixedDeltaTime;
+
+        // Stop time
+        Time.timeScale = 0f;
+
+        // Hold time stopped
+        yield return new WaitForSecondsRealtime(durationStop);
 
         float elapsed = 0f;
-
         while (elapsed < durationReset)
         {
             elapsed += Time.unscaledDeltaTime;
-            float normalizedTime = Mathf.Clamp01(elapsed / durationReset);
+            float normalized = Mathf.Clamp01(elapsed / durationReset);
 
-            // Evaluate with curve if provided, else use linear
-            float timeScale = animationCurve != null
-                ? animationCurve.Evaluate(normalizedTime)
-                : normalizedTime;
+            float timeScale = (animationCurve != null)
+                ? animationCurve.Evaluate(normalized)
+                : normalized;
 
             Time.timeScale = timeScale;
 
-            await Task.Yield();
+            yield return null; // wait 1 frame
         }
 
-        // Restore time
+        // Restore full time
         Time.timeScale = 1f;
-        Time.fixedDeltaTime = originalFixedDeltaTime;
     }
 }

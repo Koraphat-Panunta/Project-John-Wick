@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovementSnaping,IObserverEnemy
+public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovementSnaping
 {
    
     public Enemy enemy { get; set; }
@@ -14,7 +14,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     {
         this.enemy = enemy;
         this.agent = agent;
-        this.enemy.AddObserver(this);
     }
 
   
@@ -62,15 +61,5 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public override void Move(Vector3 position)
     {
         agent.Move(position);
-    }
-
-    public void Notify<T>(Enemy enemy, T node)
-    {
-        if(enemy.motionControlManager.curMotionState == enemy.motionControlManager.ragdollMotionState)
-        {
-            isOnUpdateEnable = false;
-        }
-        else
-            isOnUpdateEnable = true;
     }
 }

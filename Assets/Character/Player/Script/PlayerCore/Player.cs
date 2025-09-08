@@ -14,7 +14,7 @@ public partial class Player : SubjectPlayer,
     public CinemachineCamera cinemachineCamera;
     [SerializeField] private CharacterController characterController;
     public Character selfEnemyAIBeenTargeted => this;
-
+    private TimeControlBehavior timeControlBehavior;
     [SerializeField] public bool isImortal;
 
     public float MyHP;
@@ -52,7 +52,7 @@ public partial class Player : SubjectPlayer,
         coverDetection = new CoverDetection();
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
-
+        timeControlBehavior = new TimeControlBehavior(this);
         base.maxHp = 150;
         base.SetHP(maxHp);
 

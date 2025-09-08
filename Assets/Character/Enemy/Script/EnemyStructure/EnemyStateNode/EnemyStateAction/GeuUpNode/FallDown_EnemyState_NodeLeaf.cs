@@ -73,17 +73,19 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
         enemy._posture = 0;
 
-        enemy.NotifyObserver(enemy,this);
-        enemy.NotifyObserver(enemy,this);
+        base.Enter();
     }
 
     public override void Exit()
     {
         enemy._painPart = IPainStateAble.PainPart.None;
         enemy._posture = 100;
+
+        base.Exit();
     }
     public override void FixedUpdateNode()
     {
+        (enemy._movementCompoent).MoveToDirWorld(Vector3.zero, 2, 7, MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
 
@@ -91,8 +93,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
-        (enemy._movementCompoent).MoveToDirWorld(Vector3.zero,1,enemy.breakMaxSpeed,MoveMode.MaintainMomentum);
-
         if (enemy._isPainTrigger )
         {
 
@@ -119,6 +119,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
                 timerGetDown += Time.deltaTime;
                 RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
                 RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
+                if(_hipsBone.transform.position.y < enemy.transform.position.y)
+                    _hipsBone.transform.position = enemy.transform.position;
                 if (timerGetDown >= fallDownTime)
                 {
                     isFacingUp = IsFacingUp();

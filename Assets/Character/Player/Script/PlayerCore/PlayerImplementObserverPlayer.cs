@@ -24,7 +24,7 @@ public partial class Player : IObserverPlayer
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
-                        PlayerImlementObserverBehavior.HitStop(gunFuHitNodeLeaf);
+                        PlayerImlementObserverBehavior.HitStop(gunFuHitNodeLeaf,player.timeControlBehavior);
                     }
                     break;
                 }
@@ -59,14 +59,17 @@ public partial class Player : IObserverPlayer
         }
 
     }
+
     private static class PlayerImlementObserverBehavior
     {
-        public static async void HitStop(GunFuHitNodeLeaf gunFuHitNodeLeaf)
+
+        public static async void HitStop(GunFuHitNodeLeaf gunFuHitNodeLeaf,TimeControlBehavior timeControlBehavior)
         {
             await Task.Yield();
             try
             {
-                TimeControlBehavior.TriggerTimeStop
+
+                timeControlBehavior.TriggerTimeStop
                    (gunFuHitNodeLeaf.gunFuHitScriptableObject.hitStopDuration[gunFuHitNodeLeaf.hitCount - 1]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitResetDuration[gunFuHitNodeLeaf.hitCount - 1]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitSlowMotionCurve[gunFuHitNodeLeaf.hitCount - 1]
@@ -74,7 +77,7 @@ public partial class Player : IObserverPlayer
             }
             catch
             {
-                TimeControlBehavior.TriggerTimeStop
+                timeControlBehavior.TriggerTimeStop
                    (gunFuHitNodeLeaf.gunFuHitScriptableObject.hitStopDuration[gunFuHitNodeLeaf.hitCount - 1]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitResetDuration[gunFuHitNodeLeaf.hitCount - 1]
                    );
