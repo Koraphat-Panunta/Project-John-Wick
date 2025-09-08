@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class Distance : MonoBehaviour
 {
-    public Renderer light;
-
-    public Camera cam;
+    public Transform target;
+    public Renderer shadows;
     void Start()
     {
-        cam = Camera.main;
-        light = this.gameObject.GetComponent<Renderer>();
+
     }
 
 
 
     void Update()
     {
-        if (cam != null && cam != null)
+        if (target != null && shadows != null)
         {
-            Vector3 pos = cam.transform.position;
-            light.material.SetVector("_TargetPosition", pos);
+            Vector3 pos = target.position;
+            shadows.material.SetVector("_TargetPosition", pos);
         }
     }
 }
