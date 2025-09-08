@@ -148,11 +148,12 @@ public abstract partial class MovementCompoent : INodeManager
         LayerMask mask = +LayerMask.GetMask("Ground") + LayerMask.GetMask("Default");
         return mask;
     }
+    private float castCheckIsGroundOffserUp = 2;
     public bool IsGround(out Vector3 hitGroundPosition)
     {
         hitGroundPosition = Vector3.zero;
 
-        if (Physics.Raycast(transform.position, Vector3.down,out RaycastHit hitGroundPos, .2f, GetGroundLayerMask()))
+        if (Physics.Raycast(transform.position + (Vector3.up * castCheckIsGroundOffserUp), Vector3.down,out RaycastHit hitGroundPos,castCheckIsGroundOffserUp + .12f, GetGroundLayerMask()))
         {
             hitGroundPosition = hitGroundPos.point;
             return true;

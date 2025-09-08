@@ -18,6 +18,10 @@ public class ZoneDefine
         this.raduis = r;
         SetZone(position);
     }
+    public void SerRaduise(float r)
+    {
+        this.raduis = r;
+    }
     public Vector3 GetRandomPositionInZone()
     {
         float angle = Random.Range(0f, 2f * Mathf.PI); // Random angle in radians

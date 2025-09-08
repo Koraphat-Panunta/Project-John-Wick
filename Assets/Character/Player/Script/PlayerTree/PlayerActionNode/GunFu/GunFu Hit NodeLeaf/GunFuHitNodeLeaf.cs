@@ -64,8 +64,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         {
             if (_timer > (_animationClip.length * gunFuHitScriptableObject.hitTimesNormalized[hitCount])- lenghtOffset)
             {
+                Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up)  * (gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position).normalized;
                 (gotGunExecutedAble._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                    ((gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position).normalized * gunFuHitScriptableObject.hitPush[hitCount]
+                    (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
                     , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 gotGunExecutedAble.TakeGunFuAttacked(this, gunFuAble);

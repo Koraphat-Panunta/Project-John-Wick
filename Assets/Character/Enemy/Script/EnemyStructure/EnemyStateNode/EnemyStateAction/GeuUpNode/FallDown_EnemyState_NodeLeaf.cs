@@ -60,7 +60,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
-        (enemy._movementCompoent).CancleMomentum();
 
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
@@ -92,10 +91,12 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
+        (enemy._movementCompoent).MoveToDirWorld(Vector3.zero,1,enemy.breakMaxSpeed,MoveMode.MaintainMomentum);
+
         if (enemy._isPainTrigger )
         {
+
             RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
-            (enemy._movementCompoent).CancleMomentum();
 
             if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
                 enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);

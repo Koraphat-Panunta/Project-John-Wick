@@ -17,7 +17,7 @@ public class BulletSpawner : MonoBehaviour
         //BulletObj thisBullet = Instantiate(bulletObj, _transform.position, Quaternion.identity);
         //thisBullet.bullet = weapon.bullet;
         //thisBullet.travelDri = (shootPos - _transform.position).normalized ;    
-        Vector3 bulletHitPos = weapon.bullet.Shoot(transform.position, shootPos);
+        Vector3 bulletHitPos = weapon.bullet.Shoot(this, shootPos);
 
        
         StartCoroutine(SpawnTrail(transform.position, bulletHitPos, this.bulletTrail));

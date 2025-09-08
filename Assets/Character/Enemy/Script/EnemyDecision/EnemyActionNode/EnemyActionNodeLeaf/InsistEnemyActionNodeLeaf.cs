@@ -64,6 +64,12 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                 }
                 break;
+            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill:
+                {
+                    enemyCommandAPI.FreezPosition();
+                    enemyCommandAPI.LowReady();
+                }
+                break;
         }
         base.UpdateNode();
     }
