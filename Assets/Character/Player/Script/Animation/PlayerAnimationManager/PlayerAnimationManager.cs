@@ -186,6 +186,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
     private Vector3 crouchCastDir => player._pointingPos -  new Vector3(player.transform.position.x,player._pointingPos.y, player.transform.position.z);
     private float crouchSphereRaduis = .2f;
     [SerializeField] private float crouchWeight;
+    [Range(0, 1)]
+    [SerializeField] private float crouchWeightOffset;
     private List<Vector3> crouchSphereSurface;
     private void CalculateCrouchWeight()
     {
@@ -200,7 +202,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
         {
             if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, 2.3f, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
             {
-                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) -0.35f);
+                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) - crouchWeightOffset);
                 crouchWeight = Mathf.Lerp(crouchWeight, targetCrouchWeight, crouchWeightChange * Time.deltaTime);
             }
             else
