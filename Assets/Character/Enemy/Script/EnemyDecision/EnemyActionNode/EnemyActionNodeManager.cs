@@ -61,6 +61,14 @@ public abstract class EnemyActionNodeManager :  INodeManager<EnemyActionNodeLeaf
 
         UpdateYingYang();
     }
+    public virtual void Enter()
+    {
+
+    }
+    public virtual void Exit()
+    {
+
+    }
 
     private void UpdateYingYang()
     {

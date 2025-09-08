@@ -63,9 +63,11 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this,transform,this,agent);
         enemyCommunicator = new EnemyCommunicator(this);
     }
-
+    [SerializeField] private Weapon startWeapon;
     protected override void Start()
     {
+        if(startWeapon != null)
+            WeaponAttachingBehavior.Attach(startWeapon,MainHandSocket);
         base.Start();
     }
 

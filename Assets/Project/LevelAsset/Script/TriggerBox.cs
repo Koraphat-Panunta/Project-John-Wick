@@ -19,7 +19,6 @@ public class TriggerBox : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TriggerEnter");
         if (onTriggerBoxEnterEvent != null)
             onTriggerBoxEnterEvent.Invoke(other,this);
     }

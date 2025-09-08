@@ -99,4 +99,9 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
 
         yingYangCalculate = Mathf.Clamp(yingYangCalculate,0, 100);
     }
+    public override void Enter()
+    {
+        base.targetZone.SerRaduise(10);
+        base.Enter();
+    }
 }

@@ -25,8 +25,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
     }
     public override void Notify<T>(Enemy enemy, T node)
     {
-       
-        base.Notify(enemy, node);
+      
     }
     #region ImplementCommunicate
     public GameObject communicateAble => enemy.communicateAble;

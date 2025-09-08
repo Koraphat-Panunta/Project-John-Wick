@@ -1,6 +1,4 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using static SubjectEnemy;
 
@@ -42,7 +40,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     {
         base.Awake();
         enemy.AddObserver(this);
-        _targetZone = new ZoneDefine(Vector3.zero, 8.5f);
+        _targetZone = new ZoneDefine(Vector3.zero, 10f);
 
         chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,2.5f,5f);
         chaserRoleNodeManager.InitailizedNode();
@@ -149,12 +147,12 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_targetZone.zonePosition, _targetZone.raduis);
 
-        //DrawGuardingZone
-        if (chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.guardingEnemyActionNodeLeaf)
+        if(overwatchRoleNodeManager.overWatchZone != null)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.zonePosition
-                , chaserRoleNodeManager.guardingEnemyActionNodeLeaf.guardingZone.raduis);
+            Debug.Log("overwatchRoleNodeManager.overWatchZone.zonePosition = " + overwatchRoleNodeManager.overWatchZone.zonePosition);
+            Gizmos.color = Color.yellow * 0.5f;
+            Gizmos.DrawSphere(overwatchRoleNodeManager.overWatchZone.zonePosition, 0.5f);
+            Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.overWatchZone.zonePosition);
         }
 
         if(chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
@@ -175,7 +173,10 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     public void ChangeRole(EnemyActionNodeManager roleEnemy)
     {
-        enemyActionNodeManager = roleEnemy; 
+        if (enemyActionNodeManager != null)
+            enemyActionNodeManager.Exit();
+        enemyActionNodeManager = roleEnemy;
+        enemyActionNodeManager.Enter();
     }
 
     public void Notify<T>(Enemy enemy, T node) 

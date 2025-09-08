@@ -35,11 +35,10 @@ public class EnemyGetShootDirection
     private Vector3 pointingPos; 
     private Vector3 forwardDir => enemy.transform.forward; 
     private float maxHorizontalRotateDegrees = 30;
-    private float maxVerticalRotateDegrees = 90;
+    private float maxVerticalRotateDegrees = 60;
     public bool outOfHorizontalLimit { get; private set; }
     public void SetPointingPos(Vector3 poitnPos)
     {
-        Debug.DrawLine(enemy.transform.position, poitnPos, Color.red);
 
         // Normalize input
         Vector3 dirToPoint = (poitnPos - enemy.transform.position).normalized;
@@ -65,7 +64,7 @@ public class EnemyGetShootDirection
         Vector3 clampedDir = rot * fwd;
 
         // Final pointing position (you can scale as needed)
-        pointingPos = Vector3.Lerp(pointingPos,enemy.transform.position + clampedDir * (poitnPos - enemy.transform.position).magnitude,this.trackingTargetRate);
+        pointingPos = Vector3.Lerp(pointingPos,enemy.transform.position + (clampedDir.normalized * Mathf.Clamp((poitnPos - enemy.transform.position).magnitude,1, 10)),this.trackingTargetRate);
         enemy.pointingTransform.position = pointingPos;
         Debug.DrawLine(enemy.transform.position, pointingPos, Color.blue);
     }

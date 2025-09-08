@@ -31,17 +31,6 @@ public class ChestBodyPart : BodyPart
    
     public override void Notify<T>(Enemy enemy, T node)
     {
-        if (node is EnemyStateLeafNode enemyStateLeafNode)
-            switch (enemyStateLeafNode)
-            {
-                case HumanThrowFallDown_GotInteract_NodeLeaf humanThrowFallDown_GotInteract:
-                    {
-                        if(humanThrowFallDown_GotInteract.curState == FallDown_EnemyState_NodeLeaf.FallDownState.RagdollState)
-                        isForceSave = true;
-                        forceSave = humanThrowFallDown_GotInteract.GetForceThrow();
-                        break;
-                    }
-            }
         base.Notify(enemy, node);
     }
 }
