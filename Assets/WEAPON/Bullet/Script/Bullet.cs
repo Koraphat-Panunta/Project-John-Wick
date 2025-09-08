@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 {
@@ -28,8 +29,30 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         noiseMakingBehavior = new NoiseMakingBehavior(this);
 
     }
-    public virtual Vector3 Shoot(Vector3 spawnerPosition,Vector3 pointPos)
+    private readonly float maxAngle = 45f;
+    public virtual Vector3 Shoot(BulletSpawner bulletSpawner, Vector3 pointPos)
     {
+        // Normalize input
+        Vector3 dirToPoint = (pointPos - bulletSpawner.transform.position).normalized;
+
+        // Basis: forward, right, up
+        Vector3 fwd = bulletSpawner.transform.forward.normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
+        Vector3 up = Vector3.Cross(fwd, right).normalized;
+
+        // Project onto local basis (dot products give angles)
+        float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
+        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg) * -1;
+
+
+        // Clamp angles
+        horizontalAngle = Mathf.Clamp(horizontalAngle, - this.maxAngle, this.maxAngle);
+        verticalAngle = Mathf.Clamp(verticalAngle, -this.maxAngle, this.maxAngle);
+
+        // Rebuild direction from clamped angles
+        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
+                         Quaternion.AngleAxis(verticalAngle, right);
+        Vector3 clampedDir = (rot * fwd).normalized;
 
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("Enemy");
@@ -40,9 +63,9 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
 
         // Calculate and apply impulse force
-        Vector3 force = (pointPos-spawnerPosition).normalized;
-        Vector3 rayDir = (pointPos - spawnerPosition).normalized;
-        Ray ray = new Ray(spawnerPosition,rayDir);
+        Vector3 force = clampedDir;
+        Vector3 rayDir = clampedDir;
+        Ray ray = new Ray(bulletSpawner.transform.position,rayDir);
         if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer, QueryTriggerInteraction.Ignore))
         {
             if (bulletHitNotify != null)
