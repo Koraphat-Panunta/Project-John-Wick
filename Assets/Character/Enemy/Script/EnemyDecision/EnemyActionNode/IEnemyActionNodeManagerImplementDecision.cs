@@ -9,8 +9,6 @@ public interface IEnemyActionNodeManagerImplementDecision
         Alert
     }
     public CombatPhase _curCombatPhase { get; set; }
-
-    public float _yingYang { get; set;} //0 : Ying represent calm , 100 : Yang represent aggressively
     public ZoneDefine _targetZone { get; set; }
     public bool _takeCoverAble { get; set; }
 

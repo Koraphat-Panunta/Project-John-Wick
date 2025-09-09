@@ -24,7 +24,7 @@ public class EnemyMoveCurvePath
         targetPos = tarPos;
         _curPos = CurPos;
 
-        if (Vector3.Distance(targetAnchor, tarPos) > 2)
+        if (Vector3.Distance(targetAnchor, tarPos) > distanceRePath)
         {
             RegenaratePath(tarPos,CurPos);
         }

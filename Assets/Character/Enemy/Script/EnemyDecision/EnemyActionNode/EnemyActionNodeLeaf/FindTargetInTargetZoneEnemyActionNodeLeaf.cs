@@ -23,14 +23,19 @@ public class FindTargetInTargetZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override void UpdateNode()
     {
+
+        if(elapseWaitTime > 0)
+        {
+            elapseWaitTime -= Time.deltaTime;
+            return;
+        }
+
+
+       
         if (enemyCommandAPI.MoveToPositionRotateToward(destinate, enemy.moveMaxSpeed, 1, 0.25f))
         {
-            elapseWaitTime += Time.deltaTime;
-            if (elapseWaitTime >= waitTime)
-            {
-                RandomNewPos();
-                elapseWaitTime = 0;
-            }
+            RandomNewPos();
+            elapseWaitTime = waitTime;
         }
 
         base.UpdateNode();

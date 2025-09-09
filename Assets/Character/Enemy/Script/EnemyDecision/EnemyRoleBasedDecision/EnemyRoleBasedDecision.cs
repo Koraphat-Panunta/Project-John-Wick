@@ -15,15 +15,9 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     public IEnemyActionNodeManagerImplementDecision.CombatPhase _curCombatPhase { get ; set ; }
     public IEnemyActionNodeManagerImplementDecision.CombatPhase CombatPhase;//Let Editor See
 
-    [Range(0,100)]
-    [SerializeField]private float YingYang;
-    public float _yingYang { get => YingYang; set => YingYang = value; }
     public bool _takeCoverAble { get ; set ; }
     [SerializeField] bool TakeCoverAble;
     private float takeCoverAbleDelay { get; set ; }
-
-    [SerializeField] private float enegyWithIn;
-    [SerializeField] private float YingYangCalulate;
 
     [SerializeField] private float elapesLostSightTime;
     [SerializeField] private float lostSightTime;
@@ -60,7 +54,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         enemyCommand = GetComponent<EnemyCommandAPI>();
         _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill;
 
-        lostSightTime = YingYang / 10;
+        lostSightTime = 8;
         _takeCoverAble = true;
 
     }
@@ -73,8 +67,6 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     {
         enemyActionNodeManager.UpdateNode();
         base.Update();
-        enegyWithIn = enemyActionNodeManager.enegyWithIn;
-        YingYangCalulate = enemyActionNodeManager.yingYangCalculate;
 
         if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
         {

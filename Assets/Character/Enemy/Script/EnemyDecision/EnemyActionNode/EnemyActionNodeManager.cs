@@ -9,26 +9,13 @@ public abstract class EnemyActionNodeManager :  INodeManager<EnemyActionNodeLeaf
     public ZoneDefine targetZone => enemyDecision._targetZone;
     public bool takeCoverAble => enemyDecision._takeCoverAble;
 
-    public abstract float yingYangCalculate { get;protected set; }
-    public float yingYang { get => enemyDecision._yingYang; set => enemyDecision._yingYang = value; }
-    public float enegyWithIn;
-
-    private float timeUpdateYingYang;
-    private float minTimeUpdateYingYang;
-    private float maxTimeUpdateYingYang;
-    private float elapesTimerUpdateYingYang;
+    
     public EnemyActionNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision
         ,float minTimeUpdateYingYang,float maxTimeUpdateYingYang)
     {
         this.enemy = enemy;
         this.enemyCommandAPI = enemyCommandAPI;
         this.enemyDecision = enemyDecision;
-
-        this.minTimeUpdateYingYang = minTimeUpdateYingYang;
-        this.maxTimeUpdateYingYang= maxTimeUpdateYingYang;
-
-        this.timeUpdateYingYang = Random.Range(minTimeUpdateYingYang, maxTimeUpdateYingYang);
-        this.enegyWithIn = enemyDecision._yingYang;
 
     }
 
@@ -59,7 +46,6 @@ public abstract class EnemyActionNodeManager :  INodeManager<EnemyActionNodeLeaf
         if (curNodeLeaf != null)
             curNodeLeaf.UpdateNode();
 
-        UpdateYingYang();
     }
     public virtual void Enter()
     {
@@ -70,14 +56,4 @@ public abstract class EnemyActionNodeManager :  INodeManager<EnemyActionNodeLeaf
 
     }
 
-    private void UpdateYingYang()
-    {
-        elapesTimerUpdateYingYang += Time.deltaTime;
-        if(elapesTimerUpdateYingYang >= timeUpdateYingYang)
-        {
-            enegyWithIn = yingYangCalculate;
-            timeUpdateYingYang = Random.Range(minTimeUpdateYingYang, maxTimeUpdateYingYang);
-            elapesTimerUpdateYingYang = 0;
-        }
-    }
 }

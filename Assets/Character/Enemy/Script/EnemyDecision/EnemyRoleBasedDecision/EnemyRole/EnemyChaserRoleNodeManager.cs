@@ -5,6 +5,8 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
 {
     public override EnemyActionNodeLeaf curNodeLeaf { get; set; }
     public override EnemyActionSelectorNode startNodeSelector { get; set; }
+    public float combatIntensity;
+    private float approuchCoolDown;
 
     public EnemyChaserRoleNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision, float minTimeUpdateYingYang, float maxTimeUpdateYingYang) 
         : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
@@ -14,12 +16,11 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     public GuardingEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get;private set; }
     public FindTargetInTargetZoneEnemyActionNodeLeaf findTargetInTargetZoneEnemyActionNodeLeaf { get; private set; }
     private EnemyActionSelectorNode enemyAlertActionSelectorNode { get; set; }
-    public MoveToTheZoneEnemyActionNodeLeaf moveToCombatZone { get; set; }
-    public TakeCoverEnemyActionNodeLeaf takeCoverEnemyActionNodeLeaf { get; set; }
-    public InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf { get; private set; }
-    public ApprouchingTargetEnemyActionNodeLeaf approuchingTargetEnemyActionNodeLeaf { get; private set; }
     public DisarmTargetWeaponEnemyActionNodeLeaf disarmTargetWeaponEnemyActionNodeLeaf { get; private set; }
-    public override float yingYangCalculate { get ;protected set ; }
+    public ApprouchingTargetEnemyActionNodeLeaf approuchingTargetEnemyActionNodeLeaf { get; private set; }
+    public InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf { get; private set; }
+
+
 
     public override void InitailizedNode()
     {
@@ -30,39 +31,19 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
             ()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware,this,targetZone);
 
         enemyAlertActionSelectorNode = new EnemyActionSelectorNode(enemy,enemyCommandAPI,()=>true);
-        moveToCombatZone = new MoveToTheZoneEnemyActionNodeLeaf(enemy, enemyCommandAPI,
-            () =>
-            { 
-                if(Vector3.Distance(targetZone.zonePosition,enemy.transform.position)<targetZone.raduis*(enegyWithIn/100))
-                    return false;
-
-                if(moveToCombatZone.assignZone.IsPositionInTheZone(enemy.transform.position) == false)
-                return true;
-                
-                return false;    
-            }
-            , this, targetZone);
-        approuchingTargetEnemyActionNodeLeaf = new ApprouchingTargetEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=> enegyWithIn >= yingYang,this);
-        takeCoverEnemyActionNodeLeaf = new TakeCoverEnemyActionNodeLeaf(enemy, enemyCommandAPI,
-            () => 
+  
+        approuchingTargetEnemyActionNodeLeaf = new ApprouchingTargetEnemyActionNodeLeaf(enemy,enemyCommandAPI,
+            ()=>
             {
-                if(takeCoverAble == false)
-                    return false;
-
-                if(Vector3.Distance(enemy.targetKnewPos,enemy.transform.position) < 5.5f)
-                    return false;
-
-                if(enemy.coverPoint != null && takeCoverAble)
-                    return true;
-
-                if(enemyCommandAPI.FindCoverAndBook(6, out CoverPoint coverPoint)
-            && takeCoverAble)
+                if (this.approuchCoolDown <= 0)
                 {
+                    this.approuchCoolDown = Random.Range(1,2);
                     return true;
                 }
                 return false;
             }
-            , this);
+            ,this);
+       
         insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,
             ()=>true
             ,this);
@@ -75,11 +56,8 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
         startNodeSelector.AddtoChildNode(findTargetInTargetZoneEnemyActionNodeLeaf);
         startNodeSelector.AddtoChildNode(enemyAlertActionSelectorNode);
 
-        
-        enemyAlertActionSelectorNode.AddtoChildNode(moveToCombatZone);
         enemyAlertActionSelectorNode.AddtoChildNode(disarmTargetWeaponEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(approuchingTargetEnemyActionNodeLeaf);
-        //enemyAlertActionSelectorNode.AddtoChildNode(takeCoverEnemyActionNodeLeaf);
         enemyAlertActionSelectorNode.AddtoChildNode(insistEnemyActionNodeLeaf);
         
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
@@ -91,17 +69,15 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     {
         base.UpdateNode();
 
-        if (curNodeLeaf is ApprouchingTargetEnemyActionNodeLeaf)
-            yingYangCalculate -= Time.deltaTime * 2f;
-        else if (curNodeLeaf is InsistEnemyActionNodeLeaf
-            || curNodeLeaf is TakeCoverEnemyActionNodeLeaf)
-            yingYangCalculate += Time.deltaTime * 15f;
-
-        yingYangCalculate = Mathf.Clamp(yingYangCalculate,0, 100);
     }
     public override void Enter()
     {
         base.targetZone.SerRaduise(10);
         base.Enter();
+    }
+    private void CoolDownUpdate()
+    {
+        if(approuchCoolDown > 0 && (this as INodeManager).TryGetCurNodeLeaf<ApprouchingTargetEnemyActionNodeLeaf>() == false)
+            approuchCoolDown -= Time.deltaTime;
     }
 }

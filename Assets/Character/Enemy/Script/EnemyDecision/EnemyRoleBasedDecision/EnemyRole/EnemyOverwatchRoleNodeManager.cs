@@ -8,10 +8,7 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
         : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
     {
         overWatchZone = new ZoneDefine(enemy.transform.position, overWatchZoneRaduis);
-        yingYangCalculate = enemyDecision._yingYang;
     }
-
-    public override float yingYangCalculate { get; protected set ; }
     public override EnemyActionNodeLeaf curNodeLeaf { get ; set ; }
     public override EnemyActionSelectorNode startNodeSelector { get ; set ; }
 
@@ -21,21 +18,9 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     }
     public override void UpdateNode()
     {
-        this.UpdateYingYang();
         base.UpdateNode();
     }
-    private void UpdateYingYang()
-    {
-        if(enegyWithIn > yingYang)
-        {
-            yingYangCalculate = Mathf.Clamp(Random.Range(0,1),0.5f,0.75f)*yingYang;
-            enegyWithIn = yingYangCalculate;
-            this.AssignOverwatchOverwatchZone();
-        }
-        yingYangCalculate += Time.deltaTime * 4.5f;
-
-        yingYangCalculate = Mathf.Clamp(yingYangCalculate, 0, 100);
-    }
+   
 
     public InsistEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get ; set ; }
     public FindTargetInTargetZoneEnemyActionNodeLeaf findTargetInTargetZoneEnemyActionNodeLeaf { get; private set; }
@@ -54,7 +39,7 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
             () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill
             , this);
         findTargetInTargetZoneEnemyActionNodeLeaf = new FindTargetInTargetZoneEnemyActionNodeLeaf(enemy,enemyCommandAPI
-            ,()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware
+            ,()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware 
             ,this
             ,targetZone);
         overwatchAwareAlertActionSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI
@@ -82,7 +67,7 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     }
     private float randomMaxDegreesOverwatchZone = 30;
 
-    private float randomMaxRangeOverwatchZone = 13;
+    private float randomMaxRangeOverwatchZone = 10;
     private float randomMinRangeOverwatchZone = 6f;
     private void AssignOverwatchOverwatchZone()
     {
@@ -113,7 +98,8 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     }
     public override void Enter()
     {
-        base.targetZone.SerRaduise(15);
+        base.targetZone.SerRaduise(6);
+        this.AssignOverwatchOverwatchZone();
         base.Enter();
     }
 }
