@@ -4,7 +4,8 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
 {
     public ZoneDefine overWatchZone;
     private const float overWatchZoneRaduis = 1;
-    public EnemyOverwatchRoleNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision, float minTimeUpdateYingYang, float maxTimeUpdateYingYang) : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
+    public EnemyOverwatchRoleNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision, float minTimeUpdateYingYang, float maxTimeUpdateYingYang) 
+        : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
     {
         overWatchZone = new ZoneDefine(enemy.transform.position, overWatchZoneRaduis);
         yingYangCalculate = enemyDecision._yingYang;

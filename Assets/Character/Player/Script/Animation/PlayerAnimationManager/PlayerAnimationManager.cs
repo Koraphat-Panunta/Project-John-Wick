@@ -181,7 +181,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
     private float crouchUpdateTimeInterval = 0.25f;
     private float crouchUpdateTimer;
 
-    private Vector3 crouchCastPosStart => player.transform.position + Vector3.up * .5f;
+    private Vector3 crouchCastPosStart => player.transform.position + (Vector3.up * .5f) + (player.transform.forward*-0.1f);
     private Vector3 crouchCastPosEnd => player.transform.position + Vector3.up * 2f;
     private Vector3 crouchCastDir => player._pointingPos -  new Vector3(player.transform.position.x,player._pointingPos.y, player.transform.position.z);
     private float crouchSphereRaduis = .2f;
@@ -203,6 +203,15 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
             if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, 2.3f, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
             {
                 float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) - crouchWeightOffset);
+                if(player._currentWeapon != null && player._weaponManuverManager.aimingWeight >=1 && Vector3.Dot(Vector3.up,player._currentWeapon.bulletSpawner.transform.forward) <= 0)
+                {
+                    float angleCrouchPeekOffset = Mathf.Clamp01(
+                        Mathf.Abs(
+                            Vector3.Dot(Vector3.up, player._currentWeapon.bulletSpawner.transform.forward)/ 0.5f
+                            )
+                        );
+                    targetCrouchWeight += angleCrouchPeekOffset;
+                }
                 crouchWeight = Mathf.Lerp(crouchWeight, targetCrouchWeight, crouchWeightChange * Time.deltaTime);
             }
             else
