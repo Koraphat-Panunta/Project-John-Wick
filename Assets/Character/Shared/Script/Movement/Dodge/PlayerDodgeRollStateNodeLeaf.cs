@@ -48,7 +48,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         playerMovement.AddForcePush(player.dodgeImpluseForce * (player.inputMoveDir_World + player._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
         dodgePhase = DodgePhase.pushOut;
         //player.NotifyObserver(player,this);
-        player.playerStance = Player.PlayerStance.stand;
+        player.playerStance = Stance.stand;
         base.Enter();
     }
 
@@ -105,7 +105,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         else if(dodgePhase == DodgePhase.Landing)
         {
             playerMovement.MoveToDirWorld(Vector3.zero, player.dodgeOnGroundStopForce, player.dodgeOnGroundStopForce, MoveMode.MaintainMomentum);
-            //playerMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
+            //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();
     }

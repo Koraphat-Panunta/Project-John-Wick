@@ -22,7 +22,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     public override void Exit()
     {
-        enemyCommandAPI.CheckOutCover();
+        
         base.Exit();
     }
     public override void Enter()
@@ -37,7 +37,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
         if (enemy.isInCover == false)
         {
-                enemyCommandAPI.MoveToTakeCover(this.coverPoint, 1);
+                enemyCommandAPI.MoveToPosition(this.coverPoint.coverPos.position, 1);
                 enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                 enemyCommandAPI.NormalFiringPattern.Performing();
         }

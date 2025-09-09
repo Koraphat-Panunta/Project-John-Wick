@@ -271,52 +271,59 @@ public class EnemyCommandAPI :MonoBehaviour
         }
         return false;
     }
-    private void TakeCover()
-    {
-        FreezPosition();
-        _enemy.isInCover = true;
-    }
-    public bool MoveToTakeCover(CoverPoint coverPoint,float velocityScale,float rotateTowardDirSpeedScale)
-    {
-        coverPoint.TakeThisCover(_enemy);
 
-        if (MoveToPositionRotateToward(coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 1.6f))
-        {
-            TakeCover();
-            return true;
-        }
-        return false;
-    }
-    public bool MoveToTakeCover(CoverPoint coverPoint, float velocityScale)
+    public void Dodge(Vector3 dodgeDir)
     {
-        coverPoint.TakeThisCover(_enemy);
-
-        if (MoveToPosition(coverPoint.coverPos.position, velocityScale, 1.6f))
-        {
-            TakeCover();
-            return true;
-        }
-        return false;
+        _enemy.moveInputVelocity_WorldCommand = dodgeDir;
+        _enemy._triggerDodge = true;
     }
-    public bool SprintToCover(CoverPoint coverPoint)
-    {
-        coverPoint.TakeThisCover(_enemy);
 
-        if (SprintToPosition(coverPoint.coverPos.position, _enemy.sprintRotateSpeed,1.6f))
-        {
-            TakeCover();
-            return true;
-        }
-        return false;
-    }
-    public void CheckOutCover()
-    {
-        if(_enemy.coverPoint != null)
-        _enemy.coverPoint.OffThisCover();
+    //private void TakeCover()
+    //{
+    //    FreezPosition();
+    //    _enemy.isInCover = true;
+    //}
+    //public bool MoveToTakeCover(CoverPoint coverPoint,float velocityScale,float rotateTowardDirSpeedScale)
+    //{
+    //    coverPoint.TakeThisCover(_enemy);
 
-        _enemy.coverPoint = null;
-        _enemy.isInCover = false;
-    }
+    //    if (MoveToPositionRotateToward(coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 1.6f))
+    //    {
+    //        TakeCover();
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    //public bool MoveToTakeCover(CoverPoint coverPoint, float velocityScale)
+    //{
+    //    coverPoint.TakeThisCover(_enemy);
+
+    //    if (MoveToPosition(coverPoint.coverPos.position, velocityScale, 1.6f))
+    //    {
+    //        TakeCover();
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    //public bool SprintToCover(CoverPoint coverPoint)
+    //{
+    //    coverPoint.TakeThisCover(_enemy);
+
+    //    if (SprintToPosition(coverPoint.coverPos.position, _enemy.sprintRotateSpeed,1.6f))
+    //    {
+    //        TakeCover();
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    //public void CheckOutCover()
+    //{
+    //    if(_enemy.coverPoint != null)
+    //    _enemy.coverPoint.OffThisCover();
+
+    //    _enemy.coverPoint = null;
+    //    _enemy.isInCover = false;
+    //}
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;

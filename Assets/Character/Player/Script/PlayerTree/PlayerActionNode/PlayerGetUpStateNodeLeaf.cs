@@ -49,7 +49,7 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
 
         if (this._timer >= this.animationClip.length)
         {
-            player.playerStance = Player.PlayerStance.stand;
+            player.playerStance = Stance.stand;
             isComplete = true;
         }
             

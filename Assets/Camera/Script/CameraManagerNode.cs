@@ -55,7 +55,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => 
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Player.PlayerStance.stand)
+                && cameraController.player.playerStance == Stance.stand)
                     return true;
 
                 return false;
@@ -65,7 +65,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => 
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Player.PlayerStance.crouch)
+                && cameraController.player.playerStance == Stance.crouch)
                     return true;
                 
                 return false;

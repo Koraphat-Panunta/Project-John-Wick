@@ -116,9 +116,9 @@ public class PlayerInputAPI : MonoBehaviour
 
             switch ( player.playerStance) 
             {
-                case Player.PlayerStance.stand: { player.playerStance = Player.PlayerStance.crouch; }
+                case Stance.stand: { player.playerStance = Stance.crouch; }
                     break;
-                case Player.PlayerStance.crouch: { player.playerStance = Player.PlayerStance.stand; }
+                case Stance.crouch: { player.playerStance = Stance.stand; }
                     break;
             }
            

@@ -31,6 +31,7 @@ public partial class EnemyAnimationManager : INodeManager
 
     public NodeSelector baseLayerSelector { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
+    public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf crouchBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf standMoveIdleBaseLayerNodeLeaf { get; set; }
@@ -78,6 +79,7 @@ public partial class EnemyAnimationManager : INodeManager
 
         baseLayerSelector.AddtoChildNode(enemySpinKick);
         baseLayerSelector.AddtoChildNode(sprintBaseLayerNodeLeaf);
+        baseLayerSelector.AddtoChildNode(enemyDodgeNodeLeaf);
         baseLayerSelector.AddtoChildNode(crouchBaseLayerNodeLeaf);
         baseLayerSelector.AddtoChildNode(standMoveIdleBaseLayerNodeLeaf);
         baseLayerSelector.AddtoChildNode(restBaseNodeLeaf);
@@ -125,6 +127,8 @@ public partial class EnemyAnimationManager : INodeManager
         enemySpinKick = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
             , animator, "EnemySpinKick", 0, .15f);
+        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
+            , animator, "Dodge", 0, 0.2f);
         sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
             , animator, "Sprint", 0, 0.25f);

@@ -13,6 +13,8 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
+           
+
             if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
                 && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
                 return false;
@@ -26,6 +28,8 @@ public partial class Enemy : IGotGunFuAttackedAble
                 return false;
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+                return false;
 
             return true;
         }
@@ -35,6 +39,12 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
+            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
+                return false;
+            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+                return false;
+            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+                return false;
 
             if (isStagger)
                 return true;

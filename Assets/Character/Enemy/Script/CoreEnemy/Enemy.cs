@@ -153,6 +153,8 @@ public partial class Enemy : SubjectEnemy
         _isPickingUpWeaponCommand = false;
         _isPullTriggerCommand = false;
         _triggerGunFu = false;
+        _triggerDodge = false;
+        isSprintCommand = false;
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
@@ -333,6 +335,13 @@ public partial class Enemy : SubjectEnemy
     [Range(0, 10)]
     public float moveRotateSpeed;
 
+    [Range(0, 100)]
+    public float CrouchMoveAccelerate;
+    [Range(0, 100)]
+    public float CrouchMoveMaxSpeed;
+    [Range(0, 100)]
+    public float CrouchMoveRotateSpeed;
+
     [Range(0, 10)]
     public float sprintAccelerate;
     [Range(0, 10)]
@@ -354,7 +363,17 @@ public partial class Enemy : SubjectEnemy
     [Range(0, 100)]
     public float painStateForceStop;
 
+    [Range(0, 100)]
+    public float dodgeImpluseForce;
+    [Range(0, 100)]
+    public float dodgeInAirStopForce;
+    [Range(0, 100)]
+    public float dodgeOnGroundStopForce;
+
     public bool isSprintCommand { get; set; }
+    public bool _triggerDodge { get; set; }
+
+    public Stance enemyStance = Stance.stand;
 
 
     #endregion
