@@ -8,6 +8,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     public override EnemyCommandAPI enemyCommand { get ; set ; }
     private Queue<ITaskingExecute> enemyTestingCommands = new Queue<ITaskingExecute>();
 
+    private ITaskingExecute dodge;
     private ITaskingExecute moveToPos1;
     private ITaskingExecute rotateToPos2;
     private ITaskingExecute sprintToPos3;
@@ -58,7 +59,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     {
         if (enemyCommand == null)
             enemyCommand = GetComponent<EnemyCommandAPI>();
-
+        dodge = new EnemyTestingCommand(() => enemyCommand.Dodge(enemy.transform.forward)
+        , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
         rotateToPos2 = new EnemyRotateToPos(enemy.transform, rotateTransPos2.position, enemy.aimingRotateSpeed, enemyCommand);
         sprintToPos3 = new EnemyTestingCommand(() => { }, ()=>enemyCommand.SprintToPosition(this.sprintTransPos3.position,enemy.sprintRotateSpeed));
@@ -117,7 +119,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             enemyCommand.FindCoverAndBook(raduisFindCover, out CoverPoint coverPoint);
             
         }, () => enemy.coverPoint != null);
-        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToCover(coverPoint));
+        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(coverPoint.coverPos.position,1,0.5f));
         coverManuver1 = new EnemyTestingCommand(
             () => 
             {
@@ -146,7 +148,6 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             { 
                 if (timerCoverManuver <= 0)
                 {
-                    enemyCommand.CheckOutCover();
                     return true;
                 }
                 return false;
@@ -155,6 +156,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,1.25f));
         spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
+        enemyTestingCommands.Enqueue(dodge);
         enemyTestingCommands.Enqueue(moveToPos1);//21
         enemyTestingCommands.Enqueue(rotateToPos2);//20
         enemyTestingCommands.Enqueue(sprintToPos3);//19

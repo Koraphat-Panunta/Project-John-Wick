@@ -33,12 +33,12 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
             sprintDir = player.inputMoveDir_World;
             sprintPhase = SprintManuver.Out;
         }
-        else //(player.playerMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
+        else //(player.enemyMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
         {
             sprintDir = player._movementCompoent.forwardDir;
             sprintPhase = SprintManuver.Stay;
         }
-        player.playerStance = Player.PlayerStance.stand;
+        player.playerStance = Stance.stand;
         sprintStance = 0;
         base.Enter();
     }
@@ -57,8 +57,8 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         }
         else if (sprintPhase == SprintManuver.Stay)
         {
-            //playerMovement.MoveToDirWorld(playerMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MoveMode.IgnoreMomenTum);
-            //playerMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
+            //enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MoveMode.IgnoreMomenTum);
+            //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
             SprintMaintainMomentum(sprintRotateSpeed * 2.75f, sprintRotateSpeed * 1.65f);
         }
         sprintStance = Mathf.Clamp01(sprintStance + Time.deltaTime * sprintStanceChangeRate);

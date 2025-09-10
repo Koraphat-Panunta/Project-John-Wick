@@ -35,7 +35,6 @@ public class TakeCoverTacticDecision : TacticDecision
     public override void Exit()
     {
         this.coverPoint = null;
-        enemyCommand.CheckOutCover();
     }
 
     public override void FixedUpdate()
@@ -57,9 +56,9 @@ public class TakeCoverTacticDecision : TacticDecision
         if (enemy.isInCover == false)
         {
             if (enemyTacticDecision.pressure < 30)
-                enemyCommand.MoveToTakeCover(this.coverPoint, 1);
+                enemyCommand.MoveToPosition(this.coverPoint.coverPos.position, 1);
             else
-                enemyCommand.SprintToCover(this.coverPoint);
+                enemyCommand.SprintToPosition(this.coverPoint.coverPos.position, 1);
             return;
         }
         else

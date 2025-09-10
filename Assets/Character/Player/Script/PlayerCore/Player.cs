@@ -206,8 +206,8 @@ public partial class Player : SubjectPlayer,
     public bool triggerDodgeRoll;
 
     public PlayerGetUpStateScriptableObject PlayerGetUpStateScriptableObject;
-    public enum PlayerStance { stand, crouch, prone }
-    public PlayerStance playerStance = PlayerStance.stand;
+    
+    public Stance playerStance = Stance.stand;
 
     public Transform centreTransform;
 

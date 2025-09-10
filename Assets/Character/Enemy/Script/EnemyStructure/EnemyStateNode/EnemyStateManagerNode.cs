@@ -37,21 +37,27 @@ public class EnemyStateManagerNode : INodeManager
     public NodeCombine enemyCombineNode { get;private set; }
     public NodeSelector enemyStateSelector { get; private set; }
 
+    public NodeSelector enemyStanceSelector { get; private set; }
 
-    public EnemyStateSelectorNode standSelector { get; private set; }
-    public EnemyStateSelectorNode takeCoverSelector { get; private set; }
+    public NodeSelector crouchSelector { get; private set; }
+    public EnemyCrouchMoveStateNodeLeaf enemyCrouchMoveStateNodeLeaf { get; private set; }
+    public EnemyCrouchIdleStateNodeLeaf enemyCrouchIdleStateNodeLeaf { get; private set; }
+
+    public NodeSelector standSelector { get; private set; }
+    public EnemyStandIdleStateNodeLeaf enemyStandIdleStateNodeLeaf { get; private set; }
+    public EnemyStandMoveStateNodeLeaf enemyStandMoveStateNodeLeaf { get; private set; }
+
+    public EnemySprintStateNodeLeaf enemySprintStateNodeLeaf { get; private set; }
+    public EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf { get; private set; }
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
-    public EnemySprintStateNodeLeaf enemySprintState { get; private set; }
-    public EnemyStandIdleStateNodeLeaf enemyStandIdleState { get; private set; }
-    public EnemyStandMoveStateNodeLeaf enemyStandMoveState { get; private set; }
-    public EnemyStandTakeCoverStateNodeLeaf enemyStandTakeCoverState { get; private set; }
-    public EnemyStandTakeAimStateNodeLeaf enemyStandTakeAimState { get; private set; }
 
-    public EnemyStateSelectorNode gunFuSelector { get; private set; }
+
+
+    public NodeSelector gunFuSelector { get; private set; }
     public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
 
-    public EnemyStateSelectorNode gotGunFuAttackSelector { get; private set; }
+    public NodeSelector gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
     public NodeSelector gotExecuteOnGroundSelector { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_Dodge_Secondary_I { get; private set; }
@@ -67,7 +73,7 @@ public class EnemyStateManagerNode : INodeManager
     public GotGunFuHitNodeLeaf gotHit2_A_GunFuHitNodeLeaf { get; private set; }
     public NodeSequence gotHit3_KnockDown_SequenceNodeLeaf { get; private set; }
     public GotGunFuHitNodeLeaf gotHit3_GunFuNodeLeaf { get; private set; }
-    public EnemyStateSelectorNode weaponGotDisarmSelector { get; private set; }
+    public NodeSelector weaponGotDisarmSelector { get; private set; }
     public WeaponGotDisarmedGunFuGotInteractNodeLeaf primaryWeaponDisarmedGunFuGotInteractNodeLeaf { get; private set; }
     public WeaponGotDisarmedGunFuGotInteractNodeLeaf secondaryWeaponDisarmGunFuGotInteractNodeLeaf { get; private set; }
     public GotRestrictNodeLeaf gotRestrictNodeLeaf { get; private set; }
@@ -240,15 +246,40 @@ public class EnemyStateManagerNode : INodeManager
 
         enemyStateSelector = new NodeSelector(() => true);
 
-        standSelector = new EnemyStateSelectorNode(this.enemy,
+        enemyStanceSelector = new NodeSelector(
             () => true
+            , nameof(enemyStanceSelector));
+
+        crouchSelector = new NodeSelector(
+            () => enemy.enemyStance == Stance.crouch
+            , nameof(crouchSelector));
+        enemyCrouchMoveStateNodeLeaf = new EnemyCrouchMoveStateNodeLeaf(enemy,
+            () => enemy.moveInputVelocity_WorldCommand.magnitude > 0);
+        enemyCrouchIdleStateNodeLeaf = new EnemyCrouchIdleStateNodeLeaf(enemy,
+            () => true);
+
+        standSelector = new NodeSelector(
+            () =>enemy.enemyStance == Stance.stand || true
+            ,nameof(standSelector));
+        enemyStandIdleStateNodeLeaf = new EnemyStandIdleStateNodeLeaf(this.enemy,
+          () => true //Precondition
+          );
+
+        enemyStandMoveStateNodeLeaf = new EnemyStandMoveStateNodeLeaf(this.enemy,
+            () =>
+            {
+                if (this.enemy.moveInputVelocity_WorldCommand.magnitude > 0)
+                    return true;
+                return false;
+            }
             );
 
-        takeCoverSelector = new EnemyStateSelectorNode(this.enemy,
-            () => this.enemy.isInCover
+        enemySprintStateNodeLeaf = new EnemySprintStateNodeLeaf(this.enemy,
+           () => this.enemy.isSprintCommand
+           );
+        enemyDodgeRollStateNodeLeaf = new EnemyDodgeRollStateNodeLeaf(this.enemy
+            ,()=> enemy._triggerDodge
             );
-
-        
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
             () => this.enemy.isDead
@@ -263,37 +294,18 @@ public class EnemyStateManagerNode : INodeManager
             }
        );
 
-        enemySprintState = new EnemySprintStateNodeLeaf(this.enemy,
-            () => this.enemy.isSprintCommand
-            );
+       
 
-        enemyStandIdleState = new EnemyStandIdleStateNodeLeaf(this.enemy,
-            () => true //Precondition
-            );
+      
 
-        enemyStandMoveState = new EnemyStandMoveStateNodeLeaf(this.enemy,
-            () =>
-            {
-                if (this.enemy.moveInputVelocity_WorldCommand.magnitude > 0)
-                    return true;
-            return false;
-            }
-            );
+     
 
-        enemyStandTakeCoverState = new EnemyStandTakeCoverStateNodeLeaf(this.enemy,
-            () => this.enemy.isInCover
-            , this.enemy);
-
-        enemyStandTakeAimState = new EnemyStandTakeAimStateNodeLeaf(this.enemy,
-            () => this.enemy.isInCover && this.enemy._isAimingCommand
-            , this.enemy);
-
-        gunFuSelector = new EnemyStateSelectorNode(this.enemy, 
+        gunFuSelector = new NodeSelector(
             () => enemy._triggerGunFu && enemy._isInPain == false);
 
         enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
 
-        gotGunFuAttackSelector = new EnemyStateSelectorNode(this.enemy, 
+        gotGunFuAttackSelector = new NodeSelector( 
             () => 
             {
                 if(enemy._triggerHitedGunFu)
@@ -433,7 +445,7 @@ public class EnemyStateManagerNode : INodeManager
             }
             , this.enemy.GotHit3);
 
-        weaponGotDisarmSelector = new EnemyStateSelectorNode(this.enemy,
+        weaponGotDisarmSelector = new NodeSelector(
             () => enemy.curAttackerGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf);
 
         primaryWeaponDisarmedGunFuGotInteractNodeLeaf = new WeaponGotDisarmedGunFuGotInteractNodeLeaf(this.enemy.primary_WeaponGotDisarmedScriptableObject,
@@ -474,7 +486,7 @@ public class EnemyStateManagerNode : INodeManager
         InitailizedPainStateNode();
         enemyStateSelector.AddtoChildNode(painStateSelector);
         enemyStateSelector.AddtoChildNode(gunFuSelector);
-        enemyStateSelector.AddtoChildNode(standSelector);
+        enemyStateSelector.AddtoChildNode(enemyStanceSelector);
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
 
@@ -495,14 +507,17 @@ public class EnemyStateManagerNode : INodeManager
         gotHit3_KnockDown_SequenceNodeLeaf.AddChildNode(fallDown_EnemyState_NodeLeaf);
 
         gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(gotHumanThrow_GunFuNodeLeaf);
-        
-        standSelector.AddtoChildNode(enemySprintState);
-        standSelector.AddtoChildNode(takeCoverSelector);
-        standSelector.AddtoChildNode(enemyStandMoveState);
-        standSelector.AddtoChildNode(enemyStandIdleState);
 
-        takeCoverSelector.AddtoChildNode(enemyStandTakeAimState);
-        takeCoverSelector.AddtoChildNode(enemyStandTakeCoverState);
+        enemyStanceSelector.AddtoChildNode(enemyDodgeRollStateNodeLeaf);
+        enemyStanceSelector.AddtoChildNode(enemySprintStateNodeLeaf);
+        enemyStanceSelector.AddtoChildNode(crouchSelector);
+        enemyStanceSelector.AddtoChildNode(standSelector);
+
+        standSelector.AddtoChildNode(enemyStandMoveStateNodeLeaf);
+        standSelector.AddtoChildNode(enemyStandIdleStateNodeLeaf);
+
+        crouchSelector.AddtoChildNode(enemyCrouchMoveStateNodeLeaf);
+        crouchSelector.AddtoChildNode(enemyCrouchIdleStateNodeLeaf);
 
         gotExecuteSelector.AddtoChildNode(gotExecuteOnGroundSelector);
         gotExecuteSelector.AddtoChildNode(gotExecute_Dodge_Secondary_I);
