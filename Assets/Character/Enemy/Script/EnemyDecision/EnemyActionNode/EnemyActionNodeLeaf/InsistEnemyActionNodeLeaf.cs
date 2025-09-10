@@ -53,6 +53,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
                     enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
+                    enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
                     //if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
                     //    && Vector3.Distance(enemy.transform.position, enemy.targetKnewPos) > f)
@@ -66,6 +67,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 {
                     enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                    enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
                 }
                 break;

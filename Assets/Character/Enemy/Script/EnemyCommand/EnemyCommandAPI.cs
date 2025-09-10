@@ -8,14 +8,18 @@ public class EnemyCommandAPI :MonoBehaviour
    
     public Enemy _enemy;
     private EnemyCommunicator enemyCommunicator;
-
+    public EnemyAutoDefendCommand enemyAutoDefendCommand;
     private void Awake()
     {
         this._enemy = GetComponent<Enemy>();
         NormalFiringPattern = new NormalFiringPattern(this);
         enemyCommunicator = new EnemyCommunicator(_enemy);
+        enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
     }
-
+    private void Update()
+    {
+        enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
+    }
     #region Testing
     //private void TestCommand1()
     //{

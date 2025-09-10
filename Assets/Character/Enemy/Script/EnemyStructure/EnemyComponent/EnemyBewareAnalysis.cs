@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class EnemyBewareAnalysis 
 {
-    public static bool IsTargetAimingTo(IWeaponAdvanceUser target,Vector3 aimedPos,float raduisAware)
+    public static bool IsTargetAimingTo(IWeaponAdvanceUser target,Vector3 aimedPos,float raduisAware,float limitDistance)
     {
         if(target._currentWeapon == null)
             return false;
@@ -10,7 +10,7 @@ public static class EnemyBewareAnalysis
         if ((target._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() == false)
             return false;
 
-        Vector3 aimingLine = target._shootingPos - target._currentWeapon.bulletSpawnerPos.position;
+        Vector3 aimingLine = (target._shootingPos - target._currentWeapon.bulletSpawnerPos.position).normalized * limitDistance;
         Vector3 referencePos = aimedPos;
         Vector3 startPos = target._currentWeapon.bulletSpawnerPos.position;
 

@@ -41,7 +41,6 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager,IObserverEnemyD
         approuchingTargetEnemyActionNodeLeaf = new ApprouchingTargetEnemyActionNodeLeaf(enemy,enemyCommandAPI,
             ()=>
             {
-                Debug.Log("approuchCoolDown = " + approuchCoolDown);
                 if (this.approuchCoolDown <= 0)
                 {
                     return true;

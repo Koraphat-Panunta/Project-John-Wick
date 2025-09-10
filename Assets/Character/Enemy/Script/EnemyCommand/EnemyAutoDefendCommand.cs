@@ -1,55 +1,107 @@
 using UnityEngine;
 
-public class EnemyAutoDefendCommand 
+public class EnemyAutoDefendCommand : IObserverEnemy
 {
     protected EnemyCommandAPI enemyCommandAPI;
     protected Enemy enemy;
     protected IWeaponAdvanceUser targerFireArmed;
     protected GameObject target;
 
-    protected float dodgeCoolDownTimer;
-    protected float minDodgeCoolDownTime = 6;
-    protected float maxDodgeCoolDownTime = 9;
+    public float dodgeCoolDownTimer;
+    protected float minDodgeCoolDownTime = 4;
+    protected float maxDodgeCoolDownTime = 15;
+
+    protected float gotHitedReactionDefendTime;
     public EnemyAutoDefendCommand(EnemyCommandAPI enemyCommandAPI)
     {
         this.enemyCommandAPI = enemyCommandAPI;
         this.enemy = enemyCommandAPI._enemy;
         dodgeCoolDownTimer = Random.Range(minDodgeCoolDownTime, maxDodgeCoolDownTime);
+        this.enemy.AddObserver(this);
     }
     public void UpdateAutoDefend()
     {
-        if (IsBeenAimedAt())
+        if(IsBeenAimedAt() && this.dodgeCoolDownTimer <= 0)
         {
-
+            enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30,30),Vector3.up)*(enemy.transform.right * (Random.value > 0.5f?1:-1))) ;
+        }
+        else if(gotHitedReactionDefendTime > 0 && dodgeCoolDownTimer <= 0)
+        {
+            enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30, 30), Vector3.up) * (enemy.transform.forward * -1));
         }
     }
     protected bool IsBeenAimedAt()
     {
-        
+
         if(enemy.target == null)
             return false;
-
-        if(this.target == null)
+        Debug.Log("enemy.target != null");
+        if (this.target == null)
+        {
             this.target = enemy.target;
+            if (this.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
+                && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
+            {
+                //Debug.Log("this.targerFireArmed = weaponAdvanceUser;");
+                this.targerFireArmed = weaponAdvanceUser;
+            }
+            else
+            {
+                //Debug.Log("this.targerFireArmed = null;");
+                this.targerFireArmed = null;
+            }
+        }
 
         if(this.target != enemy.target)
         {
             this.target = enemy.target;
-            if(this.target.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser weaponAdvanceUser))
+            if (this.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
+                && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
+            {
+                Debug.Log("this.targerFireArmed = weaponAdvanceUser;");
                 this.targerFireArmed = weaponAdvanceUser;
+            }
             else
+            {
+                Debug.Log("this.targerFireArmed = null;");
                 this.targerFireArmed = null;
+            }
         }
 
         if (this.targerFireArmed == null)
             return false;
-
-        return EnemyBewareAnalysis.IsTargetAimingTo(this.targerFireArmed, enemy.transform.position, 1);
+        Debug.Log("this.targerFireArmed != null;");
+        return EnemyBewareAnalysis.IsTargetAimingTo(this.targerFireArmed, enemy.transform.position, 1.7f,12f);
 
     }
-    public void CoolDownDefendAction()
+    public void UpdateDefendActionBlackBoard()
     {
         if(dodgeCoolDownTimer > 0)
             dodgeCoolDownTimer -= Time.deltaTime;
+
+        if(gotHitedReactionDefendTime > 0)
+            gotHitedReactionDefendTime -= Time.deltaTime;
+    }
+
+    public void Notify<T>(Enemy enemy, T node)
+    {
+        if(node is EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf && enemyDodgeRollStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
+            this.dodgeCoolDownTimer = Random.Range(minDodgeCoolDownTime, maxDodgeCoolDownTime);
+
+        if (node is SubjectEnemy.EnemyEvent enemyEvent && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
+            dodgeCoolDownTimer -= 1;
+
+        if (node is GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
+        {
+            gotHitedReactionDefendTime += 1.25f;
+            dodgeCoolDownTimer -= 3;
+        }
+
+        if (node is GotRestrictNodeLeaf gotRestrictNodeLeaf && gotRestrictNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
+        {
+            gotHitedReactionDefendTime += 3;
+            dodgeCoolDownTimer -= 3;
+        }
+        
     }
 }

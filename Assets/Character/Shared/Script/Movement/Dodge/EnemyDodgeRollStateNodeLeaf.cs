@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
+using System.Collections;
 
 public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
 {
@@ -14,6 +16,7 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
     float duration = 0.75f;
     float elapesTime;
 
+    public float dodgeRollCoolDown { get; private set; }
 
     public enum DodgePhase
     {
@@ -42,11 +45,13 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         dodgePhase = DodgePhase.pushOut;
 
         enemy.enemyStance = Stance.stand;
+        dodgeRollCoolDown = 2;
         base.Enter();
     }
 
     public override void Exit()
     {
+        enemy.StartCoroutine(CoolDown());
         base.Exit();
     }
 
@@ -100,5 +105,15 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
             //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();
+    }
+
+    private IEnumerator CoolDown()
+    {
+        while(dodgeRollCoolDown > 0)
+        {
+            dodgeRollCoolDown -= Time.deltaTime;
+            yield return null;
+        }    
+
     }
 }

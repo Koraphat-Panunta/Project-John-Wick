@@ -22,14 +22,16 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         Vector3 endPoint = enemy.targetKnewPos + ((enemy.targetKnewPos - enemy.transform.position).normalized * 3);
         curvePath.RegenaratePath(endPoint, enemy.transform.position);
         targetAnchorPos = enemy.targetKnewPos;
+        if (enemyCommandAPI.enemyAutoDefendCommand.dodgeCoolDownTimer <= 0)
+            enemyCommandAPI.Dodge(curvePath._curvePoint.Peek());
 
-       
         approuchingTime = UnityEngine.Random.Range(MIN_APPROUCH_TIME, MAX_APPROUCH_TIME);
         base.Enter();
     }
 
     public override void Exit()
     {
+        
         base.Exit();
     }
 
@@ -73,7 +75,7 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 }
                 break;
         }
-
+        enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
         MovementDecisionUpdate();
         base.UpdateNode();
     }

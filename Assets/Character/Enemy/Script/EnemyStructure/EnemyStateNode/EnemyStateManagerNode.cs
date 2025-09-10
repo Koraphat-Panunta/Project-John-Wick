@@ -278,7 +278,7 @@ public class EnemyStateManagerNode : INodeManager
            () => this.enemy.isSprintCommand
            );
         enemyDodgeRollStateNodeLeaf = new EnemyDodgeRollStateNodeLeaf(this.enemy
-            ,()=> enemy._triggerDodge
+            ,()=> enemy._triggerDodge && enemyDodgeRollStateNodeLeaf.dodgeRollCoolDown <=0
             );
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
