@@ -17,8 +17,10 @@ MonoBehaviour:
   gunFuHitStateName: DodgeSpinKick
   hitTimesNormalized:
   - 0.4
-  hitPush:
-  - 3
+  hitPushRotationOffset:
+  - 0
+  hitPushForce:
+  - 6
   hitStopDuration:
   - 0.05
   hitResetDuration:
