@@ -7,7 +7,7 @@ public class GuardingEnemyActionNodeLeaf : EnemyActionNodeLeaf
     public ZoneDefine guardingZone { get; private set; }
     public Vector3 destinate { get; private set; }
     public float waitiming { get; private set; } 
-    public GuardingEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
+    public GuardingEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyDecision enemyDecision) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
         guardingZone = new ZoneDefine(enemy.transform.position, 3);
     }

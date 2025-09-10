@@ -13,8 +13,15 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private DisarmTargetWeaponPhase curDisarmWeapon;
     private readonly float findingWeaponTime = 3;
     private float findingWeaponElapseTime;
-    public DisarmTargetWeaponEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
+
+    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    public DisarmTargetWeaponEnemyActionNodeLeaf(Enemy enemy
+        , EnemyCommandAPI enemyCommandAPI
+        , Func<bool> preCondition
+        ,EnemyDecision enemyDecision
+        , IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
+        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManagerImplementDecision;
     }
 
     public override void Enter()

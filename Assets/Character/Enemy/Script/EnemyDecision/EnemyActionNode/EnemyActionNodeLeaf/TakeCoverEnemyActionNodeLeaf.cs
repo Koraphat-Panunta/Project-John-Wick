@@ -8,10 +8,16 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private float elapseCoverTime;
     private float coverTimePerRound = 6;
     private float peekTime =2f;
+    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManager;
 
     private float coverPointThreatDistance = 1.25f;
-    public TakeCoverEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
+    public TakeCoverEnemyActionNodeLeaf(Enemy enemy
+        , EnemyCommandAPI enemyCommandAPI
+        , Func<bool> preCondition
+        ,EnemyDecision enemyDecision
+        , IEnemyActionNodeManagerImplementDecision enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
+        this.enemyActionNodeManager = enemyActionNodeManager;
     }
     public override bool IsReset()
     {
@@ -62,7 +68,7 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
     }
     private void Peek()
     {
-        switch (enemyActionNodeManager.curCombatPhase)
+        switch (this.enemyActionNodeManager._curCombatPhase)
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {

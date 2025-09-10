@@ -1,16 +1,17 @@
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
-public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
+public class EnemyChaserRoleNodeManager : EnemyActionNodeManager,IObserverEnemyDecision
 {
     public override EnemyActionNodeLeaf curNodeLeaf { get; set; }
     public override EnemyActionSelectorNode startNodeSelector { get; set; }
     public float combatIntensity;
-    private float approuchCoolDown;
+    public float approuchCoolDown;
 
     public EnemyChaserRoleNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision, float minTimeUpdateYingYang, float maxTimeUpdateYingYang) 
         : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
     {
+        (enemyDecision as EnemyDecision).AddEnemyDecisionObserver(this);
     }
 
     public GuardingEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get;private set; }
@@ -26,31 +27,37 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     {
         startNodeSelector = new EnemyActionSelectorNode(enemy,enemyCommandAPI,()=>true);
 
-        guardingEnemyActionNodeLeaf = new GuardingEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill,this);
-        findTargetInTargetZoneEnemyActionNodeLeaf = new FindTargetInTargetZoneEnemyActionNodeLeaf(enemy,enemyCommandAPI,
-            ()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware,this,targetZone);
+        guardingEnemyActionNodeLeaf = new GuardingEnemyActionNodeLeaf(enemy
+            ,enemyCommandAPI
+            ,()=>curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill,this.enemyDecision._enemyDecision);
+        findTargetInTargetZoneEnemyActionNodeLeaf = new FindTargetInTargetZoneEnemyActionNodeLeaf(enemy
+            ,enemyCommandAPI,
+            ()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Suspect
+            ,this.enemyDecision._enemyDecision
+            ,this.enemyDecision,targetZone);
 
         enemyAlertActionSelectorNode = new EnemyActionSelectorNode(enemy,enemyCommandAPI,()=>true);
   
         approuchingTargetEnemyActionNodeLeaf = new ApprouchingTargetEnemyActionNodeLeaf(enemy,enemyCommandAPI,
             ()=>
             {
+                Debug.Log("approuchCoolDown = " + approuchCoolDown);
                 if (this.approuchCoolDown <= 0)
                 {
-                    this.approuchCoolDown = Random.Range(1,2);
                     return true;
                 }
                 return false;
             }
-            ,this);
+            ,this.enemyDecision._enemyDecision,this.enemyDecision);
        
         insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,
             ()=>true
-            ,this);
+            ,this.enemyDecision._enemyDecision
+            ,this.enemyDecision);
 
         disarmTargetWeaponEnemyActionNodeLeaf = new DisarmTargetWeaponEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => enemy._currentWeapon == null && curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert
-            ,this);
+            ,this.enemyDecision._enemyDecision, this.enemyDecision);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);
         startNodeSelector.AddtoChildNode(findTargetInTargetZoneEnemyActionNodeLeaf);
@@ -68,7 +75,7 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     public override void UpdateNode()
     {
         base.UpdateNode();
-
+        CoolDownUpdate();
     }
     public override void Enter()
     {
@@ -77,7 +84,16 @@ public class EnemyChaserRoleNodeManager : EnemyActionNodeManager
     }
     private void CoolDownUpdate()
     {
-        if(approuchCoolDown > 0 && (this as INodeManager).TryGetCurNodeLeaf<ApprouchingTargetEnemyActionNodeLeaf>() == false)
+        if(approuchCoolDown > 0 && curNodeLeaf != this.approuchingTargetEnemyActionNodeLeaf)
             approuchCoolDown -= Time.deltaTime;
+
+      
+    }
+
+    public void OnNotifyEnemyDecision<T>(EnemyDecision enemyDecision, T var)
+    {
+       if(var is ApprouchingTargetEnemyActionNodeLeaf approuchingTargetEnemyActionNodeLeaf 
+            && approuchingTargetEnemyActionNodeLeaf.curPhase == EnemyActionNodeLeaf.EnemyActionPhase.Enter)
+            approuchCoolDown = Random.Range(1.5f, 2.7f);
     }
 }

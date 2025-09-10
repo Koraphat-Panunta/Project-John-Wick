@@ -46,26 +46,34 @@ public class EnemyActionSelectorNode : EnemyActionNode, INodeSelector
 public abstract class EnemyActionNodeLeaf : EnemyActionNode, INodeLeaf
 {
     bool isComplete;
-    public EnemyActionNodeManager enemyActionNodeManager { get; set; }
-    protected EnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition)
+    public EnemyDecision enemyDecision { get; set; }
+    protected EnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyDecision enemyDecision) : base(enemy, enemyCommandAPI, preCondition)
     {
         isReset = new List<Func<bool>>();
         nodeLeafBehavior = new NodeLeafBehavior();
-        this.enemyActionNodeManager = enemyActionNodeManager;
+        this.enemyDecision = enemyDecision;
     }
 
     public List<Func<bool>> isReset { get; set ; }
     public NodeLeafBehavior nodeLeafBehavior { get ; set ; }
+    public enum EnemyActionPhase
+    {
+        Enter,
+        Exit
+    }
+    public EnemyActionPhase curPhase { get; protected set; }
 
     public virtual void Enter()
     {
-
         isComplete = false;
+        curPhase = EnemyActionPhase.Enter;
+        this.enemyDecision.NotifyEnemyDecision(this.enemyDecision, this);
     }
 
     public virtual void Exit()
     {
-
+        curPhase = EnemyActionPhase.Exit;
+        this.enemyDecision.NotifyEnemyDecision(this.enemyDecision, this);
     }
 
     public virtual void FixedUpdateNode()

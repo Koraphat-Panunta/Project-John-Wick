@@ -37,21 +37,25 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
 
         guardingEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy, enemyCommandAPI, 
             () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill
-            , this);
+            , this.enemyDecision._enemyDecision
+            ,this.enemyDecision);
         findTargetInTargetZoneEnemyActionNodeLeaf = new FindTargetInTargetZoneEnemyActionNodeLeaf(enemy,enemyCommandAPI
-            ,()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware 
-            ,this
+            ,()=> curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Suspect 
+            ,this.enemyDecision._enemyDecision,this.enemyDecision
             ,targetZone);
         overwatchAwareAlertActionSelector = new EnemyActionSelectorNode(enemy, enemyCommandAPI
             , () => curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware
         || curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert);
         disarmTargetWeaponEnemyActionNodeLeaf = new DisarmTargetWeaponEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => enemy._currentWeapon == null && curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert
-            , this);
+            , this.enemyDecision._enemyDecision
+            , this.enemyDecision);
         moveToOverwatchZoneEnemyActionNodeLeaf = new MoveToTheZoneEnemyActionNodeLeaf(enemy, enemyCommandAPI,
             () => moveToOverwatchZoneEnemyActionNodeLeaf.assignZone.IsPositionInTheZone(enemy.transform.position) == false
-            , this, overWatchZone);
-        insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>true,this);
+            , this.enemyDecision._enemyDecision
+            , this.enemyDecision
+            , overWatchZone);
+        insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>true,this.enemyDecision._enemyDecision, this.enemyDecision);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);
         startNodeSelector.AddtoChildNode(findTargetInTargetZoneEnemyActionNodeLeaf);

@@ -6,10 +6,15 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
     private Vector3 insistPos;
     private float distance;
-    public InsistEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyActionNodeManager enemyActionNodeManager) 
-        : base(enemy, enemyCommandAPI, preCondition, enemyActionNodeManager)
+    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    public InsistEnemyActionNodeLeaf(Enemy enemy
+        , EnemyCommandAPI enemyCommandAPI
+        , Func<bool> preCondition
+        , EnemyDecision enemyDecision
+        ,IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision) 
+        : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
-
+        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManagerImplementDecision;
     }
 
     public override void Enter()
@@ -41,7 +46,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
-        switch (enemyActionNodeManager.enemyDecision._curCombatPhase)
+        switch (this.enemyActionNodeManagerImplementDecision._curCombatPhase)
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
@@ -49,11 +54,11 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
                     enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
-                    if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
-                        && Vector3.Distance(enemy.transform.position, enemy.targetKnewPos) > 4f)
-                        enemyCommandAPI.MoveToPosition(enemy.targetKnewPos, enemy.moveMaxSpeed);
-                    else
-                        enemyCommandAPI.FreezPosition();
+                    //if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
+                    //    && Vector3.Distance(enemy.transform.position, enemy.targetKnewPos) > f)
+                    //    enemyCommandAPI.MoveToPosition(enemy.targetKnewPos, enemy.moveMaxSpeed);
+                    //else
+                    //    enemyCommandAPI.FreezPosition();
 
                 }
                 break;

@@ -160,6 +160,9 @@ public partial class Enemy : SubjectEnemy
     private float findingTargetTimer;
     private void FindingTargetUpdate()
     {
+        if(isDead)
+            return;
+
         if(this.target != null
             && (Physics.Raycast(rayCastPos.position
                 , (this.target.transform.position - rayCastPos.position).normalized
@@ -230,7 +233,7 @@ public partial class Enemy : SubjectEnemy
 
     public FindingTarget findingTargetComponent { get; set; }
     public Vector3 targetKnewPos;
-    private GameObject target;
+    public GameObject target { get; set; }
     public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
     {

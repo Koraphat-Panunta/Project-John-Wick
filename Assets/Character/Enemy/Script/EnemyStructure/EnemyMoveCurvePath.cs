@@ -37,34 +37,36 @@ public class EnemyMoveCurvePath
         //
         float distance = Vector3.Distance(target, curPos);
        
-        Vector3 dir = (target - curPos).normalized;
-        dir = Quaternion.AngleAxis(90,Vector3.up)*dir;
+        Vector3 sideDir = (target - curPos).normalized;
+        sideDir = Quaternion.AngleAxis(90,Vector3.up)*sideDir;
+
+        Vector3 dir;
 
         Vector3[] cp = new Vector3[3];
         if(Random.Range(0,1) > 0)
-            dir = dir * Random.Range(minCurve, maxCurve);
+            dir = sideDir * Random.Range(minCurve, maxCurve);
         else
-            dir = dir * Random.Range(-minCurve,-maxCurve);
+            dir = sideDir * Random.Range(-minCurve,-maxCurve);
 
         cp[0] = Vector3.Lerp(curPos, target, 0) + dir;
         if (Random.Range(0, 1) > 0) 
         {
-            dir = dir * Random.Range(minCurve, maxCurve);
+            dir = sideDir * Random.Range(minCurve, maxCurve);
             cp[1] = Vector3.Lerp(curPos, target, 0.5f) + dir;
-            dir = dir * Random.Range(minCurve, maxCurve);
+            dir = sideDir * Random.Range(minCurve, maxCurve);
             cp[2] = Vector3.Lerp(curPos, target, 1) + dir;
         }
 
         else
         {
-            dir = dir * Random.Range(-minCurve, -maxCurve);
+            dir = sideDir * Random.Range(-minCurve, -maxCurve);
             cp[1] = Vector3.Lerp(curPos, target, 0.5f) + dir;
-            dir = dir * Random.Range(-minCurve, -maxCurve);
+            dir = sideDir * Random.Range(-minCurve, -maxCurve);
             cp[2] = Vector3.Lerp(curPos, target, 1) + dir;
         }
-       
 
-        
+        Debug.DrawLine(cp[0], cp[1], Color.yellow, 4);
+        Debug.DrawLine(cp[1], cp[2], Color.green, 4);
         for (float T = 0; T <= 1; T = T + 0.2f)
         {
             Vector3 markPos;

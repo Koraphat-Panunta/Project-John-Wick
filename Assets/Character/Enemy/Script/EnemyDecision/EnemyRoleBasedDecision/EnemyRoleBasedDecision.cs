@@ -16,8 +16,10 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     public IEnemyActionNodeManagerImplementDecision.CombatPhase CombatPhase;//Let Editor See
 
     public bool _takeCoverAble { get ; set ; }
+    public EnemyDecision _enemyDecision { get => this; set { } }
     [SerializeField] bool TakeCoverAble;
     private float takeCoverAbleDelay { get; set ; }
+
 
     [SerializeField] private float elapesLostSightTime;
     [SerializeField] private float lostSightTime;
@@ -87,6 +89,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     protected override void FixedUpdate()
     {
         enemyActionNodeManager.FixedUpdateNode();
+        UpdateDebugRole();
         base.FixedUpdate();
     }
 
@@ -94,10 +97,17 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     {
         if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
             return;
+
+
+
         if (noiseMaker is Bullet bullet
             && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
         {
-            _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+            if (_curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill)
+                _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Suspect;
+            else
+                _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+
             _targetZone.SetZone(noiseMaker.position, raduisTargetZone);
         }
     }
@@ -130,31 +140,27 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                 break;
         }
     }
+    [SerializeField] private bool isEnableDrawGizmosDebug;
     private void OnDrawGizmos()
     {
         //DrawTargetZoneDefine
-        if(Application.isEditor)
+        //if (Application.isPlayer ==false)
+        //    return;
+        if(isEnableDrawGizmosDebug == false)
             return;
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_targetZone.zonePosition, _targetZone.raduis);
 
-        if(overwatchRoleNodeManager.overWatchZone != null)
-        {
-            Debug.Log("overwatchRoleNodeManager.overWatchZone.zonePosition = " + overwatchRoleNodeManager.overWatchZone.zonePosition);
-            Gizmos.color = Color.yellow * 0.5f;
-            Gizmos.DrawSphere(overwatchRoleNodeManager.overWatchZone.zonePosition, 0.5f);
-            Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.overWatchZone.zonePosition);
-        }
-
-        if(chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
+        if (chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
         {
             if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._curvePoint.Count > 0)
             {
-                Gizmos.color = Color.red;
+                Gizmos.color = Color.red * 0.5f;
                 for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
                 {
-                    Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.35f);
+                    Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.2f);
+                    if (i > 0)
+                        Gizmos.DrawLine(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i - 1]
+                            , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
                 }
             }
         }
@@ -193,6 +199,16 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
             }
     }
 
-    
+    #region DebugRole
+    private void UpdateDebugRole()
+    {
+        this.curRole = this.enemyActionNodeManager.ToString();
+        this.curAction = this.enemyActionNodeManager.curNodeLeaf.ToString();
+        this.approuchCoolDown = chaserRoleNodeManager.approuchCoolDown;
+    }
+    [SerializeField] private string curRole;
+    [SerializeField] private string curAction;
+    [SerializeField] private float approuchCoolDown;
+    #endregion
 }
 
