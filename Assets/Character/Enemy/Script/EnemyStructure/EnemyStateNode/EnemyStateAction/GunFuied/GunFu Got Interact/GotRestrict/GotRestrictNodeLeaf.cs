@@ -93,6 +93,13 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
                         animator.CrossFade(gotRestrictStay, 0.075f, 0);
                         enemy.NotifyObserver(enemy,this);
                     }
+                    if (attackerRestrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                    {
+                        _timer = 0;
+                        curGotHitRestrictPhase = GotRestrictPhase.Exit;
+                        animator.CrossFade(gotRestrictExit, 0.075f, 0, gotRestrictScriptableObject.gotRestrictExit_enterNormalized);
+                        enemy.NotifyObserver(enemy, this);
+                    }
                 }
                 break;
             case GotRestrictPhase.Stay:

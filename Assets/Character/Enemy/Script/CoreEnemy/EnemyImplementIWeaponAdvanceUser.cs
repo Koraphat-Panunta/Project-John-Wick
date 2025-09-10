@@ -46,7 +46,7 @@ public partial class Enemy : IWeaponAdvanceUser
 
     public void Initialized_IWeaponAdvanceUser()
     {
-        pointingTransform.transform.SetParent(null, true);
+        //pointingTransform.transform.SetParent(null, true);
         
         _weaponUserAnimator = animator;
         _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(1000, 1000, 1000, 1000

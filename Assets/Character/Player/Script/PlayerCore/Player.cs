@@ -62,7 +62,7 @@ public partial class Player : SubjectPlayer,
         Initialized_IWeaponAdvanceUser();
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
 
-        aimPosRef.transform.SetParent(null, true);
+        //aimPosRef.transform.SetParent(null, true);
 
     }
     private void Update()

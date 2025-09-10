@@ -485,6 +485,8 @@ public partial class Enemy : SubjectEnemy
         base.HP = 100;
         base.maxHp = 100;
         staggerGauge = maxStaggerGauge;
+
+        targetKnewPos = transform.position + transform.forward + Vector3.up;
     }
     private void OnEnable()
     {
