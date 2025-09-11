@@ -9,4 +9,6 @@ public class BodyPartDamageRecivedSCRP : ScriptableObject
     public float _postureReciverRate;
     [Range(0, 10)]
     public float _staggerReciverRate;
+    [Range(0, 10)]
+    public float _penetrateResistRate;
 }

@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class _556mmBullet : Bullet
 {
-    public override float _hpDamage { get ; set ; }
-    public override float _postureDamage { get ; set ; }
+
     public override float recoilKickBack { get; set; }
     public override BulletType myType { get; set; }
-    public override float _destructionDamage { get; set; }
+    public override float _pureHpDamage { get; set; }
+    public override float _purePostureDamage { get; set; }
+    public override float _pureDestructionDamage { get; set; }
 
     public _556mmBullet(Weapon weapon):base(weapon)
     {
-        _hpDamage = 18f;
-        _postureDamage = 20f;
-        _destructionDamage = 17;
+        _pureHpDamage = 18f;
+        _purePostureDamage = 20f;
+        _pureDestructionDamage = 17;
         recoilKickBack = 180;
         myType = BulletType._556mm;
     }

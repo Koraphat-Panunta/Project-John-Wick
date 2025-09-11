@@ -103,6 +103,7 @@ public partial class Player : SubjectPlayer,
    
     #region ImplementBulletDamageAble
     public PlayerBulletDamageAbleBehavior playerBulletDamageAbleBehavior;
+    public float penatrateResistance { get => 10; set { } }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
         if((this as I_IFrameAble)._isIFrame)

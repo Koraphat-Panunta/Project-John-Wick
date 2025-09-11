@@ -113,7 +113,7 @@ public partial class Enemy : SubjectEnemy
 
         if (damageVisitor is Bullet bullet)
         {
-            TakeDamage(bullet._hpDamage);
+            TakeDamage(bullet.GetHpDamage);
             bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
             NotifyObserver(this, EnemyEvent.GotBulletHit);
@@ -437,6 +437,7 @@ public partial class Enemy : SubjectEnemy
 
     #region IBulletDamageAble
     public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
+    public float penatrateResistance => 1;
     public Action<IDamageVisitor> NotifyGotAttack;
     #endregion
    
@@ -444,6 +445,7 @@ public partial class Enemy : SubjectEnemy
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
     public int allieID { get ; set ; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
+
 
     #endregion
 

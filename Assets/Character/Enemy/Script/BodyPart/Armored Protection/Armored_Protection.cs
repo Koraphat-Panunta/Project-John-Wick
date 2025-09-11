@@ -16,6 +16,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     public float hpDamage { get; protected set; }
     public float postureDamage { get; protected set; }
     public float staggerDamage { get; protected set; }
+    public override float penatrateResistance { get => armored_ProtectionSCRP._penetrateResistRate; set { } }
 
 
     protected override void Awake()
@@ -41,10 +42,10 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
         if(damageVisitor is Bullet bullet)
         {
-            armorHP -= bullet._destructionDamage;
-            hpDamage = bullet._hpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate);
-            postureDamage = bullet._postureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate);
-            staggerDamage = bullet._hpDamage * (_staggerReciverRate * syncBodyPart._staggerReciverRate);
+            armorHP -= bullet.GetDestructionDamage;
+            hpDamage = bullet.GetHpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate);
+            postureDamage = bullet.GetPostureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate);
+            staggerDamage = bullet.GetHpDamage * (_staggerReciverRate * syncBodyPart._staggerReciverRate);
 
             if (bullet.weapon.userWeapon != null && bullet.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
             {

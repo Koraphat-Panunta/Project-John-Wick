@@ -47,6 +47,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public Character _character => enemy;
 
 
+
     public virtual void StackingForce(Vector3 forceDir,Vector3 forcePos)
     {
         isForceSave = true;
@@ -80,9 +81,9 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
         {
             case Bullet bulletObj:
                 {
-                    float damage = bulletObj._hpDamage * _hpReciverMultiplyRate;
-                    float postureDamaged = bulletObj._postureDamage * _postureReciverRate;
-                    float staggerDamaged = bulletObj._postureDamage * _staggerReciverRate;
+                    float damage = bulletObj.GetHpDamage * _hpReciverMultiplyRate;
+                    float postureDamaged = bulletObj.GetPostureDamage * _postureReciverRate;
+                    float staggerDamaged = bulletObj.GetPostureDamage * _staggerReciverRate;
 
                     if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
                     {
@@ -123,7 +124,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
        
     }
-
+    public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
 
     public virtual void Notify<T>(Enemy enemy, T node) 

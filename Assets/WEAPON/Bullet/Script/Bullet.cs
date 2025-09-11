@@ -7,20 +7,25 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 {
-    public abstract float _hpDamage { get; set; }
-    public abstract float _postureDamage { get; set; }
-    public abstract float _destructionDamage { get; set; }
+    public abstract float _pureHpDamage { get; set; }
+    public abstract float _purePostureDamage { get; set; }
+    public abstract float _pureDestructionDamage { get; set; }
+    public virtual float _headShotDamageMultiply { get => 1; }
+    public float GetHpDamage { get => _pureHpDamage * (penetrateRate/maxPenetrateRate);  }
+    public float GetPostureDamage { get => _purePostureDamage * (penetrateRate / maxPenetrateRate); }
+    public float GetDestructionDamage { get => _pureDestructionDamage * (penetrateRate / maxPenetrateRate); }
     public abstract float recoilKickBack { get; set; }
-
+    public virtual float maxPenetrateRate { get => 1; }
+    public float penetrateRate { get;private set; }
     protected virtual float bulletHitForce { get; set; }
 
     protected LayerMask hitLayer;
-    protected const float MAX_DISTANCE = 1000;
+    protected const float MAX_DISTANCE = 350;
     public abstract BulletType myType { get; set; } 
     public Weapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawnerPos.position; set { } }
     public NoiseMakingBehavior noiseMakingBehavior { get ; set ; }
-    public Action<Collider,Vector3,Vector3> bulletHitNotify;
+    public Action<Collider, Vector3, Vector3> bulletHitNotify;
 
     public Bullet(Weapon weapon)
     {
@@ -58,7 +63,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         int BodyPartMask = LayerMask.GetMask("Enemy");
         int PlayerHitMask = LayerMask.GetMask("Player");
         int GroundHitMask = LayerMask.GetMask("Ground");
-        hitLayer = DefaultMask + BodyPartMask + PlayerHitMask+ GroundHitMask;
+        hitLayer = DefaultMask | BodyPartMask | PlayerHitMask | GroundHitMask;
 
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
 
@@ -66,29 +71,49 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         Vector3 force = clampedDir;
         Vector3 rayDir = clampedDir;
         Ray ray = new Ray(bulletSpawner.transform.position,rayDir);
-        if (Physics.SphereCast(ray,0.015f,out RaycastHit hit,MAX_DISTANCE,hitLayer, QueryTriggerInteraction.Ignore))
+
+        RaycastHit[] raycastHits = Physics.SphereCastAll(ray, 0.015f, MAX_DISTANCE, hitLayer, QueryTriggerInteraction.Ignore);
+
+        if (raycastHits.Length > 0)
         {
-            if (bulletHitNotify != null)
-                bulletHitNotify.Invoke(hit.collider,hit.point,rayDir);
-            HitExecute(hit,rayDir);
+            System.Array.Sort(raycastHits, (a, b) => a.distance.CompareTo(b.distance));
+            //for (int i = raycastHits.Length - 1; i >= 0; i--)
+            //{
+            //    Debug.Log("bullet raycast hit = " + raycastHits[i].collider.gameObject);
+            //}
+                HitExecute(raycastHits, rayDir);
+            return raycastHits[raycastHits.Length - 1].point;
         }
         else
-        {
             return ray.GetPoint(MAX_DISTANCE);
-        }
-        return hit.point;
-    }
-    protected virtual void HitExecute(RaycastHit hit,Vector3 dir)
-    {
-        Collider collider = hit.collider;
-        if(collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble damageAble))
-        {
-            damageAble.TakeDamage(this,hit.point,dir,bulletHitForce);
-            weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-                <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,damageAble);
-        }
-        
+
 
     }
+    protected virtual void HitExecute(RaycastHit[] rayCastHits,Vector3 dir)
+    {
+        this.penetrateRate = maxPenetrateRate;
+
+        for (int i = 0;i< rayCastHits.Length ; i++) 
+        {
+            Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);
+            Debug.Log("panetrateRate = " + this.penetrateRate);
+            if (rayCastHits[i].collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble bulletDamageAble))
+            {
+                bulletDamageAble.TakeDamage(this, rayCastHits[i].point,dir,bulletHitForce);
+                if(bulletHitNotify!= null)
+                bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);
+                penetrateRate -= bulletDamageAble.penatrateResistance;
+                weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
+               <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, bulletDamageAble);
+
+                if(penetrateRate <= 0)
+                    break;
+            }
+            else
+                break;
+        }
+        this.penetrateRate = maxPenetrateRate;
+    }
+    
    
 }

@@ -121,6 +121,7 @@ public class EnemyStateManagerNode : INodeManager
         painStateSelector = new EnemyStateSelectorNode(this.enemy,
             () =>
             {
+
                 if (this.enemy._isPainTrigger)
                 {
                     return true;
@@ -146,6 +147,7 @@ public class EnemyStateManagerNode : INodeManager
 
         Arm_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
         {
+
             if (this.enemy._painPart == IPainStateAble.PainPart.ArmLeft
             || this.enemy._painPart == IPainStateAble.PainPart.ArmRight)
                 return true;

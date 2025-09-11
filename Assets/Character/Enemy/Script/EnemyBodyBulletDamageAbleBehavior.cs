@@ -7,8 +7,12 @@ public class EnemyBodyBulletDamageAbleBehavior : IBulletDamageAble
     {
         this.enemyBody = enemyBody;
     }
+
+    public float penatrateResistance { get => enemyBody.penatrateResistance; }
+
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {
+        Debug.Log("PainPart = " + enemyBody.enemy._painPart);
         enemyBody.enemy.forceSave = hitDir * hitforce*0.03f;
         enemyBody.StackingForce(hitDir*hitforce*1.5f,hitPos);
     }

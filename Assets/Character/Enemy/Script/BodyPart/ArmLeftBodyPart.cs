@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ArmLeftBodyPart : BodyPart
 {
-
-
     protected override void Start()
     {
         base.Start();

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732ae331cc14cbf439802f8bcc68ec36, type: 3}
   m_Name: BodyLightArmored_ProtectionSCRP
   m_EditorClassIdentifier: 
-  _hpReciverMultiplyRate: 0.4
+  _hpReciverMultiplyRate: 0
   _postureReciverRate: 0.45
-  _staggerReciverRate: 0.5
+  _staggerReciverRate: 0.15
+  _penetrateResistRate: 1
   armorHP: 100

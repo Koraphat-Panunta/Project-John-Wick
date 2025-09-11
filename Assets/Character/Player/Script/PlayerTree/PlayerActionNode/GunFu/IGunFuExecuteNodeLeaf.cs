@@ -18,12 +18,13 @@ public class BulletExecute : Bullet
     public BulletExecute(Weapon weapon) : base(weapon)
     {
         myType = weapon.bullet.myType;
-        _destructionDamage = weapon.bullet._destructionDamage * 3;
+        _pureDestructionDamage = weapon.bullet.GetDestructionDamage * 3;
     }
 
-    public override float _hpDamage { get => 10000; set { } }
-    public override float _postureDamage { get => 0; set { } }
+
     public override float recoilKickBack { get => 0; set { } }
     public override BulletType myType { get; set; }
-    public override float _destructionDamage { get ; set ; }
+    public override float _pureHpDamage { get => 10000; set => throw new System.NotImplementedException(); }
+    public override float _purePostureDamage { get => 0; set => throw new System.NotImplementedException(); }
+    public override float _pureDestructionDamage { get ; set ; }
 }

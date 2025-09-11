@@ -16,6 +16,8 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
 
     public BulletDamageDetail damageDetail;
 
+    public float penatrateResistance => player.penatrateResistance;
+
     public PlayerBulletDamageAbleBehavior(Player player)
     {
         this.player = player;
@@ -26,7 +28,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble
     {
 
         Bullet bulletObj = damageVisitor as Bullet;
-        float damage = bulletObj._hpDamage;
+        float damage = bulletObj.GetHpDamage;
 
         player.SetHP(player.GetHP() - damage * 1f);
         player.NotifyObserver(this.player, NotifyEvent.GetDamaged);

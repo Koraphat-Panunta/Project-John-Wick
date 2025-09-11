@@ -91,7 +91,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         if (node is SubjectEnemy.EnemyEvent enemyEvent && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
             dodgeCoolDownTimer -= 1;
-            Debug.Log("dodgeCoolDownTimer got shooted = " + dodgeCoolDownTimer);
+            //Debug.Log("dodgeCoolDownTimer got shooted = " + dodgeCoolDownTimer);
         }
 
         if (node is GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
