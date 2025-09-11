@@ -7,7 +7,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     #region ImplementIGunFuNode
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunExecutedAble { get; set; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     #endregion
 
     #region ImplementINodeTransitionAble
@@ -51,7 +51,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
-        gotGunExecutedAble = gunFuAble.attackedAbleGunFu;
+        gotGunFuAttackedAble = gunFuAble.attackedAbleGunFu;
 
         player.NotifyObserver(player,this);
 

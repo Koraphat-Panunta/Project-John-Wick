@@ -65,10 +65,12 @@ public partial class Player : IGunFuAble
     public void UpdateDetectingTarget()
     {
 
-        //if (executedAbleGunFu != null && executedAbleGunFu._character.isDead)
-        //    executedAbleGunFu = null;
-        //if(attackedAbleGunFu != null && attackedAbleGunFu._character.isDead)
-        //    attackedAbleGunFu = null;
+        if (executedAbleGunFu != null && executedAbleGunFu._isGotExecutedAble == false)
+            executedAbleGunFu = null;
+        if (attackedAbleGunFu != null && attackedAbleGunFu._isGotAttackedAble == false)
+            attackedAbleGunFu = null;
+
+
         if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>(out IGunFuExecuteNodeLeaf gunFuExecuteNode) == false)
         {
             if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))

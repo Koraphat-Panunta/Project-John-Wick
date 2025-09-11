@@ -8,7 +8,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
     public float _timer { get; set; }
     private float phaseTimer;
     public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunExecutedAble { get => player.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => player.attackedAbleGunFu; set { } }
     public AnimationClip _animationClip { get; set; }
 
     private Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
@@ -46,8 +46,8 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         base.isComplete = false;
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
         isRestrictExitHit = false;
-        gotGunExecutedAble._character._movementCompoent.CancleMomentum();
-        gotGunExecutedAble.TakeGunFuAttacked(this, player);
+        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
         player.NotifyObserver(player, this);
         base.Enter();
     }
@@ -97,14 +97,14 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     float w = phaseTimer / restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized;
                    
 
-                    gotGunExecutedAble._character.transform.position = Vector3.Lerp(
-                        gotGunExecutedAble._character.transform.position,
+                    gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
+                        gotGunFuAttackedAble._character.transform.position,
                         targetAdjustPosition,
                         w
                         );
 
-                    gotGunExecutedAble._character.transform.rotation = Quaternion.Lerp(
-                        gotGunExecutedAble._character.transform.rotation,
+                    gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(
+                        gotGunFuAttackedAble._character.transform.rotation,
                         targetAdjustRotation,
                        w
                         );
@@ -123,15 +123,15 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                 {
                     phaseTimer += Time.deltaTime;
 
-                    gotGunExecutedAble._character.transform.position = targetAdjustPosition;
-                    gotGunExecutedAble._character.transform.rotation = targetAdjustRotation;
+                    gotGunFuAttackedAble._character.transform.position = targetAdjustPosition;
+                    gotGunFuAttackedAble._character.transform.rotation = targetAdjustRotation;
 
                     
 
                     player._movementCompoent.MoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MoveMode.MaintainMomentum);
 
 
-                    if (gotGunExecutedAble._character.isDead)
+                    if (gotGunFuAttackedAble._character.isDead)
                         isComplete = true;
 
                     if(phaseTimer >= StayDuration
@@ -149,12 +149,12 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                     player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
                     if(isRestrictExitHit == false)
                     {
-                        gotGunExecutedAble._character.transform.position = targetAdjustPosition;
-                        gotGunExecutedAble._character.transform.rotation = targetAdjustRotation;
+                        gotGunFuAttackedAble._character.transform.position = targetAdjustPosition;
+                        gotGunFuAttackedAble._character.transform.rotation = targetAdjustRotation;
                     }
                     if (isRestrictExitHit == false && phaseTimer > restrictExitClip.length * restrictScriptableObject.restrictExit_hitNormalized)
                     {
-                        if(gotGunExecutedAble._character._movementCompoent is IMotionImplusePushAble movePush)
+                        if(gotGunFuAttackedAble._character._movementCompoent is IMotionImplusePushAble movePush)
                         {
                             curRestrictGunFuPhase = RestrictGunFuPhase.ExitAttack;
                             player.NotifyObserver(player, this);

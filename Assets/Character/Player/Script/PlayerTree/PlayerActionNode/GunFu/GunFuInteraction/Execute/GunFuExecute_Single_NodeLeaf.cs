@@ -8,7 +8,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunExecutedAble { get => gunFuAble.executedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
     public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
@@ -195,7 +195,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         MovementWarper.WarpMovement
             (opponentGunFuEnterPosition
             , opponentGunFuEnterRotation
-            , gotGunExecutedAble._character._movementCompoent
+            , gotGunFuAttackedAble._character._movementCompoent
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
@@ -225,13 +225,13 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     private void CalculateAdjustTransform()
     {
-        Vector3 enterDir = (gotGunExecutedAble._character.transform.position - gunFuAble._character.transform.position);
+        Vector3 enterDir = (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position);
         enterDir = new Vector3 (enterDir.x,0,enterDir.z).normalized;
 
         gunFuAttackerEnterPosition = gunFuAble._character.transform.position;
         gunFuAttackerEnterRotation = gunFuAble._character.transform.rotation;
-        opponentGunFuEnterPosition = gotGunExecutedAble._character.transform.position;
-        opponentGunFuEnterRotation = gotGunExecutedAble._character.transform.rotation;
+        opponentGunFuEnterPosition = gotGunFuAttackedAble._character.transform.position;
+        opponentGunFuEnterRotation = gotGunFuAttackedAble._character.transform.rotation;
 
         Vector3 anchor = gunFuAble._character.transform.position;
 

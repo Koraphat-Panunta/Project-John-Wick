@@ -7,7 +7,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => enemy; set { } }
-    public IGotGunFuAttackedAble gotGunExecutedAble { get; set; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public AnimationClip _animationClip { get => _enemySpinKickScriptable.animationClip; set => _enemySpinKickScriptable.animationClip = value; }
     public override bool isComplete { get => base.isComplete; protected set => base.isComplete = value; }
     private EnemySpinKickScriptable _enemySpinKickScriptable { get; set; }
