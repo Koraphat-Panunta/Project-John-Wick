@@ -12,7 +12,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     private Vector3 curVelocity_Local;
     private Vector3 curVelocity_World;
 
-    public float CoverWeight;
     public float SholderSide;//-1 -> 1
     public float InputMoveMagnitude_Normalized;
     public float VelocityMoveMagnitude_Normalized;
@@ -26,7 +25,13 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public float AimDownSightWeight;
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
-
+    public float CrouchWeight {
+        get 
+        { if (crouchWeightSoftCoverNodeLeaf != null)
+                return crouchWeightSoftCoverNodeLeaf.GetCrouchWeight();
+        else return 0;
+        } 
+    }
 
     public bool isGround;
     public bool isSprint;
@@ -64,12 +69,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     [SerializeField] private float lerpingTvelocityAnimation;
     private void BackBoardUpdate()
     {
-
-
-        if (enemy.isInCover)
-            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1) - AimDownSightWeight;
-        else
-            CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
         MovementCompoent movementComponent = enemy._movementCompoent;
 
@@ -121,7 +120,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         CalculateDeltaRotation();
 
-        animator.SetFloat("CoverWeight", CoverWeight);
         animator.SetFloat("SholderSide", SholderSide);
         animator.SetFloat("InputMoveMagnitude_Normalized", InputMoveMagnitude_Normalized);
         animator.SetFloat("VelocityMoveMagnitude_Normalized", VelocityMoveMagnitude_Normalized);
@@ -136,7 +134,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         animator.SetFloat("RecoilWeight", RecoilWeight);
         //animator.SetFloat("CAR_Weight", 0);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
-
+        animator.SetFloat("CrouchWeight", CrouchWeight);
     }
 
     #region CalculateDeltaRotation

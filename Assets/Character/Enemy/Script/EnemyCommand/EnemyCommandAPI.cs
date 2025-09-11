@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(Enemy))]
-public class EnemyCommandAPI :MonoBehaviour
+public class EnemyCommandAPI : MonoBehaviour
 {
     public NormalFiringPattern NormalFiringPattern;
-   
+
     public Enemy _enemy;
     private EnemyCommunicator enemyCommunicator;
     public EnemyAutoDefendCommand enemyAutoDefendCommand;
@@ -168,14 +168,14 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         return this.MoveToPosition(DestinatePos, velocityScale, 0.5f);
     }
-    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale,float rotateTowardDirSpeedScale)
+    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale, float rotateTowardDirSpeedScale)
     {
 
         if (RotateToPosition(_enemy.agent.steeringTarget, rotateTowardDirSpeedScale))
             FreezRotation();
-        
-        
-        if(MoveToPosition(DestinatePos, velocityScale))
+
+
+        if (MoveToPosition(DestinatePos, velocityScale))
         {
             FreezRotation();
             return true;
@@ -183,7 +183,7 @@ public class EnemyCommandAPI :MonoBehaviour
         else
             return false;
     }
-    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale,float reachDestinationDistance)
+    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale, float reachDestinationDistance)
     {
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
@@ -213,17 +213,17 @@ public class EnemyCommandAPI :MonoBehaviour
         Vector3 rotateDir = DestinatePos - _enemy.transform.position;
         Rotate(rotateDir, rotSpeedScale);
 
-        if(Mathf.Abs(Vector3.Dot(_enemy.transform.forward, rotateDir.normalized))>0.95f)
+        if (Mathf.Abs(Vector3.Dot(_enemy.transform.forward, rotateDir.normalized)) > 0.95f)
             return true;
 
         return false;
 
     }
-    public bool SprintToPosition(Vector3 Destination,float rotSpeedScale)
+    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale)
     {
         return SprintToPosition(Destination, rotSpeedScale, 0.5f);
     }
-    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale,float reachDestinationDistance)
+    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale, float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
@@ -253,22 +253,22 @@ public class EnemyCommandAPI :MonoBehaviour
         rotSpeedScale = Mathf.Clamp01((float)rotSpeedScale);
         _enemy.lookRotationCommand = Vector3.Lerp(_enemy.transform.forward, dir, rotSpeedScale);
     }
-    public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
+    public bool FindCoverAndBook(float raduis, out CoverPoint coverPoint)
     {
         coverPoint = null;
 
-        if(_enemy.findingCover.FindCoverInRaduisInGunFight(raduis,out coverPoint))
+        if (_enemy.findingCover.FindCoverInRaduisInGunFight(raduis, out coverPoint))
         {
             coverPoint.TakeThisCover(_enemy);
             return true;
         }
         return false;
     }
-    public bool FindCoverAndBook(float raduis,Vector3 targetPos,out CoverPoint coverPoint)
+    public bool FindCoverAndBook(float raduis, Vector3 targetPos, out CoverPoint coverPoint)
     {
         coverPoint = null;
 
-        if(_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis,out coverPoint,targetPos))
+        if (_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis, out coverPoint, targetPos))
         {
             coverPoint.TakeThisCover(_enemy);
             return true;
@@ -280,6 +280,24 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         _enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;
+    }
+    public void Stand()
+    {
+        _enemy.enemyStance = Stance.stand;
+    }
+    public void Crouch()
+    {
+        _enemy.enemyStance = Stance.crouch;
+    }
+
+    public void AutoDetectSoftCover()
+    {
+        if(Physics.Raycast(_enemy.transform.position + Vector3.up*0.2f,_enemy.transform.forward,6,LayerMask.GetMask("Default"),QueryTriggerInteraction.Ignore))
+        {
+            this.Crouch();
+        }
+        else
+            this.Stand();
     }
 
     //private void TakeCover()

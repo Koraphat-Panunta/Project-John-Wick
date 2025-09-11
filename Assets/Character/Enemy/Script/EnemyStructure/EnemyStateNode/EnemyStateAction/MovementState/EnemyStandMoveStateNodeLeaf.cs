@@ -6,16 +6,14 @@ using UnityEngine.AI;
 public class EnemyStandMoveStateNodeLeaf : EnemyStateLeafNode
 {
     
-    RotateObjectToward objectToward;
-    NavMeshAgent agent;
+
     MovementCompoent enemyMovement => enemy._movementCompoent;
     private Vector3 moveInputVelocity_WorldCommand;
     private Vector3 lookRotationCommand;
 
     public EnemyStandMoveStateNodeLeaf(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
-        this.objectToward = new RotateObjectToward();
-        this.agent = enemy.agent;
+
     }
 
    
@@ -23,7 +21,6 @@ public class EnemyStandMoveStateNodeLeaf : EnemyStateLeafNode
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
-        enemy.NotifyObserver(enemy,this);
         base.Enter();
     }
 

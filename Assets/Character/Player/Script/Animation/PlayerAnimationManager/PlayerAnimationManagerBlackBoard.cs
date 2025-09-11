@@ -10,7 +10,6 @@ public partial class PlayerAnimationManager
     public string Crouch = "Crouch";
 
 
-    public float CoverWeight;
     public float InputMoveMagnitude_Normalized;
     public float VelocityMoveMagnitude_Normalized;
     public float MoveInputLocalFoward_Normalized;

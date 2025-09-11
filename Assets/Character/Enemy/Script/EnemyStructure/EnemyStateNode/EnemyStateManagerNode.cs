@@ -256,7 +256,11 @@ public class EnemyStateManagerNode : INodeManager
             () => enemy.enemyStance == Stance.crouch
             , nameof(crouchSelector));
         enemyCrouchMoveStateNodeLeaf = new EnemyCrouchMoveStateNodeLeaf(enemy,
-            () => enemy.moveInputVelocity_WorldCommand.magnitude > 0);
+            () => 
+            {
+                Debug.Log("enemy.moveInputVelocity_WorldCommand.magnitude = "+ enemy.moveInputVelocity_WorldCommand.magnitude);
+                return enemy.moveInputVelocity_WorldCommand.magnitude > 0;
+            });
         enemyCrouchIdleStateNodeLeaf = new EnemyCrouchIdleStateNodeLeaf(enemy,
             () => true);
 
