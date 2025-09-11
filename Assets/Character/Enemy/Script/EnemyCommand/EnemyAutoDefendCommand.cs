@@ -25,7 +25,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         {
             enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30,30),Vector3.up)*(enemy.transform.right * (Random.value > 0.5f?1:-1))) ;
         }
-        else if(gotHitedReactionDefendTime > 0 && dodgeCoolDownTimer <= 0 && ((enemy.GetHP()/enemy.GetMaxHp()) <= enemy.GetMaxHp()*0.8f))
+        else if(gotHitedReactionDefendTime > 0 && dodgeCoolDownTimer <= 0 && ((enemy.GetHP()/enemy.GetMaxHp()) <= enemy.GetMaxHp()*0.7f))
         {
             enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30, 30), Vector3.up) * (enemy.transform.forward * -1));
         }
