@@ -176,7 +176,7 @@ public partial class Enemy : SubjectEnemy
         }
         else
         {
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate);
+            enemyGetShootDirection.SetTrackingRate(Mathf.Clamp(enemyGetShootDirection.trackingTargetRate - Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate, 0.2f,1) );
         }
         
 

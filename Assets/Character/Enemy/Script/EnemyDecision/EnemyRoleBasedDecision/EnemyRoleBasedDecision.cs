@@ -150,7 +150,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
             return;
 
 
-        if (chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
+        if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
         {
             if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._curvePoint.Count > 0)
             {
@@ -163,6 +163,13 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                             , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
                 }
             }
+        }
+        if(overwatchRoleNodeManager.curNodeLeaf == overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf)
+        {
+            Gizmos.color = Color.blue * 0.5f;
+            Gizmos.DrawSphere(overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition, .25f);
+            Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition);
+           
         }
 
     }
