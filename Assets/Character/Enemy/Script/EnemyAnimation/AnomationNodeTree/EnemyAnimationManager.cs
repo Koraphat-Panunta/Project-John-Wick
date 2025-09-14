@@ -1,7 +1,7 @@
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(Animator))]
-public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
+public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Animator animator;
@@ -37,24 +37,20 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public bool isSprint;
 
     public string AnimationStateName;
-  
-    public void Notify<T>(Enemy enemy, T node)
-    {
-       
-    }
-    private void Awake()
-    {
-        enemy = GetComponent<Enemy>();
-        animator = GetComponent<Animator>();
 
+    public void Initialized()
+    {
         enemy.AddObserver(this);
         nodeManagerBehavior = new NodeManagerBehavior();
 
         this.InitailizedNode();
-      
     }
-   
-
+    public void Notify<T>(Enemy enemy, T node)
+    {
+       
+    }
+  
+  
     // UpdateNode is called once per frame
     void Update()
     {
@@ -146,5 +142,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         Rotating = Mathf.Clamp(Vector3.SignedAngle(previousDir, curDir, Vector3.up) * 10 * Time.deltaTime, -1, 1);
         previousDir = curDir;
     }
+
+   
     #endregion
 }

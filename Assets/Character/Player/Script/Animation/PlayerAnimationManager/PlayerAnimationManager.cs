@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
+public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IInitializedAble
 {
 
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
-    public void Awake()
+    public void Initialized()
     {
-        animator = GetComponent<Animator>();
-        player = GetComponent<Player>();
         player.AddObserver(this);
 
-        //isLayer_1_Enable = false;
         isIn_C_A_R_aim = false;
         nodeManagerBehavior = new NodeManagerBehavior();
 
         this.InitailizedNode();
     }
-
+   
     void Update()
     {
         BackBoardUpdate();
@@ -243,4 +240,6 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
         }
 
     }
+
+   
 }

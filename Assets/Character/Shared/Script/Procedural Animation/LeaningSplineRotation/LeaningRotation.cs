@@ -25,10 +25,7 @@ public class LeaningRotation : MonoBehaviour, IConstraintManager
 
     public float leaningLeftRightSplineMax { get => leaningRotaionScriptable.leaningLeftRightSplineMax; private set { } }
 
-    void Start()
-    {
-
-    }
+  
     public void SetWeight(float weight, LeaningRotaionScriptableObject leaningRotaionScriptable)
     {
         SetWeight(weight);

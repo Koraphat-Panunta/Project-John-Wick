@@ -13,12 +13,12 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         Red,
         White
     }
-    private ColorMarker curColorMarker;    
-  
-    private void Awake()
+    private ColorMarker curColorMarker;
+    public override void Initialized()
     {
         this.player.AddObserver(this);
     }
+    
     // UpdateNode is called once per frame
     void Update()
     {
@@ -64,4 +64,6 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
             }
         }
     }
+
+   
 }

@@ -1333,6 +1333,7 @@ GameObject:
   - component: {fileID: 6454910191179571215}
   - component: {fileID: 1113618680042977909}
   - component: {fileID: 7890612989017240957}
+  - component: {fileID: 3893735730334051125}
   - component: {fileID: 3858380618204543065}
   - component: {fileID: 8785008869752914700}
   - component: {fileID: 2619394019457856660}
@@ -1423,6 +1424,39 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!114 &3893735730334051125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initializedComponent:
+  - {fileID: 2619394019457856660}
+  - {fileID: 1198469431008621809}
+  - {fileID: 7217283829934863557}
+  - {fileID: 4256497212459259439}
+  - {fileID: 737720514108587036}
+  - {fileID: 2595802530518781430}
+  - {fileID: 6183801970392732339}
+  - {fileID: 7968910872121005594}
+  - {fileID: 602099620969790321}
+  - {fileID: 2622685816577133962}
+  - {fileID: 245636616440883123}
+  - {fileID: 7283977535768471014}
+  - {fileID: 3858380618204543065}
+  - {fileID: 8785008869752914700}
+  - {fileID: 6414908439600597232}
+  - {fileID: -7130791345041273299}
+  - {fileID: -5794132423715581005}
+  - {fileID: 1068420054499277711}
+  - {fileID: 7512234974047621189}
+  - {fileID: 6586458206067166242}
 --- !u!114 &3858380618204543065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,7 +1492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fea66ea3b8798034093e8b0a25d51529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
+  _enemy: {fileID: 2619394019457856660}
   NotifyAbleMask:
     serializedVersion: 2
     m_Bits: 128
@@ -1493,7 +1527,6 @@ MonoBehaviour:
   selfLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  startWeapon: {fileID: 0}
   _staggerGauge: 0
   isGround: 0
   head: {fileID: 3619633415840242047}
@@ -1574,9 +1607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0410161d8fa6b4eaf3965a5aebc571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  enemy: {fileID: 0}
-  CoverWeight: 0
+  animator: {fileID: 1113618680042977909}
+  enemy: {fileID: 2619394019457856660}
   SholderSide: 0
   InputMoveMagnitude_Normalized: 0
   VelocityMoveMagnitude_Normalized: 0
@@ -1611,8 +1643,8 @@ MonoBehaviour:
   hit: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}
   dead: {fileID: 8300000, guid: da7bfccbaefce304782fb3a6d0ff34d3, type: 3}
   footStep: {fileID: 8300000, guid: e7771bf1f0795df44a5054befbff8bc8, type: 3}
-  enemy: {fileID: 0}
-  animator: {fileID: 0}
+  enemy: {fileID: 2619394019457856660}
+  animator: {fileID: 1113618680042977909}
 --- !u!82 &5275516832316452753
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1872,7 +1904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2499ea9c028d546489ce917150a9b3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 2619394019457856660}
   CurrentEnemyState: 
   posture: 0
   PainPart: 0
@@ -1896,6 +1928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnForceUp: 2.8
   SpawnForceSide: 0.74
+  enemy: {fileID: 2619394019457856660}
   AmmoGetAbleObject: {fileID: 580628591087979241, guid: ff1f847e7a794b34ca63ff5416fac57d,
     type: 3}
   HpGetAbleObject: {fileID: 2275463908204227942, guid: bab5162ec9f0dfa4aa8a60bc256c35ee,

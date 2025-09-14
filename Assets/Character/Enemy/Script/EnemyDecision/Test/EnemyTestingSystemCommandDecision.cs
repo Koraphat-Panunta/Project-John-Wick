@@ -50,11 +50,13 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
     [Range(0, 20)]
     [SerializeField] private float raduisFindCover;
-    protected override void Awake()
+
+    public override void Initialized()
     {
         InitializedCommand();
-        base.Awake();
+        base.Initialized();
     }
+  
 
     private void InitializedCommand()
     {

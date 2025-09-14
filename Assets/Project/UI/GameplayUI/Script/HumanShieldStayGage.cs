@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 
 public class HumanShieldStayGage : GameplayUI, IObserverPlayer
 {
@@ -10,6 +9,11 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
     private float maxWidthImage;
     HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
 
+    public override void Initialized()
+    {
+        player.AddObserver(this);
+        this.maxWidthImage = humanShieldGage.rectTransform.rect.width;
+    }
     public void GetNotify(Player player)
     {
         this.player = player;
@@ -36,13 +40,6 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
             }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
-    {
-        player.AddObserver(this);
-        this.maxWidthImage = humanShieldGage.rectTransform.rect.width;
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -67,4 +64,6 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
 
     public override void EnableUI() => this.humanShieldGage.enabled = true;
     public override void DisableUI() => this.humanShieldGage.enabled=false;
+
+   
 }

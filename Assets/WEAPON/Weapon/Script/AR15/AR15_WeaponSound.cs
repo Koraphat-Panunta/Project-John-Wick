@@ -34,11 +34,12 @@ public class AR15_WeaponSound : WeaponAudio
         get { return ReloadSoundWait_2; }
         set {ReloadSoundWait_2 = value; }
     }
-    protected override void Start()
+    public override void Initialized()
     {
         reloadSoundWait_0 = 0.26f;
         ReloadSoundWait_1 = 0.64f - reloadSoundWait_0;
         ReloadSoundWait_2 = 0.58f;
-        base.Start();
+        base.Initialized();
     }
+   
 }

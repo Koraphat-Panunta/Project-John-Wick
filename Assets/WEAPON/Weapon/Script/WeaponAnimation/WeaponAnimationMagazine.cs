@@ -64,14 +64,7 @@ public class WeaponAnimationMagazine : WeaponAnimation
         }
         weapon.AddObserver(this);
     }
-    private void OnEnable()
-    {
-        weapon.AddObserver(this);
-    }
-    private void OnDisable()
-    {
-        weapon.Remove(this);
-    }
+    
     [SerializeField] SkinnedMeshRenderer magMain;
     [SerializeField] SkinnedMeshRenderer magSecond;
     public void EnableSecondMag()

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Enemy))]
-public class EnemyDebuger :MonoBehaviour
+public class EnemyDebuger :MonoBehaviour,IInitializedAble
 {
     public Enemy enemy;
     [SerializeField] private string CurrentEnemyState;
@@ -22,11 +22,11 @@ public class EnemyDebuger :MonoBehaviour
     [SerializeField] private int curWeaponMagCount;
     [SerializeField] private int curWeaponBulletCapacity;
     // Start is called before the first frame update
-    void Start()
-    {
-        this.enemy = GetComponent<Enemy>();
-    }
 
+    public void Initialized()
+    {
+        
+    }
     // UpdateNode is called once per frame
     void Update()
     {
@@ -50,4 +50,6 @@ public class EnemyDebuger :MonoBehaviour
     {
        
     }
+
+  
 }

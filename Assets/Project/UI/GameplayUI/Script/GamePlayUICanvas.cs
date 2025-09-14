@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GamePlayUICanvas : MonoBehaviour
+public class GamePlayUICanvas : MonoBehaviour,IInitializedAble
 {
     public List<GameplayUI> gameplayUI;
     public List<GameplayUI> GetGameplayUI()=> this.gameplayUI;
@@ -24,6 +24,17 @@ public class GamePlayUICanvas : MonoBehaviour
         for (int i = 0; i < gameplayUI.Count; i++)
         {
             gameplayUI[i].DisableUI();
+        }
+    }
+
+    public void Initialized()
+    {
+        if (gameplayUI.Count <= 0)
+            return;
+
+        for (int i = 0; i < gameplayUI.Count; i++)
+        {
+            gameplayUI[i].Initialized();
         }
     }
 }

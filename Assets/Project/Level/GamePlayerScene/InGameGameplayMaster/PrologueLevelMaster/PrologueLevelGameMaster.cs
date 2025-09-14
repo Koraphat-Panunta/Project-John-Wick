@@ -141,13 +141,13 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     {
         base.FixedUpdate();
     }
-    protected override void LateUpdate()
+    protected void LateUpdate()
     {
         enemy_ObjectManager.ClearCorpseEnemyUpdate();
         enemyMask_ObjectManager.ClearCorpseEnemyUpdate();
         enemyMaskArmored_ObjectManager.ClearCorpseEnemyUpdate();
 
-        base.LateUpdate();
+
     }
 
     public override void InitailizedNode()

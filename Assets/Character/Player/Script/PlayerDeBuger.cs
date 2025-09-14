@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDeBuger : MonoBehaviour
+public class PlayerDeBuger : MonoBehaviour,IInitializedAble
 {
     public static List<Vector3> sphereCastPos = new List<Vector3>();
     public static Vector3 dirCast;
@@ -30,11 +30,12 @@ public class PlayerDeBuger : MonoBehaviour
     [SerializeField] private Weapon myPrimaryWeapon;
     [SerializeField] private Weapon mySecondaryWeapon;
     // Start is called before the first frame update
-    void Start()
+    public void Initialized()
     {
         player = GetComponent<Player>();
         layerMask = LayerMask.GetMask("Default");
     }
+    
 
     // UpdateNode is called once per frame
     void Update()
@@ -79,4 +80,6 @@ public class PlayerDeBuger : MonoBehaviour
             Gizmos.DrawSphere(AimPos, sphereRaduis * 1.2f);
         }
     }
+
+   
 }

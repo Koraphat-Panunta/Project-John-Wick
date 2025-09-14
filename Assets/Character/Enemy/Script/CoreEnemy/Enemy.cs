@@ -41,10 +41,9 @@ public partial class Enemy : SubjectEnemy
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;
-    protected override void Awake()
+  
+    public override void Initialized()
     {
-        base.Awake();
-
         targetMask.value = LayerMask.GetMask("Player");
 
         this.SetDefaultAttribute();
@@ -60,15 +59,10 @@ public partial class Enemy : SubjectEnemy
         InitailizedCoverUsable();
         InitailizedGunFuComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
-        _movementCompoent = new EnemyMovement(this,transform,this,agent);
+        _movementCompoent = new EnemyMovement(this, transform, this, agent);
         enemyCommunicator = new EnemyCommunicator(this);
-    }
-    [SerializeField] private Weapon startWeapon;
-    protected override void Start()
-    {
-        if(startWeapon != null)
-            WeaponAttachingBehavior.Attach(startWeapon,MainHandSocket);
-        base.Start();
+
+        base.Initialized();
     }
 
     [SerializeField] private float _staggerGauge;

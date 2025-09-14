@@ -73,10 +73,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         => _reloadMagazineLogic.ReloadMagazine(magazineWeapon, ammoProuch, reloadMagazineNode);
 
     #endregion
-
-    protected override void Awake()
+    public override void Initialized()
     {
-
         fireMode = FireMode.FullAuto;
         _isMagIn = true;
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
@@ -86,13 +84,9 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         _RecoilKickBack = bullet.recoilKickBack;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
-
-        base.Awake();
+        base.Initialized();
     }
-    protected override void Start()
-    {
-        base.Start();
-    }
+  
     
     protected override void Update()
     {

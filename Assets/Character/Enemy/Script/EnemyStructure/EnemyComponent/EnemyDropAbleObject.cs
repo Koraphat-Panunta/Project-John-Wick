@@ -2,16 +2,19 @@ using UnityEngine;
 using static SubjectEnemy;
 
 [RequireComponent(typeof(Enemy))]
-public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
+public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy,IInitializedAble
 {
-    protected Enemy enemy;
+    [SerializeField] protected Enemy enemy;
     bool isAlreadyDrop;
 
     [SerializeField] protected AmmoGetAbleObject AmmoGetAbleObject;
     [SerializeField] protected HpGetAbleObject HpGetAbleObject;
 
-    
 
+    public void Initialized()
+    {
+        enemy.AddObserver(this);
+    }
     public void Notify<T>(Enemy enemy, T node) 
     {
         if (node is SubjectEnemy.EnemyEvent enemyEvent 
@@ -32,10 +35,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy
         }
 
     }
-    private void Awake()
-    {
-        enemy = GetComponent<Enemy>();
-        enemy.AddObserver(this);
-    }
-
+  
+   
 }

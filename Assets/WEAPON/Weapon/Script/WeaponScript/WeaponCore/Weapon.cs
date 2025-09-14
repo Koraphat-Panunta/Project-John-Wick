@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
+public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializedAble
 {
 
     public Transform bulletSpawnerPos;
@@ -44,7 +44,8 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
     public TriggerState triggerState { get; protected set; }
 
     public LayerMask weaponLayerMask { get; private set; }
-    protected virtual void Awake()
+
+    public virtual void Initialized()
     {
         weaponLayerMask = gameObject.layer;
         parentConstraint = GetComponent<ParentConstraint>();
@@ -53,12 +54,9 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
         triggerState = TriggerState.Up;
         this.SetDefaultAttribute();
         InitailizedTree();
-
-    }
-    protected virtual void Start()
-    {
         this.AddObserver(this);
     }
+  
     protected virtual void Update()
     {
         //TriggerUpdate
@@ -147,4 +145,5 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon
     {
         
     }
+
 }

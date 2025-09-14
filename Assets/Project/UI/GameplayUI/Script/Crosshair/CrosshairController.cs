@@ -21,24 +21,23 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     public Vector3 pointerPos => player.transform.position;
 
     [SerializeField] public LayerMask layerMask;
-    
 
-    private void Awake()
+    public override void Initialized()
     {
         player.AddObserver(this);
         Cursor.lockState = CursorLockMode.Locked;
-    }
-    void Start()
-    {
         CrosshairSpread = new CrosshairSpread(this);
         CrosshiarShootpoint = new CrosshiarShootpoint(this);
+    }
+  
+    void Start()
+    {
         if (player._currentWeapon == null)
             this.DisableUI();
         else
             this.EnableUI();
     }
 
-    // UpdateNode is called once per frame
     void Update()
     {
         CrosshairUpdate();

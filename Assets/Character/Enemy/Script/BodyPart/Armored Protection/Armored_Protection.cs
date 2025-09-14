@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Animations;
-using static SubjectEnemy;
 [ExecuteInEditMode]
 public class Armored_Protection : BodyPart,IDamageVisitor
 {
@@ -18,18 +16,14 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     public float staggerDamage { get; protected set; }
     public override float penatrateResistance { get => armored_ProtectionSCRP._penetrateResistRate; set { } }
 
-
-    protected override void Awake()
+    public override void Initialized()
     {
         base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
         armorHP = armored_ProtectionSCRP.armorHP;
         _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
-    }
-   
-    protected override void Start()
-    {
+
         enemy.AddObserver(this);
         if (syncBodyPart != null)
         {
@@ -37,6 +31,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
             this.Attach(syncBodyPart);
         }
     }
+
   
     public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {

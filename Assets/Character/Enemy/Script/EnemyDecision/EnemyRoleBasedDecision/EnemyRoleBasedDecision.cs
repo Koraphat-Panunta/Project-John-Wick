@@ -32,13 +32,12 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     }
     public Role startRole;
 
-    protected override void Awake()
+    public override void Initialized()
     {
-        base.Awake();
         enemy.AddObserver(this);
         _targetZone = new ZoneDefine(Vector3.zero, 10f);
 
-        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy,enemyCommand,this,2.5f,5f);
+        chaserRoleNodeManager = new EnemyChaserRoleNodeManager(enemy, enemyCommand, this, 2.5f, 5f);
         chaserRoleNodeManager.InitailizedNode();
 
         overwatchRoleNodeManager = new EnemyOverwatchRoleNodeManager(enemy, enemyCommand, this, 5, 8.5f);
@@ -46,9 +45,11 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
         switch (startRole)
         {
-            case Role.Chaser:enemyActionNodeManager = chaserRoleNodeManager; 
+            case Role.Chaser:
+                enemyActionNodeManager = chaserRoleNodeManager;
                 break;
-            case Role.Overwatch:enemyActionNodeManager= overwatchRoleNodeManager; 
+            case Role.Overwatch:
+                enemyActionNodeManager = overwatchRoleNodeManager;
                 break;
         }
 
@@ -58,13 +59,9 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
         lostSightTime = 8;
         _takeCoverAble = true;
-
+        base.Initialized();
     }
-
-    protected override void Start()
-    {
-        base.Start();
-    }
+   
     protected override void Update()
     {
         enemyActionNodeManager.UpdateNode();
@@ -213,6 +210,9 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         this.curAction = this.enemyActionNodeManager.curNodeLeaf.ToString();
         this.approuchCoolDown = chaserRoleNodeManager.approuchCoolDown;
     }
+
+  
+
     [SerializeField] private string curRole;
     [SerializeField] private string curAction;
     [SerializeField] private float approuchCoolDown;

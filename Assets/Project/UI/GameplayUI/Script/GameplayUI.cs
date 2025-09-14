@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class GameplayUI : MonoBehaviour
+public abstract class GameplayUI : MonoBehaviour,IInitializedAble
 {
     public bool isEnable { get; set; }
     public virtual void EnableUI()
@@ -11,4 +11,7 @@ public abstract class GameplayUI : MonoBehaviour
     {
         isEnable = false;
     }
+
+    public abstract void Initialized();
+    
 }

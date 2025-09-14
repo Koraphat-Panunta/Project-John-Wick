@@ -4,14 +4,15 @@ using UnityEngine.InputSystem.Interactions;
 using static Player;
 using static SubjectPlayer;
 
-public class PlayerInputAPI : MonoBehaviour
+public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Player player;
-    private void Awake()
+    public void Initialized()
     {
         player = GetComponent<Player>();
     }
+  
  
     public void Move(InputAction.CallbackContext context)
     {
@@ -155,4 +156,6 @@ public class PlayerInputAPI : MonoBehaviour
             player._isParkourCommand = true;
         
     }
+
+   
 }
