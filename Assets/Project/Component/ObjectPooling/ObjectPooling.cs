@@ -17,7 +17,10 @@ public class ObjectPooling<T> where T : Component
 
         for (int i = 0; i < initiateSize; i++) 
         {
+
             T obj = GameObject.Instantiate(prefab,this.voidPos,Quaternion.identity);
+            if (obj.TryGetComponent<Initialization>(out Initialization initialization))
+                initialization.Initialized();
             pool.Enqueue(obj);
             obj.gameObject.SetActive(false);
         }

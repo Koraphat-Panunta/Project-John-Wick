@@ -15,14 +15,7 @@ public class BulletHitEvent : MonoBehaviour,IInitializedAble
     [SerializeField] private AudioClip hitArmor;
     [SerializeField] private AudioClip hitFresh;
     
-    private IEnumerator Initialized()
-    {
-        yield return new WaitUntil(() => weapon.didAwake);
-        this.particleSpark = new ObjectPooling<ParticleSystem>(spark, 12, 3, Vector3.zero);
-        this.bloodSplits = new ObjectPooling<ParticleSystem>(bloodSplit, 12, 3, Vector3.zero);
-        this.bulletHitSound = new ObjectPooling<AudioSource>(bulletHitPrefab, 10, 3, Vector3.zero);
-        weapon.bullet.bulletHitNotify += OnBulletHit;
-    }
+    
     private void OnBulletHit(Collider hitedBullet,Vector3 hitPos,Vector3 bulletDir)
     {
         if (hitedBullet.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble bulletDamageAble) )
@@ -78,8 +71,11 @@ public class BulletHitEvent : MonoBehaviour,IInitializedAble
         bulletHitSound.ReturnToPool(audioSource);
     }
 
-    void IInitializedAble.Initialized()
+    public void Initialized()
     {
-        StartCoroutine(Initialized());
+        this.particleSpark = new ObjectPooling<ParticleSystem>(spark, 12, 3, Vector3.zero);
+        this.bloodSplits = new ObjectPooling<ParticleSystem>(bloodSplit, 12, 3, Vector3.zero);
+        this.bulletHitSound = new ObjectPooling<AudioSource>(bulletHitPrefab, 10, 3, Vector3.zero);
+        weapon.bullet.bulletHitNotify += OnBulletHit;
     }
 }

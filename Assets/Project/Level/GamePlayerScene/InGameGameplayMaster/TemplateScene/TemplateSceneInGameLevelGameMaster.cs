@@ -23,7 +23,9 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     public override void Initialized()
     {
         enemyObjectManager = new EnemyObjectManager(enemyMK1, cameraMain);
+
         ar15_MK1_weaponObjManager = new WeaponObjectManager(ar15_MK1_origin, cameraMain);
+
         glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraMain);
         base.Initialized();
     }

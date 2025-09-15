@@ -10,18 +10,18 @@ public class Initialization : MonoBehaviour
 
     public void Initialized()
     {
-       
+        for (int i = 0; i < initializedComponent.Length; i++)
+        {
+            componentIndex = i;
+            Debug.Log("initializedObj = " + gameObject + " Initialized been corrupt comoinent index = " + componentIndex);
+            if (initializedComponent[i] is IInitializedAble initializedAble)
+                initializedAble.Initialized();
+            else
+                throw new System.Exception("InitializedAble not found index" + componentIndex);
+        }
         try
         {
-            for (int i = 0; i < initializedComponent.Length; i++)
-            {
-                componentIndex = i;
-                Debug.Log("initializedObj = " + gameObject + " Initialized been corrupt comoinent index = " + componentIndex);
-                if (initializedComponent[i] is IInitializedAble initializedAble)
-                    initializedAble.Initialized();
-                else
-                    throw new System.Exception("InitializedAble not found index" + componentIndex);
-            }
+            
         }
         catch
         {

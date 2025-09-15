@@ -15,9 +15,12 @@ public class WeaponObjectManager
 
     public WeaponObjectManager(Weapon weapon, Camera mainCamera)
     {
+
         this.weaponPrefab = weapon;
         this.mainCamera = mainCamera;
+
         weaponObjPooling = new ObjectPooling<Weapon>(this.weaponPrefab, 10, 2, Vector3.zero);
+
         clearWeaponList = new Dictionary<Weapon, float>();
     }
 

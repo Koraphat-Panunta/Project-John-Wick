@@ -76,8 +76,14 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     public override void Initialized()
     {
         fireMode = FireMode.FullAuto;
+
+        Debug.Log("_isMagIn = " + _isMagIn);
+
         _isMagIn = true;
-        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);
+
+        Debug.Log("isBulletStoreContain = " + bulletStore.TryGetValue(BulletStackType.Magazine, out int i));
+
+        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);;
         bulletStore.Add(BulletStackType.Chamber, 1);
         _556MmBullet = new _556mmBullet(this);
         bullet = _556MmBullet;

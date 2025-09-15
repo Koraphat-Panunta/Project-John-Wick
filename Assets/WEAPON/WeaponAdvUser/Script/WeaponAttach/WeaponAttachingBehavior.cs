@@ -204,6 +204,7 @@ public static class WeaponAttachingBehavior
     private static void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
     {
         Animator animator = weaponAdvanceUser._weaponUserAnimator;
+
         AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAdvanceUser._animatorWeaponAdvanceUserOverride);
         WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject = weapon.weaponAnimationStateOverrideScriptableObject;
 
