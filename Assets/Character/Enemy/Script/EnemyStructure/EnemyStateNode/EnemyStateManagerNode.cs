@@ -258,7 +258,6 @@ public class EnemyStateManagerNode : INodeManager
         enemyCrouchMoveStateNodeLeaf = new EnemyCrouchMoveStateNodeLeaf(enemy,
             () => 
             {
-                Debug.Log("enemy.moveInputVelocity_WorldCommand.magnitude = "+ enemy.moveInputVelocity_WorldCommand.magnitude);
                 return enemy.moveInputVelocity_WorldCommand.magnitude > 0;
             });
         enemyCrouchIdleStateNodeLeaf = new EnemyCrouchIdleStateNodeLeaf(enemy,

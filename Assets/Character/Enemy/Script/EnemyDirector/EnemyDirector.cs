@@ -45,10 +45,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInit
         enemyRoleBasedDecision.enemy.AddObserver(this);
         this.enemiesRole.Add(enemyRoleBasedDecision);
         this.enemysGetRole.Add(enemyRoleBasedDecision.enemy, enemyRoleBasedDecision);
-        Debug.Log("Debug!");
-        Debug.Log("enemyRoleBasedDecision = " + enemyRoleBasedDecision);
-        Debug.Log("enemyRoleBasedDecision.enemyCommand = " + enemyRoleBasedDecision.enemyCommand);
-        Debug.Log("enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = " + enemyRoleBasedDecision.enemyCommand.NormalFiringPattern);
         enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyRoleBasedDecision.enemyCommand, this, enemyRoleBasedDecision);
     }
     public void RemoveEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)

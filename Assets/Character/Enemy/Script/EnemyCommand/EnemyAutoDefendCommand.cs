@@ -35,7 +35,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
 
         if(enemy.target == null)
             return false;
-        Debug.Log("enemy.target != null");
+
         if (this.target == null)
         {
             this.target = enemy.target;
@@ -58,19 +58,16 @@ public class EnemyAutoDefendCommand : IObserverEnemy
             if (this.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
                 && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
             {
-                Debug.Log("this.targerFireArmed = weaponAdvanceUser;");
                 this.targerFireArmed = weaponAdvanceUser;
             }
             else
             {
-                Debug.Log("this.targerFireArmed = null;");
                 this.targerFireArmed = null;
             }
         }
 
         if (this.targerFireArmed == null)
             return false;
-        Debug.Log("this.targerFireArmed != null;");
         return EnemyBewareAnalysis.IsTargetAimingTo(this.targerFireArmed, enemy.transform.position, 1.7f,12f);
 
     }
@@ -98,7 +95,6 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         {
             gotHitedReactionDefendTime += 1.25f;
             dodgeCoolDownTimer -= 1;
-            Debug.Log("dodgeCoolDownTimer got hit = "+dodgeCoolDownTimer);
         }
 
         if (node is GotRestrictNodeLeaf gotRestrictNodeLeaf && gotRestrictNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)

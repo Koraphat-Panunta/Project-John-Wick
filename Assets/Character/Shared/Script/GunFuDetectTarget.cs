@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(IGunFuAble))]
-public class GunFuDetectTarget : MonoBehaviour
+public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 {
     [SerializeField] protected IGunFuAble gunFuAble;
 
@@ -23,8 +23,11 @@ public class GunFuDetectTarget : MonoBehaviour
 
     [SerializeField, TextArea]
     private string gunFuDetectTargetDebug;
-  
-   
+
+    public void Initialized()
+    {
+        this.gunFuAble = GetComponent<IGunFuAble>();
+    }
     public bool CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble gunFuGotExecuteAble)
     {
         gunFuGotExecuteAble = null;
@@ -83,6 +86,7 @@ public class GunFuDetectTarget : MonoBehaviour
     {
 
         target = new List<IGotGunFuAttackedAble>();
+        
         Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, gunFuAble._layerTarget.value);
 
         gunFuDetectTargetDebug += "layerTarget = " + gunFuAble._layerTarget.value + "\n";
@@ -99,8 +103,11 @@ public class GunFuDetectTarget : MonoBehaviour
         {
             gunFuDetectTargetDebug += "in collider = " + item +"0 \n";
 
+
             if (item.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
                 continue;
+
+            
 
             gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
 
@@ -174,10 +181,6 @@ public class GunFuDetectTarget : MonoBehaviour
 
         return casrDir;
     }
-    private void OnValidate()
-    {
-        gunFuAble = GetComponent<IGunFuAble>();
-    }
 
     [SerializeField] private bool EnableDebug;
     private void OnDrawGizmos()
@@ -195,4 +198,6 @@ public class GunFuDetectTarget : MonoBehaviour
 
 
     }
+
+   
 }

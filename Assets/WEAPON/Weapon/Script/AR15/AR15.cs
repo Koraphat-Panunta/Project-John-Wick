@@ -77,11 +77,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     {
         fireMode = FireMode.FullAuto;
 
-        Debug.Log("_isMagIn = " + _isMagIn);
-
         _isMagIn = true;
-
-        Debug.Log("isBulletStoreContain = " + bulletStore.TryGetValue(BulletStackType.Magazine, out int i));
 
         bulletStore.Add(BulletStackType.Magazine, bulletCapacity);;
         bulletStore.Add(BulletStackType.Chamber, 1);

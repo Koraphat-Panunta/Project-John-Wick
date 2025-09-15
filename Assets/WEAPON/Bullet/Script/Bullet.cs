@@ -1,9 +1,7 @@
-using Unity.Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using System;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 {
@@ -98,8 +96,8 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 
             if (rayCastHits[i].collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble bulletDamageAble))
             {
-                Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);
-                Debug.Log("panetrateRate = " + this.penetrateRate);
+                //Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);
+                //Debug.Log("panetrateRate = " + this.penetrateRate);
                 bulletDamageAble.TakeDamage(this, rayCastHits[i].point,dir,bulletHitForce);
                 if(bulletHitNotify!= null)
                 bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);

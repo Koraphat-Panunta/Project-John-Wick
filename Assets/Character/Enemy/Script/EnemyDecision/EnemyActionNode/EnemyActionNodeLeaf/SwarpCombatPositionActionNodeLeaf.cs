@@ -43,7 +43,6 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
         moveToSwarpPositionTimer = UnityEngine.Random.Range(MIN_RandomMoveToSwarpPositionTime,MAX_RandomMoveToSwarpPositionTime);
         moveToTargetTimer = UnityEngine.Random.Range(MIN_RandomMoveToTargetTimer,MAX_RandomMoveToTargetTimer);
         this.swarpPosition = this.GetRandomSwarpPosition();
-        Debug.Log("Swarp Position = " + this.swarpPosition);
         this.isComplete = false;
         base.Enter();
     }
@@ -74,12 +73,11 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
         {
             case SwarPositionPhase.moveToSwarpPosition:
                 {
-                    Debug.Log("moveToSwarpPosition timer = " + moveToSwarpPositionTimer);
                     this.moveToSwarpPositionTimer -= Time.deltaTime;
 
                     if (this.moveToSwarpPositionTimer <= 0)
                     {
-                        Debug.Log("moveToSwarpPosition timeOut = " + moveToSwarpPositionTimer);
+
                         curSwarpPhase = SwarPositionPhase.moveToTarget;
                     }
 
@@ -89,7 +87,6 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                             {
                                 if (enemyCommandAPI.SprintToPosition(this.swarpPosition, 1, 2))
                                 {
-                                    Debug.Log("moveToSwarpPosition enemyCommandAPI.SprintToPosition");
                                     curSwarpPhase = SwarPositionPhase.moveToTarget;
                                 }
                             }
@@ -98,7 +95,6 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                             {
                                 if (enemyCommandAPI.MoveToPosition(this.swarpPosition, 1, 2))
                                 {
-                                    Debug.Log("moveToSwarpPosition enemyCommandAPI.MoveToPosition");
                                     curSwarpPhase = SwarPositionPhase.moveToTarget;
                                 }
 
