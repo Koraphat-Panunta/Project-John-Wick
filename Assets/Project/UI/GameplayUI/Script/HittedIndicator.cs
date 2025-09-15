@@ -13,13 +13,14 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
 
     [SerializeField] private bool isEnable;
 
-    private void Awake()
+    public override void Initialized()
     {
         this.player.AddObserver(this);
         uiScreenCanvas = GetComponentInParent<CanvasScaler>();
         heightIndicatorPos = uiScreenCanvas.referenceResolution.y / 4;
         widthIndicatorPos = uiScreenCanvas.referenceResolution.x / 4;
     }
+   
     private void Update()
     {
         if(isEnable == false)
@@ -67,6 +68,8 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
             }
         }
     }
+
+  
 }
 
 public class Indicator

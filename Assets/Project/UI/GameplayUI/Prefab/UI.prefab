@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6489870742120944535}
   - component: {fileID: 6136147466058054717}
   - component: {fileID: 5492774839647731430}
-  - component: {fileID: 8795274415941893491}
   m_Layer: 5
   m_Name: Objective Describetion
   m_TagString: Untagged
@@ -138,20 +137,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8795274415941893491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647117715375379430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3165d4eb9cb0b0b4db6efbeeae93b563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameMaster: {fileID: 0}
-  m_TextMeshProUGUI: {fileID: 5492774839647731430}
 --- !u!1 &3774680971635518830
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +490,7 @@ GameObject:
   - component: {fileID: 1720819799984783116}
   - component: {fileID: 1392175823519093556}
   - component: {fileID: 2952097923134337874}
+  - component: {fileID: 5182947817467148435}
   - component: {fileID: 1576967869659561845}
   - component: {fileID: 7153622357686120071}
   m_Layer: 5
@@ -603,6 +589,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5182947817467148435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9172305961655887961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInitializedComponent:
+  - {fileID: 1576967869659561845}
+  - {fileID: 7153622357686120071}
 --- !u!114 &1576967869659561845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,7 +623,6 @@ MonoBehaviour:
   - {fileID: 1365847767158987824}
   - {fileID: 7427847686772486835}
   - {fileID: 7714483739842748104}
-  - {fileID: 8795274415941893491}
 --- !u!114 &7153622357686120071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +640,8 @@ MonoBehaviour:
     type: 3}
   interactableInWorldUI: {fileID: 566313392294925690, guid: 92b9e66dbd8f5fd41b009ea947d111b2,
     type: 3}
-  doorInteractableInWorldUI: {fileID: 0}
+  doorInteractableInWorldUI: {fileID: 566313392294925690, guid: 1c93050da3a09b24abfe8b82c5199723,
+    type: 3}
   player: {fileID: 0}
 --- !u!1001 &482253626148303335
 PrefabInstance:

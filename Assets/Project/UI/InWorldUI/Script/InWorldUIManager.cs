@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
-public class InWorldUIManager : MonoBehaviour,INodeManager
+public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
 {
 
     [SerializeField] private Camera mainCamera;
@@ -14,9 +13,8 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
     INodeLeaf INodeManager.curNodeLeaf { get => _curNodeLeaf; set => _curNodeLeaf = value; }
     private INodeLeaf _curNodeLeaf;
 
-    
 
-    private void Awake()
+    public void Initialized()
     {
         nodeManagerBehavior = new NodeManagerBehavior();
         this.InitailizedNode();
@@ -81,4 +79,6 @@ public class InWorldUIManager : MonoBehaviour,INodeManager
         }
             
     }
+
+    
 }

@@ -35,9 +35,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         
         base.FixedUpdate();
     }
-    private void LateUpdate()
-    {
-    }
   
     public override INodeSelector startNodeSelector { get; set; }
     public NodeCombine playerConstraintCombineNode { get; set; }

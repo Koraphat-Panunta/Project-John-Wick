@@ -9,7 +9,6 @@ public abstract class InGameLevelGameMaster : GameMaster
 {
 
     public GamePlayUICanvas gamePlayUICanvas;
-
     public User user;
     public Player player;
 
@@ -21,11 +20,17 @@ public abstract class InGameLevelGameMaster : GameMaster
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
     }
-   
+
+    protected virtual void InitializedObject() { }
+    protected virtual void InitializedComponent() { }
+    protected virtual void InitialziedGameMasterEvent() { }
+
     protected override void Awake()
     {
-        this.InitialziedGameMasterEvent();
-        base.Awake();
+        InitializedObject();
+        InitializedComponent();
+        InitialziedGameMasterEvent();
+        InitailizedNode();
 
     }
     protected override void Start()
@@ -42,12 +47,7 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         nodeManagerBehavior.UpdateNode(this);
     }
-    protected virtual void LateUpdate()
-    {
-        //isTriggerExit = false;
-        //isTriggerRestart = false;
-        //isTriggerContinue = false;
-    }
+   
    
     public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
     
@@ -78,7 +78,7 @@ public abstract class InGameLevelGameMaster : GameMaster
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
     }
 
-    protected abstract void InitialziedGameMasterEvent();
+
     protected void UpdateingEvent()
     {
         if(gameMasterEvent == null || gameMasterEvent.Count <=0)

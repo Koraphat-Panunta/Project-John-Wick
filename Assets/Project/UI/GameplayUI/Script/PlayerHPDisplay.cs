@@ -24,11 +24,12 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     float alphaColorIframeUI = 0;
     float changeSpeed = 29f;
     SetAlphaColorUI setAlphaColorUI = new SetAlphaColorUI();
-    private void Awake()
+    public override void Initialized()
     {
         playerInfo.AddObserver(this);
         saveHP = curHP_OnBar;
     }
+   
     private void Start()
     {
         UpdateInfo();
@@ -183,4 +184,6 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
                 iFrameTime = playerInfo.iFrameTime;
         }
     }
+
+  
 }

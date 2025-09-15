@@ -2,11 +2,7 @@ using UnityEngine;
 
 public class LegRightBodyPart : BodyPart
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-   
+    
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
         

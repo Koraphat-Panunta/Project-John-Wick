@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Player))]
-public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPlayer
+public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPlayer,IInitializedAble
 {
     private CharacterController characterController;
 
@@ -16,11 +16,11 @@ public class DynamicCharacterControllerPlayerUpdate : MonoBehaviour,IObserverPla
     [SerializeField] private float parkourHeight;
     private Player player;
     private INodeManager playerStateNodeManager => player.playerStateNodeManager;
-    private void Update()
+    public void Initialized()
     {
-        
+
     }
- 
+   
     public void OnNotify<T>(Player player, T node)
     {
         if (playerStateNodeManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>())

@@ -79,6 +79,7 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf moveStandNodeLeaf { get; set; }
     public NodeSelector upperLayerEnableDisableSelector { get; set; }
 
+    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
    
     public void FixedUpdateNode()
     {
@@ -100,12 +101,16 @@ public partial class PlayerAnimationManager : INodeManager
         disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
         , animator, 1, 3f, 0);
 
+        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(player, 0.65f,2.5f, 
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>());
+
 
         startNodeSelector.AddtoChildNode(upper_based_LayerCombineNode);
 
         upper_based_LayerCombineNode.AddCombineNode(upperLayerEnableDisableSelector);
         upper_based_LayerCombineNode.AddCombineNode(upperLayerNodeSelector);
         upper_based_LayerCombineNode.AddCombineNode(basedLayerNodeSelector);
+        upper_based_LayerCombineNode.AddCombineNode(crouchWeightSoftCoverNodeLeaf);
 
         upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
         upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);

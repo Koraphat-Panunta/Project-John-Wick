@@ -23,10 +23,8 @@ public class EnemyTacticDecision : EnemyDecision
     }
     public CombatPhase curCombatPhase;
     public float pressure;
-
-    protected override void Awake()
+    public override void Initialized()
     {
-        base.Awake();
         enemy.NotifyCommunicate += OnNotifyGetCommunicate;
 
         curCombatPhase = CombatPhase.Chill;
@@ -38,12 +36,12 @@ public class EnemyTacticDecision : EnemyDecision
 
         curTacticDecision = searchingTacticDecision;
         curTacticDecision.Enter();
-
+        base.Initialized();
     }
-    protected override void Start()
+   
+    protected void Start()
     {
         cost = Random.Range(50, 70);
-        base.Start();
     }
 
     protected override void Update()

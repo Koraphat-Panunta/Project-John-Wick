@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using static SubjectEnemy;
 
-public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
+public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble,IInitializedAble
 {
     [SerializeField] Canvas hpBarCanvas;
     [SerializeField] Image hpBarImage;
@@ -99,9 +98,10 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble
             
     }
 
-    private void Awake()
+    
+
+    public void Initialized()
     {
         enemy.AddObserver(this);
     }
-
 }

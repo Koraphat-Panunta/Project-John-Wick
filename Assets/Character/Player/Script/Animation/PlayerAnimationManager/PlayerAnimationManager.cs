@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Animator))]
-public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
+public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IInitializedAble
 {
 
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
-    public void Awake()
+    public void Initialized()
     {
-        animator = GetComponent<Animator>();
-        player = GetComponent<Player>();
         player.AddObserver(this);
 
-        //isLayer_1_Enable = false;
         isIn_C_A_R_aim = false;
         nodeManagerBehavior = new NodeManagerBehavior();
 
         this.InitailizedNode();
     }
-
+   
     void Update()
     {
         BackBoardUpdate();
         UpdateNode();
-        CalculateCrouchWeight();
+
     }
     private void FixedUpdate()
     {
@@ -33,12 +30,6 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
     }
     private void BackBoardUpdate()
     {
-
-        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandIdleNodeLeaf>() ||
-            (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerInCoverStandMoveNodeLeaf>())
-            CoverWeight = Mathf.Clamp(CoverWeight + 2 * Time.deltaTime, 0, 1);
-        else
-            CoverWeight = Mathf.Clamp(CoverWeight - 2 * Time.deltaTime, 0, 1);
 
         MovementCompoent playerMovement = player._movementCompoent;
         Vector3 inputVelocity_World = playerMovement.moveInputVelocity_World;
@@ -115,7 +106,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
             WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
 
 
-        animator.SetFloat("CoverWeight", CoverWeight);
+
         animator.SetFloat("InputMoveMagnitude_Normalized", InputMoveMagnitude_Normalized);
         animator.SetFloat("VelocityMoveMagnitude_Normalized", VelocityMoveMagnitude_Normalized);
         animator.SetFloat("MoveInputLocalFoward_Normalized", MoveInputLocalFoward_Normalized);
@@ -185,47 +176,56 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
     private Vector3 crouchCastPosEnd => player.transform.position + Vector3.up * 2f;
     private Vector3 crouchCastDir => player._pointingPos -  new Vector3(player.transform.position.x,player._pointingPos.y, player.transform.position.z);
     private float crouchSphereRaduis = .2f;
-    [SerializeField] private float crouchWeight;
+    private float crouchWeight 
+    { 
+        get 
+        {
+            if(this.crouchWeightSoftCoverNodeLeaf!=null)
+                return this.crouchWeightSoftCoverNodeLeaf.GetCrouchWeight();
+            else
+                return 0;
+        } 
+    }
     [Range(0, 1)]
     [SerializeField] private float crouchWeightOffset;
     private List<Vector3> crouchSphereSurface;
-    private void CalculateCrouchWeight()
-    {
-        crouchUpdateTimer += Time.deltaTime;
+    //private void CalculateCrouchWeight()
+    //{
+    //    crouchUpdateTimer += Time.deltaTime;
 
-        if (crouchUpdateTimer < crouchUpdateTimeInterval)
-            return;
+    //    if (crouchUpdateTimer < crouchUpdateTimeInterval)
+    //        return;
 
-        if ((playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
-            || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
-            && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
-        {
-            if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, 2.3f, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
-            {
-                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) - crouchWeightOffset);
-                if(player._currentWeapon != null && player._weaponManuverManager.aimingWeight >=1 && Vector3.Dot(Vector3.up,player._currentWeapon.bulletSpawner.transform.forward) <= 0)
-                {
-                    float angleCrouchPeekOffset = Mathf.Clamp01(
-                        Mathf.Abs(
-                            Vector3.Dot(Vector3.up, player._currentWeapon.bulletSpawner.transform.forward)/ 0.5f
-                            )
-                        );
-                    targetCrouchWeight += angleCrouchPeekOffset;
-                }
-                crouchWeight = Mathf.Lerp(crouchWeight, targetCrouchWeight, crouchWeightChange * Time.deltaTime);
-            }
-            else
-            {
-                crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
-            }
-            crouchSphereSurface = sphereSurface;
-        }
-        else
-        {
-            crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
-        }
+    //    if ((playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+    //        || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
+    //        && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>())
+    //    {
+    //        if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, 2.3f, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
+    //        {
+    //            float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(player.transform.position.y - edgePos.y) - crouchWeightOffset);
+    //            if(player._currentWeapon != null && player._weaponManuverManager.aimingWeight >=1 && Vector3.Dot(Vector3.up,player._currentWeapon.bulletSpawner.transform.forward) <= 0)
+    //            {
+    //                float angleCrouchPeekOffset = Mathf.Clamp01(
+    //                    Mathf.Abs(
+    //                        Vector3.Dot(Vector3.up, player._currentWeapon.bulletSpawner.transform.forward)/ 0.5f
+    //                        )
+    //                    );
+    //                targetCrouchWeight += angleCrouchPeekOffset;
+    //            }
+    //            crouchWeight = Mathf.Lerp(crouchWeight, targetCrouchWeight, crouchWeightChange * Time.deltaTime);
+    //        }
+    //        else
+    //        {
+    //            crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
+    //        }
+    //        crouchSphereSurface = sphereSurface;
+    //    }
+    //    else
+    //    {
+    //        crouchWeight = Mathf.Lerp(crouchWeight, 0, crouchWeightChange * Time.deltaTime);
+    //    }
 
-    }
+    //}
     #endregion
 
     private void OnDrawGizmos()
@@ -240,4 +240,6 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer
         }
 
     }
+
+   
 }

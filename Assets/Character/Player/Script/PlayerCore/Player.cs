@@ -28,7 +28,26 @@ public partial class Player : SubjectPlayer,
         } }
 
     public CommandBufferManager commandBufferManager;
-   
+    public override void Initialized()
+    {
+        //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
+        this.AddObserver(this);
+        coverDetection = new CoverDetection();
+        commandBufferManager = new CommandBufferManager();
+        curShoulderSide = ShoulderSide.Right;
+        timeControlBehavior = new TimeControlBehavior(this);
+        base.maxHp = 150;
+        base.SetHP(maxHp);
+
+        _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
+        playerStateNodeManager = new PlayerStateNodeManager(this);
+        InitailizedGunFuComponent();
+        Initialized_IWeaponAdvanceUser();
+        playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
+
+        base.Initialized();
+    }
+
     private void BlackBoardBufferUpdate()
     {
         _isHolsterWeaponCommand = false;
@@ -44,27 +63,7 @@ public partial class Player : SubjectPlayer,
         _triggerGunFu = false;
 
     }
-    protected override void Awake()
-    {
-        //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
-        this.AddObserver(this);
-        animator = GetComponent<Animator>();
-        coverDetection = new CoverDetection();
-        commandBufferManager = new CommandBufferManager();
-        curShoulderSide = ShoulderSide.Right;
-        timeControlBehavior = new TimeControlBehavior(this);
-        base.maxHp = 150;
-        base.SetHP(maxHp);
-
-        _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
-        playerStateNodeManager = new PlayerStateNodeManager(this);
-        InitailizedGunFuComponent();
-        Initialized_IWeaponAdvanceUser();
-        playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
-
-        //aimPosRef.transform.SetParent(null, true);
-
-    }
+   
     private void Update()
     {
 

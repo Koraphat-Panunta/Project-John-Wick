@@ -2,22 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 [RequireComponent(typeof(EnemyCommandAPI))]
 [RequireComponent(typeof(Enemy))]
-public abstract class EnemyDecision : MonoBehaviour
+public abstract class EnemyDecision : MonoBehaviour,IInitializedAble
 {
     public abstract EnemyCommandAPI enemyCommand { get; set; }
     public Enemy enemy;
-    
-    protected virtual void Awake()
+    public virtual void Initialized()
     {
-        enemyCommand = GetComponent<EnemyCommandAPI>();
-        this.enemy = GetComponent<Enemy>();
         this.enemy.NotifyGotHearing += OnNotifyHearding;
         this.enemy.NotifyEnemySpottingTarget += OnNotifySpottingTarget;
     }
-    protected virtual void Start()
-    {
-        
-    }
+   
 
     protected virtual void Update()
     {
@@ -48,7 +42,10 @@ public abstract class EnemyDecision : MonoBehaviour
     protected virtual void OnValidate()
     {
         enemy = GetComponent<Enemy>();
+        enemyCommand = GetComponent<EnemyCommandAPI>();
     }
+
+  
 }
 public interface IObserverEnemyDecision
 {

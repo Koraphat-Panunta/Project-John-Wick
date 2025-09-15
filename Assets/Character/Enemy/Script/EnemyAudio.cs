@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAudio : MonoBehaviour,IObserverEnemy
+public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called before the first frame update
     [SerializeField] private AudioSource audioSource;
@@ -14,11 +14,10 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     [SerializeField] private Animator animator;
    
     bool isdead = false;
-    private void Awake()
+
+    public void Initialized()
     {
-        enemy = GetComponent<Enemy>();
-        animator = enemy.animator;
-        GetComponent<Enemy>().AddObserver(this);
+        enemy.AddObserver(this);
     }
    
     private void OnDisable()
@@ -65,4 +64,6 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy
     {
        
     }
+
+    
 }

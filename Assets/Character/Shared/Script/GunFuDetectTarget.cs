@@ -23,12 +23,7 @@ public class GunFuDetectTarget : MonoBehaviour
 
     [SerializeField, TextArea]
     private string gunFuDetectTargetDebug;
-    private void Awake()
-    {
-        gunFuAble = GetComponent<IGunFuAble>();
-        gunFuDetectTargetDebug += "gunFuAble = " + gunFuAble + "\n";
-
-    }
+  
    
     public bool CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble gunFuGotExecuteAble)
     {

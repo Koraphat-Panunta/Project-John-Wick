@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour,IInitializedAble
 {
     protected float HP;
     protected float maxHp;
@@ -29,14 +29,13 @@ public abstract class Character : MonoBehaviour
         }
 
     }
-    protected virtual void Start()
-    {
 
-    }
-    protected virtual void Awake()
+    public virtual void Initialized()
     {
-        animator = GetComponent<Animator>();
+        
     }
+  
+   
     public float GetHP()
     {
         return HP;
@@ -52,5 +51,5 @@ public abstract class Character : MonoBehaviour
         
     }
 
-   
+  
 }

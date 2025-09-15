@@ -41,11 +41,13 @@ public class STI_Sound : WeaponAudio
         }
     }
 
-    protected override void Start()
+    public override void Initialized()
     {
+
         ReloadSound_1 = 0.26f;
         ReloadSound_2 = 0.54f - ReloadSound_1;
         ReloadSound_3 = 0.38f;
-        base.Start();
+        base.Initialized();
     }
+   
 }

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using static SubjectPlayer;
 
-public class PlayerAudio : MonoBehaviour,IObserverPlayer
+using UnityEngine;
+
+
+public class PlayerAudio : MonoBehaviour,IObserverPlayer,IInitializedAble
 {
     [SerializeField] private Player player;
     [SerializeField] private AudioSource audioSource;
@@ -18,12 +17,11 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer
 
     [Range(0, 100)]
     [SerializeField] private float timingRateSprint;
-
-    void Start()
+    public void Initialized()
     {
-        player = GetComponent<Player>();
         player.AddObserver(this);
     }
+   
     private void Update()
     {
         MoveSound();

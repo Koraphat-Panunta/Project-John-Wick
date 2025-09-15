@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
+public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager,IObserverEnemyDecision
 {
-    public ZoneDefine overWatchZone;
-    private const float overWatchZoneRaduis = 1;
+
+    public float swarpPositionTimer;
+    private readonly float MIN_RANDOM_SWARP_TIME = 5;
+    private readonly float MAX_RANDOM_SWARP_TIME = 8;
     public EnemyOverwatchRoleNodeManager(Enemy enemy, EnemyCommandAPI enemyCommandAPI, IEnemyActionNodeManagerImplementDecision enemyDecision, float minTimeUpdateYingYang, float maxTimeUpdateYingYang) 
         : base(enemy, enemyCommandAPI, enemyDecision, minTimeUpdateYingYang, maxTimeUpdateYingYang)
     {
-        overWatchZone = new ZoneDefine(enemy.transform.position, overWatchZoneRaduis);
+        enemyDecision._enemyDecision.AddEnemyDecisionObserver(this);
     }
     public override EnemyActionNodeLeaf curNodeLeaf { get ; set ; }
     public override EnemyActionSelectorNode startNodeSelector { get ; set ; }
@@ -18,17 +20,17 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
     }
     public override void UpdateNode()
     {
+        if (swarpPositionTimer > 0)
+            swarpPositionTimer -= Time.deltaTime;
         base.UpdateNode();
     }
    
-
     public InsistEnemyActionNodeLeaf guardingEnemyActionNodeLeaf { get ; set ; }
     public FindTargetInTargetZoneEnemyActionNodeLeaf findTargetInTargetZoneEnemyActionNodeLeaf { get; private set; }
     public EnemyActionSelectorNode overwatchAwareAlertActionSelector { get; set; }
 
     public DisarmTargetWeaponEnemyActionNodeLeaf disarmTargetWeaponEnemyActionNodeLeaf { get; private set; }
-    public MoveToTheZoneEnemyActionNodeLeaf moveToOverwatchZoneEnemyActionNodeLeaf { get; set; }
-    public TakeCoverEnemyActionNodeLeaf takeCoverEnemyActionNodeLeaf { get; set; }
+    public SwarpCombatPositionActionNodeLeaf swarpCombatPositionActionNodeLeaf { get; private set; }
     public InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf { get; set; }
 
     public override void InitailizedNode()
@@ -50,11 +52,9 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
             () => enemy._currentWeapon == null && curCombatPhase == IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert
             , this.enemyDecision._enemyDecision
             , this.enemyDecision);
-        moveToOverwatchZoneEnemyActionNodeLeaf = new MoveToTheZoneEnemyActionNodeLeaf(enemy, enemyCommandAPI,
-            () => moveToOverwatchZoneEnemyActionNodeLeaf.assignZone.IsPositionInTheZone(enemy.transform.position) == false
-            , this.enemyDecision._enemyDecision
-            , this.enemyDecision
-            , overWatchZone);
+        swarpCombatPositionActionNodeLeaf = new SwarpCombatPositionActionNodeLeaf(enemy,enemyCommandAPI
+            ,()=> swarpPositionTimer <= 0
+            ,this.enemyDecision,this.enemyDecision._enemyDecision);
         insistEnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(enemy,enemyCommandAPI,()=>true,this.enemyDecision._enemyDecision, this.enemyDecision);
 
         startNodeSelector.AddtoChildNode(guardingEnemyActionNodeLeaf);
@@ -62,48 +62,24 @@ public class EnemyOverwatchRoleNodeManager : EnemyActionNodeManager
         startNodeSelector.AddtoChildNode(overwatchAwareAlertActionSelector);
 
         overwatchAwareAlertActionSelector.AddtoChildNode(disarmTargetWeaponEnemyActionNodeLeaf);
-        overwatchAwareAlertActionSelector.AddtoChildNode(moveToOverwatchZoneEnemyActionNodeLeaf);
+        overwatchAwareAlertActionSelector.AddtoChildNode(swarpCombatPositionActionNodeLeaf);
         overwatchAwareAlertActionSelector.AddtoChildNode(insistEnemyActionNodeLeaf);
 
         startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
         curNodeLeaf = nodeLeaf as EnemyActionNodeLeaf;
         curNodeLeaf.Enter();
     }
-    private float randomMaxDegreesOverwatchZone = 30;
-
-    private float randomMaxRangeOverwatchZone = 10;
-    private float randomMinRangeOverwatchZone = 6f;
-    private void AssignOverwatchOverwatchZone()
-    {
-        float rotateOverwatch = Random.Range(- this.randomMaxDegreesOverwatchZone, this.randomMaxDegreesOverwatchZone);
-        float raduisOverwatch = Random.Range(this.randomMinRangeOverwatchZone, this.randomMaxRangeOverwatchZone);
-
-        Vector3 targetToEnemyDir = enemy.targetKnewPos - enemy.transform.position;
-        targetToEnemyDir.y = 0;
-        targetToEnemyDir.Normalize();
-
-
-
-        Vector3 assignPos = enemy.transform.position + ((Quaternion.AngleAxis(rotateOverwatch, Vector3.up) * targetToEnemyDir)*raduisOverwatch);
-        if(Physics.Raycast(enemy.targetKnewPos
-            ,(assignPos - enemy.targetKnewPos).normalized
-            ,out RaycastHit hit
-            , (assignPos - enemy.targetKnewPos).magnitude
-            ,LayerMask.GetMask("Default")
-            ,QueryTriggerInteraction.Ignore) 
-            && Vector3.Distance(hit.point,enemy.targetKnewPos) >= randomMinRangeOverwatchZone)
-        {
-            assignPos = hit.point;
-        }
-       
-
-
-        overWatchZone.SetZone(assignPos);
-    }
+  
     public override void Enter()
     {
         base.targetZone.SerRaduise(6);
-        this.AssignOverwatchOverwatchZone();
+
         base.Enter();
+    }
+
+    public void OnNotifyEnemyDecision<T>(EnemyDecision enemyDecision, T var)
+    {
+        if (var is SwarpCombatPositionActionNodeLeaf swarpCombatPositionActionNodeLeaf && swarpCombatPositionActionNodeLeaf.curPhase == EnemyActionNodeLeaf.EnemyActionPhase.Exit)
+            this.swarpPositionTimer = Random.Range(this.MIN_RANDOM_SWARP_TIME, this.MAX_RANDOM_SWARP_TIME);
     }
 }

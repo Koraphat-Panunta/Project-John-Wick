@@ -2,180 +2,38 @@
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(Enemy))]
-public class EnemyCommandAPI :MonoBehaviour
+public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
 {
     public NormalFiringPattern NormalFiringPattern;
-   
+
     public Enemy _enemy;
     private EnemyCommunicator enemyCommunicator;
     public EnemyAutoDefendCommand enemyAutoDefendCommand;
-    private void Awake()
+
+    public void Initialized()
     {
-        this._enemy = GetComponent<Enemy>();
         NormalFiringPattern = new NormalFiringPattern(this);
         enemyCommunicator = new EnemyCommunicator(_enemy);
         enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
     }
+   
     private void Update()
     {
         enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
     }
-    #region Testing
-    //private void TestCommand1()
-    //{
-    //    time += Time.deltaTime;
-    //    if (time < 3)
-    //    {
-    //        Freez();
-    //    }
-    //    else if (time < 6)
-    //    {
-    //        MoveToPosition(moveToPos.position, 100, true);
-    //    }
-    //    else if ((time < 9))
-    //    {
-    //        _enemy.findingTargetComponent.FindTarget(out GameObject targetPos);
-    //        MoveToPosition(_enemy.targetKnewPos, 100);
-    //        AimDownSight(_enemy.targetKnewPos, 6);
-    //    }
-    //    else if (time < 12)
-    //    {
-    //        if (SprintToPosition(sprintToPos.position, 5))
-    //        {
-    //            Freez(_enemy.targetKnewPos, 6);
-    //        }
-    //    }
-    //    else if (time < 15)
-    //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
-    //        {
-    //            AimDownSight(_enemy.targetKnewPos, 7);
-    //            PullTrigger();
-    //        }
-    //        else
-    //        {
-    //            LowReady();
-    //        }
-    //        Freez();
-    //    }
-    //    else if (time < 18)
-    //    {
-    //        Reload();
-    //    }
-    //    else if (time < 20)
-    //    {
-    //        if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
-    //        {
-    //            AimDownSight(_enemy.targetKnewPos, 7);
-    //            PullTrigger();
-    //        }
-    //        else
-    //        {
-    //            LowReady();
-    //        }
-    //        MoveToPosition(_enemy.targetKnewPos, 100);
-    //    }
-    //    else if (time < 24)
-    //    {
-    //        LowReady();
-    //        Freez();
-    //    }
-    //    if(time > 26)
-    //    {
-    //        time = 0;
-    //    }
-    //}
-    //private void TestCommandTakeCover()
-    //{
-    //    switch (caseEvent)
-    //    {
-    //        case 0:
-    //            {
-    //                if (_enemy.findingCover.FindCoverInRaduisInGunFight(8, out CoverPoint coverPoint))
-    //                {
-    //                    coverPoint.TakeThisCover(_enemy);
-    //                    if (coverPoint == null)
-    //                    {
-    //                        Debug.Log("CoverPoint = null");
-    //                    }
-    //                    time = 0;
-    //                    caseEvent = 1;
-    //                }
-    //            }
-    //            break;
-    //        case 1:
-    //            {
-    //                if (SprintToPosition(_enemy.coverPos, 6))
-    //                {
-    //                    caseEvent = 2;
-    //                    TakeCover();
-    //                    Freez();
-    //                }
-    //                //if (MoveToPosition(_enemy.coverPos, 1, true))
-    //                //{
-
-    //                //}
-    //            }
-    //            break;
-
-    //        case 2:
-    //            {
-    //                CoverTiming += Time.deltaTime;
-    //                time += Time.deltaTime;
-
-    //                if (CoverTiming < 2)
-    //                {
-    //                    Debug.Log("Take Cover");
-    //                    LowReady();
-    //                }
-    //                else if (CoverTiming < 5)
-    //                {
-    //                    Debug.Log("Take Aim");
-
-    //                    if (_enemy.findingTargetComponent.FindTarget(out GameObject targetPos))
-    //                    {
-    //                        NormalFiringPattern.Performing();
-    //                        AimDownSight(_enemy.targetKnewPos, 6);
-    //                    }
-    //                    else
-    //                        AimDownSight();
-    //                }
-
-    //                if (CoverTiming > 5)
-    //                    CoverTiming = 0;
-
-    //                if (time > 18)
-    //                    caseEvent = 3;
-    //            }
-    //            break;
-
-    //        case 3:
-    //            {
-    //                if (_enemy.isInCover)
-    //                    GetOffCover();
-
-    //                MoveToPosition(_enemy.targetKnewPos, 1);
-
-    //                if (Vector3.Distance(_enemy.targetKnewPos, _enemy._transform.position) < 1.5f)
-    //                    caseEvent = 0;
-    //            }
-    //            break;
-    //    }
-    //}
-    #endregion
 
     public bool MoveToPosition(Vector3 DestinatePos, float velocityScale)
     {
         return this.MoveToPosition(DestinatePos, velocityScale, 0.5f);
     }
-    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale,float rotateTowardDirSpeedScale)
+    public bool MoveToPositionRotateToward(Vector3 DestinatePos, float velocityScale, float rotateTowardDirSpeedScale)
     {
 
         if (RotateToPosition(_enemy.agent.steeringTarget, rotateTowardDirSpeedScale))
             FreezRotation();
-        
-        
-        if(MoveToPosition(DestinatePos, velocityScale))
+
+
+        if (MoveToPosition(DestinatePos, velocityScale))
         {
             FreezRotation();
             return true;
@@ -183,7 +41,7 @@ public class EnemyCommandAPI :MonoBehaviour
         else
             return false;
     }
-    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale,float reachDestinationDistance)
+    public bool MoveToPosition(Vector3 DestinatePos, float velocityScale, float reachDestinationDistance)
     {
         NavMeshAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
@@ -213,17 +71,17 @@ public class EnemyCommandAPI :MonoBehaviour
         Vector3 rotateDir = DestinatePos - _enemy.transform.position;
         Rotate(rotateDir, rotSpeedScale);
 
-        if(Mathf.Abs(Vector3.Dot(_enemy.transform.forward, rotateDir.normalized))>0.95f)
+        if (Mathf.Abs(Vector3.Dot(_enemy.transform.forward, rotateDir.normalized)) > 0.95f)
             return true;
 
         return false;
 
     }
-    public bool SprintToPosition(Vector3 Destination,float rotSpeedScale)
+    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale)
     {
         return SprintToPosition(Destination, rotSpeedScale, 0.5f);
     }
-    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale,float reachDestinationDistance)
+    public bool SprintToPosition(Vector3 Destination, float rotSpeedScale, float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
         NavMeshAgent agent = _enemy.agent;
@@ -253,22 +111,22 @@ public class EnemyCommandAPI :MonoBehaviour
         rotSpeedScale = Mathf.Clamp01((float)rotSpeedScale);
         _enemy.lookRotationCommand = Vector3.Lerp(_enemy.transform.forward, dir, rotSpeedScale);
     }
-    public bool FindCoverAndBook(float raduis,out CoverPoint coverPoint)
+    public bool FindCoverAndBook(float raduis, out CoverPoint coverPoint)
     {
         coverPoint = null;
 
-        if(_enemy.findingCover.FindCoverInRaduisInGunFight(raduis,out coverPoint))
+        if (_enemy.findingCover.FindCoverInRaduisInGunFight(raduis, out coverPoint))
         {
             coverPoint.TakeThisCover(_enemy);
             return true;
         }
         return false;
     }
-    public bool FindCoverAndBook(float raduis,Vector3 targetPos,out CoverPoint coverPoint)
+    public bool FindCoverAndBook(float raduis, Vector3 targetPos, out CoverPoint coverPoint)
     {
         coverPoint = null;
 
-        if(_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis,out coverPoint,targetPos))
+        if (_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis, out coverPoint, targetPos))
         {
             coverPoint.TakeThisCover(_enemy);
             return true;
@@ -281,53 +139,26 @@ public class EnemyCommandAPI :MonoBehaviour
         _enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;
     }
+    public void Stand()
+    {
+        _enemy.enemyStance = Stance.stand;
+    }
+    public void Crouch()
+    {
+        _enemy.enemyStance = Stance.crouch;
+    }
 
-    //private void TakeCover()
-    //{
-    //    FreezPosition();
-    //    _enemy.isInCover = true;
-    //}
-    //public bool MoveToTakeCover(CoverPoint coverPoint,float velocityScale,float rotateTowardDirSpeedScale)
-    //{
-    //    coverPoint.TakeThisCover(_enemy);
+    public void AutoDetectSoftCover()
+    {
+        if(Physics.Raycast(_enemy.transform.position + Vector3.up*0.2f,_enemy.transform.forward,6,LayerMask.GetMask("Default"),QueryTriggerInteraction.Ignore))
+        {
+            this.Crouch();
+        }
+        else
+            this.Stand();
+    }
 
-    //    if (MoveToPositionRotateToward(coverPoint.coverPos.position, velocityScale, rotateTowardDirSpeedScale, 1.6f))
-    //    {
-    //        TakeCover();
-    //        return true;
-    //    }
-    //    return false;
-    //}
-    //public bool MoveToTakeCover(CoverPoint coverPoint, float velocityScale)
-    //{
-    //    coverPoint.TakeThisCover(_enemy);
-
-    //    if (MoveToPosition(coverPoint.coverPos.position, velocityScale, 1.6f))
-    //    {
-    //        TakeCover();
-    //        return true;
-    //    }
-    //    return false;
-    //}
-    //public bool SprintToCover(CoverPoint coverPoint)
-    //{
-    //    coverPoint.TakeThisCover(_enemy);
-
-    //    if (SprintToPosition(coverPoint.coverPos.position, _enemy.sprintRotateSpeed,1.6f))
-    //    {
-    //        TakeCover();
-    //        return true;
-    //    }
-    //    return false;
-    //}
-    //public void CheckOutCover()
-    //{
-    //    if(_enemy.coverPoint != null)
-    //    _enemy.coverPoint.OffThisCover();
-
-    //    _enemy.coverPoint = null;
-    //    _enemy.isInCover = false;
-    //}
+    
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
@@ -338,6 +169,7 @@ public class EnemyCommandAPI :MonoBehaviour
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
+        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward +Vector3.up);
     }
     public void AimDownSight(Vector3 aimTargetPos)
     {
@@ -393,5 +225,5 @@ public class EnemyCommandAPI :MonoBehaviour
         enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage); 
     }
 
-  
+   
 }

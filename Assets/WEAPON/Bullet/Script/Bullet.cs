@@ -11,7 +11,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
     public abstract float _purePostureDamage { get; set; }
     public abstract float _pureDestructionDamage { get; set; }
     public virtual float _headShotDamageMultiply { get => 1; }
-    public float GetHpDamage { get => _pureHpDamage * (penetrateRate/maxPenetrateRate);  }
+    public virtual float GetHpDamage { get => _pureHpDamage * (penetrateRate/maxPenetrateRate);  }
     public float GetPostureDamage { get => _purePostureDamage * (penetrateRate / maxPenetrateRate); }
     public float GetDestructionDamage { get => _pureDestructionDamage * (penetrateRate / maxPenetrateRate); }
     public abstract float recoilKickBack { get; set; }

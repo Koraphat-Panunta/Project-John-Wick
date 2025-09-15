@@ -1,7 +1,7 @@
 using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(Animator))]
-public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
+public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Animator animator;
@@ -12,7 +12,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     private Vector3 curVelocity_Local;
     private Vector3 curVelocity_World;
 
-    public float CoverWeight;
     public float SholderSide;//-1 -> 1
     public float InputMoveMagnitude_Normalized;
     public float VelocityMoveMagnitude_Normalized;
@@ -26,30 +25,32 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     public float AimDownSightWeight;
     public float DotVelocityWorld_Leftward_Normalized;
     public float RecoilWeight;
-
+    public float CrouchWeight {
+        get 
+        { if (crouchWeightSoftCoverNodeLeaf != null)
+                return crouchWeightSoftCoverNodeLeaf.GetCrouchWeight();
+        else return 0;
+        } 
+    }
 
     public bool isGround;
     public bool isSprint;
 
     public string AnimationStateName;
-  
-    public void Notify<T>(Enemy enemy, T node)
-    {
-       
-    }
-    private void Awake()
-    {
-        enemy = GetComponent<Enemy>();
-        animator = GetComponent<Animator>();
 
+    public void Initialized()
+    {
         enemy.AddObserver(this);
         nodeManagerBehavior = new NodeManagerBehavior();
 
         this.InitailizedNode();
-      
     }
-   
-
+    public void Notify<T>(Enemy enemy, T node)
+    {
+       
+    }
+  
+  
     // UpdateNode is called once per frame
     void Update()
     {
@@ -64,12 +65,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
     [SerializeField] private float lerpingTvelocityAnimation;
     private void BackBoardUpdate()
     {
-
-
-        if (enemy.isInCover)
-            CoverWeight = Mathf.Clamp(CoverWeight + 100 * Time.deltaTime, 0, 1) - AimDownSightWeight;
-        else
-            CoverWeight = Mathf.Clamp(CoverWeight - 100 * Time.deltaTime, 0, 1);
 
         MovementCompoent movementComponent = enemy._movementCompoent;
 
@@ -121,7 +116,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
 
         CalculateDeltaRotation();
 
-        animator.SetFloat("CoverWeight", CoverWeight);
         animator.SetFloat("SholderSide", SholderSide);
         animator.SetFloat("InputMoveMagnitude_Normalized", InputMoveMagnitude_Normalized);
         animator.SetFloat("VelocityMoveMagnitude_Normalized", VelocityMoveMagnitude_Normalized);
@@ -136,7 +130,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         animator.SetFloat("RecoilWeight", RecoilWeight);
         //animator.SetFloat("CAR_Weight", 0);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
-
+        animator.SetFloat("CrouchWeight", CrouchWeight);
     }
 
     #region CalculateDeltaRotation
@@ -148,5 +142,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy
         Rotating = Mathf.Clamp(Vector3.SignedAngle(previousDir, curDir, Vector3.up) * 10 * Time.deltaTime, -1, 1);
         previousDir = curDir;
     }
+
+   
     #endregion
 }

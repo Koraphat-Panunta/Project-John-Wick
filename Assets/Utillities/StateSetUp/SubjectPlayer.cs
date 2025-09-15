@@ -55,10 +55,7 @@ public abstract class SubjectPlayer : Character
 
     }
     
-    protected override void Start()
-    {
-        base.Start();
-    }
+  
 
 
     private List<IObserverPlayer> observers = new List<IObserverPlayer>();

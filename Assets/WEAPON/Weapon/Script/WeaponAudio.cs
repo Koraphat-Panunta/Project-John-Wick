@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon
+public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAble
 {
     public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
     {
@@ -55,15 +55,11 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon
         source_Sound.PlayOneShot(reload_2);
         yield return new WaitForSeconds(reloadSoundWait_2);
         source_Sound.PlayOneShot(reload_3);
-    }
-    protected virtual void Start()
+    } 
+    public virtual void Initialized()
     {
         this.source_Sound = GetComponent<AudioSource>();
         weapon = GetComponent<Weapon>();
         weapon.AddObserver(this);
-    }
-    private void OnDisable()
-    {
-        weapon.Remove(this);
     }
 }

@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class ArmLeftBodyPart : BodyPart
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-
+   
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
         enemy._painPart = IPainStateAble.PainPart.ArmLeft;

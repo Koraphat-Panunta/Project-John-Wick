@@ -13,14 +13,15 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
     private Weapon currentWeapon => playerInfo._currentWeapon;
     public int MagazineCount;
     public int AmmoCount;
-    private void Awake()
+
+    public override void Initialized()
     {
         this.playerInfo.AddObserver(this);
 
         if (this.playerInfo._currentWeapon != null)
             UpdateInfo();
-        
     }
+   
     private void OnValidate()
     {
         this.playerInfo = FindAnyObjectByType<Player>();
@@ -102,5 +103,5 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         this.line2.enabled = false;
     }
 
-   
+    
 }

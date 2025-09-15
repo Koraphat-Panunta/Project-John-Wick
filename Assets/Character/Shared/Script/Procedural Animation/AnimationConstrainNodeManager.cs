@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
+public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager,IInitializedAble
 {
     protected INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public abstract INodeSelector startNodeSelector { get; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
-
+    public void Initialized()
+    {
+        nodeManagerBehavior = new NodeManagerBehavior();
+        InitailizedNode();
+    }
     public virtual void FixedUpdateNode()
     {
         nodeManagerBehavior.FixedUpdateNode(this);
@@ -19,12 +23,7 @@ public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
     {
         nodeManagerBehavior.UpdateNode(this);
     }
-    protected virtual void Awake()
-    {
-        nodeManagerBehavior = new NodeManagerBehavior();
-        InitailizedNode();
-    }
-    // Update is called once per frame
+  
     protected virtual void Update()
     {
         this.UpdateNode();
@@ -34,4 +33,5 @@ public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
         this.FixedUpdateNode();
     }
 
+    
 }

@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class ChestBodyPart : BodyPart
 {
-
-
-    protected override void Start()
-    {
-        base.Start();
-    }
     
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {

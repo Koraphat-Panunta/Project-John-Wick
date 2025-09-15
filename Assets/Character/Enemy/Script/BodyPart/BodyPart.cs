@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAttackedAble, IFriendlyFirePreventing, 
-     IObserverEnemy,IGotPointingAble
+     IObserverEnemy,IGotPointingAble,IInitializedAble
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
@@ -18,20 +18,15 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public Vector3 hitForcePositionSave;
 
     public bool isForceSave;
-
-    protected virtual void Awake()
+    public virtual void Initialized()
     {
         _hpReciverMultiplyRate = bodyPartDamageRecivedSCRP._hpReciverMultiplyRate;
         _postureReciverRate = bodyPartDamageRecivedSCRP._postureReciverRate;
         _staggerReciverRate = bodyPartDamageRecivedSCRP._staggerReciverRate;
-    }
-    protected virtual void Start()
-    {
-        
+
         enemy.bulletDamageAbleBodyPartBehavior = new EnemyBodyBulletDamageAbleBehavior(this);
         bodyPartRigid = GetComponent<Rigidbody>();
         enemy.AddObserver(this);
-
     }
     
     protected Rigidbody bodyPartRigid;
@@ -133,4 +128,5 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     }
     public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
 
+  
 }

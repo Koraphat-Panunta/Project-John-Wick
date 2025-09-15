@@ -112,15 +112,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
     public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
     { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-    protected override void Update()
-    {
-        base.Update();
-    }
-    protected override void Awake()
+    public override void Initialized()
     {
         fireMode = FireMode.Single;
         bullet = new _9mmBullet(this);
@@ -130,13 +122,17 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
         _isMagIn = true;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
-
-        base.Awake();
+        base.Initialized();
     }
-    protected override void Start()
+    protected override void FixedUpdate()
     {
-        base.Start();
+        base.FixedUpdate();
     }
+    protected override void Update()
+    {
+        base.Update();
+    }
+   
 
     public override WeaponSelector startEventNode { get; set; }
     public WeaponSequenceNode firingAutoLoad { get; private set; }

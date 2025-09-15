@@ -12,6 +12,7 @@ public partial class EnemyAnimationManager : INodeManager
     public NodeSelector layerUpperEnableDisableSelector { get; set; }
     public SetLayerAnimationNodeLeaf enableUpperLayer { get; set; }
     public SetLayerAnimationNodeLeaf disableUpperLayer { get; set; }
+    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
 
     public NodeSelector upperLayerNodeSelector { get; set; }
     public NodeSelector performReloadNodeSelector { get; set; }
@@ -51,6 +52,9 @@ public partial class EnemyAnimationManager : INodeManager
         InitializedUpperLayer();
         InitializedBaseLayer();
 
+        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(enemy,0.65f,5.5f,
+            ()=> enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
+
         restBaseNodeLeaf = new RestNodeLeaf(()=>true);
 
         startNodeSelector.AddtoChildNode(enemyAnimationCombineNode);
@@ -58,6 +62,7 @@ public partial class EnemyAnimationManager : INodeManager
         enemyAnimationCombineNode.AddCombineNode(layerUpperEnableDisableSelector);
         enemyAnimationCombineNode.AddCombineNode(upperLayerNodeSelector);
         enemyAnimationCombineNode.AddCombineNode(baseLayerSelector);
+        enemyAnimationCombineNode.AddCombineNode(crouchWeightSoftCoverNodeLeaf);
 
         layerUpperEnableDisableSelector.AddtoChildNode(enableUpperLayer);
         layerUpperEnableDisableSelector.AddtoChildNode(disableUpperLayer);
@@ -133,7 +138,8 @@ public partial class EnemyAnimationManager : INodeManager
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
             , animator, "Sprint", 0, 0.25f);
         crouchBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>()
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() 
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
             , animator, "Crouch", 0, .2f);
         standMoveIdleBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 

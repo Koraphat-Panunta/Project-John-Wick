@@ -37,12 +37,11 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         base.Awake();
     }
 
-    protected override void LateUpdate()
+    protected  void LateUpdate()
     {
         enemyObjectManager.ClearCorpseEnemyUpdate();
         ar15_MK1_weaponObjManager.ClearWeaponUpdate();
         glock17_MK1_weaponobjManager.ClearWeaponUpdate();
-        base.LateUpdate();
     }
     private class TemplateSceneInGameLevel_Gameplay_Nodeleaf : InGameLevelGamplayGameMasterNodeLeaf<TemplateSceneInGameLevelGameMaster>
     {
@@ -136,11 +135,16 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         nodeManagerBehavior.SearchingNewNode(this);
     }
 
-    protected override void InitialziedGameMasterEvent()
+   
+
+    protected override void InitializedObject()
     {
-        throw new NotImplementedException();
+        
     }
 
-   
+    protected override void InitializedComponent()
+    {
+        
+    }
 }
 

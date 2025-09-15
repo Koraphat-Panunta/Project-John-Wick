@@ -9,6 +9,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     private Queue<ITaskingExecute> enemyTestingCommands = new Queue<ITaskingExecute>();
 
     private ITaskingExecute dodge;
+    private ITaskingExecute crouch;
     private ITaskingExecute moveToPos1;
     private ITaskingExecute rotateToPos2;
     private ITaskingExecute sprintToPos3;
@@ -27,20 +28,20 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     private ITaskingExecute tacticalReload;
     private ITaskingExecute ADS_PillTriggerAllOutMag;
     private ITaskingExecute reload;
-    private ITaskingExecute findAndBookCover1;
     private ITaskingExecute moveToTakeCover1;
-    private ITaskingExecute coverManuver1;
+    private ITaskingExecute softcoverManuver;
     private ITaskingExecute sprintToSpinKick;
     private ITaskingExecute spinKick;
 
     [SerializeField] private Transform moveTransPos1;
+    [SerializeField] private Transform moveTransPos2;
     [SerializeField] private Transform rotateTransPos2;
     [SerializeField] private Transform sprintTransPos3;
     [SerializeField] private Weapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
     [SerializeField] private Weapon pickedUpSecondaryWeapon;
     [SerializeField] private CoverPoint coverPoint;
-    [SerializeField] private float timerCoverManuver = 9;
+    [SerializeField] private float timerCoverManuver ;
     [SerializeField] private Transform targetPos;
 
     [SerializeField,TextArea(10,10)] private string debugLog;
@@ -49,11 +50,13 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
     [Range(0, 20)]
     [SerializeField] private float raduisFindCover;
-    protected override void Awake()
+
+    public override void Initialized()
     {
         InitializedCommand();
-        base.Awake();
+        base.Initialized();
     }
+  
 
     private void InitializedCommand()
     {
@@ -61,6 +64,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             enemyCommand = GetComponent<EnemyCommandAPI>();
         dodge = new EnemyTestingCommand(() => enemyCommand.Dodge(enemy.transform.forward)
         , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
+        crouch = new EnemyTestingCommand(() => enemyCommand.Crouch(),
+            () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
         rotateToPos2 = new EnemyRotateToPos(enemy.transform, rotateTransPos2.position, enemy.aimingRotateSpeed, enemyCommand);
         sprintToPos3 = new EnemyTestingCommand(() => { }, ()=>enemyCommand.SprintToPosition(this.sprintTransPos3.position,enemy.sprintRotateSpeed));
@@ -114,49 +119,41 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                     enemyCommand.PullTrigger();
             }, () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] <= (int)(enemy._currentWeapon.bulletCapacity * 0.7f));
         reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] == enemy._currentWeapon.bulletCapacity);
-        findAndBookCover1 = new EnemyTestingCommand(() => 
-        {
-            enemyCommand.FindCoverAndBook(raduisFindCover, out CoverPoint coverPoint);
-            
-        }, () => enemy.coverPoint != null);
+       
         moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(coverPoint.coverPos.position,1,0.5f));
-        coverManuver1 = new EnemyTestingCommand(
+        softcoverManuver = new EnemyTestingCommand(
             () => 
             {
+                enemyCommand.AutoDetectSoftCover();
+
                 timerCoverManuver -= Time.deltaTime;
-                if(timerCoverManuver > 7)
+
+                if (timerCoverManuver <= 0)
+                    timerCoverManuver = 3;
+
+                if(timerCoverManuver > 1f)
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
-                }
-                else if(timerCoverManuver > 4)
-                {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
-                    if(enemy._currentWeapon.triggerState == TriggerState.Up)
-                    enemyCommand.PullTrigger();
-                }
-                else if(timerCoverManuver > 2)
-                {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(targetPos.position);
+                    enemyCommand.NormalFiringPattern.Performing();
                 }
                 else
                 {
-                    if (enemy._currentWeapon.bulletStore[BulletStackType.Magazine] < enemy._currentWeapon.bulletCapacity)
-                        enemyCommand.Reload();
+                    enemyCommand.LowReady();
                 }
+               
             },
             () => 
-            { 
-                if (timerCoverManuver <= 0)
-                {
+            {
+                if (enemyCommand.MoveToPosition(this.moveTransPos2.position, 1))
                     return true;
-                }
                 return false;
                     });
         sprintToSpinKick = new EnemyTestingCommand(() => { },
-            ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,1.25f));
+            ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,2f));
         spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
-        enemyTestingCommands.Enqueue(dodge);
+        enemyTestingCommands.Enqueue(dodge);//23
+        enemyTestingCommands.Enqueue(crouch);//22
         enemyTestingCommands.Enqueue(moveToPos1);//21
         enemyTestingCommands.Enqueue(rotateToPos2);//20
         enemyTestingCommands.Enqueue(sprintToPos3);//19
@@ -173,9 +170,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         enemyTestingCommands.Enqueue(switchWeaponPrimaryToSecondary);//8
         enemyTestingCommands.Enqueue(ADS_PullTrigger);//7
         enemyTestingCommands.Enqueue(reload);//6
-        enemyTestingCommands.Enqueue(findAndBookCover1);//5
         enemyTestingCommands.Enqueue(moveToTakeCover1);//4
-        enemyTestingCommands.Enqueue(coverManuver1);//3
+        enemyTestingCommands.Enqueue(softcoverManuver);//3
         enemyTestingCommands.Enqueue(sprintToSpinKick);//2
         enemyTestingCommands.Enqueue(spinKick);//1
 

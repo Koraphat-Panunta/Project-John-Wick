@@ -21,6 +21,7 @@ public class BulletExecute : Bullet
         _pureDestructionDamage = weapon.bullet.GetDestructionDamage * 3;
     }
 
+    public override float GetHpDamage => _pureHpDamage;
 
     public override float recoilKickBack { get => 0; set { } }
     public override BulletType myType { get; set; }
