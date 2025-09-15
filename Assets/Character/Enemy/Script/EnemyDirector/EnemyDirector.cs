@@ -1,12 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
-using UnityEngine.Rendering;
-using static UnityEngine.EventSystems.EventTrigger;
 using static SubjectEnemy;
 
-public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
+public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInitializedAble
 {
 
     [SerializeField] protected List<EnemyRoleBasedDecision> enemiesRole = new List<EnemyRoleBasedDecision>();
@@ -24,10 +20,11 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
     [SerializeField] private int assingTime;
 
     [SerializeField] private Player player;
-    private void Awake()
+    public void Initialized()
     {
         player.AddObserver(this);
     }
+   
     private void Start()
     {
         enemiesRole.ForEach(eRole => 
@@ -48,6 +45,10 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
         enemyRoleBasedDecision.enemy.AddObserver(this);
         this.enemiesRole.Add(enemyRoleBasedDecision);
         this.enemysGetRole.Add(enemyRoleBasedDecision.enemy, enemyRoleBasedDecision);
+        Debug.Log("Debug!");
+        Debug.Log("enemyRoleBasedDecision = " + enemyRoleBasedDecision);
+        Debug.Log("enemyRoleBasedDecision.enemyCommand = " + enemyRoleBasedDecision.enemyCommand);
+        Debug.Log("enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = " + enemyRoleBasedDecision.enemyCommand.NormalFiringPattern);
         enemyRoleBasedDecision.enemyCommand.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyRoleBasedDecision.enemyCommand, this, enemyRoleBasedDecision);
     }
     public void RemoveEnemy(EnemyRoleBasedDecision enemyRoleBasedDecision)
@@ -297,4 +298,6 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer
        
     }
     public List<EnemyRoleBasedDecision> GetAllEnemyRoleBasedDecision() => enemiesRole;
+
+    
 }

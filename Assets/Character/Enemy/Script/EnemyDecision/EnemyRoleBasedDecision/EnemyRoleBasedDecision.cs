@@ -4,7 +4,6 @@ using static SubjectEnemy;
 
 public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImplementDecision,IObserverEnemy
 {
-    public override EnemyCommandAPI enemyCommand { get ; set ; }
     public EnemyActionNodeManager enemyActionNodeManager { get ;private set ; }
     public EnemyChaserRoleNodeManager chaserRoleNodeManager { get ;private set ; }
     public EnemyOverwatchRoleNodeManager overwatchRoleNodeManager { get ;private set ; }
@@ -54,7 +53,6 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         }
 
         enemy.NotifyCommunicate += OnNotifyGetCommunicate;
-        enemyCommand = GetComponent<EnemyCommandAPI>();
         _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill;
 
         lostSightTime = 8;

@@ -13,6 +13,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void Initialized()
     {
         NormalFiringPattern = new NormalFiringPattern(this);
+        Debug.Log("NormalFiringPattern = "+ NormalFiringPattern);
         enemyCommunicator = new EnemyCommunicator(_enemy);
         enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
     }

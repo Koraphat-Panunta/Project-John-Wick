@@ -17,11 +17,7 @@ public class FrontSceneGameMaster : GameMaster
     public SplashSceneFrontSceneMasterNodeLeaf splashSceneFrontSceneMasterNodeLeaf;
     public MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
+ 
     public override void InitailizedNode()
     {
         startNodeSelector = new GameMasterNodeSelector(this, () => true);

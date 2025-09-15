@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class EnemyTacticDecision : EnemyDecision
 {
-    public override EnemyCommandAPI enemyCommand { get ; set ; }
     public TacticDecision curTacticDecision { get; set ; }
     public SearchingTacticDecision searchingTacticDecision { get; private set; }
     public EncouterTacticDecision encouterTacticDecision { get; private set; }

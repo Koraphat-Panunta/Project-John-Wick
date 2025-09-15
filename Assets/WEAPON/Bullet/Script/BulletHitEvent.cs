@@ -2,7 +2,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BulletHitEvent : MonoBehaviour
+public class BulletHitEvent : MonoBehaviour,IInitializedAble
 {
     [SerializeField] Weapon weapon;
     private Bullet bullet;
@@ -14,11 +14,7 @@ public class BulletHitEvent : MonoBehaviour
     [SerializeField] private AudioSource bulletHitPrefab;
     [SerializeField] private AudioClip hitArmor;
     [SerializeField] private AudioClip hitFresh;
-    private void Awake()
-    {
-        StartCoroutine(Initialized());
-    }
-
+    
     private IEnumerator Initialized()
     {
         yield return new WaitUntil(() => weapon.didAwake);
@@ -80,5 +76,10 @@ public class BulletHitEvent : MonoBehaviour
     {
         await Task.Delay((int)(audioSource.clip.length * 1000));
         bulletHitSound.ReturnToPool(audioSource);
+    }
+
+    void IInitializedAble.Initialized()
+    {
+        StartCoroutine(Initialized());
     }
 }

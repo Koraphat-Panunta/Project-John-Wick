@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.VFX;
-public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
+public class GunMuzzleTest : MonoBehaviour,IObserverWeapon,IInitializedAble
 {
     [SerializeField] private VisualEffect muzzleVFX;
     [SerializeField] private VisualEffect bulletShell;
     [SerializeField] private Weapon weapon;
 
-    private void Awake()
+    public void Initialized()
     {
-       weapon.AddObserver(this);
+        weapon.AddObserver(this);
     }
-  
     public void Fire()
     {
         //Debug.Log("WeaponFireVFX");
@@ -27,4 +26,6 @@ public class GunMuzzleTest : MonoBehaviour,IObserverWeapon
        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing)
             Fire();
     }
+
+   
 }

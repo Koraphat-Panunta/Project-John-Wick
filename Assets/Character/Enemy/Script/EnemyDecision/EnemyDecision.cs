@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Enemy))]
 public abstract class EnemyDecision : MonoBehaviour,IInitializedAble
 {
-    public abstract EnemyCommandAPI enemyCommand { get; set; }
+    public EnemyCommandAPI enemyCommand;
     public Enemy enemy;
     public virtual void Initialized()
     {

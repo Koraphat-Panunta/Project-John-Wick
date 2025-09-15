@@ -3,24 +3,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Animations.Rigging;
 
 public partial class Enemy : SubjectEnemy
-    , IMotionDriven,
-     IFindingTarget, ICoverUseable,
-    IHeardingAble, IPatrolComponent,
-    IPainStateAble, 
-     IFriendlyFirePreventing,
-     ICommunicateAble
-    , IBulletDamageAble
+    , IMotionDriven
+    , IFindingTarget
+    , ICoverUseable
+    , IHeardingAble
+    , IPainStateAble
+    , IFriendlyFirePreventing
+    , ICommunicateAble
+    
 {
-    [Range(0, 100)]
-    public float intelligent;
-    [Range(0, 100)]
-    public float strength;
+
 
     [SerializeField] public NavMeshAgent agent;
-    [SerializeField] public MultiRotationConstraint rotationConstraint;
 
     public LayerMask targetMask;
     public LayerMask targetSpoterMask;
@@ -52,15 +48,18 @@ public partial class Enemy : SubjectEnemy
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         _isGotAttackedAble = true;
+        InitializedBodyPart();
         MotionControlInitailized();
-        enemyStateManagerNode = new EnemyStateManagerNode(this);
-        Initialized_IWeaponAdvanceUser();
-        InitailizedFindingTarget();
-        InitailizedCoverUsable();
-        InitailizedGunFuComponent();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
         _movementCompoent = new EnemyMovement(this, transform, this, agent);
         enemyCommunicator = new EnemyCommunicator(this);
+        InitailizedFindingTarget();
+        InitailizedCoverUsable();
+        InitailizedGunFuComponent();
+
+        enemyStateManagerNode = new EnemyStateManagerNode(this);
+        Initialized_IWeaponAdvanceUser();
+
 
         base.Initialized();
     }
@@ -186,20 +185,40 @@ public partial class Enemy : SubjectEnemy
        
         findingTargetTimer = 0;
     }
+    #region InitialziedBodyPart
+    [SerializeField] public HeadBodyPart head;
+    [SerializeField] public ChestBodyPart spline;
+    [SerializeField] public ChestBodyPart hip;
+    [SerializeField] public LegRightBodyPart right_upper_Leg;
+    [SerializeField] public LegRightBodyPart right_lower_Leg;
+    [SerializeField] public LegLeftBodyPart left_upper_Leg;
+    [SerializeField] public LegLeftBodyPart left_lower_Leg;
+    [SerializeField] public ArmRightBodyPart right_upper_Arm;
+    [SerializeField] public ArmRightBodyPart right_lower_Arm;
+    [SerializeField] public ArmLeftBodyPart left_upper_Arm;
+    [SerializeField] public ArmLeftBodyPart left_lower_Arm;
 
+    public void InitializedBodyPart()
+    {
+        //Head
+        head.Initialized();
+        //Chest
+        spline.Initialized();
+        hip.Initialized();
+        //Legs
+        right_upper_Leg.Initialized();
+        right_lower_Leg.Initialized();
+        left_upper_Leg.Initialized();
+        left_lower_Leg.Initialized();
+        //Arm
+        right_lower_Arm.Initialized();
+        right_upper_Arm.Initialized();
+        left_lower_Arm.Initialized();
+        left_upper_Arm.Initialized();
+    }
+    #endregion
     #region InitializedMotionControl
 
-    [SerializeField] GameObject head;
-    [SerializeField] GameObject spline;
-    [SerializeField] GameObject hip;
-    [SerializeField] GameObject right_upperLeg;
-    [SerializeField] GameObject right_lowerLeg;
-    [SerializeField] GameObject left_upperLeg;
-    [SerializeField] GameObject left_lowerLeg;
-    [SerializeField] GameObject right_upperArm;
-    [SerializeField] GameObject right_lowerArm;
-    [SerializeField] GameObject left_upperArm;
-    [SerializeField] GameObject left_lowerArm;
 
     public List<GameObject> bones { get; set; }
     public GameObject hips { get; set; }
@@ -207,19 +226,19 @@ public partial class Enemy : SubjectEnemy
     public MotionControlManager motionControlManager { get; set; }
     public void MotionControlInitailized()
     {
-        hips = this.hip;
+        hips = this.hip.gameObject;
         bones = new List<GameObject>();
-        bones.Add(head);
-        bones.Add(spline);
-        bones.Add(hip);
-        bones.Add(right_upperLeg);
-        bones.Add(right_lowerLeg);
-        bones.Add(left_upperLeg);
-        bones.Add(left_lowerLeg);
-        bones.Add(right_upperArm);
-        bones.Add(right_lowerArm);
-        bones.Add(left_upperArm);
-        bones.Add(left_lowerArm);
+        bones.Add(head.gameObject);
+        bones.Add(spline.gameObject);
+        bones.Add(hip.gameObject);
+        bones.Add(right_upper_Leg.gameObject);
+        bones.Add(right_lower_Leg.gameObject);
+        bones.Add(left_upper_Leg.gameObject);
+        bones.Add(left_lower_Leg.gameObject);
+        bones.Add(right_upper_Arm.gameObject);
+        bones.Add(right_lower_Arm.gameObject);
+        bones.Add(left_upper_Arm.gameObject);
+        bones.Add(left_lower_Arm.gameObject);
 
         motionControlManager = new MotionControlManager(bones, hips, animator);
     }
@@ -414,26 +433,8 @@ public partial class Enemy : SubjectEnemy
 
     #endregion
 
-    #region InitailizedPatrol
-    public GameObject userPatrol { get; set; }
-    public List<PatrolPoint> patrolPoints { get => this.PatrolPoints; set => PatrolPoints = value; }
-    public int Index { get; set; }
-
-
-    [SerializeField] private List<PatrolPoint> PatrolPoints = new List<PatrolPoint>();
-    public void InitailizedPatrolComponent()
-    {
-        this.userPatrol = gameObject;
-        Index = 0;
-    }
-
-    #endregion
-
-    #region IBulletDamageAble
-    public IBulletDamageAble bulletDamageAbleBodyPartBehavior { get; set; }
-    public float penatrateResistance => 1;
     public Action<IDamageVisitor> NotifyGotAttack;
-    #endregion
+
    
     #region ImplementIFriendlyFire
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }

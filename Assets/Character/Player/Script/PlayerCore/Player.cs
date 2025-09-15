@@ -30,6 +30,7 @@ public partial class Player : SubjectPlayer,
     public CommandBufferManager commandBufferManager;
     public override void Initialized()
     {
+
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         this.AddObserver(this);
         coverDetection = new CoverDetection();

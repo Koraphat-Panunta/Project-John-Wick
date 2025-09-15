@@ -100,6 +100,10 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
         triggerState = TriggerState.Up;
     }
 
+    private void OnValidate()
+    {
+        this.Collider = GetComponent<Collider>();   
+    }
 
     #region InitailizedWeaponTree
 

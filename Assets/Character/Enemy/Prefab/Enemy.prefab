@@ -1438,25 +1438,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initializedComponent:
   - {fileID: 2619394019457856660}
-  - {fileID: 1198469431008621809}
-  - {fileID: 7217283829934863557}
-  - {fileID: 4256497212459259439}
-  - {fileID: 737720514108587036}
-  - {fileID: 2595802530518781430}
-  - {fileID: 6183801970392732339}
-  - {fileID: 7968910872121005594}
-  - {fileID: 602099620969790321}
-  - {fileID: 2622685816577133962}
-  - {fileID: 245636616440883123}
-  - {fileID: 7283977535768471014}
-  - {fileID: 3858380618204543065}
   - {fileID: 8785008869752914700}
+  - {fileID: 3858380618204543065}
   - {fileID: 6414908439600597232}
   - {fileID: -7130791345041273299}
   - {fileID: -5794132423715581005}
   - {fileID: 1068420054499277711}
-  - {fileID: 7512234974047621189}
   - {fileID: 6586458206067166242}
+  initializedOrder: 5
 --- !u!114 &3858380618204543065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1469,6 +1458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea89a51fddc94514883907d34c17d94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyCommand: {fileID: 8785008869752914700}
   enemy: {fileID: 2619394019457856660}
   raduisTargetZone: 15
   CombatPhase: 0
@@ -1510,10 +1500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableRootMotion: 0
   animator: {fileID: 1113618680042977909}
-  intelligent: 0
-  strength: 0
   agent: {fileID: 7890612989017240957}
-  rotationConstraint: {fileID: 0}
   targetMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1529,17 +1516,17 @@ MonoBehaviour:
     m_Bits: 128
   _staggerGauge: 0
   isGround: 0
-  head: {fileID: 3619633415840242047}
-  spline: {fileID: 4727398537366214866}
-  hip: {fileID: 3280475226066944446}
-  right_upperLeg: {fileID: 7743988505897926881}
-  right_lowerLeg: {fileID: 6945525729139737097}
-  left_upperLeg: {fileID: 6926681049148105894}
-  left_lowerLeg: {fileID: 8340712175487091013}
-  right_upperArm: {fileID: 8211632175148939420}
-  right_lowerArm: {fileID: 7563661447377103716}
-  left_upperArm: {fileID: 4251045356010814618}
-  left_lowerArm: {fileID: 945079068983338189}
+  head: {fileID: 2622685816577133962}
+  spline: {fileID: 6183801970392732339}
+  hip: {fileID: 1198469431008621809}
+  right_upper_Leg: {fileID: 737720514108587036}
+  right_lower_Leg: {fileID: 2595802530518781430}
+  left_upper_Leg: {fileID: 7217283829934863557}
+  left_lower_Leg: {fileID: 4256497212459259439}
+  right_upper_Arm: {fileID: 245636616440883123}
+  right_lower_Arm: {fileID: 7283977535768471014}
+  left_upper_Arm: {fileID: 7968910872121005594}
+  left_lower_Arm: {fileID: 602099620969790321}
   targetKnewPos: {x: 0, y: 0, z: 0}
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
@@ -1566,7 +1553,6 @@ MonoBehaviour:
   postureMedium: 51.9
   postureHeavy: 27
   painDurScrp: {fileID: 11400000, guid: ee39650fc9d6f2f4bb4bd2ae5ce9ccdd, type: 2}
-  PatrolPoints: []
   standUpClip: {fileID: 7400000, guid: 494a89b81b757e443ac2c7996bf21bec, type: 2}
   pushUpClip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
   hipsBone: {fileID: 4732242474392325710}

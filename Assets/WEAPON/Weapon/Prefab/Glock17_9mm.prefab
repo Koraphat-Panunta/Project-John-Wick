@@ -105,11 +105,11 @@ GameObject:
   - component: {fileID: 2368142866679320149}
   - component: {fileID: 521215783090903122}
   - component: {fileID: 740563377601920448}
+  - component: {fileID: 7931137207141368579}
   - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
   - component: {fileID: 1631304176077155450}
   - component: {fileID: -6616669404641631574}
-  - component: {fileID: 7931137207141368579}
   - component: {fileID: 4957479122355972784}
   m_Layer: 9
   m_Name: Glock17_9mm
@@ -154,9 +154,9 @@ MonoBehaviour:
   - {fileID: 521215783090903122}
   - {fileID: 740563377601920448}
   - {fileID: 7931137207141368579}
-  - {fileID: 2589834951360758816}
   - {fileID: 3702714306453231653}
   - {fileID: 2399795035880085496}
+  initializedOrder: 7
 --- !u!114 &521215783090903122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +213,25 @@ MonoBehaviour:
   tacticalReloadFullStageNormalziedTime: 0
   magMain: {fileID: 5225518317768642967}
   magSecond: {fileID: 8164010443256410042}
+--- !u!114 &7931137207141368579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7594886238610776571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4e2b4f869ca4c409008c39f2d31733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source_Sound: {fileID: 0}
+  firing: {fileID: 8300000, guid: bd0065e86a9878148b2fe7ca02af9a2f, type: 3}
+  trigger: {fileID: 8300000, guid: 27bee43cad8e7f8439dcaf6f88b79e79, type: 3}
+  reload_1: {fileID: 8300000, guid: 008e8cc9307967a42872017e9f7dbae2, type: 3}
+  reload_2: {fileID: 8300000, guid: bf8568d2294de8c45a7850f9bcfc6f45, type: 3}
+  reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
+  weapon: {fileID: 0}
 --- !u!1773428102 &-4776787860471616378
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -386,25 +405,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7931137207141368579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7594886238610776571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f4e2b4f869ca4c409008c39f2d31733, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source_Sound: {fileID: 0}
-  firing: {fileID: 8300000, guid: bd0065e86a9878148b2fe7ca02af9a2f, type: 3}
-  trigger: {fileID: 8300000, guid: 27bee43cad8e7f8439dcaf6f88b79e79, type: 3}
-  reload_1: {fileID: 8300000, guid: 008e8cc9307967a42872017e9f7dbae2, type: 3}
-  reload_2: {fileID: 8300000, guid: bf8568d2294de8c45a7850f9bcfc6f45, type: 3}
-  reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
-  weapon: {fileID: 0}
 --- !u!65 &4957479122355972784
 BoxCollider:
   m_ObjectHideFlags: 0

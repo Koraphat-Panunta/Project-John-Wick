@@ -6,6 +6,7 @@ public class NormalFiringPatternEnemyDirectorBased : NormalFiringPattern
     private EnemyRoleBasedDecision enemyRoleBasedDecision { get; set; }
     public NormalFiringPatternEnemyDirectorBased(EnemyCommandAPI enemyController,EnemyDirector enemyDirector, EnemyRoleBasedDecision enemyRoleBasedDecision) : base(enemyController)
     {
+
         this.enemyDirector = enemyDirector;
         this.enemyRoleBasedDecision = enemyRoleBasedDecision;
     }

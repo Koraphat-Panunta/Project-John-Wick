@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public partial class CameraController : MonoBehaviour,IObserverPlayer
+public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializedAble
 {
     [SerializeField] public CinemachineBrain cinemachineBrain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
@@ -38,8 +38,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
     }
     
     public Player.ShoulderSide curSide;
-
-    private void Awake()
+    public void Initialized()
     {
         //allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
         curSide = player.curShoulderSide;
@@ -53,10 +52,6 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
         cameraImpluse = new CameraImpulseShake(this);
 
         cameraManagerNode = new CameraManagerNode(this);
-    }
-    void Start()
-    {
-        
     }
     private void Update()
     {
@@ -210,5 +205,5 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
     }
 
-    
+  
 }

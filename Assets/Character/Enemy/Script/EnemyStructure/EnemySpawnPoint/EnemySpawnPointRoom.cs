@@ -9,11 +9,13 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     [SerializeField] Transform exitPoint;
     [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy;
     [SerializeField] Door door;
-    protected override  void Awake()
+
+    public override void Initialized()
     {
         spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI>();
-        base.Awake();
+        base.Initialized();
     }
+  
     protected virtual void Update()
     {
         if(spawnedEnemy.Count <= 0)

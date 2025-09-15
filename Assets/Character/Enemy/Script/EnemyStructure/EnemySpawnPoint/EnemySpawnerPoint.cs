@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
 
-public class EnemySpawnerPoint : MonoBehaviour 
+public class EnemySpawnerPoint : MonoBehaviour,IInitializedAble
 {
 
     public virtual Vector3 spawnPosition { get => transform.position; protected set { } }
     public virtual Quaternion spawnRotiation { get => transform.rotation; protected set { } }
     public Func<bool> preCondition { get; protected set; }
-    protected virtual void Awake()
+    public virtual void Initialized()
     {
         preCondition = () => true;
     }
+   
     public void SetPrecondition(Func<bool> preCondition)=> this.preCondition = preCondition;
 
     public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager,EnemyDirector enemyDirector,WeaponObjectManager weaponObjectManager,out Enemy enemy)
@@ -18,7 +19,11 @@ public class EnemySpawnerPoint : MonoBehaviour
         enemy = null;
         if(preCondition.Invoke() == false)
             return false;
+
+
+
         enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation, enemyDirector);
+
         Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
         return true;
@@ -31,6 +36,8 @@ public class EnemySpawnerPoint : MonoBehaviour
     {
         if (preCondition.Invoke() == false)
             return false;
+
+
 
         Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
         Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
@@ -55,4 +62,5 @@ public class EnemySpawnerPoint : MonoBehaviour
         Gizmos.DrawRay(this.spawnPosition, transform.forward);
     }
 
+    
 }

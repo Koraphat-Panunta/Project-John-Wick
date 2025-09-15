@@ -27,6 +27,7 @@ public class EnemyObjectManager:IObserverEnemy
         if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision) && enemyDirector != null)
         {
             enemyDirector.AddEnemy(enemyRoleBasedDecision);
+
         }
 
 

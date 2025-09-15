@@ -9,6 +9,7 @@ public partial class PlayerConstrainAnimationManager
     {
         get
         {
+
             if (playerStateManager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>())

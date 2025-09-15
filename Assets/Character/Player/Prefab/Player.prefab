@@ -521,7 +521,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initializedComponent: []
+  initializedComponent:
+  - {fileID: 3508049754622093220}
+  - {fileID: 8198941478003263909}
+  - {fileID: 4449691354107149587}
+  - {fileID: -4755417765127165936}
+  - {fileID: 3521077618753225899}
+  - {fileID: 4799316011397636801}
+  - {fileID: 1552842334254810572}
+  initializedOrder: 2
 --- !u!114 &8198941478003263909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,6 +543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3508049754622093220}
+  user: {fileID: 0}
 --- !u!114 &3508049754622093220
 MonoBehaviour:
   m_ObjectHideFlags: 0

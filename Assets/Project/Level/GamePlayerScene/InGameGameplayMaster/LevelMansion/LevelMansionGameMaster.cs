@@ -26,10 +26,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
         gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theMansionTrack);
         base.Start();
     }
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+  
     public override void InitailizedNode()
     {
         startNodeSelector = new GameMasterNodeSelector<LevelMansionGameMaster>(this, () => true);
@@ -51,10 +48,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
         nodeManagerBehavior.SearchingNewNode(this);
     }
 
-    protected override void InitialziedGameMasterEvent()
-    {
-        throw new NotImplementedException();
-    }
+  
 
     
 }

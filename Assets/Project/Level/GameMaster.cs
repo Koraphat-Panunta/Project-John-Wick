@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class GameMaster : MonoBehaviour,INodeManager
+public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
 {
     public GameManager gameManager { get ; set ; }
     private INodeLeaf curNodeLeaf;
@@ -12,6 +12,12 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
 
+    public virtual void Initialized()
+    {
+        gameManager = FindAnyObjectByType<GameManager>();
+        nodeManagerBehavior = new NodeManagerBehavior();
+        this.InitailizedNode();
+    }
 
     public abstract void FixedUpdateNode();
     
@@ -22,23 +28,10 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
     public abstract void UpdateNode();
     
 
-    protected virtual void Awake()
-    {
-        gameManager = FindAnyObjectByType<GameManager>();
-        nodeManagerBehavior = new NodeManagerBehavior();
-        this.InitailizedNode();
-    }
-
-    protected virtual void Start()
-    {
-
-
-       
-    }
+   
 
     protected virtual void Update()
     {
-
         this.UpdateNode();
     }
     protected virtual void FixedUpdate()
@@ -46,6 +39,7 @@ public abstract class GameMaster : MonoBehaviour,INodeManager
         this.FixedUpdateNode();
     }
 
+   
 }
 
 public abstract class GameMasterNode : INode

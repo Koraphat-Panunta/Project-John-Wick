@@ -90,17 +90,19 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     [SerializeField] private int numberOfEnemyWave1;
     [SerializeField] private int wave2;
     [SerializeField] private int numberOfEnemyWave2;
-    protected override void Awake()
-    {
-        this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin,this.cameraMain);
-        this.enemyMask_ObjectManager = new EnemyObjectManager(enemyMaskOrigin,this.cameraMain);
-        this.enemyMaskArmored_ObjectManager = new EnemyObjectManager(enemyMaskArmordOrigin,this.cameraMain);
 
-        this.glock17_weaponObjectManager = new WeaponObjectManager(glock17_Origin,this.cameraMain);
-        this.ar15_weaponObjectManager = new WeaponObjectManager(ar15_Origin,this.cameraMain);
-        this.ar15Optic_weaponObjectManager = new WeaponObjectManager(ar15Optic_Origin,this.cameraMain);
-        this.ar15Redot_weaponObjectManager = new WeaponObjectManager(ar15Redot_Origin,this.cameraMain);
-        this.ar15TacticalScope_weaponObjectManager = new WeaponObjectManager(ar15TacticalScope_Origin,this.cameraMain);
+    public override void Initialized()
+    {
+
+        this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin, this.cameraMain);
+        this.enemyMask_ObjectManager = new EnemyObjectManager(enemyMaskOrigin, this.cameraMain);
+        this.enemyMaskArmored_ObjectManager = new EnemyObjectManager(enemyMaskArmordOrigin, this.cameraMain);
+
+        this.glock17_weaponObjectManager = new WeaponObjectManager(glock17_Origin, this.cameraMain);
+        this.ar15_weaponObjectManager = new WeaponObjectManager(ar15_Origin, this.cameraMain);
+        this.ar15Optic_weaponObjectManager = new WeaponObjectManager(ar15Optic_Origin, this.cameraMain);
+        this.ar15Redot_weaponObjectManager = new WeaponObjectManager(ar15Redot_Origin, this.cameraMain);
+        this.ar15TacticalScope_weaponObjectManager = new WeaponObjectManager(ar15TacticalScope_Origin, this.cameraMain);
 
 
         this.InitializedWave();
@@ -118,11 +120,13 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         this.triggerBoxA4_1.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
         this.triggerBoxA4_2.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
 
+        this.InitialziedGameMasterEvent();
 
         this.AddObserver(this);
 
-        base.Awake();
+        base.Initialized();
     }
+    
     protected override void Start()
     {
         _ = DelayInitialized();
@@ -300,7 +304,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         this.UpdateingEvent();
     }
-    protected override void InitialziedGameMasterEvent()
+    protected void InitialziedGameMasterEvent()
     {
         gameMasterEvent.Add(() => door_A1.isOpen
         ,() => {

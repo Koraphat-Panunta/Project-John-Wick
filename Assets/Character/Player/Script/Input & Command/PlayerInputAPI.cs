@@ -8,9 +8,11 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
     public Player player;
+    public User user;
     public void Initialized()
     {
         player = GetComponent<Player>();
+        this.InitailizedInputAction();
     }
   
  
@@ -157,5 +159,54 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         
     }
 
-   
+    private void OnValidate()
+    {
+        this.user = FindAnyObjectByType<User>();
+    }
+    public void InitailizedInputAction()
+    {
+
+
+        this.user.userInput.PlayerAction.Move.performed += this.Move;
+        this.user.userInput.PlayerAction.Move.canceled += this.Move;
+
+        this.user.userInput.PlayerAction.Look.performed += this.Look;
+        this.user.userInput.PlayerAction.Look.canceled += this.Look;
+
+        this.user.userInput.PlayerAction.Sprint.performed += this.Sprint;
+        this.user.userInput.PlayerAction.Sprint.canceled += this.Sprint;
+
+        this.user.userInput.PlayerAction.Aim.performed += this.Aim;
+        this.user.userInput.PlayerAction.Aim.canceled += this.Aim;
+
+        this.user.userInput.PlayerAction.Attack.performed += this.Attack; ;
+        this.user.userInput.PlayerAction.Attack.canceled += this.Attack;
+
+        this.user.userInput.PlayerAction.Reload.performed += this.Reload;
+        this.user.userInput.PlayerAction.Reload.canceled += this.Reload;
+
+        //userInput.NotifyEvent.SwapShoulder.performed += playerInputAPI.SwapShoulder;
+        this.user.userInput.PlayerAction.SwapShoulder.canceled += this.SwapShoulder;
+
+        this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.performed += this.TriggerSwitchDrawPrimaryWeapon;
+        this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.canceled += this.TriggerSwitchDrawPrimaryWeapon;
+
+        this.user.userInput.PlayerAction.TriggerSwitchDrawSecondary.performed += this.TriggerSwitchDrawSecondaryWeapon;
+        this.user.userInput.PlayerAction.TriggerSwitchDrawSecondary.canceled += this.TriggerSwitchDrawSecondaryWeapon;
+
+        this.user.userInput.PlayerAction.HolsterWeapon.performed += this.HolsterWeapon;
+        this.user.userInput.PlayerAction.HolsterWeapon.canceled += this.HolsterWeapon;
+
+        this.user.userInput.PlayerAction.TrggerGunFuExecute.performed += this.TriggerGunFuExecute;
+
+        this.user.userInput.PlayerAction.ToggleChangeStance.performed += this.ToggleCrouchStand;
+        this.user.userInput.PlayerAction.ToggleChangeStance.canceled += this.ToggleCrouchStand;
+
+        this.user.userInput.PlayerAction.TriggerDodgeRoll.performed += this.TriggerSpecialMove;
+
+        this.user.userInput.PlayerAction.TriggerPickingUpWeapon.performed += this.TriggerInteract;
+
+        this.user.userInput.PlayerAction.TriggerDropWeapon.performed += this.TriggerDropWeapon;
+    }
+
 }

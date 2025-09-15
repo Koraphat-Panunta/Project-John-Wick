@@ -21,22 +21,14 @@ public abstract class InGameLevelGameMaster : GameMaster
         isCompleteLoad = true;
     }
 
-    protected virtual void InitializedObject() { }
-    protected virtual void InitializedComponent() { }
-    protected virtual void InitialziedGameMasterEvent() { }
 
-    protected override void Awake()
+    public override void Initialized()
     {
-        InitializedObject();
-        InitializedComponent();
-        InitialziedGameMasterEvent();
-        InitailizedNode();
-
+        base.Initialized();
     }
-    protected override void Start()
+    protected virtual void Start()
     {
         StartCoroutine(DelaySceneLoaded());
-        base.Start();
     }
     public override void FixedUpdateNode()
     {

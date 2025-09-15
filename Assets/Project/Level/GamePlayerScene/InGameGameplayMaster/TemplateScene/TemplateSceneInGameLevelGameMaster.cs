@@ -19,24 +19,16 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     public WeaponObjectManager glock17_MK1_weaponobjManager { get; set; }
     [SerializeField] private bool stopSpawning;
 
-    public TriggerBox triggerBoxTest;
-    public void PlayerEnterTriggerBox(Collider collision,TriggerBox triggerBox)
+
+    public override void Initialized()
     {
-       
-    }
-    protected override void Start()
-    {
-        triggerBoxTest.AddTriggerBoxEvent(PlayerEnterTriggerBox);
-        base.Start();
-    }
-    protected override void Awake()
-    {
-        enemyObjectManager = new EnemyObjectManager(enemyMK1,cameraMain);
+        enemyObjectManager = new EnemyObjectManager(enemyMK1, cameraMain);
         ar15_MK1_weaponObjManager = new WeaponObjectManager(ar15_MK1_origin, cameraMain);
         glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraMain);
-        base.Awake();
+        base.Initialized();
     }
-
+   
+   
     protected  void LateUpdate()
     {
         enemyObjectManager.ClearCorpseEnemyUpdate();
@@ -110,8 +102,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         }
         public override void UpdateNode()
         {
-            //enemyWaveManager.EnemyWaveUpdate();
-            
+            enemyWaveManager.EnemyWaveUpdate();
             base.UpdateNode();
         }
         
@@ -137,14 +128,6 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 
    
 
-    protected override void InitializedObject()
-    {
-        
-    }
-
-    protected override void InitializedComponent()
-    {
-        
-    }
+   
 }
 

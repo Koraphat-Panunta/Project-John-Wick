@@ -2,7 +2,8 @@ using UnityEngine;
 
 public partial class Weapon : I_Interactable
 {
-    public Collider _collider { get; set; }
+    public Collider _collider { get => this.Collider; set => this.Collider = value; }
+    [SerializeField] private Collider Collider;
     public bool isBeenInteractAble { get 
         {
             if(userWeapon != null)

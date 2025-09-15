@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 793999716700785315}
+  - component: {fileID: 7639453152016495699}
   - component: {fileID: 8006418700248953879}
   m_Layer: 0
   m_Name: EnemyDirector
@@ -32,6 +33,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7639453152016495699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353105760384033899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initializedComponent:
+  - {fileID: 8006418700248953879}
+  initializedOrder: 5
 --- !u!114 &8006418700248953879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,10 +69,7 @@ MonoBehaviour:
   player: {fileID: 0}
   maxNumberChaserShooter: 2
   maxNumberOverwatchShooter: 1
-  delayChaserShooterPoint: 0.1
-  delayOverwatchShooterPoint: 0.25
-  chaserShooterPoint: 0
-  overwatchShooterPoint: 0
-  yieldShooterOnPlayerAim: 0.28
-  delayYieldShooterOnPlayerAim: 5
-  isYieldAllShooter: 0
+  maxOverwatchShootPoint: 0
+  overwatchShootPoint: 0
+  shootPointCoolDown: 0
+  shootPointCoolDownTimer: 0

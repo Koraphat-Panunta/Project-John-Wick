@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyTestingSystemCommandDecision : EnemyDecision
 {
-    public override EnemyCommandAPI enemyCommand { get ; set ; }
     private Queue<ITaskingExecute> enemyTestingCommands = new Queue<ITaskingExecute>();
 
     private ITaskingExecute dodge;
