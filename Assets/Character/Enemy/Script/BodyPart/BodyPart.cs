@@ -37,6 +37,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
     public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => enemy; set { } }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
     public IDamageAble _damageAble { get => enemy._damageAble; set => enemy._damageAble = value; }
     public Character _character => enemy;
@@ -120,6 +121,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
        
     }
     public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
+
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
 
     public virtual void Notify<T>(Enemy enemy, T node) 

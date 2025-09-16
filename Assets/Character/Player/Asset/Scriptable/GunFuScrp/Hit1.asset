@@ -15,6 +15,9 @@ MonoBehaviour:
   animationClip_GunFuHits: {fileID: 7400000, guid: 5430a8b74b7120f429c657d5ff5ec158,
     type: 2}
   gunFuHitStateName: Hit1
+  hitTimes:
+  - {x: 0.34, y: 0.38}
+  - {x: 0.5, y: 0.53}
   hitTimesNormalized:
   - 0.34
   - 0.51
@@ -39,3 +42,7 @@ MonoBehaviour:
   ExitTime_Normalized: 0.87
   TransitionAbleTime_Normalized: 0.67
   staggerHitDamage: 15
+  attackVolumeRaduis: 0.31
+  attackVolumeForward: 0.5
+  attackVolumeUpward: 1.1
+  attackVolumeRightward: 0

@@ -7,7 +7,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     public float staggerHitDamage => gunFuHitScriptableObject.staggerHitDamage;
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => player.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get ; set; }
     public AnimationClip _animationClip { get => gunFuHitScriptableObject.animationClip_GunFuHits; set { } }
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
@@ -30,15 +30,19 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get;set; }
+    private List<IGotGunFuAttackedAble> gotAttackedAlready;
 
     public GunFuHitNodeLeaf(Player player, Func<bool> preCondition,GunFuHitScriptableObject gunFuHitScriptableObject) : base(player, preCondition)
     {
         this._gunFuHitScriptableObject = gunFuHitScriptableObject;
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+        this.gotAttackedAlready = new List<IGotGunFuAttackedAble>();
     }
     public override void Enter()
     {
+        gotAttackedAlready.Clear();
+        gotGunFuAttackedAble = player.attackedAbleGunFu;
         curPhaseGunFuHit = GunFuPhaseHit.Enter;
         _timer = 0;
         hitCount = 0;
@@ -60,27 +64,66 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         if (_timer > (_animationClip.length * gunFuHitScriptableObject.TransitionAbleTime_Normalized) - lenghtOffset)
             nodeLeafTransitionBehavior.TransitionAbleAll(this);
 
-        if (hitCount <= gunFuHitScriptableObject.hitTimesNormalized.Count - 1
-            && _timer > (_animationClip.length * gunFuHitScriptableObject.hitTimesNormalized[hitCount]) - lenghtOffset)
+        if (hitCount <= gunFuHitScriptableObject.hitTimes.Count - 1)
         {
-            if (gotGunFuAttackedAble != null)
+            if (_timer >= (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
             {
-                Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up) * (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized;
-                (gotGunFuAttackedAble._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                    (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
-                    , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-                curPhaseGunFuHit = GunFuPhaseHit.Attacking;
-                gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+                Debug.Log("HitCount = " + hitCount);
+                hitCount++;
+                Attacking();
+                gotAttackedAlready.Clear();
             }
+            else if (_timer > (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].x) - lenghtOffset
+            && _timer < (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
+                Attacking();
 
-            hitCount++;
-            player.NotifyObserver(player, this);
         }
        
 
         PullUpdate();
         nodeLeafTransitionBehavior.TransitioningCheck(this);
         base.UpdateNode();
+    }
+
+    protected void Attacking()
+    {
+        Vector3 shperePos = player.transform.position
+    + (player.transform.forward * gunFuHitScriptableObject.attackVolumeForward)
+    + (player.transform.up * gunFuHitScriptableObject.attackVolumeUpward)
+    + (player.transform.right * gunFuHitScriptableObject.attackVolumeRightward);
+
+        Debug.Log("attacking");
+
+        Debug.DrawLine(player.transform.position,shperePos,Color.green,0.5f);
+
+        player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
+
+        for(int i =0; i < targets.Count; i++)
+        {
+            Debug.Log("target = " + targets[i] + "1");
+
+            if (this.gotAttackedAlready.Contains(targets[i]))
+                continue;
+
+            Debug.Log("target = " + targets[i] + "2");
+
+            if (targets[i]._isGotAttackedAble == false)
+                continue;
+
+            Debug.Log("target = " + targets[i] + "3");
+
+            Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up) * (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
+            (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
+                (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
+                , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            curPhaseGunFuHit = GunFuPhaseHit.Attacking;
+            targets[i].TakeGunFuAttacked(this, gunFuAble);
+            this.gotAttackedAlready.Add(targets[i]);
+            Debug.Log("PlayerNotufyHit");
+            player.NotifyObserver(player, this);
+        }
+
+        
     }
 
     public override void FixedUpdateNode()
@@ -120,7 +163,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
                 )- lenghtOffset));
             if(t <1)
             {
-                if(this.gotGunFuAttackedAble == null)
+                if(this.gotGunFuAttackedAble._isGotAttackedAble == false)
                     return;
                 //warp
                 if (isWarping)

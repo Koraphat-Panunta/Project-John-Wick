@@ -21,7 +21,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     [SerializeField] private float Shpere_Distance_Detection;
     public float _sphere_Distance_Detection { get => this.Shpere_Distance_Detection; set => this.Shpere_Distance_Detection = value; }
 
-    [SerializeField, TextArea]
+    [SerializeField, TextArea(10,10)]
     private string gunFuDetectTargetDebug;
 
     public void Initialized()
@@ -39,16 +39,16 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             if (hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
-            if (gunFuGotAttackedAble == gunFuAble)
+            if (gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
             {
                 gunFuDetectTargetDebug += "cast to self \n";
                 continue;
             }
 
-            if (gunFuGotAttackedAble._character.isDead)
+            if (gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead)
                 continue;
 
-            if (gunFuGotAttackedAble._isGotExecutedAble == false)
+            if (gunFuGotAttackedAble.gotGunFuAttackedAble._isGotExecutedAble == false)
                 continue;
 
 
@@ -57,7 +57,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             {
                 if (hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
                 {
-                    gunFuGotExecuteAble = gunFuGotAttackedAble;
+                    gunFuGotExecuteAble = gunFuGotAttackedAble.gotGunFuAttackedAble;
                     return true;
                 }
             }
@@ -82,14 +82,14 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     } // Called form player
     private Vector3 curPositionVolume;
     private float curRaduis;
-    public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target,Vector3 positionVolume,float raduis)
+    public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target,Vector3 positionVolume,float raduis,LayerMask targetMask)
     {
 
         target = new List<IGotGunFuAttackedAble>();
         
-        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, gunFuAble._layerTarget.value);
+        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask);
 
-        gunFuDetectTargetDebug += "layerTarget = " + gunFuAble._layerTarget.value + "\n";
+        gunFuDetectTargetDebug += "layerTarget = " + gunFuAble._layerTarget + "\n";
 
         curPositionVolume = positionVolume;
         curRaduis = raduis;
@@ -111,19 +111,25 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 
             gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
 
-            if (gunFuGotAttackedAble._character.isDead
-                || gunFuGotAttackedAble._isGotAttackedAble == false
-                || gunFuGotAttackedAble == gunFuAble)
+            if (gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead
+                || gunFuGotAttackedAble.gotGunFuAttackedAble._isGotAttackedAble == false
+                || gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble
+                )
                 continue;
 
             gunFuDetectTargetDebug += "in collider = " + item + "2 \n";
 
-            target.Add(gunFuGotAttackedAble);
+            if(target.Contains(gunFuGotAttackedAble.gotGunFuAttackedAble) == false)
+                target.Add(gunFuGotAttackedAble.gotGunFuAttackedAble);
         }
 
         if(target.Count >0)
             return true;
         return false;
+    }// Called form gunFuAble
+    public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target, Vector3 positionVolume, float raduis)
+    {
+        return CastDetectTargetInVolume(out target,positionVolume,raduis,gunFuAble._layerTarget);
     }// Called form gunFuAble
     private bool CastDetect(out IGotGunFuAttackedAble target, Vector3 castDir)
     {
@@ -135,9 +141,9 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             if(hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
                 continue;
 
-            if(gunFuGotAttackedAble._character.isDead 
-                || gunFuGotAttackedAble._isGotAttackedAble == false
-                || gunFuGotAttackedAble == gunFuAble)
+            if(gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead 
+                || gunFuGotAttackedAble.gotGunFuAttackedAble._isGotAttackedAble == false
+                || gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
                 continue ;
 
             //if(gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf
@@ -151,7 +157,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             {
                 if(hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
                 {
-                    target = gunFuGotAttackedAble; 
+                    target = gunFuGotAttackedAble.gotGunFuAttackedAble; 
                     return true;
                 }
             }

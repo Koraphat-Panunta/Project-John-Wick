@@ -30,10 +30,13 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
     [SerializeField] private Weapon myPrimaryWeapon;
     [SerializeField] private Weapon mySecondaryWeapon;
     // Start is called before the first frame update
+
+    [SerializeField] private GunFuHitScriptableObject gunFuHitScriptableObject;
     public void Initialized()
     {
         player = GetComponent<Player>();
         layerMask = LayerMask.GetMask("Default");
+
     }
     
 
@@ -60,25 +63,12 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
    
     private void OnDrawGizmos()
     {
-        if (sphereCastPos.Count > 0) 
-        {
-            foreach (Vector3 p in sphereCastPos)
-            {
-               
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawSphere(p,sphereRaduis);  
-            } 
-        }
-        if(CoverPos != null)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(CoverPos, sphereRaduis*1.2f);
-        }
-        if(AimPos != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(AimPos, sphereRaduis * 1.2f);
-        }
+        Gizmos.color = Color.red*0.4f;
+        Vector3 shperePos = transform.position 
+            + (transform.forward * gunFuHitScriptableObject.attackVolumeForward)
+            + (transform.up * gunFuHitScriptableObject.attackVolumeUpward)
+            + (transform.right * gunFuHitScriptableObject.attackVolumeRightward);
+        Gizmos.DrawSphere(shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
     }
 
    

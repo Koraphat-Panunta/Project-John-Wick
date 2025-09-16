@@ -15,8 +15,8 @@ MonoBehaviour:
   animationClip_GunFuHits: {fileID: 7400000, guid: 7595206ddc2ee104597b0ae5aa5419c8,
     type: 2}
   gunFuHitStateName: DodgeSpinKick
-  hitTimesNormalized:
-  - 0.4
+  hitTimes:
+  - {x: 0.35, y: 0.47}
   hitPushRotationOffset:
   - 0
   hitPushForce:
@@ -32,3 +32,7 @@ MonoBehaviour:
   ExitTime_Normalized: 1
   TransitionAbleTime_Normalized: 0.887
   staggerHitDamage: 30
+  attackVolumeRaduis: 0.9
+  attackVolumeForward: 0.68
+  attackVolumeUpward: 0.63
+  attackVolumeRightward: 0

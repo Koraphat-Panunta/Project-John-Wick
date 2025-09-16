@@ -64,29 +64,15 @@ public partial class Player : IGunFuAble
     }
     public void UpdateDetectingTarget()
     {
-
-        if (executedAbleGunFu != null && executedAbleGunFu._isGotExecutedAble == false)
+        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
+            executedAbleGunFu = excecuteTarget;
+        else
             executedAbleGunFu = null;
-        if (attackedAbleGunFu != null && attackedAbleGunFu._isGotAttackedAble == false)
+
+        if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
+            attackedAbleGunFu = target;
+        else
             attackedAbleGunFu = null;
-
-
-        if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>(out IGunFuExecuteNodeLeaf gunFuExecuteNode) == false)
-        {
-            if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
-                executedAbleGunFu = excecuteTarget;
-            else
-                executedAbleGunFu = null;
-        }
-            
-
-        if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode) == false)
-        {
-            if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
-                attackedAbleGunFu = target;
-            else
-                attackedAbleGunFu = null;
-        }
     }
     #endregion
 }

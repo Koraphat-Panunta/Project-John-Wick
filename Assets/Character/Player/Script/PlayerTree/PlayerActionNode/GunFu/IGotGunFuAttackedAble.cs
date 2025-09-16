@@ -8,6 +8,7 @@ public interface IGotGunFuAttackedAble
     //public INodeLeaf curNodeLeaf { get; set; }
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get; set; }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public IDamageAble _damageAble { get; set; }
     public Character _character { get; }
     public bool _isGotAttackedAble { get; set; }

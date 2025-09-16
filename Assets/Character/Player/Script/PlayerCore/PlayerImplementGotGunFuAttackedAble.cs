@@ -9,6 +9,7 @@ public partial class Player: IGotGunFuAttackedAble
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => this; set { } }
     public bool _isGotAttackedAble
     {
         get
@@ -22,6 +23,8 @@ public partial class Player: IGotGunFuAttackedAble
     public bool _isGotExecutedAble { get; set; }
 
     Character IGotGunFuAttackedAble._character => this;
+
+    
 
     //public Character _character { get => this; }
 

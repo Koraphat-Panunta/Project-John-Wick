@@ -9,6 +9,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     public IGunFuNode curAttackerGunFuNode { get; set; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => this; set { } }
     public bool _isGotAttackedAble
     {
         get

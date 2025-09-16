@@ -687,7 +687,7 @@ PrefabInstance:
     - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -697,7 +697,7 @@ PrefabInstance:
     - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: isEnableDrawGizmosDebug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3938986911789629728, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -757,7 +757,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1582,6 +1582,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.5620135
       objectReference: {fileID: 0}
+    - target: {fileID: 4799316011397636801, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: gunFuHitScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: eb65ecafafc9cec4ea675535df415985,
+        type: 2}
     - target: {fileID: 4917240190225285356, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -1621,6 +1627,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_MinLimit
       value: -37
+      objectReference: {fileID: 0}
+    - target: {fileID: 9030984288096570306, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: EnableDebug
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3266,7 +3277,7 @@ PrefabInstance:
     - target: {fileID: 7074491356039985985, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000023841858
+      value: 0.71
       objectReference: {fileID: 0}
     - target: {fileID: 7074491356039985985, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
@@ -3311,7 +3322,7 @@ PrefabInstance:
     - target: {fileID: 7215498905422603118, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
@@ -3321,7 +3332,7 @@ PrefabInstance:
     - target: {fileID: 7594886238610776571, guid: e08ae2fdefb857443b186d66db18d1fb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3486,7 +3497,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6414908439600597232, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -3988,7 +3999,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832727629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39f194f336c192141b1e26547c7e49b5, type: 3}
   m_Name: 
@@ -4037,18 +4048,18 @@ MonoBehaviour:
   - {fileID: 386886313}
   - {fileID: 851732913}
   - {fileID: 1213806399}
+  - {fileID: 1947302040}
+  - {fileID: 1397166430}
+  - {fileID: 2099147455}
+  - {fileID: 1630413430}
   - {fileID: 371910202}
   - {fileID: 1960720032}
   - {fileID: 1412412353}
-  - {fileID: 2099147455}
-  - {fileID: 1397166430}
-  - {fileID: 1630413430}
-  - {fileID: 1947302040}
-  - {fileID: 748551172}
-  - {fileID: 675624842}
   - {fileID: 1367867729}
   - {fileID: 1188903653}
+  - {fileID: 748551172}
   - {fileID: 339050576}
+  - {fileID: 675624842}
   - {fileID: 1832727633}
   initializedOrder: 0100000002000000030000000400000005000000050000000500000005000000050000000500000005000000070000000700000007000000070000000700000008000000
 --- !u!114 &1832727633
