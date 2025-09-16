@@ -7,7 +7,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
 
     public IWeaponAdvanceUser weaponAdvanceUser => player;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public string _stateName => gunFuExecute_OnGround_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject { get; protected set; }
@@ -47,10 +47,10 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
 
     public override void Enter()
     {
-
+        gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
         this._timer = 0;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
-        gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
+        gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
         CalculateAdjustTransform();
         (player._movementCompoent as MovementCompoent).CancleMomentum();
 
@@ -142,7 +142,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
             curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
             BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
             weaponAdvanceUser._currentWeapon.PullTrigger();
-            gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
+            gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
             player.NotifyObserver(player, curGunFuPhase);
             player.NotifyObserver(player, this);
@@ -171,7 +171,7 @@ public class GunFuExecute_OnGround_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFu
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
-        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
         //Debug.Log("enemy curvelocity at warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
         if (t >= 1)
             return true;

@@ -53,7 +53,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
             else
             {
                 player._triggerGunFu = true;
-                player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.1f);
+                player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.15f);
                 player._isPullTriggerCommand = false;
             }
         }
@@ -141,7 +141,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         if (context.performed)
         {
             player._isPickingUpWeaponCommand = true;
-            player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.25f);
+            player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.35f);
             player.Interact();
             if(player.currentInteractable == null)
                 TriggerParkour(context);

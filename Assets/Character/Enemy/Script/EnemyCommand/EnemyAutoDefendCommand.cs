@@ -11,12 +11,15 @@ public class EnemyAutoDefendCommand : IObserverEnemy
     protected float minDodgeCoolDownTime = 8;
     protected float maxDodgeCoolDownTime = 17;
 
-    protected float gotHitedReactionDefendTime;
+    protected float gotHitedReactionDefendRate;
+    protected float minGotHitedReactionDefendRate = 8;
+    protected float maxGotHitedReactionDefendRate = 12;
     public EnemyAutoDefendCommand(EnemyCommandAPI enemyCommandAPI)
     {
         this.enemyCommandAPI = enemyCommandAPI;
         this.enemy = enemyCommandAPI._enemy;
         dodgeCoolDownTimer = Random.Range(minDodgeCoolDownTime, maxDodgeCoolDownTime);
+        gotHitedReactionDefendRate = Random.Range(minGotHitedReactionDefendRate,maxGotHitedReactionDefendRate);
         this.enemy.AddObserver(this);
     }
     public void UpdateAutoDefend()
@@ -25,7 +28,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         {
             enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30,30),Vector3.up)*(enemy.transform.right * (Random.value > 0.5f?1:-1))) ;
         }
-        else if(gotHitedReactionDefendTime > 0 && dodgeCoolDownTimer <= 0 && ((enemy.GetHP()/enemy.GetMaxHp()) <= enemy.GetMaxHp()*0.7f))
+        else if(gotHitedReactionDefendRate <= 0 && dodgeCoolDownTimer <= 0 && ((enemy.GetHP()/enemy.GetMaxHp()) <= enemy.GetMaxHp()))
         {
             enemyCommandAPI.Dodge(Quaternion.AngleAxis(Random.Range(-30, 30), Vector3.up) * (enemy.transform.forward * -1));
         }
@@ -76,14 +79,16 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         if(dodgeCoolDownTimer > 0)
             dodgeCoolDownTimer -= Time.deltaTime;
 
-        if(gotHitedReactionDefendTime > 0)
-            gotHitedReactionDefendTime -= Time.deltaTime;
     }
 
     public void Notify<T>(Enemy enemy, T node)
     {
-        if(node is EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf && enemyDodgeRollStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
+        if (node is EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf && enemyDodgeRollStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
+        {
             this.dodgeCoolDownTimer = Random.Range(minDodgeCoolDownTime, maxDodgeCoolDownTime);
+            if (gotHitedReactionDefendRate <= 0)
+                gotHitedReactionDefendRate = Random.Range(minGotHitedReactionDefendRate,maxGotHitedReactionDefendRate);
+        }
 
         if (node is SubjectEnemy.EnemyEvent enemyEvent && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
         {
@@ -91,16 +96,16 @@ public class EnemyAutoDefendCommand : IObserverEnemy
             //Debug.Log("dodgeCoolDownTimer got shooted = " + dodgeCoolDownTimer);
         }
 
-        if (node is GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
+        if (node is GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf && gotGunFuHitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
         {
-            gotHitedReactionDefendTime += 1.25f;
+            gotHitedReactionDefendRate = 1;
             dodgeCoolDownTimer -= 1;
         }
 
         if (node is GotRestrictNodeLeaf gotRestrictNodeLeaf && gotRestrictNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
         {
-            gotHitedReactionDefendTime += 3;
-            dodgeCoolDownTimer -= 3;
+            gotHitedReactionDefendRate -= 1;
+            dodgeCoolDownTimer -= 1;
         }
         
     }

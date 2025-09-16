@@ -285,6 +285,12 @@ public class PlayerStateNodeManager : INodeManager
         weaponDisarmSelector.AddtoChildNode(primary_WeaponDisarm_GunFuInteraction_NodeLeaf);
         weaponDisarmSelector.AddtoChildNode(secondart_WeaponDisarm_GunFuInteraction_NodeLeaf);
 
+        primary_WeaponDisarm_GunFuInteraction_NodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
+        primary_WeaponDisarm_GunFuInteraction_NodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
+
+        secondart_WeaponDisarm_GunFuInteraction_NodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
+        secondart_WeaponDisarm_GunFuInteraction_NodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
+
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I);
 
@@ -304,6 +310,8 @@ public class PlayerStateNodeManager : INodeManager
         Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+
+        restrictGunFuStateNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);

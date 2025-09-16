@@ -8,7 +8,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => gunFuAble.executedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
     public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
     public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
@@ -52,10 +52,11 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     public override void Enter()
     {
+        gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
         this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         gunFuAble._character._movementCompoent.CancleMomentum();
-        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
         CalculateAdjustTransform();
         isWarpingComplete = false;  
 
@@ -105,18 +106,18 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
                     {
 
 
-                        gunFuAble.executedAbleGunFu.TakeGunFuAttacked(this, gunFuAble);
+                        gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
                         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
                         _ = DelayRootMotionEnable();
 
                         gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
                         gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
 
-                        gunFuAble.executedAbleGunFu._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
-                        gunFuAble.executedAbleGunFu._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
+                        gotGunFuAttackedAble._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
+                        gotGunFuAttackedAble._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
 
                         attackerPosAtInteractBegin = gunFuAble._character.transform.position;
-                        opponentPosAtInteractBegun = gunFuAble.executedAbleGunFu._character.transform.position;
+                        opponentPosAtInteractBegun = gotGunFuAttackedAble._character.transform.position;
 
              
                     }
@@ -165,7 +166,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
             BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
             weaponAdvanceUser._currentWeapon.PullTrigger();
-            gunFuAble.executedAbleGunFu._damageAble.TakeDamage(bulletExecute);
+            gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
             isExecuteAlready = true;
 
            
@@ -199,7 +200,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , opponentGunFuTargetPosition
             , opponentGunFuTargetRotation
             , t);
-        gunFuAble.executedAbleGunFu._character._movementCompoent.CancleMomentum();
+        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
 
         if (t >= 1)
             return true;

@@ -25,8 +25,8 @@ public partial class Enemy : IGotGunFuAttackedAble
             {
                 return false;
             }
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
-                return false;
+            //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
+            //    return false;
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
@@ -40,8 +40,8 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
-                return false;
+            //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
+            //    return false;
             if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())

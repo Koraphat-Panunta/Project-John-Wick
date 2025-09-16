@@ -76,8 +76,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
             assignInWorldEnemy[enemy].PlayAnimation("ExecuteTrigger");
             return true;
         }
-        else if(gunFuAble.executedAbleGunFu is BodyPart bodyPart2
-            && bodyPart2.enemy == enemy)
+        else if(gunFuAble.executedAbleGunFu  == enemy as IGotGunFuAttackedAble)
         {
             assignInWorldEnemy[enemy].PlayAnimation("ExecuteAble");
             return true;

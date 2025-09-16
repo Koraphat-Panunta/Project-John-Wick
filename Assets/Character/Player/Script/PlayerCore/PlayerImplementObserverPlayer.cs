@@ -28,6 +28,12 @@ public partial class Player : IObserverPlayer
                     }
                     break;
                 }
+            case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+                {
+                    if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+                        timeControlBehavior.TriggerTimeStop(.3f,1f,.3f);
+                }
+                break ;
         }
         if((node is GunFuExecute_Single_NodeLeaf execute_Single_NodeLeaf
             && execute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
@@ -68,9 +74,8 @@ public partial class Player : IObserverPlayer
             await Task.Yield();
             try
             {
-
                 timeControlBehavior.TriggerTimeStop
-                   (0
+                   (gunFuHitNodeLeaf.gunFuHitScriptableObject.hitStopDuration[gunFuHitNodeLeaf.hitCount]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitResetDuration[gunFuHitNodeLeaf.hitCount]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitSlowMotionCurve[gunFuHitNodeLeaf.hitCount]
                    );
@@ -78,7 +83,7 @@ public partial class Player : IObserverPlayer
             catch
             {
                 timeControlBehavior.TriggerTimeStop
-                   (0
+                   (gunFuHitNodeLeaf.gunFuHitScriptableObject.hitStopDuration[gunFuHitNodeLeaf.hitCount]
                    , gunFuHitNodeLeaf.gunFuHitScriptableObject.hitResetDuration[gunFuHitNodeLeaf.hitCount]
                    );
             }

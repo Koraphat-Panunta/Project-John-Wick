@@ -144,6 +144,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
     public override bool IsReset()
     {
+        if(player._triggerHitedGunFu)
+            return true;
+
         if(IsComplete())
             return true;
 

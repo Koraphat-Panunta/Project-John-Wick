@@ -64,12 +64,12 @@ MonoBehaviour:
   MAX_ChaserCount: 2
   chaserCount: 0
   overwatchCount: 0
-  chaserChangeDelay: 2
+  chaserChangeDelay: 1
   assingTime: 0
   player: {fileID: 0}
   maxNumberChaserShooter: 2
   maxNumberOverwatchShooter: 1
-  maxOverwatchShootPoint: 0
+  maxOverwatchShootPoint: 2
   overwatchShootPoint: 0
-  shootPointCoolDown: 0
+  shootPointCoolDown: 0.5
   shootPointCoolDownTimer: 0

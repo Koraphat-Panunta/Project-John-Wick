@@ -62,7 +62,7 @@ public partial class Player : SubjectPlayer,
         _triggerExecuteGunFu = false;
         _isParkourCommand = false;
         _triggerGunFu = false;
-
+        Debug.Log("Time fixDeltaTime = " + Time.fixedDeltaTime);
     }
    
     private void Update()

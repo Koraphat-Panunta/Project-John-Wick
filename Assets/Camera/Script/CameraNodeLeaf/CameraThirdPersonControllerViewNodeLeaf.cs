@@ -40,7 +40,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     public override void UpdateNode()
     {
         float offsetX;
-        normalizedTime = Mathf.Clamp01(normalizedTime += Time.deltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
+        normalizedTime = Mathf.Clamp01(normalizedTime += Time.unscaledDeltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
         thirdPersonCamera.UpdateCameraPosition();
@@ -49,14 +49,14 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         {
             offsetX = Mathf.Lerp(this.cinemachineOffset.x,
                 this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+                this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
 
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
             offsetX = Mathf.Lerp(this.cinemachineOffset.x,
                 -this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
+                this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
         }
 
         this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(enteringFOV, this.cameraThirdPersonControllerViewScriptableObject.fov, this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(normalizedTime));

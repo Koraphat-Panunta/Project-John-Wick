@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
+public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
     private float phaseTimer;
     public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => player.attackedAbleGunFu; set { } }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public AnimationClip _animationClip { get; set; }
 
     private Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
@@ -31,6 +32,9 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         Done,
     }
     public RestrictGunFuPhase curRestrictGunFuPhase { get; private set; }
+    public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
+    public Dictionary<INode, bool> transitionAbleNode { get; set; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     public RestrictGunFuStateNodeLeaf(RestrictScriptableObject restrictScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
     {
@@ -38,10 +42,15 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
         this.restrictEnterClip = restrictScriptableObject.restrictEnterClip;
         this.restrictExitClip = restrictScriptableObject.restrictExitClip;
 
+        this.transitionAbleNode = new Dictionary<INode, bool>();
+        nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+
     }
 
     public override void Enter()
     {
+        gotGunFuAttackedAble = gunFuAble.attackedAbleGunFu;
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
         base.isComplete = false;
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
@@ -86,6 +95,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
     public override void UpdateNode()
     {
         _timer += Time.deltaTime;
+
         switch (curRestrictGunFuPhase)
         {
             case RestrictGunFuPhase.Enter:
@@ -168,9 +178,11 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                 }
             case RestrictGunFuPhase.ExitAttack:
                 {
+
                     phaseTimer += Time.deltaTime;
                     if (phaseTimer >= restrictExitClip.length * restrictScriptableObject.restrictExit_exitNormalized)
                     {
+                        nodeLeafTransitionBehavior.TransitionAbleAll(this);
                         isComplete = true;
                         phaseTimer = 0;
                     }
@@ -178,6 +190,11 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode
                 break;
 
         }
+        this.TransitioningCheck();
         base.UpdateNode();
     }
+
+    public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
+    public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
+    
 }
