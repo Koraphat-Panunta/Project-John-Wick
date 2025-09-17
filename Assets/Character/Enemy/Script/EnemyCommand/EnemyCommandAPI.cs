@@ -111,29 +111,30 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         rotSpeedScale = Mathf.Clamp01((float)rotSpeedScale);
         _enemy.lookRotationCommand = Vector3.Lerp(_enemy.transform.forward, dir, rotSpeedScale);
     }
-    public bool FindCoverAndBook(float raduis, out CoverPoint coverPoint)
-    {
-        coverPoint = null;
+    #region OldCoverCommand
+    //public bool FindCoverAndBook(float raduis, out CoverPoint coverPoint)
+    //{
+    //    coverPoint = null;
 
-        if (_enemy.findingCover.FindCoverInRaduisInGunFight(raduis, out coverPoint))
-        {
-            coverPoint.TakeThisCover(_enemy);
-            return true;
-        }
-        return false;
-    }
-    public bool FindCoverAndBook(float raduis, Vector3 targetPos, out CoverPoint coverPoint)
-    {
-        coverPoint = null;
+    //    if (_enemy.findingCover.FindCoverInRaduisInGunFight(raduis, out coverPoint))
+    //    {
+    //        coverPoint.TakeThisCover(_enemy);
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    //public bool FindCoverAndBook(float raduis, Vector3 targetPos, out CoverPoint coverPoint)
+    //{
+    //    coverPoint = null;
 
-        if (_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis, out coverPoint, targetPos))
-        {
-            coverPoint.TakeThisCover(_enemy);
-            return true;
-        }
-        return false;
-    }
-
+    //    if (_enemy.findingCover.FindCoverInRaduisDirectionalBased(raduis, out coverPoint, targetPos))
+    //    {
+    //        coverPoint.TakeThisCover(_enemy);
+    //        return true;
+    //    }
+    //    return false;
+    //}
+    #endregion
     public void Dodge(Vector3 dodgeDir)
     {
         _enemy.moveInputVelocity_WorldCommand = dodgeDir;
@@ -150,7 +151,12 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
 
     public void AutoDetectSoftCover()
     {
-        if(Physics.Raycast(_enemy.transform.position + Vector3.up*0.2f,_enemy.transform.forward,6,LayerMask.GetMask("Default"),QueryTriggerInteraction.Ignore))
+        if(Physics.Raycast(
+            _enemy.transform.position + Vector3.up*0.2f
+            ,_enemy.transform.forward
+            ,6
+            ,LayerMask.GetMask("Default")
+            ,QueryTriggerInteraction.Ignore))
         {
             this.Crouch();
         }

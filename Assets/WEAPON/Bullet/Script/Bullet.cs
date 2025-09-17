@@ -79,21 +79,22 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
             //{
             //    Debug.Log("bullet raycast hit = " + raycastHits[i].collider.gameObject);
             //}
-                HitExecute(raycastHits, rayDir);
-            return raycastHits[raycastHits.Length - 1].point;
+                HitExecute(raycastHits, rayDir,out RaycastHit lastHit);
+            return lastHit.point;
         }
         else
             return ray.GetPoint(MAX_DISTANCE);
 
 
     }
-    protected virtual void HitExecute(RaycastHit[] rayCastHits,Vector3 dir)
+    protected virtual void HitExecute(RaycastHit[] rayCastHits,Vector3 dir,out RaycastHit lastHit)
     {
         this.penetrateRate = maxPenetrateRate;
+        lastHit = new RaycastHit();
 
         for (int i = 0;i< rayCastHits.Length ; i++) 
         {
-
+            lastHit = rayCastHits[i];
             if (rayCastHits[i].collider.TryGetComponent<IBulletDamageAble>(out IBulletDamageAble bulletDamageAble))
             {
                 //Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);

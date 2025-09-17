@@ -12,7 +12,7 @@ public class CrouchWeightSoftCoverNodeLeaf : AnimationNodeLeaf
     private float crouchWeightChange = 5;
     private float crouchUpdateTimeInterval = 0.25f;
     private float crouchUpdateTimer;
-    private float checkDistance;
+    public float checkDistance { get; }
     public CrouchWeightSoftCoverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,
         float crouchWeightOffset,float checkDistance, Func<bool> preCondition) : base(preCondition)
     {

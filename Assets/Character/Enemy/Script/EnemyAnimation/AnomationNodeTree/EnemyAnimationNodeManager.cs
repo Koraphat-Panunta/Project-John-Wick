@@ -52,7 +52,7 @@ public partial class EnemyAnimationManager : INodeManager
         InitializedUpperLayer();
         InitializedBaseLayer();
 
-        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(enemy,0.65f,5.5f,
+        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(enemy,0.725f,6,
             ()=> enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
         restBaseNodeLeaf = new RestNodeLeaf(()=>true);
