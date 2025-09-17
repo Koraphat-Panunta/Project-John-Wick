@@ -652,7 +652,7 @@ PrefabInstance:
     - target: {fileID: 2619394019457856660, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: isImortal
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3105058264465165540, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -687,7 +687,7 @@ PrefabInstance:
     - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3858380618204543065, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -1547,6 +1547,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4449691354107149587, guid: 7610df03b6259ea409d446dc8358715b,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4727688321167204111, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1586,8 +1591,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gunFuHitScriptableObject
       value: 
-      objectReference: {fileID: 11400000, guid: eb65ecafafc9cec4ea675535df415985,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4917240190225285356, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -3419,7 +3423,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6414908439600597232, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -3479,7 +3483,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3891,7 +3895,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832727629}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39f194f336c192141b1e26547c7e49b5, type: 3}
   m_Name: 
@@ -3940,16 +3944,16 @@ MonoBehaviour:
   - {fileID: 386886313}
   - {fileID: 851732913}
   - {fileID: 1213806399}
+  - {fileID: 1397166430}
+  - {fileID: 2099147455}
+  - {fileID: 1947302040}
+  - {fileID: 1412412353}
   - {fileID: 371910202}
   - {fileID: 1630413430}
-  - {fileID: 1397166430}
-  - {fileID: 1412412353}
-  - {fileID: 1947302040}
-  - {fileID: 2099147455}
   - {fileID: 1960720032}
-  - {fileID: 748551172}
-  - {fileID: 1367867729}
   - {fileID: 1188903653}
+  - {fileID: 1367867729}
+  - {fileID: 748551172}
   - {fileID: 339050576}
   - {fileID: 675624842}
   - {fileID: 1832727633}

@@ -13,10 +13,13 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
 
     private float EnterDuration = 0.716f;
     private float elaspeTimmerEnter;
-
     public float elapesTimmerStay { get; private set; }
+    public float elapesTimmerExit { get; private set; } 
+    public float elapesTimmerExitAttacked { get; private set; }
     public float StayDuration { get; private set; }
 
+    private float exitDuration;
+    private float exitATKduration;
     public float distanceRightOffset { get 
         {
             if (player.curNodeLeaf is SecondaryWeapon)
@@ -31,7 +34,8 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     {
         Enter,
         Stay,
-        Exit
+        Exit,
+        ExitAttacked
     }
     public HumanShieldInteractionPhase curIntphase;
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)
@@ -45,13 +49,14 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
         curIntphase = HumanShieldInteractionPhase.Enter;
         elaspeTimmerEnter = 0;
         elapesTimmerStay = 0;
+        elapesTimmerExit = 0;
+        elapesTimmerExitAttacked = 0;
 
         base.Enter();
     }
 
     public override void Exit()
     {
-        curIntphase = HumanShieldInteractionPhase.Exit;
         base.Exit();
     }
 
@@ -63,6 +68,15 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public override bool IsReset()
     {
         if(IsComplete())
+            return true;
+
+        if(player.isDead)
+            return true;
+
+        if(player._triggerHitedGunFu)
+            return true;
+
+        if(gotGunFuAttackedAble._character.isDead)
             return true;
 
         return false;
@@ -117,8 +131,42 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
                     if(gotGunFuAttackedAble._character.isDead)
                         isComplete = true;
 
-                    if(elapesTimmerStay >= StayDuration)
+                    if(elapesTimmerStay >= StayDuration 
+                        ||(player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() == false)
+                    {
+                        curIntphase = HumanShieldInteractionPhase.Exit;
+                        player.NotifyObserver(player,this);
+                    }
+                       
+                }
+                break;
+            case HumanShieldInteractionPhase.Exit: 
+                {
+                    elapesTimmerExit += Time.deltaTime;
+
+                    player._movementCompoent.MoveToDirLocal(Vector3.zero, player.breakMaxSpeed, player.breakDecelerate, MoveMode.MaintainMomentum);
+
+                    gotGunFuAttackedAble._character.transform.position = targetAdjustTransform.position + (targetAdjustTransform.right * distanceRightOffset) + (targetAdjustTransform.up * distanceUpOffset);
+                    gotGunFuAttackedAble._character.transform.rotation = targetAdjustTransform.rotation;
+
+                    if (elapesTimmerExit >= exitDuration)
+                    {
+                        curIntphase = HumanShieldInteractionPhase.ExitAttacked;
+                        player.NotifyObserver(player,this);
+                    }
+
+
+                }
+                break;
+            case HumanShieldInteractionPhase.ExitAttacked: 
+                {
+                    elapesTimmerExitAttacked += Time.deltaTime;
+
+                    player._movementCompoent.MoveToDirLocal(Vector3.zero, player.breakMaxSpeed, player.breakDecelerate, MoveMode.MaintainMomentum);
+                    if (elapesTimmerExitAttacked >= exitATKduration)
+                    {
                         isComplete = true;
+                    }
                 }
                 break;
         }

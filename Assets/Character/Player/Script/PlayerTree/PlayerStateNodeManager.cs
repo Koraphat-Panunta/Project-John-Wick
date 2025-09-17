@@ -58,7 +58,6 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerSelectorStateNode weaponDisarmSelector { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf primary_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf secondart_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
-    public HumanThrowGunFuInteractionNodeLeaf humanThrow_GunFuInteraction_NodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit2GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit3GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf dodgeSpinKicklGunFuNodeLeaf { get; private set; }
@@ -247,10 +246,7 @@ public class PlayerStateNodeManager : INodeManager
             && this.player.attackedAbleGunFu._character.isDead == false
 
             , this.player.humanShield);
-        humanThrow_GunFuInteraction_NodeLeaf = new HumanThrowGunFuInteractionNodeLeaf(this.player,
-            () => this.player._isAimingCommand == false 
-            || humanShield_GunFuInteraction_NodeLeaf.isComplete,
-            player.humanThrow);
+        
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
             && this.player.attackedAbleGunFu != null
@@ -305,7 +301,6 @@ public class PlayerStateNodeManager : INodeManager
         Hit1gunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
         Hit1gunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit1gunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
-        humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanThrow_GunFuInteraction_NodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);

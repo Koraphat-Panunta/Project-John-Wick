@@ -32,6 +32,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     public override void Enter()
     {
         isStayOnEnter = true;
+        isExitOnEnter = true;
         humanShield_GunFuInteraction_NodeLeaf = enemy.gunFuAbleAttacker.curGunFuNode as HumanShield_GunFuInteraction_NodeLeaf;
         got_threwDown_time = 0;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
@@ -43,7 +44,6 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     public override void Exit()
     {
-        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         enemy.friendlyFirePreventingBehavior.EnableFriendlyFirePreventing();
         base.Exit();
     }
@@ -55,26 +55,42 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
 
     private bool isStayOnEnter;
+    private bool isExitOnEnter;
     public override void UpdateNode()
     {
+
+        switch (interactionPhase)
+        {
+            case HumanShieldInteractionPhase.Enter:
+                {
+
+                }
+                break;
+            case HumanShieldInteractionPhase.Stay:
+                {
+                    if (isStayOnEnter)
+                    {
+                        StateStay();
+                    }
+                }
+                break;
+            case HumanShieldInteractionPhase.Exit:
+                {
+
+                }
+                break;
+            case HumanShieldInteractionPhase.ExitAttacked:
+                {
+                    if (isExitOnEnter)
+                    {
+                        StateExit();
+                    }
+                    enemy._isPainTrigger = true;
+                }
+                break;
+
+        }
         TransitioningCheck();
-        if(interactionPhase == HumanShieldInteractionPhase.Enter)
-        {
-
-        }
-        else if(interactionPhase == HumanShieldInteractionPhase.Stay)
-        {
-            if (isStayOnEnter)
-            {
-                StateStay();
-                isStayOnEnter = false;
-                nodeLeafTransitionBehavior.TransitionAbleAll(this);
-            }
-
-        }
-        else if(interactionPhase == HumanShieldInteractionPhase.Exit
-            || enemy.gunFuAbleAttacker.curGunFuNode is HumandShield_GotInteract_NodeLeaf == false)
-            isComplete = true;
 
         base.UpdateNode();
     }
@@ -90,16 +106,34 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     {
         animator.CrossFade(stateNameStay, 0.075f, 0);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-
+        enemy._posture = 0;
         enemy.NotifyObserver(enemy, this);
     }
     public void StateExit()
     {
-        animator.CrossFade(stateNameExit, 0.075f, 0);
+        animator.CrossFade(stateNameExit, 0.075f, 0,.57f);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-
+        nodeLeafTransitionBehavior.TransitionAbleAll(this);
         enemy.NotifyObserver(enemy, this);
-        enemy._posture = 0;
+
+    }
+
+    public override bool IsReset()
+    {
+        if (enemy._triggerHitedGunFu)
+            return true;
+
+        if (enemy.gunFuAbleAttacker.curGunFuNode 
+            is HumanShield_GunFuInteraction_NodeLeaf == false)
+            return true;
+
+        if (IsComplete())
+            return true;
+
+        if (enemy.isDead)
+            return true;
+
+        return false;
     }
 
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);

@@ -338,7 +338,9 @@ public partial class PlayerAnimationManager : INodeManager
         humanThrowNodeLeaf = new PlayAnimationNodeLeaf(
            () => 
            {
-               if(playerStateNodeMnager.TryGetCurNodeLeaf<HumanThrowGunFuInteractionNodeLeaf>())
+               if(playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf)
+               && (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit
+               || humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.ExitAttacked))
                    return true;
 
                return false;

@@ -17,7 +17,7 @@ public class EnemyGetShootDirection
     }
     public Vector3 GetShootingPos()
     {
-        float accuracy = Random.Range(0, 0.075f);
+        float accuracy = Random.Range(0, 0.1f);
         Vector3 dirTarget;
 
         if(enemy._currentWeapon == null)

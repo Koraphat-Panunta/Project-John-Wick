@@ -63,12 +63,12 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
    
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red*0.4f;
-        Vector3 shperePos = transform.position 
-            + (transform.forward * gunFuHitScriptableObject.attackVolumeForward)
-            + (transform.up * gunFuHitScriptableObject.attackVolumeUpward)
-            + (transform.right * gunFuHitScriptableObject.attackVolumeRightward);
-        Gizmos.DrawSphere(shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
+        //Gizmos.color = Color.red*0.4f;
+        //Vector3 shperePos = transform.position 
+        //    + (transform.forward * gunFuHitScriptableObject.attackVolumeForward)
+        //    + (transform.up * gunFuHitScriptableObject.attackVolumeUpward)
+        //    + (transform.right * gunFuHitScriptableObject.attackVolumeRightward);
+        //Gizmos.DrawSphere(shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
     }
 
    

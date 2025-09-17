@@ -62,7 +62,7 @@ public partial class Player : SubjectPlayer,
         _triggerExecuteGunFu = false;
         _isParkourCommand = false;
         _triggerGunFu = false;
-        Debug.Log("Time fixDeltaTime = " + Time.fixedDeltaTime);
+ 
     }
    
     private void Update()
@@ -224,10 +224,16 @@ public partial class Player : SubjectPlayer,
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
-        if ((GetHP()/GetMaxHp()) < 0.35f)
+        if ((GetHP() / GetMaxHp()) < 0.35f)
+        {
             AddHP(hpGetAbleObject.amoutOfHpAdd * 2);
+            Debug.Log("Regen hp = " + hpGetAbleObject.amoutOfHpAdd * 2);
+        }
         else
+        {
             AddHP(hpGetAbleObject.amoutOfHpAdd);
+            Debug.Log("Regen hp = " + hpGetAbleObject.amoutOfHpAdd);
+        }
         NotifyObserver(this, NotifyEvent.RecivedHp);
     }
 

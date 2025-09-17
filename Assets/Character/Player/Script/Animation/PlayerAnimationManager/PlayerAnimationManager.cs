@@ -143,13 +143,14 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
     {
         if (node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
         {
-            if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) > 8)
-                isIn_C_A_R_aim = false;
+           
+                
 
             if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) < 3.5f)
+               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) < 2.5f)
                 isIn_C_A_R_aim = true;
+            else
+                isIn_C_A_R_aim = false;
         }
     }
 

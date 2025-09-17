@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 
 using System;
+using UnityEngine.Animations.Rigging;
+
 
 
 
@@ -20,7 +22,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     public float distance;
     private Vector3 cameradistance = new Vector3(0,0,1);
     public float rotationSpeed = 3f;
-    public float collisionPushForward = 0.5f;
+    public float collisionPushForward = 0;
     public LayerMask collisionLayers;
 
     public CinemachineCamera cinemachineCamera;
@@ -45,7 +47,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     private bool isBeenUpdate;
     private void Awake()
     {
-        transform.SetParent(null,true);
+        //transform.SetParent(null,true);
     }
     void Start()
     {
@@ -70,37 +72,80 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);
 
     public void UpdateCameraPosition() => UpdateCameraPosition(this.targetFollow.position, this.targetLook.position);
+    private float trackingRate;
     public void UpdateCameraPosition(Vector3 targetFollow,Vector3 targetLookAt)
     {
         if(isBeenUpdate == true)
             return;
 
+        Vector3 targetPos;
+        Vector3 targetDir;
+
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
-        transform.position = targetFollow + rotation * (cameradistance * distance);
-        transform.LookAt(targetLookAt);
-        transform.position += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
+        targetPos = targetFollow + rotation * (cameradistance * distance);
+        targetDir = (targetLookAt - targetPos).normalized;
 
-        Vector3 startCastPos = targetLookAt + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
-        Vector3 castDir = transform.position - startCastPos;
+        Vector3 camForward = targetDir;
+        Vector3 camRight = Vector3.Cross(Vector3.up, camForward).normalized;
+        Vector3 camUp = Vector3.Cross(camForward, camRight).normalized;
 
-        //CheckCameraBeenBlocked
-        if(Physics.Raycast(targetLookAt, (transform.position - targetLookAt).normalized, out RaycastHit hit, (transform.position - targetLookAt).magnitude+0.2f, collisionLayers,QueryTriggerInteraction.Ignore))
+        // Apply offset in camera's local space
+        targetPos += camRight * cameraOffset.x;
+        targetPos += camUp * cameraOffset.y;
+        targetPos += camForward * cameraOffset.z;
+
+
+
+        //Vector3 startCastPos = targetLookAt + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
+        //Vector3 castDir = transform.position - startCastPos;
+
+       
+
+        Vector3 nearCenter = targetPos + (targetDir * cinemachineCamera.Lens.NearClipPlane);
+
+        ////CheckCameraBeenBlocked
+        Vector3 targetFollowTargetPosition = this.targetFollowTarget.position;
+        if (Physics.Raycast(targetFollowTargetPosition ,(targetPos - targetFollowTargetPosition).normalized, out RaycastHit hit, (targetPos - targetFollowTargetPosition).magnitude, collisionLayers, QueryTriggerInteraction.Ignore))
         {
-            Vector3 camToHitDir = hit.point - transform.position;
+            Debug.DrawLine(targetFollowTargetPosition,hit.point,Color.red);
 
-            Debug.DrawLine(hit.point,transform.position,Color.red);
-            float angle = Vector3.Angle(transform.forward, camToHitDir.normalized);
+            Vector3 camPosToHitpoint = hit.point - targetPos;
 
-            float moveForward = camToHitDir.magnitude * Mathf.Cos(Mathf.Deg2Rad*angle) + collisionPushForward;
-            Debug.DrawLine(transform.position, transform.position + transform.forward * moveForward, Color.blue);
+            float angle = Vector3.Angle(camPosToHitpoint, hit.normal);
 
-            transform.position += transform.forward * moveForward + (hit.normal*collisionPushForward);
+            
 
-            if(Physics.Raycast(targetLookAt, (transform.position-targetLookAt).normalized, out RaycastHit hitSecond, (transform.position - targetLookAt).magnitude + 0.2f, collisionLayers))
-            {
-                transform.position = hitSecond.point + (hitSecond.normal* collisionPushForward);
-            }
+            Debug.DrawRay(targetPos, targetDir * camPosToHitpoint.magnitude, Color.green);
+
+            targetPos += targetDir * (camPosToHitpoint.magnitude * Mathf.Cos(angle * Mathf.Deg2Rad));
+
+            Debug.DrawLine(hit.point,targetPos,Color.blue);
         }
+
+
+        ////Check CameraBeenCollide
+
+        //nearCenter = targetPos + (targetDir * cinemachineCamera.Lens.NearClipPlane);
+
+        //Vector3 nearLeft = nearCenter - (camRight * halfWidth);
+        //Vector3 nearRight = nearCenter + (camRight * halfWidth);
+
+        Vector3 sideTargerAdd = Vector3.zero;
+
+        if (Physics.Raycast(targetPos, camRight * -1, out RaycastHit hitLeft, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
+        {
+            sideTargerAdd += camRight * 0.2f;
+        }
+
+        if (Physics.Raycast(targetPos, camRight, out RaycastHit hitRight, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
+        {
+            sideTargerAdd += camRight * -0.2f;
+        }
+
+        targetPos += sideTargerAdd;
+
+        transform.position = targetPos;
+        transform.rotation = Quaternion.LookRotation(targetDir);
         isBeenUpdate = true;
     }
     

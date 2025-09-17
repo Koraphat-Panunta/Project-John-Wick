@@ -82,7 +82,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
                     if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
                     {
-                        damage *= 0.35f;
+                        damage *= 0.025f;
                         postureDamaged = 0;
                         staggerDamaged = 0;
                     }
