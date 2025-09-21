@@ -337,7 +337,7 @@ MonoBehaviour:
   aimDownSightCameraSensivity: 1
   inputLook: 
   curSide: 0
-  cameraKickbackMultiple: 0.001
+  cameraKickImpulseMultiple: 0.0004
   cameraKickUpMultiple: 0.004
   gunFuCameraKickMultiply: 0.26
   cameraTPSStandView_SCRP: {fileID: 11400000, guid: ea66ad0e041ea984abb314eebdfff9bf,
@@ -391,14 +391,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImpulseDefinition:
     ImpulseChannel: 1
-    ImpulseShape: 1
+    ImpulseShape: 2
     CustomImpulseShape:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1.0065918
+        inSlope: -1.0696204
+        outSlope: -1.0696204
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.004713919
+        inSlope: -1.0696204
+        outSlope: -1.0696204
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ImpulseDuration: 0.2
+    ImpulseDuration: 0.15
     ImpulseType: 0
     DissipationRate: 0.25
     RawSignal: {fileID: 0}
@@ -429,7 +447,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0, y: 0, z: 0.8}
+  DefaultVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &2349786387772042701
 MonoBehaviour:
   m_ObjectHideFlags: 0

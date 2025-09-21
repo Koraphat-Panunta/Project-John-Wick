@@ -2732,12 +2732,6 @@ PrefabInstance:
       objectReference: {fileID: 1658749143}
     - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
-      propertyPath: cameraTPSDodgeView_SCRP
-      value: 
-      objectReference: {fileID: 11400000, guid: da30ab3e6cb897247ad3f93789df1b38,
-        type: 2}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
       propertyPath: thirdPersonCinemachineCamera
       value: 
       objectReference: {fileID: 1589638607}
@@ -3423,7 +3417,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6414908439600597232, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -3483,7 +3477,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3945,17 +3939,17 @@ MonoBehaviour:
   - {fileID: 851732913}
   - {fileID: 1213806399}
   - {fileID: 1397166430}
-  - {fileID: 2099147455}
-  - {fileID: 1947302040}
-  - {fileID: 1412412353}
-  - {fileID: 371910202}
-  - {fileID: 1630413430}
   - {fileID: 1960720032}
-  - {fileID: 1188903653}
+  - {fileID: 1630413430}
+  - {fileID: 1947302040}
+  - {fileID: 371910202}
+  - {fileID: 1412412353}
+  - {fileID: 2099147455}
   - {fileID: 1367867729}
-  - {fileID: 748551172}
-  - {fileID: 339050576}
   - {fileID: 675624842}
+  - {fileID: 748551172}
+  - {fileID: 1188903653}
+  - {fileID: 339050576}
   - {fileID: 1832727633}
   initializedOrder: 0100000002000000030000000400000005000000050000000500000005000000050000000500000005000000070000000700000007000000070000000700000008000000
 --- !u!114 &1832727633

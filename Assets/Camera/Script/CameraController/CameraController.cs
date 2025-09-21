@@ -69,7 +69,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
         inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
         cameraManagerNode.FixedUpdateNode();
     }
-    [SerializeField] private float cameraKickbackMultiple;
+    [SerializeField] private float cameraKickImpulseMultiple;
     public float cameraKickUpMultiple;
 
     [Range(0, 5)]
@@ -86,7 +86,11 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
             if (notifyEvent == SubjectPlayer.NotifyEvent.Firing)
             {
                 cameraKickBack.Performed(player._currentWeapon);
-                cameraImpluse.Performed((player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickbackMultiple);
+                cameraImpluse.Performed(new Vector3(
+                    (player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
+                    , (player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickImpulseMultiple
+                    ,0)
+                    );
             }
 
             if (notifyEvent == SubjectPlayer.NotifyEvent.GetShoot)

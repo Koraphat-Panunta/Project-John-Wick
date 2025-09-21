@@ -132,17 +132,17 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
         Vector3 sideTargerAdd = Vector3.zero;
 
-        if (Physics.Raycast(targetPos, camRight * -1, out RaycastHit hitLeft, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
-        {
-            sideTargerAdd += camRight * 0.2f;
-        }
+        //if (Physics.Raycast(targetPos, camRight * -1, out RaycastHit hitLeft, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
+        //{
+        //    sideTargerAdd += camRight * 0.2f;
+        //}
 
-        if (Physics.Raycast(targetPos, camRight, out RaycastHit hitRight, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
-        {
-            sideTargerAdd += camRight * -0.2f;
-        }
+        //if (Physics.Raycast(targetPos, camRight, out RaycastHit hitRight, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
+        //{
+        //    sideTargerAdd += camRight * -0.2f;
+        //}
 
-        targetPos += sideTargerAdd;
+        //targetPos += sideTargerAdd;
 
         transform.position = targetPos;
         transform.rotation = Quaternion.LookRotation(targetDir);
