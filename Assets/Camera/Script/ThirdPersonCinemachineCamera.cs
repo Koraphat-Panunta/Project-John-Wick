@@ -93,94 +93,52 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         targetPos += camRight * cameraOffset.x;
         targetPos += camUp * cameraOffset.y;
         targetPos += camForward * cameraOffset.z;
-
-
-
-        //Vector3 startCastPos = targetLookAt + transform.right * cameraOffset.x + transform.up * cameraOffset.y;
-        //Vector3 castDir = transform.position - startCastPos;
-
        
 
         Vector3 nearCenter = targetPos + (targetDir * cinemachineCamera.Lens.NearClipPlane);
 
-        ////CheckCameraBeenBlocked
-        Vector3 targetFollowTargetPosition = this.targetFollowTarget.position;
-        if (Physics.Raycast(targetFollowTargetPosition ,(targetPos - targetFollowTargetPosition).normalized, out RaycastHit hit, (targetPos - targetFollowTargetPosition).magnitude, collisionLayers, QueryTriggerInteraction.Ignore))
+        ////CheckCameraBeenBlock
+        float collideSphereRaduis = 0.15f;
+
+        Vector3 targetFollowTargetPosition = this.targetFollowTarget.position + (Vector3.up*0.5f) + (camUp*cameraOffset.y);
+
+
+        if (Physics.SphereCast(
+           targetFollowTargetPosition
+           ,collideSphereRaduis
+           , (targetPos - targetFollowTargetPosition).normalized
+           , out RaycastHit hitInfo
+           , (targetPos - targetFollowTargetPosition).magnitude 
+           , LayerMask.GetMask("Default")
+           , QueryTriggerInteraction.Ignore))
         {
-            Debug.DrawLine(targetFollowTargetPosition,hit.point,Color.red);
+            //Debug.DrawRay(targetFollowTargetPosition, (targetPos - targetFollowTargetPosition), Color.red);
+            //Debug.DrawLine(targetFollowTargetPosition, hitInfo.point, Color.green);
 
-            Vector3 camPosToHitpoint = hit.point - targetPos;
-
-            float angle = Vector3.Angle(camPosToHitpoint, hit.normal);
-
-            
-
-            Debug.DrawRay(targetPos, targetDir * camPosToHitpoint.magnitude, Color.green);
-
-            targetPos += targetDir * (camPosToHitpoint.magnitude * Mathf.Cos(angle * Mathf.Deg2Rad));
-
-            Debug.DrawLine(hit.point,targetPos,Color.blue);
+            targetPos = hitInfo.point + ((hitInfo.normal * (collideSphereRaduis)));
+        }
+        else
+        {
+            if (Physics.Raycast(
+            targetFollowTargetPosition
+            , (targetPos - targetFollowTargetPosition).normalized
+            , out RaycastHit hitInfoRay
+            , (targetPos - targetFollowTargetPosition).magnitude + collideSphereRaduis
+            , LayerMask.GetMask("Default")
+            , QueryTriggerInteraction.Ignore))
+            {
+                targetPos = hitInfoRay.point + (hitInfoRay.normal* (collideSphereRaduis));
+            }
         }
 
 
-        ////Check CameraBeenCollide
-
-        //nearCenter = targetPos + (targetDir * cinemachineCamera.Lens.NearClipPlane);
-
-        //Vector3 nearLeft = nearCenter - (camRight * halfWidth);
-        //Vector3 nearRight = nearCenter + (camRight * halfWidth);
-
-        Vector3 sideTargerAdd = Vector3.zero;
-
-        //if (Physics.Raycast(targetPos, camRight * -1, out RaycastHit hitLeft, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
-        //{
-        //    sideTargerAdd += camRight * 0.2f;
-        //}
-
-        //if (Physics.Raycast(targetPos, camRight, out RaycastHit hitRight, .2f, collisionLayers, QueryTriggerInteraction.Ignore))
-        //{
-        //    sideTargerAdd += camRight * -0.2f;
-        //}
-
-        //targetPos += sideTargerAdd;
 
         transform.position = targetPos;
         transform.rotation = Quaternion.LookRotation(targetDir);
         isBeenUpdate = true;
     }
     
-    //private CancellationTokenSource cancellationTokenSource;
-    //public async void UpdateTargetFollowLookAt(Vector3 targetFollow, Vector3 targetLookAt,float transitionDuration)
-    //{
-    //    if(cancellationTokenSource != null)
-    //    {
-    //        cancellationTokenSource.Cancel();
-    //        cancellationTokenSource.Dispose();
-    //    }
-
-    //    cancellationTokenSource = new CancellationTokenSource();
-    //    CancellationToken token = cancellationTokenSource.Token;
-
-    //    float t = 0;
-    //    Vector3 beginTargetFollow = curFollowTarget;
-    //    Vector3 beginTargetLookAt = curLookTarget;
-    //    try
-    //    {
-    //        while (t <= transitionDuration)
-    //        {
-    //            token.ThrowIfCancellationRequested();
-
-    //            t += Time.deltaTime;
-    //            this.curFollowTarget = Vector3.Lerp(beginTargetFollow, targetFollow, t);
-    //            this.curLookTarget = Vector3.Lerp(beginTargetLookAt, targetLookAt, t);
-    //            await Task.Yield();
-    //        }
-    //    }
-    //    catch (OperationCanceledException) 
-    //    {
-    //        Debug.Log("UpdateTargetFollowLookAt was cancelled.");
-    //    }
-    //}
+    
 
 
     private void OnValidate()
@@ -201,6 +159,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         Gizmos.color = new Color(0.02f, 0.455f, 0.851f);
         Gizmos.DrawWireSphere(targetFollow.position, distance);
 
+        Gizmos.DrawWireSphere(transform.position,0.15f);
         //Gizmos.color = Color.white;
         //Gizmos.DrawWireSphere(_transform.position, collisionRaduisCheck);
 
