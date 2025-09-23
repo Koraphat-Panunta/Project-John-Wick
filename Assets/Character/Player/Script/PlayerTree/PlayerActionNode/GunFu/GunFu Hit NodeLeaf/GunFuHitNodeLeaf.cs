@@ -69,13 +69,14 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             if (_timer >= (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
             {
                 Debug.Log("HitCount = " + hitCount);
-                hitCount++;
-                Attacking();
                 gotAttackedAlready.Clear();
+                hitCount++;
             }
             else if (_timer > (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].x) - lenghtOffset
             && _timer < (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
+            {
                 Attacking();
+            }
 
         }
        
@@ -98,8 +99,13 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
         player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
 
-        for(int i =0; i < targets.Count; i++)
+        if (targets.Count <= 0)
+            return;
+
+        for(int i = 0; i < targets.Count; i++)
         {
+            Debug.Log("i = " + i);
+
             Debug.Log("target = " + targets[i] + "1");
 
             if (this.gotAttackedAlready.Contains(targets[i]))
@@ -112,15 +118,24 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
             Debug.Log("target = " + targets[i] + "3");
 
-            Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up) * (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
-            (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
-                , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-            curPhaseGunFuHit = GunFuPhaseHit.Attacking;
-            targets[i].TakeGunFuAttacked(this, gunFuAble);
-            this.gotAttackedAlready.Add(targets[i]);
-            Debug.Log("PlayerNotufyHit");
-            player.NotifyObserver(player, this);
+            try 
+            {
+                Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up) * (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
+                (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
+                    (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
+                    , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+                curPhaseGunFuHit = GunFuPhaseHit.Attacking;
+                targets[i].TakeGunFuAttacked(this, gunFuAble);
+                this.gotAttackedAlready.Add(targets[i]);
+                Debug.Log("PlayerNotufyHit");
+                player.NotifyObserver(player, this);
+            }
+            catch
+            {
+                throw new Exception("i = "+i+" hitcount = "+hitCount);
+            }
+
+            
         }
 
         

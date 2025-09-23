@@ -224,15 +224,16 @@ public partial class Player : SubjectPlayer,
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
-        if ((GetHP() / GetMaxHp()) < 0.35f)
+        hpGetAbleObject.amoutOfHpAdd = 35f;
+        if ((GetHP() / GetMaxHp()) < 0.5f)
         {
-            AddHP(hpGetAbleObject.amoutOfHpAdd * 2);
-            Debug.Log("Regen hp = " + hpGetAbleObject.amoutOfHpAdd * 2);
+            AddHP(Mathf.Abs((maxHp * 0.5f) - GetHP()));
+            AddHP(hpGetAbleObject.amoutOfHpAdd );
         }
         else
         {
             AddHP(hpGetAbleObject.amoutOfHpAdd);
-            Debug.Log("Regen hp = " + hpGetAbleObject.amoutOfHpAdd);
+
         }
         NotifyObserver(this, NotifyEvent.RecivedHp);
     }

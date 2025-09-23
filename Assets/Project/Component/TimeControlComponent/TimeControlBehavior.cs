@@ -15,7 +15,7 @@ public class TimeControlBehavior
     }
 
     // --- Simple time stop ---
-    public void TriggerTimeStop(float duration)
+    public void TriggerCancelTimeControlBehavior()
     {
         // Stop previous if still running
         if (runningCoroutine != null)
@@ -24,23 +24,11 @@ public class TimeControlBehavior
             runningCoroutine = null;
         }
 
-        runningCoroutine = coroutineCaller.StartCoroutine(TimeStopRoutine(duration));
-    }
-
-    private IEnumerator TimeStopRoutine(float duration)
-    {
-
-
-        Time.timeScale = leastTimeScale;
-        Time.fixedDeltaTime = Time.timeScale * .02f;
-
-        yield return new WaitForSecondsRealtime(duration); // unaffected by timeScale
-
         Time.timeScale = 1f;
         Time.fixedDeltaTime = fixedDeltaTime;
-
-        runningCoroutine = null; // clear when done
     }
+
+  
 
     // --- Time stop with gradual reset ---
     public void TriggerTimeStop(float durationStop, float durationReset, AnimationCurve animationCurve = null)
@@ -127,4 +115,48 @@ public class TimeControlBehavior
         Time.fixedDeltaTime = fixedDeltaTime;
         runningCoroutine = null; // clear when done
     }
+
+    public void TriggerBulletTime(float slowTimeScale) 
+    {
+        Time.timeScale = Mathf.Clamp(slowTimeScale, leastTimeScale, 1);
+        Time.fixedDeltaTime = Time.timeScale * .02f;
+    }
+
+    public void TriggerBulletTime(float duration, AnimationCurve animationCurve)
+    {
+        // Stop previous if still running
+        if (runningCoroutine != null)
+        {
+            coroutineCaller.StopCoroutine(runningCoroutine);
+            runningCoroutine = null;
+        }
+
+        runningCoroutine = coroutineCaller.StartCoroutine(TriggerBulletTimeCoroutine(duration, animationCurve));
+    }
+    private IEnumerator TriggerBulletTimeCoroutine(float duration, AnimationCurve animationCurve)
+    {
+        Time.fixedDeltaTime = leastTimeScale * .02f;
+       
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float normalized = Mathf.Clamp01(elapsed / duration);
+
+            float timeScale = (animationCurve != null)
+                ? animationCurve.Evaluate(normalized)
+                : normalized;
+
+            Time.timeScale = timeScale;
+
+            yield return null; // wait 1 frame
+        }
+
+        // Restore full time
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = fixedDeltaTime;
+        runningCoroutine = null; // clear when done
+    }
+
 }

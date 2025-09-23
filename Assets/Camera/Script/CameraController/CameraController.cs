@@ -38,6 +38,13 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     }
     
     public Player.ShoulderSide curSide;
+
+    [Range(0, 10)]
+    [SerializeField] private float shootImpluseDuration;
+
+    [Range(0, 10)]
+    [SerializeField] private float hitImpluseDuration;
+
     public void Initialized()
     {
         //allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
@@ -86,9 +93,10 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
             if (notifyEvent == SubjectPlayer.NotifyEvent.Firing)
             {
                 cameraKickBack.Performed(player._currentWeapon);
+                cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = shootImpluseDuration;
                 cameraImpluse.Performed(new Vector3(
-                    (player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
-                    , (player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilCameraController) * cameraKickImpulseMultiple
+                    (player._currentWeapon.RecoilKickBack *.2f ) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
+                    , (player._currentWeapon.RecoilKickBack *.2f ) * cameraKickImpulseMultiple
                     ,0)
                     );
             }
@@ -130,20 +138,29 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         if(this.curGunFuNode == gunFuHitNodeLeaf)
                             this.curGunFuNode = null;
                     }
-                        
 
-                    if(gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
-                        cameraImpluse.Performed(new Vector3(0.25f, 0, 0) * this.gunFuCameraKickMultiply);
-                    else if(gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
-                        cameraImpluse.Performed(0.25f * this.gunFuCameraKickMultiply);
+
+                        if (gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                        {
+                            cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration*2.5f;
+                            cameraImpluse.Performed(new Vector3(-1, 0, 1f) * this.gunFuCameraKickMultiply);
+                        }
+                        else if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                        {
+                            cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
+                            cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);
+                        }
                     break;
                 }
             case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
-                    if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
-                        gunFuCameraTimer = gunFuCameraDuration;
-                    else if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
-                        cameraImpluse.Performed(new Vector3(0, 0.25f, 0) * this.gunFuCameraKickMultiply);
+                        if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                            gunFuCameraTimer = gunFuCameraDuration;
+                        else if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
+                        {
+                            cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
+                            cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);
+                        }
                     break;
                 }
             case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf: 

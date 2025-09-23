@@ -27,4 +27,5 @@ public class RestrictScriptableObject : ScriptableObject
 
     public AnimationClip restrictEnterClip;
     public AnimationClip restrictExitClip;
+
 }

@@ -7,9 +7,10 @@ public class EnemyGetShootDirection
     private Enemy enemy;
     private Weapon weapon;
     public float trackingTargetRate { get; protected set; }
-    public float trackingTargetAccelerate = .05f;
+    public float trackingTargetAccelerate = .02f;
     public float trackingTargetDecelerate = 1;
 
+    public float maxTrackRate = 0.95f;
 
     public EnemyGetShootDirection(Enemy enemy)
     {
@@ -74,7 +75,7 @@ public class EnemyGetShootDirection
     }
     public void SetTrackingRate(float trackingRate)
     {
-        this.trackingTargetRate = Mathf.Clamp01(trackingRate);
+        this.trackingTargetRate = Mathf.Clamp(trackingRate,0,this.maxTrackRate);
     }
    
 

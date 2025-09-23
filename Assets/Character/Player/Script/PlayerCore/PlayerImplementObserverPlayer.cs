@@ -23,35 +23,41 @@ public partial class Player : IObserverPlayer
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
-                    {
                         PlayerImlementObserverBehavior.HitStop(gunFuHitNodeLeaf,player.timeControlBehavior);
-                    }
                     break;
                 }
             case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
-                    if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-                        timeControlBehavior.TriggerTimeStop(.3f,1f,.3f);
+                    if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                        timeControlBehavior.TriggerBulletTime(this.restrictBulletTimeDuration, this.restrictBulletTimeCurve);
+                    else if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+                        NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
+                    else if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                        timeControlBehavior.TriggerCancelTimeControlBehavior();
+                    break;
                 }
-                break ;
+            case HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
+                {
+                    if(humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                        timeControlBehavior.TriggerBulletTime(this.humanShieldBulletTimeDuration, this.humanShiedlBulletTimeCurve);
+                    else if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+                        NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
+                    else if(humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+                        timeControlBehavior.TriggerCancelTimeControlBehavior();
+                    break;
+                }
+
         }
         if((node is GunFuExecute_Single_NodeLeaf execute_Single_NodeLeaf
             && execute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
             ||(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Single_NodeLeaf
             && gunFuExecute_OnGround_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
         {
-            TriggerIFrame(.5f);
+            TriggerIFrame(.75f);
             NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
         }
 
-        if (node is RestrictGunFuStateNodeLeaf gunFuStateNodeLeaf && gunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        {
-            NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
-        }
-        if (node is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction && humanShield_GunFuInteraction.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
-        {
-            NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
-        }
+       
         if(node is PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf && dodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
         {
             TriggerIFrame(0.45f);
