@@ -55,7 +55,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         enemy.NotifyCommunicate += OnNotifyGetCommunicate;
         _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill;
 
-        lostSightTime = 8;
+        lostSightTime = 4;
         _takeCoverAble = true;
         base.Initialized();
     }
@@ -118,6 +118,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     private void OnNotifyGetCommunicate(Communicator communicator)
     {
 
+
         if (communicator is EnemyCommunicator enemyCommunicator == false)
             return;
 
@@ -130,6 +131,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                         return;
 
                     _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
+                    Debug.Log("OnNotifyGetCommunicate curCombatPhase = "+ _curCombatPhase);
                     _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
                 }
                 break;

@@ -24,7 +24,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
     #region ImplementCommunicate
     public GameObject communicateAble => enemy.communicateAble;
     public Action<Communicator> NotifyCommunicate { get => enemy.NotifyCommunicate; set => enemy.NotifyCommunicate = value; }
-    public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator => enemy.GetCommunicate(typeCommunicator);
+    public void GetCommunicate<TypeCommunicator,T>(TypeCommunicator typeCommunicator,T var) where TypeCommunicator : Communicator => enemy.GetCommunicate(typeCommunicator,var);
     #endregion
 
     #region ImplementGotHearding

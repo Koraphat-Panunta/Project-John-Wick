@@ -43,13 +43,17 @@ public class EnemyWaveManager : IObserverEnemy
                     enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, out Enemy spawnedEnemy);
                     spawnedEnemy.AddObserver(this);
                     spawnedEnemy.targetKnewPos = player.transform.position;
-                    spawnedEnemy.NotifyEnemySpottingTarget.Invoke(player.gameObject);
+
+                    EnemyCommunicator enemyCommunicator = new EnemyCommunicator();
+                    enemyCommunicator.enemyCommunicateMassage = EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition;
+                    spawnedEnemy.GetCommunicate<EnemyCommunicator,Vector3>(enemyCommunicator, player.transform.position);
                     enemies.Add(spawnedEnemy);
                 }
 
             }
            
         }
+        
     }
 
 

@@ -8,7 +8,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 {
     //SetUpStats
     private int _magazineCapacity = 17;
-    private float _rateOfFire = 400;
+    private float _rateOfFire = 420;
     private float _reloadSpeed = 1.2f;
     [Range(0,600)]
     [SerializeField] private float _accuracy /*= 136*/;

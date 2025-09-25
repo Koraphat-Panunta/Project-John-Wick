@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using UnityEngine;
 
 public class EnemyTacticDecision : EnemyDecision
@@ -83,7 +83,7 @@ public class EnemyTacticDecision : EnemyDecision
     protected override void OnNotifySpottingTarget(GameObject target)
     {
         curCombatPhase = CombatPhase.Alert;
-        enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
+        enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,enemy.targetKnewPos);
     }
 
     private void OnNotifyGetCommunicate(Communicator communicator)

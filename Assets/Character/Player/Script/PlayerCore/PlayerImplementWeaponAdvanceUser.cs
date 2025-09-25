@@ -23,7 +23,26 @@ public partial class Player: IWeaponAdvanceUser
     public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 
-    public bool _isPullTriggerCommand { get; set; }
+    [SerializeField] private bool isPullTriggerCommand;
+    public bool _isPullTriggerCommand { 
+        get 
+        {
+            if(isPullTriggerCommand)
+                return true;
+
+            if(_currentWeapon != null
+                && _currentWeapon.fireMode == Weapon.FireMode.Single
+                && (_currentWeapon.triggerState == TriggerState.Up || _currentWeapon.triggerState == TriggerState.IsUp)
+                && commandBufferManager.TryGetCommand(nameof(_isPullTriggerCommand)))
+                return true;
+
+            return false;
+        }
+        set 
+        { 
+            this.isPullTriggerCommand = value; 
+        }
+    }
     public bool _isAimingCommand { get; set; }
     public bool _isReloadCommand { get; set; }
     public bool isSwapShoulder;

@@ -52,7 +52,7 @@ public partial class Enemy : SubjectEnemy
         MotionControlInitailized();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
         _movementCompoent = new EnemyMovement(this, transform, this, agent);
-        enemyCommunicator = new EnemyCommunicator(this);
+        enemyCommunicator = new EnemyCommunicator();
         InitailizedFindingTarget();
         InitailizedCoverUsable();
         InitailizedGunFuComponent();
@@ -263,7 +263,7 @@ public partial class Enemy : SubjectEnemy
 
 
         targetKnewPos = target.transform.position;
-        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition);
+        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,targetKnewPos);
         if (NotifyEnemySpottingTarget != null)
             NotifyEnemySpottingTarget.Invoke(target);
     }
@@ -312,7 +312,7 @@ public partial class Enemy : SubjectEnemy
 
     public Action<Communicator> NotifyCommunicate { get; set; }
     public GameObject communicateAble => gameObject;
-    public void GetCommunicate<TypeCommunicator>(TypeCommunicator typeCommunicator) where TypeCommunicator : Communicator
+    public void GetCommunicate<TypeCommunicator,T>(TypeCommunicator typeCommunicator,T var) where TypeCommunicator : Communicator
     {
 
         if (isDead)
@@ -321,13 +321,12 @@ public partial class Enemy : SubjectEnemy
 
         if (typeCommunicator is EnemyCommunicator enemyCommunicator)
         {
-
             switch (enemyCommunicator.enemyCommunicateMassage)
             {
                 case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                     {
-
-                        targetKnewPos = enemyCommunicator.enemy.targetKnewPos;
+                        if (var is Vector3 targetSendedPosition)
+                            targetKnewPos = targetSendedPosition;
                     }
                     break;
             }

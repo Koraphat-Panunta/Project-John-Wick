@@ -2,18 +2,17 @@ using UnityEngine;
 
 public class EnemyCommunicator : Communicator
 {
-    public Enemy enemy { get; private set; }
-    public EnemyCommunicator(Enemy enemy) 
+    public EnemyCommunicator() 
     {
-        this.enemy = enemy;
+
     }
    public enum EnemyCommunicateMassage
    {
         None,
         SendTargetPosition
    }
-    public EnemyCommunicateMassage enemyCommunicateMassage { get;private set; }
-    public void SendCommunicate(Vector3 position, float raduis, LayerMask layerMask,EnemyCommunicateMassage enemyCommunicateMassage)
+    public EnemyCommunicateMassage enemyCommunicateMassage { get; set; }
+    public void SendCommunicate<T>(Vector3 position, float raduis, LayerMask layerMask,EnemyCommunicateMassage enemyCommunicateMassage, T var)
     {
         this.enemyCommunicateMassage = enemyCommunicateMassage;
         Collider[] target = Physics.OverlapSphere(position, raduis,layerMask.value);
@@ -26,11 +25,10 @@ public class EnemyCommunicator : Communicator
         foreach (Collider collider in target) 
         {
             //Debug.Log("SendCommunicate 3" + collider);
-            if (collider.gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble)
-                && communicateAble.communicateAble != enemy)
+            if (collider.gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble))
             {
                 //Debug.Log("SendCommunicate 4" + communicateAble);
-                communicateAble.GetCommunicate<EnemyCommunicator>(this);
+                communicateAble.GetCommunicate<EnemyCommunicator,T>(this,var);
             }
         }
        

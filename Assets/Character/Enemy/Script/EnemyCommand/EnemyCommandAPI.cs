@@ -13,7 +13,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void Initialized()
     {
         NormalFiringPattern = new NormalFiringPattern(this);
-        enemyCommunicator = new EnemyCommunicator(_enemy);
+        enemyCommunicator = new EnemyCommunicator();
         enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
     }
    
@@ -226,9 +226,9 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
 
     public LayerMask NotifyAbleMask;
-    public void NotifyFriendly(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage) 
+    public void NotifyFriendly<T>(float r, EnemyCommunicator.EnemyCommunicateMassage enemyCommunicateMassage,T var) 
     {
-        enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage); 
+        enemyCommunicator.SendCommunicate(this._enemy.transform.position, r, NotifyAbleMask, enemyCommunicateMassage,var); 
     }
 
    

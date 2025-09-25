@@ -49,6 +49,15 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
             if (player._isAimingCommand)
             {
                 player._isPullTriggerCommand = true;
+
+                if (player._currentWeapon != null
+                    && player._currentWeapon.fireMode == Weapon.FireMode.Single
+                    && (player._currentWeapon.triggerState == TriggerState.Up
+                    || player._currentWeapon.triggerState == TriggerState.IsUp))
+                {
+                    Debug.Log("player.commandBufferManager.AddCommand(nameof(player._isPullTriggerCommand), 1f);");
+                    player.commandBufferManager.AddCommand(nameof(player._isPullTriggerCommand), 1f);
+                }
             }
             else
             {

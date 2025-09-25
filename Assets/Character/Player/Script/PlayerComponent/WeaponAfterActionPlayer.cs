@@ -20,16 +20,19 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
             {
                 case FiringNode firingNode:
                     {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, NotifyEvent.Firing);
                         break;
                     }
                 case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
-                    {    
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player,_reloadMagFullStage);
                         break;
                     }
                 case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
                     {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, _tacticalReloadMagFullStage);
                         break;
                     }
@@ -43,40 +46,67 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     }
                 case LowReadyWeaponManuverNodeLeaf lowReady:
                     {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, lowReady);
                         break;
                     }
-                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf: 
-                    player.NotifyObserver(player, dropWeaponManuverNodeLeaf);
+                case DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf:
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, dropWeaponManuverNodeLeaf);
+                    }
                     break ;
                 case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf:
-                    player.NotifyObserver(player, pickUpWeaponNodeLeaf);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, pickUpWeaponNodeLeaf);
+                    }
                     break;
                 case HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf:
-                    player.NotifyObserver(player, holsterPrimaryWeaponManuverNodeLeaf);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, holsterPrimaryWeaponManuverNodeLeaf);
+                    }
                     break;
                 case HolsterSecondaryWeaponManuverNodeLeaf holsterSecondaryWeaponManuverNodeLeaf:
-                    player.NotifyObserver(player, holsterSecondaryWeaponManuverNodeLeaf);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, holsterSecondaryWeaponManuverNodeLeaf);
+                    }
                     break;
                 case DrawPrimaryWeaponManuverNodeLeaf drawPrimaryWeaponManuverNodeLeaf:
-                    player.NotifyObserver(player, drawPrimaryWeaponManuverNodeLeaf);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, drawPrimaryWeaponManuverNodeLeaf);
+                    }
                     break;
                 case DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf:
-                    player.NotifyObserver(player, drawSecondaryWeaponManuverNodeLeaf);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, drawSecondaryWeaponManuverNodeLeaf);
+                    }
                     break;
                 case PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode:
-                    player.NotifyObserver(player, primaryToSecondarySwitchWeaponManuverLeafNode);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, primaryToSecondarySwitchWeaponManuverLeafNode);
+                    }
                     break;
                 case SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode:
-                    player.NotifyObserver(player, secondaryToPrimarySwitchWeaponManuverLeafNode);
+                    {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
+                        player.NotifyObserver(player, secondaryToPrimarySwitchWeaponManuverLeafNode);
+                    }
                     break;
                 case RestWeaponManuverLeafNode restWeaponManuverLeafNode:
                     {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, restWeaponManuverLeafNode);
                         break;
                     }
                 case IQuickSwitchNode quickSwitchNode:
                     {
+                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, quickSwitchNode);
                         break;
                     }

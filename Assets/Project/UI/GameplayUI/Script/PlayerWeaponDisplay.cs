@@ -69,7 +69,10 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
                         break;
                     }
             }
+            
         }
+        if(node is PlayerStateNodeLeaf)
+            UpdateInfo();
     }
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {

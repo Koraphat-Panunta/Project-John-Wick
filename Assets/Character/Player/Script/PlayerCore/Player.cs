@@ -224,7 +224,7 @@ public partial class Player : SubjectPlayer,
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
-        hpGetAbleObject.amoutOfHpAdd = 35f;
+        hpGetAbleObject.amoutOfHpAdd = 20f;
         if ((GetHP() / GetMaxHp()) < 0.5f)
         {
             AddHP(Mathf.Abs((maxHp * 0.5f) - GetHP()));

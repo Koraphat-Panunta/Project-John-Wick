@@ -42,7 +42,6 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     }
     public FireMode fireMode { get; protected set; }
     public TriggerState triggerState { get; protected set; }
-
     public LayerMask weaponLayerMask { get; private set; }
 
     public virtual void Initialized()
@@ -59,6 +58,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
   
     protected virtual void Update()
     {
+
         //TriggerUpdate
         if (isPullTrigger)
             switch (triggerState)

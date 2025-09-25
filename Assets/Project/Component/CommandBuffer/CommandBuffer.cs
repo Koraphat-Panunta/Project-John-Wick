@@ -30,6 +30,17 @@ public class CommandBufferManager
         }
         commandBuffers.Add(new CommandBuffer(name, bufferTime));
     }
+    public void RemoveCommand(string name)
+    {
+        for (int i = 0; i < commandBuffers.Count; i++)
+        {
+            if (commandBuffers[i].name == name)
+            {
+                commandBuffers.RemoveAt(i);
+                return;
+            }
+        }
+    }
     public bool TryGetCommand(string commandName)
     {
         for (int i = 0; i < commandBuffers.Count; i++)
