@@ -24,12 +24,12 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public LevelHotelGameplayGameMasterNodeLeaf levelHotelGamePlayGameMasterNodeLeaf { get; protected set; }
-    public PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get; protected set; }
 
     public override void InitailizedNode()
     {
-        startNodeSelector = new GameMasterNodeSelector<InGameLevelGameMaster>(this, () => true);
+        startNodeSelector = new NodeSelector(() => true);
 
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this,()=> base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,openingUICanvas, () => levelOpeningGameMasterNodeLeaf.isComplete == false);

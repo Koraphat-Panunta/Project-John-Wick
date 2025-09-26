@@ -11,10 +11,22 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
 
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public DataBased dataBased 
+    { 
+        get 
+        {
+            if(gameManager != null)
+                return gameManager.dataBased;
+
+            return this.DataBased;
+        } 
+    }
+    private DataBased DataBased;
 
     public virtual void Initialized()
     {
         gameManager = FindAnyObjectByType<GameManager>();
+        this.DataBased = new DataBased();
         nodeManagerBehavior = new NodeManagerBehavior();
         this.InitailizedNode();
     }
@@ -73,49 +85,6 @@ public abstract class GameMasterNode<T> : INode where T : GameMaster
 
 }
 
-public class GameMasterNodeSelector : GameMasterNode, INodeSelector
-{
-    public GameMasterNodeSelector(GameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
-    {
-        childNode = new List<INode>();
-        nodePrecondition = new Dictionary<INode, Func<bool>>();
-        nodeSelectorBehavior = new NodeSelectorBehavior();
-    }
-
-    public List<INode> childNode { get; set ; }
-    public Dictionary<INode, Func<bool>> nodePrecondition { get ; set ; }
-    public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
-    public INodeLeaf curNodeLeaf { get ; set; }
-
-    public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode,this);
-
-    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
-
-    public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode,this);
-    
-}
-public class GameMasterNodeSelector<T> : GameMasterNode<T>, INodeSelector where T : GameMaster
-{
-    public GameMasterNodeSelector(T gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
-    {
-        childNode = new List<INode>();
-        nodePrecondition = new Dictionary<INode, Func<bool>>();
-        nodeSelectorBehavior = new NodeSelectorBehavior();
-    }
-
-    public List<INode> childNode { get; set; }
-    public Dictionary<INode, Func<bool>> nodePrecondition { get; set; }
-    public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
-    public INodeLeaf curNodeLeaf { get ; set ; }
-
-    public void AddtoChildNode(INode childNode) => nodeSelectorBehavior.AddtoChildNode(childNode, this);
-
-    public bool FindingNode(out INodeLeaf nodeLeaf) => nodeSelectorBehavior.FindingNode(out nodeLeaf, this);
-
-    public void RemoveNode(INode childNode) => nodeSelectorBehavior.RemoveChildNode(childNode, this);
-
-   
-}
 public abstract class GameMasterNodeLeaf : GameMasterNode, INodeLeaf
 {
     public List<Func<bool>> isReset { get; set; }

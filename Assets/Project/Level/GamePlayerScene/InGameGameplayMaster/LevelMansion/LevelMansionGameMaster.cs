@@ -13,7 +13,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
     public LevelMansionGamePlaySequence1 levelMansionGamePlaySequence1 { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
-    public PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
@@ -29,7 +29,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
   
     public override void InitailizedNode()
     {
-        startNodeSelector = new GameMasterNodeSelector<LevelMansionGameMaster>(this, () => true);
+        startNodeSelector = new NodeSelector(() => true);
 
         this.levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas, () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         this.pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => this.pauseInGameGameMasterNodeLeaf.isPause);

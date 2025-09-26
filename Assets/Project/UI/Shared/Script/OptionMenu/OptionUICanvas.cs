@@ -4,62 +4,51 @@ using UnityEngine.UI;
 public class OptionUICanvas : MonoBehaviour
 {
 
+    [SerializeField] public Button backButton;
+    [SerializeField] public Button applyButton;
 
-    [SerializeField] private Slider volumeMasterSlider;
-    [SerializeField] private Slider volumeEffectSlider;
-    [SerializeField] private Slider volumeMusicSlider;
+    public OptionUIDisplayer curOptionUISector { get; private set; }
 
-    [SerializeField] private GameManager gameManager;
-    [SerializeField] private Button backButton;
-    [SerializeField] private Button applyButton;
+    public AudioSettingOptionDisplay audioSettingOptionDisplay { get; private set; }
+    [SerializeField] public GameObject audioSettingCanvas;
+    [SerializeField] public Slider volumeMasterSlider;
+    [SerializeField] public Slider volumeEffectSlider;
+    [SerializeField] public Slider volumeMusicSlider;
 
-    public OptionUISector curOptionUISector { get; private set; }
+    public ControlSettingOptionDisplay controlSettingOptionDisplay { get; private set; }
+    [SerializeField] public GameObject controlSettingCanvas;
+    [SerializeField] public Slider mouseSensitivitySlider;
+    [SerializeField] public Slider aimSensitivitySlider;
 
-    public OptionSectorSelectorOptionUISector optionSectorSelectorOptionUISector { get; private set; }
-    [SerializeField] private GameObject optionSelectorSectorGameObject;
-    [SerializeField] private Button graphicSetting;
-    [SerializeField] private Button controlSetting;
-    [SerializeField] private Button audioSetting;
-    public ControlSettingOptionUISector controlSettingOptionUISector { get; private set; }
-    [SerializeField] private GameObject controlSectorObject;
-    [SerializeField] private CameraController cameraController;
-    [SerializeField] private Slider mouseSensitivitySlider;
-    [SerializeField] private Slider aimSensitivitySlider;
 
     
     private void Awake()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
-        cameraController = FindAnyObjectByType<CameraController>();
-
         InitializedOptionUISector();
     }
     
-    public void ChangeOptionUISector(OptionUISector optionUISector)
+    public void ChangeOptionUISector(OptionUIDisplayer optionUISector,DataBased loadDataBased)
     {
         if(curOptionUISector != null)
             curOptionUISector.Hide();
 
         curOptionUISector = optionUISector;
-        curOptionUISector.Show();
+        curOptionUISector.Show(loadDataBased);
     }
 
     private void InitializedOptionUISector()
     {
-        this.optionSectorSelectorOptionUISector = new OptionSectorSelectorOptionUISector(this
-            ,this.applyButton
-            ,this.optionSelectorSectorGameObject
-            ,this.graphicSetting
-            ,this.audioSetting
-            ,this.controlSetting);
 
-        this.controlSettingOptionUISector = new ControlSettingOptionUISector(this
-            ,this.applyButton
-            ,this.controlSectorObject
-            ,this.gameManager
-            ,this.cameraController
+        this.controlSettingOptionDisplay = new ControlSettingOptionDisplay(
+            this.controlSettingCanvas
             ,this.mouseSensitivitySlider
             ,this.aimSensitivitySlider);
+
+        this.audioSettingOptionDisplay = new AudioSettingOptionDisplay(
+            this.audioSettingCanvas
+            , this.volumeMasterSlider
+            , this.volumeMusicSlider
+            , this.volumeEffectSlider);
 
     }
 

@@ -20,7 +20,7 @@ public class FrontSceneGameMaster : GameMaster
  
     public override void InitailizedNode()
     {
-        startNodeSelector = new GameMasterNodeSelector(this, () => true);
+        startNodeSelector = new NodeSelector(() => true);
 
         splashSceneFrontSceneMasterNodeLeaf = new SplashSceneFrontSceneMasterNodeLeaf(this, () => splashSceneFrontSceneMasterNodeLeaf.isComplete == false);
         menuSceneFrontSceneMasterNodeLeaf = new MenuSceneFrontSceneMasterNodeLeaf(this, this.mainMenuUICanvas , ()=> true);

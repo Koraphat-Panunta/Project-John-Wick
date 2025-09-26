@@ -39,8 +39,7 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         nodeManagerBehavior.UpdateNode(this);
     }
-   
-   
+    public abstract PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
     public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
     
     public void GetNotify(Player player)

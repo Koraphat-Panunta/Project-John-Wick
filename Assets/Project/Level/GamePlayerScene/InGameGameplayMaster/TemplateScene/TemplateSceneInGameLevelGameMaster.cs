@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 {
+    [SerializeField] private PauseUICanvas pauseCanvasUI;
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get ; protected set ; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     private TemplateSceneInGameLevel_Gameplay_Nodeleaf templateSceneInGameLevel_Gameplay_Nodeleaf { get; set; }
     [SerializeField] private Camera cameraMain;
 
@@ -17,6 +19,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     public WeaponObjectManager ar15_MK1_weaponObjManager { get; set; }
     public Weapon glock17_MK1_origin;
     public WeaponObjectManager glock17_MK1_weaponobjManager { get; set; }
+
     [SerializeField] private bool stopSpawning;
 
 
@@ -121,8 +124,10 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true);
+        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, this.pauseCanvasUI,()=> pauseInGameGameMasterNodeLeaf.isPause);
         templateSceneInGameLevel_Gameplay_Nodeleaf = new TemplateSceneInGameLevel_Gameplay_Nodeleaf(this, () => true);
 
+        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(templateSceneInGameLevel_Gameplay_Nodeleaf);
 
         nodeManagerBehavior.SearchingNewNode(this);

@@ -23,7 +23,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
-    public PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
+    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
     protected InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster> prologueInGameLevelGameplayGameMasterNodeLeaf;
 
@@ -150,8 +150,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         enemy_ObjectManager.ClearCorpseEnemyUpdate();
         enemyMask_ObjectManager.ClearCorpseEnemyUpdate();
         enemyMaskArmored_ObjectManager.ClearCorpseEnemyUpdate();
-
-
     }
 
     public override void InitailizedNode()
