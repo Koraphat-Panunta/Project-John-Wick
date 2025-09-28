@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class RestNode : WeaponLeafNode
+public class WeaponRestNodeLeaf : WeaponLeafNode
 {
-    public RestNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    public WeaponRestNodeLeaf(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
     }
     public override void FixedUpdateNode()

@@ -10,12 +10,14 @@ public class OptionUICanvas : MonoBehaviour
     public OptionUIDisplayer curOptionUISector { get; private set; }
 
     public AudioSettingOptionDisplay audioSettingOptionDisplay { get; private set; }
+    [SerializeField] public Button audioSettingSelectButton;
     [SerializeField] public GameObject audioSettingCanvas;
     [SerializeField] public Slider volumeMasterSlider;
     [SerializeField] public Slider volumeEffectSlider;
     [SerializeField] public Slider volumeMusicSlider;
 
     public ControlSettingOptionDisplay controlSettingOptionDisplay { get; private set; }
+    [SerializeField] public Button controlSettingSelectButton;
     [SerializeField] public GameObject controlSettingCanvas;
     [SerializeField] public Slider mouseSensitivitySlider;
     [SerializeField] public Slider aimSensitivitySlider;

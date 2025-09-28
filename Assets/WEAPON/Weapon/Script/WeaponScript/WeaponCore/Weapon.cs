@@ -109,7 +109,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
 
     public WeaponLeafNode currentEventNode { get; set; }
     public abstract WeaponSelector startEventNode { get; set; }
-    public abstract RestNode restNode { get; set; }
+    public abstract WeaponRestNodeLeaf restNode { get; set; }
     public abstract NodeSelector _reloadSelecotrOverriden { get; }
 
     protected virtual void FixedUpdateTree()

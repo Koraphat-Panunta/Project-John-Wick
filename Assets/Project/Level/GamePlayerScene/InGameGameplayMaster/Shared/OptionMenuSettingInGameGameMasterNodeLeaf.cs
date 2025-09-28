@@ -5,19 +5,33 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf
 {
     private OptionUICanvas optionUICanvas;
     private bool isTriggerExit;
+    private OptionMenuSector curMenuSector;
+    private OptionMenuSector controlMenuSector;
+    private OptionMenuSector audioMenuSector;
     public OptionMenuSettingInGameGameMasterNodeLeaf(GameMaster gameMaster,OptionUICanvas optionUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.optionUICanvas = optionUICanvas;
+        
+        this.controlMenuSector = new ControlSettingMenuSector(this.optionUICanvas,this.optionUICanvas.controlSettingOptionDisplay,gameMaster);
+        this.audioMenuSector = new AudioSettingMenuSector(this.optionUICanvas,this.optionUICanvas.audioSettingOptionDisplay,gameMaster);
+
+        this.optionUICanvas.controlSettingSelectButton.onClick.AddListener(this.SelectControlSetting);
+        this.optionUICanvas.audioSettingSelectButton.onClick.AddListener(this.SelectAudioSetting);
+        this.optionUICanvas.backButton.onClick.AddListener(this.TriggerExit);
     }
 
     public override void Enter()
     {
         isTriggerExit = false;
         this.optionUICanvas.gameObject.SetActive(true);
+        this.SelectControlSetting();
     }
 
     public override void Exit()
     {
+        if(curMenuSector != null)
+            curMenuSector.Exit();
+
         this.optionUICanvas.gameObject.SetActive(false);
     }
     public override void UpdateNode()
@@ -28,6 +42,7 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf
     {
         
     }
+    protected void TriggerExit() => isTriggerExit = true;
     public override bool IsReset()
     {
         return isTriggerExit;
@@ -36,38 +51,112 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf
     {
         return false;
     }
-
-    protected class OptionMenuSector
+    protected void ChangeOptionSettingSector(OptionMenuSector optionMenuSector)
     {
-        private OptionUICanvas optionUICanvas;
+        if(curMenuSector != null)
+            curMenuSector.Exit();
+
+        curMenuSector = optionMenuSector;
+
+        curMenuSector.Enter();
+    }
+    protected void SelectControlSetting() => this.ChangeOptionSettingSector(this.controlMenuSector);
+    protected void SelectAudioSetting() => this.ChangeOptionSettingSector(this.audioMenuSector);
+
+    protected abstract class OptionMenuSector
+    {
+        protected OptionUICanvas optionUICanvas;
         protected DataBased savedDataBased;
-        public OptionMenuSector(OptionUICanvas optionUICanvas)
+        protected GameMaster gameMaster;
+        protected OptionUIDisplayer optionUIDisplayer;
+        public OptionMenuSector(OptionUICanvas optionUICanvas,OptionUIDisplayer optionUIDisplayer,GameMaster gameMaster)
         {
             this.optionUICanvas = optionUICanvas;
+            this.savedDataBased = new DataBased();
+            this.optionUIDisplayer = optionUIDisplayer;
+            this.gameMaster = gameMaster;
         }
         public void Enter()
         {
-            this.optionUICanvas.applyButton.onClick.AddListener(this.Apply);
+            this.Apply_GameMasterData_To_SaveData();
+            this.optionUICanvas.ChangeOptionUISector(this.optionUIDisplayer,this.savedDataBased);
+            this.optionUICanvas.applyButton.onClick.AddListener(this.Apply_GameMasterData_To_SaveData);
         }
 
-        public virtual void Exit()
+        public void Exit()
         {
-            this.optionUICanvas.applyButton.onClick.RemoveListener(this.Apply);
+            this.Apply_SaveData_To_GameMasterData();
+            this.optionUICanvas.applyButton.onClick.RemoveListener(this.Apply_GameMasterData_To_SaveData);
         }
-        public virtual void Apply()
-        {
+        protected abstract void Apply_GameMasterData_To_SaveData();
+        protected abstract void Apply_SaveData_To_GameMasterData();
 
-        }
-        public virtual void ResetToDefault()
-        {
-
-        }
+        public abstract void ResetToDefault();
+       
     }
     protected class ControlSettingMenuSector : OptionMenuSector
     {
-        public ControlSettingMenuSector(OptionUICanvas optionUICanvas) : base(optionUICanvas)
+        public ControlSettingMenuSector(OptionUICanvas optionUICanvas, OptionUIDisplayer optionUIDisplayer, GameMaster gameMaster) : base(optionUICanvas, optionUIDisplayer, gameMaster)
         {
+            optionUICanvas.mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChange);
+            optionUICanvas.aimSensitivitySlider.onValueChanged.AddListener(OnMouseAimDownSightSensitivityChange);
+        }
+
+        public override void ResetToDefault()
+        {
+            
+        }
+
+        private void OnMouseSensitivityChange(float value)
+        {
+            gameMaster.dataBased.settingData.mouseSensitivivty = value;
+        }
+        private void OnMouseAimDownSightSensitivityChange(float value)
+        {
+            gameMaster.dataBased.settingData.mouseAimDownSightSensitivity = value;
+        }
+
+        protected override void Apply_GameMasterData_To_SaveData()
+        {
+            base.savedDataBased.settingData.mouseSensitivivty = gameMaster.dataBased.settingData.mouseSensitivivty;
+            base.savedDataBased.settingData.mouseAimDownSightSensitivity = gameMaster.dataBased.settingData.mouseAimDownSightSensitivity;
+        }
+
+        protected override void Apply_SaveData_To_GameMasterData()
+        {
+            base.gameMaster.dataBased.settingData.mouseSensitivivty = base.savedDataBased.settingData.mouseSensitivivty;
+            base.gameMaster.dataBased.settingData.mouseAimDownSightSensitivity = base.savedDataBased.settingData.mouseAimDownSightSensitivity;
         }
     }
+    protected class AudioSettingMenuSector : OptionMenuSector
+    {
+        public AudioSettingMenuSector(OptionUICanvas optionUICanvas, OptionUIDisplayer optionUIDisplayer, GameMaster gameMaster) : base(optionUICanvas, optionUIDisplayer, gameMaster)
+        {
+            this.optionUICanvas.volumeMasterSlider.onValueChanged.AddListener(this.OnMasterVolumeValueChange);
+            this.optionUICanvas.volumeMusicSlider.onValueChanged.AddListener(this.OnMusicVolumeValueChange);
+            this.optionUICanvas.volumeEffectSlider.onValueChanged.AddListener(this.OnSoundEffectVolumeValueChange);
+        }
 
+        public override void ResetToDefault()
+        {
+            
+        }
+
+        protected override void Apply_GameMasterData_To_SaveData()
+        {
+            base.savedDataBased.settingData.volumeMaster = base.gameMaster.dataBased.settingData.volumeMaster;
+            base.savedDataBased.settingData.volumeMusic = base.gameMaster.dataBased.settingData.volumeMusic;
+            base.savedDataBased.settingData.volumeEffect = base.gameMaster.dataBased.settingData.volumeEffect;
+        }
+        protected override void Apply_SaveData_To_GameMasterData()
+        {
+            base.gameMaster.dataBased.settingData.volumeMaster = base.savedDataBased.settingData.volumeMaster;
+            base.gameMaster.dataBased.settingData.volumeMusic = base.savedDataBased.settingData.volumeMusic;
+            base.gameMaster.dataBased.settingData.volumeEffect = base.savedDataBased.settingData.volumeEffect;
+        }
+
+        protected void OnMasterVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeMaster = value;
+        protected void OnMusicVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeMusic = value;
+        protected void OnSoundEffectVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeEffect = value;
+    }
 }

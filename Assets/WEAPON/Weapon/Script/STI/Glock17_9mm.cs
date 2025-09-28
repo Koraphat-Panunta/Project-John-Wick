@@ -138,7 +138,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
     public WeaponSequenceNode firingAutoLoad { get; private set; }
     private FiringNode fire;
     public AutoLoadChamberNode autoLoadChamber { get; set; }
-    public override RestNode restNode { get ; set ; }
+    public override WeaponRestNodeLeaf restNode { get ; set ; }
    
 
     protected override void InitailizedTree()
@@ -157,7 +157,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
 
         autoLoadChamber = new AutoLoadChamberNode(this,()=>true);
 
-        restNode = new RestNode(this,()=>true);
+        restNode = new WeaponRestNodeLeaf(this,()=>true);
 
         startEventNode.AddtoChildNode(firingAutoLoad);
         startEventNode.AddtoChildNode(restNode);
