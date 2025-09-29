@@ -16,6 +16,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     public CameraKickBack cameraKickBack;
     public CameraImpulseShake cameraImpluse;
 
+    [SerializeField] private GameMaster gameMaster;
+
     public float zoomingWeight;
     public float cameraSwitchSholderVelocity = 3.5f;
 
@@ -24,10 +26,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
 
     public CameraManagerNode cameraManagerNode;
 
-    [Range(1, 10)]
-    public float standardCameraSensivity;
-    [Range(1, 10)]
-    public float aimDownSightCameraSensivity;
+    public float standardCameraSensivity => gameMaster.dataBased.settingData.mouseSensitivivty * 0.1f;
+    public float aimDownSightCameraSensivity => gameMaster.dataBased.settingData.mouseAimDownSightSensitivity * 0.1f;
 
     [SerializeField,TextArea]
     public string inputLook;
@@ -224,6 +224,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
         if(this.player == null)
             this.player = FindAnyObjectByType<Player>();
         thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
+        if (this.gameMaster == null)
+            this.gameMaster = FindAnyObjectByType<GameMaster>();
     }
 
   

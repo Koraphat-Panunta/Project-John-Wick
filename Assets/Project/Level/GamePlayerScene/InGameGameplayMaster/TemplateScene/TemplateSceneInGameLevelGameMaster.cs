@@ -31,10 +31,24 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraMain);
         base.Initialized();
     }
+
+    [SerializeField] private float lookSensitivity;
+    [SerializeField] private float adsSensitivity;
+
+    [SerializeField] private float masterVolume;
+    [SerializeField] private float musicVolume;
+    [SerializeField] private float sfxVolume;
    
    
     protected  void LateUpdate()
     {
+        lookSensitivity = dataBased.settingData.mouseSensitivivty;
+        adsSensitivity = dataBased.settingData.mouseAimDownSightSensitivity;
+
+        masterVolume = dataBased.settingData.volumeMaster;
+        musicVolume = dataBased.settingData.volumeMusic;
+        sfxVolume = dataBased.settingData.volumeEffect;
+
         enemyObjectManager.ClearCorpseEnemyUpdate();
         ar15_MK1_weaponObjManager.ClearWeaponUpdate();
         glock17_MK1_weaponobjManager.ClearWeaponUpdate();

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
     public DataBased dataBased { get; set; }
+
     private void Awake()
     {
         soundTrackManager = GetComponent<SoundTrackManager>();

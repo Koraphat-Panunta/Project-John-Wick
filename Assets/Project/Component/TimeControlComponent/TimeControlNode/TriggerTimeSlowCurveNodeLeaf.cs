@@ -11,12 +11,12 @@ public class TriggerTimeSlowCurveNodeLeaf : TimeNodeLeaf
     }
     public override void Enter()
     {
-        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeOnSlowMotion;
+
         base.Enter();
     }
     public override void Exit()
     {
-        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
+
         base.Exit();
     }
    

@@ -23,10 +23,23 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
     }
     private DataBased DataBased;
 
+    public static readonly float lookSensitivityDefault = 50;
+    public static readonly float adsSensitivityDefault = 30;
+
+    public static readonly float masterVolumeDefault = 100;
+    public static readonly float musicVolumeDefault = 100;
+    public static readonly float sfxVolumeDefault = 100;
     public virtual void Initialized()
     {
         gameManager = FindAnyObjectByType<GameManager>();
         this.DataBased = new DataBased();
+        this.dataBased.settingData.mouseSensitivivty = lookSensitivityDefault;
+        this.dataBased.settingData.mouseAimDownSightSensitivity = adsSensitivityDefault;
+
+        this.dataBased.settingData.volumeMaster = masterVolumeDefault;
+        this.dataBased.settingData.volumeEffect = sfxVolumeDefault;
+        this.dataBased.settingData.volumeMusic = musicVolumeDefault;
+
         nodeManagerBehavior = new NodeManagerBehavior();
         this.InitailizedNode();
     }
