@@ -50,12 +50,6 @@ public partial class Player : IGunFuAble
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Laydown_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Layup_I;
 
-    [Range(0,10)]
-    [SerializeField] public float restrictBulletTimeDuration;
-    [SerializeField] public AnimationCurve restrictBulletTimeCurve;
-    [Range(0, 10)]
-    [SerializeField] public float humanShieldBulletTimeDuration;
-    [SerializeField] public AnimationCurve humanShiedlBulletTimeCurve;
     public void InitailizedGunFuComponent()
     {
 

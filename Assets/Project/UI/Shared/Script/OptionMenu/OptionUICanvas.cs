@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionUICanvas : MonoBehaviour
+public class OptionUICanvas : MonoBehaviour,IInitializedAble
 {
 
     [SerializeField] public Button backButton;
@@ -23,18 +23,18 @@ public class OptionUICanvas : MonoBehaviour
     [SerializeField] public Slider aimSensitivitySlider;
 
 
-    
-    private void Awake()
-    {
-        InitializedOptionUISector();
-    }
-    
     public void ChangeOptionUISector(OptionUIDisplayer optionUISector,DataBased loadDataBased)
     {
         if(curOptionUISector != null)
             curOptionUISector.Hide();
 
+
+
         curOptionUISector = optionUISector;
+
+        Debug.Log("curOptionUISector = " + curOptionUISector);
+        Debug.Log("optionUISector = "+ optionUISector);
+
         curOptionUISector.Show(loadDataBased);
     }
 
@@ -54,4 +54,8 @@ public class OptionUICanvas : MonoBehaviour
 
     }
 
+    public void Initialized()
+    {
+        this.InitializedOptionUISector();
+    }
 }

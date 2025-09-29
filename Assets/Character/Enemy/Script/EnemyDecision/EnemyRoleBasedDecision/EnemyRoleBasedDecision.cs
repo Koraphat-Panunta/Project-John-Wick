@@ -131,7 +131,6 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                         return;
 
                     _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
-                    Debug.Log("OnNotifyGetCommunicate curCombatPhase = "+ _curCombatPhase);
                     _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
                 }
                 break;

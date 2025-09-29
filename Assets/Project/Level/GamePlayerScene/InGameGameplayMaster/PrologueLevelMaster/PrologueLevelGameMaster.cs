@@ -22,8 +22,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
-    public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
-    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
     protected InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster> prologueInGameLevelGameplayGameMasterNodeLeaf;
 
@@ -172,8 +170,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
-        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI,
-    () => pauseInGameGameMasterNodeLeaf.isPause);
+        menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI,
+    () => menuInGameGameMasterNodeLeaf.isMenu);
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => enemyWaveManager2.waveIsClear);
         prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
 
@@ -189,7 +187,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         gameMasterModeNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
 

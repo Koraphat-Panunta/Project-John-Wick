@@ -22,9 +22,7 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get ; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get ; protected set ; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
-    public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public LevelHotelGameplayGameMasterNodeLeaf levelHotelGamePlayGameMasterNodeLeaf { get; protected set; }
-    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get; protected set; }
 
     public override void InitailizedNode()
@@ -35,14 +33,14 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this,openingUICanvas, () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this,gameOverUICanvas, () => player.isDead);
         levelHotelGamePlayGameMasterNodeLeaf = new LevelHotelGameplayGameMasterNodeLeaf(this, () => levelHotelGamePlayGameMasterNodeLeaf.isComplete == false);
-        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this,pauseCanvasUI,
-            () => pauseInGameGameMasterNodeLeaf.isPause );
+        menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this,pauseCanvasUI,
+            () => menuInGameGameMasterNodeLeaf.isMenu );
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas,()=> true);
 
         startNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelHotelGamePlayGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
 

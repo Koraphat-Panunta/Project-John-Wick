@@ -93,9 +93,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     + (player.transform.up * gunFuHitScriptableObject.attackVolumeUpward)
     + (player.transform.right * gunFuHitScriptableObject.attackVolumeRightward);
 
-        Debug.Log("attacking");
+        //Debug.Log("attacking");
 
-        Debug.DrawLine(player.transform.position,shperePos,Color.green,0.5f);
+        //Debug.DrawLine(player.transform.position,shperePos,Color.green,0.5f);
 
         player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
 

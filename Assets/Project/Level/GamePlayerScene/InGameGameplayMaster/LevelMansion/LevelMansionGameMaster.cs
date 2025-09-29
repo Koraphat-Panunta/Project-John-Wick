@@ -13,8 +13,6 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
     public LevelMansionGamePlaySequence1 levelMansionGamePlaySequence1 { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
-    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
-    public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public List<Enemy> target;
@@ -32,14 +30,14 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
         startNodeSelector = new NodeSelector(() => true);
 
         this.levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas, () => levelOpeningGameMasterNodeLeaf.isComplete == false);
-        this.pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => this.pauseInGameGameMasterNodeLeaf.isPause);
+        this.menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => this.menuInGameGameMasterNodeLeaf.isMenu);
         this.levelMansionGamePlaySequence1 = new LevelMansionGamePlaySequence1(this, () => this.levelMansionGamePlaySequence1.isComplete == false);
         this.levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => true);
         this.levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
         this.levelRestGameMasterNodeLeaf = new InGameLevelRestGameMasterNodeLeaf(this, () => true);
 
         startNodeSelector.AddtoChildNode(this.levelOpeningGameMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(this.pauseInGameGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(this.menuInGameGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.levelMansionGamePlaySequence1);
         startNodeSelector.AddtoChildNode(this.levelMisstionCompleteGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.levelGameOverGameMasterNodeLeaf);

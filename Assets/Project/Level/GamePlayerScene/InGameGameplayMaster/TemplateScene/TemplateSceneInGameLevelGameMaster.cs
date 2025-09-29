@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 {
-    [SerializeField] private PauseUICanvas pauseCanvasUI;
-    public override InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get ; protected set ; }
-    public override PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get ; protected set ; }
+
+
     private TemplateSceneInGameLevel_Gameplay_Nodeleaf templateSceneInGameLevel_Gameplay_Nodeleaf { get; set; }
     [SerializeField] private Camera cameraMain;
 
@@ -124,11 +123,20 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true);
-        pauseInGameGameMasterNodeLeaf = new PauseInGameGameMasterNodeLeaf(this, this.pauseCanvasUI,()=> pauseInGameGameMasterNodeLeaf.isPause);
+
+        pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
+        menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
+        optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, () => menuInGameGameMasterNodeLeaf.isTriggerToSetting);
+
         templateSceneInGameLevel_Gameplay_Nodeleaf = new TemplateSceneInGameLevel_Gameplay_Nodeleaf(this, () => true);
 
-        startNodeSelector.AddtoChildNode(pauseInGameGameMasterNodeLeaf);
+
+
+        startNodeSelector.AddtoChildNode(pausingSelector);
         startNodeSelector.AddtoChildNode(templateSceneInGameLevel_Gameplay_Nodeleaf);
+
+        pausingSelector.AddtoChildNode(optionMenuSettingInGameGameMasterNode);
+        pausingSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
     }

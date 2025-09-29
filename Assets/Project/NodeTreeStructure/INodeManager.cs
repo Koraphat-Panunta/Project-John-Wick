@@ -36,8 +36,8 @@ public class NodeManagerBehavior
     {
         if (nodeManager.GetCurNodeLeaf().IsReset())
         {
-            nodeManager.GetCurNodeLeaf().Exit();
-            nodeManager.SetCurNodeLeaf(null);
+            //nodeManager.GetCurNodeLeaf().Exit();
+            //nodeManager.SetCurNodeLeaf(null);
             SearchingNewNode(nodeManager);
         }
 
@@ -53,6 +53,8 @@ public class NodeManagerBehavior
     {
        if(nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf))
         {
+            if (nodeManager.GetCurNodeLeaf() != null)
+                nodeManager.GetCurNodeLeaf().Exit();
             nodeManager.SetCurNodeLeaf(nodeLeaf);
             nodeManager.GetCurNodeLeaf().Enter();
         }

@@ -781,74 +781,6 @@ MonoBehaviour:
     type: 2}
   gunFu_Single_Execute_OnGround_Primary_Layup_I: {fileID: 11400000, guid: de760c2e3a368e345b8f37aac30e6deb,
     type: 2}
-  restrictBulletTimeDuration: 4
-  restrictBulletTimeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.11380128
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.5
-      inSlope: 0.012278863
-      outSlope: 0.012278863
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.000021
-      value: 1.0000124
-      inSlope: 2.9707263
-      outSlope: 2.9707263
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16012359
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  humanShieldBulletTimeDuration: 4
-  humanShiedlBulletTimeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.11380128
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.5
-      inSlope: 0.012278863
-      outSlope: 0.012278863
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.000021
-      value: 1.0000124
-      inSlope: 2.9707263
-      outSlope: 2.9707263
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16012359
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   humanShiedlIFrame: 1.5
   restrictShieldIFrame: 1.5
   MainHandSocket: {fileID: 6803714471603600979}
@@ -1040,12 +972,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 1
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
-    'mixamorig:Spine'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightShoulder'\n\tTransform
-    'mixamorig:LeftHand'\n\tTransform 'mixamorig:Spine2'\n\tTransform 'mixamorig:RightHand'\n\tTransform
-    'mixamorig:RightForeArm'\n\tTransform 'mixamorig:Spine1'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -3871,7 +3798,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5266949898068822925}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
   m_Name: 

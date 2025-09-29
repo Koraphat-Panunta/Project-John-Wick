@@ -8,6 +8,8 @@ using UnityEngine;
 public abstract class InGameLevelGameMaster : GameMaster
 {
 
+    [SerializeField] protected PauseUICanvas pauseCanvasUI;
+    [SerializeField] protected OptionUICanvas optionCanvasUI;
     public GamePlayUICanvas gamePlayUICanvas;
     public User user;
     public Player player;
@@ -26,6 +28,8 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         base.Initialized();
     }
+
+   
     protected virtual void Start()
     {
         StartCoroutine(DelaySceneLoaded());
@@ -39,8 +43,10 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         nodeManagerBehavior.UpdateNode(this);
     }
-    public abstract PauseInGameGameMasterNodeLeaf pauseInGameGameMasterNodeLeaf { get; protected set; }
-    public abstract InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
+    public NodeSelector pausingSelector { get; protected set; }
+    public  MenuInGameGameMasterNodeLeaf menuInGameGameMasterNodeLeaf { get; protected set; }
+    public  OptionMenuSettingInGameGameMasterNodeLeaf optionMenuSettingInGameGameMasterNode { get; protected set; }
+    public InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
     
     public void GetNotify(Player player)
     {
