@@ -43,6 +43,9 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     public override void Exit()
     {
         isComplete = false;
+
+        Debug.Log("Tactical Reload Exit");
+
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
            <TacticalReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 

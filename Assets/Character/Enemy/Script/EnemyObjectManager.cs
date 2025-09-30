@@ -12,11 +12,15 @@ public class EnemyObjectManager:IObserverEnemy
     protected readonly int corpseDisapearTime = 5;
     protected readonly int corpseDisapearDistance = 6;
 
-    public EnemyObjectManager(Enemy enemy, Camera mainCamera)
+    public EnemyObjectManager(Enemy enemy, Camera mainCamera):this(enemy,mainCamera,6,30)
+    {
+       
+    }
+    public EnemyObjectManager(Enemy enemy, Camera mainCamera, int initialPoolSize, int maxPoolSize)
     {
         this.enemyPrefab = enemy;
         this.mainCamera = mainCamera;
-        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, 20, 20, Vector3.zero);
+        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, initialPoolSize, maxPoolSize, Vector3.zero);
         clearEnemyList = new Dictionary<Enemy, float>();
     }
 
@@ -29,7 +33,6 @@ public class EnemyObjectManager:IObserverEnemy
             enemyDirector.AddEnemy(enemyRoleBasedDecision);
 
         }
-
 
         return enemy;
     }

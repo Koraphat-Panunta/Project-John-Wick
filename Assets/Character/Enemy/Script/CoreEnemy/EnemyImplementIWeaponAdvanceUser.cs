@@ -44,6 +44,15 @@ public partial class Enemy : IWeaponAdvanceUser
     public WeaponManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
+    [Range(0,1)]
+    public float trackingTargetAccelerate = .002f;
+    [Range(0, 1)]
+    public float trackingTargetDecelerate = 1;
+    [Range(0, 1)]
+    public float maxTrackRate = .1f;
+
+    [SerializeField] public float curTrackRate;
+    [SerializeField] private bool isSpottingTaget;
     public void Initialized_IWeaponAdvanceUser()
     {
         //pointingTransform.transform.SetParent(null, true);

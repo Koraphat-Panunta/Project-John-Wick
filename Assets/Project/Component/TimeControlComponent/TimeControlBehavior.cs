@@ -24,6 +24,7 @@ public class TimeControlBehavior
             runningCoroutine = null;
         }
 
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
         Time.timeScale = 1f;
 
     }
@@ -48,9 +49,9 @@ public class TimeControlBehavior
 
         // Stop time
         Time.timeScale = leastTimeScale;
-
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeOnSlowMotion;
         // Hold time stopped
-        if(durationStop > 0)
+        if (durationStop > 0)
         yield return new WaitForSecondsRealtime(durationStop);
 
         float elapsed = 0f;
@@ -70,6 +71,7 @@ public class TimeControlBehavior
 
         // Restore full time
         Time.timeScale = 1f;
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
 
         runningCoroutine = null; // clear when done
     }
@@ -90,7 +92,7 @@ public class TimeControlBehavior
 
         // Stop time
         Time.timeScale = Mathf.Clamp(timeScaleSlowMotion,leastTimeScale,1);
-
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeOnSlowMotion;
         // Hold time stopped
         if (durationStop > 0)
             yield return new WaitForSecondsRealtime(durationStop);
@@ -106,7 +108,7 @@ public class TimeControlBehavior
                 : normalized;
 
             Time.timeScale = timeScale;
-
+            Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
             yield return null; // wait 1 frame
         }
 
@@ -136,7 +138,7 @@ public class TimeControlBehavior
     private IEnumerator TriggerBulletTimeCoroutine(float duration, AnimationCurve animationCurve)
     {
 
-       
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeOnSlowMotion;
 
         float elapsed = 0f;
         while (elapsed < duration)
@@ -155,7 +157,7 @@ public class TimeControlBehavior
 
         // Restore full time
         Time.timeScale = 1f;
-
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
         runningCoroutine = null; // clear when done
     }
 

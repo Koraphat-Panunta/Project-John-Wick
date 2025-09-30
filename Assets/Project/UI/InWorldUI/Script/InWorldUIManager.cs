@@ -10,7 +10,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
 
     public INodeSelector startNodeSelector { get; set; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
-    INodeLeaf INodeManager.curNodeLeaf { get => _curNodeLeaf; set => _curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => _curNodeLeaf; set => _curNodeLeaf = value; }
     private INodeLeaf _curNodeLeaf;
 
 

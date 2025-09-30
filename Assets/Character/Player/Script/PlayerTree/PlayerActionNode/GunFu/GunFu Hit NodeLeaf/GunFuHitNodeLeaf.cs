@@ -104,19 +104,19 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
         for(int i = 0; i < targets.Count; i++)
         {
-            Debug.Log("i = " + i);
+            //Debug.Log("i = " + i);
 
-            Debug.Log("target = " + targets[i] + "1");
+            //Debug.Log("target = " + targets[i] + "1");
 
             if (this.gotAttackedAlready.Contains(targets[i]))
                 continue;
 
-            Debug.Log("target = " + targets[i] + "2");
+            //Debug.Log("target = " + targets[i] + "2");
 
             if (targets[i]._isGotAttackedAble == false)
                 continue;
 
-            Debug.Log("target = " + targets[i] + "3");
+            //Debug.Log("target = " + targets[i] + "3");
 
             try 
             {
@@ -127,7 +127,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 targets[i].TakeGunFuAttacked(this, gunFuAble);
                 this.gotAttackedAlready.Add(targets[i]);
-                Debug.Log("PlayerNotufyHit");
+                //Debug.Log("PlayerNotufyHit");
                 player.NotifyObserver(player, this);
             }
             catch

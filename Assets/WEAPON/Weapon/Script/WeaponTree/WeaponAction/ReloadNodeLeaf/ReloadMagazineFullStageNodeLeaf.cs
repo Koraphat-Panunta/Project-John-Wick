@@ -56,6 +56,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     public override void Exit()
     {
         isComplete = false;
+
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
            <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 

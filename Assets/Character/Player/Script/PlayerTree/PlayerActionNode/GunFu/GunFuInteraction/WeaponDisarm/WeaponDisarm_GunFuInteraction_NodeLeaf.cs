@@ -47,7 +47,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         isTransitionAbleAlready = false;
         playerEnterPos = player.transform.position;
         player._movementCompoent.CancleMomentum();
-
+        this.HoslterCurrentWeapon();
         base.Enter();
     }
 
@@ -118,6 +118,16 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         base.UpdateNode();
     }
 
+    private void HoslterCurrentWeapon()
+    {
+        if (player._currentWeapon != null)
+        {
+            if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
+            else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
+        }
+    }
     private void Disarm()
     {
 
@@ -129,13 +139,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         if (disarmedWeapon is SecondaryWeapon && player._weaponBelt.mySecondaryWeapon != null)
             WeaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as Weapon, player);
 
-        if (player._currentWeapon != null)
-        {
-            if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
-            else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
-        }
+       
 
         WeaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
         //else

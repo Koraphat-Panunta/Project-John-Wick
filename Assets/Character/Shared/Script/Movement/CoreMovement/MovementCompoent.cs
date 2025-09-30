@@ -12,7 +12,7 @@ public abstract partial class MovementCompoent : INodeManager
     public Transform transform { get; protected set; }
     public bool isOnUpdateEnable { get; set; }
    
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set ; }

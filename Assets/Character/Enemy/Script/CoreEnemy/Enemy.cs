@@ -60,6 +60,7 @@ public partial class Enemy : SubjectEnemy
         enemyStateManagerNode = new EnemyStateManagerNode(this);
         Initialized_IWeaponAdvanceUser();
 
+        AddObserver(this);
 
         base.Initialized();
     }
@@ -75,6 +76,7 @@ public partial class Enemy : SubjectEnemy
         enemyStateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
+
 
     }
     private void LateUpdate()
@@ -127,11 +129,14 @@ public partial class Enemy : SubjectEnemy
     }
     private void BlackBoardUpdate()
     {
+        isSpottingTaget = this.findingTargetComponent.isSpottingTarget;
         moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
-        if (this.findingTargetComponent.isSpottingTarget)
+        if (this.findingTargetComponent.isSpottingTarget && _isInPain == false)
             enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate));
         else
             enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate));
+
+        curTrackRate = enemyGetShootDirection.trackingTargetRate;
     }
     public void BlackBoardBufferUpdate()
     {
@@ -164,13 +169,10 @@ public partial class Enemy : SubjectEnemy
                 , Vector3.Distance(rayCastPos.position, this.target.transform.position)
                 , LayerMask.GetMask("Default")) == false)) 
         {
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate);
+          
             this.targetKnewPos = this.target.transform.position;
         }
-        else
-        {
-            enemyGetShootDirection.SetTrackingRate(Mathf.Clamp(enemyGetShootDirection.trackingTargetRate - Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate, 0.2f,1) );
-        }
+       
         
 
         findingTargetTimer += Time.deltaTime;

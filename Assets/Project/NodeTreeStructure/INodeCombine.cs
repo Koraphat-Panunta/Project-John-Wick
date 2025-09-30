@@ -100,15 +100,17 @@ public class NodeCombineBehavior
                 {
                     if (nodeCombine.combineNodeLeaf[node].IsReset())
                     {
-                        nodeCombine.combineNodeLeaf[node].Exit();
+
                         if (nodeSelector.Precondition())
                         {
                             nodeSelector.FindingNode(out INodeLeaf outNodeLeaf);
+                            nodeCombine.combineNodeLeaf[node].Exit();
                             nodeCombine.combineNodeLeaf[node] = outNodeLeaf;
                             nodeCombine.combineNodeLeaf[node].Enter();
                         }
                         else
                         {
+                            nodeCombine.combineNodeLeaf[node].Exit();
                             nodeCombine.combineNodeActivate[node] = false;
                             nodeCombine.combineNodeLeaf[node] = null;
                             continue;

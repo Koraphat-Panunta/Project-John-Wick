@@ -2,12 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,IGameLevelMasterObserver,IObserverPlayer
 {
-    //public static readonly float fixDeltaTimeOnSlowMotion = 0.02f * 0.1f;
-    //public static readonly float fixDeltaTimeDefault = 0.02f ;
+    public static readonly float fixDeltaTimeOnSlowMotion = 0.02f * 0.75f;
+    public static readonly float fixDeltaTimeDefault = 0.02f;
     public NodeManagerBehavior nodeManagerBehavior { get ; set; }
 
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get => this.curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => curNodeLeaf = value; }
     private float returnTimeScale;
     protected bool isSystemStopTime;
 

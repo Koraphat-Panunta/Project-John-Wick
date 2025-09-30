@@ -6,7 +6,7 @@ public partial class EnemyAnimationManager : INodeManager
     public INodeSelector startNodeSelector { get; set; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     protected INodeLeaf curNodeLeaf { get; set; }
-    INodeLeaf INodeManager.curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
 
     public NodeCombine enemyAnimationCombineNode { get; set; }
     public NodeSelector layerUpperEnableDisableSelector { get; set; }

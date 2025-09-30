@@ -8,7 +8,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 {
     [SerializeField] private OpeningUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
-    [SerializeField] private PauseUICanvas pauseCanvasUI;
     [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
 
     public NodeCombine gameMasterNodeCombine;
@@ -38,6 +37,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public Door door_A4_Exit;
     public Door door_A5_Enter;
 
+    public Enemy enemyTutorialOrigin;
+    public Enemy enemyMaskTutorialOrigin;
+
     public Enemy enemyOrigin;
     public Enemy enemyMaskOrigin;
     public Enemy enemyMaskArmordOrigin;
@@ -45,6 +47,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public EnemyObjectManager enemy_ObjectManager;
     public EnemyObjectManager enemyMask_ObjectManager;
     public EnemyObjectManager enemyMaskArmored_ObjectManager;
+
+    public EnemyObjectManager enemy_Tutorial_ObjectManager;
+    public EnemyObjectManager enemy_Mask_Tutorial_ObjectManager;
 
     public Weapon glock17_Origin;
     public Weapon ar15_Origin;
@@ -91,6 +96,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
     public override void Initialized()
     {
+
+        this.enemy_Tutorial_ObjectManager = new EnemyObjectManager(enemyTutorialOrigin,this.cameraMain,2,5);
+        this.enemy_Mask_Tutorial_ObjectManager = new EnemyObjectManager(enemyMaskTutorialOrigin,this.cameraMain,2,5);
 
         this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin, this.cameraMain);
         this.enemyMask_ObjectManager = new EnemyObjectManager(enemyMaskOrigin, this.cameraMain);
@@ -145,9 +153,12 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     }
     protected void LateUpdate()
     {
-        enemy_ObjectManager.ClearCorpseEnemyUpdate();
-        enemyMask_ObjectManager.ClearCorpseEnemyUpdate();
-        enemyMaskArmored_ObjectManager.ClearCorpseEnemyUpdate();
+        this.enemy_Tutorial_ObjectManager.ClearCorpseEnemyUpdate();
+        this.enemy_Mask_Tutorial_ObjectManager.ClearCorpseEnemyUpdate();
+
+        this.enemy_ObjectManager.ClearCorpseEnemyUpdate();
+        this.enemyMask_ObjectManager.ClearCorpseEnemyUpdate();
+        this.enemyMaskArmored_ObjectManager.ClearCorpseEnemyUpdate();
     }
 
     public override void InitailizedNode()
@@ -170,15 +181,18 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
-        menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI,
-    () => menuInGameGameMasterNodeLeaf.isMenu);
+        pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
+        menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
+        optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, () => menuInGameGameMasterNodeLeaf.isTriggerToSetting);
+
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => enemyWaveManager2.waveIsClear);
         prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
 
         startNodeSelector.AddtoChildNode(gameMasterNodeCombine);
 
-        gameMasterNodeCombine.AddCombineNode(gameMasterSectionNodeSelector);
         gameMasterNodeCombine.AddCombineNode(gameMasterModeNodeSelector);
+        gameMasterNodeCombine.AddCombineNode(gameMasterSectionNodeSelector);
+
 
         gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_1_Nodeleaf);
         gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_2_Nodeleaf);
@@ -187,9 +201,12 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         gameMasterModeNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(pausingSelector);
         gameMasterModeNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
+
+        pausingSelector.AddtoChildNode(optionMenuSettingInGameGameMasterNode);
+        pausingSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
 
@@ -304,32 +321,32 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     {
         gameMasterEvent.Add(() => door_A1.isOpen
         ,() => {
-            enemySpawnPoint_A1.SpawnEnemy(enemy_ObjectManager,glock17_weaponObjectManager);
+            enemySpawnPoint_A1.SpawnEnemy(enemy_Tutorial_ObjectManager,glock17_weaponObjectManager);
         });
 
         gameMasterEvent.Add(() => door_A2_Enter.isOpen
         , () => {
             enemySpawnPoint_A2[0].SpawnEnemy(enemy_ObjectManager, enemyDirectorA2 , glock17_weaponObjectManager);
             enemySpawnPoint_A2[1].SpawnEnemy(enemy_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager);
-            enemySpawnPoint_A2[2].SpawnEnemy(enemyMask_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager);
+            enemySpawnPoint_A2[2].SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager);
         });
 
         gameMasterEvent.Add(()=> door_A3_EnterBelow.isOpen
         ,  () => {
-            enemySpawnerPoint_A3_Before.SpawnEnemy(enemy_ObjectManager, ar15Optic_weaponObjectManager);
+            enemySpawnerPoint_A3_Before.SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, ar15Optic_weaponObjectManager);
         });
 
         gameMasterEvent.Add(() => door_A4_Enter.isOpen
         , () => {
-            enemySpawnPoint_A4_1.SpawnEnemy(enemyMask_ObjectManager, glock17_weaponObjectManager);
+            enemySpawnPoint_A4_1.SpawnEnemy(enemy_Tutorial_ObjectManager, glock17_weaponObjectManager);
         });
 
         gameMasterEvent.Add(() => isTriggerBox4_1BeenTrigger
         , () =>
         {
-            enemySpawnPoint_A4_2[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
+            enemySpawnPoint_A4_2[0].SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_2[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
-            enemySpawnPoint_A4_2[2].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA4, ar15_weaponObjectManager);
+            enemySpawnPoint_A4_2[2].SpawnEnemy(enemy_Tutorial_ObjectManager, enemyDirectirA4, ar15_weaponObjectManager);
         });
 
         gameMasterEvent.Add(() => door_A4_2.isOpen

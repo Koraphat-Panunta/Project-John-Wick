@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager,IInitializedAble
 {
     protected INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public abstract INodeSelector startNodeSelector { get; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public void Initialized()

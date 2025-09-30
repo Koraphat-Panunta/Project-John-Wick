@@ -9,7 +9,7 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
 
     private PauseUICanvas pauseUICanvas;
     public bool isMenu { get; protected set; }
-    public bool isTriggerToSetting { get; protected set; }
+    public bool isTriggerToSetting { get; set; }
     public INodeManager nodeManager { get; set; }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
@@ -35,6 +35,7 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
     public override void Enter()
     {
         //Delay();
+        Debug.Log("MenuInGameGameMasterNodeLeaf Enter");
         this.Pause();
         nodeLeafTransitionBehavior.TransitionAbleAll(this);
         base.Enter();
@@ -50,7 +51,8 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
     //}
     public override void Exit()
     {
-        isTriggerToSetting = false;
+        Debug.Log("MenuInGameGameMasterNodeLeaf Exit");
+        this.isTriggerToSetting = false;
         UnPause();
         base.Exit();
     }

@@ -7,10 +7,11 @@ public class EnemyGetShootDirection
     private Enemy enemy;
     private Weapon weapon;
     public float trackingTargetRate { get; protected set; }
-    public float trackingTargetAccelerate = .02f;
-    public float trackingTargetDecelerate = 1;
+    public float trackingTargetAccelerate => enemy.trackingTargetAccelerate;
+    public float trackingTargetDecelerate => enemy.trackingTargetDecelerate;
 
-    public float maxTrackRate = 0.95f;
+    private float maxTrackRate => enemy.maxTrackRate;
+    private float minTrackRate => 0.02f;
 
     public EnemyGetShootDirection(Enemy enemy)
     {
@@ -40,7 +41,7 @@ public class EnemyGetShootDirection
     public bool outOfHorizontalLimit { get; private set; }
     public void SetPointingPos(Vector3 poitnPos)
     {
-
+        Debug.Log("setPointingPos = "+pointingPos);
         // Normalize input
         Vector3 dirToPoint = (poitnPos - enemy.transform.position).normalized;
 
@@ -75,7 +76,8 @@ public class EnemyGetShootDirection
     }
     public void SetTrackingRate(float trackingRate)
     {
-        this.trackingTargetRate = Mathf.Clamp(trackingRate,0,this.maxTrackRate);
+
+        this.trackingTargetRate = Mathf.Clamp(trackingRate,this.minTrackRate,this.maxTrackRate);
     }
    
 

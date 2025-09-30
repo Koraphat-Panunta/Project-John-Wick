@@ -42,7 +42,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraThirdPersonControllerViewNodeLeaf cameraStandAimDownSightNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraCrouchAimDownSightNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     protected INodeLeaf curNodeLeaf;
 
     public void InitailizedNode()

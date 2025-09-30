@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour,INodeManager
     public AudioClip gamePlaySoundTrack { get; set; }
 
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }

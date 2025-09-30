@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using static SubjectPlayer;
 
@@ -14,7 +17,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
     public override void SendFeedBackWeaponAfterAction<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
     {
 
-        if (weaponAfterActionSending == WeaponAfterActionSending.WeaponStateNodeActive) 
+        if (weaponAfterActionSending == WeaponAfterActionSending.WeaponStateNodeActive)
         {
             switch (Var)
             {
@@ -27,7 +30,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                 case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
                     {
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
-                        player.NotifyObserver(player,_reloadMagFullStage);
+                        player.NotifyObserver(player, _reloadMagFullStage);
                         break;
                     }
                 case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
@@ -55,7 +58,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
                         player.NotifyObserver(player, dropWeaponManuverNodeLeaf);
                     }
-                    break ;
+                    break;
                 case PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf:
                     {
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
@@ -110,11 +113,16 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, quickSwitchNode);
                         break;
                     }
-               
+
             }
         }
         else
+        {
             this.NoneWeaponStateEvent<T>(weaponAfterActionSending, Var);
+
+            if(this.curTask == null)
+                this.curTask = ClearKilledConfirmEnemy();
+        }
     }
     private void NoneWeaponStateEvent<T>(WeaponAfterActionSending weaponAfterActionSending, T Var)
     {
@@ -174,5 +182,31 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                 }
         }
             
+    }
+    private Task curTask;
+    private async Task ClearKilledConfirmEnemy()
+    {
+        try
+        {
+            while (isKilleComfirm.Count > 0)
+            {
+                Debug.Log("isKilleComfirm.Count = " + isKilleComfirm.Count);
+                List<Enemy> enemies = isKilleComfirm.Keys.ToList();
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    if (enemies[i] == null || enemies[i].gameObject.activeSelf == false)
+                        isKilleComfirm.Remove(enemies[i]);
+                }
+                await Task.Yield();
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error in ClearKilledConfirmEnemy: {ex}");
+        }
+        finally
+        {
+            curTask = null;
+        }
     }
 }

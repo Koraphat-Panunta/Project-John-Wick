@@ -120,7 +120,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         }
         public override void UpdateNode()
         {
-            enemyWaveManager.EnemyWaveUpdate();
+            //enemyWaveManager.EnemyWaveUpdate();
             base.UpdateNode();
         }
         

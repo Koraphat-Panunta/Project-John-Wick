@@ -12,6 +12,7 @@ public class TimeScaleDefaultNodeLeaf : TimeNodeLeaf
     }
     public override void Enter()
     {
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault;
         Time.timeScale = enterTimeScale;
 
         base.Enter();

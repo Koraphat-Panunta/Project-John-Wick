@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class WeaponManuverManager : INodeManager
 {
     public NodeManagerBehavior nodeManagerBehavior { get; set ; }
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get; set; }
 

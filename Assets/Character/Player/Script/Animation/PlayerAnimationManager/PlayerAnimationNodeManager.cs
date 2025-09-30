@@ -5,7 +5,7 @@ public partial class PlayerAnimationManager : INodeManager
 {
     public INodeSelector startNodeSelector { get; set; }
     INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value ; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set; }
     public NodeCombine upper_based_LayerCombineNode { get; set; }
     public SetLayerAnimationNodeLeaf enableLayerAnimationNodeLeaf { get; set; }

@@ -4,7 +4,7 @@ using static Player;
 public class PlayerStateNodeManager : INodeManager
 {
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get; set; }
+    INodeLeaf INodeManager._curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get; set; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
 

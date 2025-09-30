@@ -15,18 +15,18 @@ public interface INodeManager<NodeLeafType, NodeSelectorType>
 
 public interface INodeManager
 {
-    protected INodeLeaf curNodeLeaf { get; set; } 
+    protected INodeLeaf _curNodeLeaf { get; set; } 
     public INodeSelector startNodeSelector { get; set; }
     NodeManagerBehavior nodeManagerBehavior { get; set; }
 
     public void UpdateNode();
     public void FixedUpdateNode();
     public void InitailizedNode();
-    public INodeLeaf GetCurNodeLeaf() => curNodeLeaf;
+    public INodeLeaf GetCurNodeLeaf() => _curNodeLeaf;
     public bool TryGetCurNodeLeaf<T>() where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(this);
     public bool TryGetCurNodeLeaf<T>(out T nodeLeaf) where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(out nodeLeaf, this);
     public T GetCurNodeLeafAs<T>() where T : INodeLeaf => nodeManagerBehavior.GetCurNodeLeafAs<T>(this);
-    public void SetCurNodeLeaf(INodeLeaf nodeLeaf) => curNodeLeaf = nodeLeaf;   
+    public void SetCurNodeLeaf(INodeLeaf nodeLeaf) => _curNodeLeaf = nodeLeaf;   
 }
 
 public class NodeManagerBehavior

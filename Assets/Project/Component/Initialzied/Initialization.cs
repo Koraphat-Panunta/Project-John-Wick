@@ -17,15 +17,9 @@ public class Initialization : MonoBehaviour
             if (initializedComponent[i] is IInitializedAble initializedAble)
                 initializedAble.Initialized();
             else
+            {
                 throw new System.Exception("InitializedAble not found index" + componentIndex);
-        }
-        try
-        {
-            
-        }
-        catch
-        {
-            throw new System.Exception("initializedOrder = "+initializedOrder + " Initialized been corrupt comoinent index = "+componentIndex);
+            }
         }
     }
 }

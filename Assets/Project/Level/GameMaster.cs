@@ -7,7 +7,7 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
 {
     public GameManager gameManager { get ; set ; }
     private INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager.curNodeLeaf { get ; set ; }
+    INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value ; }
 
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
@@ -23,8 +23,8 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
     }
     private DataBased DataBased;
 
-    public static readonly float lookSensitivityDefault = 50;
-    public static readonly float adsSensitivityDefault = 30;
+    public static readonly float lookSensitivityDefault = 20;
+    public static readonly float adsSensitivityDefault = 10;
 
     public static readonly float masterVolumeDefault = 100;
     public static readonly float musicVolumeDefault = 100;

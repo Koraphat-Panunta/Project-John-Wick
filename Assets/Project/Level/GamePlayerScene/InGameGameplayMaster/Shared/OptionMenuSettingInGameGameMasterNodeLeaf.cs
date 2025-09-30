@@ -35,7 +35,7 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
         Debug.Log("Option Enter");
 
         Cursor.lockState = CursorLockMode.None;
-        isTriggerExit = false;
+        
         this.optionUICanvas.gameObject.SetActive(true);
         this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
         this.SelectControlSetting();
@@ -44,7 +44,7 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     public override void Exit()
     {
         Cursor.lockState = CursorLockMode.Locked;
-
+        isTriggerExit = false;
         if (curMenuSector != null)
             curMenuSector.Exit();
 

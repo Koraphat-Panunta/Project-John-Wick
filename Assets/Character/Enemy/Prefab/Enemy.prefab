@@ -1583,6 +1583,11 @@ MonoBehaviour:
   SecondaryWeaponSocket: {fileID: 1109101117113518145}
   AnimatorOverrideController: {fileID: 22100000, guid: d09978a2c3d697e48b3253760aea4a3b,
     type: 2}
+  trackingTargetAccelerate: 0.1
+  trackingTargetDecelerate: 1
+  maxTrackRate: 0.3
+  curTrackRate: 0
+  isSpottingTaget: 0
 --- !u!114 &6414908439600597232
 MonoBehaviour:
   m_ObjectHideFlags: 0
