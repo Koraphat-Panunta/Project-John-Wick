@@ -6,6 +6,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public SplineLookConstrain StandSplineLookConstrain;
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
+    public LeftHandConstraintManager leftHandConstraintManager;
+    [SerializeField] private Transform leftHandTransformRef;
 
     public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
@@ -19,6 +21,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
 
+    public WeaponGripLeftHandScriptableObject ar15_WeaponGripLeftHandScrp;
+
+
     [SerializeField] private Rig rig;
 
     [SerializeField] private string curState;
@@ -27,15 +32,15 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected override void FixedUpdate()
     {
-        try
-        {
-            curState = constraintNodeStateSelector.curNodeLeaf.ToString();
-        }
-        catch { }
-        
+       
         base.FixedUpdate();
     }
-  
+    protected override void Update()
+    {
+
+        base.Update();
+    }
+
     public override INodeSelector startNodeSelector { get; set; }
     public NodeCombine playerConstraintCombineNode { get; set; }
     public NodeSelector enableDisableConstraintWeightNodeSelector { get; set; }
@@ -45,6 +50,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public RecoveryConstraintManagerWeightNodeLeaf rightHandRecoveryWeightConstraintNodeLeaf { get; set; }
     public RecoveryConstraintManagerWeightNodeLeaf aimDownSightRecoveryWeightConstraintNodeLeaf { get; set; }
     public RecoveryConstraintManagerWeightNodeLeaf leanRotationRecoveryWeightConstraintNodeLeaf {get; set; }
+    public RecoveryConstraintManagerWeightNodeLeaf leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf { get; set; }
 
     public NodeSelector constraintNodeStateSelector { get; set; }
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
@@ -66,6 +72,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public RightHandLookControlAnimationConstraintNodeLeaf restrict_pistol_AnimationConstraintNodeLeaf { get; private set; }
 
     public AnimationConstrainNodeSelector aimDownSightConstrainSelector { get; private set; }
+
+    public WeaponGripLeftHandTwoBoneIKNodeLeaf ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
     public override void InitailizedNode()
     {
         startNodeSelector = new AnimationConstrainNodeSelector(()=>true);
@@ -97,6 +105,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
             , leaningRotation,1);
+        leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            ()=> ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf.Precondition() == false
+            , leftHandConstraintManager
+            ,5);
 
         constraintNodeStateSelector = new NodeSelector(()=> isConstraintEnable);
 
@@ -129,13 +141,22 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         rest_gunfu_AnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
+        ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponGripLeftHandTwoBoneIKNodeLeaf(
+            ()=> isWeaponGripConstraitEnable && player._currentWeapon != null && player._currentWeapon is PrimaryWeapon
+            , this.leftHandTransformRef
+            ,this.leftHandConstraintManager
+            ,this.ar15_WeaponGripLeftHandScrp
+            ,this.player);
+
         startNodeSelector.AddtoChildNode(playerConstraintCombineNode);
 
         playerConstraintCombineNode.AddCombineNode(enableDisableConstraintWeightNodeSelector);
         playerConstraintCombineNode.AddCombineNode(rightHandRecoveryWeightConstraintNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(aimDownSightRecoveryWeightConstraintNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(leanRotationRecoveryWeightConstraintNodeLeaf);
+        playerConstraintCombineNode.AddCombineNode(leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(constraintNodeStateSelector);
+        playerConstraintCombineNode.AddCombineNode(ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf);
 
         enableDisableConstraintWeightNodeSelector.AddtoChildNode(enableConstraintWeight);
         enableDisableConstraintWeightNodeSelector.AddtoChildNode(disableConstraintWeight);

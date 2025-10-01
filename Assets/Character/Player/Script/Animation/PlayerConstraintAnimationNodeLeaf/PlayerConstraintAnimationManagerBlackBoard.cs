@@ -15,10 +15,26 @@ public partial class PlayerConstrainAnimationManager
                 || playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>())
                 return false;
 
-            if(player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0)
-                return true;
-
-            return false;
+            return true;
         } 
+    }
+    protected bool isWeaponGripConstraitEnable
+    {
+        get 
+        {
+            if(player._currentWeapon == null)
+                return false;
+
+            if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
+                return false;
+
+            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
+                return false;
+
+            if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())
+                return false;
+
+            return true;
+        }
     }
 }

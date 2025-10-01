@@ -1,35 +1,48 @@
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 
 public class LeftHandConstraintManager : MonoBehaviour,IConstraintManager
 {
     [SerializeField] private TwoBoneIKConstraint twoBoneIKConstraint;
-    [SerializeField] private Transform referenceTransform;
 
     [SerializeField] private Transform leftHandHint;
+    [SerializeField] private ParentConstraint leftHandHintParentConstraint;
     [SerializeField] private Transform leftHandTarget;
+    [SerializeField] private ParentConstraint leftHandTargetParentConstraint;
 
-    [SerializeField] public Vector3 hintOffset;
 
-    [SerializeField] public Vector3 targetHand;
-    [SerializeField] public Quaternion targetHandRotation;
 
     public float GetWeight() => twoBoneIKConstraint.weight;
-    public void SetWeight(float w) => twoBoneIKConstraint.weight = w;   
-
-
-    // Update is called once per frame
-    void Update()
+    public void SetWeight(float w) => twoBoneIKConstraint.weight = w;  
+    
+    public void SetHintHandPosition(Vector3 hintPosition)
     {
-        if(twoBoneIKConstraint.weight <= 0)
-            return;
-
-        leftHandHint.position = referenceTransform.position 
-            + (referenceTransform.forward * hintOffset.z)
-            + (referenceTransform.right * hintOffset.x)
-            + (referenceTransform.up * hintOffset.y);
-
-        this.leftHandTarget.position = targetHand;
-        this.leftHandTarget.rotation = targetHandRotation;
+        this.leftHandHint.transform.position = hintPosition;
     }
+
+    public void SetTargetHand(Vector3 targetHandPosition,Quaternion targetHandRotation)
+    {
+        this.leftHandTarget.transform.position = targetHandPosition;
+        this.leftHandTarget.transform.rotation = targetHandRotation;
+    }
+
+    public void SetHintHandParentConstraint(Transform hintTransform)
+    {
+        ParentConstraintAttachBehavior.Attach(this.leftHandHintParentConstraint, hintTransform);
+    }
+    public void RemoveHintHandParentConstraint()
+    {
+        ParentConstraintAttachBehavior.Detach(this.leftHandHintParentConstraint);
+    }
+    public void SetTargetHandParentConstraint(Transform targetHandTransform)
+    {
+        ParentConstraintAttachBehavior.Attach(this.leftHandTargetParentConstraint, targetHandTransform);
+    }
+    public void RemoveTargetHandParentConstraint()
+    {
+        ParentConstraintAttachBehavior.Detach(this.leftHandTargetParentConstraint);
+    }
+    // Update is called once per frame
+
 }
