@@ -13,6 +13,8 @@ public partial class Player: IWeaponAdvanceUser
     [SerializeField] public AnimationTriggerEventSCRP quickSiwthcHolsterPrimarySCRP;
     [SerializeField] public AnimationTriggerEventSCRP quickSwitchHoslterSecondarySCRP;
 
+    [SerializeField] public TransformOffsetSCRP quickSwitchHoldOffset;
+
     public CrosshairController crosshairController;
     public enum ShoulderSide
     {

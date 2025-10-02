@@ -215,7 +215,8 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
             && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0 && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] <= 0
             && isQuickSwtichWeaponManuverAble
             && weaponAdvanceUser._isPullTriggerCommand
-            , player.quickSwitchDrawSCRP);
+            , player.quickSwitchDrawSCRP
+            ,player.quickSwitchHoldOffset);
         quickSwitchExitSelector = new NodeSelector(
             ()=> (weaponAdvanceUser._isDrawPrimaryWeaponCommand 
             || weaponAdvanceUser._isDrawSecondaryWeaponCommand 
@@ -259,7 +260,8 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
         //    && isAimingManuverAble && weaponAdvanceUser._isAimingCommand);
         quickSwitch_Draw_NodeLeaf = new QuickSwitch_Draw_NodeLeaf(weaponAdvanceUser,this
             ,()=> isQuickSwtichWeaponManuverAble
-            , player.quickSwitchDrawSCRP);
+            , player.quickSwitchDrawSCRP
+            , player.quickSwitchHoldOffset);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => true );
 
@@ -280,7 +282,9 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
             && weaponAdvanceUser._isAimingCommand
             && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
             && isQuickSwtichWeaponManuverAble);
-        quickSwitch_LowReady_NodeLeaf = new QuickSwitch_LowReady_NodeLeaf(this.weaponAdvanceUser, this
+        quickSwitch_LowReady_NodeLeaf = new QuickSwitch_LowReady_NodeLeaf(
+            this.weaponAdvanceUser
+            , this
             , () => weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
             && isQuickSwtichWeaponManuverAble);
 

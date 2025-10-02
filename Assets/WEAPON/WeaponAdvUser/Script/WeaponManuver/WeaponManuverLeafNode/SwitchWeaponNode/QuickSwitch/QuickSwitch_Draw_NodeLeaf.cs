@@ -10,18 +10,29 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     private Weapon secondHandWeapon;
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get ; set ; }
+    private TransformOffsetSCRP quickSwitchHoldOffset;
 
-    public QuickSwitch_Draw_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition,AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
+    public QuickSwitch_Draw_NodeLeaf(
+        IWeaponAdvanceUser weaponAdvanceUser
+        , IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble
+        , Func<bool> preCondition
+        , AnimationTriggerEventSCRP animationTriggerEventSCRP
+        , TransformOffsetSCRP quickSwitchHoldSCRP) : base(weaponAdvanceUser, preCondition)
     {
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
+        this.quickSwitchHoldOffset = quickSwitchHoldSCRP;
     }
 
     public override void Enter()
     {
         elapseTime = 0;
         this.secondHandWeapon = this.weaponAdvanceUser._currentWeapon;
-        WeaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._secondHandSocket);
+        WeaponAttachingBehavior.Attach(
+            secondHandWeapon
+            , weaponAdvanceUser._secondHandSocket
+            , quickSwitchHoldOffset.postitionOffset
+            , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset));
         secondHandWeapon.ChangeActionManualy(secondHandWeapon.restNode);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
         isDrawSecondary = false;

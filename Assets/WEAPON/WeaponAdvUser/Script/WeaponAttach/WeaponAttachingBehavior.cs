@@ -5,6 +5,14 @@ public static class WeaponAttachingBehavior
 {
     public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
     {
+        Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity);
+    }
+    public static void Attach(
+        Weapon weapon
+        , IWeaponAttachingAble weaponAttachingAble
+        ,Vector3 additionalOffsetPosition
+        ,Quaternion additionalOffsetRotation)
+    {
         switch (weaponAttachingAble)
         {
             case MainHandSocket mainHandSocket:
@@ -30,7 +38,12 @@ public static class WeaponAttachingBehavior
                     weapon._collider.isTrigger = true;
 
                     //Set Parent Constraint
-                    SetParentConstrain(weapon, mainHandSocket.weaponAttachingAbleTransform,weapon._mainHandGripTransform);
+                    SetParentConstrain(
+                        weapon
+                        ,mainHandSocket.weaponAttachingAbleTransform
+                        ,weapon._mainHandGripTransform
+                        ,additionalOffsetPosition
+                        ,additionalOffsetRotation);
 
                     //Set AnimationState Override
                     AnimatorOverrideController animatorOverrideController = weaponAttachingAble.weaponAdvanceUser._animatorWeaponAdvanceUserOverride;
@@ -42,7 +55,7 @@ public static class WeaponAttachingBehavior
                     SetWeaponAdvacneUserProperty(weapon, weaponAttachingAble.weaponAdvanceUser);
                     break;
                 }
-            case SecondHandSocket secondHandSocket: 
+            case SecondHandSocket secondHandSocket:
                 {
                     //Detach form other weaponsocket
                     if (weapon.userWeapon != null)
@@ -61,11 +74,16 @@ public static class WeaponAttachingBehavior
                     weapon.rb.isKinematic = true;
                     weapon._collider.isTrigger = true;
 
-                    ParentConstraintAttachBehavior.Attach(weapon.parentConstraint, secondHandSocket.weaponAttachingAbleTransform
-                        ,weapon._SecondHandGripTransform.localPosition,weapon._SecondHandGripTransform.localRotation);
-                    break; 
+                    SetParentConstrain(
+                        weapon
+                        ,secondHandSocket.weaponAttachingAbleTransform
+                        ,weapon._SecondHandGripTransform
+                        ,additionalOffsetPosition
+                        ,additionalOffsetRotation
+                        );
+                    break;
                 }
-            case PrimaryWeaponSocket primaryWeaponSocket: 
+            case PrimaryWeaponSocket primaryWeaponSocket:
                 {
                     //Detach form other weaponsocket
                     if (weapon.userWeapon != null)
@@ -84,12 +102,18 @@ public static class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     weapon._collider.isTrigger = true;
-                    SetParentConstrain(weapon, primaryWeaponSocket.weaponAttachingAbleTransform,weapon._mainHandGripTransform);
-                    if(primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
+                    SetParentConstrain(
+                        weapon
+                        , primaryWeaponSocket.weaponAttachingAbleTransform
+                        , weapon._mainHandGripTransform
+                        ,additionalOffsetPosition
+                        ,additionalOffsetRotation
+                        );
+                    if (primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         primaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
-                    break; 
+                    break;
                 }
-            case SecondaryWeaponSocket secondaryWeaponSocket: 
+            case SecondaryWeaponSocket secondaryWeaponSocket:
                 {
                     //Detach form other weaponsocket
                     if (weapon.userWeapon != null)
@@ -108,10 +132,16 @@ public static class WeaponAttachingBehavior
                     weapon.userWeapon = weaponAttachingAble.weaponAdvanceUser;
                     weapon.rb.isKinematic = true;
                     weapon._collider.isTrigger = true;
-                    SetParentConstrain(weapon, secondaryWeaponSocket.weaponAttachingAbleTransform, weapon._mainHandGripTransform);
-                    if(secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
+                    SetParentConstrain(
+                        weapon
+                        ,secondaryWeaponSocket.weaponAttachingAbleTransform
+                        ,weapon._mainHandGripTransform
+                        ,additionalOffsetPosition
+                        ,additionalOffsetRotation
+                        );
+                    if (secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         secondaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
-                    break; 
+                    break;
                 }
         }
     }
@@ -158,30 +188,22 @@ public static class WeaponAttachingBehavior
        weapon.userWeapon = null;
 
     }
-    private static void SetParentConstrain(Weapon weapon, Transform transform,Transform weaponGrip)
+    private static void SetParentConstrain(Weapon weapon, Transform parentTransform, Transform weaponGrip
+        ,Vector3 additionalOffsetPosition,Quaternion additionalOffsetRotation)
     {
-        ConstraintSource source = new ConstraintSource();
-        source.sourceTransform = transform;
-        source.weight = 1;
-        if (weapon.parentConstraint.sourceCount > 0)
-        {
-            weapon.parentConstraint.RemoveSource(0);
-        }
-        weapon.parentConstraint.AddSource(source);
+        // --- Step 1: calculate anchor position (weaponGrip + additional offset in its local space) ---
+        Vector3 anchorOffset = weaponGrip.localPosition + (weaponGrip.localRotation * additionalOffsetPosition);
 
-        Vector3 translationOffset = weapon.transform.InverseTransformPoint(weaponGrip.position);
-        Quaternion rotationOffsetQuat = Quaternion.Inverse(weapon.transform.rotation) * weaponGrip.rotation;
-        Vector3 rotationOffset = rotationOffsetQuat.eulerAngles;
+        // --- Step 2: calculate anchor rotation (weaponGrip rotation + additional rotation) ---
+        Quaternion anchorRotation = weaponGrip.localRotation * additionalOffsetRotation;
 
-        weapon.parentConstraint.SetRotationOffset(0, rotationOffset);
-        weapon.parentConstraint.SetTranslationOffset(0, - translationOffset);
-
-        //weapon.parentConstraint.constraintActive = true;
-        weapon.parentConstraint.translationAtRest = Vector3.zero;
-        weapon.parentConstraint.rotationAtRest = Vector3.zero;
-
-        weapon.parentConstraint.constraintActive = true;
-        weapon.parentConstraint.weight = 1;
+        // --- Step 3: apply to constraint (position rotated around anchor + rotation offset) ---
+        ParentConstraintAttachBehavior.Attach(
+            weapon.parentConstraint,
+            parentTransform,
+            anchorOffset,
+            anchorRotation
+        );
     }
     private static void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
     {

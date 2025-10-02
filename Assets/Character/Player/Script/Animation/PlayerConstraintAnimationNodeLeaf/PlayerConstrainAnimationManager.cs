@@ -37,7 +37,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     }
     protected override void Update()
     {
-
         base.Update();
     }
 

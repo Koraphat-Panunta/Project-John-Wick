@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager,IInitializedAble
 {
@@ -6,6 +7,7 @@ public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public abstract INodeSelector startNodeSelector { get; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+
     public void Initialized()
     {
         nodeManagerBehavior = new NodeManagerBehavior();
@@ -32,6 +34,7 @@ public abstract class AnimationConstrainNodeManager : MonoBehaviour,INodeManager
     {
         this.FixedUpdateNode();
     }
+   
 
-    
+
 }

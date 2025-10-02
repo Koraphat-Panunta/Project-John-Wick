@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 4900408041547849894}
   - component: {fileID: 2620705664831357101}
   - component: {fileID: 1552842334254810572}
+  - component: {fileID: 4261433417065899419}
   m_Layer: 6
   m_Name: Rig 1
   m_TagString: Untagged
@@ -285,6 +286,28 @@ MonoBehaviour:
   rig: {fileID: 2620705664831357101}
   curState: 
   player: {fileID: 3508049754622093220}
+--- !u!95 &4261433417065899419
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5841713585631905498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6141790418069220919
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +699,8 @@ MonoBehaviour:
   quickSiwthcHolsterPrimarySCRP: {fileID: 11400000, guid: 89d9642b05a86224ca2f740732250f36,
     type: 2}
   quickSwitchHoslterSecondarySCRP: {fileID: 11400000, guid: 416b85d0a415d2a4ba9b1bb1cdc76ef8,
+    type: 2}
+  quickSwitchHoldOffset: {fileID: 11400000, guid: 177ea24ae49f8ab4d93d807ff9e9abb8,
     type: 2}
   crosshairController: {fileID: 0}
   curShoulderSide: 0

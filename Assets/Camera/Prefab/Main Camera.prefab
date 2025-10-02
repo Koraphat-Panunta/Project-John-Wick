@@ -107,7 +107,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -330,11 +330,10 @@ MonoBehaviour:
   thirdPersonCinemachineCamera: {fileID: 0}
   impulseSource: {fileID: 8522622513793723404}
   player: {fileID: 0}
+  gameMaster: {fileID: 0}
   zoomingWeight: 0
   cameraSwitchSholderVelocity: 3.5
   gunFuCameraTimer: 0
-  standardCameraSensivity: 1
-  aimDownSightCameraSensivity: 1
   inputLook: 
   curSide: 0
   shootImpluseDuration: 0.15
