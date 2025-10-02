@@ -11,9 +11,9 @@ public partial class Player
         if (regenHPDisableTimer > 0)
             regenHPDisableTimer -= Time.deltaTime;
 
-        if(GetHP() < (maxHp*0.3f) && regenHPDisableTimer <= 0)
+        if(GetHP() < (maxHp*0.5f) && regenHPDisableTimer <= 0)
         {
-            AddHP(Mathf.Abs((maxHp*0.3f) - GetHP()));
+            AddHP(Mathf.Abs((maxHp*0.5f) - GetHP()));
             NotifyObserver(this, SubjectPlayer.NotifyEvent.HealthRegen);
         }
     }

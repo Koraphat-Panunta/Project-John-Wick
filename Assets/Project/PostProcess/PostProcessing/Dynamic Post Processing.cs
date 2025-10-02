@@ -4,41 +4,47 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer,IObserverTimeControlManager,IInitializedAble
+public class DynamicPostProcessing : MonoBehaviour,IInitializedAble
 {
     [SerializeField] protected Player player;
+    protected INodeManager playerStateNodeManager => player.playerStateNodeManager as INodeManager;
     [SerializeField] protected TimeControlManager timeControlManager;
     [SerializeField] protected Volume volume;
 
-    [SerializeField] protected Vignette vignette;
-    [SerializeField] private float originVignetteIntensity;
-    [SerializeField] private Color originVignetteColor;
-    [SerializeField] private float originVignetteSmooth;
-
+    protected Vignette vignette;
+    private float originVignetteIntensity;
+    private Color originVignetteColor;
+    private float originVignetteSmooth;
+    [Range(0,1)]
     [SerializeField] private float hurtVignetteIntensity;
     [SerializeField] private Color hurtVignetteColor;
+    [Range(0, 1)]
     [SerializeField] private float hurtVignetteSmooth;
 
-    private bool isBulletTime;
-    private bool isPlayerRestrict_HumanShield;
-    [SerializeField] protected ChromaticAberration chromaticAberration;
-    [SerializeField] private float originChromaticAberration;
+    protected ChromaticAberration chromaticAberration;
+    private float originChromaticAberration;
+    [Range(0, 1)]
     [SerializeField] private float bulletTimeChromaticAberration;
 
     public void Initialized()
     {
-        this.player.AddObserver(this);
-        this.timeControlManager.AddObserver(this);
 
         if (this.volume != null)
         {
             this.volume.profile.TryGet<Vignette>(out this.vignette);
             this.volume.profile.TryGet<ChromaticAberration>(out this.chromaticAberration);
+
+            originChromaticAberration = this.chromaticAberration.intensity.value;
+
+            originVignetteColor = this.vignette.color.value;
+            originVignetteIntensity = this.vignette.intensity.value;
+            originVignetteSmooth = this.vignette.smoothness.value;
         }
     }
     private void Update()
     {
         this.HurtEffectCheck();
+        this.BulletTimeEffect();
     }
     private void OnValidate()
     {
@@ -47,95 +53,50 @@ public class DynamicPostProcessing : MonoBehaviour,IObserverPlayer,IObserverTime
 
        
     }
-    public void OnNotify<T>(Player player, T node)
-    {
-        if(node is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_Node
-            && humanShield_GunFuInteraction_Node.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter
-            || node is RestrictGunFuStateNodeLeaf restrictGunFuState_NodeLeaf
-            && restrictGunFuState_NodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        {
-            isPlayerRestrict_HumanShield = true;
-        }
-        else if(node is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeExit
-            && humanShield_GunFuInteraction_NodeExit.curPhase == PlayerStateNodeLeaf.NodePhase.Exit
-            || node is RestrictGunFuStateNodeLeaf restrictGunFuState_NodeLeafExit
-            && restrictGunFuState_NodeLeafExit.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-        {
-            isPlayerRestrict_HumanShield = false;
-        }
-
-        this.UpdatePostProcessing();
-    }
-
-    public void OnNotifyObserver<T>(TimeControlManager timeControlManager, T Var)
-    {
-        if(Var is TriggerTimeSlowCurveNodeLeaf triggerTimeSlowCurveNodeLeaf
-            && triggerTimeSlowCurveNodeLeaf.curPhase == TimeNodeLeaf.TimeNodeLeafPhase.Enter)
-        {
-            isBulletTime = true;    
-        }
-        else if(Var is TriggerTimeSlowCurveNodeLeaf triggerTimeSlowCurveNodeLeafExit
-            && triggerTimeSlowCurveNodeLeafExit.curPhase == TimeNodeLeaf.TimeNodeLeafPhase.Exit)
-            isBulletTime = false;
-
-        this.UpdatePostProcessing();
-    }
-
-    private void UpdatePostProcessing()
-    {
-        if(isPlayerRestrict_HumanShield && isBulletTime)
-        {
-            if(bulletTime != null)
-            {
-                StopCoroutine(bulletTime);
-                bulletTime = null;
-            }
-            bulletTime = StartCoroutine(BulletTimeEffect());
-        }
-    }
-
-    private Coroutine bulletTime;
-    private IEnumerator BulletTimeEffect()
-    {
-        while(isPlayerRestrict_HumanShield && isBulletTime)
-        {
-            chromaticAberration.intensity.value = Mathf.Clamp(chromaticAberration.intensity.value + Time.unscaledDeltaTime, originChromaticAberration, bulletTimeChromaticAberration);
-            yield return null;
-        }
-        while(chromaticAberration.intensity.value > originChromaticAberration)
-        {
-            chromaticAberration.intensity.value = Mathf.Clamp(chromaticAberration.intensity.value - Time.unscaledDeltaTime, originChromaticAberration, bulletTimeChromaticAberration);
-            yield return null;
-        }
-        bulletTime = null;
-    }
 
     float halfMaxHP => player.GetMaxHp() * 0.5f;
-    [SerializeField] float i = 0;
-    private float ChnageRate = 0.25f;
+    float i = 0;
+    private float ChnageRate = 1;
+    [SerializeField] AnimationCurve hurtFeedBackIntensityCurve;
     private void HurtEffectCheck() 
     {
        
-        if (player.GetHP() < halfMaxHP)
+        if (player.GetHP() <= halfMaxHP)
         {
             float targetI = Mathf.Clamp01(player.GetHP() / halfMaxHP);
 
             i = Mathf.MoveTowards(i, 1 - targetI, Time.unscaledDeltaTime * this.ChnageRate);
 
-            vignette.color = new ColorParameter(Color.Lerp(this.originVignetteColor, this.hurtVignetteColor, i));
-            vignette.smoothness.value = Mathf.Clamp(i,originVignetteSmooth,hurtVignetteSmooth);
-            vignette.intensity.value = Mathf.Clamp(i, originVignetteIntensity,hurtVignetteIntensity);
+            vignette.color.value = Color.Lerp(this.originVignetteColor, this.hurtVignetteColor, hurtFeedBackIntensityCurve.Evaluate(i));
+            vignette.smoothness.value = Mathf.Clamp(hurtFeedBackIntensityCurve.Evaluate(i), originVignetteSmooth,hurtVignetteSmooth);
+            vignette.intensity.value = Mathf.Clamp(hurtFeedBackIntensityCurve.Evaluate(i), originVignetteIntensity,hurtVignetteIntensity);
 
         }
         else if(i > 0 && player.GetHP() > halfMaxHP)
         {
             i -= Time.unscaledDeltaTime * this.ChnageRate;
 
-            vignette.color = new ColorParameter(Color.Lerp(this.originVignetteColor, this.hurtVignetteColor, i));
-            vignette.smoothness.value = Mathf.Clamp(i, originVignetteSmooth, hurtVignetteSmooth);
-            vignette.intensity.value = Mathf.Clamp(i, originVignetteIntensity, hurtVignetteIntensity);
+            vignette.color.value = Color.Lerp(vignette.color.value, this.hurtVignetteColor,Time.unscaledDeltaTime * this.ChnageRate);
+            vignette.smoothness.value = Mathf.Clamp(vignette.smoothness.value, originVignetteSmooth, Time.unscaledDeltaTime * this.ChnageRate);
+            vignette.intensity.value = Mathf.Clamp(vignette.intensity.value, originVignetteIntensity, Time.unscaledDeltaTime * this.ChnageRate);
 
         }
+    }
+
+    private void BulletTimeEffect()
+    {
+        if((playerStateNodeManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>()
+            ||playerStateNodeManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>())
+            &&(timeControlManager.triggerBulletTime.timer > 0)) 
+        {
+            chromaticAberration.intensity.value = Mathf.MoveTowards(chromaticAberration.intensity.value, bulletTimeChromaticAberration, Time.unscaledDeltaTime);
+        }
+        else
+        {
+            chromaticAberration.intensity.value = Mathf.MoveTowards(chromaticAberration.intensity.value, originChromaticAberration, Time.unscaledDeltaTime);
+        }
+
+        Debug.Log("timeControlManager.triggerBulletTime.timer = " + timeControlManager.triggerBulletTime.timer);
     }
 
 
