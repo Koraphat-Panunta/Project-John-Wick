@@ -2136,11 +2136,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
-      propertyPath: MAX_ChaserCount
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
-        type: 3}
       propertyPath: chaserChangeDelay
       value: 0.1
       objectReference: {fileID: 0}
@@ -2157,12 +2152,12 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: maxNumberChaserShooter
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: maxOverwatchShootPoint
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
@@ -2212,7 +2207,7 @@ PrefabInstance:
     - target: {fileID: 8006418700248953879, guid: c337bc447c385964599ab3f4c2adc786,
         type: 3}
       propertyPath: maxNumberOverwatchShooter
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

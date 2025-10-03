@@ -9,6 +9,8 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     private LeftHandConstraintManager leftHandConstraintManager;
     private WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject;
 
+    private Weapon attachWeapon;
+
     private Vector3 hintPosition;
 
     private float enterWeightSpeed = 5;
@@ -28,10 +30,17 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     public override void Enter()
     {
         this.leftHandConstraintManager.SetTargetHandParentConstraint(this.secondHandGripTransform);
+        this.attachWeapon = weaponAdvanceUser._currentWeapon;
         base.Enter();
     }
     public override void UpdateNode()
     {
+        if(this.attachWeapon != weaponAdvanceUser._currentWeapon)
+        {
+            this.leftHandConstraintManager.SetTargetHandParentConstraint(this.secondHandGripTransform);
+            this.attachWeapon = weaponAdvanceUser._currentWeapon;
+        }
+
         this.hintPosition = this.referenceTransform.position 
             + 
             (
@@ -54,6 +63,7 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     public override void Exit()
     {
         this.leftHandConstraintManager.RemoveTargetHandParentConstraint();
+        this.attachWeapon = null;
         base.Exit();
     }
 }

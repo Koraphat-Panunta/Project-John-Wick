@@ -46,6 +46,12 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     [Range(0, 10)]
     [SerializeField] private float hitImpluseDuration;
 
+    [Range(0, 10)]
+    [SerializeField] private float gotHitImplauseDuration;
+    [SerializeField] private Vector3 gotHitImplauseDirection;
+    [SerializeField] private float gotHitImplauseIntensity;
+
+
     public void Initialized()
     {
         //allCinemachine.Add(thirdPersonCinemachineCamera.cinemachineCamera);
@@ -104,7 +110,12 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
 
             if (notifyEvent == SubjectPlayer.NotifyEvent.GetShoot)
             {
-                cameraImpluse.Performed(-0.05f);
+                cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = gotHitImplauseDuration;
+                cameraImpluse.Performed(new Vector3(
+                    (gotHitImplauseDirection.x * gotHitImplauseIntensity) * (Random.Range(1, 10) > 5 ? 1 : -1)
+                    , (gotHitImplauseDirection.y * gotHitImplauseIntensity)
+                    , (gotHitImplauseDirection.z * gotHitImplauseIntensity))
+                    );
             }
         }
         else

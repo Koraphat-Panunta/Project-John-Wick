@@ -25,7 +25,7 @@ public class EnemyDropAbleObject : DropAbleObjectClient,IObserverEnemy,IInitiali
         if (node is EnemyDeadStateNode deadState && deadState.curstate == EnemyStateLeafNode.Curstate.Enter && isAlreadyDrop == false)
         {
 
-            AmmoGetAbleObject.amoutAmmoAdd = 6;
+            AmmoGetAbleObject.amoutAmmoAdd = 8;
             base.DropObject(AmmoGetAbleObject);
 
             HpGetAbleObject.amoutOfHpAdd = 20;
