@@ -2101,6 +2101,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 851732912}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &687076285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+    type: 3}
+  m_PrefabInstance: {fileID: 851732912}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1d4d2e7dc7e124ab421742d1b00528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &764269470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4235,7 +4247,7 @@ MonoBehaviour:
   gamePlayUICanvas: {fileID: 22027143}
   user: {fileID: 2008063775}
   player: {fileID: 1658749143}
-  cameraMain: {fileID: 687076280}
+  cameraController: {fileID: 687076285}
   enemyDirector: {fileID: 2014415783}
   enemyMK1: {fileID: 1960720019}
   enemySpawnPointRoomWave:
@@ -4244,6 +4256,7 @@ MonoBehaviour:
   ar15_MK1_origin: {fileID: 590138577}
   glock17_MK1_origin: {fileID: 43246775}
   stopSpawning: 0
+  thirdPersonCinemachineCamera: {fileID: 0}
   lookSensitivity: 0
   adsSensitivity: 0
   masterVolume: 0

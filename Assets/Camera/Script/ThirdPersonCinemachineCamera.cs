@@ -70,6 +70,26 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         pitch -= verticalInput * rotationSpeed;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
     }
+    public void InputRotateCameraToDirection(Vector3 lookDirection, Vector3 upCamera)
+    {
+        // Compute the direction from the follow target (camera pivot) to the lookAt position
+        if (lookDirection == Vector3.zero)
+            return;
+
+        lookDirection.Normalize();
+
+        Quaternion rotation = Quaternion.LookRotation(lookDirection * -1, Vector3.up);
+
+        float rawYaw = rotation.eulerAngles.y;
+
+        float rawPitch = rotation.eulerAngles.x;
+        if (rawPitch > 180f)
+            rawPitch -= 360f;
+
+        yaw = rawYaw;
+        pitch = Mathf.Clamp(rawPitch, minPitch, maxPitch);
+
+    }
     public void InputRotateCamera(Vector3 lookAtPosition, Vector3 upCamera)
     {
         // Compute the direction from the follow target (camera pivot) to the lookAt position
@@ -77,18 +97,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         if (lookDir == Vector3.zero)
             return;
 
-        lookDir.Normalize();
-
-        Quaternion rotation = Quaternion.LookRotation(lookDir*-1,Vector3.up);
-
-        yaw = rotation.eulerAngles.y;
-
-        float rawPitch = rotation.eulerAngles.x;
-        if (rawPitch > 180f)
-            rawPitch -= 360f;
-
-        // Clamp between your min/max pitch
-        pitch = Mathf.Clamp(rawPitch, minPitch, maxPitch);
+        this.InputRotateCameraToDirection(lookDir,upCamera);
 
     }
     public void SetYaw(float value)=>this.yaw = value;

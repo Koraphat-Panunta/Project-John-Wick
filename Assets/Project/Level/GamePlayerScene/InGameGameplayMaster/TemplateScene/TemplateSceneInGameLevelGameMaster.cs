@@ -122,14 +122,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         public override void UpdateNode()
         {
             //enemyWaveManager.EnemyWaveUpdate();
-            Vector3 cameraLookPos = Vector3.Lerp(gameMaster.thirdPersonCinemachineCamera.transform.position + (gameMaster.thirdPersonCinemachineCamera.transform.forward)
-                , gameMaster.enemySpawnPointRoomWave[0].transform.position,Time.deltaTime);
-               
-
-           
-
-            gameMaster.thirdPersonCinemachineCamera.InputRotateCamera(gameMaster.enemySpawnPointRoomWave[0].transform.position, Vector3.up);
-            gameMaster.thirdPersonCinemachineCamera.UpdateCameraPosition();
+            
             base.UpdateNode();
         }
         
