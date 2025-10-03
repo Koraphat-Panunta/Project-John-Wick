@@ -7,7 +7,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
-    private float phaseTimer;
+    public float phaseTimer { get; private set; }
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
     public AnimationClip _animationClip { get; set; }
@@ -19,7 +19,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
     private AnimationClip restrictEnterClip;
     private AnimationClip restrictExitClip;
 
-    private float StayDuration => restrictScriptableObject.StayDuration;
+    public float StayDuration => restrictScriptableObject.StayDuration;
     private bool isRestrictExitHit;
     private RestrictScriptableObject restrictScriptableObject { get; set; }
     public string _stateName => restrictScriptableObject.stateName;

@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   rotationOffset: {x: 0, y: 180, z: 0}
+  stateName: 
   restrictEnter_exitNormalized: 0.96
   restrictExit_exitNormalized: 0.97
   restrictExit_hitNormalized: 0.49
   restrictExit_HitForce: 3
-  StayDuration: 10
+  StayDuration: 6
   restrictEnterSnapDistanceTarget: 8.98
   restrictEnterClip: {fileID: 7400000, guid: 1732fe2fa20516a40a6c85569ef1978c, type: 2}
   restrictExitClip: {fileID: 7400000, guid: 1b26d6ed818835641b78b3e920efd40d, type: 2}

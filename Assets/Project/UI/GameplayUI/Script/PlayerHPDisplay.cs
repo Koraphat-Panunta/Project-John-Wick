@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerHPDisplay : GameplayUI, IObserverPlayer
 {
-    [SerializeField] private RawImage front_HP_bar_image;
-    [SerializeField] private RawImage back_HP_bar_image;
+    [SerializeField] private Image bg_HP_bar_image;
+    [SerializeField] private Image front_HP_bar_image;
+    [SerializeField] private Image back_HP_bar_image;
     [SerializeField] private Image iframe_HP_image;
 
     [SerializeField] private Color positiveHP_Bar_Color;
@@ -152,11 +153,13 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     {
         this.front_HP_bar_image.enabled = true;
         this.back_HP_bar_image.enabled = true;
+        this.bg_HP_bar_image.enabled= true;
     }
     public override void DisableUI()
     {
         this.front_HP_bar_image.enabled = false;
         this.back_HP_bar_image.enabled = false;
+        this.bg_HP_bar_image.enabled = false;
     }
     private void OnDisable()
     {

@@ -7,7 +7,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
     private bool isShowGage ;
     [SerializeField] RawImage humanShieldGage;
     private float maxWidthImage;
-    HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
+    IGunFuNode curGunFuInteraction_NodeLeaf;
 
     public override void Initialized()
     {
@@ -30,10 +30,22 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                     {
                         if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
                         {
-                            this.humanShield_GunFuInteraction_NodeLeaf = humanShieldNodeLeaf;
+                            this.curGunFuInteraction_NodeLeaf = humanShieldNodeLeaf;
                             isShowGage = true;
                         }
                         else if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+                            isShowGage = false;
+                        break;
+                    }
+                case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf: 
+                    {
+                        if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                        {
+                            this.curGunFuInteraction_NodeLeaf=restrictGunFuStateNodeLeaf;
+                            isShowGage = true;
+
+                        }
+                        else if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                             isShowGage = false;
                         break;
                     }
@@ -45,11 +57,29 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
     {
         if(isShowGage == true)
         {
-            humanShieldGage.enabled = true;
-            humanShieldGage.rectTransform.localScale = new Vector3(1-(humanShield_GunFuInteraction_NodeLeaf.elapesTimmerStay
-              / humanShield_GunFuInteraction_NodeLeaf.StayDuration)
-              , humanShieldGage.rectTransform.localScale.y
-              , humanShieldGage.rectTransform.localScale.z);
+            switch (curGunFuInteraction_NodeLeaf)
+            {
+                case HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf:
+                    {
+                        humanShieldGage.enabled = true;
+                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (humanShieldNodeLeaf.elapesTimmerStay
+                          / humanShieldNodeLeaf.StayDuration)
+                          , humanShieldGage.rectTransform.localScale.y
+                          , humanShieldGage.rectTransform.localScale.z);
+                        break;
+                    }
+                case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+                    {
+                        humanShieldGage.enabled = true;
+                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (restrictGunFuStateNodeLeaf.phaseTimer
+                          / restrictGunFuStateNodeLeaf.StayDuration)
+                          , humanShieldGage.rectTransform.localScale.y
+                          , humanShieldGage.rectTransform.localScale.z);
+
+                        break;
+                    }
+            }
+           
         }
         if(isShowGage == false)
         {

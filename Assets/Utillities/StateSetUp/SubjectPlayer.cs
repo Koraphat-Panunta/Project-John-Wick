@@ -62,7 +62,8 @@ public abstract class SubjectPlayer : Character
     //private List<IObserverPlayer> Observers = new List<IObserverPlayer>();
     public void AddObserver(IObserverPlayer observer)
     {
-        observers.Add(observer);
+        if(observers.Contains(observer) == false)
+            observers.Add(observer);
     }
     public void RemoveObserver(IObserverPlayer observer)
     {

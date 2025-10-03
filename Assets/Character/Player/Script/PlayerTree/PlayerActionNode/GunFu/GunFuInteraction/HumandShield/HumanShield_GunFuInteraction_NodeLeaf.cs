@@ -41,7 +41,7 @@ public class HumanShield_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_Nod
     public HumanShield_GunFuInteraction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition,gunFuInteraction_ScriptableObject)
     {
         weaponAdvanceUser = player;
-        StayDuration = 10;
+        StayDuration = 6;
     }
 
     public override void Enter()
