@@ -4,6 +4,8 @@ using Unity.Cinemachine;
 
 using System;
 using UnityEngine.Animations.Rigging;
+using System.Data;
+
 
 
 
@@ -67,6 +69,27 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         yaw += horizontalInput * rotationSpeed;
         pitch -= verticalInput * rotationSpeed;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+    }
+    public void InputRotateCamera(Vector3 lookAtPosition, Vector3 upCamera)
+    {
+        // Compute the direction from the follow target (camera pivot) to the lookAt position
+        Vector3 lookDir = (lookAtPosition - targetFollow.position);
+        if (lookDir == Vector3.zero)
+            return;
+
+        lookDir.Normalize();
+
+        Quaternion rotation = Quaternion.LookRotation(lookDir*-1,Vector3.up);
+
+        yaw = rotation.eulerAngles.y;
+
+        float rawPitch = rotation.eulerAngles.x;
+        if (rawPitch > 180f)
+            rawPitch -= 360f;
+
+        // Clamp between your min/max pitch
+        pitch = Mathf.Clamp(rawPitch, minPitch, maxPitch);
+
     }
     public void SetYaw(float value)=>this.yaw = value;
     public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);
@@ -156,10 +179,10 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0.02f, 0.455f, 0.851f);
-        Gizmos.DrawWireSphere(targetFollow.position, distance);
+        //Gizmos.color = new Color(0.02f, 0.455f, 0.851f);
+        //Gizmos.DrawWireSphere(targetFollow.position, distance);
 
-        Gizmos.DrawWireSphere(transform.position,0.15f);
+        //Gizmos.DrawWireSphere(transform.position,0.15f);
         //Gizmos.color = Color.white;
         //Gizmos.DrawWireSphere(_transform.position, collisionRaduisCheck);
 

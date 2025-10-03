@@ -7,6 +7,7 @@ using UnityEngine;
 public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializedAble
 {
     [SerializeField] public CinemachineBrain cinemachineBrain;
+    [SerializeField] public Camera cameraMain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     private List<CinemachineCamera> allCinemachine = new List<CinemachineCamera>(); 
     [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;

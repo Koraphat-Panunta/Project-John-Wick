@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 {
-
-
     private TemplateSceneInGameLevel_Gameplay_Nodeleaf templateSceneInGameLevel_Gameplay_Nodeleaf { get; set; }
-    [SerializeField] private Camera cameraMain;
+    [SerializeField] private CameraController cameraController;
 
     [SerializeField] private EnemyDirector enemyDirector;
     [SerializeField] private Enemy enemyMK1;
@@ -21,14 +19,17 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 
     [SerializeField] private bool stopSpawning;
 
-
+    [SerializeField] private ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     public override void Initialized()
     {
-        enemyObjectManager = new EnemyObjectManager(enemyMK1, cameraMain);
+        enemyObjectManager = new EnemyObjectManager(enemyMK1, cameraController.cameraMain);
 
-        ar15_MK1_weaponObjManager = new WeaponObjectManager(ar15_MK1_origin, cameraMain);
+        ar15_MK1_weaponObjManager = new WeaponObjectManager(ar15_MK1_origin, cameraController.cameraMain);
 
-        glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraMain);
+        glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraController.cameraMain);
+
+        this.thirdPersonCinemachineCamera = cameraController.thirdPersonCinemachineCamera;
+
         base.Initialized();
     }
 
@@ -121,6 +122,14 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         public override void UpdateNode()
         {
             //enemyWaveManager.EnemyWaveUpdate();
+            Vector3 cameraLookPos = Vector3.Lerp(gameMaster.thirdPersonCinemachineCamera.transform.position + (gameMaster.thirdPersonCinemachineCamera.transform.forward)
+                , gameMaster.enemySpawnPointRoomWave[0].transform.position,Time.deltaTime);
+               
+
+           
+
+            gameMaster.thirdPersonCinemachineCamera.InputRotateCamera(gameMaster.enemySpawnPointRoomWave[0].transform.position, Vector3.up);
+            gameMaster.thirdPersonCinemachineCamera.UpdateCameraPosition();
             base.UpdateNode();
         }
         

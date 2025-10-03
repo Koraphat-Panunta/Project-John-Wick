@@ -702,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 3938986911789629728, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4758247707014215067, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -762,7 +762,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6454910191179571215, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -832,7 +832,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2583,13 +2583,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
-      propertyPath: m_ClearFlags
-      value: 2
+      propertyPath: m_BackGroundColor.b
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 16351
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3210506969022920912, guid: d701a55337d9aff4e8bcef9219851f97,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3806568399460747138, guid: d701a55337d9aff4e8bcef9219851f97,
         type: 3}
@@ -2645,26 +2650,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1658749143}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: standardCameraSensivity
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: thirdPersonCinemachineCamera
-      value: 
-      objectReference: {fileID: 1589638607}
-    - target: {fileID: 7488199355599416425, guid: d701a55337d9aff4e8bcef9219851f97,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 32735
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3395,7 +3380,7 @@ PrefabInstance:
     - target: {fileID: 5971669966833777333, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6414908439600597232, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
@@ -3455,7 +3440,7 @@ PrefabInstance:
     - target: {fileID: 8145393420347776179, guid: 84c69ff9c82bc70449b7e18c9854f0cb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3602,18 +3587,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71d26168af3786a44bd6ca1c01e49496, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1589638607 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 104828536550568714, guid: 7610df03b6259ea409d446dc8358715b,
-    type: 3}
-  m_PrefabInstance: {fileID: 386886312}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf95954ed218c5f4e92982d293acb0e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1652453537
