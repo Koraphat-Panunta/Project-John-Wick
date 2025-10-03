@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections;
 
 public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObserver
 {
@@ -23,8 +24,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
     protected InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster> prologueInGameLevelGameplayGameMasterNodeLeaf;
-
-    [SerializeField] private DoorKeyItem key;
 
     public Door door_A1;
     public Door door_A2_Enter;
@@ -87,7 +86,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public EnemySpawnerPoint[] enemySpawnPoint_A5;
     public EnemySpawnPointRoom[] enemySpawnPointRooms_A5;
 
-    [SerializeField] private Camera cameraMain;
+    [SerializeField] private CameraController cameraController;
 
     [SerializeField] private int Wave1;
     [SerializeField] private int numberOfEnemyWave1;
@@ -97,18 +96,18 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public override void Initialized()
     {
 
-        this.enemy_Tutorial_ObjectManager = new EnemyObjectManager(enemyTutorialOrigin,this.cameraMain,2,5);
-        this.enemy_Mask_Tutorial_ObjectManager = new EnemyObjectManager(enemyMaskTutorialOrigin,this.cameraMain,2,5);
+        this.enemy_Tutorial_ObjectManager = new EnemyObjectManager(enemyTutorialOrigin,this.cameraController.cameraMain,2,5);
+        this.enemy_Mask_Tutorial_ObjectManager = new EnemyObjectManager(enemyMaskTutorialOrigin,this.cameraController.cameraMain,2,5);
 
-        this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin, this.cameraMain);
-        this.enemyMask_ObjectManager = new EnemyObjectManager(enemyMaskOrigin, this.cameraMain);
-        this.enemyMaskArmored_ObjectManager = new EnemyObjectManager(enemyMaskArmordOrigin, this.cameraMain);
+        this.enemy_ObjectManager = new EnemyObjectManager(enemyOrigin, this.cameraController.cameraMain);
+        this.enemyMask_ObjectManager = new EnemyObjectManager(enemyMaskOrigin, this.cameraController.cameraMain);
+        this.enemyMaskArmored_ObjectManager = new EnemyObjectManager(enemyMaskArmordOrigin, this.cameraController.cameraMain);
 
-        this.glock17_weaponObjectManager = new WeaponObjectManager(glock17_Origin, this.cameraMain);
-        this.ar15_weaponObjectManager = new WeaponObjectManager(ar15_Origin, this.cameraMain);
-        this.ar15Optic_weaponObjectManager = new WeaponObjectManager(ar15Optic_Origin, this.cameraMain);
-        this.ar15Redot_weaponObjectManager = new WeaponObjectManager(ar15Redot_Origin, this.cameraMain);
-        this.ar15TacticalScope_weaponObjectManager = new WeaponObjectManager(ar15TacticalScope_Origin, this.cameraMain);
+        this.glock17_weaponObjectManager = new WeaponObjectManager(glock17_Origin, this.cameraController.cameraMain);
+        this.ar15_weaponObjectManager = new WeaponObjectManager(ar15_Origin, this.cameraController.cameraMain);
+        this.ar15Optic_weaponObjectManager = new WeaponObjectManager(ar15Optic_Origin, this.cameraController.cameraMain);
+        this.ar15Redot_weaponObjectManager = new WeaponObjectManager(ar15Redot_Origin, this.cameraController.cameraMain);
+        this.ar15TacticalScope_weaponObjectManager = new WeaponObjectManager(ar15TacticalScope_Origin, this.cameraController.cameraMain);
 
 
         this.InitializedWave();
@@ -125,6 +124,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         this.triggerBoxA4_1.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
         this.triggerBoxA4_2.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+
+        this.door_A3_Exit.isLocked = true;
+        this.door_A4_Exit.isLocked = true;
 
         this.InitialziedGameMasterEvent();
 
@@ -374,6 +376,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
             enemySpawnPoint_A4_6[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_6[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_6[2].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
+            this.door_A4_Exit.isLocked = false;
         });
 
         gameMasterEvent.Add(() => door_A4_Exit.isOpen
@@ -383,11 +386,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
             enemySpawnerPoint_A3_After[2].SpawnEnemy(enemy_ObjectManager, enemyDirectirA3, glock17_weaponObjectManager, out enemyA3After[2]);
             enemySpawnerPoint_A3_After[3].SpawnEnemy(enemy_ObjectManager, enemyDirectirA3, glock17_weaponObjectManager, out enemyA3After[3]);
             waveBaseSection_1_Nodeleaf.isEnable = true;
-            this.door_A3_Exit.isBeenInteractAble = false;
         });
-
-        gameMasterEvent.Add(() => this.enemyWaveManager1.waveIsClear, 
-            () => this.door_A3_Exit.isBeenInteractAble = true );
 
         gameMasterEvent.Add(() => this.door_A5_Enter.isOpen
         , () => 
@@ -402,14 +401,35 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
    
     public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster, T var)
     {
-        if(inGameLevelGameMaster == this 
-            && var is WaveBasedSectionNodeLeaf enemyWavebase 
-            )
+        if(var is WaveBasedSectionNodeLeaf waveBasedSectionNodeLeaf
+            && waveBasedSectionNodeLeaf == waveBaseSection_1_Nodeleaf 
+            && waveBasedSectionNodeLeaf.curPhase == InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>.InGameLevelPhase.Exit)
         {
-            if(enemyWavebase == waveBaseSection_1_Nodeleaf && enemyWavebase.curPhase == InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>.InGameLevelPhase.Exit)
-                this.door_A3_Exit.isBeenInteractAble = true;
+            if (alreadyNotify == false)
+            {
+                this.door_A3_Exit.isLocked = false;
+                this.door_A3_Exit.Open();
+                StartCoroutine(LookAtUnlockDoor());
+                alreadyNotify = true;
+            }
+        }
+
+    }
+    private bool alreadyNotify = false;
+    private IEnumerator LookAtUnlockDoor()
+    {
+        float timer = 2.5f;
+        Vector3 lookPosition = cameraController.thirdPersonCinemachineCamera.targetLookTarget.position;
+        while(timer > 0)
+        {
+            lookPosition = Vector3.Lerp(lookPosition,this.door_A3_Exit.transform.position,Time.deltaTime);
+            cameraController.thirdPersonCinemachineCamera.InputRotateCamera(lookPosition, Vector3.up);
+            timer -= Time.deltaTime;
+            yield return null;
         }
     }
+
+
 
     
 }

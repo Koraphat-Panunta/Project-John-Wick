@@ -17493,7 +17493,6 @@ MonoBehaviour:
   openingUICanvas: {fileID: 759063116}
   gameOverUICanvas: {fileID: 818952867}
   missionCompleteUICanvas: {fileID: 1341329290}
-  key: {fileID: 0}
   door_A1: {fileID: 1777158096}
   door_A2_Enter: {fileID: 1588340334}
   door_A3_EnterBelow: {fileID: 266658430}
@@ -17564,7 +17563,7 @@ MonoBehaviour:
   - {fileID: 1950330144}
   - {fileID: 1761109854}
   - {fileID: 1775936676}
-  cameraMain: {fileID: 1418156419}
+  cameraController: {fileID: 1418156426}
   Wave1: 0
   numberOfEnemyWave1: 0
   wave2: 0
@@ -19009,11 +19008,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 629169130}
     m_Modifications:
-    - target: {fileID: 4363367761743842700, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
-        type: 3}
-      propertyPath: m_Name
-      value: pen_02door_01_open_02
-      objectReference: {fileID: 0}
     - target: {fileID: 6539206421756581604, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
         type: 3}
       propertyPath: m_Name
@@ -35444,6 +35438,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1418156426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6865243977658963699, guid: d701a55337d9aff4e8bcef9219851f97,
+    type: 3}
+  m_PrefabInstance: {fileID: 1349044254}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa1d4d2e7dc7e124ab421742d1b00528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1418488896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49161,6 +49167,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 475107906}
     m_Modifications:
+    - target: {fileID: 1186656014425041046, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
+        type: 3}
+      propertyPath: lockedValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6539206421756581604, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
         type: 3}
       propertyPath: m_Name
@@ -49388,6 +49399,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 475107906}
     m_Modifications:
+    - target: {fileID: 1186656014425041046, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
+        type: 3}
+      propertyPath: lockedValue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6539206421756581604, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
         type: 3}
       propertyPath: m_Name
@@ -51046,11 +51062,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.050439835
-      objectReference: {fileID: 0}
-    - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
-        type: 3}
-      propertyPath: isImortal
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3508049754622093220, guid: 7610df03b6259ea409d446dc8358715b,
         type: 3}

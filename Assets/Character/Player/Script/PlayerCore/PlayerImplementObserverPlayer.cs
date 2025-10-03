@@ -11,8 +11,7 @@ public partial class Player : IObserverPlayer
             {
                 case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute:
                     {
-                        AddHP(10);
-                        player.NotifyObserver<SubjectPlayer.NotifyEvent>(player, SubjectPlayer.NotifyEvent.HealthRegen);
+
                         break;
                     }
             }
@@ -58,7 +57,7 @@ public partial class Player : IObserverPlayer
         if(node is SubjectPlayer.NotifyEvent.GetDamaged)
         {
             regenHPDisableTimer = regenHPDisableTime;
-            TriggerIFrame(0.5f);
+            TriggerIFrame(0.25f);
         }
 
     }

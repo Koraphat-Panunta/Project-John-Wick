@@ -33,6 +33,9 @@ public class Door : MonoBehaviour,I_Interactable
     public Action<Door> doorTriggerEvent;
     public void Open()
     {
+        if(isOpen)
+            return;
+
         animator.SetTrigger("DoorTrigger");
         isOpen = true;
         if (doorTriggerEvent != null)
@@ -40,6 +43,9 @@ public class Door : MonoBehaviour,I_Interactable
     }
     public void Close()
     {
+        if(isOpen == false)
+            return;
+
         animator.SetTrigger("DoorTrigger");
         isOpen = false;
         if (doorTriggerEvent != null)

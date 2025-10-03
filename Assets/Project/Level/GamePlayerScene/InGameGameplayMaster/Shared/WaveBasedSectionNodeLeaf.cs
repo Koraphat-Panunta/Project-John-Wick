@@ -17,7 +17,10 @@ public class WaveBasedSectionNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLeve
 
         return false;
     }
-
+    public override bool IsReset()
+    {
+        return IsComplete();
+    }
     public override void UpdateNode()
     {
         _enemyWaveManager.EnemyWaveUpdate();

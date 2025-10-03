@@ -29,11 +29,16 @@ public partial class PlayerConstrainAnimationManager
             if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
                 return false;
 
+            if(playerStateManager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
+                return false;
+
             if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
             if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())
                 return false;
+
+            
 
             return true;
         }

@@ -95,8 +95,6 @@ public class DynamicPostProcessing : MonoBehaviour,IInitializedAble
         {
             chromaticAberration.intensity.value = Mathf.MoveTowards(chromaticAberration.intensity.value, originChromaticAberration, Time.unscaledDeltaTime);
         }
-
-        Debug.Log("timeControlManager.triggerBulletTime.timer = " + timeControlManager.triggerBulletTime.timer);
     }
 
 
