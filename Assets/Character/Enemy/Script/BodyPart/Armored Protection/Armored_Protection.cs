@@ -7,7 +7,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     [SerializeField] private Armored_ProtectionSCRP armored_ProtectionSCRP;
 
-    [SerializeField] private SkinnedMeshRenderer skinnedMeshRendererArmored;
+    [SerializeField] private GameObject meshRendererArmored;
 
     [SerializeField] private Collider collider;
 
@@ -27,7 +27,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         enemy.AddObserver(this);
         if (syncBodyPart != null)
         {
-            skinnedMeshRendererArmored.gameObject.SetActive(true);
+            meshRendererArmored.gameObject.SetActive(true);
             this.Attach(syncBodyPart);
         }
     }
@@ -58,7 +58,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     
     protected virtual void ArmoredDestroyed()
     {
-        skinnedMeshRendererArmored.gameObject.SetActive(false);
+        meshRendererArmored.gameObject.SetActive(false);
         collider.enabled = false;
         Detach();
     }
@@ -87,25 +87,25 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
         if (gameObject.activeSelf)
         {
-            if (skinnedMeshRendererArmored != null)
-                skinnedMeshRendererArmored.gameObject.SetActive(true);
+            if (meshRendererArmored != null)
+                meshRendererArmored.gameObject.SetActive(true);
         }
         else
         {
-            if (skinnedMeshRendererArmored != null)
-                skinnedMeshRendererArmored.gameObject.SetActive(false);
+            if (meshRendererArmored != null)
+                meshRendererArmored.gameObject.SetActive(false);
         }
 
     }
     private void OnDisable()
     {
-        if(skinnedMeshRendererArmored != null)
-            skinnedMeshRendererArmored.gameObject.SetActive(false);
+        if(meshRendererArmored != null)
+            meshRendererArmored.gameObject.SetActive(false);
     }
     private void OnEnable()
     {
-        if (skinnedMeshRendererArmored != null)
-            skinnedMeshRendererArmored.gameObject.SetActive(true);
+        if (meshRendererArmored != null)
+            meshRendererArmored.gameObject.SetActive(true);
 
         base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
         armorHP = armored_ProtectionSCRP.armorHP;
@@ -120,7 +120,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
         collider.enabled = true;
-        skinnedMeshRendererArmored.gameObject.SetActive(true);
+        meshRendererArmored.gameObject.SetActive(true);
     }
 
 }

@@ -41,7 +41,7 @@ public class EnemyGetShootDirection
     public bool outOfHorizontalLimit { get; private set; }
     public void SetPointingPos(Vector3 poitnPos)
     {
-        Debug.Log("setPointingPos = "+pointingPos);
+
         Vector3 startPos = enemy.transform.position + Vector3.up*1.25f;
 
 
@@ -71,7 +71,38 @@ public class EnemyGetShootDirection
         // Final pointing position (you can scale as needed)
         pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude,1, 5)),this.trackingTargetRate);
         enemy.pointingTransform.position = pointingPos;
-        Debug.DrawLine(startPos, pointingPos, Color.blue);
+    }
+    public void HardSetPointingPos(Vector3 poitnPos)
+    {
+        Vector3 startPos = enemy.transform.position + Vector3.up * 1.25f;
+
+
+        // Normalize input
+        Vector3 dirToPoint = (poitnPos - startPos).normalized;
+
+        // Basis: forward, right, up
+        Vector3 fwd = forwardDir.normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
+        Vector3 up = Vector3.Cross(fwd, right).normalized;
+
+        // Project onto local basis (dot products give angles)
+        float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
+        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, new Vector3(dirToPoint.x, 0, dirToPoint.z))) * Mathf.Rad2Deg) * -1;
+
+        outOfHorizontalLimit = Mathf.Abs(horizontalAngle) > maxHorizontalRotateDegrees;
+
+        // Clamp angles
+        horizontalAngle = Mathf.Clamp(horizontalAngle, -maxHorizontalRotateDegrees, maxHorizontalRotateDegrees);
+        verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalRotateDegrees, maxVerticalRotateDegrees);
+
+        // Rebuild direction from clamped angles
+        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
+                         Quaternion.AngleAxis(verticalAngle, right);
+        Vector3 clampedDir = rot * fwd;
+
+        // Final pointing position (you can scale as needed)
+        pointingPos = startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude, 1, 5));
+        enemy.pointingTransform.position = pointingPos;
     }
     public Vector3 GetPointingPos()
     { 

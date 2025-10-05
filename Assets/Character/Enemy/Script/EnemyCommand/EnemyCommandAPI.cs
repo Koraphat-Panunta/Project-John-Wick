@@ -175,7 +175,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
-        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward +Vector3.up);
+        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward + Vector3.up);
     }
     public void AimDownSight(Vector3 aimTargetPos)
     {

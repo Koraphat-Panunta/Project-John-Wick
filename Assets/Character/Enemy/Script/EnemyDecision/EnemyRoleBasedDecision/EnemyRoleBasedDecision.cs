@@ -84,7 +84,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
     protected override void FixedUpdate()
     {
         enemyActionNodeManager.FixedUpdateNode();
-        UpdateDebugRole();
+        //UpdateDebugRole();
         base.FixedUpdate();
     }
 

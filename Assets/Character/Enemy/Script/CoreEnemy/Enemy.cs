@@ -42,7 +42,7 @@ public partial class Enemy : SubjectEnemy
     {
         targetMask.value = LayerMask.GetMask("Player");
 
-        this.SetDefaultAttribute();
+
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -59,6 +59,8 @@ public partial class Enemy : SubjectEnemy
 
         enemyStateManagerNode = new EnemyStateManagerNode(this);
         Initialized_IWeaponAdvanceUser();
+
+        this.SetDefaultAttribute();
 
         AddObserver(this);
 
@@ -485,6 +487,8 @@ public partial class Enemy : SubjectEnemy
         staggerGauge = maxStaggerGauge;
 
         targetKnewPos = transform.position + transform.forward + Vector3.up;
+
+        enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward +Vector3.up);
     }
     private void OnEnable()
     {

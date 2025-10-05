@@ -243,7 +243,7 @@ public class EnemyStateManagerNode : INodeManager
         enemyCombineNode = new NodeCombine(()=>true,()=> false);
 
         enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
-            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,8);
+            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,6);
 
         enemyStateSelector = new NodeSelector(() => true);
 
