@@ -42,8 +42,11 @@ public class EnemyGetShootDirection
     public void SetPointingPos(Vector3 poitnPos)
     {
         Debug.Log("setPointingPos = "+pointingPos);
+        Vector3 startPos = enemy.transform.position + Vector3.up*1.25f;
+
+
         // Normalize input
-        Vector3 dirToPoint = (poitnPos - enemy.transform.position).normalized;
+        Vector3 dirToPoint = (poitnPos - startPos).normalized;
 
         // Basis: forward, right, up
         Vector3 fwd = forwardDir.normalized;
@@ -52,7 +55,7 @@ public class EnemyGetShootDirection
 
         // Project onto local basis (dot products give angles)
         float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
-        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg)*-1;
+        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, new Vector3(dirToPoint.x,0,dirToPoint.z))) * Mathf.Rad2Deg)*-1;
 
          outOfHorizontalLimit = Mathf.Abs(horizontalAngle) > maxHorizontalRotateDegrees;
 
@@ -66,9 +69,9 @@ public class EnemyGetShootDirection
         Vector3 clampedDir = rot * fwd;
 
         // Final pointing position (you can scale as needed)
-        pointingPos = Vector3.Lerp(pointingPos,enemy.transform.position + (clampedDir.normalized * Mathf.Clamp((poitnPos - enemy.transform.position).magnitude,1, 10)),this.trackingTargetRate);
+        pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude,1, 5)),this.trackingTargetRate);
         enemy.pointingTransform.position = pointingPos;
-        Debug.DrawLine(enemy.transform.position, pointingPos, Color.blue);
+        Debug.DrawLine(startPos, pointingPos, Color.blue);
     }
     public Vector3 GetPointingPos()
     { 

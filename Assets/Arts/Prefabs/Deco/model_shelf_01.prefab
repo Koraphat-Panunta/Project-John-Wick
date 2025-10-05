@@ -86,5 +86,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b341482c62891bd4a9692f60b21aa667,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8729674240915286692}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b341482c62891bd4a9692f60b21aa667,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 786873573037918318}
   m_SourcePrefab: {fileID: 100100000, guid: b341482c62891bd4a9692f60b21aa667, type: 3}
+--- !u!1 &8596436646262293605 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b341482c62891bd4a9692f60b21aa667,
+    type: 3}
+  m_PrefabInstance: {fileID: 8902987837378427188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8729674240915286692
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596436646262293605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8012509, y: 1.8, z: 1.3627521}
+  m_Center: {x: 1, y: 0.9, z: 0.99999994}
+--- !u!114 &786873573037918318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596436646262293605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e95dc5ff2b64380880dd7ac5922847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_Size: {x: 1.8558608, y: 2.017468, z: 1.4135456}
+  m_Center: {x: 0.9937356, y: 0.82616735, z: 1.0026944}
+  m_Area: 1
+  m_AffectedAgents: ffffffff
