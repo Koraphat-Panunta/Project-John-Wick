@@ -100,7 +100,9 @@ public class GameManager : MonoBehaviour,INodeManager
 
         switch (gameplayLevelData)
         {
-            case GameplayLevel.None: gameplayLevelData = GameplayLevel.Prologue; 
+            case GameplayLevel.None: 
+                gameplayLevelData 
+                    = GameplayLevel.Prologue; 
                 break;
             case GameplayLevel.Prologue:
                 {

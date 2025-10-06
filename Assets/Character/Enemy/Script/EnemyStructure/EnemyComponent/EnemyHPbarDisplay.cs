@@ -25,8 +25,9 @@ public class EnemyHPbarDisplay : MonoBehaviour,IObserverEnemy,IGotPointingAble,I
 
     public void Notify<T>(Enemy enemy, T node)
     {
-        if (node is SubjectEnemy.EnemyEvent enemyEvent 
+        if ((node is SubjectEnemy.EnemyEvent enemyEvent 
             && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)
+            /*|| enemy._isInPain*/)
         {
             hpBarImage.rectTransform.localScale = new Vector3(enemy.GetHP() / enemy.GetMaxHp(), hpBarImage.rectTransform.localScale.y, hpBarImage.rectTransform.localScale.z);
 

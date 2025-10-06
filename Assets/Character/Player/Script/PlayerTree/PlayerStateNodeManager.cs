@@ -268,12 +268,13 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(climbHighNodeLeaf);
         stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(executeGunFuSelector);
+        stanceSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);
 
-        standSelectorNode.AddtoChildNode(executeGunFuSelector);
-        standSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf); // 
+// 
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);

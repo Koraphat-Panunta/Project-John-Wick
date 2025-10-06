@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode
 {
-    private float getUpTime = 3f;
-    private float fallDownTime = 2f;
+    private float getUpTime = 2.5f;
+    private float fallDownTime = 1.5f;
     private float timerGetDown;
     private float timerGetUp;
     private bool isFacingUp;

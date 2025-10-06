@@ -250,43 +250,62 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         enemyWaveManager1.AddEnemyWave(enemyWaves[0]);
         enemyWaveManager1.AddEnemyWave(enemyWaves[1]);
 
-        EnemyWave[] enemyWaves2 = new EnemyWave[5];
+        EnemyWave[] enemyWaves2 = new EnemyWave[8];
 
         enemyWaves2[0] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]    
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 },
         }
-        , 3);
+        , 1);
 
         enemyWaves2[1] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
         {
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 1 },
+            
         }
-        , 3);
+        , 0);
 
         enemyWaves2[2] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 2 }
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
         }
-        , 3);
+        , 1);
 
         enemyWaves2[3] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 0, new EnemyWave.EnemyListSpawn[]
         {
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 3 }
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 }
         }
         , 3);
-        enemyWaves2[4] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[4] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
        {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 1 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 3 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 3 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
        }
        , 3);
+        enemyWaves2[5] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+       {
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 2 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
+       }
+       , 2);
+        enemyWaves2[6] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+       {
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 3 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
+       }
+       , 3);
+        enemyWaves2[7] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+      {
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 3 },
+      }
+      , 3);
 
         this.enemyWaveManager2 = new EnemyWaveManager(player,enemySpawnPointRooms_A5,enemyDirectirA5);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[0]);
@@ -294,6 +313,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[2]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[3]);
         this.enemyWaveManager2.AddEnemyWave(enemyWaves2[4]);
+        this.enemyWaveManager2.AddEnemyWave(enemyWaves2[5]);
+        this.enemyWaveManager2.AddEnemyWave(enemyWaves2[6]);
+        this.enemyWaveManager2.AddEnemyWave(enemyWaves2[7]);
 
 
     }
@@ -324,6 +346,14 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         gameMasterEvent.Add(() => door_A1.isOpen
         ,() => {
             enemySpawnPoint_A1.SpawnEnemy(enemy_Tutorial_ObjectManager,glock17_weaponObjectManager);
+            try
+            {
+                gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.prologueTrack);
+            }
+            catch
+            {
+                throw new Exception("gameManager.soundTrackManager.prologueTrack been corrupt");
+            }
         });
 
         gameMasterEvent.Add(() => door_A2_Enter.isOpen

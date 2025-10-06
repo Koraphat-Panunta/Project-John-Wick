@@ -28,8 +28,6 @@ public class FrontSceneGameMaster : GameMaster
         startNodeSelector.AddtoChildNode(splashSceneFrontSceneMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
 
-        startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-
         nodeManagerBehavior.SearchingNewNode(this);
     }
 

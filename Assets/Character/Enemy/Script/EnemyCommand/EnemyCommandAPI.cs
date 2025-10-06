@@ -168,14 +168,16 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward + Vector3.up);
         weaponAdvanceUser._isAimingCommand = false;
         weaponAdvanceUser._isPullTriggerCommand = false;
+
     }
     public void AimDownSight()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
-        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward + Vector3.up);
+        _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + (_enemy.transform.forward * 3) + Vector3.up);
     }
     public void AimDownSight(Vector3 aimTargetPos)
     {

@@ -7,9 +7,11 @@ public class SoundTrackManager : MonoBehaviour
   
     [SerializeField] private AudioClip LeveMansion;
     [SerializeField] private AudioClip LevelHotel;
+    [SerializeField] private AudioClip prologueLevelMusic;
     public AudioClip openingTrack { get => Opening; }
     public AudioClip theMansionTrack { get => LeveMansion; }
     public AudioClip theHotelTrack { get => LevelHotel; }
+    public AudioClip prologueTrack { get => prologueLevelMusic; }
 
     [SerializeField] private AudioSource source;
     private float settingVolume;
