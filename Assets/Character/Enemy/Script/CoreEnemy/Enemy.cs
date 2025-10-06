@@ -119,8 +119,6 @@ public partial class Enemy : SubjectEnemy
         {
             if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
             {
-                if (gunFuHitNodeLeaf._stateName == "Hit3")
-                    TakeDamage(50);
 
                 if (this.staggerGauge > 0)
                     this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;

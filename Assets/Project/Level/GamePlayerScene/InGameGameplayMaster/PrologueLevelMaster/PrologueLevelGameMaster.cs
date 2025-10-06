@@ -346,14 +346,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         gameMasterEvent.Add(() => door_A1.isOpen
         ,() => {
             enemySpawnPoint_A1.SpawnEnemy(enemy_Tutorial_ObjectManager,glock17_weaponObjectManager);
-            try
-            {
+            if(gameManager != null)
                 gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.prologueTrack);
-            }
-            catch
-            {
-                throw new Exception("gameManager.soundTrackManager.prologueTrack been corrupt");
-            }
         });
 
         gameMasterEvent.Add(() => door_A2_Enter.isOpen
