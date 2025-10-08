@@ -1,22 +1,24 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
 
 public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    public VideoPlayer videoPlayer { get; protected set; }
     public bool isPlaying;
-    public GameObject videoPlayerObject;
-    public VideoTutorialPlayGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,VideoPlayer videoPlayer,GameObject videoPlayerObject, Func<bool> preCondition) : base(gameMaster, preCondition)
+    private VideoTutorialUI videoTutorialUI;
+    public VideoTutorialPlayGameMasterNodeLeaf(
+        InGameLevelGameMaster gameMaster
+        , Func<bool> preCondition
+        , VideoTutorialUI videoTutorialUI) 
+        : base(gameMaster, preCondition)
     {
-        this.videoPlayer = videoPlayer;
-        this.videoPlayerObject = videoPlayerObject;
+        this.videoTutorialUI = videoTutorialUI;
     }
 
     public override void Enter()
     {
-        this.videoPlayer.Play();
-        this.videoPlayerObject.SetActive(true);
+        this.videoTutorialUI.gameObject.SetActive(true);
         base.Enter();
     }
 
@@ -31,8 +33,7 @@ public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf
 
     public override void Exit()
     {
-        this.videoPlayer.Stop();
-        this.videoPlayerObject.SetActive(false);
+        this.videoTutorialUI.gameObject.SetActive(false);
         base.Exit();
     }
 
@@ -40,8 +41,12 @@ public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf
     {
         return false;
     }
+    public void SetTextTutorial(TextMeshProUGUI tutorialText)
+    {
+        this.videoTutorialUI.SetTutorialMassage(tutorialText);
+    }
     public void SetVideoPlayer(VideoPlayer videoPlayer)
     {
-        this.videoPlayer = videoPlayer;
+        this.videoTutorialUI.SetVideoPlayer(videoPlayer);
     }
 }
