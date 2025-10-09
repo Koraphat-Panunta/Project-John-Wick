@@ -51,7 +51,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         else
             this.EnableUI();
     }
-    float lerpSpeed = 25;
+
     void CrosshairUpdate()
     {
         if(TargetAim == null)
@@ -95,7 +95,11 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         player = FindAnyObjectByType<Player>();
     }
 
-    
+    [Range(0, 1)]
+    public float crosshairSideKickMultiple;
+
+    [Range(0, 1)]
+    public float crosshairUpperKickMultiple;
     public void OnNotify<T>(Player player, T node)
     {
 

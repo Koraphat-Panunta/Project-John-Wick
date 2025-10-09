@@ -21,6 +21,9 @@ public class CrosshiarShootpoint : ICrosshairAction
     }
     public RectTransform GetPointPosScreen()
     {
+        //if(crosshairController.CrosshairSpread.spread_rate <= crosshairController.CrosshairSpread.sperad_rateDestination)
+        //    return CrosshairCenterPosition;
+       
         Vector2 lineUpPos = CrossUp.anchoredPosition;
         Vector2 lineDownPos = CrossDown.anchoredPosition;
         Vector2 lineLeftPos = CrossLeft.anchoredPosition;

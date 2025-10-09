@@ -34,9 +34,9 @@ public class CrosshairSpread : ICrosshairAction
     }
 
 
-    float spread_rate = 0;
+    public float spread_rate { get; protected set; }
     Vector2 crosshairKickUpRate;
-    float sperad_rateDestination;
+    public float sperad_rateDestination { get; protected set; }
     float spread_rateOppress 
     { get 
         {
@@ -54,7 +54,7 @@ public class CrosshairSpread : ICrosshairAction
     public CrosshairSpread(CrosshairController crosshairController)
     {
         this._crosshairController = crosshairController;
-       
+        this.spread_rate = 0;
     }
     public void Performed(Weapon weapon)
     {
@@ -67,10 +67,10 @@ public class CrosshairSpread : ICrosshairAction
     }
     public void CrosshairKickUp(float recoilKickUp)
     {
-        if (Random.Range(-1, 1) < 0)
-            crosshairKickUpRate = new Vector2(crosshairKickUpRate.x + -0.12f * recoilKickUp, Mathf.Clamp(crosshairKickUpRate.y + recoilKickUp, 0, 65));
-        else
-            crosshairKickUpRate = new Vector2(crosshairKickUpRate.x + 0.12f * recoilKickUp, Mathf.Clamp(crosshairKickUpRate.y + recoilKickUp, 0, 65));
+        crosshairKickUpRate = new Vector2(
+            crosshairKickUpRate.x + (_crosshairController.crosshairSideKickMultiple * recoilKickUp * (Random.value > .5f?1:-1))
+            , Mathf.Clamp(crosshairKickUpRate.y + (recoilKickUp*_crosshairController.crosshairUpperKickMultiple), 0, 65));
+
     }
 
     public void CrosshairSpreadUpdate()
