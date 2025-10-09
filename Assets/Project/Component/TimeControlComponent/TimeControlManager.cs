@@ -109,7 +109,8 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster, T var)
     {
         if((inGameLevelGameMaster as INodeManager).TryGetCurNodeLeaf<MenuInGameGameMasterNodeLeaf>()
-            || (inGameLevelGameMaster as INodeManager).TryGetCurNodeLeaf<OptionMenuSettingInGameGameMasterNodeLeaf>())
+            || (inGameLevelGameMaster as INodeManager).TryGetCurNodeLeaf<OptionMenuSettingInGameGameMasterNodeLeaf>()
+            || (inGameLevelGameMaster as INodeManager).TryGetCurNodeLeaf<VideoTutorialPlayGameMasterNodeLeaf>())
         {
             this.StopTime();
         }

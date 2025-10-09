@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Collections;
+using UnityEngine.Video;
+using TMPro;
 
-public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObserver
+public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObserver,IObserverEnemy
 {
     [SerializeField] private OpeningUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
@@ -20,6 +21,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
     public InGameLevelGameMasterNodeLeaf<PrologueLevelGameMaster> freeRomeSectionNodeLeaf;
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
+    public VideoTutorialPlayGameMasterNodeLeaf videoTutorialPlayGameMasterNodeLeaf { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get ; protected set ; }
@@ -67,10 +69,22 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     public EnemyDirector enemyDirectirA4;
     public EnemyDirector enemyDirectirA5;
 
-    public TriggerBox triggerBoxA4_1;
-    private bool isTriggerBox4_1BeenTrigger;
-    public TriggerBox triggerBoxA4_2;
-    private bool isTriggerBox4_2BeenTrigger;
+
+
+    public TriggerBox triggerBox_Area1_Tutorial_MoveCrouchSprint;
+    [SerializeField] private bool isTriggerBox_Area1_Tutorial_MoveCrouchSprint_BeenTrigger;
+    public TriggerBox triggerBox_Area1_Tutorial_AimShootReload;
+    [SerializeField] private bool isTriggerBox_Area1_Tutorial_AimShootReload_BeenTrigger;
+    public TriggerBox triggerBox_Area2_Tutorial_DodgeVaulting;
+    [SerializeField] private bool isTriggerBox_Area2_Tutorial_DodgeVaulting_BeenTrigger;
+    public TriggerBox triggerBox_Area3_Tutorial_GunFuHit3;
+    [SerializeField] private bool isTriggerBox_Area3_Tutorial_GunFuHit3_BeenTrigger;
+    public TriggerBox triggerBox_Area4_Tutorial_GunFuRestrict;
+    [SerializeField] private bool isTriggerBox_Area4_Tutorial_GunFuRestrict_BeenTrigger;
+    public TriggerBox triggerBox_Area4_SpawnEnemy_1;
+    [SerializeField] private bool isTriggerBox_Area4_SpawnEnemy_1_BeenTrigger;
+    public TriggerBox triggerBox_Area4_Tutorial_WeaponDisarm;
+    [SerializeField] private bool isTriggerBox_Area4_Tutorial_WeaponDisarm_BeenTrigger;
 
     public EnemySpawnerPoint enemySpawnPoint_A1;
     public EnemySpawnerPoint[] enemySpawnPoint_A2;
@@ -93,6 +107,26 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     [SerializeField] private int wave2;
     [SerializeField] private int numberOfEnemyWave2;
 
+    [SerializeField] private VideoTutorialUI videoTutorialUI;
+
+    [SerializeField] private VideoClip moveCrouchSprint_Tutorial_Video;
+    [SerializeField] private string moveCrouchSprint_Tutorial_Text;
+    [SerializeField] private VideoClip aimShootReload_Tutorial_Video;
+    [SerializeField] private string aimShootReload_Tutorial_Text;
+    [SerializeField] private VideoClip execute_Tutorial_Video;
+    [SerializeField] private string execute_Tutorial_Text;
+    [SerializeField] private VideoClip dodgeVaulting_Tutorial_Video;
+    [SerializeField] private string dodgeVaulting_Tutorial_Text;
+    [SerializeField] private VideoClip gunFuHit3_Tutorial_Video;
+    [SerializeField] private string gunFuHit3_Tutorial_Text;
+    [SerializeField] private VideoClip gunFuRestrict_Tutorial_Video;
+    [SerializeField] private string gunFuRestrict_Tutorial_Text;
+    [SerializeField] private VideoClip groundControl_Tutorial_Video;
+    [SerializeField] private string groundControl_Tutorial_Text;
+    [SerializeField] private VideoClip weaponDisarm_Tutorial_Video;
+    [SerializeField] private string weaponDisarm_Tutorial_Text;
+
+    [SerializeField] private Enemy executedEnemyTutorial;
     public override void Initialized()
     {
 
@@ -122,8 +156,14 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         this.door_A4_Exit.doorTriggerEvent += this.OnDoorTriggerEvent;
         this.door_A5_Enter.doorTriggerEvent += this.OnDoorTriggerEvent;
 
-        this.triggerBoxA4_1.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
-        this.triggerBoxA4_2.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+
+        this.triggerBox_Area4_SpawnEnemy_1.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area1_Tutorial_MoveCrouchSprint.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area1_Tutorial_AimShootReload.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area2_Tutorial_DodgeVaulting.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area3_Tutorial_GunFuHit3.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area4_Tutorial_GunFuRestrict.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
+        this.triggerBox_Area4_Tutorial_WeaponDisarm.AddTriggerBoxEvent(this.OnTriggerBoxEvent);
 
         this.door_A3_Exit.isLocked = true;
         this.door_A4_Exit.isLocked = true;
@@ -182,6 +222,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
+        videoTutorialPlayGameMasterNodeLeaf = new VideoTutorialPlayGameMasterNodeLeaf(this, () => videoTutorialPlayGameMasterNodeLeaf.isPlaying, this.videoTutorialUI);
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
         pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
         menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
@@ -202,6 +243,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         gameMasterModeNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
+        gameMasterModeNodeSelector.AddtoChildNode(videoTutorialPlayGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
         gameMasterModeNodeSelector.AddtoChildNode(pausingSelector);
         gameMasterModeNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
@@ -327,15 +369,28 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     }
     private void OnTriggerBoxEvent(Collider collider,TriggerBox triggerBox)
     {
-        Debug.Log("BoxTrigger");
-        if (triggerBox == this.triggerBoxA4_1)
-        {
-            Debug.Log("triggerBox == this.triggerBoxA4_1");
-            isTriggerBox4_1BeenTrigger = true;
-        }
+        
+       
+        if(triggerBox == this.triggerBox_Area1_Tutorial_MoveCrouchSprint)
+            this.isTriggerBox_Area1_Tutorial_MoveCrouchSprint_BeenTrigger = true;
 
-        if(triggerBox == this.triggerBoxA4_2)
-            isTriggerBox4_2BeenTrigger = true;
+        if(triggerBox == this.triggerBox_Area1_Tutorial_AimShootReload)
+            this.isTriggerBox_Area1_Tutorial_AimShootReload_BeenTrigger = true;
+
+        if(triggerBox == this.triggerBox_Area2_Tutorial_DodgeVaulting)
+            this.isTriggerBox_Area2_Tutorial_DodgeVaulting_BeenTrigger = true;
+
+        if(triggerBox == this.triggerBox_Area3_Tutorial_GunFuHit3)
+            this.isTriggerBox_Area3_Tutorial_GunFuHit3_BeenTrigger = true;
+
+        if(triggerBox == this.triggerBox_Area4_Tutorial_GunFuRestrict)
+            this.isTriggerBox_Area4_Tutorial_GunFuRestrict_BeenTrigger = true;
+
+        if(triggerBox == this.triggerBox_Area4_Tutorial_WeaponDisarm)
+            this.isTriggerBox_Area4_Tutorial_WeaponDisarm_BeenTrigger = true;
+
+        if(triggerBox == this.triggerBox_Area4_SpawnEnemy_1)
+            isTriggerBox_Area4_SpawnEnemy_1_BeenTrigger = true;
 
 
 
@@ -354,7 +409,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         , () => {
             enemySpawnPoint_A2[0].SpawnEnemy(enemy_ObjectManager, enemyDirectorA2 , glock17_weaponObjectManager);
             enemySpawnPoint_A2[1].SpawnEnemy(enemy_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager);
-            enemySpawnPoint_A2[2].SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager);
+            enemySpawnPoint_A2[2].SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, enemyDirectorA2, glock17_weaponObjectManager,out executedEnemyTutorial);
+            this.executedEnemyTutorial.AddObserver(this);
         });
 
         gameMasterEvent.Add(()=> door_A3_EnterBelow.isOpen
@@ -366,24 +422,68 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         , () => {
             enemySpawnPoint_A4_1.SpawnEnemy(enemy_Tutorial_ObjectManager, glock17_weaponObjectManager);
         });
-
-        gameMasterEvent.Add(() => isTriggerBox4_1BeenTrigger
+        gameMasterEvent.Add(() => this.isTriggerBox_Area1_Tutorial_MoveCrouchSprint_BeenTrigger
+        ,() =>    
+        {
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.moveCrouchSprint_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.moveCrouchSprint_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+        });
+        gameMasterEvent.Add(() => this.isTriggerBox_Area1_Tutorial_AimShootReload_BeenTrigger
         , () =>
+        {
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.aimShootReload_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.aimShootReload_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+        });
+        gameMasterEvent.Add(() => executedEnemyTutorial != null && executedEnemyTutorial.isStagger
+        , () => 
+        {
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.execute_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.execute_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+        });
+        gameMasterEvent.Add(()=> this.isTriggerBox_Area2_Tutorial_DodgeVaulting_BeenTrigger
+        , () => 
+        {
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.dodgeVaulting_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.dodgeVaulting_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+        });
+        gameMasterEvent.Add(() => this.isTriggerBox_Area3_Tutorial_GunFuHit3_BeenTrigger
+        , () => 
+        {
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.gunFuHit3_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.gunFuHit3_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+        });
+        gameMasterEvent.Add(() => this.isTriggerBox_Area4_Tutorial_GunFuRestrict_BeenTrigger
+        , () => 
         {
             enemySpawnPoint_A4_2[0].SpawnEnemy(enemy_Mask_Tutorial_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_2[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_2[2].SpawnEnemy(enemy_Tutorial_ObjectManager, enemyDirectirA4, ar15_weaponObjectManager);
+
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(this.gunFuRestrict_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(this.gunFuRestrict_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
         });
+     
 
         gameMasterEvent.Add(() => door_A4_2.isOpen
         , () => {
+
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(groundControl_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(groundControl_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+
             enemySpawnPoint_A4_3[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_3[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_3[2].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_3[3].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
         });
 
-        gameMasterEvent.Add(() => isTriggerBox4_2BeenTrigger
+        gameMasterEvent.Add(() => isTriggerBox_Area4_SpawnEnemy_1_BeenTrigger
         , () => {
             enemySpawnPoint_A4_4[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_4[1].SpawnEnemy(enemyMask_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
@@ -391,6 +491,11 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         gameMasterEvent.Add(() => door_A4_3.isOpen
         , () => {
+
+            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(weaponDisarm_Tutorial_Video);
+            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(weaponDisarm_Tutorial_Text);
+            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+
             enemySpawnPoint_A4_5[0].SpawnEnemy(enemyMaskArmored_ObjectManager, enemyDirectirA4, ar15Redot_weaponObjectManager);
             enemySpawnPoint_A4_5[1].SpawnEnemy(enemyMaskArmored_ObjectManager, enemyDirectirA4, ar15TacticalScope_weaponObjectManager);
         });
@@ -443,18 +548,25 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     private IEnumerator LookAtUnlockDoor()
     {
         float timer = 2.5f;
+        float l = 0;
         Vector3 lookPosition = cameraController.thirdPersonCinemachineCamera.targetLookTarget.position;
         while(timer > 0)
         {
-            lookPosition = Vector3.Lerp(lookPosition,this.door_A3_Exit.transform.position,Time.deltaTime);
+            lookPosition = Vector3.Lerp(lookPosition,this.door_A3_Exit.transform.position,Mathf.Clamp01(l));
             cameraController.thirdPersonCinemachineCamera.InputRotateCamera(lookPosition, Vector3.up);
+            l += Time.deltaTime;
             timer -= Time.deltaTime;
             yield return null;
         }
     }
 
-
-
-    
+    public void Notify<T>(Enemy enemy, T node)
+    {
+        if(enemy == executedEnemyTutorial && enemy.isStagger)
+        {
+            UpdateingEvent();
+            enemy.RemoveObserver(this);
+        }
+    }
 }
 

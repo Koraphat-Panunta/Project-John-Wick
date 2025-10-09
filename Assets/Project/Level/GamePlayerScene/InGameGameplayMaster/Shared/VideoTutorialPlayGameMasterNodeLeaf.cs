@@ -28,7 +28,8 @@ public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf
     }
     public override void UpdateNode()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+            isPlaying = false;
     }
 
     public override void Exit()
@@ -41,12 +42,12 @@ public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf
     {
         return false;
     }
-    public void SetTextTutorial(TextMeshProUGUI tutorialText)
+    public void SetTextTutorial(String tutorialText)
     {
         this.videoTutorialUI.SetTutorialMassage(tutorialText);
     }
-    public void SetVideoPlayer(VideoPlayer videoPlayer)
+    public void SetVideoPlayer(VideoClip videoClip)
     {
-        this.videoTutorialUI.SetVideoPlayer(videoPlayer);
+        this.videoTutorialUI.SetVideoPlayer(videoClip);
     }
 }
