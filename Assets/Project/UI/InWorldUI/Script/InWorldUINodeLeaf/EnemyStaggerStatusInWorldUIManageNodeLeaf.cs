@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
+public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 {
     private FieldOfView fieldOfView;
     private IGunFuAble gunFuAble;
@@ -12,7 +12,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     private Camera camera;
     private LayerMask enemyMask;
     public Dictionary<Enemy, InWorldUI> assignInWorldEnemy;
-    public EnemyStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
+    public EnemyStaggerStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
         ,Camera camera
         ,IGunFuAble gunFuAble
         , InWorldUI enemyStatusInWorldUI) : base(preCondition)
@@ -40,7 +40,7 @@ public class EnemyStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
         for (int i = 0; i < enemyList.Count; i++) 
         {
-            assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].transform.position);
+            assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].head.transform.position);
             if (enemyList[i].isDead){
                 objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
                 assignInWorldEnemy.Remove(enemyList[i]);

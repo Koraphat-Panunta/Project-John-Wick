@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAttackedAble, IFriendlyFirePreventing, 
-     IObserverEnemy,IGotPointingAble,IInitializedAble
+     IObserverEnemy,IInitializedAble
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
@@ -127,7 +127,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     {
         this.ForceCalulate();
     }
-    public void NotifyPointingAble(IPointerAble pointter) => enemyHPbarDisplay.NotifyPointingAble(pointter);
 
   
 }

@@ -10,6 +10,8 @@ public class ReloadWaringUI : GameplayUI, IObserverPlayer
     public override void Initialized()
     {
         this.player.AddObserver(this);
+        reloadWarningUIBG.enabled = false;
+        reloadWaringText.enabled = false;
     }
 
     public void OnNotify<T>(Player player, T node)
@@ -28,8 +30,8 @@ public class ReloadWaringUI : GameplayUI, IObserverPlayer
     public override void EnableUI()
     {
         this.player.AddObserver(this);
-        reloadWarningUIBG.enabled = true;
-        reloadWaringText.enabled = true;
+        //reloadWarningUIBG.enabled = true;
+        //reloadWaringText.enabled = true;
         base.EnableUI();
     }
     public override void DisableUI()

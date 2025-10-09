@@ -7,8 +7,6 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
 {
     private Image WeaponIcon;
     [SerializeField] private TextMeshProUGUI AmmoDisplay;
-    [SerializeField] private Graphic line1;
-    [SerializeField] private Graphic line2;
     [SerializeField] private Player playerInfo;
     private Weapon currentWeapon => playerInfo._currentWeapon;
     public int MagazineCount;
@@ -76,14 +74,14 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
     }
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {
-        textGUI.text = inLoad + " / " + Ammoprouch;
+        textGUI.text = inLoad + " | " + Ammoprouch;
     }
 
     public void UpdateInfo()
     {
         if (currentWeapon == null)
         {
-            AmmoDisplay.text = "- / -";
+            AmmoDisplay.text = "- | -";
             return;
         }
 
@@ -94,16 +92,14 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
     public override void EnableUI() 
     { 
         this.AmmoDisplay.enabled = true; 
-        this.line1.enabled = true;
-        this.line2.enabled = true;
+        
     }
 
 
     public override void DisableUI() 
     { 
         this.AmmoDisplay.enabled = false;
-        this.line1.enabled = false;
-        this.line2.enabled = false;
+
     }
 
     

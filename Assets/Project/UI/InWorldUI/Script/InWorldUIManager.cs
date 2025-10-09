@@ -6,6 +6,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
     [SerializeField] private InWorldUI executeInWorldUI;
     [SerializeField] private InWorldUI interactableInWorldUI;
     [SerializeField] private InWorldUI doorInteractableInWorldUI;
+    [SerializeField] private EnemyHPInWorldUI enemyHPInWorldUI;
     [SerializeField] private Player player;
 
     public INodeSelector startNodeSelector { get; set; }
@@ -34,15 +35,17 @@ public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
 
 
     public NodeCombine inWorldUINodeCombine; 
-    public EnemyStatusInWorldUIManageNodeLeaf enemyStatusInWorldUIManageNodeLeaf;
+    public EnemyStaggerStatusInWorldUIManageNodeLeaf enemyStatusInWorldUIManageNodeLeaf;
     public InteractablePointUIManagerNodeLeaf interactablePointUIManagerNodeLeaf;
     public InteractablePointUIManagerNodeLeaf doorInteractablePointUIManagerNodeLeaf;
+    public EnemyHP_Bar_InWorldUINodeLeaf enemyHP_Bar_InWorldUINodeLeaf;
     public void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true);
         inWorldUINodeCombine = new NodeCombine(()=> true);
 
-        enemyStatusInWorldUIManageNodeLeaf = new EnemyStatusInWorldUIManageNodeLeaf(()=> true,mainCamera,player,executeInWorldUI);
+        enemyHP_Bar_InWorldUINodeLeaf = new EnemyHP_Bar_InWorldUINodeLeaf(()=> true,mainCamera,player, enemyHPInWorldUI);
+        enemyStatusInWorldUIManageNodeLeaf = new EnemyStaggerStatusInWorldUIManageNodeLeaf(()=> true,mainCamera,player,executeInWorldUI);
         interactablePointUIManagerNodeLeaf = new InteractablePointUIManagerNodeLeaf(
             () => true, 
             interactableInWorldUI, 
@@ -61,6 +64,7 @@ public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
             );
 
         startNodeSelector.AddtoChildNode(inWorldUINodeCombine);
+        inWorldUINodeCombine.AddCombineNode(enemyHP_Bar_InWorldUINodeLeaf);
         inWorldUINodeCombine.AddCombineNode(enemyStatusInWorldUIManageNodeLeaf);
         inWorldUINodeCombine.AddCombineNode(interactablePointUIManagerNodeLeaf);
         inWorldUINodeCombine.AddCombineNode(doorInteractablePointUIManagerNodeLeaf);
