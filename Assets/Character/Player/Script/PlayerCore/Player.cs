@@ -35,7 +35,7 @@ public partial class Player : SubjectPlayer,
         coverDetection = new CoverDetection();
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
-        base.maxHp = 200;
+        base.maxHp = 250;
         base.SetHP(maxHp);
 
         _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
@@ -222,7 +222,7 @@ public partial class Player : SubjectPlayer,
 
     void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
     {
-        hpGetAbleObject.amoutOfHpAdd = 20f;
+        hpGetAbleObject.amoutOfHpAdd = 30f;
         if ((GetHP() / GetMaxHp()) < 0.5f)
         {
             AddHP(Mathf.Abs((maxHp * 0.5f) - GetHP()));

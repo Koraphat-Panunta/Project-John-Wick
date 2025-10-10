@@ -46,7 +46,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         this.DotMoveInputWordl_VelocityWorld_Normalized = Vector3.Dot(curVelocity_World.normalized
             , inputVelocity_World.normalized) * (curVelocity_World.magnitude / inputVelocity_World.magnitude);
 
-        this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.Lerp(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized,
+        this.DotVectorLeftwardDir_MoveInputVelocity_Normallized = Mathf.MoveTowards(this.DotVectorLeftwardDir_MoveInputVelocity_Normallized,
                 Vector3.Dot(player.inputMoveDir_World,
                 Vector3.Cross(player.transform.forward, Vector3.up))
             , 3.5f * Time.deltaTime);
@@ -84,11 +84,11 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         {
             if (isIn_C_A_R_aim)
             {
-                CAR_Weight = Mathf.Lerp(CAR_Weight, 1, 10 * Time.deltaTime);
+                CAR_Weight = Mathf.MoveTowards(CAR_Weight, 1, 10 * Time.deltaTime);
             }
             else if (isIn_C_A_R_aim == false)
             {
-                CAR_Weight = Mathf.Lerp(CAR_Weight, 0, 10 * Time.deltaTime);
+                CAR_Weight = Mathf.MoveTowards(CAR_Weight, 0, 10 * Time.deltaTime);
             }
         }
 
@@ -98,12 +98,12 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>(out PlayerSprintNode sprintNode))
         {
             if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Out)
-                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
+                WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 0.5F, changeSprintOutRate * Time.deltaTime);
             else if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Stay)
-                WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 1, changeSprintStayRate * Time.deltaTime);
+                WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 1, changeSprintStayRate * Time.deltaTime);
         }
         else
-            WeaponSwayRate_Normalized = Mathf.Lerp(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
+            WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
 
 
 
@@ -159,8 +159,14 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
     private void CalculateDeltaRotation()
     {
         Vector3 curDir = player.transform.forward;
-
-        Rotating = Mathf.Lerp(Rotating, Vector3.SignedAngle(previousDir, curDir, Vector3.up) * Time.deltaTime / 0.5f, 10 * Time.deltaTime);
+        if (this.VelocityMoveMagnitude_Normalized <= 0)
+        {
+            Rotating = Mathf.MoveTowards(Rotating, Vector3.SignedAngle(previousDir, curDir, Vector3.up) * Time.deltaTime / 0.5f, 10 * Time.deltaTime);
+        }
+        else
+        {
+            Rotating = Mathf.MoveTowards(Rotating, 0, 10 * Time.deltaTime);
+        }
         previousDir = curDir;
     }
 
