@@ -4,9 +4,16 @@ using UnityEngine;
 public class QuickSwitch_LowReady_NodeLeaf : LowReadyWeaponManuverNodeLeaf, IQuickSwitchNode
 {
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
-    public QuickSwitch_LowReady_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    private TransformOffsetSCRP quickSwitchHoldOffset;
+    public QuickSwitch_LowReady_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble,TransformOffsetSCRP quickSwitchOffset, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
+        this.quickSwitchHoldOffset = quickSwitchOffset;
+    }
+    public override void UpdateNode()
+    {
+
+        base.UpdateNode();
     }
     public override void Exit()
     {

@@ -36,9 +36,9 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
-    public PlayAnimationNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf sprintUpperNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }  
-    public PlayAnimationNodeLeaf moveIdleUpperNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf moveIdleUpperNodeLeaf { get; set; }
 
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
@@ -249,9 +249,9 @@ public partial class PlayerAnimationManager : INodeManager
          () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>(),
          animator, "SwitchWeaponSecondary -> Primary", 1, .2f);
 
-        sprintUpperNodeLeaf = new PlayAnimationNodeLeaf(
+        sprintUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-         animator, "SprintWeaponSway", 1, .2f);
+         animator, "SprintWeaponSway", 1,0,.2f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             ()=>
@@ -259,9 +259,9 @@ public partial class PlayerAnimationManager : INodeManager
             ||playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
             ,animator, "QuickSwitchWeaponManuver",1,.25f);
 
-        moveIdleUpperNodeLeaf = new PlayAnimationNodeLeaf(
+        moveIdleUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
         () =>true,
-        animator, "StandWeaponHand LowReady/ADS", 1, .2f);
+        animator, "StandWeaponHand LowReady/ADS", 1,0, .2f);
 
     } 
     private void InitializedBasedLayer() 

@@ -6,7 +6,7 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     private Transform referenceTransform;
     private IWeaponAdvanceUser weaponAdvanceUser;
     private Transform secondHandGripTransform => weaponAdvanceUser._currentWeapon._SecondHandGripTransform;
-    private LeftHandConstraintManager leftHandConstraintManager;
+    private HandArmIKConstraintManager leftHandConstraintManager;
     private WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject;
 
     private Weapon attachWeapon;
@@ -17,7 +17,7 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     public WeaponGripLeftHandTwoBoneIKNodeLeaf(
         Func<bool> precondition
         , Transform referenceTransform
-        , LeftHandConstraintManager leftHandConstraintManager
+        , HandArmIKConstraintManager leftHandConstraintManager
         , WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject
         ,IWeaponAdvanceUser weaponAdvanceUser
         ) : base(precondition)

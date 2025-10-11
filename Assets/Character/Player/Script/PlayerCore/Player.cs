@@ -271,6 +271,8 @@ public partial class Player : SubjectPlayer,
     {
         crosshairController = FindAnyObjectByType<CrosshairController>();
     }
+
+    
  
 }
 

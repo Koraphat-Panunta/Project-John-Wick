@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 
-public class LeftHandConstraintManager : MonoBehaviour,IConstraintManager
+public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 {
     [SerializeField] private TwoBoneIKConstraint twoBoneIKConstraint;
 

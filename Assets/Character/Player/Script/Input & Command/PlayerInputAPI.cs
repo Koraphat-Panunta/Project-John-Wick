@@ -7,6 +7,12 @@ using static SubjectPlayer;
 public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
+
+    //private void Update()
+    //{
+    //    player._isAimingCommand = true;
+    //}
+
     public Player player;
     public User user;
     public void Initialized()

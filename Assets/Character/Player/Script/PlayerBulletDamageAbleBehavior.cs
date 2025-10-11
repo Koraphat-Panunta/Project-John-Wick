@@ -30,6 +30,11 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
     {
 
         Bullet bulletObj = damageVisitor as Bullet;
+
+        if(bulletObj.weapon.userWeapon != null 
+            && bulletObj.weapon.userWeapon is Player)
+            return;
+
         float damage = bulletObj.GetHpDamage;
 
         player.SetHP(player.GetHP() - damage * 1f);
@@ -38,6 +43,12 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {
         Debug.Log("ignoreBulletChance = " + ignoreBulletChance);
+
+        Bullet bulletObj = damageVisitor as Bullet;
+
+        if (bulletObj.weapon.userWeapon != null
+            && bulletObj.weapon.userWeapon is Player)
+            return;
 
         if (Random.Range(0f,1f) < ignoreBulletChance)
             return;

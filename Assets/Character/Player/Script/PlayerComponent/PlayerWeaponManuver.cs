@@ -285,6 +285,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
         quickSwitch_LowReady_NodeLeaf = new QuickSwitch_LowReady_NodeLeaf(
             this.weaponAdvanceUser
             , this
+            ,player.quickSwitchHoldOffset
             , () => weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
             && isQuickSwtichWeaponManuverAble);
 

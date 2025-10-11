@@ -6,14 +6,20 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public SplineLookConstrain StandSplineLookConstrain;
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
-    public LeftHandConstraintManager leftHandConstraintManager;
+    public HandArmIKConstraintManager leftHandConstraintManager;
     [SerializeField] private Transform leftHandTransformRef;
 
+    public AimSplineLookConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
+    public AimSplineLookConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
+    public AimSplineLookConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
 
+    public LeaningRotaionScriptableObject quickSwitchlLeaningConstrainScriptableObject;
     public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject pistolLeaning_CAR_ConstrainScriptableObject;
     public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject rifileLeaning_CAR_ConstrainScriptableObject;
 
     public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_rifle;
     public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_pistol;
@@ -29,6 +35,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     [SerializeField] private string curState;
 
     public Player player;
+
+    public PlayerAnimationManager playerAnimationManager;
+
+    private bool isCAR => playerAnimationManager.isIn_C_A_R_aim;
 
     protected override void FixedUpdate()
     {
@@ -54,13 +64,31 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public NodeSelector constraintNodeStateSelector { get; set; }
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
     public RestAnimationConstrainNodeLeaf rest_gunfu_AnimationConstrainNodeLeaf { get; private set; }
+
+    public AimDownSightAnimationConstrainNodeLeaf quickSwitch_ADS_ConstrainNodeLeaf { get; private set; }
+    public PlayerLeaningRotationConstrainNodeLeaf quickSwitch_leaningRotationConstrainNodeLeaf { get; private set; }
+    public AnimationConstrainCombineNode quickSwitchADSConstrainCombineNode { get; private set; }
+
+    public NodeSelector primaryADS_Constraint_NodeSelector;
+
     public AimDownSightAnimationConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
     public PlayerLeaningRotationConstrainNodeLeaf rifle_leaningRotationConstrainNodeLeaf { get; private set; }
     public AnimationConstrainCombineNode rifleADSConstrainCombineNode { get; private set; }
 
+    public AimDownSightAnimationConstrainNodeLeaf rifle_CAR_ADS_ConstrainNodeLeaf { get; private set; }
+    public PlayerLeaningRotationConstrainNodeLeaf rifle_CAR_leaningRotationConstrainNodeLeaf { get; private set; }
+    public AnimationConstrainCombineNode rifleADS_CAR_ConstrainCombineNode { get; private set; }
+
+
+    public NodeSelector secondaryADS_Constraint_NodeSelector;
+
     public AimDownSightAnimationConstrainNodeLeaf pistol_ADS_ConstrainNodeLeaf { get; private set; }
     public PlayerLeaningRotationConstrainNodeLeaf pistol_leaningRotationConstrainNodeLeaf { get; private set; }
     public AnimationConstrainCombineNode pistolADSConstrainCombineNode { get; private set; }
+
+    public AimDownSightAnimationConstrainNodeLeaf pistol_ADS_CAR_ConstrainNodeLeaf { get; protected set; }
+    public PlayerLeaningRotationConstrainNodeLeaf pistoll_ADS_CAR_leaningRotationConstrainNodeLeaf { get; protected set; }
+    public AnimationConstrainCombineNode pistol_ADS_CAR_ConstrainCombineNode { get; private set; }
 
     public AnimationConstrainNodeSelector gunFuConstraintSelector { get; private set; }
     public AnimationConstrainNodeSelector humanShieldConstrainSelector { get; private set; }
@@ -112,13 +140,75 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         constraintNodeStateSelector = new NodeSelector(()=> isConstraintEnable);
 
         aimDownSightConstrainSelector = new AnimationConstrainNodeSelector(()=>player._currentWeapon != null && player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0);
-        rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player,this.StandSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject,()=> player._currentWeapon is PrimaryWeapon);
-        rifle_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.rifileLeaningConstrainScriptableObject, leaningRotation,player, () => player._currentWeapon is PrimaryWeapon);
-        rifleADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is PrimaryWeapon);
 
-        pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player, this.StandSplineLookConstrain, standPistolAimSplineLookConstrainScriptableObject, () => player._currentWeapon is SecondaryWeapon);
-        pistol_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(this.player, this.pistolLeaningConstrainScriptableObject, leaningRotation, player, () => player._currentWeapon is SecondaryWeapon);
-        pistolADSConstrainCombineNode = new AnimationConstrainCombineNode(() => player._currentWeapon is SecondaryWeapon);
+        quickSwitchADSConstrainCombineNode = new AnimationConstrainCombineNode(()=>playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
+        quickSwitch_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
+            this.player
+            , this.quickSwitchlLeaningConstrainScriptableObject
+            , this.leaningRotation
+            , this.player
+            , () => true);
+        quickSwitch_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            this.player
+            , this.StandSplineLookConstrain
+            , quickSwitchAimSplineLookConstrainScriptableObject
+            , () => true);
+
+        primaryADS_Constraint_NodeSelector = new NodeSelector(
+            () => player._currentWeapon is PrimaryWeapon);
+        rifle_CAR_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            this.player
+            ,this.StandSplineLookConstrain,standRifleAim_CAR_SplineLookConstrainScriptableObject
+            ,()=> player._currentWeapon is PrimaryWeapon);
+        rifle_CAR_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf
+            (this.player
+            , this.rifileLeaningConstrainScriptableObject
+            , leaningRotation
+            , player
+            , () => player._currentWeapon is PrimaryWeapon);
+        rifleADS_CAR_ConstrainCombineNode = new AnimationConstrainCombineNode(
+            () => isCAR);
+
+        rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            this.player
+            ,this.StandSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject
+            ,()=> player._currentWeapon is PrimaryWeapon);
+        rifle_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
+            this.player
+            , this.rifileLeaningConstrainScriptableObject
+            , leaningRotation,player
+            , () => player._currentWeapon is PrimaryWeapon);
+        rifleADSConstrainCombineNode = new AnimationConstrainCombineNode(
+            ()=> true);
+
+        secondaryADS_Constraint_NodeSelector = new NodeSelector(()=> player._currentWeapon is SecondaryWeapon);
+
+        pistol_ADS_CAR_ConstrainCombineNode = new AnimationConstrainCombineNode(
+            ()=> isCAR);
+        pistoll_ADS_CAR_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
+            this.player
+            , this.pistolLeaning_CAR_ConstrainScriptableObject
+            , leaningRotation
+            , player
+            , () => player._currentWeapon is SecondaryWeapon);
+        pistol_ADS_CAR_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player
+            , this.StandSplineLookConstrain
+            , standPistolAim_CAR_SplineLookConstrainScriptableObject
+             , () => player._currentWeapon is SecondaryWeapon);
+
+        pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+            this.player
+            , this.StandSplineLookConstrain
+            , standPistolAimSplineLookConstrainScriptableObject
+             , () => player._currentWeapon is SecondaryWeapon);
+        pistol_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
+            this.player
+            , this.pistolLeaningConstrainScriptableObject
+            , leaningRotation
+            , player
+            , () => player._currentWeapon is SecondaryWeapon);
+        pistolADSConstrainCombineNode = new AnimationConstrainCombineNode(() => true);
+
         restAnimationConstrainNodeLeaf = new RestAnimationConstrainNodeLeaf(rig,() => true);
 
         gunFuConstraintSelector = new AnimationConstrainNodeSelector(
@@ -164,8 +254,31 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         constraintNodeStateSelector.AddtoChildNode(aimDownSightConstrainSelector);
         constraintNodeStateSelector.AddtoChildNode(restAnimationConstrainNodeLeaf);
 
-        aimDownSightConstrainSelector.AddtoChildNode(rifleADSConstrainCombineNode);
-        aimDownSightConstrainSelector.AddtoChildNode(pistolADSConstrainCombineNode);
+        //ADS Constraint
+        aimDownSightConstrainSelector.AddtoChildNode(quickSwitchADSConstrainCombineNode);
+        aimDownSightConstrainSelector.AddtoChildNode(primaryADS_Constraint_NodeSelector);
+        aimDownSightConstrainSelector.AddtoChildNode(secondaryADS_Constraint_NodeSelector);
+
+        quickSwitchADSConstrainCombineNode.AddCombineNode(quickSwitch_ADS_ConstrainNodeLeaf);
+        quickSwitchADSConstrainCombineNode.AddCombineNode(quickSwitch_leaningRotationConstrainNodeLeaf);
+
+        primaryADS_Constraint_NodeSelector.AddtoChildNode(rifleADS_CAR_ConstrainCombineNode);
+        primaryADS_Constraint_NodeSelector.AddtoChildNode(rifleADSConstrainCombineNode);
+
+        rifleADS_CAR_ConstrainCombineNode.AddCombineNode(rifle_CAR_leaningRotationConstrainNodeLeaf);
+        rifleADS_CAR_ConstrainCombineNode.AddCombineNode(rifle_CAR_ADS_ConstrainNodeLeaf);
+
+        rifleADSConstrainCombineNode.AddCombineNode(rifle_leaningRotationConstrainNodeLeaf);
+        rifleADSConstrainCombineNode.AddCombineNode(rifle_ADS_ConstrainNodeLeaf);
+
+        secondaryADS_Constraint_NodeSelector.AddtoChildNode(pistol_ADS_CAR_ConstrainCombineNode);
+        secondaryADS_Constraint_NodeSelector.AddtoChildNode(pistolADSConstrainCombineNode);
+
+        pistol_ADS_CAR_ConstrainCombineNode.AddCombineNode(pistoll_ADS_CAR_leaningRotationConstrainNodeLeaf);
+        pistol_ADS_CAR_ConstrainCombineNode.AddCombineNode(pistol_ADS_CAR_ConstrainNodeLeaf);
+
+        pistolADSConstrainCombineNode.AddCombineNode(pistol_leaningRotationConstrainNodeLeaf);
+        pistolADSConstrainCombineNode.AddCombineNode(pistol_ADS_ConstrainNodeLeaf);
 
         gunFuConstraintSelector.AddtoChildNode(restrictConstraintSelector);
         gunFuConstraintSelector.AddtoChildNode(humanShieldConstrainSelector);
@@ -177,13 +290,18 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         humanShieldConstrainSelector.AddtoChildNode(humanShield_rifle_AnimationConstraintNodeLeaf);
         humanShieldConstrainSelector.AddtoChildNode(humanShield_secondary_AnimationConstraintNodeLeaf);
 
-        rifleADSConstrainCombineNode.AddCombineNode(rifle_leaningRotationConstrainNodeLeaf);
-        rifleADSConstrainCombineNode.AddCombineNode(rifle_ADS_ConstrainNodeLeaf);
-
-        pistolADSConstrainCombineNode.AddCombineNode(pistol_leaningRotationConstrainNodeLeaf);
-        pistolADSConstrainCombineNode.AddCombineNode(pistol_ADS_ConstrainNodeLeaf);
+  
 
         nodeManagerBehavior.SearchingNewNode(this);
     }
-    
+    private void OnDrawGizmos()
+    {
+        if(player._currentWeapon != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(player._currentWeapon.bulletSpawnerPos.position,player._currentWeapon.bulletSpawner.transform.forward*10);
+
+        }
+    }
+
 }
