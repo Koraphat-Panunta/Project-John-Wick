@@ -7,7 +7,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
+    public HeadLookConstraintManager headLookConstraintManager;
     [SerializeField] private Transform leftHandTransformRef;
+
+    public HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
 
     public AimSplineLookConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
     public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;

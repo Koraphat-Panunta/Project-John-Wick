@@ -40,9 +40,9 @@ public class SplineLookConstrain : MonoBehaviour, IConstraintManager
         spline1Offset = spline1.data.offset;
         spline2Offset = spline2.data.offset;
 
-        //spline.data.offset = aimDownSightSplineConstrainScriptableObject.offsetSpline;
-        //spline1.data.offset = aimDownSightSplineConstrainScriptableObject.offsetSpline1;
-        //spline2.data.offset = aimDownSightSplineConstrainScriptableObject.offsetSpline2;
+        //spline.data.offset = headLookConstrainSCRP.offsetSpline;
+        //spline1.data.offset = headLookConstrainSCRP.offsetSpline1;
+        //spline2.data.offset = headLookConstrainSCRP.offsetSpline2;
 
         weight = Mathf.Clamp(weight, 0f, 1f);
 

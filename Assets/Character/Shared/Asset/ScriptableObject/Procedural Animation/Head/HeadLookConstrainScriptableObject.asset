@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba829824292c9d46b1850905900ba6d, type: 3}
-  m_Name: QuickSwitchHold
+  m_Script: {fileID: 11500000, guid: 305327734445bb343a18d242d63a6dd3, type: 3}
+  m_Name: HeadLookConstrainScriptableObject
   m_EditorClassIdentifier: 
-  postitionOffset: {x: 0.05, y: 0, z: 0.03}
-  rotationEulerOffset: {x: -42.8, y: 3.04, z: 0}
+  weight: 0
+  offsetLook: {x: 0, y: 0, z: 0}
+  offsetChangedRate: 0
