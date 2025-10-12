@@ -28,8 +28,8 @@ public partial class PlayerAnimationManager
     public bool isIn_C_A_R_aim { get; protected set; }
     [Range(0,10)]
     [SerializeField] private float CAR_ChangeRate;
-    [SerializeField] private float CAR_Range = 3;
-    [SerializeField] private float CAR_ChangeTime = 1.5f;
+    [SerializeField] private float CAR_Range = 2;
+    [SerializeField] private float CAR_ChangeTime = .75f;
     private float CAR_ChangeTimer;
 
     [SerializeField] string curUpperLayer;

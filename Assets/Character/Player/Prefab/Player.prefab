@@ -641,7 +641,7 @@ MonoBehaviour:
   debugIsIFrame: 0
   aimPosRef: {fileID: 3039372999945744660}
   StandMoveAccelerate: 4
-  StandMoveMaxSpeed: 2.4
+  StandMoveMaxSpeed: 3
   StandMoveRotateSpeed: 3
   CrouchMoveAccelerate: 4
   CrouchMoveMaxSpeed: 2
@@ -782,6 +782,8 @@ MonoBehaviour:
   CAR_Weight: 0
   WeaponSwayRate_Normalized: 0
   CAR_ChangeRate: 7
+  CAR_Range: 2
+  CAR_ChangeTime: 0.75
   curUpperLayer: 
   curBaseLayer: 
 --- !u!114 &-4755417765127165936
