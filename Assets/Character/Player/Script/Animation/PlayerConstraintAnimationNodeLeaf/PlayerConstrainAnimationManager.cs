@@ -361,7 +361,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         Vector3 clampedDir = rot * fwd;
 
         // Final pointing position (you can scale as needed)
-        pointingPos = Vector3.MoveTowards(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude, 1, 5)), this.trackRate);
+        pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude, 1, 1)), this.trackRate);
         aimConstrainPositionReference.position = pointingPos;
     }
     #endregion
