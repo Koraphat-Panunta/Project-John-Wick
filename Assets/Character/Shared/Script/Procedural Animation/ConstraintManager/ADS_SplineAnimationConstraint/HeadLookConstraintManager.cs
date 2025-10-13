@@ -6,10 +6,7 @@ public class HeadLookConstraintManager : MonoBehaviour, IConstraintManager
     [SerializeField] private float weight;
 
     [SerializeField] private MultiAimConstraint headMultiAimConstraint;
-
-
     private Vector3 headOffset;
-
 
     [SerializeField] private HeadLookConstrainScriptableObject headLookConstrainSCRP;
 

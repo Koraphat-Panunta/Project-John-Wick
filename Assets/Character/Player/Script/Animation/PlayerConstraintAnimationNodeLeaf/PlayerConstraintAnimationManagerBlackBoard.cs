@@ -43,4 +43,18 @@ public partial class PlayerConstrainAnimationManager
             return true;
         }
     }
+
+    protected bool isHeadLookEnable 
+    { 
+        get 
+        {
+            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
+                return false;
+
+            if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
+                return false;
+
+            return true;
+        } 
+    }
 }

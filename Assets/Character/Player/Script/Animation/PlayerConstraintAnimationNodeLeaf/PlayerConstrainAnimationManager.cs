@@ -3,7 +3,7 @@ using UnityEngine.Animations.Rigging;
 
 public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeManager
 {
-    public SplineLookConstrain StandSplineLookConstrain;
+    public SplineLookConstrain standSplineLookConstrain;
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
@@ -41,15 +41,17 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     public PlayerAnimationManager playerAnimationManager;
 
+
+
     private bool isCAR => playerAnimationManager.isIn_C_A_R_aim;
 
     protected override void FixedUpdate()
     {
-       
         base.FixedUpdate();
     }
     protected override void Update()
     {
+        UpdateConstrainLookReferencePos();
         base.Update();
     }
 
@@ -63,6 +65,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public RecoveryConstraintManagerWeightNodeLeaf aimDownSightRecoveryWeightConstraintNodeLeaf { get; set; }
     public RecoveryConstraintManagerWeightNodeLeaf leanRotationRecoveryWeightConstraintNodeLeaf {get; set; }
     public RecoveryConstraintManagerWeightNodeLeaf leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf { get; set; }
+    public RecoveryConstraintManagerWeightNodeLeaf headLookRecoveryConstraintManagerWeightNodeLeaf { get; set; }
 
     public NodeSelector constraintNodeStateSelector { get; set; }
     public RestAnimationConstrainNodeLeaf restAnimationConstrainNodeLeaf { get;private set; }
@@ -104,6 +107,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public AnimationConstrainNodeSelector aimDownSightConstrainSelector { get; private set; }
 
     public WeaponGripLeftHandTwoBoneIKNodeLeaf ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
+
+    public HeadLookConstrainAnimationNodeLeaf headLookConstrainNodeLeaf { get; set; }
     public override void InitailizedNode()
     {
         startNodeSelector = new AnimationConstrainNodeSelector(()=>true);
@@ -130,7 +135,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         aimDownSightRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
-            , StandSplineLookConstrain, 1);
+            , standSplineLookConstrain, 1);
 
         leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
@@ -139,6 +144,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ()=> ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf.Precondition() == false
             , leftHandConstraintManager
             ,5);
+        headLookRecoveryConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            ()=> isHeadLookEnable == false
+            ,headLookConstraintManager
+            ,1);
 
         constraintNodeStateSelector = new NodeSelector(()=> isConstraintEnable);
 
@@ -153,7 +162,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , () => true);
         quickSwitch_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
             this.player
-            , this.StandSplineLookConstrain
+            , this.standSplineLookConstrain
             , quickSwitchAimSplineLookConstrainScriptableObject
             , () => true);
 
@@ -161,7 +170,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             () => player._currentWeapon is PrimaryWeapon);
         rifle_CAR_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
             this.player
-            ,this.StandSplineLookConstrain,standRifleAim_CAR_SplineLookConstrainScriptableObject
+            ,this.standSplineLookConstrain,standRifleAim_CAR_SplineLookConstrainScriptableObject
             ,()=> player._currentWeapon is PrimaryWeapon);
         rifle_CAR_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf
             (this.player
@@ -174,7 +183,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
             this.player
-            ,this.StandSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject
+            ,this.standSplineLookConstrain,standRifleAimSplineLookConstrainScriptableObject
             ,()=> player._currentWeapon is PrimaryWeapon);
         rifle_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
             this.player
@@ -195,13 +204,13 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , player
             , () => player._currentWeapon is SecondaryWeapon);
         pistol_ADS_CAR_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player
-            , this.StandSplineLookConstrain
+            , this.standSplineLookConstrain
             , standPistolAim_CAR_SplineLookConstrainScriptableObject
              , () => player._currentWeapon is SecondaryWeapon);
 
         pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
             this.player
-            , this.StandSplineLookConstrain
+            , this.standSplineLookConstrain
             , standPistolAimSplineLookConstrainScriptableObject
              , () => player._currentWeapon is SecondaryWeapon);
         pistol_leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf(
@@ -240,6 +249,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ,this.ar15_WeaponGripLeftHandScrp
             ,this.player);
 
+        headLookConstrainNodeLeaf = new HeadLookConstrainAnimationNodeLeaf(
+            headLookConstraintManager
+            ,headLookConstrainScriptableObject
+            ,()=> isHeadLookEnable);
+
         startNodeSelector.AddtoChildNode(playerConstraintCombineNode);
 
         playerConstraintCombineNode.AddCombineNode(enableDisableConstraintWeightNodeSelector);
@@ -247,8 +261,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         playerConstraintCombineNode.AddCombineNode(aimDownSightRecoveryWeightConstraintNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(leanRotationRecoveryWeightConstraintNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf);
+        playerConstraintCombineNode.AddCombineNode(headLookRecoveryConstraintManagerWeightNodeLeaf);
         playerConstraintCombineNode.AddCombineNode(constraintNodeStateSelector);
         playerConstraintCombineNode.AddCombineNode(ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf);
+        playerConstraintCombineNode.AddCombineNode(headLookConstrainNodeLeaf);
 
         enableDisableConstraintWeightNodeSelector.AddtoChildNode(enableConstraintWeight);
         enableDisableConstraintWeightNodeSelector.AddtoChildNode(disableConstraintWeight);
@@ -307,4 +323,46 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         }
     }
 
+    #region UpdateConstranLookReference
+
+    private Vector3 forwardDir => player.transform.forward;
+    private float maxHorizontalRotateDegrees = 30;
+    private float maxVerticalRotateDegrees = 60;
+    private Vector3 pointingPos;
+    [SerializeField] Transform aimConstrainPositionReference;
+    [Range(0,10)]
+    [SerializeField] float trackRate;
+    private void UpdateConstrainLookReferencePos()
+    {
+        Vector3 poitnPos = player._aimPosRef.position;
+
+        Vector3 startPos = player.transform.position + Vector3.up * 1.25f;
+
+        // Normalize input
+        Vector3 dirToPoint = (poitnPos - startPos).normalized;
+
+        // Basis: forward, right, up
+        Vector3 fwd = forwardDir.normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
+        Vector3 up = Vector3.Cross(fwd, right).normalized;
+
+        // Project onto local basis (dot products give angles)
+        float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
+        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, new Vector3(dirToPoint.x, 0, dirToPoint.z))) * Mathf.Rad2Deg) * -1;
+
+
+        // Clamp angles
+        horizontalAngle = Mathf.Clamp(horizontalAngle, -maxHorizontalRotateDegrees, maxHorizontalRotateDegrees);
+        verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalRotateDegrees, maxVerticalRotateDegrees);
+
+        // Rebuild direction from clamped angles
+        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
+                         Quaternion.AngleAxis(verticalAngle, right);
+        Vector3 clampedDir = rot * fwd;
+
+        // Final pointing position (you can scale as needed)
+        pointingPos = Vector3.MoveTowards(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude, 1, 5)), this.trackRate);
+        aimConstrainPositionReference.position = pointingPos;
+    }
+    #endregion
 }

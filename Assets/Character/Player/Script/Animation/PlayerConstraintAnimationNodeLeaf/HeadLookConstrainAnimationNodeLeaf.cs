@@ -36,4 +36,5 @@ public class HeadLookConstrainAnimationNodeLeaf : AnimationConstrainNodeLeaf
         headLookConstrain.SetWeight(headLookConstrainScriptableObject.weight, headLookConstrainScriptableObject);
         base.UpdateNode();
     }
+
 }
