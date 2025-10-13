@@ -323,6 +323,7 @@ MonoBehaviour:
   playerAnimationManager: {fileID: 4449691354107149587}
   aimConstrainPositionReference: {fileID: 8527826123242575905}
   trackRate: 0.25
+  beginPos: {fileID: 7984018026264039633}
 --- !u!95 &4261433417065899419
 Animator:
   serializedVersion: 7
@@ -734,7 +735,7 @@ MonoBehaviour:
   debugIsIFrame: 0
   aimPosRef: {fileID: 3039372999945744660}
   StandMoveAccelerate: 4
-  StandMoveMaxSpeed: 3
+  StandMoveMaxSpeed: 2.5
   StandMoveRotateSpeed: 3
   CrouchMoveAccelerate: 4
   CrouchMoveMaxSpeed: 2

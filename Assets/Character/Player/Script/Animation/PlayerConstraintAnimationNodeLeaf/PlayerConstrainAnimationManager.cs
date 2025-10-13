@@ -332,11 +332,12 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     [SerializeField] Transform aimConstrainPositionReference;
     [Range(0,10)]
     [SerializeField] float trackRate;
+    [SerializeField] Transform beginPos;
     private void UpdateConstrainLookReferencePos()
     {
         Vector3 poitnPos = player._aimPosRef.position;
 
-        Vector3 startPos = player.transform.position + Vector3.up * 1.25f;
+        Vector3 startPos = beginPos.position;
 
         // Normalize input
         Vector3 dirToPoint = (poitnPos - startPos).normalized;
