@@ -8261,10 +8261,10 @@ BlendTree:
   m_Name: Idle
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 2cd8ff8415b11d44d84a5d199f4c5900, type: 2}
-    m_Threshold: -0.27
+    m_Motion: {fileID: 7400000, guid: 4d68d56861065254bbbd5912f53f1acf, type: 2}
+    m_Threshold: -1
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.5
+    m_TimeScale: 0.2
     m_CycleOffset: 0
     m_DirectBlendParameter: SholderSide
     m_Mirror: 0
@@ -8277,17 +8277,17 @@ BlendTree:
     m_DirectBlendParameter: SholderSide
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 2cd8ff8415b11d44d84a5d199f4c5900, type: 2}
-    m_Threshold: 0.27
+    m_Motion: {fileID: 7400000, guid: 4d68d56861065254bbbd5912f53f1acf, type: 2}
+    m_Threshold: 1
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 0.5
+    m_TimeScale: 0.2
     m_CycleOffset: 0
     m_DirectBlendParameter: SholderSide
     m_Mirror: 0
   m_BlendParameter: Rotating
   m_BlendParameterY: Blend
-  m_MinThreshold: -0.27
-  m_MaxThreshold: 0.27
+  m_MinThreshold: -1
+  m_MaxThreshold: 1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

@@ -18,4 +18,5 @@ public class RightHandLookControlAnimationConstraintNodeLeaf : AnimationConstrai
         rightHandConstrainLookAtManager.SetWeight(1, rightHandConstrainLookAtScriptableObject);
         base.Enter();
     }
+   
 }

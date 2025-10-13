@@ -18,6 +18,7 @@ public class RightHandConstrainLookAtManager : MonoBehaviour,IConstraintManager
     private Vector3 rightHand_Offset;
 
     // Update is called once per frame
+   
     public void SetWeight(float w, RightHandConstrainLookAtScriptableObject rightHandConstrainLookAtScriptableObject)
     {
         SetWeight(w);

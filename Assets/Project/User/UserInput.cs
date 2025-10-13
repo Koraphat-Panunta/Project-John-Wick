@@ -224,7 +224,7 @@ public partial class @UserInput: IInputActionCollection2, IDisposable
                     ""id"": ""8398154b-ea3c-465c-9fc8-68dae45f3e72"",
                     ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Move"",
                     ""isComposite"": true,

@@ -13,7 +13,10 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
     public AnimationClip _animationClip { get; set; }
 
     private Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;
-    private Vector3 targetAdjustPosition => targetAdjustTransform.position /*+ restrictScriptableObject.offset*/;
+    private Vector3 targetAdjustPosition => targetAdjustTransform.position 
+        + targetAdjustTransform.forward * restrictScriptableObject.offset.z
+        + targetAdjustTransform.up * restrictScriptableObject.offset.y
+        + targetAdjustTransform.right * restrictScriptableObject.offset.x;
     private Quaternion targetAdjustRotation => targetAdjustTransform.rotation * Quaternion.Euler(restrictScriptableObject.rotationOffset);
 
     private AnimationClip restrictEnterClip;
