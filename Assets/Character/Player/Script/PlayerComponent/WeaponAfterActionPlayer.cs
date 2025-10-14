@@ -190,7 +190,6 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
         {
             while (isKilleComfirm.Count > 0)
             {
-                Debug.Log("isKilleComfirm.Count = " + isKilleComfirm.Count);
                 List<Enemy> enemies = isKilleComfirm.Keys.ToList();
                 for (int i = 0; i < enemies.Count; i++)
                 {

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public partial class Player : IGunFuAble
 {
     #region InitailizedGunFu
@@ -43,7 +43,11 @@ public partial class Player : IGunFuAble
 
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_II;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_III;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_IV;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
+    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_ScriptableObject_II;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
 
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Secondary_Laydown_I;
@@ -51,6 +55,7 @@ public partial class Player : IGunFuAble
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Laydown_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Layup_I;
 
+    public RandomGunFuExecute secondaryExecuteGunFuRandomNumber;
     public void InitailizedGunFuComponent()
     {
 
@@ -61,6 +66,8 @@ public partial class Player : IGunFuAble
 
         _targetAdjustTranform = targetAdjustTranform;
         triggerGunFuBufferTime = 1;
+
+        secondaryExecuteGunFuRandomNumber = new RandomGunFuExecute(4);
     }
     public void UpdateDetectingTarget()
     {
@@ -74,5 +81,54 @@ public partial class Player : IGunFuAble
         else
             attackedAbleGunFu = null;
     }
+    #endregion
+
+    #region RandomGunFuExecuteFactor
+    public class RandomGunFuExecute
+    {
+        private int maxCount;
+        private int seedNumber = 1;
+
+        private int curIndex;
+
+        private int minIndexPlus = 1;
+        private int maxIndexPlus = 2;
+
+        public RandomGunFuExecute(int maxGunFuCount)
+        {
+            this.maxCount = maxGunFuCount;   
+            curIndex = Random.Range(seedNumber, maxGunFuCount);
+;
+        }
+
+        public void UpdateGunFuNumber()
+        {
+            int lastIndex = curIndex;
+            Debug.Log("1 curIndex = " + curIndex);
+            curIndex += Random.Range(minIndexPlus, maxIndexPlus+1);
+
+            Debug.Log("2 curIndex = " + curIndex);
+
+            while (curIndex > maxCount)
+                curIndex -= maxCount;
+
+            Debug.Log("3 curIndex = " + curIndex);
+
+            if (curIndex == lastIndex)
+                curIndex++;
+
+            Debug.Log("4 curIndex = " + curIndex);
+
+        }
+
+        public int GetGunExecuteGuNumber() 
+        {
+            while (curIndex > maxCount)
+                curIndex -= maxCount;
+
+            return curIndex;
+        }
+    }
+
     #endregion
 }

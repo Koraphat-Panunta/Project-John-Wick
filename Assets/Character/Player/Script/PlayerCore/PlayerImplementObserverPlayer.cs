@@ -5,16 +5,10 @@ public partial class Player : IObserverPlayer
 {
     public void OnNotify<T>(Player player, T node)
     {
-        if(node is IGunFuExecuteNodeLeaf.GunFuExecutePhase gunFuExecutePhase)
+        if(node is GunFuExecute_Single_NodeLeaf gunFuExecute 
+            && gunFuExecute.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
         {
-            switch (gunFuExecutePhase)
-            {
-                case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute:
-                    {
-
-                        break;
-                    }
-            }
+            secondaryExecuteGunFuRandomNumber.UpdateGunFuNumber();
         }
         
         switch (node)

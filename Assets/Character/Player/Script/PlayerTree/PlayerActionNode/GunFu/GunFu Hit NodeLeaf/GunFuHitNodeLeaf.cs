@@ -68,7 +68,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         {
             if (_timer >= (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
             {
-                Debug.Log("HitCount = " + hitCount);
                 gotAttackedAlready.Clear();
                 hitCount++;
             }
