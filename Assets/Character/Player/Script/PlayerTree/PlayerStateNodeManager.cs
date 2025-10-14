@@ -161,11 +161,11 @@ public class PlayerStateNodeManager : INodeManager
 
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,
-            () => player._currentWeapon is PrimaryWeapon
+            () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() ==1
             , player.gunFuExecute_Single_Primary_ScriptableObject_I);
         gunFuExecute_Single_Primary_NodeLeaf_II = new GunFuExecute_Single_NodeLeaf(
             player,
-            () => player._currentWeapon is PrimaryWeapon
+            () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 2
             , player.gunFuExecute_Single_Primary_ScriptableObject_II);
 
         gunFuExecute_Single_Secondary_Selector = new NodeSelector(

@@ -56,6 +56,7 @@ public partial class Player : IGunFuAble
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Layup_I;
 
     public RandomGunFuExecute secondaryExecuteGunFuRandomNumber;
+    public RandomGunFuExecute primaryExecuteGunFuRandomNumber;
     public void InitailizedGunFuComponent()
     {
 
@@ -68,6 +69,7 @@ public partial class Player : IGunFuAble
         triggerGunFuBufferTime = 1;
 
         secondaryExecuteGunFuRandomNumber = new RandomGunFuExecute(4);
+        primaryExecuteGunFuRandomNumber = new RandomGunFuExecute(2);
     }
     public void UpdateDetectingTarget()
     {

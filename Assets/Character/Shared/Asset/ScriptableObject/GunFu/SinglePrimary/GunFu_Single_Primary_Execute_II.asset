@@ -12,53 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18740a9455ac29419def181a67d509c, type: 3}
   m_Name: GunFu_Single_Primary_Execute_II
   m_EditorClassIdentifier: 
-  gunFuStateName: GunFu_Execute_Single_Primary_I
-  gotGunFuStateName: GotGunFu_Execute_Single_Primary_I
-  executeClip: {fileID: 7400000, guid: 9756f159fe45f7445ae7d54c4b178eec, type: 2}
-  gotExecuteClip: {fileID: 7400000, guid: 08755897431edc14fb4f637f7cc1135a, type: 2}
-  warpingPhaseTimeNormalized: 0.109
-  executeTimeNormalized: 0.801
-  executeAnimationExitNormarlized: 0.95
-  executeAnimationOffset: 0.01
-  transitionRootDrivenAnimationDuration: 0.05
+  gunFuStateName: GunFu_Execute_Single_Primary_II
+  gotGunFuStateName: GotGunFu_Execute_Single_Primary_II
+  executeClip: {fileID: 7400000, guid: af0abba60c8574b4fac2e768204a58ec, type: 2}
+  gotExecuteClip: {fileID: 7400000, guid: 25f60e4e86e5fb444a2a497778f3e868, type: 2}
+  warpingPhaseTimeNormalized: 0.28
+  executeTimeNormalized: 0.64
+  executeAnimationExitNormarlized: 0.74
+  executeAnimationOffset: 0.088
+  transitionRootDrivenAnimationDuration: 0.001
   playerForwardRelativePosition: 0
   playerRightwardRelativePosition: 0
-  playerRotationRelative: 15
-  opponentAnimationOffset: 0.14
+  playerRotationRelative: 0
+  opponentAnimationOffset: 0.33
   opponentForwardRelative: 0.7
   opponentRightwardRelative: 0
-  opponentRotationRelative: 129
-  slowMotionTriggerNormailzed: 0.28
-  slowMotionDurarion: 1.2
+  opponentRotationRelative: 62
+  slowMotionTriggerNormailzed: 0.338
+  slowMotionDurarion: 1
   slowMotionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.5
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.7843924
-      value: 0.15676963
-      inSlope: 0.59052765
-      outSlope: 0.59052765
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.36840898
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

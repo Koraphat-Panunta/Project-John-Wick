@@ -9,6 +9,7 @@ public partial class Player : IObserverPlayer
             && gunFuExecute.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
         {
             secondaryExecuteGunFuRandomNumber.UpdateGunFuNumber();
+            primaryExecuteGunFuRandomNumber.UpdateGunFuNumber();
         }
         
         switch (node)
