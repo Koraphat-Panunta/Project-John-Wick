@@ -19,7 +19,7 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
 
        
         this.camera = camera;
-        this.enemyMask = LayerMask.GetMask("Enemy");
+        this.enemyMask = LayerMask.GetMask("Enemy") | LayerMask.GetMask("Default");
         this.weaponAdvanceUser = weaponAdvanceUser;
 
         this.enemyHPInWorldUI = GameManager.Instantiate(enemyHPInWorldUIPrefab);

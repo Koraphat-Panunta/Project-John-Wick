@@ -61,6 +61,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
+               || player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
                )
                 return true;
 

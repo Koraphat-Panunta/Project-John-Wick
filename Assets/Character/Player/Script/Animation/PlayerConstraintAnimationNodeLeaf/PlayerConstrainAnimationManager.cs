@@ -138,7 +138,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , standSplineLookConstrain, 1);
 
         leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
-            () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false
+            () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 == false 
+            || playerStateManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>()
+            || playerStateManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>()
             , leaningRotation,1);
         leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             ()=> ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf.Precondition() == false

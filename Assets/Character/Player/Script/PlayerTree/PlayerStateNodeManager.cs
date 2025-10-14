@@ -161,12 +161,12 @@ public class PlayerStateNodeManager : INodeManager
 
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,
-            () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() ==1
+            () => true
             , player.gunFuExecute_Single_Primary_ScriptableObject_I);
         gunFuExecute_Single_Primary_NodeLeaf_II = new GunFuExecute_Single_NodeLeaf(
             player,
             () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 2
-            , player.gunFuExecute_Single_Primary_ScriptableObject_II);
+            , player.gunFuExecute_Single_Primary_Dodge_ScriptableObject_I);
 
         gunFuExecute_Single_Secondary_Selector = new NodeSelector(
             ()=> player._currentWeapon is SecondaryWeapon);
@@ -366,7 +366,7 @@ public class PlayerStateNodeManager : INodeManager
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_Primary_Selector);
 
         gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_I);
-        gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_II);
+        //gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_II);
 
         gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_I);
         gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_II);

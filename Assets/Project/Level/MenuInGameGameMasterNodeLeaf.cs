@@ -63,7 +63,7 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
    
     public override void FixedUpdateNode()
     {
-
+        Cursor.lockState = CursorLockMode.None;
     }
     public override void UpdateNode()
     {

@@ -103,9 +103,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
                 if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) <= CAR_Range)
                 {
-                    CAR_ChangeTimer -= Time .deltaTime;
-
-                    if(CAR_ChangeTimer <= 0)
+                   
                     isIn_C_A_R_aim = true;
 
                 }

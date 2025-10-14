@@ -16,7 +16,7 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
         }
         if (weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
         {
-            TriggerReloadSound();
+            TriggerTacticalReloadSound();
         }
     }
     [SerializeField] private AudioSource source_Sound;
@@ -40,9 +40,17 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
     {
         if (coroutine != null)
         {
-            StopCoroutine(ReloadSoundEvent());
+            StopCoroutine(coroutine);
         }
         coroutine = StartCoroutine(ReloadSoundEvent());
+    }
+    private void TriggerTacticalReloadSound()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        coroutine = StartCoroutine(TacReloadSoundEvent());
     }
     protected abstract float reloadSoundWait_0 { get; set; }//Start -> เอาMagออก
     protected abstract float reloadSoundWait_1 { get; set; }//เอาMagออก -> ใส่Mag
@@ -55,7 +63,15 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
         source_Sound.PlayOneShot(reload_2);
         yield return new WaitForSeconds(reloadSoundWait_2);
         source_Sound.PlayOneShot(reload_3);
-    } 
+    }
+    IEnumerator TacReloadSoundEvent()
+    {
+        yield return new WaitForSeconds(reloadSoundWait_0);
+        source_Sound.PlayOneShot(reload_1);
+        yield return new WaitForSeconds(reloadSoundWait_1);
+        source_Sound.PlayOneShot(reload_2);
+       
+    }
     public virtual void Initialized()
     {
         this.source_Sound = GetComponent<AudioSource>();

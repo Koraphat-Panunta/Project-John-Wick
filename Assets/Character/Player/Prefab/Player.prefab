@@ -735,7 +735,7 @@ MonoBehaviour:
   debugIsIFrame: 0
   aimPosRef: {fileID: 3039372999945744660}
   StandMoveAccelerate: 4
-  StandMoveMaxSpeed: 3
+  StandMoveMaxSpeed: 2.7
   StandMoveRotateSpeed: 3
   CrouchMoveAccelerate: 4
   CrouchMoveMaxSpeed: 2
@@ -4982,7 +4982,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 8527826123242575905}
+      objectReference: {fileID: 3039372999945744660}
     - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -5002,7 +5002,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 8527826123242575905}
+      objectReference: {fileID: 3039372999945744660}
     - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -5022,7 +5022,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 8527826123242575905}
+      objectReference: {fileID: 3039372999945744660}
     - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_LocalPosition.x
