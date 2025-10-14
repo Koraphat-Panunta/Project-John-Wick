@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18740a9455ac29419def181a67d509c, type: 3}
+  m_Name: GunFu_Single_Execute_Primary_Dodge
+  m_EditorClassIdentifier: 
+  gunFuStateName: GunFuDodgeExecutePrimary
+  gotGunFuStateName: GotGunFuDodgeExecutePrimary
+  executeClip: {fileID: 7400000, guid: 35abc785a8ea93a4f95dc8b22577bca9, type: 2}
+  gotExecuteClip: {fileID: 7400000, guid: e8988b6ca06a24b49af575460ec4f1c8, type: 2}
+  warpingPhaseTimeNormalized: 0.213
+  executeTimeNormalized: 0.82
+  executeAnimationExitNormarlized: 1
+  executeAnimationOffset: 0.21
+  transitionRootDrivenAnimationDuration: 0.001
+  playerForwardRelativePosition: 0.95
+  playerRightwardRelativePosition: -0.08
+  playerRotationRelative: 256.4
+  opponentAnimationOffset: 0.377
+  opponentForwardRelative: 1.99
+  opponentRightwardRelative: -0.3
+  opponentRotationRelative: 207
+  slowMotionTriggerNormailzed: 0.435
+  slowMotionDurarion: 2
+  slowMotionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0074501038
+      value: 0.49917603
+      inSlope: 0.0016576413
+      outSlope: 0.0016576413
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99998516
+      value: 0.5008213
+      inSlope: 0.0016576413
+      outSlope: 0.0016576413
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  firingTimingNormalized: []

@@ -46,6 +46,7 @@ public class PlayerStateNodeManager : INodeManager
     public NodeSelector executeGunFuSelector { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_NodeLeaf_I { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_I { get; set; }
+    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_Dodge_NodeLeaf_I { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I { get; set; }
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
     public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Secondary_LayUp_I_NodeLeaf { get; private set; }
@@ -126,6 +127,14 @@ public class PlayerStateNodeManager : INodeManager
         executeGunFuOnGroundSelector = new NodeSelector(
             () => player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble 
             && downGetUpAble._isFallDown);
+        gunFuExecute_Single_Primary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
+            () => (player._triggerExecuteGunFu
+            && player.executedAbleGunFu != null
+            && player._currentWeapon != null
+            && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
+            && player._currentWeapon is PrimaryWeapon
+            && (player.executedAbleGunFu._character as IFallDownGetUpAble)._isFallDown == false)
+            , player.gunFuExecute_Single_Primary_Dodge_ScriptableObject_I);
         gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
             ()=> (player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
@@ -289,6 +298,7 @@ public class PlayerStateNodeManager : INodeManager
         secondart_WeaponDisarm_GunFuInteraction_NodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
 
         playerDodgeRollStateNodeLeaf.AddTransitionNode(dodgeSpinKicklGunFuNodeLeaf);
+        playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Primary_Dodge_NodeLeaf_I);
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I);
 
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);

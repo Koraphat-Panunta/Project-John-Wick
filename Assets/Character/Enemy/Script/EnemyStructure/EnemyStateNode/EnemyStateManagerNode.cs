@@ -60,6 +60,7 @@ public class EnemyStateManagerNode : INodeManager
     public NodeSelector gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
     public NodeSelector gotExecuteOnGroundSelector { get; private set; }
+    public GotGunFuExecuteNodeLeaf gotExecute_Dodge_Primary_I { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_Dodge_Secondary_I { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_Secondary_NodeLeaf_I { get; private set; }
     public GotGunFuExecuteNodeLeaf gotExecute_Primary_NodeLeaf_I { get; private set; }
@@ -326,6 +327,15 @@ public class EnemyStateManagerNode : INodeManager
             ()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecuteOnGroundSelector = new NodeSelector(
             ()=> enemy.curAttackerGunFuNode is GunFuExecute_OnGround_Single_NodeLeaf);
+        gotExecute_Dodge_Primary_I = new GotGunFuExecuteNodeLeaf(enemy,
+            () =>
+            {
+                if (enemy.curAttackerGunFuNode is GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf
+                && gunFuExecute_Single_NodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == gotExecute_Dodge_Primary_I.gotExecuteStateName)
+                    return true;
+                return false;
+            }
+            , "GotGunFuDodgeExecutePrimary");
         gotExecute_Dodge_Secondary_I = new GotGunFuExecuteNodeLeaf(enemy,
             ()=> 
             {
@@ -537,6 +547,7 @@ public class EnemyStateManagerNode : INodeManager
         crouchSelector.AddtoChildNode(enemyCrouchIdleStateNodeLeaf);
 
         gotExecuteSelector.AddtoChildNode(gotExecuteOnGroundSelector);
+        gotExecuteSelector.AddtoChildNode(gotExecute_Dodge_Primary_I);
         gotExecuteSelector.AddtoChildNode(gotExecute_Dodge_Secondary_I);
         gotExecuteSelector.AddtoChildNode(gotExecute_Primary_NodeLeaf_I);
         gotExecuteSelector.AddtoChildNode(gotExecute_Secondary_NodeLeaf_I);
