@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 9
+  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CarpetBlack
-  m_Shader: {fileID: -6465566751694194690, guid: a16b7c5c410c35d4cbdbf4451528f7df,
+  m_Shader: {fileID: -6465566751694194690, guid: d8b265427e7c45241a77945006a072e3,
     type: 3}
   m_Parent: {fileID: 2100000, guid: 9c32652147f3fa4468cef834e73da5eb, type: 2}
   m_ModifiedSerializedProperties: 16
@@ -35,6 +35,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
+    RenderType: Opaque
   disabledShaderPasses:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
