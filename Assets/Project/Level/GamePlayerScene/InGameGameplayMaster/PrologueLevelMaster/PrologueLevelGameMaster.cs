@@ -121,8 +121,8 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     [SerializeField] private string gunFuHit3_Tutorial_Text;
     [SerializeField] private VideoClip gunFuRestrict_Tutorial_Video;
     [SerializeField] private string gunFuRestrict_Tutorial_Text;
-    [SerializeField] private VideoClip groundControl_Tutorial_Video;
-    [SerializeField] private string groundControl_Tutorial_Text;
+    //[SerializeField] private VideoClip groundControl_Tutorial_Video;
+    //[SerializeField] private string groundControl_Tutorial_Text;
     [SerializeField] private VideoClip weaponDisarm_Tutorial_Video;
     [SerializeField] private string weaponDisarm_Tutorial_Text;
 
@@ -275,14 +275,14 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     {
         EnemyWave[] enemyWaves = new EnemyWave[2];
 
-        enemyWaves[0] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
+        enemyWaves[0] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
         {
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 2 }
+            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
         }
         , 3);
 
-        enemyWaves[1] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
+        enemyWaves[1] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
         {
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
             new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager,numberSpawn = 1 }
@@ -473,9 +473,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         gameMasterEvent.Add(() => door_A4_2.isOpen
         , () => {
 
-            videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(groundControl_Tutorial_Video);
-            videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(groundControl_Tutorial_Text);
-            videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
+            //videoTutorialPlayGameMasterNodeLeaf.SetVideoPlayer(groundControl_Tutorial_Video);
+            //videoTutorialPlayGameMasterNodeLeaf.SetTextTutorial(groundControl_Tutorial_Text);
+            //videoTutorialPlayGameMasterNodeLeaf.isPlaying = true;
 
             enemySpawnPoint_A4_3[0].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);
             enemySpawnPoint_A4_3[1].SpawnEnemy(enemy_ObjectManager, enemyDirectirA4, glock17_weaponObjectManager);

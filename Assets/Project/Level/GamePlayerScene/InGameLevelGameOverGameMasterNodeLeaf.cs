@@ -75,6 +75,7 @@ public class InGameLevelGameOverGameMasterNodeLeaf : InGameLevelGameMasterNodeLe
         }
         else if (gameOverPhase == GameOverPhase.Stay)
         {
+            Cursor.lockState = CursorLockMode.None;
             if (isTriggerExit)
             {
                 this.gameOverUICanvas.PlayFadeOutGameOverCanvas();

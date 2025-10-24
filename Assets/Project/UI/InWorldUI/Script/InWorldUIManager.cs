@@ -45,7 +45,12 @@ public class InWorldUIManager : MonoBehaviour,INodeManager,IInitializedAble
         inWorldUINodeCombine = new NodeCombine(()=> true);
 
         enemyHP_Bar_InWorldUINodeLeaf = new EnemyHP_Bar_InWorldUINodeLeaf(()=> true,mainCamera,player, enemyHPInWorldUI);
-        enemyStatusInWorldUIManageNodeLeaf = new EnemyStaggerStatusInWorldUIManageNodeLeaf(()=> true,mainCamera,player,executeInWorldUI);
+        enemyStatusInWorldUIManageNodeLeaf = new EnemyStaggerStatusInWorldUIManageNodeLeaf(
+            ()=> player._currentWeapon != null 
+            && player._currentWeapon.bulletStore[BulletStackType.Magazine] + player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
+            , mainCamera
+            ,player
+            ,executeInWorldUI);
         interactablePointUIManagerNodeLeaf = new InteractablePointUIManagerNodeLeaf(
             () => true, 
             interactableInWorldUI, 

@@ -56,6 +56,13 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
             {
                 player._isPullTriggerCommand = true;
 
+                if(player._currentWeapon != null
+                    && player._currentWeapon.bulletStore[BulletStackType.Chamber] == 0
+                    && player._currentWeapon.bulletStore[BulletStackType.Magazine] == 0)
+                {
+                    player._isReloadCommand = true;
+                }
+
                 if (player._currentWeapon != null
                     && player._currentWeapon.fireMode == Weapon.FireMode.Single
                     && (player._currentWeapon.triggerState == TriggerState.Up

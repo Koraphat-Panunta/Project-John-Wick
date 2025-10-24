@@ -41,7 +41,8 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         for (int i = 0; i < enemyList.Count; i++) 
         {
             assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].head.transform.position);
-            if (enemyList[i].isDead){
+            if (enemyList[i].isDead
+                ){
                 objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
                 assignInWorldEnemy.Remove(enemyList[i]);
                 //Debug.Log(enemyList[i] + "is dead");
@@ -135,5 +136,25 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
                 assignInWorldEnemy.Remove(assignEnemy[i]);
             }
         }
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+    }
+    public override void Exit()
+    {
+        if (assignInWorldEnemy.Count > 0)
+        {
+            List<Enemy> enemyList = assignInWorldEnemy.Keys.ToList<Enemy>();
+
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
+                assignInWorldEnemy.Remove(enemyList[i]);
+            }
+        }
+
+        base.Exit();
     }
 }

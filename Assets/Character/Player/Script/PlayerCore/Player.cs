@@ -4,7 +4,9 @@ using UnityEngine;
 
 public partial class Player : SubjectPlayer,
     IBulletDamageAble,
-    IAmmoRecivedAble,IHPReciveAble,I_EnemyAITargeted
+    IAmmoRecivedAble,
+    IHPReciveAble,
+    I_EnemyAITargeted
     
 {
     public CoverDetection coverDetection;

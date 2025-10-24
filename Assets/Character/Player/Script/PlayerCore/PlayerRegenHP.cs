@@ -8,6 +8,10 @@ public partial class Player
     [SerializeField] private float regenSpeed;
     private void RegenHPUpdate()
     {
+
+        if(isDead)
+            return;
+
         if (regenHPDisableTimer > 0)
             regenHPDisableTimer -= Time.deltaTime;
 
