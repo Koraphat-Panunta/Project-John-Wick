@@ -12,7 +12,6 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         player.AddObserver(this);
 
         isIn_C_A_R_aim = false;
-        nodeManagerBehavior = new NodeManagerBehavior();
 
         this.InitailizedNode();
     }

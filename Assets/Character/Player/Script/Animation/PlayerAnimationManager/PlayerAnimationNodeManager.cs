@@ -1,45 +1,10 @@
 using NUnit.Framework.Constraints;
 using UnityEngine;
 
-public partial class PlayerAnimationManager : INodeManager
+public partial class PlayerAnimationManager 
 {
-    public INodeSelector startNodeSelector { get; set; }
-    INodeLeaf curNodeLeaf;
-    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value ; }
-    public NodeManagerBehavior nodeManagerBehavior { get ; set; }
-    public NodeCombine upper_based_LayerCombineNode { get; set; }
-    public SetLayerAnimationNodeLeaf enableLayerAnimationNodeLeaf { get; set; }
-    public SetLayerAnimationNodeLeaf disableLayerAnimationNodeLeaf { get; set; }
-
-    public NodeSelector upperLayerNodeSelector { get; set; }
-    public NodeSelector performReloadNodeSelector { get; set; }
-    public PlayAnimationNodeLeaf reloadNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf tacticalReloadNodeLeaf { get; set; }
-
-    public NodeSelector performGunFuUpperLayerNodeSelector { get; set; }
-    public PlayAnimationNodeLeaf humanShieldPrimaryStayNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf humanShieldSecondaryStayNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf restrictShieldPrimaryStayNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf restrictShieldSecondaryStayNodeLeaf { get; set; }
-
-    public NodeSelector drawSwitchSelector { get; set; }
-    public NodeSelector quickSwitchSelector { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchHolsterSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchHoslterPrimaryNodeLeaf { get; set; }
-
-
-    public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf holsterPrimaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf holsterSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
-
-    public PlayAnimationBaseStateOffsetNodeLeaf sprintUpperNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }  
-    public PlayAnimationBaseStateOffsetNodeLeaf moveIdleUpperNodeLeaf { get; set; }
-
+    #region BaseLayer
+    public NodeManagerPortable playerBaseLayerAnimationNodeManagerPortable;
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
@@ -72,131 +37,257 @@ public partial class PlayerAnimationManager : INodeManager
     public PlayAnimationNodeLeaf hit3NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf spinKickNodeLeaf { get; set; }
 
-
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf moveCrouchNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf moveStandNodeLeaf { get; set; }
-    public NodeSelector upperLayerEnableDisableSelector { get; set; }
-
-    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
-   
-    public void FixedUpdateNode()
+    private void InitializedBasedLayer()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        basedLayerNodeSelector = new NodeSelector(() => true);
+        deadNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDeadNodeLeaf, animator, "Dead", 0, 0.14f);
+        getUpNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
+            , animator, "PlayerSpringGetUp", 0, .2f);
+        boundOffNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
+            , animator, "PlayerBounceOff", 0, .05f);
+        parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is IParkourNodeLeaf);
+        vaultingNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is VaultingNodeLeaf vaultingNodeLeaf
+            && vaultingNodeLeaf.nameState == "Vaulting"
+            , animator, "Vaulting", 0, .2f);
+        climbHighNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is ClimbParkourNodeLeaf climbHighNodeLeaf
+            && climbHighNodeLeaf.nameState == "ClimbHigh"
+            , animator, "ClimbHigh", 0, .2f);
+        climbLowNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is ClimbParkourNodeLeaf climbLowNodeLeaf
+            && climbLowNodeLeaf.nameState == "ClimbLow"
+            , animator, "ClimbLow", 0, .2f);
+
+        InitializedGunFuBasedLayer();
+
+        dodgeNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf,
+            animator, "DodgeRoll", 0, .2f, 0.1f);
+        sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
+            animator, "Sprint", 0, .5f);
+        moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf,
+            animator, "Crouch", 0, .4f);
+        moveStandNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
+            animator, "Move/Idle", 0, .6f);
     }
-
-    public void InitailizedNode()
+    private void InitializedGunFuBasedLayer()
     {
-        startNodeSelector = new NodeSelector(()=> true);
+        gunFuBaseLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
 
-        upper_based_LayerCombineNode = new NodeCombine(()=> true);
+        weaponDisarmSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf);
+        weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
+            && weaponDisarmNodeLeaf.disarmedWeapon is PrimaryWeapon
+            , animator, "GunFuPrimaryDisarm", 0, 0.2f);
+        weaponDisarmSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
+            && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
+            , animator, "GunFuSecondaryDisarm", 0, 0.2f);
 
-        this.InitializedUpperLayer();
-        this.InitializedBasedLayer();
+        executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(() => executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null, player, animator);
 
-        upperLayerEnableDisableSelector = new NodeSelector(()=> true);
-        enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(()=> isEnableUpperLayer
-        ,animator,1,3f,1);
-        disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
-        , animator, 1, 3f, 0);
+        restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf);
+        restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        && player._currentWeapon is PrimaryWeapon
+        , animator, "Restrict_Enter", 0, 0.35f);
+        restrictShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        && player._currentWeapon is SecondaryWeapon
+        , animator, "Restrict_Enter", 0, .35f);
+        restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit
+        || restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
+        , animator, "Restrict_Exit", 0, .35f);
+        restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+        , animator, "Move/Idle", 0, .35f);
 
-        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(player, 0.65f,2.5f, 
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>());
+        humanThrowNodeLeaf = new PlayAnimationNodeLeaf(
+           () =>
+           {
+               if (playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf
+               && (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit
+               || humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.ExitAttacked))
+                   return true;
+
+               return false;
+           }
+           , animator, "HS_Exit", 0, .35f);
+
+        humanShieldSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf);
+        humanShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf
+        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+        && player._currentWeapon is PrimaryWeapon
+        , animator, "HS_P_Enter", 0, .35f);
+        humanShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf
+        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+        && player._currentWeapon is SecondaryWeapon
+        , animator, "HS_P_Enter", 0, .35f);
+        humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf
+       && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay || humanShieldNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+       , animator, "Move/Idle", 0, .35f);
+
+        hit1NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf._stateName == "Hit1",
+            animator, "Hit1", 0, .1f, player.hit1.animationGunFuHitOffset);
+        hit2NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf._stateName == "Hit2",
+            animator, "Hit2", 0, .1f, player.hit2.animationGunFuHitOffset);
+        hit3NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf._stateName == "Hit3",
+            animator, "Hit3", 0, .1f, player.hit3.animationGunFuHitOffset);
+        spinKickNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
+            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.animationGunFuHitOffset);
+    }
+    private void InitializedBasedLayerNodeManager()
+    {
+        playerBaseLayerAnimationNodeManagerPortable = new NodeManagerPortable();
+        playerBaseLayerAnimationNodeManagerPortable.InitialzedOuterNode(
+            () =>
+            {
+                this.InitializedBasedLayer();
+
+                basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
+
+                gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(humanThrowNodeLeaf);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(hit2NodeLeaf);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);
+                gunFuBaseLayerNodeSelector.AddtoChildNode(spinKickNodeLeaf);
+
+                restrictShieldSelector.AddtoChildNode(restrictShieldPrimaryEnterNodeLeaf);
+                restrictShieldSelector.AddtoChildNode(restrictShieldSecondaryEnterNodeLeaf);
+                restrictShieldSelector.AddtoChildNode(restrictShieldExitNodeLeaf);
+                restrictShieldSelector.AddtoChildNode(restrictShieldMoveNodeLeaf);
+
+                humanShieldSelector.AddtoChildNode(humanShieldPrimaryEnterNodeLeaf);
+                humanShieldSelector.AddtoChildNode(humanShieldSecondaryEnterNodeLeaf);
+                humanShieldSelector.AddtoChildNode(humanShieldMoveNodeLeaf);
+
+                weaponDisarmSelector.AddtoChildNode(weaponDisarmPrimaryNodeLeaf);
+                weaponDisarmSelector.AddtoChildNode(weaponDisarmSecondaryNodeLeaf);
+
+                parkourNodeSelector.AddtoChildNode(vaultingNodeLeaf);
+                parkourNodeSelector.AddtoChildNode(climbHighNodeLeaf);
+                parkourNodeSelector.AddtoChildNode(climbLowNodeLeaf);
+
+                this.playerBaseLayerAnimationNodeManagerPortable.startNodeSelector.AddtoChildNode(basedLayerNodeSelector);
+            });
+    }
+    #endregion
+
+    #region UpperLayer
+    public NodeSelector upperLayerNodeSelector { get; set; }
+    public NodeSelector performReloadNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf reloadNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf tacticalReloadNodeLeaf { get; set; }
+
+    public NodeSelector performGunFuUpperLayerNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf humanShieldPrimaryStayNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf humanShieldSecondaryStayNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf restrictShieldPrimaryStayNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf restrictShieldSecondaryStayNodeLeaf { get; set; }
+
+    public NodeSelector drawSwitchSelector { get; set; }
+    public NodeSelector quickSwitchSelector { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHolsterSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHoslterPrimaryNodeLeaf { get; set; }
 
 
-        startNodeSelector.AddtoChildNode(upper_based_LayerCombineNode);
+    public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf holsterPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf holsterSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
-        upper_based_LayerCombineNode.AddCombineNode(upperLayerEnableDisableSelector);
-        upper_based_LayerCombineNode.AddCombineNode(upperLayerNodeSelector);
-        upper_based_LayerCombineNode.AddCombineNode(basedLayerNodeSelector);
-        upper_based_LayerCombineNode.AddCombineNode(crouchWeightSoftCoverNodeLeaf);
+    public PlayAnimationBaseStateOffsetNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf moveIdleUpperNodeLeaf { get; set; }
 
-        upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
-        upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
+    public NodeManagerPortable playerUpperLayerNodeManagerPortable { get; private set; }
+    private void InitializedUpperLayerNodeManager()
+    {
+        playerUpperLayerNodeManagerPortable = new NodeManagerPortable();
+        playerUpperLayerNodeManagerPortable.InitialzedOuterNode(
+            () =>
+            {
+                this.InitializedUpperLayer();
 
-        upperLayerNodeSelector.AddtoChildNode(performReloadNodeSelector);
-        upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
-        upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
-        upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
-        upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
-        upperLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
+                upperLayerNodeSelector.AddtoChildNode(performReloadNodeSelector);
+                upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
+                upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
+                upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
+                upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
+                upperLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
 
-        performReloadNodeSelector.AddtoChildNode(reloadNodeLeaf);
-        performReloadNodeSelector.AddtoChildNode(tacticalReloadNodeLeaf);
+                performReloadNodeSelector.AddtoChildNode(reloadNodeLeaf);
+                performReloadNodeSelector.AddtoChildNode(tacticalReloadNodeLeaf);
 
-        performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldPrimaryStayNodeLeaf);
-        performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldSecondaryStayNodeLeaf);
-        performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldPrimaryStayNodeLeaf);
-        performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldSecondaryStayNodeLeaf);
+                performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldPrimaryStayNodeLeaf);
+                performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldSecondaryStayNodeLeaf);
+                performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldPrimaryStayNodeLeaf);
+                performGunFuUpperLayerNodeSelector.AddtoChildNode(restrictShieldSecondaryStayNodeLeaf);
 
-        drawSwitchSelector.AddtoChildNode(quickSwitchSelector);
-        drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
-        drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
-        drawSwitchSelector.AddtoChildNode(holsterPrimaryNodeLeaf);
-        drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
-        drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
-        drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(quickSwitchSelector);
+                drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(holsterPrimaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
+                drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
 
-        quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
-        quickSwitchSelector.AddtoChildNode(quickSwitchHolsterSecondaryNodeLeaf);
-        quickSwitchSelector.AddtoChildNode(quickSwitchHoslterPrimaryNodeLeaf);
+                quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
+                quickSwitchSelector.AddtoChildNode(quickSwitchHolsterSecondaryNodeLeaf);
+                quickSwitchSelector.AddtoChildNode(quickSwitchHoslterPrimaryNodeLeaf);
 
-        basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
-        basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
-        basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
-        basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
-
-        gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(humanThrowNodeLeaf);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(hit2NodeLeaf);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);
-        gunFuBaseLayerNodeSelector.AddtoChildNode(spinKickNodeLeaf);
-
-        restrictShieldSelector.AddtoChildNode(restrictShieldPrimaryEnterNodeLeaf);
-        restrictShieldSelector.AddtoChildNode(restrictShieldSecondaryEnterNodeLeaf);
-        restrictShieldSelector.AddtoChildNode(restrictShieldExitNodeLeaf);
-        restrictShieldSelector.AddtoChildNode(restrictShieldMoveNodeLeaf);
-
-        humanShieldSelector.AddtoChildNode(humanShieldPrimaryEnterNodeLeaf);
-        humanShieldSelector.AddtoChildNode(humanShieldSecondaryEnterNodeLeaf);
-        humanShieldSelector.AddtoChildNode(humanShieldMoveNodeLeaf);
-
-        weaponDisarmSelector.AddtoChildNode(weaponDisarmPrimaryNodeLeaf);
-        weaponDisarmSelector.AddtoChildNode(weaponDisarmSecondaryNodeLeaf);
-
-        parkourNodeSelector.AddtoChildNode(vaultingNodeLeaf);
-        parkourNodeSelector.AddtoChildNode(climbHighNodeLeaf);
-        parkourNodeSelector.AddtoChildNode(climbLowNodeLeaf);
-
-        nodeManagerBehavior.SearchingNewNode(this);
-
+                this.playerUpperLayerNodeManagerPortable.startNodeSelector.AddtoChildNode(upperLayerNodeSelector);
+            });
     }
     private void InitializedUpperLayer()
     {
         upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
 
-        performReloadNodeSelector = new NodeSelector(()=> isPerformReload);
+        performReloadNodeSelector = new NodeSelector(() => isPerformReload);
         reloadNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-            ,animator, "ReloadMagazineFullStage",1,.3f);
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+            , animator, "ReloadMagazineFullStage", 1, .3f);
         tacticalReloadNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
             , animator, "TacticalReloadMagazineFullStage", 1, .3f);
 
-        performGunFuUpperLayerNodeSelector = new NodeSelector(()=> isPerformGunFu);
+        performGunFuUpperLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
         humanShieldPrimaryStayNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() && player._currentWeapon is PrimaryWeapon,
-            animator, "HS_Stay_Primary",1,.25f,.3f);
+            animator, "HS_Stay_Primary", 1, .25f, .3f);
         humanShieldSecondaryStayNodeLeaf = new PlayAnimationNodeLeaf(
            () => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>() && player._currentWeapon is SecondaryWeapon,
            animator, "HS_Stay_Secondary", 1, .25f, .3f);
@@ -207,15 +298,15 @@ public partial class PlayerAnimationManager : INodeManager
            () => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>() && player._currentWeapon is SecondaryWeapon,
            animator, "Restrict_Stay_Secondary", 1, .25f, .3f);
 
-        drawSwitchSelector = new NodeSelector(()=> isDrawSwitchWeapon);
+        drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);
 
-        quickSwitchSelector = new NodeSelector(()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
+        quickSwitchSelector = new NodeSelector(() => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
         quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=>playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
-            ,animator
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
+            , animator
             , "QuickSwitchDraw"
-            ,1
-            ,0.2f);
+            , 1
+            , 0.2f);
         quickSwitchHolsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>()
             , animator
@@ -228,11 +319,11 @@ public partial class PlayerAnimationManager : INodeManager
             , "QuickSwitchHolsterPrimary"
             , 1
             , 0.25f);
-      
+
 
         drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
-            animator, "DrawPrimary",1,.2f);
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
+            animator, "DrawPrimary", 1, .2f);
         drawSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
            animator, "DrawSecondary", 1, .2f);
@@ -251,135 +342,86 @@ public partial class PlayerAnimationManager : INodeManager
 
         sprintUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-         animator, "SprintWeaponSway", 1,0,.2f);
+         animator, "SprintWeaponSway", 1, 0, .2f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=>
+            () =>
             playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_AimDownSight_NodeLeaf>()
-            ||playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
-            ,animator, "QuickSwitchWeaponManuver",1,.25f);
+            || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
+            , animator, "QuickSwitchWeaponManuver", 1, .25f);
 
         moveIdleUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
-        () =>true,
-        animator, "StandWeaponHand LowReady/ADS", 1,0, .2f);
+        () => true,
+        animator, "StandWeaponHand LowReady/ADS", 1, 0, .2f);
 
-    } 
-    private void InitializedBasedLayer() 
-    {
-        basedLayerNodeSelector = new NodeSelector(() => true);
-        deadNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDeadNodeLeaf>(),animator,"Dead",0,0.14f);
-        getUpNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
-            ,animator, "PlayerSpringGetUp",0,.2f);
-        boundOffNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>()
-            ,animator, "PlayerBounceOff",0,.05f);
-        parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>());
-        vaultingNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<VaultingNodeLeaf>(out VaultingNodeLeaf vaultingNodeLeaf)
-            && vaultingNodeLeaf.nameState == "Vaulting"
-            , animator, "Vaulting", 0, .2f);
-        climbHighNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbHighNodeLeaf) 
-            && climbHighNodeLeaf.nameState == "ClimbHigh"
-            , animator, "ClimbHigh", 0, .2f);
-        climbLowNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<ClimbParkourNodeLeaf>(out ClimbParkourNodeLeaf climbLowNodeLeaf)
-            && climbLowNodeLeaf.nameState == "ClimbLow"
-            , animator, "ClimbLow", 0, .2f);
-
-        InitializedGunFuBasedLayer();
-
-        dodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>(),
-            animator, "DodgeRoll",0,.2f,0.1f);
-        sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-            animator, "Sprint", 0, .5f);
-        moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>(),
-            animator, "Crouch", 0, .4f);
-        moveStandNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>() || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>(),
-            animator, "Move/Idle", 0, .6f);
     }
-    private void InitializedGunFuBasedLayer() 
+    #endregion
+
+    #region CrouchWeight
+    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
+    public NodeManagerPortable crouchWeightSoftCoverNodeManagerPortable { get; private set; }
+    private void InitializedCrouchWeightNodeManager()
     {
-        gunFuBaseLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
+        this.crouchWeightSoftCoverNodeManagerPortable = new NodeManagerPortable();
+        this.crouchWeightSoftCoverNodeManagerPortable.InitialzedOuterNode(
+            () =>
+            {
+                crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(player, 0.65f, 2.5f,
+                    () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf
+                    || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf
+                    );
 
-        weaponDisarmSelector = new NodeSelector(()=>playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>(out WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf));
-        weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>(out WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf) 
-            && weaponDisarmNodeLeaf.disarmedWeapon is PrimaryWeapon
-            , animator, "GunFuPrimaryDisarm", 0, 0.2f);
-        weaponDisarmSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>(out WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf)
-            && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
-            , animator, "GunFuSecondaryDisarm", 0, 0.2f);
+                this.crouchWeightSoftCoverNodeManagerPortable.startNodeSelector.AddtoChildNode(crouchWeightSoftCoverNodeLeaf);
+            });
+    }
+    #endregion
 
-        executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(()=>executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null,player,animator);
+    #region DisableEnableLayer
+    public SetLayerAnimationNodeLeaf enableLayerAnimationNodeLeaf { get; set; }
+    public SetLayerAnimationNodeLeaf disableLayerAnimationNodeLeaf { get; set; }
+    public NodeSelector upperLayerEnableDisableSelector { get; set; }
+    public NodeManagerPortable upperLayerWeightNodeManagerPortable { get; private set; }
+    private void InitialzedUpperLayerWeightNodeManagerPortable()
+    {
+        upperLayerWeightNodeManagerPortable = new NodeManagerPortable();
+        this.upperLayerWeightNodeManagerPortable.InitialzedOuterNode(
+            () =>
+            {
+                upperLayerEnableDisableSelector = new NodeSelector(() => true);
+                enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => isEnableUpperLayer
+                , animator, 1, 3f, 1);
+                disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
+                , animator, 1, 3f, 0);
 
-        restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>());
-        restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(()=> playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        && player._currentWeapon is PrimaryWeapon
-        ,animator, "Restrict_Enter",0,0.35f);
-        restrictShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        && player._currentWeapon is SecondaryWeapon
-        ,animator, "Restrict_Enter", 0,.35f);
-        restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit
-        ||restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
-        , animator, "Restrict_Exit", 0, .35f);
-        restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictNodeLeaf)
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
-        , animator, "Move/Idle", 0, .35f);
+                upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
+                upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
 
-        humanThrowNodeLeaf = new PlayAnimationNodeLeaf(
-           () => 
-           {
-               if(playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf)
-               && (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit
-               || humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.ExitAttacked))
-                   return true;
-
-               return false;
-           }
-           , animator, "HS_Exit", 0, .35f);
-
-        humanShieldSelector = new NodeSelector(()=> playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>());
-        humanShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
-        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter) 
-        && player._currentWeapon is PrimaryWeapon
-        , animator, "HS_P_Enter", 0, .35f);
-        humanShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
-        && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
-        && player._currentWeapon is SecondaryWeapon
-        , animator, "HS_P_Enter", 0, .35f);
-        humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf)
-       && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay || humanShieldNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-       , animator, "Move/Idle", 0, .35f);
-
-        hit1NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf._stateName == "Hit1",
-            animator, "Hit1", 0, .1f,player.hit1.animationGunFuHitOffset);
-        hit2NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf._stateName == "Hit2",
-            animator, "Hit2", 0, .1f, player.hit2.animationGunFuHitOffset);
-        hit3NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf)
-            && gunFuHitNodeLeaf._stateName == "Hit3",
-            animator, "Hit3", 0, .1f, player.hit3.animationGunFuHitOffset);
-        spinKickNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>(out GunFuHitNodeLeaf gunFuHitNodeLeaf) 
-            && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
-            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.animationGunFuHitOffset);
+                this.upperLayerWeightNodeManagerPortable.startNodeSelector.AddtoChildNode(upperLayerEnableDisableSelector);
+            });
     }
 
-    public void UpdateNode()
+    #endregion
+
+    public void InitailizedNode()
     {
-       nodeManagerBehavior.UpdateNode(this);
+        this.InitializedBasedLayerNodeManager();
+        this.InitializedUpperLayerNodeManager();
+        this.InitializedCrouchWeightNodeManager();
+        this.InitialzedUpperLayerWeightNodeManagerPortable();
+    }
+
+    private void UpdateNode()
+    {
+        this.playerBaseLayerAnimationNodeManagerPortable.UpdateNode();
+        this.playerUpperLayerNodeManagerPortable.UpdateNode();
+        this.crouchWeightSoftCoverNodeManagerPortable.UpdateNode();
+        this.upperLayerWeightNodeManagerPortable.UpdateNode();
+    }
+    private void FixedUpdateNode()
+    {
+        this.playerBaseLayerAnimationNodeManagerPortable.FixedUpdateNode();
+        this.playerUpperLayerNodeManagerPortable.FixedUpdateNode();
+        this.crouchWeightSoftCoverNodeManagerPortable.FixedUpdateNode();
+        this.upperLayerWeightNodeManagerPortable.FixedUpdateNode();
     }
 }
