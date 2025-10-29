@@ -3,7 +3,7 @@ using UnityEngine.Animations.Rigging;
 
 public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 {
-    public override INodeSelector startNodeSelector { get; set; }
+
     public Transform centre;
     public TwoBoneIKConstraint leftLeg;
     public TwoBoneIKConstraint rightLeg;
@@ -32,20 +32,18 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
     public float FootstepPlacementOffsetDistance;
     #endregion
 
-    NodeCombine nodeCombineConstrainAnimationNodeLeaf;
+    [SerializeField] private Rig rig;
+
+    public NodeComponentManager enemyConstraintAnimationNodeManager;
     NodeSelector aimNodeSelector;
     AimDownSightAnimationConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
     AimDownSightAnimationConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
     EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf { get; set; }
-    RestAnimationConstrainNodeLeaf restProceduralAnimateNodeLeaf { get; set; }
 
-    [SerializeField] private Rig rig;
-
-    public override void InitailizedNode()
+    public void InitailizedNode()
     {
-        startNodeSelector = new AnimationConstrainNodeSelector(() => true);
+        this.enemyConstraintAnimationNodeManager = new NodeComponentManager();
 
-        nodeCombineConstrainAnimationNodeLeaf = new NodeCombine(()=> true);
         aimNodeSelector = new NodeSelector(()=> enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0);
         primaryAnimationConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
             enemy
@@ -64,18 +62,29 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
                 return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() && enemy._posture <= enemy._postureLight;
             }
             );
-        restProceduralAnimateNodeLeaf = new RestAnimationConstrainNodeLeaf(rig, () => true);
 
-        startNodeSelector.AddtoChildNode(nodeCombineConstrainAnimationNodeLeaf);
-        startNodeSelector.AddtoChildNode(restProceduralAnimateNodeLeaf);
 
-        nodeCombineConstrainAnimationNodeLeaf.AddCombineNode(aimNodeSelector);
-        nodeCombineConstrainAnimationNodeLeaf.AddCombineNode(enemyPainStateProceduralAnimateNodeLeaf);
+
+        enemyConstraintAnimationNodeManager.AddNode(aimNodeSelector);
+        enemyConstraintAnimationNodeManager.AddNode(enemyPainStateProceduralAnimateNodeLeaf);
 
         aimNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
         aimNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+    }
+
+    public override void Initialized()
+    {
+        this.InitailizedNode();
+    }
+
+    protected void Update()
+    {
+        this.enemyConstraintAnimationNodeManager.Update();
+    }
+    protected void FixedUpdate()
+    {
+        this.enemyConstraintAnimationNodeManager.FixedUpdate();
     }
 
     private void OnDrawGizmos()
