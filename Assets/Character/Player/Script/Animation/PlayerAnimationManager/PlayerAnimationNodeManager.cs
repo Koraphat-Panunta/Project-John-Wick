@@ -357,71 +357,59 @@ public partial class PlayerAnimationManager
     }
     #endregion
 
-    #region CrouchWeight
+    #region playerAnimationNodeComponentManager
     public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
-    public NodeManagerPortable crouchWeightSoftCoverNodeManagerPortable { get; private set; }
-    private void InitializedCrouchWeightNodeManager()
-    {
-        this.crouchWeightSoftCoverNodeManagerPortable = new NodeManagerPortable();
-        this.crouchWeightSoftCoverNodeManagerPortable.InitialzedOuterNode(
-            () =>
-            {
-                crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(player, 0.65f, 2.5f,
-                    () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf
-                    || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf
-                    );
 
-                this.crouchWeightSoftCoverNodeManagerPortable.startNodeSelector.AddtoChildNode(crouchWeightSoftCoverNodeLeaf);
-            });
-    }
-    #endregion
-
-    #region DisableEnableLayer
     public SetLayerAnimationNodeLeaf enableLayerAnimationNodeLeaf { get; set; }
     public SetLayerAnimationNodeLeaf disableLayerAnimationNodeLeaf { get; set; }
     public NodeSelector upperLayerEnableDisableSelector { get; set; }
-    public NodeManagerPortable upperLayerWeightNodeManagerPortable { get; private set; }
-    private void InitialzedUpperLayerWeightNodeManagerPortable()
+
+    private NodeComponentManager playerAnimationNodeComponentManager;
+    private void InitializedAnimationNodeComponent()
     {
-        upperLayerWeightNodeManagerPortable = new NodeManagerPortable();
-        this.upperLayerWeightNodeManagerPortable.InitialzedOuterNode(
-            () =>
-            {
-                upperLayerEnableDisableSelector = new NodeSelector(() => true);
-                enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => isEnableUpperLayer
-                , animator, 1, 3f, 1);
-                disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
-                , animator, 1, 3f, 0);
+        playerAnimationNodeComponentManager = new NodeComponentManager();
 
-                upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
-                upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
+        crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(player, 0.65f, 2.5f,
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf
+            || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf
+            );
 
-                this.upperLayerWeightNodeManagerPortable.startNodeSelector.AddtoChildNode(upperLayerEnableDisableSelector);
-            });
+        upperLayerEnableDisableSelector = new NodeSelector(() => true);
+        enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => isEnableUpperLayer
+        , animator, 1, 3f, 1);
+        disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
+        , animator, 1, 3f, 0);
+
+        upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
+        upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
+
+        this.playerAnimationNodeComponentManager.AddNode(this.crouchWeightSoftCoverNodeLeaf);
+        this.playerAnimationNodeComponentManager.AddNode(this.upperLayerEnableDisableSelector);
+
     }
-
     #endregion
+
+
 
     public void InitailizedNode()
     {
         this.InitializedBasedLayerNodeManager();
         this.InitializedUpperLayerNodeManager();
-        this.InitializedCrouchWeightNodeManager();
-        this.InitialzedUpperLayerWeightNodeManagerPortable();
+        this.InitializedAnimationNodeComponent();
+
     }
 
     private void UpdateNode()
     {
         this.playerBaseLayerAnimationNodeManagerPortable.UpdateNode();
         this.playerUpperLayerNodeManagerPortable.UpdateNode();
-        this.crouchWeightSoftCoverNodeManagerPortable.UpdateNode();
-        this.upperLayerWeightNodeManagerPortable.UpdateNode();
+        this.playerAnimationNodeComponentManager.Update();
     }
     private void FixedUpdateNode()
     {
         this.playerBaseLayerAnimationNodeManagerPortable.FixedUpdateNode();
         this.playerUpperLayerNodeManagerPortable.FixedUpdateNode();
-        this.crouchWeightSoftCoverNodeManagerPortable.FixedUpdateNode();
-        this.upperLayerWeightNodeManagerPortable.FixedUpdateNode();
+        this.playerAnimationNodeComponentManager.FixedUpdate();
+
     }
 }
