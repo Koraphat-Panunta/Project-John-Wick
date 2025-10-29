@@ -8,34 +8,31 @@ public class EnemyStateManagerNode : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public NodeComponentManager enemyStateNodeComponentManager { get; set; }
     public Enemy enemy { get; protected set; }
     public EnemyStateManagerNode(Enemy enemy)
     {
         this.enemy = enemy;
 
         nodeManagerBehavior = new NodeManagerBehavior();
+        enemyStateNodeComponentManager = new NodeComponentManager();
 
         InitailizedNode();
     }
 
-    public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+    public void FixedUpdateNode()
+    {
+        nodeManagerBehavior.FixedUpdateNode(this);
+        this.enemyStateNodeComponentManager.FixedUpdate();
+    }
     public void UpdateNode() 
     {
-        if (curNodeLeaf.IsReset()) 
-        {
-            startNodeSelector.FindingNode(out INodeLeaf nodeLeaf);
-            curNodeLeaf.Exit();
-            curNodeLeaf = nodeLeaf;
-            curNodeLeaf.Enter();
-        }
-
-        curNodeLeaf.UpdateNode();
+        nodeManagerBehavior.UpdateNode(this);
+        this.enemyStateNodeComponentManager.Update();
     }
     
 
     #region Initailized State Node
-    public NodeCombine enemyCombineNode { get;private set; }
-    public NodeSelector enemyStateSelector { get; private set; }
 
     public NodeSelector enemyStanceSelector { get; private set; }
 
@@ -245,12 +242,6 @@ public class EnemyStateManagerNode : INodeManager
     public void InitailizedNode()
     {
         startNodeSelector = new EnemyStateSelectorNode(enemy, () => true);
-        enemyCombineNode = new NodeCombine(()=>true,()=> false);
-
-        enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
-            () => enemy.staggerGauge <= 0 && enemy._isInPain == false ,enemy,9);
-
-        enemyStateSelector = new NodeSelector(() => true);
 
         enemyStanceSelector = new NodeSelector(
             () => true
@@ -303,12 +294,6 @@ public class EnemyStateManagerNode : INodeManager
             }
        );
 
-       
-
-      
-
-     
-
         gunFuSelector = new NodeSelector(
             () => enemy._triggerGunFu && enemy._isInPain == false);
 
@@ -321,7 +306,6 @@ public class EnemyStateManagerNode : INodeManager
                 {
                     return true;
                 }
-
 
                 return false;
                 }
@@ -540,19 +524,14 @@ public class EnemyStateManagerNode : INodeManager
                 return enemy.curAttackerGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
             }
             , this.enemy.animator);
-       
 
-        startNodeSelector.AddtoChildNode(enemyCombineNode);
-        enemyCombineNode.AddCombineNode(enemyStateSelector);
-        enemyCombineNode.AddCombineNode(enemy.recoveryStaggerNodeLeaf);
-
-        enemyStateSelector.AddtoChildNode(enemtDeadState);
-        enemyStateSelector.AddtoChildNode(gotGunFuAttackSelector);
-        enemyStateSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        startNodeSelector.AddtoChildNode(enemtDeadState);
+        startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
+        startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
         InitailizedPainStateNode();
-        enemyStateSelector.AddtoChildNode(painStateSelector);
-        enemyStateSelector.AddtoChildNode(gunFuSelector);
-        enemyStateSelector.AddtoChildNode(enemyStanceSelector);
+        startNodeSelector.AddtoChildNode(painStateSelector);
+        startNodeSelector.AddtoChildNode(gunFuSelector);
+        startNodeSelector.AddtoChildNode(enemyStanceSelector);
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
 
@@ -601,5 +580,15 @@ public class EnemyStateManagerNode : INodeManager
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_Primary_LayDown_I_NodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
+
+        InitializedComponentNode();
+    }
+
+    private void InitializedComponentNode()
+    {
+        enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
+            () => enemy.staggerGauge <= 0 && enemy._isInPain == false, enemy, 9);
+
+        this.enemyStateNodeComponentManager.AddNode(enemy.recoveryStaggerNodeLeaf);
     }
 }

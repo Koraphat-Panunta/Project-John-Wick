@@ -12,9 +12,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
     [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
 
-    public NodeCombine gameMasterNodeCombine;
-    public NodeSelector gameMasterModeNodeSelector;
-    public NodeSelector gameMasterSectionNodeSelector;
+    public NodeManagerPortable gameMasterSectionNodeManagerPortable;
 
     public WaveBasedSectionNodeLeaf waveBaseSection_1_Nodeleaf;
     public WaveBasedSectionNodeLeaf waveBaseSection_2_Nodeleaf;
@@ -188,10 +186,12 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         this.numberOfEnemyWave2 = this.enemyWaveManager2.numberOfEnemy;
         
         base.Update();
+        this.gameMasterSectionNodeManagerPortable.UpdateNode();
     }
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        this.gameMasterSectionNodeManagerPortable.FixedUpdateNode();
     }
     protected void LateUpdate()
     {
@@ -207,18 +207,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     {
         startNodeSelector = new NodeSelector(()=>true,"PrologueStartNodeSelector");
 
-        gameMasterNodeCombine = new NodeCombine(()=> true);
-
-        gameMasterModeNodeSelector = new NodeSelector(()=> true);
-        gameMasterSectionNodeSelector = new NodeSelector(()=> true);
-
-        waveBaseSection_1_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager1, 
-            () => waveBaseSection_1_Nodeleaf.isEnable && enemyDirectirA3.allEnemiesAliveCount <= 2 
-            && waveBaseSection_1_Nodeleaf._enemyWaveManager.waveIsClear == false);
-        waveBaseSection_2_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager2, 
-            () => waveBaseSection_2_Nodeleaf.isEnable && enemyDirectirA5.allEnemiesAliveCount <= 2 
-            && waveBaseSection_2_Nodeleaf._enemyWaveManager.waveIsClear == false);
-        freeRomeSectionNodeLeaf = new InGameLevelGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
 
         delayOpeningGameMasterNodeLeaf = new InGameLevelDelayOpeningLoad(this, () => base.isCompleteLoad == false);
         levelOpeningGameMasterNodeLeaf = new InGameLevelOpeningGameMasterNodeLeaf(this, openingUICanvas , () => levelOpeningGameMasterNodeLeaf.isComplete == false);
@@ -231,28 +219,41 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => enemyWaveManager2.waveIsClear);
         prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);
 
-        startNodeSelector.AddtoChildNode(gameMasterNodeCombine);
-
-        gameMasterNodeCombine.AddCombineNode(gameMasterModeNodeSelector);
-        gameMasterNodeCombine.AddCombineNode(gameMasterSectionNodeSelector);
-
-
-        gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_1_Nodeleaf);
-        gameMasterSectionNodeSelector.AddtoChildNode(waveBaseSection_2_Nodeleaf);
-        gameMasterSectionNodeSelector.AddtoChildNode(freeRomeSectionNodeLeaf);
-
-        gameMasterModeNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(videoTutorialPlayGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(pausingSelector);
-        gameMasterModeNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
-        gameMasterModeNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(videoTutorialPlayGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(levelGameOverGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(pausingSelector);
+        startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
+        startNodeSelector.AddtoChildNode(prologueInGameLevelGameplayGameMasterNodeLeaf);
 
         pausingSelector.AddtoChildNode(optionMenuSettingInGameGameMasterNode);
         pausingSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
 
         nodeManagerBehavior.SearchingNewNode(this);
+
+        this.InitialziedGameMasterSectionNodeManager();
+    }
+
+    private void InitialziedGameMasterSectionNodeManager()
+    {
+        this.gameMasterSectionNodeManagerPortable = new NodeManagerPortable();
+        this.gameMasterSectionNodeManagerPortable.InitialzedOuterNode(
+            () => 
+            {
+                waveBaseSection_1_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager1,
+                    () => waveBaseSection_1_Nodeleaf.isEnable && enemyDirectirA3.allEnemiesAliveCount <= 2
+                    && waveBaseSection_1_Nodeleaf._enemyWaveManager.waveIsClear == false);
+                waveBaseSection_2_Nodeleaf = new WaveBasedSectionNodeLeaf(this, enemyWaveManager2,
+                    () => waveBaseSection_2_Nodeleaf.isEnable && enemyDirectirA5.allEnemiesAliveCount <= 2
+                    && waveBaseSection_2_Nodeleaf._enemyWaveManager.waveIsClear == false);
+                freeRomeSectionNodeLeaf = new InGameLevelGameMasterNodeLeaf<PrologueLevelGameMaster>(this, () => true);
+
+                this.gameMasterSectionNodeManagerPortable.startNodeSelector.AddtoChildNode(waveBaseSection_1_Nodeleaf);
+                this.gameMasterSectionNodeManagerPortable.startNodeSelector.AddtoChildNode(waveBaseSection_2_Nodeleaf);
+                this.gameMasterSectionNodeManagerPortable.startNodeSelector.AddtoChildNode(freeRomeSectionNodeLeaf);
+            });
+
 
     }
     private async Task DelayInitialized() 
