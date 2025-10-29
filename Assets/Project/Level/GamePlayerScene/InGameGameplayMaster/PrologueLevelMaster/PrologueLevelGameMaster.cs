@@ -254,6 +254,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
                 this.gameMasterSectionNodeManagerPortable.startNodeSelector.AddtoChildNode(freeRomeSectionNodeLeaf);
             });
 
+        base.parallelNodeManahger.Add(gameMasterSectionNodeManagerPortable);
 
     }
     private async Task DelayInitialized() 

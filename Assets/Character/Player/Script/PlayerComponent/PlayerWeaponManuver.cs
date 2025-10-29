@@ -194,6 +194,8 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
             {
                 reloadNodeManagerPortable.startNodeSelector.AddtoChildNode(reloadNodeAttachAbleSelector);
             });
+
+        this.parallelNodeManahger.Add(reloadNodeManagerPortable);
     }
     public override void InitailizedNode()
     {

@@ -8,12 +8,15 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
 
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => curNodeLeaf = value; }
+    public List<INodeManager> parallelNodeManahger { get; set; }
+
     private float returnTimeScale;
     protected bool isSystemStopTime;
 
     public void Initialized()
     {
         nodeManagerBehavior = new NodeManagerBehavior();
+        this.parallelNodeManahger = new List<INodeManager>();
         this.observerTimeControlManagers = new List<IObserverTimeControlManager>();
         this.player.AddObserver(this);
         this.gameMaster.AddObserver(this);
@@ -72,7 +75,7 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
 
     #region ObserverPattern
     protected List<IObserverTimeControlManager> observerTimeControlManagers { get; set; }
-
+ 
     public void NotifyObserver<T>(TimeControlManager timeControlManager, T Var)
     {
         if (this.observerTimeControlManagers.Count <= 0)

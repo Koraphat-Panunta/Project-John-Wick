@@ -32,16 +32,13 @@ public interface INodeManager
 
 public class NodeManagerBehavior
 {
+    
     public INode errorNode { get;private set; }
     public void UpdateNode(INodeManager nodeManager) 
     {
         if (nodeManager.GetCurNodeLeaf().IsReset())
-        {
-            //nodeManager.GetCurNodeLeaf().Exit();
-            //nodeManager.SetCurNodeLeaf(null);
             SearchingNewNode(nodeManager);
-        }
-
+        
         if (nodeManager.GetCurNodeLeaf() != null)
             nodeManager.GetCurNodeLeaf().UpdateNode();
     }

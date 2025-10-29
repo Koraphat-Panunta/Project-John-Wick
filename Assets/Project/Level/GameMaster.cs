@@ -11,6 +11,7 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
 
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public List<INodeManager> parallelNodeManahger { get; set; }
     public DataBased dataBased 
     { 
         get 
@@ -21,6 +22,9 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
             return this.DataBased;
         } 
     }
+
+
+
     private DataBased DataBased;
 
     public static readonly float lookSensitivityDefault = 20;
@@ -41,6 +45,7 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
         this.dataBased.settingData.volumeMusic = musicVolumeDefault;
 
         nodeManagerBehavior = new NodeManagerBehavior();
+        parallelNodeManahger = new List<INodeManager>();
         this.InitailizedNode();
     }
 

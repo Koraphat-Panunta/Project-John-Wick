@@ -8,12 +8,14 @@ public class PlayerStateNodeManager : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get; set; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public List<INodeManager> parallelNodeManahger { get; set; }
 
     public Player player;
     public PlayerStateNodeManager(Player player) 
     { 
         this.player = player;
         this.nodeManagerBehavior = new NodeManagerBehavior();
+        this.parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
     public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
@@ -71,6 +73,7 @@ public class PlayerStateNodeManager : INodeManager
     public GunFuHitNodeLeaf Hit2GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit3GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf dodgeSpinKicklGunFuNodeLeaf { get; private set; }
+
     public void InitailizedNode()
     {
         startNodeSelector = new PlayerSelectorStateNode(this.player, () => true);

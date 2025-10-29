@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract partial class MovementCompoent : INodeManager
@@ -17,12 +18,15 @@ public abstract partial class MovementCompoent : INodeManager
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get ; set ; }
     public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
+    public List<INodeManager> parallelNodeManahger { get;set; }
+
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
         isOnUpdateEnable = true;
         this.transform = transform;
         this.userMovement = myMovement;
         nodeManagerBehavior = new NodeManagerBehavior();
+        parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
 

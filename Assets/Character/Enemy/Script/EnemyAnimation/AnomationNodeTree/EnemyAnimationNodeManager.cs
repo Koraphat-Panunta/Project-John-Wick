@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public partial class EnemyAnimationManager : INodeManager
@@ -8,7 +9,7 @@ public partial class EnemyAnimationManager : INodeManager
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     protected INodeLeaf curNodeLeaf { get; set; }
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
-
+    public List<INodeManager> parallelNodeManahger { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
     public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
@@ -46,6 +47,7 @@ public partial class EnemyAnimationManager : INodeManager
     public SetLayerAnimationNodeLeaf disableUpperLayer { get; set; }
     public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
 
+
     #endregion
 
     public void InitailizedNode()
@@ -53,6 +55,8 @@ public partial class EnemyAnimationManager : INodeManager
         InitializedUpperLayer();
         InitializedBaseLayer();
         InitializedNodeComponent();
+
+        parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
     }
     
     private void InitializedUpperLayer()
@@ -65,32 +69,32 @@ public partial class EnemyAnimationManager : INodeManager
                 rest_UpperLayerAnimation_NodeLeaf = new RestNodeLeaf(()=> true);
 
                 performReloadNodeSelector = new NodeSelector(() => isPerformReload);
-                reloadNodeLeaf = new PlayAnimationNodeLeaf(() => enemyWeaponManuver.GetCurNodeLeaf() is ReloadMagazineFullStageNodeLeaf
+                reloadNodeLeaf = new PlayAnimationNodeLeaf(() => enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
                 , animator, "ReloadMagazineFullStage", 1, 0.1f);
-                tacticalReloadNodeLeaf = new PlayAnimationNodeLeaf(() => enemyWeaponManuver.GetCurNodeLeaf() is TacticalReloadMagazineFullStageNodeLeaf
+                tacticalReloadNodeLeaf = new PlayAnimationNodeLeaf(() => enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
                 , animator, "TacticalReloadMagazineFullStage", 1, 0.1f);
 
                 drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);
                 drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-                    () => enemyWeaponManuver.GetCurNodeLeaf() is DrawPrimaryWeaponManuverNodeLeaf,
+                    () => enemyWeaponManuver.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
                     animator, "DrawPrimary", 1, .2f);
                 drawSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                   () => enemyWeaponManuver.GetCurNodeLeaf() is DrawSecondaryWeaponManuverNodeLeaf,
+                   () => enemyWeaponManuver.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
                    animator, "DrawSecondary", 1, .2f);
                 holsterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-                   () => enemyWeaponManuver.GetCurNodeLeaf() is HolsterPrimaryWeaponManuverNodeLeaf,
+                   () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>(),
                    animator, "HolsterPrimary", 1, .2f);
                 holsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.GetCurNodeLeaf() is HolsterSecondaryWeaponManuverNodeLeaf,
+                 () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>(),
                  animator, "HolsterSecondary", 1, .2f);
                 switchPrimaryToSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.GetCurNodeLeaf() is PrimaryToSecondarySwitchWeaponManuverLeafNode,
+                 () => enemyWeaponManuver.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>(),
                  animator, "SwitchWeaponPrimary -> Secondary", 1, .2f);
                 swtichSecondaryToPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.GetCurNodeLeaf() is SecondaryToPrimarySwitchWeaponManuverLeafNode,
+                 () => enemyWeaponManuver.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>(),
                  animator, "SwitchWeaponSecondary -> Primary", 1, .2f);
 
-                sprintManuverUpperNodeLeaf = new PlayAnimationNodeLeaf(() => enemyStateManager.GetCurNodeLeaf() is EnemySprintStateNodeLeaf
+                sprintManuverUpperNodeLeaf = new PlayAnimationNodeLeaf(() => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 , animator, "SprintWeaponSway", 0, .2f);
                 lowReady_ADS_WeaponManuverModeLeaf = new PlayAnimationNodeLeaf(() => true
                 , animator, "StandWeaponHand LowReady/ADS", 1, 0.2f);
@@ -122,21 +126,21 @@ public partial class EnemyAnimationManager : INodeManager
         startNodeSelector = new NodeSelector(() => true);
 
         enemySpinKick = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.GetCurNodeLeaf() is EnemySpinKickGunFuNodeLeaf
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
             , animator, "EnemySpinKick", 0, .15f);
-        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> enemyStateManager.GetCurNodeLeaf() is EnemyDodgeRollStateNodeLeaf
+        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
             , animator, "Dodge", 0, 0.2f);
         sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.GetCurNodeLeaf() is EnemySprintStateNodeLeaf
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
             , animator, "Sprint", 0, 0.25f);
         crouchBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.GetCurNodeLeaf() is EnemyCrouchIdleStateNodeLeaf 
-            || enemyStateManager.GetCurNodeLeaf() is EnemyCrouchMoveStateNodeLeaf
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() 
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
             , animator, "Crouch", 0, .2f);
         standMoveIdleBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.GetCurNodeLeaf() is EnemyStandIdleStateNodeLeaf 
-            || enemyStateManager.GetCurNodeLeaf() is EnemyStandMoveStateNodeLeaf
-            || enemyStateManager.GetCurNodeLeaf() is EnemyStandTakeAimStateNodeLeaf
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>()
             , animator, "Move/Idle", 0, .2f);
         rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
             () => true);
@@ -164,8 +168,8 @@ public partial class EnemyAnimationManager : INodeManager
             , animator, 1, 5f, 0);
 
         crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(enemy, 0.725f, 6,
-            () => enemyStateManager.GetCurNodeLeaf() is EnemyCrouchIdleStateNodeLeaf 
-            || enemyStateManager.GetCurNodeLeaf() is EnemyCrouchMoveStateNodeLeaf);
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
         layerUpperEnableDisableSelector.AddtoChildNode(enableUpperLayer);
         layerUpperEnableDisableSelector.AddtoChildNode(disableUpperLayer);

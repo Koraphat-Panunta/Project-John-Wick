@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NodeManagerPortable : INodeManager
@@ -7,6 +8,8 @@ public class NodeManagerPortable : INodeManager
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
+    public List<INodeManager> parallelNodeManahger { get; set ; }
+
     public RestNodeLeaf restNodeLeaf;
 
     public NodeManagerPortable()
@@ -14,6 +17,7 @@ public class NodeManagerPortable : INodeManager
         startNodeSelector = new NodeSelector(() => true);
 
         nodeManagerBehavior = new NodeManagerBehavior();
+        this.parallelNodeManahger = new List<INodeManager>();
     }
 
     public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);

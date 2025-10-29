@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class WeaponManuverManager : INodeManager
@@ -32,7 +33,7 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
     public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
-
+    public List<INodeManager> parallelNodeManahger { get ; set ; }
 
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
@@ -40,6 +41,7 @@ public abstract class WeaponManuverManager : INodeManager
         this.startNodeSelector = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);
 
         nodeManagerBehavior = new NodeManagerBehavior();
+        parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
     public abstract void InitailizedNode();

@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 public class GameManager : MonoBehaviour,INodeManager
 {
@@ -27,11 +28,13 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
     public DataBased dataBased { get; set; }
+    public List<INodeManager> parallelNodeManahger { get ; set ; }
 
     private void Awake()
     {
         soundTrackManager = GetComponent<SoundTrackManager>();
         nodeManagerBehavior = new NodeManagerBehavior();
+        this.parallelNodeManahger = new List<INodeManager>();
         Application.targetFrameRate = 60; // Match Editor
         QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
         dataBased = new DataBased();

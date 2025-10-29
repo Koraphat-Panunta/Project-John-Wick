@@ -6,6 +6,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 {
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public List<INodeManager> parallelNodeManahger { get; set; }
     public CameraController cameraController { get;protected set; }
     private Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject> cameraTPPC_ScriptableObject;
     private INodeManager playerStateManager => cameraController.player.playerStateNodeManager;
@@ -14,6 +15,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     {
         this.cameraController = cameraController;
         this.nodeManagerBehavior = new NodeManagerBehavior();
+        this.parallelNodeManahger = new List<INodeManager>();
         this.cameraTPPC_ScriptableObject = new Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject>();
 
         InitailizedNode();
@@ -43,6 +45,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraThirdPersonControllerViewNodeLeaf cameraCrouchAimDownSightNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+
+
     protected INodeLeaf curNodeLeaf;
 
     public void InitailizedNode()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static IPainStateAble;
@@ -8,6 +9,7 @@ public class EnemyStateManagerNode : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public List<INodeManager> parallelNodeManahger { get ; set ; }
     public NodeComponentManager enemyStateNodeComponentManager { get; set; }
     public Enemy enemy { get; protected set; }
     public EnemyStateManagerNode(Enemy enemy)
@@ -15,6 +17,7 @@ public class EnemyStateManagerNode : INodeManager
         this.enemy = enemy;
 
         nodeManagerBehavior = new NodeManagerBehavior();
+        parallelNodeManahger = new List<INodeManager>();
         enemyStateNodeComponentManager = new NodeComponentManager();
 
         InitailizedNode();
@@ -116,6 +119,7 @@ public class EnemyStateManagerNode : INodeManager
     //LegRight PainState LeafNode
     public HeavyPainStateRightLeg enemy_RightLeg_PainState_Heavy_NodeLeaf { get; private set; }
     public LightPainStateRightLeg enemy_RightLeg_PainState_Light_NodeLeaf { get; private set; }
+
 
     private void InitailizedPainStateNode()
     {

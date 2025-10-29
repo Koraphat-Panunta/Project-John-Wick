@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(Animator))]
 public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IInitializedAble
@@ -42,6 +43,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     {
         enemy.AddObserver(this);
         nodeManagerBehavior = new NodeManagerBehavior();
+        parallelNodeManahger = new List<INodeManager>();
 
         this.InitailizedNode();
     }
