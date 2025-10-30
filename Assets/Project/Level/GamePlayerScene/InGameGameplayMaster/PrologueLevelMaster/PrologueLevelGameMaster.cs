@@ -277,17 +277,17 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
     {
         EnemyWave[] enemyWaves = new EnemyWave[2];
 
-        enemyWaves[0] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves[0] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
         }
         , 3);
 
-        enemyWaves[1] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves[1] = new EnemyWave(() => enemyDirectirA3.allEnemiesAliveCount <= 1, new EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager,numberSpawn = 1 }
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager,numberSpawn = 1 }
         }, 3);
 
         enemyWaveManager1 = new EnemyWaveManager(player,this.enemySpawnPointRooms_A3, enemyDirectirA3);
@@ -296,58 +296,58 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster,IGameLevelMasterObs
 
         EnemyWave[] enemyWaves2 = new EnemyWave[8];
 
-        enemyWaves2[0] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]    
+        enemyWaves2[0] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyListSpawn[]    
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 },
         }
         , 1);
 
-        enemyWaves2[1] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[1] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 1 },
             
         }
         , 0);
 
-        enemyWaves2[2] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[2] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 1 }
         }
         , 1);
 
-        enemyWaves2[3] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 0, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[3] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 0, new EnemyListSpawn[]
         {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 }
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager,numberSpawn = 3 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 }
         }
         , 3);
-        enemyWaves2[4] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[4] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 2, new EnemyListSpawn[]
        {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 3 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
        }
        , 3);
-        enemyWaves2[5] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[5] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyListSpawn[]
        {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15_weaponObjectManager, numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
        }
        , 2);
-        enemyWaves2[6] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[6] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyListSpawn[]
        {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 3 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
+            new EnemyListSpawn{enemyObjectManager = this.enemy_ObjectManager, weaponObjectManager = this.glock17_weaponObjectManager, numberSpawn = 3 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 1 },
        }
        , 3);
-        enemyWaves2[7] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyWave.EnemyListSpawn[]
+        enemyWaves2[7] = new EnemyWave(() => enemyDirectirA5.allEnemiesAliveCount <= 1, new EnemyListSpawn[]
       {
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
-            new EnemyWave.EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 3 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMask_ObjectManager, weaponObjectManager = this.ar15Redot_weaponObjectManager, numberSpawn = 2 },
+            new EnemyListSpawn{enemyObjectManager = this.enemyMaskArmored_ObjectManager, weaponObjectManager = this.ar15TacticalScope_weaponObjectManager,numberSpawn = 3 },
       }
       , 3);
 

@@ -63,44 +63,44 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
 
             EnemyWave enemyWave1 = new EnemyWave(
                 () => true
-                , new EnemyWave.EnemyListSpawn[]
+                , new EnemyListSpawn[]
                 {
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4),
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4),
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
                 }
                 );
 
             EnemyWave enemyWave2 = new EnemyWave(
                 () => enemyWaveManager.numberOfEnemy <= 2
-                , new EnemyWave.EnemyListSpawn[]
+                , new EnemyListSpawn[]
                 {
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4)
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4)
                 }
                 , 2);
 
             EnemyWave enemyWave3 = new EnemyWave(
                () => enemyWaveManager.numberOfEnemy <= 2
-               , new EnemyWave.EnemyListSpawn[]
+               , new EnemyListSpawn[]
                {
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
                }
                , 2);
 
             EnemyWave enemyWave4 = new EnemyWave(
               () => enemyWaveManager.numberOfEnemy <= 0
-              , new EnemyWave.EnemyListSpawn[]
+              , new EnemyListSpawn[]
               {
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4)
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4)
               }
               , 5);
 
             EnemyWave enemyWave5 = new EnemyWave(
               () => enemyWaveManager.numberOfEnemy <= 2
-              , new EnemyWave.EnemyListSpawn[]
+              , new EnemyListSpawn[]
               {
-                    new EnemyWave.EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4),
+                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4),
               }
               , 3);
 

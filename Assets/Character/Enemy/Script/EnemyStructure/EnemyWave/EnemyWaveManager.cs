@@ -36,7 +36,7 @@ public class EnemyWaveManager : IObserverEnemy
             //SpawnEnemyList
             while(curWave.enemyListSpawn.Count > 0)
             {
-                EnemyWave.EnemyListSpawn enemyListSpawn = curWave.enemyListSpawn.Dequeue();
+                EnemyListSpawn enemyListSpawn = curWave.enemyListSpawn.Dequeue();
                 //SpawnEnemyNumber
                 for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
                 {

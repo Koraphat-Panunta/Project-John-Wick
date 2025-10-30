@@ -128,7 +128,8 @@ public partial class EnemyAnimationManager : INodeManager
         enemySpinKick = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
             , animator, "EnemySpinKick", 0, .15f);
-        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(()=> enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
+        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
             , animator, "Dodge", 0, 0.2f);
         sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()

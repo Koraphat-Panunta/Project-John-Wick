@@ -151,6 +151,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,2f));
         spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
+        enemyTestingCommands.Enqueue(freez_3s);//24
         enemyTestingCommands.Enqueue(dodge);//23
         enemyTestingCommands.Enqueue(crouch);//22
         enemyTestingCommands.Enqueue(moveToPos1);//21

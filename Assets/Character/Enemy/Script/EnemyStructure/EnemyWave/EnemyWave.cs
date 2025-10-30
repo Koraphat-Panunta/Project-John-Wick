@@ -5,19 +5,7 @@ using UnityEngine;
 public class EnemyWave 
 {
     public Queue<EnemyListSpawn> enemyListSpawn;
-    public struct EnemyListSpawn
-    {
-        public EnemyObjectManager enemyObjectManager;
-        public WeaponObjectManager weaponObjectManager;
-        public int numberSpawn;
-
-        public EnemyListSpawn(EnemyObjectManager enemyObjectManager,WeaponObjectManager weaponObjectManager,int numberSpawn)
-        {
-            this.enemyObjectManager = enemyObjectManager;
-            this.weaponObjectManager = weaponObjectManager;
-            this.numberSpawn = numberSpawn;
-        }
-    }
+    
     protected Func<bool> spawnCondition;
     protected float spawnDelay;
     public EnemyWave(Func<bool> spawnCondition, EnemyListSpawn[] enemyListSpawns) : this(spawnCondition,enemyListSpawns, 0)
