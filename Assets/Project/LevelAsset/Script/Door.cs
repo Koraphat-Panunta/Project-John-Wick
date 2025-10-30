@@ -51,7 +51,16 @@ public class Door : MonoBehaviour,I_Interactable
         if (doorTriggerEvent != null)
             doorTriggerEvent.Invoke(this);
     }
+    public void DoInteract()
+    {
+        if (isLocked)
+            return;
 
+        if (isOpen)
+            Close();
+        else
+            Open();
+    }
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
         if(isLocked)

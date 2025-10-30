@@ -1,13 +1,20 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
+using UnityEngine.Events;
 
 [RequireComponent (typeof(BoxCollider))]
 public class TriggerBox : MonoBehaviour
 {
     [SerializeField] private BoxCollider boxCollider;
-   
+
+    [SerializeField] private UnityEvent onTriggerEventEnterOnce;
+    [SerializeField] private UnityEvent onTriggerEventEnter;
+    [SerializeField] private UnityEvent onStayEvent;
+    [SerializeField] private UnityEvent onTriggerEventExitOnce;
+    [SerializeField] private UnityEvent onTriggerEventExit;
+
     public Action<Collider,TriggerBox> onTriggerBoxEnterEvent { get; protected set; }
     public void AddTriggerBoxEvent(Action<Collider, TriggerBox> actionEvent)
     {
@@ -21,8 +28,32 @@ public class TriggerBox : MonoBehaviour
     {
         if (onTriggerBoxEnterEvent != null)
             onTriggerBoxEnterEvent.Invoke(other,this);
+
+        if(onTriggerEventEnterOnce != null)
+        {
+            onTriggerEventEnterOnce.Invoke();
+            onTriggerEventEnterOnce = null;
+        }
+
+        if(onTriggerEventEnter != null)
+            onTriggerEventEnter.Invoke();
     }
-    
+    private void OnTriggerStay(Collider other)
+    {
+        if (onStayEvent != null)
+            this.onStayEvent.Invoke();
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (onTriggerEventExitOnce != null)
+        {
+            onTriggerEventExitOnce.Invoke();
+            onTriggerEventExitOnce = null;
+        }
+
+        if (onTriggerEventExit != null)
+            onTriggerEventExit.Invoke();
+    }
     private void OnValidate()
     {
         if (this.boxCollider == null)
