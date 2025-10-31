@@ -16,6 +16,8 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     protected bool isCompleteLoad = false;
 
+    public bool isComplete { get; protected set; }
+
     public Dictionary<Func<bool>, Action> gameMasterEvent = new Dictionary<Func<bool>, Action>();
     public IEnumerator DelaySceneLoaded()
     {
@@ -26,10 +28,10 @@ public abstract class InGameLevelGameMaster : GameMaster
 
     public override void Initialized()
     {
+        isComplete = false;
         base.Initialized();
     }
 
-   
     protected virtual void Start()
     {
         StartCoroutine(DelaySceneLoaded());
@@ -65,6 +67,10 @@ public abstract class InGameLevelGameMaster : GameMaster
             gameLevelMasterObserver.OnNotify(inGameLevelGameMaster,var);
         }
     }
+    public void CompleteLevel()
+    {
+        this.isComplete = true;
+    }
     protected virtual void OnValidate()
     {
         user = FindAnyObjectByType<User>();
@@ -73,24 +79,6 @@ public abstract class InGameLevelGameMaster : GameMaster
 
      
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
-    }
-
-
-    protected void UpdateingEvent()
-    {
-        if(gameMasterEvent == null || gameMasterEvent.Count <=0)
-            return;
-
-        List<Func<bool>> preConditionEvent = gameMasterEvent.Keys.ToList();
-
-        for (int i = 0; i < preConditionEvent.Count; i++)
-        {
-            if (preConditionEvent[i].Invoke() == true)
-            {
-                gameMasterEvent[preConditionEvent[i]].Invoke();
-                gameMasterEvent.Remove(preConditionEvent[i]);
-            }
-        }
     }
 
 }

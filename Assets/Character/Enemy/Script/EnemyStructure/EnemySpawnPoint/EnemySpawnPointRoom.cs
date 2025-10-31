@@ -3,17 +3,17 @@ using System;
 using UnityEngine;
 using System.Linq;
 
-public class EnemySpawnPointRoom : EnemySpawnerPoint
+public class EnemySpawnPointRoom : EnemySpawnerPoint,IInitializedAble
 {
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform exitPoint;
     [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy;
     [SerializeField] Door door;
 
-    public override void Initialized()
+    public  void Initialized()
     {
         spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI>();
-        base.Initialized();
+
     }
   
     protected virtual void Update()
@@ -26,7 +26,8 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
         for(int i = 0; i < enemies.Count; i++)
         {
           
-            if (spawnedEnemy[enemies[i]].MoveToPositionRotateToward(exitPoint.position, 1, 1))
+            if (spawnedEnemy[enemies[i]].MoveToPositionRotateToward(exitPoint.position, 1, 1)
+                || enemies[i].isDead)
             {
                 spawnedEnemy[enemies[i]].GetComponent<EnemyDecision>().enabled = true;
                 spawnedEnemy.Remove(enemies[i]);
@@ -40,17 +41,16 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     public override Vector3 spawnPosition { get => spawnPoint.position; protected set => spawnPoint.position = value; }
     public override Quaternion spawnRotiation { get => spawnPoint.rotation; protected set => spawnPoint.rotation = value; }
 
-    public override bool SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager,out Enemy enemy)
+    public override Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager)
     {
-        if(base.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, out enemy))
-        {
-            spawnedEnemy.Add(enemy,enemy.GetComponent<EnemyCommandAPI>());
-            enemy.GetComponent<EnemyDecision>().enabled = false;
-            door.Open();
-            return true;
-        }
-        return false;
+        Enemy enemy = base.SpawnEnemy(enemyObjectManager);
+        spawnedEnemy.Add(enemy, enemy.GetComponent<EnemyCommandAPI>());
+        enemy.GetComponent<EnemyDecision>().enabled = false;
+        door.Open();
+
+        return enemy;
     }
+   
 
   
 }

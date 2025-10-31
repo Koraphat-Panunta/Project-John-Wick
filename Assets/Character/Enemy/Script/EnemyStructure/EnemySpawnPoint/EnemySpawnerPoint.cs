@@ -1,57 +1,37 @@
 using System;
 using UnityEngine;
 
-public class EnemySpawnerPoint : MonoBehaviour,IInitializedAble
+public class EnemySpawnerPoint : MonoBehaviour
 {
 
     public virtual Vector3 spawnPosition { get => transform.position; protected set { } }
     public virtual Quaternion spawnRotiation { get => transform.rotation; protected set { } }
-    public Func<bool> preCondition { get; protected set; }
-    public virtual void Initialized()
-    {
-        preCondition = () => true;
-    }
+
    
-    public void SetPrecondition(Func<bool> preCondition)=> this.preCondition = preCondition;
-
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager,EnemyDirector enemyDirector,WeaponObjectManager weaponObjectManager,out Enemy enemy)
+    public virtual Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager)
     {
-        enemy = null;
-        if(preCondition.Invoke() == false)
-            return false;
+        Enemy enemy = this.SpawnEnemy(enemyObjectManager, weaponObjectManager);
 
+        if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision))
+            enemyDirector.AddEnemy(enemyRoleBasedDecision);
+        else
+            throw new Exception("Can not get enemyRoleBasedDicision " + enemy);
 
+        return enemy;
+    }
+    public virtual Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager)
+    {
 
-        enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation, enemyDirector);
-
+        Enemy enemy = this.SpawnEnemy(enemyObjectManager);
         Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
-        return true;
+        return enemy;
     }
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager)
+    public virtual Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager)
     {
-        return this.SpawnEnemy(enemyObjectManager, enemyDirector, weaponObjectManager, out Enemy enemy); ;
-    }
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager, WeaponObjectManager weaponObjectManager)
-    {
-        if (preCondition.Invoke() == false)
-            return false;
+        Enemy enemy = enemyObjectManager.GetEnemy(this.spawnPosition, this.spawnRotiation);
+        return enemy;
 
-
-
-        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
-        Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
-
-        return true;
-    }
-    public virtual bool SpawnEnemy(EnemyObjectManager enemyObjectManager)
-    {
-        if (preCondition.Invoke() == false)
-            return false;
-
-        Enemy enemy = enemyObjectManager.SpawnEnemy(this.spawnPosition, this.spawnRotiation);
-
-        return true;
     }
     private void OnDrawGizmos()
     {

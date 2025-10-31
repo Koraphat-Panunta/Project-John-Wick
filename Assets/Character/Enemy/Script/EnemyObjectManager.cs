@@ -2,41 +2,27 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyObjectManager:IObserverEnemy
+public class EnemyObjectManager: MonoBehaviour ,IInitializedAble,IObserverEnemy
 {
-    private Camera mainCamera;
-    private Enemy enemyPrefab;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Enemy enemyPrefab;
     protected ObjectPooling<Enemy> enemyObjPooling;
     public Dictionary<Enemy, float> clearEnemyList { get; protected set; }
 
-    protected readonly int corpseDisapearTime = 5;
-    protected readonly int corpseDisapearDistance = 6;
+    [SerializeField] protected readonly int corpseDisapearTime = 5;
+    [SerializeField] protected readonly int corpseDisapearDistance = 6;
 
-    public EnemyObjectManager(Enemy enemy, Camera mainCamera):this(enemy,mainCamera,6,30)
+    [SerializeField] private int initializedSNumber = 6;
+    [SerializeField] private int maxPoolNumber = 30;
+   
+    public void Initialized()
     {
-       
-    }
-    public EnemyObjectManager(Enemy enemy, Camera mainCamera, int initialPoolSize, int maxPoolSize)
-    {
-        this.enemyPrefab = enemy;
-        this.mainCamera = mainCamera;
-        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab, initialPoolSize, maxPoolSize, Vector3.zero);
+      
+        enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab,this.maxPoolNumber ,this.initializedSNumber , Vector3.zero);
         clearEnemyList = new Dictionary<Enemy, float>();
     }
 
-    public Enemy SpawnEnemy(Vector3 position, Quaternion rotation, EnemyDirector enemyDirector)
-    {
-        Enemy enemy = this.SpawnEnemy(position, rotation);
-
-        if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision) && enemyDirector != null)
-        {
-            enemyDirector.AddEnemy(enemyRoleBasedDecision);
-
-        }
-
-        return enemy;
-    }
-    public Enemy SpawnEnemy(Vector3 position, Quaternion rotation)
+    public Enemy GetEnemy(Vector3 position, Quaternion rotation)
     {
         Enemy enemy = this.enemyObjPooling.Get(position,rotation);
         enemy.AddObserver(this);
@@ -52,15 +38,21 @@ public class EnemyObjectManager:IObserverEnemy
 
     float checkTimer = 0f;
     float checkInterval = 0.25f;
-    public void ClearCorpseEnemyUpdate()
+    private void LateUpdate()
     {
         checkTimer += Time.deltaTime;
 
-        if(checkTimer < checkInterval)
+        if (checkTimer < checkInterval)
             return;
+        checkTimer = 0f;
+
+        this.ClearCorpseEnemyUpdate();
+    }
+    private void ClearCorpseEnemyUpdate()
+    {
 
 
-        if(clearEnemyList.Count > 0)
+        if (clearEnemyList.Count > 0)
         {
             List<Enemy> enemies = clearEnemyList.Keys.ToList();
             foreach (Enemy enemy in enemies)
@@ -90,10 +82,8 @@ public class EnemyObjectManager:IObserverEnemy
             }
         }
 
-        checkTimer = 0f;
-    }
 
-    
+    }
 
     public void Notify<T>(Enemy enemy, T node) 
     {
@@ -101,6 +91,18 @@ public class EnemyObjectManager:IObserverEnemy
         {
             clearEnemyList.Add(enemy, 0);
             enemy.RemoveObserver(this);
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (this.enemyPrefab == null)
+        {
+            throw new System.Exception("Please Set EnemyPrefab Initialized " + this);
+        }
+        if(this.mainCamera == null)
+        {
+            this.mainCamera = FindAnyObjectByType<Camera>();
         }
     }
 }

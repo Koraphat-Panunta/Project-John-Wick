@@ -1,25 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class EnemyWaveManager : IObserverEnemy
+public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     public Queue<EnemyWave> enemyWaves;
     public EnemyWave curWave;
-    public List<Enemy> enemies;
+    [SerializeField] public List<Enemy> enemies;
     public int numberOfEnemy => enemies.Count;
-    public Player player;
+    [SerializeField] public Player player;
 
-    public EnemySpawnerPoint[] enemySpawnerPoints;
-    public EnemyDirector enemyDirector;
+    [SerializeField] public EnemySpawnerPoint[] enemySpawnerPoints;
+    [SerializeField] public EnemyDirector enemyDirector;
 
     public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
-    public EnemyWaveManager(Player player, EnemySpawnerPoint[] enemySpawnerPoints,EnemyDirector enemyDirector)
+    public void Initialized()
     {
         enemyWaves = new Queue<EnemyWave>();
         enemies = new List<Enemy>();
-        this.enemySpawnerPoints = enemySpawnerPoints;
-        this.player = player;
-        this.enemyDirector = enemyDirector;
     }
+    
     public void AddEnemyWave(EnemyWave enemyWave)
     {
         this.enemyWaves.Enqueue(enemyWave);
@@ -29,18 +27,19 @@ public class EnemyWaveManager : IObserverEnemy
         if(enemyWaves.Count <= 0)
             return;
 
-        if (enemyWaves.Peek().IsSpawnAble())
+        if (enemyWaves.Peek().IsSpawnAble(this.numberOfEnemy))
         {
             curWave = enemyWaves.Dequeue();
             EnemySpawnerPoint enemySpawnerPoint = GetSelectedEnemySpawnerPoint();
             //SpawnEnemyList
             while(curWave.enemyListSpawn.Count > 0)
             {
-                EnemyListSpawn enemyListSpawn = curWave.enemyListSpawn.Dequeue();
+                EnemyDetailSpawn enemyListSpawn = curWave.enemyListSpawn[0];
+                curWave.enemyListSpawn.RemoveAt(0);
                 //SpawnEnemyNumber
                 for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
                 {
-                    enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager, out Enemy spawnedEnemy);
+                    Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager);
                     spawnedEnemy.AddObserver(this);
                     spawnedEnemy.targetKnewPos = player.transform.position;
 
@@ -55,8 +54,6 @@ public class EnemyWaveManager : IObserverEnemy
         }
         
     }
-
-
     private EnemySpawnerPoint GetSelectedEnemySpawnerPoint()
     {
         EnemySpawnerPoint selectedSpawnPoint = null;
@@ -69,23 +66,19 @@ public class EnemyWaveManager : IObserverEnemy
                     selectedSpawnPoint = enemySpawnerPoints[i];
                     break;
                 }
-
-                if (enemySpawnerPoints[i].preCondition.Invoke())
-                    selectedSpawnPoint = enemySpawnerPoints[i];
+                
+                selectedSpawnPoint = enemySpawnerPoints[i];
                 continue;
             }
 
 
-            if (enemySpawnerPoints[i].preCondition.Invoke()
-                && Vector3.Distance(player.transform.position, enemySpawnerPoints[i].transform.position)
+            if (Vector3.Distance(player.transform.position, enemySpawnerPoints[i].transform.position)
                 > Vector3.Distance(player.transform.position, selectedSpawnPoint.transform.position))
                 selectedSpawnPoint = enemySpawnerPoints[i];
         }
         return selectedSpawnPoint;
     }
    
- 
-
     public void Notify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)
@@ -94,5 +87,11 @@ public class EnemyWaveManager : IObserverEnemy
             enemy.RemoveObserver(this);
         }
     }
+    private void OnValidate()
+    {
+        if (this.player == null)
+            this.player = FindAnyObjectByType<Player>();
+    }
+
 }
 

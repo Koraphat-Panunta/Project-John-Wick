@@ -3,24 +3,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class WeaponObjectManager 
+public class WeaponObjectManager : MonoBehaviour , IInitializedAble
 {
-    private Camera mainCamera;
-    private Weapon weaponPrefab;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Weapon weaponPrefab;
     protected ObjectPooling<Weapon> weaponObjPooling;
     public Dictionary<Weapon, float> clearWeaponList { get; protected set; }
 
     protected readonly int weaponDisapearTime = 10;
     protected readonly int weaponDisapearDistance = 6;
-
-    public WeaponObjectManager(Weapon weapon, Camera mainCamera)
+    public void Initialized()
     {
-
-        this.weaponPrefab = weapon;
-        this.mainCamera = mainCamera;
-
         weaponObjPooling = new ObjectPooling<Weapon>(this.weaponPrefab, 10, 2, Vector3.zero);
-
         clearWeaponList = new Dictionary<Weapon, float>();
     }
 
@@ -49,15 +43,21 @@ public class WeaponObjectManager
 
     float checkTimer = 0f;
     float checkInterval = 1f;
-
-    public void ClearWeaponUpdate()
+    private void LateUpdate()
     {
         checkTimer += Time.deltaTime;
 
         if (checkTimer < checkInterval)
             return;
 
-        if(clearWeaponList.Count > 0)
+        checkTimer = 0f;
+
+        this.ClearWeaponUpdate();
+    }
+    
+    private void ClearWeaponUpdate()
+    {
+        if (clearWeaponList.Count > 0)
         {
             List<Weapon> weapons = clearWeaponList.Keys.ToList();
             foreach (Weapon weapon in weapons)
@@ -82,8 +82,11 @@ public class WeaponObjectManager
                     clearWeaponList[weapon] = 0;
             }
         }
+    }
 
-        checkTimer = 0f;
-
+    private void OnValidate()
+    {
+        if(this.mainCamera == null)
+            this.mainCamera = FindAnyObjectByType<Camera>();
     }
 }

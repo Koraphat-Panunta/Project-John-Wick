@@ -10,6 +10,8 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private EnemyDirector enemyDirector;
     [SerializeField] private Enemy enemyMK1;
 
+    [SerializeField] private List<EnemyWave> enemyWaves;
+
     public EnemySpawnPointRoom[] enemySpawnPointRoomWave;
     public EnemyObjectManager enemyObjectManager { get; set; }
     public Weapon ar15_MK1_origin;
@@ -22,11 +24,7 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     public override void Initialized()
     {
-        enemyObjectManager = new EnemyObjectManager(enemyMK1, cameraController.cameraMain);
 
-        ar15_MK1_weaponObjManager = new WeaponObjectManager(ar15_MK1_origin, cameraController.cameraMain);
-
-        glock17_MK1_weaponobjManager = new WeaponObjectManager(glock17_MK1_origin, cameraController.cameraMain);
 
         this.thirdPersonCinemachineCamera = cameraController.thirdPersonCinemachineCamera;
 
@@ -50,65 +48,14 @@ public class TemplateSceneInGameLevelGameMaster : InGameLevelGameMaster
         musicVolume = dataBased.settingData.volumeMusic;
         sfxVolume = dataBased.settingData.volumeEffect;
 
-        enemyObjectManager.ClearCorpseEnemyUpdate();
-        ar15_MK1_weaponObjManager.ClearWeaponUpdate();
-        glock17_MK1_weaponobjManager.ClearWeaponUpdate();
+ 
     }
     private class TemplateSceneInGameLevel_Gameplay_Nodeleaf : InGameLevelGamplayGameMasterNodeLeaf<TemplateSceneInGameLevelGameMaster>
     {
-        public EnemyWaveManager enemyWaveManager { get; set; }
+
         public TemplateSceneInGameLevel_Gameplay_Nodeleaf(TemplateSceneInGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
         {
-            enemyWaveManager = new EnemyWaveManager(gameMaster.player, gameMaster.enemySpawnPointRoomWave, gameMaster.enemyDirector);
-
-            EnemyWave enemyWave1 = new EnemyWave(
-                () => true
-                , new EnemyListSpawn[]
-                {
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4),
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
-                }
-                );
-
-            EnemyWave enemyWave2 = new EnemyWave(
-                () => enemyWaveManager.numberOfEnemy <= 2
-                , new EnemyListSpawn[]
-                {
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,4)
-                }
-                , 2);
-
-            EnemyWave enemyWave3 = new EnemyWave(
-               () => enemyWaveManager.numberOfEnemy <= 2
-               , new EnemyListSpawn[]
-               {
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,2)
-               }
-               , 2);
-
-            EnemyWave enemyWave4 = new EnemyWave(
-              () => enemyWaveManager.numberOfEnemy <= 0
-              , new EnemyListSpawn[]
-              {
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.glock17_MK1_weaponobjManager,2),
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4)
-              }
-              , 5);
-
-            EnemyWave enemyWave5 = new EnemyWave(
-              () => enemyWaveManager.numberOfEnemy <= 2
-              , new EnemyListSpawn[]
-              {
-                    new EnemyListSpawn(gameMaster.enemyObjectManager,gameMaster.ar15_MK1_weaponObjManager,4),
-              }
-              , 3);
-
-            enemyWaveManager.AddEnemyWave(enemyWave1);
-            enemyWaveManager.AddEnemyWave(enemyWave2);
-            enemyWaveManager.AddEnemyWave(enemyWave3);
-            enemyWaveManager.AddEnemyWave(enemyWave4);
-            enemyWaveManager.AddEnemyWave(enemyWave5);
+            
         }
         public override void Enter()
         {

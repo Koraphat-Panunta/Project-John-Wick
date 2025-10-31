@@ -7,7 +7,8 @@ public class Door : MonoBehaviour,I_Interactable
     public virtual bool isOpen { get; private set; }
     public virtual Collider _collider { get => this.collider; set => this.collider = value; }
     [SerializeField]  private Collider collider;
-    public virtual bool isBeenInteractAble { get ; set ; }
+    public virtual bool isBeenInteractAble { get => isInteractAble; set => isInteractAble = value; }
+    [SerializeField] private bool isInteractAble;
     [SerializeField] protected bool lockedValue;
     public virtual bool isLocked { 
         get 
@@ -26,10 +27,7 @@ public class Door : MonoBehaviour,I_Interactable
     }
     public Transform _transform { get => transform; set {} }
 
-    private void Awake()
-    {
-        isBeenInteractAble = true;
-    }
+    
     public Action<Door> doorTriggerEvent;
     public void Open()
     {

@@ -2,34 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class EnemyWave 
 {
-    public Queue<EnemyListSpawn> enemyListSpawn;
-    
-    protected Func<bool> spawnCondition;
-    protected float spawnDelay;
-    public EnemyWave(Func<bool> spawnCondition, EnemyListSpawn[] enemyListSpawns) : this(spawnCondition,enemyListSpawns, 0)
+    public List<EnemyDetailSpawn> enemyListSpawn;
+    [SerializeField] protected int enemyRemainStartSpawn;
+    [SerializeField] protected float spawnDelay;
+   
+    public bool IsSpawnAble(int enemiesRemain)
     {
+        if(enemiesRemain > this.enemyRemainStartSpawn)
+            return false;
 
-    }
-    public EnemyWave(Func<bool> spawnCondition, EnemyListSpawn[] enemyListSpawns, float spawnDelay)
-    {
-        this.spawnCondition = spawnCondition;
-        this.spawnDelay = spawnDelay;
-        enemyListSpawn = new Queue<EnemyListSpawn>();
-        for (int i = 0; i < enemyListSpawns.Length; i++) 
-        {
-            enemyListSpawn.Enqueue(enemyListSpawns[i]);
-        }
-    }
-    public bool IsSpawnAble()
-    {
-        if (spawnCondition.Invoke())
-        {
-            if(this.spawnDelay <= 0)
-                return true;
-            this.spawnDelay -= Time.deltaTime;
-        }
+        if (this.spawnDelay <= 0)
+            return true;
+        this.spawnDelay -= Time.deltaTime;
 
         return false;
     }
