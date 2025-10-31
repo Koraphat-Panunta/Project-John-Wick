@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Door : MonoBehaviour,I_Interactable
 {
@@ -38,6 +39,8 @@ public class Door : MonoBehaviour,I_Interactable
         isOpen = true;
         if (doorTriggerEvent != null)
             doorTriggerEvent.Invoke(this);
+
+        this.NotifyObserver();
     }
     public void Close()
     {
@@ -48,6 +51,8 @@ public class Door : MonoBehaviour,I_Interactable
         isOpen = false;
         if (doorTriggerEvent != null)
             doorTriggerEvent.Invoke(this);
+
+        this.NotifyObserver();
     }
     public void DoInteract()
     {
@@ -69,4 +74,27 @@ public class Door : MonoBehaviour,I_Interactable
         else
             Open();
     }
+    protected List<IObserverDoor> observerDoors = new List<IObserverDoor>();
+    public void AddOberver(IObserverDoor observerDoor)
+    {
+        this.observerDoors.Add(observerDoor);
+    }
+    public void RemoveOberver(IObserverDoor removedObserver) 
+    {
+        this.observerDoors.Remove(removedObserver);
+    }
+    public void NotifyObserver()
+    {
+        if(this.observerDoors.Count <= 0)
+            return;
+
+        for (int i = 0; i < this.observerDoors.Count; i++) 
+        {
+            this.observerDoors[i].OnNotify(this);
+        }
+    }
+}
+public interface IObserverDoor
+{
+    public void OnNotify(Door door);
 }
