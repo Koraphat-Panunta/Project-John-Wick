@@ -72,7 +72,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8030223635156811614}
   - component: {fileID: 4992368927155334122}
-  - component: {fileID: 928416637512673988}
   m_Layer: 0
   m_Name: EnemySpawnRoom
   m_TagString: Untagged
@@ -118,21 +117,6 @@ MonoBehaviour:
   spawnPoint: {fileID: 3537207572648683325}
   exitPoint: {fileID: 5243226825167046032}
   door: {fileID: 584584830556503779}
---- !u!114 &928416637512673988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7289179269589354689}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa8eaaf843e5a04baf1a5216c652af8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initializedComponent:
-  - {fileID: 4992368927155334122}
-  initializedOrder: 5
 --- !u!1001 &44818298859578265
 PrefabInstance:
   m_ObjectHideFlags: 0

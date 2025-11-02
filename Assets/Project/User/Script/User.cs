@@ -33,4 +33,5 @@ public class User : MonoBehaviour,IInitializedAble
         userInput = new UserInput();
         EnableInput();
     }
+
 }

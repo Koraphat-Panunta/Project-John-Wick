@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
-    public Queue<EnemyWave> enemyWaves;
+    [SerializeField] protected List<EnemyWave> enemyWaves;
     public EnemyWave curWave;
     [SerializeField] public List<Enemy> enemies;
     public int numberOfEnemy => enemies.Count;
@@ -12,24 +12,31 @@ public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
     [SerializeField] public EnemyDirector enemyDirector;
 
     public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
+
+    [SerializeField] private bool isStartWave;
+
     public void Initialized()
     {
-        enemyWaves = new Queue<EnemyWave>();
         enemies = new List<Enemy>();
+        this.isStartWave = false;
     }
-    
-    public void AddEnemyWave(EnemyWave enemyWave)
+    private void Update()
     {
-        this.enemyWaves.Enqueue(enemyWave);
+        this.EnemyWaveUpdate();
     }
-    public void EnemyWaveUpdate()
+    private void EnemyWaveUpdate()
     {
+        if(isStartWave == false)
+            return;
+
         if(enemyWaves.Count <= 0)
             return;
 
-        if (enemyWaves.Peek().IsSpawnAble(this.numberOfEnemy))
+        if (enemyWaves[0].IsSpawnAble(this.numberOfEnemy))
         {
-            curWave = enemyWaves.Dequeue();
+            curWave = enemyWaves[0];
+            enemyWaves.RemoveAt(0);
+
             EnemySpawnerPoint enemySpawnerPoint = GetSelectedEnemySpawnerPoint();
             //SpawnEnemyList
             while(curWave.enemyListSpawn.Count > 0)
@@ -79,6 +86,10 @@ public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
         return selectedSpawnPoint;
     }
    
+    public void StartWave()
+    {
+        this.isStartWave = true;
+    }
     public void Notify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)

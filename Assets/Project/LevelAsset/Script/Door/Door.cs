@@ -11,6 +11,8 @@ public class Door : MonoBehaviour,I_Interactable
     public virtual bool isBeenInteractAble { get => isInteractAble; set => isInteractAble = value; }
     [SerializeField] private bool isInteractAble;
     [SerializeField] protected bool lockedValue;
+    [SerializeField] private Transform referenceInteractAbleTransform;
+    public Transform _transform { get => referenceInteractAbleTransform; set { } }
     public virtual bool isLocked { 
         get 
         {
@@ -26,10 +28,10 @@ public class Door : MonoBehaviour,I_Interactable
             lockedValue = value; 
         } 
     }
-    public Transform _transform { get => transform; set {} }
+
 
     
-    public Action<Door> doorTriggerEvent;
+
     public void Open()
     {
         if(isOpen)
@@ -37,8 +39,7 @@ public class Door : MonoBehaviour,I_Interactable
 
         animator.SetTrigger("DoorTrigger");
         isOpen = true;
-        if (doorTriggerEvent != null)
-            doorTriggerEvent.Invoke(this);
+       
 
         this.NotifyObserver();
     }
@@ -49,8 +50,7 @@ public class Door : MonoBehaviour,I_Interactable
 
         animator.SetTrigger("DoorTrigger");
         isOpen = false;
-        if (doorTriggerEvent != null)
-            doorTriggerEvent.Invoke(this);
+       
 
         this.NotifyObserver();
     }

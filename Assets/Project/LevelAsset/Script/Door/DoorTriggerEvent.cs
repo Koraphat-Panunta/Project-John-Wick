@@ -1,15 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class DoorTriggerEvent : MonoBehaviour, IInitializedAble,IObserverDoor
+public class DoorTriggerEvent : MonoBehaviour,IObserverDoor
 {
     [SerializeField] private Door door;
-
-    public void Initialized()
+    private void Awake()
     {
         this.door.AddOberver(this);
     }
-
+  
     [SerializeField] UnityEvent OnDoor_Open_TriggerEventOnce;
     [SerializeField] UnityEvent OnDoor_Close_TriggerEventOnce;
     [SerializeField] UnityEvent OnDoor_Open_TriggerEvent;

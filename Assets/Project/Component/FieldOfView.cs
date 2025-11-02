@@ -123,6 +123,7 @@ public class FieldOfView
         foreach (Collider target in hits)
         {
             Vector3 toTarget = (target.transform.position - viewOrigin.position).normalized;
+
             if (inViewOnly && Vector3.Angle(viewOrigin.forward, toTarget) > angleInDegrees / 2f)
                 continue;
 

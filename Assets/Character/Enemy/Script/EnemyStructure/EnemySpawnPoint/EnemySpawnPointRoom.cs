@@ -3,18 +3,13 @@ using System;
 using UnityEngine;
 using System.Linq;
 
-public class EnemySpawnPointRoom : EnemySpawnerPoint,IInitializedAble
+public class EnemySpawnPointRoom : EnemySpawnerPoint
 {
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform exitPoint;
-    [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy;
+    [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI> ();
     [SerializeField] Door door;
 
-    public  void Initialized()
-    {
-        spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI>();
-
-    }
   
     protected virtual void Update()
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 {
@@ -13,12 +14,14 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     protected Dictionary<I_Interactable, InWorldUI> assignInWorldInteractable;
     protected I_Interacter interacter;
     protected Vector3 offset;
+
+    protected virtual float searchRadius { get => 7.5f; }
     public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask,Vector3 offset) : base(preCondition)
     {
         this.interacter = i_Interacter;
         this.inWorldUI = inWorldUI;
         this.camera = camera;
-        this.fieldOfView = new FieldOfView(7.5f,camera.fieldOfView,camera.transform);
+        this.fieldOfView = new FieldOfView(searchRadius, camera.fieldOfView,camera.transform);
         this.objectPooling = new ObjectPooling<InWorldUI>(this.inWorldUI,12,5,camera.transform.position);
         this.assignInWorldInteractable = new Dictionary<I_Interactable, InWorldUI>();
         this.interactableMask = interactAbleMask;
@@ -41,14 +44,11 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
         this.UpdateInteractableDetected();
         base.FixedUpdateNode();
     }
-    private void UpdateInteractableDetected()
+    protected virtual void UpdateInteractableDetected()
     {
         List<I_Interactable> interactableDetected = new List<I_Interactable>();
-        foreach(GameObject obj in fieldOfView.FindMultipleTargetsInView(interactableMask,QueryTriggerInteraction.Collide))
+        foreach(I_Interactable i_Interactable in FindInteractAbleObject())
         {
-            if(obj.TryGetComponent<I_Interactable>(out I_Interactable i_Interactable) == false)
-                continue;
-
             if(interactableDetected.Contains(i_Interactable))
                 continue;
 
@@ -119,6 +119,35 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
                 assignInWorldInteractable[interactables[i]].PlayAnimation("PointingAppear");
             }
         }
+    }
+    protected List<I_Interactable> FindInteractAbleObject()
+    {
+        List<I_Interactable> i_Interactables = new List<I_Interactable>();
+
+
+        Collider[] hits = Physics.OverlapSphere(camera.transform.position, searchRadius, interactableMask.value, QueryTriggerInteraction.Collide);
+
+        if (hits.Length == 0) 
+            return i_Interactables;
+
+
+        foreach (Collider target in hits)
+        {
+            if (target.TryGetComponent<I_Interactable>(out I_Interactable interactAbleObject) == false)
+                continue;
+
+            Vector3 toTarget = (interactAbleObject._transform.position - camera.transform.position).normalized;
+
+            if ( Vector3.Angle(camera.transform.forward, toTarget) > camera.fieldOfView / 2f)
+                continue;
+
+            if (Physics.Raycast(camera.transform.position, toTarget, out RaycastHit hit, searchRadius, LayerMask.GetMask("Default") | interactableMask.value, QueryTriggerInteraction.Collide))
+            {
+                if (hit.collider.gameObject == target.gameObject)
+                    i_Interactables.Add(interactAbleObject);
+            }
+        }
+        return i_Interactables;
     }
 
 }

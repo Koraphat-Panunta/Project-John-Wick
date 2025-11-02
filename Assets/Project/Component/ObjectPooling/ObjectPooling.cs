@@ -7,7 +7,11 @@ public class ObjectPooling<T> where T : Component
     public Queue<T> pool { get; protected set; }
     public int poolMaxSize { get; protected set; }
     public Vector3 voidPos { get; protected set; }
-    public ObjectPooling(T prefab,int poolMaxSize,int initiateSize,Vector3 voidPos)
+    public ObjectPooling(T prefab,int poolMaxSize,int initiateSize,Vector3 voidPos) : this(prefab,poolMaxSize,initiateSize,voidPos,null)
+    {
+       
+    }
+    public ObjectPooling(T prefab, int poolMaxSize, int initiateSize, Vector3 voidPos,Transform underGameObejct)
     {
         this.prefab = prefab;
         this.poolMaxSize = poolMaxSize;
@@ -15,10 +19,10 @@ public class ObjectPooling<T> where T : Component
 
         pool = new Queue<T>();
 
-        for (int i = 0; i < initiateSize; i++) 
+        for (int i = 0; i < initiateSize; i++)
         {
 
-            T obj = GameObject.Instantiate(prefab,this.voidPos,Quaternion.identity);
+            T obj = GameObject.Instantiate(prefab, this.voidPos, Quaternion.identity, underGameObejct);
             if (obj.TryGetComponent<Initialization>(out Initialization initialization))
                 initialization.Initialized();
             pool.Enqueue(obj);

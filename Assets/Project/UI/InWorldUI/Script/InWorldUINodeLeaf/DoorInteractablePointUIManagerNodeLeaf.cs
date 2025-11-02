@@ -7,6 +7,7 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
     public DoorInteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera, I_Interacter i_Interacter, LayerMask interactAbleMask,Vector3 offset) : base(preCondition, inWorldUI, camera, i_Interacter, interactAbleMask,offset)
     {
     }
+  
     protected override void UpdateAssignedUI()
     {
         if (assignInWorldInteractable.Count <= 0)
@@ -30,7 +31,7 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
 
             assignInWorldInteractable[doors[i]].SetAnchorPosition(setPos);
 
-            Debug.DrawLine(camera.transform.position, doors[i].transform.position);
+            Debug.DrawLine(camera.transform.position, doors[i].transform.position,Color.red);
 
             if (doors[i].isBeenInteractAble == false)
             {

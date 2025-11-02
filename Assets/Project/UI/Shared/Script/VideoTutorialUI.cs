@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Video;
 
 public class VideoTutorialUI : MonoBehaviour
