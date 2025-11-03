@@ -23,6 +23,7 @@ public class FiringNode : WeaponLeafNode,INodeLeafTransitionAble
         isFiring = false;
         Weapon.bulletStore[BulletStackType.Chamber] -= 1;
         Weapon.bulletSpawner.SpawnBullet(Weapon);
+        nodeLeafTransitionBehavior.TransitionAbleAll(this);
         Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Firing);
         Weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
              <FiringNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
@@ -61,7 +62,7 @@ public class FiringNode : WeaponLeafNode,INodeLeafTransitionAble
 
     public void AddTransitionNode(INode node)
     {
-        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
+        nodeLeafTransitionBehavior.AddTransistionNode(this,node);
     }
 
     //public override bool Precondition()

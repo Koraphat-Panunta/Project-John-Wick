@@ -9,13 +9,12 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     {
         Enter,
         Reloading,
-
         Cancel
     }
     private bool isComplete;
     public ReloadStage curReloadStage { get; private set; }
 
-    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadSpeed;
+    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
 
     private MagazineType weaponMag;
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }

@@ -36,7 +36,6 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
         curPhase = TransitionPhase.Enter;
         weaponAfterAction.SendFeedBackWeaponAfterAction
             <SecondaryToPrimarySwitchWeaponManuverLeafNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-        curWeapon.ChangeActionManualy(curWeapon.restNode);
         elapsTime = 0;
         isComplete = false;
     }

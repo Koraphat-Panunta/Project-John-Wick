@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150415aab4f52bc40ae3d5dfad104c99, type: 3}
+  m_Name: AR15
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponStatsScriptableObject
+  bulletCapacity: 0
+  rate_of_fire: 1
+  reloadSpeed: 1
+  Recovery_CrosshairBloomSpeed: 1
+  Recovery_CrosshairPositionSpeed: 1
+  Recoil_CrosshairBloomController: 1
+  Recoil_KickVerticalPositionCrosshairController: 1
+  Recoil_KickHorizontalPositionCrosshairController: 1
+  Recoil_CameraControlController: 1
+  Recoil_VisualImpulseControl: 1
+  min_CrosshairSize: 1
+  max_CrosshairSize: 1
+  aimDownSight_speed: 1

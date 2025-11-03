@@ -33,7 +33,6 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
             , weaponAdvanceUser._secondHandSocket
             , quickSwitchHoldOffset.postitionOffset
             , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset));
-        secondHandWeapon.ChangeActionManualy(secondHandWeapon.restNode);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
         isDrawSecondary = false;
         isComplete = false;

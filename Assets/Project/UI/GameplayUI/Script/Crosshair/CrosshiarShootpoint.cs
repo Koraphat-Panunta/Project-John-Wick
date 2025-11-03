@@ -23,7 +23,7 @@ public class CrosshiarShootpoint : ICrosshairAction
     {
 
         //First Short 100 Acuracy
-        if (crosshairController.CrosshairSpread.spread_rate <= crosshairController.CrosshairSpread.sperad_rateDestination)
+        if (crosshairController.CrosshairSpread.crosshairBloom_rate <= crosshairController.CrosshairSpread.sperad_rateDestination)
             return CrosshairCenterPosition;
 
         Vector2 lineUpPos = CrossUp.anchoredPosition;

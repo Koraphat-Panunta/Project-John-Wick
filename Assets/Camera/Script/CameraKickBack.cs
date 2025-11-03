@@ -17,16 +17,16 @@ public class CameraKickBack : ICameraAction
     }
     public void Performed(Weapon weapon)
     {
-        cameraController.StartCoroutine(KickUp(weapon.RecoilKickBack,weapon.Recoil_CameraControlController));
+        cameraController.StartCoroutine(KickUp(weapon.Recoil_Camera));
     }
     float pitchReposition;
     float repositionTime;
-    IEnumerator KickUp(float kickForce,float controller)
+    IEnumerator KickUp(float kickForce)
     {
         yield return new WaitForFixedUpdate();
  
         pitchReposition = thirdPersonCam.pitch;
-        thirdPersonCam.InputRotateCamera(0, -(kickForce - controller) * cameraController.cameraKickUpMultiple);
+        thirdPersonCam.InputRotateCamera(0, -(kickForce) * cameraController.cameraKickUpMultiple);
         repositionTime = 0.3f;
         while (thirdPersonCam.pitch > pitchReposition && repositionTime>0)
         {

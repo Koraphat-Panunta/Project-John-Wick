@@ -102,8 +102,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                 cameraKickBack.Performed(player._currentWeapon);
                 cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = shootImpluseDuration;
                 cameraImpluse.Performed(new Vector3(
-                    (player._currentWeapon.RecoilKickBack *.2f ) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
-                    , (player._currentWeapon.RecoilKickBack *.2f ) * cameraKickImpulseMultiple
+                    (player._currentWeapon.Recoil_VisualImpulse) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
+                    , (player._currentWeapon.Recoil_VisualImpulse) * cameraKickImpulseMultiple
                     ,0)
                     );
             }

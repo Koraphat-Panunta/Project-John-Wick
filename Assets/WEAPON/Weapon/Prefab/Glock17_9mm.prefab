@@ -169,21 +169,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f46b8cbeadb0cc48bb4022f63b96052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawnerPos: {fileID: 2257692584473007763}
+  _mainHandGripTransform: {fileID: 6125567067642729409}
+  _SecondHandGripTransform: {fileID: 7888230317182710063}
+  weaponStatsScriptableObject: {fileID: 11400000, guid: ff9a83f47559f4f418250945a9598ca4,
+    type: 2}
   isEquiped: 1
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 2589834951360758816}
   Collider: {fileID: 4957479122355972784}
-  _accuracy: 320
-  _recoilController: 75
-  _recoilCameraController: 107
-  _aimDownSightSpeed: 3.6
-  _recoilKickBack: 140
-  min_percision: 20
-  max_percision: 140
-  mainHandGripTransform: {fileID: 6125567067642729409}
-  SecondHandGripTransform: {fileID: 7888230317182710063}
   MagazineWeaponAnimationStateOverrideScriptableObject: {fileID: 11400000, guid: a1f24de70089e8e41b72a59ab75d9bf9,
     type: 2}
 --- !u!114 &740563377601920448
@@ -267,10 +261,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7594886238610776571}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -705,6 +699,8 @@ VFXRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_StaticBatchInfo:
@@ -724,6 +720,7 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0

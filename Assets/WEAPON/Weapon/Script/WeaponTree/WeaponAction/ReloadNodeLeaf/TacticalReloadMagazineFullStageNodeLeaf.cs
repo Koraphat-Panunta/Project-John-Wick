@@ -16,7 +16,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     private bool isComplete;
     public TacticalReloadStage curReloadStage { get; private set; }
 
-    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadSpeed;
+    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
 
     private MagazineType weaponMag ;
 

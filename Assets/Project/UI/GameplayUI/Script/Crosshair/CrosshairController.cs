@@ -96,10 +96,9 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     }
 
     [Range(0, 1)]
-    public float crosshairSideKickMultiple;
+    public float crosshairKickPositionMultiple;
 
-    [Range(0, 1)]
-    public float crosshairUpperKickMultiple;
+
     public void OnNotify<T>(Player player, T node)
     {
 
@@ -112,7 +111,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
             {
                 CrosshairSpread.Performed(player._currentWeapon);
-                CrosshairSpread.CrosshairKickPosition(player._currentWeapon.RecoilKickBack - player._currentWeapon.Recoil_CrosshairBloomController);
                 //CrosshairSpread.TriggerFocusSpanRate();
             }
 
