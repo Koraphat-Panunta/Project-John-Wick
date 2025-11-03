@@ -368,7 +368,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         if (player._currentWeapon != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(player._currentWeapon.bulletSpawnerPos.position, player._currentWeapon.bulletSpawner.transform.forward * 10);
+            Gizmos.DrawRay(player._currentWeapon.bulletSpawner.transform.position, player._currentWeapon.bulletSpawner.transform.forward * 10);
 
         }
     }

@@ -25,10 +25,10 @@ public class EnemyGetShootDirection
         if(enemy._currentWeapon == null)
             dirTarget = (this.GetPointingPos() - (enemy.rayCastPos.position + new Vector3(0, 0.2f, 0))).normalized;
         else
-            dirTarget = (this.GetPointingPos() - (enemy._currentWeapon.bulletSpawnerPos.position)).normalized;
+            dirTarget = (this.GetPointingPos() - (enemy._currentWeapon.bulletSpawner.transform.position)).normalized;
 
         dirTarget = new Vector3(dirTarget.x + Random.Range(-accuracy, accuracy), dirTarget.y + Random.Range(-accuracy, accuracy), dirTarget.z);
-        Ray ray = new Ray(enemy._currentWeapon.bulletSpawnerPos.position, dirTarget);
+        Ray ray = new Ray(enemy._currentWeapon.bulletSpawner.transform.position, dirTarget);
 
         return ray.GetPoint(100);
         //return new Vector3(dir.x + Random.Range(-accuracy, accuracy), dir.y + Random.Range(-accuracy, accuracy), dir.z);

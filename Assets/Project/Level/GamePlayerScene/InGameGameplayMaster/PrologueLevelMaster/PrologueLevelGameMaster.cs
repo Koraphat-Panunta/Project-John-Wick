@@ -64,7 +64,7 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         pausingSelector.AddtoChildNode(optionMenuSettingInGameGameMasterNode);
         pausingSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
 
 
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class WeaponManuverManager : INodeManager
 {
-    public NodeManagerBehavior nodeManagerBehavior { get; set ; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set ; }
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get; set; }
@@ -33,24 +33,24 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract LowReadyWeaponManuverNodeLeaf lowReadyWeaponManuverNodeLeaf { get; protected set; }
     public abstract RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
     public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
-    public List<INodeManager> parallelNodeManahger { get ; set ; }
+    public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
     public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
         this.startNodeSelector = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);
 
-        nodeManagerBehavior = new NodeManagerBehavior();
-        parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        _parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
     public abstract void InitailizedNode();
 
     public virtual void UpdateNode()
     {
-        nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNode(this);
     }
-    public virtual void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+    public virtual void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
     
 }

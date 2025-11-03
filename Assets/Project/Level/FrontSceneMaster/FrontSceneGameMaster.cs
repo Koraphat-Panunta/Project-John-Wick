@@ -28,10 +28,10 @@ public class FrontSceneGameMaster : GameMaster
         startNodeSelector.AddtoChildNode(splashSceneFrontSceneMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
-    public override void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
-    public override void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+    public override void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public override void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
 }

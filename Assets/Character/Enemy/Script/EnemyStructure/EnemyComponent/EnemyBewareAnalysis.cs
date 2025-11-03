@@ -10,9 +10,9 @@ public static class EnemyBewareAnalysis
         if ((target._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() == false)
             return false;
 
-        Vector3 aimingLine = (target._shootingPos - target._currentWeapon.bulletSpawnerPos.position).normalized * limitDistance;
+        Vector3 aimingLine = (target._shootingPos - target._currentWeapon.bulletSpawner.transform.position).normalized * limitDistance;
         Vector3 referencePos = aimedPos;
-        Vector3 startPos = target._currentWeapon.bulletSpawnerPos.position;
+        Vector3 startPos = target._currentWeapon.bulletSpawner.transform.position;
 
 
 

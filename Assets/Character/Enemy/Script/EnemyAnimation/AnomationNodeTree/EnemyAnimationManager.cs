@@ -42,8 +42,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     public void Initialized()
     {
         enemy.AddObserver(this);
-        nodeManagerBehavior = new NodeManagerBehavior();
-        parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        _parallelNodeManahger = new List<INodeManager>();
 
         this.InitailizedNode();
     }

@@ -6,10 +6,10 @@ public partial class EnemyAnimationManager : INodeManager
 {
     #region EnemyBaselayerAnimation
     public INodeSelector startNodeSelector { get; set; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     protected INodeLeaf curNodeLeaf { get; set; }
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
     public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
@@ -56,7 +56,7 @@ public partial class EnemyAnimationManager : INodeManager
         InitializedBaseLayer();
         InitializedNodeComponent();
 
-        parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
+        _parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
     }
     
     private void InitializedUpperLayer()
@@ -153,7 +153,7 @@ public partial class EnemyAnimationManager : INodeManager
         startNodeSelector.AddtoChildNode(standMoveIdleBaseLayerNodeLeaf);
         startNodeSelector.AddtoChildNode(rest_BaseLayerAnimation_NodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
     private void InitializedNodeComponent()
     {
@@ -181,7 +181,7 @@ public partial class EnemyAnimationManager : INodeManager
     }
     public void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        _nodeManagerBehavior.FixedUpdateNode(this);
         upperlayerAnimationNodeManagerProtable.UpdateNode();
         enemyAnimationNodeComponentManager.FixedUpdate();
     }
@@ -189,7 +189,7 @@ public partial class EnemyAnimationManager : INodeManager
 
     public void UpdateNode()
     {
-       nodeManagerBehavior.UpdateNode(this);
+       _nodeManagerBehavior.UpdateNode(this);
         upperlayerAnimationNodeManagerProtable.FixedUpdateNode();
         enemyAnimationNodeComponentManager.Update();
     }

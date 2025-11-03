@@ -116,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 3537207572648683325}
   exitPoint: {fileID: 5243226825167046032}
-  door: {fileID: 584584830556503779}
+  door: {fileID: 3790662196972012492}
 --- !u!1001 &44818298859578265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209,6 +209,11 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e495fc7904b73b6408178b18f8cce8c2, type: 2}
+    - target: {fileID: 3238130715841303993, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
+        type: 3}
+      propertyPath: isInteractAble
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5167618309740737402, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
         type: 3}
       propertyPath: m_Carve
@@ -294,9 +299,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4d93fa12eadb04fbe61ca34ec8264a, type: 3}
---- !u!114 &584584830556503779 stripped
+--- !u!114 &3790662196972012492 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1186656014425041046, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
+  m_CorrespondingSourceObject: {fileID: 3238130715841303993, guid: ae4d93fa12eadb04fbe61ca34ec8264a,
     type: 3}
   m_PrefabInstance: {fileID: 1759506221154719349}
   m_PrefabAsset: {fileID: 0}

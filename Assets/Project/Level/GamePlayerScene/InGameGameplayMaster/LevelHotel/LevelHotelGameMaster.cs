@@ -44,7 +44,7 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
         startNodeSelector.AddtoChildNode(levelHotelGamePlayGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelMisstionCompleteGameMasterNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
    

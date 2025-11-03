@@ -43,7 +43,7 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
         startNodeSelector.AddtoChildNode(this.levelGameOverGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(this.levelRestGameMasterNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
   

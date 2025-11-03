@@ -215,7 +215,7 @@ public class EnemyWeaponManuver : WeaponManuverManager
         holsterWeaponSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);
         holsterWeaponSelector.AddtoChildNode(holsterSecondaryWeaponManuverNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
     public override void UpdateNode()
     {

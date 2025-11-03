@@ -22,19 +22,19 @@ public class GameManager : MonoBehaviour,INodeManager
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
     public DataBased dataBased { get; set; }
-    public List<INodeManager> parallelNodeManahger { get ; set ; }
+    public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
     private void Awake()
     {
         soundTrackManager = GetComponent<SoundTrackManager>();
-        nodeManagerBehavior = new NodeManagerBehavior();
-        this.parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
         Application.targetFrameRate = 60; // Match Editor
         QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
         dataBased = new DataBased();
@@ -57,16 +57,16 @@ public class GameManager : MonoBehaviour,INodeManager
         ingameGameManagerNodeSelector.AddtoChildNode(this.prologue_GameManagerSceneNodeLeaf);
 
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        _nodeManagerBehavior.FixedUpdateNode(this);
     }
     public void UpdateNode()
     {
-        nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNode(this);
     }
 
    

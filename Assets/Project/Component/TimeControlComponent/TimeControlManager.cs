@@ -4,19 +4,19 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
 {
     public static readonly float fixDeltaTimeOnSlowMotion = 0.02f * 0.75f;
     public static readonly float fixDeltaTimeDefault = 0.02f;
-    public NodeManagerBehavior nodeManagerBehavior { get ; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get ; set; }
 
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => curNodeLeaf = value; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
 
     private float returnTimeScale;
     protected bool isSystemStopTime;
 
     public void Initialized()
     {
-        nodeManagerBehavior = new NodeManagerBehavior();
-        this.parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
         this.observerTimeControlManagers = new List<IObserverTimeControlManager>();
         this.player.AddObserver(this);
         this.gameMaster.AddObserver(this);
@@ -32,8 +32,8 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
         if(isSystemStopTime == false)
             this.FixedUpdateNode();
     }
-    public void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
-    public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+    public void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
     public INodeSelector startNodeSelector { get; set; }
     public TimeScaleDefaultNodeLeaf timeDefaultNodeLeaf { get; set; }
@@ -52,7 +52,7 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
         startNodeSelector.AddtoChildNode(triggerBulletTime);
         startNodeSelector.AddtoChildNode(timeDefaultNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public void StopTime()

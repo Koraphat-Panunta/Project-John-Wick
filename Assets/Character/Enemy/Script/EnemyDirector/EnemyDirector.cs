@@ -238,7 +238,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInit
                     }
                     return true;
                 }
-                break;
+        
             case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
                 {
                     if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnewPos,enemyOverwatchRole.enemy.transform.position) < 3.5f)
@@ -261,7 +261,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInit
                     return true;
                   
                 }
-                break;
+        
         }
         return false;
     }

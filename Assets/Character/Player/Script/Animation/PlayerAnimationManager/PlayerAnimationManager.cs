@@ -84,7 +84,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             if (isIn_C_A_R_aim)
             {
                 if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) >= CAR_Range)
+               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) >= CAR_Range)
                 {
                     CAR_ChangeTimer -= Time.deltaTime;
 
@@ -100,7 +100,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             else if (isIn_C_A_R_aim == false)
             {
                 if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-              , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) <= CAR_Range)
+              , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) <= CAR_Range)
                 {
                    
                     isIn_C_A_R_aim = true;
@@ -164,7 +164,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         if (node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
         {
             if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawnerPos.position) < 3.5f)
+               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) < 3.5f)
                 isIn_C_A_R_aim = true;
             else
                 isIn_C_A_R_aim = false;

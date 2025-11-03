@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraManagerNode:INodeManager,IDebuggedAble
 {
     public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
     public CameraController cameraController { get;protected set; }
     private Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject> cameraTPPC_ScriptableObject;
     private INodeManager playerStateManager => cameraController.player.playerStateNodeManager;
@@ -14,8 +14,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;
-        this.nodeManagerBehavior = new NodeManagerBehavior();
-        this.parallelNodeManahger = new List<INodeManager>();
+        this._nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
         this.cameraTPPC_ScriptableObject = new Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject>();
 
         InitailizedNode();
@@ -23,11 +23,11 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
     public void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        _nodeManagerBehavior.FixedUpdateNode(this);
     }
     public void UpdateNode()
     {
-        nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNode(this);
     }
 
     public NodeSelector cameraThirdPersonControllerPlayerBasedSelector { get; protected set; }
@@ -113,7 +113,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         cameraPerformGunFuSelector.AddtoChildNode(cameraPerformGunFuExecuteViewNodeLeaf);
         cameraPerformGunFuSelector.AddtoChildNode(cameraPerformGunFuHitViewNodeLeaf);
 
-        this.nodeManagerBehavior.SearchingNewNode(this);
+        this._nodeManagerBehavior.SearchingNewNode(this);
 
     }
     public T Debugged<T>(IDebugger debugger)

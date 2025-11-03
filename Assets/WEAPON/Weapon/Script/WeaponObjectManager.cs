@@ -17,7 +17,16 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
         weaponObjPooling = new ObjectPooling<Weapon>(this.weaponPrefab, 10, 2, Vector3.zero);
         clearWeaponList = new Dictionary<Weapon, float>();
     }
-
+    public void SpawnWeapon(GameObject weaponAdvanceUser)
+    {
+        if (weaponAdvanceUser.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser weaponUser))
+        {
+            this.SpawnWeapon(weaponUser);
+        }
+        else
+            throw new System.Exception("the parameter is not weaponAdvanceUser");
+       
+    }
     public Weapon SpawnWeapon(IWeaponAdvanceUser weaponAdvanceUser)
     {
         Weapon weapon = this.SpawnWeapon(Vector3.zero, Quaternion.identity);
@@ -50,9 +59,8 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
         if (checkTimer < checkInterval)
             return;
 
-        checkTimer = 0f;
-
         this.ClearWeaponUpdate();
+        checkTimer = 0f;
     }
     
     private void ClearWeaponUpdate()

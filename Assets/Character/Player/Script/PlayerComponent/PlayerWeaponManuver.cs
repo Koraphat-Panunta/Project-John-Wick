@@ -195,7 +195,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                 reloadNodeManagerPortable.startNodeSelector.AddtoChildNode(reloadNodeAttachAbleSelector);
             });
 
-        this.parallelNodeManahger.Add(reloadNodeManagerPortable);
+        this._parallelNodeManahger.Add(reloadNodeManagerPortable);
     }
     public override void InitailizedNode()
     {
@@ -360,7 +360,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
         holsterSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);
         holsterSelector.AddtoChildNode(holsterSecondaryWeaponManuverNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
 
         InitialzedReloadNode();
     }

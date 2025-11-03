@@ -18,15 +18,15 @@ public interface INodeManager
 {
     protected INodeLeaf _curNodeLeaf { get; set; } 
     public INodeSelector startNodeSelector { get; set; }
-    NodeManagerBehavior nodeManagerBehavior { get; set; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    NodeManagerBehavior _nodeManagerBehavior { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
     public void UpdateNode();
     public void FixedUpdateNode();
     public void InitailizedNode();
     public INodeLeaf GetCurNodeLeaf() => _curNodeLeaf;
-    public void AddParallelNodeManager(INodeManager addNodeManager) => nodeManagerBehavior.AddParallelNodeManager(this, addNodeManager);
-    public bool TryGetCurNodeLeaf<T>() where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(this);
-    public bool TryGetCurNodeLeaf<T>(out T nodeLeaf) where T : INodeLeaf => nodeManagerBehavior.TryGetCurNodeLeafAs<T>(out nodeLeaf, this);
+    public void AddParallelNodeManager(INodeManager addNodeManager) => _nodeManagerBehavior.AddParallelNodeManager(this, addNodeManager);
+    public bool TryGetCurNodeLeaf<T>() where T : INodeLeaf => _nodeManagerBehavior.TryGetCurNodeLeafAs<T>(this);
+    public bool TryGetCurNodeLeaf<T>(out T nodeLeaf) where T : INodeLeaf => _nodeManagerBehavior.TryGetCurNodeLeafAs<T>(out nodeLeaf, this);
     public void SetCurNodeLeaf(INodeLeaf nodeLeaf) => _curNodeLeaf = nodeLeaf;   
 }
 
@@ -79,12 +79,12 @@ public class NodeManagerBehavior
         }
         else
         {
-            if(nodeManager.parallelNodeManahger.Count <= 0)
+            if(nodeManager._parallelNodeManahger.Count <= 0)
                 return false;
 
-            for (int i = 0; i < nodeManager.parallelNodeManahger.Count; i++)
+            for (int i = 0; i < nodeManager._parallelNodeManahger.Count; i++)
             {
-                if (nodeManager.parallelNodeManahger[i].GetCurNodeLeaf() is T curParallelNodeLeaf)
+                if (nodeManager._parallelNodeManahger[i].GetCurNodeLeaf() is T curParallelNodeLeaf)
                 {
                     nodeLeaf = curParallelNodeLeaf;
                     return true;
@@ -96,7 +96,7 @@ public class NodeManagerBehavior
 
     public void AddParallelNodeManager(INodeManager nodeManager,INodeManager addNodeManager)
     {
-        nodeManager.parallelNodeManahger.Add(addNodeManager);
+        nodeManager._parallelNodeManahger.Add(addNodeManager);
     }
 
 }

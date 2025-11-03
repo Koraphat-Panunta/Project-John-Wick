@@ -112,7 +112,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
             if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
             {
                 CrosshairSpread.Performed(player._currentWeapon);
-                CrosshairSpread.CrosshairKickUp(player._currentWeapon.RecoilKickBack - player._currentWeapon.RecoilController);
+                CrosshairSpread.CrosshairKickPosition(player._currentWeapon.RecoilKickBack - player._currentWeapon.Recoil_CrosshairBloomController);
                 //CrosshairSpread.TriggerFocusSpanRate();
             }
 

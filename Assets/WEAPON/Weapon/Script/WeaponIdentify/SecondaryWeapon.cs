@@ -4,5 +4,4 @@ using UnityEngine;
 
 public interface SecondaryWeapon 
 {
-    public abstract float quickDrawTime { get; set;} 
 }

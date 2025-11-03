@@ -5,10 +5,10 @@ using UnityEngine;
 public class NodeManagerPortable : INodeManager
 {
     public INodeSelector startNodeSelector { get; set; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
-    public List<INodeManager> parallelNodeManahger { get; set ; }
+    public List<INodeManager> _parallelNodeManahger { get; set ; }
 
     public RestNodeLeaf restNodeLeaf;
 
@@ -16,12 +16,12 @@ public class NodeManagerPortable : INodeManager
     {
         startNodeSelector = new NodeSelector(() => true);
 
-        nodeManagerBehavior = new NodeManagerBehavior();
-        this.parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
     }
 
-    public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
-    public void UpdateNode() => nodeManagerBehavior.UpdateNode(this);
+    public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
+    public void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
 
     public void InitialzedOuterNode(Action initialzedOuterNode)
     {
@@ -34,7 +34,7 @@ public class NodeManagerPortable : INodeManager
         startNodeSelector.AddtoChildNode(restNodeLeaf);
         try
         {
-            nodeManagerBehavior.SearchingNewNode(this);
+            _nodeManagerBehavior.SearchingNewNode(this);
         }
         catch
         {

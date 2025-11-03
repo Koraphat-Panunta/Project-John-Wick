@@ -7,7 +7,6 @@ public class EnemySpawnerPoint : MonoBehaviour
     public virtual Vector3 spawnPosition { get => transform.position; protected set { } }
     public virtual Quaternion spawnRotiation { get => transform.rotation; protected set { } }
 
-   
     public virtual Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager, EnemyDirector enemyDirector, WeaponObjectManager weaponObjectManager)
     {
         Enemy enemy = this.SpawnEnemy(enemyObjectManager, weaponObjectManager);

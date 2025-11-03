@@ -6,23 +6,29 @@ using UnityEngine.Animations;
 public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializedAble
 {
 
-    public Transform bulletSpawnerPos;
-    public abstract Transform _mainHandGripTransform { get; set; }
-    public abstract Transform _SecondHandGripTransform { get; set; }
+    public Transform _mainHandGripTransform;
+    public Transform _SecondHandGripTransform;
     public abstract WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject { get; set; }
-    public abstract int bulletCapacity { get; set; }
-    public abstract float rate_of_fire { get;  set; }
-    public abstract float reloadSpeed { get;  set; }
-    public abstract float Accuracy { get;  set; }
-    public abstract float RecoilController { get;  set; }
-    public abstract float RecoilCameraController {  get;  set; }
-    public abstract float RecoilKickBack { get;  set; }
-    public abstract float min_Precision { get;  set; }
-    public abstract float max_Precision { get;  set; }
-    public abstract float aimDownSight_speed { get;  set; }
+    [SerializeField] protected WeaponStatsScriptableObject weaponStatsScriptableObject;
+    public virtual int bulletCapacity { get => weaponStatsScriptableObject.bulletCapacity; }
+    public virtual float rate_of_fire { get => weaponStatsScriptableObject.rate_of_fire; }
+    public virtual float reloadSpeed { get => weaponStatsScriptableObject.reloadSpeed; }
+    public virtual float Recovery_CrosshairBloomSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairBloomSpeed; }
+    public virtual float Recovery_CrosshairPositionSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairPositionSpeed; }
+    public virtual float Recoil_CrosshairBloomController { get => weaponStatsScriptableObject.Recoil_CrosshairBloomController; }
+    public virtual float Recoil_KickVerticalCrosshairBloomController { get => weaponStatsScriptableObject.Recoil_KickVerticalCrosshairBloomController; }
+    public virtual float Recoil_KickHorizontalCrosshairBloomController { get => weaponStatsScriptableObject.Recoil_KickHorizontalCrosshairBloomController; }
+    public virtual float Recoil_CameraControlController { get => weaponStatsScriptableObject.Recoil_CameraControlController; }
+    public virtual float Recoil_VisualImpulseControl { get => weaponStatsScriptableObject.Recoil_VisualImpulseControl; }
+    public virtual float RecoilKickBack { get => bullet.recoilKickBack; }
+    public virtual float min_CrosshairSize { get => weaponStatsScriptableObject.min_CrosshairSize; }
+    public virtual float max_CrosshairSize { get => weaponStatsScriptableObject.max_CrosshairSize; }
+    public virtual float aimDownSight_speed { get => weaponStatsScriptableObject.aimDownSight_speed; }
+
+    public float Recoil_CrosshairBloom { get => RecoilKickBack - Recoil_CrosshairBloomController; }
+    public float Recoil_Vertical_CrosshairPosition { get => RecoilKickBack - Recoil_KickVerticalCrosshairBloomController; }
+
     public abstract Bullet bullet { get;  set; }
-    public abstract float movementSpeed { get;  set; }
-    public abstract float drawSpeed { get; set; }
 
     public bool isPullTrigger { get; protected set; }
     public bool isEquiped;
@@ -37,7 +43,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public enum FireMode
     {
         Single,
-        //Burst,
+        Burst,
         FullAuto
     }
     public FireMode fireMode { get; protected set; }
@@ -52,7 +58,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
         _collider = GetComponent<Collider>();
         triggerState = TriggerState.Up;
         this.SetDefaultAttribute();
-        InitailizedTree();
+        this.InitailizedNode();
         this.AddObserver(this);
     }
   
@@ -76,13 +82,13 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
         else
             triggerState = TriggerState.Up;
 
-        UpdateTree();
+        this.UpdateNode();
         isPullTrigger = false;
     }
    
     protected virtual void FixedUpdate()
     {
-        FixedUpdateTree();
+        this.FixedUpdateNode();
     }
    
     public virtual void PullTrigger() 
@@ -104,46 +110,6 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     {
         this.Collider = GetComponent<Collider>();   
     }
-
-    #region InitailizedWeaponTree
-
-    public WeaponLeafNode currentEventNode { get; set; }
-    public abstract WeaponSelector startEventNode { get; set; }
-    public abstract WeaponRestNodeLeaf restNode { get; set; }
-    public abstract NodeSelector _reloadSelecotrOverriden { get; }
-
-    protected virtual void FixedUpdateTree()
-    {
-        if (currentEventNode != null)
-            currentEventNode.FixedUpdateNode();
-    }
-   
-    public virtual void ChangeActionManualy(WeaponLeafNode weaponEventNode)
-    {
-        if (currentEventNode != null)
-        currentEventNode.Exit();
-        currentEventNode = weaponEventNode;
-        currentEventNode.Enter();
-    }
-
-    protected abstract void InitailizedTree();
-    protected virtual void UpdateTree()
-    {
-       
-        if (currentEventNode.IsReset() /*|| currentStanceNode == null*/)
-        {
-            //Debug.Log("curWeaponNode ="+ currentEventNode+" is reset ");
-            currentEventNode.Exit();
-            currentEventNode = null;
-            startEventNode.FindingNode(out INodeLeaf weaponActionNode);
-            currentEventNode = weaponActionNode as WeaponLeafNode;
-            //Debug.Log("Out Event Node " + currentEventNode);
-            currentEventNode.Enter();
-        }
-        currentEventNode?.UpdateNode();
-        //Debug.Log("curWeaponNode = " + currentEventNode);
-    }
-    #endregion
 
     public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
     {

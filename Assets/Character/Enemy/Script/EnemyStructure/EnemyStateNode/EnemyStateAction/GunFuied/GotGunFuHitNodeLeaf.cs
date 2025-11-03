@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
+public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeLeafTransitionAble
 {
     protected Animator animator;
     public string gotHitstateName { get; protected set; }
@@ -17,15 +17,20 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     private float legnhtOffset => _animationClip.length*gotGunFuHitScriptableObject.enterAnimationOffsetNormalized;
+    public INodeManager nodeManager { get; set; }
+
     public enum GotHitPhase
     {
         Enter,
         Exit,
     }
     public GotHitPhase curGotHitPhase { get;protected set; }
-    public GotGunFuHitNodeLeaf(Enemy enemy,Func<bool> preCondition,GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
+
+
+    public GotGunFuHitNodeLeaf(Enemy enemy,INodeManager nodeManager,Func<bool> preCondition,GotGunFuHitScriptableObject gunFu_GotHit_ScriptableObject) : base(enemy,preCondition)
     {
         this._gotGunFuHitScriptableObject = gunFu_GotHit_ScriptableObject;
+        this.nodeManager = nodeManager;
         _exitTime_Normalized = gunFu_GotHit_ScriptableObject.exitTimeNormalized;
         _animationClip = gunFu_GotHit_ScriptableObject.AnimationClip;
         this.animator = enemy.animator;
@@ -35,7 +40,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     }
     public override void Enter()
     {
-       
+        nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         _timer = 0;
         enemy._movementCompoent.SetRotation(Quaternion.LookRotation((gunFuAble._character.transform.position - enemy.transform.position).normalized
             ,Vector3.up));
@@ -52,8 +57,13 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     {
         _timer += Time.deltaTime;
 
-        if(_timer >= _animationClip.length*_exitTime_Normalized - legnhtOffset)
+        if (_timer >= _animationClip.length * _exitTime_Normalized - legnhtOffset)
+        {
             isComplete = true;
+            nodeLeafTransitionBehavior.TransitionAbleAll(this);
+        }
+
+        this.TransitioningCheck();
 
         base.UpdateNode();
     }
@@ -76,5 +86,15 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
             return true;
 
         return false;
+    }
+
+    public bool TransitioningCheck()
+    {
+       return nodeLeafTransitionBehavior.TransitioningCheck(this);
+    }
+
+    public void AddTransitionNode(INode node)
+    {
+        nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     }
 }

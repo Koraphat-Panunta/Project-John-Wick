@@ -16,7 +16,7 @@ public class CrosshairSpread : ICrosshairAction
     { get 
         {
             if(_crosshairController.player._currentWeapon != null)
-                return _crosshairController.player._currentWeapon.min_Precision;
+                return _crosshairController.player._currentWeapon.min_CrosshairSize;
             else
                 return MIN_SPREAD;
         } 
@@ -27,7 +27,7 @@ public class CrosshairSpread : ICrosshairAction
         get
         {
             if (_crosshairController.player._currentWeapon != null)
-                return _crosshairController.player._currentWeapon.max_Precision;
+                return _crosshairController.player._currentWeapon.max_CrosshairSize;
             else
                 return MAX_SPREAD;
         }
@@ -37,20 +37,30 @@ public class CrosshairSpread : ICrosshairAction
     public float spread_rate { get; protected set; }
     Vector2 crosshairKickUpRate;
     public float sperad_rateDestination { get; protected set; }
-    float spread_rateOppress 
+    float spread_rateRecovery 
     { get 
         {
             if(_crosshairController.player._currentWeapon != null)
-                return _crosshairController.player._currentWeapon.Accuracy;
+                return _crosshairController.player._currentWeapon.Recovery_CrosshairBloomSpeed;
             else
-                return SPREAD_RATEOPPRESS_DEFAULT;
+                return SPREAD_RATE_RECOVERY_DEFAULT;
         } 
     }
-    
+    float position_rateRecovery 
+    { 
+        get 
+        {
+            if (_crosshairController.player._currentWeapon != null)
+                return _crosshairController.player._currentWeapon.Recovery_CrosshairPositionSpeed;
+            else
+                return POSITION_RATE_RECOVERY_DEFAULT;
+        } 
+    }
 
-    private const float SPREAD_RATEOPPRESS_DEFAULT = 40;
+    private const float SPREAD_RATE_RECOVERY_DEFAULT = 40;
+    private const float POSITION_RATE_RECOVERY_DEFAULT = 40;
 
-   
+
     public CrosshairSpread(CrosshairController crosshairController)
     {
         this._crosshairController = crosshairController;
@@ -58,18 +68,20 @@ public class CrosshairSpread : ICrosshairAction
     }
     public void Performed(Weapon weapon)
     {
-       float recoilKick = weapon.RecoilKickBack - weapon.RecoilController;
+       float recoilKick = weapon.RecoilKickBack - weapon.Recoil_CrosshairBloomController;
         spread_rate = Mathf.Clamp(spread_rate + recoilKick, minWeaponPercision, maxWeaponPercision);
     }
     public void Performed(float recoilKick)
     {
         spread_rate = Mathf.Clamp(spread_rate + recoilKick, minWeaponPercision, maxWeaponPercision);
     }
-    public void CrosshairKickUp(float recoilKickUp)
+    public void CrosshairKickPosition(Vector2 crosshairKickPosition)
     {
-        crosshairKickUpRate = new Vector2(
-            crosshairKickUpRate.x + (_crosshairController.crosshairSideKickMultiple * recoilKickUp * (Random.value > .5f?1:-1))
-            , Mathf.Clamp(crosshairKickUpRate.y + (recoilKickUp*_crosshairController.crosshairUpperKickMultiple), 0, 65));
+        crosshairKickUpRate = new Vector2
+            (
+            crosshairKickUpRate.x + (_crosshairController.crosshairSideKickMultiple * crosshairKickPosition.y * (Random.value > .5f?1:-1))
+            , Mathf.Clamp(crosshairKickUpRate.y + (crosshairKickPosition.x *_crosshairController.crosshairUpperKickMultiple), 0, 65)
+            );
 
     }
 
@@ -93,8 +105,8 @@ public class CrosshairSpread : ICrosshairAction
                 
         }
 
-        spread_rate = Mathf.MoveTowards(spread_rate,sperad_rateDestination,spread_rateOppress * Time.deltaTime);
-        crosshairKickUpRate = Vector2.MoveTowards(crosshairKickUpRate, Vector2.zero, spread_rateOppress*1.2f * Time.deltaTime);
+        spread_rate = Mathf.MoveTowards(spread_rate,sperad_rateDestination,spread_rateRecovery * Time.deltaTime);
+        crosshairKickUpRate = Vector2.MoveTowards(crosshairKickUpRate, Vector2.zero, spread_rateRecovery*1.2f * Time.deltaTime);
 
         _crosshairController.Crosshair_lineUp.anchoredPosition = new Vector2(0, minWeaponPercision + spread_rate);
         _crosshairController.Crosshair_lineDown.anchoredPosition = new Vector2(0, -minWeaponPercision - spread_rate);

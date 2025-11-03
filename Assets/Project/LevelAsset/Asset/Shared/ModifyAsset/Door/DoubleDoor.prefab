@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 8674434899932223068}
   - component: {fileID: 6172180944125079786}
   - component: {fileID: 3238130715841303993}
-  - component: {fileID: 5622083284964801215}
   - component: {fileID: 2350799690463933882}
   m_Layer: 15
   m_Name: DoubleDoor
@@ -109,31 +108,6 @@ MonoBehaviour:
   isInteractAble: 1
   lockedValue: 0
   referenceInteractAbleTransform: {fileID: 5153063654342950134}
---- !u!114 &5622083284964801215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6539206421756581604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5404ab5000e83804da3575fb4f75301a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoorTriggerEvent
-  door: {fileID: 3238130715841303993}
-  OnDoor_Open_TriggerEventOnce:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoor_Close_TriggerEventOnce:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoor_Open_TriggerEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoor_Close_TriggerEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &2350799690463933882
 BoxCollider:
   m_ObjectHideFlags: 0

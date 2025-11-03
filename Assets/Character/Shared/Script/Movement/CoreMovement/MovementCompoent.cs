@@ -16,28 +16,28 @@ public abstract partial class MovementCompoent : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior nodeManagerBehavior { get ; set ; }
+    public NodeManagerBehavior _nodeManagerBehavior { get ; set ; }
     public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
-    public List<INodeManager> parallelNodeManahger { get;set; }
+    public List<INodeManager> _parallelNodeManahger { get;set; }
 
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
         isOnUpdateEnable = true;
         this.transform = transform;
         this.userMovement = myMovement;
-        nodeManagerBehavior = new NodeManagerBehavior();
-        parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        _parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
 
     public virtual void UpdateNode()
     {
-        nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNode(this);
     }
 
     public virtual void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        _nodeManagerBehavior.FixedUpdateNode(this);
     }
 
     public abstract void InitailizedNode();

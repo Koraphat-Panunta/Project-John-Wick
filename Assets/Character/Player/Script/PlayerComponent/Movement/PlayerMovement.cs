@@ -36,7 +36,7 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
         startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
         startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
    
     public void SnapingMovement(Vector3 Destination,Vector3 offset,float speed)

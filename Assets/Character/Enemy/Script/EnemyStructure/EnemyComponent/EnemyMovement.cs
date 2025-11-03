@@ -33,7 +33,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
         startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
         startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
     public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)
     {

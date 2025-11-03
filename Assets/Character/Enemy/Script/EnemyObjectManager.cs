@@ -44,9 +44,9 @@ public class EnemyObjectManager: MonoBehaviour ,IInitializedAble,IObserverEnemy
 
         if (checkTimer < checkInterval)
             return;
-        checkTimer = 0f;
 
         this.ClearCorpseEnemyUpdate();
+        checkTimer = 0f;
     }
     private void ClearCorpseEnemyUpdate()
     {
@@ -98,9 +98,9 @@ public class EnemyObjectManager: MonoBehaviour ,IInitializedAble,IObserverEnemy
     {
         if (this.enemyPrefab == null)
         {
-            throw new System.Exception("Please Set EnemyPrefab Initialized " + this);
+            Debug.LogError("Please Set EnemyPrefab Initialized " + this);
         }
-        if(this.mainCamera == null)
+        if (this.mainCamera == null)
         {
             this.mainCamera = FindAnyObjectByType<Camera>();
         }

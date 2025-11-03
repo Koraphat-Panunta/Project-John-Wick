@@ -7,20 +7,20 @@ public class PlayerStateNodeManager : INodeManager
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get; set; }
     public INodeSelector startNodeSelector { get; set; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
 
     public Player player;
     public PlayerStateNodeManager(Player player) 
     { 
         this.player = player;
-        this.nodeManagerBehavior = new NodeManagerBehavior();
-        this.parallelNodeManahger = new List<INodeManager>();
+        this._nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
         InitailizedNode();
     }
-    public void FixedUpdateNode() => nodeManagerBehavior.FixedUpdateNode(this);
+    public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
    
-    public void UpdateNode()=>nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode()=>_nodeManagerBehavior.UpdateNode(this);
    
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
@@ -381,7 +381,7 @@ public class PlayerStateNodeManager : INodeManager
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayUp_I_NodeLeaf);
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_LayDown_I_NodeLeaf);
 
-        nodeManagerBehavior.SearchingNewNode(this);
+        _nodeManagerBehavior.SearchingNewNode(this);
     }
     public void ChangeNode(PlayerStateNodeLeaf playerStateNodeLeaf)
     {

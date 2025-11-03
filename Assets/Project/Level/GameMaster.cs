@@ -10,8 +10,8 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value ; }
 
     public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior nodeManagerBehavior { get; set; }
-    public List<INodeManager> parallelNodeManahger { get; set; }
+    public NodeManagerBehavior _nodeManagerBehavior { get; set; }
+    public List<INodeManager> _parallelNodeManahger { get; set; }
     public DataBased dataBased 
     { 
         get 
@@ -44,8 +44,8 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
         this.dataBased.settingData.volumeEffect = sfxVolumeDefault;
         this.dataBased.settingData.volumeMusic = musicVolumeDefault;
 
-        nodeManagerBehavior = new NodeManagerBehavior();
-        parallelNodeManahger = new List<INodeManager>();
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        _parallelNodeManahger = new List<INodeManager>();
         this.InitailizedNode();
     }
 
@@ -128,7 +128,9 @@ public abstract class GameMasterNodeLeaf : GameMasterNode, INodeLeaf
     public virtual bool IsReset() => nodeLeafBehavior.IsReset(isReset);
 
     public abstract void UpdateNode();
-    
+
+    public INodeLeaf GetNodeLeaf() => this;
+
 }
 public abstract class GameMasterNodeLeaf<T> : GameMasterNode<T>, INodeLeaf where T : GameMaster
 {
@@ -156,4 +158,6 @@ public abstract class GameMasterNodeLeaf<T> : GameMasterNode<T>, INodeLeaf where
 
     public abstract void UpdateNode();
 
+    public INodeLeaf GetNodeLeaf() => this;
+  
 }

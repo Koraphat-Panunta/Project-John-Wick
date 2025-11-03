@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
+public class EnemyWaveManager : MonoBehaviour,IObserverEnemy
 {
     [SerializeField] protected List<EnemyWave> enemyWaves;
     public EnemyWave curWave;
-    [SerializeField] public List<Enemy> enemies;
+    [SerializeField] public List<Enemy> enemies = new List<Enemy>();
     public int numberOfEnemy => enemies.Count;
     [SerializeField] public Player player;
 
@@ -13,13 +13,9 @@ public class EnemyWaveManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 
     public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
 
-    [SerializeField] private bool isStartWave;
+    [SerializeField] private bool isStartWave = false;
 
-    public void Initialized()
-    {
-        enemies = new List<Enemy>();
-        this.isStartWave = false;
-    }
+   
     private void Update()
     {
         this.EnemyWaveUpdate();

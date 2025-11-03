@@ -17,7 +17,7 @@ public class CameraKickBack : ICameraAction
     }
     public void Performed(Weapon weapon)
     {
-        cameraController.StartCoroutine(KickUp(weapon.RecoilKickBack,weapon.RecoilCameraController));
+        cameraController.StartCoroutine(KickUp(weapon.RecoilKickBack,weapon.Recoil_CameraControlController));
     }
     float pitchReposition;
     float repositionTime;

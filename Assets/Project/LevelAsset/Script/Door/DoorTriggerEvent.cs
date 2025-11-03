@@ -39,4 +39,13 @@ public class DoorTriggerEvent : MonoBehaviour,IObserverDoor
                 this.OnDoor_Close_TriggerEvent.Invoke();
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        if(door != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(door._transform.position, .5f);
+        }
+    }
 }

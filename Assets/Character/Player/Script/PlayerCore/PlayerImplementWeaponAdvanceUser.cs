@@ -64,7 +64,7 @@ public partial class Player: IWeaponAdvanceUser
         {
             if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
             {
-                Ray ray = new Ray(_currentWeapon.bulletSpawnerPos.position, _currentWeapon.bulletSpawnerPos.forward);
+                Ray ray = new Ray(_currentWeapon.bulletSpawner.transform.position, _currentWeapon.bulletSpawner.transform.forward);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
                     return hitInfo.point;
                 else

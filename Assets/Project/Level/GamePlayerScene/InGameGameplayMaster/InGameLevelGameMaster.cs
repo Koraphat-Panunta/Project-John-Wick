@@ -38,12 +38,12 @@ public abstract class InGameLevelGameMaster : GameMaster
     }
     public override void FixedUpdateNode()
     {
-        nodeManagerBehavior.FixedUpdateNode(this);
+        _nodeManagerBehavior.FixedUpdateNode(this);
     }
 
     public override void UpdateNode()
     {
-        nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNode(this);
     }
     public NodeSelector pausingSelector { get; protected set; }
     public  MenuInGameGameMasterNodeLeaf menuInGameGameMasterNodeLeaf { get; protected set; }
