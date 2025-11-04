@@ -22,6 +22,11 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
     [SerializeField] public LayerMask layerMask;
 
+    public Vector2 crosshairBloomRange;
+    public Vector2 crosshairPositionKickRange;
+    public Vector2 crosshairBloomRecoveryRange;
+    public Vector2 crosshairPositionRecoveryRange;
+
     public override void Initialized()
     {
         player.AddObserver(this);
@@ -94,9 +99,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     {
         player = FindAnyObjectByType<Player>();
     }
-
-    [Range(0, 1)]
-    public float crosshairKickPositionMultiple;
 
 
     public void OnNotify<T>(Player player, T node)

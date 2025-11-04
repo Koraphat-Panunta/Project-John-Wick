@@ -201,28 +201,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3eccfa7ddfbfd48af8e7be52496a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawnerPos: {fileID: 3022661863309610859}
+  _mainHandGripTransform: {fileID: 121597156450861684}
+  _SecondHandGripTransform: {fileID: 1780952088139185614}
+  weaponStatsScriptableObject: {fileID: 11400000, guid: a923dc694aa93d342bdb56b673eacac0,
+    type: 2}
   isEquiped: 1
   parentConstraint: {fileID: -4776787860471616378}
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 1537619354982768088}
   Collider: {fileID: 0}
-  FrontGripSocket: {fileID: 0}
   ChamberCount: 0
   MagCount: 0
-  _Accuracy: 401
-  _RecoilController: 110
-  _RecoilCameraController: 145
-  _AimDownSightSpeed: 2.9
-  _RecoilKickBack: 180
-  Min_percision: 19
-  Max_percision: 120
-  mainHandGripTransform: {fileID: 121597156450861684}
-  secondHnadGripTransform: {fileID: 1780952088139185614}
   MagazineWeaponAnimationStateOverrideScriptableObject: {fileID: 11400000, guid: e4f8d80dc09c9b140b184b9d52073b7d,
     type: 2}
   microOpticSocket: {fileID: 7327806260083542802}
   microOptic: {fileID: 0}
+  FrontGripSocket: {fileID: 0}
 --- !u!114 &6335714959491028719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,10 +298,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7594886238610776571}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
+  m_LinearDamping: 0
+  m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -669,6 +663,8 @@ VFXRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_StaticBatchInfo:
@@ -688,6 +684,7 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0

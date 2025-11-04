@@ -6,6 +6,7 @@ using UnityEngine;
 public class CameraKickBack : ICameraAction
 {
     private CameraController cameraController;
+    private Coroutine coroutine;
     private ThirdPersonCinemachineCamera thirdPersonCam => this.cameraController.thirdPersonCinemachineCamera;
     public CameraKickBack(CameraController cameraController)
     {
@@ -17,7 +18,16 @@ public class CameraKickBack : ICameraAction
     }
     public void Performed(Weapon weapon)
     {
-        cameraController.StartCoroutine(KickUp(weapon.Recoil_Camera));
+        if(this.coroutine != null)
+        {
+            cameraController.StopCoroutine(this.coroutine);
+        }
+
+       this.coroutine = cameraController.StartCoroutine(KickUp
+           (Mathf.Lerp(cameraController.cameraKickPositionRange.x
+           ,cameraController.cameraKickPositionRange.y,weapon.Recoil_Camera)
+           )
+           );
     }
     float pitchReposition;
     float repositionTime;
@@ -26,7 +36,7 @@ public class CameraKickBack : ICameraAction
         yield return new WaitForFixedUpdate();
  
         pitchReposition = thirdPersonCam.pitch;
-        thirdPersonCam.InputRotateCamera(0, -(kickForce) * cameraController.cameraKickUpMultiple);
+        thirdPersonCam.InputRotateCamera(0, - kickForce);
         repositionTime = 0.3f;
         while (thirdPersonCam.pitch > pitchReposition && repositionTime>0)
         {

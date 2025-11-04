@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150415aab4f52bc40ae3d5dfad104c99, type: 3}
   m_Name: AR15
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStatsScriptableObject
-  bulletCapacity: 0
-  rate_of_fire: 1
-  reloadSpeed: 1
-  Recovery_CrosshairBloomSpeed: 1
-  Recovery_CrosshairPositionSpeed: 1
-  Recoil_CrosshairBloomController: 1
-  Recoil_KickVerticalPositionCrosshairController: 1
-  Recoil_KickHorizontalPositionCrosshairController: 1
-  Recoil_CameraControlController: 1
-  Recoil_VisualImpulseControl: 1
-  min_CrosshairSize: 1
-  max_CrosshairSize: 1
-  aimDownSight_speed: 1
+  bulletCapacity: 30
+  rate_of_fire: 670
+  reloadTime: 1.6
+  Recovery_CrosshairBloomSpeed: 0.7
+  Recovery_CrosshairPositionSpeed: 0.7
+  Recoil_CrosshairBloomController: 0.65
+  Recoil_KickPositionPositionCrosshairController: 0.65
+  Recoil_CameraControlController: 0.7
+  Recoil_VisualImpulseControl: 0.7
+  min_CrosshairSize: 20
+  max_CrosshairSize: 175
+  aimDownSight_speed: 7

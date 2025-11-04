@@ -15,13 +15,12 @@ MonoBehaviour:
   bulletCapacity: 17
   rate_of_fire: 360
   reloadTime: 1.1
-  Recovery_CrosshairBloomSpeed: 8.5
-  Recovery_CrosshairPositionSpeed: 7
-  Recoil_CrosshairBloomController: 1
-  Recoil_KickVerticalPositionCrosshairController: 1
-  Recoil_KickHorizontalPositionCrosshairController: 1
-  Recoil_CameraControlController: 1
-  Recoil_VisualImpulseControl: 9.53
-  min_CrosshairSize: 18.1
-  max_CrosshairSize: 250
+  Recovery_CrosshairBloomSpeed: 0.8
+  Recovery_CrosshairPositionSpeed: 0.55
+  Recoil_CrosshairBloomController: 0.5
+  Recoil_KickPositionPositionCrosshairController: 0.5
+  Recoil_CameraControlController: 0.8
+  Recoil_VisualImpulseControl: 0.85
+  min_CrosshairSize: 22
+  max_CrosshairSize: 200
   aimDownSight_speed: 7

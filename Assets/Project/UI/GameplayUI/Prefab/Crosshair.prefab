@@ -393,8 +393,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  crosshairSideKickMultiple: 0.15
-  crosshairUpperKickMultiple: 1
+  crosshairBloomRange: {x: 1, y: 100}
+  crosshairPositionKickRange: {x: 1, y: 100}
+  crosshairBloomRecoveryRange: {x: 10, y: 600}
+  crosshairPositionRecoveryRange: {x: 10, y: 600}
 --- !u!1 &4209380026552910668
 GameObject:
   m_ObjectHideFlags: 0

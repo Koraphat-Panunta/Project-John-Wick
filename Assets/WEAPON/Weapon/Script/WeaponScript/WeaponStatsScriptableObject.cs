@@ -8,19 +8,17 @@ public class WeaponStatsScriptableObject : ScriptableObject
     public float rate_of_fire; //fire per 60 second
     [Range(0.1f,10)]
     public float reloadTime; 
-    [Range(1, 10)]
+    [Range(0,1)]
     public float Recovery_CrosshairBloomSpeed;
-    [Range(1, 10)]
+    [Range(0,1)]
     public float Recovery_CrosshairPositionSpeed;
-    [Range(1, 10)]
+    [Range(0, 1)]
     public float Recoil_CrosshairBloomController;
-    [Range(1, 10)]
-    public float Recoil_KickVerticalPositionCrosshairController;
-    [Range(1, 10)]
-    public float Recoil_KickHorizontalPositionCrosshairController;
-    [Range(1, 10)]
+    [Range(0, 1)]
+    public float Recoil_KickPositionPositionCrosshairController;
+    [Range(0, 1)]
     public float Recoil_CameraControlController;
-    [Range(1, 10)]
+    [Range(0, 1)]
     public float Recoil_VisualImpulseControl;
     [Range(1, 200)]
     public float min_CrosshairSize;

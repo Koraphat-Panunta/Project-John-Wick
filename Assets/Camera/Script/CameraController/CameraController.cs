@@ -83,8 +83,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
         inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
         cameraManagerNode.FixedUpdateNode();
     }
-    [SerializeField] private float cameraKickImpulseMultiple;
-    public float cameraKickUpMultiple;
+    public Vector2 cameraKickPositionRange;
+    public Vector2 cameraImpulseRange;
 
     [Range(0, 5)]
     [SerializeField] private float gunFuCameraKickMultiply;
@@ -102,10 +102,10 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                 cameraKickBack.Performed(player._currentWeapon);
                 cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = shootImpluseDuration;
                 cameraImpluse.Performed(new Vector3(
-                    (player._currentWeapon.Recoil_VisualImpulse) * cameraKickImpulseMultiple * (Random.Range(1, 10) > 5 ? 1 : -1)
-                    , (player._currentWeapon.Recoil_VisualImpulse) * cameraKickImpulseMultiple
-                    ,0)
-                    );
+                    (Mathf.Lerp(cameraImpulseRange.x,cameraImpulseRange.y,player._currentWeapon.Recoil_VisualImpulse) * (Random.Range(1, 10) > 5 ? 1 : -1))
+                    , Mathf.Lerp(cameraImpulseRange.x, cameraImpulseRange.y, player._currentWeapon.Recoil_VisualImpulse)
+                    ,0
+                    ));
             }
 
             if (notifyEvent == SubjectPlayer.NotifyEvent.GetShoot)

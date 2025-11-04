@@ -40,8 +40,11 @@ public class CrosshairSpread : ICrosshairAction
     float spread_rateRecovery 
     { get 
         {
-            if(_crosshairController.player._currentWeapon != null)
-                return _crosshairController.player._currentWeapon.Recovery_CrosshairBloomSpeed;
+            if (_crosshairController.player._currentWeapon != null)
+                return Mathf.Lerp(
+                    _crosshairController.crosshairBloomRecoveryRange.x
+                    ,_crosshairController.crosshairBloomRecoveryRange.y
+                    ,_crosshairController.player._currentWeapon.Recovery_CrosshairBloomSpeed);
             else
                 return SPREAD_RATE_RECOVERY_DEFAULT;
         } 
@@ -51,7 +54,10 @@ public class CrosshairSpread : ICrosshairAction
         get 
         {
             if (_crosshairController.player._currentWeapon != null)
-                return _crosshairController.player._currentWeapon.Recovery_CrosshairPositionSpeed;
+                return Mathf.Lerp(
+                    _crosshairController.crosshairPositionRecoveryRange.x
+                    , _crosshairController.crosshairPositionRecoveryRange.y
+                    , _crosshairController.player._currentWeapon.Recovery_CrosshairPositionSpeed);
             else
                 return POSITION_RATE_RECOVERY_DEFAULT;
         } 
@@ -68,11 +74,13 @@ public class CrosshairSpread : ICrosshairAction
     }
     public void Performed(Weapon weapon)
     {
-        this.Performed(weapon.Recoil_CrosshairBloom);
+        this.Performed(Mathf.Lerp(_crosshairController.crosshairBloomRange.x,_crosshairController.crosshairBloomRange.y,weapon.Recoil_CrosshairBloom));
 
         this.CrosshairKickPosition(new Vector2(
-            weapon.Recoil_Horizontal_CrosshairPosition
-            , weapon.Recoil_Vertical_CrosshairPosition
+            Mathf.Lerp(
+                _crosshairController.crosshairPositionKickRange.x,_crosshairController.crosshairPositionKickRange.y,weapon.Recoil_CrosshairPosition) * .3f
+            , Mathf.Lerp(
+                _crosshairController.crosshairPositionKickRange.x, _crosshairController.crosshairPositionKickRange.y, weapon.Recoil_CrosshairPosition)
             ));
 
     }
@@ -84,8 +92,8 @@ public class CrosshairSpread : ICrosshairAction
     {
         crosshairKickUpRate = new Vector2
             (
-            crosshairKickUpRate.x + (_crosshairController.crosshairKickPositionMultiple * crosshairKickPosition.x * (Random.value > .5f?1:-1))
-            , Mathf.Clamp(crosshairKickUpRate.y + (crosshairKickPosition.y *_crosshairController.crosshairKickPositionMultiple), 0, 65)
+            crosshairKickUpRate.x + (crosshairKickPosition.x * (Random.value > .5f?1:-1))
+            , Mathf.Clamp(crosshairKickUpRate.y + (crosshairKickPosition.y), 0,175)
             );
     }
 
@@ -108,6 +116,9 @@ public class CrosshairSpread : ICrosshairAction
             }
                 
         }
+
+        Debug.Log("spread_rateRecovery = "+ spread_rateRecovery);
+        Debug.Log("position_rateRecovery = "+ position_rateRecovery);
 
         crosshairBloom_rate = Mathf.MoveTowards(crosshairBloom_rate,sperad_rateDestination,spread_rateRecovery * Time.deltaTime);
         crosshairKickUpRate = Vector2.MoveTowards(crosshairKickUpRate, Vector2.zero, position_rateRecovery * Time.deltaTime);
