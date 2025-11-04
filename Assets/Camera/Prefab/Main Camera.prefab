@@ -207,12 +207,12 @@ MonoBehaviour:
   gunFuCameraTimer: 0
   inputLook: 
   curSide: 0
-  shootImpluseDuration: 0.15
+  shootImpluseDuration: 1
   hitImpluseDuration: 0.15
   gotHitImplauseDuration: 0.15
   gotHitImplauseDirection: {x: 1, y: 1, z: 1}
   gotHitImplauseIntensity: 0.01
-  cameraKickPositionRange: {x: 0, y: 1}
+  cameraKickPositionRange: {x: 0, y: 0.4}
   cameraImpulseRange: {x: 0.002, y: 0.02}
   gunFuCameraKickMultiply: 0.15
   cameraTPSStandView_SCRP: {fileID: 11400000, guid: ea66ad0e041ea984abb314eebdfff9bf,
@@ -266,28 +266,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImpulseDefinition:
     ImpulseChannel: 1
-    ImpulseShape: 2
+    ImpulseShape: 0
     CustomImpulseShape:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 1.0065918
-        inSlope: -1.0696204
-        outSlope: -1.0696204
-        tangentMode: 34
+        inSlope: -29.631655
+        outSlope: -29.631655
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0.10730255
       - serializedVersion: 3
-        time: 1
-        value: 0.004713919
-        inSlope: -1.0696204
-        outSlope: -1.0696204
-        tangentMode: 34
+        time: 0.125
+        value: -0.875
+        inSlope: 0.0043060426
+        outSlope: 0.0043060426
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.2523651
+        value: 0.75
+        inSlope: 0.008414807
+        outSlope: 0.008414807
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.375
+        value: -0.625
+        inSlope: -0.0073601822
+        outSlope: -0.0073601822
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.5749762
+      - serializedVersion: 3
+        time: 0.5
+        value: 0.33333334
+        inSlope: -0.80579984
+        outSlope: -0.80579984
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.2701021
+      - serializedVersion: 3
+        time: 0.625
+        value: -0.1875
+        inSlope: -0.010063195
+        outSlope: -0.010063195
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 1
+      - serializedVersion: 3
+        time: 0.75
+        value: 0.125
+        inSlope: 0.013538078
+        outSlope: 0.013538078
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.83021593
+      - serializedVersion: 3
+        time: 0.875
+        value: -0.0625
+        inSlope: 0.033701606
+        outSlope: 0.033701606
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.880775
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0.010794605
+        outSlope: 0.010794605
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 1
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

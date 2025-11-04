@@ -93,7 +93,7 @@ public class CrosshairSpread : ICrosshairAction
         crosshairKickUpRate = new Vector2
             (
             crosshairKickUpRate.x + (crosshairKickPosition.x * (Random.value > .5f?1:-1))
-            , Mathf.Clamp(crosshairKickUpRate.y + (crosshairKickPosition.y), 0,175)
+            , Mathf.Clamp(crosshairKickUpRate.y + (crosshairKickPosition.y), 0,150)
             );
     }
 
