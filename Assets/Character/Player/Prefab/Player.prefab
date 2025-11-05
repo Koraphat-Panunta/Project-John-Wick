@@ -325,7 +325,6 @@ MonoBehaviour:
   player: {fileID: 3508049754622093220}
   playerAnimationManager: {fileID: 4449691354107149587}
   aimConstrainPositionReference: {fileID: 8527826123242575905}
-  trackRate: 0.25
   beginPos: {fileID: 7984018026264039633}
 --- !u!95 &4261433417065899419
 Animator:
@@ -739,7 +738,6 @@ MonoBehaviour:
   isImortal: 0
   MyHP: 0
   debugIsIFrame: 0
-  aimPosRef: {fileID: 3039372999945744660}
   StandMoveAccelerate: 4
   StandMoveMaxSpeed: 2.7
   StandMoveRotateSpeed: 3
@@ -4988,7 +4986,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 3039372999945744660}
+      objectReference: {fileID: 8527826123242575905}
     - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -5008,7 +5006,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 3039372999945744660}
+      objectReference: {fileID: 8527826123242575905}
     - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_MaxLimit
@@ -5028,7 +5026,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
-      objectReference: {fileID: 3039372999945744660}
+      objectReference: {fileID: 8527826123242575905}
     - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_LocalPosition.x

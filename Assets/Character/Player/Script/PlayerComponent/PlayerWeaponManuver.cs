@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuverAble
 {
     private Player player => weaponAdvanceUser as Player;
+
     public PlayerWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser, Player player) : base(weaponAdvanceUser)
     {
 
@@ -144,7 +145,6 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
     #endregion
 
     #endregion
-
     #region InitializedNode
     public override PickUpWeaponNodeLeaf pickUpWeaponNodeLeaf { get; protected set; }
 

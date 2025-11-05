@@ -121,12 +121,6 @@ public partial class Player : SubjectPlayer,
 
     #endregion
 
-    #region ProceduralAim_Lean
-
-    [SerializeField] private Transform aimPosRef;
-    public Transform _aimPosRef { get => aimPosRef; set => aimPosRef = value; }
-    #endregion
-
     #region TransformLocalWorld
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {

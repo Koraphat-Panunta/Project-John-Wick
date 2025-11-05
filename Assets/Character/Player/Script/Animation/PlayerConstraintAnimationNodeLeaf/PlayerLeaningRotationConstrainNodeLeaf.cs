@@ -27,25 +27,29 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         targetLeanWeight = 0;
         base.Enter();
     }
-    private float delayRecovery = 0;
+    private float recoveryRate = 0;
+    private float leanRate = 0;
     public override void UpdateNode()
     {
 
         leaningRotation.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight, leaningScriptableObject);
-        if (targetLeanWeight == 0) 
+        if (Mathf.Abs(leaningRotation.GetLeaningLeftRight()) >= Mathf.Abs(targetLeanWeight) * leaningRotation.leaningLeftRightSplineMax * multipleTargetWeight)
         {
-            delayRecovery -= Time.deltaTime;
-            if(delayRecovery <= 0)
-            {
-                leaningRotation.SetLeaningLeftRight(Mathf.Lerp(leaningRotation.GetLeaningLeftRight()
-                , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax, (leaningSpeed*0.5f) * Time.deltaTime));
-            }
+
+            recoveryRate = Mathf.Clamp01(recoveryRate + (Time.deltaTime * 2));
+            leanRate = 0;
+
+            leaningRotation.SetLeaningLeftRight(Mathf.Lerp(leaningRotation.GetLeaningLeftRight()
+            , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax * multipleTargetWeight, (leaningSpeed * recoveryRate) * Time.deltaTime));
         }
         else
         {
-            delayRecovery = .5f;
+
+            recoveryRate = 0;
+            leanRate = Mathf.Clamp01(leanRate + (Time.deltaTime * 2));
+
             leaningRotation.SetLeaningLeftRight(Mathf.Lerp(leaningRotation.GetLeaningLeftRight()
-                , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax * multipleTargetWeight, leaningSpeed * Time.deltaTime));
+            , targetLeanWeight * leaningRotation.leaningLeftRightSplineMax * multipleTargetWeight, (leaningSpeed * leanRate) * Time.deltaTime));
         }
 
         base.UpdateNode();

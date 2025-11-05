@@ -380,14 +380,16 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     private float maxVerticalRotateDegrees = 60;
     private Vector3 pointingPos;
     [SerializeField] Transform aimConstrainPositionReference;
-    [Range(0, 10)]
-    [SerializeField] float trackRate;
     [SerializeField] Transform beginPos;
+
     private void UpdateConstrainLookReferencePos()
     {
-        Vector3 poitnPos = player._aimPosRef.position;
+        Vector3 poitnPos = player._lookingPos;
 
         Vector3 startPos = beginPos.position;
+
+        //if (Vector3.Distance(poitnPos, pointingPos) > .5f)
+        //    trackRate = 0;
 
         // Normalize input
         Vector3 dirToPoint = (poitnPos - startPos).normalized;
@@ -412,7 +414,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         Vector3 clampedDir = rot * fwd;
 
         // Final pointing position (you can scale as needed)
-        pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized * Mathf.Clamp((poitnPos - startPos).magnitude, 1, 1)), this.trackRate);
+
+        pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized) * 10, 1);
         aimConstrainPositionReference.position = pointingPos;
     }
 

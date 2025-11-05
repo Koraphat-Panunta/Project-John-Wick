@@ -117,9 +117,6 @@ public class CrosshairSpread : ICrosshairAction
                 
         }
 
-        Debug.Log("spread_rateRecovery = "+ spread_rateRecovery);
-        Debug.Log("position_rateRecovery = "+ position_rateRecovery);
-
         crosshairBloom_rate = Mathf.MoveTowards(crosshairBloom_rate,sperad_rateDestination,spread_rateRecovery * Time.deltaTime);
         crosshairKickUpRate = Vector2.MoveTowards(crosshairKickUpRate, Vector2.zero, position_rateRecovery * Time.deltaTime);
 

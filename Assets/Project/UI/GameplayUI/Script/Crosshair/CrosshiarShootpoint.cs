@@ -74,7 +74,7 @@ public class CrosshiarShootpoint : ICrosshairAction
     public Vector3 GetPointDirection()
     {
         
-        return crosshairController.TargetAim.position;
+        return crosshairController.targetAimPaint;
     }
     public void Performed(Weapon weapon)
     {

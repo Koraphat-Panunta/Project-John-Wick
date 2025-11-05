@@ -11,7 +11,8 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
-    public Transform TargetAim => player._aimPosRef;
+    public Vector3 targetAimPaint { get; protected set; }
+    public Vector3 targetAim { get; protected set; }
     [SerializeField] public Player player;
     public bool isVisable = false;
 
@@ -45,7 +46,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
     void Update()
     {
-        CrosshairUpdate();
+
         if(player != null)
         CrosshairSpread.CrosshairSpreadUpdate();
         if (player._currentWeapon == null || player.weaponAdvanceUser._weaponManuverManager.aimingWeight <= 0)
@@ -56,12 +57,13 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         else
             this.EnableUI();
     }
-
+    private void LateUpdate()
+    {
+        CrosshairUpdate();
+    }
     void CrosshairUpdate()
     {
-        if(TargetAim == null)
-            return;
-
+        
         Vector3 CrosshairPos;
         //CrosshairPos = Camera.main.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(Crosshair_Position.position));
         CrosshairPos = Crosshair_CenterPosition.position;
@@ -72,20 +74,22 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         if (Physics.Raycast(ray, out hit, 10, layerMask,QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = worldPosition;
+            targetAimPaint = worldPosition;
             if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
                 gotPointingAble.NotifyPointingAble(this);
         }
         else if (Physics.Raycast(ray, out hit, 10, 1, QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
-            TargetAim.transform.position = worldPosition;
+            targetAimPaint = worldPosition;
         }
         else
         {
             Vector3 worldPosition = ray.GetPoint(10);
-            TargetAim.transform.position = worldPosition;
+            targetAimPaint = worldPosition;
         }
+
+        targetAim = ray.GetPoint(10);
     }
     private void OnEnable()
     {

@@ -75,6 +75,7 @@ public partial class Player: IWeaponAdvanceUser
         set { }
     }
     public Vector3 _pointingPos { get => crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
+    public Vector3 _lookingPos => crosshairController.targetAim;
     public Animator _weaponUserAnimator { get; set; }
     public Character _userWeapon { get => this; }
     [SerializeField] private AnimatorOverrideController AnimatorOverrideController;
