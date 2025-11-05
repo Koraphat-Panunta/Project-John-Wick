@@ -136,8 +136,8 @@ GameObject:
   - component: {fileID: 3655138367224795796}
   - component: {fileID: 2761170129473076366}
   - component: {fileID: 6335714959491028719}
+  - component: {fileID: -73435286910230583}
   - component: {fileID: 6476003251715792547}
-  - component: {fileID: -4776787860471616378}
   - component: {fileID: -2014423653459740281}
   - component: {fileID: 6533016776398317003}
   - component: {fileID: 5323522424945707105}
@@ -206,7 +206,7 @@ MonoBehaviour:
   weaponStatsScriptableObject: {fileID: 11400000, guid: a923dc694aa93d342bdb56b673eacac0,
     type: 2}
   isEquiped: 1
-  parentConstraint: {fileID: -4776787860471616378}
+  WeaponAttacherComponent: {fileID: -73435286910230583}
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 1537619354982768088}
   Collider: {fileID: 0}
@@ -245,6 +245,24 @@ MonoBehaviour:
   tacticalReloadFullStageNormalziedTime: 0.112
   magMain: {fileID: 6495938229049864826}
   magSecond: {fileID: 3057724576907943671}
+--- !u!114 &-73435286910230583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7594886238610776571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fe424239d10974fb796ca14e6cd70a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponAttacherComponent
+  attachAbleObject: {fileID: 7074491356039985985}
+  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachDuration: 0.5
+  weapon: {fileID: 2761170129473076366}
+  curWeaponGrip: {fileID: 0}
 --- !u!114 &6476003251715792547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,33 +282,6 @@ MonoBehaviour:
   reload_2: {fileID: 8300000, guid: e8ca3a79335f0bf47a59089d06ea344e, type: 3}
   reload_3: {fileID: 8300000, guid: 8f0ff75b31e254742baa086f44fd809c, type: 3}
   weapon: {fileID: 0}
---- !u!1773428102 &-4776787860471616378
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7594886238610776571}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 0
-  m_IsLocked: 0
-  m_Sources:
-  - sourceTransform: {fileID: 0}
-    weight: 1
 --- !u!54 &-2014423653459740281
 Rigidbody:
   m_ObjectHideFlags: 0

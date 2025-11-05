@@ -38,7 +38,8 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
 
     public IWeaponAdvanceUser userWeapon;
-    public ParentConstraint parentConstraint;
+    [SerializeField] private WeaponAttacherComponent WeaponAttacherComponent;
+    public WeaponAttacherComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
     public Rigidbody rb;
     public BulletSpawner bulletSpawner;
     public enum FireMode
@@ -54,7 +55,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public virtual void Initialized()
     {
         weaponLayerMask = gameObject.layer;
-        parentConstraint = GetComponent<ParentConstraint>();
+
         rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
         triggerState = TriggerState.Up;
