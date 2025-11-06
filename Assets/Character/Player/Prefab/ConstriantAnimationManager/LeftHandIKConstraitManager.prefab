@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   twoBoneIKConstraint: {fileID: 6135875295653811904}
   leftHandHint: {fileID: 6675179009939251548}
-  leftHandHintParentConstraint: {fileID: 5607581954794832538}
+  leftHandHintMountComponent: {fileID: 2688447559636090556}
   leftHandTarget: {fileID: 3171623266833256475}
-  leftHandTargetParentConstraint: {fileID: 2643535537706968672}
+  leftHandTargetMountComponent: {fileID: 4361725074953867429}
 --- !u!1 &4677930961699285029
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +59,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6675179009939251548}
-  - component: {fileID: 5607581954794832538}
+  - component: {fileID: 2688447559636090556}
   m_Layer: 0
   m_Name: LeftHandIKConstrait_hint
   m_TagString: Untagged
@@ -82,29 +82,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1529229116896202615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &5607581954794832538
-ParentConstraint:
+--- !u!114 &2688447559636090556
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4677930961699285029}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: -0.37960702, y: 1.4048718, z: -0.49426785}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets: []
-  m_RotationOffsets: []
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 0
-  m_IsLocked: 0
-  m_Sources: []
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56723fd60a7ab9e449736f5c60a813d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MountComponent
+  attachAbleObject: {fileID: 6675179009939251548}
+  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachDuration: 0.75
 --- !u!1 &5733752044918157013
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3171623266833256475}
-  - component: {fileID: 2643535537706968672}
+  - component: {fileID: 4361725074953867429}
   m_Layer: 0
   m_Name: LeftHandIKConstrait_target
   m_TagString: Untagged
@@ -195,26 +188,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1529229116896202615}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &2643535537706968672
-ParentConstraint:
+--- !u!114 &4361725074953867429
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6409383945847661642}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: -0.6540331, y: 1.4224567, z: -0.016518222}
-  m_RotationAtRest: {x: 90.39398, y: -91.73102, z: 4.3379974}
-  m_TranslationOffsets: []
-  m_RotationOffsets: []
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 0
-  m_IsLocked: 0
-  m_Sources: []
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56723fd60a7ab9e449736f5c60a813d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MountComponent
+  attachAbleObject: {fileID: 3171623266833256475}
+  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachDuration: 0.75

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponAttacherComponent : AttacherComponent
+public class WeaponMountComponent : MountComponent
 {
     [SerializeField] Weapon weapon;
     public Transform curWeaponGrip;
@@ -12,6 +12,7 @@ public class WeaponAttacherComponent : AttacherComponent
         this.curWeaponGrip = weaponGrip;
         base.Attach(weaponSocket, offsetPosition, offsetRotation);
     }
+   
     public override void Detach()
     {
         this.curWeaponGrip = null;
@@ -36,8 +37,11 @@ public class WeaponAttacherComponent : AttacherComponent
     }
     public override Quaternion GetAttachRotation()
     {
+        Debug.Log("GetAttachRotation 1");
         if (parentAttachTransform == null || curWeaponGrip == null)
             return base._attachAbleObject.rotation;
+
+        Debug.Log("GetAttachRotation 2");
 
         // This aligns the grip's rotation to match the socket’s rotation.
         // We first calculate the relative rotation difference between weapon and grip.

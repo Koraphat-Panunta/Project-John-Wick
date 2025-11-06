@@ -38,8 +38,8 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
 
     public IWeaponAdvanceUser userWeapon;
-    [SerializeField] private WeaponAttacherComponent WeaponAttacherComponent;
-    public WeaponAttacherComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
+    [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
+    public WeaponMountComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
     public Rigidbody rb;
     public BulletSpawner bulletSpawner;
     public enum FireMode

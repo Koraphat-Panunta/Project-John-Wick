@@ -7,9 +7,9 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     [SerializeField] private TwoBoneIKConstraint twoBoneIKConstraint;
 
     [SerializeField] private Transform leftHandHint;
-    [SerializeField] private ParentConstraint leftHandHintParentConstraint;
+    [SerializeField] private MountComponent leftHandHintMountComponent;
     [SerializeField] private Transform leftHandTarget;
-    [SerializeField] private ParentConstraint leftHandTargetParentConstraint;
+    [SerializeField] private MountComponent leftHandTargetMountComponent;
 
 
 
@@ -27,21 +27,24 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
         this.leftHandTarget.transform.rotation = targetHandRotation;
     }
 
-    public void SetHintHandParentConstraint(Transform hintTransform)
+    public void SetHintHandParentConstraint(Transform hintTransform,Vector3 offsetPosition,Vector3 offsetRotation)
     {
-        ParentConstraintAttachBehavior.Attach(this.leftHandHintParentConstraint, hintTransform);
+        this.leftHandHintMountComponent.Attach(hintTransform, offsetPosition, Quaternion.Euler(offsetRotation));
     }
+    public void SetHintHandParentConstraint(Transform hintTransform) => this.SetHintHandParentConstraint(hintTransform, Vector3.zero, Vector3.zero);
     public void RemoveHintHandParentConstraint()
     {
-        ParentConstraintAttachBehavior.Detach(this.leftHandHintParentConstraint);
+        leftHandHintMountComponent.Detach();
     }
-    public void SetTargetHandParentConstraint(Transform targetHandTransform)
+    public void SetTargetHandParentConstraint(Transform targetHandTransform, Vector3 offsetPosition, Vector3 offsetRotation)
     {
-        ParentConstraintAttachBehavior.Attach(this.leftHandTargetParentConstraint, targetHandTransform);
+        leftHandTargetMountComponent.Attach(targetHandTransform, offsetPosition, Quaternion.Euler(offsetRotation));
     }
+    public void SetTargetHandParentConstraint(Transform targetHandTransform) => this.SetTargetHandParentConstraint(targetHandTransform, Vector3.zero, Vector3.zero);
+
     public void RemoveTargetHandParentConstraint()
     {
-        ParentConstraintAttachBehavior.Detach(this.leftHandTargetParentConstraint);
+        leftHandTargetMountComponent.Detach();
     }
     // Update is called once per frame
 
