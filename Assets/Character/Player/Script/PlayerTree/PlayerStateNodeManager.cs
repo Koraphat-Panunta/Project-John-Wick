@@ -131,7 +131,7 @@ public class PlayerStateNodeManager : INodeManager
             () => player.playerStance == Stance.prone || true);
 
         playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
-            this.player, this.player.pokePickUpClip, .24f, .5f, this.player.rightFootss,
+            this.player, this.player.pokePickUpClip, .154f, .46f, this.player.rightFootss,
             () => (player._isInteractCommand == true || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand)))
             && this.player.currentInteractable is Weapon 
             && player._weaponManuverManager.isPickingUpWeaponManuverAble

@@ -38,7 +38,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
         this.timer += Time.deltaTime;
         if(this.timer < this.clip.length * warpingNormalized)
         {
-            this.pickedUpWeapon._weaponAttacherComponent.Hold(this.rightFoots.position, Quaternion.LookRotation(rightFoots.right), timer / this.clip.length * warpingNormalized);
+            this.pickedUpWeapon._weaponAttacherComponent.Hold(this.rightFoots.position + this.rightFoots.forward * .1f, Quaternion.LookRotation(rightFoots.right), timer / (this.clip.length * warpingNormalized));
         }
         else if(isPickUp == false)
         {
