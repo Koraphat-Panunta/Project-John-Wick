@@ -102,6 +102,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
+               || player.curNodeLeaf is PlayerPokePickUpWeaponNodeLeaf
                )
                 return true;
             return false;
@@ -205,15 +206,10 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                 if (isPickingUpWeaponManuverAble == false)
                     return false;
 
-                if (weaponAdvanceUser._isPickingUpWeaponCommand &&
-                player.currentInteractable != null &&
-                player.currentInteractable is Weapon selectFindingWeapon
-               )
-                {
-                    weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(selectFindingWeapon);
+                if (weaponAdvanceUser._isPickingUpWeaponCommand
+                && weaponAdvanceUser._findingWeaponBehavior.weaponFindingSelecting != null)
                     return true;
-                }
-                weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(null);
+
                 return false;
             });
 

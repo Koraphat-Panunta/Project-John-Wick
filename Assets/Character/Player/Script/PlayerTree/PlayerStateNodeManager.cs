@@ -24,6 +24,7 @@ public class PlayerStateNodeManager : INodeManager
    
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
+
     public PlayerSelectorStateNode standSelectorNode { get; private set; }
     public PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf { get; private set; }
     public VaultingNodeLeaf vaultingNodeLeaf { get; private set; }
@@ -42,6 +43,8 @@ public class PlayerStateNodeManager : INodeManager
 
     public PlayerSelectorStateNode proneStanceSelector { get; private set; }
     public PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf { get; private set; }
+
+    public PlayerPokePickUpWeaponNodeLeaf playerPokePickUpWeaponNodeLeaf { get; private set; }
 
     public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
     public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
@@ -126,6 +129,13 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player.playerStance == Stance.prone);
         playerGetUpStateNodeLeaf = new PlayerGetUpStateNodeLeaf(player.PlayerGetUpStateScriptableObject, this.player, 
             () => player.playerStance == Stance.prone || true);
+
+        playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
+            this.player, this.player.pokePickUpClip, .24f, .5f, this.player.rightFootss,
+            () => (player._isInteractCommand == true || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand)))
+            && this.player.currentInteractable is Weapon 
+            && player._weaponManuverManager.isPickingUpWeaponManuverAble
+            );
 
         gotGunFuAttackSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, () => player._triggerHitedGunFu);
         playerBrounceOffGotAttackGunFuNodeLeaf = new PlayerBrounceOffGotAttackGunFuNodeLeaf(player.PlayerBrounceOffGotAttackGunFuScriptableObject, this.player,
@@ -319,6 +329,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(executeGunFuSelector);
         stanceSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);

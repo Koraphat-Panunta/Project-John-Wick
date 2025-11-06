@@ -2,6 +2,7 @@ using UnityEngine;
 
 public partial class Player : I_Interacter
 {
+    public bool _isInteractCommand { get; set; }
     public I_Interactable currentInteractable { get; set; }
     [SerializeField] private LayerMask findInteractAbleObject;
 
@@ -12,6 +13,10 @@ public partial class Player : I_Interacter
     [SerializeField] private float interacter_sphereCastDetect;
 
     [SerializeField] private string interactableName;
+
+    [SerializeField] public AnimationClip pokePickUpClip;
+
+    [SerializeField] public Transform rightFootss;
     private void UpdateFindingInteractableObject()
     {
         Vector3 castPos = this.centreTransform.position;

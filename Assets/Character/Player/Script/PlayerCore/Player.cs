@@ -51,6 +51,7 @@ public partial class Player : SubjectPlayer,
 
     private void BlackBoardBufferUpdate()
     {
+        _isInteractCommand = false;
         _isHolsterWeaponCommand = false;
         _isDrawPrimaryWeaponCommand = false;
         _isDrawSecondaryWeaponCommand = false;

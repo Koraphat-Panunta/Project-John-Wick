@@ -7,6 +7,7 @@ public partial class PlayerAnimationManager
     public NodeManagerPortable playerBaseLayerAnimationNodeManagerPortable;
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
@@ -46,6 +47,8 @@ public partial class PlayerAnimationManager
         basedLayerNodeSelector = new NodeSelector(() => true);
         deadNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDeadNodeLeaf, animator, "Dead", 0, 0.14f);
+        pokePickUpNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>(), animator, "PokePickUp", 0, .07f);
         getUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             , animator, "PlayerSpringGetUp", 0, .2f);
@@ -163,6 +166,7 @@ public partial class PlayerAnimationManager
                 this.InitializedBasedLayer();
 
                 basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(pokePickUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);

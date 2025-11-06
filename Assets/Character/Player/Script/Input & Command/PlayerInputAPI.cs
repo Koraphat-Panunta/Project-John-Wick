@@ -162,9 +162,8 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     {
         if (context.performed)
         {
-            player._isPickingUpWeaponCommand = true;
-            player.commandBufferManager.AddCommand(nameof(player._isPickingUpWeaponCommand), 0.35f);
-            player.Interact();
+            player._isInteractCommand = true;
+            player.commandBufferManager.AddCommand(nameof(player._isInteractCommand), 0.35f);
             if(player.currentInteractable == null)
                 TriggerParkour(context);
         }

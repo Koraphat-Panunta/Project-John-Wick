@@ -12,8 +12,6 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
     {
         isComplete = false;
 
-        
-
         if (findingWeaponBehavior.weaponFindingSelecting is PrimaryWeapon && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null)
             WeaponAttachingBehavior.Detach(weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon,weaponAdvanceUser);
 
