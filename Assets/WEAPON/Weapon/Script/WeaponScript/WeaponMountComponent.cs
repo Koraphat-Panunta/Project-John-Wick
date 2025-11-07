@@ -37,11 +37,9 @@ public class WeaponMountComponent : MountComponent
     }
     public override Quaternion GetAttachRotation()
     {
-        Debug.Log("GetAttachRotation 1");
         if (parentAttachTransform == null || curWeaponGrip == null)
             return base._attachAbleObject.rotation;
 
-        Debug.Log("GetAttachRotation 2");
 
         // This aligns the grip's rotation to match the socket’s rotation.
         // We first calculate the relative rotation difference between weapon and grip.

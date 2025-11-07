@@ -31,7 +31,24 @@ public partial class Player : I_Interacter
             ,out I_Interactable i_Interactable))
             currentInteractable = i_Interactable;
         else
-            currentInteractable = null;
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position,.5f,this.findInteractAbleObject,QueryTriggerInteraction.Collide);
+
+            I_Interactable selectedIntObject = null;
+
+            if (colliders.Length > 0)
+            for(int i = 0; i < colliders.Length; i++)
+            {
+                    if (colliders[i].TryGetComponent<I_Interactable>(out I_Interactable IntObj)
+                        && IntObj.isBeenInteractAble)
+                    {
+                        selectedIntObject = IntObj;
+                        break;
+                    }
+            }
+
+            currentInteractable = selectedIntObject;
+        }
 
         if(currentInteractable != null)
             interactableName = currentInteractable.ToString();

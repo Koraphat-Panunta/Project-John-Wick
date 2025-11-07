@@ -21,6 +21,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
         this.warpingNormalized = warpingNormalized;
         this.exitNormalized = exitNormalized;
         this.rightFoots = rightFootPos;
+
     }
     
     public override void Enter()
@@ -29,16 +30,22 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
         this.pickedUpWeapon = player.currentInteractable as Weapon;
         this.isComplete = false;
         this.isPickUp = false;
+
+        Vector3 pushDir = this.pickedUpWeapon.transform.position - player.transform.position;
+        pushDir = new Vector3(pushDir.x, 0, pushDir.z).normalized;
+        (player._movementCompoent as IMotionImplusePushAble).AddForcePush(pushDir * 1.2f, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+
         base.Enter();
     }
     public override void UpdateNode()
     {
+
         player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
 
         this.timer += Time.deltaTime;
         if(this.timer < this.clip.length * warpingNormalized)
         {
-            this.pickedUpWeapon._weaponAttacherComponent.Hold(this.rightFoots.position + this.rightFoots.forward * .1f, Quaternion.LookRotation(rightFoots.right), timer / (this.clip.length * warpingNormalized));
+            this.pickedUpWeapon._weaponAttacherComponent.Hold(this.rightFoots.position, Quaternion.LookRotation(rightFoots.right), timer / (this.clip.length * warpingNormalized));
         }
         else if(isPickUp == false)
         {
