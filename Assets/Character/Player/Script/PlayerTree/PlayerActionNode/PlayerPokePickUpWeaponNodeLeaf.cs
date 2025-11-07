@@ -5,31 +5,27 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 {
     Transform rightFoots;
     Weapon pickedUpWeapon;
-    private AnimationClip clip;
-    float warpingNormalized;
-    float exitNormalized;
-    float timer;
-    private bool isPickUp;
+    public AnimationTriggerEventSCRP animationTriggerEventSCRP;
+    private AnimationTriggerEventPlayer animationTriggerEventPlayer;
+
+    private bool isWarpingWeapon;
     public PlayerPokePickUpWeaponNodeLeaf(Player player
-        ,AnimationClip pokePickUuClip
-        ,float warpingNormalized
-        ,float exitNormalized
+        , AnimationTriggerEventSCRP animationTriggerEventSCRP
         ,Transform rightFootPos
         , Func<bool> preCondition) : base(player, preCondition)
     {
-        this.clip = pokePickUuClip;
-        this.warpingNormalized = warpingNormalized;
-        this.exitNormalized = exitNormalized;
         this.rightFoots = rightFootPos;
-
+        this.animationTriggerEventSCRP = animationTriggerEventSCRP;
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.animationTriggerEventSCRP);
+        this.animationTriggerEventPlayer.SubscribeEvent(0, Attaching);
     }
     
     public override void Enter()
     {
-        this.timer = 0;
+        this.animationTriggerEventPlayer.Rewind();  
+        this.isWarpingWeapon = true;
         this.pickedUpWeapon = player.currentInteractable as Weapon;
         this.isComplete = false;
-        this.isPickUp = false;
 
         Vector3 pushDir = this.pickedUpWeapon.transform.position - player.transform.position;
         pushDir = new Vector3(pushDir.x, 0, pushDir.z).normalized;
@@ -42,27 +38,28 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 
         player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
 
-        this.timer += Time.deltaTime;
-        if(this.timer < this.clip.length * warpingNormalized)
-        {
-            this.pickedUpWeapon._weaponAttacherComponent.Hold(this.rightFoots.position, Quaternion.LookRotation(rightFoots.right), timer / (this.clip.length * warpingNormalized));
-        }
-        else if(isPickUp == false)
-        {
-            player.weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(this.pickedUpWeapon);
-            player._isPickingUpWeaponCommand = true;
-            isPickUp = true;
-        }
-
-        if(this.timer >= this.clip.length * exitNormalized)
-            isComplete = true;
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        if(isWarpingWeapon)
+            this.pickedUpWeapon._weaponAttacherComponent.Hold(
+                this.rightFoots.position
+                , Quaternion.LookRotation(rightFoots.right)
+                , (this.animationTriggerEventPlayer.timer - this.animationTriggerEventPlayer.startTimer) 
+                / (this.animationTriggerEventSCRP.clip.length * this.animationTriggerEventSCRP.triggerTimerEventNormalized[0])
+                );
+        
+       
 
         base.UpdateNode();
     }
-
+    private void Attaching()
+    {
+        isWarpingWeapon = false;
+        player.weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(this.pickedUpWeapon);
+        player._isPickingUpWeaponCommand = true;
+    }
     public override bool IsComplete()
     {
-        return isComplete;
+        return this.animationTriggerEventPlayer.IsPlayFinish();
     }
     public override bool IsReset()
     {

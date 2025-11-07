@@ -14,9 +14,9 @@ public partial class Player : I_Interacter
 
     [SerializeField] private string interactableName;
 
-    [SerializeField] public AnimationClip pokePickUpClip;
-
     [SerializeField] public Transform rightFootss;
+
+    [SerializeField] public AnimationTriggerEventSCRP pokePickUpAnimationSCRP;
     private void UpdateFindingInteractableObject()
     {
         Vector3 castPos = this.centreTransform.position;

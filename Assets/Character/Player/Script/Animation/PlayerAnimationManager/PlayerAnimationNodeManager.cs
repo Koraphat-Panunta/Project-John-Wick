@@ -48,7 +48,11 @@ public partial class PlayerAnimationManager
         deadNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDeadNodeLeaf, animator, "Dead", 0, 0.14f);
         pokePickUpNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>(), animator, "PokePickUp", 0, .07f);
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
+            , animator
+            , "PokePickUp"
+            , 0, .07f
+            , (playerStateNodeMnager as PlayerStateNodeManager).playerPokePickUpWeaponNodeLeaf.animationTriggerEventSCRP.enterNormalizedTime);
         getUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             , animator, "PlayerSpringGetUp", 0, .2f);

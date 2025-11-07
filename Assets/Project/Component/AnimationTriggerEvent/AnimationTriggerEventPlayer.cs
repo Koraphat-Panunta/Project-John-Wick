@@ -5,10 +5,10 @@ using UnityEngine.Events;
 
 public class AnimationTriggerEventPlayer 
 {
-    private float startTimer;
+    public float startTimer { get; protected set; }
     public float timer { get; protected set; }
     public float timerNormalized { get => timer/endTimer; }
-    private float endTimer;
+    public float endTimer { get; protected set; }
     private Dictionary<int, Action> getSelectEvent { get; set; }
     private Dictionary<Action,float> getEventTimer { get; set; }
     private Dictionary<Action, bool> isAlreadyTrigger { get; set; }

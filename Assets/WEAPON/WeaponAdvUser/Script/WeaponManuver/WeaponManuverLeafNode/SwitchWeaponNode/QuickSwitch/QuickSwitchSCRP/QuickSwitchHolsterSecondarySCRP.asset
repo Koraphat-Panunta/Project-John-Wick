@@ -15,13 +15,7 @@ MonoBehaviour:
   clip: {fileID: 7400000, guid: 0b0048b69ef97f749a9d57d1d472a5dd, type: 2}
   enterNormalizedTime: 0
   triggerNormalizedTime: 0.56
-  eventTriggerAnimations:
-  - unityEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    timerNormalized: 0.56
-  - unityEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    timerNormalized: 0.9
+  triggerTimerEventNormalized:
+  - 0.56
+  - 0.9
   endNormalizedTime: 0.9
