@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: QuickSwitchDrawSCRP
   m_EditorClassIdentifier: 
   clip: {fileID: 7400000, guid: 6c2fc9813ea67f245a3c336028479718, type: 2}
+  enterNormalizedTime: 0
   triggerNormalizedTime: 0.05
+  eventTriggerAnimations:
+  - unityEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    timerNormalized: 0.05
   endNormalizedTime: 1

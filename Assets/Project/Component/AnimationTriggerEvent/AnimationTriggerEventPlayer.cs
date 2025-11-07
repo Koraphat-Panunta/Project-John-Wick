@@ -9,9 +9,11 @@ public class AnimationTriggerEventPlayer
     public float timer { get; protected set; }
     public float timerNormalized { get => timer/endTimer; }
     private float endTimer;
-    private Dictionary<EventTriggerAnimation, bool> isAlreadyTrigger { get; set; }
+    private Dictionary<int, Action> getSelectEvent { get; set; }
+    private Dictionary<Action,float> getEventTimer { get; set; }
+    private Dictionary<Action, bool> isAlreadyTrigger { get; set; }
     public AnimationTriggerEventSCRP animationTriggerEventSCRP { get; protected set; }
-    private int eventCount => animationTriggerEventSCRP.eventTriggerAnimations.Count;
+    private int eventCount => animationTriggerEventSCRP.triggerTimerEventNormalized.Length;
     private int startSelectCount;
     private int selectCount;
     public AnimationTriggerEventPlayer(AnimationTriggerEventSCRP animationTriggerEventSCRP)
@@ -21,14 +23,14 @@ public class AnimationTriggerEventPlayer
         startTimer = animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.enterNormalizedTime;
         endTimer = animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.endNormalizedTime;
 
-        isAlreadyTrigger = new Dictionary<EventTriggerAnimation, bool>();
+        getSelectEvent = new Dictionary<int, Action>();
+        getEventTimer = new Dictionary<Action, float>();
+        isAlreadyTrigger = new Dictionary<Action, bool>();
 
         for (int i = 0; i < eventCount; i++)
         {
-            isAlreadyTrigger.Add(animationTriggerEventSCRP.eventTriggerAnimations[i],false);
-
-            if (timer > animationTriggerEventSCRP.clip.length
-            * animationTriggerEventSCRP.eventTriggerAnimations[i].timerNormalized)
+            if (startTimer > animationTriggerEventSCRP.clip.length
+            * animationTriggerEventSCRP.triggerTimerEventNormalized[i])
             {
                 startSelectCount++;
             }
@@ -41,7 +43,7 @@ public class AnimationTriggerEventPlayer
         selectCount = startSelectCount;
         for (int i = 0; i < eventCount; i++)
         {
-            isAlreadyTrigger[animationTriggerEventSCRP.eventTriggerAnimations[i]] = false;
+            isAlreadyTrigger[getSelectEvent[i]] = false;
         }
     }
 
@@ -51,15 +53,15 @@ public class AnimationTriggerEventPlayer
             return;
 
         timer += deltaTime;
+
+        if(selectCount >= eventCount)
+            return;
         
-        if( (selectCount < animationTriggerEventSCRP.eventTriggerAnimations.Count)
-            && (timer >= 
-            animationTriggerEventSCRP.clip.length 
-            * animationTriggerEventSCRP.eventTriggerAnimations[selectCount].timerNormalized)
-            && (isAlreadyTrigger[animationTriggerEventSCRP.eventTriggerAnimations[startSelectCount]] == false)
-            )
+        if(timer >= animationTriggerEventSCRP.clip.length * getEventTimer[getSelectEvent[selectCount]]
+            && isAlreadyTrigger[getSelectEvent[selectCount]] == false)
         {
-            animationTriggerEventSCRP.eventTriggerAnimations[selectCount].unityEvent.Invoke();
+            getSelectEvent[selectCount].Invoke();
+            isAlreadyTrigger[getSelectEvent[selectCount]] = true;
             selectCount++;
         }
     }
@@ -69,15 +71,10 @@ public class AnimationTriggerEventPlayer
         return timer >= endTimer;
     }
 
-    public void SubscribeEvent(int i,UnityAction subScribeEvent)
+    public void SubscribeEvent(int i,Action subScribeEvent)
     {
-        try
-        {
-            animationTriggerEventSCRP.eventTriggerAnimations[i].unityEvent.AddListener(subScribeEvent);
-        }
-        catch
-        {
-            throw new Exception("subscribe event failed "+subScribeEvent + " on event number "+i);
-        }
+        getSelectEvent.Add(i, subScribeEvent);
+        isAlreadyTrigger.Add(getSelectEvent[i], false);
+        getEventTimer.Add(getSelectEvent[i], animationTriggerEventSCRP.triggerTimerEventNormalized[i]);
     }
 }

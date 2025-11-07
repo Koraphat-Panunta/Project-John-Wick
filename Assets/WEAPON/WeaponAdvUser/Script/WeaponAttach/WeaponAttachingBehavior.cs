@@ -5,6 +5,7 @@ public static class WeaponAttachingBehavior
 {
     public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
     {
+        Debug.Log("Attach");
         Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity);
     }
     public static void Attach(
@@ -44,7 +45,6 @@ public static class WeaponAttachingBehavior
                         ,weapon._mainHandGripTransform
                         ,additionalOffsetPosition
                         ,additionalOffsetRotation);
-                    Debug.Log("Attach");
 
                     //Set AnimationState Override
                     AnimatorOverrideController animatorOverrideController = weaponAttachingAble.weaponAdvanceUser._animatorWeaponAdvanceUserOverride;

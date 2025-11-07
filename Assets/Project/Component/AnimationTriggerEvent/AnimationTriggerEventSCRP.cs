@@ -9,7 +9,7 @@ public class AnimationTriggerEventSCRP : ScriptableObject
     public float enterNormalizedTime;
     [Range(0, 1)]
     public float triggerNormalizedTime;
-    public List<EventTriggerAnimation> eventTriggerAnimations;
+    public float[] triggerTimerEventNormalized;
     [Range(0, 1)]
     public float endNormalizedTime;
 }

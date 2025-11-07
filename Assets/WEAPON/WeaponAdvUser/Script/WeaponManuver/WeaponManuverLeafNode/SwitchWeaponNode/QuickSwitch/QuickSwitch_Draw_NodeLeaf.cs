@@ -1,16 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
 {
     private bool isComplete;
-    private float elapseTime;
     private AnimationTriggerEventSCRP animationTriggerEventSCRP;
     private bool isDrawSecondary;
     private Weapon secondHandWeapon;
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get ; set ; }
     private TransformOffsetSCRP quickSwitchHoldOffset;
+
+    private AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
     public QuickSwitch_Draw_NodeLeaf(
         IWeaponAdvanceUser weaponAdvanceUser
@@ -22,11 +24,15 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
         this.quickSwitchHoldOffset = quickSwitchHoldSCRP;
-    }
 
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.animationTriggerEventSCRP);
+        this.animationTriggerEventPlayer.SubscribeEvent(0, Draw);
+
+    }
+  
     public override void Enter()
     {
-        elapseTime = 0;
+        this.animationTriggerEventPlayer.Rewind();
         this.secondHandWeapon = this.weaponAdvanceUser._currentWeapon;
         WeaponAttachingBehavior.Attach(
             secondHandWeapon
@@ -48,19 +54,19 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     }
     public override void UpdateNode()
     {
-        elapseTime += Time.deltaTime;
-        if(elapseTime >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.triggerNormalizedTime && isDrawSecondary == false)
-        {
-            WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket);
-            this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-            isDrawSecondary = true;
-        }
-        if(elapseTime >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.endNormalizedTime)
-            isComplete = true;
+        Debug.Log("Before draw");
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
     }
     public override void FixedUpdateNode()
     {
 
+    }
+    private void Draw()
+    {
+        Debug.Log("Draw timer = "+animationTriggerEventPlayer.timer);
+        isDrawSecondary = true;
+        WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket);
+        this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
     public override bool IsReset()
     {
@@ -71,7 +77,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     }
     public override bool IsComplete()
     {
-        return isComplete;
+        return this.animationTriggerEventPlayer.IsPlayFinish();
     }
 
    

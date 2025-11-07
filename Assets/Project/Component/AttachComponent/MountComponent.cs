@@ -35,6 +35,7 @@ public class MountComponent : MonoBehaviour
         this.parentAttachTransform = parentTransform;
         this.offsetPosition = offsetPosition;
         this.offsetRotation = offsetRotation;
+        attachRate = 0;
     }
     public void EnableAutoAttachRate() => _isEnableAutoAttachRate = true;
     public void DisableAutoAttachRate() => _isEnableAutoAttachRate = false;

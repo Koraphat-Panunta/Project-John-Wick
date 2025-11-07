@@ -14,6 +14,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
+    private AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
     public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
 
@@ -21,10 +22,13 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
         this.transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
+        this.animationTriggerEventPlayer.SubscribeEvent(0,HolsterPrimary);
     }
 
     public override void Enter()
     {
+        this.animationTriggerEventPlayer.Rewind();
         timer = 0;
         isComplete = false;
         isHolsterPrimaryWeapon = false;
@@ -41,16 +45,16 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     {
         this.TransitioningCheck();
 
-        timer += Time.deltaTime;
-        if(timer >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.triggerNormalizedTime && isHolsterPrimaryWeapon == false)
-        {
-            WeaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
-            isHolsterPrimaryWeapon = true;
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-            nodeLeafTransitionBehavior.TransitionAbleAll(this);
-        }
-        if(timer >= animationTriggerEventSCRP.clip.length * animationTriggerEventSCRP.endNormalizedTime)
-            isComplete = true;
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+
+    }
+
+    private void HolsterPrimary()
+    {
+        WeaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+        isHolsterPrimaryWeapon = true;
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        nodeLeafTransitionBehavior.TransitionAbleAll(this);
     }
 
     public override bool IsReset()
@@ -63,7 +67,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
 
     public override bool IsComplete()
     {
-        return isComplete;
+        return this.animationTriggerEventPlayer.IsPlayFinish();
     }
 
     public override void FixedUpdateNode()
