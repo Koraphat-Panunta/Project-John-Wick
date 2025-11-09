@@ -5,7 +5,6 @@ public static class WeaponAttachingBehavior
 {
     public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
     {
-        Debug.Log("Attach");
         Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity);
     }
     public static void Attach(

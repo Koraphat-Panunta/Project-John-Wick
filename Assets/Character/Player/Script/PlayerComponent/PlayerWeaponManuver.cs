@@ -33,7 +33,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
     {
         get
         {
-            if ((weaponAdvanceUser._weaponManuverManager as INodeManager).GetCurNodeLeaf() is IReloadMagazineNode)
+            if ((weaponAdvanceUser._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadMagazineNode>())
                 return false;
             if (aimingWeight >= 1)
                 return true;

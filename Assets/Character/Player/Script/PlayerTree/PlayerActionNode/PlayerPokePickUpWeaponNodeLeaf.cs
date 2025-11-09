@@ -29,14 +29,14 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 
         Vector3 pushDir = this.pickedUpWeapon.transform.position - player.transform.position;
         pushDir = new Vector3(pushDir.x, 0, pushDir.z).normalized;
-        (player._movementCompoent as IMotionImplusePushAble).AddForcePush(pushDir * 1.2f, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+        (player._movementCompoent as IMotionImplusePushAble).AddForcePush(pushDir * 1.2f, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
 
         base.Enter();
     }
     public override void UpdateNode()
     {
 
-        player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
+        player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate * .7f, player.breakMaxSpeed * .7f, MoveMode.MaintainMomentum);
 
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         if(isWarpingWeapon)
