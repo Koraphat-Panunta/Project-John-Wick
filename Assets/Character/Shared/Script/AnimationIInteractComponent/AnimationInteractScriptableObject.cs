@@ -3,7 +3,8 @@ using UnityEngine;
 public class AnimationInteractScriptableObject : ScriptableObject
 {
     public AnimationClip animationClip;
-    [Range(0.001f, 1)]
-    public float transitionRootDrivenAnimationDuration;
+    public float playOffsetNormalized;
+    public float endOffsetNormalized;
+    public static float transitionRootDrivenAnimationDuration = 0.05f;
     public AnimationInteractCharacterDetail[] animationInteractCharacterDetail;
 }

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clip: {fileID: 7400000, guid: 0b0048b69ef97f749a9d57d1d472a5dd, type: 2}
   enterNormalizedTime: 0
-  triggerNormalizedTime: 0.56
-  triggerTimerEventNormalized:
-  - 0.56
-  - 0.9
+  triggerEventDetail:
+  - normalizedTime: 0.56
+    eventName: HolsterSecondary
+  - normalizedTime: 0.9
+    eventName: DrawPrimary
   endNormalizedTime: 0.9

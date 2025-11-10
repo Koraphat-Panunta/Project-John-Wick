@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable] 
 public struct AnimationInteractCharacterDetail 
 {
-    public AnimationClip animationClip;
+    public string subjectName;
 
     public Vector2 offsetPositionFormAnchor;
     public float RotationRelative;

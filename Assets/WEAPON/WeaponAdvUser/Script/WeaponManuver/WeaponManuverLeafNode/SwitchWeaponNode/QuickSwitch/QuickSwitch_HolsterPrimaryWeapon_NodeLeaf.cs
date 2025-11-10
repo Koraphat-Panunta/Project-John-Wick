@@ -23,7 +23,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
-        this.animationTriggerEventPlayer.SubscribeEvent(0,HolsterPrimary);
+        this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[0].eventName,HolsterPrimary);
     }
 
     public override void Enter()

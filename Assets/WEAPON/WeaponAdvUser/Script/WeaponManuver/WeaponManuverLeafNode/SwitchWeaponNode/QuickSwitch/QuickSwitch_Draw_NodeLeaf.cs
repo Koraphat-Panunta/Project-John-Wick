@@ -26,7 +26,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
         this.quickSwitchHoldOffset = quickSwitchHoldSCRP;
 
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.animationTriggerEventSCRP);
-        this.animationTriggerEventPlayer.SubscribeEvent(0, Draw);
+        this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[0].eventName, Draw);
 
     }
   

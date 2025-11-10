@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,6 +11,7 @@ public class AnimationTriggerEventPlayer
     public float timerNormalized { get => timer/endTimer; }
     public float endTimer { get; protected set; }
     public float[] triggerTimerEventNormalized;
+    private Dictionary<string, int> getIndexAction { get; set; }
     private Dictionary<int, Action> getSelectEvent { get; set; }
     private Dictionary<Action,float> getEventTimer { get; set; }
     private Dictionary<Action, bool> isAlreadyTrigger { get; set; }
@@ -27,11 +29,11 @@ public class AnimationTriggerEventPlayer
         : this(animationTriggerEventSCRP.clip
               , animationTriggerEventSCRP.enterNormalizedTime
               , animationTriggerEventSCRP.endNormalizedTime
-              , animationTriggerEventSCRP.triggerTimerEventNormalized)
+              , animationTriggerEventSCRP.triggerEventDetail)
     {
         
     }
-    public AnimationTriggerEventPlayer(AnimationClip animationClip,float enterNormalized,float endNormalized, float[] triggerTimerEventNormalized)
+    public AnimationTriggerEventPlayer(AnimationClip animationClip,float enterNormalized,float endNormalized, AnimationTriggerEventDetail[] triggerEventDetail)
     {
         this.animationClip = animationClip;
         this.enterNormalizedTime = enterNormalized;
@@ -40,18 +42,39 @@ public class AnimationTriggerEventPlayer
         startTimer = animationClip.length * enterNormalized;
         endTimer = animationClip.length * endNormalized;
 
+        getIndexAction = new Dictionary<string, int>();
         getSelectEvent = new Dictionary<int, Action>();
         getEventTimer = new Dictionary<Action, float>();
         isAlreadyTrigger = new Dictionary<Action, bool>();
 
-        this.triggerTimerEventNormalized = new float[triggerTimerEventNormalized.Length];
+        this.triggerTimerEventNormalized = new float[triggerEventDetail.Length];
+
+        List<float> allTriggerTimerNor = new List<float>();
+        for(int indexPopulate = 0;indexPopulate < triggerEventDetail.Length;indexPopulate++) 
+        {
+            allTriggerTimerNor.Add(triggerEventDetail[indexPopulate].normalizedTime);
+        }
 
         for (int i = 0; i < eventCount; i++)
         {
-            this.triggerTimerEventNormalized[i] = triggerTimerEventNormalized[i];
+            float leastNumber = 1;
+            int removeIndex = 0;
+            for (int y = 0; y < allTriggerTimerNor.Count; y++)
+            {
+                if (leastNumber > allTriggerTimerNor[y])
+                {
+                    leastNumber = allTriggerTimerNor[y];
+                    removeIndex = y;
+                }
+
+            }
+            allTriggerTimerNor.RemoveAt(removeIndex);
+
+            this.triggerTimerEventNormalized[i] = leastNumber;
+            this.getIndexAction.Add(triggerEventDetail[i].eventName, i);
             this.getSelectEvent.Add(i, new Action(() => { }));
             if (startTimer > animationClip.length
-            * triggerTimerEventNormalized[i])
+            * triggerEventDetail[i].normalizedTime)
             {
                 startSelectCount++;
             }
@@ -98,10 +121,10 @@ public class AnimationTriggerEventPlayer
         return timer >= endTimer;
     }
 
-    public void SubscribeEvent(int i,Action subScribeEvent)
+    public void SubscribeEvent(string eventName,Action subScribeEvent)
     {
-        getSelectEvent[i] += subScribeEvent;
-        isAlreadyTrigger.Add(getSelectEvent[i], false);
-        getEventTimer.Add(getSelectEvent[i], this.triggerTimerEventNormalized[i]);
+        getSelectEvent[getIndexAction[eventName]] += subScribeEvent;
+        isAlreadyTrigger.Add(getSelectEvent[getIndexAction[eventName]], false);
+        getEventTimer.Add(getSelectEvent[getIndexAction[eventName]], this.triggerTimerEventNormalized[getIndexAction[eventName]]);
     }
 }

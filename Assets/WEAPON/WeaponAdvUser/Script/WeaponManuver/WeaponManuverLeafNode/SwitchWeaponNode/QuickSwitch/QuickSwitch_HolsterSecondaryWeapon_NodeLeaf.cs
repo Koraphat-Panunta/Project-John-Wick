@@ -18,8 +18,8 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
 
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
-        this.animationTriggerEventPlayer.SubscribeEvent(0,HolsterSecondary);
-        this.animationTriggerEventPlayer.SubscribeEvent(1, DrawPrimary);
+        this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[0].eventName,HolsterSecondary);
+        this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[1].eventName, DrawPrimary);
     }
 
     public override void Enter()

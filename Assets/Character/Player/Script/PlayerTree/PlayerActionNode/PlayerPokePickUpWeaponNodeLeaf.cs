@@ -17,7 +17,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
         this.rightFoots = rightFootPos;
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.animationTriggerEventSCRP);
-        this.animationTriggerEventPlayer.SubscribeEvent(0, Attaching);
+        this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[0].eventName, Attaching);
     }
     
     public override void Enter()
@@ -44,7 +44,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
                 this.rightFoots.position
                 , Quaternion.LookRotation(rightFoots.right)
                 , (this.animationTriggerEventPlayer.timer - this.animationTriggerEventPlayer.startTimer) 
-                / (this.animationTriggerEventSCRP.clip.length * this.animationTriggerEventSCRP.triggerTimerEventNormalized[0])
+                / (this.animationTriggerEventSCRP.clip.length * this.animationTriggerEventSCRP.triggerEventDetail[0].normalizedTime)
                 );
         
        

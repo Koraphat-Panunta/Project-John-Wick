@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
   clip: {fileID: 7400000, guid: 04fff90414fbe7945a192c769e6c5445, type: 2}
   enterNormalizedTime: 0.1
-  triggerNormalizedTime: 0
-  triggerTimerEventNormalized:
-  - 0.24
+  triggerEventDetail:
+  - normalizedTime: 0.24
+    eventName: KickingUp
   endNormalizedTime: 0.5
