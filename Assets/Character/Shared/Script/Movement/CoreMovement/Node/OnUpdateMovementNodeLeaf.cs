@@ -20,7 +20,7 @@ public class OnUpdateMovementNodeLeaf : MovementNodeLeaf
 
         gravityMovement.GravityMovementUpdate(movementCompoent);    
         
-        movementCompoent.Move(movementCompoent.curMoveVelocity_World * Time.deltaTime);
+        movementCompoent.Move(movementCompoent.curMoveVelocity_World * Time.fixedDeltaTime);
 
     }
 }

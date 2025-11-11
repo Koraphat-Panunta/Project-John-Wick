@@ -13,11 +13,20 @@ public partial class Weapon : INodeManager
     public abstract WeaponRestNodeLeaf restNode { get; set; }
     public abstract NodeSelector _reloadSelecotrOverriden { get; }
 
+    public NodeComponentManager nodeComponentManager;
+
     private INodeLeaf curNodeLeaf { get; set; }
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set  => this.curNodeLeaf = value; }
 
 
-    public abstract void InitailizedNode();
+    public virtual void InitailizedNode()
+    {
+        this.nodeComponentManager = new NodeComponentManager();
+
+        this._objectIsBeenThrowNodeLeaf = new ObjectIsBeenThrowNodeLeaf(()=> _isTriggerThrow,this);
+
+        nodeComponentManager.AddNode(this._objectIsBeenThrowNodeLeaf);
+    }
 
     public virtual void FixedUpdateNode()
     {
