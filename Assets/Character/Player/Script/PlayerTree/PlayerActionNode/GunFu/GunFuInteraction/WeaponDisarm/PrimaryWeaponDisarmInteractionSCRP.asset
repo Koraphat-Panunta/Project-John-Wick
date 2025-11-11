@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
+  m_Name: PrimaryWeaponDisarmInteractionSCRP
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
+  clip: {fileID: 7400000, guid: bbd59ba34172a2940ac909a79da98e57, type: 2}
+  enterNormalizedTime: 0
+  triggerEventDetail:
+  - normalizedTime: 0.2
+    eventName: Disarm
+  - normalizedTime: 0.59
+    eventName: TransitionAble
+  endNormalizedTime: 0.9
+  animationInteractCharacterDetail:
+  - subjectName: Disarmer
+    offsetPositionFormAnchor: {x: 0, y: -0.82}
+    RotationRelative: 180
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.14
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
+    onSyncAnimationWithBasedOnMainSubjectNormalizedTime: {x: 0, y: 0}
+    endAnimationNormalizedTime: 0.9
+  - subjectName: Disarmed
+    offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 0
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.14
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.14
+    onSyncAnimationWithBasedOnMainSubjectNormalizedTime: {x: 0, y: 0}
+    endAnimationNormalizedTime: 1

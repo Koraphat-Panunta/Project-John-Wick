@@ -283,7 +283,7 @@ public class PlayerStateNodeManager : INodeManager
         weaponDisarmSelector = new PlayerSelectorStateNode(this.player,
             () => 
             {
-                if((player._isPickingUpWeaponCommand || player.commandBufferManager.TryGetCommand(nameof(player._isPickingUpWeaponCommand))) && player.attackedAbleGunFu != null)
+                if((player._isInteractCommand || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand))) && player.attackedAbleGunFu != null)
                 {
                     if(player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon != null)
                         return true;
@@ -293,7 +293,7 @@ public class PlayerStateNodeManager : INodeManager
             );
 
         primary_WeaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player.primaryWeaponDisarmGunFuScriptableObject
-            ,this.player
+            , this.player
             , () => player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon is PrimaryWeapon);
         secondart_WeaponDisarm_GunFuInteraction_NodeLeaf = new WeaponDisarm_GunFuInteraction_NodeLeaf(this.player.secondaryWeaponDisarmGunFuScriptableObject
             , this.player

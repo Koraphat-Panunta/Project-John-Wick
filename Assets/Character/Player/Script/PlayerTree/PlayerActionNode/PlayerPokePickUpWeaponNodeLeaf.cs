@@ -43,8 +43,9 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
             this.pickedUpWeapon._weaponAttacherComponent.Hold(
                 this.rightFoots.position
                 , Quaternion.LookRotation(rightFoots.right)
-                , (this.animationTriggerEventPlayer.timer - this.animationTriggerEventPlayer.startTimer) 
-                / (this.animationTriggerEventSCRP.clip.length * this.animationTriggerEventSCRP.triggerEventDetail[0].normalizedTime)
+                , this.animationTriggerEventPlayer.GetRemapNormalizedTimer
+                (animationTriggerEventPlayer.enterNormalizedTime
+                , animationTriggerEventPlayer.endNormalizedTime)
                 );
         
        

@@ -38,8 +38,8 @@ public partial class Player : IGunFuAble
     [SerializeField] public GunFuHitScriptableObject dodgeSpinKick;
     [SerializeField] public GunFuInteraction_ScriptableObject humanShield;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
-    [SerializeField] public WeaponDisarmGunFuScriptableObject primaryWeaponDisarmGunFuScriptableObject;
-    [SerializeField] public WeaponDisarmGunFuScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
+    [SerializeField] public AnimationInteractScriptableObject primaryWeaponDisarmGunFuScriptableObject;
+    [SerializeField] public AnimationInteractScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
 
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;

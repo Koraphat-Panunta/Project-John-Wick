@@ -3,20 +3,25 @@ using UnityEngine;
 
 public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeLeaf
 {
-    private float duration => weaponGotDisarmedScriptableObject.animationClip.length * weaponGotDisarmedScriptableObject.exitNormalized;
-    private WeaponGotDisarmedScriptableObject weaponGotDisarmedScriptableObject;
-    public WeaponGotDisarmedGunFuGotInteractNodeLeaf(WeaponGotDisarmedScriptableObject weaponGotDisarmedScriptableObject,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
+    private string stateName;
+
+    private AnimationTriggerEventSCRP weaponGotDisarmedScriptableObject;
+    private AnimationTriggerEventPlayer animationTriggerEventPlayer;
+    public WeaponGotDisarmedGunFuGotInteractNodeLeaf(AnimationTriggerEventSCRP weaponGotDisarmedScriptableObject,string StateName,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.weaponGotDisarmedScriptableObject = weaponGotDisarmedScriptableObject;
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(weaponGotDisarmedScriptableObject);
+        this.stateName = StateName;
     }
 
     public override void Enter()
     {
+        animationTriggerEventPlayer.Rewind();
         enemy.NotifyObserver(enemy, this);
-        enemy.animator.CrossFade(weaponGotDisarmedScriptableObject.StateName, 0.25f, 0,weaponGotDisarmedScriptableObject.enterNormalized);
+        enemy.animator.CrossFade(stateName, 0.25f, 0,weaponGotDisarmedScriptableObject.enterNormalizedTime);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
         base.Enter();
-        _timer = weaponGotDisarmedScriptableObject.animationClip.length * weaponGotDisarmedScriptableObject.enterNormalized;
+
     }
 
     public override void Exit()
@@ -32,13 +37,16 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
 
     public override bool IsComplete()
     {
-        return base.IsComplete();
+        return this.animationTriggerEventPlayer.IsPlayFinish();
     }
 
     public override bool IsReset()
     {
 
-        if (_timer > duration || (enemy._triggerHitedGunFu || enemy._isPainTrigger))
+        if ((enemy._triggerHitedGunFu || enemy._isPainTrigger))
+            return true;
+
+        if(IsComplete())
             return true;
 
         return false;
@@ -46,8 +54,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
 
     public override void UpdateNode()
     {
-        if(_timer >= duration)
-            isComplete = true;
+        animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         enemy._movementCompoent.MoveToDirWorld(Vector3.zero, enemy.breakMaxSpeed, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
         base.UpdateNode();
     }
