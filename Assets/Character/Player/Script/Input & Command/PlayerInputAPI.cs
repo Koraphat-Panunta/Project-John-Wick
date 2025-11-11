@@ -170,7 +170,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     public void TriggerDropWeapon(InputAction.CallbackContext context)
     {
         if (context.performed)
-            player._isDropWeaponCommand = true;
+            player._isTriggerThrowCommand = true;
     }
     public void TriggerParkour(InputAction.CallbackContext context)
     {
@@ -178,6 +178,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
             player._isParkourCommand = true;
         
     }
+   
 
     private void OnValidate()
     {

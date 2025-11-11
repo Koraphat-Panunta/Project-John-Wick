@@ -63,6 +63,7 @@ public partial class Player : SubjectPlayer,
         _triggerExecuteGunFu = false;
         _isParkourCommand = false;
         _triggerGunFu = false;
+        _isTriggerThrowCommand = false;
  
     }
    

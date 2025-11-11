@@ -107,6 +107,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         fire.AddTransitionNode(autoLoadChamber);
 
         this._nodeManagerBehavior.SearchingNewNode(this);
+
+        base.InitailizedNode();
     }
 
     

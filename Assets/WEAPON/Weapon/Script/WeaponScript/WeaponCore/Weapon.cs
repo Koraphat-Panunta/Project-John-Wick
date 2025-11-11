@@ -86,6 +86,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
 
         this.UpdateNode();
         isPullTrigger = false;
+        _isTriggerThrow = false;
     }
    
     protected virtual void FixedUpdate()
@@ -94,7 +95,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     }
     protected virtual void LateUpdate()
     {
-        _isTriggerThrow = false;
+
     }
     public virtual void PullTrigger() 
     {

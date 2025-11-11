@@ -46,6 +46,8 @@ public class PlayerStateNodeManager : INodeManager
 
     public PlayerPokePickUpWeaponNodeLeaf playerPokePickUpWeaponNodeLeaf { get; private set; }
 
+    public PlayerThrowWeaponNodeLeaf playerThrowWeaponNodeLeaf { get; private set; }
+
     public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
     public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
 
@@ -135,6 +137,12 @@ public class PlayerStateNodeManager : INodeManager
             () => (player._isInteractCommand == true || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand)))
             && this.player.currentInteractable is Weapon 
             && player._weaponManuverManager.isPickingUpWeaponManuverAble
+            );
+
+        playerThrowWeaponNodeLeaf = new PlayerThrowWeaponNodeLeaf(this.player
+            , this.player.throwObjectAnimationTriggerEventSCRP,
+            () => player._isTriggerThrowCommand 
+            && player._currentWeapon != null
             );
 
         gotGunFuAttackSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, () => player._triggerHitedGunFu);
@@ -329,6 +337,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(executeGunFuSelector);
         stanceSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(playerThrowWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);

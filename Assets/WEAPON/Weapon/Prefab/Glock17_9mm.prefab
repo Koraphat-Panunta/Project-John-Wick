@@ -178,6 +178,7 @@ MonoBehaviour:
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 2589834951360758816}
   Collider: {fileID: 4957479122355972784}
+  throwVelocity: 10
   MagazineWeaponAnimationStateOverrideScriptableObject: {fileID: 11400000, guid: a1f24de70089e8e41b72a59ab75d9bf9,
     type: 2}
 --- !u!114 &7665513408781047494
@@ -253,7 +254,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7594886238610776571}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}

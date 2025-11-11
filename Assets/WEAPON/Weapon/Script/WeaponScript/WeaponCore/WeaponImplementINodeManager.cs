@@ -31,6 +31,7 @@ public partial class Weapon : INodeManager
     public virtual void FixedUpdateNode()
     {
         this._nodeManagerBehavior.FixedUpdateNode(this);
+        this.nodeComponentManager.FixedUpdate();
     }
 
    
@@ -38,5 +39,7 @@ public partial class Weapon : INodeManager
     public virtual void UpdateNode()
     {
         this._nodeManagerBehavior.UpdateNode(this);
+        Debug.Log("_isTriggerThrow" + _isTriggerThrow);
+        this.nodeComponentManager.Update();
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
+  m_Name: PlayerThrowObjectAnimationTriggerEventSCRP
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
+  clip: {fileID: 7400000, guid: 558ddddd2af9a8e4389f22c70b45f49b, type: 2}
+  enterNormalizedTime: 0.22
+  triggerEventDetail:
+  - normalizedTime: 0.43
+    eventName: Throwing
+  endNormalizedTime: 0.87

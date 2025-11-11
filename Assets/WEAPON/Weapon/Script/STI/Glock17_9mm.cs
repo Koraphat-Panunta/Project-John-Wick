@@ -89,5 +89,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType, IBoltBack
         fire.AddTransitionNode(autoLoadChamber);
 
         _nodeManagerBehavior.SearchingNewNode(this);
+
+        base.InitailizedNode();
     }
 }

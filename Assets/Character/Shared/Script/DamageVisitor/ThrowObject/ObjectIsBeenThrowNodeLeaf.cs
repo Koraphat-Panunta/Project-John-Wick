@@ -23,18 +23,22 @@ public class ObjectIsBeenThrowNodeLeaf : INodeLeaf
     public void Enter()
     {
         isHit = false;
+        throwAbleObject._isBeenThrow = true;
         if(this.throwAbleObject._targetBeenThrowAbleObjectAt != null)
             isLockOn = true;
         else
         {
             isLockOn = false;
-            throwAbleObject._throwAbleObjectRigidBody.AddForce((throwAbleObject._targetThrowAtPosition - throwAbleObject._throwAbleObjectTransform.position).normalized * throwAbleObject._throwVelocity,ForceMode.VelocityChange);
+            Debug.Log("weawponBeenThrow");
+            Vector3 force = (throwAbleObject._targetThrowAtPosition - throwAbleObject._throwAbleObjectTransform.position).normalized ;
+            force = new Vector3(force.x,.4f , force.z).normalized * throwAbleObject._throwVelocity;
+            throwAbleObject._throwAbleObjectRigidBody.AddForce(force, ForceMode.VelocityChange);
         }
     }
 
     public void Exit()
     {
-
+        throwAbleObject._isBeenThrow = false;
     }
     public void UpdateNode()
     {

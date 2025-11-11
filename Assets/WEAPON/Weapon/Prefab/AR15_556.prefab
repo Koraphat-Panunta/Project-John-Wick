@@ -55,13 +55,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529970576853322839}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.63074845, y: 0.51983774, z: 0.5168045, w: -0.25463355}
-  m_LocalPosition: {x: -0.0828, y: 0.0105, z: 0.1339}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.0116, z: 0.1936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7074491356039985985}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &2275023157894548265
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +210,7 @@ MonoBehaviour:
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 1537619354982768088}
   Collider: {fileID: 0}
+  throwVelocity: 10
   ChamberCount: 0
   MagCount: 0
   MagazineWeaponAnimationStateOverrideScriptableObject: {fileID: 11400000, guid: e4f8d80dc09c9b140b184b9d52073b7d,
@@ -290,7 +291,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7594886238610776571}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 3
   m_LinearDamping: 0
   m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}

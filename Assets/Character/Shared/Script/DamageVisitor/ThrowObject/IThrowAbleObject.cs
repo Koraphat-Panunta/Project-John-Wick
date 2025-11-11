@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IThrowAbleObject : IDamageVisitor
 {
+    public bool _isBeenThrow { get; set; }
     public bool _isTriggerThrow { get; set; }
     public Transform _throwAbleObjectTransform { get; set; }
     public ObjectIsBeenThrowNodeLeaf _objectIsBeenThrowNodeLeaf { get; set; }
