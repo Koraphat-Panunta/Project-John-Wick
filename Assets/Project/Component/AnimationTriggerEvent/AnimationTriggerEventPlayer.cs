@@ -94,21 +94,24 @@ public class AnimationTriggerEventPlayer
     {
 
 
-        if(this.IsPlayFinish())
+        if (this.IsPlayFinish())
             return;
 
         timer += deltaTime;
 
-        if(selectCount >= eventCount)
+        if (selectCount >= eventCount)
+            return;
+
+        if(getEventTimer.Count <= 0)
             return;
 
         if (timer >= this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]
             && isAlreadyTrigger[getSelectEvent[selectCount]] == false)
         {
 
-            Debug.Log("selectCount " + selectCount);
-            Debug.Log("timer " + timer);
-            Debug.Log("this.animationClip.length * getEventTimer[getSelectEvent[selectCount] " + this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]);
+            //Debug.Log("selectCount " + selectCount);
+            //Debug.Log("timer " + timer);
+            //Debug.Log("this.animationClip.length * getEventTimer[getSelectEvent[selectCount] " + this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]);
 
             getSelectEvent[selectCount].Invoke();
             isAlreadyTrigger[getSelectEvent[selectCount]] = true;
@@ -119,6 +122,15 @@ public class AnimationTriggerEventPlayer
     public bool IsPlayFinish()
     {
         return timer >= endTimer;
+    }
+
+    public float GetRemapNormalizedTimer(float enterNormalized,float exitNormalized)
+    {
+        float normal = 0;
+
+        normal = (timer - (animationClip.length * enterNormalized)) /  ((animationClip.length * exitNormalized) - (animationClip.length * enterNormalized));
+
+        return normal;
     }
 
     public void SubscribeEvent(string eventName,Action subScribeEvent)
