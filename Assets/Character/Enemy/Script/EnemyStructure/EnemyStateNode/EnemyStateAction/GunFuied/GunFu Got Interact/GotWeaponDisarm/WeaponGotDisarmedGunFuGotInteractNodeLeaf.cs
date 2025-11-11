@@ -17,9 +17,10 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
     public override void Enter()
     {
         animationTriggerEventPlayer.Rewind();
-        enemy.NotifyObserver(enemy, this);
         enemy.animator.CrossFade(stateName, 0.25f, 0,weaponGotDisarmedScriptableObject.enterNormalizedTime);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+        enemy._character.enableRootMotion = true;
+        enemy.NotifyObserver(enemy, this);
         base.Enter();
 
     }
@@ -27,6 +28,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
     public override void Exit()
     {
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+        enemy._character.enableRootMotion = false;
         base.Exit();
     }
 

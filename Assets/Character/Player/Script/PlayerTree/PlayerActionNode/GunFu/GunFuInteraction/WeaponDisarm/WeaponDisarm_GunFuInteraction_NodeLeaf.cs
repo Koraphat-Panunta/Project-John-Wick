@@ -111,7 +111,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     private void Disarm()
     {
 
-        gotGunFuAttackedAble._character.enableRootMotion = true;
+
 
         WeaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
 
