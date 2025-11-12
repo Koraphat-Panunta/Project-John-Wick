@@ -11,8 +11,8 @@ public interface IThrowAbleObject : IDamageVisitor
     public IBeenThrewObjectAt _targetBeenThrowAbleObjectAt { get; set; }
     public Rigidbody _throwAbleObjectRigidBody { get; set; }
     public float _throwVelocity { get; set; }
-    public void Throw(IThrowObjectAble throwerObject,IBeenThrewObjectAt beenThrewObjectAt);
-    public void Throw(IThrowObjectAble throwerObject,Vector3 targetPosition);
+    public void Throw(IThrowObjectAble throwerObject,IBeenThrewObjectAt beenThrewObjectAt, LayerMask layerHit);
+    public void Throw(IThrowObjectAble throwerObject,Vector3 targetPosition, LayerMask layerHit);
 
 }
  

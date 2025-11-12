@@ -14,21 +14,24 @@ public partial class Weapon : IThrowAbleObject
     public float _throwVelocity { get => this.throwVelocity; set => this.throwVelocity = value; }
     public Rigidbody _throwAbleObjectRigidBody { get => rb; set => rb = value; }
     public bool _isBeenThrow { get ; set ; }
+    public LayerMask layerHit;
 
     private void OnCollisionEnter(Collision collision)
     {
         if(_objectIsBeenThrowNodeLeaf != null)
-            _objectIsBeenThrowNodeLeaf.OnColliderHit(collision);
+            _objectIsBeenThrowNodeLeaf.OnColliderHit(collision.collider);
     }
 
-    public void Throw(IThrowObjectAble throwerObject, IBeenThrewObjectAt beenThrewObjectAt)
+    public void Throw(IThrowObjectAble throwerObject, IBeenThrewObjectAt beenThrewObjectAt,LayerMask layerHit)
     {
         this._targetBeenThrowAbleObjectAt = beenThrewObjectAt;
-        this.Throw(throwerObject,beenThrewObjectAt._beenThrowObjectAtPosition);
+        this.Throw(throwerObject,beenThrewObjectAt._beenThrowObjectAtPosition,layerHit);
     }
 
-    public void Throw(IThrowObjectAble throwerObject, Vector3 targetPosition)
+    public void Throw(IThrowObjectAble throwerObject, Vector3 targetPosition,LayerMask layerHit)
     {
+        this.layerHit = layerHit;
+
         if(this.userWeapon != null)
         WeaponAttachingBehavior.Detach(this, this.userWeapon);
 

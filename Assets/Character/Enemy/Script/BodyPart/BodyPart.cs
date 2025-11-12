@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAttackedAble, IFriendlyFirePreventing, 
-     IObserverEnemy,IInitializedAble
+     IObserverEnemy,IInitializedAble,IBeenThrewObjectAt
 {
     [SerializeField] public Enemy enemy;
     [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
@@ -72,6 +72,8 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
+        Debug.Log("damageVisitor = " + damageVisitor );
+
         switch (damageVisitor)
         {
             case Bullet bulletObj:
@@ -115,11 +117,23 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
                     enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
                     break;
                 }
+            case IThrowAbleObject throwAbleObject: 
+                {
+
+                    if (enemy._posture > 0)
+                        enemy._posture -= 40;
+
+                    enemy._isPainTrigger = true;
+                    break;
+                }
+
         }
 
        
     }
     public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
+
+    public Vector3 _beenThrowObjectAtPosition { get => enemy.head.transform.position; set { } }
 
     public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
 

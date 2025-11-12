@@ -8,6 +8,8 @@ public partial class Weapon : I_Interactable
         {
             if(userWeapon != null)
                 return false;
+            if(_isBeenThrow)
+                return false;
 
             return true;
         }set { } }
