@@ -11,6 +11,6 @@ public struct AnimationInteractCharacterDetail
     public float beginWarpingNormalizedTime_BasedOnMainSubject;
     public float finishWarpingNormalizedTime_BasedOnMainSubject;
     public float beginPlayAnimationNormalizedTime_BasedOnMainSubject;
-    public Vector2 onSyncAnimationWithBasedOnMainSubjectNormalizedTime;//X : MainSubjectAnimationNormalized , Y : SecondSubjectAnimationNormalized
+    public float enterAnimationOffsetNormalizedTime;
     public float endAnimationNormalizedTime;
 }

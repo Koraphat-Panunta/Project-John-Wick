@@ -235,7 +235,11 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     {
         if(this.player == null)
             this.player = FindAnyObjectByType<Player>();
-        thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
+        try
+        {
+            thirdPersonCinemachineCamera = cinemachineCamera.GetComponent<ThirdPersonCinemachineCamera>();
+        }
+        catch { }
         if (this.gameMaster == null)
             this.gameMaster = FindAnyObjectByType<GameMaster>();
     }
