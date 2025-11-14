@@ -54,6 +54,8 @@ public class SubjectAnimationInteract
         this.animationTriggerEventPlayer.SubscribeEvent("BeginWarp", BeginWarp);
         this.animationTriggerEventPlayer.SubscribeEvent("FinishWarp",StopWarpBeginRootEnable);
         this.animationTriggerEventPlayer.SubscribeEvent("BeginPlayAnimation",BeginPlayAnimation);
+
+       
     }
 
     public void RestartSubject(Character character,Vector3 anchorPos,Vector3 anhorDir)
@@ -69,20 +71,19 @@ public class SubjectAnimationInteract
 
     public virtual void UpdateInteract(float deltaTime)
     {
-        animationTriggerEventPlayer.UpdatePlay(deltaTime);
+
         if (isWarping)
         {
-
-
             float t = animationTriggerEventPlayer.GetRemapNormalizedTimer
                 (animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject
                 ,animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
-            Debug.Log("t = " + t);
-            Debug.Log("begin = " + animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject);
-            Debug.Log("exit = " + animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
+            //Debug.Log("t = " + t);
+            //Debug.Log("begin = " + animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject);
+            //Debug.Log("exit = " + animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
 
             MovementWarper.WarpMovement(enterPosition, enterRotation, character._movementCompoent, exitPosition, exitRotation, t);
         }
+        animationTriggerEventPlayer.UpdatePlay(deltaTime);
     }
 
     
@@ -95,20 +96,24 @@ public class SubjectAnimationInteract
             + (this.anhorDir.normalized * animationInteractCharacterDetail.offsetPositionFormAnchor.y)
             + (Vector3.Cross(Vector3.up, this.anhorDir.normalized).normalized * animationInteractCharacterDetail.offsetPositionFormAnchor.x);
         exitRotation = Quaternion.LookRotation(this.anhorDir.normalized, Vector3.up) * Quaternion.Euler(0, animationInteractCharacterDetail.RotationRelative, 0);
+
     }
     private void BeginWarp()
     {
+        Debug.Log("Subject " + character + " begin warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         isWarping = true;
         this.CalculateAdjustTransform();
         this.beginWarpEvent.Invoke(this.character);
     }
     private void StopWarpBeginRootEnable()
     {
+        Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         isWarping = false;
         this.finishWarpEvent.Invoke(this.character);
     }
     private void BeginPlayAnimation()
     {
+        Debug.Log("Subject " + character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 

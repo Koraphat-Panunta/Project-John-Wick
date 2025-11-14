@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
+public class AnimationInteractionDebugTest : MonoBehaviour
 {
     [SerializeField] private AnimationInteractScriptableObject animationInteractScriptableObject;
 
@@ -9,36 +9,41 @@ public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
 
     [SerializeField] private Character subject1;
     [SerializeField] private string subject1Animation;
-    private Vector3 subject1_Enter_Pos;
-    private Vector3 subject1_Enter_Dir;
+    [SerializeField] private Vector3 subject1_Enter_Pos;
+    [SerializeField] private Vector3 subject1_Enter_Dir;
 
     [SerializeField] private Character subject2;
     [SerializeField] private string subject2Animation;
-    private Vector3 subject2_Enter_Pos;
-    private Vector3 subject2_Enter_Dir;
+    [SerializeField] private Vector3 subject2_Enter_Pos;
+    [SerializeField] private Vector3 subject2_Enter_Dir;
 
-    private Vector3 anchorPos;
-    private Vector3 anchorDir;
+    [SerializeField] private Transform anchorTransform;
+    [SerializeField] private Vector3 anchorPos ;
+    [SerializeField] private Vector3 anchorDir;
     [SerializeField] private bool triggerRestart;
-    public void Initialized()
+    private void Awake()
     {
+        this.subject1.Initialized();
+        this.subject2.Initialized();
+
         this.subject1_Enter_Pos = this.subject1.transform.position;
-        this.subject1_Enter_Dir = this.subject1.transform .forward;
+        this.subject1_Enter_Dir = this.subject1.transform.forward;
 
         this.subject2_Enter_Pos = this.subject2.transform.position;
-        this.subject2_Enter_Dir = this.subject2.transform .forward;
+        this.subject2_Enter_Dir = this.subject2.transform.forward;
 
-        this.anchorPos = this.subject2_Enter_Pos;
-        this.anchorDir = this.subject2_Enter_Dir;
+        //this.anchorPos = this.subject2_Enter_Pos;
+        //this.anchorDir = this.subject2_Enter_Dir;
 
         subjectAnimationInteract1 = new SubjectAnimationInteract(
             animationInteractScriptableObject.clip
-            ,animationInteractScriptableObject.enterNormalizedTime
-            ,animationInteractScriptableObject.endNormalizedTime
+            , animationInteractScriptableObject.enterNormalizedTime
+            , animationInteractScriptableObject.endNormalizedTime
             , animationInteractScriptableObject.animationInteractCharacterDetail[0]);
 
         subjectAnimationInteract1.beginPlayAnimationEvent += BeginPlayAnimation;
         subjectAnimationInteract1.finishWarpEvent += BeginInteract;
+
 
         subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
 
@@ -53,6 +58,7 @@ public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
 
         subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
     }
+ 
 
     private void BeginPlayAnimation(Character character)
     {
@@ -62,9 +68,10 @@ public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
                 ,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
                 ,0
                 ,subjectAnimationInteract1.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
-        else if(character == subject2)
+        
+        if(character == subject2)
             subject2.animator.CrossFade(
-                subject1Animation
+                subject2Animation
                 , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
                 , 0
                 , subjectAnimationInteract2.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
@@ -80,26 +87,29 @@ public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
         subject1.enableRootMotion = false;
         subject2.enableRootMotion = false;
 
-        subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
-        subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
-
-        subject1.transform.position = this.subject1_Enter_Pos;
-        subject1.transform.rotation = Quaternion.LookRotation(this.subject1_Enter_Dir);
-
-        subject2.transform.position = this.subject2_Enter_Pos;
-        subject2.transform.rotation = Quaternion.LookRotation(this.subject2_Enter_Dir);
-
         subject1.animator.CrossFade(
                 "Default"
                 , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
                 , 0
                 );
-
         subject2.animator.CrossFade(
-            "Default"
-            , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-            , 0
-            );
+           "Default"
+           , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+           , 0
+           );
+
+        subject1._movementCompoent.CancleMomentum();
+        subject2._movementCompoent.CancleMomentum();
+
+        subject1._movementCompoent.SetPosition(this.subject1_Enter_Pos);
+        subject1._movementCompoent.SetRotation(Quaternion.LookRotation(this.subject1_Enter_Dir));
+
+        subject2._movementCompoent.SetPosition(this.subject2_Enter_Pos);
+        subject2._movementCompoent.SetRotation(Quaternion.LookRotation(this.subject2_Enter_Dir));
+
+                
+        subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
+        subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
 
         this.triggerRestart = false;
     }
@@ -113,16 +123,42 @@ public class AnimationInteractionDebugTest : MonoBehaviour,IInitializedAble
 
         this.subjectAnimationInteract1.UpdateInteract(Time.deltaTime);
         this.subjectAnimationInteract2.UpdateInteract(Time.deltaTime);
-    }
 
+        if (this.subjectAnimationInteract1.animationTriggerEventPlayer.IsPlayFinish())
+            subject1.enableRootMotion = false;
+        
+        if (this.subjectAnimationInteract2.animationTriggerEventPlayer.IsPlayFinish())
+            subject2.enableRootMotion = false;
+        
+    }
+   
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(anchorPos, .35f);
+        Gizmos.DrawRay(anchorPos, anchorDir);
+
+        this.CalculateAdjustTransform(this.animationInteractScriptableObject.animationInteractCharacterDetail[0], out Vector3 finalPosSub1, out Vector3 finalDirSub1);
+
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(this.subjectAnimationInteract1.exitPosition, .35f);
-        Gizmos.DrawRay(this.subjectAnimationInteract1.exitPosition, this.subjectAnimationInteract1.exitRotation * Vector3.forward);
+        Gizmos.DrawSphere(finalPosSub1, .35f);
+        Gizmos.DrawRay(finalPosSub1, finalDirSub1);
+
+        this.CalculateAdjustTransform(this.animationInteractScriptableObject.animationInteractCharacterDetail[1], out Vector3 finalPosSub2, out Vector3 finalDirSub2);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(this.subjectAnimationInteract2.exitPosition, .35f);
-        Gizmos.DrawRay(this.subjectAnimationInteract2.exitPosition, this.subjectAnimationInteract2.exitRotation * Vector3.forward);
+        Gizmos.DrawSphere(finalPosSub2, .35f);
+        Gizmos.DrawRay(finalPosSub2, finalDirSub2);
     }
+
+    public void CalculateAdjustTransform(AnimationInteractCharacterDetail animationInteractCharacterDetail,out Vector3 finalPos,out Vector3 finalDir)
+    {
+        finalPos = this.anchorPos
+            + (this.anchorDir.normalized * animationInteractCharacterDetail.offsetPositionFormAnchor.y)
+            + (Vector3.Cross(Vector3.up, this.anchorDir.normalized).normalized * animationInteractCharacterDetail.offsetPositionFormAnchor.x);
+
+        Quaternion sub1ExitRot = Quaternion.LookRotation(this.anchorDir.normalized, Vector3.up) * Quaternion.Euler(0, animationInteractCharacterDetail.RotationRelative, 0);
+        finalDir = sub1ExitRot * Vector3.forward;
+    }
+  
 }

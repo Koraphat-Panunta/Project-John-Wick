@@ -50,9 +50,11 @@ public class AnimationTriggerEventPlayer
         this.triggerTimerEventNormalized = new float[triggerEventDetail.Length];
 
         List<float> allTriggerTimerNor = new List<float>();
+        List<AnimationTriggerEventDetail> allAnimationTriggerEventDetails = new List<AnimationTriggerEventDetail>();
         for(int indexPopulate = 0;indexPopulate < triggerEventDetail.Length;indexPopulate++) 
         {
             allTriggerTimerNor.Add(triggerEventDetail[indexPopulate].normalizedTime);
+            allAnimationTriggerEventDetails.Add(triggerEventDetail[indexPopulate]);
         }
 
         for (int i = 0; i < eventCount; i++)
@@ -71,8 +73,22 @@ public class AnimationTriggerEventPlayer
             allTriggerTimerNor.RemoveAt(removeIndex);
 
             this.triggerTimerEventNormalized[i] = leastNumber;
-            this.getIndexAction.Add(triggerEventDetail[i].eventName, i);
+
+            for (int z = 0; z < allAnimationTriggerEventDetails.Count; z++) 
+            {
+                if (allAnimationTriggerEventDetails[z].normalizedTime == leastNumber)
+                {
+                    this.getIndexAction.Add(allAnimationTriggerEventDetails[z].eventName, i);
+
+                    allAnimationTriggerEventDetails.RemoveAt(z);
+
+                    break;
+                }
+            }
+
             this.getSelectEvent.Add(i, new Action(() => { }));
+
+
             if (startTimer > animationClip.length
             * triggerEventDetail[i].normalizedTime)
             {
@@ -105,17 +121,16 @@ public class AnimationTriggerEventPlayer
         if(getEventTimer.Count <= 0)
             return;
 
-        if (timer >= this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]
+        while(selectCount < eventCount && timer >= this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]
             && isAlreadyTrigger[getSelectEvent[selectCount]] == false)
         {
+            getSelectEvent[selectCount].Invoke();
+            isAlreadyTrigger[getSelectEvent[selectCount]] = true;
+            selectCount++;
 
             //Debug.Log("selectCount " + selectCount);
             //Debug.Log("timer " + timer);
             //Debug.Log("this.animationClip.length * getEventTimer[getSelectEvent[selectCount] " + this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]);
-
-            getSelectEvent[selectCount].Invoke();
-            isAlreadyTrigger[getSelectEvent[selectCount]] = true;
-            selectCount++;
         }
     }
 

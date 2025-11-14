@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable] 
-public struct AnimationInteractCharacterDetail 
+public class AnimationInteractCharacterDetail 
 {
     public string subjectName;
 
