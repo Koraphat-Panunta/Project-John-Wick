@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SecondaryWeaponDisarmInteractionSCRP
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
   clip: {fileID: 7400000, guid: b153c956f718dd444b29eee4ce6f557b, type: 2}
-  enterNormalizedTime: 0
+  enterNormalizedTime: 0.189
   triggerEventDetail:
   - normalizedTime: 0.46
     eventName: Disarm
@@ -22,18 +22,18 @@ MonoBehaviour:
   endNormalizedTime: 0.91
   animationInteractCharacterDetail:
   - subjectName: Disarmer
-    offsetPositionFormAnchor: {x: 0, y: -0.82}
-    RotationRelative: 180
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.1
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
-    onSyncAnimationWithBasedOnMainSubjectNormalizedTime: {x: 0, y: 0}
+    offsetPositionFormAnchor: {x: -0.14, y: 1.28}
+    RotationRelative: 232.1
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.19
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.215
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.19
+    enterAnimationOffsetNormalizedTime: 0.19
     endAnimationNormalizedTime: 0.91
   - subjectName: Disarmed
     offsetPositionFormAnchor: {x: 0, y: 0}
     RotationRelative: 0
     beginWarpingNormalizedTime_BasedOnMainSubject: 0
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.1
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.1
-    onSyncAnimationWithBasedOnMainSubjectNormalizedTime: {x: 0, y: 0}
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.215
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.215
+    enterAnimationOffsetNormalizedTime: 0.175
     endAnimationNormalizedTime: 0.91

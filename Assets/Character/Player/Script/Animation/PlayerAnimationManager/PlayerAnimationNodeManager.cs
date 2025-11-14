@@ -97,11 +97,13 @@ public partial class PlayerAnimationManager
         weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
             && weaponDisarmNodeLeaf.disarmedWeapon is PrimaryWeapon
-            , animator, "GunFuPrimaryDisarm", 0, 0.2f);
+            , animator, "GunFuPrimaryDisarm", 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+            ,player.primaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
         weaponDisarmSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
             && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
-            , animator, "GunFuSecondaryDisarm", 0, 0.2f);
+            , animator, "GunFuSecondaryDisarm", 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+            ,player.secondaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
 
         executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(() => executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null, player, animator);
 

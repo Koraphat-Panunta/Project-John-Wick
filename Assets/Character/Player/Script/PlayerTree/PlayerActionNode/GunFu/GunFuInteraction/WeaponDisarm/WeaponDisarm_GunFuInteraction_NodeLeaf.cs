@@ -50,6 +50,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         this.subject_Disarmed.RestartSubject(gotGunFuAttackedAble._character, gotGunFuAttackedAble._character.transform.position, gotGunFuAttackedAble._character.transform.forward);
         this.animationTriggerEventPlayer.Rewind();
         player._movementCompoent.CancleMomentum();
+        this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
         this.HoslterCurrentWeapon();
         base.Enter();
     }
@@ -63,8 +64,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
     public override void FixedUpdateNode()
     {
-        subject_Disarmer.UpdateInteract(Time.deltaTime);
-        subject_Disarmed.UpdateInteract(Time.deltaTime);
+
 
         base.FixedUpdateNode();
     }
@@ -90,6 +90,8 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     public override void UpdateNode()
     {
         animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        subject_Disarmer.UpdateInteract(Time.deltaTime);
+        subject_Disarmed.UpdateInteract(Time.deltaTime);
         base.UpdateNode();
     }
 

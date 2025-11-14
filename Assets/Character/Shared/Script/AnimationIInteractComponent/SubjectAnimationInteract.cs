@@ -61,6 +61,7 @@ public class SubjectAnimationInteract
     public void RestartSubject(Character character,Vector3 anchorPos,Vector3 anhorDir)
     {
         this.character = character;
+        this.character._movementCompoent.CancleMomentum();
         this.anhorPosition = anchorPos;
         this.anhorDir = anhorDir;
 

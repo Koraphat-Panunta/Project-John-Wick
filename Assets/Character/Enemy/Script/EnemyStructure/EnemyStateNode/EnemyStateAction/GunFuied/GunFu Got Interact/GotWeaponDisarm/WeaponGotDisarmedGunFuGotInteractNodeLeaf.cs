@@ -17,7 +17,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
     public override void Enter()
     {
         animationTriggerEventPlayer.Rewind();
-        enemy.animator.CrossFade(stateName, 0.25f, 0,weaponGotDisarmedScriptableObject.enterNormalizedTime);
+        enemy.animator.CrossFade(stateName, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0,weaponGotDisarmedScriptableObject.enterNormalizedTime);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
         enemy._character.enableRootMotion = true;
         enemy.NotifyObserver(enemy, this);
