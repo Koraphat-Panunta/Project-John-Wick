@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
+  m_Name: HumanShieldEnter
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
+  clip: {fileID: 7400000, guid: ee5d4fc5f3b27e74f996d676bc3fb48b, type: 2}
+  enterNormalizedTime: 0.063
+  triggerEventDetail: []
+  endNormalizedTime: 0.46
+  animationInteractCharacterDetail:
+  - subjectName: HumanShield
+    offsetPositionFormAnchor: {x: 0, y: 1.19}
+    RotationRelative: 175.4
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.063
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.094
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.063
+    enterAnimationOffsetNormalizedTime: 0.063
+    endAnimationNormalizedTime: 0.46
+  - subjectName: GotHumanShield
+    offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 0
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.1
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.1
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.1
+    enterAnimationOffsetNormalizedTime: 0.045
+    endAnimationNormalizedTime: 0.45
