@@ -23,10 +23,10 @@ public partial class Player : IObserverPlayer
 
                     break;
                 }
-            case HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
+            case HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
                 {
 
-                     if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+                     if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
 
                     break;

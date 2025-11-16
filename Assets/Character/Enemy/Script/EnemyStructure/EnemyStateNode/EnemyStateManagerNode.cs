@@ -515,7 +515,7 @@ public class EnemyStateManagerNode : INodeManager
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,
             () => 
             { 
-                return enemy.curAttackerGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
+                return enemy.curAttackerGunFuNode is HumanShield_GunFu_NodeLeaf; 
             }
             , this.enemy.animator);
 

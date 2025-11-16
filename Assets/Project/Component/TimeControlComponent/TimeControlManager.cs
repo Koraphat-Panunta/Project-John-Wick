@@ -142,11 +142,11 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
                         this.triggerBulletTime.StopSlowMotion();
                     break;
                 }
-            case HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
+            case HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
                 {
-                    if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                    if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                         this.triggerBulletTime.TriggerSlowMotion(this.restrict_HS_BulletTimeCurve, this.restrict_HumanShield_BulletTimeDuration);
-                    else if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+                    else if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Exit)
                         this.triggerBulletTime.StopSlowMotion();
                     break;
                 }

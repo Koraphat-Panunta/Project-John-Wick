@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static HumanShield_GunFuInteraction_NodeLeaf;
+using static HumanShield_GunFu_NodeLeaf;
 
 public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INodeLeafTransitionAble
 {
@@ -12,12 +12,12 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
 
     float got_threwDown_time = 0;
 
-    HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
+    HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase interactionPhase => humanShield_GunFuInteraction_NodeLeaf.curIntphase;
 
     public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
-    private HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
+    private HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf;
 
     public HumandShield_GotInteract_NodeLeaf(Enemy enemy,Func<bool> preCondition,Animator animator) : base(enemy, preCondition)
     {
@@ -33,7 +33,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
     {
         isStayOnEnter = true;
         isExitOnEnter = true;
-        humanShield_GunFuInteraction_NodeLeaf = enemy.gunFuAbleAttacker.curGunFuNode as HumanShield_GunFuInteraction_NodeLeaf;
+        humanShield_GunFuInteraction_NodeLeaf = enemy.gunFuAbleAttacker.curGunFuNode as HumanShield_GunFu_NodeLeaf;
         got_threwDown_time = 0;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         enemy.friendlyFirePreventingBehavior.DisableFriendlyFirePreventing();
@@ -124,7 +124,7 @@ public class HumandShield_GotInteract_NodeLeaf : GunFu_GotInteract_NodeLeaf,INod
             return true;
 
         if (enemy.gunFuAbleAttacker.curGunFuNode 
-            is HumanShield_GunFuInteraction_NodeLeaf == false)
+            is HumanShield_GunFu_NodeLeaf == false)
             return true;
 
         if (IsComplete())

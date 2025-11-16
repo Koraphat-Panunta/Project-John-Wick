@@ -70,7 +70,7 @@ public class PlayerStateNodeManager : INodeManager
     public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Primary_LayUp_I_NodeLeaf { get; private set; }
     public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Primary_LayDown_I_NodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit1gunFuNodeLeaf { get; private set; }
-    public HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
+    public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
     public PlayerSelectorStateNode weaponDisarmSelector { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf primary_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
@@ -307,7 +307,7 @@ public class PlayerStateNodeManager : INodeManager
             , this.player
             , () => player.attackedAbleGunFu._weaponAdvanceUser._currentWeapon is SecondaryWeapon);
 
-        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFuInteraction_NodeLeaf(this.player,
+        humanShield_GunFuInteraction_NodeLeaf = new HumanShield_GunFu_NodeLeaf(this.player,
             () => this.player._isAimingCommand
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false

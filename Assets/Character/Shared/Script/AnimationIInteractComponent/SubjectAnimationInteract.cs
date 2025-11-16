@@ -31,6 +31,15 @@ public class SubjectAnimationInteract
     public Action<Character> finishWarpEvent = new Action<Character>((character) => { });
     public Action<Character> beginPlayAnimationEvent = new Action<Character>((character) => { });
 
+    public SubjectAnimationInteract(AnimationInteractScriptableObject animationInteractScriptableObject, AnimationInteractCharacterDetail animationInteractCharacterDetail) : this(
+        animationInteractScriptableObject.clip
+        ,animationInteractScriptableObject.enterNormalizedTime
+        ,animationInteractScriptableObject.endNormalizedTime
+        ,animationInteractCharacterDetail)
+    {
+
+    }
+
     public SubjectAnimationInteract(AnimationClip animationClip,float enterNormalized,float finishNormalized,AnimationInteractCharacterDetail animationInteractCharacterDetail)
     {
         this.animationInteractCharacterDetail = animationInteractCharacterDetail;

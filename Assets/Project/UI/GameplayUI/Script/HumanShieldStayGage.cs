@@ -26,14 +26,14 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
         if(node is PlayerStateNodeLeaf playerStateNodeLeaf)
             switch (playerStateNodeLeaf)
             {
-                case HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf:
+                case HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf:
                     {
-                        if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                        if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                         {
                             this.curGunFuInteraction_NodeLeaf = humanShieldNodeLeaf;
                             isShowGage = true;
                         }
-                        else if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Exit)
+                        else if (humanShieldNodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Exit)
                             isShowGage = false;
                         break;
                     }
@@ -59,7 +59,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
         {
             switch (curGunFuInteraction_NodeLeaf)
             {
-                case HumanShield_GunFuInteraction_NodeLeaf humanShieldNodeLeaf:
+                case HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf:
                     {
                         humanShieldGage.enabled = true;
                         humanShieldGage.rectTransform.localScale = new Vector3(1 - (humanShieldNodeLeaf.elapesTimmerStay
