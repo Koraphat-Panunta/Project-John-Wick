@@ -19,12 +19,9 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
                 && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
                 return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
-            {
+            if(_isFallDown)
                 return false;
-            }
-            //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
-            //    return false;
+           
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())

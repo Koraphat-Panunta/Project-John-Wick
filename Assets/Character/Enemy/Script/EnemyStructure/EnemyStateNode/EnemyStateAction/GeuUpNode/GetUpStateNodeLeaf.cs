@@ -7,9 +7,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
 {
     private IRagdollAble ragdollAble;
 
-    private float getUpDuration = 2.5f;
-    public float getUpTimer;
-
     public float resetBoneTimer;
     public float resetBoneDuration = 0.5f;
 
@@ -64,10 +61,12 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
     }
     public override void Enter()
     {
+        Debug.Log("Getup state nodeleaf enter");
+
         this.isStandingComplete = false;
         this.animationTriggerEventPlayer.Rewind();
         curRagdollAnimatorState = IRagdollTransitionAnimatorAbleStateNodeLeaf.RagdollTransitionAnimatorState.ResetingBone;
-        this.getUpTimer = getUpDuration;
+        this.resetBoneTimer = 0;
         RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
         RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
         RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
@@ -120,14 +119,25 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
 
     public override bool IsReset()
     {
-        if(IsComplete())
+        if (IsComplete())
+        {
+            Debug.Log("GetUpStateNodeLeaf IsComplete()");
             return true;
+        }
 
         if(enemy.isDead)
             return true;
 
-        if(enemy._isPainTrigger)
+        if (enemy._isPainTrigger)
+        {
+            Debug.Log("GetUpStateNodeLeaf _isPainTrigger");
             return true;
+        }
+
+        if (enemy._triggerHitedGunFu)
+        {
+            return true;
+        }
 
         return false;
     }

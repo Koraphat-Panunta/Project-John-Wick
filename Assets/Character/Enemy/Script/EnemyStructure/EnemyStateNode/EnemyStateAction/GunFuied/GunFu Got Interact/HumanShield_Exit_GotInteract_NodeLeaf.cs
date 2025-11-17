@@ -15,6 +15,7 @@ public class HumanShield_Exit_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGun
         ,AnimationTriggerEventSCRP animationTriggerEventSCRP
         ,Animator animator) : base(enemy, preCondition)
     {
+        this.animator = animator;
         this.transitionAbleNode = new Dictionary<INode, bool>();
         this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
@@ -34,14 +35,31 @@ public class HumanShield_Exit_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGun
         this.TransitioningCheck();
         base.UpdateNode();
     }
-
+    public override void Exit()
+    {
+        this.enemy.enableRootMotion = false;
+        base.Exit();
+    }
     private void TriggerRagdoll()
     {
         this.enemy.enableRootMotion = false;
         this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
         isComplete = true;
     }
+    public override bool IsComplete()
+    {
+        return this.animationTriggerEventPlayer.IsPlayFinish();
+    }
+    public override bool IsReset()
+    {
+        if(enemy.isDead)
+            return true;
 
+        if(IsComplete())
+            return true;
+
+        return false;
+    }
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
     

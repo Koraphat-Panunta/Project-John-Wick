@@ -557,6 +557,7 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotExecuteSelector);
         gotGunFuAttackSelector.AddtoChildNode(weaponGotDisarmSelector);
         gotGunFuAttackSelector.AddtoChildNode(gotRestrictNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(humanShield_Exit_GotInteract_NodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHit3_GunFuNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHit1_P_GunFuHitNodeLeaf);
@@ -565,8 +566,6 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotHit2_A_GunFuHitNodeLeaf);
 
         gotHit3_GunFuNodeLeaf.AddTransitionNode(fallDown_EnemyState_NodeLeaf);
-
-        gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(humanShield_Exit_GotInteract_NodeLeaf);
 
         enemyStanceSelector.AddtoChildNode(enemyDodgeRollStateNodeLeaf);
         enemyStanceSelector.AddtoChildNode(enemySprintStateNodeLeaf);

@@ -22,6 +22,10 @@ public partial class Enemy: IRagdollAble
         {
             if(enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
                 return true;
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
+                && getUpNodeLeaf.isStandingComplete == false)
+                return true;
+
             return false;
         } 
     }

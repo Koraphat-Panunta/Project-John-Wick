@@ -356,12 +356,14 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected void FixedUpdate()
     {
-        this.playerConstriantAnimationNodeComponentManager.Update();
+        this.playerConstriantAnimationNodeComponentManager.FixedUpdate();
+
     }
     protected void Update()
     {
         UpdateConstrainLookReferencePos();
-        this.playerConstriantAnimationNodeComponentManager.FixedUpdate();
+        this.playerConstriantAnimationNodeComponentManager.Update();
+
     }
     private void OnDrawGizmos()
     {

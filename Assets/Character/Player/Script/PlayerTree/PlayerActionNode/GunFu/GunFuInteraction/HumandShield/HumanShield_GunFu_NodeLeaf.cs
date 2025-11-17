@@ -135,7 +135,6 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
                     if (weaponAdvanceUser._isAimingCommand == false
                         ||(this.humanShield_Stay_Timer >= this.humanShield_Stay_Duration))
                     {
-                        Debug.Log("HumanShield Exit");
                         curIntphase = HumanShieldInteractionPhase.Exit;
                         player.NotifyObserver(this.player, this);
                     }

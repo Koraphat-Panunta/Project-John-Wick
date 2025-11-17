@@ -32,6 +32,8 @@ public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
             , this.gunFuAble._character.transform.position
             , this.gunFuAble._character.transform.forward);
 
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+
         gunFuAble._character.enableRootMotion = true;
         gotGunFuAttackedAble._character.enableRootMotion = true;
 
@@ -43,8 +45,26 @@ public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
         this.subject_GotGunFuAble.UpdateInteract(Time.deltaTime);
         base.UpdateNode();
     }
+    public override bool IsComplete()
+    {
+        return subject_GunFuAble.animationTriggerEventPlayer.IsPlayFinish();
+    }
+    public override bool IsReset()
+    {
+        if(player._triggerHitedGunFu)
+            return true;
+
+        if(player.isDead)
+            return true;
+
+        if(IsComplete())
+            return true;
+
+        return false;
+    }
     public override void Exit()
     {
+        player.enableRootMotion = false;
         base.Exit();
     }
 }

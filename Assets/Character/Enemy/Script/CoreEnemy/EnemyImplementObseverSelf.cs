@@ -16,10 +16,16 @@ public partial class Enemy : IObserverEnemy
                     }
                     break;
                 }
-            case HumanShieldExit_GunFu_NodeLeaf gotHumanShieldExitNodeLeaf:
+            case HumanShield_Exit_GotInteract_NodeLeaf gotHumanShieldExitNodeLeaf:
                 {
-                    if(gotHumanShieldExitNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                    if(gotHumanShieldExitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
                         enemy._posture = 0;
+                    break;
+                }
+            case GetUpStateNodeLeaf getUpStateNodeLeaf: 
+                {
+                    if (getUpStateNodeLeaf.isStandingComplete)
+                        enemy._posture = 50;
                     break;
                 }
         }

@@ -77,7 +77,14 @@ public partial class PlayerAnimationManager
 
         InitializedGunFuBasedLayer();
 
-        dodgeNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf,
+        dodgeNodeLeaf = new PlayAnimationNodeLeaf(
+            () => 
+            {
+                if (playerStateNodeMnager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf)
+                    return true;
+                return false;
+            }
+            ,
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
             animator, "Sprint", 0, .5f);
@@ -90,7 +97,15 @@ public partial class PlayerAnimationManager
     }
     private void InitializedGunFuBasedLayer()
     {
-        gunFuBaseLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
+        gunFuBaseLayerNodeSelector = new NodeSelector(
+            () => 
+            {
+                if (isPerformGunFu)
+                {
+                    return true;
+                }
+                return false;
+            });
 
         weaponDisarmSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf);
         weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
@@ -145,8 +160,7 @@ public partial class PlayerAnimationManager
         , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
         , player.humanShieldSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime);
         humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf
-       && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
-       , animator, "Move/Idle", 0, .35f);
+        , animator, "Move/Idle", 0, .35f);
 
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf

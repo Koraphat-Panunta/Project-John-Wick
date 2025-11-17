@@ -38,6 +38,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
     public override void Enter()
     {
+        Debug.Log("FallDown_EnemyState_NodeLeaf Enter");
+
         downTimer = 0;
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
             enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
@@ -67,6 +69,8 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
         if (_hipsBone.transform.position.y < enemy.transform.position.y)
             _hipsBone.transform.position = enemy.transform.position;
 
+
+
         if (downTimer >= downDuration)
         {
             isComplete = true;
@@ -81,10 +85,13 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     {
         if(downTimer <= 0)
             lastHipPos = _hipsBone.transform.position;
-        if(Vector3.Distance(this._hipsBone.transform.position,lastHipPos) > 0.025f)
+
+        Debug.Log("Vector3.Distance(this._hipsBone.transform.position,lastHipPos) = " + Vector3.Distance(this._hipsBone.transform.position, lastHipPos));
+        if(Vector3.Distance(this._hipsBone.transform.position,lastHipPos) <= 0.025f)
         {
             downTimer += Time.fixedDeltaTime;
         }
+        Debug.Log("downTimer = " + downTimer);
 
         lastHipPos = _hipsBone.transform.position;
     }

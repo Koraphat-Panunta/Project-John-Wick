@@ -46,6 +46,8 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     {
         leftHandTargetMountComponent.Detach();
     }
+
+
     // Update is called once per frame
 
 }
