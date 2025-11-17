@@ -20,6 +20,8 @@ public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
     }
     public override void Enter()
     {
+        gotGunFuAttackedAble = gunFuAble.attackedAbleGunFu;
+
         this.subject_GunFuAble.RestartSubject(
             this.gunFuAble._character
             , this.gunFuAble._character.transform.position

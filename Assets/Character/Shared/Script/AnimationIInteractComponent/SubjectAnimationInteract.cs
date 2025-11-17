@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 public class SubjectAnimationInteract 
 {
@@ -110,21 +111,27 @@ public class SubjectAnimationInteract
     }
     private void BeginWarp()
     {
-        Debug.Log("Subject " + character + " begin warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + character + " begin warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         isWarping = true;
         this.CalculateAdjustTransform();
         this.beginWarpEvent.Invoke(this.character);
     }
     private void StopWarpBeginRootEnable()
     {
-        Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         isWarping = false;
         this.finishWarpEvent.Invoke(this.character);
     }
     private void BeginPlayAnimation()
     {
-        Debug.Log("Subject " + character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         this.beginPlayAnimationEvent.Invoke(this.character);
+    }
+
+    public static async Task DelayRootMotionEnable(Character character)
+    {
+        await Task.Delay((int)(AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration * 1000));
+        character.enableRootMotion = true;
     }
 
 }

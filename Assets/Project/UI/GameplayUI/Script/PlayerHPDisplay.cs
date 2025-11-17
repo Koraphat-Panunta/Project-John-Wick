@@ -44,7 +44,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
                 && restrictGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
                 || 
                 ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)
-                && humanShield_GunFuInteraction._timer < playerInfo.humanShiedlIFrame)
+                && humanShield_GunFuInteraction.subject_GunFuAble.animationTriggerEventPlayer.timer < playerInfo.humanShiedlIFrame)
             || iFrameTime > 0)
         {
             setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);

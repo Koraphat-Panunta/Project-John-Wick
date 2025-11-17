@@ -108,22 +108,30 @@ public partial class Enemy : SubjectEnemy
         if (NotifyGotAttack != null)
             NotifyGotAttack.Invoke(damageVisitor);
 
-        if (damageVisitor is Bullet bullet)
+        switch (damageVisitor)
         {
-            TakeDamage(bullet.GetHpDamage);
-            bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-                <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm,this);
-            NotifyObserver(this, EnemyEvent.GotBulletHit);
-        }
-        if(damageVisitor is GunFuHitNodeLeaf gunFuHitNodeLeaf)
-        {
-            if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
-            {
+            case Bullet bullet:
+                {
+                    TakeDamage(bullet.GetHpDamage);
+                    bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
+                        <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, this);
+                    NotifyObserver(this, EnemyEvent.GotBulletHit);
+                    break;
+                }
+            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+                {
+                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                    {
 
-                if (this.staggerGauge > 0)
-                    this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
-            }
+                        if (this.staggerGauge > 0)
+                            this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
+                    }
+                    break;
+                }
         }
+
+
+
     }
     public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {

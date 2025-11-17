@@ -71,6 +71,7 @@ public class PlayerStateNodeManager : INodeManager
     public GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Primary_LayDown_I_NodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit1gunFuNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
+    public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
     public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
     public PlayerSelectorStateNode weaponDisarmSelector { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf primary_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
@@ -155,7 +156,7 @@ public class PlayerStateNodeManager : INodeManager
             && player._currentWeapon != null
             && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0);
         executeGunFuOnGroundSelector = new NodeSelector(
-            () => player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble 
+            () => player.executedAbleGunFu._character is IRagdollAble downGetUpAble 
             && downGetUpAble._isFallDown);
 
 
@@ -166,7 +167,7 @@ public class PlayerStateNodeManager : INodeManager
             && player._currentWeapon != null
             && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
             && player._currentWeapon is PrimaryWeapon
-            && (player.executedAbleGunFu._character as IFallDownGetUpAble)._isFallDown == false)
+            && (player.executedAbleGunFu._character as IRagdollAble)._isFallDown == false)
             , player.gunFuExecute_Single_Primary_Dodge_ScriptableObject_I);
         gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
             ()=> (player._triggerExecuteGunFu
@@ -174,7 +175,7 @@ public class PlayerStateNodeManager : INodeManager
             && player._currentWeapon != null
             && player._currentWeapon.bulletStore[BulletStackType.Chamber] > 0
             && player._currentWeapon is SecondaryWeapon
-            && (player.executedAbleGunFu._character as IFallDownGetUpAble)._isFallDown == false)
+            && (player.executedAbleGunFu._character as IRagdollAble)._isFallDown == false)
             ,player.gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I);
 
         gunFuExecute_Single_Primary_Selector = new NodeSelector(
@@ -217,7 +218,7 @@ public class PlayerStateNodeManager : INodeManager
                 )
                     return false;
                 if (
-                player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
+                player.executedAbleGunFu._character is IRagdollAble downGetUpAble
                 && downGetUpAble._isFallDown && downGetUpAble._isFacingUp
                 && player._currentWeapon is SecondaryWeapon)
                     return true;
@@ -233,7 +234,7 @@ public class PlayerStateNodeManager : INodeManager
               )
                     return false;
                 if (
-                player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
+                player.executedAbleGunFu._character is IRagdollAble downGetUpAble
                 && downGetUpAble._isFallDown 
                 && player._currentWeapon is SecondaryWeapon)
                     return true;
@@ -248,7 +249,7 @@ public class PlayerStateNodeManager : INodeManager
                )
                     return false;
                 if (
-                player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
+                player.executedAbleGunFu._character is IRagdollAble downGetUpAble
                 && downGetUpAble._isFallDown && downGetUpAble._isFacingUp
                 && player._currentWeapon is PrimaryWeapon)
                     return true;
@@ -263,7 +264,7 @@ public class PlayerStateNodeManager : INodeManager
               )
                     return false;
                 if (
-                player.executedAbleGunFu._character is IFallDownGetUpAble downGetUpAble
+                player.executedAbleGunFu._character is IRagdollAble downGetUpAble
                 && downGetUpAble._isFallDown
                 && player._currentWeapon is PrimaryWeapon)
                     return true;
@@ -311,8 +312,12 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player._isAimingCommand
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false
+            , this.player.humanShieldSCRP
+            ,this.player.humanShieldTargetAdjustTransform);
 
-            , this.player.humanShield);
+        this.humanShieldExit_GunFu_NodeLeaf = new HumanShieldExit_GunFu_NodeLeaf(this.player
+            ,this.player.humanShield_Exit_SCRP
+            ,() => true);
         
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
@@ -376,6 +381,8 @@ public class PlayerStateNodeManager : INodeManager
         Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
         Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
         Hit2GunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+
+        this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanShieldExit_GunFu_NodeLeaf);
 
         restrictGunFuStateNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
 

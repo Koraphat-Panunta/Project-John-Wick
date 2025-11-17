@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public interface IFallDownGetUpAble 
+public interface IRagdollAble 
 {
-    public AnimationClip _standUpClip { get;}
-    public AnimationClip _pushUpClip { get;}
     public Animator _animator { get;}
     public Transform _hipsBone { get; }
     public Transform _root { get; }

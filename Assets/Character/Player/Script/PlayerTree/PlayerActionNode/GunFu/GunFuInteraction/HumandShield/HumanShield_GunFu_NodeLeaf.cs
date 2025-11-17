@@ -5,7 +5,7 @@ using UnityEngine.ProBuilder;
 
 public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLeafTransitionAble
 {
-    IWeaponAdvanceUser weaponAdvanceUser;
+    IWeaponAdvanceUser weaponAdvanceUser => player.weaponAdvanceUser;
 
     public string _stateName => "HumanShield";
 
@@ -37,12 +37,14 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 
     private Quaternion gotHumanShieldRotation => player.transform.rotation * Quaternion.Euler(transformOffsetSCRP.rotationEulerOffset);
 
-
-
     private float pullWeight;
+
+    public float humanShield_Stay_Timer { get; protected set; }
+    public float humanShield_Stay_Duration { get; protected set; }
     
     public HumanShield_GunFu_NodeLeaf(Player player, Func<bool> preCondition,AnimationInteractScriptableObject animationInteractScriptableObject,TransformOffsetSCRP transformOffsetSCRP) : base(player, preCondition)
     {
+        this.humanShield_Stay_Duration = 5;
         this.transitionAbleNode = new Dictionary<INode, bool>();
         this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         this.animationInteractScriptableObject = animationInteractScriptableObject;
@@ -55,6 +57,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 
     public override void Enter()
     {
+        this.humanShield_Stay_Timer = 0;
         this.nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         curIntphase = HumanShieldInteractionPhase.Enter;
         this.gotGunFuAttackedAble = player.attackedAbleGunFu;
@@ -127,8 +130,12 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
                         , this.gotHumanShieldRotation
                         , this.pullWeight);
 
-                    if (weaponAdvanceUser._isAimingCommand == false)
+                    this.humanShield_Stay_Timer += Time.deltaTime;
+
+                    if (weaponAdvanceUser._isAimingCommand == false
+                        ||(this.humanShield_Stay_Timer >= this.humanShield_Stay_Duration))
                     {
+                        Debug.Log("HumanShield Exit");
                         curIntphase = HumanShieldInteractionPhase.Exit;
                         player.NotifyObserver(this.player, this);
                     }

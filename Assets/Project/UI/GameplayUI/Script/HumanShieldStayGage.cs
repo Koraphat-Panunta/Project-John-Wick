@@ -62,8 +62,8 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                 case HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf:
                     {
                         humanShieldGage.enabled = true;
-                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (humanShieldNodeLeaf.elapesTimmerStay
-                          / humanShieldNodeLeaf.StayDuration)
+                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (humanShieldNodeLeaf.humanShield_Stay_Timer
+                          / humanShieldNodeLeaf.humanShield_Stay_Duration)
                           , humanShieldGage.rectTransform.localScale.y
                           , humanShieldGage.rectTransform.localScale.z);
                         break;
