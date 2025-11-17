@@ -73,9 +73,9 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
         }
 
 
-        if (node is HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction_NodeLeaf)
+        if (node is HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf)
         {
-            if(humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Enter)
+            if(humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
                 ignoreBulletChance = 0.5f;
 
             if(humanShield_GunFuInteraction_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)

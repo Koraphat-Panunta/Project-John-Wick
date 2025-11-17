@@ -22,9 +22,13 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                 || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
                 || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                 || player.curNodeLeaf is RestrictGunFuStateNodeLeaf
-                || player.curNodeLeaf is HumanShield_GunFuInteraction_NodeLeaf
                 )
                 return true;
+
+            if((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf)
+                && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                return true;
+           
             return false;
         }
     }

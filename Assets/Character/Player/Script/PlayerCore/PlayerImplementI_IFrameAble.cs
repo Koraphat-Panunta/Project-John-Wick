@@ -16,8 +16,8 @@ public partial class Player : I_IFrameAble
                 && restrictGunFuStateNodeLeaf._timer < restrictShieldIFrame)
                 return true;
 
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>(out HumanShield_GunFuInteraction_NodeLeaf humanShield_GunFuInteraction)
-               && humanShield_GunFuInteraction._timer < humanShiedlIFrame)
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)
+               && humanShield_GunFuInteraction.subject_GunFuAble.animationTriggerEventPlayer.timer < humanShiedlIFrame)
                 return true;
 
             return false;

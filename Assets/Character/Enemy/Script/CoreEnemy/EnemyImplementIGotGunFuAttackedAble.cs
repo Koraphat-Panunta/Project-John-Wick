@@ -19,12 +19,9 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
                 && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
                 return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
-            {
+            if(_isFallDown)
                 return false;
-            }
-            //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
-            //    return false;
+           
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
@@ -59,6 +56,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public GotGunFuHitScriptableObject GotHit2_A;
     [SerializeField] public GotGunFuHitScriptableObject GotHit3;
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
+    [SerializeField] public AnimationTriggerEventSCRP humanShield_GotInteract_Exit_SCRP;
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP secondary_WeaponGotDisarmedScriptableObject;
 

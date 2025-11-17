@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
+  m_Name: PushUpAnimationTriggerEventSCRP
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
+  clip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
+  enterNormalizedTime: 0
+  triggerEventDetail:
+  - normalizedTime: 0.73
+    eventName: Standing
+  endNormalizedTime: 1

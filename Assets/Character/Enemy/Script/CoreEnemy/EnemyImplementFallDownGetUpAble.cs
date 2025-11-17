@@ -1,16 +1,13 @@
 using System;
 using UnityEngine;
 
-public partial class Enemy: IFallDownGetUpAble
+public partial class Enemy: IRagdollAble
 {
     #region InitailizedFallDownGetUp Properties
-    [SerializeField] private AnimationClip standUpClip;
-    [SerializeField] private AnimationClip pushUpClip;
-    public AnimationClip _standUpClip => standUpClip;
+    [SerializeField] public AnimationTriggerEventSCRP standUpAnimationTriggerSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP pushUpAnimationTriggerSCRP;
 
-    public AnimationClip _pushUpClip => pushUpClip;
-
-    Animator IFallDownGetUpAble._animator => animator;
+    Animator IRagdollAble._animator => animator;
 
     [SerializeField] private Transform hipsBone;
     public Transform _hipsBone => hipsBone;
@@ -25,6 +22,10 @@ public partial class Enemy: IFallDownGetUpAble
         {
             if(enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
                 return true;
+            if(enemyStateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
+                && getUpNodeLeaf.isStandingComplete == false)
+                return true;
+
             return false;
         } 
     }
@@ -32,7 +33,7 @@ public partial class Enemy: IFallDownGetUpAble
     public bool _isGetUp { get 
         {
             if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>(out FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf)
-                && fallDown_EnemyState_NodeLeaf.curState == FallDown_EnemyState_NodeLeaf.FallDownState.StandingUp)
+                ||enemyStateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>())
                 return true;
             return false;
         } 

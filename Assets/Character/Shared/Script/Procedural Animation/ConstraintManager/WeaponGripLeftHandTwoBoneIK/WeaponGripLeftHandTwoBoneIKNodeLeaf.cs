@@ -29,17 +29,15 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void Enter()
     {
-        this.leftHandConstraintManager.SetTargetHandParentConstraint(this.secondHandGripTransform);
         this.attachWeapon = weaponAdvanceUser._currentWeapon;
         base.Enter();
     }
     public override void UpdateNode()
     {
         if(this.attachWeapon != weaponAdvanceUser._currentWeapon)
-        {
-            this.leftHandConstraintManager.SetTargetHandParentConstraint(this.secondHandGripTransform);
             this.attachWeapon = weaponAdvanceUser._currentWeapon;
-        }
+        else
+            this.leftHandConstraintManager.SetTargetHand(this.secondHandGripTransform.position, this.secondHandGripTransform.rotation);
 
         this.hintPosition = this.referenceTransform.position 
             + 

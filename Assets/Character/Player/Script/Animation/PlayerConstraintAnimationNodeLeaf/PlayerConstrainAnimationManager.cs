@@ -86,7 +86,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         gunFuConstraintSelector = new AnimationConstrainNodeSelector(
             () => playerStateManager.GetCurNodeLeaf() is IGunFuNode);
         humanShieldConstrainSelector = new AnimationConstrainNodeSelector(
-            () => playerStateManager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf
+            () => playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf
             );
         humanShield_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, humanShieldRightHandConstrainLookAtScriptableObject_rifle,
             () => player._currentWeapon is PrimaryWeapon);
@@ -199,7 +199,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         rightHandRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
                    () =>
                    {
-                       if (playerStateManager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf)
+                       if (playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf)
                            return false;
                        if (playerStateManager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf)
                            return false;
@@ -233,7 +233,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                      () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
                      && player._currentWeapon != null
                      && playerStateManager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf == false
-                     && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFuInteraction_NodeLeaf == false);
+                     && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf == false);
 
         this.leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => true
@@ -356,12 +356,14 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected void FixedUpdate()
     {
-        this.playerConstriantAnimationNodeComponentManager.Update();
+        this.playerConstriantAnimationNodeComponentManager.FixedUpdate();
+
     }
     protected void Update()
     {
         UpdateConstrainLookReferencePos();
-        this.playerConstriantAnimationNodeComponentManager.FixedUpdate();
+        this.playerConstriantAnimationNodeComponentManager.Update();
+
     }
     private void OnDrawGizmos()
     {

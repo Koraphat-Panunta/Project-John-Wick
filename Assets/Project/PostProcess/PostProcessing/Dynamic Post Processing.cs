@@ -86,7 +86,7 @@ public class DynamicPostProcessing : MonoBehaviour,IInitializedAble
     private void BulletTimeEffect()
     {
         if((playerStateNodeManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>()
-            ||playerStateNodeManager.TryGetCurNodeLeaf<HumanShield_GunFuInteraction_NodeLeaf>())
+            ||playerStateNodeManager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>())
             &&(timeControlManager.triggerBulletTime.timer > 0)) 
         {
             chromaticAberration.intensity.value = Mathf.MoveTowards(chromaticAberration.intensity.value, bulletTimeChromaticAberration, Time.unscaledDeltaTime);

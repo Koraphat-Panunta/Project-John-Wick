@@ -1259,8 +1259,10 @@ MonoBehaviour:
   postureMedium: 60.8
   postureHeavy: 27
   painDurScrp: {fileID: 11400000, guid: ee39650fc9d6f2f4bb4bd2ae5ce9ccdd, type: 2}
-  standUpClip: {fileID: 7400000, guid: 494a89b81b757e443ac2c7996bf21bec, type: 2}
-  pushUpClip: {fileID: 7400000, guid: 70ae24a71ff94cd4286de6d2d3dd122e, type: 2}
+  standUpAnimationTriggerSCRP: {fileID: 11400000, guid: d1339d4dc4565804cbc727d7ee500918,
+    type: 2}
+  pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
+    type: 2}
   hipsBone: {fileID: 4732242474392325710}
   rootModel: {fileID: 6424886244036147575}
   gunFuDetectTarget: {fileID: 7512234974047621189}
@@ -1272,6 +1274,8 @@ MonoBehaviour:
   GotHit2_A: {fileID: 11400000, guid: 0075a04ca5164ef4386e5e38b0ed89e5, type: 2}
   GotHit3: {fileID: 11400000, guid: cecb4fb46ac32c94bb4fc553689ca301, type: 2}
   gotRestrictScriptableObject: {fileID: 11400000, guid: 4aa7503db68cb024282ca8e98fbd4f9a,
+    type: 2}
+  humanShield_GotInteract_Exit_SCRP: {fileID: 11400000, guid: 442889f0c29e6aa418b8b2e9cc4a022a,
     type: 2}
   primary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7ab5ef7c1a3757c49920fbb25c8bf188,
     type: 2}

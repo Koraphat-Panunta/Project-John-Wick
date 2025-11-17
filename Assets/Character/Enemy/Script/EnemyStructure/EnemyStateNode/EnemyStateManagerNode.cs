@@ -50,6 +50,8 @@ public class EnemyStateManagerNode : INodeManager
     public EnemySprintStateNodeLeaf enemySprintStateNodeLeaf { get; private set; }
     public EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf { get; private set; }
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
+    public GetUpStateNodeLeaf enemyStandUpStateNodeLeaf { get; private set; }
+    public GetUpStateNodeLeaf enemyPushUpStateNodeLeaf { get; private set; }
     public EnemyDeadStateNode enemtDeadState { get; private set; }
 
 
@@ -82,6 +84,7 @@ public class EnemyStateManagerNode : INodeManager
     public WeaponGotDisarmedGunFuGotInteractNodeLeaf secondaryWeaponDisarmGunFuGotInteractNodeLeaf { get; private set; }
     public GotRestrictNodeLeaf gotRestrictNodeLeaf { get; private set; }
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
+    public HumanShield_Exit_GotInteract_NodeLeaf humanShield_Exit_GotInteract_NodeLeaf { get; private set; }
 
     #region PainState Node
     public EnemyStateSelectorNode painStateSelector { get; private set; }
@@ -291,14 +294,24 @@ public class EnemyStateManagerNode : INodeManager
         fallDown_EnemyState_NodeLeaf = new FallDown_EnemyState_NodeLeaf(this.enemy, this.enemy,
             () => //Precondition
             {
-                if (this.enemy._isPainTrigger && this.enemy._posture <= 0)
-                    return true;
-
-                if((this as INodeManager).GetCurNodeLeaf() == gotHit3_GunFuNodeLeaf)
+                if (this.enemy._posture <= 0)
                     return true;
 
                 return false;
             }
+            );
+        enemyStandUpStateNodeLeaf = new GetUpStateNodeLeaf(this.enemy,
+        ()=> Vector3.Dot(this.enemy._hipsBone.forward, Vector3.up) > 0
+        ,this.enemy
+        ,this.enemy.pushUpAnimationTriggerSCRP
+        , "StandUp"
+       );
+
+        enemyPushUpStateNodeLeaf = new GetUpStateNodeLeaf(this.enemy,
+        () => true
+        , this.enemy
+        , this.enemy.pushUpAnimationTriggerSCRP
+        , "PushUp"
        );
 
         gunFuSelector = new NodeSelector(
@@ -515,13 +528,22 @@ public class EnemyStateManagerNode : INodeManager
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,
             () => 
             { 
-                return enemy.curAttackerGunFuNode is HumanShield_GunFuInteraction_NodeLeaf; 
+                return enemy.curAttackerGunFuNode is HumanShield_GunFu_NodeLeaf; 
             }
             , this.enemy.animator);
 
+        this.humanShield_Exit_GotInteract_NodeLeaf = new HumanShield_Exit_GotInteract_NodeLeaf(this.enemy
+            ,()=> enemy.curAttackerGunFuNode is HumanShieldExit_GunFu_NodeLeaf
+            ,this.enemy.humanShield_GotInteract_Exit_SCRP
+            ,this.enemy.animator);
+
         startNodeSelector.AddtoChildNode(enemtDeadState);
-        startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
+
+        fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyStandUpStateNodeLeaf);
+        fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyPushUpStateNodeLeaf);
+
         InitailizedPainStateNode();
         startNodeSelector.AddtoChildNode(painStateSelector);
         startNodeSelector.AddtoChildNode(gunFuSelector);
@@ -535,6 +557,7 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotExecuteSelector);
         gotGunFuAttackSelector.AddtoChildNode(weaponGotDisarmSelector);
         gotGunFuAttackSelector.AddtoChildNode(gotRestrictNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(humanShield_Exit_GotInteract_NodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHit3_GunFuNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHit1_P_GunFuHitNodeLeaf);
@@ -543,8 +566,6 @@ public class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(gotHit2_A_GunFuHitNodeLeaf);
 
         gotHit3_GunFuNodeLeaf.AddTransitionNode(fallDown_EnemyState_NodeLeaf);
-
-        gotHumandShielded_GunFuNodeLeaf.AddTransitionNode(fallDown_EnemyState_NodeLeaf);
 
         enemyStanceSelector.AddtoChildNode(enemyDodgeRollStateNodeLeaf);
         enemyStanceSelector.AddtoChildNode(enemySprintStateNodeLeaf);

@@ -46,8 +46,8 @@ public partial class PlayerAnimationManager
             if(playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
                 return false;
 
-            if(playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFuInteraction_NodeLeaf humanShiedl) 
-                && humanShiedl.curIntphase == HumanShield_GunFuInteraction_NodeLeaf.HumanShieldInteractionPhase.Stay)
+            if(playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShiedl) 
+                && humanShiedl.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;
 
             if (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf restrict)
@@ -59,7 +59,8 @@ public partial class PlayerAnimationManager
             if (playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
                 || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFuInteraction_NodeLeaf humanShield) && (humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
+                || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShield) && (humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Enter ))
+                || playerStateNodeMnager.TryGetCurNodeLeaf<HumanShieldExit_GunFu_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
@@ -70,7 +71,7 @@ public partial class PlayerAnimationManager
     }
     private bool isPerformGunFu { get 
         {
-            if(playerStateNodeMnager.GetCurNodeLeaf() is IGunFuNode)
+            if(playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuNode>())
                 return true;
             return false;
         } 
