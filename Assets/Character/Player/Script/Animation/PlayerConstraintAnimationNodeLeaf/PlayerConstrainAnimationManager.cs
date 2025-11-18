@@ -9,6 +9,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HeadLookConstraintManager headLookConstraintManager;
     [SerializeField] private Transform leftHandTransformRef;
+    [SerializeField] private Transform leftHandBoneTransform;
 
     public HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
 
@@ -175,6 +176,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leftHandConstraintNodeSelector = new NodeSelector(()=> true);
         ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponGripLeftHandTwoBoneIKNodeLeaf(
                    () => isWeaponGripConstraitEnable && player._currentWeapon != null && player._currentWeapon is PrimaryWeapon
+                   ,this.leftHandBoneTransform
                    , this.leftHandTransformRef
                    , this.leftHandConstraintManager
                    , this.ar15_WeaponGripLeftHandScrp

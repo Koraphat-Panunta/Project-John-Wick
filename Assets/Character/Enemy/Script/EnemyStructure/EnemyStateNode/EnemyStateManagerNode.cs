@@ -303,7 +303,7 @@ public class EnemyStateManagerNode : INodeManager
         enemyStandUpStateNodeLeaf = new GetUpStateNodeLeaf(this.enemy,
         ()=> Vector3.Dot(this.enemy._hipsBone.forward, Vector3.up) > 0
         ,this.enemy
-        ,this.enemy.pushUpAnimationTriggerSCRP
+        ,this.enemy.standUpAnimationTriggerSCRP
         , "StandUp"
        );
 

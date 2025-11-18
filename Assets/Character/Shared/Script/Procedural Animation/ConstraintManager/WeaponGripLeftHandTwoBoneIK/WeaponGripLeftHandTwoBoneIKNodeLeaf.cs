@@ -14,8 +14,11 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     private Vector3 hintPosition;
 
     private float enterWeightSpeed = 5;
+
+    private Transform leftHandBone;
     public WeaponGripLeftHandTwoBoneIKNodeLeaf(
         Func<bool> precondition
+        , Transform leftHandBone
         , Transform referenceTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         , WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject
@@ -26,6 +29,7 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
         this.weaponAdvanceUser = weaponAdvanceUser;
         this.leftHandConstraintManager = leftHandConstraintManager;
         this.weaponGripLeftHandScriptableObject = weaponGripLeftHandScriptableObject;
+        this.leftHandBone = leftHandBone;
     }
     public override void Enter()
     {
@@ -34,10 +38,20 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void UpdateNode()
     {
+        Vector3 setPos = this.secondHandGripTransform.position 
+            - (this.weaponAdvanceUser._secondHandSocket.weaponAttachingAbleTransform.position - this.leftHandBone.position);
+        setPos = setPos
+            + (this.secondHandGripTransform.forward * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.z)
+            + (this.secondHandGripTransform.right * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.x)
+            + (this.secondHandGripTransform.up * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.y);
+
+        Quaternion setRot = this.secondHandGripTransform.rotation * (Quaternion.Inverse(this.weaponAdvanceUser._secondHandSocket.transform.rotation) * this.leftHandBone.rotation);
+        setRot = setRot * Quaternion.Euler(weaponGripLeftHandScriptableObject.leftHandGripRotationOffset);
+
         if(this.attachWeapon != weaponAdvanceUser._currentWeapon)
             this.attachWeapon = weaponAdvanceUser._currentWeapon;
         else
-            this.leftHandConstraintManager.SetTargetHand(this.secondHandGripTransform.position, this.secondHandGripTransform.rotation);
+            this.leftHandConstraintManager.SetTargetHand(setPos, setRot);
 
         this.hintPosition = this.referenceTransform.position 
             + 
