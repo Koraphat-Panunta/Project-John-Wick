@@ -150,8 +150,17 @@ public class AnimationTriggerEventPlayer
 
     public void SubscribeEvent(string eventName,Action subScribeEvent)
     {
-        getSelectEvent[getIndexAction[eventName]] += subScribeEvent;
-        isAlreadyTrigger.Add(getSelectEvent[getIndexAction[eventName]], false);
-        getEventTimer.Add(getSelectEvent[getIndexAction[eventName]], this.triggerTimerEventNormalized[getIndexAction[eventName]]);
+        if(getIndexAction.TryGetValue(eventName,out int indexAction))
+        {
+            getSelectEvent[indexAction] += subScribeEvent;
+            isAlreadyTrigger.Add(getSelectEvent[indexAction], false);
+            getEventTimer.Add(getSelectEvent[indexAction], this.triggerTimerEventNormalized[indexAction]);
+        }
+        else
+        {
+            Debug.LogWarning(nameof(subScribeEvent) +" sub eventName = " + eventName + " noneExit");
+        }
+
+
     }
 }

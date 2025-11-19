@@ -7,10 +7,6 @@ using UnityEngine.Animations.Rigging;
 using System.Data;
 
 
-
-
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -62,8 +58,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         isBeenUpdate = false;
     }
 
-   
-   
+
     public void InputRotateCamera(float horizontalInput,float verticalInput)
     {
         yaw += horizontalInput * rotationSpeed;
@@ -170,11 +165,9 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         isBeenUpdate = true;
     }
     
-    
-
-
     private void OnValidate()
     {
+
         cinemachineCamera = GetComponent<CinemachineCamera>();
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);

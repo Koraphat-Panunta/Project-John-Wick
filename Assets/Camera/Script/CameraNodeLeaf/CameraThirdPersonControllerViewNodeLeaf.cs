@@ -7,7 +7,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     protected CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject;
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
     private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
-    private ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
+    protected ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
     private Vector2 inputLook => cameraController.player.inputLookDir_Local * Time.deltaTime * cameraController.standardCameraSensivity;
     protected Vector3 enteringOffset;
     protected float normalizedTime;
@@ -43,7 +43,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         normalizedTime = Mathf.Clamp01(normalizedTime += Time.unscaledDeltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
-        thirdPersonCamera.UpdateCameraPosition();
+        this.UpdateCameraPosition();
 
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {
@@ -66,6 +66,11 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
         cameraController.thirdPersonCinemachineCamera.cameraOffset = new Vector3(offsetX, offsetY, offsetZ);
         base.UpdateNode();
+    }
+
+    protected virtual void UpdateCameraPosition()
+    {
+        thirdPersonCamera.UpdateCameraPosition();
     }
 
 }
