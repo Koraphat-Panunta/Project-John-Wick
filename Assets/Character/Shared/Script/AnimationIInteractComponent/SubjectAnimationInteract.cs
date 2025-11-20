@@ -15,8 +15,6 @@ public class SubjectAnimationInteract
 
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
-    public string subjectName => animationInteractCharacterDetail.subjectName;
-
     public Vector3 anhorPosition { get; protected set; }
     public Vector3 anhorDir { get; protected set; }
 

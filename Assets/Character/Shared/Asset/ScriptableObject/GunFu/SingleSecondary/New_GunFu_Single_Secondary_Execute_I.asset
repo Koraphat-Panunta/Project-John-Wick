@@ -13,7 +13,27 @@ MonoBehaviour:
   m_Name: New_GunFu_Single_Secondary_Execute_I
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
   clip: {fileID: 7400000, guid: a722caec2180cbe4a96224f1980d183c, type: 2}
-  enterNormalizedTime: 0.005
-  triggerEventDetail: []
-  endNormalizedTime: 0.97
-  animationInteractCharacterDetail: []
+  enterNormalizedTime: 0.165
+  triggerEventDetail:
+  - normalizedTime: 0.761
+    eventName: Shoot
+  - normalizedTime: 0.761
+    eventName: Execute
+  endNormalizedTime: 0.93
+  animationInteractCharacterDetail:
+  - subjectName: GunFu_Execute_Single_Secondary_I
+    offsetPositionFormAnchor: {x: -0.28, y: 0.81}
+    RotationRelative: 180
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.175
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.253
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.175
+    enterAnimationOffsetNormalizedTime: 0.175
+    endAnimationNormalizedTime: 0.93
+  - subjectName: GotGunFu_Execute_Single_Secondary_I
+    offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: -18.63
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.175
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.253
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.175
+    enterAnimationOffsetNormalizedTime: 0.25
+    endAnimationNormalizedTime: 0.93
