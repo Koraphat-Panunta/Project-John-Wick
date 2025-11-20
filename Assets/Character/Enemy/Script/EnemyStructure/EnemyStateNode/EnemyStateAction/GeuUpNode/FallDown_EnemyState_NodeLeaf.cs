@@ -86,12 +86,12 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
         if(downTimer <= 0)
             lastHipPos = _hipsBone.transform.position;
 
-        Debug.Log("Vector3.Distance(this._hipsBone.transform.position,lastHipPos) = " + Vector3.Distance(this._hipsBone.transform.position, lastHipPos));
+ 
         if(Vector3.Distance(this._hipsBone.transform.position,lastHipPos) <= 0.025f)
         {
             downTimer += Time.fixedDeltaTime;
         }
-        Debug.Log("downTimer = " + downTimer);
+
 
         lastHipPos = _hipsBone.transform.position;
     }

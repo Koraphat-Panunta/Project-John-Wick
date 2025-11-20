@@ -20,7 +20,6 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
         gameMaster.user.userInput.PauseAction.PauseTrigger.performed += this.TriggerPause;
         pauseUICanvas.resume.onClick.AddListener(() => 
         {
-            Debug.Log("OnClickResume");
             isMenu = false; 
         });
         pauseUICanvas.setting.onClick.AddListener(()=> isTriggerToSetting = true);
@@ -35,7 +34,6 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
     public override void Enter()
     {
         //Delay();
-        Debug.Log("MenuInGameGameMasterNodeLeaf Enter");
         this.Pause();
         nodeLeafTransitionBehavior.TransitionAbleAll(this);
         base.Enter();
@@ -51,7 +49,6 @@ public class MenuInGameGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGame
     //}
     public override void Exit()
     {
-        Debug.Log("MenuInGameGameMasterNodeLeaf Exit");
         this.isTriggerToSetting = false;
         UnPause();
         base.Exit();

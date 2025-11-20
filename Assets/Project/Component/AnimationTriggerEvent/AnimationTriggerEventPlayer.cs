@@ -10,16 +10,12 @@ public class AnimationTriggerEventPlayer
     public float timer { get; protected set; }
     public float timerNormalized { get => timer/endTimer; }
     public float endTimer { get; protected set; }
-    public float[] triggerTimerEventNormalized;
-    private Dictionary<string, int> getIndexAction { get; set; }
-    private Dictionary<int, Action> getSelectEvent { get; set; }
-    private Dictionary<Action,float> getEventTimer { get; set; }
-    private Dictionary<Action, bool> isAlreadyTrigger { get; set; }
+    private AnimationTriggerEventDetail[] animationTriggerEventsDetails;
+    private Dictionary<AnimationTriggerEventDetail, bool> isAlreadyTrigger;
+    private Dictionary<AnimationTriggerEventDetail, Action> animationTriggerEventAction;
     public AnimationClip animationClip { get; protected set; }
 
-    private int eventCount => triggerTimerEventNormalized.Length;
-    private int startSelectCount;
-    private int selectCount;
+    private int eventCount => animationTriggerEventsDetails.Length;
 
     public float enterNormalizedTime;
     public float endNormalizedTime;
@@ -38,71 +34,35 @@ public class AnimationTriggerEventPlayer
         this.animationClip = animationClip;
         this.enterNormalizedTime = enterNormalized;
         this.endNormalizedTime = endNormalized;
-        startSelectCount = 0;
+
         startTimer = animationClip.length * enterNormalized;
         endTimer = animationClip.length * endNormalized;
 
-        getIndexAction = new Dictionary<string, int>();
-        getSelectEvent = new Dictionary<int, Action>();
-        getEventTimer = new Dictionary<Action, float>();
-        isAlreadyTrigger = new Dictionary<Action, bool>();
+        animationTriggerEventsDetails = new AnimationTriggerEventDetail[triggerEventDetail.Length];
+        isAlreadyTrigger = new Dictionary<AnimationTriggerEventDetail, bool>();
+        animationTriggerEventAction = new Dictionary<AnimationTriggerEventDetail, Action>();
 
-        this.triggerTimerEventNormalized = new float[triggerEventDetail.Length];
 
-        List<float> allTriggerTimerNor = new List<float>();
-        List<AnimationTriggerEventDetail> allAnimationTriggerEventDetails = new List<AnimationTriggerEventDetail>();
-        for(int indexPopulate = 0;indexPopulate < triggerEventDetail.Length;indexPopulate++) 
+        for (int i = 0; i < triggerEventDetail.Length; i++)
         {
-            allTriggerTimerNor.Add(triggerEventDetail[indexPopulate].normalizedTime);
-            allAnimationTriggerEventDetails.Add(triggerEventDetail[indexPopulate]);
+            animationTriggerEventsDetails[i] = triggerEventDetail[i];
+            isAlreadyTrigger.Add(animationTriggerEventsDetails[i], true);
+            animationTriggerEventAction.Add(animationTriggerEventsDetails[i], new Action(() => { }));
         }
+       
 
-        for (int i = 0; i < eventCount; i++)
-        {
-            float leastNumber = 1;
-            int removeIndex = 0;
-            for (int y = 0; y < allTriggerTimerNor.Count; y++)
-            {
-                if (leastNumber > allTriggerTimerNor[y])
-                {
-                    leastNumber = allTriggerTimerNor[y];
-                    removeIndex = y;
-                }
-
-            }
-            allTriggerTimerNor.RemoveAt(removeIndex);
-
-            this.triggerTimerEventNormalized[i] = leastNumber;
-
-            for (int z = 0; z < allAnimationTriggerEventDetails.Count; z++) 
-            {
-                if (allAnimationTriggerEventDetails[z].normalizedTime == leastNumber)
-                {
-                    this.getIndexAction.Add(allAnimationTriggerEventDetails[z].eventName, i);
-
-                    allAnimationTriggerEventDetails.RemoveAt(z);
-
-                    break;
-                }
-            }
-
-            this.getSelectEvent.Add(i, new Action(() => { }));
-
-
-            if (startTimer > animationClip.length
-            * triggerEventDetail[i].normalizedTime)
-            {
-                startSelectCount++;
-            }
-        }
+        
     }
     public void Rewind()
     {
         timer = startTimer;
-        selectCount = startSelectCount;
-        for (int i = 0; i < eventCount; i++)
+
+        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
         {
-            isAlreadyTrigger[getSelectEvent[i]] = false;
+            if(startTimer <= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
+            {
+                isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
+            }
         }
     }
 
@@ -113,25 +73,20 @@ public class AnimationTriggerEventPlayer
         if (this.IsPlayFinish())
             return;
 
+        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
+        {
+            if (isAlreadyTrigger[animationTriggerEventsDetails[i]])
+                continue;
+
+            if(timer >= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
+            {
+                animationTriggerEventAction[animationTriggerEventsDetails[i]].Invoke();
+                isAlreadyTrigger[animationTriggerEventsDetails[i]] = true;
+            }
+        }
+
         timer += deltaTime;
 
-        if (selectCount >= eventCount)
-            return;
-
-        if(getEventTimer.Count <= 0)
-            return;
-
-        while(selectCount < eventCount && timer >= this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]
-            && isAlreadyTrigger[getSelectEvent[selectCount]] == false)
-        {
-            getSelectEvent[selectCount].Invoke();
-            isAlreadyTrigger[getSelectEvent[selectCount]] = true;
-            selectCount++;
-
-            //Debug.Log("selectCount " + selectCount);
-            //Debug.Log("timer " + timer);
-            //Debug.Log("this.animationClip.length * getEventTimer[getSelectEvent[selectCount] " + this.animationClip.length * getEventTimer[getSelectEvent[selectCount]]);
-        }
     }
 
     public bool IsPlayFinish()
@@ -150,17 +105,12 @@ public class AnimationTriggerEventPlayer
 
     public void SubscribeEvent(string eventName,Action subScribeEvent)
     {
-        if(getIndexAction.TryGetValue(eventName,out int indexAction))
+        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
         {
-            getSelectEvent[indexAction] += subScribeEvent;
-            isAlreadyTrigger.Add(getSelectEvent[indexAction], false);
-            getEventTimer.Add(getSelectEvent[indexAction], this.triggerTimerEventNormalized[indexAction]);
+            if (animationTriggerEventsDetails[i].eventName == eventName)
+            {
+                animationTriggerEventAction[animationTriggerEventsDetails[i]] += subScribeEvent;
+            }
         }
-        else
-        {
-            Debug.LogWarning(nameof(subScribeEvent) +" sub eventName = " + eventName + " noneExit");
-        }
-
-
     }
 }
