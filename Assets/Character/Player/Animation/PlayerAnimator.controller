@@ -279,7 +279,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Restrict_Exit
+  m_Name: RestrainExit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -336,7 +336,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HS_Exit
+  m_Name: HumanShieldExit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -551,7 +551,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HS_Enter
+  m_Name: HumanShield
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1179,7 +1179,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFuSecondaryDisarm
+  m_Name: WeaponDisarmSecondary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1571,7 +1571,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFu_Single_Execute_OnGround_Primary_Laydown_I
+  m_Name: GunFu_Single_Execute_OnGround_Primary_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2582,7 +2582,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFuDodgeExecutePrimary
+  m_Name: GunFu_Execute_Dodge_Primary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -5694,32 +5694,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 50, y: 180, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2026752776143353520}
---- !u!1102 &1998042717757022660
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: HumanShieldEnter
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ee5d4fc5f3b27e74f996d676bc3fb48b, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &2026752776143353520
 AnimatorState:
   serializedVersion: 6
@@ -5854,7 +5828,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Restrict_Enter
+  m_Name: Restrain
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -6854,32 +6828,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1102 &3664749813023168798
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: GunFu_Single_Execute_OnGround_Primary_Layup_I
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 11dc16514898bc54a857c53a4f80991c, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &3666474947219977605
 AnimatorState:
   serializedVersion: 6
@@ -6887,7 +6835,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFuPrimaryDisarm
+  m_Name: WeaponDisarmPrimary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -6983,32 +6931,6 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1102 &3939244514498472905
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: GunFu_Single_Execute_OnGround_Pistol_Laydown_I
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7713d10494788654e932c3f2d06a253e, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!206 &3971948707967151682
 BlendTree:
   m_ObjectHideFlags: 1
@@ -7398,10 +7320,7 @@ AnimatorStateMachine:
     m_Position: {x: -1310, y: -440, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6463155807872893529}
-    m_Position: {x: -1260, y: -200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3664749813023168798}
-    m_Position: {x: -1050, y: -200, z: 0}
+    m_Position: {x: -1460, y: -200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4097789660361058214}
     m_Position: {x: -260, y: -280, z: 0}
@@ -7421,11 +7340,8 @@ AnimatorStateMachine:
     m_State: {fileID: 4769906618322947520}
     m_Position: {x: -1680, y: -140, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 3939244514498472905}
-    m_Position: {x: -1680, y: -200, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 8038111937487495055}
-    m_Position: {x: -1470, y: -200, z: 0}
+    m_Position: {x: -1680, y: -200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 568741363673686076}
     m_Position: {x: -1680, y: -90, z: 0}
@@ -7438,9 +7354,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -4459812845290461117}
     m_Position: {x: -1460, y: -140, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1998042717757022660}
-    m_Position: {x: -1180, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7491459552653935655}
     m_Position: {x: -1680, y: -40, z: 0}
@@ -7530,7 +7443,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFuDodgeExecuteSecondary
+  m_Name: GunFu_Execute_Dodge_Secondary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -9016,7 +8929,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GunFu_Single_Execute_OnGround_Pistol_Layup_I
+  m_Name: GunFu_Single_Execute_OnGround_Secondary_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

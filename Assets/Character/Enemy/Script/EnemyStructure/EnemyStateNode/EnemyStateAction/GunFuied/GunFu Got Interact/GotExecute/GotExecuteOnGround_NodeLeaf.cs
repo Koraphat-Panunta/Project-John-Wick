@@ -10,41 +10,42 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     private BoneTransform[] _startAnimBoneTransforms;
 
     private Animator _animator => enemy.animator;
-    private float duration => _animationClip.length;
+
 
     public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
 
     public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
-    public string gotExecuteStateName { get; private set; }
+
+    GotExecutedStateName IGotGunFuExecuteNodeLeaf._gotExecutedStateName => this.gotExecutedStateName;
+    private GotExecutedStateName gotExecutedStateName;
+    public string gotExecuteStateName { get => this.gotExecuteStateName.ToString(); }
 
     public enum ExecutedPhase
     {
         None,
+        PoppulateStartBoneTransform,
         ResetingBone,
         Animate,
     }
     public ExecutedPhase executedPhase { get; set; }
 
 
-    public float _timer { get; set; }
-    public AnimationClip _animationClip { get; set; }
+    protected AnimationTriggerEventSCRP gunFuExecuteSInteractSCRP;
+    public AnimationTriggerEventPlayer animationTriggerEventPlayer { get; protected set; }
+    protected AnimationClip animationClip { get => this.gunFuExecuteSInteractSCRP.clip; }
+    protected float opponentAnimationOffset { get => gunFuExecuteSInteractSCRP.enterNormalizedTime; }
 
-    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_OnGround_Single_ScriptableObject;
+    public float resetBoneTimer { get; protected set; }
 
-    private GunFuExecute_Single_ScriptableObject gunFuExecute_OnGround_Single_ScriptableObject ;
-    private GunFuExecute_OnGround_Single_NodeLeaf _executerGunFuNodeLeaf;
+    public float reserBoneDuration = .5f;
 
-    private float resetBoneTime 
-        => ((_executerGunFuNodeLeaf._animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.warpingPhaseTimeNormalized)
-                        - _executerGunFuNodeLeaf.lenghtOffset)*0.25f;
-
-    private float warpingTime => _executerGunFuNodeLeaf._animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.warpingPhaseTimeNormalized;
-    public GotExecuteOnGround_NodeLeaf(Enemy enemy,AnimationClip gotExecuteClip,Transform root,Transform hipsBone, Transform[] bones,string gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
+    public GotExecuteOnGround_NodeLeaf(
+        Enemy enemy,AnimationTriggerEventSCRP gunFuExecuteSInteractSCRP, Transform root,Transform hipsBone, Transform[] bones,GotExecutedStateName gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._root = root;
         this._hipsBone =hipsBone;
         this._bones = bones;
-        this.gotExecuteStateName = gotExecuteStateName;
+        this.gotExecutedStateName = gotExecuteStateName;
 
         this._ragdollBoneTransforms = new BoneTransform[_bones.Length];
         this._startAnimBoneTransforms = new BoneTransform[_bones.Length];
@@ -56,29 +57,14 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         }
 
 
-        this._animationClip = gotExecuteClip;
+        this.gunFuExecuteSInteractSCRP = gunFuExecuteSInteractSCRP;
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.gunFuExecuteSInteractSCRP);
 
     }
-    public override bool Precondition()
-    {
-        if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
-        {
-            gunFuExecute_OnGround_Single_ScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_Single_ScriptableObject;
-            RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(
-                _animationClip,
-                enemy.gameObject,
-                this._bones,
-                _startAnimBoneTransforms,
-                enemy.transform,
-                _animationClip.length * gunFuExecute_OnGround_Single_ScriptableObject.opponentAnimationOffset);
-        }
-
-        return base.Precondition();
-    }
+  
     public override bool IsComplete()
     {
-        if(this._timer >= duration)
+        if(animationTriggerEventPlayer.IsPlayFinish())
             return true;
 
         return false;
@@ -97,17 +83,13 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void Enter()
     {
-        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
-        RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
-
-        _timer = 0;
-        executedPhase = ExecutedPhase.ResetingBone;
-
+        this.animationTriggerEventPlayer.Rewind();
+    
+        resetBoneTimer = 0;
+   
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
-        _executerGunFuNodeLeaf = _executerGunFu.curGunFuNode as GunFuExecute_OnGround_Single_NodeLeaf;
-
+        executedPhase = ExecutedPhase.None;
         enemy.NotifyObserver(enemy, this); 
 
         base.Enter();
@@ -126,35 +108,50 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void UpdateNode()
     {
-        _timer += Time.deltaTime;
-
-        switch (executedPhase)
+        switch (this.executedPhase)
         {
+            case ExecutedPhase.None:
+                {
+                    RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(
+                        animationClip,
+                        enemy.gameObject,
+                        this._bones,
+                        _startAnimBoneTransforms,
+                        enemy.transform,
+                        animationClip.length * this.opponentAnimationOffset
+                        );
+
+                    executedPhase = ExecutedPhase.PoppulateStartBoneTransform;
+                    break;
+                }
+            case ExecutedPhase.PoppulateStartBoneTransform:
+                {
+                    RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
+                    RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
+                    RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
+                    executedPhase = ExecutedPhase.ResetingBone;
+                    break;
+                }
             case ExecutedPhase.ResetingBone:
                 {
-                    float elapsedPercentage = Mathf.Clamp01(
-                        _timer 
-                        / resetBoneTime);
-
-                    RagdollBoneBehavior.LerpBoneTransforms(_bones,_ragdollBoneTransforms,_startAnimBoneTransforms,elapsedPercentage);
-
-                  
-                    if (_timer >= resetBoneTime)
+                    this.resetBoneTimer = Mathf.Clamp01(this.resetBoneTimer + Time.deltaTime);
+                    RagdollBoneBehavior.LerpBoneTransforms(_bones, _ragdollBoneTransforms, _startAnimBoneTransforms, resetBoneTimer/reserBoneDuration);
+                    if (resetBoneTimer >= reserBoneDuration)
                     {
-                        enemy.NotifyObserver(enemy, this);
+                        executedPhase = ExecutedPhase.Animate;
                         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
                         _animator.CrossFade(gotExecuteStateName, 0, 0, 0);
-                        executedPhase = ExecutedPhase.Animate;
+                        enemy.NotifyObserver(enemy, this);
                     }
+                    break;
                 }
-                break;
-                
             case ExecutedPhase.Animate:
                 {
-
+                    this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+                    break;
                 }
-                break ;
         }
+
         base.UpdateNode();
     }
 }

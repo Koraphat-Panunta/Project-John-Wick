@@ -227,7 +227,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got HumandShielded Stay
+  m_Name: GotHumanShield_Stay
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -241,32 +241,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 70ad478d294bded43944f65751e523ae, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-8628038411100390983
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Single_Execute_OnGround_Primary_Layup_I
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: daa8446c6cecbf64bbfa3a89be4da16f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1289,7 +1263,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got HumandShielded Enter
+  m_Name: GotHumanShield_Enter
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1955,7 +1929,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Secondary_I
+  m_Name: GotExecuted_Single_Secondary_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2169,7 +2143,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Primary_I
+  m_Name: GotExecuted_Single_Primary_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2195,7 +2169,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got hit 2 Attack
+  m_Name: GotHit2_Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2665,7 +2639,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got hit 1 Parry
+  m_Name: GotHit1_Parry
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2799,7 +2773,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Single_Execute_OnGround_Pistol_Layup_I
+  m_Name: GotExecuted_OnGround_LayUp_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -2934,7 +2908,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFuDisarmSecondaryWeapon
+  m_Name: GotWeaponDisarmSecondary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -3432,7 +3406,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFuDodgeExecuteSecondary
+  m_Name: GotExecuted_Dodge_Secondary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -3458,7 +3432,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Primary_II
+  m_Name: GotExecuted_Single_Primary_II
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -3642,7 +3616,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got hit 3
+  m_Name: GotHit3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -4089,7 +4063,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFuDodgeExecutePrimary
+  m_Name: GotExecuted_Dodge_Primary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -4378,7 +4352,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Secondary_II
+  m_Name: GotExecuted_Single_Secondary_II
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -4795,7 +4769,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Secondary_IV
+  m_Name: GotExecuted_Single_Secondary_IV
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -4821,7 +4795,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got hit 1 Attack
+  m_Name: GotHit1_Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -6467,12 +6441,6 @@ AnimatorStateMachine:
     m_State: {fileID: -4410856735463284544}
     m_Position: {x: -1670, y: -80, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 8683318321086759574}
-    m_Position: {x: -1250, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8628038411100390983}
-    m_Position: {x: -1460, y: 200, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: -4435125368327235442}
     m_Position: {x: -1880, y: 300, z: 0}
   - serializedVersion: 1
@@ -7212,7 +7180,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got HumandShielded Throw
+  m_Name: GotHumanShield_Exit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -7322,7 +7290,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Execute_Single_Secondary_III
+  m_Name: GotExecuted_Single_Secondary_III
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -7387,7 +7355,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFuDisarmPrimaryWeapon
+  m_Name: GotWeaponDisarmPrimary
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -7650,7 +7618,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Got hit 2 Parry
+  m_Name: GotHit2_Parry
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -8527,32 +8495,6 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
---- !u!1102 &8683318321086759574
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Single_Execute_OnGround_Primary_Laydown_I
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!206 &8694042673765843156
 BlendTree:
   m_ObjectHideFlags: 1
@@ -8979,7 +8921,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GotGunFu_Single_Execute_OnGround_Pistol_Laydown_I
+  m_Name: GotExecuted_OnGround_LayDown_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

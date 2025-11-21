@@ -1,64 +1,67 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNodeLeaf
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
-    public string _stateName => gunFuExecute_Single_ScriptableObject.gunFuStateName;
-    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecute_Single_ScriptableObject;
-    public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject { get; protected set; }
-    private Dictionary<float,bool> isShootAlready = new Dictionary<float,bool>();
-    private List<float> shootimingNormalized => gunFuExecute_Single_ScriptableObject.firingTimingNormalized;
-    public AnimationClip _animationClip { get => gunFuExecute_Single_ScriptableObject.executeClip; set { } }
-    private TimeControlBehavior timeControlBehavior;
-    private float warpingNormalized => gunFuExecute_Single_ScriptableObject.warpingPhaseTimeNormalized;
-    //private Transform gunFuAttackerTransform => player._transform;
-    //private Transform gunFuGotAttackedTransform => player.executedAbleGunFu._character._transform;
 
-    private Vector3 gunFuAttackerEnterPosition;
-    private Quaternion gunFuAttackerEnterRotation;
-
-    private Vector3 opponentGunFuEnterPosition;
-    private Quaternion opponentGunFuEnterRotation;
-
-    private Vector3 gunFuAttackerTargetPosition;
-    private Quaternion gunFuAttackerTargetRotation;
-
-    private Vector3 opponentGunFuTargetPosition;
-    private Quaternion opponentGunFuTargetRotation;
+    public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get; }
+    protected AnimationInteractScriptableObject gunFuExecuteInteractSCRP;
 
     IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => this.curGunFuPhase = value; }
-    private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase { get; set; }
-    public float _timer { get ; set ; }
-    bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => isExecuteAlready; set => isExecuteAlready = value; }
-    
+    private IGunFuExecuteNodeLeaf.GunFuExecutePhase curGunFuPhase;
 
+    bool IGunFuExecuteNodeLeaf._isExecuteAldready { get => this.isExecuteAlready ; set => this.isExecuteAlready = value; }
     private bool isExecuteAlready;
-    public GunFuExecute_Single_NodeLeaf(Player player, Func<bool> preCondition,GunFuExecute_Single_ScriptableObject gunFuExecute_Single_ScriptableObject) : base(player, preCondition)
+
+    GunFuExecuteStateName IGunFuExecuteNodeLeaf._executeStateName { get => executeStateName; set => executeStateName = value; }
+    private GunFuExecuteStateName executeStateName;
+
+    string IGunFuNode._stateName => executeStateName.ToString();
+
+    protected SubjectAnimationInteract gunFuAble_SubjectInteract;
+    protected SubjectAnimationInteract got_GunFuAttacked_SubjectInteract;
+
+    public GunFuExecute_Single_NodeLeaf(
+        Player player
+        , Func<bool> preCondition
+        , AnimationInteractScriptableObject gunFuExecuteInteractSCRP
+        ,GunFuExecuteStateName stateName
+        ) : base(player, preCondition)
     {
         this.gunFuAble = player;
-        this.gunFuExecute_Single_ScriptableObject = gunFuExecute_Single_ScriptableObject;
-        weaponAdvanceUser = player;
-        timeControlBehavior = new TimeControlBehavior(player);
-        PopulateIsShootAlready();
+        this.gunFuExecuteInteractSCRP = gunFuExecuteInteractSCRP;
+        this.weaponAdvanceUser = player;
+        this.executeStateName = stateName;
+
+        this.gunFuAble_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0]);
+        this.got_GunFuAttacked_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1]);
+
+        this.gunFuAble_SubjectInteract.finishWarpEvent += this.Interact;
+        this.gunFuAble_SubjectInteract.animationTriggerEventPlayer.SubscribeEvent("Shoot",this.Shoot);
+        this.gunFuAble_SubjectInteract.animationTriggerEventPlayer.SubscribeEvent("Execute",this.Execute);
     }
-
-
 
     public override void Enter()
     {
         gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
-        this._timer = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         gunFuAble._character._movementCompoent.CancleMomentum();
         gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
-        CalculateAdjustTransform();
-        isWarpingComplete = false;  
+
+        Vector3 executeDir = gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position;
+        executeDir = new Vector3(executeDir.x,0,executeDir.z).normalized;
+
+        this.gunFuAble_SubjectInteract.RestartSubject(
+            gunFuAble._character
+            ,gotGunFuAttackedAble._character.transform.position
+            ,executeDir);
+        this.got_GunFuAttacked_SubjectInteract.RestartSubject(
+            gotGunFuAttackedAble._character
+            ,gotGunFuAttackedAble._character.transform.position
+            ,executeDir);
 
         base.Enter();
     }
@@ -67,8 +70,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         isExecuteAlready = false;
         gunFuAble._character.enableRootMotion = false;
-        isTriggerSlowMotion = false;
-        ResetIsShootAlready();
 
         base.Exit();
     }
@@ -79,7 +80,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     }
     public override bool IsComplete()
     {
-        if(_timer > _animationClip.length)
+       if(gunFuAble_SubjectInteract.animationTriggerEventPlayer.IsPlayFinish())
             return true;
         return false;
     }
@@ -90,175 +91,30 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             return true;
         return false;
     }
-    private bool isTriggerSlowMotion;
-    private bool isWarpingComplete;
 
-    Vector3 attackerPosAtInteractBegin;
-    Vector3 opponentPosAtInteractBegun;
     public override void UpdateNode()
     {
-        _timer += Time.deltaTime;
-        switch (curGunFuPhase)
-        {
-            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping:
-                {
-                    if (isWarpingComplete)
-                    {
-
-
-                        gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
-                        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
-                        _ = DelayRootMotionEnable();
-
-                        gunFuAble._character._movementCompoent.SetPosition(gunFuAttackerTargetPosition);
-                        gunFuAble._character._movementCompoent.SetRotation(gunFuAttackerTargetRotation);
-
-                        gotGunFuAttackedAble._character._movementCompoent.SetPosition(opponentGunFuTargetPosition);
-                        gotGunFuAttackedAble._character._movementCompoent.SetRotation(opponentGunFuTargetRotation);
-
-                        attackerPosAtInteractBegin = gunFuAble._character.transform.position;
-                        opponentPosAtInteractBegun = gotGunFuAttackedAble._character.transform.position;
-
-             
-                    }
-                    else if (WarpingComplete())
-                        isWarpingComplete = true;
-                        
-                    break;
-                }
-            case IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting:
-                {
-                    if(isTriggerSlowMotion == false
-                        &&_timer >= gunFuExecute_Single_ScriptableObject.slowMotionTriggerNormailzed * _animationClip.length)
-                    {
-                        timeControlBehavior.TriggerTimeStop(0, gunFuExecute_Single_ScriptableObject.slowMotionDurarion);
-                        isTriggerSlowMotion = true;
-                    }
-
-                    ShootingCheck();
-                    ExecuteCheck();
-                    break;
-                }
-        }
+        this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
+        this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
 
         base.UpdateNode();
     }
-    private void ShootingCheck()
+    
+    private void Interact(Character character)
     {
-        if(shootimingNormalized.Count>0)
-        foreach(float shootimingNormal in shootimingNormalized)
-        {
-                if (_timer >= _animationClip.length * shootimingNormal
-                    && isShootAlready[shootimingNormal] == false)
-                {
-                    isShootAlready[shootimingNormal] = true;
-                    WeaponShootBlank.ShootBlank(weaponAdvanceUser._currentWeapon);
-                }
-        }
-        
-       
+        _ = SubjectAnimationInteract.DelayRootMotionEnable(gunFuAble._character);
+        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
     }
-    private void ExecuteCheck()
+    private void Shoot()
     {
-        if (_timer >= _animationClip.length * gunFuExecute_Single_ScriptableObject.executeTimeNormalized
-           && isExecuteAlready == false)
-        {
-            curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Execute;
-            BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
-            weaponAdvanceUser._currentWeapon.PullTrigger();
-            gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
-            isExecuteAlready = true;
-
-           
-            player.NotifyObserver(player, curGunFuPhase);
-            player.NotifyObserver(player, this);
-        }
-    }
-    private bool WarpingComplete()
-    {
-        float lenghtOffset = _animationClip.length * gunFuExecute_Single_ScriptableObject.executeAnimationOffset;
-
-        float t = (_timer - lenghtOffset) / ((_animationClip.length - lenghtOffset)*warpingNormalized);
-
-        t = Mathf.Clamp01(t);
-
-        //Debug.Log("player curvelocity before at warping = " + gunFuAble._character._movementCompoent.curMoveVelocity_World);
-        MovementWarper.WarpMovement
-            (gunFuAttackerEnterPosition
-            , gunFuAttackerEnterRotation
-            , gunFuAble._character._movementCompoent
-            , gunFuAttackerTargetPosition
-            , gunFuAttackerTargetRotation
-            , t);
-
-        gunFuAble._character._movementCompoent.CancleMomentum();
-        //Debug.Log("enemy curvelocity at before warping = " + gunFuAble.executedAbleGunFu._character._movementCompoent.curMoveVelocity_World);
-        MovementWarper.WarpMovement
-            (opponentGunFuEnterPosition
-            , opponentGunFuEnterRotation
-            , gotGunFuAttackedAble._character._movementCompoent
-            , opponentGunFuTargetPosition
-            , opponentGunFuTargetRotation
-            , t);
-        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
-
-        if (t >= 1)
-            return true;
-
-        return false;
-
-    }
-    private void PopulateIsShootAlready()
-    {
-        if(shootimingNormalized.Count >0)
-        foreach(float shootimingNor in shootimingNormalized)
-        {
-            isShootAlready.Add(shootimingNor, false);
-        }
-    }
-    private void ResetIsShootAlready()
-    {
-        if(shootimingNormalized.Count >0)
-        foreach (float shootimingNor in shootimingNormalized)
-        {
-            isShootAlready[shootimingNor] = false;
-        }
-    }
-    private void CalculateAdjustTransform()
-    {
-        Vector3 enterDir = (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position);
-        enterDir = new Vector3 (enterDir.x,0,enterDir.z).normalized;
-
-        gunFuAttackerEnterPosition = gunFuAble._character.transform.position;
-        gunFuAttackerEnterRotation = gunFuAble._character.transform.rotation;
-        opponentGunFuEnterPosition = gotGunFuAttackedAble._character.transform.position;
-        opponentGunFuEnterRotation = gotGunFuAttackedAble._character.transform.rotation;
-
-        Vector3 anchor = gunFuAble._character.transform.position;
-
-        gunFuAttackerTargetPosition
-            = anchor
-            + (enterDir * gunFuExecute_Single_ScriptableObject.playerForwardRelativePosition)
-            + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.playerRightwardRelativePosition);
-
-        gunFuAttackerTargetRotation
-            = Quaternion.LookRotation(enterDir,Vector3.up) * Quaternion.Euler(0,gunFuExecute_Single_ScriptableObject.playerRotationRelative,0);
-
-        opponentGunFuTargetPosition
-            = anchor
-            + (enterDir * gunFuExecute_Single_ScriptableObject.opponentForwardRelative)
-            + (Vector3.Cross(enterDir,Vector3.down) * gunFuExecute_Single_ScriptableObject.opponentRightwardRelative);
-
-        opponentGunFuTargetRotation
-            = Quaternion.LookRotation(enterDir, Vector3.up) * Quaternion.Euler(0, gunFuExecute_Single_ScriptableObject.opponentRotationRelative, 0);
-
-        
+        WeaponShootBlank.ShootBlank(weaponAdvanceUser._currentWeapon);
     }
 
-    private async Task DelayRootMotionEnable()
+    private void Execute()
     {
-        await Task.Delay((int)(gunFuExecute_Single_ScriptableObject.transitionRootDrivenAnimationDuration * 1000));
-        gunFuAble._character.enableRootMotion = true;
+        BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
+        gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
     }
    
 }

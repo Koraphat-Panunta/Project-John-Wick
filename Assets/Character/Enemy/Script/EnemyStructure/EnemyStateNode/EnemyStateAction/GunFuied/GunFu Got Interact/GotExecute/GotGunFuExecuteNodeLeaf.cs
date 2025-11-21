@@ -1,71 +1,56 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 
 public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeLeaf
 {
-    public float _timer { get;set; }
-    public AnimationClip _animationClip { get => gunFuExecuteScriptableObject.gotExecuteClip ; set { } }
+
     public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
-    public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
+    public IGunFuAble _executerGunFu => this._gotExecutedGunFu.gunFuAbleAttacker;
+    public string gotExecuteStateName { get => this._gotExecutedStateName.ToString(); }
 
-    public string gotExecuteStateName { get; protected set; }
-    private GunFuExecute_Single_ScriptableObject gunFuExecuteScriptableObject;
+    public GotExecutedStateName _gotExecutedStateName => gotExecutedStateName;
+    private GotExecutedStateName gotExecutedStateName;
 
-    private Transform gunFuGotAttackedTransform => enemy.transform;
+    protected AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
-    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject => this.gunFuExecuteScriptableObject;
-
-    public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition,string gotExecuteStateName) : base(enemy, preCondition)
+    public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP, GotExecutedStateName gotExecuteStateName) : base(enemy, preCondition)
     {
-        this.gotExecuteStateName = gotExecuteStateName;
+        this.gotExecutedStateName = gotExecuteStateName;
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
     }
-    public override bool Precondition()
-    {
-        if (base.Precondition() == false)
-            return false;
-
-        if (_executerGunFu.curGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            && gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject.gotGunFuStateName == this.gotExecuteStateName)
-        {
-            gunFuExecuteScriptableObject = gunFuExecuteNodeLeaf._gunFuExecuteScriptableObject as GunFuExecute_Single_ScriptableObject;
-            return true;
-        }
-
-        return false;
-    }
+    
     public override void Enter()
     {
-        _gotExecutedGunFu._character.animator.CrossFade(gotExecuteStateName, this.gunFuExecuteScriptableObject.transitionRootDrivenAnimationDuration , 0, this.gunFuExecuteScriptableObject.opponentAnimationOffset);
-        _timer = this.gunFuExecuteScriptableObject.executeClip.length * gunFuExecuteScriptableObject.opponentAnimationOffset;
-        _ = DelayRootMotionEnable();
-
-        _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
+        this.animationTriggerEventPlayer.Rewind();
+        this._gotExecutedGunFu._character.animator.CrossFade
+            (gotExecuteStateName
+            , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration , 0, this.animationTriggerEventPlayer.enterNormalizedTime);
+        this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
+        _= SubjectAnimationInteract.DelayRootMotionEnable(_gotExecutedGunFu._character);
 
         base.Enter();
     }
     public override void Exit()
     {
-        _gotExecutedGunFu._character.enableRootMotion = false;
+        this._gotExecutedGunFu._character.enableRootMotion = false;
         base.Exit();
     }
     public override void UpdateNode()
     {
-        _timer += Time.deltaTime;
-        float t = _timer/_animationClip.length;
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
 
         base.UpdateNode();
     }
     public override bool IsReset()
     {
-        if(_timer > gunFuExecuteScriptableObject.executeClip.length)
+        if(this.animationTriggerEventPlayer.IsPlayFinish())
             return true;
+
+        if(this.enemy.isDead)
+            return true;
+
         return false;
     }
-    private async Task DelayRootMotionEnable()
-    {
-        await Task.Delay((int)(gunFuExecuteScriptableObject.transitionRootDrivenAnimationDuration * 1000));
-        _gotExecutedGunFu._character.enableRootMotion = true;
-    }
+   
 }

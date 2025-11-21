@@ -60,8 +60,17 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP secondary_WeaponGotDisarmedScriptableObject;
 
-    [SerializeField] public AnimationClip layUpExecutedAnim;
-    [SerializeField] public AnimationClip layDownExecutedAnim;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_I;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_II;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_III;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_IV;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Primary_ScriptableObject_I;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Primary_ScriptableObject_II;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
+
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Single_Execute_OnGround_LayUp_I;
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Single_Execute_OnGround_LayDown_I;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
         _triggerHitedGunFu = true;

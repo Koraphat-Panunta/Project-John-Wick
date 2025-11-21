@@ -59,7 +59,7 @@ public class AnimationTriggerEventPlayer
 
         for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
         {
-            if(startTimer <= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
+            if(startTimer < animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
             {
                 isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
             }

@@ -7,11 +7,12 @@ public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
     {
         Warping,
         Interacting,
-        Execute,
     }
     public GunFuExecutePhase _curGunFuPhase { get; protected set; }
-    public GunFuExecuteScriptableObject _gunFuExecuteScriptableObject { get; }
+    public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get; }
     protected bool _isExecuteAldready { get; set; }
+
+    public GunFuExecuteStateName _executeStateName { get; protected set; }
 }
 public class BulletExecute : Bullet
 {

@@ -43,19 +43,17 @@ public partial class Player : IGunFuAble
     [SerializeField] public AnimationInteractScriptableObject primaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public AnimationInteractScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
 
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_II;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_III;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_IV;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_ScriptableObject_II;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_II;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_III;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_IV;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_II;
+    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
 
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Secondary_Laydown_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Secondary_Layup_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Laydown_I;
-    [SerializeField] public GunFuExecute_Single_ScriptableObject gunFu_Single_Execute_OnGround_Primary_Layup_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround_Secondary_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround_Primary_I;
 
     public RandomGunFuExecute secondaryExecuteGunFuRandomNumber;
     public RandomGunFuExecute primaryExecuteGunFuRandomNumber;

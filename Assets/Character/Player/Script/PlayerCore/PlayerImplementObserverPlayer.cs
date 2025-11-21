@@ -35,8 +35,7 @@ public partial class Player : IObserverPlayer
         }
         if((node is GunFuExecute_Single_NodeLeaf execute_Single_NodeLeaf
             && execute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-            ||(node is GunFuExecute_OnGround_Single_NodeLeaf gunFuExecute_OnGround_Single_NodeLeaf
-            && gunFuExecute_OnGround_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
+            )
         {
             TriggerIFrame(.75f);
             NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);

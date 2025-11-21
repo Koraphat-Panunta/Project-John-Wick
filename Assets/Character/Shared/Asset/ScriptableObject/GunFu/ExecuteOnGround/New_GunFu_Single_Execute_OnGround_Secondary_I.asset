@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
+  m_Name: New_GunFu_Single_Execute_OnGround_Secondary_I
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
+  clip: {fileID: 7400000, guid: 7713d10494788654e932c3f2d06a253e, type: 2}
+  enterNormalizedTime: 0.049
+  triggerEventDetail:
+  - normalizedTime: 0.56
+    eventName: Shoot
+  - normalizedTime: 0.56
+    eventName: Execute
+  endNormalizedTime: 0.87
+  animationInteractCharacterDetail:
+  - offsetPositionFormAnchor: {x: -0.42, y: 0.61}
+    RotationRelative: 156.1
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.05
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.22
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.05
+    enterAnimationOffsetNormalizedTime: 0.05
+    endAnimationNormalizedTime: 0.87
+  - offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 0
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.05
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.22
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.05
+    enterAnimationOffsetNormalizedTime: 0
+    endAnimationNormalizedTime: 1
