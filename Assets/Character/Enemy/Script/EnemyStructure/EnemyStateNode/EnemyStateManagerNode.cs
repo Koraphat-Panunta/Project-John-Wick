@@ -594,10 +594,6 @@ public partial class EnemyStateManagerNode : INodeManager
         gotExecuteSelector.AddtoChildNode(gotExecute_Secondary_NodeLeaf_III);
         gotExecuteSelector.AddtoChildNode(gotExecute_Secondary_NodeLeaf_IV);
 
-        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayDown_I_NodeLeaf);
-        gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayUp_I_NodeLeaf);
-
-
         _nodeManagerBehavior.SearchingNewNode(this);
 
         InitializedComponentNode();

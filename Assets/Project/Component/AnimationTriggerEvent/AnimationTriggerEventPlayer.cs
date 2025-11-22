@@ -38,6 +38,15 @@ public class AnimationTriggerEventPlayer
         startTimer = animationClip.length * enterNormalized;
         endTimer = animationClip.length * endNormalized;
 
+        this.PopulateProperties(triggerEventDetail);
+
+    }
+
+    private void PopulateProperties(AnimationTriggerEventDetail[] triggerEventDetail)
+    {
+        if (triggerEventDetail == null || triggerEventDetail.Length <= 0)
+            return;
+
         animationTriggerEventsDetails = new AnimationTriggerEventDetail[triggerEventDetail.Length];
         isAlreadyTrigger = new Dictionary<AnimationTriggerEventDetail, bool>();
         animationTriggerEventAction = new Dictionary<AnimationTriggerEventDetail, Action>();
@@ -49,21 +58,42 @@ public class AnimationTriggerEventPlayer
             isAlreadyTrigger.Add(animationTriggerEventsDetails[i], true);
             animationTriggerEventAction.Add(animationTriggerEventsDetails[i], new Action(() => { }));
         }
-       
-
-        
     }
-    public void Rewind()
+    private void RewindPopulateProperties()
     {
-        timer = startTimer;
+        if(animationTriggerEventsDetails == null || animationTriggerEventsDetails.Length <= 0)
+            return;
 
-        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
+        for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
         {
-            if(startTimer < animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
+            if (startTimer < animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
             {
                 isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
             }
         }
+    }
+    private void UpdateProperties()
+    {
+        if(animationTriggerEventsDetails == null || animationTriggerEventsDetails.Length <= 0)
+            return;
+
+        for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
+        {
+            if (isAlreadyTrigger[animationTriggerEventsDetails[i]])
+                continue;
+
+            if (timer >= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
+            {
+                animationTriggerEventAction[animationTriggerEventsDetails[i]].Invoke();
+                isAlreadyTrigger[animationTriggerEventsDetails[i]] = true;
+            }
+        }
+    }
+    public void Rewind()
+    {
+        timer = startTimer;
+        this.RewindPopulateProperties();
+       
     }
 
     public void UpdatePlay(float deltaTime)
@@ -73,17 +103,7 @@ public class AnimationTriggerEventPlayer
         if (this.IsPlayFinish())
             return;
 
-        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
-        {
-            if (isAlreadyTrigger[animationTriggerEventsDetails[i]])
-                continue;
-
-            if(timer >= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
-            {
-                animationTriggerEventAction[animationTriggerEventsDetails[i]].Invoke();
-                isAlreadyTrigger[animationTriggerEventsDetails[i]] = true;
-            }
-        }
+        this.UpdateProperties();
 
         timer += deltaTime;
 

@@ -1235,7 +1235,7 @@ MonoBehaviour:
     m_Bits: 256
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
-  isImortal: 0
+  isImortal: 1
   rayCastPos: {fileID: 463041512469725749}
   selfLayerMask:
     serializedVersion: 2
@@ -1301,8 +1301,26 @@ MonoBehaviour:
     type: 2}
   secondary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7281fd3728697e84394c1958e16b90fd,
     type: 2}
-  layUpExecutedAnim: {fileID: 7400000, guid: daa8446c6cecbf64bbfa3a89be4da16f, type: 2}
-  layDownExecutedAnim: {fileID: 7400000, guid: 4b45334018e7475418c07388b5d82890, type: 2}
+  gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I: {fileID: 11400000, guid: 134cba017d267db4b854b66133a1c620,
+    type: 2}
+  gotGunFuExecute_Single_Secondary_ScriptableObject_I: {fileID: 11400000, guid: 26bed8b3f4383eb4db3d3fa4f4613187,
+    type: 2}
+  gotGunFuExecute_Single_Secondary_ScriptableObject_II: {fileID: 11400000, guid: db11f773cbb5b8b4aa7e28c97d0780e9,
+    type: 2}
+  gotGunFuExecute_Single_Secondary_ScriptableObject_III: {fileID: 11400000, guid: e21b4add3981be140b76455f86e2b453,
+    type: 2}
+  gotGunFuExecute_Single_Secondary_ScriptableObject_IV: {fileID: 11400000, guid: e9860384a13d2644b9aed1e567986e87,
+    type: 2}
+  gotGunFuExecute_Single_Primary_ScriptableObject_I: {fileID: 11400000, guid: de8d5440eb411ef439a488cbfe32802b,
+    type: 2}
+  gotGunFuExecute_Single_Primary_ScriptableObject_II: {fileID: 11400000, guid: 82fd7514a43f05242ab7c6ecbe989b30,
+    type: 2}
+  gotGunFuExecute_Single_Primary_Dodge_ScriptableObject_I: {fileID: 11400000, guid: 539c4e8c41c45184196a6e325f4f14bd,
+    type: 2}
+  gotGunFu_Single_Execute_OnGround_LayUp_I: {fileID: 11400000, guid: 16af7ccfc3fc858478e3144ee4d8aa20,
+    type: 2}
+  gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
+    type: 2}
   _maxStaggerGauge: 100
   pointingTransform: {fileID: 7572410137334796711}
   MainHandSocket: {fileID: 5924970197975984463}

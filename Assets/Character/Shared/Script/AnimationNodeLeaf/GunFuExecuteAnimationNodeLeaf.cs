@@ -25,7 +25,12 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
     }
     public override void Enter()
     {
-        animator.CrossFade(gunFuExecuteNodeLeaf._stateName,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration ,0,gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.enterNormalizedTime);
+        animator.CrossFade(
+            gunFuExecuteNodeLeaf._stateName
+            ,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration 
+            ,0
+            ,gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.enterNormalizedTime
+            );
         base.Enter();
     }
 
