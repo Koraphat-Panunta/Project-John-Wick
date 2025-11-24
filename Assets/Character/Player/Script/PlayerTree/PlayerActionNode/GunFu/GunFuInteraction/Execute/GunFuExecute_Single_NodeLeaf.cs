@@ -59,17 +59,18 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
         Vector3 executeDir = gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position ;
         executeDir = new Vector3(executeDir.x,0,executeDir.z).normalized;
+        Vector3 executePos = gotGunFuAttackedAble._character.transform.position;
 
 
-
+        Debug.DrawRay(executePos, executeDir,Color.red,1);
         this.gunFuAble_SubjectInteract.RestartSubject(
             gunFuAble._character
-            ,gotGunFuAttackedAble._character.transform.position
-            ,executeDir);
+            , executePos
+            , executeDir);
         this.got_GunFuAttacked_SubjectInteract.RestartSubject(
             gotGunFuAttackedAble._character
-            ,gotGunFuAttackedAble._character.transform.position
-            ,executeDir);
+            , executePos
+            , executeDir);
         this.animationTriggerEventPlayer.Rewind();
 
         this.gunFuAble._character._movementCompoent.CancleMomentum();
@@ -85,27 +86,27 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         gunFuAble._character.enableRootMotion = false;
         gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = true;
 
-        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance pos = "
-        //+ Vector3.Distance(
-        //           gunFuAble_SubjectInteract.character.transform.position
-        //          , gunFuAble_SubjectInteract.anhorPosition)
-        //      );
-        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance rot = "
-        //+ Quaternion.Angle(
-        //     gunFuAble_SubjectInteract.character.transform.rotation
-        //    , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
-        //);
+        Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance pos = "
+        + Vector3.Distance(
+                   gunFuAble_SubjectInteract.character.transform.position
+                  , gunFuAble_SubjectInteract.anhorPosition)
+              );
+        Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance rot = "
+        + Quaternion.Angle(
+             gunFuAble_SubjectInteract.character.transform.rotation
+            , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
+        );
 
-        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance pos = "
-        //+ Vector3.Distance(
-        //           got_GunFuAttacked_SubjectInteract.character.transform.position
-        //          , got_GunFuAttacked_SubjectInteract.anhorPosition)
-        //      );
-        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance rot = "
-        //+ Quaternion.Angle(
-        //     got_GunFuAttacked_SubjectInteract.character.transform.rotation
-        //    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
-        //);
+        Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance pos = "
+        + Vector3.Distance(
+                   got_GunFuAttacked_SubjectInteract.character.transform.position
+                  , got_GunFuAttacked_SubjectInteract.anhorPosition)
+              );
+        Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance rot = "
+        + Quaternion.Angle(
+             got_GunFuAttacked_SubjectInteract.character.transform.rotation
+            , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
+        );
 
         base.Exit();
     }
@@ -135,8 +136,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-        this.gunFuAble._character._movementCompoent.CancleMomentum();
-        this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
         base.UpdateNode();
     }
     
@@ -161,28 +160,29 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         }
          if(character == gotGunFuAttackedAble._character)
         {
+            this.gotGunFuAttackedAble._character.enableRootMotion = true;
             this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
-            Debug.Log("Player anchor Distance pos = "
-                + Vector3.Distance(
-                    gunFuAble._character.transform.position
-                    , gunFuAble_SubjectInteract.anhorPosition)
-                );
-            Debug.Log("Player anchor Distance rot = "
-                + Quaternion.Angle(
-                    gunFuAble._character.transform.rotation
-                    , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
-                );
+            //Debug.Log("Player anchor Distance pos = "
+            //    + Vector3.Distance(
+            //        gunFuAble._character.transform.position
+            //        , gunFuAble_SubjectInteract.anhorPosition)
+            //    );
+            //Debug.Log("Player anchor Distance rot = "
+            //    + Quaternion.Angle(
+            //        gunFuAble._character.transform.rotation
+            //        , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
+            //    );
 
-            Debug.Log("Enemy anchor Distance pos = "
-                + Vector3.Distance(
-                    gotGunFuAttackedAble._character.transform.position
-                    , got_GunFuAttacked_SubjectInteract.anhorPosition)
-                );
-            Debug.Log("Enemy anchor Distance rot = "
-                + Quaternion.Angle(
-                    gotGunFuAttackedAble._character.transform.rotation
-                    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
-                );
+            //Debug.Log("Enemy anchor Distance pos = "
+            //    + Vector3.Distance(
+            //        gotGunFuAttackedAble._character.transform.position
+            //        , got_GunFuAttacked_SubjectInteract.anhorPosition)
+            //    );
+            //Debug.Log("Enemy anchor Distance rot = "
+            //    + Quaternion.Angle(
+            //        gotGunFuAttackedAble._character.transform.rotation
+            //        , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
+            //    );
         }
     }
     private void Shoot()

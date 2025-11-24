@@ -17,4 +17,9 @@ public class DummySubject : Character
         _movementCompoent.FixedUpdateNode();
     }
     public override MovementCompoent _movementCompoent { get ; set ; }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position,Vector3.one * 0.1f);
+    }
 }
