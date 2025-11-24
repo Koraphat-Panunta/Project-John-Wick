@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
 {
-    public string _stateName => "HumanShieldExit";
+    public string _stateName => GunFuManaverStateName.HumanShieldExit.ToString();
 
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }

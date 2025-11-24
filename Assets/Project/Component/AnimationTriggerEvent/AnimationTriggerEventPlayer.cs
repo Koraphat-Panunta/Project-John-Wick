@@ -66,10 +66,7 @@ public class AnimationTriggerEventPlayer
 
         for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
         {
-            if (startTimer < animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
-            {
-                isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
-            }
+            isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
         }
     }
     private void UpdateProperties()
@@ -125,12 +122,19 @@ public class AnimationTriggerEventPlayer
 
     public void SubscribeEvent(string eventName,Action subScribeEvent)
     {
+        bool isFoundTheName = false;
+
         for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
         {
+            //Debug.Log("animationTriggerEventsDetails[i].eventName = "+ animationTriggerEventsDetails[i].eventName);
             if (animationTriggerEventsDetails[i].eventName == eventName)
             {
+                isFoundTheName = true;
                 animationTriggerEventAction[animationTriggerEventsDetails[i]] += subScribeEvent;
             }
         }
+
+        if(isFoundTheName == false)
+            Debug.LogError("Not found the name event = "+eventName);
     }
 }

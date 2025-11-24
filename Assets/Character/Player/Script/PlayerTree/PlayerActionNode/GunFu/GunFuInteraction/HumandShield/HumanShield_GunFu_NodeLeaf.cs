@@ -7,7 +7,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 {
     IWeaponAdvanceUser weaponAdvanceUser => player.weaponAdvanceUser;
 
-    public string _stateName => "HumanShield";
+    public string _stateName => GunFuManaverStateName.HumanShield.ToString() ;
 
     public IGunFuAble gunFuAble { get => this.player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }

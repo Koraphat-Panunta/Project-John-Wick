@@ -7,7 +7,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public IGunFuAble gunFuAble { get; set; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
 
-    public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get; }
+    public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get => this.gunFuExecuteInteractSCRP; }
     protected AnimationInteractScriptableObject gunFuExecuteInteractSCRP;
 
     IGunFuExecuteNodeLeaf.GunFuExecutePhase IGunFuExecuteNodeLeaf._curGunFuPhase { get => this.curGunFuPhase; set => this.curGunFuPhase = value; }
@@ -21,8 +21,9 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     string IGunFuNode._stateName => executeStateName.ToString();
 
-    protected SubjectAnimationInteract gunFuAble_SubjectInteract;
-    protected SubjectAnimationInteract got_GunFuAttacked_SubjectInteract;
+    public SubjectAnimationInteract gunFuAble_SubjectInteract;
+    public SubjectAnimationInteract got_GunFuAttacked_SubjectInteract;
+    public AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
     public GunFuExecute_Single_NodeLeaf(
         Player player
@@ -38,21 +39,28 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
         this.gunFuAble_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0]);
         this.got_GunFuAttacked_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1]);
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(
+            this.gunFuExecuteInteractSCRP.clip
+            , this.gunFuExecuteInteractSCRP.enterNormalizedTime
+            , this.gunFuExecuteInteractSCRP.endNormalizedTime
+            , this.gunFuExecuteInteractSCRP.triggerEventDetail);
 
         this.gunFuAble_SubjectInteract.finishWarpEvent += this.Interact;
-        this.gunFuAble_SubjectInteract.animationTriggerEventPlayer.SubscribeEvent("Shoot",this.Shoot);
-        this.gunFuAble_SubjectInteract.animationTriggerEventPlayer.SubscribeEvent("Execute",this.Execute);
+        this.animationTriggerEventPlayer.SubscribeEvent("Shoot", this.Shoot);
+        this.animationTriggerEventPlayer.SubscribeEvent("Execute", this.Execute);
+
+        this.got_GunFuAttacked_SubjectInteract.finishWarpEvent += this.Interact;
     }
 
     public override void Enter()
     {
         gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
+        gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = false;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
-        gunFuAble._character._movementCompoent.CancleMomentum();
-        gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
-
-        Vector3 executeDir = gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position;
+        Vector3 executeDir = gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position ;
         executeDir = new Vector3(executeDir.x,0,executeDir.z).normalized;
+
+
 
         this.gunFuAble_SubjectInteract.RestartSubject(
             gunFuAble._character
@@ -62,7 +70,12 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             gotGunFuAttackedAble._character
             ,gotGunFuAttackedAble._character.transform.position
             ,executeDir);
+        this.animationTriggerEventPlayer.Rewind();
 
+        this.gunFuAble._character._movementCompoent.CancleMomentum();
+        this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
+
+        Debug.DrawRay(gotGunFuAttackedAble._character.transform.position, executeDir, Color.yellow, 1);
         base.Enter();
     }
 
@@ -70,6 +83,29 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         isExecuteAlready = false;
         gunFuAble._character.enableRootMotion = false;
+        gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = true;
+
+        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance pos = "
+        //+ Vector3.Distance(
+        //           gunFuAble_SubjectInteract.character.transform.position
+        //          , gunFuAble_SubjectInteract.anhorPosition)
+        //      );
+        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " final anchor Distance rot = "
+        //+ Quaternion.Angle(
+        //     gunFuAble_SubjectInteract.character.transform.rotation
+        //    , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
+        //);
+
+        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance pos = "
+        //+ Vector3.Distance(
+        //           got_GunFuAttacked_SubjectInteract.character.transform.position
+        //          , got_GunFuAttacked_SubjectInteract.anhorPosition)
+        //      );
+        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " final anchor Distance rot = "
+        //+ Quaternion.Angle(
+        //     got_GunFuAttacked_SubjectInteract.character.transform.rotation
+        //    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
+        //);
 
         base.Exit();
     }
@@ -89,22 +125,65 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         if(this.IsComplete())
             return true;
+
         return false;
     }
 
     public override void UpdateNode()
     {
+        //Debug.Log("this.gunFuAble._character._movementCompoent.V_World = " + this.gunFuAble._character._movementCompoent.curMoveVelocity_World);
         this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
-
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        this.gunFuAble._character._movementCompoent.CancleMomentum();
+        this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
         base.UpdateNode();
     }
     
+    //private void BeginWarp(Character character)
+    //{
+    //    if(character == gunFuAble._character)
+    //    {
+    //        Debug.DrawRay(this.gunFuAble_SubjectInteract.exitPosition,this.gun)
+    //    }
+    //    if(character == gotGunFuAttackedAble._character)
+    //    {
+
+    //    }
+    //}
     private void Interact(Character character)
     {
-        _ = SubjectAnimationInteract.DelayRootMotionEnable(gunFuAble._character);
-        curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+        if(character == gunFuAble._character)
+        {
+            this.gunFuAble._character.enableRootMotion = true;
+            curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
+
+        }
+         if(character == gotGunFuAttackedAble._character)
+        {
+            this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+            Debug.Log("Player anchor Distance pos = "
+                + Vector3.Distance(
+                    gunFuAble._character.transform.position
+                    , gunFuAble_SubjectInteract.anhorPosition)
+                );
+            Debug.Log("Player anchor Distance rot = "
+                + Quaternion.Angle(
+                    gunFuAble._character.transform.rotation
+                    , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
+                );
+
+            Debug.Log("Enemy anchor Distance pos = "
+                + Vector3.Distance(
+                    gotGunFuAttackedAble._character.transform.position
+                    , got_GunFuAttacked_SubjectInteract.anhorPosition)
+                );
+            Debug.Log("Enemy anchor Distance rot = "
+                + Quaternion.Angle(
+                    gotGunFuAttackedAble._character.transform.rotation
+                    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
+                );
+        }
     }
     private void Shoot()
     {

@@ -26,7 +26,7 @@ public class HumanShield_Exit_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGun
         this.enemy.enableRootMotion = true;
         this.animationTriggerEventPlayer.Rewind();
         this.nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
-        this.animator.CrossFade("GotRestrict Exit", AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0);
+        this.animator.CrossFade(GotGunFuManuverStateName.GotHumanShield_Exit.ToString(), AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0);
         base.Enter();
     }
     public override void UpdateNode()

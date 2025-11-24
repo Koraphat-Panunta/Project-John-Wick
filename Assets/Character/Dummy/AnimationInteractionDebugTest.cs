@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class AnimationInteractionDebugTest : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class AnimationInteractionDebugTest : MonoBehaviour
     [SerializeField] private Vector3 anchorPos ;
     [SerializeField] private Vector3 anchorDir;
     [SerializeField] private bool triggerRestart;
+
+    private bool isEndTrigger;
     private void Awake()
     {
         this.subject1.Initialized();
@@ -32,8 +35,8 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         this.subject2_Enter_Pos = this.subject2.transform.position;
         this.subject2_Enter_Dir = this.subject2.transform.forward;
 
-        //this.anchorPos = this.subject2_Enter_Pos;
-        //this.anchorDir = this.subject2_Enter_Dir;
+        this.anchorPos = this.subject2_Enter_Pos;
+        this.anchorDir = this.subject2_Enter_Dir;
 
         subjectAnimationInteract1 = new SubjectAnimationInteract(
             animationInteractScriptableObject.clip
@@ -80,10 +83,41 @@ public class AnimationInteractionDebugTest : MonoBehaviour
     private void BeginInteract(Character character)
     {
         character.enableRootMotion = true;
+
+        //if(character == subjectAnimationInteract1.character)
+        //{
+        //    Debug.Log("Character : " + character + " anchor Distance pos = "
+        //       + Vector3.Distance(
+        //           character.transform.position
+        //           , subjectAnimationInteract1.anhorPosition)
+        //       );
+        //    Debug.Log("Character : " + character +" anchor Distance rot = "
+        //    + Quaternion.Angle(
+        //        character.transform.rotation
+        //        , Quaternion.LookRotation(subjectAnimationInteract1.anhorDir))
+        //    );
+        //}
+
+        //if (character == subjectAnimationInteract2.character)
+        //{
+        //    Debug.Log("Character : " + character + " anchor Distance pos = "
+        //       + Vector3.Distance(
+        //           character.transform.position
+        //           , subjectAnimationInteract2.anhorPosition)
+        //       );
+        //    Debug.Log("Character : " + character + " anchor Distance rot = "
+        //    + Quaternion.Angle(
+        //        character.transform.rotation
+        //        , Quaternion.LookRotation(subjectAnimationInteract2.anhorDir))
+        //    );
+        //}
+
     }
 
     public void Restart()
     {
+        this.isEndTrigger = false;
+
         subject1.enableRootMotion = false;
         subject2.enableRootMotion = false;
 
@@ -130,24 +164,30 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         if (this.subjectAnimationInteract2.animationTriggerEventPlayer.IsPlayFinish())
             subject2.enableRootMotion = false;
         
+        if(this.subjectAnimationInteract1.animationTriggerEventPlayer.IsPlayFinish()
+            && isEndTrigger == false)
+        {
+            isEndTrigger = true;
+            this.OnEndEvent();
+        }
     }
    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(anchorPos, .35f);
+        Gizmos.DrawSphere(anchorPos, .15f);
         Gizmos.DrawRay(anchorPos, anchorDir);
 
         this.CalculateAdjustTransform(this.animationInteractScriptableObject.animationInteractCharacterDetail[0], out Vector3 finalPosSub1, out Vector3 finalDirSub1);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(finalPosSub1, .35f);
+        Gizmos.DrawSphere(finalPosSub1, .15f);
         Gizmos.DrawRay(finalPosSub1, finalDirSub1);
 
         this.CalculateAdjustTransform(this.animationInteractScriptableObject.animationInteractCharacterDetail[1], out Vector3 finalPosSub2, out Vector3 finalDirSub2);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(finalPosSub2, .35f);
+        Gizmos.DrawSphere(finalPosSub2, .15f);
         Gizmos.DrawRay(finalPosSub2, finalDirSub2);
     }
 
@@ -159,6 +199,31 @@ public class AnimationInteractionDebugTest : MonoBehaviour
 
         Quaternion sub1ExitRot = Quaternion.LookRotation(this.anchorDir.normalized, Vector3.up) * Quaternion.Euler(0, animationInteractCharacterDetail.RotationRelative, 0);
         finalDir = sub1ExitRot * Vector3.forward;
+    }
+
+    private void OnEndEvent()
+    {
+        Debug.Log("Character : " + subjectAnimationInteract1.character + " final anchor Distance pos = "
+        + Vector3.Distance(
+                   subjectAnimationInteract1.character.transform.position
+                  , subjectAnimationInteract1.anhorPosition)
+              );
+        Debug.Log("Character : " + subjectAnimationInteract1.character + " final anchor Distance rot = "
+        + Quaternion.Angle(
+             subjectAnimationInteract1.character.transform.rotation
+            , Quaternion.LookRotation(subjectAnimationInteract1.anhorDir))
+        );
+
+        Debug.Log("Character : " + subjectAnimationInteract2.character + " final anchor Distance pos = "
+        + Vector3.Distance(
+                   subjectAnimationInteract2.character.transform.position
+                  , subjectAnimationInteract2.anhorPosition)
+              );
+        Debug.Log("Character : " + subjectAnimationInteract2.character + " final anchor Distance rot = "
+        + Quaternion.Angle(
+             subjectAnimationInteract2.character.transform.rotation
+            , Quaternion.LookRotation(subjectAnimationInteract2.anhorDir))
+        );
     }
   
 }

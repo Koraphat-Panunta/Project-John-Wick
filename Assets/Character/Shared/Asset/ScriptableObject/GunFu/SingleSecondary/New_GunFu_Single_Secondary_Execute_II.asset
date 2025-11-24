@@ -23,18 +23,16 @@ MonoBehaviour:
     eventName: Execute
   endNormalizedTime: 0.9
   animationInteractCharacterDetail:
-  - subjectName: GunFuAble
-    offsetPositionFormAnchor: {x: 0, y: 1.2}
+  - offsetPositionFormAnchor: {x: 0, y: 1.2}
     RotationRelative: 180
     beginWarpingNormalizedTime_BasedOnMainSubject: 0
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.12
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
     enterAnimationOffsetNormalizedTime: 0
     endAnimationNormalizedTime: 1
-  - subjectName: GotAttackedGunFu
-    offsetPositionFormAnchor: {x: 0, y: 0}
+  - offsetPositionFormAnchor: {x: 0, y: 0}
     RotationRelative: 0
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.01
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.12
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.12
     enterAnimationOffsetNormalizedTime: 0.14

@@ -201,6 +201,7 @@ public class PlayerStateNodeManager : INodeManager
             player,
             () => player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 1
             || player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 0
+            || true
             , player.gunFuExecute_Single_Secondary_ScriptableObject_I
             ,GunFuExecuteStateName.GunFu_Execute_Single_Secondary_I
             );
@@ -385,9 +386,9 @@ public class PlayerStateNodeManager : INodeManager
         //gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_II);
 
         gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_I);
-        gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_II);
-        gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_III);
-        gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_IV);
+        //gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_II);
+        //gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_III);
+        //gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_IV);
 
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Secondary_I_NodeLeaf);
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround_Primary_I_NodeLeaf);

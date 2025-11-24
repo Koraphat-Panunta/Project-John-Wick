@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static HumanShield_GunFu_NodeLeaf;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class HumandShield_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAttackNode, INodeLeafTransitionAble
 {
@@ -83,15 +84,15 @@ public class HumandShield_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAt
 
     public void StateEnter()
     {
-        _ = SubjectAnimationInteract.DelayRootMotionEnable(enemy);
-        animator.CrossFade("Got HumandShielded Enter", AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0
+        enemy.enableRootMotion = true;
+        animator.CrossFade(GotGunFuManuverStateName.GotHumanShield_Enter.ToString(),0, 0
             , humanShield_GunFuInteraction_NodeLeaf.animationInteractScriptableObject.animationInteractCharacterDetail[1].enterAnimationOffsetNormalizedTime);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         enemy.NotifyObserver(enemy, this);
     }
     public void StateStay()
     {
-        animator.CrossFade("Got HumandShielded Stay", AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0);
+        animator.CrossFade(GotGunFuManuverStateName.GotHumanShield_Stay.ToString(), AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration, 0);
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         enemy.NotifyObserver(enemy, this);
     }

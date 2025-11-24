@@ -43,7 +43,6 @@ public partial class Enemy : SubjectEnemy
         targetMask.value = LayerMask.GetMask("Player");
 
 
-
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 

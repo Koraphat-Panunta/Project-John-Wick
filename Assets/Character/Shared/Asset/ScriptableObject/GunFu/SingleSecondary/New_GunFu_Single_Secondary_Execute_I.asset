@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
   m_Name: New_GunFu_Single_Secondary_Execute_I
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
-  clip: {fileID: 7400000, guid: a722caec2180cbe4a96224f1980d183c, type: 2}
-  enterNormalizedTime: 0.165
+  clip: {fileID: 7400000, guid: c2101e54aaec0a04f94df4a0337e442f, type: 2}
+  enterNormalizedTime: 0.12
   triggerEventDetail:
   - normalizedTime: 0.761
     eventName: Shoot
@@ -21,19 +21,17 @@ MonoBehaviour:
     eventName: Execute
   endNormalizedTime: 0.93
   animationInteractCharacterDetail:
-  - subjectName: GunFu_Execute_Single_Secondary_I
-    offsetPositionFormAnchor: {x: -0.28, y: 0.81}
-    RotationRelative: 180
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.175
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.253
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.175
-    enterAnimationOffsetNormalizedTime: 0.175
+  - offsetPositionFormAnchor: {x: 0, y: 0.95}
+    RotationRelative: 225
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.12
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.235
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.12
+    enterAnimationOffsetNormalizedTime: 0.12
     endAnimationNormalizedTime: 0.93
-  - subjectName: GotGunFu_Execute_Single_Secondary_I
-    offsetPositionFormAnchor: {x: 0, y: 0}
-    RotationRelative: -18.63
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.175
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.253
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.175
-    enterAnimationOffsetNormalizedTime: 0.25
+  - offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 9.38
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0.12
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.235
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.235
+    enterAnimationOffsetNormalizedTime: 0.269
     endAnimationNormalizedTime: 0.93

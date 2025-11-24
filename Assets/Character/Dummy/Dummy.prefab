@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.06369001
+      value: 0.1440115
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
@@ -26,12 +26,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.26863003
+      value: -0.27700686
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.4146974
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
@@ -41,7 +41,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.9099594
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
@@ -56,7 +56,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -131
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
@@ -438,7 +438,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 507dd6dbe7c13c547a225c25176bd7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DummySubject
-  enableRootMotion: 0
+  enableRootMotion: 1
+  _hipBone: {fileID: 0}
+  _leftUpperLegBone: {fileID: 0}
+  _leftLowerLegBone: {fileID: 0}
+  _leftFootBone: {fileID: 0}
+  _rightUpperLegBone: {fileID: 0}
+  _rightLowerLegBone: {fileID: 0}
+  _rightFootBone: {fileID: 0}
+  _spine_0_Bone: {fileID: 0}
+  _spine_1_Bone: {fileID: 0}
+  _spine_2_Bone: {fileID: 0}
+  _leftShoulderBone: {fileID: 0}
+  _leftArmBone: {fileID: 0}
+  _leftForeArmBone: {fileID: 0}
+  _leftHandBone: {fileID: 0}
+  _neckBone: {fileID: 0}
+  _headBone: {fileID: 0}
+  _rightShoulderBone: {fileID: 0}
+  _rightArmBone: {fileID: 0}
+  _rightForeArmBone: {fileID: 0}
+  _rightHandBone: {fileID: 0}
   animator: {fileID: 7462290058440696694}
   characterController: {fileID: 8619474267520886007}
 --- !u!95 &7462290058440696694
@@ -473,18 +493,18 @@ CharacterController:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 1.67
+  m_Radius: 0.13
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.83, z: -0.03}

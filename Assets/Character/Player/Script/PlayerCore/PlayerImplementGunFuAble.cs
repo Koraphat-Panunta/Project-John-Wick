@@ -106,20 +106,20 @@ public partial class Player : IGunFuAble
         public void UpdateGunFuNumber()
         {
             int lastIndex = curIndex;
-            Debug.Log("1 curIndex = " + curIndex);
+            //Debug.Log("1 curIndex = " + curIndex);
             curIndex += Random.Range(minIndexPlus, maxIndexPlus+1);
 
-            Debug.Log("2 curIndex = " + curIndex);
+            //Debug.Log("2 curIndex = " + curIndex);
 
             while (curIndex > maxCount)
                 curIndex -= maxCount;
 
-            Debug.Log("3 curIndex = " + curIndex);
+            //Debug.Log("3 curIndex = " + curIndex);
 
             if (curIndex == lastIndex)
                 curIndex++;
 
-            Debug.Log("4 curIndex = " + curIndex);
+            //Debug.Log("4 curIndex = " + curIndex);
 
         }
 

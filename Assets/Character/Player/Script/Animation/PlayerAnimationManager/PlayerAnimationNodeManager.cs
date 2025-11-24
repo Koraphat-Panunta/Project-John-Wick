@@ -149,13 +149,13 @@ public partial class PlayerAnimationManager
         humanShieldEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf
         && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
         , animator
-        , "HS_Enter"
+        , GunFuManaverStateName.HumanShield.ToString()
         , 0
         ,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
         , player.humanShieldSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime);
         humanShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShieldExit_GunFu_NodeLeaf humanShieldExitNodeLeaf
         , animator
-        , "HS_Exit"
+        , GunFuManaverStateName.HumanShieldExit.ToString()
         , 0
         , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
         , player.humanShieldSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime);

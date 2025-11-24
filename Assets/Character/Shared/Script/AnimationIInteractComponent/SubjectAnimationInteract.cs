@@ -11,7 +11,7 @@ public class SubjectAnimationInteract
 
     public AnimationInteractCharacterDetail animationInteractCharacterDetail;
 
-    protected Character character;
+    public Character character { get; protected set; }
 
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
@@ -42,7 +42,7 @@ public class SubjectAnimationInteract
     public SubjectAnimationInteract(AnimationClip animationClip,float enterNormalized,float finishNormalized,AnimationInteractCharacterDetail animationInteractCharacterDetail)
     {
         this.animationInteractCharacterDetail = animationInteractCharacterDetail;
-        AnimationTriggerEventDetail[] animationTriggerEventDetail = new AnimationTriggerEventDetail[3];
+        AnimationTriggerEventDetail[] animationTriggerEventDetail = new AnimationTriggerEventDetail[3 ];
         animationTriggerEventDetail[0] = new AnimationTriggerEventDetail
         {
             eventName = "BeginWarp",
@@ -86,11 +86,15 @@ public class SubjectAnimationInteract
             float t = animationTriggerEventPlayer.GetRemapNormalizedTimer
                 (animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject
                 ,animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
+            t = Mathf.Clamp01(t);
             //Debug.Log("t = " + t);
             //Debug.Log("begin = " + animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject);
             //Debug.Log("exit = " + animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
 
             MovementWarper.WarpMovement(enterPosition, enterRotation, character._movementCompoent, exitPosition, exitRotation, t);
+            //Debug.Log("character = "+character+" distance rot = " + Quaternion.Angle(exitRotation, character._movementCompoent.transform.rotation)+" t = "+t);
+            //this.character._movementCompoent.CancleMomentum();
+
         }
         animationTriggerEventPlayer.UpdatePlay(deltaTime);
     }
@@ -106,6 +110,8 @@ public class SubjectAnimationInteract
             + (Vector3.Cross(Vector3.up, this.anhorDir.normalized).normalized * animationInteractCharacterDetail.offsetPositionFormAnchor.x);
         exitRotation = Quaternion.LookRotation(this.anhorDir.normalized, Vector3.up) * Quaternion.Euler(0, animationInteractCharacterDetail.RotationRelative, 0);
 
+        
+
     }
     private void BeginWarp()
     {
@@ -117,6 +123,8 @@ public class SubjectAnimationInteract
     private void StopWarpBeginRootEnable()
     {
         //Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("character " + character + " position = " + character.transform.position + " rotation = " + character.transform.rotation + " exit position = " + exitPosition + " exit rotation = " + exitRotation);
+        //Debug.Log("Character = "+character +" Distance pos anchor = "+Vector3.Distance(anhorPosition,exitPosition) + " Distance dir anchor = "+Quaternion.Angle(Quaternion.LookRotation(anhorDir),exitRotation));
         isWarping = false;
         this.finishWarpEvent.Invoke(this.character);
     }
@@ -126,10 +134,6 @@ public class SubjectAnimationInteract
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 
-    public static async Task DelayRootMotionEnable(Character character)
-    {
-        await Task.Delay((int)(AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration * 1000));
-        character.enableRootMotion = true;
-    }
+   
 
 }
