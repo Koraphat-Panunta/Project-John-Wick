@@ -38,7 +38,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
     public override void Enter()
     {
-        Debug.Log("FallDown_EnemyState_NodeLeaf Enter");
 
         downTimer = 0;
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)

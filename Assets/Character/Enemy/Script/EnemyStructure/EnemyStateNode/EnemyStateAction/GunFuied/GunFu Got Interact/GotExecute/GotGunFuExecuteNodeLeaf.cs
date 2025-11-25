@@ -25,22 +25,30 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
 
         this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
         this.animationTriggerEventPlayer.Rewind();
-        this._gotExecutedGunFu._character.enableRootMotion = true;
         this._gotExecutedGunFu._character.animator.CrossFade
             (gotExecuteStateName
-            , 0 , 0, this.animationTriggerEventPlayer.enterNormalizedTime);
+            , 0 
+            , 0
+            , this.animationTriggerEventPlayer.enterNormalizedTime);
+        this._gotExecutedGunFu._character.animator.Update(Time.deltaTime);
+        this._gotExecutedGunFu._character.enableRootMotion = true;
+
         base.Enter();
+  
     }
     public override void Exit()
     {
         this._gotExecutedGunFu._character.enableRootMotion = false;
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         base.Exit();
     }
+
     public override void UpdateNode()
     {
+        
         //Debug.Log("this._gotExecutedGunFu._character._movementCompoent.V_World = "+this._gotExecutedGunFu._character._movementCompoent.curMoveVelocity_World);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-
+        this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
         base.UpdateNode();
     }
     public override bool IsReset()

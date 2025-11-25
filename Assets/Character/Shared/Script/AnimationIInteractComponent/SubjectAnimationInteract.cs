@@ -122,6 +122,8 @@ public class SubjectAnimationInteract
     }
     private void StopWarpBeginRootEnable()
     {
+        character._movementCompoent.SetPosition(exitPosition);
+        character._movementCompoent.SetRotation(exitRotation);
         //Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         //Debug.Log("character " + character + " position = " + character.transform.position + " rotation = " + character.transform.rotation + " exit position = " + exitPosition + " exit rotation = " + exitRotation);
         //Debug.Log("Character = "+character +" Distance pos anchor = "+Vector3.Distance(anhorPosition,exitPosition) + " Distance dir anchor = "+Quaternion.Angle(Quaternion.LookRotation(anhorDir),exitRotation));

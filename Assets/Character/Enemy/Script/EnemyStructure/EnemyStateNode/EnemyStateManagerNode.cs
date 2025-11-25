@@ -510,11 +510,13 @@ public partial class EnemyStateManagerNode : INodeManager
         weaponGotDisarmSelector = new NodeSelector(
             () => enemy.curAttackerGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf);
 
-        primaryWeaponDisarmedGunFuGotInteractNodeLeaf = new WeaponGotDisarmedGunFuGotInteractNodeLeaf(this.enemy.primary_WeaponGotDisarmedScriptableObject, "GotGunFuDisarmPrimaryWeapon",
+        primaryWeaponDisarmedGunFuGotInteractNodeLeaf = new WeaponGotDisarmedGunFuGotInteractNodeLeaf(this.enemy.primary_WeaponGotDisarmedScriptableObject
+            , GotGunFuManuverStateName.GotWeaponDisarmPrimary.ToString(),
             this.enemy,
             () => enemy._currentWeapon is PrimaryWeapon);
 
-        secondaryWeaponDisarmGunFuGotInteractNodeLeaf = new WeaponGotDisarmedGunFuGotInteractNodeLeaf(this.enemy.secondary_WeaponGotDisarmedScriptableObject, "GotGunFuDisarmSecondaryWeapon",
+        secondaryWeaponDisarmGunFuGotInteractNodeLeaf = new WeaponGotDisarmedGunFuGotInteractNodeLeaf(this.enemy.secondary_WeaponGotDisarmedScriptableObject
+            , GotGunFuManuverStateName.GotWeaponDisarmSecondary.ToString(),
             this.enemy,
             () => enemy._currentWeapon is SecondaryWeapon);
 

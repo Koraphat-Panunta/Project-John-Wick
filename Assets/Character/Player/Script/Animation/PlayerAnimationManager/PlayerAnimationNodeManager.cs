@@ -90,10 +90,10 @@ public partial class PlayerAnimationManager
             animator, "Sprint", 0, .5f);
         moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf,
-            animator, "Crouch", 0, .4f);
+            animator, "Crouch", 0, .2f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
-            animator, "Move/Idle", 0, .6f);
+            animator, "Move/Idle", 0, .2f);
     }
     private void InitializedGunFuBasedLayer()
     {
@@ -111,12 +111,12 @@ public partial class PlayerAnimationManager
         weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
             && weaponDisarmNodeLeaf.disarmedWeapon is PrimaryWeapon
-            , animator, "GunFuPrimaryDisarm", 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+            , animator, GunFuManaverStateName.WeaponDisarmPrimary.ToString(), 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
             ,player.primaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
         weaponDisarmSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
             && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
-            , animator, "GunFuSecondaryDisarm", 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+            , animator, GunFuManaverStateName.WeaponDisarmSecondary.ToString(), 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
             ,player.secondaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
 
         executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(() => executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null, player, animator);

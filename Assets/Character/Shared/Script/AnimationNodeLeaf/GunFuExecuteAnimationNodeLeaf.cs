@@ -32,6 +32,7 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
             , 0
             , gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime
             );
+        animator.Update(Time.deltaTime);
         base.Enter();
     }
 

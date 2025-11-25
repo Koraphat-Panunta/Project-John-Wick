@@ -72,7 +72,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
     }
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
-        Debug.Log("damageVisitor = " + damageVisitor );
 
         switch (damageVisitor)
         {

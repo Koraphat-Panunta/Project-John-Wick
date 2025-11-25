@@ -111,7 +111,6 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
             if (targets.Count > 0)
                 targets.ForEach(target =>
                 {
-                    Debug.Log("EnemySpinKick target = " + target);
 
                     if (alreadyHittarget.ContainsKey(target) == false)
                     {

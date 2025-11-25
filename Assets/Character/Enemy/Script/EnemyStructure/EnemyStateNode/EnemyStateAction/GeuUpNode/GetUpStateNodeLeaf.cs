@@ -61,7 +61,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
     }
     public override void Enter()
     {
-        Debug.Log("Getup state nodeleaf enter");
 
         this.isStandingComplete = false;
         this.animationTriggerEventPlayer.Rewind();
@@ -121,7 +120,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
     {
         if (IsComplete())
         {
-            Debug.Log("GetUpStateNodeLeaf IsComplete()");
             return true;
         }
 
@@ -130,7 +128,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
 
         if (enemy._isPainTrigger)
         {
-            Debug.Log("GetUpStateNodeLeaf _isPainTrigger");
             return true;
         }
 

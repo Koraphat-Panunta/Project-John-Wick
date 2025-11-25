@@ -65,19 +65,25 @@ public class AnimationInteractionDebugTest : MonoBehaviour
 
     private void BeginPlayAnimation(Character character)
     {
-        if(character == subject1)
+        if (character == subject1)
+        {
+           
             subject1.animator.CrossFade(
                 subject1Animation
-                ,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-                ,0
-                ,subjectAnimationInteract1.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
-        
-        if(character == subject2)
+                , 0
+                , 0
+                , subjectAnimationInteract1.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
+        }
+
+        if (character == subject2)
+        {
+            
             subject2.animator.CrossFade(
                 subject2Animation
-                , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+                , 0
                 , 0
                 , subjectAnimationInteract2.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
+        }
     }
 
     private void BeginInteract(Character character)
@@ -121,16 +127,8 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         subject1.enableRootMotion = false;
         subject2.enableRootMotion = false;
 
-        subject1.animator.CrossFade(
-                "Default"
-                , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-                , 0
-                );
-        subject2.animator.CrossFade(
-           "Default"
-           , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-           , 0
-           );
+        subject1.animator.CrossFade("Rest", 0, 0, 0);
+        subject2.animator.CrossFade("Dodge", 0, 0, 0);
 
         subject1._movementCompoent.CancleMomentum();
         subject2._movementCompoent.CancleMomentum();

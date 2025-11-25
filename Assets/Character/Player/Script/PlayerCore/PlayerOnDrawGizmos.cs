@@ -12,6 +12,8 @@ public partial class Player
 
         Gizmos.color = Color.blue;
         Gizmos.DrawSphere(transform.position, .2f);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, transform.forward);
 
     }
     private void DrawGizmosGunFuTarget()
