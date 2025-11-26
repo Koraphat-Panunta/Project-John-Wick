@@ -47,6 +47,7 @@ public class CameraGunFuExecuteNodeLeaf : CameraThirdPersonControllerViewNodeLea
 
         trackPos = Vector3.Lerp(thirdPersonCamera.transform.position,trackPos,this.trackRate);
         lookPos = Vector3.Lerp(thirdPersonCamera.targetLookTarget.position, trackPos, this.trackRate);
-        thirdPersonCamera.UpdateCameraPosition(trackPos, lookPos);
+
+        this.thirdPersonCamera.UpdateCameraPosition(trackPos, lookPos);
     }
 }

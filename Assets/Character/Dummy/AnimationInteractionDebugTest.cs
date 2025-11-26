@@ -36,8 +36,6 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         this.subject2_Enter_Pos = this.subject2.transform.position;
         this.subject2_Enter_Dir = this.subject2.transform.forward;
 
-        this.anchorPos = this.subject2_Enter_Pos;
-        this.anchorDir = this.subject2_Enter_Dir;
 
         subjectAnimationInteract1 = new SubjectAnimationInteract(
             animationInteractScriptableObject.clip

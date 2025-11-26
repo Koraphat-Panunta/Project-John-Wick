@@ -61,9 +61,8 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
     public void InputRotateCamera(float horizontalInput,float verticalInput)
     {
-        yaw += horizontalInput * rotationSpeed;
-        pitch -= verticalInput * rotationSpeed;
-        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        this.SetYaw(yaw += (horizontalInput * rotationSpeed));
+        this.SetPitch(pitch -= (verticalInput * rotationSpeed));
     }
     public void InputRotateCameraToDirection(Vector3 lookDirection, Vector3 upCamera)
     {
