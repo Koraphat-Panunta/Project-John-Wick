@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNodeLeaf
@@ -61,8 +62,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         executeDir = new Vector3(executeDir.x,0,executeDir.z).normalized;
         Vector3 executePos = gotGunFuAttackedAble._character.transform.position;
 
-
-        Debug.DrawRay(executePos, executeDir,Color.red,1);
         this.gunFuAble_SubjectInteract.RestartSubject(
             gunFuAble._character
             , executePos
@@ -76,7 +75,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this.gunFuAble._character._movementCompoent.CancleMomentum();
         this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
 
-        Debug.DrawRay(gotGunFuAttackedAble._character.transform.position, executeDir, Color.yellow, 1);
         base.Enter();
     }
 
@@ -116,7 +114,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-        this.gunFuAble._character._movementCompoent.CancleMomentum();
+
         base.UpdateNode();
     }
     
@@ -135,7 +133,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     {
         if(character == gunFuAble._character)
         {
-            this.gunFuAble._character.enableRootMotion = true;
+            _ = SubjectAnimationInteract.DelayRootMotion(character);
             curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
 
         }
@@ -197,5 +195,6 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
             , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
         );
     }
-   
+
+    
 }

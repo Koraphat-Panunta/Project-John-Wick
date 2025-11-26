@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -67,7 +68,6 @@ public class AnimationInteractionDebugTest : MonoBehaviour
     {
         if (character == subject1)
         {
-           
             subject1.animator.CrossFade(
                 subject1Animation
                 , 0
@@ -85,10 +85,23 @@ public class AnimationInteractionDebugTest : MonoBehaviour
                 , subjectAnimationInteract2.animationInteractCharacterDetail.enterAnimationOffsetNormalizedTime);
         }
     }
-
+    private bool isInteract;
+    int debug;
+    private async Task DelayRootMotion(Character character)
+    {
+        await Task.Yield();
+        await Task.Yield();
+        character.enableRootMotion = true;
+    }
     private void BeginInteract(Character character)
     {
-        character.enableRootMotion = true;
+        _ = SubjectAnimationInteract.DelayRootMotion(character);
+
+        //character.enableRootMotion = true;
+        //if(character == subjectAnimationInteract2.character)
+        //{
+        //    isInteract = true;
+        //}
 
         //if(character == subjectAnimationInteract1.character)
         //{
@@ -144,12 +157,25 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
 
         this.triggerRestart = false;
+
+        isInteract = false;
+        debug = 0;
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        //if (isInteract)
+        //    debug += 1;
+
+        //if(debug == 2)
+        //{
+        //    Debug.Log("");
+        //    subjectAnimationInteract1.character.enableRootMotion = true;
+        //    subjectAnimationInteract2.character.enableRootMotion = true;
+        //}
+
         if(triggerRestart)
             this.Restart();
 

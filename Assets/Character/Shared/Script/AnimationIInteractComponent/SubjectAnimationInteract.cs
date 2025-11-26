@@ -136,6 +136,12 @@ public class SubjectAnimationInteract
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 
-   
+    public static async Task DelayRootMotion(Character character)
+    {
+        await Task.Yield();
+        await Task.Yield();
+        character.enableRootMotion = true;
+    }
+
 
 }

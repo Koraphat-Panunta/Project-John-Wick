@@ -30,9 +30,8 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
             , 0 
             , 0
             , this.animationTriggerEventPlayer.enterNormalizedTime);
-        this._gotExecutedGunFu._character.animator.Update(Time.deltaTime);
-        this._gotExecutedGunFu._character.enableRootMotion = true;
 
+        _ = SubjectAnimationInteract.DelayRootMotion(this._gotExecutedGunFu._character);
         base.Enter();
   
     }
@@ -61,5 +60,7 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
 
         return false;
     }
+
+   
    
 }
