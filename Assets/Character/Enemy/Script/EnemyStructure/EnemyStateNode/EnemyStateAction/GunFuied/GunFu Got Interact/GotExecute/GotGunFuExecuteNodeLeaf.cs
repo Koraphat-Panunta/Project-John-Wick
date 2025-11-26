@@ -12,6 +12,8 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     public GotExecutedStateName _gotExecutedStateName => gotExecutedStateName;
     private GotExecutedStateName gotExecutedStateName;
 
+    private IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf;
+
     protected AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
     public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP, GotExecutedStateName gotExecuteStateName) : base(enemy, preCondition)
@@ -22,14 +24,14 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     
     public override void Enter()
     {
-
+        this.gunFuExecuteNodeLeaf = this._gotExecutedGunFu.curAttackerGunFuNode as IGunFuExecuteNodeLeaf;
         this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
         this.animationTriggerEventPlayer.Rewind();
         this._gotExecutedGunFu._character.animator.CrossFade
             (gotExecuteStateName
             , 0 
             , 0
-            , this.animationTriggerEventPlayer.enterNormalizedTime);
+            , gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1].enterAnimationOffsetNormalizedTime);
 
         _ = SubjectAnimationInteract.DelayRootMotion(this._gotExecutedGunFu._character);
         base.Enter();

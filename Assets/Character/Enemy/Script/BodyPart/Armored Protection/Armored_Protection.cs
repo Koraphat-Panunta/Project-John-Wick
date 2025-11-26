@@ -9,7 +9,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     [SerializeField] private GameObject meshRendererArmored;
 
-    [SerializeField] private Collider collider;
+    [SerializeField] private Collider armordCollider;
 
     public float hpDamage { get; protected set; }
     public float postureDamage { get; protected set; }
@@ -59,7 +59,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     protected virtual void ArmoredDestroyed()
     {
         meshRendererArmored.gameObject.SetActive(false);
-        collider.enabled = false;
+        armordCollider.enabled = false;
         Detach();
     }
 
@@ -119,7 +119,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
-        collider.enabled = true;
+        armordCollider.enabled = true;
         meshRendererArmored.gameObject.SetActive(true);
     }
 

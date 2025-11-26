@@ -23,7 +23,7 @@ MonoBehaviour:
     eventName: Execute
   endNormalizedTime: 0.9
   animationInteractCharacterDetail:
-  - offsetPositionFormAnchor: {x: 0, y: 1.2}
+  - offsetPositionFormAnchor: {x: 0, y: 0.95}
     RotationRelative: 180
     beginWarpingNormalizedTime_BasedOnMainSubject: 0
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.12
@@ -32,8 +32,8 @@ MonoBehaviour:
     endAnimationNormalizedTime: 1
   - offsetPositionFormAnchor: {x: 0, y: 0}
     RotationRelative: 0
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.01
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.12
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.12
-    enterAnimationOffsetNormalizedTime: 0.14
+    enterAnimationOffsetNormalizedTime: 0.12
     endAnimationNormalizedTime: 1
