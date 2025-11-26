@@ -118,7 +118,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 
             case HumanShieldInteractionPhase.Stay:
                 {
-                    pullWeight = Mathf.Clamp01(pullWeight + (Time.deltaTime * 4));
+                    pullWeight = 1;
 
                     this.gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
                         this.gotGunFuAttackedAble._character.transform.position
@@ -131,6 +131,13 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
                         , this.pullWeight);
 
                     this.humanShield_Stay_Timer += Time.deltaTime;
+
+                    player._movementCompoent.MoveToDirLocal(
+                        player.inputMoveDir_Local
+                        , player.StandMoveAccelerate
+                        , player.StandMoveMaxSpeed
+                        , MoveMode.MaintainMomentum
+                        );
 
                     if (weaponAdvanceUser._isAimingCommand == false
                         ||(this.humanShield_Stay_Timer >= this.humanShield_Stay_Duration))

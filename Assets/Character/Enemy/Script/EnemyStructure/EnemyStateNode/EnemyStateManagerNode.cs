@@ -523,7 +523,7 @@ public partial class EnemyStateManagerNode : INodeManager
         gotRestrictNodeLeaf = new GotRestrictNodeLeaf(this.enemy.gotRestrictScriptableObject, this.enemy,
             () => 
             {
-                return enemy.curAttackerGunFuNode is RestrictGunFuStateNodeLeaf;
+                return enemy.curAttackerGunFuNode is RestrainGunFuStateNodeLeaf;
             }
             );
         gotHumandShielded_GunFuNodeLeaf = new HumandShield_GotInteract_NodeLeaf(this.enemy,

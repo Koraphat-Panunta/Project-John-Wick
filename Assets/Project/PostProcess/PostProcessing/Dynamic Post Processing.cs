@@ -85,7 +85,7 @@ public class DynamicPostProcessing : MonoBehaviour,IInitializedAble
 
     private void BulletTimeEffect()
     {
-        if((playerStateNodeManager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>()
+        if((playerStateNodeManager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>()
             ||playerStateNodeManager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>())
             &&(timeControlManager.triggerBulletTime.timer > 0)) 
         {

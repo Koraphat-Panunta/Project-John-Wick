@@ -70,7 +70,7 @@ public class PlayerStateNodeManager : INodeManager
     public GunFuHitNodeLeaf Hit1gunFuNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
-    public RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
+    public RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
     public PlayerSelectorStateNode weaponDisarmSelector { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf primary_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
     public WeaponDisarm_GunFuInteraction_NodeLeaf secondart_WeaponDisarm_GunFuInteraction_NodeLeaf { get; private set; }
@@ -264,7 +264,7 @@ public class PlayerStateNodeManager : INodeManager
             && this.player.attackedAbleGunFu._character.isDead == false
             ,this.player.hit1);
 
-        restrictGunFuStateNodeLeaf = new RestrictGunFuStateNodeLeaf(player.restrictScriptableObject, player,
+        restrictGunFuStateNodeLeaf = new RestrainGunFuStateNodeLeaf(player.restrictScriptableObject, player,
             () =>
             {
                 if (player._isAimingCommand && player.attackedAbleGunFu != null)

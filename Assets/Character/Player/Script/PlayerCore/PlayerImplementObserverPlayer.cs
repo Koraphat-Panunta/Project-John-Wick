@@ -15,10 +15,10 @@ public partial class Player : IObserverPlayer
         switch (node)
         {
            
-            case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+            case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
 
-                     if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+                     if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
 
                     break;

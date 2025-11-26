@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
+public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
@@ -39,7 +39,7 @@ public class RestrictGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
-    public RestrictGunFuStateNodeLeaf(RestrictScriptableObject restrictScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
+    public RestrainGunFuStateNodeLeaf(RestrictScriptableObject restrictScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
     {
         this.restrictScriptableObject = restrictScriptableObject;
         this.restrictEnterClip = restrictScriptableObject.restrictEnterClip;

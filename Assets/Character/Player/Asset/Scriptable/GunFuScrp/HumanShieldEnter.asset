@@ -15,18 +15,16 @@ MonoBehaviour:
   clip: {fileID: 7400000, guid: ee5d4fc5f3b27e74f996d676bc3fb48b, type: 2}
   enterNormalizedTime: 0.063
   triggerEventDetail: []
-  endNormalizedTime: 0.46
+  endNormalizedTime: 0.34
   animationInteractCharacterDetail:
-  - subjectName: HumanShield
-    offsetPositionFormAnchor: {x: 0, y: 1.19}
+  - offsetPositionFormAnchor: {x: 0, y: 1.19}
     RotationRelative: 175.4
     beginWarpingNormalizedTime_BasedOnMainSubject: 0.063
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.094
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.063
     enterAnimationOffsetNormalizedTime: 0.063
-    endAnimationNormalizedTime: 0.46
-  - subjectName: GotHumanShield
-    offsetPositionFormAnchor: {x: 0, y: 0}
+    endAnimationNormalizedTime: 34
+  - offsetPositionFormAnchor: {x: 0, y: 0}
     RotationRelative: 0
     beginWarpingNormalizedTime_BasedOnMainSubject: 0.1
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.1

@@ -40,7 +40,7 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     {
         if ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
             || 
-            ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>(out RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
+            ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
                 && restrictGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
                 || 
                 ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)

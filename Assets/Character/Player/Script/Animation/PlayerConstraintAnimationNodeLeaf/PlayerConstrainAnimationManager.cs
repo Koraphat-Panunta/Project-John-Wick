@@ -95,7 +95,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             () => player._currentWeapon is SecondaryWeapon);
 
         restrictConstraintSelector = new AnimationConstrainNodeSelector(
-            () => playerStateManager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf);
+            () => playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf);
         restrict_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, restrictRightHandConstrainLookAtScriptableObject_rifle,
             () => player._currentWeapon is PrimaryWeapon);
         restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(RightHandConstrainLookAtManager, restrictRightHandConstrainLookAtScriptableObject_pistol,
@@ -203,7 +203,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                    {
                        if (playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf)
                            return false;
-                       if (playerStateManager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf)
+                       if (playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf)
                            return false;
                        return true;
                    }
@@ -234,7 +234,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leanNodeSelector = new NodeSelector(
                      () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
                      && player._currentWeapon != null
-                     && playerStateManager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf == false
+                     && playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf == false
                      && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf == false);
 
         this.leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(

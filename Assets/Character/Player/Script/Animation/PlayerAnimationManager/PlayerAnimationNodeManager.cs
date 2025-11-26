@@ -23,8 +23,7 @@ public partial class PlayerAnimationManager
     public GunFuExecuteAnimationNodeLeaf executeAnimationNodeLeaf { get; set; }
 
     public NodeSelector restrictShieldSelector { get; set; }
-    public PlayAnimationNodeLeaf restrictShieldPrimaryEnterNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf restrictShieldSecondaryEnterNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf restrictShieldEnterNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf restrictShieldExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf restrictShieldMoveNodeLeaf { get; set; }
 
@@ -121,21 +120,16 @@ public partial class PlayerAnimationManager
 
         executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(() => executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null, player, animator);
 
-        restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf);
-        restrictShieldPrimaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        && player._currentWeapon is PrimaryWeapon
-        , animator, "Restrict_Enter", 0, 0.35f);
-        restrictShieldSecondaryEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        && player._currentWeapon is SecondaryWeapon
-        , animator, "Restrict_Enter", 0, .35f);
-        restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit
-        || restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
-        , animator, "Restrict_Exit", 0, .35f);
-        restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrictGunFuStateNodeLeaf restrictNodeLeaf
-        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+        restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>());
+        restrictShieldEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+        , animator,GunFuManaverStateName.Restrain.ToString(), 0, 0.35f);
+        restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit
+        || restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
+        , animator,GunFuManaverStateName.RestrainExit.ToString(), 0, .35f);
+        restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
+        && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
         , animator, "Move/Idle", 0, .35f);
 
         humanShieldSelector = new NodeSelector(
@@ -208,8 +202,7 @@ public partial class PlayerAnimationManager
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(spinKickNodeLeaf);
 
-                restrictShieldSelector.AddtoChildNode(restrictShieldPrimaryEnterNodeLeaf);
-                restrictShieldSelector.AddtoChildNode(restrictShieldSecondaryEnterNodeLeaf);
+                restrictShieldSelector.AddtoChildNode(restrictShieldEnterNodeLeaf);
                 restrictShieldSelector.AddtoChildNode(restrictShieldExitNodeLeaf);
                 restrictShieldSelector.AddtoChildNode(restrictShieldMoveNodeLeaf);
 
@@ -318,10 +311,10 @@ public partial class PlayerAnimationManager
            () => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>() && player._currentWeapon is SecondaryWeapon,
            animator, "HS_Stay_Secondary", 1, .25f, .3f);
         restrictShieldPrimaryStayNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>() && player._currentWeapon is PrimaryWeapon,
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>() && player._currentWeapon is PrimaryWeapon,
             animator, "Restrict_Stay_Primary", 1, .25f, .3f);
         restrictShieldSecondaryStayNodeLeaf = new PlayAnimationNodeLeaf(
-           () => playerStateNodeMnager.TryGetCurNodeLeaf<RestrictGunFuStateNodeLeaf>() && player._currentWeapon is SecondaryWeapon,
+           () => playerStateNodeMnager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>() && player._currentWeapon is SecondaryWeapon,
            animator, "Restrict_Stay_Secondary", 1, .25f, .3f);
 
         drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);

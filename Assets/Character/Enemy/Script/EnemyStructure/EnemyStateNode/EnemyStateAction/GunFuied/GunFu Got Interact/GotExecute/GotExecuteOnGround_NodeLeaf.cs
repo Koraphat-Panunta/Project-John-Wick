@@ -18,7 +18,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     GotExecutedStateName IGotGunFuExecuteNodeLeaf._gotExecutedStateName => this.gotExecutedStateName;
     private GotExecutedStateName gotExecutedStateName;
-    public string gotExecuteStateName { get => this.gotExecuteStateName.ToString(); }
+    public string gotExecuteStateName { get => this.gotExecutedStateName.ToString(); }
 
     public enum ExecutedPhase
     {

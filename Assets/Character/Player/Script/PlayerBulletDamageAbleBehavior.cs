@@ -63,9 +63,9 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
 
     public void OnNotify<T>(Player player, T node)
     {
-        if (node is RestrictGunFuStateNodeLeaf restrictNodeLeaf)
+        if (node is RestrainGunFuStateNodeLeaf restrictNodeLeaf)
         {
-            if (restrictNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
+            if (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
                 ignoreBulletChance = 0.25f;
 
             if (restrictNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)

@@ -21,7 +21,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
                 || player.curNodeLeaf is PlayerStandMoveNodeLeaf
                 || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
                 || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
-                || player.curNodeLeaf is RestrictGunFuStateNodeLeaf
+                || player.curNodeLeaf is RestrainGunFuStateNodeLeaf
                 )
                 return true;
 

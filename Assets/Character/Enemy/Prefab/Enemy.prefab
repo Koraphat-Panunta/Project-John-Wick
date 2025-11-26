@@ -494,7 +494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 17a6691fe95497b4c93d02b2b264f9b0,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -505,7 +504,7 @@ MonoBehaviour:
   armored_ProtectionSCRP: {fileID: 11400000, guid: 17a6691fe95497b4c93d02b2b264f9b0,
     type: 2}
   meshRendererArmored: {fileID: 3938986911789629728}
-  collider: {fileID: 4355368927131558458}
+  armordCollider: {fileID: 4355368927131558458}
 --- !u!1 &3579995183458225762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,7 +1234,7 @@ MonoBehaviour:
     m_Bits: 256
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
-  isImortal: 1
+  isImortal: 0
   rayCastPos: {fileID: 463041512469725749}
   selfLayerMask:
     serializedVersion: 2
@@ -2466,7 +2465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -2477,7 +2475,7 @@ MonoBehaviour:
   armored_ProtectionSCRP: {fileID: 11400000, guid: a0acc382f5a428148b3c827dc707005a,
     type: 2}
   meshRendererArmored: {fileID: 649413018912248948}
-  collider: {fileID: 9069138010927027483}
+  armordCollider: {fileID: 0}
 --- !u!1001 &414969306939025701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5781,7 +5779,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 907938b86376a0c459797ea7a69fa884,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -5902,7 +5899,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 946eb930944358846805857f388404e4,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6029,7 +6025,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 2301b8a4e9e1e0d4db3c2f2be65b0fb5,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6168,7 +6163,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 907938b86376a0c459797ea7a69fa884,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6293,7 +6287,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 946eb930944358846805857f388404e4,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6438,7 +6431,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: ad1b06b8c0e3af64db69b960a2bdb8a7,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6559,7 +6551,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: ad1b06b8c0e3af64db69b960a2bdb8a7,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6680,7 +6671,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 907938b86376a0c459797ea7a69fa884,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6801,7 +6791,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: ad1b06b8c0e3af64db69b960a2bdb8a7,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -6928,7 +6917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 907938b86376a0c459797ea7a69fa884,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}
@@ -7055,7 +7043,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2619394019457856660}
-  enemyHPbarDisplay: {fileID: 0}
   bodyPartDamageRecivedSCRP: {fileID: 11400000, guid: ad1b06b8c0e3af64db69b960a2bdb8a7,
     type: 2}
   forceSave: {x: 0, y: 0, z: 0}

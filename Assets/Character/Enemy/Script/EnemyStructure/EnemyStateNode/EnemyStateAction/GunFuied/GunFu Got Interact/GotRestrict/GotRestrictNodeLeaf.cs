@@ -16,7 +16,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     }
     public GotRestrictPhase curGotHitRestrictPhase { get; private set; }
     private GotRestrictScriptableObject gotRestrictScriptableObject;
-    private RestrictGunFuStateNodeLeaf attackerRestrict ;
+    private RestrainGunFuStateNodeLeaf attackerRestrict ;
     private Animator animator { get => enemy.animator; }
 
     private string gotRestrictEnter = "GotRestrict Enter";
@@ -31,7 +31,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     {
         curGotHitRestrictPhase = GotRestrictPhase.Enter;
         _timer = 0;
-        this.attackerRestrict = enemy.gunFuAbleAttacker.curGunFuNode as RestrictGunFuStateNodeLeaf;
+        this.attackerRestrict = enemy.gunFuAbleAttacker.curGunFuNode as RestrainGunFuStateNodeLeaf;
 
         animator.CrossFade(gotRestrictEnter, 0.075f, 0,gotRestrictScriptableObject.gotRestrictEnter_enterNormalized);
         //enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
@@ -82,7 +82,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
             case GotRestrictPhase.Enter: 
                 {
                     _timer += Time.deltaTime;
-                    if(attacker.curGunFuNode is RestrictGunFuStateNodeLeaf == false)
+                    if(attacker.curGunFuNode is RestrainGunFuStateNodeLeaf == false)
                     {
                         isComplete = true;
                     }
@@ -93,7 +93,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
                         animator.CrossFade(gotRestrictStay, 0.075f, 0);
                         enemy.NotifyObserver(enemy,this);
                     }
-                    if (attackerRestrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                    if (attackerRestrict.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                     {
                         _timer = 0;
                         curGotHitRestrictPhase = GotRestrictPhase.Exit;
@@ -104,11 +104,11 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
                 break;
             case GotRestrictPhase.Stay:
                 {
-                    if (attacker.curGunFuNode is RestrictGunFuStateNodeLeaf == false)
+                    if (attacker.curGunFuNode is RestrainGunFuStateNodeLeaf == false)
                     {
                         isComplete = true;
                     }
-                    if (attackerRestrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                    if (attackerRestrict.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                     {
                         _timer = 0;
                         curGotHitRestrictPhase = GotRestrictPhase.Exit;

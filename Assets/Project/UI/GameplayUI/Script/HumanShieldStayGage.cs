@@ -37,15 +37,15 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                             isShowGage = false;
                         break;
                     }
-                case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf: 
+                case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf: 
                     {
-                        if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                        if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
                         {
                             this.curGunFuInteraction_NodeLeaf=restrictGunFuStateNodeLeaf;
                             isShowGage = true;
 
                         }
-                        else if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                        else if(restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                             isShowGage = false;
                         break;
                     }
@@ -68,7 +68,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                           , humanShieldGage.rectTransform.localScale.z);
                         break;
                     }
-                case RestrictGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
+                case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                     {
                         humanShieldGage.enabled = true;
                         humanShieldGage.rectTransform.localScale = new Vector3(1 - (restrictGunFuStateNodeLeaf.phaseTimer

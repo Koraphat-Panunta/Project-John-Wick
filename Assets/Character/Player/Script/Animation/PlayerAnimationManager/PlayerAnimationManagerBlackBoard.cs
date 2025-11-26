@@ -50,15 +50,15 @@ public partial class PlayerAnimationManager
                 && humanShiedl.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;
 
-            if (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf restrict)
-               && restrict.curRestrictGunFuPhase == RestrictGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+            if (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf restrict)
+               && restrict.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
                 return true;
 
 
 
             if (playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrictGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
+                || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
                 || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShield) && (humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Enter ))
                 || playerStateNodeMnager.TryGetCurNodeLeaf<HumanShieldExit_GunFu_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>()

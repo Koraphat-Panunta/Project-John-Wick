@@ -6,7 +6,6 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
      IObserverEnemy,IInitializedAble,IBeenThrewObjectAt
 {
     [SerializeField] public Enemy enemy;
-    [SerializeField] private EnemyHPbarDisplay enemyHPbarDisplay;
     public virtual float _hpReciverMultiplyRate { get; set; }
     public virtual float _postureReciverRate { get; set; }
     public virtual float _staggerReciverRate { get; set; }
