@@ -2,6 +2,7 @@ using Unity.Cinemachine;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 
 public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializedAble
@@ -83,6 +84,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
         inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
         cameraManagerNode.FixedUpdateNode();
     }
+
+    
     public Vector2 cameraKickPositionRange;
     public Vector2 cameraImpulseRange;
 
@@ -128,6 +131,11 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         {
                             this.isPerformGunFu = true;
                             this.curGunFuNode = gunFuExecute_NodeLeaf;
+
+                            Transform[] trackTransforms = { player._spine_1_Bone, gunFuExecute_NodeLeaf.gotGunFuAttackedAble._character._spine_0_Bone };
+                            float[] trackWeight = { 1, 1 };
+                            this.cameraManagerNode.cameraGunFuExecuteNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraGunFuExecuteNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
                         else if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
                         {

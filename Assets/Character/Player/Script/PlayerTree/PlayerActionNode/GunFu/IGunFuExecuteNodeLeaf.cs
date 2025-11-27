@@ -10,7 +10,7 @@ public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
     }
     public GunFuExecutePhase _curGunFuPhase { get; protected set; }
     public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get; }
-    protected bool _isExecuteAldready { get; set; }
+    public bool _isExecuteAldready { get;protected set; }
 
     public GunFuExecuteStateName _executeStateName { get; protected set; }
 }

@@ -33,6 +33,9 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     [SerializeField] private Transform targetLook;
     public Transform targetLookTarget { get => targetLook; protected set => this.targetLookTarget = value; }
 
+    public Vector3 curTrackPosition { get; protected set; }
+    public Vector3 curLookPosition { get; protected set; }
+
     [Range(0,360)]
     [SerializeField] public float yaw;
     [Range(-90,90)]
@@ -104,12 +107,15 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         if(isBeenUpdate == true)
             return;
 
+        this.curTrackPosition = targetFollow;
+        this.curLookPosition = targetLookAt;
+
         Vector3 targetPos;
         Vector3 targetDir;
 
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
-        targetPos = targetFollow + rotation * (cameradistance * distance);
-        targetDir = (targetLookAt - targetPos).normalized;
+        targetPos = curTrackPosition + rotation * (cameradistance * distance);
+        targetDir = (curLookPosition - targetPos).normalized;
 
         Vector3 camForward = targetDir;
         Vector3 camRight = Vector3.Cross(Vector3.up, camForward).normalized;
@@ -163,6 +169,8 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(targetDir);
         isBeenUpdate = true;
     }
+
+    
     
     private void OnValidate()
     {

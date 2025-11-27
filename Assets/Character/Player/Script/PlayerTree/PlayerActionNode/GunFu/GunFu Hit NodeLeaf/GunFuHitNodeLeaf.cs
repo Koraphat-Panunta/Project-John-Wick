@@ -79,8 +79,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
         }
        
-
-        PullUpdate();
         nodeLeafTransitionBehavior.TransitioningCheck(this);
         base.UpdateNode();
     }
@@ -142,6 +140,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
     public override void FixedUpdateNode()
     {
+        PullUpdate();
         base.FixedUpdateNode();
     }
 

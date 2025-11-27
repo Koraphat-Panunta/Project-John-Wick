@@ -12,6 +12,7 @@ public class CameraGunFuExecuteNodeLeaf : CameraThirdPersonControllerViewNodeLea
 
     float trackRate;
     protected bool isRecovery;
+
     public CameraGunFuExecuteNodeLeaf(
         CameraController cameraController
         , CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
@@ -28,26 +29,40 @@ public class CameraGunFuExecuteNodeLeaf : CameraThirdPersonControllerViewNodeLea
     public override void Enter()
     {
         this.isRecovery = false;
+        this.trackRate = 0;
         base.Enter();
     }
     public override void UpdateNode()
     {
 
         if (isRecovery)
-            this.trackRate = Mathf.Clamp01(this.trackRate - Time.deltaTime);
+            this.trackRate = Mathf.Clamp01(this.trackRate - (Time.deltaTime * 2));
         else
             this.trackRate = Mathf.Clamp01(this.trackRate + Time.deltaTime);
 
+       
         base.UpdateNode();
     }
-    protected override void UpdateCameraPosition()
+  
+    public override void UpdateCameraPosition()
     {
         Vector3 trackPos = CalculateAveragePosition.WeightedAverage(trackTransform.ToList<Transform>(), trackTransformWeight.ToList<float>());
         Vector3 lookPos = CalculateAveragePosition.WeightedAverage(lookTransform.ToList<Transform>(), lookTransformWeight.ToList<float>());
 
-        trackPos = Vector3.Lerp(thirdPersonCamera.transform.position,trackPos,this.trackRate);
+        trackPos = Vector3.Lerp(thirdPersonCamera.targetFollowTarget.position,trackPos,this.trackRate);
         lookPos = Vector3.Lerp(thirdPersonCamera.targetLookTarget.position, trackPos, this.trackRate);
 
         this.thirdPersonCamera.UpdateCameraPosition(trackPos, lookPos);
     }
+    public void SetTrackTransform(Transform[] trackTransform, float[] trackWeight)
+    {
+        this.trackTransform = trackTransform;
+        this.trackTransformWeight = trackWeight;
+    }
+    public void SetLookTransform(Transform[] lookTransform, float[] lookWeight) 
+    {
+        this.lookTransform = lookTransform;
+        this.lookTransformWeight = lookWeight;
+    }
+  
 }

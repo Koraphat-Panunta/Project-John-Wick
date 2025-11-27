@@ -55,6 +55,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
 
     public override void Enter()
     {
+        isExecuteAlready = false;
         gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
         gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = false;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
@@ -194,6 +195,10 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
              got_GunFuAttacked_SubjectInteract.character.transform.rotation
             , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
         );
+
+        isExecuteAlready = true;
+
+        player.NotifyObserver(player, this);
     }
 
     

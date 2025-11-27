@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 {
@@ -12,6 +13,9 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     protected Vector3 enteringOffset;
     protected float normalizedTime;
     protected float enteringFOV;
+
+    protected Vector3 trackPos;
+    protected Vector3 lookPos;
     public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController
         ,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
         , Func<bool> preCondition) : base(cameraController, preCondition)
@@ -21,6 +25,8 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
    
     public override void Enter()
     {
+        this.trackPos = thirdPersonCamera.curTrackPosition;
+        this.lookPos = thirdPersonCamera.curLookPosition;
         enteringOffset = cinemachineOffset;
         normalizedTime = 0;
         enteringFOV = cinemachineFreeLook.Lens.FieldOfView;
@@ -34,6 +40,8 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void FixedUpdateNode()
     {
+        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition, thirdPersonCamera.targetFollowTarget.position, normalizedTime);
+        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition, thirdPersonCamera.targetLookTarget.position, normalizedTime);
         base.FixedUpdateNode();
     }
 
@@ -68,9 +76,9 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         base.UpdateNode();
     }
 
-    protected virtual void UpdateCameraPosition()
+    public virtual void UpdateCameraPosition()
     {
-        thirdPersonCamera.UpdateCameraPosition();
+        thirdPersonCamera.UpdateCameraPosition(this.trackPos,this.lookPos);
+        
     }
-
 }
