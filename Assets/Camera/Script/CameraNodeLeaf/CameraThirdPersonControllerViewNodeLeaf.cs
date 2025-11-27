@@ -48,7 +48,11 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     public override void UpdateNode()
     {
         float offsetX;
-        normalizedTime = Mathf.Clamp01(normalizedTime += Time.unscaledDeltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
+        normalizedTime = Mathf.Clamp(
+            normalizedTime += Time.unscaledDeltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed
+            ,cameraThirdPersonControllerViewScriptableObject.minNormalized
+            ,cameraThirdPersonControllerViewScriptableObject.maxNormalized
+            );
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
         this.UpdateCameraPosition();

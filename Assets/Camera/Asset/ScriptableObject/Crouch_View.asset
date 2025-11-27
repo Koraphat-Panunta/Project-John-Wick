@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crouch_View
   m_EditorClassIdentifier: 
   viewOffsetRight: {x: 0.47, y: -0.22, z: 0}
-  fov: 70
+  fov: 65
   transitionCurve:
     serializedVersion: 2
     m_Curve:
@@ -39,3 +39,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   transitionInSpeed: 0.5
+  minNormalized: 0.2
+  maxNormalized: 0.2

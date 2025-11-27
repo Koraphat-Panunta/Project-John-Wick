@@ -12,30 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec47217e62c0a44e8580e7f8c5222f7, type: 3}
   m_Name: Dodge_View
   m_EditorClassIdentifier: 
-  viewOffsetRight: {x: 0.12, y: -0.22, z: -0.08}
-  fov: 70
+  viewOffsetRight: {x: 0, y: -0.22, z: -0.5}
+  fov: 65
   transitionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  transitionInSpeed: 0.22
+  transitionInSpeed: 1
+  minNormalized: 0.1
+  maxNormalized: 0.15

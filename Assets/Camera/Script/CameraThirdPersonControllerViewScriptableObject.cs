@@ -12,4 +12,9 @@ public class CameraThirdPersonControllerViewScriptableObject : ScriptableObject
     [Range(0, 10)]
     public float transitionInSpeed;
 
+    [Range(0, 1)]
+    public float minNormalized;
+    [Range(0, 1)]
+    public float maxNormalized;
+
 }

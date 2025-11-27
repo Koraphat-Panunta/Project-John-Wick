@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class CameraGunFuExecuteNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
+public class CameraThridPersonControllerDynamicTrackingNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
 {
 
     Transform[] trackTransform;
@@ -13,7 +13,7 @@ public class CameraGunFuExecuteNodeLeaf : CameraThirdPersonControllerViewNodeLea
     float trackRate;
     protected bool isRecovery;
 
-    public CameraGunFuExecuteNodeLeaf(
+    public CameraThridPersonControllerDynamicTrackingNodeLeaf(
         CameraController cameraController
         , CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
         , Func<bool> preCondition

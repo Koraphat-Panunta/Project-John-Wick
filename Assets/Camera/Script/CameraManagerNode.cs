@@ -38,7 +38,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
     public NodeSelector cameraPerformGunFuSelector { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuWeaponDisarmNodeLeaf { get; protected set; }
-    public CameraGunFuExecuteNodeLeaf cameraGunFuExecuteNodeLeaf { get; protected set; }
+    public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraGunFuExecuteNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuHitViewNodeLeaf { get; protected set; }
 
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
@@ -85,7 +85,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => cameraController.isPerformGunFu);
         this.cameraPerformGunFuWeaponDisarmNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuWeaponDisarm_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf );
-        this.cameraGunFuExecuteNodeLeaf = new CameraGunFuExecuteNodeLeaf(cameraController , cameraController.cameraExecute_Single_SCRP
+        this.cameraGunFuExecuteNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(cameraController , cameraController.cameraExecute_Single_SCRP
            ,() => cameraController.curGunFuNode != null && cameraController.curGunFuNode is IGunFuExecuteNodeLeaf);
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
