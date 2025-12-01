@@ -17,7 +17,7 @@ public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
     {
         PlayerMovement playerMovement = base.player._movementCompoent as PlayerMovement;
 
-        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MoveMode.MaintainMomentum);
+        playerMovement.UpdateMoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
     public override void UpdateNode()

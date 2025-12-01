@@ -71,8 +71,8 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     private void SprintMaintainMomentum(float sprintDirRotateSpeed,float rotateCharSpeed)
     {
         sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
-        playerMovement.MoveToDirWorld(sprintDir.normalized, sprintAcceletion * sprintStance, sprintSpeedZone, MoveMode.MaintainMomentum);
-        playerMovement.RotateToDirWorld(sprintDir.normalized, rotateCharSpeed);
+        playerMovement.UpdateMoveToDirWorld(sprintDir.normalized, sprintAcceletion * sprintStance, sprintSpeedZone, MoveMode.MaintainMomentum);
+        playerMovement.SetRotateToDirWorld(sprintDir.normalized, rotateCharSpeed);
 
     }
    

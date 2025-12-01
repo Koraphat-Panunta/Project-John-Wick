@@ -35,7 +35,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
     public override void FixedUpdateNode()
     {
         if (_timer >= _animationClip.length * brounceOffGotAttackGunFuScriptableObject.onGroundNormalized)
-            player._movementCompoent.MoveToDirWorld(Vector3.zero, 
+            player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, 
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
                 MoveMode.MaintainMomentum);

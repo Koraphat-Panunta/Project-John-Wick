@@ -86,13 +86,13 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         if (dodgePhase == DodgePhase.pushOut)
         {
             float t = (1 / Mathf.Pow(duration * pushOutNormalized, 2)) * (Mathf.Pow(elapesTime, 2));
-            enemy._movementCompoent.RotateToDirWorldSlerp(enemy._movementCompoent.curMoveVelocity_World.normalized, t);
+            enemy._movementCompoent.SetRotateToDirWorldSlerp(enemy._movementCompoent.curMoveVelocity_World.normalized, t);
             if (elapesTime > duration * pushOutNormalized)
                 dodgePhase = DodgePhase.InAir;
         }
         else if (dodgePhase == DodgePhase.InAir)
         {
-            enemyMovement.MoveToDirWorld(Vector3.zero, enemy.dodgeInAirStopForce, enemy.dodgeInAirStopForce, MoveMode.MaintainMomentum);
+            enemyMovement.UpdateMoveToDirWorld(Vector3.zero, enemy.dodgeInAirStopForce, enemy.dodgeInAirStopForce, MoveMode.MaintainMomentum);
             if (elapesTime > InAirNormalized)
             {
                 dodgePhase = DodgePhase.Landing;
@@ -100,7 +100,7 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         }
         else if (dodgePhase == DodgePhase.Landing)
         {
-            enemyMovement.MoveToDirWorld(Vector3.zero, enemy.dodgeOnGroundStopForce, enemy.dodgeOnGroundStopForce, MoveMode.MaintainMomentum);
+            enemyMovement.UpdateMoveToDirWorld(Vector3.zero, enemy.dodgeOnGroundStopForce, enemy.dodgeOnGroundStopForce, MoveMode.MaintainMomentum);
             //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();

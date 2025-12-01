@@ -54,7 +54,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     }
     public override void FixedUpdateNode()
     {
-        (enemy._movementCompoent).MoveToDirWorld(Vector3.zero, 2, 7, MoveMode.MaintainMomentum);
+        (enemy._movementCompoent).UpdateMoveToDirWorld(Vector3.zero, 2, 7, MoveMode.MaintainMomentum);
         this.UpdateDownTimer();
         base.FixedUpdateNode();
     }

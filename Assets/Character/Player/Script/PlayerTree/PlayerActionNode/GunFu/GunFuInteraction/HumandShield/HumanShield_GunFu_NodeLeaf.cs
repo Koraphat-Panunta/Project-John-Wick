@@ -132,7 +132,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 
                     this.humanShield_Stay_Timer += Time.deltaTime;
 
-                    player._movementCompoent.MoveToDirLocal(
+                    player._movementCompoent.UpdateMoveToDirLocal(
                         player.inputMoveDir_Local
                         , player.StandMoveAccelerate
                         , player.StandMoveMaxSpeed

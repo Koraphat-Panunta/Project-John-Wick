@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract partial class MovementCompoent : INodeManager
 {
     public MonoBehaviour userMovement { get; set; }
+    public float inputAngularVelocity { get; set; }
+    public float curAngularVelocity { get; set; }
     public Vector3 moveInputVelocity_World { get; set; }
     public Vector3 curMoveVelocity_World { get;  set; }
     public Vector3 moveInputVelocity_Local { get => TransformWorldToLocalVector(moveInputVelocity_World, transform.forward); }
@@ -42,8 +44,24 @@ public abstract partial class MovementCompoent : INodeManager
 
     public abstract void InitailizedNode();
   
-
-    public void MoveToDirWorld(Vector3 dirWorldNormalized,float speed,float maxSpeed, MoveMode moveMode)
+    public void UpdateAngularVelocity(float inputAngularVelocity,MoveMode moveMode)
+    {
+        this.inputAngularVelocity = inputAngularVelocity;
+        switch (moveMode)
+        {
+            case MoveMode.MaintainMomentum:
+                {
+                    this.curAngularVelocity += inputAngularVelocity * Time.deltaTime;
+                    break;
+                }
+            case MoveMode.IgnoreMomenTum:
+                {
+                    this.curAngularVelocity = inputAngularVelocity;
+                    break;
+                }
+        }
+    }
+    public void UpdateMoveToDirWorld(Vector3 dirWorldNormalized,float speed,float maxSpeed, MoveMode moveMode)
     {
         moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
 
@@ -62,7 +80,7 @@ public abstract partial class MovementCompoent : INodeManager
                 break;
         }
     }
-    public void MoveToDirLocal(Vector3 dirLocalNormalized,float speed,float maxSpeed, MoveMode moveMode)
+    public void UpdateMoveToDirLocal(Vector3 dirLocalNormalized,float speed,float maxSpeed, MoveMode moveMode)
     {
         moveInputVelocity_World = TransformLocalToWorldVector(
          new Vector3(dirLocalNormalized.x, 0, dirLocalNormalized.y),
@@ -83,7 +101,7 @@ public abstract partial class MovementCompoent : INodeManager
                 break;
         }
     }
-    public void RotateToDirWorld(Vector3 lookDirWorldNomalized,float rotateSpeed)
+    public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized,float rotateSpeed)
     {
         lookDirWorldNomalized.Normalize();
 
@@ -100,7 +118,7 @@ public abstract partial class MovementCompoent : INodeManager
             this.SetRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));
         }
     }
-    public void RotateToDirWorldSlerp(Vector3 dir, float t)
+    public void SetRotateToDirWorldSlerp(Vector3 dir, float t)
     {
         Quaternion targetRotation = Quaternion.LookRotation(dir);
 

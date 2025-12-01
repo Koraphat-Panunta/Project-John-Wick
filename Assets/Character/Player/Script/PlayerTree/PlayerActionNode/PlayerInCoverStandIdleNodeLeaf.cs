@@ -37,7 +37,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             WarpingToAimPos();
 
 
-        playerMovement.MoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MoveMode.MaintainMomentum);
+        playerMovement.UpdateMoveToDirWorld(Vector3.zero,player.breakDecelerate,player.breakMaxSpeed, MoveMode.MaintainMomentum);
 
         base.FixedUpdateNode();
     }
@@ -52,7 +52,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
         CoverDetection coverDetection = player.coverDetection;
 
         if(player._currentWeapon == null){
-            playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
+            playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, 6);
             return;
         }
 
@@ -75,7 +75,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
             )
             warping = true;
 
-        playerMovement.RotateToDirWorld(Camera.main.transform.forward, 6);
+        playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, 6);
     }
     private void WarpingToCoverPos()
     {
@@ -111,7 +111,7 @@ public class PlayerInCoverStandIdleNodeLeaf : PlayerStateNodeLeaf
         else if (player.curShoulderSide == Player.ShoulderSide.Right)
             coverStanceDir = Quaternion.Euler(0, 45, 0) * coverDetection.obstacleSurfaceDir * -1;
 
-        playerMovement.RotateToDirWorld(coverStanceDir, 6);
+        playerMovement.SetRotateToDirWorld(coverStanceDir, 6);
     }
 
    

@@ -36,7 +36,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
     public override void UpdateNode()
     {
 
-        player._movementCompoent.MoveToDirWorld(Vector3.zero, player.breakDecelerate * .7f, player.breakMaxSpeed * .7f, MoveMode.MaintainMomentum);
+        player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate * .7f, player.breakMaxSpeed * .7f, MoveMode.MaintainMomentum);
 
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         if(isWarpingWeapon)
