@@ -30,7 +30,6 @@ public partial class Enemy : SubjectEnemy
     public Vector3 forceSave;
 
     public float myHP;
-    private float posture;
 
     
     [SerializeField] public bool isImortal;
@@ -132,7 +131,7 @@ public partial class Enemy : SubjectEnemy
 
 
     }
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
+    public void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {
         throw new NotImplementedException();
     }
@@ -405,6 +404,12 @@ public partial class Enemy : SubjectEnemy
     #endregion
 
     #region InitilizedPainState
+    [Range(0, 10)]
+    public float miniPainStateDuration;
+    [Range(0, 10)]
+    public float mediumPainStateDuration;
+    [Range(0, 10)]
+    public float heavyPainStateDuration;
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
@@ -420,26 +425,6 @@ public partial class Enemy : SubjectEnemy
 
             return false;
         } set { } }
-    public float _posture { get => posture; set => posture = value; }
-    [Range(0, 100)]
-    [SerializeField] private float postureLight;
-    public float _postureLight { get => postureLight; set => postureLight = value; }
-    [Range(0, 100)]
-    [SerializeField] private float postureMedium;
-    public float _postureMedium { get => postureMedium; set => postureMedium = value; }
-    [Range(0, 100)]
-    [SerializeField] private float postureHeavy;
-    public float _postureHeavy { get => postureHeavy; set => postureHeavy = value; }
-
-    public IPainStateAble.PainPart _painPart { get; set; }
-
-    [SerializeField] private PainStateDurationScriptableObject painDurScrp;
-    public PainStateDurationScriptableObject _painDurScrp { get => painDurScrp; }
-    public void InitializedPainState()
-    {
-        _painPart = IPainStateAble.PainPart.None;
-    }
-
 
     #endregion
 
@@ -488,7 +473,7 @@ public partial class Enemy : SubjectEnemy
 
     private void SetDefaultAttribute()
     {
-        posture = 100;
+        this._posture = 100;
         base.HP = 100;
         base.maxHp = 100;
         staggerGauge = maxStaggerGauge;

@@ -33,7 +33,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     }
 
   
-    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         if(damageVisitor is Bullet bullet)
         {
@@ -53,7 +53,7 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         if (armorHP <= 0)
             ArmoredDestroyed();
 
-        syncBodyPart.TakeDamage(this, hitPart, hitDir, hitforce);
+        syncBodyPart.TakeDamageBullet(this, hitPart, hitDir, hitforce);
     }
     
     protected virtual void ArmoredDestroyed()

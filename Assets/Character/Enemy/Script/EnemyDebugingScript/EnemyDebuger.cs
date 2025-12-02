@@ -10,8 +10,6 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
     [SerializeField] private string CurrentEnemyState;
     [SerializeField] private float posture;
 
-    [SerializeField] private IPainStateAble.PainPart PainPart;
-
     [SerializeField,TextArea] 
     private string Debug;
 
@@ -42,7 +40,6 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
 
        CurrentEnemyState = this.enemy.enemyStateManagerNode.GetCurNodeLeaf().ToString();
        posture = enemy._posture;
-       PainPart = enemy._painPart;
 
 
     }

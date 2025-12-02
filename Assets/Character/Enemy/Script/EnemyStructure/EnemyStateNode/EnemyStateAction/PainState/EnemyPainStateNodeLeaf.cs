@@ -1,22 +1,56 @@
 using System;
 using UnityEngine;
 
-public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
+public class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 {
+
     protected Animator animator;
-    protected abstract string stateName { get; }
-    protected EnemyPainStateNodeLeaf(Enemy enemy,Func<bool> preCondition, Animator animator) : base(enemy,preCondition)
+    public float painDuration { get; set; }
+    public float time;
+
+    public float miniPainStateDuration { get; protected set; }
+    public float mediumPainStateDuration { get; protected set; }
+    public float heavyPainStateDuration { get; protected set; }
+    public EnemyPainStateNodeLeaf(
+        Enemy enemy
+        ,Func<bool> preCondition
+        , Animator animator
+        ,float miniPainStateDuration
+        ,float mediumPainStateDuration
+        ,float heavyPainStateDuration) : base(enemy,preCondition)
     {
         this.animator = animator;
+
+        this.miniPainStateDuration = miniPainStateDuration;
+        this.mediumPainStateDuration = mediumPainStateDuration;
+        this.heavyPainStateDuration = heavyPainStateDuration;
     }
     public override void Enter()
     {
 
         time = 0;
-        (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
-        animator.CrossFade(stateName, 0.1f, 0,0);
 
-        enemy.NotifyObserver(enemy, this);
+        switch (enemy.getPosturePainPhase)
+        {
+            case Enemy.EnemyPosturePainStatePhase.MiniPainState:
+                {
+                    this.painDuration = this.miniPainStateDuration;
+                    break;
+                }
+            case Enemy.EnemyPosturePainStatePhase.MediumPainState:
+                {
+                    this.painDuration = this.mediumPainStateDuration;
+                    break;
+                }
+            case Enemy.EnemyPosturePainStatePhase.HeavyPainState: 
+                {
+                    this.painDuration = this.heavyPainStateDuration;
+                    break;
+                }
+        }
+
+        (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+        animator.CrossFade("PainState", 0.1f, 0,0);
 
         base.Enter();
     }
@@ -27,11 +61,8 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
     public override void UpdateNode()
     {
         time += Time.deltaTime;
-        if(time >= painDuration) 
-        {
+        if(time >= painDuration)
             isComplete = true;
-            enemy._painPart = IPainStateAble.PainPart.None;
-        }
 
     }
     public override bool IsComplete()
@@ -60,9 +91,7 @@ public abstract class EnemyPainStateNodeLeaf : EnemyStateLeafNode
         enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.painStateForceStop, enemy.painStateForceStop, MoveMode.MaintainMomentum);
         base.FixedUpdateNode();
     }
-    public abstract float painDuration { get; set; }
-    public float time;
-    public abstract IPainStateAble.PainPart painPart { get; set; }
+
  
 
     

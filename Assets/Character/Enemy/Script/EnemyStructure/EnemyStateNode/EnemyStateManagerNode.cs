@@ -90,164 +90,9 @@ public partial class EnemyStateManagerNode : INodeManager
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
     public HumanShield_Exit_GotInteract_NodeLeaf humanShield_Exit_GotInteract_NodeLeaf { get; private set; }
 
-    #region PainState Node
-    public EnemyStateSelectorNode painStateSelector { get; private set; }
-    public EnemyStateSelectorNode head_PainState_Selector { get; private set; }
-    public EnemyStateSelectorNode Body_PainState_Selector { get; private set; }
-    public EnemyStateSelectorNode Arm_PainState_Selector { get; private set; }
-    public EnemyStateSelectorNode Leg_PainState_Selector { get; private set; }
+    public EnemyPainStateNodeLeaf painStateNodeLeaf { get; private set; }
 
-    //Head PainState LeafNode
-    //public HeavyPainStateHeadNode enemy_Head_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateHeadNode enemy_Head_PainState_Light_NodeLeaf { get; private set; }
-
-    //BodyFront PainSate LeafNode
-    public HeavyPainStateFrontBody enemy_BodyFront_PainState_Heavy_NodeLeaf { get; private set; }
-    public MeduimPainStateFrontBody enemy_BodyFront_PainState_Medium_NodeLeaf { get; private set; }
-    public LightPainStateFrontBody enemy_BodyFront_PainState_Light_NodeLeaf { get; private set; }
-
-    //BodyBack PainState LeafNode
-    public HeavyPainStateBackBody enemy_BodyBack_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateBackBody enemy_BodyBack_PainState_Light_NodeLeaf { get; private set; }
-
-    //ArmLeft PainState LeafNode
-    public HeavyPainStateLeftArmNode enemy_LeftArm_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateLeftArmNode enemy_LeftArm_PainState_Light_NodeLeaf { get; private set; }
-
-    //ArmRight PainState LeafNode
-    public HeavyPainStateRightArmNode enemy_RightArm_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateRightArmNode enemy_RightArm_PainState_Light_NodeLeaf { get; private set; }
-
-    //LegLeft PainState LeafNode
-    public HeavyPainStateLeftLeg enemy_LeftLeg_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateLeftLeg enemy_LeftLeg_PainState_Light_NodeLeaf { get; private set; }
-
-    //LegRight PainState LeafNode
-    public HeavyPainStateRightLeg enemy_RightLeg_PainState_Heavy_NodeLeaf { get; private set; }
-    public LightPainStateRightLeg enemy_RightLeg_PainState_Light_NodeLeaf { get; private set; }
-
-
-    private void InitailizedPainStateNode()
-    {
-        painStateSelector = new EnemyStateSelectorNode(this.enemy,
-            () =>
-            {
-
-                if (this.enemy._isPainTrigger)
-                {
-                    return true;
-                }
-                return false;
-            }
-            );
-
-        head_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
-        {
-            if (this.enemy._painPart == IPainStateAble.PainPart.Head)
-                return true;
-            return false;
-        });
-
-        Body_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
-        {
-            if (this.enemy._painPart == IPainStateAble.PainPart.BodyBack
-            || this.enemy._painPart == IPainStateAble.PainPart.BodyFornt)
-                return true;
-            return false;
-        });
-
-        Arm_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
-        {
-
-            if (this.enemy._painPart == IPainStateAble.PainPart.ArmLeft
-            || this.enemy._painPart == IPainStateAble.PainPart.ArmRight)
-                return true;
-            return false;
-        });
-
-        Leg_PainState_Selector = new EnemyStateSelectorNode(this.enemy, () =>
-        {
-            if (this.enemy._painPart == IPainStateAble.PainPart.LegLeft
-            || this.enemy._painPart == IPainStateAble.PainPart.LegRight)
-                return true;
-            return false;
-        });
-
-        painStateSelector.AddtoChildNode(head_PainState_Selector);
-        painStateSelector.AddtoChildNode(Body_PainState_Selector);
-        painStateSelector.AddtoChildNode(Arm_PainState_Selector);
-        painStateSelector.AddtoChildNode(Leg_PainState_Selector);
-
-        enemy_Head_PainState_Light_NodeLeaf = new LightPainStateHeadNode(this.enemy,
-            () =>this.enemy._posture <=this.enemy._postureLight
-            ,this.enemy.animator);
-
-        head_PainState_Selector.AddtoChildNode(enemy_Head_PainState_Light_NodeLeaf);
-
-        enemy_BodyFront_PainState_Heavy_NodeLeaf = new HeavyPainStateFrontBody(this.enemy,
-            () =>this.enemy._posture <= this.enemy._postureHeavy
-            ,this.enemy.animator);
-
-        enemy_BodyFront_PainState_Medium_NodeLeaf = new MeduimPainStateFrontBody(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureMedium
-            , this.enemy.animator);
-
-        enemy_BodyFront_PainState_Light_NodeLeaf = new LightPainStateFrontBody(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight
-            , this.enemy.animator);
-
-        enemy_BodyBack_PainState_Heavy_NodeLeaf = new HeavyPainStateBackBody(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureHeavy
-            , this.enemy.animator);
-        enemy_BodyBack_PainState_Light_NodeLeaf = new LightPainStateBackBody(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight
-            , this.enemy.animator);
-
-        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Heavy_NodeLeaf);
-        Body_PainState_Selector.AddtoChildNode(enemy_BodyBack_PainState_Heavy_NodeLeaf);
-        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Medium_NodeLeaf);
-        Body_PainState_Selector.AddtoChildNode(enemy_BodyFront_PainState_Light_NodeLeaf);
-        Body_PainState_Selector.AddtoChildNode(enemy_BodyBack_PainState_Light_NodeLeaf);
-
-        enemy_LeftArm_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftArmNode(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureHeavy
-            , this.enemy.animator);
-        enemy_LeftArm_PainState_Light_NodeLeaf = new LightPainStateLeftArmNode(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight
-            , this.enemy.animator);
-        enemy_RightArm_PainState_Heavy_NodeLeaf = new HeavyPainStateRightArmNode(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureHeavy
-            , this.enemy.animator);
-        enemy_RightArm_PainState_Light_NodeLeaf = new LightPainStateRightArmNode(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight
-            , this.enemy.animator);
-
-        Arm_PainState_Selector.AddtoChildNode(enemy_LeftArm_PainState_Heavy_NodeLeaf);
-        Arm_PainState_Selector.AddtoChildNode(enemy_RightArm_PainState_Heavy_NodeLeaf);
-        Arm_PainState_Selector.AddtoChildNode(enemy_LeftArm_PainState_Light_NodeLeaf);
-        Arm_PainState_Selector.AddtoChildNode(enemy_RightArm_PainState_Light_NodeLeaf);
-
-
-        enemy_LeftLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateLeftLeg(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureHeavy
-            , this.enemy.animator);
-        enemy_LeftLeg_PainState_Light_NodeLeaf = new LightPainStateLeftLeg(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight, this.enemy.animator);
-        enemy_RightLeg_PainState_Light_NodeLeaf = new LightPainStateRightLeg(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureLight, this.enemy.animator);
-        enemy_RightLeg_PainState_Heavy_NodeLeaf = new HeavyPainStateRightLeg(this.enemy,
-            () => this.enemy._posture <= this.enemy._postureHeavy
-            , this.enemy.animator);
-
-        Leg_PainState_Selector.AddtoChildNode(enemy_LeftLeg_PainState_Heavy_NodeLeaf);
-        Leg_PainState_Selector.AddtoChildNode(enemy_RightLeg_PainState_Heavy_NodeLeaf);
-        Leg_PainState_Selector.AddtoChildNode(enemy_LeftLeg_PainState_Light_NodeLeaf);
-        Leg_PainState_Selector.AddtoChildNode(enemy_RightLeg_PainState_Light_NodeLeaf);
-
-    }
-    #endregion
-
-
+  
     #endregion
     public void InitailizedNode()
     {
@@ -331,13 +176,20 @@ public partial class EnemyStateManagerNode : INodeManager
         ,this.enemy
         ,this.enemy.standUpAnimationTriggerSCRP
         , "StandUp"
-       );
+        );
         enemyPushUpStateNodeLeaf = new GetUpStateNodeLeaf(this.enemy,
         () => true
         , this.enemy
         , this.enemy.pushUpAnimationTriggerSCRP
         , "PushUp"
-       );
+        );
+
+        this.painStateNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy
+           , () => enemy._isPainTrigger && enemy.getPosturePainPhase >= Enemy.EnemyPosturePainStatePhase.MiniPainState
+           , this.enemy.animator
+           , this.enemy.miniPainStateDuration
+           , this.enemy.mediumPainStateDuration
+           , this.enemy.heavyPainStateDuration);
 
         gunFuSelector = new NodeSelector(
             () => enemy._triggerGunFu && enemy._isInPain == false);
@@ -538,6 +390,8 @@ public partial class EnemyStateManagerNode : INodeManager
             ,this.enemy.humanShield_GotInteract_Exit_SCRP
             ,this.enemy.animator);
 
+        
+
         startNodeSelector.AddtoChildNode(enemtDeadState);
         startNodeSelector.AddtoChildNode(zeroPostureSelector);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
@@ -553,8 +407,7 @@ public partial class EnemyStateManagerNode : INodeManager
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyStandUpStateNodeLeaf);
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyPushUpStateNodeLeaf);
 
-        InitailizedPainStateNode();
-        startNodeSelector.AddtoChildNode(painStateSelector);
+        startNodeSelector.AddtoChildNode(painStateNodeLeaf);
         startNodeSelector.AddtoChildNode(gunFuSelector);
         startNodeSelector.AddtoChildNode(enemyStanceSelector);
 

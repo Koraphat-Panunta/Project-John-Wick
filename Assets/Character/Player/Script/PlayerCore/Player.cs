@@ -113,12 +113,12 @@ public partial class Player : SubjectPlayer,
 
         playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
     }
-    public void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) 
+    public void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) 
     {
         if ((this as I_IFrameAble)._isIFrame)
             return;
 
-        playerBulletDamageAbleBehavior.TakeDamage(damageVisitor, hitPos, hitDir, hitforce); 
+        playerBulletDamageAbleBehavior.TakeDamageBullet(damageVisitor, hitPos, hitDir, hitforce); 
     }
 
     #endregion

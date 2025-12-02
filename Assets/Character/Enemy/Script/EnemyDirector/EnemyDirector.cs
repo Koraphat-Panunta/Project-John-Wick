@@ -62,7 +62,7 @@ public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInit
 
         if (node is EnemyEvent enemyEvent 
             && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
-            && enemy._posture <= enemy._postureHeavy)
+            && enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.HeavyPainState)
             AssignChaser(enemysGetRole[enemy]);
 
         if (node is EnemyStateLeafNode enemyStateNodeLeaf)

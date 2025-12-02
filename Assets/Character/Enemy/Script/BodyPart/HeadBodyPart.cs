@@ -9,13 +9,12 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
 
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
-        enemy._painPart = IPainStateAble.PainPart.Head;
         base.TakeDamage(damageVisitor);
     }
-    public override void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         TakeDamage(damageVisitor);
-        base.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
+        base.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
     }
     public override void Notify<T>(Enemy enemy, T node)
     {

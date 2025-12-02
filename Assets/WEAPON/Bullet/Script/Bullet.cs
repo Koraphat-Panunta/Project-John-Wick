@@ -98,7 +98,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
             {
                 //Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);
                 //Debug.Log("panetrateRate = " + this.penetrateRate);
-                bulletDamageAble.TakeDamage(this, rayCastHits[i].point,dir,bulletHitForce);
+                bulletDamageAble.TakeDamageBullet(this, rayCastHits[i].point,dir,bulletHitForce);
                 if(bulletHitNotify!= null)
                 bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);
                 penetrateRate -= bulletDamageAble.penatrateResistance;

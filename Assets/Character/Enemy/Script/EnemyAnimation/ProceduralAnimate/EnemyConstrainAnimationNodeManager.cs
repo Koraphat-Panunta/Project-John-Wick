@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
+public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
 {
 
     public Transform centre;
@@ -9,10 +9,11 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
     public TwoBoneIKConstraint rightLeg;
     public Enemy enemy;
 
-    public SplineLookConstrain splineLookConstrain;
+    public BodyLookConstrain splineLookConstrain;
     public string curNodeName;
-    [SerializeField] private AimSplineLookConstrainScriptableObject primaryAimSplineLookConstrainScriptableObject;
-    [SerializeField] private AimSplineLookConstrainScriptableObject secondaryAimSplineLookConstrainScriptableObject;
+    [SerializeField] private AimBodyConstrainScriptableObject painStateBodyConstraintSCRP;
+    [SerializeField] private AimBodyConstrainScriptableObject primaryAimSplineLookConstrainScriptableObject;
+    [SerializeField] private AimBodyConstrainScriptableObject secondaryAimSplineLookConstrainScriptableObject;
     #region PainStateWalk
     [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
 
@@ -35,22 +36,35 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
     [SerializeField] private Rig rig;
 
     public NodeComponentManager enemyConstraintAnimationNodeManager;
-    NodeSelector aimNodeSelector;
-    AimDownSightAnimationConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
-    AimDownSightAnimationConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
-    EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf { get; set; }
+    public NodeSelector bodyConstraintSelector;
+    public PainStateProceduralBodyConstraintNodeLeaf painStateProceduralBodyConstraintNodeLeaf;
+
+    public NodeSelector aimDownSightBodyNodeSelector;
+    public AimDownSightBodyConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
+    public AimDownSightBodyConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
+
+    public EnemyPainStateProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf;
 
     public void InitailizedNode()
     {
         this.enemyConstraintAnimationNodeManager = new NodeComponentManager();
 
-        aimNodeSelector = new NodeSelector(()=> enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0);
-        primaryAnimationConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        this.bodyConstraintSelector = new NodeSelector(()=> isBodyConstriantEnable);
+
+        this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
+            this.enemy._root
+            ,this.splineLookConstrain
+            ,this.painStateBodyConstraintSCRP
+            , ()=> enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            );
+
+        aimDownSightBodyNodeSelector = new NodeSelector(()=> enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0);
+        primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             enemy
             ,splineLookConstrain
             ,primaryAimSplineLookConstrainScriptableObject
             ,()=> enemy._currentWeapon is PrimaryWeapon);
-        secondaryAnimationConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             enemy
             , splineLookConstrain
             , secondaryAimSplineLookConstrainScriptableObject
@@ -59,17 +73,20 @@ public class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
         enemyPainStateProceduralAnimateNodeLeaf = new EnemyPainStateProceduralAnimateNodeLeaf(this,
             () =>
             {
-                return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() && enemy._posture <= enemy._postureLight;
+                return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>();
             }
             );
 
 
 
-        enemyConstraintAnimationNodeManager.AddNode(aimNodeSelector);
+        enemyConstraintAnimationNodeManager.AddNode(bodyConstraintSelector);
         enemyConstraintAnimationNodeManager.AddNode(enemyPainStateProceduralAnimateNodeLeaf);
 
-        aimNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
-        aimNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
+        bodyConstraintSelector.AddtoChildNode(painStateProceduralBodyConstraintNodeLeaf);
+        bodyConstraintSelector.AddtoChildNode(aimDownSightBodyNodeSelector);
+
+        aimDownSightBodyNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
+        aimDownSightBodyNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
 
     }
 

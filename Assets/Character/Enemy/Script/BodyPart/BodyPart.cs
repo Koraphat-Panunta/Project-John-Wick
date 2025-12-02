@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAttackedAble, IFriendlyFirePreventing, 
-     IObserverEnemy,IInitializedAble,IBeenThrewObjectAt
+public abstract class BodyPart : MonoBehaviour
+    , IBulletDamageAble
+    , IGotGunFuAttackedAble
+    , IFriendlyFirePreventing
+    , IObserverEnemy
+    , IInitializedAble
+    , IBeenThrewObjectAt
 {
     [SerializeField] public Enemy enemy;
     public virtual float _hpReciverMultiplyRate { get; set; }
@@ -133,7 +138,7 @@ public abstract class BodyPart : MonoBehaviour, IBulletDamageAble, IGotGunFuAtta
 
     public Vector3 _beenThrowObjectAtPosition { get => enemy.head.transform.position; set { } }
 
-    public virtual void TakeDamage(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamage(damageVisitor, hitPart, hitDir, hitforce);
+    public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 
     public virtual void Notify<T>(Enemy enemy, T node) 
     {

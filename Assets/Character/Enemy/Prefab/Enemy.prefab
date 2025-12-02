@@ -1274,10 +1274,9 @@ MonoBehaviour:
   dodgeInAirStopForce: 0.1
   dodgeOnGroundStopForce: 3.8
   enemyStance: 0
-  postureLight: 100
-  postureMedium: 60.8
-  postureHeavy: 27
-  painDurScrp: {fileID: 11400000, guid: ee39650fc9d6f2f4bb4bd2ae5ce9ccdd, type: 2}
+  miniPainStateDuration: 0
+  mediumPainStateDuration: 0
+  heavyPainStateDuration: 0
   standUpAnimationTriggerSCRP: {fileID: 11400000, guid: d1339d4dc4565804cbc727d7ee500918,
     type: 2}
   pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
@@ -1320,6 +1319,9 @@ MonoBehaviour:
     type: 2}
   gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
     type: 2}
+  lightPosture: 0
+  mediumPosture: 0
+  heavyPosture: 0
   _maxStaggerGauge: 100
   pointingTransform: {fileID: 7572410137334796711}
   MainHandSocket: {fileID: 5924970197975984463}
@@ -1645,7 +1647,6 @@ MonoBehaviour:
   enemy: {fileID: 2619394019457856660}
   CurrentEnemyState: 
   posture: 0
-  PainPart: 0
   Debug: 
   curWeapon: {fileID: 0}
   myPrimaryWeapon: {fileID: 0}
@@ -2906,31 +2907,16 @@ PrefabInstance:
       propertyPath: m_Data.m_ConstrainedObject
       value: 
       objectReference: {fileID: 3743362739200504178}
-    - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 7572410137334796711}
     - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_ConstrainedObject
       value: 
       objectReference: {fileID: 484838689516579628}
-    - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 7572410137334796711}
     - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Data.m_ConstrainedObject
       value: 
       objectReference: {fileID: 6483115963205642977}
-    - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 7572410137334796711}
     - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2984,7 +2970,7 @@ PrefabInstance:
     - target: {fileID: 8960001975895404668, guid: a4e57ee532cb42445bec2daa32898d34,
         type: 3}
       propertyPath: m_Name
-      value: StandAimDownSightConstrain
+      value: BodyConstrant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5784,6 +5770,7 @@ MonoBehaviour:
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
+  postureRecoverySpeed: 6
 --- !u!4 &1100997292218183397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1152820368936436536, guid: 35742cf5674a7674baafa24c668f698b,
@@ -6168,6 +6155,7 @@ MonoBehaviour:
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
+  postureRecoverySpeed: 6
 --- !u!4 &4283734709762442793 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4308468427019299836, guid: 35742cf5674a7674baafa24c668f698b,
@@ -6676,6 +6664,7 @@ MonoBehaviour:
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
+  postureRecoverySpeed: 6
 --- !u!1 &7743988505897926881 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1459149009340895948, guid: 35742cf5674a7674baafa24c668f698b,
@@ -6922,6 +6911,7 @@ MonoBehaviour:
   forceSave: {x: 0, y: 0, z: 0}
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
+  postureRecoverySpeed: 6
 --- !u!4 &8323120114241122283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 920552272618962374, guid: 35742cf5674a7674baafa24c668f698b,

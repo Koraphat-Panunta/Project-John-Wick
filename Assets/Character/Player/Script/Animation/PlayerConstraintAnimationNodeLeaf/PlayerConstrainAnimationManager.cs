@@ -3,7 +3,7 @@ using UnityEngine.Animations.Rigging;
 
 public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeManager
 {
-    public SplineLookConstrain standSplineLookConstrain;
+    public BodyLookConstrain standSplineLookConstrain;
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
@@ -13,11 +13,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     public HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
 
-    public AimSplineLookConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
-    public AimSplineLookConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
-    public AimSplineLookConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
-    public AimSplineLookConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
-    public AimSplineLookConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
 
     public LeaningRotaionScriptableObject quickSwitchlLeaningConstrainScriptableObject;
     public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
@@ -54,23 +54,23 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public RestNodeLeaf restAnimationConstrainNodeLeaf { get; private set; }
     public RestNodeLeaf rest_gunfu_AnimationConstrainNodeLeaf { get; private set; }
 
-    public AimDownSightAnimationConstrainNodeLeaf quickSwitch_ADS_ConstrainNodeLeaf { get; private set; }
+    public AimDownSightBodyConstrainNodeLeaf quickSwitch_ADS_ConstrainNodeLeaf { get; private set; }
 
     public NodeSelector primaryADS_Constraint_NodeSelector;
 
-    public AimDownSightAnimationConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
+    public AimDownSightBodyConstrainNodeLeaf rifle_ADS_ConstrainNodeLeaf { get; private set; }
 
 
-    public AimDownSightAnimationConstrainNodeLeaf rifle_CAR_ADS_ConstrainNodeLeaf { get; private set; }
+    public AimDownSightBodyConstrainNodeLeaf rifle_CAR_ADS_ConstrainNodeLeaf { get; private set; }
 
 
 
     public NodeSelector secondaryADS_Constraint_NodeSelector;
 
-    public AimDownSightAnimationConstrainNodeLeaf pistol_ADS_ConstrainNodeLeaf { get; private set; }
+    public AimDownSightBodyConstrainNodeLeaf pistol_ADS_ConstrainNodeLeaf { get; private set; }
 
 
-    public AimDownSightAnimationConstrainNodeLeaf pistol_ADS_CAR_ConstrainNodeLeaf { get; protected set; }
+    public AimDownSightBodyConstrainNodeLeaf pistol_ADS_CAR_ConstrainNodeLeaf { get; protected set; }
 
     public AnimationConstrainNodeSelector humanShieldConstrainSelector { get; private set; }
     public RightHandLookControlAnimationConstraintNodeLeaf humanShield_rifle_AnimationConstraintNodeLeaf { get; private set; }
@@ -105,7 +105,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         aimDownSightConstrainSelector = new AnimationConstrainNodeSelector(() => player._currentWeapon != null && player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0);
 
-        quickSwitch_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        quickSwitch_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             this.player
             , this.standSplineLookConstrain
             , quickSwitchAimSplineLookConstrainScriptableObject
@@ -113,22 +113,22 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         primaryADS_Constraint_NodeSelector = new NodeSelector(
             () => player._currentWeapon is PrimaryWeapon);
-        rifle_CAR_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        rifle_CAR_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             this.player
             , this.standSplineLookConstrain, standRifleAim_CAR_SplineLookConstrainScriptableObject
             , () => isCAR);
-        rifle_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        rifle_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             this.player
             , this.standSplineLookConstrain, standRifleAimSplineLookConstrainScriptableObject
             , () => true);
 
         secondaryADS_Constraint_NodeSelector = new NodeSelector(
             () => player._currentWeapon is SecondaryWeapon);
-        pistol_ADS_CAR_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(this.player
+        pistol_ADS_CAR_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(this.player
             , this.standSplineLookConstrain
             , standPistolAim_CAR_SplineLookConstrainScriptableObject
             , () => isCAR);
-        pistol_ADS_ConstrainNodeLeaf = new AimDownSightAnimationConstrainNodeLeaf(
+        pistol_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             this.player
             , this.standSplineLookConstrain
             , standPistolAimSplineLookConstrainScriptableObject
