@@ -2,7 +2,8 @@ using UnityEngine;
 
 public partial class Enemy : IPostureAble
 {
-    public float _maxPosture { get ; set ; }
+    public float _maxPosture { get => this.maxPosture; set => this.maxPosture = value; }
+    private float maxPosture = 100;
     public float _posture { get ; set; }
 
     [Range(0,100)]

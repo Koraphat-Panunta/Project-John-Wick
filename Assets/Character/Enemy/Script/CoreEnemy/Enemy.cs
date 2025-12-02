@@ -473,7 +473,7 @@ public partial class Enemy : SubjectEnemy
 
     private void SetDefaultAttribute()
     {
-        this._posture = 100;
+        this._posture = this._maxPosture;
         base.HP = 100;
         base.maxHp = 100;
         staggerGauge = maxStaggerGauge;

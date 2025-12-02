@@ -957,6 +957,8 @@ MonoBehaviour:
   enemy: {fileID: 2619394019457856660}
   splineLookConstrain: {fileID: 1780304511169379162}
   curNodeName: 
+  painStateBodyConstraintSCRP: {fileID: 11400000, guid: 24503c67b9b551247b5f19bd82864319,
+    type: 2}
   primaryAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: acf6789c224babf4a8c2dabecc43bcaf,
     type: 2}
   secondaryAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
@@ -1274,9 +1276,9 @@ MonoBehaviour:
   dodgeInAirStopForce: 0.1
   dodgeOnGroundStopForce: 3.8
   enemyStance: 0
-  miniPainStateDuration: 0
-  mediumPainStateDuration: 0
-  heavyPainStateDuration: 0
+  miniPainStateDuration: 0.75
+  mediumPainStateDuration: 2
+  heavyPainStateDuration: 5
   standUpAnimationTriggerSCRP: {fileID: 11400000, guid: d1339d4dc4565804cbc727d7ee500918,
     type: 2}
   pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
@@ -1319,9 +1321,9 @@ MonoBehaviour:
     type: 2}
   gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
     type: 2}
-  lightPosture: 0
-  mediumPosture: 0
-  heavyPosture: 0
+  lightPosture: 80
+  mediumPosture: 50
+  heavyPosture: 20
   _maxStaggerGauge: 100
   pointingTransform: {fileID: 7572410137334796711}
   MainHandSocket: {fileID: 5924970197975984463}
@@ -2986,7 +2988,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3373f7ae4052940498e98bf3abf2f0e5, type: 3}
+  m_Script: {fileID: 11500000, guid: efa8170b1d6532b498b47ce2a1214f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2718534710432977315 stripped

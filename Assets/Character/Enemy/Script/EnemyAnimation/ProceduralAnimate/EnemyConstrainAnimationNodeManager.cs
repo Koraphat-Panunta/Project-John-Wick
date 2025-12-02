@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager
+public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager,IObserverEnemy
 {
 
     public Transform centre;
@@ -92,6 +92,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public override void Initialized()
     {
+        this.enemy.AddObserver(this);
         this.InitailizedNode();
     }
 
@@ -106,10 +107,10 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        //Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireSphere(centre.position + (centre.right * hipLegSpace), 0.05f);
-        Gizmos.DrawWireSphere(centre.position - (centre.right * hipLegSpace), 0.05f);
+        //Gizmos.DrawWireSphere(centre.position + (centre.right * hipLegSpace), 0.05f);
+        //Gizmos.DrawWireSphere(centre.position - (centre.right * hipLegSpace), 0.05f);
 
         #region DrawFootPlacementPosition
         //Gizmos.color = Color.yellow;
@@ -125,5 +126,23 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
         #endregion
 
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painPointPosition, .15f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.pullBackPainPointPosition, .15f);
+
+    }
+
+    public void Notify<T>(Enemy enemy, T node)
+    {
+        if(node is EnemyBodyBulletDamageAbleBehavior.BulletHitDetail bulletHitDetail)
+        {
+            this.painStateProceduralBodyConstraintNodeLeaf.SetPainPointPosition
+                (bulletHitDetail.hitPos
+                ,bulletHitDetail.hitDir
+                ,1
+                );
+        }
     }
 }

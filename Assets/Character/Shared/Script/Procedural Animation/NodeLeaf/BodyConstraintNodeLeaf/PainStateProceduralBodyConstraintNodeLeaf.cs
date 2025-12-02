@@ -17,7 +17,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public Transform root;
 
-    
+    public float pullWeight;
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root,
@@ -64,20 +64,14 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
         this .root = root;
     }
 
-    // *********************************************
-    // MAIN UPDATE
-    // *********************************************
-    public override void UpdateNode()
+    public override void Enter()
     {
-        this.painPointPosition = root.TransformPoint(deltaPos_RootSpace);
-        this.pullBackPainPointPosition = root.TransformPoint(deltaPosPull_RootSpace);
-        base.UpdateNode();
+        pullWeight = 1;
+        base.Enter();
     }
+   
 
 
-    // *********************************************
-    // INITIAL HIT CALCULATION
-    // *********************************************
     public void SetPainPointPosition(Vector3 hitPoint, Vector3 hitDirection, float pullBackDistance)
     {
         this.painPointPosition = hitPoint;
@@ -95,21 +89,24 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
         deltaRotPull_RootSpace = Quaternion.FromToRotation(Vector3.forward, pullBackDir);
     }
 
-
-    // *********************************************
-    // UPDATE LOOK-AT TARGET
-    // *********************************************
     protected override void UpdateLookAtTarget()
     {
-        
+        pullWeight = Mathf.Clamp01(pullWeight - Time.deltaTime);
+        this.painPointPosition = root.TransformPoint(deltaPos_RootSpace);
+        this.pullBackPainPointPosition = root.TransformPoint(deltaPosPull_RootSpace);
+
+        //bodyLookConstrain.SetLookAtPosition
+        //    (
+        //    Vector3.Lerp(painPointPosition, pullBackPainPointPosition, pullWeight)
+        //    );
+        bodyLookConstrain.SetLookAtPosition
+            (
+            painPointPosition
+            );
     }
 
-
-    // *********************************************
-    // UPDATE WEIGHT SMOOTHLY
-    // *********************************************
     protected override void UpdateWeight()
     {
-        
+        bodyLookConstrain.SetWeight(bodyLookConstrain.GetWeight() + (base.getOffsetChangedRate * Time.deltaTime));
     }
 }
