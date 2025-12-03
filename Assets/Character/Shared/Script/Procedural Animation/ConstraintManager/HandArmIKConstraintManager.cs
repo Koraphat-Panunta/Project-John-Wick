@@ -4,7 +4,7 @@ using UnityEngine.Animations.Rigging;
 
 public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 {
-    [SerializeField] private TwoBoneIKConstraint twoBoneIKConstraint;
+    [SerializeField] public TwoBoneIKConstraint twoBoneIKConstraint;
 
     [SerializeField] private Transform leftHandHint;
     [SerializeField] private MountComponent leftHandHintMountComponent;

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
+public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 {
     LayerMask stepAbleLayer;
 
@@ -64,7 +64,7 @@ public class EnemyPainStateProceduralAnimateNodeLeaf : AnimationConstrainNodeLea
 
     private float transitionInElapesTime;
     private const float transitionInDuration = 1;
-    public EnemyPainStateProceduralAnimateNodeLeaf(EnemyConstrainAnimationNodeManager enemyProceduralAnimateNodeManager, Func<bool> preCondition) : base(preCondition)
+    public PainStateWalkProceduralAnimateNodeLeaf(EnemyConstrainAnimationNodeManager enemyProceduralAnimateNodeManager, Func<bool> preCondition) : base(preCondition)
     {
         this.proceduralAnimateNodeManager = enemyProceduralAnimateNodeManager;
         stepAbleLayer = LayerMask.GetMask("Ground") | LayerMask.GetMask("Default");

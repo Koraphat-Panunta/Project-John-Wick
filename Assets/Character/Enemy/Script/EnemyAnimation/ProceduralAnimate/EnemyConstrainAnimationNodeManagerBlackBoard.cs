@@ -12,4 +12,24 @@ public partial class EnemyConstrainAnimationNodeManager
             return false;
         }
     }
+
+    public bool isRightArmConstraintEnable
+    {
+        get 
+        {
+            if(enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+                return true;
+            return false;
+        }
+    }
+
+    public bool isLeftArmConstraintEnable
+    {
+        get
+        {
+            if (enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+                return true;
+            return false;
+        }
+    }
 }

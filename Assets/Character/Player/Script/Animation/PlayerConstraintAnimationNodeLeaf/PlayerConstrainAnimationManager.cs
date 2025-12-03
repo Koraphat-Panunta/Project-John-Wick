@@ -168,13 +168,13 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     #endregion
 
     #region LeftHandConstraint
-    public WeaponGripLeftHandTwoBoneIKNodeLeaf ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
+    public WeaponLeftHandGripHandConstraintNodeLeaf ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
     public RecoveryConstraintManagerWeightNodeLeaf leftHandTwoBoneIKRecoveryConstraintManagerWeightNodeLeaf { get; set; }
     public NodeSelector leftHandConstraintNodeSelector { get; private set; }
     private void InitializedLeftHandNodeManager()
     {
         this.leftHandConstraintNodeSelector = new NodeSelector(()=> true);
-        ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponGripLeftHandTwoBoneIKNodeLeaf(
+        ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
                    () => isWeaponGripConstraitEnable && player._currentWeapon != null && player._currentWeapon is PrimaryWeapon
                    ,this.leftHandBoneTransform
                    , this.leftHandTransformRef
@@ -327,14 +327,14 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     #region WeightConstraint
     public NodeSelector enableDisableConstraintWeightNodeSelector { get; set; }
-    public SetWeightConstraintNodeLeaf enableConstraintWeight { get; set; }
-    public SetWeightConstraintNodeLeaf disableConstraintWeight { get; set; }
+    public SetRigWeightNodeLeaf enableConstraintWeight { get; set; }
+    public SetRigWeightNodeLeaf disableConstraintWeight { get; set; }
 
     private void InitializedConstraintWeightManager()
     {
         enableDisableConstraintWeightNodeSelector = new NodeSelector(() => true, "enableDisableConstraintWeightNodeSelector");
-        enableConstraintWeight = new SetWeightConstraintNodeLeaf(() => isConstraintEnable, rig, 4, 1);
-        disableConstraintWeight = new SetWeightConstraintNodeLeaf(() => true, rig, 5, .2f, 0);
+        enableConstraintWeight = new SetRigWeightNodeLeaf(() => isConstraintEnable, rig, 4, 1);
+        disableConstraintWeight = new SetRigWeightNodeLeaf(() => true, rig, 5, .2f, 0);
 
         this.enableDisableConstraintWeightNodeSelector.AddtoChildNode(enableConstraintWeight);
         this.enableDisableConstraintWeightNodeSelector.AddtoChildNode(disableConstraintWeight);

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
+public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLeaf
 {
     private Transform referenceTransform;
     private IWeaponAdvanceUser weaponAdvanceUser;
@@ -16,13 +16,13 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     private float enterWeightSpeed = 5;
 
     private Transform leftHandBone;
-    public WeaponGripLeftHandTwoBoneIKNodeLeaf(
+    public WeaponLeftHandGripHandConstraintNodeLeaf(
         Func<bool> precondition
         , Transform leftHandBone
         , Transform referenceTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         , WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject
-        ,IWeaponAdvanceUser weaponAdvanceUser
+        , IWeaponAdvanceUser weaponAdvanceUser
         ) : base(precondition)
     {
         this.referenceTransform = referenceTransform;
@@ -38,7 +38,7 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void UpdateNode()
     {
-        Vector3 setPos = this.secondHandGripTransform.position 
+        Vector3 setPos = this.secondHandGripTransform.position
             - (this.weaponAdvanceUser._secondHandSocket.weaponAttachingAbleTransform.position - this.leftHandBone.position);
         setPos = setPos
             + (this.secondHandGripTransform.forward * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.z)
@@ -48,21 +48,21 @@ public class WeaponGripLeftHandTwoBoneIKNodeLeaf : AnimationConstrainNodeLeaf
         Quaternion setRot = this.secondHandGripTransform.rotation * (Quaternion.Inverse(this.weaponAdvanceUser._secondHandSocket.transform.rotation) * this.leftHandBone.rotation);
         setRot = setRot * Quaternion.Euler(weaponGripLeftHandScriptableObject.leftHandGripRotationOffset);
 
-        if(this.attachWeapon != weaponAdvanceUser._currentWeapon)
+        if (this.attachWeapon != weaponAdvanceUser._currentWeapon)
             this.attachWeapon = weaponAdvanceUser._currentWeapon;
         else
             this.leftHandConstraintManager.SetTargetHand(setPos, setRot);
 
-        this.hintPosition = this.referenceTransform.position 
-            + 
+        this.hintPosition = this.referenceTransform.position
+            +
             (
             this.referenceTransform.right * this.weaponGripLeftHandScriptableObject.hintTargetPositionAdditionOffset.x
-            ) 
-            + 
+            )
+            +
             (
             this.referenceTransform.up * this.weaponGripLeftHandScriptableObject.hintTargetPositionAdditionOffset.y
             )
-            + 
+            +
             (
             this.referenceTransform.forward * this.weaponGripLeftHandScriptableObject.hintTargetPositionAdditionOffset.z
             );
