@@ -9,7 +9,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     public TwoBoneIKConstraint rightLeg;
     public Enemy enemy;
 
-    public BodyLookConstrain splineLookConstrain;
+    public BodyLookConstrain bodyLookConstrain;
     public HandArmIKConstraintManager leftHandIKConstraint;
     public HandArmIKConstraintManager rightHandIKConstraint;
 
@@ -72,7 +72,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
            this.enemy.transform
-           , this.splineLookConstrain
+           , this.bodyLookConstrain
            , this.painStateBodyConstraintSCRP
            , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
            );
@@ -83,14 +83,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             enemy
-            , splineLookConstrain
+            , bodyLookConstrain
             , primaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is PrimaryWeapon
             );
 
         this.secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             enemy
-            , splineLookConstrain
+            , bodyLookConstrain
             , secondaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is SecondaryWeapon
             );
@@ -149,6 +149,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     public NodeSelector rightArmConstraintWeightSelector;
     public SetConstraintWeightNodeLeaf enableRightArmConstraintWeightNodeLeaf;
     public SetConstraintWeightNodeLeaf disableRightArmConstraintWeightNodeLeaf;
+
+    public RecoveryConstraintManagerWeightNodeLeaf recoveryBodyConstraintManagerWeightNodeLeaf;
     public void InitializedConstraintWeightNode()
     {
         this.enemyConstraintWeightNodeComponentManager = new NodeComponentManager();
@@ -165,10 +167,17 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             ,5
             ,0);
 
+        this.recoveryBodyConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
+            ()=> isBodyConstriantEnable == false
+            ,this.bodyLookConstrain
+            ,1);
+
         this.enemyConstraintWeightNodeComponentManager.AddNode(this.leftArmConstraintWeightSelector);
 
         this.leftArmConstraintWeightSelector.AddtoChildNode(this.enableLeftArmConstraintWeightNodeLeaf);
         this.leftArmConstraintWeightSelector.AddtoChildNode(this.disableLeftArmConstraintWeightNodeLeaf);
+
+        this.enemyConstraintWeightNodeComponentManager.AddNode(this.recoveryBodyConstraintManagerWeightNodeLeaf);
     }
 
     public override void Initialized()
