@@ -9,7 +9,7 @@ public class BodyLookConstrain : MonoBehaviour, IConstraintManager
     [SerializeField] private MultiAimConstraint spline1;
     [SerializeField] private MultiAimConstraint spline2;
 
-    [SerializeField] Transform bodyLookAtPosition;
+    [SerializeField] public Transform bodyLookAtPosition;
 
     public Vector3 getOffsetSpline => this.spline.data.offset;
     public Vector3 getOffsetSpline1 => this.spline1.data.offset;

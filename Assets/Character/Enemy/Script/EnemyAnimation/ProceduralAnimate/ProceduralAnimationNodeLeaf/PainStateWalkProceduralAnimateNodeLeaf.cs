@@ -38,7 +38,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     {
         get
         {
-            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude, 0.1f, 1f);
+            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude, .5f, 1f);
             proceduralAnimateNodeManager.enemyProceduralAnimateNodeManagerDebug = "stepSpeed = " + stepSpeed + "\n";
             return stepSpeed;
         }

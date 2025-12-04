@@ -71,7 +71,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.bodyConstraintSelector = new NodeSelector(() => isBodyConstriantEnable);
 
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
-           this.enemy._root
+           this.enemy.transform
            , this.splineLookConstrain
            , this.painStateBodyConstraintSCRP
            , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
@@ -182,8 +182,6 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     {
         this.enemyConstraintAnimationNodeManager.Update();
         this.enemyConstraintWeightNodeComponentManager.Update();
-
-        this.armHoldPainPointConstraintNodeLeaf.SetPainPoint(this.painStateProceduralBodyConstraintNodeLeaf.painPointPosition);
     }
     protected void FixedUpdate()
     {
@@ -212,11 +210,18 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
         #endregion
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painPointPosition, .1f);
+        try
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.pullBackPainPointPosition, .1f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.pullBackPainPointPosition, .05f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painLookAtPos, .05f);
+        }
+        catch { }
 
     }
 
@@ -224,11 +229,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     {
         if(node is EnemyBodyBulletDamageAbleBehavior.BulletHitDetail bulletHitDetail)
         {
+            Vector3 hitPos = bulletHitDetail.hitPos;
             this.painStateProceduralBodyConstraintNodeLeaf.SetPainPointPosition
-                (bulletHitDetail.hitPos
-                ,bulletHitDetail.hitDir
+                (hitPos
+                , bulletHitDetail.hitDir
                 ,1
                 );
+
+            this.armHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);
         }
     }
 }

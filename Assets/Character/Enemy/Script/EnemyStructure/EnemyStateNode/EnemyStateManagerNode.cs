@@ -393,8 +393,11 @@ public partial class EnemyStateManagerNode : INodeManager
         
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
-        startNodeSelector.AddtoChildNode(zeroPostureSelector);
+        //startNodeSelector.AddtoChildNode(zeroPostureSelector);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
+        startNodeSelector.AddtoChildNode(painStateNodeLeaf);
+        startNodeSelector.AddtoChildNode(gunFuSelector);
+        startNodeSelector.AddtoChildNode(enemyStanceSelector);
 
         zeroPostureSelector.AddtoChildNode(gunFuZeroPostureSelector);
         zeroPostureSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
@@ -407,9 +410,7 @@ public partial class EnemyStateManagerNode : INodeManager
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyStandUpStateNodeLeaf);
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyPushUpStateNodeLeaf);
 
-        startNodeSelector.AddtoChildNode(painStateNodeLeaf);
-        startNodeSelector.AddtoChildNode(gunFuSelector);
-        startNodeSelector.AddtoChildNode(enemyStanceSelector);
+
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
 

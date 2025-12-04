@@ -14,11 +14,13 @@ public class OnUpdateMovementNodeLeaf : MovementNodeLeaf
   
     public override void FixedUpdateNode()
     {
-       
-        movementCompoent.transform.rotation *= Quaternion.Euler(0f, this.movementCompoent.curAngularVelocity , 0f);
 
-        gravityMovement.GravityMovementUpdate(movementCompoent);    
-        
+        Vector3 euler = movementCompoent.transform.rotation.eulerAngles;
+
+        movementCompoent.transform.rotation = Quaternion.Euler(0f, euler.y + movementCompoent.curAngularVelocity, 0f);
+
+        gravityMovement.GravityMovementUpdate(movementCompoent);
+
         movementCompoent.Move(movementCompoent.curMoveVelocity_World * Time.fixedDeltaTime);
 
     }

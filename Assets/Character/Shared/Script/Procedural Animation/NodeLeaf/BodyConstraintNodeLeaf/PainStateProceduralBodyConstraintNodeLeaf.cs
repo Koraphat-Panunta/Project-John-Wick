@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Unity.Mathematics;
 
 public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeLeaf
 {
@@ -17,7 +19,11 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public Transform root;
 
+    private Vector3 rootPosition => root.position + (Vector3.up) ;
+
     public float pullWeight;
+
+    public Vector3 painLookAtPos;
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root,
@@ -26,7 +32,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
         Func<bool> precondition
     ) : this(
         root
-        ,splineLookConstrain
+        , splineLookConstrain
         , aimSplineLookConstrainScriptableObject.offsetSpline
         , aimSplineLookConstrainScriptableObject.offsetSpline1
         , aimSplineLookConstrainScriptableObject.offsetSpline2
@@ -61,12 +67,15 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
            ,offsetChangeRate
            ,precondition)
     {
-        this .root = root;
+        this.root = root;
     }
 
     public override void Enter()
     {
-        pullWeight = 1;
+        this.painLookAtPos = bodyLookConstrain.bodyLookAtPosition.position;
+        pullWeight = 0;
+
+
         base.Enter();
     }
    
@@ -75,14 +84,18 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
     public void SetPainPointPosition(Vector3 hitPoint, Vector3 hitDirection, float pullBackDistance)
     {
         this.painPointPosition = hitPoint;
+        float dot = Vector3.Dot((this.painPointPosition - rootPosition).normalized, root.forward);
+        Debug.Log("Dot = " + dot);
+        if (dot < 0)
+            this.painPointPosition = rootPosition + ((this.painPointPosition - rootPosition).normalized * -2.5f);
 
         // WORLD ? ROOT SPACE
-        Vector3 targetDirection = (hitPoint - root.position).normalized;
-        deltaPos_RootSpace = root.InverseTransformPoint(hitPoint);
+        Vector3 targetDirection = (painPointPosition - root.position).normalized;
+        deltaPos_RootSpace = root.InverseTransformPoint(painPointPosition);
         deltaRot_RootSpace = Quaternion.FromToRotation(Vector3.forward, targetDirection);
 
         // Pull-back exaggerated point
-        pullBackPainPointPosition = hitPoint + hitDirection.normalized * pullBackDistance;
+        pullBackPainPointPosition = painPointPosition + hitDirection.normalized * pullBackDistance;
 
         Vector3 pullBackDir = (pullBackPainPointPosition - root.position).normalized;
         deltaPosPull_RootSpace = root.InverseTransformPoint(pullBackPainPointPosition);
@@ -91,17 +104,28 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     protected override void UpdateLookAtTarget()
     {
-        pullWeight = Mathf.Clamp01(pullWeight - Time.deltaTime);
+        pullWeight = Mathf.Clamp01(pullWeight + (Time.deltaTime));
         this.painPointPosition = root.TransformPoint(deltaPos_RootSpace);
         this.pullBackPainPointPosition = root.TransformPoint(deltaPosPull_RootSpace);
 
+        Vector3 rootToPainDir = (painPointPosition - rootPosition).normalized;
+
+        Vector3 rootForwardPoint = rootPosition + root.forward;
+
+        Vector3 hitPoint = rootPosition + rootToPainDir;
+
+        Vector3 rootForwardPointToHitPointDir = (hitPoint - rootForwardPoint).normalized;
+
+        Vector3 hitPullPosition = rootForwardPoint + (rootForwardPointToHitPointDir * 1);
+
+        painLookAtPos = Vector3.Lerp(painLookAtPos, hitPullPosition,(Time.deltaTime * 5.6f));
         //bodyLookConstrain.SetLookAtPosition
         //    (
         //    Vector3.Lerp(painPointPosition, pullBackPainPointPosition, pullWeight)
         //    );
         bodyLookConstrain.SetLookAtPosition
             (
-            painPointPosition
+            painLookAtPos
             );
     }
 
