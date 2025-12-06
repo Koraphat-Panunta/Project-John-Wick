@@ -1008,6 +1008,39 @@ MonoBehaviour:
   StepVelocity: 4.4
   FootstepPlacementOffsetDistance: 0.35
   rig: {fileID: 5516182650316109378}
+  painRespondCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.5
+      inSlope: 0.24406222
+      outSlope: 0.24406222
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.39791352
+      outWeight: 0.11773475
+    - serializedVersion: 3
+      time: 1
+      value: 0.825
+      inSlope: 0.7705315
+      outSlope: 0.7705315
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09098743
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5871485188078225541
 GameObject:
   m_ObjectHideFlags: 0
