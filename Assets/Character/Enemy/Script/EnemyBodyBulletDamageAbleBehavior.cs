@@ -15,7 +15,16 @@ public class EnemyBodyBulletDamageAbleBehavior : IBulletDamageAble
         enemyBody.enemy.forceSave = hitDir * hitforce*0.03f;
         enemyBody.StackingForce(hitDir*hitforce*1.5f,hitPos);
 
-        enemyBody.enemy.NotifyObserver<BulletHitDetail>(enemyBody.enemy,new BulletHitDetail { hitPos = hitPos, hitDir = hitDir, hitforce = hitforce });
+        enemyBody.enemy.NotifyObserver<CharacterHitedEventDetail>(
+            this.enemyBody.enemy
+            ,new CharacterHitedEventDetail 
+            { 
+                hitedPart = enemyBody
+                , hitPos = hitPos
+                , hitDir = hitDir
+                , hitforce = hitforce 
+            }
+            );
     }
 
     public void TakeDamage(IDamageVisitor damageVisitor)
@@ -23,8 +32,9 @@ public class EnemyBodyBulletDamageAbleBehavior : IBulletDamageAble
        
     }
 
-    public struct BulletHitDetail
+    public struct CharacterHitedEventDetail
     {
+        public BodyPart hitedPart;
         public Vector3 hitPos;
         public Vector3 hitDir;
         public float hitforce;

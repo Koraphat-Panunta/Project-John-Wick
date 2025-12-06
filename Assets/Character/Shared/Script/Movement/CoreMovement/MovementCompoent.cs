@@ -44,19 +44,19 @@ public abstract partial class MovementCompoent : INodeManager
 
     public abstract void InitailizedNode();
   
-    public void UpdateAngularVelocity(float inputAngularVelocity,MoveMode moveMode)
+    public void UpdateAngularVelocity(float targetAngularVelocity,float accelerateAngularVelocity, MoveMode moveMode)
     {
-        this.inputAngularVelocity = inputAngularVelocity;
+        this.inputAngularVelocity = targetAngularVelocity;
         switch (moveMode)
         {
             case MoveMode.MaintainMomentum:
                 {
-                    this.curAngularVelocity += inputAngularVelocity * Time.deltaTime;
+                    this.curAngularVelocity = Mathf.MoveTowards(this.curAngularVelocity, targetAngularVelocity, accelerateAngularVelocity * Time.deltaTime);
                     break;
                 }
             case MoveMode.IgnoreMomenTum:
                 {
-                    this.curAngularVelocity = inputAngularVelocity;
+                    this.curAngularVelocity = targetAngularVelocity;
                     break;
                 }
         }
@@ -139,7 +139,11 @@ public abstract partial class MovementCompoent : INodeManager
         SetPosition(position);
         SetRotation(rotation);
     }
-    public void CancleMomentum() => curMoveVelocity_World = Vector3.zero;
+    public void CancleMomentum() 
+    {
+        this.curMoveVelocity_World = Vector3.zero;
+        this.curAngularVelocity = 0;
+    }
     private Vector3 TransformLocalToWorldVector(Vector3 dirChild, Vector3 dirParent)
     {
         float zeta;

@@ -60,7 +60,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
 
 
-    public PainStateWalkProceduralAnimateNodeLeaf enemyPainStateProceduralAnimateNodeLeaf;
+    public PainStateWalkProceduralAnimateNodeLeaf painStateWalkProceduralAnimateNodeLeaf;
 
     public void InitailizedNode()
     {
@@ -117,7 +117,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         #region LegsConstraint
 
-        enemyPainStateProceduralAnimateNodeLeaf = new PainStateWalkProceduralAnimateNodeLeaf(this,
+        painStateWalkProceduralAnimateNodeLeaf = new PainStateWalkProceduralAnimateNodeLeaf(this,
             () =>
             {
                 return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>();
@@ -130,7 +130,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         enemyConstraintAnimationNodeManager.AddNode(bodyConstraintSelector);
         enemyConstraintAnimationNodeManager.AddNode(leftArmConstraintSelector);
         //enemyConstraintAnimationNodeManager.AddNode(rightArmConstraintSelector);
-        enemyConstraintAnimationNodeManager.AddNode(enemyPainStateProceduralAnimateNodeLeaf);
+        enemyConstraintAnimationNodeManager.AddNode(painStateWalkProceduralAnimateNodeLeaf);
 
         bodyConstraintSelector.AddtoChildNode(painStateProceduralBodyConstraintNodeLeaf);
         bodyConstraintSelector.AddtoChildNode(aimDownSightBodyNodeSelector);
@@ -207,25 +207,22 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         #region DrawFootPlacementPosition
         //Gizmos.color = Color.yellow;
-        //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.oldLeftFootPos, 0.15f);
+        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldLeftFootPos, 0.15f);
 
         //Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newLeftFootPos, 0.15f);
+        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newLeftFootPos, 0.15f);
 
         //Gizmos.color = Color.cyan;
-        //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.oldRightFootPos, 0.15f);
+        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldRightFootPos, 0.15f);
 
         //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(enemyPainStateProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
+        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
         #endregion
 
         try
         {
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.pullBackPainPointPosition, .05f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painLookAtPos, .05f);
@@ -236,7 +233,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void Notify<T>(Enemy enemy, T node)
     {
-        if(node is EnemyBodyBulletDamageAbleBehavior.BulletHitDetail bulletHitDetail)
+        if(node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
         {
             Vector3 hitPos = bulletHitDetail.hitPos;
             this.painStateProceduralBodyConstraintNodeLeaf.SetPainPointPosition

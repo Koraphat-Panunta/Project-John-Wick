@@ -8,14 +8,10 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     // Input data
     public Vector3 painPointPosition;        // world-space position where the hit happened
-    public Vector3 pullBackPainPointPosition; // exaggerated pull-back position
 
     // Stored deltas relative to root
     protected Vector3 deltaPos_RootSpace;
     protected Quaternion deltaRot_RootSpace;
-
-    protected Vector3 deltaPosPull_RootSpace;
-    protected Quaternion deltaRotPull_RootSpace;
 
     public Transform root;
 
@@ -24,6 +20,8 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
     public float pullWeight;
 
     public Vector3 painLookAtPos;
+
+    public Vector3 balancePointLookAt;
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root,
@@ -83,30 +81,29 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public void SetPainPointPosition(Vector3 hitPoint, Vector3 hitDirection, float pullBackDistance)
     {
-        this.painPointPosition = hitPoint;
+        float distancRootToHitPoint = Vector3.Distance(hitPoint, rootPosition); 
+        Vector3 rootToHitPointDir = (hitPoint - rootPosition).normalized;
+
+        this.painPointPosition = rootPosition + rootToHitPointDir * (distancRootToHitPoint + .25f);
+
+
         float dot = Vector3.Dot((this.painPointPosition - rootPosition).normalized, root.forward);
         Debug.Log("Dot = " + dot);
         if (dot < 0)
-            this.painPointPosition = rootPosition + ((this.painPointPosition - rootPosition).normalized * -2.5f);
+            this.painPointPosition = rootPosition + (new Vector3( - rootToHitPointDir.x, rootToHitPointDir.y, - rootToHitPointDir.z));
 
         // WORLD ? ROOT SPACE
         Vector3 targetDirection = (painPointPosition - root.position).normalized;
         deltaPos_RootSpace = root.InverseTransformPoint(painPointPosition);
         deltaRot_RootSpace = Quaternion.FromToRotation(Vector3.forward, targetDirection);
 
-        // Pull-back exaggerated point
-        pullBackPainPointPosition = painPointPosition + hitDirection.normalized * pullBackDistance;
 
-        Vector3 pullBackDir = (pullBackPainPointPosition - root.position).normalized;
-        deltaPosPull_RootSpace = root.InverseTransformPoint(pullBackPainPointPosition);
-        deltaRotPull_RootSpace = Quaternion.FromToRotation(Vector3.forward, pullBackDir);
     }
 
     protected override void UpdateLookAtTarget()
     {
         pullWeight = Mathf.Clamp01(pullWeight + (Time.deltaTime));
         this.painPointPosition = root.TransformPoint(deltaPos_RootSpace);
-        this.pullBackPainPointPosition = root.TransformPoint(deltaPosPull_RootSpace);
 
         Vector3 rootToPainDir = (painPointPosition - rootPosition).normalized;
 
@@ -119,14 +116,16 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
         Vector3 hitPullPosition = rootForwardPoint + (rootForwardPointToHitPointDir * 1);
 
         painLookAtPos = Vector3.Lerp(painLookAtPos, hitPullPosition,(Time.deltaTime * 5.6f));
-        //bodyLookConstrain.SetLookAtPosition
-        //    (
-        //    Vector3.Lerp(painPointPosition, pullBackPainPointPosition, pullWeight)
-        //    );
+       
         bodyLookConstrain.SetLookAtPosition
             (
             painLookAtPos
             );
+    }
+
+    protected virtual void UpdateBalancePoint()
+    {
+
     }
 
     protected override void UpdateWeight()

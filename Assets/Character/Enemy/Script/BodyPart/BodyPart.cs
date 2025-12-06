@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static EnemyBodyBulletDamageAbleBehavior;
 
 public abstract class BodyPart : MonoBehaviour
     , IBulletDamageAble
@@ -101,6 +102,8 @@ public abstract class BodyPart : MonoBehaviour
 
                     enemy.TakeDamage(damage);
                     enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+                    
+          
                     break;
                 }
             case Armored_Protection armored_Protection:
@@ -127,6 +130,18 @@ public abstract class BodyPart : MonoBehaviour
                         enemy._posture -= 40;
 
                     enemy._isPainTrigger = true;
+
+                    enemy.NotifyObserver<CharacterHitedEventDetail>(this.enemy
+                        , new CharacterHitedEventDetail
+                        {
+                            hitedPart = this
+                            ,
+                            hitDir = (this.bodyPartRigid.transform.position - throwAbleObject._throwAbleObjectTransform.position).normalized
+                            ,
+                            hitforce = throwAbleObject._throwVelocity
+                            ,
+                            hitPos = throwAbleObject._throwAbleObjectTransform.position
+                        });
                     break;
                 }
 
