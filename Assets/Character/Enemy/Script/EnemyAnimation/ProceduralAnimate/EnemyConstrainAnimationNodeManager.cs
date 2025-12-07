@@ -40,6 +40,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     [SerializeField] private Rig rig;
 
+    [SerializeField] private AnimationCurve painRespondCurve;
     public NodeComponentManager enemyConstraintAnimationNodeManager;
     public NodeComponentManager enemyConstraintWeightNodeComponentManager;
 
@@ -73,6 +74,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
            this.enemy.transform
            , this.bodyLookConstrain
+           , this.painRespondCurve
            , this.painStateBodyConstraintSCRP
            , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
            );
@@ -221,11 +223,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         try
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
+            //Gizmos.color = Color.red;
+            //Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painLookAtPos, .05f);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(this.painStateProceduralBodyConstraintNodeLeaf.balancePointLookAt, 0.05f);
         }
         catch { }
 
@@ -236,10 +241,10 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         if(node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
         {
             Vector3 hitPos = bulletHitDetail.hitPos;
-            this.painStateProceduralBodyConstraintNodeLeaf.SetPainPointPosition
+            this.painStateProceduralBodyConstraintNodeLeaf.SetPainProperties
                 (hitPos
                 , bulletHitDetail.hitDir
-                ,1
+                ,enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.Flinch?.5f:1f
                 );
 
             this.armHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);

@@ -82,7 +82,6 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void FixedUpdateNode()
     {
-
         base.FixedUpdateNode();
     }
 
