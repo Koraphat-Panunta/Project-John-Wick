@@ -40,7 +40,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     [SerializeField] private Rig rig;
 
-    [SerializeField] private AnimationCurve painRespondCurve;
+    [SerializeField] private AnimationCurve painBodyRespondCurve;
+    [SerializeField] private AnimationCurve painArmRespondCurve;
     public NodeComponentManager enemyConstraintAnimationNodeManager;
     public NodeComponentManager enemyConstraintWeightNodeComponentManager;
 
@@ -55,6 +56,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     #region ArmConstraintNodeLeaf
     public NodeSelector leftArmConstraintSelector;
     public ArmHoldPainPointConstraintNodeLeaf armHoldPainPointConstraintNodeLeaf;
+    public ArmFlickPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
 
     public NodeSelector rightArmConstraintSelector;
     #endregion
@@ -74,7 +76,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
            this.enemy.transform
            , this.bodyLookConstrain
-           , this.painRespondCurve
+           , this.painBodyRespondCurve
            , this.painStateBodyConstraintSCRP
            , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
            );
@@ -110,6 +112,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
             ,this.holdPainPointTransformSCRP);
+        this.leftArmFlickPainStateConstraintNodeLeaf = new ArmFlickPainStateConstraintNodeLeaf
+            (this.leftHandIKConstraint
+            , this.enemy._spine_1_Bone
+            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            , this.holdPainPointTransformSCRP
+            , this.painArmRespondCurve
+            , new Vector3(0,-90,0)
+            );
 
         this.rightArmConstraintSelector = new NodeSelector(
             () => isRightArmConstraintEnable
@@ -137,7 +147,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         bodyConstraintSelector.AddtoChildNode(painStateProceduralBodyConstraintNodeLeaf);
         bodyConstraintSelector.AddtoChildNode(aimDownSightBodyNodeSelector);
 
-        leftArmConstraintSelector.AddtoChildNode(armHoldPainPointConstraintNodeLeaf);
+        leftArmConstraintSelector.AddtoChildNode(leftArmFlickPainStateConstraintNodeLeaf);
 
         aimDownSightBodyNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
         aimDownSightBodyNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
@@ -227,10 +237,13 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             //Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(painStateProceduralBodyConstraintNodeLeaf.painLookAtPos, .05f);
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.pullPoint, .05f);
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.middlePullPoint, 0.05f);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.painStateProceduralBodyConstraintNodeLeaf.balancePointLookAt, 0.05f);
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePointComponent.balancePointLookAt, 0.05f);
         }
         catch { }
 
@@ -248,6 +261,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
                 );
 
             this.armHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);
+            this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(hitPos,bulletHitDetail.hitDir);
         }
     }
 }

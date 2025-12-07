@@ -1008,20 +1008,20 @@ MonoBehaviour:
   StepVelocity: 4.4
   FootstepPlacementOffsetDistance: 0.35
   rig: {fileID: 5516182650316109378}
-  painRespondCurve:
+  painBodyRespondCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 34
+      inSlope: 0.10902347
+      outSlope: 0.10902347
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.33333334
+      outWeight: 0.45000005
     - serializedVersion: 3
-      time: 0.25
+      time: 0.4
       value: 0.5
       inSlope: 0.24406222
       outSlope: 0.24406222
@@ -1038,6 +1038,12 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.09098743
       outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  painArmRespondCurve:
+    serializedVersion: 2
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

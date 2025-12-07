@@ -9,9 +9,6 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
     public Vector3 painPointPosition;       
     protected Vector3 deltaPos_RootSpace;
 
-    public Vector3 enterPainPointPos;
-    public Vector3 deltaEnterPainPointPos_RootSpace;
-
     public Transform root;
 
     private Vector3 rootPosition => root.position + (Vector3.up) ;
@@ -20,10 +17,10 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public float timer;
     public float maxTimer = 2;
-
     public float painTimeNormalzied => this.painRespondCurve.Evaluate(Mathf.Clamp01(this.timer/this.maxTimer));
-
     public AnimationCurve painRespondCurve;
+
+    public BalancePointComponent balancePointComponent;
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root,
@@ -72,14 +69,17 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
     {
         this.painRespondCurve = painRespondCurve;
         this.root = root;
+        this.balancePointComponent = new BalancePointComponent(
+            this.root
+            ,new Vector3(0,.5f,.5f)
+            ,new Vector3(.05f,.2f,0)
+            ,new Vector3(1,.75f,0));
     }
 
 
     public override void Enter()
     {
         this.painLookAtPos = bodyLookConstrain.bodyLookAtPosition.position;
-        this.enterPainPointPos = this.painPointPosition;
-        this.deltaEnterPainPointPos_RootSpace = this.root.InverseTransformPoint(this.enterPainPointPos);
 
         this.timer = 0;
         base.Enter();
@@ -95,7 +95,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
 
         float dot = Vector3.Dot((this.painPointPosition - rootPosition).normalized, root.forward);
-        Debug.Log("Dot = " + dot);
+
         if (dot < 0)
             this.painPointPosition = rootPosition + (new Vector3( - rootToHitPointDir.x, rootToHitPointDir.y, - rootToHitPointDir.z));
 
@@ -109,21 +109,20 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
     public override void UpdateNode()
     {
         this.timer += Time.deltaTime;
-        this.UpdateBalancePoint();
+        this.balancePointComponent.UpdateBalancePoint();
         base.UpdateNode();
     }
     protected override void UpdateLookAtTarget()
     {
 
         this.painPointPosition = root.TransformPoint(deltaPos_RootSpace);
-        this.enterPainPointPos = root.TransformPoint(deltaEnterPainPointPos_RootSpace);
 
         Vector3[] cts = new Vector3[]{GetHitPullPointPosition()};
 
         this.painLookAtPos = BezierurveBehavior.GetPointOnBezierCurve
             (this.painLookAtPos
             , cts
-            , this.balancePointLookAt
+            , this.balancePointComponent.balancePointLookAt
             , this.painTimeNormalzied
             );
        
@@ -133,46 +132,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
             );
     }
 
-    #region BalancePoint
-    public Vector3 balancePointLookAt;
 
-    private float f_calculateBalancePoint_UpDown;
-    private float f_calculateBalancePoint_LeftRight;
-
-    private float max_UpDown_BalancePoint_distance = .2f;
-    private float max_LeftRigh_tBalancePoint_distance = .05f;
-    protected virtual void UpdateBalancePoint()
-    {
-        float upDownFrequency = .75f;
-        float leftRightFrequency = 1f;
-
-        if (f_calculateBalancePoint_UpDown <= 2)
-            this.f_calculateBalancePoint_UpDown += (Time.deltaTime * upDownFrequency);
-        else
-            this.f_calculateBalancePoint_UpDown = 0;
-
-        if (f_calculateBalancePoint_LeftRight <= 2)
-            this.f_calculateBalancePoint_LeftRight += (Time.deltaTime * leftRightFrequency);
-        else
-            this.f_calculateBalancePoint_LeftRight = 0;
-
-        float upDown_BalancePoint_distance;
-        float leftRigh_tBalancePoint_distance;
-
-        upDown_BalancePoint_distance = Mathf.Sin(this.f_calculateBalancePoint_UpDown * Mathf.PI);
-        leftRigh_tBalancePoint_distance = Mathf.Sin(this.f_calculateBalancePoint_LeftRight * Mathf.PI);
-
-        Vector3 centerBalancePoint = this.rootPosition 
-            + (this.root.forward * .5f)
-            + (this.root.up * -.2f);
-
-        balancePointLookAt = centerBalancePoint
-            + (root.up * upDown_BalancePoint_distance * this.max_UpDown_BalancePoint_distance)
-            + (root.right * leftRigh_tBalancePoint_distance * this.max_LeftRigh_tBalancePoint_distance);
-
-        Debug.DrawLine(centerBalancePoint, this.balancePointLookAt, Color.blue);
-    }
-    #endregion
 
     private Vector3 GetHitPullPointPosition()
     {

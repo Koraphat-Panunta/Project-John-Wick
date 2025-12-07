@@ -5,10 +5,10 @@ public abstract class ArmIKConstraintNodeLeaf : AnimationConstrainNodeLeaf
 {
     protected HandArmIKConstraintManager handArmIKConstraintManager;
 
-    protected TransformOffsetSCRP transformOffsetSCRP;
+    protected TransformOffsetSCRP transformHintOffsetSCRP;
 
     protected Transform rootIKHandRef;
-    public Vector3 getOffsetHint { get => transformOffsetSCRP ? transformOffsetSCRP.postitionOffset : _offsetHint; }
+    public Vector3 getOffsetHint { get => transformHintOffsetSCRP ? transformHintOffsetSCRP.postitionOffset : _offsetHint; }
     protected Vector3 _offsetHint;
 
     protected Vector3 hintHandPosition;
@@ -17,15 +17,15 @@ public abstract class ArmIKConstraintNodeLeaf : AnimationConstrainNodeLeaf
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform rootIKHandRef
         , Func<bool> precondition
-        ,TransformOffsetSCRP transformOffsetSCRP) 
+        ,TransformOffsetSCRP transformHintOffsetSCRP) 
         : this(
             handArmIKConstraintManager
               , rootIKHandRef
             ,precondition
-            ,transformOffsetSCRP.postitionOffset
+            ,transformHintOffsetSCRP.postitionOffset
             )
     {
-        this.transformOffsetSCRP = transformOffsetSCRP;
+        this.transformHintOffsetSCRP = transformHintOffsetSCRP;
     }
 
     public ArmIKConstraintNodeLeaf(
