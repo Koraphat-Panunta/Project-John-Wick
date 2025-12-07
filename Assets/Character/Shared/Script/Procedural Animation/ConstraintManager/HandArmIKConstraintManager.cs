@@ -27,6 +27,8 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
         this.leftHandTarget.transform.rotation = targetHandRotation;
     }
 
+    public Transform GetTargetHandTransform() => this.leftHandTarget;
+
     public void SetHintHandParentConstraint(Transform hintTransform,Vector3 offsetPosition,Vector3 offsetRotation)
     {
         this.leftHandHintMountComponent.Attach(hintTransform, offsetPosition, Quaternion.Euler(offsetRotation));

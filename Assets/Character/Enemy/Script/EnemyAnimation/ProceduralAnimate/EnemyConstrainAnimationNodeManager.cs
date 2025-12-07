@@ -233,8 +233,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         try
         {
-            //Gizmos.color = Color.red;
-            //Gizmos.DrawSphere(armHoldPainPointConstraintNodeLeaf.painPoint, .05f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.pullPoint, .05f);
@@ -244,6 +244,10 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePointComponent.balancePointLookAt, 0.05f);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePointComponent.centerPosition, 0.05f);
+
         }
         catch { }
 

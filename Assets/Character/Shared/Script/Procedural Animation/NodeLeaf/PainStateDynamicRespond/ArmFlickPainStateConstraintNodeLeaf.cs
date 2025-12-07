@@ -20,6 +20,9 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
 
     public BalancePointComponent balancePointComponent { get; protected set; }
 
+    public Vector3 beginPullPosition;
+    public Vector3 root_Delta_beginPullPosition;
+
     public Vector3 pullPoint;
     public Vector3 root_Delta_PullPoint;
 
@@ -48,6 +51,10 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     public override void Enter()
     {
         this.timer = 0;
+
+        this.beginPullPosition = base.handArmIKConstraintManager.GetTargetHandTransform().position;
+        this.root_Delta_beginPullPosition = this.rootIKHandRef.InverseTransformPoint(this.beginPullPosition);
+
         base.Enter();
     }
     public void SetFlickProperties(Vector3 hitPoint, Vector3 hitDirection)
@@ -62,6 +69,9 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
         this.middlePullPoint = Vector3.Lerp(this.rootIKHandRef.position,this.pullPoint,.5f) + (this.rootDir * .4f) + (Vector3.up * UnityEngine.Random.Range(-.35f,.35f));
         this.root_Delta_middlePullPoint = base.rootIKHandRef.InverseTransformPoint(this.middlePullPoint);
 
+        this.beginPullPosition = base.handArmIKConstraintManager.GetTargetHandTransform().position;
+        this.root_Delta_beginPullPosition = this.rootIKHandRef.InverseTransformPoint(this.beginPullPosition);
+
     }
     public override void UpdateNode()
     {
@@ -73,12 +83,16 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     protected override void UpdateTargetHandPosition()
     {
         this.painPointPosition = this.rootIKHandRef.TransformPoint(this.root_Delta_PainPoint);
+        this.beginPullPosition = this.rootIKHandRef.TransformPoint(this.root_Delta_beginPullPosition);
         this.pullPoint = this.rootIKHandRef.TransformPoint(this.root_Delta_PullPoint);
         this.middlePullPoint = this.rootIKHandRef.TransformPoint(this.root_Delta_middlePullPoint);
 
-        Vector3[] ct = { this.middlePullPoint,this.pullPoint };
+        Vector3[] ct = 
+            { this.middlePullPoint
+                ,this.pullPoint
+        };
 
-        this.painLookAtPos = BezierurveBehavior.GetPointOnBezierCurve(this.painLookAtPos, ct, this.balancePointComponent.balancePointLookAt, this.painTimeNormalzied);
+        this.painLookAtPos = BezierurveBehavior.GetPointOnBezierCurve(this.beginPullPosition, ct, this.balancePointComponent.balancePointLookAt, this.painTimeNormalzied);
         this.handArmIKConstraintManager.SetTargetHand(this.painLookAtPos, this.handArmIKConstraintManager.twoBoneIKConstraint.data.mid.rotation);
     }
 }
