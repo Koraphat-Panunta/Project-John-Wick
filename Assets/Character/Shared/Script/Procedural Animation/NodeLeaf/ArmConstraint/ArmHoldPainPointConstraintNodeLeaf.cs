@@ -11,15 +11,17 @@ public class ArmHoldPainPointConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     protected Vector3 deltaPos_RootSpace;
     protected Quaternion deltaRot_RootSpace;
 
+    public TransformOffsetSCRP transformHintOffsetSCRP;
     public ArmHoldPainPointConstraintNodeLeaf
         (
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform rootIKHandRef
         , Func<bool> precondition
-        , TransformOffsetSCRP transformOffsetSCRP
+        , TransformOffsetSCRP transformHintOffsetSCRP
         ) 
-        : base(handArmIKConstraintManager, rootIKHandRef, precondition, transformOffsetSCRP)
+        : base(handArmIKConstraintManager, rootIKHandRef, precondition)
     {
+        this.transformHintOffsetSCRP = transformHintOffsetSCRP;
     }
     public override void Enter()
     {
@@ -44,5 +46,28 @@ public class ArmHoldPainPointConstraintNodeLeaf : ArmIKConstraintNodeLeaf
         Vector3 targetPos = targetHoldPoint + (handArmIKConstraintManager.twoBoneIKConstraint.data.mid.up * -.1f);
 
         handArmIKConstraintManager.SetTargetHand(targetPos, handArmIKConstraintManager.twoBoneIKConstraint.data.mid.rotation);
+    }
+
+    public Vector3 getOffsetHint { get => transformHintOffsetSCRP ? transformHintOffsetSCRP.postitionOffset : _offsetHint; }
+    protected Vector3 _offsetHint;
+
+    protected Vector3 hintHandPosition;
+    protected override void UpdateHintHandPotation()
+    {
+        hintHandPosition = this.rootIKHandRef.position
+           +
+           (
+           this.rootIKHandRef.right * this.getOffsetHint.x
+           )
+           +
+           (
+           this.rootIKHandRef.up * this.getOffsetHint.y
+           )
+           +
+           (
+           this.rootIKHandRef.forward * this.getOffsetHint.z
+           );
+
+        handArmIKConstraintManager.SetHintHandPosition(hintHandPosition);
     }
 }

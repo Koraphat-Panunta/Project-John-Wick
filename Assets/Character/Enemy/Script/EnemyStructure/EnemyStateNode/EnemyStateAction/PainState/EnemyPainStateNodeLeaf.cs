@@ -110,7 +110,10 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
     {
         if(node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail characterHitedEventDetail)
         {
-            this.rotateDir = (characterHitedEventDetail.hitPos - new Vector3(this.enemy._root.position.x, characterHitedEventDetail.hitPos.y, this.enemy._root.position.z)).normalized ;
+            if (Vector3.Dot(characterHitedEventDetail.hitDir * -1, enemy.transform.forward) < .7f)
+                this.rotateDir = characterHitedEventDetail.hitDir * -1;
+            else
+                this.rotateDir = (characterHitedEventDetail.hitPos - new Vector3(this.enemy._root.position.x, characterHitedEventDetail.hitPos.y, this.enemy._root.position.z)).normalized ;
             rotatePower = .5f * Vector3.Dot(enemy.transform.forward * -1,rotateDir);
             Debug.DrawRay(enemy.transform.position, this.rotateDir, Color.blue, 2);
 

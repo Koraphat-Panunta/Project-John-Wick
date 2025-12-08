@@ -19,7 +19,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     [SerializeField] private AimBodyConstrainScriptableObject primaryAimSplineLookConstrainScriptableObject;
     [SerializeField] private AimBodyConstrainScriptableObject secondaryAimSplineLookConstrainScriptableObject;
 
-    [SerializeField] private TransformOffsetSCRP holdPainPointTransformSCRP;
+    [SerializeField] private TransformOffsetSCRP armAnchorSwingOffsetPosition;
+    [SerializeField] private TransformOffsetSCRP armBalancePointOffset;
     #region PainStateWalk
     [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
 
@@ -42,7 +43,6 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     [SerializeField] private Rig rig;
 
     [SerializeField] private AnimationCurve painBodyRespondCurve;
-    [SerializeField] private AnimationCurve painArmRespondCurve;
     public NodeComponentManager enemyConstraintAnimationNodeManager;
     public NodeComponentManager enemyConstraintWeightNodeComponentManager;
 
@@ -114,13 +114,13 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             this.leftHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            ,this.holdPainPointTransformSCRP);
+            ,this.armAnchorSwingOffsetPosition);
         this.leftArmFlickPainStateConstraintNodeLeaf = new ArmFlickPainStateConstraintNodeLeaf
             (this.leftHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            , this.holdPainPointTransformSCRP
-            , this.painArmRespondCurve
+            , this.armAnchorSwingOffsetPosition
+            , this.armBalancePointOffset
             , new Vector3(0,-90,0)
             );
 
@@ -131,8 +131,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             (this.rightHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            , this.holdPainPointTransformSCRP
-            , this.painArmRespondCurve
+            , this.armAnchorSwingOffsetPosition
+            , this.armBalancePointOffset
             , new Vector3(0, 90, 0)
             );
 
@@ -263,16 +263,12 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         try
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.anchorPositionFlickSwing, .05f);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePoint, .05f);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.pullPoint, .05f);
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
 
-            Gizmos.color = Color.white;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.middlePullPoint, 0.05f);
+            
 
         }
         catch { }
@@ -295,21 +291,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             Vector3 root = this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position;
             Vector3 rootToHitDir = (hitPos - this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position).normalized;
 
-            if (bulletHitDetail.hitedPart is ChestBodyPart
-                || bulletHitDetail.hitedPart is LegLeftBodyPart
-                || bulletHitDetail.hitedPart is LegRightBodyPart)
+           if(bulletHitDetail.hitedPart is ArmLeftBodyPart)
             {
-
-
-                this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f), .25f, .1f,UnityEngine.Random.Range(1,3));
-                this.rightArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f) + (Vector3.up * -0.1f), .25f, .1f, UnityEngine.Random.Range(1, 3));
+                this.leftArmFlickPainStateConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
             }
-            else
+            if (bulletHitDetail.hitedPart is ArmRightBodyPart)
             {
-                this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f), .25f, .1f, UnityEngine.Random.Range(1, 3));
-                this.rightArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f) + (Vector3.up * -0.1f), .25f, .1f, UnityEngine.Random.Range(1, 3));
+                this.rightArmFlickPainStateConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
             }
-
 
         }
     }
