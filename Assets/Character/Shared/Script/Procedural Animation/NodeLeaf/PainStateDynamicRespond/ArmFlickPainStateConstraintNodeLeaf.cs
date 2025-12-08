@@ -10,7 +10,7 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     public Vector3 painLookAtPos;
 
     public float timer;
-    public float maxTimer = 1;
+    public float maxTimer = 3;
     public float painTimeNormalzied => this.painRespondCurve.Evaluate(Mathf.Clamp01(this.timer / this.maxTimer));
     public AnimationCurve painRespondCurve;
     protected float intensity;
@@ -46,8 +46,16 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     {
         this.root_DirOffset = root_DirOffset;
         this.painRespondCurve = painStateRespondCurve;
-        this.balancePointComponent = new BalancePointComponent(this.rootIKHandRef,new Vector3(-.25f,-.2f,.45f),new Vector3(.05f, .05f, .1f),new Vector3(2f, .75f, 2f));
+        this.balancePointComponent = new BalancePointComponent
+            (this.rootIKHandRef
+            ,new Vector3(.05f * (Vector3.Dot(base.rootIKHandRef.right,this.rootDir) > 0?1:-1),0,.25f)
+            ,new Vector3(0, .05f, .25f)
+            ,new Vector3(0, 1f, 1f)
+            );
     }
+
+    int dirMulltiply => (Vector3.Dot(base.rootIKHandRef.right, this.rootDir) > 0 ? 1 : -1);
+
     public override void Enter()
     {
         this.timer = 0;
@@ -57,20 +65,37 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
 
         base.Enter();
     }
-    public void SetFlickProperties(Vector3 hitPoint, Vector3 hitDirection)
+    private Vector3 offsetAnchorRootToSwing = new Vector3(.35f,-.1f,.125f);
+    public Vector3 anchorPositionFlickSwing => this.rootIKHandRef.position
+        + (this.rootIKHandRef.right * (this.offsetAnchorRootToSwing.x) * (Vector3.Dot(this.rootIKHandRef.right,this.rootDir) > 0 ?1:-1))
+        + (this.rootIKHandRef.forward * (this.offsetAnchorRootToSwing.z))
+        + (this.rootIKHandRef.up * (this.offsetAnchorRootToSwing.y))
+        ;
+    public void SetFlickProperties(
+        Vector3 flickPosition
+        ,float pullPointDistance
+        ,float midPullDistance
+        ,float maxTime
+        )
     {
         this.timer = 0;
-        this.painPointPosition = hitPoint;
+        this.maxTimer = maxTime;
+
+        this.painPointPosition = flickPosition;
         this.root_Delta_PainPoint = rootIKHandRef.InverseTransformPoint(this.painPointPosition);
-
-        this.pullPoint = this.balancePointComponent.centerPosition + (Vector3.up * .2f) + (hitDirection * .5f *(Vector3.Dot(hitDirection,this.rootDir) < 0?-1:1));
-        this.root_Delta_PullPoint = base.rootIKHandRef.InverseTransformPoint(this.pullPoint);
-
-        this.middlePullPoint = Vector3.Lerp(this.rootIKHandRef.position,this.pullPoint,.5f) + (this.rootDir * .4f) + (Vector3.up * UnityEngine.Random.Range(-.35f,.35f));
-        this.root_Delta_middlePullPoint = base.rootIKHandRef.InverseTransformPoint(this.middlePullPoint);
 
         this.beginPullPosition = base.handArmIKConstraintManager.GetTargetHandTransform().position;
         this.root_Delta_beginPullPosition = this.rootIKHandRef.InverseTransformPoint(this.beginPullPosition);
+
+        this.pullPoint = flickPosition;
+        this.root_Delta_PullPoint = base.rootIKHandRef.InverseTransformPoint(this.pullPoint);
+
+
+
+        this.middlePullPoint = Vector3.Lerp(this.beginPullPosition, this.pullPoint, .5f) + Vector3.Cross((this.pullPoint - this.beginPullPosition).normalized,Vector3.up) * .5f * dirMulltiply;
+        this.root_Delta_middlePullPoint = base.rootIKHandRef.InverseTransformPoint(this.middlePullPoint);
+
+
 
     }
     public override void UpdateNode()
@@ -92,7 +117,11 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
                 ,this.pullPoint
         };
 
+        //Debug.Log("painTimeNormalzied = " + this.painTimeNormalzied);
+
         this.painLookAtPos = BezierurveBehavior.GetPointOnBezierCurve(this.beginPullPosition, ct, this.balancePointComponent.balancePointLookAt, this.painTimeNormalzied);
-        this.handArmIKConstraintManager.SetTargetHand(this.painLookAtPos, this.handArmIKConstraintManager.twoBoneIKConstraint.data.mid.rotation);
+        this.handArmIKConstraintManager.SetTargetHand(this.painLookAtPos, Quaternion.LookRotation((rootIKHandRef.position - base.handArmIKConstraintManager.GetTargetHandTransform().position).normalized,rootIKHandRef.right * dirMulltiply * -1));
     }
+
 }
+

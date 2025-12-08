@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static UnityEditor.Recorder.OutputPath;
 
 public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager,IObserverEnemy
 {
@@ -55,10 +56,12 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     #region ArmConstraintNodeLeaf
     public NodeSelector leftArmConstraintSelector;
-    public ArmHoldPainPointConstraintNodeLeaf armHoldPainPointConstraintNodeLeaf;
+    public ArmHoldPainPointConstraintNodeLeaf leftArmHoldPainPointConstraintNodeLeaf;
     public ArmFlickPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
 
     public NodeSelector rightArmConstraintSelector;
+    public ArmFlickPainStateConstraintNodeLeaf rightArmFlickPainStateConstraintNodeLeaf;
+
     #endregion
 
 
@@ -107,7 +110,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             () => isLeftArmConstraintEnable
             );
 
-        this.armHoldPainPointConstraintNodeLeaf = new ArmHoldPainPointConstraintNodeLeaf(
+        this.leftArmHoldPainPointConstraintNodeLeaf = new ArmHoldPainPointConstraintNodeLeaf(
             this.leftHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
@@ -123,6 +126,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         this.rightArmConstraintSelector = new NodeSelector(
             () => isRightArmConstraintEnable
+            );
+        this.rightArmFlickPainStateConstraintNodeLeaf = new ArmFlickPainStateConstraintNodeLeaf
+            (this.rightHandIKConstraint
+            , this.enemy._spine_1_Bone
+            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            , this.holdPainPointTransformSCRP
+            , this.painArmRespondCurve
+            , new Vector3(0, 90, 0)
             );
 
         #endregion
@@ -141,13 +152,15 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         enemyConstraintAnimationNodeManager.AddNode(bodyConstraintSelector);
         enemyConstraintAnimationNodeManager.AddNode(leftArmConstraintSelector);
-        //enemyConstraintAnimationNodeManager.AddNode(rightArmConstraintSelector);
+        enemyConstraintAnimationNodeManager.AddNode(rightArmConstraintSelector);
         enemyConstraintAnimationNodeManager.AddNode(painStateWalkProceduralAnimateNodeLeaf);
 
         bodyConstraintSelector.AddtoChildNode(painStateProceduralBodyConstraintNodeLeaf);
         bodyConstraintSelector.AddtoChildNode(aimDownSightBodyNodeSelector);
 
         leftArmConstraintSelector.AddtoChildNode(leftArmFlickPainStateConstraintNodeLeaf);
+
+        rightArmConstraintSelector.AddtoChildNode(rightArmFlickPainStateConstraintNodeLeaf);
 
         aimDownSightBodyNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
         aimDownSightBodyNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
@@ -179,15 +192,31 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             ,5
             ,0);
 
+        this.rightArmConstraintWeightSelector = new NodeSelector(()=>true);
+        this.enableRightArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            ()=> this.isRightArmConstraintEnable
+            ,this.rightHandIKConstraint
+            ,5
+            ,1);
+        this.disableRightArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            ()=> true
+            ,this.rightHandIKConstraint
+            ,5
+            ,0);
+
         this.recoveryBodyConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             ()=> isBodyConstriantEnable == false
             ,this.bodyLookConstrain
             ,1);
 
         this.enemyConstraintWeightNodeComponentManager.AddNode(this.leftArmConstraintWeightSelector);
+        this.enemyConstraintWeightNodeComponentManager.AddNode(this.rightArmConstraintWeightSelector);
 
         this.leftArmConstraintWeightSelector.AddtoChildNode(this.enableLeftArmConstraintWeightNodeLeaf);
         this.leftArmConstraintWeightSelector.AddtoChildNode(this.disableLeftArmConstraintWeightNodeLeaf);
+
+        this.rightArmConstraintWeightSelector.AddtoChildNode(this.enableRightArmConstraintWeightNodeLeaf);
+        this.rightArmConstraintWeightSelector.AddtoChildNode(this.disableRightArmConstraintWeightNodeLeaf);
 
         this.enemyConstraintWeightNodeComponentManager.AddNode(this.recoveryBodyConstraintManagerWeightNodeLeaf);
     }
@@ -233,20 +262,17 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         try
         {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.anchorPositionFlickSwing, .05f);
+
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
+            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.pullPoint, .05f);
 
             Gizmos.color = Color.white;
             Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.middlePullPoint, 0.05f);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePointComponent.balancePointLookAt, 0.05f);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePointComponent.centerPosition, 0.05f);
 
         }
         catch { }
@@ -255,17 +281,36 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void Notify<T>(Enemy enemy, T node)
     {
-        if(node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
+        if (node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
         {
             Vector3 hitPos = bulletHitDetail.hitPos;
             this.painStateProceduralBodyConstraintNodeLeaf.SetPainProperties
                 (hitPos
                 , bulletHitDetail.hitDir
-                ,enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.Flinch?.5f:1f
+                , enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.Flinch ? .5f : 1f
                 );
 
-            this.armHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);
-            this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(hitPos,bulletHitDetail.hitDir);
+            this.leftArmHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);
+
+            Vector3 root = this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position;
+            Vector3 rootToHitDir = (hitPos - this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position).normalized;
+
+            if (bulletHitDetail.hitedPart is ChestBodyPart
+                || bulletHitDetail.hitedPart is LegLeftBodyPart
+                || bulletHitDetail.hitedPart is LegRightBodyPart)
+            {
+
+
+                this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f), .25f, .1f,UnityEngine.Random.Range(1,3));
+                this.rightArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f) + (Vector3.up * -0.1f), .25f, .1f, UnityEngine.Random.Range(1, 3));
+            }
+            else
+            {
+                this.leftArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f), .25f, .1f, UnityEngine.Random.Range(1, 3));
+                this.rightArmFlickPainStateConstraintNodeLeaf.SetFlickProperties(root + (rootToHitDir * .4f) + (Vector3.up * -0.1f), .25f, .1f, UnityEngine.Random.Range(1, 3));
+            }
+
+
         }
     }
 }

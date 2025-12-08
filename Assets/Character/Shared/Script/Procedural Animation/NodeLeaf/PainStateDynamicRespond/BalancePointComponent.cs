@@ -29,6 +29,14 @@ public class BalancePointComponent
         this.max_Distance_BalancePoint = max_Distance_BalancePoint;
         this.frequency_BalancePoint = frequency_BalancePoint;
     }
+
+    public void SetUpdatePropertiesBalancePoint
+        (
+        Vector3 rootOffset
+        ) 
+    {
+        this.rootOffset = rootOffset;
+    }
     public virtual void UpdateBalancePoint()
     {
 
@@ -61,8 +69,19 @@ public class BalancePointComponent
             + (root.up * balancePointDistance.y * this.max_Distance_BalancePoint.y)
             + (root.right * balancePointDistance.x * this.max_Distance_BalancePoint.x)
             + (root.forward * balancePointDistance.z * this.max_Distance_BalancePoint.z);
-        //
+        
+        Debug.DrawLine(this.centerPosition + (this.root.up * this.max_Distance_BalancePoint.y)
+            , this.centerPosition + (this.root.up * this.max_Distance_BalancePoint.y * -1)
+            , Color.green);
 
-        Debug.DrawLine(this.centerPosition, this.balancePointLookAt, Color.blue);
+        Debug.DrawLine(this.centerPosition + (this.root.right * this.max_Distance_BalancePoint.x)
+           , this.centerPosition + (this.root.right * this.max_Distance_BalancePoint.x * -1)
+           , Color.red);
+
+        Debug.DrawLine(this.centerPosition + (this.root.forward * this.max_Distance_BalancePoint.z)
+           , this.centerPosition + (this.root.forward * this.max_Distance_BalancePoint.z * -1)
+           , Color.blue);
+
+        Debug.DrawLine(this.centerPosition, this.balancePointLookAt, Color.white);
     }
 }
