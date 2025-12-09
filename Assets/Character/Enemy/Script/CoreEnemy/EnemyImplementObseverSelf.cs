@@ -25,7 +25,7 @@ public partial class Enemy : IObserverEnemy
             case GetUpStateNodeLeaf getUpStateNodeLeaf: 
                 {
                     if (getUpStateNodeLeaf.isStandingComplete)
-                        enemy._posture = 50;
+                        enemy._posture = enemy._maxPosture;
                     break;
                 }
         }

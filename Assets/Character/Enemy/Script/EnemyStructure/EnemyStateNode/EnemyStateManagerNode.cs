@@ -393,7 +393,7 @@ public partial class EnemyStateManagerNode : INodeManager
         
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
-        //startNodeSelector.AddtoChildNode(zeroPostureSelector);
+        startNodeSelector.AddtoChildNode(zeroPostureSelector);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(painStateNodeLeaf);
         startNodeSelector.AddtoChildNode(gunFuSelector);

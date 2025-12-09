@@ -18,6 +18,7 @@ public class MountComponent : MonoBehaviour
     [SerializeField] private float attachDuration;
     public float _attachDuration { get => attachDuration; protected set => attachDuration = value; }
 
+    
     protected virtual void Update()
     {
         if(parentAttachTransform != null)

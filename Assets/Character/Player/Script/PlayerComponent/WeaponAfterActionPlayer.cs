@@ -41,8 +41,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     }
                 case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
-                        RotateObjectToward rotateObjectToward = new RotateObjectToward();
-                        rotateObjectToward.RotateToward(Camera.main.transform.forward, player.gameObject, 6);
+                        player._movementCompoent.SetRotateToDirWorld(Camera.main.transform.forward,6);
                         player.NotifyObserver(player, aimDownSightWeaponManuverNodeLeaf);
 
                         break;

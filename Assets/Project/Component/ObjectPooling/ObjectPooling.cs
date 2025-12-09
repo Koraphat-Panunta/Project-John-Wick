@@ -36,7 +36,7 @@ public class ObjectPooling<T> where T : Component
     }
     public T Get(Vector3 position,Quaternion rotation)
     {
-        T obj = pool.Count > 0 ? pool.Dequeue() : GameObject.Instantiate(prefab, voidPos, Quaternion.identity);
+        T obj;
         if(pool.Count > 0)
         {
             obj = pool.Dequeue();
@@ -47,6 +47,7 @@ public class ObjectPooling<T> where T : Component
             if (obj.TryGetComponent<Initialization>(out Initialization initialization))
                 initialization.Initialized();
         }
+        //GameOperator.instance.AddUpdateOperator(obj);
         obj.transform.position = position;
         obj.transform.rotation = rotation;
         obj.gameObject.SetActive(true);
@@ -55,6 +56,7 @@ public class ObjectPooling<T> where T : Component
 
     public void ReturnToPool(T obj)
     {
+        //GameOperator.instance.RemovedUpdateOperator(obj);
         obj.gameObject.SetActive(false);
         if(pool.Count < poolMaxSize)
             pool.Enqueue(obj);
