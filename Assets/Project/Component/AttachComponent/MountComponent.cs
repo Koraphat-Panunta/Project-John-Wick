@@ -18,16 +18,16 @@ public class MountComponent : MonoBehaviour
     [SerializeField] private float attachDuration;
     public float _attachDuration { get => attachDuration; protected set => attachDuration = value; }
 
-    
-    protected virtual void Update()
+   
+    protected virtual void LateUpdate()
     {
-        if(parentAttachTransform != null)
+        if (parentAttachTransform != null)
         {
-            if(_isEnableAutoAttachRate)
-                attachRate = Mathf.Clamp01(attachRate + (Time.deltaTime * (1/_attachDuration)));
+            if (_isEnableAutoAttachRate)
+                attachRate = Mathf.Clamp01(attachRate + (Time.deltaTime * (1 / _attachDuration)));
 
-            _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position,GetAttachPosition(),this.attachRate);
-            _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation,GetAttachRotation(), this.attachRate);
+            _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
+            _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
         }
     }
 

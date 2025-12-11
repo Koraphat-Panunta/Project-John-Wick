@@ -15,10 +15,20 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
 
     private float enterWeightSpeed = 5;
 
+    
+
     private Transform leftHandBone;
+    private Transform rightHandBone;
+
+    private Vector3 leftHandTargetPosition;
+    private Quaternion leftHandTargetRotation;
+
+    private Vector3 delta_RootHandPosition;
+
     public WeaponLeftHandGripHandConstraintNodeLeaf(
         Func<bool> precondition
         , Transform leftHandBone
+        , Transform rightHandBone
         , Transform referenceTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         , WeaponGripLeftHandScriptableObject weaponGripLeftHandScriptableObject
@@ -30,28 +40,27 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         this.leftHandConstraintManager = leftHandConstraintManager;
         this.weaponGripLeftHandScriptableObject = weaponGripLeftHandScriptableObject;
         this.leftHandBone = leftHandBone;
+        this.rightHandBone = rightHandBone;
     }
     public override void Enter()
     {
-        this.attachWeapon = weaponAdvanceUser._currentWeapon;
+        this.OnAttachWeapon(this.weaponAdvanceUser._currentWeapon);
         base.Enter();
     }
     public override void UpdateNode()
     {
-        Vector3 setPos = this.secondHandGripTransform.position
-            - (this.weaponAdvanceUser._secondHandSocket.weaponAttachingAbleTransform.position - this.leftHandBone.position);
-        setPos = setPos
-            + (this.secondHandGripTransform.forward * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.z)
-            + (this.secondHandGripTransform.right * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.x)
-            + (this.secondHandGripTransform.up * weaponGripLeftHandScriptableObject.leftHandGripPositionOffset.y);
 
-        Quaternion setRot = this.secondHandGripTransform.rotation * (Quaternion.Inverse(this.weaponAdvanceUser._secondHandSocket.transform.rotation) * this.leftHandBone.rotation);
-        setRot = setRot * Quaternion.Euler(weaponGripLeftHandScriptableObject.leftHandGripRotationOffset);
 
         if (this.attachWeapon != weaponAdvanceUser._currentWeapon)
-            this.attachWeapon = weaponAdvanceUser._currentWeapon;
+            this.OnAttachWeapon(this.weaponAdvanceUser._currentWeapon);
         else
-            this.leftHandConstraintManager.SetTargetHand(setPos, setRot);
+        {
+            this.leftHandTargetPosition = this.attachWeapon._mainHandGripTransform.TransformPoint(this.delta_RootHandPosition);
+
+            Quaternion targetRotation = this.rightHandBone.transform.rotation * this.leftHandTargetRotation;
+
+            this.leftHandConstraintManager.SetTargetHand(this.leftHandTargetPosition, targetRotation);
+        }
 
         this.hintPosition = this.referenceTransform.position
             +
@@ -67,8 +76,8 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
             this.referenceTransform.forward * this.weaponGripLeftHandScriptableObject.hintTargetPositionAdditionOffset.z
             );
 
-        this.leftHandConstraintManager.SetHintHandPosition(hintPosition);
 
+        this.leftHandConstraintManager.SetHintHandPosition(hintPosition);
         this.leftHandConstraintManager.SetWeight(this.leftHandConstraintManager.GetWeight() + (this.enterWeightSpeed * Time.deltaTime));
         base.UpdateNode();
     }
@@ -77,5 +86,17 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         this.leftHandConstraintManager.RemoveTargetHandParentConstraint();
         this.attachWeapon = null;
         base.Exit();
+    }
+
+    private void OnAttachWeapon(Weapon curWeapon)
+    {
+        this.attachWeapon = curWeapon;
+
+        this.leftHandTargetPosition = this.attachWeapon._SecondHandGripTransform.position;
+        this.delta_RootHandPosition = this.attachWeapon._mainHandGripTransform.InverseTransformPoint(this.leftHandTargetPosition);
+
+        this.leftHandTargetRotation = (Quaternion.Inverse(this.weaponAdvanceUser._mainHandSocket.transform.rotation) * this.rightHandBone.rotation)
+            * (Quaternion.Inverse(this.attachWeapon._SecondHandGripTransform.rotation) * this.weaponAdvanceUser._mainHandSocket.transform.rotation);
+
     }
 }

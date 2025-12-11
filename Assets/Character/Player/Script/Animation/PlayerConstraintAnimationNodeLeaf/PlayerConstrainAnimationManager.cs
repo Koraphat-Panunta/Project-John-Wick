@@ -177,6 +177,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
                    () => isWeaponGripConstraitEnable && player._currentWeapon != null && player._currentWeapon is PrimaryWeapon
                    ,this.leftHandBoneTransform
+                   ,this.player._rightHandBone
                    , this.leftHandTransformRef
                    , this.leftHandConstraintManager
                    , this.ar15_WeaponGripLeftHandScrp
