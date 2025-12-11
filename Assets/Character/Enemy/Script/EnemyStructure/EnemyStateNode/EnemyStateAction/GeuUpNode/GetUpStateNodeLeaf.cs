@@ -69,7 +69,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
         RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
         RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
-
         base.Enter();
     }
 
@@ -137,6 +136,10 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         }
 
         return false;
+    }
+    public override void Exit()
+    {
+        base.Exit();
     }
 
 }

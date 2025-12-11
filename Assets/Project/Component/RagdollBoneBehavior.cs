@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public static class RagdollBoneBehavior 
 {
@@ -21,23 +22,22 @@ public static class RagdollBoneBehavior
 
     public static void AlignRotationToHips(Transform hipsBone, Transform enemyTransform)
     {
-        Vector3 originalHipsPosition = hipsBone.position;
-        Quaternion originalHipsRotation = hipsBone.rotation;
+        Quaternion originalRot = hipsBone.rotation;
+        Quaternion rot = Quaternion.identity;
 
-        Vector3 desiredDirection = hipsBone.up;
-        if (Vector3.Dot(hipsBone.forward, Vector3.up) > 0)
+        if (Vector3.Dot(hipsBone.forward,Vector3.up) > 0)
         {
-            desiredDirection *= -1;
+            rot = Quaternion.LookRotation(hipsBone.up * -1, Vector3.up);
         }
+        else
+        {
+            rot = Quaternion.LookRotation(hipsBone.up * 1, Vector3.up);
+        }
+        
 
-        desiredDirection.y = 0;
-        desiredDirection.Normalize();
+        enemyTransform.rotation = Quaternion.Euler(0, rot.eulerAngles.y, 0);
 
-        Quaternion fromToRotation = Quaternion.FromToRotation(enemyTransform.forward, desiredDirection);
-        enemyTransform.rotation *= fromToRotation;
-
-        hipsBone.position = originalHipsPosition;
-        hipsBone.rotation = originalHipsRotation;
+        hipsBone.rotation = originalRot;
     }
 
     public static void PopulateBoneTransforms(Transform[] bones, BoneTransform[] boneTransforms)

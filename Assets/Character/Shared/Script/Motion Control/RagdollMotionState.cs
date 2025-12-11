@@ -39,6 +39,7 @@ public class RagdollMotionState : MotionState
         foreach (Rigidbody rb in bones)
         {
             rb.isKinematic = false;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
     }
 
@@ -47,6 +48,7 @@ public class RagdollMotionState : MotionState
         foreach (Rigidbody rb in bones)
         {
             rb.isKinematic = true;
+            rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
         }
     }
    

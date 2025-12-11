@@ -112,13 +112,16 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
     public override void UpdateNode()
     {
         //Debug.Log("this.gunFuAble._character._movementCompoent.V_World = " + this.gunFuAble._character._movementCompoent.curMoveVelocity_World);
-        this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
-        this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
+        this.UpdateSubject();
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
 
         base.UpdateNode();
     }
-    
+    protected virtual void UpdateSubject()
+    {
+        this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
+        this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
+    }
     //private void BeginWarp(Character character)
     //{
     //    if(character == gunFuAble._character)
@@ -140,6 +143,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         }
          if(character == gotGunFuAttackedAble._character)
         {
+            Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
             this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
             //Debug.Log("Player anchor Distance pos = "
             //    + Vector3.Distance(
@@ -174,27 +178,27 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
         gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
 
-        Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance pos = "
-        + Vector3.Distance(
-                   gunFuAble_SubjectInteract.character.transform.position
-                  , gunFuAble_SubjectInteract.anhorPosition)
-              );
-        Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance rot = "
-        + Quaternion.Angle(
-             gunFuAble_SubjectInteract.character.transform.rotation
-            , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
-        );
+        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance pos = "
+        //+ Vector3.Distance(
+        //           gunFuAble_SubjectInteract.character.transform.position
+        //          , gunFuAble_SubjectInteract.anhorPosition)
+        //      );
+        //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance rot = "
+        //+ Quaternion.Angle(
+        //     gunFuAble_SubjectInteract.character.transform.rotation
+        //    , Quaternion.LookRotation(gunFuAble_SubjectInteract.anhorDir))
+        //);
 
-        Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " execute anchor Distance pos = "
-        + Vector3.Distance(
-                   got_GunFuAttacked_SubjectInteract.character.transform.position
-                  , got_GunFuAttacked_SubjectInteract.anhorPosition)
-              );
-        Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " execute anchor Distance rot = "
-        + Quaternion.Angle(
-             got_GunFuAttacked_SubjectInteract.character.transform.rotation
-            , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
-        );
+        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " execute anchor Distance pos = "
+        //+ Vector3.Distance(
+        //           got_GunFuAttacked_SubjectInteract.character.transform.position
+        //          , got_GunFuAttacked_SubjectInteract.anhorPosition)
+        //      );
+        //Debug.Log("Character : " + got_GunFuAttacked_SubjectInteract.character + " execute anchor Distance rot = "
+        //+ Quaternion.Angle(
+        //     got_GunFuAttacked_SubjectInteract.character.transform.rotation
+        //    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
+        //);
 
         isExecuteAlready = true;
 

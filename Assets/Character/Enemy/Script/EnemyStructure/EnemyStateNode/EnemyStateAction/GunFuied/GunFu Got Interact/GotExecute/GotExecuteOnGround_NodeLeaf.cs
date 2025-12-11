@@ -37,7 +37,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public float resetBoneTimer { get; protected set; }
 
-    public float reserBoneDuration = .5f;
+    public float reserBoneDuration = .1f;
 
     public GotExecuteOnGround_NodeLeaf(
         Enemy enemy,AnimationTriggerEventSCRP gunFuExecuteSInteractSCRP, Transform root,Transform hipsBone, Transform[] bones,GotExecutedStateName gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
@@ -89,7 +89,10 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
    
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
-        executedPhase = ExecutedPhase.None;
+        executedPhase = ExecutedPhase.Animate;
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+        _animator.CrossFade(gotExecuteStateName, .15f, 0, 0);
+
         enemy.NotifyObserver(enemy, this); 
 
         base.Enter();
