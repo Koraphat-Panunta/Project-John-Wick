@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Player))]
@@ -251,6 +252,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
     //}
     #endregion
+
 
     private void OnDrawGizmos()
     {

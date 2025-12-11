@@ -1,9 +1,12 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 {
+    public Action<Vector3> crosshairLookPostion;
+
     //[SerializeField] WeaponSocket weaponSocket;
     public RectTransform Crosshair_lineUp;
     public RectTransform Crosshair_lineDown;
@@ -90,6 +93,8 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         }
 
         targetAim = ray.GetPoint(10);
+
+        crosshairLookPostion.Invoke(targetAim);
     }
     private void OnEnable()
     {

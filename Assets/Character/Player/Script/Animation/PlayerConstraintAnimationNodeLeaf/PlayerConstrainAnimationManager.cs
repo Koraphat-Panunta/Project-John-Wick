@@ -35,6 +35,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
 
     [SerializeField] private Rig rig;
+    [SerializeField] private RigBuilder rigBuilder;
 
     [SerializeField] private string curState;
 
@@ -177,7 +178,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
                    () => isWeaponGripConstraitEnable && player._currentWeapon != null && player._currentWeapon is PrimaryWeapon
                    ,this.leftHandBoneTransform
-                   ,this.player._rightHandBone
                    , this.leftHandTransformRef
                    , this.leftHandConstraintManager
                    , this.ar15_WeaponGripLeftHandScrp
@@ -348,6 +348,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     {
         this.playerConstriantAnimationNodeComponentManager = new NodeComponentManager();
 
+        this.player.crosshairController.crosshairLookPostion += this.UpdateConstrainLookReferencePos;
+
         this.InitialzedAimDownSightConstraintNodeManager();
         this.InitializedLeftHandNodeManager();
         this.InitialzedRightHandNodeManager();
@@ -361,13 +363,15 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     {
         this.playerConstriantAnimationNodeComponentManager.FixedUpdate();
 
+
     }
     protected void Update()
     {
-        UpdateConstrainLookReferencePos();
+
         this.playerConstriantAnimationNodeComponentManager.Update();
 
     }
+
     private void OnDrawGizmos()
     {
         if (player._currentWeapon != null)
@@ -387,9 +391,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     [SerializeField] Transform aimConstrainPositionReference;
     [SerializeField] Transform beginPos;
 
-    private void UpdateConstrainLookReferencePos()
+    private void UpdateConstrainLookReferencePos(Vector3 lookingPosition)
     {
-        Vector3 poitnPos = player._lookingPos;
+
+        Vector3 poitnPos = lookingPosition;
 
         Vector3 startPos = beginPos.position;
 
@@ -422,6 +427,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized) * 10, 1);
         aimConstrainPositionReference.position = pointingPos;
+
+        this.ar15_WeaponGripLeftHandTwoBoneIKNodeLeaf.UpdateHandPosition();
     }
 
     
