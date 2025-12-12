@@ -9,6 +9,8 @@ public class TriggerBox : MonoBehaviour
 {
     [SerializeField] private BoxCollider boxCollider;
 
+    [SerializeField] private MonoBehaviour beenCalledEvent;
+
     [SerializeField] private UnityEvent onTriggerEventEnterOnce;
     [SerializeField] private UnityEvent onTriggerEventEnter;
     [SerializeField] private UnityEvent onStayEvent;
@@ -59,7 +61,7 @@ public class TriggerBox : MonoBehaviour
         if (this.boxCollider == null)
             TryGetComponent<BoxCollider>(out this.boxCollider);
     }
-
+    OnDrawGizmosTriggerEvent onDrawGizmosTriggerEvent = new OnDrawGizmosTriggerEvent();
     private void OnDrawGizmos()
     {
         if(this.boxCollider == null)
@@ -77,5 +79,34 @@ public class TriggerBox : MonoBehaviour
 
         // Reset matrix (optional, good practice if you draw multiple gizmos)
         Gizmos.matrix = Matrix4x4.identity;
+
+
+
+        onDrawGizmosTriggerEvent.DrawGizmosEvent(
+            this.transform.position
+            , onTriggerEventEnterOnce
+            ,nameof(onTriggerEventEnterOnce) 
+            ,Color.green);
+
+        onDrawGizmosTriggerEvent.DrawGizmosEvent(
+            this.transform.position
+            , onTriggerEventEnter
+            ,nameof(onTriggerEventEnter)
+            , Color.green);
+        onDrawGizmosTriggerEvent.DrawGizmosEvent(
+            this.transform.position
+            , onStayEvent
+            ,nameof(onStayEvent)
+            , Color.white);
+        onDrawGizmosTriggerEvent.DrawGizmosEvent(
+            this.transform.position
+            , onTriggerEventExitOnce
+            ,nameof(onTriggerEventExitOnce)
+            , Color.red);
+        onDrawGizmosTriggerEvent.DrawGizmosEvent(
+            this.transform.position
+            , onTriggerEventExit
+            ,nameof(onTriggerEventExit)
+            , Color.red);
     }
 }
