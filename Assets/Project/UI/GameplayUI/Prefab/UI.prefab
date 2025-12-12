@@ -1145,6 +1145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9117065894309411107, guid: 8067703df362b5f45a1ca69bda45a10d,
         type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117065894309411107, guid: 8067703df362b5f45a1ca69bda45a10d,
+        type: 3}
       propertyPath: layerMask.m_Bits
       value: 2177
       objectReference: {fileID: 0}
@@ -1323,6 +1328,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HP_bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366072786553813158, guid: 4e923f0d7a7fa554193abb6a9a237fba,
+        type: 3}
+      propertyPath: playerInfo
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7366072786553813158, guid: 4e923f0d7a7fa554193abb6a9a237fba,
         type: 3}
@@ -1507,6 +1517,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3030897022349470314}
     m_Modifications:
+    - target: {fileID: 5491125407239094765, guid: 64a2b845988144c458dfcf4090d80412,
+        type: 3}
+      propertyPath: playerInfo
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5781947835212397933, guid: 64a2b845988144c458dfcf4090d80412,
         type: 3}
       propertyPath: m_Name

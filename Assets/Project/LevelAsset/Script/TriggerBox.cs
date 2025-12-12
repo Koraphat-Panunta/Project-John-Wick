@@ -65,7 +65,9 @@ public class TriggerBox : MonoBehaviour
         if(this.boxCollider == null)
             return;
 
-        Gizmos.color = Color.yellow * 0.7f;
+
+
+        Gizmos.color = Color.yellow * 0.35f;
 
         // Save matrix state
         Gizmos.matrix = transform.localToWorldMatrix;

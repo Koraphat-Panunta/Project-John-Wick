@@ -163,6 +163,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         {
             player._isInteractCommand = true;
             player.commandBufferManager.AddCommand(nameof(player._isInteractCommand), 0.35f);
+            player.Interact();
             if(player.currentInteractable == null)
                 TriggerParkour(context);
         }

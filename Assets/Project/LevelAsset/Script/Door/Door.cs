@@ -54,18 +54,11 @@ public class Door : MonoBehaviour,I_Interactable
 
         this.NotifyObserver();
     }
-    public void DoInteract()
-    {
-        if (isLocked)
-            return;
-
-        if (isOpen)
-            Close();
-        else
-            Open();
-    }
+   
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
+        Debug.Log("DoInteract");
+
         if(isLocked)
             return;
 
