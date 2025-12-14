@@ -2,8 +2,14 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Door : MonoBehaviour,I_Interactable
+public class Door : Actor,I_Interactable
 {
+    public enum DoorEvent
+    {
+        Open, 
+        Close
+    }
+
     [SerializeField] private Animator animator;
     public virtual bool isOpen { get; private set; }
     public virtual Collider _collider { get => this.collider; set => this.collider = value; }
@@ -39,8 +45,8 @@ public class Door : MonoBehaviour,I_Interactable
 
         animator.SetTrigger("DoorTrigger");
         isOpen = true;
-       
 
+        base.NotifyObserver(DoorEvent.Open);
         this.NotifyObserver();
     }
     public void Close()
@@ -51,10 +57,13 @@ public class Door : MonoBehaviour,I_Interactable
         animator.SetTrigger("DoorTrigger");
         isOpen = false;
        
-
+        base.NotifyObserver(DoorEvent.Close);
         this.NotifyObserver();
     }
-   
+   public void DoInteract()
+    {
+        this.DoInteract(null);
+    }
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
         Debug.Log("DoInteract");

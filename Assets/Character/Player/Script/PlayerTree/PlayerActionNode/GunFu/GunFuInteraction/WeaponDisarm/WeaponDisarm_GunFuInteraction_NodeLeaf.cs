@@ -127,27 +127,27 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
         WeaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
 
-        Debug.Log("Character : " + gunFuAble._character + " Disarm anchor Distance pos = "
-       + Vector3.Distance(
-                  gunFuAble._character.transform.position
-                 , subject_Disarmer.anhorPosition)
-             );
-        Debug.Log("Character : " + gunFuAble._character + " Disarm anchor Distance rot = "
-        + Quaternion.Angle(
-             gunFuAble._character.transform.rotation
-            , Quaternion.LookRotation(subject_Disarmer.anhorDir))
-        );
+       // Debug.Log("Character : " + gunFuAble._character + " Disarm anchor Distance pos = "
+       //+ Vector3.Distance(
+       //           gunFuAble._character.transform.position
+       //          , subject_Disarmer.anhorPosition)
+       //      );
+       // Debug.Log("Character : " + gunFuAble._character + " Disarm anchor Distance rot = "
+       // + Quaternion.Angle(
+       //      gunFuAble._character.transform.rotation
+       //     , Quaternion.LookRotation(subject_Disarmer.anhorDir))
+       // );
 
-        Debug.Log("Character : " + gotGunFuAttackedAble._character + " Disarm anchor Distance pos = "
-        + Vector3.Distance(
-                   gotGunFuAttackedAble._character.transform.position
-                  , subject_Disarmed.anhorPosition)
-              );
-        Debug.Log("Character : " + gotGunFuAttackedAble._character + " Disarm anchor Distance rot = "
-        + Quaternion.Angle(
-             gotGunFuAttackedAble._character.transform.rotation
-            , Quaternion.LookRotation(subject_Disarmed.anhorDir))
-        );
+       // Debug.Log("Character : " + gotGunFuAttackedAble._character + " Disarm anchor Distance pos = "
+       // + Vector3.Distance(
+       //            gotGunFuAttackedAble._character.transform.position
+       //           , subject_Disarmed.anhorPosition)
+       //       );
+       // Debug.Log("Character : " + gotGunFuAttackedAble._character + " Disarm anchor Distance rot = "
+       // + Quaternion.Angle(
+       //      gotGunFuAttackedAble._character.transform.rotation
+       //     , Quaternion.LookRotation(subject_Disarmed.anhorDir))
+       // );
         //else
         //    throw new Exception("WeaponDisarm");
     }

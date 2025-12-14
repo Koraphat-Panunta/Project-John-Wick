@@ -8,6 +8,8 @@ public class VideoTutorialUI : MonoBehaviour
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private TextMeshProUGUI tutorialMassage;
 
+    [SerializeField] private string tutorialName;
+
     public void SetVideoPlayer(VideoClip videoClip)
     {
         this.videoPlayer.clip = videoClip;

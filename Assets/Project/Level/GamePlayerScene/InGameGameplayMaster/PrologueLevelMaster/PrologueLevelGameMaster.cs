@@ -12,7 +12,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
     [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
 
-
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
@@ -65,7 +64,6 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         pausingSelector.AddtoChildNode(menuInGameGameMasterNodeLeaf);
 
         _nodeManagerBehavior.SearchingNewNode(this);
-
 
     }
 }
