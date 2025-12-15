@@ -20,7 +20,7 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
         base.Start();
     }
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get ; protected set; }
-    public InGameLevelMisstionCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get ; protected set ; }
+    public InGameLevelCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get ; protected set ; }
     public InGameLevelGameOverGameMasterNodeLeaf levelGameOverGameMasterNodeLeaf { get; protected set; }
     public LevelHotelGameplayGameMasterNodeLeaf levelHotelGamePlayGameMasterNodeLeaf { get; protected set; }
     public InGameLevelDelayOpeningLoad delayOpeningGameMasterNodeLeaf { get; protected set; }
@@ -35,7 +35,7 @@ public class LevelHotelGameMaster : InGameLevelGameMaster
         levelHotelGamePlayGameMasterNodeLeaf = new LevelHotelGameplayGameMasterNodeLeaf(this, () => levelHotelGamePlayGameMasterNodeLeaf.isComplete == false);
         menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this,pauseCanvasUI,
             () => menuInGameGameMasterNodeLeaf.isMenu );
-        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelMisstionCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas,()=> true);
+        levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelCompleteGameMasterNodeLeaf(this,missionCompleteUICanvas,()=> true);
 
         startNodeSelector.AddtoChildNode(delayOpeningGameMasterNodeLeaf);
         startNodeSelector.AddtoChildNode(levelOpeningGameMasterNodeLeaf);

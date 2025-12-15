@@ -5,18 +5,19 @@ using System.Linq;
 using UnityEngine;
 
 
-public abstract class InGameLevelGameMaster : GameMaster
+public class InGameLevelGameMaster : GameMaster
 {
-
+    [SerializeField] protected GameOverUICanvas gameOverUICanvas;
     [SerializeField] protected PauseUICanvas pauseCanvasUI;
     [SerializeField] protected OptionUICanvas optionCanvasUI;
+    [SerializeField] protected MissionCompleteUICanvas missionCompleteUICanvas;
     public GamePlayUICanvas gamePlayUICanvas;
     public User user;
     public Player player;
 
     protected bool isCompleteLoad = false;
-
-    public bool isComplete { get; protected set; }
+    public bool isActiveFreeState { get; set; }
+    public bool isLevelComplete { get; set; }
 
     public Dictionary<Func<bool>, Action> gameMasterEvent = new Dictionary<Func<bool>, Action>();
     public IEnumerator DelaySceneLoaded()
@@ -24,11 +25,10 @@ public abstract class InGameLevelGameMaster : GameMaster
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
     }
-
-
     public override void Initialized()
     {
-        isComplete = false;
+        this.isLevelComplete = false;
+        this.isActiveFreeState = false;
         base.Initialized();
     }
 
@@ -45,11 +45,16 @@ public abstract class InGameLevelGameMaster : GameMaster
     {
         _nodeManagerBehavior.UpdateNode(this);
     }
+
+    public InGameLevelFreeStateGameMasterNodeLeaf freeStateGameMasterNodeLeaf { get; protected set; }
+    public InGameLevelGameOverGameMasterNodeLeaf InGameLevelGameOverGameMasterNodeLeaf { get; protected set; }
     public NodeSelector pausingSelector { get; protected set; }
     public  MenuInGameGameMasterNodeLeaf menuInGameGameMasterNodeLeaf { get; protected set; }
     public  OptionMenuSettingInGameGameMasterNodeLeaf optionMenuSettingInGameGameMasterNode { get; protected set; }
-    public InGameLevelRestGameMasterNodeLeaf levelRestGameMasterNodeLeaf { get;protected set; }
-    
+    public InGameLevelCompleteGameMasterNodeLeaf levelCompleteGameMasterNodeLeaf { get; protected set; }
+    public InGameLevelGamplayGameMasterNodeLeaf<InGameLevelGameMaster> inGameLevelGamplayGameMasterNodeLeaf { get; protected set; }
+
+
     public void GetNotify(Player player)
     {
         this.player = player;
@@ -69,7 +74,7 @@ public abstract class InGameLevelGameMaster : GameMaster
     }
     public void CompleteLevel()
     {
-        this.isComplete = true;
+        this.isLevelComplete = true;
     }
     protected virtual void OnValidate()
     {
@@ -77,29 +82,53 @@ public abstract class InGameLevelGameMaster : GameMaster
 
         player = FindAnyObjectByType<Player>();
 
-     
         gamePlayUICanvas = FindAnyObjectByType<GamePlayUICanvas>();
     }
 
+    public override void InitailizedNode()
+    {
+        this.startNodeSelector = new NodeSelector(() => true, "PrologueStartNodeSelector");
+
+        this.freeStateGameMasterNodeLeaf = new InGameLevelFreeStateGameMasterNodeLeaf(this,()=> isActiveFreeState);    
+        this.InGameLevelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
+        this.pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
+        this.menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
+        this.optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, () => menuInGameGameMasterNodeLeaf.isTriggerToSetting);
+
+        this.levelCompleteGameMasterNodeLeaf = new InGameLevelCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => this.isLevelComplete);
+        this.inGameLevelGamplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<InGameLevelGameMaster>(this, () => true);
+
+        this.startNodeSelector.AddtoChildNode(this.freeStateGameMasterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.InGameLevelGameOverGameMasterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.pausingSelector);
+        this.startNodeSelector.AddtoChildNode(this.levelCompleteGameMasterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.inGameLevelGamplayGameMasterNodeLeaf);
+
+        this.pausingSelector.AddtoChildNode(this.optionMenuSettingInGameGameMasterNode);
+        this.pausingSelector.AddtoChildNode(this.menuInGameGameMasterNodeLeaf);
+
+        _nodeManagerBehavior.SearchingNewNode(this);
+
+    }
 }
 public interface IGameLevelMasterObserver
 {
     public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster,T var);
 }
-public class InGameLevelRestGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelFreeStateGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    public InGameLevelRestGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelFreeStateGameMasterNodeLeaf(InGameLevelGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
     }
 
     public override void Enter()
     {
-      
+        base.Enter();
     }
 
     public override void Exit()
     {
-       
+       base .Exit();
     }
 
     public override void FixedUpdateNode()

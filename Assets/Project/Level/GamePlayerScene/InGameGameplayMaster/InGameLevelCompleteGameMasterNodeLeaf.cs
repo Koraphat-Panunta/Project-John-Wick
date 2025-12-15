@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class InGameLevelMisstionCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
+public class InGameLevelCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
 
     private User user => gameMaster.user;
@@ -24,7 +24,7 @@ public class InGameLevelMisstionCompleteGameMasterNodeLeaf : InGameLevelGameMast
         FadeOutContinue
     }
     public MissionCompletePhase curMissionCompletePhase;
-    public InGameLevelMisstionCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,MissionCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,MissionCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.misstionCompleteUICanvas = missionCompleteUICanvas;
 
