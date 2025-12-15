@@ -12,7 +12,7 @@ public class OnDrawGizmosTriggerEvent
     float sphereSize = 0.06f;
     float speed = .25f;
 
-    int numberOfSphere = 7;
+    int numberOfSphere = 4;
 
     public bool isDrawEnable;
 
@@ -41,8 +41,8 @@ public class OnDrawGizmosTriggerEvent
                 Vector3 targetPos = mb.transform.position;
 
                 // Draw line
-                Gizmos.color = color;
-                Gizmos.DrawCube(targetPos,Vector3.one * .25f);
+                //Gizmos.color = color;
+                //Gizmos.DrawCube(targetPos,Vector3.one * .25f);
                 // Draw labels
                 Vector3 unityEventNamePos = targetPos + ((triggerEvent.position - targetPos).normalized * 1.5f) + Vector3.up * 0.3f;
                 Handles.Label(unityEventNamePos, unityEvent.GetPersistentMethodName(i));
@@ -68,7 +68,7 @@ public class OnDrawGizmosTriggerEvent
         {
             float l = ((float)n * (1f / (float)numberOfSphere)) + (t * (1f / (float)numberOfSphere));
             Vector3 spherePos = Vector3.Lerp(triggerPosition, targetPos, l);
-            Gizmos.color = color;
+            Gizmos.color = color * .75f;
             Gizmos.DrawSphere(spherePos, sphereSize);
             Gizmos.DrawLine(triggerPosition, targetPos);
         }

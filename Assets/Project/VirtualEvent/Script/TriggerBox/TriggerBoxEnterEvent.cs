@@ -10,7 +10,7 @@ public class TriggerBoxEnterEvent : VirtualEventNode,IObserverActor
 
     private void Awake()
     {
-        this.triggerBoxActor.AddTriggerBoxObserver(this);
+        this.triggerBoxActor.AddActorObserver(this);
     }
 
     public override void Execute()
@@ -41,7 +41,7 @@ public class TriggerBoxEnterEvent : VirtualEventNode,IObserverActor
         {
             this.Execute();
             if(isTriggerOnce)
-                triggerBox.RemoveTriggerBoxObserver(this);
+                triggerBox.RemoveActorObserver(this);
         }
     }
 }

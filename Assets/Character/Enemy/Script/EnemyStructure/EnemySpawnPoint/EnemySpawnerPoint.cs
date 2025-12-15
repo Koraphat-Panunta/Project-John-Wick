@@ -32,14 +32,6 @@ public class EnemySpawnerPoint : MonoBehaviour
         return enemy;
 
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(this.spawnPosition,0.2f);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(this.spawnPosition, transform.forward);
-    }
 
     
 }

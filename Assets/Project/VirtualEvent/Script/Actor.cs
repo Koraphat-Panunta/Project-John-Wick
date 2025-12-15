@@ -7,11 +7,11 @@ public abstract class Actor : MonoBehaviour
 {
     [SerializeField] List<IObserverActor> observer = new List<IObserverActor>();
 
-    public void AddTriggerBoxObserver(IObserverActor observerTriggerBox)
+    public void AddActorObserver(IObserverActor observerTriggerBox)
     {
         this.observer.Add(observerTriggerBox);
     }
-    public void RemoveTriggerBoxObserver(IObserverActor observerTriggerBox)
+    public void RemoveActorObserver(IObserverActor observerTriggerBox)
     {
         this.observer.Remove(observerTriggerBox);
     }
@@ -26,11 +26,15 @@ public abstract class Actor : MonoBehaviour
         }
     }
     [SerializeField] protected bool isEnableGizmos;
+    [SerializeField] protected Color color;
     protected virtual void OnDrawGizmos()
     {
         if(this.isEnableGizmos == false)
             return;
 
-        Handles.Label(transform.position, this.name);
+        Gizmos.color = color;
+        Gizmos.DrawCube(transform.position, Vector3.one * .3f);
+        Handles.Label(transform.position + (Vector3.up * .35f), this.name);
+        Gizmos.DrawRay(transform.position, Vector3.up * .35f);
     }
 }

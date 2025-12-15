@@ -57,7 +57,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad31bb0139cf1f449fa357c5b231926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyUnityEventSpawn
+  isEnableGizmos: 1
+  color: {r: 0.003921569, g: 0.54901963, b: 0, a: 0.8901961}
   enemyObjectManager: {fileID: 0}
   enemyDirector: {fileID: 0}
   weaponObjectManager: {fileID: 0}
   enemySpawnerPoint: {fileID: 2774017774405603213}
+  returnEnemyActor: {fileID: 0}
