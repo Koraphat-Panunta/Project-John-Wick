@@ -41,8 +41,8 @@ public class OnDrawGizmosTriggerEvent
                 Vector3 targetPos = mb.transform.position;
 
                 // Draw line
-                Gizmos.color = color;
-                Gizmos.DrawCube(targetPos,Vector3.one * .25f);
+                //Gizmos.color = color;
+                //Gizmos.DrawCube(targetPos,Vector3.one * .25f);
                 // Draw labels
                 Vector3 unityEventNamePos = targetPos + ((triggerEvent.position - targetPos).normalized * 1.5f) + Vector3.up * 0.3f;
                 Handles.Label(unityEventNamePos, unityEvent.GetPersistentMethodName(i));

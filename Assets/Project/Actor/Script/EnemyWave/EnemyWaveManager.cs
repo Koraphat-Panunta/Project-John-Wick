@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-public class EnemyWaveManager : MonoBehaviour,IObserverEnemy
+public class EnemyWaveManager : Actor,IObserverEnemy
 {
     [SerializeField] protected List<EnemyWave> enemyWaves;
     public EnemyWave curWave;
@@ -92,7 +92,31 @@ public class EnemyWaveManager : MonoBehaviour,IObserverEnemy
         {
             enemies.Remove(enemy);
             enemy.RemoveObserver(this);
+            if (waveIsClear)
+            {
+                base.NotifyObserver<EnemyWaveEvent>(EnemyWaveEvent.OnWaveEnd);
+            }
         }
+    }
+
+    public enum EnemyWaveEvent
+    {
+        OnWaveEnd,
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        if (isEnableGizmos
+            && enemySpawnerPoints != null
+            && enemySpawnerPoints.Length > 0)
+        {
+            for (int i = 0; i < enemySpawnerPoints.Length; i++)
+            {
+                Gizmos.color = Color.white * .5f;
+                Gizmos.DrawLine(transform.position, enemySpawnerPoints[i].spawnPosition);
+            }
+        }
+        base.OnDrawGizmos();
     }
     private void OnValidate()
     {

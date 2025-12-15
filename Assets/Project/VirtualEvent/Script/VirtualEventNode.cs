@@ -36,12 +36,13 @@ public abstract class VirtualEventNode : MonoBehaviour
 
         Handles.Label(this.transform.position + (Vector3.up * .3f), this.name);
         Gizmos.color = color;
-        Gizmos.DrawCube(this.transform.position, Vector3.one * .25f);
+        Gizmos.DrawSphere(this.transform.position,  .25f);
 
         if (this.nextVirtualEventNode != null && this.nextVirtualEventNode.Length > 0)
         {
             for (int i = 0; i < this.nextVirtualEventNode.Length; i++)
             {
+                if (this.nextVirtualEventNode[i] != null)
                 this.onDrawGizmosTriggerEvent.DrawSphere(this.transform.position, this.nextVirtualEventNode[i].transform.position, this.color);
             }
         }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class Door : Actor,I_Interactable
 {
@@ -95,7 +96,19 @@ public class Door : Actor,I_Interactable
             this.observerDoors[i].OnNotify(this);
         }
     }
+
+    protected override void OnDrawGizmos()
+    {
+        if (this.isEnableGizmos == false)
+            return;
+
+        Gizmos.color = color;
+        Gizmos.DrawCube(_transform.position, Vector3.one * .3f);
+        Handles.Label(_transform.position + (Vector3.up * .35f), this.name);
+        Gizmos.DrawRay(_transform.position, Vector3.up * .35f);
+    }
 }
+
 public interface IObserverDoor
 {
     public void OnNotify(Door door);

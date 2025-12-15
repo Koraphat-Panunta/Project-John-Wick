@@ -9,7 +9,7 @@ public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
     [SerializeField] Door.DoorEvent DoorEvent;
     protected void Awake()
     {
-        this.doorActor.AddTriggerBoxObserver(this);
+        this.doorActor.AddActorObserver(this);
     }
     public override void Execute()
     {
@@ -33,7 +33,7 @@ public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
             return;
 
         if(doorActor != null)
-            base.onDrawGizmosTriggerEvent.DrawSphere(doorActor.transform.position, transform.position, color);
+            base.onDrawGizmosTriggerEvent.DrawSphere(doorActor._transform.position, transform.position, color);
 
         base.OnDrawGizmos();
     }
