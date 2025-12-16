@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
 {
-    [SerializeField] Door doorActor;
+    [SerializeField] DoorActor doorActor;
     [SerializeField] bool isTriggerOnce;
     protected bool isAlreadyTrigger;
 
-    [SerializeField] Door.DoorEvent DoorEvent;
+    [SerializeField] DoorActor.DoorEvent DoorEvent;
     protected void Awake()
     {
         this.doorActor.AddActorObserver(this);
@@ -23,7 +23,7 @@ public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
     }
     public void OnNotifyActor<T>(Actor actor, T var)
     {
-        if(actor is Door && var is Door.DoorEvent doorEvent && doorEvent == DoorEvent)
+        if(actor is DoorActor && var is DoorActor.DoorEvent doorEvent && doorEvent == DoorEvent)
             this.Execute();
     }
 

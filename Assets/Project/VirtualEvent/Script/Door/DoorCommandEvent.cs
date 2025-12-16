@@ -37,5 +37,5 @@ public class DoorCommandEvent : VirtualEventNode
         base.OnDrawGizmos();
     }
 
-    [SerializeField] protected Door doorActor;
+    [SerializeField] protected DoorActor doorActor;
 }

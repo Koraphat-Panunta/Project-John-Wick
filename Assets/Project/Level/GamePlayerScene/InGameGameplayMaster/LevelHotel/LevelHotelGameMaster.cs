@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class LevelHotelGameMaster : InGameLevelGameMaster
 {
-    [SerializeField] private OpeningUICanvas openingUICanvas;
+    [SerializeField] private CinematicUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
     [SerializeField] private PauseUICanvas pauseCanvasUI;
-    [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
+    [SerializeField] private LevelCompleteUICanvas missionCompleteUICanvas;
 
     public List<Enemy> targetEliminationQuest;
     public Transform destination;

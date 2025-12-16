@@ -15,10 +15,10 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
 
         bool isFoundCurrentInteractAble = false;
 
-        List<Door> doors = new List<Door>();
+        List<DoorActor> doors = new List<DoorActor>();
         foreach (I_Interactable item in assignInWorldInteractable.Keys)
         {
-            if(item is Door door)
+            if(item is DoorActor door)
                 doors.Add(door);
         }
 
@@ -46,7 +46,7 @@ public class DoorInteractablePointUIManagerNodeLeaf : InteractablePointUIManager
                 continue;
             }
 
-            if(interacter.currentInteractable is Door curDoor 
+            if(interacter.currentInteractable is DoorActor curDoor 
                 && curDoor == doors[i])
             {
                 isFoundCurrentInteractAble = true;

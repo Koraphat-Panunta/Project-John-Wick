@@ -8,9 +8,9 @@ using TMPro;
 
 public class PrologueLevelGameMaster : InGameLevelGameMaster
 {
-    [SerializeField] private OpeningUICanvas openingUICanvas;
+    [SerializeField] private CinematicUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
-    [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
+    [SerializeField] private LevelCompleteUICanvas missionCompleteUICanvas;
 
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public InGameLevelCompleteGameMasterNodeLeaf levelMisstionCompleteGameMasterNodeLeaf { get; protected set; }

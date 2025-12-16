@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MissionCompleteUICanvas : MonoBehaviour
+public class LevelCompleteUICanvas : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] public Button continueButton;

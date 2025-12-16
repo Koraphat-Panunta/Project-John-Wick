@@ -1,10 +1,12 @@
 using UnityEngine;
-using static TriggerBox;
+using static TriggerBoxActor;
 
-public class TriggerBoxExitEvent : VirtualEventNode, IObserverActor
+public class OnTriggerBoxEvent : VirtualEventNode,IObserverActor
 {
-    [SerializeField] public TriggerBox triggerBoxActor;
+    [SerializeField] public TriggerBoxActor triggerBoxActor;
     [SerializeField] protected bool isTriggerOnce;
+
+    [SerializeField] protected TriggerBoxEvent triggerBoxEvent;
 
     protected bool isAlreadyTrigger = false;
 
@@ -15,11 +17,11 @@ public class TriggerBoxExitEvent : VirtualEventNode, IObserverActor
 
     public override void Execute()
     {
-        if (this.isAlreadyTrigger
+        if(this.isAlreadyTrigger
             && this.isTriggerOnce)
             return;
 
-        if (this.isAlreadyTrigger == false)
+        if(this.isAlreadyTrigger == false)
             this.isAlreadyTrigger = true;
 
         base.Execute();
@@ -33,14 +35,16 @@ public class TriggerBoxExitEvent : VirtualEventNode, IObserverActor
         base.OnDrawGizmos();
     }
 
-
+    
 
     public void OnNotifyActor<T>(Actor actor, T var)
     {
-        if (actor is TriggerBox triggerBox && var is TriggerBoxEvent.Exit)
+        if (actor is TriggerBoxActor triggerBox 
+            && var is TriggerBoxEvent triggerBoxEvent
+            && triggerBoxEvent == this.triggerBoxEvent)
         {
             this.Execute();
-            if (isTriggerOnce)
+            if(isTriggerOnce)
                 triggerBox.RemoveActorObserver(this);
         }
     }

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 public class InGameLevelOpeningGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
-    private OpeningUICanvas openingCanvasUI;
+    private CinematicUICanvas openingCanvasUI;
     private Player player => gameMaster.player;
-    public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,OpeningUICanvas openingUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelOpeningGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,CinematicUICanvas openingUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.openingCanvasUI = openingUICanvas;
     }
@@ -17,7 +17,7 @@ public class InGameLevelOpeningGameMasterNodeLeaf : InGameLevelGameMasterNodeLea
 
 
         isComplete = false;
-        openingCanvasUI.PlayOpeningAnimationUI();
+        openingCanvasUI.Play();
 
         DisableInput();
 

@@ -50,6 +50,9 @@ public abstract class VirtualEventNode : MonoBehaviour
         if (this.triggerUnityEvent != null)
             this.onDrawGizmosTriggerEvent.DrawGizmosEvent(this.transform, this.triggerUnityEvent, this.color);
 
+        Gizmos.color = Color.black;
+        Gizmos.DrawRay(this.transform.position, (Vector3.up * .3f));
+
     }
 
     [SerializeField] public VirtualEventNode[] nextVirtualEventNode;

@@ -5,7 +5,7 @@ public class InGameLevelCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLe
 {
 
     private User user => gameMaster.user;
-    private MissionCompleteUICanvas misstionCompleteUICanvas;
+    private LevelCompleteUICanvas misstionCompleteUICanvas;
 
     public GameManager gameManager { get => gameMaster.gameManager; set { } }
 
@@ -24,7 +24,7 @@ public class InGameLevelCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLe
         FadeOutContinue
     }
     public MissionCompletePhase curMissionCompletePhase;
-    public InGameLevelCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,MissionCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public InGameLevelCompleteGameMasterNodeLeaf(InGameLevelGameMaster gameMaster,LevelCompleteUICanvas missionCompleteUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
     {
         this.misstionCompleteUICanvas = missionCompleteUICanvas;
 
@@ -42,7 +42,7 @@ public class InGameLevelCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLe
 
         misstionCompleteUICanvas.gameObject.SetActive(true);
         misstionCompleteUICanvas.PlayFadeIn();
-        gameManager.soundTrackManager.StopSoundTrack(2);
+        //gameManager.soundTrackManager.StopSoundTrack(2);
 
         gameMaster.NotifyObserver(gameMaster,this);
     }

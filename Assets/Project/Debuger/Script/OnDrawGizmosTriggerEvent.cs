@@ -36,7 +36,8 @@ public class OnDrawGizmosTriggerEvent
         {
             Object target = unityEvent.GetPersistentTarget(i);
 
-            if (target is MonoBehaviour mb)
+            if (target is MonoBehaviour mb
+                && target != null)
             {
                 Vector3 targetPos = mb.transform.position;
 

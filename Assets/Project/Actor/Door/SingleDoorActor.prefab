@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4704367542176489471}
   - component: {fileID: 3953643783874023878}
   - component: {fileID: 5167276589927715997}
-  m_Layer: 0
-  m_Name: SingleDoor
+  m_Layer: 15
+  m_Name: SingleDoorActor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnableGizmos: 1
-  color: {r: 0.027952386, g: 0.47843137, b: 0, a: 0.8862745}
+  color: {r: 0.008560293, g: 0.5018867, b: 0, a: 0.8862745}
   animator: {fileID: 4704367542176489471}
   collider: {fileID: 5167276589927715997}
   isInteractAble: 1
@@ -98,7 +98,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.1322079, y: 2.0422194, z: 0.31}
+  m_Size: {x: 1.1322079, y: 2.0422194, z: 0.4}
   m_Center: {x: 0.99, y: 1.02, z: 0.054228306}
 --- !u!1 &7632756781358105181
 GameObject:

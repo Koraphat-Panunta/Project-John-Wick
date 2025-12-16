@@ -8,7 +8,7 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     [SerializeField] Transform spawnPoint;
     [SerializeField] Transform exitPoint;
     [SerializeField] protected Dictionary<Enemy,EnemyCommandAPI> spawnedEnemy = new Dictionary<Enemy, EnemyCommandAPI> ();
-    [SerializeField] Door door;
+    [SerializeField] DoorActor door;
 
   
     protected virtual void Update()

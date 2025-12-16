@@ -10,7 +10,7 @@ public class InGameLevelGameMaster : GameMaster
     [SerializeField] protected GameOverUICanvas gameOverUICanvas;
     [SerializeField] protected PauseUICanvas pauseCanvasUI;
     [SerializeField] protected OptionUICanvas optionCanvasUI;
-    [SerializeField] protected MissionCompleteUICanvas missionCompleteUICanvas;
+    [SerializeField] protected LevelCompleteUICanvas missionCompleteUICanvas;
     public GamePlayUICanvas gamePlayUICanvas;
     public User user;
     public Player player;

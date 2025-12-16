@@ -159,7 +159,6 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     [SerializeField] private Player player;
     private void OnValidate()
     {
-        this.gameMaster = FindAnyObjectByType<InGameLevelGameMaster>();
         this.player = FindAnyObjectByType<Player>();
     }
 }

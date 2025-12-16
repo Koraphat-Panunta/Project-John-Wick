@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 
 [RequireComponent (typeof(BoxCollider))]
-public class TriggerBox : Actor
+public class TriggerBoxActor : Actor
 {
     public enum TriggerBoxEvent
     {
@@ -40,7 +40,7 @@ public class TriggerBox : Actor
         if(this.boxCollider == null)
             return;
 
-        Gizmos.color = Color.yellow * 0.35f;
+        Gizmos.color = color;
 
         // Save matrix state
         Gizmos.matrix = transform.localToWorldMatrix;
@@ -50,6 +50,16 @@ public class TriggerBox : Actor
 
         // Reset matrix (optional, good practice if you draw multiple gizmos)
         Gizmos.matrix = Matrix4x4.identity;
+
+        if (this.isEnableGizmos == false)
+            return;
+        
+
+        Handles.Label(transform.position + (Vector3.up * this.boxCollider.size.y), this.name);
+        Gizmos.DrawRay(transform.position, Vector3.up * this.boxCollider.size.y);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireCube(transform.position, this.boxCollider.size);
 
     }
 }

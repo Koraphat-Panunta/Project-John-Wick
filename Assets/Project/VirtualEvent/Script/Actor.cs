@@ -1,12 +1,23 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using static TriggerBox;
+using static TriggerBoxActor;
 
 public abstract class Actor : MonoBehaviour
 {
     [SerializeField] List<IObserverActor> observer = new List<IObserverActor>();
-
+    public virtual void DestroyActor()
+    {
+        Destroy(this.gameObject);
+    }
+    public virtual void EnableActor()
+    {
+        this.gameObject.SetActive(true);
+    }
+    public virtual void DisableActor()
+    {
+        this.gameObject.SetActive(false);
+    }
     public void AddActorObserver(IObserverActor observerTriggerBox)
     {
         this.observer.Add(observerTriggerBox);
@@ -36,5 +47,8 @@ public abstract class Actor : MonoBehaviour
         Gizmos.DrawCube(transform.position, Vector3.one * .3f);
         Handles.Label(transform.position + (Vector3.up * .35f), this.name);
         Gizmos.DrawRay(transform.position, Vector3.up * .35f);
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireCube(transform.position, Vector3.one * .3f);
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class LevelMansionGameMaster : InGameLevelGameMaster
 {
-    [SerializeField] private OpeningUICanvas openingUICanvas;
+    [SerializeField] private CinematicUICanvas openingUICanvas;
     [SerializeField] private GameOverUICanvas gameOverUICanvas;
     [SerializeField] private PauseUICanvas pauseCanvasUI;
-    [SerializeField] private MissionCompleteUICanvas missionCompleteUICanvas;
+    [SerializeField] private LevelCompleteUICanvas missionCompleteUICanvas;
 
     public InGameLevelOpeningGameMasterNodeLeaf levelOpeningGameMasterNodeLeaf { get; protected set; }
     public LevelMansionGamePlaySequence1 levelMansionGamePlaySequence1 { get; protected set; }

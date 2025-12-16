@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
 
-public class Door : Actor,I_Interactable
+public class DoorActor : Actor,I_Interactable
 {
     public enum DoorEvent
     {
@@ -111,5 +111,5 @@ public class Door : Actor,I_Interactable
 
 public interface IObserverDoor
 {
-    public void OnNotify(Door door);
+    public void OnNotify(DoorActor door);
 }

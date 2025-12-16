@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1004739480980816583}
   - component: {fileID: 6904144030158355919}
   m_Layer: 14
-  m_Name: TriggerBox
+  m_Name: TriggerBoxActor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnableGizmos: 1
-  color: {r: 0.11625748, g: 0.6301887, b: 0, a: 0.8117647}
+  color: {r: 1, g: 0.4627451, b: 0, a: 0.2}
   boxCollider: {fileID: 1004739480980816583}

@@ -29,7 +29,7 @@ public class InGameLevelGamplayGameMasterNodeLeaf<T> : InGameLevelGameMasterNode
 
     public override void Exit()
     {
-        gameplayCanvasUI.enabled=false;
+        gameplayCanvasUI.DisableGameplayUI();
         user.userInput.PlayerAction.Disable();
         gameMaster.NotifyObserver<InGameLevelGamplayGameMasterNodeLeaf<T>>(gameMaster, this);
     }
