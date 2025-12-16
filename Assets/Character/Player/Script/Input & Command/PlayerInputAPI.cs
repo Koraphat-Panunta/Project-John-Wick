@@ -6,15 +6,9 @@ using static SubjectPlayer;
 
 public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 {
-    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
-
-    //private void Update()
-    //{
-    //    player._isAimingCommand = true;
-    //}
 
     public Player player;
-    public User user;
+    public UserActor user;
     public void Initialized()
     {
         player = GetComponent<Player>();
@@ -183,11 +177,10 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 
     private void OnValidate()
     {
-        this.user = FindAnyObjectByType<User>();
+        this.user = FindAnyObjectByType<UserActor>();
     }
     public void InitailizedInputAction()
     {
-
 
         this.user.userInput.PlayerAction.Move.performed += this.Move;
         this.user.userInput.PlayerAction.Move.canceled += this.Move;

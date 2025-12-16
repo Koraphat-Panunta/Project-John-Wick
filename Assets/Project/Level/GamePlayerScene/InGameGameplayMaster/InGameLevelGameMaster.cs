@@ -12,7 +12,7 @@ public class InGameLevelGameMaster : GameMaster
     [SerializeField] protected OptionUICanvas optionCanvasUI;
     [SerializeField] protected LevelCompleteUICanvas missionCompleteUICanvas;
     public GamePlayUICanvas gamePlayUICanvas;
-    public User user;
+    public UserActor user;
     public Player player;
 
     protected bool isCompleteLoad = false;
@@ -78,7 +78,7 @@ public class InGameLevelGameMaster : GameMaster
     }
     protected virtual void OnValidate()
     {
-        user = FindAnyObjectByType<User>();
+        user = FindAnyObjectByType<UserActor>();
 
         player = FindAnyObjectByType<Player>();
 
