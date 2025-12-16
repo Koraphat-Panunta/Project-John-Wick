@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1793850318337108224}
   - component: {fileID: 633557868480345274}
   - component: {fileID: 4546198631519832747}
+  - component: {fileID: 354192828082712581}
   - component: {fileID: 4261115536860104353}
   - component: {fileID: 5306493788617013658}
-  - component: {fileID: 354192828082712581}
   m_Layer: 0
   m_Name: GameMasterActor
   m_TagString: Untagged
@@ -92,6 +92,21 @@ MonoBehaviour:
   - {fileID: 4261115536860104353}
   - {fileID: 5306493788617013658}
   initializedOrder: 8
+--- !u!114 &354192828082712581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6428323591366249912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d27dfc2f40029c448fcebf00229f8bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGameLevelGameMasterActor
+  isEnableGizmos: 1
+  color: {r: 1, g: 0.6627451, b: 0, a: 1}
+  inGameLevelGameMaster: {fileID: 4261115536860104353}
 --- !u!114 &4261115536860104353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,21 +208,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   gameMaster: {fileID: 4261115536860104353}
   player: {fileID: 0}
---- !u!114 &354192828082712581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6428323591366249912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d27dfc2f40029c448fcebf00229f8bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InGameLevelGameMasterActor
-  isEnableGizmos: 1
-  color: {r: 1, g: 0.6627451, b: 0, a: 1}
-  inGameLevelGameMaster: {fileID: 4261115536860104353}
 --- !u!1001 &2207999507414321961
 PrefabInstance:
   m_ObjectHideFlags: 0
