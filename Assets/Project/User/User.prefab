@@ -42,10 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4667555714847802826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224cbc8161b53cf45aa9572600bb136b, type: 3}
+  m_Script: {fileID: 11500000, guid: d0177cefad121a7479c353867c75d03a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  isEnableGizmos: 1
+  color: {r: 0, g: 0.27242327, b: 1, a: 0.7490196}
 --- !u!114 &5539241609350170513
 MonoBehaviour:
   m_ObjectHideFlags: 0
