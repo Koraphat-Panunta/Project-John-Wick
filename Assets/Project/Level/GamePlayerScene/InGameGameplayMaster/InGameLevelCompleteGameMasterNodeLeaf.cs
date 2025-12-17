@@ -4,7 +4,7 @@ using UnityEngine;
 public class InGameLevelCompleteGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf<InGameLevelGameMaster>
 {
 
-    private UserActor user => gameMaster.user;
+    private UserInputActor user => gameMaster.user;
     private LevelCompleteUICanvas misstionCompleteUICanvas;
 
     public GameManager gameManager { get => gameMaster.gameManager; set { } }

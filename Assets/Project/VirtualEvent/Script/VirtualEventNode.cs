@@ -29,12 +29,23 @@ public abstract class VirtualEventNode : MonoBehaviour
         this.onDrawGizmosTriggerEvent.isDrawEnable = this.isEnableGizmos;
     }
 
+    public float drawNameDistance = 7; 
     protected virtual void OnDrawGizmos()
     {
         if(isEnableGizmos == false)
             return;
 
-        Handles.Label(this.transform.position + (Vector3.up * .3f), this.name);
+        Vector3 cameraPos;
+        if (Application.isPlaying){
+            cameraPos = Camera.main.transform.position;
+        }
+        else{
+            cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+        }
+        if (Vector3.Distance(cameraPos, this.transform.position) < this.drawNameDistance){
+            Handles.Label(this.transform.position + (Vector3.up * .3f), this.name);
+        }
+
         Gizmos.color = color;
         Gizmos.DrawSphere(this.transform.position,  .25f);
 

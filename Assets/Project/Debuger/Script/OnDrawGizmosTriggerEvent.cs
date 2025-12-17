@@ -46,7 +46,19 @@ public class OnDrawGizmosTriggerEvent
                 //Gizmos.DrawCube(targetPos,Vector3.one * .25f);
                 // Draw labels
                 Vector3 unityEventNamePos = targetPos + ((triggerEvent.position - targetPos).normalized * 1.5f) + Vector3.up * 0.3f;
-                Handles.Label(unityEventNamePos, unityEvent.GetPersistentMethodName(i));
+                Vector3 cameraPos;
+                if (Application.isPlaying)
+                {
+                    cameraPos = Camera.main.transform.position;
+                }
+                else
+                {
+                    cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+                }
+                if (Vector3.Distance(cameraPos, unityEventNamePos) < 7)
+                {
+                    Handles.Label(unityEventNamePos, unityEvent.GetPersistentMethodName(i));
+                }
 
                 Gizmos.DrawRay(unityEventNamePos,Vector3.down * .3f);
                 DrawSphere(triggerEvent.position, targetPos, color);

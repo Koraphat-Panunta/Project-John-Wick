@@ -1,19 +1,15 @@
 using UnityEngine;
-using static Player;
-using static SubjectPlayer;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
-using System;
 
-public class UserActor : Actor,IInitializedAble,UserInput.IPlayerActionActions
+public class UserInputActor : Actor,IInitializedAble,UserInput.IPlayerActionActions
 {
     public UserInput userInput { get; protected set; }
 
     public void Initialized()
     {
         userInput = new UserInput();
-
         userInput.PlayerAction.AddCallbacks(this);
+        userInput.PlayerAction.Enable();
     }
 
    
@@ -85,7 +81,7 @@ public class UserActor : Actor,IInitializedAble,UserInput.IPlayerActionActions
         base.NotifyObserver(context);
     }
 
-    public void OnTriggerPickingUpWeapon(InputAction.CallbackContext context)
+    public void OnInteract(InputAction.CallbackContext context)
     {
         base.NotifyObserver(context);
     }
@@ -108,5 +104,11 @@ public class UserActor : Actor,IInitializedAble,UserInput.IPlayerActionActions
     public void OnHolsterWeapon(InputAction.CallbackContext context)
     {
         base.NotifyObserver(context);
+    }
+
+    public enum InpuPhase
+    {
+        performed,
+        canceled
     }
 }

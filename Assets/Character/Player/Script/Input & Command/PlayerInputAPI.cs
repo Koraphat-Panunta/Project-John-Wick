@@ -8,7 +8,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 {
 
     public Player player;
-    public UserActor user;
+    public UserInputActor user;
     public void Initialized()
     {
         player = GetComponent<Player>();
@@ -177,10 +177,15 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 
     private void OnValidate()
     {
-        this.user = FindAnyObjectByType<UserActor>();
+        this.user = FindAnyObjectByType<UserInputActor>();
     }
-    public void InitailizedInputAction()
+
+    protected bool isEnable;
+   
+    public void EnablePlayerInputAPI()
     {
+        if (isEnable)
+            return;
 
         this.user.userInput.PlayerAction.Move.performed += this.Move;
         this.user.userInput.PlayerAction.Move.canceled += this.Move;
@@ -200,8 +205,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         this.user.userInput.PlayerAction.Reload.performed += this.Reload;
         this.user.userInput.PlayerAction.Reload.canceled += this.Reload;
 
-        //userInput.NotifyEvent.SwapShoulder.performed += playerInputAPI.SwapShoulder;
-        this.user.userInput.PlayerAction.SwapShoulder.canceled += this.SwapShoulder;
+        this.user.userInput.PlayerAction.SwapShoulder.performed += this.SwapShoulder;
 
         this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.performed += this.TriggerSwitchDrawPrimaryWeapon;
         this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.canceled += this.TriggerSwitchDrawPrimaryWeapon;
@@ -219,9 +223,66 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 
         this.user.userInput.PlayerAction.TriggerDodgeRoll.performed += this.TriggerSpecialMove;
 
-        this.user.userInput.PlayerAction.TriggerPickingUpWeapon.performed += this.TriggerInteract;
+        this.user.userInput.PlayerAction.Interact.performed += this.TriggerInteract;
 
         this.user.userInput.PlayerAction.TriggerDropWeapon.performed += this.TriggerDropWeapon;
+
+        isEnable = true;    
+    }
+
+    public void DisablePlayerInputAPI()
+    {
+        if(isEnable == false)
+            return;
+
+        this.player.inputMoveDir_Local = Vector2.zero;
+        this.player.inputLookDir_Local = Vector2.zero;
+
+        this.user.userInput.PlayerAction.Move.performed -= this.Move;
+        this.user.userInput.PlayerAction.Move.canceled -= this.Move;
+
+        this.user.userInput.PlayerAction.Look.performed -= this.Look;
+        this.user.userInput.PlayerAction.Look.canceled -= this.Look;
+
+        this.user.userInput.PlayerAction.Sprint.performed -= this.Sprint;
+        this.user.userInput.PlayerAction.Sprint.canceled -= this.Sprint;
+
+        this.user.userInput.PlayerAction.Aim.performed -= this.Aim;
+        this.user.userInput.PlayerAction.Aim.canceled -= this.Aim;
+
+        this.user.userInput.PlayerAction.Attack.performed -= this.Attack; ;
+        this.user.userInput.PlayerAction.Attack.canceled -= this.Attack;
+
+        this.user.userInput.PlayerAction.Reload.performed -= this.Reload;
+        this.user.userInput.PlayerAction.Reload.canceled -= this.Reload;
+
+        this.user.userInput.PlayerAction.SwapShoulder.performed -= this.SwapShoulder;
+
+        this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.performed -= this.TriggerSwitchDrawPrimaryWeapon;
+        this.user.userInput.PlayerAction.TriggerSwitchDrawPrimary.canceled -= this.TriggerSwitchDrawPrimaryWeapon;
+
+        this.user.userInput.PlayerAction.TriggerSwitchDrawSecondary.performed -= this.TriggerSwitchDrawSecondaryWeapon;
+        this.user.userInput.PlayerAction.TriggerSwitchDrawSecondary.canceled -= this.TriggerSwitchDrawSecondaryWeapon;
+
+        this.user.userInput.PlayerAction.HolsterWeapon.performed -= this.HolsterWeapon;
+        this.user.userInput.PlayerAction.HolsterWeapon.canceled -= this.HolsterWeapon;
+
+        this.user.userInput.PlayerAction.TrggerGunFuExecute.performed -= this.TriggerGunFuExecute;
+
+        this.user.userInput.PlayerAction.ToggleChangeStance.performed -= this.ToggleCrouchStand;
+        this.user.userInput.PlayerAction.ToggleChangeStance.canceled -= this.ToggleCrouchStand;
+
+        this.user.userInput.PlayerAction.TriggerDodgeRoll.performed -= this.TriggerSpecialMove;
+
+        this.user.userInput.PlayerAction.Interact.performed -= this.TriggerInteract;
+
+        this.user.userInput.PlayerAction.TriggerDropWeapon.performed -= this.TriggerDropWeapon;
+
+        isEnable = false;
+    }
+    public void InitailizedInputAction()
+    {
+        this.EnablePlayerInputAPI();
     }
 
 }

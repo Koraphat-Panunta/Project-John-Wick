@@ -53,9 +53,20 @@ public class TriggerBoxActor : Actor
 
         if (this.isEnableGizmos == false)
             return;
-        
 
-        Handles.Label(transform.position + (Vector3.up * this.boxCollider.size.y), this.name);
+        Vector3 cameraPos;
+        if (Application.isPlaying)
+        {
+            cameraPos = Camera.main.transform.position;
+        }
+        else
+        {
+            cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+        }
+        if (Vector3.Distance(cameraPos, this.transform.position) < base.drawNameDistance)
+        {
+            Handles.Label(transform.position + (Vector3.up * this.boxCollider.size.y), this.name);
+        }
         Gizmos.DrawRay(transform.position, Vector3.up * this.boxCollider.size.y);
 
         Gizmos.color = Color.black;

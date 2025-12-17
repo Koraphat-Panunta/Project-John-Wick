@@ -42,12 +42,5 @@ public class VideoTutorialPlayGameMasterNodeLeaf : InGameLevelGameMasterNodeLeaf
     {
         return false;
     }
-    public void SetTextTutorial(String tutorialText)
-    {
-        this.videoTutorialUI.SetTutorialMassage(tutorialText);
-    }
-    public void SetVideoPlayer(VideoClip videoClip)
-    {
-        this.videoTutorialUI.SetVideoPlayer(videoClip);
-    }
+ 
 }

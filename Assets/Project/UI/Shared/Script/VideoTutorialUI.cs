@@ -6,30 +6,17 @@ using UnityEngine.Video;
 public class VideoTutorialUI : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private TextMeshProUGUI tutorialMassage;
-
-    [SerializeField] private string tutorialName;
-
-    public void SetVideoPlayer(VideoClip videoClip)
-    {
-        this.videoPlayer.clip = videoClip;
-    }
-
-    public void SetTutorialMassage(string tutorialMassage)
-    {
-        this.tutorialMassage.SetText(tutorialMassage);
-    }
-
-    public VideoPlayer GetVideoPlayer() => this.videoPlayer;
-    public TextMeshProUGUI GetTutorialMassage() => this.tutorialMassage;
+    [SerializeField] private GameObject uiCanvasZone;
 
     private void OnEnable()
     {
         this.videoPlayer.Play();
+        this.uiCanvasZone.SetActive(true);
     }
     private void OnDisable()
     {
         this.videoPlayer.Stop();
+        this.uiCanvasZone.SetActive(false);
     }
 
 }

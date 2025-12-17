@@ -104,7 +104,20 @@ public class DoorActor : Actor,I_Interactable
 
         Gizmos.color = color;
         Gizmos.DrawCube(_transform.position, Vector3.one * .3f);
-        Handles.Label(_transform.position + (Vector3.up * .35f), this.name);
+        Vector3 cameraPos;
+        if (Application.isPlaying)
+        {
+            cameraPos = Camera.main.transform.position;
+        }
+        else
+        {
+            cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+        }
+        if (Vector3.Distance(cameraPos, this.transform.position) < base.drawNameDistance)
+        {
+            Handles.Label(_transform.position + (Vector3.up * .35f), this.name);
+        }
+        
         Gizmos.DrawRay(_transform.position, Vector3.up * .35f);
     }
 }

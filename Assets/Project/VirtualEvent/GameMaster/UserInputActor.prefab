@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4626181361320299425}
   - component: {fileID: 5539241609350170513}
   m_Layer: 0
-  m_Name: User
+  m_Name: UserInputActor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,11 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4667555714847802826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0177cefad121a7479c353867c75d03a, type: 3}
+  m_Script: {fileID: 11500000, guid: 13b8b649ecd470b4eb81779a35c834f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isEnableGizmos: 1
-  color: {r: 0, g: 0.27242327, b: 1, a: 0.7490196}
+  color: {r: 0, g: 0.27058825, b: 1, a: 0.7490196}
 --- !u!114 &5539241609350170513
 MonoBehaviour:
   m_ObjectHideFlags: 0
