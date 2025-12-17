@@ -86,4 +86,10 @@ public class OnDrawGizmosTriggerEvent
             Gizmos.DrawLine(triggerPosition, targetPos);
         }
     }
+
+    public void DrawLine(Vector3 triggerPosition, Vector3 targetPos, Color color) 
+    {
+        Gizmos.color = color;
+        Gizmos.DrawLine(triggerPosition, targetPos);
+    }
 }
