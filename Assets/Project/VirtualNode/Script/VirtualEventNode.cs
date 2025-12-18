@@ -16,6 +16,7 @@ public abstract class VirtualEventNode : MonoBehaviour
         {
             for (int i = 0; i < this.nextVirtualEventNode.Length; i++)
             {
+                if (this.nextVirtualEventNode[i] != null)
                 this.nextVirtualEventNode[i].Execute();
             }
         }
@@ -56,7 +57,7 @@ public abstract class VirtualEventNode : MonoBehaviour
         DrawName(this.transform.position,this.name);
 
         Gizmos.color = color;
-        Gizmos.DrawSphere(this.transform.position,  .2f);
+        Gizmos.DrawSphere(this.transform.position,  .125f);
 
         if (this.nextVirtualEventNode != null && this.nextVirtualEventNode.Length > 0)
         {

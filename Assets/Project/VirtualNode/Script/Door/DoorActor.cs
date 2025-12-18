@@ -67,7 +67,6 @@ public class DoorActor : Actor,I_Interactable
     }
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
-        Debug.Log("DoInteract");
 
         if(isLocked)
             return;

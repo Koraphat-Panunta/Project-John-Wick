@@ -9,7 +9,7 @@ public class OnDrawGizmosTriggerEvent
 {
     float t = 0;
 
-    float sphereSize = 0.06f;
+    float sphereSize = 0.04f;
     float speed = .25f;
 
     int numberOfSphere = 4;
