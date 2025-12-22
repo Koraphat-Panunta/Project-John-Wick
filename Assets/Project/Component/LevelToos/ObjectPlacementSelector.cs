@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ObjectPlacementSelector : MonoBehaviour
 {
@@ -6,7 +8,8 @@ public class ObjectPlacementSelector : MonoBehaviour
     [SerializeField] private int index = 0;
 
     [SerializeField] private GameObject curentObjPlace;
-   
+
+    [SerializeField] protected Transform placeTransform;
     private void OnValidate()
     {
         
@@ -35,12 +38,12 @@ public class ObjectPlacementSelector : MonoBehaviour
         curentObjPlace = this.Current.gameObject;
         curentObjPlace.gameObject.SetActive(true);
 
-        curentObjPlace.transform.position = transform.position
-            + (transform.forward * this.Current.positionOffset.z)
-            + (transform.up * this.Current.positionOffset.y)
-            + (transform.right * this.Current.positionOffset.x);
+        curentObjPlace.transform.position = placeTransform.position
+            + (placeTransform.forward * this.Current.positionOffset.z)
+            + (placeTransform.up * this.Current.positionOffset.y)
+            + (placeTransform.right * this.Current.positionOffset.x);
 
-        curentObjPlace.transform.rotation = transform.rotation * Quaternion.Euler(this.Current.rotationEulerOffset);
+        curentObjPlace.transform.rotation = placeTransform.rotation * Quaternion.Euler(this.Current.rotationEulerOffset);
     }
 
     public void NextObject()
@@ -70,6 +73,26 @@ public class ObjectPlacementSelector : MonoBehaviour
             if (this.objectPlacements[i].gameObject != curentObjPlace)
                 DestroyImmediate(this.objectPlacements[i].gameObject);
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white * .75f;
+        Gizmos.DrawSphere(placeTransform.position, .1f);
+
+        Vector3 cameraPos;
+        if (Application.isPlaying)
+        {
+            cameraPos = Camera.main.transform.position;
+        }
+        else
+        {
+            cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+        }
+        if (Vector3.Distance(cameraPos, placeTransform.position) < 4.5f)
+        {
+            Handles.Label(placeTransform.position + (Vector3.up * .2f), "Select Prop");
+        }
+
     }
 
 }

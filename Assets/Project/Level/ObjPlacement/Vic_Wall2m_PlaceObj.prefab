@@ -57,8 +57,9 @@ MonoBehaviour:
   - gameObject: {fileID: 1161645141124727093}
     positionOffset: {x: 0, y: -1, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
-  index: 2
-  curentObjPlace: {fileID: 1161645141124727093}
+  index: 0
+  curentObjPlace: {fileID: 2084580287521663904}
+  placeTransform: {fileID: 1436528397011413249}
 --- !u!1001 &3556633878761409991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -210,7 +211,7 @@ PrefabInstance:
     - target: {fileID: 9024618486057498499, guid: 4b4292cb171a48b44ba47e261abcc134,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -295,7 +296,7 @@ PrefabInstance:
     - target: {fileID: 8316397649259743871, guid: 8f01d3c4fa0639c4b859762980d5a3a4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
