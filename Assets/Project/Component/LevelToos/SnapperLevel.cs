@@ -174,7 +174,7 @@ public class SnapperLevel : MonoBehaviour
 
         if (snapAnchor != null)
         {
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position,snapAnchor.transform.position);
         }
         else
