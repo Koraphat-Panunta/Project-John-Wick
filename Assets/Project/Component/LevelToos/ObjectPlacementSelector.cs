@@ -76,8 +76,7 @@ public class ObjectPlacementSelector : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.white * .75f;
-        Gizmos.DrawSphere(placeTransform.position, .1f);
+
 
         Vector3 cameraPos;
         if (Application.isPlaying)
@@ -88,9 +87,15 @@ public class ObjectPlacementSelector : MonoBehaviour
         {
             cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
         }
+
         if (Vector3.Distance(cameraPos, placeTransform.position) < 4.5f)
         {
             Handles.Label(placeTransform.position + (Vector3.up * .2f), "Select Prop");
+        }
+        if (Vector3.Distance(cameraPos, placeTransform.position) < 7.25f)
+        {
+            Gizmos.color = Color.white * .75f;
+            Gizmos.DrawSphere(placeTransform.position, .1f);
         }
 
     }
