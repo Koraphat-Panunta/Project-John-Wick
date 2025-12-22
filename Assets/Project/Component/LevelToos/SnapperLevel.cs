@@ -16,7 +16,20 @@ public class SnapperLevel : MonoBehaviour
 
     Vector3 lastPosition;
     Quaternion lastRotation;
-    [SerializeField] bool isSnapped;
+    [SerializeField] bool isSnappedValue;
+    protected bool getIsSnapped 
+    {
+        get 
+        {
+            if(snapAnchor == null)
+                isSnappedValue = false;
+            return isSnappedValue;
+        }
+        set
+        {
+            this.isSnappedValue = value;
+        }
+    }
 
     // --------------------------------------
     void OnEnable()
@@ -61,7 +74,7 @@ public class SnapperLevel : MonoBehaviour
     // --------------------------------------
     void FindingSnapAnchor()
     {
-        if (isSnapped) return;
+        if (getIsSnapped) return;
         if (snapTransform == null) return;
 
         int layerMask = LayerMask.GetMask("SnapSocket");
@@ -78,9 +91,18 @@ public class SnapperLevel : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (!hit.TryGetComponent(out SnapperLevel other)) continue;
-            if (other == this) continue;
-            if (other.snapTransform == null) continue;
+            if (!hit.TryGetComponent(out SnapperLevel other)) 
+                continue;
+            if (other == this) 
+                continue;
+            if (other.snapTransform == null) 
+                continue;
+            if (other.snapTransform == this.snapTransform)
+                continue;
+            if(other.getIsSnapped)
+                continue;
+            if(other.snapAnchor != null)
+                continue;
 
             float dist = Vector3.Distance(
                 transform.position,
@@ -107,11 +129,10 @@ public class SnapperLevel : MonoBehaviour
     void SnapTo(SnapperLevel target)
     {
         snapAnchor = target;
-        isSnapped = true;
+        getIsSnapped = true;
 
-
-        // POSITION
-        snapTransform.rotation = Quaternion.LookRotation(target.transform.forward * (Vector3.Dot(target.transform.forward, snapTransform.forward) > 0 ? 1f : -1f), target.transform.up); 
+        Quaternion addRot = Quaternion.FromToRotation(transform.forward, target.transform.forward * -1);
+        snapTransform.rotation *= addRot;
 
         Vector3 deltaPos = snapTransform.position - transform.position;
         snapTransform.position = target.transform.position + deltaPos;
@@ -127,24 +148,24 @@ public class SnapperLevel : MonoBehaviour
         if (snapAnchor != null)
         {
             snapAnchor.snapAnchor = null;
-            snapAnchor.isSnapped = false;
+            snapAnchor.getIsSnapped = false;
         }
 
         snapAnchor = null;
-        isSnapped = false;
+        getIsSnapped = false;
     }
 
     // --------------------------------------
     public void OnSnap(SnapperLevel other)
     {
         snapAnchor = other;
-        isSnapped = true;
+        getIsSnapped = true;
     }
 
     // --------------------------------------
     void OnDrawGizmos()
     {
-        if(isSnapped)
+        if(getIsSnapped)
             return;
 
         Gizmos.color = Color.blue;
