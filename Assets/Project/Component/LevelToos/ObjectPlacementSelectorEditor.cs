@@ -24,7 +24,12 @@ public class ObjectPlacementSelectorEditor : Editor
         {
             selector.NextObject();
         }
+       
         EditorGUILayout.EndHorizontal();
+        if (GUILayout.Button("Random ?"))
+        {
+            selector.RandomObject();
+        }
 
         EditorGUILayout.Space(5);
 

@@ -53,6 +53,16 @@ public class ObjectPlacementSelector : MonoBehaviour
 
         UpdateObj();
     }
+    public void RandomObject()
+    {
+        int curIndex = index;
+
+        index = UnityEngine.Random.Range(0, objectPlacements.Length);
+        if(index == curIndex)
+            index = (index + 1) % objectPlacements.Length;
+
+        UpdateObj();
+    }
 
     public void BackObject()
     {
