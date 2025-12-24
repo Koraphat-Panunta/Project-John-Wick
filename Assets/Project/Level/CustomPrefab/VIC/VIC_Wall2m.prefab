@@ -410,8 +410,14 @@ MonoBehaviour:
   - gameObject: {fileID: 5389085753112084289}
     positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
+  - gameObject: {fileID: 6077566099822041793}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
   - gameObject: {fileID: 4115502280333997693}
     positionOffset: {x: 0, y: -1, z: 0}
+    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  - gameObject: {fileID: 8637267455188443128}
+    positionOffset: {x: 0, y: 0, z: 0}
     rotationEulerOffset: {x: 0, y: 0, z: 0}
   index: 0
   curentObjPlace: {fileID: 3886086577256979688}
@@ -1418,7 +1424,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8895288007302103816, guid: 17847427202319644aa3fb6849ee782b, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1944140247648408049, guid: 17847427202319644aa3fb6849ee782b, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17847427202319644aa3fb6849ee782b, type: 3}
@@ -1443,6 +1450,18 @@ Transform:
 --- !u!1 &5389085753112084289 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7190609703876904969, guid: 17847427202319644aa3fb6849ee782b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2955431854751250248}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6077566099822041793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9030869231197695369, guid: 17847427202319644aa3fb6849ee782b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2955431854751250248}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8637267455188443128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6836025941607508144, guid: 17847427202319644aa3fb6849ee782b,
     type: 3}
   m_PrefabInstance: {fileID: 2955431854751250248}
   m_PrefabAsset: {fileID: 0}
