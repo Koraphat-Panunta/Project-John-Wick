@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class ObjectPlacementSelector : MonoBehaviour
 {
-    [SerializeField] private ObjectPlacement[] objectPlacements;
+    [SerializeField] private GameObject[] objectPlacements;
     [SerializeField] private int index = 0;
 
     [SerializeField] private GameObject curentObjPlace;
@@ -21,7 +21,7 @@ public class ObjectPlacementSelector : MonoBehaviour
 
     }
 
-    public ObjectPlacement Current =>
+    public GameObject Current =>
         objectPlacements != null && objectPlacements.Length > 0
         ? objectPlacements[Mathf.Clamp(index, 0, objectPlacements.Length - 1)]
         : default;
@@ -38,12 +38,7 @@ public class ObjectPlacementSelector : MonoBehaviour
         curentObjPlace = this.Current.gameObject;
         curentObjPlace.gameObject.SetActive(true);
 
-        curentObjPlace.transform.position = placeTransform.position
-            + (placeTransform.forward * this.Current.positionOffset.z)
-            + (placeTransform.up * this.Current.positionOffset.y)
-            + (placeTransform.right * this.Current.positionOffset.x);
 
-        curentObjPlace.transform.rotation = placeTransform.rotation * Quaternion.Euler(this.Current.rotationEulerOffset);
     }
 
     public void NextObject()
@@ -112,10 +107,4 @@ public class ObjectPlacementSelector : MonoBehaviour
 
 }
 
-[System.Serializable]
-public struct ObjectPlacement
-{
-    public GameObject gameObject;
-    public Vector3 positionOffset;
-    public Vector3 rotationEulerOffset;
-}
+

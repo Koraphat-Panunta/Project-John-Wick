@@ -51,24 +51,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPlacementSelector
   objectPlacements:
-  - gameObject: {fileID: 2084580287521663904}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 7190609703876904969}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 9030869231197695369}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 1944140247648408049}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 1161645141124727093}
-    positionOffset: {x: 0, y: -1, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 6836025941607508144}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  - {fileID: 2084580287521663904}
+  - {fileID: 7190609703876904969}
+  - {fileID: 9030869231197695369}
+  - {fileID: 1944140247648408049}
+  - {fileID: 1161645141124727093}
+  - {fileID: 6836025941607508144}
   index: 0
   curentObjPlace: {fileID: 2084580287521663904}
   placeTransform: {fileID: 1436528397011413249}
@@ -549,7 +537,7 @@ PrefabInstance:
     - target: {fileID: 9024618486057498499, guid: 4b4292cb171a48b44ba47e261abcc134,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

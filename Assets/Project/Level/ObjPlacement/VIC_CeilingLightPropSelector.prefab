@@ -47,12 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPlacementSelector
   objectPlacements:
-  - gameObject: {fileID: 8572909551560385478}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
-  - gameObject: {fileID: 364926814378912918}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationEulerOffset: {x: 0, y: 0, z: 0}
+  - {fileID: 8572909551560385478}
+  - {fileID: 364926814378912918}
   index: 0
   curentObjPlace: {fileID: 8572909551560385478}
   placeTransform: {fileID: 2833533189373265048}
