@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2442226900271321182}
-  - component: {fileID: 4704367542176489471}
   - component: {fileID: 3953643783874023878}
   - component: {fileID: 5167276589927715997}
   m_Layer: 15
@@ -38,28 +37,6 @@ Transform:
   - {fileID: 6825290030503097325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &4704367542176489471
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4846111321204589498}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6030c938599b1884b9bb071ed92c429e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3953643783874023878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnableGizmos: 1
   color: {r: 0.008560293, g: 0.5018867, b: 0, a: 0.8862745}
-  animator: {fileID: 4704367542176489471}
+  drawNameDistance: 10
   collider: {fileID: 5167276589927715997}
   isInteractAble: 1
   lockedValue: 0
