@@ -62,6 +62,7 @@
 *.max    filter=lfs diff=lfs merge=lfs -text
 *.mb     filter=lfs diff=lfs merge=lfs -text
 *.obj    filter=lfs diff=lfs merge=lfs -text
+*.fbx    filter=lfs diff=lfs merge=lfs -text
 # Compressed Archive
 *.7z   filter=lfs diff=lfs merge=lfs -text
 *.bz2  filter=lfs diff=lfs merge=lfs -text
