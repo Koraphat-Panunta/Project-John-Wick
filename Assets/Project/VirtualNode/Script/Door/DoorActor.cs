@@ -3,33 +3,52 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEditor;
 using System.Collections;
+using System.Linq;
 
-public class DoorActor : Actor,I_Interactable
+public class DoorActor : Actor, I_Interactable
 {
 
     Coroutine Coroutine;
     public enum DoorEvent
     {
-        Open, 
+        Open,
         Close
     }
 
     // 1 : Open to the back
     // -1 : Open to the front 
+    [System.Serializable]
+    public struct DoorTransformValue
+    {
+        public Transform door;
 
-    [SerializeField] protected float curDoorWeight; // -1>0>1
-    protected float targetDoorWeight; // -1>0>1
+        public Vector3 localClosePosition;
+        public Vector3 localCloseRotation;
 
-    public bool isOpen { get => curDoorWeight == 0? true:false; }
+        public Vector3 localOpenFrontPosition;
+        public Vector3 localOpenFrontRotation;
+
+        public Vector3 localOpenBackPosition;
+        public Vector3 localOpenBackRotation;
+    }
+    [SerializeField] DoorTransformValue[] doors;
+
+    [SerializeField] protected float curDoorWeight = .5f; // 0>.5>1
+    [SerializeField] protected float targetDoorWeight; // 0>.5>1
+
+    public bool isOpen { get => curDoorWeight == .5f ? false : true; }
     public virtual Collider _collider { get => this.collider; set => this.collider = value; }
-    [SerializeField]  private Collider collider;
+    [SerializeField] private Collider collider;
     public virtual bool isBeenInteractAble { get => isInteractAble; set => isInteractAble = value; }
     [SerializeField] private bool isInteractAble;
     [SerializeField] protected bool lockedValue;
     [SerializeField] private Transform referenceInteractAbleTransform;
+
+
     public Transform _transform { get => referenceInteractAbleTransform; set { } }
-    public virtual bool isLocked { 
-        get 
+    public virtual bool isLocked
+    {
+        get
         {
             if (isOpen)
             {
@@ -37,25 +56,33 @@ public class DoorActor : Actor,I_Interactable
                 return false;
             }
             return lockedValue;
-        } 
-        set 
-        { 
-            lockedValue = value; 
-        } 
+        }
+        set
+        {
+            lockedValue = value;
+        }
     }
+    private void Awake()
+    {
+        if (this.doors == null || this.doors.Length <= 0)
+            return;
 
-
-    
-
+        for (int i = 0; i < this.doors.Length; i++)
+        {
+            this.doors[i].localClosePosition = this.doors[i].door.localPosition;
+            this.doors[i].localCloseRotation = this.doors[i].door.localRotation.eulerAngles;
+        }
+    }
     public void Open()
     {
         this.Open(1);
     }
     public void Open(float weight)
     {
+
         this.targetDoorWeight = weight;
 
-        if (this.Coroutine != null)
+        if (this.Coroutine == null)
             this.Coroutine = StartCoroutine(DoorEventUpdate());
 
         base.NotifyObserver(DoorEvent.Open);
@@ -63,35 +90,41 @@ public class DoorActor : Actor,I_Interactable
     }
     public void Close()
     {
-        this.curDoorWeight = 0;
 
-        if (this.Coroutine != null)
+        this.targetDoorWeight = .5f;
+
+        if (this.Coroutine == null)
+        {
             this.Coroutine = StartCoroutine(DoorEventUpdate());
+        }
 
         base.NotifyObserver(DoorEvent.Close);
         this.NotifyObserver();
     }
-   public void DoInteract()
+    public void DoInteract()
     {
         this.DoInteract(null);
     }
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
 
-        if(isLocked)
+        if (isLocked)
             return;
 
-        if(isOpen)
+        if (isOpen)
             Close();
         else
         {
-
-            if(i_Interacter is Transform transform)
+            Debug.Log("I_Interacter = " + i_Interacter);
+            if (i_Interacter is Character character)
             {
-                if (Vector3.Dot(this.transform.forward, (transform.position - this.transform.position).normalized) > 0)
+                float dot = Vector3.Dot(this.transform.forward, (character.transform.position - this.transform.position).normalized);
+                Debug.Log("dot = " + dot);
+                if (dot > 0)
                     this.Open(1);
                 else
-                    this.Open(-1);
+                    this.Open(0);
+                return;
             }
 
             Open();
@@ -103,16 +136,16 @@ public class DoorActor : Actor,I_Interactable
     {
         this.observerDoors.Add(observerDoor);
     }
-    public void RemoveOberver(IObserverDoor removedObserver) 
+    public void RemoveOberver(IObserverDoor removedObserver)
     {
         this.observerDoors.Remove(removedObserver);
     }
     public void NotifyObserver()
     {
-        if(this.observerDoors.Count <= 0)
+        if (this.observerDoors.Count <= 0)
             return;
 
-        for (int i = 0; i < this.observerDoors.Count; i++) 
+        for (int i = 0; i < this.observerDoors.Count; i++)
         {
             this.observerDoors[i].OnNotify(this);
         }
@@ -138,19 +171,44 @@ public class DoorActor : Actor,I_Interactable
         {
             Handles.Label(_transform.position + (Vector3.up * .35f), this.name);
         }
-        
+
         Gizmos.DrawRay(_transform.position, Vector3.up * .35f);
     }
 
     protected IEnumerator DoorEventUpdate()
     {
 
-        while(this.curDoorWeight != this.targetDoorWeight)
+        while (this.curDoorWeight != this.targetDoorWeight)
         {
             this.curDoorWeight = Mathf.MoveTowards(this.curDoorWeight, this.targetDoorWeight, Time.deltaTime);
-            yield return null;
-        }
+            Debug.Log("DoorEventUpdate");
+            if (this.doors != null && this.doors.Length > 0)
+            { 
+                for (int i = 0; i < this.doors.Length; i++)
+                {
 
+
+                    this.doors[i].door.localPosition = BezierurveBehavior.GetPointOnBezierCurve
+                        (this.doors[i].localClosePosition + this.doors[i].localOpenBackPosition
+                        , this.doors[i].localClosePosition
+                        , this.doors[i].localClosePosition + this.doors[i].localOpenFrontPosition
+                        , this.curDoorWeight);
+
+                    this.doors[i].door.rotation = Quaternion.Euler(
+                        BezierurveBehavior.GetPointOnBezierCurve
+                        (this.doors[i].localCloseRotation + this.doors[i].localOpenBackRotation
+                        , this.doors[i].localCloseRotation
+                        , this.doors[i].localCloseRotation + this.doors[i].localOpenFrontRotation
+                        , this.curDoorWeight)
+                        );
+                   
+
+                }
+
+            }
+            yield return null;
+
+        }
         this.Coroutine = null;
     }
 }
