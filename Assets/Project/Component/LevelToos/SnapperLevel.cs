@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -7,6 +9,7 @@ using UnityEditor;
 [ExecuteAlways]
 public class SnapperLevel : MonoBehaviour
 {
+
     [Header("Snap Settings")]
     [SerializeField] protected Transform snapTransform;
     [SerializeField] protected float snapRadius = 0.25f;
@@ -38,44 +41,53 @@ public class SnapperLevel : MonoBehaviour
         lastRotation = transform.rotation;
     }
     private bool isMovingLast;
+    public bool isMoving { get; protected set; }
     void Update()
     {
 #if UNITY_EDITOR
         if (Application.isPlaying) return;
 
-        bool isMoving =
+        this.isMoving =
             transform.position != lastPosition ||
             transform.rotation != lastRotation;
 
-        if (this.snapAnchor != null)
+        if (this.getIsSnapped)
         {
-            if(Vector3.Distance(this.transform.position,this.snapAnchor.transform.position) > snapRadius)
-                Unsnap();
+            if(this.isMoving)
+            this.Unsnap();
+
+            if(snapAnchor != null 
+                && snapAnchor.snapAnchor != this)
+                snapAnchor = null;
         }
         else
-            FindingSnapAnchor();
-
-
-
-        if (this.isMovingLast 
-            && isMoving == false
-            && snapAnchor != null)
         {
-            SnapTo(snapAnchor);
+            FindingSnapAnchor();
+            if (this.isMovingLast
+           && this.isMoving == false
+           && snapAnchor != null
+           )
+            {
+                SnapTo(snapAnchor);
+            }
         }
 
-        isMovingLast = isMoving;
+        isMovingLast = this.isMoving;
 
         lastPosition = transform.position;
         lastRotation = transform.rotation;
 #endif
     }
 
+   
     // --------------------------------------
     void FindingSnapAnchor()
     {
-        if (getIsSnapped) return;
-        if (snapTransform == null) return;
+        if (getIsSnapped) 
+            return;
+        if (snapTransform == null) 
+            return;
+
 
         int layerMask = LayerMask.GetMask("SnapSocket");
 
@@ -91,7 +103,7 @@ public class SnapperLevel : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            if (!hit.TryGetComponent(out SnapperLevel other)) 
+            if (hit.TryGetComponent(out SnapperLevel other) == false) 
                 continue;
             if (other == this) 
                 continue;
@@ -102,6 +114,8 @@ public class SnapperLevel : MonoBehaviour
             if(other.getIsSnapped)
                 continue;
             if(other.snapAnchor != null)
+                continue;
+            if(other.isMoving)
                 continue;
 
             float dist = Vector3.Distance(
@@ -131,12 +145,14 @@ public class SnapperLevel : MonoBehaviour
         snapAnchor = target;
         getIsSnapped = true;
 
-        Quaternion addRot = Quaternion.FromToRotation(transform.forward, target.transform.forward * -1);
-        snapTransform.rotation *= addRot;
+        Quaternion addRotForward = Quaternion.FromToRotation(transform.forward, target.transform.forward * -1);
+        snapTransform.rotation *= addRotForward;
+
+        Quaternion addRotUpward = Quaternion.FromToRotation(transform.up, target.transform.up );
+        snapTransform.rotation *= addRotUpward;
 
         Vector3 deltaPos = snapTransform.position - transform.position;
         snapTransform.position = target.transform.position + deltaPos;
-
 
 
         target.OnSnap(this);
@@ -145,16 +161,17 @@ public class SnapperLevel : MonoBehaviour
     // --------------------------------------
     void Unsnap()
     {
-        if (snapAnchor != null)
-        {
-            snapAnchor.snapAnchor = null;
-            snapAnchor.getIsSnapped = false;
-        }
+        if(snapAnchor != null)
+        snapAnchor.OnUnSnap(this);
 
         snapAnchor = null;
         getIsSnapped = false;
     }
-
+    public void OnUnSnap(SnapperLevel snapper)
+    {
+        snapAnchor = null;
+        getIsSnapped = false;
+    }
     // --------------------------------------
     public void OnSnap(SnapperLevel other)
     {
@@ -168,7 +185,7 @@ public class SnapperLevel : MonoBehaviour
         if(getIsSnapped)
             return;
 
-        Gizmos.color = Color.blue;
+        Gizmos.color = new Color(0.639f, 0.875f,1);
         Gizmos.DrawWireSphere(transform.position, .15f);
 
 
@@ -179,8 +196,22 @@ public class SnapperLevel : MonoBehaviour
         }
         else
         {
+            if (isMoving)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawRay(transform.position, transform.forward * this.snapRadius);
+            }
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(transform.position, transform.forward * .2f);
+
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position, transform.forward * this.snapRadius);
+            Gizmos.DrawRay(transform.position, transform.up * .2f);
         }
+       
     }
+
+   
+
+
 }
