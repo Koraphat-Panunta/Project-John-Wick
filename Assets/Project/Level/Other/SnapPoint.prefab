@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SnapperLevel
   snapTransform: {fileID: 0}
-  snapRadius: 1.25
+  snapRadius: 1
   snapAnchor: {fileID: 0}
   isSnappedValue: 0
+  cylinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &9026538645518231244
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -65,7 +65,7 @@ public class SnapperLevel : MonoBehaviour
             FindingSnapAnchor();
             if (this.isMovingLast
            && this.isMoving == false
-           && snapAnchor != null
+           && this.snapAnchor != null
            )
             {
                 SnapTo(snapAnchor);
@@ -117,6 +117,8 @@ public class SnapperLevel : MonoBehaviour
                 continue;
             if(other.isMoving)
                 continue;
+            if(Vector3.Dot(other.transform.forward,this.transform.forward) >= -.7)
+                continue;
 
             float dist = Vector3.Distance(
                 transform.position,
@@ -148,8 +150,8 @@ public class SnapperLevel : MonoBehaviour
         Quaternion addRotForward = Quaternion.FromToRotation(transform.forward, target.transform.forward * -1);
         snapTransform.rotation *= addRotForward;
 
-        Quaternion addRotUpward = Quaternion.FromToRotation(transform.up, target.transform.up );
-        snapTransform.rotation *= addRotUpward;
+        //Quaternion addRotUpward = Quaternion.FromToRotation(transform.up, target.transform.up );
+        //snapTransform.rotation *= addRotUpward;
 
         Vector3 deltaPos = snapTransform.position - transform.position;
         snapTransform.position = target.transform.position + deltaPos;
@@ -180,13 +182,15 @@ public class SnapperLevel : MonoBehaviour
     }
 
     // --------------------------------------
+    [SerializeField] private Mesh cylinderMesh;
     void OnDrawGizmos()
     {
         if(getIsSnapped)
             return;
 
         Gizmos.color = new Color(0.639f, 0.875f,1);
-        Gizmos.DrawWireSphere(transform.position, .15f);
+        //Gizmos.DrawWireSphere(transform.position, .15f);
+        Gizmos.DrawMesh(cylinderMesh, transform.position + (transform.forward * .1f), Quaternion.LookRotation(transform.up, transform.forward), Vector3.one * .1f);
 
 
         if (snapAnchor != null)
@@ -212,6 +216,7 @@ public class SnapperLevel : MonoBehaviour
     }
 
    
+
 
 
 }
