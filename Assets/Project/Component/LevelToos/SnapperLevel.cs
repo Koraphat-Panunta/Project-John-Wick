@@ -200,13 +200,15 @@ public class SnapperLevel : MonoBehaviour
             cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
         }
 
-        if (Vector3.Distance(cameraPos, transform.position) > 9)
+        float dist = Vector3.Distance(cameraPos, transform.position);
+
+        if (dist > 9)
         return;
        
 
-        Gizmos.color = new Color(0.639f, 0.875f,1);
+        Gizmos.color = new Color(0.639f, 0.875f,1) * Mathf.Clamp((9-dist)/9,.2f,1);
         //Gizmos.DrawWireSphere(transform.position, .15f);
-        Gizmos.DrawMesh(cylinderMesh, transform.position + (transform.forward * .1f), Quaternion.LookRotation(transform.up, transform.forward), Vector3.one * .1f);
+        Gizmos.DrawWireMesh(cylinderMesh, transform.position + (transform.forward * .1f), Quaternion.LookRotation(transform.up, transform.forward), Vector3.one * .1f);
 
 
         if (snapAnchor != null)
