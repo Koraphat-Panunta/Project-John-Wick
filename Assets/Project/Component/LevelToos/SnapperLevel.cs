@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.U2D.ScriptablePacker;
+
 
 
 #if UNITY_EDITOR
@@ -187,6 +189,20 @@ public class SnapperLevel : MonoBehaviour
     {
         if(getIsSnapped)
             return;
+
+        Vector3 cameraPos;
+        if (Application.isPlaying)
+        {
+            cameraPos = Camera.main.transform.position;
+        }
+        else
+        {
+            cameraPos = SceneView.lastActiveSceneView.camera.transform.position;
+        }
+
+        if (Vector3.Distance(cameraPos, transform.position) > 9)
+        return;
+       
 
         Gizmos.color = new Color(0.639f, 0.875f,1);
         //Gizmos.DrawWireSphere(transform.position, .15f);
