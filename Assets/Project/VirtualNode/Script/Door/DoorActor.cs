@@ -194,7 +194,7 @@ public class DoorActor : Actor, I_Interactable
                         , this.doors[i].localClosePosition + this.doors[i].localOpenFrontPosition
                         , this.curDoorWeight);
 
-                    this.doors[i].door.rotation = Quaternion.Euler(
+                    this.doors[i].door.localRotation = Quaternion.Euler(
                         BezierurveBehavior.GetPointOnBezierCurve
                         (this.doors[i].localCloseRotation + this.doors[i].localOpenBackRotation
                         , this.doors[i].localCloseRotation
