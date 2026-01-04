@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &972254918188281705
 Transform:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 3831170673116466051}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.000000104308114}
-  m_LocalPosition: {x: 1.8000001, y: 0, z: -0.5}
+  m_LocalPosition: {x: 1.196, y: 0, z: -0.395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -87,9 +87,9 @@ MonoBehaviour:
   - {fileID: 6725310239280846008}
   - {fileID: 416537725388915535}
   - {fileID: 7661545888235578540}
-  index: 1
-  curentObjPlace: {fileID: 1789495432443310270}
-  placeTransform: {fileID: 941204930761750789}
+  index: 0
+  curentObjPlace: {fileID: 699686552944508998}
+  placeTransform: {fileID: 5023062928653757992}
 --- !u!1 &5802655869779562408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,7 +1133,7 @@ PrefabInstance:
     - target: {fileID: 5048166723615702302, guid: d196fee921de39d46bba958472a76cba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.178
+      value: -0.577
       objectReference: {fileID: 0}
     - target: {fileID: 5048166723615702302, guid: d196fee921de39d46bba958472a76cba,
         type: 3}
@@ -1143,7 +1143,7 @@ PrefabInstance:
     - target: {fileID: 5048166723615702302, guid: d196fee921de39d46bba958472a76cba,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.057
+      value: 0.039
       objectReference: {fileID: 0}
     - target: {fileID: 5048166723615702302, guid: d196fee921de39d46bba958472a76cba,
         type: 3}
@@ -1184,6 +1184,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Candle_Chandelier_03_BP_C_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6040721946887222437, guid: d196fee921de39d46bba958472a76cba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
