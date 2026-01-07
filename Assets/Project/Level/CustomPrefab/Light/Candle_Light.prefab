@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9090652419181473975}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Candle_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 3172297166790979672}
   - component: {fileID: 996917516284912165}
   - component: {fileID: 5760284247898718251}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,10 +219,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7887735443288039616, guid: 38d2df117d3c29f40aa968dc838ace4a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 8064463036697221463, guid: 38d2df117d3c29f40aa968dc838ace4a,
         type: 3}
       propertyPath: m_Name
       value: SM_CandleHolder_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064463036697221463, guid: 38d2df117d3c29f40aa968dc838ace4a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -243,6 +253,71 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9090652419181473975}
     m_Modifications:
+    - target: {fileID: 129041799522293303, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 454820155430948686, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 585916846590755762, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 697643862858821105, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 926436350808796678, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1777899806441839917, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992321830650764909, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162579833787597472, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304045227536489949, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2615778054172073461, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3870956017465613041, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128259207750083000, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4211106172221512790, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4701891029509313248, guid: ab227df27ca369a4eab42abb82948349,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -313,10 +388,50 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4766267064942081079, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5413685965248945850, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6195835302036180796, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661845326281159441, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6765324574113044177, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7392326043767328294, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7640292912125364414, guid: ab227df27ca369a4eab42abb82948349,
         type: 3}
       propertyPath: m_Name
       value: SM_Candle_Comp_06_BP_C_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640292912125364414, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041262532487774080, guid: ab227df27ca369a4eab42abb82948349,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

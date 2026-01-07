@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5440713696000869089}
   - component: {fileID: 4425869217883357411}
   - component: {fileID: 8927401755393211919}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6198150816506774604}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SM_IncenseBurner_Lantern_B_Custom 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 2241978637846936590}
   - component: {fileID: 3985777433500862764}
   - component: {fileID: 6440102751438019602}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 5
-  m_Range: 2.5
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -352,10 +352,20 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5602890456462325486, guid: d4db4823f6ac0a44c9ef2b6fa31bdc3c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 5779607015546416253, guid: d4db4823f6ac0a44c9ef2b6fa31bdc3c,
         type: 3}
       propertyPath: m_Name
       value: SM_IncenseBurner_Lantern_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 5779607015546416253, guid: d4db4823f6ac0a44c9ef2b6fa31bdc3c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

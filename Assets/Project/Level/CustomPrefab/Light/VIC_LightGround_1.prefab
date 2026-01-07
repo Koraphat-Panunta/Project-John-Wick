@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1296918329185642594}
   - component: {fileID: 7529442797813613507}
   - component: {fileID: 871037015446717776}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 495294448996230883}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: VIC_LightGround_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,6 +172,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PF_Floorlamp
+      objectReference: {fileID: 0}
+    - target: {fileID: 80475927492855594, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 330895894159078008, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 398945177427288418, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 744845191661149584, guid: 84f92b6dacd7ba347b861d681bb543e7,
         type: 3}
@@ -222,6 +237,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005475434045803410, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1707388669432501728, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747653180375752284, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2094897832748478833, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7042372785098956644, guid: 84f92b6dacd7ba347b861d681bb543e7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
