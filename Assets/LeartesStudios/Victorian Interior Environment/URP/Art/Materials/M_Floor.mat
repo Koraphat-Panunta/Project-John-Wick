@@ -27,7 +27,7 @@ Material:
   m_ValidKeywords:
   - _MK_ALBEDO_MAP
   - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
-  - _MK_LIGHT_BANDED
+  - _MK_LIGHT_CEL
   - _MK_OUTLINE_HULL_CLIP
   - _MK_RECEIVE_SHADOWS
   - _MK_SPECULAR_ISOTROPIC
@@ -182,8 +182,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AdditionalLightsFalloff: 1
-    - _AdditionalLightsThreshold: 0.6
+    - _AdditionalLightsFalloff: 0.09
+    - _AdditionalLightsThreshold: 0.453
     - _AdvancedTab: 0
     - _AlbedoMapIntensity: 1
     - _AlembicMotionVectors: 0
@@ -240,10 +240,10 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 2
+    - _Light: 1
     - _LightBands: 4
     - _LightBandsScale: 0.563
-    - _LightThreshold: 0.601
+    - _LightThreshold: 0.621
     - _Metallic: 0
     - _Mode: 0
     - _NormalMapIntensity: 0
