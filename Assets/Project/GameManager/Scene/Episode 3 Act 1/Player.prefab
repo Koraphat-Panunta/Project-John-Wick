@@ -813,8 +813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b84f36b0f8a6a04fb72f8f1fad0c9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StandCenterY: 0
-  StandHeight: 0
+  StandCenterY: 0.83
+  StandHeight: 1.67
   CrouchCenterY: 0.6
   CrouchHeight: 1.25
   parkourCenterY: 0.75
@@ -906,7 +906,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.67
-  m_Radius: 0.13
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -1064,9 +1064,9 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.17
   m_Height: 1.67
   m_Direction: 1
   m_Center: {x: 0, y: 0.83, z: -0.03}

@@ -21,6 +21,7 @@ public static class ObstacleDetectionSurface
             }
             castPos = Vector3.MoveTowards(castPos, destinatePos, i);
         }
+      
         return sphereCast;
     }
 }

@@ -102,7 +102,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     {
         cts.Clear();
         Vector3 castUpDes = parkourAble.position + (Vector3.up*climbParkourScriptableObject.hieght);
-        Debug.DrawLine(parkourAble.position,parkourAble.position + (parkourAble.forward * climbParkourScriptableObject.detectDistance) ,Color.red,2);
+        //Debug.DrawLine(parkourAble.position,parkourAble.position + (parkourAble.forward * climbParkourScriptableObject.detectDistance) ,Color.red,2);
         if(EdgeObstacleDetection.GetEdgeObstaclePos(
             IParkourNodeLeaf.sphereRaduis
             ,10
@@ -115,6 +115,8 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
             )
             )
         {
+            Debug.DrawLine(parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght), edgePos1, Color.red, 2f);
+
             if (Vector3.Distance(edgePos1, new Vector3(edgePos1.x, parkourAble.position.y, edgePos1.z)) < climbParkourScriptableObject.minHieght)
                 return false;
 
