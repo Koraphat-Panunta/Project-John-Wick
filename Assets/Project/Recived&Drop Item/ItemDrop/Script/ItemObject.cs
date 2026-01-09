@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static ItemObject;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class ItemObject : MonoBehaviour 
 {
@@ -75,16 +77,49 @@ public abstract class ItemObject : MonoBehaviour
 
             if (Vector3.Distance(clent.transform.position,transform.position) < 0.45f)
             {
-                SetVisitorClient(clent);
+                RecivedAbleRecivedItem(clent);
                 Destroy(gameObject);
             }
         }
     }
-    protected abstract void SetVisitorClient(IRecivedAble client);
+    protected virtual void RecivedAbleRecivedItem(IRecivedAble client)
+    {
+        this.Notify(ItemNotifyMassage.PickedUp);
+    }
+    protected List<IObserverItem> observerItems = new List<IObserverItem>();
+    public void Notify(ItemNotifyMassage itemNotifyMassage)
+    {
+        if(observerItems.Count <= 0)
+            return;
+
+        for (int i = 0; i < observerItems.Count; i++) 
+        {
+            observerItems[i].OnNotifyObserver(this, itemNotifyMassage);
+        }
+    }
+    public void AddObserver(IObserverItem observerItem)
+    {
+        this.observerItems.Add(observerItem);
+    }
+    public void RemovedObserver(IObserverItem observerItem)
+    {
+        this.observerItems.Remove(observerItem);
+    }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectRecievedRagne);
     }
+
+    public enum ItemNotifyMassage
+    {
+        PickedUp
+    }
+
 }
+public interface IObserverItem 
+{
+    public void OnNotifyObserver(ItemObject itemObject, ItemNotifyMassage itemNotifyMassage);
+}
+

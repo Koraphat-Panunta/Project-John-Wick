@@ -16,6 +16,8 @@ public abstract class WeaponSubject : MonoBehaviour
 
         AttachmentSetup,
 
+        BeenAttatch,
+        BeenDetatch,
         Rest
     }
     public void Notify(Weapon weapon,WeaponNotifyType weaponNotifyType)

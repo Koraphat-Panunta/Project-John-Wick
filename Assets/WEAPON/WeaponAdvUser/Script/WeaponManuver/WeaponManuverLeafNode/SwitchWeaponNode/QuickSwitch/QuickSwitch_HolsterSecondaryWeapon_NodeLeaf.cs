@@ -36,7 +36,7 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
     {
         if(isHolsterSecondaryWeapon && isComplete == false)
         {
-            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
@@ -48,13 +48,13 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
 
     private void HolsterSecondary()
     {
-        WeaponAttachingBehavior.Attach(secondaryWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
+        WeaponAttachingBehavior.Attach(secondaryWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         isHolsterSecondaryWeapon = true;
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
     private void DrawPrimary()
     {
-        WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket);
+        WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         isComplete = true;
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }

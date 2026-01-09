@@ -3,15 +3,16 @@ using UnityEngine.Animations;
 
 public static class WeaponAttachingBehavior
 {
-    public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble)
+    public static void Attach(Weapon weapon,IWeaponAttachingAble weaponAttachingAble,float attatchingDuration)
     {
-        Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity);
+        Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity,attatchingDuration);
     }
     public static void Attach(
         Weapon weapon
         , IWeaponAttachingAble weaponAttachingAble
         ,Vector3 additionalOffsetPosition
-        ,Quaternion additionalOffsetRotation)
+        ,Quaternion additionalOffsetRotation
+        , float attatchingDuration)
     {
         switch (weaponAttachingAble)
         {
@@ -43,7 +44,8 @@ public static class WeaponAttachingBehavior
                         mainHandSocket.weaponAttachingAbleTransform
                         ,weapon._mainHandGripTransform
                         ,additionalOffsetPosition
-                        ,additionalOffsetRotation);
+                        ,additionalOffsetRotation
+                        ,attatchingDuration);
 
                     //Set AnimationState Override
                     AnimatorOverrideController animatorOverrideController = weaponAttachingAble.weaponAdvanceUser._animatorWeaponAdvanceUserOverride;
@@ -79,6 +81,7 @@ public static class WeaponAttachingBehavior
                         ,weapon._SecondHandGripTransform
                         ,additionalOffsetPosition
                         ,additionalOffsetRotation
+                        ,attatchingDuration
                         );
                     break;
                 }
@@ -106,6 +109,7 @@ public static class WeaponAttachingBehavior
                         , weapon._mainHandGripTransform
                         ,additionalOffsetPosition
                         ,additionalOffsetRotation
+                        ,attatchingDuration
                         );
                     if (primaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         primaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;
@@ -135,6 +139,7 @@ public static class WeaponAttachingBehavior
                         ,weapon._mainHandGripTransform
                         ,additionalOffsetPosition
                         ,additionalOffsetRotation
+                        ,attatchingDuration
                         );
                     if (secondaryWeaponSocket.weaponAdvanceUser._currentWeapon == weapon)
                         secondaryWeaponSocket.weaponAdvanceUser._currentWeapon = null;

@@ -23,7 +23,7 @@ public class QuickSwitch_LowReady_NodeLeaf : LowReadyWeaponManuverNodeLeaf, IQui
     public override void Exit()
     {
         if (quickSwitchWeaponManuverAble.isQuickSwtichWeaponManuverAble == false)
-            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket,weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket,weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         base.Exit();
     }
    

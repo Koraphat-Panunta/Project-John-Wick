@@ -100,9 +100,9 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         if (player._currentWeapon != null)
         {
             if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket,WeaponMountComponent.attatchingDurationGlobal);
             else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
     }
     private void Interact(Character character)
@@ -125,7 +125,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
 
        
 
-        WeaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket);
+        WeaponAttachingBehavior.Attach(disarmedWeapon, player._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
 
        // Debug.Log("Character : " + gunFuAble._character + " Disarm anchor Distance pos = "
        //+ Vector3.Distance(

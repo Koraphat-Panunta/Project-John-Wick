@@ -7,16 +7,18 @@ public class WeaponMountComponent : MountComponent
     public Transform mainHandGrip => weapon._mainHandGripTransform;
     public Transform secondHandGrip => weapon._SecondHandGripTransform;
 
-    public void Attach(Transform weaponSocket,Transform weaponGrip,Vector3 offsetPosition,Quaternion offsetRotation)
+    public void Attach(Transform weaponSocket,Transform weaponGrip,Vector3 offsetPosition,Quaternion offsetRotation,float attatchingDuration)
     {
         this.curWeaponGrip = weaponGrip;
-        base.Attach(weaponSocket, offsetPosition, offsetRotation);
+        base.Attach(weaponSocket, offsetPosition, offsetRotation,attatchingDuration);
+        this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenAttatch);
     }
    
     public override void Detach()
     {
         this.curWeaponGrip = null;
         base.Detach();
+        this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenDetatch);
     }
     public override Vector3 GetAttachPosition()
     {
@@ -61,4 +63,6 @@ public class WeaponMountComponent : MountComponent
             base._attachAbleObject = this.weapon.transform;
         }
     }
+
+    public static readonly float attatchingDurationGlobal = .75f;
 }

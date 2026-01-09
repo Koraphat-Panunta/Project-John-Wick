@@ -21,12 +21,12 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
         if(weaponAdvanceUser._currentWeapon != null)
         {
             if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
             else if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
-                WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket);
+                WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
 
-        WeaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket);
+        WeaponAttachingBehavior.Attach(findingWeaponBehavior.weaponFindingSelecting, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         isComplete = true;
 
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction

@@ -24,19 +24,30 @@ public class MountComponent : MonoBehaviour
         if (parentAttachTransform != null)
         {
             if (_isEnableAutoAttachRate)
-                attachRate = Mathf.Clamp01(attachRate + (Time.deltaTime * (1 / _attachDuration)));
+            {
+                if (_attachDuration <= 0)
+                    attachRate = 1;
+                else
+                    attachRate = Mathf.Clamp01(attachRate + (Time.deltaTime * (1 / _attachDuration)));
+            }
 
             _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
             _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
         }
     }
 
-    public virtual void Attach(Transform parentTransform, Vector3 offsetPosition,Quaternion offsetRotation)
+    public virtual void Attach(Transform parentTransform, Vector3 offsetPosition,Quaternion offsetRotation,float attatchingDuration)
+    {
+        this.Attach(parentTransform, offsetPosition, offsetRotation);
+        this.SetAttachDuration(attatchingDuration); 
+    }
+    public virtual void Attach(Transform parentTransform, Vector3 offsetPosition, Quaternion offsetRotation)
     {
         this.parentAttachTransform = parentTransform;
         this.offsetPosition = offsetPosition;
         this.offsetRotation = offsetRotation;
         attachRate = 0;
+
     }
     public void EnableAutoAttachRate() => _isEnableAutoAttachRate = true;
     public void DisableAutoAttachRate() => _isEnableAutoAttachRate = false;

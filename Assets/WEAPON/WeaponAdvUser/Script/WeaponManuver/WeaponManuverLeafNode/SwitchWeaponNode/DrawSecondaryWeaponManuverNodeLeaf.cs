@@ -16,12 +16,12 @@ public class DrawSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
         elapseTime = 0;
 
         if (weaponAdvanceUser._currentWeapon == null)
-            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
             && weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
         {
             WeaponAttachingBehavior.Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
-            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon), weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
         else
         {

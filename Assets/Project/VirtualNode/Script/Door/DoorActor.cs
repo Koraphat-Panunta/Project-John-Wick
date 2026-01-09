@@ -181,7 +181,7 @@ public class DoorActor : Actor, I_Interactable
         while (this.curDoorWeight != this.targetDoorWeight)
         {
             this.curDoorWeight = Mathf.MoveTowards(this.curDoorWeight, this.targetDoorWeight, Time.deltaTime);
-            Debug.Log("DoorEventUpdate");
+            //Debug.Log("DoorEventUpdate");
             if (this.doors != null && this.doors.Length > 0)
             { 
                 for (int i = 0; i < this.doors.Length; i++)

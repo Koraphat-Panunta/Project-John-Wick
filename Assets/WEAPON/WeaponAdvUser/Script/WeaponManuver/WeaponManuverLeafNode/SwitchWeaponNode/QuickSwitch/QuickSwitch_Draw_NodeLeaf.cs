@@ -38,7 +38,8 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
             secondHandWeapon
             , weaponAdvanceUser._secondHandSocket
             , quickSwitchHoldOffset.postitionOffset
-            , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset));
+            , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset)
+            ,WeaponMountComponent.attatchingDurationGlobal);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
         isDrawSecondary = false;
         isComplete = false;
@@ -48,7 +49,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     {
         if(isDrawSecondary == false)
         {
-            WeaponAttachingBehavior.Attach(secondHandWeapon,weaponAdvanceUser._mainHandSocket);
+            WeaponAttachingBehavior.Attach(secondHandWeapon,weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
             this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         }
     }
@@ -65,7 +66,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     {
         Debug.Log("Draw timer = "+animationTriggerEventPlayer.timer);
         isDrawSecondary = true;
-        WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket);
+        WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
     public override bool IsReset()

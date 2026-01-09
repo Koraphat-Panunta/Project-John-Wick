@@ -51,7 +51,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
 
     private void HolsterPrimary()
     {
-        WeaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket);
+        WeaponAttachingBehavior.Attach(secondHandWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         isHolsterPrimaryWeapon = true;
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         nodeLeafTransitionBehavior.TransitionAbleAll(this);

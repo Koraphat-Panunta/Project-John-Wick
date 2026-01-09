@@ -7,11 +7,13 @@ public class AmmoGetAbleObject : ItemObject
 
     
 
-    protected override void SetVisitorClient(IRecivedAble client)
+    protected override void RecivedAbleRecivedItem(IRecivedAble client)
     {
 
         (client as IAmmoRecivedAble).ammoProuch.AddAmmo(amoutAmmoAdd);
         (client as IAmmoRecivedAble).Recived(this);
+
+        base.RecivedAbleRecivedItem(client);
     }
 
     protected override void Update()

@@ -30,7 +30,7 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
     public Weapon SpawnWeapon(IWeaponAdvanceUser weaponAdvanceUser)
     {
         Weapon weapon = this.SpawnWeapon(Vector3.zero, Quaternion.identity);
-        WeaponAttachingBehavior.Attach(weapon, weaponAdvanceUser._mainHandSocket);
+        WeaponAttachingBehavior.Attach(weapon, weaponAdvanceUser._mainHandSocket,0);
 
         return weapon;
     }
