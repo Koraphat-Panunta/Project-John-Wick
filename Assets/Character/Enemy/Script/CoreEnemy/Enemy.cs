@@ -15,9 +15,6 @@ public partial class Enemy : SubjectEnemy
     
 {
 
-
-    [SerializeField] public NavMeshAgent agent;
-
     public LayerMask targetMask;
     public LayerMask targetSpoterMask;
     public FieldOfView enemyFieldOfView;
@@ -26,6 +23,8 @@ public partial class Enemy : SubjectEnemy
     public INodeManager enemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
+    public AIAgent agent;
+    public CharacterController characterController;
 
     public Vector3 forceSave;
 
@@ -49,7 +48,7 @@ public partial class Enemy : SubjectEnemy
         InitializedBodyPart();
         MotionControlInitailized();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
-        _movementCompoent = new EnemyMovement(this, transform, this, agent);
+        _movementCompoent = new EnemyMovement(this, transform, this, this.characterController);
         enemyCommunicator = new EnemyCommunicator();
         InitailizedFindingTarget();
         InitailizedCoverUsable();

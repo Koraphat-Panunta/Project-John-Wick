@@ -6,14 +6,13 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
 {
    
     public Enemy enemy { get; set; }
-    private NavMeshAgent agent;
     public MovementCompoent movementCompoent => this;
-
+    public CharacterController characterController { get; set; }
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
-    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement,NavMeshAgent agent) : base(transform, myMovement)
+    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement,CharacterController characterController) : base(transform, myMovement)
     {
         this.enemy = enemy;
-        this.agent = agent;
+        this.characterController = characterController;
     }
 
   
@@ -60,6 +59,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
   
     public override void Move(Vector3 position)
     {
-        agent.Move(position);
+        characterController.Move(position);
     }
 }

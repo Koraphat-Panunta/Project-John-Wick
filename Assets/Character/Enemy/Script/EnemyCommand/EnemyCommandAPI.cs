@@ -43,7 +43,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public bool MoveToPosition(Vector3 DestinatePos, float velocityScale, float reachDestinationDistance)
     {
-        NavMeshAgent agent = _enemy.agent;
+        AIAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(DestinatePos, agent.destination) > 0.1f)
             agent.SetDestination(DestinatePos);
 
@@ -84,7 +84,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public bool SprintToPosition(Vector3 Destination, float rotSpeedScale, float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
-        NavMeshAgent agent = _enemy.agent;
+        AIAgent agent = _enemy.agent;
         if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
             agent.SetDestination(Destination);
 

@@ -7,13 +7,13 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
     RotateObjectToward rotateObject;
-    NavMeshAgent agent;
+
     MovementCompoent movementCompoent => enemy._movementCompoent;
     public EnemyStandTakeCoverStateNodeLeaf(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
     {
         this.coverUseable = coverUseable;
         rotateObject = new RotateObjectToward();
-        agent = enemy.agent;
+
     }
 
     public override void Enter()

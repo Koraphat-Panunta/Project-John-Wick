@@ -1111,7 +1111,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6454910191179571215}
   - component: {fileID: 1113618680042977909}
-  - component: {fileID: 7890612989017240957}
   - component: {fileID: 3893735730334051125}
   - component: {fileID: 3858380618204543065}
   - component: {fileID: 8785008869752914700}
@@ -1125,6 +1124,8 @@ GameObject:
   - component: {fileID: -5794132423715581005}
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
+  - component: {fileID: 7803922069215804562}
+  - component: {fileID: 5674621802276565934}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1181,28 +1182,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!195 &7890612989017240957
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5971669966833777333}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.25
-  m_Speed: 0
-  m_Acceleration: 0
-  avoidancePriority: 50
-  m_AngularSpeed: 0
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
-  m_AutoRepath: 1
-  m_Height: 1.73
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!114 &3893735730334051125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1225,6 +1204,7 @@ MonoBehaviour:
   - {fileID: 1068420054499277711}
   - {fileID: 7512234974047621189}
   - {fileID: 6586458206067166242}
+  - {fileID: 7803922069215804562}
   initializedOrder: 5
 --- !u!114 &3858380618204543065
 MonoBehaviour:
@@ -1300,13 +1280,14 @@ MonoBehaviour:
   _rightForeArmBone: {fileID: 1721119870269991797}
   _rightHandBone: {fileID: 3601763635188935882}
   animator: {fileID: 1113618680042977909}
-  agent: {fileID: 7890612989017240957}
   targetMask:
     serializedVersion: 2
     m_Bits: 64
   targetSpoterMask:
     serializedVersion: 2
     m_Bits: 256
+  agent: {fileID: 7803922069215804562}
+  characterController: {fileID: 5674621802276565934}
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
   isImortal: 0
@@ -1765,6 +1746,43 @@ MonoBehaviour:
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
   EnableDebug: 0
+--- !u!114 &7803922069215804562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cecc9a9b815a92143ba714fea5bf508f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AIAgent
+--- !u!143 &5674621802276565934
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0
