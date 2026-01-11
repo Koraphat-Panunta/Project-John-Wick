@@ -98,7 +98,7 @@ public class EnemyObjectManager: MonoBehaviour ,IInitializedAble,IObserverEnemy
     {
         if (this.enemyPrefab == null)
         {
-            Debug.LogError("Please Set EnemyPrefab Initialized " + this);
+            Debug.LogError("Please Set EnemyPrefab Initialized " + this + "at "+this.gameObject.name);
         }
         if (this.mainCamera == null)
         {

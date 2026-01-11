@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using static SubjectEnemy;
 
-public class EnemyDirector : MonoBehaviour, IObserverEnemy,IObserverPlayer,IInitializedAble
+public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedAble
 {
 
     [SerializeField] protected List<EnemyRoleBasedDecision> enemiesRole = new List<EnemyRoleBasedDecision>();

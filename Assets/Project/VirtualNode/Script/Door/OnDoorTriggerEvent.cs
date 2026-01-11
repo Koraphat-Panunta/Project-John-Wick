@@ -13,11 +13,12 @@ public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
     }
     public override void Execute()
     {
-        if(isAlreadyTrigger == false)
-            isAlreadyTrigger = true;
 
         if(isTriggerOnce && isAlreadyTrigger)
             return;
+
+        if (isAlreadyTrigger == false)
+            isAlreadyTrigger = true;
 
         base.Execute();
     }

@@ -20,26 +20,8 @@ public class MicroOpticWeaponAttachment :MonoBehaviour, IWeaponAttachment<IMicro
             Detach(attachmentAble);
         }
 
-
-        ConstraintSource source = new ConstraintSource();
-        source.sourceTransform = attachmentAble._microOpticSocket;
-        source.weight = 1;
-        if (parentConstraint.sourceCount > 0)
-        {
-            parentConstraint.RemoveSource(0);
-        }
-        parentConstraint.AddSource(source);
-
-        Vector3 offset = anchor.localPosition*-1;
-
-        parentConstraint.constraintActive = true;
-        parentConstraint.translationAtRest = Vector3.zero;
-        parentConstraint.rotationAtRest = Vector3.zero;
-
-        //_parentConstraint.SetTranslationOffset(0, offset);
-        parentConstraint.constraintActive = true;
-
-        parentConstraint.weight = 1;
+        this.transform.SetParent(attachmentAble._microOpticSocket, false);
+        this.transform.localPosition = anchor.localPosition * -1;
 
         attachmentAble._microOptic = this;
         isAttaching = true ;
@@ -47,20 +29,9 @@ public class MicroOpticWeaponAttachment :MonoBehaviour, IWeaponAttachment<IMicro
 
     public void Detach(IMicroOpticAttachAble attachmentAble)
     {
-        if (parentConstraint.sourceCount > 0)
-        {
-            parentConstraint.RemoveSource(0);
-            parentConstraint.constraintActive = true;
-            parentConstraint.constraintActive = true;
-            parentConstraint.weight = 1;
-        }
-
+       
         if (attachmentAble._microOptic == this)
         {
-            //attachmentAble._min_PrecisionAdditional += min_Precision_PN;
-            //attachmentAble._max_PrecisionAdditional += max_Precision_PN;
-            //attachmentAble._accuracyAdditional += accuracy_PN;
-            //attachmentAble._aimDownSightSpeedAdditional += aimDownSightSpeed_N;
             attachmentAble = null;
         }
 
