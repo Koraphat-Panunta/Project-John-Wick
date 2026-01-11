@@ -45,11 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnDoorOpenEvent
   isEnableGizmos: 1
+  drawNameDistance: 7
   nextVirtualEventNode: []
   triggerUnityEvent:
     m_PersistentCalls:
       m_Calls: []
   color: {r: 0.007843138, g: 0.5019608, b: 0, a: 0.8862745}
   doorActor: {fileID: 0}
-  isTriggerOnce: 0
+  isTriggerOnce: 1
   DoorEvent: 0

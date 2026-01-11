@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 1050443028029103752}
   - component: {fileID: 4610896051296391007}
   - component: {fileID: 5503611177388299351}
+  - component: {fileID: -7423857771545950754}
   m_Layer: 0
   m_Name: Wall 2x4
   m_TagString: Untagged
@@ -171,6 +172,26 @@ MonoBehaviour:
   index: 0
   curentObjPlace: {fileID: 6383314843390881317}
   placeTransform: {fileID: 8562019106801659438}
+--- !u!114 &-7423857771545950754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802655869779562408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5860999482792779311
 GameObject:
   m_ObjectHideFlags: 0
