@@ -12,7 +12,12 @@ public class EnemySpawnerActor : Actor
     protected OnDrawGizmosTriggerEvent drawGizmosTriggerEvent = new OnDrawGizmosTriggerEvent();
     public void SpawnEnemyUnityEvent()
     {
+
+        Debug.Log("EnemySpawnerActor SpawnEnemyUnityEvent");
+
         Enemy spawnedEnemy;
+
+
             
         if (enemyDirector == null && weaponObjectManager == null)
             spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyObjectManager);
@@ -21,6 +26,7 @@ public class EnemySpawnerActor : Actor
         else
             spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyObjectManager,enemyDirector,weaponObjectManager);
 
+        if(returnEnemyActor != null)
         this.returnEnemyActor.AddEnemy(spawnedEnemy);
     }
 
@@ -37,6 +43,13 @@ public class EnemySpawnerActor : Actor
             this.drawGizmosTriggerEvent.DrawLine(this.transform.position, this.returnEnemyActor.transform.position, color);
             base.DrawName(Vector3.Lerp(this.transform.position, this.returnEnemyActor.transform.position, .3f), "returnEnemyActor");
         }
+
+        //if(enemyDirector != null
+        //    && this.isEnableGizmos) 
+        //{
+        //    Gizmos.color = enemyDirector.color * .5f;
+        //    Gizmos.DrawLine(this.transform.position, this.enemyDirector.transform.position);
+        //}
 
         base.OnDrawGizmos();
     }

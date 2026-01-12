@@ -73,6 +73,8 @@ public class DoorActor : Actor, I_Interactable
             this.doors[i].localCloseRotation = this.doors[i].door.localRotation.eulerAngles;
         }
     }
+    public void UnLock() => lockedValue = false;
+    public void Lock() => lockedValue = true;
     public void Open()
     {
         this.Open(1);
@@ -115,11 +117,11 @@ public class DoorActor : Actor, I_Interactable
             Close();
         else
         {
-            Debug.Log("I_Interacter = " + i_Interacter);
+            //Debug.Log("I_Interacter = " + i_Interacter);
             if (i_Interacter is Character character)
             {
                 float dot = Vector3.Dot(this.transform.forward, (character.transform.position - this.transform.position).normalized);
-                Debug.Log("dot = " + dot);
+                //Debug.Log("dot = " + dot);
                 if (dot > 0)
                     this.Open(1);
                 else

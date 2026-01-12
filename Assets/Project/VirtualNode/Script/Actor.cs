@@ -37,7 +37,7 @@ public abstract class Actor : MonoBehaviour
         }
     }
     [SerializeField] protected bool isEnableGizmos;
-    [SerializeField] protected Color color;
+    [SerializeField] public Color color;
     protected void DrawName(Vector3 position, string name)
     {
         Vector3 cameraPos;

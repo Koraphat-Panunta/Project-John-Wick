@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyTestingSystemCommandDecision : EnemyDecision
 {
@@ -326,11 +327,14 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 this.update.Invoke();
         }
     }
+   
     private void OnDrawGizmos()
     {
         DrawCircle(enemy.transform.position, raduisFindCover);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(enemy.targetKnewPos, 0.25f);
+
+       
     }
     private void DrawCircle(Vector3 center, float radius)
     {
@@ -347,6 +351,10 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             prevPoint = nextPoint;
         }
     }
+
+
+
+   
 
 }
 

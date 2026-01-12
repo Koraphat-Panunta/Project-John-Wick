@@ -6,12 +6,12 @@ using UnityEngine.AI;
 public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
-    NavMeshAgent agent;
+
     MovementCompoent movementCompoent => enemy._movementCompoent;
     public EnemyStandTakeAimStateNodeLeaf(Enemy enemy, Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy,preCondition)
     {
         this.coverUseable = coverUseable;
-        agent = enemy.agent;
+
     }
 
     public override void Enter()

@@ -99,6 +99,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7342839336982908439}
   - component: {fileID: 5848805287530886994}
+  - component: {fileID: -860305842739166117}
   m_Layer: 0
   m_Name: SM_Bedrock_B_Straight_10m
   m_TagString: Untagged
@@ -143,3 +144,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5924734, y: 2.2262821, z: 10.383125}
   m_Center: {x: -0.2962367, y: 0.9989381, z: -0.0068893433}
+--- !u!114 &-860305842739166117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9090390425745807789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

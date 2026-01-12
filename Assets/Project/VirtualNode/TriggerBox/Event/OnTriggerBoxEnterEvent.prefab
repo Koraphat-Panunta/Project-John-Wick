@@ -45,11 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TriggerBoxEnterOnceEvent
   isEnableGizmos: 1
+  drawNameDistance: 7
   nextVirtualEventNode: []
   triggerUnityEvent:
     m_PersistentCalls:
       m_Calls: []
   color: {r: 1, g: 0.46402717, b: 0, a: 0.6862745}
   triggerBoxActor: {fileID: 0}
-  isTriggerOnce: 0
+  isTriggerOnce: 1
   triggerBoxEvent: 0
