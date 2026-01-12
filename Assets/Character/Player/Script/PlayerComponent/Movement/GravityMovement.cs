@@ -13,16 +13,22 @@ public class GravityMovement
     }
     public  void GravityMovementUpdate(MovementCompoent movementCompoent)
     {
-        float gravitySclae = 0.005f;
+        float gravitySclae = 0.015f;
 
         if(enableGravity == false)
             return;
 
         if (movementCompoent.IsGround(out Vector3 hitGroundPos) == false)
         {
+            Debug.Log(movementCompoent + "_velocityY = " + _velocityY);
+
             _velocityY += GRAVITY * gravitySclae;
-            _velocityY = Mathf.Clamp(_velocityY, 0, 1.3f);
-            movementCompoent.curMoveVelocity_World -= new Vector3(0, _velocityY, 0);
+            _velocityY = Mathf.Clamp(_velocityY, 0, 60);
+            movementCompoent.curMoveVelocity_World = new Vector3(
+                movementCompoent.curMoveVelocity_World.x
+                ,- _velocityY
+                , movementCompoent.curMoveVelocity_World.z
+                );
         }
         else
         {

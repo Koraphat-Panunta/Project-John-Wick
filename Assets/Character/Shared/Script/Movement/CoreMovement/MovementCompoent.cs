@@ -178,7 +178,7 @@ public abstract partial class MovementCompoent : INodeManager
     {
         hitGroundPosition = Vector3.zero;
 
-        if (Physics.Raycast(transform.position + (Vector3.up * castCheckIsGroundOffserUp), Vector3.down,out RaycastHit hitGroundPos,castCheckIsGroundOffserUp + .12f, GetGroundLayerMask()))
+        if (Physics.Raycast(transform.position + (Vector3.up * castCheckIsGroundOffserUp), Vector3.down,out RaycastHit hitGroundPos,castCheckIsGroundOffserUp + .2f, GetGroundLayerMask()))
         {
             hitGroundPosition = hitGroundPos.point;
             Debug.DrawLine(transform.position + (Vector3.up * castCheckIsGroundOffserUp), hitGroundPosition, Color.blue);

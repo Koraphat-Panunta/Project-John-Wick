@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 public class Initialization : MonoBehaviour
@@ -10,6 +12,7 @@ public class Initialization : MonoBehaviour
 
     public void Initialized()
     {
+
         for (int i = 0; i < initializedComponent.Length; i++)
         {
             componentIndex = i;
@@ -17,7 +20,7 @@ public class Initialization : MonoBehaviour
                 initializedAble.Initialized();
             else
             {
-                throw new System.Exception("InitializedAble not found index" + componentIndex);
+                throw new System.Exception("InitializedAble not found index" + componentIndex );
             }
         }
     }
@@ -28,7 +31,7 @@ public class Initialization : MonoBehaviour
             componentIndex = i;
             if (initializedComponent[i] is IInitializedAble == false)
             {
-                Debug.LogError("InitializedAble not found index" + initializedComponent[i]);
+                throw new System.Exception("InitializedAble not found index" + initializedComponent[i]);
             }
         }
     }

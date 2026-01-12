@@ -1196,6 +1196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initializedComponent:
   - {fileID: 2619394019457856660}
+  - {fileID: 7803922069215804562}
   - {fileID: 8785008869752914700}
   - {fileID: 3858380618204543065}
   - {fileID: 6414908439600597232}
@@ -1204,7 +1205,6 @@ MonoBehaviour:
   - {fileID: 1068420054499277711}
   - {fileID: 7512234974047621189}
   - {fileID: 6586458206067166242}
-  - {fileID: 7803922069215804562}
   initializedOrder: 5
 --- !u!114 &3858380618204543065
 MonoBehaviour:
@@ -1758,6 +1758,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecc9a9b815a92143ba714fea5bf508f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AIAgent
+  targetDestination: {x: 0, y: 0, z: 0}
+  destination: {x: 0, y: 0, z: 0}
+  isPerforming: 0
+  isCalculatePath: 0
+  timer: 0
+  isCalulatePath: 0
 --- !u!143 &5674621802276565934
 CharacterController:
   m_ObjectHideFlags: 0

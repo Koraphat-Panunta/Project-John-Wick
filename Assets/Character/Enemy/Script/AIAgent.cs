@@ -1,164 +1,139 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class AIAgent : MonoBehaviour,IInitializedAble
 {
-    public static readonly float reachCornerDistance = 0.75f;
+    public static readonly float reachCornerDistance = 0.5f;
 
     // ===== Public API (NavMeshAgent-like) =====
-    public Vector3 destination { get; private set; }
-    public Vector3 steeringTarget { get; private set; }
+    [SerializeField] protected Vector3 targetDestination;
+    [SerializeField] public Vector3 destination; 
+    public Vector3 steeringTarget { 
+        get
+        {
+            if(cornerPostion.Count <= 0)
+                return this.transform.position;
 
-    public bool hasPath => _path != null && _path.corners.Length > 0;
+            return cornerPostion.Peek();
+        } private set { } }
+
+    public bool hasPath => cornerPostion != null && cornerPostion.Count > 0;
+
+    [SerializeField] protected Queue<Vector3> cornerPostion;
 
     // ===== Internal =====
     private Transform _owner => transform;
     private NavMeshPath _path;
-    [SerializeField] private int _cornerIndex;
-    [SerializeField] private int _cornerLenght;
 
-    [SerializeField] bool isHasPath;
+    [SerializeField] private bool isPerforming;
 
     // ===== Unity =====
     public void Initialized()
     {
         _path = new NavMeshPath();
+        cornerPostion = new Queue<Vector3>();
     }
+
+  
     private void FixedUpdate()
     {
-
-        isHasPath = hasPath;
-
-        if (!hasPath)
-            return;
-
-        _cornerLenght = _path.corners.Length;
-
+        UpdatePathDestination();
         UpdateSteeringTarget();
     }
 
-   [SerializeField] private bool isCalculatePath;
+   
+    [SerializeField] private bool isCalculatePath;
     // ===== Public Methods =====
+    
     public void SetDestination(Vector3 target)
     {
+        isPerforming = true;
+        targetDestination = target;
 
-        //Debug.Log("SetDestination = " + target);
-        //Debug.DrawLine(this.transform.position, target, Color.yellow);
-
-
-        // 1️⃣ Clamp destination onto NavMesh
-        NavMeshHit hit;
-        bool found = ç(
-            target,
-            out hit,
-            2.0f,                 // search radius (tune this)
-            NavMesh.AllAreas
-        );
-
-        //Debug.Log("NavMesh.SamplePosition found? = " + found);
-
-        if (!found)
-        {
-            pathPending = false;
-            return;
-        }
-
-        destination = hit.position;
-
-        if(isCalculatePath)
-            return;
-
-        // 2️⃣ Calculate path
-        isCalculatePath = true;
-        bool success = NavMesh.CalculatePath(
-            _owner.position,
-            destination,
-            NavMesh.AllAreas,
-            _path
-        );
-        isCalculatePath = false;
-
-        pathPending = false;
-
-        //Debug.Log("NavMesh.CalculatePath success? = "+success);
-
-        if (!success || _path.status == NavMeshPathStatus.PathInvalid)
-        {
-            return;
-        }
-
-        // 3️⃣ Initialize steering
-        if (_path.corners.Length > 0)
-            steeringTarget = _path.corners[0];
-        
-
-        return;
     }
-
     public void ResetPath()
     {
         _path.ClearCorners();
-        _cornerIndex = 0;
-        desiredDirection = Vector3.zero;
+        cornerPostion.Clear();
         steeringTarget = Vector3.zero;
+        this.isPerforming = false;
     }
 
     // ===== Core Logic =====
     private void UpdateSteeringTarget()
     {
-        if (_cornerIndex >= _path.corners.Length)
-        {
-            desiredDirection = Vector3.zero;
+        if(hasPath == false)
             return;
-        }
 
-        steeringTarget = _path.corners[_cornerIndex];
-
-        Vector3 toCorner = steeringTarget - _owner.position;
-        toCorner.y = 0f;
-
-        float distance = toCorner.magnitude;
-
-        Debug.Log("steeringTarge = " + steeringTarget + "_owner.position = "+ _owner.position);
-        Debug.Log("steerTarget distance = " + distance);
-
-        // Reached this corner → advance
-        if (distance <= reachCornerDistance)
+        if(Vector3.Distance(this.transform.position,steeringTarget) <= reachCornerDistance)
         {
-            _cornerIndex++;
+            cornerPostion.Dequeue();
 
-            if (_cornerIndex < _path.corners.Length)
-                steeringTarget = _path.corners[_cornerIndex];
-            else
-                desiredDirection = Vector3.zero;
-
-            return;
+            if(cornerPostion.Count <= 0)
+                isPerforming |= false;
         }
-
-        desiredDirection = toCorner.normalized;
     }
 
-    // ===== Helper =====
-    private float CalculateRemainingDistance()
+    [SerializeField] private float timer;
+    private float bufferTime = 1;
+    [SerializeField] private bool isCalulatePath;
+
+    private void UpdatePathDestination()
     {
-        if (!hasPath || _cornerIndex >= _path.corners.Length)
-            return 0f;
+        this.timer += Time.fixedDeltaTime;
+        if(this.timer < bufferTime)
+            return;
 
-        float distance = Vector3.Distance(
-            _owner.position,
-            _path.corners[_cornerIndex]
-        );
+        this.timer = 0;
 
-        for (int i = _cornerIndex; i < _path.corners.Length - 1; i++)
+        if(this.isPerforming == false)
+            return;
+
+        Debug.Log("UpdatePathDestination");
+
+
+        //Find destination
+        bool foundDestination = NavMesh.SamplePosition(
+            this.targetDestination
+            , out NavMeshHit hit
+            , 10
+            , NavMesh.AllAreas);
+
+        if (foundDestination == false)
+            Debug.LogError("Not found destination");
+
+        this.destination = hit.position;
+
+
+        //Find path
+        if (this.isCalulatePath)
+            return;
+
+        this.isCalulatePath = true;
+        bool foundPath = NavMesh.CalculatePath(
+            this.transform.position
+            , this.destination
+            , NavMesh.AllAreas
+            , _path);
+
+        this.isCalulatePath = false;
+        if (foundPath == false)
+            Debug.LogError("Not found path");
+
+        //Populate path.corner to cornerPosition
+        if(_path.corners.Length <= 0)
+            return;
+
+        cornerPostion.Clear();
+        for(int i = 0;i < _path.corners.Length; i++)
         {
-            distance += Vector3.Distance(
-                _path.corners[i],
-                _path.corners[i + 1]
-            );
+            cornerPostion.Enqueue(_path.corners[i]);
         }
 
-        return distance;
     }
+
+    
 
 
     private void OnDrawGizmos()
