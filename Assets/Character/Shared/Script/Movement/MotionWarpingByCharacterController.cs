@@ -8,8 +8,8 @@ public class MotionWarpingByCharacterController : IMovementMotionWarping
     public Coroutine motionWarping { get; set; }
     public MovementCompoent movementComponent { get; set; }
 
-    public CharacterController characterController { get; set; }
-    public MotionWarpingByCharacterController(MovementCompoent movementComponent,CharacterController characterController)
+    public CharacterMovementController characterController { get; set; }
+    public MotionWarpingByCharacterController(MovementCompoent movementComponent, CharacterMovementController characterController)
     {
         this.movementComponent = movementComponent;
         this.characterController = characterController;

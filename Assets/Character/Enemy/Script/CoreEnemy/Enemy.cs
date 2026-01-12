@@ -24,7 +24,7 @@ public partial class Enemy : SubjectEnemy
     private EnemyCommunicator enemyCommunicator;
 
     public AIAgent agent;
-    public CharacterController characterController;
+    public CharacterMovementController characterController;
 
     public Vector3 forceSave;
 

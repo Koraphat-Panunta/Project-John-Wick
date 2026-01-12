@@ -7,9 +7,9 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
    
     public Enemy enemy { get; set; }
     public MovementCompoent movementCompoent => this;
-    public CharacterController characterController { get; set; }
+    public CharacterMovementController characterController { get; set; }
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
-    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement,CharacterController characterController) : base(transform, myMovement)
+    public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
         this.enemy = enemy;
         this.characterController = characterController;
@@ -59,8 +59,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
   
     public override void Move(Vector3 position)
     {
-        characterController.enabled = true;
         characterController.Move(position);
-        characterController.enabled = false;
     }
 }
