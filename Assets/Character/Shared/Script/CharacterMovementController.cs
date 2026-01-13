@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
@@ -107,8 +108,25 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Move(Vector3 motion)
     {
-
+        float castDistance = (height / 2) + (Mathf.Sin(maxSlopeAngle * Mathf.Deg2Rad) * raduis) + .02f;
+        Vector3 castPos = startCast + (motion.normalized * raduis);
         Vector3 remainingMotion = Vector3.ProjectOnPlane(motion, groundNormal);
+
+        //Debug.DrawRay(castPos, Vector3.down * castDistance, Color.green);
+
+        if (Physics.Raycast(castPos,Vector3.down,out RaycastHit hitInfo, castDistance, layerMask, QueryTriggerInteraction.Ignore))
+        {
+            float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
+
+            Vector3 projectMotionOnNormal = Vector3.ProjectOnPlane(motion, hitInfo.normal);
+            Debug.DrawRay(castPos, projectMotionOnNormal, Color.green);
+
+            if (Vector3.Dot(Vector3.up,projectMotionOnNormal.normalized) < 0
+                && slopeAngle >= 5 
+                && slopeAngle <= maxSlopeAngle)
+                remainingMotion = projectMotionOnNormal;
+            
+        } 
 
         this.MoveUpdate(remainingMotion);
     }
@@ -122,10 +140,7 @@ public class CharacterMovementController : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-
-    }
+   
     private void FixedUpdate()
     {
         this.UpdateGroundState();
@@ -135,7 +150,7 @@ public class CharacterMovementController : MonoBehaviour
     }
 
     Vector3 startCast => capsuleColliderCenterPosition;
-    float castDistance => (height/2) - raduis + 0.02f;
+    float castDistance => (height/2) - raduis + 0.05f;
 
     
     private void UpdateGroundState()
