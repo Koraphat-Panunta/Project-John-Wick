@@ -1125,7 +1125,7 @@ GameObject:
   - component: {fileID: 1068420054499277711}
   - component: {fileID: 7512234974047621189}
   - component: {fileID: 7803922069215804562}
-  - component: {fileID: 5674621802276565934}
+  - component: {fileID: 102977775201858835}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -1287,7 +1287,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   agent: {fileID: 7803922069215804562}
-  characterController: {fileID: 5674621802276565934}
+  characterController: {fileID: 102977775201858835}
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
   isImortal: 0
@@ -1764,31 +1764,27 @@ MonoBehaviour:
   isCalculatePath: 0
   timer: 0
   isCalulatePath: 0
---- !u!143 &5674621802276565934
-CharacterController:
+--- !u!114 &102977775201858835
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5971669966833777333}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e068183b72afc048a9a580515f15b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
+  capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
+  raduis: 0.5
+  height: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  hitPos: {x: 0, y: 0, z: 0}
+  topPoint: {x: 0, y: 0, z: 0}
+  bottomPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

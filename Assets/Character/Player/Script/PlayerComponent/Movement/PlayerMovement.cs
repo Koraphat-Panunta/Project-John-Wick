@@ -10,11 +10,11 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MovementCompoent movementCompoent => this;
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
-    private CharacterController characterController;
+    private CharacterMovementController characterController;
    
     private Player player;
 
-    public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement)
+    public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
         this.player = player;
         this.characterController = characterController;
