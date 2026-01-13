@@ -19,7 +19,7 @@ public class OnUpdateMovementNodeLeaf : MovementNodeLeaf
 
         movementCompoent.transform.rotation = Quaternion.Euler(0f, euler.y + movementCompoent.curAngularVelocity, 0f);
 
-        gravityMovement.GravityMovementUpdate(movementCompoent);
+        //gravityMovement.GravityMovementUpdate(movementCompoent);
 
         movementCompoent.Move(movementCompoent.curMoveVelocity_World * Time.fixedDeltaTime);
 

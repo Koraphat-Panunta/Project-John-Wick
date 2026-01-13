@@ -1,45 +1,76 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    public enum GroundState
+    {
+        OnLinear,
+        OnSlope,
+        Stall
+    }
+
+    [Header("Ground & Gravity")]
+    public bool isEnableGravity = true;
+    private float gravityScale = 0.01f;
+    public float gravity => 9.81f * this.gravityScale;
+    public float maxSlopeAngle = 45f;
+
+    [Header("Step")]
+    public float stepHeight = 0.35f;
+
+    [Header("Debug")]
+    public GroundState groundState;
+    public Vector3 groundNormal;
+    public bool isGrounded;
+
+    [SerializeField] private Vector3 verticalDownGravityVelocity;
+    private float maxVerticalDownGravityVelocity = 5;
+
     public static readonly float reach;
 
     public Vector3 capsuleColliderCenterOffset;
     public Vector3 capsuleColliderCenterPosition => this.transform.position + this.capsuleColliderCenterOffset;
     public float raduis;
     public float height;
+    float halfHeight => Mathf.Max(0, height / 2f - raduis);
 
     public LayerMask layerMask;
 
     public Vector3 hitPos;
 
-    public Vector3 topPoint;
-    public Vector3 bottomPoint;
+    public Vector3 topPoint => capsuleColliderCenterPosition + Vector3.up * halfHeight;
+    public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
+
+    Vector3 finalizedAdditionalTransform = Vector3.zero;
    
-    public void Move(Vector3 motion)
+    private void MoveUpdate(Vector3 motion)
     {
+        
+        Vector3 remainingMotion = motion;
+
         const int maxIterations = 5;
         const float skinWidth = 0.02f;
 
-        Vector3 remainingMotion = motion;
-
         for (int i = 0; i < maxIterations; i++)
         {
+
             if (remainingMotion.sqrMagnitude < 0.000001f)
                 break;
 
-            Vector3 capsuleCenter = capsuleColliderCenterPosition;
+
             float halfHeight = Mathf.Max(0, height / 2f - raduis);
 
-            Vector3 capsuleTop = capsuleCenter + Vector3.up * halfHeight;
-            Vector3 capsuleBottom = capsuleCenter - Vector3.up * halfHeight;
+
 
             Vector3 direction = remainingMotion.normalized;
             float distance = remainingMotion.magnitude + skinWidth;
 
+            //Debug.DrawRay(capsuleBottom, direction * distance,Color.red);
+
             bool hit = Physics.CapsuleCast(
-                capsuleTop,
-                capsuleBottom,
+                this.topPoint,
+                this.bottomPoint,
                 raduis,
                 direction,
                 out RaycastHit hitInfo,
@@ -51,17 +82,16 @@ public class CharacterMovementController : MonoBehaviour
             if (!hit)
             {
                 // Free movement
-                transform.position += remainingMotion;
+                this.finalizedAdditionalTransform += remainingMotion;
                 break;
             }
 
             // --- MOVE UP TO HIT POINT ---
             float moveDistance = Mathf.Max(hitInfo.distance - skinWidth, 0f);
             Vector3 moveToHit = direction * moveDistance;
-            transform.position += moveToHit;
+            this.finalizedAdditionalTransform += moveToHit;
 
             // Debug
-            //Debug.DrawRay(hitInfo.point, hitInfo.normal, Color.red, 2f);
 
             // --- SLIDE ALONG SURFACE ---
             remainingMotion -= moveToHit;
@@ -75,11 +105,95 @@ public class CharacterMovementController : MonoBehaviour
             if (remainingMotion.sqrMagnitude < 0.000001f)
                 break;
         }
-
     }
+    public void Move(Vector3 motion)
+    {
+        //if (isGrounded == false)
+        //    return;
+
+        Vector3 remainingMotion = Vector3.ProjectOnPlane(motion, groundNormal);
+
+        this.MoveUpdate(remainingMotion);
+    }
+
+
+
+    private void Update()
+    {
+        this.UpdateGroundState();
+    }
+    private void FixedUpdate()
+    {
+        this.UpdateGravity();
+        transform.position += this.finalizedAdditionalTransform;
+        finalizedAdditionalTransform = Vector3.zero;
+    }
+
+    Vector3 startCast => capsuleColliderCenterPosition;
+    float castDistance => (height/2);
+
+    
+    private void UpdateGroundState()
+    {
+        Debug.DrawLine(startCast, Vector3.down * castDistance, Color.pink);
+
+        if(Physics.SphereCast(this.startCast,raduis,Vector3.down,out RaycastHit hit, this.castDistance, this.layerMask, QueryTriggerInteraction.Ignore))
+        {
+            groundNormal = hit.normal;
+            Debug.DrawLine(startCast, hit.point, Color.yellow);
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle < 5)
+            {
+                Debug.Log("OnLinear");
+                groundState = GroundState.OnLinear;
+                this.isGrounded = true;
+            }
+            else if (slopeAngle <= maxSlopeAngle)
+            {
+                Debug.Log("OnSlope");
+                groundState = GroundState.OnSlope;
+                this.isGrounded = true;
+            }
+            else
+            {
+                Debug.Log("Stall OnSlope Angle = " + slopeAngle);
+                groundState = GroundState.Stall;
+                this.isGrounded = false;
+            }
+        }
+        else
+        {
+            Debug.Log("Stall");
+            this.groundState = GroundState.Stall;
+            this.isGrounded = false;
+            groundNormal = Vector3.zero;
+        }
+    }
+    private void UpdateGravity()
+    {
+        if (this.isGrounded == true || this.isEnableGravity == false)
+        {
+            this.verticalDownGravityVelocity = Vector3.zero;
+            return;
+        }
+
+
+        float velocityY = Mathf.Clamp(this.verticalDownGravityVelocity.y - (this.gravity * Time.fixedDeltaTime)
+               , -maxVerticalDownGravityVelocity
+               , maxVerticalDownGravityVelocity);
+
+        this.verticalDownGravityVelocity = new Vector3(
+            0
+            , velocityY
+            , 0);
+
+
+        this.MoveUpdate(this.verticalDownGravityVelocity);
+    }
+
     private void OnDrawGizmos()
     {
-        DrawCapsuleGizmo(capsuleColliderCenterPosition, this.height,this.raduis,Color.blue);
+        //DrawCapsuleGizmo(capsuleColliderCenterPosition, this.height,this.raduis,Color.green);
     }
 
     public void DrawCapsuleGizmo(
