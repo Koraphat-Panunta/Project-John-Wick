@@ -207,7 +207,7 @@ MonoBehaviour:
   gunFuCameraTimer: 0
   inputLook: 
   curSide: 0
-  shootImpluseDuration: 1
+  shootImpluseDuration: 0.25
   hitImpluseDuration: 0.15
   gotHitImplauseDuration: 0.15
   gotHitImplauseDirection: {x: 1, y: 1, z: 1}
@@ -289,7 +289,7 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 1
       - serializedVersion: 3
-        time: 0.2523651
+        time: 0.37902832
         value: 0.75
         inSlope: 0.008414807
         outSlope: 0.008414807
@@ -298,8 +298,8 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 1
       - serializedVersion: 3
-        time: 0.375
-        value: -0.625
+        time: 0.6016693
+        value: -0.453125
         inSlope: -0.0073601822
         outSlope: -0.0073601822
         tangentMode: 0
@@ -307,44 +307,17 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.5749762
       - serializedVersion: 3
-        time: 0.5
-        value: 0.33333334
-        inSlope: -0.80579984
-        outSlope: -0.80579984
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.2701021
-      - serializedVersion: 3
-        time: 0.625
-        value: -0.1875
-        inSlope: -0.010063195
-        outSlope: -0.010063195
+        time: 0.8399936
+        value: 0.011082977
+        inSlope: -0.019642754
+        outSlope: -0.019642754
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 1
       - serializedVersion: 3
-        time: 0.75
-        value: 0.125
-        inSlope: 0.013538078
-        outSlope: 0.013538078
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.83021593
-      - serializedVersion: 3
-        time: 0.875
-        value: -0.0625
-        inSlope: 0.033701606
-        outSlope: 0.033701606
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.880775
-      - serializedVersion: 3
         time: 1
-        value: 0
+        value: 0.007171631
         inSlope: 0.010794605
         outSlope: 0.010794605
         tangentMode: 0
