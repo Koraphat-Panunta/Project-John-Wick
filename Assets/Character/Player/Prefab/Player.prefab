@@ -685,6 +685,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  stand_CharacterControllerSCRP: {fileID: 11400000, guid: c274f49a28fabb246b5aa5d8a0597ecb,
+    type: 2}
+  crouch_CharacterControllerSCRP: {fileID: 11400000, guid: 52c57120ca5ac694f9cc0456c09c6dd1,
+    type: 2}
+  parkour_CharacterControllerSCRP: {fileID: 11400000, guid: c28502e2ebefc6d4688b2ae3193eff70,
+    type: 2}
   PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
     type: 2}
   targetAdjustTranform: {fileID: 4967964261953637315}
@@ -860,15 +866,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e068183b72afc048a9a580515f15b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
+  isEnableGravity: 1
+  maxSlopeAngle: 45
+  groundState: 0
+  groundNormal: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  verticalDownGravityVelocity: {x: 0, y: 0, z: 0}
   capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
   raduis: 0.5
   height: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  hitPos: {x: 0, y: 0, z: 0}
-  topPoint: {x: 0, y: 0, z: 0}
-  bottomPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &9030984288096570306
 MonoBehaviour:
   m_ObjectHideFlags: 0

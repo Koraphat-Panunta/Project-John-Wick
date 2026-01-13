@@ -78,16 +78,11 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public override void FixedUpdateNode()
     {
         timer += Time.fixedDeltaTime;
-        base.FixedUpdateNode();
-    }
-    public override void UpdateNode()
-    {
-
         movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, exit, parkourTimeNormalized));
         this.MovementRotateToWardSurface();
-
-        base.UpdateNode();
+        base.FixedUpdateNode();
     }
+   
     private void MovementRotateToWardSurface()
     {
         float t = Mathf.Clamp(parkourTimeNormalized / rotateToWardSurfaceDir, 0, rotateToWardSurfaceDir);

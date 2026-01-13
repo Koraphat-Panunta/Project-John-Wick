@@ -16,8 +16,8 @@ public class CharacterMovementController : MonoBehaviour
     public float gravity => 9.81f * this.gravityScale;
     public float maxSlopeAngle = 45f;
 
-    [Header("Step")]
-    public float stepHeight = 0.35f;
+    //[Header("Step")]
+    //public float stepHeight = 0.35f;
 
     [Header("Debug")]
     public GroundState groundState;
@@ -36,8 +36,6 @@ public class CharacterMovementController : MonoBehaviour
     float halfHeight => Mathf.Max(0, height / 2f - raduis);
 
     public LayerMask layerMask;
-
-    public Vector3 hitPos;
 
     public Vector3 topPoint => capsuleColliderCenterPosition + Vector3.up * halfHeight;
     public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
@@ -106,36 +104,42 @@ public class CharacterMovementController : MonoBehaviour
                 break;
         }
     }
+
     public void Move(Vector3 motion)
     {
-        //if (isGrounded == false)
-        //    return;
 
         Vector3 remainingMotion = Vector3.ProjectOnPlane(motion, groundNormal);
 
         this.MoveUpdate(remainingMotion);
     }
 
+    public void SetCharacterControllerAttribute(CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject)
+    {
+        this.capsuleColliderCenterOffset = characterMovementControllerScriptableObject.centerOffsetPosition;
+        this.maxSlopeAngle = characterMovementControllerScriptableObject.slopeAngle;
+        this.height = characterMovementControllerScriptableObject.height;
+        this.raduis = characterMovementControllerScriptableObject.raduis;
 
+    }
 
     private void Update()
     {
-        this.UpdateGroundState();
+
     }
     private void FixedUpdate()
     {
+        this.UpdateGroundState();
         this.UpdateGravity();
         transform.position += this.finalizedAdditionalTransform;
         finalizedAdditionalTransform = Vector3.zero;
     }
 
     Vector3 startCast => capsuleColliderCenterPosition;
-    float castDistance => (height/2);
+    float castDistance => (height/2) - raduis + 0.02f;
 
     
     private void UpdateGroundState()
     {
-        Debug.DrawLine(startCast, Vector3.down * castDistance, Color.pink);
 
         if(Physics.SphereCast(this.startCast,raduis,Vector3.down,out RaycastHit hit, this.castDistance, this.layerMask, QueryTriggerInteraction.Ignore))
         {
@@ -193,7 +197,7 @@ public class CharacterMovementController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //DrawCapsuleGizmo(capsuleColliderCenterPosition, this.height,this.raduis,Color.green);
+        DrawCapsuleGizmo(capsuleColliderCenterPosition, this.height, this.raduis, Color.green);
     }
 
     public void DrawCapsuleGizmo(
@@ -223,8 +227,10 @@ public class CharacterMovementController : MonoBehaviour
         Gizmos.DrawSphere(center, .15f);
 
         Gizmos.color = Color.aliceBlue * .5f;
-        Gizmos.DrawSphere(hitPos, .15f);
         Gizmos.DrawSphere(topPoint, .15f);
         Gizmos.DrawSphere(bottomPoint, .15f);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(startCast, Vector3.down * castDistance);
     }
 }

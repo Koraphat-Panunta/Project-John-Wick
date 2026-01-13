@@ -82,16 +82,10 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public override void FixedUpdateNode()
     {
         timer += Time.fixedDeltaTime;
+        movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, exitPos, parkourTimeNormalized));
         base.FixedUpdateNode();
     }
-    public override void UpdateNode()
-    {
-
-        movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, exitPos, parkourTimeNormalized));
-
-
-        base.UpdateNode();
-    }
+   
     private bool CheckEdge()
     {
         cts.Clear();

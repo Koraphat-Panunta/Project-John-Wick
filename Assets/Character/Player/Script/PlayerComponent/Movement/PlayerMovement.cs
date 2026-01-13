@@ -4,21 +4,40 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAble,IMotionImplusePushAble
+public class PlayerMovement : MovementCompoent
+    ,IMovementSnaping
+    ,IMotionWarpingAble
+    ,IMotionImplusePushAble
+    ,IObserverPlayer
 {
 
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MovementCompoent movementCompoent => this;
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
     private CharacterMovementController characterController;
-   
+
+    private CharacterMovementControllerScriptableObject standCharControllerSCRP;
+    private CharacterMovementControllerScriptableObject crouchCharControllerSCRP;
+    private CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP;
+
     private Player player;
 
-    public PlayerMovement(Player player,Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
+    public PlayerMovement(
+        Player player
+        ,Transform transform
+        , MonoBehaviour myMovement
+        , CharacterMovementController characterController
+        , CharacterMovementControllerScriptableObject standCharControllerSCRP
+        , CharacterMovementControllerScriptableObject crouchCharControllerSCRP
+        , CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP) : base(transform, myMovement)
     {
         this.player = player;
+        this.player.AddObserver(this);
         this.characterController = characterController;
         motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
+        this.standCharControllerSCRP = standCharControllerSCRP;
+        this.crouchCharControllerSCRP = crouchCharControllerSCRP;
+        this.parkour_CharacterControllerSCRP = parkour_CharacterControllerSCRP;
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
@@ -85,5 +104,35 @@ public class PlayerMovement : MovementCompoent,IMovementSnaping,IMotionWarpingAb
     public override void Move(Vector3 position)
     {
        characterController.Move(position);
+    }
+
+    public void OnNotify<T>(Player player, T node)
+    {
+        if(isOnUpdateEnable == false)
+        {
+            characterController.isEnableGravity = false;
+        }
+        else
+            characterController.isEnableGravity = true;
+        if( player.playerStateNodeManager != null 
+            && (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf)
+        {
+            this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
+            return;
+        }
+        switch (player.playerStance)
+        {
+            case Stance.stand: 
+                {
+                    this.characterController.SetCharacterControllerAttribute(this.standCharControllerSCRP);
+                }
+                break;
+            case Stance.crouch:
+                {
+                    this.characterController.SetCharacterControllerAttribute(this.crouchCharControllerSCRP);
+                }
+                break;
+        }
+        
     }
 }

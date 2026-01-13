@@ -40,7 +40,15 @@ public partial class Player : SubjectPlayer,
         base.maxHp = 250;
         base.SetHP(maxHp);
 
-        _movementCompoent = new PlayerMovement(this, transform, this, this.characterController);
+        _movementCompoent = new PlayerMovement(
+            this
+            , transform
+            , this
+            , this.characterController
+            , this.stand_CharacterControllerSCRP
+            , this.crouch_CharacterControllerSCRP
+            , this.parkour_CharacterControllerSCRP
+            );
         playerStateNodeManager = new PlayerStateNodeManager(this);
         InitailizedGunFuComponent();
         Initialized_IWeaponAdvanceUser();
@@ -209,6 +217,9 @@ public partial class Player : SubjectPlayer,
     public Transform centreTransform;
 
     [SerializeField] public AnimationCurve moveWarping;
+    [SerializeField] public CharacterMovementControllerScriptableObject stand_CharacterControllerSCRP;
+    [SerializeField] public CharacterMovementControllerScriptableObject crouch_CharacterControllerSCRP;
+    [SerializeField] public CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP;
 
     #endregion
 
