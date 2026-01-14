@@ -41,7 +41,7 @@ public class CharacterMovementController : MonoBehaviour
     public Vector3 topPoint => capsuleColliderCenterPosition + Vector3.up * halfHeight;
     public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
 
-    Vector3 finalizedAdditionalTransform = Vector3.zero;
+
    
     private void MoveUpdate(Vector3 motion)
     {
@@ -81,14 +81,14 @@ public class CharacterMovementController : MonoBehaviour
             if (!hit)
             {
                 // Free movement
-                this.finalizedAdditionalTransform += remainingMotion;
+                this.transform.position += remainingMotion;
                 break;
             }
 
             // --- MOVE UP TO HIT POINT ---
             float moveDistance = Mathf.Max(hitInfo.distance - skinWidth, 0f);
             Vector3 moveToHit = direction * moveDistance;
-            this.finalizedAdditionalTransform += moveToHit;
+            this.transform.position += moveToHit;
 
             // Debug
 
@@ -108,7 +108,7 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Move(Vector3 motion)
     {
-        float castDistance = (height / 2) + (Mathf.Sin(maxSlopeAngle * Mathf.Deg2Rad) * raduis) + .02f;
+        float castDistance = (height / 2) + raduis + (Mathf.Sin(maxSlopeAngle * Mathf.Deg2Rad) * raduis) + .02f;
         Vector3 castPos = startCast + (motion.normalized * raduis);
         Vector3 remainingMotion = Vector3.ProjectOnPlane(motion, groundNormal);
 
@@ -119,7 +119,7 @@ public class CharacterMovementController : MonoBehaviour
             float slopeAngle = Vector3.Angle(hitInfo.normal, Vector3.up);
 
             Vector3 projectMotionOnNormal = Vector3.ProjectOnPlane(motion, hitInfo.normal);
-            Debug.DrawRay(castPos, projectMotionOnNormal, Color.green);
+            //Debug.DrawRay(castPos, projectMotionOnNormal, Color.green);
 
             if (Vector3.Dot(Vector3.up,projectMotionOnNormal.normalized) < 0
                 && slopeAngle >= 5 
@@ -145,12 +145,10 @@ public class CharacterMovementController : MonoBehaviour
     {
         this.UpdateGroundState();
         this.UpdateGravity();
-        transform.position += this.finalizedAdditionalTransform;
-        finalizedAdditionalTransform = Vector3.zero;
     }
 
-    Vector3 startCast => capsuleColliderCenterPosition;
-    float castDistance => (height/2) - raduis + 0.05f;
+    Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);
+    float castDistance => (height/2) + 0.05f;
 
     
     private void UpdateGroundState()
@@ -159,19 +157,28 @@ public class CharacterMovementController : MonoBehaviour
         if(Physics.SphereCast(this.startCast,raduis,Vector3.down,out RaycastHit hit, this.castDistance, this.layerMask, QueryTriggerInteraction.Ignore))
         {
             groundNormal = hit.normal;
-            Debug.DrawLine(startCast, hit.point, Color.yellow);
+            //Debug.DrawLine(startCast, hit.point, Color.yellow);
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
             if (slopeAngle < 5)
             {
                 Debug.Log("OnLinear");
                 groundState = GroundState.OnLinear;
                 this.isGrounded = true;
+                if(this.transform.position.y < hit.point.y)
+                {
+                    this.transform.position = new Vector3(this.transform.position.x, hit.point.y + .02f, this.transform.position.z);
+                }
+
             }
             else if (slopeAngle <= maxSlopeAngle)
             {
                 Debug.Log("OnSlope");
                 groundState = GroundState.OnSlope;
                 this.isGrounded = true;
+                if (this.transform.position.y < hit.point.y - .02f)
+                {
+                    this.transform.position = new Vector3(this.transform.position.x, hit.point.y - .02f, this.transform.position.z);
+                }
             }
             else
             {
@@ -210,8 +217,13 @@ public class CharacterMovementController : MonoBehaviour
         this.MoveUpdate(this.verticalDownGravityVelocity);
     }
 
+    [SerializeField] protected bool isEnableGizmos;
+
     private void OnDrawGizmos()
     {
+        if(this.isEnableGizmos == false)
+            return;
+            
         DrawCapsuleGizmo(capsuleColliderCenterPosition, this.height, this.raduis, Color.green);
     }
 
@@ -241,9 +253,9 @@ public class CharacterMovementController : MonoBehaviour
         Gizmos.color = Color.red * .5f;
         Gizmos.DrawSphere(center, .15f);
 
-        Gizmos.color = Color.aliceBlue * .5f;
-        Gizmos.DrawSphere(topPoint, .15f);
-        Gizmos.DrawSphere(bottomPoint, .15f);
+        //Gizmos.color = Color.aliceBlue * .5f;
+        //Gizmos.DrawSphere(topPoint, .15f);
+        //Gizmos.DrawSphere(bottomPoint, .15f);
 
         Gizmos.color = Color.red;
         Gizmos.DrawRay(startCast, Vector3.down * castDistance);
