@@ -22,9 +22,9 @@ public class CrosshiarShootpoint : ICrosshairAction
     public RectTransform GetPointPosScreen()
     {
 
-        //First Short 100 Acuracy
-        if (crosshairController.CrosshairSpread.crosshairBloom_rate <= crosshairController.CrosshairSpread.sperad_rateDestination)
-            return CrosshairCenterPosition;
+        ////First Short 100 Acuracy
+        //if (crosshairController.CrosshairSpread.crosshairBloom_rate <= crosshairController.CrosshairSpread.sperad_rateDestination)
+        //    return CrosshairCenterPosition;
 
         Vector2 lineUpPos = CrossUp.anchoredPosition;
         Vector2 lineDownPos = CrossDown.anchoredPosition;

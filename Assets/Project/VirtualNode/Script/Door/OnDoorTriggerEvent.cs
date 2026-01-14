@@ -4,7 +4,7 @@ public class OnDoorTriggerEvent : VirtualEventNode, IObserverActor
 {
     [SerializeField] DoorActor doorActor;
     [SerializeField] bool isTriggerOnce;
-    protected bool isAlreadyTrigger;
+    [SerializeField] protected bool isAlreadyTrigger = false;
 
     [SerializeField] DoorActor.DoorEvent DoorEvent;
     protected void Awake()

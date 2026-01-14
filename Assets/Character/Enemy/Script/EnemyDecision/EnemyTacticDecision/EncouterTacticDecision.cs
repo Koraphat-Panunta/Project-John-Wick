@@ -65,12 +65,13 @@ public class EncouterTacticDecision : TacticDecision
 
         curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
 
-        if (curvePath._curvePoint.Count > 0)
-        if (enemyCommand.MoveToPosition(curvePath._curvePoint.Peek(), 1))
-        {
-            enemyCommand.FreezPosition();
-            curvePath._curvePoint.Dequeue();
-        }
+        if (curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
+            if (enemyCommand.MoveToPosition(_curvePoint, 1))
+            {
+                enemyCommand.FreezPosition();
+                curvePath.DeQueueCurvePoint();
+            }
+
 
 
 

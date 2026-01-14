@@ -3,7 +3,7 @@ using UnityEngine;
 public partial class Enemy : IPostureAble
 {
     public float _maxPosture { get => this.maxPosture; set => this.maxPosture = value; }
-    private float maxPosture = 100;
+    [SerializeField] private float maxPosture = 70;
     public float _posture { get ; set; }
 
     [Range(0,100)]

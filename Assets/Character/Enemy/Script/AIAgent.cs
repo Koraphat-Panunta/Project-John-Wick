@@ -90,7 +90,7 @@ public class AIAgent : MonoBehaviour,IInitializedAble
         if(this.isPerforming == false)
             return;
 
-        Debug.Log("UpdatePathDestination");
+        //Debug.Log("UpdatePathDestination");
 
 
         //Find destination

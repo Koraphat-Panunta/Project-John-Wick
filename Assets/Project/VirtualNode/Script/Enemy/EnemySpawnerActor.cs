@@ -13,7 +13,7 @@ public class EnemySpawnerActor : Actor
     public void SpawnEnemyUnityEvent()
     {
 
-        Debug.Log("EnemySpawnerActor SpawnEnemyUnityEvent");
+        //Debug.Log("EnemySpawnerActor SpawnEnemyUnityEvent");
 
         Enemy spawnedEnemy;
 

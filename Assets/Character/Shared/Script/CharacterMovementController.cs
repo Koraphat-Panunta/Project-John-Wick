@@ -161,7 +161,7 @@ public class CharacterMovementController : MonoBehaviour
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
             if (slopeAngle < 5)
             {
-                Debug.Log("OnLinear");
+                //Debug.Log("OnLinear");
                 groundState = GroundState.OnLinear;
                 this.isGrounded = true;
                 if(this.transform.position.y < hit.point.y)
@@ -172,7 +172,7 @@ public class CharacterMovementController : MonoBehaviour
             }
             else if (slopeAngle <= maxSlopeAngle)
             {
-                Debug.Log("OnSlope");
+                //Debug.Log("OnSlope");
                 groundState = GroundState.OnSlope;
                 this.isGrounded = true;
                 if (this.transform.position.y < hit.point.y - .02f)
@@ -182,14 +182,14 @@ public class CharacterMovementController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Stall OnSlope Angle = " + slopeAngle);
+                //Debug.Log("Stall OnSlope Angle = " + slopeAngle);
                 groundState = GroundState.Stall;
                 this.isGrounded = false;
             }
         }
         else
         {
-            Debug.Log("Stall");
+            //Debug.Log("Stall");
             this.groundState = GroundState.Stall;
             this.isGrounded = false;
             groundNormal = Vector3.zero;

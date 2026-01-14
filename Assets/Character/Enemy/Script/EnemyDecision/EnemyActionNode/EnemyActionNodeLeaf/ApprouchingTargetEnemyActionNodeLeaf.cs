@@ -22,8 +22,9 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         Vector3 endPoint = enemy.targetKnewPos + ((enemy.targetKnewPos - enemy.transform.position).normalized * 3);
         curvePath.RegenaratePath(endPoint, enemy.transform.position);
         targetAnchorPos = enemy.targetKnewPos;
-        if (enemyCommandAPI.enemyAutoDefendCommand.dodgeCoolDownTimer <= 0)
-            enemyCommandAPI.Dodge(curvePath._curvePoint.Peek());
+        if (enemyCommandAPI.enemyAutoDefendCommand.dodgeCoolDownTimer <= 0
+            && curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
+            enemyCommandAPI.Dodge(_curvePoint);
 
         approuchingTime = UnityEngine.Random.Range(MIN_APPROUCH_TIME, MAX_APPROUCH_TIME);
         base.Enter();
@@ -93,11 +94,11 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
             targetAnchorPos = enemy.targetKnewPos;
         }
 
-        if (curvePath._curvePoint.Count > 0)
-            if (enemyCommandAPI.MoveToPosition(curvePath._curvePoint.Peek(), 1, 1.5f))
+        if (curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
+            if (enemyCommandAPI.MoveToPosition(_curvePoint, 1, 1.5f))
             {
                 enemyCommandAPI.FreezPosition();
-                curvePath._curvePoint.Dequeue();
+                curvePath.DeQueueCurvePoint();
             }
     }
 }

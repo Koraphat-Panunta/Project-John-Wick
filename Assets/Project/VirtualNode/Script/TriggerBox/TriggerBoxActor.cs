@@ -16,10 +16,11 @@ public class TriggerBoxActor : Actor
 
     [SerializeField] private BoxCollider boxCollider;
 
-    
+  
 
     private void OnTriggerEnter(Collider other)
     {
+        
         this.NotifyObserver(TriggerBoxEvent.Enter);
     }
     private void OnTriggerStay(Collider other)

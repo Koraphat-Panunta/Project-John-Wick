@@ -8,8 +8,8 @@ public class OnTriggerBoxEvent : VirtualEventNode,IObserverActor
 
     [SerializeField] protected TriggerBoxEvent triggerBoxEvent;
 
-    protected bool isAlreadyTrigger = false;
-
+    [SerializeField] protected bool isAlreadyTrigger = false;
+    
     private void Awake()
     {
         this.triggerBoxActor.AddActorObserver(this);

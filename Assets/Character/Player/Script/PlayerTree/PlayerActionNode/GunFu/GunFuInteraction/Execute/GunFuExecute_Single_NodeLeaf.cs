@@ -143,7 +143,7 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         }
          if(character == gotGunFuAttackedAble._character)
         {
-            Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
+            //Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
             this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
             //Debug.Log("Player anchor Distance pos = "
             //    + Vector3.Distance(

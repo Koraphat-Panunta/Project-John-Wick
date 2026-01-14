@@ -6,8 +6,11 @@ using UnityEngine.AI;
 
 public class EnemyMoveCurvePath
 {
+    //for debug curvePoint
     public List<Vector3> _markPoint = new List<Vector3>();
-    public Queue<Vector3> _curvePoint = new Queue<Vector3>();   
+    //
+
+    protected Queue<Vector3> _curvePoint = new Queue<Vector3>();   
     public Vector3 targetPos;
     public Vector3 targetAnchor;
     public Vector3 _curPos;
@@ -100,6 +103,35 @@ public class EnemyMoveCurvePath
             _curvePoint.Enqueue(hit.position);
         }
     }
-       
+
+    public bool TryGetCurvePoint(out Vector3 _curvePoint)
+    {
+        _curvePoint = Vector3.zero;
+
+        if(this._curvePoint == null || this._curvePoint.Count <= 0)
+            return false;
+
+        _curvePoint = this._curvePoint.Peek();
+        return true;
+    }
+    public bool TryGetMarkPoint(out Vector3 markPoint,int index)
+    {
+        markPoint = Vector3.zero;
+
+        if(this._markPoint == null || this._markPoint.Count <= 0)
+            return false;
+
+        markPoint = this._markPoint[index];
+        return true;
+    }
+    public void DeQueueCurvePoint()
+    {
+        if (this._curvePoint == null)
+            return;
+
+        this._curvePoint.Dequeue();
+    }
+
+
 
 }

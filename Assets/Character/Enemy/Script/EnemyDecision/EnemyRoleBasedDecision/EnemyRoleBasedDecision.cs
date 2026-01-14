@@ -148,7 +148,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
         if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
         {
-            if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._curvePoint.Count > 0)
+            if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
             {
                 Gizmos.color = Color.red * 0.5f;
                 for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)

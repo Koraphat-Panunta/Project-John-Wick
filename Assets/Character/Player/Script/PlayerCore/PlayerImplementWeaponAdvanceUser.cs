@@ -87,8 +87,8 @@ public partial class Player: IWeaponAdvanceUser
 
         _weaponUserAnimator = animator;
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
-        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(1000, 1000,1000 , 1000
-            , 1000, 1000, 1000, 1000));
+        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(24, 24,30 , 30
+            , 24, 24, 30, 30));
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this, this);
