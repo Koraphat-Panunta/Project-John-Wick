@@ -527,6 +527,8 @@ GameObject:
   - component: {fileID: 1968153037591969261}
   - component: {fileID: 5397646546792058823}
   - component: {fileID: 1428774212975845543}
+  - component: {fileID: 1108506250238677415}
+  - component: {fileID: 6419881214304659927}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -878,6 +880,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  isEnableGizmos: 0
 --- !u!114 &9030984288096570306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1031,6 +1034,48 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &1108506250238677415
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17788771
+  m_Height: 1.4262013
+  m_Direction: 1
+  m_Center: {x: -0.0010228828, y: -0.021443248, z: -0.07859331}
+--- !u!114 &6419881214304659927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b821565803ceaf645bd3badc86af008a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicCapsuleCollider
+  capsuleCollider: {fileID: 1108506250238677415}
+  transformPoints:
+  - {fileID: 778433200294176050}
+  - {fileID: 2799835777767128240}
+  - {fileID: 41831253394315153}
+  - {fileID: 8662021978352455514}
+  - {fileID: 739219212891845642}
 --- !u!1001 &1001974458432819358
 PrefabInstance:
   m_ObjectHideFlags: 0

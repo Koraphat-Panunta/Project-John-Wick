@@ -43,7 +43,7 @@ public class HittedIndicator : GameplayUI, IObserverPlayer
     {
         Vector2 dir = new Vector2(hitDir.x, hitDir.z).normalized;
         RawImage indicate = Instantiate(hitIndicatorPrefab, uiScreenCanvas.transform);
-        hitIndicators.Add(new Indicator(this, indicate, dir, 3f));
+        hitIndicators.Add(new Indicator(this, indicate, dir, 1f));
     }
     private void OnValidate()
     {

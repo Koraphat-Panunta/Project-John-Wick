@@ -10,6 +10,8 @@ public class UserInputActor : Actor,IInitializedAble,UserInput.IPlayerActionActi
         userInput = new UserInput();
         userInput.PlayerAction.AddCallbacks(this);
         userInput.PlayerAction.Enable();
+        
+        userInput.PauseAction.Enable();
     }
 
    
