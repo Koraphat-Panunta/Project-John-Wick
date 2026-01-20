@@ -34,8 +34,8 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
 
         if (curWeapon != null)
         {
-            curWeaponBulletCapacity = curWeapon.bulletCapacity;
-            curWeaponMagCount = (int)(enemy._currentWeapon.bulletCapacity * 0.7f);
+            curWeaponBulletCapacity = curWeapon.maxAmmoCapacity;
+            curWeaponMagCount = (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f);
         }
 
        CurrentEnemyState = this.enemy.enemyStateManagerNode.GetCurNodeLeaf().ToString();

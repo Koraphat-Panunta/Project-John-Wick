@@ -6,12 +6,21 @@ public class BulletCapacity
     public int maxCapacity { get; set; }
     public int curCount { get; set; }
 
+    public BulletCapacity(Bullet bullet,int maxCapacity)
+    {
+        this.maxCapacity = maxCapacity;
+        this.bullet = bullet;
+    }
+
     public bool Load(Bullet bullet,int amout,out int overAmout)
     {
         overAmout = 0;
 
         if (this.bullet.GetType() != bullet.GetType())
+        {
+            Debug.LogError("mis match bullet type in bulletCapacity " + bullet);
             return false;
+        }
 
         this.curCount += amout;
         if(this.curCount > this.maxCapacity)

@@ -3,9 +3,10 @@ using UnityEngine;
 public class MuzzleFlashScript : MonoBehaviour, IObserverWeapon
 {
     [SerializeField] private GunMuzzleTest gunMuzzleTest;
-    public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
+    public void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
-        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing)
+        if(weaponNotify is WeaponSubject.WeaponNotifyType weaponNotifyMassage
+            && weaponNotifyMassage == WeaponSubject.WeaponNotifyType.Firing)
             gunMuzzleTest.Fire();
     }
 

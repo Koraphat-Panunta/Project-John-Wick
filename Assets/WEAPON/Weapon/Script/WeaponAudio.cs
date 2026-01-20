@@ -1,23 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAble
 {
-    public void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
+    public void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
-        if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing)
+        if(weaponNotify is FiringNode)
         {
             TriggerFiringSound();
         }
-        if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
+        if(weaponNotify is Action action
+            && action == (weapon as MagazineType).ReleseMagazine)
         {
-            TriggerReloadSound();
+            if((weapon.userWeapon._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>())
+                this.TriggerReloadSound();
+            else if((weapon.userWeapon._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>())
+                this.TriggerTacticalReloadSound();
         }
-        if (weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
-        {
-            TriggerTacticalReloadSound();
-        }
+        
     }
     [SerializeField] private AudioSource source_Sound;
 

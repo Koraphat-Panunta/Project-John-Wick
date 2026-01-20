@@ -7,10 +7,7 @@ public abstract class WeaponSubject : MonoBehaviour
     List<IObserverWeapon> _observers = new List<IObserverWeapon>();
     public enum WeaponNotifyType
     {
-        ReloadMagazineFullStage,
-        TacticalReloadMagazineFullStage,
-        MagIn_ReloadMagazineStage,
-        ChamberLoad_ReloadMagazineStage,
+        ReleseMagazine,
 
         Firing,
 
@@ -20,7 +17,7 @@ public abstract class WeaponSubject : MonoBehaviour
         BeenDetatch,
         Rest
     }
-    public void Notify(Weapon weapon,WeaponNotifyType weaponNotifyType)
+    public void Notify<T>(Weapon weapon,T weaponNotifyType)
     {
         for(int i =0; i<= _observers.Count - 1; i++)
         {

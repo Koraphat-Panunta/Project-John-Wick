@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticAttachAble
+public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
 {
 
     //SetUpStats
@@ -12,37 +12,45 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     private RifileBullet _556MmBullet;
     public Transform slingAnchor { get ; set ; }
 
-    public override int bulletCapacity { get => _MagazineCapacity;}
+    public override int maxAmmoCapacity { get => _MagazineCapacity;}
    
     public override float min_CrosshairSize { get => base.min_CrosshairSize  - this._reduceMinCrosshairSize; }
     public override float max_CrosshairSize { get => base.max_CrosshairSize - this._reduceMaxCrosshairSize; }
     public override float aimDownSight_speed { get => base.aimDownSight_speed + _aimDownSightSpeedIncrease; }
     public override Bullet bullet { get ; set ; }
 
-#region Initialized MagazineType
-[SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
+    public override Chamber chamber { get ; protected set ; }
+    public override BulletCapacity bulletCap { get ; protected set ; }
+
+
+    #region Initialized MagazineType
+    [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
     { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => this.MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
     public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
     { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => this.magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
-    public bool _isMagIn { get; set; }
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
     public NodeSelector _reloadStageSelector { get; set; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
+
+    [SerializeField] protected TimelineTriggerEventScriptableObject reload_timelineTriggerEventSCRP;
+    [SerializeField] protected TimelineTriggerEventScriptableObject tacticalReload_timelineTriggerEventSCRP;
+    public TimelineTriggerEventScriptableObject _reload_timelineTriggerEventSCRP => this.reload_timelineTriggerEventSCRP;
+    public TimelineTriggerEventScriptableObject _tacticalReload_timelineTriggerEventSCRP => this.tacticalReload_timelineTriggerEventSCRP;
     public void InitailizedReloadStageSelector() => _reloadMagazineLogic.InitailizedReloadStageSelector(this);
-    public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch, IReloadMagazineNode reloadMagazineNode)
-        => _reloadMagazineLogic.ReloadMagazine(magazineWeapon, ammoProuch, reloadMagazineNode);
+    
 
     #endregion
 
     public override void Initialized()
     {
-        fireMode = FireMode.FullAuto;
+        this.bulletCap = new BulletCapacity(this.bullet, this.maxAmmoCapacity);
+        this.chamber = new Chamber(this.bullet, this.bulletSpawner, this);
 
-        _isMagIn = true;
+        fireMode = FireMode.FullAuto;
 
         _556MmBullet = new RifileBullet(this);
         bullet = _556MmBullet;
@@ -103,9 +111,10 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     
     protected override void SetDefaultAttribute()
     {
-        this.bulletCap.Load(this.bullet, this.bulletCapacity, out int overAmout);
+
+
+        this.bulletCap.Load(this.bullet, this.maxAmmoCapacity, out int overAmout);
         this.chamber.Load(this.bullet);
-        _isMagIn = true;
         base.SetDefaultAttribute();
     }
     #endregion
@@ -151,6 +160,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     [SerializeField] private Transform FrontGripSocket;
     public Transform forntGripAttachment { get => this.FrontGripSocket; set => this.FrontGripSocket = value; }
 
+
+
     private void OnValidate()
     {
         if(_microOptic != null)
@@ -159,5 +170,47 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         }
     }
 
+
+
     #endregion
+
+    public void ReleseMagazine()
+    {
+        this.bulletCap = null;
+        Notify<Action>(this,ReleseMagazine);
+
+    }
+
+    public void InputMagazine(BulletCapacity bulletCapacity)
+    {
+        this.bulletCap = bulletCapacity;
+        Notify<Action<BulletCapacity>>(this,InputMagazine);
+    }
+
+    public void ReloadChamber()
+    {
+        if (this.chamber.isLoad)
+        {
+            Debug.LogWarning("Chamber been loaded "+this);
+            return;
+        }
+
+        if(this.bulletCap == null)
+        {
+            Debug.LogWarning("Magazine is null " + this);
+            return;
+        }
+
+        if(this.bulletCap.GetBulletOut(out Bullet loadBullet))
+        {
+            this.chamber.Load(loadBullet);
+            Notify<Action>(this,this.ReloadChamber);
+        }
+        else
+        {
+            Debug.LogWarning("Magazine is empty " + this);
+        }
+
+
+    }
 }

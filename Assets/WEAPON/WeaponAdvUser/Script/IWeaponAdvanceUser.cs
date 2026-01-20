@@ -11,7 +11,7 @@ public interface IWeaponAdvanceUser
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
     public Character _userWeapon { get;}
-    public WeaponManuverManager _weaponManuverManager { get; set; }
+    public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
     public bool _isPullTriggerCommand { get; set; }
     public bool _isAimingCommand { get; set; }

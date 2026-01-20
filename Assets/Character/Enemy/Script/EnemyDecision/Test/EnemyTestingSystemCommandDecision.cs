@@ -117,8 +117,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 enemyCommand.AimDownSight(enemy.targetKnewPos);
                 if(enemy._currentWeapon.triggerState == TriggerState.Up)
                     enemyCommand.PullTrigger();
-            }, () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] <= (int)(enemy._currentWeapon.bulletCapacity * 0.7f));
-        reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.bulletStore[BulletStackType.Magazine] == enemy._currentWeapon.bulletCapacity);
+            }, () => enemy._currentWeapon.bulletCap.curCount <= (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f));
+        reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.bulletCap.curCount == enemy._currentWeapon.maxAmmoCapacity);
        
         moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(coverPoint.coverPos.position,1,0.5f));
         softcoverManuver = new EnemyTestingCommand(

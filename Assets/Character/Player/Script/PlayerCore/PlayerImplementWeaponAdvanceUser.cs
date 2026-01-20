@@ -57,7 +57,7 @@ public partial class Player: IWeaponAdvanceUser
     public Weapon _currentWeapon { get; set; }
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
-    public WeaponManuverManager _weaponManuverManager { get; set; }
+    public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public Vector3 _shootingPos
     {
         get
@@ -87,8 +87,7 @@ public partial class Player: IWeaponAdvanceUser
 
         _weaponUserAnimator = animator;
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
-        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(24, 24,30 , 30
-            , 24, 24, 30, 30));
+        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch());
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this, this);

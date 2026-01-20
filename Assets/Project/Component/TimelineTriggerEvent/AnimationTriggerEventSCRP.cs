@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AnimationTriggerEventSCRP", menuName = "ScriptableObjects/AnimationTriggerEventSCRP/AnimationTriggerEventSCRP")]
+[CreateAssetMenu(fileName = "AnimationTriggerEventSCRP", menuName = "ScriptableObjects/TimelineTriggerEvent/AnimationTriggerEventSCRP")]
 public class AnimationTriggerEventSCRP : ScriptableObject
 {
     public AnimationClip clip;

@@ -23,7 +23,7 @@ public class BulletExecute : Bullet
     }
 
     public override float GetHpDamage => _pureHpDamage;
-    public override BulletType myType { get; set; }
+    public override BulletType myType { get;protected set; }
     public override float _pureHpDamage { get => 10000; set => throw new System.NotImplementedException(); }
     public override float _purePostureDamage { get => 0; set => throw new System.NotImplementedException(); }
     public override float _pureDestructionDamage { get ; set ; }

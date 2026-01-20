@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponManuverManager : INodeManager
+public abstract class WeaponNodeManuverManager : INodeManager
 {
     public NodeManagerBehavior _nodeManagerBehavior { get; set ; }
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
@@ -35,7 +35,7 @@ public abstract class WeaponManuverManager : INodeManager
     public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
-    public WeaponManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
+    public WeaponNodeManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
         this.startNodeSelector = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);

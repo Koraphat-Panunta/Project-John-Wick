@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyWeaponManuver : WeaponManuverManager
+public class EnemyWeaponManuver : WeaponNodeManuverManager
 {
     private Enemy enemy => weaponAdvanceUser as Enemy;
     public EnemyWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser, Enemy enemy) : base(weaponAdvanceUser)

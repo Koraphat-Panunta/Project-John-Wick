@@ -5,27 +5,30 @@ using UnityEngine;
 
 public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMagazineNode/*,IReloadMagazineNodePhase*/
 {
-    public enum ReloadStage
-    {
-        Enter,
-        Reloading,
-        Cancel
-    }
+    
     private bool isComplete;
-    public ReloadStage curReloadStage { get; private set; }
 
     private float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
 
     private MagazineType weaponMag;
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }
+    protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
 
-    private float elaspeTime;
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
+    protected BulletCapacity magazine => weaponMag._weapon.bulletCap;
 
-    public ReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType weaponMag, Func<bool> preCondition) : base(weaponUser, preCondition)
+    public ReloadMagazineFullStageNodeLeaf
+        (IWeaponAdvanceUser weaponUser
+        , MagazineType weaponMag
+        ,TimelineTriggerEventScriptableObject timelineTriggerEventScriptableObject
+        , Func<bool> preCondition) : base(weaponUser, preCondition)
     {
         this.weaponMag = weaponMag;
+        this.timelineTriggerEvent = new TimelineTriggerEvent(this.reloadTime, timelineTriggerEventScriptableObject.triggerEventDetail);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.RelesesMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.InputMag.ToString(), this.InputMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReChamber.ToString(), this.ReloadChamber);
     }
 
     public override bool IsComplete()
@@ -50,12 +53,10 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         try
         {
             this.isComplete = false;
-            this.curReloadStage = ReloadStage.Enter;
-            weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            this.timelineTriggerEvent.Rewind();
+            this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-
-            elaspeTime = 0;
+            this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         }
         catch { }
     }
@@ -64,56 +65,31 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         try
         {
             isComplete = false;
-
             weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-
-            elaspeTime = 0;
         }
         catch { }
     }
     public override void UpdateNode()
     {
-        try
-        {
-            elaspeTime += Time.deltaTime;
-            if (elaspeTime >= reloadTime)
-            {
-                this.isComplete = true;
-                this.curReloadStage = ReloadStage.Reloading;
-                weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-                Reloading();
-            }
-        }
-        catch
-        {
-
-        }
+        this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
     }
+
+    private void RelesesMag() 
+    {
+        this.magazine.UnLoadAllBullet(out int remainBullet);
+        this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
+        this.weaponMag.ReleseMagazine(); 
+    }
+    private void InputMag() 
+    {
+        BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet,this.weaponMag._weapon.maxAmmoCapacity);
+        this.weaponMag.InputMagazine(newMagazine);
+    } 
+    private void ReloadChamber() => this.weaponMag.ReloadChamber(); 
+
     public override void FixedUpdateNode()
     {
-        try
-        {
-            if (weaponAdvanceUser._isAimingCommand && weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
-                weaponAdvanceUser._weaponManuverManager.aimingWeight
-                    = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
-            else
-                weaponAdvanceUser._weaponManuverManager.aimingWeight
-                    = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
-        }
-        catch { }
+        
     }
-   
-
-    private void Reloading()
-    {
-        try
-        {
-            weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] += 1;
-            weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] -= 1;
-            isComplete = true;
-        }
-        catch { }
-    }
-   
 }

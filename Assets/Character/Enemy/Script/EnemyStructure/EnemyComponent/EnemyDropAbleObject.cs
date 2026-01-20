@@ -37,7 +37,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
             && ammoDropNumber >0)
         {
             ammoDropNumber--;
-            AmmoGetAbleObject.amoutAmmoAdd = 5;
             base.DropObject(AmmoGetAbleObject);
         }
 

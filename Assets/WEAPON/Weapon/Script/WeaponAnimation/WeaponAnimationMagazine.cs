@@ -21,31 +21,38 @@ public class WeaponAnimationMagazine : WeaponAnimation
     [SerializeField] private float reloadFullStageNormalizedTime;
     [Range(0, 1)] 
     [SerializeField] private float tacticalReloadFullStageNormalziedTime;
-    public override void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
+    public override void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
-       if(weaponNotify == WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage)
+
+       if(weaponNotify is ReloadMagazineFullStageNodeLeaf)
        {
             animator.CrossFade(ReloadMagazineFullStage, 0f, 0, reloadFullStageNormalizedTime);
         }
-       else if(weaponNotify == WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage)
+       else if(weaponNotify is TacticalReloadMagazineFullStageNodeLeaf)
        {
             animator.CrossFade(TacticalReloadMagazineFullStage,0f, 0, tacticalReloadFullStageNormalziedTime);
        }
 
-       if(weaponNotify == WeaponSubject.WeaponNotifyType.Firing) 
-        {
-            if (weapon.bulletStore[BulletStackType.Magazine] <= 0)
-                animator.CrossFade(OpenChamber, 0.1f, 1);
+       if(weaponNotify is FiringNode) 
+       {
+            if (weapon.chamber.isLoad == false)
+                this.animator.CrossFade(OpenChamber, 0.1f, 1);
             else
-                animator.CrossFade(FiringMechanic, 0.1f, 1);
-        }
+                this.animator.CrossFade(FiringMechanic, 0.1f, 1);
+       }
+       if(weaponNotify is AutoLoadChamberNode
+            && weapon.chamber.isLoad)
+            this.animator.CrossFade(FiringMechanic, 0.1f, 1);
 
-       if(weaponNotify == WeaponSubject.WeaponNotifyType.Rest)
+
+
+        if (weaponNotify is WeaponRestNodeLeaf)
         {
             animator.CrossFade(Rest, 0f, 0);
         }
 
-        if (weaponNotify == WeaponSubject.WeaponNotifyType.AttachmentSetup)
+        if (weaponNotify is WeaponSubject.WeaponNotifyType weaponNotifyMassage 
+            && weaponNotifyMassage == WeaponSubject.WeaponNotifyType.AttachmentSetup)
         {
             SetWeaponApprerance(weapon);
         }

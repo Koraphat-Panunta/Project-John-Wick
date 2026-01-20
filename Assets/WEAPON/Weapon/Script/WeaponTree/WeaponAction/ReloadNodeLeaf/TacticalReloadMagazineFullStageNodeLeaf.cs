@@ -20,13 +20,20 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private MagazineType weaponMag ;
 
+    protected BulletCapacity magazine => weaponMag._weapon.bulletCap;
+
     private float elaspeTime;
 
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ;}
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
-    public TacticalReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType magazineType, Func<bool> preCondition) : base(weaponUser, preCondition)
+    protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
+    public TacticalReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType magazineType,TimelineTriggerEventScriptableObject timelineTriggerEventSCRP, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
         this.weaponMag = magazineType;
+        this.timelineTriggerEvent = new TimelineTriggerEvent(magazineType._weapon.reloadTime, timelineTriggerEventSCRP.triggerEventDetail);
+
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.RelesesMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.InputMag.ToString(), this.InputMag);
     }
 
     public override void Enter()
@@ -35,8 +42,8 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         {
             this.isComplete = false;
             this.curReloadStage = TacticalReloadStage.Enter;
-            weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            this.timelineTriggerEvent.Rewind();
+            this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <TacticalReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
             elaspeTime = 0;
@@ -54,7 +61,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
             isComplete = false;
 
 
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                <TacticalReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
             elaspeTime = 0;
@@ -67,16 +74,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void FixedUpdateNode()
     {
-        try
-        {
-            if (weaponAdvanceUser._isAimingCommand && weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
-                weaponAdvanceUser._weaponManuverManager.aimingWeight
-                    = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
-            else
-                weaponAdvanceUser._weaponManuverManager.aimingWeight
-                    = Mathf.Clamp01(weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * weaponAdvanceUser._currentWeapon.aimDownSight_speed);
-        }
-        catch { }
+       
     }
 
     public override bool IsComplete()
@@ -100,20 +98,19 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void UpdateNode()
     {
-        try
-        {
-            elaspeTime += Time.deltaTime;
-            if (elaspeTime >= reloadTime)
-            {
-                this.isComplete = true;
-                this.curReloadStage = TacticalReloadStage.Reloading;
-                weaponMag.ReloadMagazine(weaponMag, ammoProuch, this);
-            }
-        }
-        catch { }
-
+        this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
     }
-
+    private void RelesesMag()
+    {
+        this.magazine.UnLoadAllBullet(out int remainBullet);
+        this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
+        this.weaponMag.ReleseMagazine();
+    }
+    private void InputMag()
+    {
+        BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet, this.weaponMag._weapon.maxAmmoCapacity);
+        this.weaponMag.InputMagazine(newMagazine);
+    }
 
 
 }

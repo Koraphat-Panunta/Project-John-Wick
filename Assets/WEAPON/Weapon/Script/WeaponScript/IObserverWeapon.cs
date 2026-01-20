@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IObserverWeapon 
 {
-    public abstract void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify);
+    public abstract void OnNotify<T>(Weapon weapon, T weaponNotify);
    
 }

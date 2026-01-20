@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponAnimationAR15 : WeaponAnimationMagazine
 {
-    public override void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify)
+    public override void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
         throw new System.NotImplementedException();
     }

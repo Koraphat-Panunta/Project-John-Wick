@@ -75,7 +75,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
     }
     private void AutoRegenAmmo()
     {
-        if (enemy._weaponBelt.ammoProuch.amountOf_ammo[enemy._currentWeapon.bullet.myType] <= 0)
+        if (enemy._weaponBelt.ammoProuch.CheckAmmo(enemy._currentWeapon.bullet.myType) <= 0)
         {
             enemy._weaponBelt.ammoProuch.AddAmmo(enemy._currentWeapon.bullet.myType, 100);
         }

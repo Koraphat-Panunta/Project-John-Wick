@@ -5,7 +5,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 {
     Weapon curWeapon;
     WeaponAfterAction weaponAfterAction;
-    WeaponManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
+    WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     private float recoverFormAimDownSight = 2.5f;
 
 

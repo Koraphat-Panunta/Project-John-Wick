@@ -10,7 +10,7 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public WeaponAfterAction _weaponAfterAction { get => player._weaponAfterAction; set => player._weaponAfterAction = value; }
     public Character _userWeapon => player;
     public Vector3 _pointingPos { get => player._pointingPos; set => player._pointingPos = value; }
-    public WeaponManuverManager _weaponManuverManager { get => player._weaponManuverManager; set => player._weaponManuverManager = value; }
+    public WeaponNodeManuverManager _weaponManuverManager { get => player._weaponManuverManager; set => player._weaponManuverManager = value; }
     public bool _isPullTriggerCommand { get => player._isPullTriggerCommand; set => player._isPullTriggerCommand = value; }
     public bool _isAimingCommand { get => player._isAimingCommand; set => player._isAimingCommand = value; }
     public bool _isReloadCommand { get => player._isReloadCommand; set => player._isReloadCommand = value; }

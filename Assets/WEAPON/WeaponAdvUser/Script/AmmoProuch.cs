@@ -28,7 +28,15 @@ public class AmmoProuch
     }
     public void AddAmmo(BulletType bulletType,int amount)
     {
-        this.amountOf_ammo[bulletType] = Mathf.Clamp(this.amountOf_ammo[bulletType] + amount, 0, this.maximunAmmo[bulletType]);
+        if (this.amountOf_ammo[bulletType] + amount > this.maximunAmmo[bulletType])
+        {
+            amount = amount - ((this.amountOf_ammo[bulletType] + amount) - this.maximunAmmo[bulletType]);
+        }
+        this.amountOf_ammo[bulletType] += amount;
+    }
+    public void ForceAddAmmo(BulletType bulletType,int amout)
+    {
+        this.amountOf_ammo[bulletType] += amout;
     }
     public void SetAmmo(BulletType bulletType,int amout)
     {
@@ -38,7 +46,12 @@ public class AmmoProuch
     public void GetAmmoOut(BulletType bulletType,int getAmout,out int outAmout)
     {
         outAmout = Mathf.Clamp(getAmout,0, this.amountOf_ammo[bulletType]);
-        this.amountOf_ammo[bulletType] = Mathf.Clamp(this.amountOf_ammo[bulletType] - getAmout, 0, this.maximunAmmo[bulletType]);
+        this.amountOf_ammo[bulletType] -= outAmout; 
+    }
+
+    public int CheckMaxAmmo(BulletType bulletType)
+    {
+        return this.maximunAmmo[bulletType];
     }
 
     public int CheckAmmo(BulletType bulletType) => this.amountOf_ammo[bulletType];

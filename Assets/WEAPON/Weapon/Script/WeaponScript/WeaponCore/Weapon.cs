@@ -10,7 +10,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public Transform _SecondHandGripTransform;
     public abstract WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject { get; set; }
     [SerializeField] protected WeaponStatsScriptableObject weaponStatsScriptableObject;
-    public virtual int bulletCapacity { get => weaponStatsScriptableObject.bulletCapacity; }
+    public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity; }
     public virtual float rate_of_fire { get => weaponStatsScriptableObject.rate_of_fire; }
     public virtual float reloadTime { get => weaponStatsScriptableObject.reloadTime; }
     public virtual float Recovery_CrosshairBloomSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairBloomSpeed; }
@@ -35,7 +35,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public bool isEquiped;
 
     public abstract Chamber  chamber { get;protected set; }
-    public abstract BulletCapacity bulletCap { get; protected set; }
+    public abstract BulletCapacity bulletCap { get;protected set; }
 
 
     public IWeaponAdvanceUser userWeapon;
@@ -136,7 +136,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
         this.Collider = GetComponent<Collider>();   
     }
 
-    public void OnNotify(Weapon weapon, WeaponNotifyType weaponNotify)
+    public void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
         
     }

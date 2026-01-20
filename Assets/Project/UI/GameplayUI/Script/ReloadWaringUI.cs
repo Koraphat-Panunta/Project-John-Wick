@@ -16,7 +16,7 @@ public class ReloadWaringUI : GameplayUI, IObserverPlayer
 
     public void OnNotify<T>(Player player, T node)
     {
-        if(player._currentWeapon != null && player._currentWeapon.bulletStore[BulletStackType.Magazine] <= 0 && isEnable)
+        if(player._currentWeapon != null && player._currentWeapon.bulletCap.curCount <= 0 && isEnable)
         {
             reloadWarningUIBG.enabled = true;
             reloadWaringText.enabled = true;

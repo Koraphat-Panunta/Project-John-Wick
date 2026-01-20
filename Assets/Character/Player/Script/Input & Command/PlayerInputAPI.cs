@@ -51,8 +51,8 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
                 player._isPullTriggerCommand = true;
 
                 if(player._currentWeapon != null
-                    && player._currentWeapon.bulletStore[BulletStackType.Chamber] == 0
-                    && player._currentWeapon.bulletStore[BulletStackType.Magazine] == 0)
+                    && player._currentWeapon.chamber.isLoad == false
+                    && player._currentWeapon.bulletCap.curCount <= 0)
                 {
                     player._isReloadCommand = true;
                 }

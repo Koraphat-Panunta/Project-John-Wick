@@ -251,10 +251,11 @@ public partial class Player : SubjectPlayer,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    if (_weaponBelt.ammoProuch.amountOf_ammo[BulletType._9mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._9mm]
-                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._45mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._45mm]
-                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._556mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._556mm]
-                        || _weaponBelt.ammoProuch.amountOf_ammo[BulletType._762mm] < _weaponBelt.ammoProuch.maximunAmmo[BulletType._762mm])
+                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo)
+                        )
                         return true;
                 }
                 break;

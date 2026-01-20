@@ -6,44 +6,23 @@ public interface MagazineType
     public Weapon _weapon { get; set; }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public NodeSelector _reloadStageSelector { get; set; }
+    public TimelineTriggerEventScriptableObject _reload_timelineTriggerEventSCRP { get; }
+    public TimelineTriggerEventScriptableObject _tacticalReload_timelineTriggerEventSCRP { get; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject { get; set; }
+
+    public bool isMagin => _weapon.bulletCap != null?true:false;
+
     public void InitailizedReloadStageSelector();
-    public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch,IReloadMagazineNode reloadMagazineNode);
+    public void ReleseMagazine();
+    public void InputMagazine(BulletCapacity magazine);
+    public void ReloadChamber();
    
 }
 public class ReloadMagazineLogic
 {
-    public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch, IReloadMagazineNode reloadMagazineNode)
-    {
-        //Debug.Log("Reload finish");
-        INodeLeaf node = reloadMagazineNode as WeaponManuverLeafNode;
-        Action enter = node.Enter;
 
-        Weapon weapon = magazineWeapon._weapon;
-
-        switch (reloadMagazineNode)
-        {
-            case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
-                {
-                    if (_reloadMagFullStage.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Enter)
-                        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.ReloadMagazineFullStage);
-                    else if(_reloadMagFullStage.curReloadStage == ReloadMagazineFullStageNodeLeaf.ReloadStage.Reloading)
-                        this.RefillAmmo(weapon, ammoProuch);
-                    break;
-                }
-            case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
-                {
-                    if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Enter)
-                        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.TacticalReloadMagazineFullStage);
-                    else if (_tacticalReloadMagFullStage.curReloadStage == TacticalReloadMagazineFullStageNodeLeaf.TacticalReloadStage.Reloading)
-                        this.RefillAmmo(weapon, ammoProuch);
-                    break;
-                }
-        }
-       
-    }
     public void InitailizedReloadStageSelector(MagazineType magazineType)
     {
 
@@ -65,6 +44,7 @@ public class ReloadMagazineLogic
         magazineType._reloadMagazineFullStage = new ReloadMagazineFullStageNodeLeaf(
             weapon.userWeapon, 
             magazineType,
+            magazineType._reload_timelineTriggerEventSCRP,
             () =>
             {
                 if
@@ -81,6 +61,7 @@ public class ReloadMagazineLogic
         magazineType._tacticalReloadMagazineFullStage = new TacticalReloadMagazineFullStageNodeLeaf(
             weapon.userWeapon,
             magazineType,
+            magazineType._tacticalReload_timelineTriggerEventSCRP,
             () =>
             {
 
@@ -97,26 +78,5 @@ public class ReloadMagazineLogic
         magazineType._reloadStageSelector.AddtoChildNode(magazineType._reloadMagazineFullStage);
         magazineType._reloadStageSelector.AddtoChildNode(magazineType._tacticalReloadMagazineFullStage);
     }
-    private void RefillAmmo(Weapon weapon,AmmoProuch ammoProuch)
-    {
-        BulletType bulletType = weapon.bullet.myType;
-        int magCount = weapon.bulletCap.curCount;
-        int magCapacity = weapon.bulletCap.maxCapacity;
-        if (ammoProuch.CheckAmmo(bulletType) > 0)
-        {
-            int fillamout = magCapacity - magCount;
-            if (ammoProuch.CheckAmmo(bulletType) - fillamout < 0)
-            {
-                int minusAmmo = ammoProuch.amountOf_ammo[bulletType] -= fillamout;
-                ammoProuch.amountOf_ammo[bulletType] = 0;
-                weapon.bulletStore[BulletStackType.Magazine] += fillamout + minusAmmo;
-            }
-            else
-            {
-                ammoProuch.amountOf_ammo[bulletType] -= fillamout;
-                weapon.bulletStore[BulletStackType.Magazine] += fillamout;
-            }
-
-        }
-    }
+    
 }

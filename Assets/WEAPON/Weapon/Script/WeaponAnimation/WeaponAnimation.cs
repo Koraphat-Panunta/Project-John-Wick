@@ -15,7 +15,7 @@ public abstract class WeaponAnimation : MonoBehaviour,IObserverWeapon,IInitializ
         weapon.AddObserver(this);
     }
   
-    public abstract void OnNotify(Weapon weapon, WeaponSubject.WeaponNotifyType weaponNotify);
+    public abstract void OnNotify<T>(Weapon weapon, T weaponNotify);
 
     
 }

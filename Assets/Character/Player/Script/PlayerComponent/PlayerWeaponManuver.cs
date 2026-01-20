@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuverAble
+public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponManuverAble
 {
     private Player player => weaponAdvanceUser as Player;
 
@@ -233,7 +233,7 @@ public class PlayerWeaponManuver : WeaponManuverManager,IQuickSwitchWeaponManuve
             () => weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null
             && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null
-            && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Chamber] <= 0 && weaponAdvanceUser._currentWeapon.bulletStore[BulletStackType.Magazine] <= 0
+            && weaponAdvanceUser._currentWeapon.chamber.isLoad == false && weaponAdvanceUser._currentWeapon.bulletCap.curCount <= 0
             && isQuickSwtichWeaponManuverAble
             && weaponAdvanceUser._isPullTriggerCommand
             , player.quickSwitchDrawSCRP

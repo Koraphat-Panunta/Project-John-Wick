@@ -15,6 +15,11 @@ public class Chamber
     }
     public void Load(Bullet bullet)
     {
+        if (this.bullet != null)
+        {
+            Debug.LogError("Load Chamber " + weapon + " Failed");
+            return;
+        }
         this.bullet = bullet;
     }
     public void FireTrigger() 

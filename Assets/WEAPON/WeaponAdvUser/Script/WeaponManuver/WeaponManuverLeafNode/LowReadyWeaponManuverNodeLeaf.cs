@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
-    WeaponManuverManager weaponManuverManager;
+    WeaponNodeManuverManager weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
     Weapon curWeapon => weaponAdvanceUser._currentWeapon;
 

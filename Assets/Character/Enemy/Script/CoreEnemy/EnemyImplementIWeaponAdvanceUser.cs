@@ -41,7 +41,7 @@ public partial class Enemy : IWeaponAdvanceUser
 
     [SerializeField] AnimatorOverrideController AnimatorOverrideController;
     public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
-    public WeaponManuverManager _weaponManuverManager { get; set; }
+    public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
     [Range(0,1)]
@@ -58,8 +58,7 @@ public partial class Enemy : IWeaponAdvanceUser
         //pointingTransform.transform.SetParent(null, true);
         
         _weaponUserAnimator = animator;
-        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch(1000, 1000, 1000, 1000
-            , 1000, 1000, 1000, 1000));
+        _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch());
         _weaponAfterAction = new WeaponAfterActionEnemy(this);
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
         _weaponManuverManager = new EnemyWeaponManuver(this, this);
