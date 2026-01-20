@@ -12,7 +12,8 @@ public interface MagazineType
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject { get; set; }
 
-    public bool isMagin => _weapon.bulletCap != null?true:false;
+    
+    public bool isMagin => _weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity);
 
     public void InitailizedReloadStageSelector();
     public void ReleseMagazine();
@@ -34,7 +35,7 @@ public class ReloadMagazineLogic
                && weapon.userWeapon._isReloadCommand
                && weapon.userWeapon._weaponManuverManager.isReloadManuverAble
               && weapon.userWeapon._weaponBelt.ammoProuch.CheckAmmo(weapon.bullet.myType) > 0
-              && weapon.bulletCap.curCount < weapon.bulletCap.maxCapacity)
+              && weapon.curBulletCapacity < weapon.maxAmmoCapacity)
                    return true;
                else
                    return false;
@@ -49,9 +50,9 @@ public class ReloadMagazineLogic
             {
                 if
                     (
-                     weapon.bulletCap != null
+                     magazineType.isMagin
                     && weapon.chamber.isLoad == false
-                    && weapon.bulletCap.curCount <= 0
+                    && weapon.curBulletCapacity <= 0
                     )
                     return true;
                 else
@@ -66,8 +67,8 @@ public class ReloadMagazineLogic
             {
 
                 if (
-                    weapon.bulletCap != null
-                    && weapon.bulletCap.curCount >= 0
+                    magazineType.isMagin
+                    && weapon.curBulletCapacity >= 0
                     )
                     return true;
                 else

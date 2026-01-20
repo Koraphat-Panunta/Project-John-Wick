@@ -52,7 +52,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 
                 if(player._currentWeapon != null
                     && player._currentWeapon.chamber.isLoad == false
-                    && player._currentWeapon.bulletCap.curCount <= 0)
+                    && player._currentWeapon.curBulletCapacity <= 0)
                 {
                     player._isReloadCommand = true;
                 }

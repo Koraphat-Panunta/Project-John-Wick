@@ -7,11 +7,10 @@ using UnityEngine;
 public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
 {
     //SetUpStats
-    private int _magazineCapacity = 17;
   
     public override int maxAmmoCapacity
     {
-        get { return _magazineCapacity; }
+        get => weaponStatsScriptableObject.bulletCapacity;
     }
     public override Bullet bullet { get; set; }
 
@@ -21,7 +20,6 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
     { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
     public Weapon _weapon { get => this; set { } }
-    public bool _isMagIn { get { return true; } set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
     public NodeSelector _reloadStageSelector { get; set; }
@@ -74,19 +72,19 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     }
     #endregion
     public override Chamber chamber { get;protected set; }
-    public override BulletCapacity bulletCap { get; protected set; }
+    protected override BulletCapacity bulletCap { get;  set; }
 
     public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
     { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
 
     public override void Initialized()
     {
+        this.bullet = new HandgunBullet(this);
+
         this.bulletCap = new BulletCapacity(this.bullet, this.maxAmmoCapacity);
         this.chamber = new Chamber(this.bullet, this.bulletSpawner, this);
 
         fireMode = FireMode.Single;
-        bullet = new HandgunBullet(this);
-        _isMagIn = true;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
         base.Initialized();
@@ -113,9 +111,9 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
         this.bulletCap = new BulletCapacity(this.bullet,this.maxAmmoCapacity);
         this.chamber = new Chamber(this.bullet, this.bulletSpawner, this);
 
-        this.bulletCap.GetBulletOut(out Bullet lordBullet);
-        this.chamber.Load(lordBullet);
-        _isMagIn = true;
+        this.bulletCap.Load(this.bullet, this.maxAmmoCapacity,out int overMaxCap);
+        this.chamber.Load(this.bullet);
+
         base.SetDefaultAttribute();
     }
 

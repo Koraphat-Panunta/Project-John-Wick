@@ -7,7 +7,7 @@ public class AutoLoadChamberNode : WeaponLeafNode
 {
     private Coroutine reChamber;
     private Chamber chamber => this.Weapon.chamber;
-    private BulletCapacity bulletCapacity => this.Weapon.bulletCap;
+    private BulletCapacity bulletCapacity => this.Weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
 
     public AutoLoadChamberNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
@@ -39,10 +39,15 @@ public class AutoLoadChamberNode : WeaponLeafNode
     public IEnumerator ReChambering()
     {
         yield return new WaitForSeconds((float)(60 / Weapon.rate_of_fire));
-        
-        if(this.bulletCapacity.GetBulletOut(out Bullet bullet))
+
+
+        if(this.bulletCapacity != null
+            &&this.bulletCapacity.GetBulletOut(out Bullet bullet)
+            )
         {
+            Debug.Log("Auto load Chamber "+this.Weapon);
             this.chamber.Load(bullet);
+            Debug.Log(this.Weapon + "isLoad == "+this.chamber.isLoad);
         }
 
         this.reChamber = null;

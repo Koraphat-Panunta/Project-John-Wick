@@ -35,7 +35,8 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public bool isEquiped;
 
     public abstract Chamber  chamber { get;protected set; }
-    public abstract BulletCapacity bulletCap { get;protected set; }
+    protected abstract BulletCapacity bulletCap { get; set; }
+    public int curBulletCapacity { get => bulletCap != null ? this.bulletCap.curCount : 0; }
 
 
     public IWeaponAdvanceUser userWeapon;
@@ -134,6 +135,15 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     private void OnValidate()
     {
         this.Collider = GetComponent<Collider>();   
+    }
+
+    public bool TryGetBulletCapacity(out BulletCapacity bulletCapacity)
+    {
+        bulletCapacity = this.bulletCap;
+        if(bulletCapacity == null)
+            return false;
+
+        return true;
     }
 
     public void OnNotify<T>(Weapon weapon, T weaponNotify)

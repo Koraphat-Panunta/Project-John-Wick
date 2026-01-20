@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AmmoProuch 
 {
-    protected Dictionary<BulletType, int> amountOf_ammo;
-    protected Dictionary<BulletType, int> maximunAmmo;
+    protected Dictionary<BulletType, int> amountOf_ammo = new Dictionary<BulletType, int>();
+    protected Dictionary<BulletType, int> maximunAmmo = new Dictionary<BulletType, int>();
 
 
 

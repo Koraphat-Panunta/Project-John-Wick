@@ -7,12 +7,10 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
 {
 
     //SetUpStats
-    private int _MagazineCapacity = 30;
 
-    private RifileBullet _556MmBullet;
     public Transform slingAnchor { get ; set ; }
 
-    public override int maxAmmoCapacity { get => _MagazineCapacity;}
+    public override int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity;}
    
     public override float min_CrosshairSize { get => base.min_CrosshairSize  - this._reduceMinCrosshairSize; }
     public override float max_CrosshairSize { get => base.max_CrosshairSize - this._reduceMaxCrosshairSize; }
@@ -20,7 +18,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
     public override Bullet bullet { get ; set ; }
 
     public override Chamber chamber { get ; protected set ; }
-    public override BulletCapacity bulletCap { get ; protected set ; }
+    protected override BulletCapacity bulletCap { get ;  set ; }
 
 
     #region Initialized MagazineType
@@ -47,21 +45,22 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
 
     public override void Initialized()
     {
+        this.bullet = new RifileBullet(this);
+
         this.bulletCap = new BulletCapacity(this.bullet, this.maxAmmoCapacity);
         this.chamber = new Chamber(this.bullet, this.bulletSpawner, this);
 
         fireMode = FireMode.FullAuto;
 
-        _556MmBullet = new RifileBullet(this);
-        bullet = _556MmBullet;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
         base.Initialized();
     }
-  
-    
+
+    [SerializeField] bool isLoad;
     protected override void Update()
     {
+        isLoad = this.chamber.isLoad;
         base.Update();
     }
     protected override void FixedUpdate()

@@ -27,10 +27,10 @@ public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedA
    
     private void Start()
     {
-        enemiesRole.ForEach(eRole => 
-        {
-            this.AddEnemy(eRole);
-        });
+        //enemiesRole.ForEach(eRole => 
+        //{
+        //    this.AddEnemy(eRole);
+        //});
         assingTime = 0;
     }
     // Update is called once per frame

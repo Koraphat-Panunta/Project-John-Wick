@@ -16,11 +16,11 @@ public class BulletCapacity
     {
         overAmout = 0;
 
-        if (this.bullet.GetType() != bullet.GetType())
-        {
-            Debug.LogError("mis match bullet type in bulletCapacity " + bullet);
-            return false;
-        }
+        //if (this.bullet.GetType() != bullet.GetType())
+        //{
+        //    Debug.LogError("mis match bullet type in bulletCapacity " + bullet);
+        //    return false;
+        //}
 
         this.curCount += amout;
         if(this.curCount > this.maxCapacity)

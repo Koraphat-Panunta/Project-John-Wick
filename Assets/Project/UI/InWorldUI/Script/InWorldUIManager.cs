@@ -41,7 +41,7 @@ public class InWorldUIManager : MonoBehaviour,IInitializedAble
         enemyHP_Bar_InWorldUINodeLeaf = new EnemyHP_Bar_InWorldUINodeLeaf(()=> true,mainCamera,player, enemyHPInWorldUI);
         enemyStatusInWorldUIManageNodeLeaf = new EnemyStaggerStatusInWorldUIManageNodeLeaf(
             ()=> player._currentWeapon != null 
-            && player._currentWeapon.bulletCap.curCount + (player._currentWeapon.chamber.isLoad?1:0) > 0
+            && (player._currentWeapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)? bulletCapacity.curCount : 0) + (player._currentWeapon.chamber.isLoad?1:0) > 0
             , mainCamera
             ,player
             ,executeInWorldUI);

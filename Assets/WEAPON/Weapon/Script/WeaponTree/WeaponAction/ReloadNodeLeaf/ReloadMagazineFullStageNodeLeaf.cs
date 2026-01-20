@@ -8,7 +8,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     
     private bool isComplete;
 
-    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
+    private float reloadTime => weaponMag._weapon.reloadTime;
 
     private MagazineType weaponMag;
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }
@@ -16,7 +16,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
-    protected BulletCapacity magazine => weaponMag._weapon.bulletCap;
+    protected BulletCapacity magazine => weaponMag._weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
 
     public ReloadMagazineFullStageNodeLeaf
         (IWeaponAdvanceUser weaponUser
@@ -37,15 +37,16 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     }
     public override bool IsReset()
     {
+        if (weaponAdvanceUser == null)
+            return true;
+
         if (IsComplete())
             return true;
 
         if(weaponAdvanceUser._weaponManuverManager.isReloadManuverAble == false)
             return true;
 
-        if(weaponAdvanceUser == null)
-            return true;
-
+        
         return false;
     }
     public override void Enter()
@@ -73,17 +74,27 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     public override void UpdateNode()
     {
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
+        if(this.timelineTriggerEvent.IsPlayFinish())
+            isComplete = true;
     }
 
     private void RelesesMag() 
     {
+        Debug.Log("Reload Release Mag");
+
         this.magazine.UnLoadAllBullet(out int remainBullet);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
         this.weaponMag.ReleseMagazine(); 
     }
     private void InputMag() 
     {
-        BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet,this.weaponMag._weapon.maxAmmoCapacity);
+        Debug.Log("Reload InputMag");
+
+        BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet, this.weaponMag._weapon.maxAmmoCapacity);
+        this.weaponAdvanceUser._weaponBelt.ammoProuch.GetAmmoOut(this.weaponMag._weapon.bullet.myType, newMagazine.maxCapacity, out int amoutAmmo);
+        newMagazine.Load(this.weaponMag._weapon.bullet, amoutAmmo, out int overAmount);
+        this.weaponAdvanceUser._weaponBelt.ammoProuch.AddAmmo(this.weaponMag._weapon.bullet.myType, overAmount);
+
         this.weaponMag.InputMagazine(newMagazine);
     } 
     private void ReloadChamber() => this.weaponMag.ReloadChamber(); 
