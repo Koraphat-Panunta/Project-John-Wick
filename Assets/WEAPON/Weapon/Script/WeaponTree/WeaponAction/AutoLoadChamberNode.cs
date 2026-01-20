@@ -6,6 +6,8 @@ using UnityEngine;
 public class AutoLoadChamberNode : WeaponLeafNode
 {
     private Coroutine reChamber;
+    private Chamber chamber => this.Weapon.chamber;
+    private BulletCapacity bulletCapacity => this.Weapon.bulletCap;
 
     public AutoLoadChamberNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
@@ -13,8 +15,7 @@ public class AutoLoadChamberNode : WeaponLeafNode
 
     public override void Enter()
     {
-        reChamber = Weapon.StartCoroutine(ReChambering());
-
+        this.reChamber = this.Weapon.StartCoroutine(ReChambering());
     }
 
     public override void Exit()
@@ -33,18 +34,18 @@ public class AutoLoadChamberNode : WeaponLeafNode
 
     public override bool IsComplete()
     {
-        return reChamber == null;
+        return this.reChamber == null;
     }
     public IEnumerator ReChambering()
     {
-        //Debug.Log("Rechamber");
         yield return new WaitForSeconds((float)(60 / Weapon.rate_of_fire));
-        if (Weapon.bulletStore[BulletStackType.Magazine] > 0)
+        
+        if(this.bulletCapacity.GetBulletOut(out Bullet bullet))
         {
-            Weapon.bulletStore[BulletStackType.Chamber] += 1;
-            Weapon.bulletStore[BulletStackType.Magazine] -= 1;
+            this.chamber.Load(bullet);
         }
-        reChamber = null;
+
+        this.reChamber = null;
     }
 
 }

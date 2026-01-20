@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializedAble
+public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializedAble 
 {
 
     public Transform _mainHandGripTransform;
@@ -34,8 +34,9 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public bool isPullTrigger { get; protected set; }
     public bool isEquiped;
 
+    public abstract Chamber  chamber { get;protected set; }
+    public abstract BulletCapacity bulletCap { get; protected set; }
 
-    public Dictionary<BulletStackType,int> bulletStore = new Dictionary<BulletStackType,int>();
 
     public IWeaponAdvanceUser userWeapon;
     [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
@@ -51,7 +52,25 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public FireMode fireMode { get; protected set; }
     public TriggerState triggerState { get; protected set; }
     public LayerMask weaponLayerMask { get; private set; }
+    public Vector3 shootingPosition 
+    {
+        get
+        {
+            if(this.userWeapon != null)
+                return userWeapon._shootingPos;
 
+            Ray ray = new Ray(this.bulletSpawner.transform.position, this.bulletSpawner.transform.forward);
+
+            if(Physics.Raycast(ray,out RaycastHit hitInfo, 1000, 0, QueryTriggerInteraction.Ignore))
+            {
+                return hitInfo.point;
+            }
+            else
+            {
+                return ray.GetPoint(1000);
+            }
+        } 
+    }
     public virtual void Initialized()
     {
         weaponLayerMask = gameObject.layer;

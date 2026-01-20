@@ -9,7 +9,6 @@ public interface MagazineType
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
     public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject { get; set; }
-    public bool _isMagIn { get; set; }
     public void InitailizedReloadStageSelector();
     public void ReloadMagazine(MagazineType magazineWeapon, AmmoProuch ammoProuch,IReloadMagazineNode reloadMagazineNode);
    
@@ -55,8 +54,8 @@ public class ReloadMagazineLogic
                if (weapon.userWeapon != null
                && weapon.userWeapon._isReloadCommand
                && weapon.userWeapon._weaponManuverManager.isReloadManuverAble
-              && weapon.userWeapon._weaponBelt.ammoProuch.amountOf_ammo[weapon.bullet.myType] > 0
-              &&weapon.bulletStore[BulletStackType.Magazine] <weapon.bulletCapacity)
+              && weapon.userWeapon._weaponBelt.ammoProuch.CheckAmmo(weapon.bullet.myType) > 0
+              && weapon.bulletCap.curCount < weapon.bulletCap.maxCapacity)
                    return true;
                else
                    return false;
@@ -68,15 +67,11 @@ public class ReloadMagazineLogic
             magazineType,
             () =>
             {
-                int chamberCount = weapon.bulletStore[BulletStackType.Chamber];
-                int magCount = weapon.bulletStore[BulletStackType.Magazine];
-                bool isMagIn = magazineType._isMagIn;
-
                 if
                     (
-                     isMagIn == true
-                    && chamberCount == 0
-                    && magCount == 0
+                     weapon.bulletCap != null
+                    && weapon.chamber.isLoad == false
+                    && weapon.bulletCap.curCount <= 0
                     )
                     return true;
                 else
@@ -88,11 +83,10 @@ public class ReloadMagazineLogic
             magazineType,
             () =>
             {
-                bool IsMagIn = magazineType._isMagIn;
-                int MagCount = weapon.bulletStore[BulletStackType.Magazine];
+
                 if (
-                    IsMagIn == true
-                    && MagCount >= 0
+                    weapon.bulletCap != null
+                    && weapon.bulletCap.curCount >= 0
                     )
                     return true;
                 else
@@ -106,12 +100,12 @@ public class ReloadMagazineLogic
     private void RefillAmmo(Weapon weapon,AmmoProuch ammoProuch)
     {
         BulletType bulletType = weapon.bullet.myType;
-        int magCount = weapon.bulletStore[BulletStackType.Magazine];
-        int magCapacity = weapon.bulletCapacity;
-        if (ammoProuch.amountOf_ammo[bulletType] > 0)
+        int magCount = weapon.bulletCap.curCount;
+        int magCapacity = weapon.bulletCap.maxCapacity;
+        if (ammoProuch.CheckAmmo(bulletType) > 0)
         {
             int fillamout = magCapacity - magCount;
-            if (ammoProuch.amountOf_ammo[bulletType] - fillamout < 0)
+            if (ammoProuch.CheckAmmo(bulletType) - fillamout < 0)
             {
                 int minusAmmo = ammoProuch.amountOf_ammo[bulletType] -= fillamout;
                 ammoProuch.amountOf_ammo[bulletType] = 0;

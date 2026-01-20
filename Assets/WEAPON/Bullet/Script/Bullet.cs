@@ -18,12 +18,11 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
 
     protected LayerMask hitLayer;
     protected const float MAX_DISTANCE = 350;
-    public abstract BulletType myType { get; set; } 
     public Weapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawner.transform.position; set { } }
     public NoiseMakingBehavior noiseMakingBehavior { get ; set ; }
     public Action<Collider, Vector3, Vector3> bulletHitNotify;
-
+    public abstract BulletType myType { get; protected set; }
     public Bullet(Weapon weapon)
     {
         bulletHitForce = 5;

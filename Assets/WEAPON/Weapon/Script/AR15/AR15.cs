@@ -6,13 +6,10 @@ using UnityEngine;
 public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticAttachAble
 {
 
-    public int ChamberCount;
-    public int MagCount;
-
     //SetUpStats
     private int _MagazineCapacity = 30;
 
-    private _556mmBullet _556MmBullet;
+    private RifileBullet _556MmBullet;
     public Transform slingAnchor { get ; set ; }
 
     public override int bulletCapacity { get => _MagazineCapacity;}
@@ -21,10 +18,6 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     public override float max_CrosshairSize { get => base.max_CrosshairSize - this._reduceMaxCrosshairSize; }
     public override float aimDownSight_speed { get => base.aimDownSight_speed + _aimDownSightSpeedIncrease; }
     public override Bullet bullet { get ; set ; }
-
-
-
-
 
 #region Initialized MagazineType
 [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
@@ -44,15 +37,14 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         => _reloadMagazineLogic.ReloadMagazine(magazineWeapon, ammoProuch, reloadMagazineNode);
 
     #endregion
+
     public override void Initialized()
     {
         fireMode = FireMode.FullAuto;
 
         _isMagIn = true;
 
-        bulletStore.Add(BulletStackType.Magazine, bulletCapacity);;
-        bulletStore.Add(BulletStackType.Chamber, 1);
-        _556MmBullet = new _556mmBullet(this);
+        _556MmBullet = new RifileBullet(this);
         bullet = _556MmBullet;
         _reloadMagazineLogic = new ReloadMagazineLogic();
         InitailizedReloadStageSelector();
@@ -62,15 +54,12 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     
     protected override void Update()
     {
-        ChamberCount = bulletStore[BulletStackType.Chamber];
-        MagCount = bulletStore[BulletStackType.Magazine];
         base.Update();
     }
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
     }
-
 
 
 
@@ -88,7 +77,7 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
         fire = new FiringNode(this, this,
            () =>
            {
-               return bulletStore[BulletStackType.Chamber] > 0
+               return chamber.isLoad
                && (triggerState == TriggerState.Down || triggerState == TriggerState.IsDown);
            }
            );
@@ -114,8 +103,8 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IBoltBack, IMicroOpticA
     
     protected override void SetDefaultAttribute()
     {
-        bulletStore[BulletStackType.Chamber] = 1;
-        bulletStore[BulletStackType.Magazine] = bulletCapacity;
+        this.bulletCap.Load(this.bullet, this.bulletCapacity, out int overAmout);
+        this.chamber.Load(this.bullet);
         _isMagIn = true;
         base.SetDefaultAttribute();
     }
