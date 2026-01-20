@@ -38,6 +38,11 @@ public class GreaterVirtualEvent : VirtualEventNode
         {
             for (int i = 0; i < this.onFalseVirtualEventNode.Length; i++)
             {
+                if(this.onFalseVirtualEventNode[i] == null)
+                {
+                    Debug.LogError("onFalseVirtualEventNode " + i + " is bull");
+                    continue;
+                }
                 this.onFalseVirtualEventNode[i].Execute();
             }
         }

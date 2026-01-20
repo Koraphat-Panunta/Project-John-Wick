@@ -44,10 +44,10 @@ public class EnemySpawnerActor : Actor
             base.DrawName(Vector3.Lerp(this.transform.position, this.returnEnemyActor.transform.position, .3f), "returnEnemyActor");
         }
 
-        //if(enemyDirector != null
-        //    && this.isEnableGizmos) 
+        //if (enemyDirector != null
+        //    && this.isEnableGizmos)
         //{
-        //    Gizmos.color = enemyDirector.color * .5f;
+        //    Gizmos.color = enemyDirector.color * .25f;
         //    Gizmos.DrawLine(this.transform.position, this.enemyDirector.transform.position);
         //}
 
