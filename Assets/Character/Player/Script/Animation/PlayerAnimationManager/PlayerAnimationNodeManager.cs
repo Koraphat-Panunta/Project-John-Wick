@@ -1,8 +1,9 @@
-using NUnit.Framework.Constraints;
+
 using UnityEngine;
 
 public partial class PlayerAnimationManager 
 {
+
     #region BaseLayer
     public NodeManagerPortable playerBaseLayerAnimationNodeManagerPortable;
     public NodeSelector basedLayerNodeSelector { get; set; }
@@ -296,12 +297,25 @@ public partial class PlayerAnimationManager
         upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
 
         performReloadNodeSelector = new NodeSelector(() => isPerformReload);
-        reloadNodeLeaf = new PlayAnimationNodeLeaf(
+
+        reloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-            , animator, "ReloadMagazineFullStage", 1, .3f);
-        tacticalReloadNodeLeaf = new PlayAnimationNodeLeaf(
+            , this.animator
+            , "ReloadMagazineFullStage"
+            , 1
+            ,.3f
+            ,this.upperAnimationPoseTimeNormalized
+            ,1
+            ,false);
+        tacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-            , animator, "TacticalReloadMagazineFullStage", 1, .3f);
+            , this.animator
+            , "TacticalReloadMagazineFullStage"
+            , 1
+            ,.3f
+            ,this.upperAnimationPoseTimeNormalized
+            ,1
+            ,false);
 
         performGunFuUpperLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
         humanShieldPrimaryStayNodeLeaf = new PlayAnimationNodeLeaf(
@@ -412,6 +426,8 @@ public partial class PlayerAnimationManager
 
     public void InitailizedNode()
     {
+        this.upperAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
+
         this.InitializedBasedLayerNodeManager();
         this.InitializedUpperLayerNodeManager();
         this.InitializedAnimationNodeComponent();
@@ -420,11 +436,8 @@ public partial class PlayerAnimationManager
 
     private void UpdateNode()
     {
-
         this.playerBaseLayerAnimationNodeManagerPortable.UpdateNode();
-
         this.playerUpperLayerNodeManagerPortable.UpdateNode();
-
         this.playerAnimationNodeComponentManager.Update();
     }
     private void FixedUpdateNode()

@@ -144,6 +144,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
         animator.SetFloat("CrouchWeight", crouchWeight);
 
+        animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+
         try
         {
             curBaseLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;

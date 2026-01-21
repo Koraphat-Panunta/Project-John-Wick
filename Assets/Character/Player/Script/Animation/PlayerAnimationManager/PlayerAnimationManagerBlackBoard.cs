@@ -5,10 +5,11 @@ public partial class PlayerAnimationManager
     public Animator animator;
     public Player player;
 
+    public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
+
     public string Sprint = "Sprint";
     public string Move_Idle = "Move/Idle";
     public string Crouch = "Crouch";
-
 
     public float InputMoveMagnitude_Normalized;
     public float VelocityMoveMagnitude_Normalized;

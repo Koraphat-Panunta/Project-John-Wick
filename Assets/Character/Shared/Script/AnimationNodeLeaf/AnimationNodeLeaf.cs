@@ -7,7 +7,7 @@ public abstract class AnimationNodeLeaf : AnimationNode, INodeLeaf
     public List<Func<bool>> isReset { get; set; }
     public NodeLeafBehavior nodeLeafBehavior { get; set; }
 
-    protected bool isComplete;
+    protected virtual bool isComplete { get; set; }
 
     public AnimationNodeLeaf(Func<bool> preCondition) : base(preCondition)
     {
