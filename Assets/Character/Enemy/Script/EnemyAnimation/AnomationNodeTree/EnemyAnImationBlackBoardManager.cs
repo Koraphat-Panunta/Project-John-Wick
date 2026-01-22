@@ -29,9 +29,13 @@ public partial class EnemyAnimationManager
     }
     protected bool isPerformReload
     {
-        get => enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-            || enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-            ;
+        get 
+        {
+            if(enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+            || enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>())
+                return true;
+            return false;
+        }
     }
     protected bool isDrawSwitchWeapon
     {

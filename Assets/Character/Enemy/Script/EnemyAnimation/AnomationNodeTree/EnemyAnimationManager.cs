@@ -8,6 +8,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     public Animator animator;
     public Enemy enemy;
 
+    public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
+
     private Vector3 inputVelocity_World;
     private Vector3 inputVelocity_Local;
     private Vector3 curVelocity_Local;
@@ -41,6 +43,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 
     public void Initialized()
     {
+        this.upperAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
+
         enemy.AddObserver(this);
         _nodeManagerBehavior = new NodeManagerBehavior();
         _parallelNodeManahger = new List<INodeManager>();
@@ -134,6 +138,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         //animator.SetFloat("CAR_Weight", 0);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("CrouchWeight", CrouchWeight);
+
+        animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
     }
 
     #region CalculateDeltaRotation

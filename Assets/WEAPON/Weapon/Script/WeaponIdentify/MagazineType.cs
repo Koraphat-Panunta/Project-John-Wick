@@ -10,7 +10,6 @@ public interface MagazineType
     public TimelineTriggerEventScriptableObject _tacticalReload_timelineTriggerEventSCRP { get; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
-    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject { get; set; }
 
     
     public bool isMagin => _weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity);

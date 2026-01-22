@@ -158,10 +158,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
     }
 
 
-    public void OnNotify(Player player, SubjectPlayer.NotifyEvent notifyEvent)
-    {
-
-    }
+  
     public void OnNotify<T>(Player player, T node)
     {
         if (node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
@@ -171,6 +168,15 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
                 isIn_C_A_R_aim = true;
             else
                 isIn_C_A_R_aim = false;
+        }
+        if(node is IReloadMagazineNode reloadMagazineNode)
+        {
+            Debug.Log(reloadMagazineNode._reloadTime);
+
+            this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.rifleTacticalReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.pistolReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.pistolTacticalReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
         }
     }
 

@@ -22,11 +22,6 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
 
 
     #region Initialized MagazineType
-    [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
-    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
-    { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => this.MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
-    public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
-    { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => this.magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;

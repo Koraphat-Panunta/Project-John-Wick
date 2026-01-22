@@ -16,7 +16,8 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     private bool isComplete;
     public TacticalReloadStage curReloadStage { get; private set; }
 
-    private float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
+    protected float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
+    public float _reloadTime => this.reloadTime;
 
     private MagazineType weaponMag ;
 
@@ -27,6 +28,9 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ;}
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
+
+
+
     public TacticalReloadMagazineFullStageNodeLeaf(IWeaponAdvanceUser weaponUser, MagazineType magazineType,TimelineTriggerEventScriptableObject timelineTriggerEventSCRP, Func<bool> preCondition) : base(weaponUser, preCondition)
     {
         this.weaponMag = magazineType;

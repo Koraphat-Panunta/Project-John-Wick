@@ -226,8 +226,11 @@ public partial class PlayerAnimationManager
     #region UpperLayer
     public NodeSelector upperLayerNodeSelector { get; set; }
     public NodeSelector performReloadNodeSelector { get; set; }
-    public PlayAnimationNodeLeaf reloadNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf tacticalReloadNodeLeaf { get; set; }
+
+    public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf pistolReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf pistolTacticalReloadNodeLeaf { get; set; }
 
     public NodeSelector performGunFuUpperLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf humanShieldPrimaryStayNodeLeaf { get; set; }
@@ -251,7 +254,10 @@ public partial class PlayerAnimationManager
 
     public PlayAnimationBaseStateOffsetNodeLeaf sprintUpperNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
-    public PlayAnimationBaseStateOffsetNodeLeaf moveIdleUpperNodeLeaf { get; set; }
+
+    public NodeSelector weaponHandSelector { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf primaryWeaponHandUpperNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf secondaryWeaponHandUpperNodeLeaf { get; set; }
 
     public NodeManagerPortable playerUpperLayerNodeManagerPortable { get; private set; }
     private void InitializedUpperLayerNodeManager()
@@ -262,15 +268,20 @@ public partial class PlayerAnimationManager
             {
                 this.InitializedUpperLayer();
 
-                upperLayerNodeSelector.AddtoChildNode(performReloadNodeSelector);
+                upperLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
                 upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
-                upperLayerNodeSelector.AddtoChildNode(moveIdleUpperNodeLeaf);
+                upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
 
-                performReloadNodeSelector.AddtoChildNode(reloadNodeLeaf);
-                performReloadNodeSelector.AddtoChildNode(tacticalReloadNodeLeaf);
+                this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
+                this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);
+
+                this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
+                this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
+                this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
+                this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
 
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldPrimaryStayNodeLeaf);
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldSecondaryStayNodeLeaf);
@@ -298,24 +309,46 @@ public partial class PlayerAnimationManager
 
         performReloadNodeSelector = new NodeSelector(() => isPerformReload);
 
-        reloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+        this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
+            && this.player._currentWeapon is AR15 
             , this.animator
-            , "ReloadMagazineFullStage"
+            , "ReloadMagazine_AR15"
             , 1
             ,.3f
             ,this.upperAnimationPoseTimeNormalized
             ,1
             ,false);
-        tacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+        this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
+            && this.player._currentWeapon is AR15
             , this.animator
-            , "TacticalReloadMagazineFullStage"
+            , "TacticalReloadMagazine_AR15"
             , 1
             ,.3f
             ,this.upperAnimationPoseTimeNormalized
             ,1
             ,false);
+        this.pistolReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+            && this.player._currentWeapon is Glock17_9mm
+            , this.animator
+            , "ReloadMagazine_Glock17"
+            , 1
+            , .3f
+            , this.upperAnimationPoseTimeNormalized
+            , 1
+            , false);
+        this.pistolTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
+            && this.player._currentWeapon is Glock17_9mm
+            , this.animator
+            , "TacticalReloadMagazine_Glock17"
+            , 1
+            , .3f
+            , this.upperAnimationPoseTimeNormalized
+            , 1
+            , false);
 
         performGunFuUpperLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
         humanShieldPrimaryStayNodeLeaf = new PlayAnimationNodeLeaf(
@@ -383,9 +416,18 @@ public partial class PlayerAnimationManager
             || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
             , animator, "QuickSwitchWeaponManuver", 1, .25f);
 
-        moveIdleUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
-        () => true,
-        animator, "StandWeaponHand LowReady/ADS", 1, 0, .2f);
+        this.weaponHandSelector = new NodeSelector(()=> true);
+
+        this.primaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+            () => this.player._currentWeapon != null
+            && this.player._currentWeapon is PrimaryWeapon,
+            animator
+            , "PrimaryWeaponHand", 1, 0, .2f);
+
+        this.secondaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+            () => true
+            , this.animator
+            , "SecondaryWeaponHand", 1, 0, .2f);
 
     }
     #endregion

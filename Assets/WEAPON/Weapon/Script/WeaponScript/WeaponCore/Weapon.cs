@@ -8,7 +8,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
 
     public Transform _mainHandGripTransform;
     public Transform _SecondHandGripTransform;
-    public abstract WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject { get; set; }
+
     [SerializeField] protected WeaponStatsScriptableObject weaponStatsScriptableObject;
     public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity; }
     public virtual float rate_of_fire { get => weaponStatsScriptableObject.rate_of_fire; }

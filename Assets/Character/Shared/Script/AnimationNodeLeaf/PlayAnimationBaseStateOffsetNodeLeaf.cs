@@ -21,7 +21,9 @@ public class PlayAnimationBaseStateOffsetNodeLeaf : AnimationNodeLeaf
     public override void Enter()
     {
         //Debug.Log("Enter Animation State " + stateName);
-        animator.CrossFade(stateName, transitionDurationNormalized, layer, transitionOffsetNormalized);
+        //animator.CrossFade(stateName, transitionDurationNormalized, layer, transitionOffsetNormalized);
+        animator.CrossFadeInFixedTime(stateName, this.transitionDurationNormalized, layer, transitionOffsetNormalized);
+        
         base.Enter();
     }
 }

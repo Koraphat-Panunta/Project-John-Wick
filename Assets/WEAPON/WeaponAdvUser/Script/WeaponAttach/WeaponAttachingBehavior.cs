@@ -47,10 +47,6 @@ public static class WeaponAttachingBehavior
                         ,additionalOffsetRotation
                         ,attatchingDuration);
 
-                    //Set AnimationState Override
-                    AnimatorOverrideController animatorOverrideController = weaponAttachingAble.weaponAdvanceUser._animatorWeaponAdvanceUserOverride;
-                    SetAnimatorOverride(weapon, weaponAttachingAble.weaponAdvanceUser);
-
                     //Set reloadNodeAttachAble
                     weaponAttachingAble.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(weapon._reloadSelecotrOverriden);
 
@@ -186,56 +182,7 @@ public static class WeaponAttachingBehavior
        weapon.userWeapon = null;
 
     }
-    
-    private static void SetAnimatorOverride(Weapon weapon,IWeaponAdvanceUser weaponAdvanceUser)
-    {
-        Animator animator = weaponAdvanceUser._weaponUserAnimator;
-
-        AnimatorOverrideController overrideController = new AnimatorOverrideController(weaponAdvanceUser._animatorWeaponAdvanceUserOverride);
-        WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject = weapon.weaponAnimationStateOverrideScriptableObject;
-
-        AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animatorStateNormalizedTime = animatorStateInfo.normalizedTime;
-
-        overrideController["Idle_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.idleLowReady;
-        overrideController["Move_LowReady_Overriden"] = weaponAnimationStateOverrideScriptableObject.moveLowReady;
-        overrideController["ADS_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_20;
-        overrideController["C.A.R_20_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_20;
-        overrideController["ADS_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_40;
-        overrideController["C.A.R_40_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_40;
-        overrideController["ADS_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_60;
-        overrideController["C.A.R_60_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_60;
-        overrideController["ADS_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_80;
-        overrideController["C.A.R_80_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_80;
-        overrideController["ADS_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_100;
-        overrideController["C.A.R_100_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_100;
-        overrideController["RecoildKickBack_ADS_Overriden"] = weaponAnimationStateOverrideScriptableObject.ADS_RecoilKick;
-        overrideController["RecoildKickBack_C.A.R_Overriden"] = weaponAnimationStateOverrideScriptableObject.CAR_RecoilKick;
-
-        overrideController["LowReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_LowReadySway;
-        overrideController["HighReady_Sprint_Sway_Overriden"] = weaponAnimationStateOverrideScriptableObject.TacticalSprint_HighReadySway;
-
-        //OverrideLocoMotion
-
-
-        switch (weapon)
-        {
-            case MagazineType magazineType:
-                {
-                    overrideController["ReloadMagazineFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.Reload;
-                    overrideController["TacReloadFull Override"] = magazineType.magazineWeaponAnimationStateOverrideScriptableObject.TacticalReload;
-                    break;
-                }
-        }
-
-        animator.runtimeAnimatorController = overrideController;
-        if (animator.IsInTransition(0))
-        {
-            animator.Play(animator.GetAnimatorTransitionInfo(0).fullPathHash, 0, animatorStateNormalizedTime);
-        }
-        else
-        animator.Play(animatorStateInfo.fullPathHash, 0, animatorStateNormalizedTime);
-    }
+   
     private static void SetWeaponAdvacneUserProperty(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
     {
         if (weapon is PrimaryWeapon)

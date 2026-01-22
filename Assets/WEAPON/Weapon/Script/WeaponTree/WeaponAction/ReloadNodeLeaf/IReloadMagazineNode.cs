@@ -8,4 +8,6 @@ public interface IReloadMagazineNode : IReloadNode
         InputMag,
         ReChamber,
     }
+
+    public float _reloadTime { get; }
 }

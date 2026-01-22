@@ -9,6 +9,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     private bool isComplete;
 
     private float reloadTime => weaponMag._weapon.reloadTime;
+    public float _reloadTime => this.reloadTime;
 
     private MagazineType weaponMag;
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }
@@ -17,6 +18,8 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected BulletCapacity magazine => weaponMag._weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
+
+
 
     public ReloadMagazineFullStageNodeLeaf
         (IWeaponAdvanceUser weaponUser

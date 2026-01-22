@@ -16,9 +16,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
 
 
     #region Initialized MagazineType
-    [SerializeField] private MagazineWeaponAnimationStateOverrideScriptableObject MagazineWeaponAnimationStateOverrideScriptableObject;
-    public MagazineWeaponAnimationStateOverrideScriptableObject magazineWeaponAnimationStateOverrideScriptableObject 
-    { get => this.MagazineWeaponAnimationStateOverrideScriptableObject ; set => MagazineWeaponAnimationStateOverrideScriptableObject = value ; }
+   
     public Weapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
@@ -74,9 +72,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     public override Chamber chamber { get;protected set; }
     protected override BulletCapacity bulletCap { get;  set; }
 
-    public override WeaponAnimationStateOverrideScriptableObject weaponAnimationStateOverrideScriptableObject 
-    { get => this.magazineWeaponAnimationStateOverrideScriptableObject; set => magazineWeaponAnimationStateOverrideScriptableObject = value as MagazineWeaponAnimationStateOverrideScriptableObject; }
-
+   
     public override void Initialized()
     {
         this.bullet = new HandgunBullet(this);
