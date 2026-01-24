@@ -315,7 +315,7 @@ public partial class PlayerAnimationManager
             , this.animator
             , "ReloadMagazine_AR15"
             , 1
-            ,.3f
+            ,.05f
             ,this.upperAnimationPoseTimeNormalized
             ,1
             ,false);
@@ -325,7 +325,7 @@ public partial class PlayerAnimationManager
             , this.animator
             , "TacticalReloadMagazine_AR15"
             , 1
-            ,.3f
+            ,.05f
             ,this.upperAnimationPoseTimeNormalized
             ,1
             ,false);
@@ -335,7 +335,7 @@ public partial class PlayerAnimationManager
             , this.animator
             , "ReloadMagazine_Glock17"
             , 1
-            , .3f
+            , .05f
             , this.upperAnimationPoseTimeNormalized
             , 1
             , false);
@@ -345,7 +345,7 @@ public partial class PlayerAnimationManager
             , this.animator
             , "TacticalReloadMagazine_Glock17"
             , 1
-            , .3f
+            , .05f
             , this.upperAnimationPoseTimeNormalized
             , 1
             , false);

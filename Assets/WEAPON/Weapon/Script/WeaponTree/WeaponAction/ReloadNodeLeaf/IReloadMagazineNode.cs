@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IReloadMagazineNode : IReloadNode
 {
-    public enum ReloadMagazineEvent
+    public enum ReloadMagazineStage
     {
         PickUpMag_In,
         ReleaseMag,
@@ -12,4 +12,6 @@ public interface IReloadMagazineNode : IReloadNode
     }
 
     public float _reloadTime { get; }
+    public float _startReloadStageNormalizedTime { get; }
+    public float _endReloadStageNormalizedTime { get; }
 }

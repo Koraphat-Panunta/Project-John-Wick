@@ -23,6 +23,9 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     public NodeSelector _reloadStageSelector { get; set; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _magInputLoadBarrelReloadMagazineStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _magInputReloadMagazineStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _barrelLoadReloadMagazineStage { get; set; }
 
     [SerializeField] protected TimelineTriggerEventScriptableObject reload_timelineTriggerEventSCRP;
     [SerializeField] protected TimelineTriggerEventScriptableObject tacticalReload_timelineTriggerEventSCRP;
@@ -44,7 +47,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     }
     public void ReloadChamber()
     {
-        if (this.chamber.isLoad)
+        if (this.chamber.isReadyShoot)
         {
             Debug.LogWarning("Chamber been loaded " + this);
             return;
@@ -100,7 +103,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
     public AutoLoadChamberNode autoLoadChamber { get; set; }
     public override WeaponRestNodeLeaf restNode { get ; set ; }
     public override INodeSelector startNodeSelector { get; set; }
-   
+
 
     protected override void SetDefaultAttribute()
     {
@@ -119,7 +122,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
 
         fire = new FiringNode(this
             , this
-            , () => this.chamber.isLoad
+            , () => this.chamber.isReadyShoot
             && triggerState == TriggerState.IsDown);
 
         autoLoadChamber = new AutoLoadChamberNode(this, () => true);

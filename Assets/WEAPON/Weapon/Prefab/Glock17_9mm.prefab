@@ -388,7 +388,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initializedComponent:
   - {fileID: 521215783090903122}
-  - {fileID: 740563377601920448}
   - {fileID: 7931137207141368579}
   - {fileID: 2399795035880085496}
   initializedOrder: 7
@@ -464,6 +463,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   keepMag_Out:
+    m_PersistentCalls:
+      m_Calls: []
+  onReloadExit:
     m_PersistentCalls:
       m_Calls: []
   weapon: {fileID: 521215783090903122}
@@ -874,7 +876,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   muzzleVFX: {fileID: 5503206026955434790}
   bulletShell: {fileID: 0}
-  weapon: {fileID: 521215783090903122}
 --- !u!2083052967 &5503206026955434790
 VisualEffect:
   m_ObjectHideFlags: 0

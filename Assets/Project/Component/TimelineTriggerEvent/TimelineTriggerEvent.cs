@@ -15,6 +15,7 @@ public class TimelineTriggerEvent
 
     private int eventCount => animationTriggerEventsDetails.Length;
 
+    
 
 
     //private AnimationTriggerEventSCRP animationTriggerEventSCRP;
@@ -59,6 +60,7 @@ public class TimelineTriggerEvent
 
         for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
         {
+
             isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
         }
     }
@@ -102,9 +104,13 @@ public class TimelineTriggerEvent
 
     }
 
+    public bool IsPlayFinish(float endNormalized)
+    {
+        return timer >= timeDuration * endNormalized;
+    }
     public bool IsPlayFinish()
     {
-        return timer >= timeDuration;
+        return this.IsPlayFinish(1);
     }
 
     public float GetRemapNormalizedTimer(float enterNormalized, float exitNormalized)

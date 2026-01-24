@@ -152,7 +152,7 @@ public class PlayerStateNodeManager : INodeManager
             ()=> player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
-            && player._currentWeapon.chamber.isLoad );
+            && player._currentWeapon.chamber.isReadyShoot );
         executeGunFuOnGroundSelector = new NodeSelector(
             () => player.executedAbleGunFu._character is IRagdollAble downGetUpAble 
             && downGetUpAble._isFallDown);
@@ -161,7 +161,7 @@ public class PlayerStateNodeManager : INodeManager
             () => (player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
-            && player._currentWeapon.chamber.isLoad 
+            && player._currentWeapon.chamber.isReadyShoot 
             && player._currentWeapon is PrimaryWeapon
             && (player.executedAbleGunFu._character as IRagdollAble)._isFallDown == false)
             , player.gunFuExecute_Single_Primary_Dodge_ScriptableObject_I
@@ -171,7 +171,7 @@ public class PlayerStateNodeManager : INodeManager
             ()=> (player._triggerExecuteGunFu
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
-            && player._currentWeapon.chamber.isLoad
+            && player._currentWeapon.chamber.isReadyShoot
             && player._currentWeapon is SecondaryWeapon
             && (player.executedAbleGunFu._character as IRagdollAble)._isFallDown == false)
             ,player.gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I
@@ -226,7 +226,7 @@ public class PlayerStateNodeManager : INodeManager
             () => 
             {
                 if (player._currentWeapon == null 
-                && player._currentWeapon.chamber.isLoad
+                && player._currentWeapon.chamber.isReadyShoot
                 )
                     return false;
                 if (
@@ -245,7 +245,7 @@ public class PlayerStateNodeManager : INodeManager
             () =>
             {
                 if (player._currentWeapon == null
-              && player._currentWeapon.chamber.isLoad == false
+              && player._currentWeapon.chamber.isReadyShoot == false
               )
                     return false;
                 if (

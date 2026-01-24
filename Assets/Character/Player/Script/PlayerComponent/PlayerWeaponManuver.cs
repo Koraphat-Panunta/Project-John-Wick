@@ -233,7 +233,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             () => weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null
             && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null
-            && weaponAdvanceUser._currentWeapon.chamber.isLoad == false && weaponAdvanceUser._currentWeapon.curBulletCapacity <= 0
+            && weaponAdvanceUser._currentWeapon.chamber.isReadyShoot == false && weaponAdvanceUser._currentWeapon.curBulletCapacity <= 0
             && isQuickSwtichWeaponManuverAble
             && weaponAdvanceUser._isPullTriggerCommand
             , player.quickSwitchDrawSCRP

@@ -28,6 +28,9 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
     public NodeSelector _reloadStageSelector { get; set; }
     public ReloadMagazineFullStageNodeLeaf _reloadMagazineFullStage { get; set; }
     public TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagazineFullStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _magInputLoadBarrelReloadMagazineStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _magInputReloadMagazineStage { get; set; }
+    public ReloadMagazineFullStageNodeLeaf _barrelLoadReloadMagazineStage { get; set; }
 
     [SerializeField] protected TimelineTriggerEventScriptableObject reload_timelineTriggerEventSCRP;
     [SerializeField] protected TimelineTriggerEventScriptableObject tacticalReload_timelineTriggerEventSCRP;
@@ -55,7 +58,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
     [SerializeField] bool isLoad;
     protected override void Update()
     {
-        isLoad = this.chamber.isLoad;
+        isLoad = this.chamber.isReadyShoot;
         base.Update();
     }
     protected override void FixedUpdate()
@@ -79,7 +82,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
         fire = new FiringNode(this, this,
            () =>
            {
-               return chamber.isLoad
+               return chamber.isReadyShoot
                && (triggerState == TriggerState.Down || triggerState == TriggerState.IsDown);
            }
            );
@@ -154,7 +157,6 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
     public Transform forntGripAttachment { get => this.FrontGripSocket; set => this.FrontGripSocket = value; }
 
 
-
     private void OnValidate()
     {
         if(_microOptic != null)
@@ -182,7 +184,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
 
     public void ReloadChamber()
     {
-        if (this.chamber.isLoad)
+        if (this.chamber.isReadyShoot)
         {
             Debug.LogWarning("Chamber been loaded "+this);
             return;

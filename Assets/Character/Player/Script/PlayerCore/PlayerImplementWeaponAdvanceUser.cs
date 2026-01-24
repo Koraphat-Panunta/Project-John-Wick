@@ -88,6 +88,10 @@ public partial class Player: IWeaponAdvanceUser
         _weaponUserAnimator = animator;
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
         _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch());
+        _weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.rifleAmmo, 1000);
+        _weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.handgunAmmo, 1000);
+        _weaponBelt.ammoProuch.SetAmmo(BulletType.rifleAmmo, 1000);
+        _weaponBelt.ammoProuch.SetAmmo(BulletType.handgunAmmo, 1000);
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this, this);

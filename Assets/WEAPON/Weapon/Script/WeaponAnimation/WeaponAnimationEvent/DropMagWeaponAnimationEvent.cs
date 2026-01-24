@@ -3,24 +3,30 @@ using UnityEngine;
 
 public class DropMagWeaponAnimationEvent : MonoBehaviour
 {
-    [SerializeField] Rigidbody originMagazine;
+    [SerializeField] Transform realMag;
+    [SerializeField] GameObject originMagazine;
 
-    Coroutine disableMag;
+
 
     [SerializeField] Vector3 forceOnReleses;
     public void ReleasesMagazine()
     {
-        if(disableMag != null)
-            StopCoroutine(disableMag);
-        this.originMagazine.gameObject.SetActive(true);
-        this.originMagazine.AddRelativeForce(forceOnReleses,ForceMode.VelocityChange);
-        this.disableMag = StartCoroutine(DisableMag());
+
+        this.originMagazine.transform.position = this.realMag.position;
+        this.originMagazine.transform.rotation = this.realMag.rotation;
+        GameObject dropedMag = GameObject.Instantiate(this.originMagazine.gameObject);
+        dropedMag.gameObject.SetActive(true);
+        dropedMag.transform.position = this.realMag.position;
+        dropedMag.transform.rotation = this.realMag.rotation;
+        dropedMag.GetComponent<Rigidbody>().AddRelativeForce(forceOnReleses,ForceMode.VelocityChange);
+        StartCoroutine(DisableMag(dropedMag));
+
     }
 
-    public IEnumerator DisableMag()
+    public IEnumerator DisableMag(GameObject magDroped)
     {
         yield return new WaitForSeconds(3);
-        this.originMagazine.gameObject.SetActive(false);
-        this.disableMag = null;
+        GameObject.Destroy(magDroped);
+
     }
 }

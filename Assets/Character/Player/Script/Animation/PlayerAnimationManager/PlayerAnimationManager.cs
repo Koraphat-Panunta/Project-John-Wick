@@ -174,9 +174,17 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             Debug.Log(reloadMagazineNode._reloadTime);
 
             this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.rifleReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
             this.rifleTacticalReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.rifleTacticalReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
+
             this.pistolReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.pistolReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
             this.pistolTacticalReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
+            this.pistolTacticalReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
+
+
+
         }
     }
 

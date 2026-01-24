@@ -40,14 +40,15 @@ public class AutoLoadChamberNode : WeaponLeafNode
     {
         yield return new WaitForSeconds((float)(60 / Weapon.rate_of_fire));
 
-
-        if(this.bulletCapacity != null
+        this.chamber.UnLoad();
+        if (this.bulletCapacity != null
             &&this.bulletCapacity.GetBulletOut(out Bullet bullet)
             )
         {
-            Debug.Log("Auto load Chamber "+this.Weapon);
+            //Debug.Log("Auto load Chamber "+this.Weapon);
+
             this.chamber.Load(bullet);
-            Debug.Log(this.Weapon + "isLoad == "+this.chamber.isLoad);
+            //Debug.Log(this.Weapon + "isReadyShoot == "+this.chamber.isReadyShoot);
         }
 
         this.reChamber = null;

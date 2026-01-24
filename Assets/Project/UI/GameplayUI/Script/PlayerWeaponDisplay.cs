@@ -86,7 +86,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
         }
 
         AmmoCount = this.playerInfo._weaponBelt.ammoProuch.CheckAmmo(playerInfo._currentWeapon.bullet.myType);
-        MagazineCount = this.playerInfo._currentWeapon.curBulletCapacity + (this.playerInfo._currentWeapon.chamber.isLoad?1:0);
+        MagazineCount = this.playerInfo._currentWeapon.curBulletCapacity + (this.playerInfo._currentWeapon.chamber.isReadyShoot?1:0);
         SetAmmoDisplay(AmmoDisplay, MagazineCount, AmmoCount);
     }
     public override void EnableUI() 

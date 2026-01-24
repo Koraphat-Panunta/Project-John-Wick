@@ -9,7 +9,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     private bool isComplete;
 
     private float reloadTime => weaponMag._weapon.reloadTime;
-    public float _reloadTime => this.reloadTime;
+    public float _reloadTime => this.reloadTime ;
 
     private MagazineType weaponMag;
     protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; }
@@ -19,21 +19,53 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected BulletCapacity magazine => weaponMag._weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
 
+    public float _startReloadStageNormalizedTime => this.startReloadStageNormalizedTime;
 
+    public float _endReloadStageNormalizedTime => this.endReloadStageNormalizedTime;
+
+    protected float startReloadStageNormalizedTime;
+    protected float endReloadStageNormalizedTime;
 
     public ReloadMagazineFullStageNodeLeaf
         (IWeaponAdvanceUser weaponUser
         , MagazineType weaponMag
         ,TimelineTriggerEventScriptableObject timelineTriggerEventScriptableObject
+        , Func<bool> preCondition) :
+       base(
+           weaponUser
+           , preCondition
+            )
+    {
+        this.weaponMag = weaponMag;
+        this.timelineTriggerEvent = new TimelineTriggerEvent(this.reloadTime, timelineTriggerEventScriptableObject.triggerEventDetail);
+        this.startReloadStageNormalizedTime = 0;
+        this.endReloadStageNormalizedTime = 1;
+
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.ReleaseMag.ToString(), this.ReleaseMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.PickUpMag_In.ToString(), this.PickUpMag_In);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.InputMag.ToString(), this.InputMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.ReChamber.ToString(), this.ReChamber);
+    }
+
+    
+
+    public ReloadMagazineFullStageNodeLeaf
+        (IWeaponAdvanceUser weaponUser
+        , MagazineType weaponMag
+        , IReloadMagazineNode.ReloadMagazineStage startReloadStage
+        , IReloadMagazineNode.ReloadMagazineStage endReloadStage
+        , TimelineTriggerEventScriptableObject timelineTriggerEventScriptableObject
         , Func<bool> preCondition) : base(weaponUser, preCondition)
     {
         this.weaponMag = weaponMag;
         this.timelineTriggerEvent = new TimelineTriggerEvent(this.reloadTime, timelineTriggerEventScriptableObject.triggerEventDetail);
+        this.startReloadStageNormalizedTime = this.timelineTriggerEvent.GetEventNormalizedTime(startReloadStage.ToString());
+        this.endReloadStageNormalizedTime = Mathf.Clamp01(this.timelineTriggerEvent.GetEventNormalizedTime(endReloadStage.ToString()) + .1f);
 
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.ReleaseMag);
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In.ToString(), this.PickUpMag_In);
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.InputMag.ToString(), this.InputMag);
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReChamber.ToString(), this.ReChamber);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.ReleaseMag.ToString(), this.ReleaseMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.PickUpMag_In.ToString(), this.PickUpMag_In);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.InputMag.ToString(), this.InputMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineStage.ReChamber.ToString(), this.ReChamber);
     }
 
     public override bool IsComplete()
@@ -58,39 +90,43 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     {
 
         curPhase = WeaponManuverLeafNodePhase.Enter;
+        this.isComplete = false;
+        this.timelineTriggerEvent.RewindAt(this.startReloadStageNormalizedTime * this.timelineTriggerEvent.timeDuration);
+        base.Enter();
+        this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         try
         {
-            this.isComplete = false;
-            this.timelineTriggerEvent.Rewind();
-            base.Enter();
             this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-            this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         }
         catch { }
     }
     public override void Exit()
     {
+        isComplete = false;
+        base.Exit();
+        this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         try
         {
-            isComplete = false;
-            base.Exit();
-            weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
-            this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
+            
         }
         catch { }
     }
     public override void UpdateNode()
     {
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
-        if(this.timelineTriggerEvent.IsPlayFinish())
+
+        Debug.Log("ReloadTimer = " + this.timelineTriggerEvent.timer);
+        Debug.Log("ReloadTimerNormal = " + this.timelineTriggerEvent.timerNormalized);
+        if (this.timelineTriggerEvent.IsPlayFinish(this.endReloadStageNormalizedTime))
             isComplete = true;
     }
 
     private void PickUpMag_In()
     {
-        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.PickUpMag_In);
     }
 
    
@@ -99,10 +135,13 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     {
         Debug.Log("Reload Release Mag");
 
+        if(this.magazine == null)
+            return;
+
         this.magazine.UnLoadAllBullet(out int remainBullet);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
         this.weaponMag.ReleseMagazine();
-        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.ReleaseMag);
     }
 
    
@@ -115,16 +154,17 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         newMagazine.Load(this.weaponMag._weapon.bullet, amoutAmmo, out int overAmount);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.AddAmmo(this.weaponMag._weapon.bullet.myType, overAmount);
         this.weaponMag.InputMagazine(newMagazine);
-        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.InputMag);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.InputMag);
+
     } 
     private void KeepMag_Out()
     {
-        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.KeepMag_Out);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.KeepMag_Out);
     }
     private void ReChamber() 
     {
         this.weaponMag.ReloadChamber();
-        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReChamber);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.ReChamber);
     } 
 
     public override void FixedUpdateNode()

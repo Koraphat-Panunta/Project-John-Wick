@@ -10,11 +10,10 @@ public class MagazineAnimationEvent : MonoBehaviour
 
     [SerializeField] protected Weapon weapon;
     protected Transform weaponAdvanceUserHand => this.weapon.userWeapon._secondHandSocket.transform;
-    [SerializeField] protected Transform weaponMagazine;
+    [SerializeField] protected Transform realWeaponMagazine;
+    [SerializeField] protected Transform visibleMag;
 
     protected MountComponent mountComponent;
-
-    [SerializeField] protected GameObject realMagazine;
 
     private void OnValidate()
     {
@@ -33,14 +32,14 @@ public class MagazineAnimationEvent : MonoBehaviour
 
     public void AttatchToMagazine(float duration)
     {
-        this.gameObject.SetActive(true);
-        this.mountComponent.Attach(this.weaponMagazine, Vector3.zero, Quaternion.identity,duration);
+        this.SetActive(true);
+        this.mountComponent.Attach(this.realWeaponMagazine, Vector3.zero, Quaternion.identity,duration);
         this.StartCoroutine(CoundownEnableRealMag(duration));
     }
 
     public void AttatchToHand(float duration)
     {
-        this.gameObject.SetActive(true);
+        this.SetActive(true);
         if(this.weaponAdvanceUserHand != null)
             this.mountComponent.Attach(this.weaponAdvanceUserHand, offsetPositionHand, Quaternion.Euler(this.offsetRotationHand), duration);
     }
@@ -48,7 +47,12 @@ public class MagazineAnimationEvent : MonoBehaviour
     public IEnumerator CoundownEnableRealMag(float duration)
     {
         yield return new WaitForSeconds(duration);
-        realMagazine.SetActive(true);
-        this.gameObject.SetActive(false);
+        realWeaponMagazine.gameObject.SetActive(true);
+        this.SetActive(false);
+    }
+
+    public void SetActive(bool active)
+    {
+        this.visibleMag.gameObject.SetActive(active);
     }
 }

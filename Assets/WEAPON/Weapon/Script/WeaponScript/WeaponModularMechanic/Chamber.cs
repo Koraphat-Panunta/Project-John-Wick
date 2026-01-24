@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class Chamber
 {
-    public bool isLoad { get => this.bullet != null?true:false ; }
+    public bool isReadyShoot { get => this.isLoad && bulletIsFiring == false ?true:false ;}
+    public bool isLoad { get => this.bullet != null ? true : false; }
     public Bullet bullet { get; protected set; }
     public Weapon weapon { get; protected set; }
     public BulletSpawner bulletSpawner { get; protected set; }
-
+    public bool bulletIsFiring { get; protected set; }
     public Chamber(Bullet bulletType,BulletSpawner bulletSpawner,Weapon weapon) 
     {
         this.bullet = bulletType;
@@ -23,16 +24,20 @@ public class Chamber
         }
 
         this.bullet = bullet;
-
+        this.bulletIsFiring = false;
+    }
+    public void UnLoad()
+    {
+        this.bullet = null;
+        this.bulletIsFiring = false;
     }
     public void FireTrigger() 
     {
-        if(this.isLoad == false)
+        if(this.isReadyShoot == false)
             return;
 
         this.bulletSpawner.SpawnBullet(this.bullet,this.weapon.shootingPosition);
-        this.bullet = null;
-
+        this.bulletIsFiring = true;
 
     }
 

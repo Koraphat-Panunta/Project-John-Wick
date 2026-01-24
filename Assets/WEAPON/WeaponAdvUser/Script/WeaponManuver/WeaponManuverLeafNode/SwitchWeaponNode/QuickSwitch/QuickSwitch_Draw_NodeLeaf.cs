@@ -55,7 +55,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     }
     public override void UpdateNode()
     {
-        Debug.Log("Before draw");
+        //Debug.Log("Before draw");
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
     }
     public override void FixedUpdateNode()
@@ -64,7 +64,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     }
     private void Draw()
     {
-        Debug.Log("Draw timer = "+animationTriggerEventPlayer.timer);
+        //Debug.Log("Draw timer = "+animationTriggerEventPlayer.timer);
         isDrawSecondary = true;
         WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);

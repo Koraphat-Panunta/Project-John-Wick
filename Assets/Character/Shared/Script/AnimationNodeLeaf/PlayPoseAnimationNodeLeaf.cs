@@ -46,7 +46,7 @@ public class PlayPoseAnimationNodeLeaf : PlayAnimationNodeLeaf
 
     public override void Enter()
     {
-        this.timer = 0;
+        this.timer = this.startNormalized * this.duration;
         base.Enter();
     }
 

@@ -61,13 +61,13 @@ public class NormalFiringPattern : EnemyFiringPattern
         if (isShootAble == false)
             return;
 
-        if (curWeapon.curBulletCapacity <= 0 && curWeapon.chamber.isLoad == false)
+        if (curWeapon.curBulletCapacity <= 0 && curWeapon.chamber.isReadyShoot == false)
         {
             enemyController.Reload();
             return;
         }
 
-        if (curWeapon.chamber.isLoad)
+        if (curWeapon.chamber.isReadyShoot)
         {
             //CheckFriendltFire
             Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);

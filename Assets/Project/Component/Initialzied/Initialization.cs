@@ -20,7 +20,8 @@ public class Initialization : MonoBehaviour
                 initializedAble.Initialized();
             else
             {
-                throw new System.Exception("InitializedAble not found index" + componentIndex );
+                Debug.LogError("InitializedAble not found index" + componentIndex);
+
             }
         }
     }
@@ -31,7 +32,7 @@ public class Initialization : MonoBehaviour
             componentIndex = i;
             if (initializedComponent[i] is IInitializedAble == false)
             {
-                throw new System.Exception("InitializedAble not found index" + initializedComponent[i]);
+                Debug.LogError("InitializedAble not found index" + initializedComponent[i]);
             }
         }
     }
