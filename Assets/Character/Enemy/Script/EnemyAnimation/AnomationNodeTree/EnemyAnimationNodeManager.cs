@@ -78,7 +78,7 @@ public partial class EnemyAnimationManager : INodeManager
 
                 this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                      () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-                     && this.enemy._currentWeapon is AR15
+                     && this.enemy._currentWeapon is AssultRifle_AR15Model
                      , this.animator           
                      , "ReloadMagazine_AR15"           
                      , 1          
@@ -89,7 +89,7 @@ public partial class EnemyAnimationManager : INodeManager
 
                 this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-                    && this.enemy._currentWeapon is AR15
+                    && this.enemy._currentWeapon is AssultRifle_AR15Model
                     , this.animator
                     , "TacticalReloadMagazine_AR15"
                     , 1

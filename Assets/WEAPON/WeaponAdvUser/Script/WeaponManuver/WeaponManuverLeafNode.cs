@@ -8,6 +8,14 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode,INodeLeaf
     public List<Func<bool>> isReset { get; set; }
     public NodeLeafBehavior nodeLeafBehavior { get; set; }
 
+    public enum WeaponManuverLeafNodePhase
+    {
+        Enter,
+        Exit
+    }
+
+    public WeaponManuverLeafNodePhase curPhase { get; protected set; }
+
     public WeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         nodeLeafBehavior = new NodeLeafBehavior();
@@ -20,10 +28,16 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode,INodeLeaf
 
     public abstract void FixedUpdateNode();
   
-    public abstract void Enter();
+    public virtual void Enter()
+    {
+        this.curPhase = WeaponManuverLeafNodePhase.Enter;
+    }
 
 
-    public abstract void Exit();
+    public virtual void Exit()
+    {
+        this.curPhase = WeaponManuverLeafNodePhase.Exit;
+    }
 
     public abstract bool IsComplete();
 

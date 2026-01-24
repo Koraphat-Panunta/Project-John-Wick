@@ -36,8 +36,10 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         this.weaponMag = magazineType;
         this.timelineTriggerEvent = new TimelineTriggerEvent(magazineType._weapon.reloadTime, timelineTriggerEventSCRP.triggerEventDetail);
 
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.RelesesMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In.ToString(), this.PickUpMag_In);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.ReleaseMag);
         this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.InputMag.ToString(), this.InputMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.KeepMag_Out.ToString(), this.KeepMag_Out);
     }
 
     public override void Enter()
@@ -106,25 +108,47 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         if(timelineTriggerEvent.IsPlayFinish())
             isComplete = true;
     }
-    private void RelesesMag()
+    private void PickUpMag_In()
     {
-        Debug.Log("Tactical Reload Release Mag");
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In);
+    }
+
+  
+
+    private void ReleaseMag()
+    {
+        Debug.Log("TacticalReload Release Mag "+timelineTriggerEvent.timerNormalized);
 
         this.magazine.UnLoadAllBullet(out int remainBullet);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
         this.weaponMag.ReleseMagazine();
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag);
     }
+
+   
     private void InputMag()
     {
-        Debug.Log("Tactical Reload InputMag");
+        Debug.Log("TacticalReload InputMag " + timelineTriggerEvent.timerNormalized);
 
         BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet, this.weaponMag._weapon.maxAmmoCapacity);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.GetAmmoOut(this.weaponMag._weapon.bullet.myType, newMagazine.maxCapacity, out int amoutAmmo);
         newMagazine.Load(this.weaponMag._weapon.bullet, amoutAmmo, out int overAmount);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.AddAmmo(this.weaponMag._weapon.bullet.myType, overAmount);
-
         this.weaponMag.InputMagazine(newMagazine);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.InputMag);
     }
+    private void KeepMag_Out()
+    {
+        Debug.Log("TacticalReload KeepMag_Out " + timelineTriggerEvent.timerNormalized);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.KeepMag_Out);
+    }
+    private void ReChamber()
+    {
+        Debug.Log("TacticalReload ReChamber " + timelineTriggerEvent.timerNormalized);
+        this.weaponMag.ReloadChamber();
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReChamber);
+    }
+
 
 
 }

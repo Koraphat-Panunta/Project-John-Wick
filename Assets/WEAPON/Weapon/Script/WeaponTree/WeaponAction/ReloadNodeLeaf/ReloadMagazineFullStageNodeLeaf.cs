@@ -29,9 +29,11 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     {
         this.weaponMag = weaponMag;
         this.timelineTriggerEvent = new TimelineTriggerEvent(this.reloadTime, timelineTriggerEventScriptableObject.triggerEventDetail);
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.RelesesMag);
+
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag.ToString(), this.ReleaseMag);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In.ToString(), this.PickUpMag_In);
         this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.InputMag.ToString(), this.InputMag);
-        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReChamber.ToString(), this.ReloadChamber);
+        this.timelineTriggerEvent.SubscribeEvent(IReloadMagazineNode.ReloadMagazineEvent.ReChamber.ToString(), this.ReChamber);
     }
 
     public override bool IsComplete()
@@ -54,10 +56,13 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     }
     public override void Enter()
     {
+
+        curPhase = WeaponManuverLeafNodePhase.Enter;
         try
         {
             this.isComplete = false;
             this.timelineTriggerEvent.Rewind();
+            base.Enter();
             this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                 <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
             this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
@@ -69,8 +74,10 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         try
         {
             isComplete = false;
+            base.Exit();
             weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
                <ReloadMagazineFullStageNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+            this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         }
         catch { }
     }
@@ -81,14 +88,24 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
             isComplete = true;
     }
 
-    private void RelesesMag() 
+    private void PickUpMag_In()
+    {
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.PickUpMag_In);
+    }
+
+   
+
+    private void ReleaseMag() 
     {
         Debug.Log("Reload Release Mag");
 
         this.magazine.UnLoadAllBullet(out int remainBullet);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
-        this.weaponMag.ReleseMagazine(); 
+        this.weaponMag.ReleseMagazine();
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReleaseMag);
     }
+
+   
     private void InputMag() 
     {
         Debug.Log("Reload InputMag");
@@ -97,10 +114,18 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
         this.weaponAdvanceUser._weaponBelt.ammoProuch.GetAmmoOut(this.weaponMag._weapon.bullet.myType, newMagazine.maxCapacity, out int amoutAmmo);
         newMagazine.Load(this.weaponMag._weapon.bullet, amoutAmmo, out int overAmount);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.AddAmmo(this.weaponMag._weapon.bullet.myType, overAmount);
-
         this.weaponMag.InputMagazine(newMagazine);
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.InputMag);
     } 
-    private void ReloadChamber() => this.weaponMag.ReloadChamber(); 
+    private void KeepMag_Out()
+    {
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.KeepMag_Out);
+    }
+    private void ReChamber() 
+    {
+        this.weaponMag.ReloadChamber();
+        this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineEvent.ReChamber);
+    } 
 
     public override void FixedUpdateNode()
     {

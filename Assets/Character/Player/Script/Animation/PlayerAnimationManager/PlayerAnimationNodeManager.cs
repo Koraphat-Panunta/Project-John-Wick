@@ -311,7 +311,7 @@ public partial class PlayerAnimationManager
 
         this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
-            && this.player._currentWeapon is AR15 
+            && this.player._currentWeapon is AssultRifle_AR15Model 
             , this.animator
             , "ReloadMagazine_AR15"
             , 1
@@ -321,7 +321,7 @@ public partial class PlayerAnimationManager
             ,false);
         this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-            && this.player._currentWeapon is AR15
+            && this.player._currentWeapon is AssultRifle_AR15Model
             , this.animator
             , "TacticalReloadMagazine_AR15"
             , 1

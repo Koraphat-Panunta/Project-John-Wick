@@ -43,9 +43,12 @@ public class MountComponent : MonoBehaviour
     }
     public virtual void Attach(Transform parentTransform, Vector3 offsetPosition, Quaternion offsetRotation)
     {
-        this.parentAttachTransform = parentTransform;
+
         this.offsetPosition = offsetPosition;
         this.offsetRotation = offsetRotation;
+
+        this.parentAttachTransform = parentTransform;
+
         attachRate = 0;
 
     }
@@ -58,6 +61,7 @@ public class MountComponent : MonoBehaviour
         _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, holdRotation, holdRate);
     }
     public void SetAttachDuration(float duration) => this._attachDuration = duration;
+    public void SetAttachAbleObject(Transform attachAbleObject) => this.attachAbleObject = attachAbleObject;
     public virtual void Detach()
     {
         this.parentAttachTransform = null;

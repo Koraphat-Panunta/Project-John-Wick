@@ -14,8 +14,18 @@ public abstract class WeaponAnimation : MonoBehaviour,IObserverWeapon,IInitializ
     {
         weapon.AddObserver(this);
     }
-  
+    private void OnValidate()
+    {
+        if (weapon == null)
+        {
+            weapon = GetComponent<Weapon>();
+        }
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+    }
     public abstract void OnNotify<T>(Weapon weapon, T weaponNotify);
 
-    
+
 }

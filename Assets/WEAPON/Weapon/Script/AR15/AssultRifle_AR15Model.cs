@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
+public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
 {
 
     //SetUpStats
@@ -105,7 +105,6 @@ public class AR15 : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
     
     protected override void SetDefaultAttribute()
     {
-
 
         this.bulletCap.Load(this.bullet, this.maxAmmoCapacity, out int overAmout);
         this.chamber.Load(this.bullet);

@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimelineTriggerEventScriptableObject
   timeDuration: 0
   triggerEventDetail:
-  - normalizedTime: 0.3
+  - normalizedTime: 0.25
     eventName: ReleaseMag
-  - normalizedTime: 0.6
+  - normalizedTime: 0.25
+    eventName: PickUpMag_In
+  - normalizedTime: 0.45
     eventName: InputMag
-  - normalizedTime: 0.9
+  - normalizedTime: 0.75
     eventName: ReChamber
