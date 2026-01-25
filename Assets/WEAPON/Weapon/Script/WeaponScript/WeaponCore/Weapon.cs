@@ -32,14 +32,31 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public abstract Bullet bullet { get;  set; }
 
     public bool isPullTrigger { get; protected set; }
-    public bool isEquiped;
+    public bool isEquiped { get 
+        {
+           if(curAttatch == null)
+                return false;
+
+           if(curAttatch is MainHandSocket)
+                return true;
+           return false;
+        } 
+    }
 
     public abstract Chamber  chamber { get;protected set; }
     protected abstract BulletCapacity bulletCap { get; set; }
     public int curBulletCapacity { get => bulletCap != null ? this.bulletCap.curCount : 0; }
 
 
-    public IWeaponAdvanceUser userWeapon;
+    public IWeaponAdvanceUser userWeapon { 
+        get
+        {
+            if(curAttatch == null)
+                return null;
+
+            return this.curAttatch.weaponAdvanceUser;
+        } }
+    public WeaponSocket curAttatch { get; private set; }
     [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
     public WeaponMountComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
     public Rigidbody rb;
@@ -144,6 +161,22 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
             return false;
 
         return true;
+    }
+
+    public void SetCurAttatchAble(WeaponSocket weaponAttachingAble)
+    {
+        this.curAttatch = weaponAttachingAble;
+
+        if(this.curAttatch != null)
+        {
+            this.rb.isKinematic = true;
+            this._collider.isTrigger = true;
+        }
+        else
+        {
+            this.rb.isKinematic = false;
+            this._collider.isTrigger = false;
+        }
     }
 
     public void OnNotify<T>(Weapon weapon, T weaponNotify)

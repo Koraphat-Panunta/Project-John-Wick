@@ -4,7 +4,7 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
 {
     [SerializeField] private Player player;
     public Animator _weaponUserAnimator { get => player.animator; set => player.animator = value; }
-    public Weapon _currentWeapon { get => player._currentWeapon; set => player._currentWeapon = value; }
+    public Weapon _currentWeapon { get => player._currentWeapon; }
     public Vector3 _shootingPos { get => player._shootingPos; set => player._shootingPos = value; }
     public WeaponBelt _weaponBelt { get => player._weaponBelt; set => player._weaponBelt = value; }
     public WeaponAfterAction _weaponAfterAction { get => player._weaponAfterAction; set => player._weaponAfterAction = value; }
@@ -20,7 +20,7 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public bool _isHolsterWeaponCommand { get => player._isHolsterWeaponCommand; set => player._isHolsterWeaponCommand = value; }
     public bool _isDrawPrimaryWeaponCommand { get => player._isDrawPrimaryWeaponCommand; set => player._isDrawPrimaryWeaponCommand = value; }
     public bool _isDrawSecondaryWeaponCommand { get => player._isDrawSecondaryWeaponCommand; set => player._isDrawSecondaryWeaponCommand = value; }
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get => player._animatorWeaponAdvanceUserOverride; set => player._animatorWeaponAdvanceUserOverride = value; }
+
     public MainHandSocket _mainHandSocket { get => player._mainHandSocket; set => player._mainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => player._secondHandSocket; set => player._secondHandSocket = value; }
 

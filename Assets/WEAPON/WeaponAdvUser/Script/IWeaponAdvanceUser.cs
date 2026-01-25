@@ -3,7 +3,7 @@ using UnityEngine;
 public interface IWeaponAdvanceUser
 {
     public Animator _weaponUserAnimator { get; set; }
-    public Weapon _currentWeapon { get; set; }
+    public Weapon _currentWeapon { get; }
     public MainHandSocket _mainHandSocket { get; set; }
     public SecondHandSocket _secondHandSocket { get; set; }//For Hoster Primary Weapon When QuickDraw
     public Vector3 _shootingPos { get; set; } //Position of bullet destinate
@@ -21,7 +21,7 @@ public interface IWeaponAdvanceUser
     public bool _isHolsterWeaponCommand { get; set; }
     public bool _isDrawPrimaryWeaponCommand { get; set; }
     public bool _isDrawSecondaryWeaponCommand { get; set; }
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride{ get; set; }
+
     public void Initialized_IWeaponAdvanceUser();
 }
 public class FindingWeaponBehavior

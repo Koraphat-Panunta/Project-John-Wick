@@ -54,7 +54,7 @@ public partial class Player: IWeaponAdvanceUser
     public bool _isDrawPrimaryWeaponCommand { get; set; }
     public bool _isDrawSecondaryWeaponCommand { get; set; }
 
-    public Weapon _currentWeapon { get; set; }
+    public Weapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }
@@ -78,8 +78,6 @@ public partial class Player: IWeaponAdvanceUser
     public Vector3 _lookingPos => crosshairController.targetAim;
     public Animator _weaponUserAnimator { get; set; }
     public Character _userWeapon { get => this; }
-    [SerializeField] private AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get => this.AnimatorOverrideController; set => this.AnimatorOverrideController = value; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
     public void Initialized_IWeaponAdvanceUser()
     {

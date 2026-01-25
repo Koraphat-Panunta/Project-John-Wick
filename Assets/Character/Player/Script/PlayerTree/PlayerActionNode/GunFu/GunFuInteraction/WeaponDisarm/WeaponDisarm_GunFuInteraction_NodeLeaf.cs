@@ -113,8 +113,6 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     private void Disarm()
     {
 
-
-
         WeaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
 
         if (disarmedWeapon is PrimaryWeapon && player._weaponBelt.myPrimaryWeapon != null)

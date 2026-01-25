@@ -22,7 +22,7 @@ public partial class Enemy : IWeaponAdvanceUser
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 
     public Animator _weaponUserAnimator { get; set; }
-    public Weapon _currentWeapon { get; set; }
+    public Weapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
 
     public Vector3 _shootingPos
     {
@@ -38,9 +38,6 @@ public partial class Enemy : IWeaponAdvanceUser
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
     public Character _userWeapon => this;
-
-    [SerializeField] AnimatorOverrideController AnimatorOverrideController;
-    public AnimatorOverrideController _animatorWeaponAdvanceUserOverride { get; set; }
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
@@ -62,6 +59,6 @@ public partial class Enemy : IWeaponAdvanceUser
         _weaponAfterAction = new WeaponAfterActionEnemy(this);
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
         _weaponManuverManager = new EnemyWeaponManuver(this, this);
-        _animatorWeaponAdvanceUserOverride = this.AnimatorOverrideController;
+
     }
 }

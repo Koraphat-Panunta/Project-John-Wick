@@ -1,11 +1,23 @@
 using UnityEngine;
 
-public class PrimaryWeaponSocket : MonoBehaviour, IWeaponAttachingAble
+public class PrimaryWeaponSocket :  WeaponSocket
 {
+
     [SerializeField] private Character character;
-    public Transform weaponAttachingAbleTransform => this.transform;
-    public IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
-    public Weapon curWeaponAtSocket { get ; set ; }
+    public override Transform weaponAttachingAbleTransform { get { return this.transform; } }
+    public override IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
+    public override void Attatch(Weapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
+    {
+        weapon._weaponAttacherComponent.Attach(
+                this.weaponAttachingAbleTransform
+                , weapon._mainHandGripTransform
+                , additionalOffsetPosition
+                , additionalOffsetRotation
+                , attatchingDuration);
+        base.Attatch(weapon, additionalOffsetPosition, additionalOffsetRotation, attatchingDuration);
+    }
+
+
     public void OnValidate()
     {
         if(this.character == null)
