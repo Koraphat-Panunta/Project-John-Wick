@@ -60,8 +60,8 @@ public class TimelineTriggerEvent
 
         for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
         {
-
-            isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
+            if (animationTriggerEventsDetails[i].normalizedTime >= timerNormalized)
+                this.isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
         }
     }
     private void UpdateProperties()

@@ -22,24 +22,24 @@ public class WeaponMountComponent : MountComponent
     }
     public override Vector3 GetAttachPosition()
     {
-        if (parentAttachTransform == null || curWeaponGrip == null)
+        if (_parentAttachTransform == null || curWeaponGrip == null)
             return base._attachAbleObject.position;
 
         // Calculate how far the grip is from the weapon’s origin in world space.
         Vector3 gripToWeaponOffset = weapon.transform.position - curWeaponGrip.position;
 
         // Start with the socket position, then apply the offset in socket's local space.
-        Vector3 socketPosition = parentAttachTransform.position
-            + (parentAttachTransform.right * offsetPosition.x)
-            + (parentAttachTransform.up * offsetPosition.y)
-            + (parentAttachTransform.forward * offsetPosition.z);
+        Vector3 socketPosition = _parentAttachTransform.position
+            + (_parentAttachTransform.right * offsetPosition.x)
+            + (_parentAttachTransform.up * offsetPosition.y)
+            + (_parentAttachTransform.forward * offsetPosition.z);
 
         // Apply the offset so that the weapon’s grip aligns perfectly with the socket.
         return socketPosition + gripToWeaponOffset;
     }
     public override Quaternion GetAttachRotation()
     {
-        if (parentAttachTransform == null || curWeaponGrip == null)
+        if (_parentAttachTransform == null || curWeaponGrip == null)
             return base._attachAbleObject.rotation;
 
 
@@ -48,7 +48,7 @@ public class WeaponMountComponent : MountComponent
         Quaternion gripToWeaponRotationOffset = Quaternion.Inverse(curWeaponGrip.rotation) * weapon.transform.rotation;
 
         // Then, we align the socket rotation with that offset.
-        Quaternion targetRotation = parentAttachTransform.rotation * gripToWeaponRotationOffset;
+        Quaternion targetRotation = _parentAttachTransform.rotation * gripToWeaponRotationOffset;
 
         // Finally, apply user-defined offset rotation (if any).
         targetRotation *= offsetRotation;

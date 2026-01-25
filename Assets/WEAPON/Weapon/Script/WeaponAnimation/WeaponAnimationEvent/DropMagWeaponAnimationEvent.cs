@@ -8,7 +8,7 @@ public class DropMagWeaponAnimationEvent : MonoBehaviour
 
 
 
-    [SerializeField] Vector3 forceOnReleses;
+
     public void ReleasesMagazine()
     {
 
@@ -18,7 +18,7 @@ public class DropMagWeaponAnimationEvent : MonoBehaviour
         dropedMag.gameObject.SetActive(true);
         dropedMag.transform.position = this.realMag.position;
         dropedMag.transform.rotation = this.realMag.rotation;
-        dropedMag.GetComponent<Rigidbody>().AddRelativeForce(forceOnReleses,ForceMode.VelocityChange);
+        dropedMag.GetComponent<Rigidbody>().AddRelativeForce(realMag.up * -3,ForceMode.Impulse);
         StartCoroutine(DisableMag(dropedMag));
 
     }

@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
 {
+    public UnityEvent onWeaponFiring;
+
     public UnityEvent pickMag_In; // หยิบMagIn
     public UnityEvent pullMag_Out; // ดึงMagOut
     public UnityEvent releaseMag_Out; //ปลดMagOut
@@ -30,6 +32,12 @@ public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
     }
     public void OnNotify<T>(Weapon weapon, T weaponNotify)
     {
+
+        if(weaponNotify is FiringNode firingNode
+            && firingNode.curWeaponNodeLeafPhase == WeaponLeafNode.WeaponNodeLeafPhase.Enter)
+        {
+            this.onWeaponFiring.Invoke();
+        }
         if(weaponNotify is IReloadMagazineNode.ReloadMagazineStage reloadMagazineEvent)
         {
 

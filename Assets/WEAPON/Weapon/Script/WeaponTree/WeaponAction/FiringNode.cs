@@ -27,11 +27,13 @@ public class FiringNode : WeaponLeafNode,INodeLeafTransitionAble
         Weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
              <FiringNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         isFiring = true;
+
+        base.Enter();
     }
 
     public override void Exit()
     {
-       
+       base.Exit();
     }
 
 
