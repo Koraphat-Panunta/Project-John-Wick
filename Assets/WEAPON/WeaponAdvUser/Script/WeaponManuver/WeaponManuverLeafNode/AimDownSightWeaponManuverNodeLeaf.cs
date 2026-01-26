@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
-    WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
+    public WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
     Weapon curWeapon => weaponAdvanceUser._currentWeapon;
     public enum AimDownSightPhase

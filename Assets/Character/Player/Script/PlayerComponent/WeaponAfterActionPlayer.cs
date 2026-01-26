@@ -41,7 +41,12 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     }
                 case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
-                        player._movementCompoent.SetRotateToDirWorld(Camera.main.transform.forward,6);
+             
+                        player._movementCompoent.SetRotation(Quaternion.Lerp(
+                            this.player.transform.rotation
+                            , Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, player.transform.forward.y, Camera.main.transform.forward.z))
+                            , aimDownSightWeaponManuverNodeLeaf.weaponManuverManager.aimingWeight) );
+
                         player.NotifyObserver(player, aimDownSightWeaponManuverNodeLeaf);
 
                         break;

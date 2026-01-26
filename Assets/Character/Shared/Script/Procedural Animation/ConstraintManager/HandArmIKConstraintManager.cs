@@ -28,6 +28,7 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     }
 
     public Transform GetTargetHandTransform() => this.handTarget;
+    public Transform GetHintHandTransform() => this.handHint;
 
     public void SetHintHandParentConstraint(Transform hintTransform,Vector3 offsetPosition,Vector3 offsetRotation)
     {

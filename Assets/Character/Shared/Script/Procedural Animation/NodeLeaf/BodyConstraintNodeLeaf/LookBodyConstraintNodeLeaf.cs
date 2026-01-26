@@ -96,16 +96,16 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
             Vector3.MoveTowards
             (bodyLookConstrain.getOffsetSpline
             , this.getOffsetSpline
-            , this.getOffsetChangedRate * Time.deltaTime)
+            , this.getOffsetChangedRate /** Time.deltaTime*/)
 
             , Vector3.MoveTowards
             (bodyLookConstrain.getOffsetSpline1
             , this.getOffsetSpline1
-            , this.getOffsetChangedRate * Time.deltaTime)
+            , this.getOffsetChangedRate /** Time.deltaTime*/)
 
             , Vector3.MoveTowards(bodyLookConstrain.getOffsetSpline2
             , this.getOffsetSpline2
-            , this.getOffsetChangedRate * Time.deltaTime)
+            , this.getOffsetChangedRate /** Time.deltaTime*/)
 
             );
         this.bodyLookConstrain.SetAllSplineWeight

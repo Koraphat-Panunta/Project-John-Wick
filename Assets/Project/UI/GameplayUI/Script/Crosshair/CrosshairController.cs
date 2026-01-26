@@ -62,9 +62,9 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     }
     private void LateUpdate()
     {
-        CrosshairUpdate();
+        GetCrosshairUpdatePosition();
     }
-    void CrosshairUpdate()
+    public Vector3 GetCrosshairUpdatePosition()
     {
         
         Vector3 CrosshairPos;
@@ -95,6 +95,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         targetAim = ray.GetPoint(10);
 
         crosshairLookPostion.Invoke(targetAim);
+        return targetAimPaint;
     }
     private void OnEnable()
     {

@@ -25,7 +25,6 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
 
     public override void FixedUpdateNode()
     {
-
         base.FixedUpdateNode();
     }
 

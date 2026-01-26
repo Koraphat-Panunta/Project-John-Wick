@@ -280,18 +280,21 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.restrictConstraintSelector = new NodeSelector(
             () => playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf);
 
-        this.rightHandAimDownSightSelector = new NodeSelector(() => this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0);
+        this.rightHandAimDownSightSelector = new NodeSelector(
+            () => this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight >= .8f
+            && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>() == false
+            );
         this.rightHandConstraintRestNodeLeaf = new RestNodeLeaf(() => true);
 
         this.rightHandEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => this.rightHandConstriantSelector.curNodeLeaf != this.rightHandConstraintRestNodeLeaf
             , this.rightHandIKConstriantManager
-            , 1
+            , 10
             , 1);
         this.rightHandRecoveryWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => true       
             , this.rightHandIKConstriantManager
-            ,1
+            ,10
             ,0);
 
         //3
@@ -307,32 +310,36 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         this.rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon = new AimDownSightHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
-            ,this.player._spine_2_Bone
-            ,this.player._hipBone
-            ,this.rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            ,this.player._rightArmBone
+            , this.rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP
             ,this.player
             ,() => this.player._currentWeapon is PrimaryWeapon && playerAnimationManager.isIn_C_A_R_aim);
 
         this.rightHand_AimDownSight_Constraint_PrimaryWeapon = new AimDownSightHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
-            , this.player._spine_2_Bone
-            , this.player._hipBone
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._rightArmBone
             , this.rightHand_Target_AimDownSight_PrimaryWeapon_SCRP
             , this.player
             , () => this.player._currentWeapon is PrimaryWeapon);
 
         this.rightHand_AimDownSight_CAR_Constraint_SecondaryWeapon = new AimDownSightHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
-            , this.player._spine_2_Bone
-            , this.player._hipBone
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._rightArmBone
             , this.rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP
             , this.player
             , () => this.player._currentWeapon is SecondaryWeapon && this.playerAnimationManager.isIn_C_A_R_aim);
 
         this.rightHand_AimDownSight_Constraint_SecondaryWeapon = new AimDownSightHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
-            , this.player._spine_2_Bone
-            , this.player._hipBone
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._rightArmBone
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
             , this.player
             , () => this.player._currentWeapon is SecondaryWeapon);
@@ -465,7 +472,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     private Vector3 forwardDir => player.transform.forward;
     private float maxHorizontalRotateDegrees = 30;
-    private float maxVerticalRotateDegrees = 60;
+    private float maxVerticalRotateDegrees = 30;
     private Vector3 pointingPos;
     [SerializeField] Transform aimConstrainPositionReference;
     [SerializeField] Transform beginPos;
