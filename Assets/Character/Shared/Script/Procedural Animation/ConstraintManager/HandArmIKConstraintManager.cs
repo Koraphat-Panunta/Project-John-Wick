@@ -6,10 +6,10 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 {
     [SerializeField] public TwoBoneIKConstraint twoBoneIKConstraint;
 
-    [SerializeField] private Transform leftHandHint;
-    [SerializeField] private MountComponent leftHandHintMountComponent;
-    [SerializeField] private Transform leftHandTarget;
-    [SerializeField] private MountComponent leftHandTargetMountComponent;
+    [SerializeField] private Transform handHint;
+    [SerializeField] private MountComponent handHintMountComponent;
+    [SerializeField] private Transform handTarget;
+    [SerializeField] private MountComponent handTargetMountComponent;
 
 
 
@@ -18,35 +18,35 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     
     public void SetHintHandPosition(Vector3 hintPosition)
     {
-        this.leftHandHint.transform.position = hintPosition;
+        this.handHint.transform.position = hintPosition;
     }
 
     public void SetTargetHand(Vector3 targetHandPosition,Quaternion targetHandRotation)
     {
-        this.leftHandTarget.transform.position = targetHandPosition;
-        this.leftHandTarget.transform.rotation = targetHandRotation;
+        this.handTarget.transform.position = targetHandPosition;
+        this.handTarget.transform.rotation = targetHandRotation;
     }
 
-    public Transform GetTargetHandTransform() => this.leftHandTarget;
+    public Transform GetTargetHandTransform() => this.handTarget;
 
     public void SetHintHandParentConstraint(Transform hintTransform,Vector3 offsetPosition,Vector3 offsetRotation)
     {
-        this.leftHandHintMountComponent.Attach(hintTransform, offsetPosition, Quaternion.Euler(offsetRotation));
+        this.handHintMountComponent.Attach(hintTransform, offsetPosition, Quaternion.Euler(offsetRotation));
     }
     public void SetHintHandParentConstraint(Transform hintTransform) => this.SetHintHandParentConstraint(hintTransform, Vector3.zero, Vector3.zero);
     public void RemoveHintHandParentConstraint()
     {
-        leftHandHintMountComponent.Detach();
+        handHintMountComponent.Detach();
     }
     public void SetTargetHandParentConstraint(Transform targetHandTransform, Vector3 offsetPosition, Vector3 offsetRotation)
     {
-        leftHandTargetMountComponent.Attach(targetHandTransform, offsetPosition, Quaternion.Euler(offsetRotation));
+        handTargetMountComponent.Attach(targetHandTransform, offsetPosition, Quaternion.Euler(offsetRotation));
     }
     public void SetTargetHandParentConstraint(Transform targetHandTransform) => this.SetTargetHandParentConstraint(targetHandTransform, Vector3.zero, Vector3.zero);
 
     public void RemoveTargetHandParentConstraint()
     {
-        leftHandTargetMountComponent.Detach();
+        handTargetMountComponent.Detach();
     }
 
 

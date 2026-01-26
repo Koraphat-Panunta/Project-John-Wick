@@ -16,4 +16,9 @@ public class RecoveryConstraintManagerWeightNodeLeaf : AnimationConstrainNodeLea
         base.UpdateNode();
     }
 
+    public void SetRecoverySpeed(float recoverySpeed)
+    {
+        this.recoverySpeed = recoverySpeed;
+    }
+
 }

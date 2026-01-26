@@ -47,7 +47,8 @@ public class PlayPoseAnimationNodeLeaf : PlayAnimationNodeLeaf
     public override void Enter()
     {
         this.timer = this.startNormalized * this.duration;
-        base.Enter();
+        this.animator.CrossFadeInFixedTime(stateName, transitionDurationNormalized, layer, transitionOffsetNormalized);
+
     }
 
     public override void UpdateNode()

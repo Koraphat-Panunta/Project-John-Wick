@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twoBoneIKConstraint: {fileID: 6135875295653811904}
-  leftHandHint: {fileID: 6675179009939251548}
-  leftHandHintMountComponent: {fileID: 2688447559636090556}
-  leftHandTarget: {fileID: 3171623266833256475}
-  leftHandTargetMountComponent: {fileID: 4361725074953867429}
+  handHint: {fileID: 6675179009939251548}
+  handHintMountComponent: {fileID: 2688447559636090556}
+  handTarget: {fileID: 3171623266833256475}
+  handTargetMountComponent: {fileID: 4361725074953867429}
 --- !u!1 &4677930961699285029
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,8 +95,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MountComponent
   attachAbleObject: {fileID: 6675179009939251548}
+  parentAttachTransform: {fileID: 0}
   offsetPosition: {x: 0, y: 0, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachRate: 0
   attachDuration: 0.75
 --- !u!1 &5733752044918157013
 GameObject:
@@ -201,6 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MountComponent
   attachAbleObject: {fileID: 3171623266833256475}
+  parentAttachTransform: {fileID: 0}
   offsetPosition: {x: 0, y: 0, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0, w: 0}
+  attachRate: 0
   attachDuration: 0.75

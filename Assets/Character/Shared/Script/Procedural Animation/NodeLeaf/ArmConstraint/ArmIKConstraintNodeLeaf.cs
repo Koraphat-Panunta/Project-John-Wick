@@ -17,6 +17,7 @@ public abstract class ArmIKConstraintNodeLeaf : AnimationConstrainNodeLeaf
     {
         this.handArmIKConstraintManager = handArmIKConstraintManager;
         this.rootIKHandRef = rootIKHandRef;
+
     }
 
     public override void UpdateNode()
