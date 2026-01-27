@@ -9,8 +9,9 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
     {
         get 
         {
-            Vector3 dir = (this.aimingAtTransfrom.position - base.rootIKHandRef.position).normalized;
-
+            Vector3 dir = (this.weaponAdvanceUser._pointingPos - base.rootIKHandRef.position).normalized;
+            dir = ClampDirection.GetClampDirection(this.weaponAdvanceUser._userWeapon.transform.forward, dir,0, 60, this.weaponAdvanceUser._userWeapon.transform.up );
+            dir = new Vector3(dir.x, dir.y * -1, dir.z);
             return dir;
         }
     }
@@ -58,7 +59,7 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
 
     protected Transform rootHintHandTransform;
 
-    protected RightHandIK_ConstraintSCRP rightHandIK_ConstraintSCRP;
+    protected HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP;
 
     protected Transform aimingAtTransfrom;
     public AimDownSightHandIKConstriantNodeLeaf(
@@ -66,7 +67,7 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
         , Transform aimingAtTransform
         , Transform rootIKHandRef
         , Transform rootHintHand
-        , RightHandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
+        , HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
         , IWeaponAdvanceUser weaponAdvanceUser
         , Func<bool> precondition) : base(handArmIKConstraintManager, rootIKHandRef, precondition)
     {
@@ -89,8 +90,6 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
     }
     protected override void UpdateHintHandPotation()
     {
-
-
 
         Vector3 hintHandPos = this.rootHintHandTransform.position
              + this.forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z

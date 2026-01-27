@@ -38,11 +38,14 @@ public partial class PlayerConstrainAnimationManager
             if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())
                 return false;
 
-            
-
             return true;
         }
     }
+
+    protected void EnableIK() => this.isEnableIK = true;
+    protected void DisableIK() => this.isEnableIK = false;  
+
+    protected bool isEnableIK;
 
     protected bool isHeadLookEnable 
     { 

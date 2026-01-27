@@ -207,7 +207,9 @@ MonoBehaviour:
     type: 2}
   rightHand_Target_AimDownSight_SecondaryWeapon_SCRP: {fileID: 11400000, guid: e47213ba1d19db34489d45b35498e5d4,
     type: 2}
-  ar15_WeaponGripLeftHandScrp: {fileID: 11400000, guid: c751498925c33564ba58643e00b4a10b,
+  primaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: 36f44929132a58d4aa2a7dc3d0ff10a4,
+    type: 2}
+  secondaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: e7760d4426a7e99459faa6e46ac9b63c,
     type: 2}
   rig: {fileID: 2620705664831357101}
   rigBuilder: {fileID: 0}
@@ -1306,37 +1308,37 @@ PrefabInstance:
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.16499972
+      value: -0.7314626
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2849982
+      value: 1.3996466
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.36600238
+      value: 0.00034371018
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.8933218
+      value: 0.4747119
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.10130979
+      value: 0.5277059
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.12236184
+      value: -0.52382064
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.4204047
+      value: -0.47094283
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: d98617c54d3522443ad3ad52d47bb44c,
         type: 3}
@@ -1393,7 +1395,7 @@ ParentConstraint:
   m_Active: 1
   m_IsLocked: 1
   m_Sources:
-  - sourceTransform: {fileID: 6999503542832735123}
+  - sourceTransform: {fileID: 2442187917210337413}
     weight: 1
 --- !u!4 &4727688321167204111 stripped
 Transform:
@@ -5202,12 +5204,12 @@ PrefabInstance:
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2845682
+      value: 0.2845683
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.37635326
+      value: 0.37635338
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
@@ -5302,5 +5304,5 @@ ParentConstraint:
   m_Active: 1
   m_IsLocked: 1
   m_Sources:
-  - sourceTransform: {fileID: 2296114816121712487}
+  - sourceTransform: {fileID: 3921744372037729927}
     weight: 1

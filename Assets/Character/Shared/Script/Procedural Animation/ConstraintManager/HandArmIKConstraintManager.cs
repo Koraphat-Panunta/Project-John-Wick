@@ -11,7 +11,15 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     [SerializeField] private Transform handTarget;
     [SerializeField] private MountComponent handTargetMountComponent;
 
-
+    
+    private void LateUpdate()
+    {
+        if (twoBoneIKConstraint.weight < 1)
+        {
+            this.handTarget.position = twoBoneIKConstraint.data.tip.position;
+            this.handTarget.rotation = twoBoneIKConstraint.data.tip.rotation;
+        }
+    }
 
     public float GetWeight() => twoBoneIKConstraint.weight;
     public void SetWeight(float w) => twoBoneIKConstraint.weight = w;  
