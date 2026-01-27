@@ -26,6 +26,9 @@ public partial class PlayerConstrainAnimationManager
             if(player._currentWeapon == null)
                 return false;
 
+            if(this.isWeaponSwitching)
+                return false;
+
             if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
                 return false;
 
@@ -59,5 +62,22 @@ public partial class PlayerConstrainAnimationManager
 
             return true;
         } 
+    }
+
+    protected bool isWeaponSwitching
+    {
+        get
+        {
+            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>()
+                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>())
+                return true;
+
+            return false;
+        }
     }
 }

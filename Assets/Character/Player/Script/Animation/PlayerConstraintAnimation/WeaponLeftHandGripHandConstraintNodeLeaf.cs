@@ -55,9 +55,9 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         get
         {
             return this.leftHandConstraintManager.GetTargetHandTransform().position 
-                + (this.weaponAdvanceUser._userWeapon.transform.forward * this.handIK_ConstraintSCRP.hintPositionOffset.z)
-                + (this.weaponAdvanceUser._userWeapon.transform.up * this.handIK_ConstraintSCRP.hintPositionOffset.y)
-                + (this.weaponAdvanceUser._userWeapon.transform.right * this.handIK_ConstraintSCRP.hintPositionOffset.x);
+                + (this.leftHandConstraintManager.GetTargetHandTransform().forward * this.handIK_ConstraintSCRP.hintPositionOffset.z)
+                + (this.leftHandConstraintManager.GetTargetHandTransform().up * this.handIK_ConstraintSCRP.hintPositionOffset.y)
+                + (this.leftHandConstraintManager.GetTargetHandTransform().right * this.handIK_ConstraintSCRP.hintPositionOffset.x);
         }
     }
 

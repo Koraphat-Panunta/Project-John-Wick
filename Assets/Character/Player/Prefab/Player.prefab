@@ -161,6 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc3d4e0aca24aa4d94b18204d112236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rig: {fileID: 2620705664831357101}
+  rigBuilder: {fileID: 0}
+  curState: 
+  player: {fileID: 3508049754622093220}
+  playerAnimationManager: {fileID: 4449691354107149587}
+  aimConstrainPositionReference: {fileID: 8527826123242575905}
+  beginPos: {fileID: 7002321110991208980}
   standSplineLookConstrain: {fileID: 4451669193015548445}
   leaningRotation: {fileID: 6235775550306045989}
   RightHandConstrainLookAtManager: {fileID: 7982519455462678168}
@@ -203,21 +210,18 @@ MonoBehaviour:
     type: 2}
   rightHand_Target_AimDownSight_PrimaryWeapon_SCRP: {fileID: 11400000, guid: e8c4f537485edd7499d0e0bbd3c8bb5a,
     type: 2}
+  rightHand_AimDownSight_QuickSwitch_SCRP: {fileID: 11400000, guid: e3b7f5f6788ec064fa456777d9ab0c1b,
+    type: 2}
   rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP: {fileID: 11400000, guid: a994eebfa04d5a944b01af063351d204,
     type: 2}
   rightHand_Target_AimDownSight_SecondaryWeapon_SCRP: {fileID: 11400000, guid: e47213ba1d19db34489d45b35498e5d4,
+    type: 2}
+  leftHandIK_QuickSwitch_SCRP: {fileID: 11400000, guid: 30d3899ea4912514b837ec3578508e3e,
     type: 2}
   primaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: 36f44929132a58d4aa2a7dc3d0ff10a4,
     type: 2}
   secondaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: e7760d4426a7e99459faa6e46ac9b63c,
     type: 2}
-  rig: {fileID: 2620705664831357101}
-  rigBuilder: {fileID: 0}
-  curState: 
-  player: {fileID: 3508049754622093220}
-  playerAnimationManager: {fileID: 4449691354107149587}
-  aimConstrainPositionReference: {fileID: 8527826123242575905}
-  beginPos: {fileID: 7002321110991208980}
 --- !u!95 &4261433417065899419
 Animator:
   serializedVersion: 7

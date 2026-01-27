@@ -27,6 +27,12 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
     public float getOffsetChangedRate { get => aimSplineLookConstrainScriptableObject ? aimSplineLookConstrainScriptableObject.offsetChangedRate : this._offsetChangedRate; }
     private float _offsetChangedRate;
 
+    private Vector3 enter_OffsetSpline;
+    private Vector3 enter_OffsetSpline1;
+    private Vector3 enter_OffsetSpline2;
+
+    protected float weight;
+
     public LookBodyConstraintNodeLeaf(
         BodyLookConstrain splineLookConstrain
         , AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
@@ -72,6 +78,12 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void Enter()
     {
+        this.weight = 0;
+
+        this.enter_OffsetSpline = this.bodyLookConstrain.getOffsetSpline;
+        this.enter_OffsetSpline1 = this.bodyLookConstrain.getOffsetSpline1;
+        this.enter_OffsetSpline2 = this.bodyLookConstrain.getOffsetSpline2;
+
         base.Enter();
     }
 
@@ -90,22 +102,24 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
         this.UpdateWeight();
         this.UpdateLookAtTarget();
 
+        this.weight = Mathf.Clamp01(this.weight + Time.deltaTime *this.getOffsetChangedRate);
+
         this.bodyLookConstrain.SetAllSplineOffsetData
             (
 
-            Vector3.MoveTowards
-            (bodyLookConstrain.getOffsetSpline
+            Vector3.Lerp
+            (this.enter_OffsetSpline
             , this.getOffsetSpline
-            , this.getOffsetChangedRate /** Time.deltaTime*/)
+            , this.weight /** Time.deltaTime*/)
 
-            , Vector3.MoveTowards
-            (bodyLookConstrain.getOffsetSpline1
+            , Vector3.Lerp
+            (this.enter_OffsetSpline1
             , this.getOffsetSpline1
-            , this.getOffsetChangedRate /** Time.deltaTime*/)
+            , this.weight /** Time.deltaTime*/)
 
-            , Vector3.MoveTowards(bodyLookConstrain.getOffsetSpline2
+            , Vector3.Lerp(enter_OffsetSpline2
             , this.getOffsetSpline2
-            , this.getOffsetChangedRate /** Time.deltaTime*/)
+            , this.weight /** Time.deltaTime*/)
 
             );
         this.bodyLookConstrain.SetAllSplineWeight

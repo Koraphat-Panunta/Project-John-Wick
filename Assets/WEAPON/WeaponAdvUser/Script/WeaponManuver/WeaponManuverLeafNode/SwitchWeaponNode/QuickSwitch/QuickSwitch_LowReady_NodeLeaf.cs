@@ -12,11 +12,9 @@ public class QuickSwitch_LowReady_NodeLeaf : LowReadyWeaponManuverNodeLeaf, IQui
     }
     public override void UpdateNode()
     {
-        //WeaponAttachingBehavior.Attach(
-        //   weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
-        //   , weaponAdvanceUser._secondHandSocket
-        //   , quickSwitchHoldOffset.postitionOffset
-        //   , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset));
+        
+        (this.weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon)._weaponAttacherComponent.SetOffsetPosition(this.quickSwitchHoldOffset.postitionOffset);
+        (this.weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon)._weaponAttacherComponent.SetOffserRotation(Quaternion.Euler(this.quickSwitchHoldOffset.rotationEulerOffset));
 
         base.UpdateNode();
     }

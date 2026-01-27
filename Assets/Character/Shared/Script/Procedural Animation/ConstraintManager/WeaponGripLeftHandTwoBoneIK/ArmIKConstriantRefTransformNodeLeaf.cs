@@ -1,89 +1,75 @@
 using System;
 using UnityEngine;
 
-public class ArmIKConstriantRefTransformNodeLeaf : ArmIKConstraintNodeLeaf
+public class ArmIKConstriantRefTransformNodeLeaf : AnimationConstrainNodeLeaf
 {
-    protected Transform targetHandRef;
-    protected TransformOffsetSCRP targetHandOffsetSCRP;
 
-    public Vector3 getTargetHandOffsetPosition 
-    { get => targetHandOffsetSCRP ? targetHandOffsetSCRP.postitionOffset : this._targetHandOffsetPosition; }
-    protected Vector3 _targetHandOffsetPosition;
+    protected HandIK_ConstraintSCRP handIKOffsetSCRP;
+    protected Transform refTransformDir;
+    protected Transform refTransformPos;
+    protected HandArmIKConstraintManager handArmIKConstraintManager;
 
-    public Quaternion getTargetHandOffsetRotation 
-    { get => targetHandOffsetSCRP ? Quaternion.Euler(targetHandOffsetSCRP.rotationEulerOffset) : this._targetHandOffsetRotation; }
-    protected Quaternion _targetHandOffsetRotation;
+    public Vector3 getTargetHandPosition 
+    { 
+        get
+        {
+            Vector3 position = this.refTransformPos.position
+                + (this.refTransformDir.forward * this.handIKOffsetSCRP.positionOffset.z)
+                + (this.refTransformDir.up * this.handIKOffsetSCRP.positionOffset.y)
+                + (this.refTransformDir.right * this.handIKOffsetSCRP.positionOffset.x);
+
+            return position;
+        } 
+    }
 
 
-    protected TransformOffsetSCRP transformHintOffsetSCRP;
-    public Vector3 getOffsetHint { get => transformHintOffsetSCRP ? transformHintOffsetSCRP.postitionOffset : _offsetHint; }
-    protected Vector3 _offsetHint;
 
-    protected Vector3 hintHandPosition;
 
-    public ArmIKConstriantRefTransformNodeLeaf(
+    public Quaternion getTargetHandRotation 
+    { 
+        get
+        {
+            return this.refTransformPos.rotation * Quaternion.Euler(this.handIKOffsetSCRP.rotationEulerOffset);
+        }
+    }
+
+
+    public Vector3 getHintPosition
+    {
+        get
+        {
+            Transform targetHandTransform = handArmIKConstraintManager.GetTargetHandTransform();
+
+            return targetHandTransform.position
+                + (targetHandTransform.forward * this.handIKOffsetSCRP.hintPositionOffset.z)
+                + (targetHandTransform.up * this.handIKOffsetSCRP.hintPositionOffset.y)
+                + (targetHandTransform.right * this.handIKOffsetSCRP.hintPositionOffset.x);
+        }
+    }        
+   
+
+    public ArmIKConstriantRefTransformNodeLeaf(         
+        Func<bool> precondition,
         HandArmIKConstraintManager handArmIKConstraintManager
-        , Transform rootIKHandRef
-        , Transform targetHandReference
-        , Func<bool> precondition
-        , TransformOffsetSCRP transformOffsetSCRP
-        , TransformOffsetSCRP targetHandOffsetSCRP) 
-        : this (
-              handArmIKConstraintManager
-              , rootIKHandRef
-              ,targetHandReference
-              , precondition
-              ,transformOffsetSCRP
-              , targetHandOffsetSCRP.postitionOffset
-              ,Quaternion.Euler(targetHandOffsetSCRP.rotationEulerOffset)
-              )
+        , Transform refTransformPos
+        , Transform refTransformDir
+        , HandIK_ConstraintSCRP transformOffsetSCRP
+        ) : base( precondition)
     {
-        this.targetHandRef = targetHandReference;
-        this.targetHandOffsetSCRP = targetHandOffsetSCRP;
+        this.handArmIKConstraintManager = handArmIKConstraintManager;
+        this.refTransformPos = refTransformPos;
+        this.refTransformDir = refTransformDir;
+        this.handIKOffsetSCRP = transformOffsetSCRP;
     }
 
-    public ArmIKConstriantRefTransformNodeLeaf(
-        HandArmIKConstraintManager handArmIKConstraintManager
-        , Transform rootIKHandRef
-        , Transform targetHandReference
-        , Func<bool> precondition
-        , TransformOffsetSCRP transformOffsetSCRP
-        , Vector3 targetHandOffsetPosition
-        , Quaternion targetHandOffsetRotation) : base(handArmIKConstraintManager, rootIKHandRef, precondition)
+    public override void UpdateNode()
     {
-        this._targetHandOffsetPosition = targetHandOffsetPosition;
-        this._targetHandOffsetRotation = targetHandOffsetRotation;
-        this.targetHandOffsetSCRP = transformOffsetSCRP;
+
+        this.handArmIKConstraintManager.SetTargetHand(this.getTargetHandPosition, this.getTargetHandRotation);
+        this.handArmIKConstraintManager.SetHintHandPosition(this.getHintPosition);
+        base.UpdateNode();
     }
 
-    protected override void UpdateTargetHandPosition()
-    {
-        Vector3 targetPosition 
-            = rootIKHandRef.transform.position 
-            + (rootIKHandRef.forward * getTargetHandOffsetPosition.z)
-            + (rootIKHandRef.up * getTargetHandOffsetPosition.y)
-            + (rootIKHandRef.right * getTargetHandOffsetPosition.x
-            );
-        Quaternion targetRot = rootIKHandRef.rotation * getTargetHandOffsetRotation;
-        this.handArmIKConstraintManager.SetTargetHand(targetPosition, targetRot);
-    }
 
-    protected override void UpdateHintHandPotation()
-    {
-        hintHandPosition = this.rootIKHandRef.position
-             +
-             (
-             this.rootIKHandRef.right * this.getOffsetHint.x
-             )
-             +
-             (
-             this.rootIKHandRef.up * this.getOffsetHint.y
-             )
-             +
-             (
-             this.rootIKHandRef.forward * this.getOffsetHint.z
-             );
-
-        handArmIKConstraintManager.SetHintHandPosition(hintHandPosition);
-    }
+    
 }

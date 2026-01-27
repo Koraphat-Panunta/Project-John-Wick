@@ -51,6 +51,8 @@ public class MountComponent : MonoBehaviour
         this.Attach(parentTransform, offsetPosition, offsetRotation);
         this.SetAttachDuration(attatchingDuration); 
     }
+    public void SetOffsetPosition(Vector3 offsetPosition) => this.offsetPosition = offsetPosition;
+    public void SetOffserRotation(Quaternion offsetRotation) => this.offsetRotation = offsetRotation;
     public virtual void Attach(Transform parentTransform, Vector3 offsetPosition, Quaternion offsetRotation)
     {
 

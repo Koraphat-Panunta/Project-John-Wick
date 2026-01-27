@@ -1,0 +1,42 @@
+using UnityEngine;
+
+public partial class PlayerConstrainAnimationManager
+{
+    public BodyLookConstrain standSplineLookConstrain;
+    public LeaningRotation leaningRotation;
+    public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
+    public HandArmIKConstraintManager leftHandConstraintManager;
+    public HandArmIKConstraintManager rightHandIKConstriantManager;
+    public HeadLookConstraintManager headLookConstraintManager;
+    [SerializeField] private Transform leftHandTransformRef;
+    [SerializeField] private Transform leftHandBoneTransform;
+
+    public HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
+
+    public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
+
+    public LeaningRotaionScriptableObject quickSwitchlLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject pistolLeaning_CAR_ConstrainScriptableObject;
+    public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
+    public LeaningRotaionScriptableObject rifileLeaning_CAR_ConstrainScriptableObject;
+
+    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_rifle;
+    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_pistol;
+    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
+    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
+
+    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP;
+    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_PrimaryWeapon_SCRP;
+    public HandIK_ConstraintSCRP rightHand_AimDownSight_QuickSwitch_SCRP;
+    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP;
+    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_SecondaryWeapon_SCRP;
+
+    public HandIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
+    public HandIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
+    public HandIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
+}
