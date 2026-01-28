@@ -336,7 +336,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         curWeaponManuverSelectorNode.AddtoChildNode(dropWeaponManuverNodeLeaf);
-        curWeaponManuverSelectorNode.AddtoChildNode(quickSwitch_Draw_OnEmpty_NodeLeaf);
+        //curWeaponManuverSelectorNode.AddtoChildNode(quickSwitch_Draw_OnEmpty_NodeLeaf);
         curWeaponManuverSelectorNode.AddtoChildNode(quickSwitchExitSelector);
         curWeaponManuverSelectorNode.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
         curWeaponManuverSelectorNode.AddtoChildNode(switchDrawSecondaryNodeSelector);

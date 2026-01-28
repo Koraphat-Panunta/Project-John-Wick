@@ -139,7 +139,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         animator.SetFloat("AimDownSightWeight", AimDownSightWeight);
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
-        //animator.SetFloat("CAR_Weight", CAR_Weight);
+        animator.SetFloat("CAR_Weight", CAR_Weight);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
         animator.SetFloat("CrouchWeight", crouchWeight);

@@ -1,17 +1,14 @@
 using System;
 using UnityEngine;
 
-public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
+public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 {
 
-    protected IWeaponAdvanceUser weaponAdvanceUser;
     public Vector3 aimDirConstriant 
     {
         get 
         {
-            Vector3 dir = (this.weaponAdvanceUser._pointingPos - base.rootIKHandRef.position).normalized;
-            dir = ClampDirection.GetClampDirection(this.weaponAdvanceUser._userWeapon.transform.forward, dir,0, 60, this.weaponAdvanceUser._userWeapon.transform.up );
-            dir = new Vector3(dir.x, dir.y * -1, dir.z);
+            Vector3 dir = (this.aimingAtTransfrom.position - this.handIK_Transform_Ref_Pos.position).normalized;
             return dir;
         }
     }
@@ -27,7 +24,7 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
             //Debug.DrawRay(base.rootIKHandRef.position, rightWard, Color.red);
             //Debug.DrawRay(base.rootIKHandRef.position, upWard, Color.green);
 
-            return this.rootIKHandRef.position 
+            return this.handIK_Transform_Ref_Pos.position 
                 + (forward * this.rightHandIK_ConstraintSCRP.positionOffset.z)
                 + (rightWard * this.rightHandIK_ConstraintSCRP.positionOffset.x)
                 + (upWard * this.rightHandIK_ConstraintSCRP.positionOffset.y);
@@ -37,19 +34,19 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
     {
         get 
         {
-            return Quaternion.LookRotation( - this.rightWard,this.forward) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
+            return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.handIK_Transform_Ref_Rot.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
         }
     }
 
     public float weight;
-    public Vector3 targetHandPosition
+    public virtual Vector3 targetHandPosition
     {
         get 
         {
             return Vector3.Lerp(this.handArmIKConstraintManager.GetTargetHandTransform().position,this.targetAnchorHandPosition,this.weight);
         }
     }
-    public Quaternion targetHandRotation
+    public virtual Quaternion targetHandRotation
     {
         get
         {
@@ -57,22 +54,49 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
         }
     }
 
+    public virtual Vector3 targetHintHandPosition
+    {
+        get
+        {
+            Vector3 hintHandPos = this.targetHandPosition
+           + this.handArmIKConstraintManager.GetHintHandTransform().forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z
+           + this.handArmIKConstraintManager.GetHintHandTransform().up * this.rightHandIK_ConstraintSCRP.hintPositionOffset.y
+           + this.handArmIKConstraintManager.GetHintHandTransform().right * this.rightHandIK_ConstraintSCRP.hintPositionOffset.x;
+
+            hintHandPos = Vector3.Lerp(this.handArmIKConstraintManager.GetHintHandTransform().position, hintHandPos, this.weight);
+
+            return hintHandPos;
+        }
+    }
+
+    public HandArmIKConstraintManager handArmIKConstraintManager { get; protected set; }
+
+    protected Transform handIK_Transform_Ref_Pos;
+    protected Transform handIK_Transform_Ref_Rot;
+
     protected Transform rootHintHandTransform;
 
     protected HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP;
 
     protected Transform aimingAtTransfrom;
-    public AimDownSightHandIKConstriantNodeLeaf(
+    protected Transform rootCharacter;
+    public AimAtHandIKConstriantNodeLeaf(
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform aimingAtTransform
-        , Transform rootIKHandRef
+        , Transform handIK_Transform_Ref_Pos
+        , Transform handIK_Transform_Ref_Rot
         , Transform rootHintHand
+        , Transform rootCharacter
         , HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
-        , IWeaponAdvanceUser weaponAdvanceUser
-        , Func<bool> precondition) : base(handArmIKConstraintManager, rootIKHandRef, precondition)
+        , Func<bool> precondition) : base(precondition)
     {
+        this.handArmIKConstraintManager = handArmIKConstraintManager;
+
+        this.handIK_Transform_Ref_Pos = handIK_Transform_Ref_Pos;
+        this.handIK_Transform_Ref_Rot = handIK_Transform_Ref_Rot;
+
+        this.rootCharacter = rootCharacter;
         this.aimingAtTransfrom = aimingAtTransform;
-        this.weaponAdvanceUser = weaponAdvanceUser;
         this.rightHandIK_ConstraintSCRP = rightHandIK_ConstraintSCRP;
         this.rootHintHandTransform = rootHintHand;
     }
@@ -85,25 +109,18 @@ public class AimDownSightHandIKConstriantNodeLeaf : ArmIKConstraintNodeLeaf
     public override void UpdateNode()
     {
         this.weight = Mathf.Clamp01(weight + Time.deltaTime );
-
+        this.UpdateTargetHandPosition();
+        this.UpdateHintHandPotation();
         base.UpdateNode();
     }
-    protected override void UpdateHintHandPotation()
+    protected void UpdateHintHandPotation()
     {
 
-        Vector3 hintHandPos = this.rootHintHandTransform.position
-             + this.forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z
-             + this.upWard * this.rightHandIK_ConstraintSCRP.hintPositionOffset.y
-             + this.rightWard * this.rightHandIK_ConstraintSCRP.hintPositionOffset.x;
-
-      
-
-        this.handArmIKConstraintManager.SetHintHandPosition(Vector3.Lerp(this.handArmIKConstraintManager.GetHintHandTransform().position,hintHandPos,this.weight));
+        this.handArmIKConstraintManager.SetHintHandPosition(this.targetHintHandPosition);
     }
 
-    protected override void UpdateTargetHandPosition()
+    protected void UpdateTargetHandPosition()
     {
         this.handArmIKConstraintManager.SetTargetHand(this.targetHandPosition, this.targetHandRotation);
-        Debug.DrawLine(base.rootIKHandRef.position, this.targetHandPosition, Color.yellow);
     }
 }

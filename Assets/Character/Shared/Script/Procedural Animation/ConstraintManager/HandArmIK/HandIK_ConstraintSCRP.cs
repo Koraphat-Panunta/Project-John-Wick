@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HandIK_ConstraintSCRP", menuName = "ScriptableObjects/ConstrainObject/HandIK_ConstraintSCRP")]
+[CreateAssetMenu(fileName = "HandIK_ConstraintSCRP", menuName = "ScriptableObjects/ConstrainObject/HandIK_ConstraintSCRP/HandIK_ConstraintSCRP")]
 public class HandIK_ConstraintSCRP : ScriptableObject
 {
     public Vector3 positionOffset;

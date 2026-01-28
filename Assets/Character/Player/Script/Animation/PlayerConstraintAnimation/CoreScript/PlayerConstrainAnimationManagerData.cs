@@ -30,11 +30,16 @@ public partial class PlayerConstrainAnimationManager
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
     public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
 
-    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP;
-    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_PrimaryWeapon_SCRP;
-    public HandIK_ConstraintSCRP rightHand_AimDownSight_QuickSwitch_SCRP;
-    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP;
-    public HandIK_ConstraintSCRP rightHand_Target_AimDownSight_SecondaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_HumanShield_Primary_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_HumanShield_Secondary_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_Restrain_Primary_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_Restrain_Secondary_SCRP;
+
+    public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_PrimaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_QuickSwitch_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_SecondaryWeapon_SCRP;
 
     public HandIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
     public HandIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;

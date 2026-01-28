@@ -51,8 +51,8 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
                 player._isPullTriggerCommand = true;
 
                 if(player._currentWeapon != null
-                    && player._currentWeapon.chamber.isLoad == false
-                    && player._currentWeapon.curBulletCapacity <= 0)
+                    && player._currentWeapon.chamber.isReadyShoot == false
+                    && player._currentWeapon.chamber.isLoad == false)
                 {
                     player._isReloadCommand = true;
                 }

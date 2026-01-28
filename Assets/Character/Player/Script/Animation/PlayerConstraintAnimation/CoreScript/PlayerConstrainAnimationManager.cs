@@ -43,9 +43,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.bodyLookConstrainSelector = new NodeSelector(() => true);
 
         this.bodyWeaponManuverConstrainSelector = new NodeSelector(
-            () => this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 
-            && this.playerStateManager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>() == false
-            && this.playerStateManager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>() == false
+            () =>
+            this.player._currentWeapon != null 
+            && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 
+            && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false
             );
 
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
@@ -212,19 +213,19 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     public NodeSelector rightHandAimDownSightSelector { get; private set; }
 
-    public AimDownSightHandIKConstriantNodeLeaf rightHand_AimDownSight_QuickSwitch_Constraint_NodeLeaf { get; private set; }
-    public AimDownSightHandIKConstriantNodeLeaf rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf { get; private set;}
-    public AimDownSightHandIKConstriantNodeLeaf rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf { get; private set; }
-    public AimDownSightHandIKConstriantNodeLeaf rightHand_AimDownSight_CAR_Constraint_SecondaryWeapon_NodeLeaf { get; private set; }
-    public AimDownSightHandIKConstriantNodeLeaf rightHand_AimDownSight_Constraint_SecondaryWeapon_NodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_AimDownSight_QuickSwitch_Constraint_NodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf { get; private set;}
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_AimDownSight_CAR_Constraint_SecondaryWeapon_NodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_AimDownSight_Constraint_SecondaryWeapon_NodeLeaf { get; private set; }
 
     public NodeSelector humanShieldConstrainSelector { get; private set; }
-    public RightHandLookControlAnimationConstraintNodeLeaf humanShield_rifle_AnimationConstraintNodeLeaf { get; private set; }
-    public RightHandLookControlAnimationConstraintNodeLeaf humanShield_secondary_AnimationConstraintNodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_ADS_humanShield_rifle_AnimationConstraintNodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_ADS_humanShield_secondary_AnimationConstraintNodeLeaf { get; private set; }
 
     public NodeSelector restrictConstraintSelector { get; private set; }
-    public RightHandLookControlAnimationConstraintNodeLeaf restrict_rifle_AnimationConstraintNodeLeaf { get; private set; }
-    public RightHandLookControlAnimationConstraintNodeLeaf restrict_pistol_AnimationConstraintNodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_ADS_restrict_rifle_AnimationConstraintNodeLeaf { get; private set; }
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHand_ADS_restrict_pistol_AnimationConstraintNodeLeaf { get; private set; }
 
     public RestNodeLeaf rightHandConstraintRestNodeLeaf { get; private set; }
 
@@ -240,14 +241,18 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         //2
         this.humanShieldConstrainSelector = new NodeSelector(
-            () => playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf
+            () => playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf
+            && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay
             );
 
         this.restrictConstraintSelector = new NodeSelector(
-            () => playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf);
+            () => playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrain_GunFu_NodeLeaf
+            && restrain_GunFu_NodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay
+            );
 
         this.rightHandAimDownSightSelector = new NodeSelector(
-            () => this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight >= 1f
+            () =>this.player._currentWeapon != null && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0  
+            && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
             && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>() == false
             && this.isWeaponSwitching == false
             );
@@ -265,59 +270,94 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ,0);
 
         //3
-        this.humanShield_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(this.RightHandConstrainLookAtManager, this.humanShieldRightHandConstrainLookAtScriptableObject_rifle,
-           () => this.player._currentWeapon is PrimaryWeapon);
-        this.humanShield_secondary_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(this.RightHandConstrainLookAtManager, this.humanShieldRightHandConstrainLookAtScriptableObject_pistol,
-            () => this.player._currentWeapon is SecondaryWeapon);
+        this.rightHand_ADS_humanShield_rifle_AnimationConstraintNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
+            this.rightHandIKConstriantManager
+            ,this.aimConstrainPositionReference
+            ,this.player._rightArmBone
+            , this.player._spine_2_Bone
+            , this.player._rightArmBone
+            ,this.player.transform
+            ,this.rightHand_AimDownSight_HumanShield_Primary_SCRP
+           ,() => this.player._currentWeapon is PrimaryWeapon);
 
-        this.restrict_rifle_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(this.RightHandConstrainLookAtManager, this.restrictRightHandConstrainLookAtScriptableObject_rifle,
-            () => this.player._currentWeapon is PrimaryWeapon);
-        this.restrict_pistol_AnimationConstraintNodeLeaf = new RightHandLookControlAnimationConstraintNodeLeaf(this.RightHandConstrainLookAtManager, this.restrictRightHandConstrainLookAtScriptableObject_pistol,
-            () => this.player._currentWeapon is SecondaryWeapon);
-
-        this.rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf = new AimDownSightHandIKConstriantNodeLeaf(
+        this.rightHand_ADS_humanShield_secondary_AnimationConstraintNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player._rightArmBone
-            ,this.player._rightArmBone
+            , this.player._spine_2_Bone
+            , this.player._rightArmBone
+            , this.player.transform
+            , this.rightHand_AimDownSight_HumanShield_Secondary_SCRP
+           , () => this.player._currentWeapon is SecondaryWeapon);
+
+        this.rightHand_ADS_restrict_rifle_AnimationConstraintNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
+            this.rightHandIKConstriantManager
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._spine_2_Bone
+            , this.player._rightArmBone
+            , this.player.transform
+            , this.rightHand_AimDownSight_Restrain_Primary_SCRP
+           , () => this.player._currentWeapon is PrimaryWeapon);
+
+        this.rightHand_ADS_restrict_pistol_AnimationConstraintNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
+            this.rightHandIKConstriantManager
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._spine_2_Bone
+            , this.player._rightArmBone
+            , this.player.transform
+            , this.rightHand_AimDownSight_Restrain_Secondary_SCRP
+           , () => this.player._currentWeapon is SecondaryWeapon);
+
+        this.rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
+            this.rightHandIKConstriantManager
+            , this.aimConstrainPositionReference
+            , this.player._rightArmBone
+            , this.player._spine_2_Bone
+            , this.player._rightArmBone            
+            , this.player.transform
             , this.rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP
-            ,this.player
             ,() => this.player._currentWeapon is PrimaryWeapon && playerAnimationManager.isIn_C_A_R_aim);
 
-        this.rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf = new AimDownSightHandIKConstriantNodeLeaf(
+        this.rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player._rightArmBone
+            , this.player._spine_2_Bone
             , this.player._rightArmBone
+            , this.player.transform
             , this.rightHand_Target_AimDownSight_PrimaryWeapon_SCRP
-            , this.player
             , () => this.player._currentWeapon is PrimaryWeapon);
 
-        this.rightHand_AimDownSight_QuickSwitch_Constraint_NodeLeaf = new AimDownSightHandIKConstriantNodeLeaf(
+        this.rightHand_AimDownSight_QuickSwitch_Constraint_NodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player._rightArmBone
+            , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.rightHand_AimDownSight_QuickSwitch_SCRP
-            , this.player
+            , this.player.transform
+            , this.rightHand_AimDownSight_QuickSwitch_SCRP            
             , () => this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
 
-        this.rightHand_AimDownSight_CAR_Constraint_SecondaryWeapon_NodeLeaf = new AimDownSightHandIKConstriantNodeLeaf(
+        this.rightHand_AimDownSight_CAR_Constraint_SecondaryWeapon_NodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player._rightArmBone
+            , this.player._spine_2_Bone
             , this.player._rightArmBone
+            , this.player.transform
             , this.rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP
-            , this.player
             , () => this.player._currentWeapon is SecondaryWeapon && this.playerAnimationManager.isIn_C_A_R_aim);
 
-        this.rightHand_AimDownSight_Constraint_SecondaryWeapon_NodeLeaf = new AimDownSightHandIKConstriantNodeLeaf(
+        this.rightHand_AimDownSight_Constraint_SecondaryWeapon_NodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player._rightArmBone
+            , this.player._spine_2_Bone
             , this.player._rightArmBone
+            , this.player.transform
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
-            , this.player
             , () => this.player._currentWeapon is SecondaryWeapon);
 
         this.rightHandConstriantSelector.AddtoChildNode(this.restrictConstraintSelector);
@@ -328,11 +368,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.rightHandConstraintWeightSelector.AddtoChildNode(this.rightHandEnableWeightConstraintNodeLeaf);
         this.rightHandConstraintWeightSelector.AddtoChildNode(this.rightHandRecoveryWeightConstraintNodeLeaf);
 
-        this.restrictConstraintSelector.AddtoChildNode(this.restrict_rifle_AnimationConstraintNodeLeaf);
-        this.restrictConstraintSelector.AddtoChildNode(this.restrict_pistol_AnimationConstraintNodeLeaf);
+        this.restrictConstraintSelector.AddtoChildNode(this.rightHand_ADS_restrict_rifle_AnimationConstraintNodeLeaf);
+        this.restrictConstraintSelector.AddtoChildNode(this.rightHand_ADS_restrict_pistol_AnimationConstraintNodeLeaf);
 
-        this.restrictConstraintSelector.AddtoChildNode(this.humanShield_rifle_AnimationConstraintNodeLeaf);
-        this.restrictConstraintSelector.AddtoChildNode(this.humanShield_secondary_AnimationConstraintNodeLeaf);
+        this.humanShieldConstrainSelector.AddtoChildNode(this.rightHand_ADS_humanShield_rifle_AnimationConstraintNodeLeaf);
+        this.humanShieldConstrainSelector.AddtoChildNode(this.rightHand_ADS_humanShield_secondary_AnimationConstraintNodeLeaf);
 
         this.rightHandAimDownSightSelector.AddtoChildNode(this.rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf);
         this.rightHandAimDownSightSelector.AddtoChildNode(this.rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf);
@@ -440,8 +480,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.headConstraintAnimationNodeComponentManager.AddNode(this.headLookNodeSelector);
     }
     #endregion
-
-   
 
     public override void Initialized()
     {
