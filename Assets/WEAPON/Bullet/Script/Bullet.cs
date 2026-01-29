@@ -16,7 +16,7 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
     public float penetrateRate { get;private set; }
     protected virtual float bulletHitForce { get; set; }
 
-    protected LayerMask hitLayer;
+    public static LayerMask hitLayer;
     protected const float MAX_DISTANCE = 350;
     public Weapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawner.transform.position; set { } }

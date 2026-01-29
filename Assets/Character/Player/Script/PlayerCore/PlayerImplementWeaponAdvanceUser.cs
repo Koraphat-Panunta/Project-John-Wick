@@ -70,6 +70,16 @@ public partial class Player: IWeaponAdvanceUser
                 else
                     return ray.GetPoint(100);
             }
+
+            Vector3 buttetSpanwToPointingPos = this._pointingPos - this._currentWeapon.bulletSpawner.transform.position;
+
+            if(Vector3.Dot(buttetSpanwToPointingPos.normalized,this._currentWeapon.bulletSpawner.transform.forward) < .95f)
+            {
+                Vector3 shootPointPos = this._currentWeapon.bulletSpawner.transform.position + (this._currentWeapon.bulletSpawner.transform.forward * 100);
+                Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPointPos, Color.green);
+                return shootPointPos;             
+            }
+
             return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
         }
         set { }

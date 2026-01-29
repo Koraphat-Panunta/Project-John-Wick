@@ -13,9 +13,9 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         }
     }
 
-    private Vector3 forward => this.aimDirConstriant.normalized;
-    private Vector3 rightWard => Vector3.Cross(Vector3.up, this.aimDirConstriant).normalized;
-    private Vector3 upWard => Vector3.Cross(forward, rightWard).normalized;
+    protected Vector3 forward => this.aimDirConstriant.normalized;
+    protected Vector3 rightWard => Vector3.Cross(Vector3.up, this.aimDirConstriant).normalized;
+    protected Vector3 upWard => Vector3.Cross(forward, rightWard).normalized;
     public Vector3 targetAnchorHandPosition 
     {
         get 
@@ -35,6 +35,18 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         get 
         {
             return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.handIK_Transform_Ref_Rot.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
+        }
+    }
+    public Vector3 targerAnchorHintHandPosition
+    {
+        get
+        {
+            Vector3 hintHandPos = this.targetHandPosition
+           + this.handArmIKConstraintManager.GetHintHandTransform().forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z
+           + this.handArmIKConstraintManager.GetHintHandTransform().up * this.rightHandIK_ConstraintSCRP.hintPositionOffset.y
+           + this.handArmIKConstraintManager.GetHintHandTransform().right * this.rightHandIK_ConstraintSCRP.hintPositionOffset.x;
+
+            return hintHandPos;
         }
     }
 
@@ -58,14 +70,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         get
         {
-            Vector3 hintHandPos = this.targetHandPosition
-           + this.handArmIKConstraintManager.GetHintHandTransform().forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z
-           + this.handArmIKConstraintManager.GetHintHandTransform().up * this.rightHandIK_ConstraintSCRP.hintPositionOffset.y
-           + this.handArmIKConstraintManager.GetHintHandTransform().right * this.rightHandIK_ConstraintSCRP.hintPositionOffset.x;
-
-            hintHandPos = Vector3.Lerp(this.handArmIKConstraintManager.GetHintHandTransform().position, hintHandPos, this.weight);
-
-            return hintHandPos;
+            return Vector3.Lerp(this.handArmIKConstraintManager.GetHintHandTransform().position, this.targerAnchorHintHandPosition, this.weight);
         }
     }
 

@@ -6,6 +6,27 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
     public WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
     Weapon curWeapon => weaponAdvanceUser._currentWeapon;
+
+    protected LayerMask blockLayer = LayerMask.GetMask("Default");
+    public bool isBlocked 
+    {
+        get
+        {
+            Vector3 mainHandToBulletSpanwer = this.curWeapon.bulletSpawner.transform.position - this.curWeapon._mainHandGripTransform.position;
+
+            if(Physics.Raycast(this.curWeapon._mainHandGripTransform.position
+                , mainHandToBulletSpanwer.normalized
+                ,mainHandToBulletSpanwer.magnitude
+                ,this.blockLayer
+                ,QueryTriggerInteraction.Ignore
+                ))
+            {
+                return true;
+            }
+            return false;
+        } 
+    }
+   
     public enum AimDownSightPhase
     {
         Enter,
@@ -69,7 +90,13 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
         weaponAfterAction.SendFeedBackWeaponAfterAction
            <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
-        if (weaponManuverManager.isPullTriggerManuverAble && weaponAdvanceUser._isPullTriggerCommand)
+        //if (this.isBlocked)
+        //{
+        //    Debug.Log("Weapon Blocked");
+        //}
+
+       
+        if (this.weaponManuverManager.isPullTriggerManuverAble && this.weaponAdvanceUser._isPullTriggerCommand && this.isBlocked == false)
             curWeapon.PullTrigger();
     }
 }
