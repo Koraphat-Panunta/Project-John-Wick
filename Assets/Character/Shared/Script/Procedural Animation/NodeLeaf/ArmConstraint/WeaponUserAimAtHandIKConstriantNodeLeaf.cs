@@ -32,8 +32,6 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
            + this.handArmIKConstraintManager.GetHintHandTransform().up * this.weaponRightHandIK_ConstraintSCRP.onBlocked_hintPositionOffset.y
            + this.handArmIKConstraintManager.GetHintHandTransform().right * this.weaponRightHandIK_ConstraintSCRP.onBlocked_hintPositionOffset.x;
 
-            hintHandPos = Vector3.Lerp(this.handArmIKConstraintManager.GetHintHandTransform().position, hintHandPos, this.weight);
-
             return hintHandPos;
         }
     }
@@ -48,10 +46,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     }
     public override Vector3 targetHintHandPosition
     {
-        get
-        {
-            return Vector3.Lerp(base.targetHintHandPosition, this.hintBlockedHand_Position, this.blockedWeight);
-        }
+        get { return Vector3.Lerp(base.targetHintHandPosition, this.hintBlockedHand_Position, this.blockedWeight); }
     }
 
     protected WeaponHandIK_ConstraintSCRP weaponRightHandIK_ConstraintSCRP;
@@ -112,9 +107,6 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         {
             this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight - Time.deltaTime * 5);
         }
-
-
-
         this.blockedWeight = Mathf.Lerp(this.blockedWeight, this.targetBlockWeight, Time.deltaTime * 80);
 
     }
