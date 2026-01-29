@@ -110,8 +110,10 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         }
         else if(Physics.Raycast(base.handIK_Transform_Ref_Pos.position, castPosToStart.normalized, castPosToStart.magnitude + .15f, this.blockedMaskDefault, QueryTriggerInteraction.Ignore) == false)
         {
-            this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight - Time.deltaTime * 2);
+            this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight - Time.deltaTime * 5);
         }
+
+
 
         this.blockedWeight = Mathf.Lerp(this.blockedWeight, this.targetBlockWeight, Time.deltaTime * 80);
 

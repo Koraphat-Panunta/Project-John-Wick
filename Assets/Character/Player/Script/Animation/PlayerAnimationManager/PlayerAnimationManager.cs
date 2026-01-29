@@ -77,14 +77,12 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         if (RecoilWeight > 0)
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);
 
-        //if (player._currentWeapon is PrimaryWeapon)
-        //    isIn_C_A_R_aim = false;
 
         if ((player as IWeaponAdvanceUser)._currentWeapon != null)
         {
             if (isIn_C_A_R_aim)
             {
-                if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
+                if (Vector3.Distance((player as IWeaponAdvanceUser)._pointingPos
                , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) >= CAR_Range)
                 {
                     CAR_ChangeTimer -= Time.deltaTime;
@@ -100,7 +98,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             }
             else if (isIn_C_A_R_aim == false)
             {
-                if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
+                if (Vector3.Distance((player as IWeaponAdvanceUser)._pointingPos
               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) <= CAR_Range)
                 {
                    
