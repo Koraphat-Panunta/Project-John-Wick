@@ -73,14 +73,20 @@ public partial class Player: IWeaponAdvanceUser
 
             Vector3 buttetSpanwToPointingPos = this._pointingPos - this._currentWeapon.bulletSpawner.transform.position;
 
-            if(Vector3.Dot(buttetSpanwToPointingPos.normalized,this._currentWeapon.bulletSpawner.transform.forward) < .95f)
+            float dot = Vector3.Dot(buttetSpanwToPointingPos.normalized, this._currentWeapon.bulletSpawner.transform.forward) ;
+
+            if(dot < 0.98f)
             {
+                Debug.Log("dot not = " + dot);
                 Vector3 shootPointPos = this._currentWeapon.bulletSpawner.transform.position + (this._currentWeapon.bulletSpawner.transform.forward * 100);
-                Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPointPos, Color.green);
+                //Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPointPos, Color.green,5);
                 return shootPointPos;             
             }
+            Debug.Log("dot = " + dot);
 
-            return crosshairController.CrosshiarShootpoint.GetShootPointDirection();
+            Vector3 shootPoint = this.crosshairController.CrosshiarShootpoint.GetShootPointDirection();
+            //Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPoint, Color.red, 5);
+            return shootPoint;
         }
         set { }
     }

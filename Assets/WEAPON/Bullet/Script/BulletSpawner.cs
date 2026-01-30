@@ -8,7 +8,8 @@ public class BulletSpawner : MonoBehaviour
 {
     public TrailRenderer bulletTrail;
 
-   
+    int tracerNum = 3;
+    int num = 0;
 
     public void SpawnBullet(Bullet bullet,Vector3 shootPos)
     {
@@ -21,8 +22,14 @@ public class BulletSpawner : MonoBehaviour
         //thisBullet.travelDri = (shootPos - _transform.position).normalized ;    
         Vector3 bulletHitPos = bullet.Shoot(this, shootPos);
 
-       
-        StartCoroutine(SpawnTrail(transform.position, bulletHitPos, this.bulletTrail));
+        Debug.DrawLine(this.transform.position, shootPos, Color.red, 5);
+        Debug.DrawLine(this.transform.position, bulletHitPos,Color.green,5);
+
+        Vector3 bulletHitDir = bulletHitPos - transform.position;
+        Vector3 shootPointDir = shootPos - transform.position;
+
+        if (Vector3.Dot(bulletHitDir, shootPointDir) > .9 )
+            StartCoroutine(SpawnTrail(transform.position , bulletHitPos, this.bulletTrail));
         //if(weapon._userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
         //{
         //    Bullet.GetComponent<Bullet>().Execute(playerAnimationManager.playerWeaponCommand.crosshairController.CrosshiarShootpoint.GetShootPointDirection(gameObject._transform.position));
