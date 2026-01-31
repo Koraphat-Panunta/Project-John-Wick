@@ -45,6 +45,11 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     {
         this.TransitioningCheck();
 
+        if (this.weaponAdvanceUser._isAimingCommand && this.weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * IQuickSwitchNode.adsSpeed);
+        else
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * IQuickSwitchNode.adsSpeed);
+
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
 
     }

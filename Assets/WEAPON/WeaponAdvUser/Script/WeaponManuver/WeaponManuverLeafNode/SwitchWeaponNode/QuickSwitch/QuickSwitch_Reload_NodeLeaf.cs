@@ -31,6 +31,9 @@ public class QuickSwitch_Reload_NodeLeaf : WeaponManuverLeafNode, IQuickSwitchNo
 
     public override void UpdateNode()
     {
-        
+        if (this.weaponAdvanceUser._isAimingCommand && this.weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * IQuickSwitchNode.adsSpeed);
+        else
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * IQuickSwitchNode.adsSpeed);
     }
 }

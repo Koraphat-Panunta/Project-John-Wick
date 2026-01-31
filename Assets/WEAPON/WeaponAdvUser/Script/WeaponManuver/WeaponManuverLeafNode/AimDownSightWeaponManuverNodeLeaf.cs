@@ -52,17 +52,8 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
         weaponAfterAction.SendFeedBackWeaponAfterAction
             <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
-
-    public override void FixedUpdateNode()
-    {
-
-        if (weaponManuverManager == null)
-            Debug.Log(weaponManuverManager + "is null");
-
-        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
-
-
-    }
+  
+   
 
     public override bool IsComplete()
     {
@@ -84,19 +75,25 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void UpdateNode()
     {
-        //weaponAfterAction.SendFeedBackWeaponAfterAction
-        //    <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+        
         curPhase = AimDownSightPhase.Update;
         weaponAfterAction.SendFeedBackWeaponAfterAction
            <AimDownSightWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
 
-        //if (this.isBlocked)
-        //{
-        //    Debug.Log("Weapon Blocked");
-        //}
+        this.AimingWeightUpdate();
 
-       
         if (this.weaponManuverManager.isPullTriggerManuverAble && this.weaponAdvanceUser._isPullTriggerCommand && this.isBlocked == false)
             curWeapon.PullTrigger();
+    }
+
+    protected virtual void AimingWeightUpdate()
+    {
+        if (weaponManuverManager == null)
+            Debug.Log(weaponManuverManager + "is null");
+        this.weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight + Time.deltaTime * curWeapon.aimDownSight_speed);
+    }
+
+    public override void FixedUpdateNode()
+    {
     }
 }

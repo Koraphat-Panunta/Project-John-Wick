@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
 {
-    private IWeaponAdvanceUser weaponAdvanceUser;
-
-    public AimDownSightBodyConstrainNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser
-        ,BodyLookConstrain splineLookConstrain
+    protected Transform aimAtPosition;
+    protected IWeaponAdvanceUser weaponAdvanceUser;
+    public AimDownSightBodyConstrainNodeLeaf(Transform aimAtPosition
+        , IWeaponAdvanceUser weaponAdvanceUser
+        , BodyLookConstrain splineLookConstrain
         ,AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
         ,Func<bool> precondition) : base(splineLookConstrain,aimSplineLookConstrainScriptableObject,precondition)
     {
+        this.aimAtPosition = aimAtPosition;
         this.weaponAdvanceUser = weaponAdvanceUser;
     }
 
@@ -31,11 +33,11 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
   
     protected override void UpdateLookAtTarget()
     {
-        base.bodyLookConstrain.SetLookAtPosition(weaponAdvanceUser._pointingPos);
+        base.bodyLookConstrain.SetLookAtPosition(this.aimAtPosition.position);
     }
 
     protected override void UpdateWeight()
     {
-        base.bodyLookConstrain.SetWeight(weaponAdvanceUser._weaponManuverManager.aimingWeight);
+        base.bodyLookConstrain.SetWeight(this.weaponAdvanceUser._weaponManuverManager.aimingWeight);
     }
 }

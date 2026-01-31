@@ -31,7 +31,7 @@ public class SetConstraintWeightNodeLeaf : AnimationConstrainNodeLeaf
     }
     public override void Enter()
     {
-            constraintManager.SetWeight(enterWeight);
+            //constraintManager.SetWeight(enterWeight);
         base.Enter();
     }
     public override void UpdateNode()

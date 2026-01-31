@@ -89,14 +89,16 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             );
 
         this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            enemy
+            this.enemy.pointingTransform
+            , this.enemy
             , bodyLookConstrain
             , primaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is PrimaryWeapon
             );
 
         this.secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            enemy
+            this.enemy.pointingTransform
+            , this.enemy
             , bodyLookConstrain
             , secondaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is SecondaryWeapon

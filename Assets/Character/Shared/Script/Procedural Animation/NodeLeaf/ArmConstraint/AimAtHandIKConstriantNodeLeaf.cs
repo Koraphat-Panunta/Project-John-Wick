@@ -9,6 +9,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         get 
         {
             Vector3 dir = (this.aimingAtTransfrom.position - this.handIK_Transform_Ref_Pos.position).normalized;
+            dir = ClampDirection.GetClampDirection(this.rootCharacter.forward, dir, 10, 10);
             return dir;
         }
     }
@@ -85,6 +86,9 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
     protected Transform aimingAtTransfrom;
     protected Transform rootCharacter;
+
+    protected float maxVerticalHandTargetDegree;
+    protected float maxHorizontalHandTargetDegree;
     public AimAtHandIKConstriantNodeLeaf(
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform aimingAtTransform

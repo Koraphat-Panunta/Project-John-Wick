@@ -42,6 +42,10 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
     }
     public override void UpdateNode()
     {
+        if (this.weaponAdvanceUser._isAimingCommand && this.weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * IQuickSwitchNode.adsSpeed);
+        else
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * IQuickSwitchNode.adsSpeed);
 
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
     }

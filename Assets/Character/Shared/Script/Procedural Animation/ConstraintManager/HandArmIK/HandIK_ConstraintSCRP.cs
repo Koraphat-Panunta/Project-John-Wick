@@ -7,4 +7,7 @@ public class HandIK_ConstraintSCRP : ScriptableObject
     public Vector3 rotationEulerOffset;
 
     public Vector3 hintPositionOffset;
+
+    public float maxHorizontalHandAimDeg;
+    public float maxVerticalHandAimDeg;
 }

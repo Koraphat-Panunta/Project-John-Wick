@@ -6,45 +6,34 @@ public static class ClampDirection
      Vector3 referenceDir,
      Vector3 direction,
      float maxHorizontalDeg,
-     float maxVerticalDeg,
-     Vector3 worldUp)
+     float maxVerticalDeg)
     {
-        if (referenceDir.sqrMagnitude < 0.0001f || direction.sqrMagnitude < 0.0001f)
-            return referenceDir.normalized;
 
-        referenceDir.Normalize();
-        direction.Normalize();
+        //if (Vector3.Distance(poitnPos, pointingPos) > .5f)
+        //    trackRate = 0;
 
-        // --- Build stable basis ---
-        Vector3 up = worldUp;
+        // Normalize input
+        Vector3 dirToPoint = direction;
 
-        // Prevent degenerate cross when referenceDir is vertical
-        if (Mathf.Abs(Vector3.Dot(referenceDir, up)) > 0.99f)
-            up = Vector3.forward;
+        // Basis: forward, right, up
+        Vector3 fwd = referenceDir.normalized;
+        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
+        Vector3 up = Vector3.Cross(fwd, right).normalized;
 
-        Vector3 right = Vector3.Cross(up, referenceDir).normalized;
-        Vector3 trueUp = Vector3.Cross(referenceDir, right).normalized;
+        // Project onto local basis (dot products give angles)
+        float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
+        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, new Vector3(dirToPoint.x, 0, dirToPoint.z))) * Mathf.Rad2Deg) * -1;
 
-        // --- Convert to local angles ---
-        float yaw = Mathf.Atan2(
-            Vector3.Dot(direction, right),
-            Vector3.Dot(direction, referenceDir)
-        ) * Mathf.Rad2Deg;
 
-        float pitch = Mathf.Atan2(
-            Vector3.Dot(direction, trueUp),
-            Vector3.Dot(direction, Vector3.ProjectOnPlane(direction, trueUp))
-        ) * Mathf.Rad2Deg;
+        // Clamp angles
+        horizontalAngle = Mathf.Clamp(horizontalAngle, -maxHorizontalDeg, maxHorizontalDeg);
+        verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalDeg, maxVerticalDeg);
 
-        // --- Clamp ---
-        yaw = Mathf.Clamp(yaw, -maxHorizontalDeg, maxHorizontalDeg);
-        pitch = Mathf.Clamp(pitch, -maxVerticalDeg, maxVerticalDeg);
+        // Rebuild direction from clamped angles
+        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
+                         Quaternion.AngleAxis(verticalAngle, right);
+        Vector3 clampedDir = rot * fwd;
 
-        // --- Rebuild direction ---
-        Quaternion yawRot = Quaternion.AngleAxis(yaw, trueUp);
-        Quaternion pitchRot = Quaternion.AngleAxis(pitch, right);
-
-        Vector3 clampedDir = yawRot * pitchRot * referenceDir;
-        return clampedDir.normalized;
+        return clampedDir;
     }
 }

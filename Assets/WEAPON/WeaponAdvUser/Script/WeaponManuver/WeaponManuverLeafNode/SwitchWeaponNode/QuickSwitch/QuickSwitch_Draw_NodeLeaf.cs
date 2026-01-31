@@ -56,6 +56,12 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     public override void UpdateNode()
     {
         //Debug.Log("Before draw");
+
+        if(this.weaponAdvanceUser._isAimingCommand && this.weaponAdvanceUser._weaponManuverManager.isAimingManuverAble)
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight + Time.deltaTime * IQuickSwitchNode.adsSpeed);
+        else
+            this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Clamp01(this.weaponAdvanceUser._weaponManuverManager.aimingWeight - Time.deltaTime * IQuickSwitchNode.adsSpeed);
+
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
     }
     public override void FixedUpdateNode()
