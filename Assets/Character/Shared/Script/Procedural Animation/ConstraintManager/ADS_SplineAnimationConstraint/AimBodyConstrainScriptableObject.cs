@@ -15,6 +15,12 @@ public class AimBodyConstrainScriptableObject : ScriptableObject
     [SerializeField] public float weightSpline2;
     public Vector3 offsetSpline2;
 
+    [Range(0, 180)]
+    [SerializeField] public float maxHorizontalDeg;
+    [Range(0, 180)]
+    [SerializeField] public float maxVerticalDeg;
+
+
     [Range(0, 500)]
     [SerializeField] public float offsetChangedRate;
 

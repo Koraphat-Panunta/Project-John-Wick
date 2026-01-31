@@ -45,7 +45,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.bodyWeaponManuverConstrainSelector = new NodeSelector(
             () =>
             this.player._currentWeapon != null 
-            && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight >= 1
+            && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
             && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false
             );
 
@@ -55,7 +55,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         //2
         this.quickSwitch_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.aimConstrainPositionReference
+            this.player._hipBone
+            , this.player._hipBone
+            , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain
             , quickSwitchAimSplineLookConstrainScriptableObject
@@ -69,25 +71,33 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         //3
         this.rifle_CAR_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.aimConstrainPositionReference
+            this.player._hipBone
+            , this.player._hipBone
+            , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain, standRifleAim_CAR_SplineLookConstrainScriptableObject
             , () => isCAR);
         this.rifle_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.aimConstrainPositionReference
+            this.player._hipBone
+            , this.player._hipBone
+            , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain, standRifleAimSplineLookConstrainScriptableObject
             , () => true);
 
 
         this.pistol_ADS_CAR_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.aimConstrainPositionReference
+            this.player._hipBone
+            , this.player._hipBone
+            , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain
             , standPistolAim_CAR_SplineLookConstrainScriptableObject
             , () => isCAR);
         this.pistol_ADS_ConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.aimConstrainPositionReference
+            this.player._hipBone
+            , this.player._hipBone
+            , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain
             , standPistolAimSplineLookConstrainScriptableObject
@@ -547,8 +557,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     #region UpdateConstranLookReference
 
     private Vector3 forwardDir => player.transform.forward;
-    private float maxHorizontalRotateDegrees = 60;
-    private float maxVerticalRotateDegrees = 60;
+    private float maxHorizontalRotateDegrees = 75;
+    private float maxVerticalRotateDegrees = 75;
     private Vector3 pointingPos;
     [SerializeField] Transform aimConstrainPositionReference;
     [SerializeField] Transform beginPos;

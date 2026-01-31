@@ -89,7 +89,9 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             );
 
         this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy.pointingTransform
+            this.enemy._hipBone
+            , this.enemy._hipBone
+            , this.enemy.pointingTransform
             , this.enemy
             , bodyLookConstrain
             , primaryAimSplineLookConstrainScriptableObject
@@ -97,7 +99,9 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             );
 
         this.secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy.pointingTransform
+            this.enemy._hipBone
+            , this.enemy._hipBone
+            , this.enemy.pointingTransform
             , this.enemy
             , bodyLookConstrain
             , secondaryAimSplineLookConstrainScriptableObject
