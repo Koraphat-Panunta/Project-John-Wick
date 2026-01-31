@@ -94,6 +94,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
         targetAim = ray.GetPoint(10);
 
+        if(crosshairLookPostion != null)
         crosshairLookPostion.Invoke(targetAim);
         return targetAimPaint;
     }

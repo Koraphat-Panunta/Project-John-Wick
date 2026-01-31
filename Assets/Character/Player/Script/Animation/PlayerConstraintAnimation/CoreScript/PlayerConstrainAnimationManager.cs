@@ -515,8 +515,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leftHandConstraintAnimationNodeComponentManager = new NodeComponentManager();
         this.headConstraintAnimationNodeComponentManager = new NodeComponentManager();
 
-        this.player.crosshairController.crosshairLookPostion += this.UpdateConstrainLookReferencePos;
-
         this.InitializedConstraintWeightManager();
         this.InitializedSplineLook();
         this.InitializedLeanNodeManager();
@@ -537,6 +535,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     }
     protected void Update()
     {
+        this.UpdateConstrainLookReferencePos();
 
         this.playeBodyConstriantAnimationNodeComponentManager.Update();
         this.rightHandConstraintAnimationNodeComponentManager.Update();
@@ -563,44 +562,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     [SerializeField] Transform aimConstrainPositionReference;
     [SerializeField] Transform beginPos;
 
-    private void UpdateConstrainLookReferencePos(Vector3 lookingPosition)
+    private void UpdateConstrainLookReferencePos()
     {
-
-        Vector3 poitnPos = lookingPosition;
-
-        Vector3 startPos = beginPos.position;
-
-        //if (Vector3.Distance(poitnPos, pointingPos) > .5f)
-        //    trackRate = 0;
-
-        // Normalize input
-        Vector3 dirToPoint = (poitnPos - startPos).normalized;
-
-        // Basis: forward, right, up
-        Vector3 fwd = forwardDir.normalized;
-        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
-        Vector3 up = Vector3.Cross(fwd, right).normalized;
-
-        // Project onto local basis (dot products give angles)
-        float horizontalAngle = Mathf.Atan2(Vector3.Dot(dirToPoint, right), Vector3.Dot(dirToPoint, fwd)) * Mathf.Rad2Deg;
-        float verticalAngle = (Mathf.Atan2(Vector3.Dot(dirToPoint, up), Vector3.Dot(dirToPoint, new Vector3(dirToPoint.x, 0, dirToPoint.z))) * Mathf.Rad2Deg) * -1;
-
-
-        // Clamp angles
-        horizontalAngle = Mathf.Clamp(horizontalAngle, -maxHorizontalRotateDegrees, maxHorizontalRotateDegrees);
-        verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalRotateDegrees, maxVerticalRotateDegrees);
-
-        // Rebuild direction from clamped angles
-        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
-                         Quaternion.AngleAxis(verticalAngle, right);
-        Vector3 clampedDir = rot * fwd;
-
-        // Final pointing position (you can scale as needed)
-
-        pointingPos = Vector3.Lerp(pointingPos, startPos + (clampedDir.normalized) * 10, 1);
-        aimConstrainPositionReference.position = pointingPos;
-
-    
+        aimConstrainPositionReference.transform.position = player.cinemachineCamera.transform.position + (player.cinemachineCamera.transform.forward * 10);
     }
 
     

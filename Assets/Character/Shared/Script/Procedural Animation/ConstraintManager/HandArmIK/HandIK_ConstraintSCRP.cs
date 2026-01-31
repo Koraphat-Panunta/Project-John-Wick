@@ -8,6 +8,7 @@ public class HandIK_ConstraintSCRP : ScriptableObject
 
     public Vector3 hintPositionOffset;
 
+    [SerializeField] public Vector3 rotateRefDirOffset;
     public float maxHorizontalHandAimDeg;
     public float maxVerticalHandAimDeg;
 }

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
   positionOffset: {x: 0, y: 0, z: 0.17}
   rotationEulerOffset: {x: 35, y: 270, z: 270}
-  hintPositionOffset: {x: 0.15, y: -0.15, z: 0.12}
+  hintPositionOffset: {x: 0.33, y: -0.15, z: 0.03}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalHandAimDeg: 0
+  maxVerticalHandAimDeg: 0
   onBlocked_positionOffset: {x: 0, y: 0, z: 0.17}
   onBlocked_rotationEulerOffset: {x: 35, y: 270, z: 270}
   onBlocked_hintPositionOffset: {x: 0.15, y: -0.15, z: 0.12}

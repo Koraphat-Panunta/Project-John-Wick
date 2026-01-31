@@ -43,17 +43,22 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
   
     protected override void UpdateLookAtTarget()
     {
+
+        Vector3 refDir = Quaternion.LookRotation(this.bodyAimRootDirRef.forward,Vector3.up) * Quaternion.Euler(this.aimSplineLookConstrainScriptableObject.rotateRefDirOffset) * Vector3.forward;
+
+        Debug.DrawRay(this.bodyAimRootDirRef.position, refDir * 2, Color.yellow);
+
         Vector3 lookAtDir = ClampDirection.GetClampDirection(
-           this.bodyAimRootDirRef.forward
+           refDir
            , (this.aimAtPosition.position - this.bodyAimRootPosRef.position).normalized
            , this.maxHorizontalAngleDeg
            , this.maxVerticalAngleDeg
            );
 
-        Vector3 lookAtPos = this.bodyAimRootPosRef.position + (lookAtDir * 10);
+        Vector3 lookAtPos = this.bodyAimRootPosRef.position + (lookAtDir * 2 );
         Debug.DrawLine(this.bodyAimRootPosRef.position, lookAtPos,Color.blue);
 
-        this.bodyLookConstrain.SetLookAtPosition(Vector3.Lerp(this.bodyLookConstrain.bodyLookAtPosition.position,lookAtPos,Time.deltaTime * 5));
+        this.bodyLookConstrain.SetLookAtPosition(lookAtPos);
     }
 
     protected override void UpdateWeight()
