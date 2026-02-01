@@ -23,7 +23,7 @@ public class EnemyCrouchMoveStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        this.movementCompoent.UpdateMoveToDirWorld(this.moveInputVelocity_WorldCommand, enemy.CrouchMoveAccelerate, enemy.CrouchMoveMaxSpeed , MoveMode.MaintainMomentum);
+        this.movementCompoent.UpdateMoveToDirWorld(this.moveInputVelocity_WorldCommand.normalized * enemy.CrouchMoveMaxSpeed, enemy.CrouchMoveAccelerate , MoveMode.MaintainMomentum);
         this.movementCompoent.SetRotateToDirWorld(lookRotationCommand, enemy.moveRotateSpeed);
         base.FixedUpdateNode();
     }

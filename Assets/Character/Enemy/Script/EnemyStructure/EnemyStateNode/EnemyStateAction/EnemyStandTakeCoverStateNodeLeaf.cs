@@ -6,13 +6,11 @@ using UnityEngine.AI;
 public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
 {
     ICoverUseable coverUseable;
-    RotateObjectToward rotateObject;
 
     MovementCompoent movementCompoent => enemy._movementCompoent;
     public EnemyStandTakeCoverStateNodeLeaf(Enemy enemy,Func<bool> preCondition, ICoverUseable coverUseable) : base(enemy, preCondition)
     {
         this.coverUseable = coverUseable;
-        rotateObject = new RotateObjectToward();
 
     }
 
@@ -46,11 +44,10 @@ public class EnemyStandTakeCoverStateNodeLeaf : EnemyStateLeafNode
         Vector3 moveDir = (CoverPos - enemy.transform.position).normalized;
 
         if (Vector3.Distance(enemy.transform.position, CoverPos) > 0.15f)
-            movementCompoent.UpdateMoveToDirWorld(moveDir, enemy.moveAccelerate, enemy.moveMaxSpeed, MoveMode.MaintainMomentum);
+            movementCompoent.UpdateMoveToDirWorld(moveDir, enemy.moveAccelerate, MoveMode.MaintainMomentum);
         else
-            movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
+            movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
               
-
         movementCompoent.SetRotateToDirWorld((enemy.targetKnewPos - enemy.transform.position).normalized, 6);
 
         base.UpdateNode();

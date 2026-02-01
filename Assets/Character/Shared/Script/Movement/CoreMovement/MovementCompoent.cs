@@ -61,28 +61,28 @@ public abstract partial class MovementCompoent : INodeManager
                 }
         }
     }
-    public void UpdateMoveToDirWorld(Vector3 dirWorldNormalized,float speed,float maxSpeed, MoveMode moveMode)
+    public void UpdateMoveToDirWorld(Vector3 dirWorldVelocity,float accelerate, MoveMode moveMode)
     {
-        moveInputVelocity_World = new Vector3(dirWorldNormalized.x, 0, dirWorldNormalized.z);
+        moveInputVelocity_World = new Vector3(dirWorldVelocity.x, 0, dirWorldVelocity.z);
 
         switch (moveMode)
         {
             case MoveMode.MaintainMomentum:
                 {
-                    curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World * maxSpeed, speed * Time.deltaTime);
+                    this.curMoveVelocity_World = Vector3.MoveTowards(this.curMoveVelocity_World, this.moveInputVelocity_World, accelerate * Time.deltaTime);
                 }
                 break;
             case MoveMode.IgnoreMomenTum:
                 {
-                    curMoveVelocity_World = moveInputVelocity_World
-                        * Mathf.Lerp(curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
+                    this.curMoveVelocity_World = this.moveInputVelocity_World.normalized
+                        * Mathf.Lerp(this.curMoveVelocity_World.magnitude, this.moveInputVelocity_World.magnitude, accelerate * Time.deltaTime);
                 }
                 break;
         }
     }
-    public void UpdateMoveToDirLocal(Vector3 dirLocalNormalized,float speed,float maxSpeed, MoveMode moveMode)
+    public void UpdateMoveToDirLocal(Vector3 dirLocalNormalized,float speed, MoveMode moveMode)
     {
-        moveInputVelocity_World = TransformLocalToWorldVector(
+        this.moveInputVelocity_World = TransformLocalToWorldVector(
          new Vector3(dirLocalNormalized.x, 0, dirLocalNormalized.y),
          forwardDir);
 
@@ -90,13 +90,13 @@ public abstract partial class MovementCompoent : INodeManager
         {
             case MoveMode.MaintainMomentum:
                 {
-                    curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World.normalized * maxSpeed, speed * Time.deltaTime);
+                    this.curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World, speed * Time.deltaTime);
                 }
                 break;
             case MoveMode.IgnoreMomenTum:
                 {
-                    curMoveVelocity_World = moveInputVelocity_World
-                        * Mathf.Lerp(curMoveVelocity_World.magnitude, maxSpeed, speed * Time.deltaTime);
+                    this.curMoveVelocity_World = this.moveInputVelocity_World.normalized
+                        * Mathf.Lerp(this.curMoveVelocity_World.magnitude,this.moveInputVelocity_World.magnitude, speed * Time.deltaTime);
                 }
                 break;
         }
@@ -115,7 +115,7 @@ public abstract partial class MovementCompoent : INodeManager
             Quaternion targetRotation = Quaternion.LookRotation(lookDirWorldNomalized);
 
             // Smoothly rotate towards the target rotation
-            this.SetRotation(Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            this.SetRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));
         }
     }
     public void SetRotateToDirWorldSlerp(Vector3 dir, float t)

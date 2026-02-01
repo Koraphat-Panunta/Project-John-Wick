@@ -105,7 +105,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
                 {
                     phaseTimer += Time.deltaTime;
 
-                    player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
+                    player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentum);
 
                     float w = phaseTimer / restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized;
                    
@@ -141,7 +141,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
 
                     
 
-                    player._movementCompoent.UpdateMoveToDirLocal(player.inputMoveDir_Local, player.StandMoveAccelerate, player.StandMoveMaxSpeed, MoveMode.MaintainMomentum);
+                    this.player._movementCompoent.UpdateMoveToDirLocal(this.player.inputMoveDir_Local * this.player.StandMoveMaxSpeed, player.StandMoveAccelerate, MoveMode.MaintainMomentum);
 
 
                     if (gotGunFuAttackedAble._character.isDead)
@@ -159,7 +159,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
             case RestrictGunFuPhase.Exit:
                 {
                     phaseTimer += Time.deltaTime;
-                    player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, player.breakMaxSpeed, MoveMode.MaintainMomentum);
+                    player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentum);
                     if(isRestrictExitHit == false)
                     {
                         gotGunFuAttackedAble._character.transform.position = targetAdjustPosition;
