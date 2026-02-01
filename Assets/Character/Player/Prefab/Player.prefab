@@ -176,8 +176,6 @@ MonoBehaviour:
   headLookConstraintManager: {fileID: 7504458014509822768}
   leftHandTransformRef: {fileID: 7984018026264039633}
   leftHandBoneTransform: {fileID: 6999503542832735123}
-  headLookConstrainScriptableObject: {fileID: 11400000, guid: 71f5d0ef88be16f4da2e159532c58a5f,
-    type: 2}
   quickSwitchAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: bb21604480a81b348886951515ebfae1,
     type: 2}
   standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
@@ -4556,6 +4554,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4900408041547849894}
     m_Modifications:
+    - target: {fileID: 4446552637200338523, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: headAnchor
+      value: 
+      objectReference: {fileID: 2158785667180685469}
+    - target: {fileID: 4446552637200338523, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: edgeEulerRotate
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446552637200338523, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: limitEulerRotateVertical
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446552637200338523, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: limitEulerRotateHorizontal
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 5108176822993842437, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
         type: 3}
       propertyPath: m_Name
@@ -4621,6 +4639,21 @@ PrefabInstance:
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 8527826123242575905}
+    - target: {fileID: 7511703606693646474, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 3666092839240614316}
+    - target: {fileID: 7511703606693646474, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Length
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7511703606693646474, guid: 6b7b50bb9cf28b94392f60056b4b5c78,
+        type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.weight
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4641,7 +4674,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13bb8ee18bce99947bc00d56f3ddc0e8, type: 3}
+  m_Script: {fileID: 11500000, guid: ce6a3a5190a1fea4c8cac52ea42fabb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6814649338054090920

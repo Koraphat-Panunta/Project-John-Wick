@@ -39,7 +39,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         get 
         {
-            return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.rootCharacter.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
+            return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.handIK_Transform_Ref_Rot.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
         }
     }
     public Vector3 targerAnchorHintHandPosition

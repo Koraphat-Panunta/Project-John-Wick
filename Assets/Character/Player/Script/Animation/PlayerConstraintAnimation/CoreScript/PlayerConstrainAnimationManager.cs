@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -482,27 +483,71 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     #endregion
 
     #region HeadLookConstraint
-    public RecoveryConstraintManagerWeightNodeLeaf headLookRecoveryConstraintManagerWeightNodeLeaf { get; set; }
-    public HeadLookConstrainAnimationNodeLeaf headLookConstrainNodeLeaf { get; set; }
     public NodeSelector headLookNodeSelector { get; set; }
+    public HeadLookConstrainAnimationNodeLeaf headLookAtWeaponConstraintNodeLeaf { get; set; }
+    public HeadLookConstrainAnimationNodeLeaf headLookPointingPosConstrainNodeLeaf { get; set; }
+    public RestNodeLeaf headConstraintRestNodeLeaf { get; set; }
+
+    public NodeSelector headWeightConstraintSelector { get; set; }
+    public SetConstraintWeightNodeLeaf headEnableConstraintWeightNodeLeaf { get; set; }
+    public SetConstraintWeightNodeLeaf headLookRecoveryConstraintManagerWeightNodeLeaf { get; set; }
+   
+
+    
     private void InitializedHeadLookConstriant()
     {
-        this.headLookNodeSelector = new NodeSelector(()=> true);
+        //1
+        this.headLookNodeSelector = new NodeSelector(()=>true);
+        this.headWeightConstraintSelector = new NodeSelector(()=>true);
 
-        this.headLookConstrainNodeLeaf = new HeadLookConstrainAnimationNodeLeaf(
-            headLookConstraintManager
-            , headLookConstrainScriptableObject
-            , () => isHeadLookEnable);
+        //2
+        this.headLookAtWeaponConstraintNodeLeaf = new HeadLookConstrainAnimationNodeLeaf
+            (this.headLookConstraintManager
+            ,this.player._mainHandSocket.transform
+            ,()=> this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>());
+        this.headLookPointingPosConstrainNodeLeaf = new HeadLookConstrainAnimationNodeLeaf
+            (
+            this.headLookConstraintManager
+            ,this.aimConstrainPositionReference
+            ,()=> 
+            (
+            this.playerStateManager.GetCurNodeLeaf() is GunFuExecute_Single_NodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is GunFuHitNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
+            ) == false
+            &&
+            (this.playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf
+            && (humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter || humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Exit)
+            ) == false
+            &&
+            (this.playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf
+            && (restrainGunFuStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || restrainGunFuStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            ) == false
+            );
+        this.headConstraintRestNodeLeaf = new RestNodeLeaf(() => true);
 
-        this.headLookRecoveryConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
-           () => isHeadLookEnable == false
-           , headLookConstraintManager
-           , 1);
+        this.headEnableConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => this.headLookNodeSelector.curNodeLeaf != this.headConstraintRestNodeLeaf
+            , this.headLookConstraintManager
+            , 5
+            , 1);
+        this.headLookRecoveryConstraintManagerWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            ()=> true
+            ,this.headLookConstraintManager
+            ,5
+            ,0);
 
-        this.headLookNodeSelector.AddtoChildNode(this.headLookConstrainNodeLeaf);
-        this.headLookNodeSelector.AddtoChildNode(this.headLookRecoveryConstraintManagerWeightNodeLeaf);
+        this.headLookNodeSelector.AddtoChildNode(this.headLookAtWeaponConstraintNodeLeaf);
+        this.headLookNodeSelector.AddtoChildNode(this.headLookPointingPosConstrainNodeLeaf);
+        this.headLookNodeSelector.AddtoChildNode(this.headConstraintRestNodeLeaf);
+
+        this.headWeightConstraintSelector.AddtoChildNode(this.headEnableConstraintWeightNodeLeaf);
+        this.headWeightConstraintSelector.AddtoChildNode(this.headLookRecoveryConstraintManagerWeightNodeLeaf);
 
         this.headConstraintAnimationNodeComponentManager.AddNode(this.headLookNodeSelector);
+        this.headConstraintAnimationNodeComponentManager.AddNode(this.headWeightConstraintSelector);
     }
     #endregion
 
@@ -564,7 +609,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     private void UpdateConstrainLookReferencePos()
     {
-        aimConstrainPositionReference.transform.position = player.cinemachineCamera.transform.position + (player.cinemachineCamera.transform.forward * 10);
+        Ray ray = new Ray(this.player.cinemachineCamera.transform.position, this.player.cinemachineCamera.transform.forward);
+        Vector3 hitpos;
+        hitpos = ray.GetPoint(5);
+       
+        this.aimConstrainPositionReference.transform.position = Vector3.Lerp(this.aimConstrainPositionReference.position, hitpos, Time.deltaTime * 100);
     }
 
     

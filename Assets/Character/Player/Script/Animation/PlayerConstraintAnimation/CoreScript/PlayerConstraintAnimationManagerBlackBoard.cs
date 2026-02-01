@@ -50,19 +50,7 @@ public partial class PlayerConstrainAnimationManager
 
     protected bool isEnableIK;
 
-    protected bool isHeadLookEnable 
-    { 
-        get 
-        {
-            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
-                return false;
-
-            if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
-                return false;
-
-            return true;
-        } 
-    }
+   
 
     protected bool isWeaponSwitching
     {

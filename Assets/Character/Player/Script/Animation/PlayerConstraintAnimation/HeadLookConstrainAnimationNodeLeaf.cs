@@ -4,15 +4,15 @@ using UnityEngine;
 public class HeadLookConstrainAnimationNodeLeaf : AnimationConstrainNodeLeaf
 {
 
-    private HeadLookConstraintManager headLookConstrain;
-    private HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
+    private HeadRotationConstraintManager headLookConstrain;
+    protected Transform lookAtTransform;
     public HeadLookConstrainAnimationNodeLeaf(
-        HeadLookConstraintManager splineLookConstrain
-        , HeadLookConstrainScriptableObject aimSplineLookConstrainScriptableObject
+        HeadRotationConstraintManager splineLookConstrain
+        , Transform lookAtTransform
         , Func<bool> precondition) : base(precondition)
     {
         this.headLookConstrain = splineLookConstrain;
-        this.headLookConstrainScriptableObject = aimSplineLookConstrainScriptableObject;
+        this.lookAtTransform = lookAtTransform;
     }
 
     public override void Enter()
@@ -33,7 +33,8 @@ public class HeadLookConstrainAnimationNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void UpdateNode()
     {
-        headLookConstrain.SetWeight(headLookConstrainScriptableObject.weight, headLookConstrainScriptableObject);
+        this.headLookConstrain.SetLookPos(this.lookAtTransform.position);
+        this.headLookConstrain.SetWeight(1);
         base.UpdateNode();
     }
 

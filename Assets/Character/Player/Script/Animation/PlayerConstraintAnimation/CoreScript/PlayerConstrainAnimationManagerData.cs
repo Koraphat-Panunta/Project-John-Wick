@@ -7,11 +7,9 @@ public partial class PlayerConstrainAnimationManager
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HandArmIKConstraintManager rightHandIKConstriantManager;
-    public HeadLookConstraintManager headLookConstraintManager;
+    public HeadRotationConstraintManager headLookConstraintManager;
     [SerializeField] private Transform leftHandTransformRef;
     [SerializeField] private Transform leftHandBoneTransform;
-
-    public HeadLookConstrainScriptableObject headLookConstrainScriptableObject;
 
     public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
     public AimBodyConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
