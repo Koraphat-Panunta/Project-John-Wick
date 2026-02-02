@@ -25,13 +25,6 @@ public class MovementScriptableObject : ScriptableObject
 
     [Range(0, 100)]
     public float breakDecelerate;
-    [Range(0, 100)]
-    public float breakMaxSpeed;
 
-    [Range(0, 100)]
-    public float dodgeImpluseForce;
-    [Range(0, 100)]
-    public float dodgeInAirStopForce;
-    [Range(0, 100)]
-    public float dodgeOnGroundStopForce;
+
 }

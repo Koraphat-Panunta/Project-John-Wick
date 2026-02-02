@@ -49,13 +49,13 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
         if (player.curBeenThrowObjectAt != null)
             this.player._movementCompoent.SetRotateToDirWorld(
                 (player.curBeenThrowObjectAt._beenThrowObjectAtPosition - player.transform.position).normalized
-                , player.StandMoveRotateSpeed * 2
+                , this.player.rotateSpeed * 2
                 );
         else
         {
             this.player._movementCompoent.SetRotateToDirWorld(
                 (player._lookingPos - player.transform.position).normalized
-                , player.StandMoveRotateSpeed * 2
+                , this.player.rotateSpeed * 2
                 );
         }
 

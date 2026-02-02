@@ -653,6 +653,8 @@ MonoBehaviour:
   _rightArmBone: {fileID: 739219212891845642}
   _rightForeArmBone: {fileID: 3947899733526157980}
   _rightHandBone: {fileID: 2296114816121712487}
+  movementScriptableObject: {fileID: 11400000, guid: 2c60039c667772140a3d32a6276279dd,
+    type: 2}
   animator: {fileID: 1968153037591969261}
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
@@ -660,21 +662,6 @@ MonoBehaviour:
   isImortal: 0
   MyHP: 0
   debugIsIFrame: 0
-  StandMoveAccelerate: 4
-  StandMoveMaxSpeed: 2.7
-  StandMoveRotateSpeed: 3
-  CrouchMoveAccelerate: 4
-  CrouchMoveMaxSpeed: 2
-  CrouchMoveRotateSpeed: 3
-  sprintAccelerate: 5.6
-  sprintMaxSpeed: 5
-  sprintRotateSpeed: 1
-  breakDecelerate: 3
-  breakMaxSpeed: 5
-  aimingRotateSpeed: 3.08
-  dodgeImpluseForce: 5.1
-  dodgeInAirStopForce: 0.1
-  dodgeOnGroundStopForce: 3.4
   inputLookDir_Local: {x: 0, y: 0}
   inputLookDir_World: {x: 0, y: 0, z: 0}
   inputMoveDir_Local: {x: 0, y: 0}
@@ -754,6 +741,9 @@ MonoBehaviour:
     type: 2}
   gunFu_Single_Execute_OnGround_Primary_I: {fileID: 11400000, guid: fb21cdbe00c7c66419c73c3779b3212d,
     type: 2}
+  dodgeImpluseForce: 5.1
+  dodgeInAirStopForce: 0.1
+  dodgeOnGroundStopForce: 3.4
   humanShiedlIFrame: 1.5
   restrictShieldIFrame: 1.5
   throwObjectAnimationTriggerEventSCRP: {fileID: 11400000, guid: d8574fbabb784c0498fdfa6be2f220fc,

@@ -157,48 +157,12 @@ public partial class Player : SubjectPlayer,
         return Direction;
     }
 
-   
+
 
     #endregion
 
     #region MovementStats
 
-    [Range(0, 100)]
-    public float StandMoveAccelerate;
-    [Range(0, 100)]
-    public float StandMoveMaxSpeed;
-    [Range(0, 100)]
-    public float StandMoveRotateSpeed;
-
-
-    [Range(0, 100)]
-    public float CrouchMoveAccelerate;
-    [Range(0, 100)]
-    public float CrouchMoveMaxSpeed;
-    [Range(0, 100)]
-    public float CrouchMoveRotateSpeed;
-
-    [Range(0, 100)]
-    public float sprintAccelerate;
-    [Range(0, 100)]
-    public float sprintMaxSpeed;
-    [Range(0, 100)]
-    public float sprintRotateSpeed;
-
-    [Range(0, 100)]
-    public float breakDecelerate;
-    [Range(0, 100)]
-    public float breakMaxSpeed;
-
-    [Range(0, 100)]
-    public float aimingRotateSpeed;
-
-    [Range(0, 100)]
-    public float dodgeImpluseForce;
-    [Range(0, 100)]
-    public float dodgeInAirStopForce;
-    [Range(0, 100)]
-    public float dodgeOnGroundStopForce;
 
     public bool isInCover { get { return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
 

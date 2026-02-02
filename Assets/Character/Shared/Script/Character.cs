@@ -32,7 +32,21 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     public Transform _rightForeArmBone;
     public Transform _rightHandBone;
 
+    [SerializeField] MovementScriptableObject movementScriptableObject;
 
+    public float StandMoveAccelerate { get => this.movementScriptableObject.StandMoveAccelerate; }
+    public float StandMoveMaxSpeed { get => this.movementScriptableObject.StandMoveMaxSpeed; }
+
+    public float CrouchMoveAccelerate { get => this.movementScriptableObject.CrouchMoveAccelerate; }
+    public float CrouchMoveMaxSpeed { get => this.movementScriptableObject.CrouchMoveMaxSpeed; }
+
+    public float rotateSpeed { get => this.movementScriptableObject.moveRotateSpeed; }
+
+    public float sprintAccelerate { get => this.movementScriptableObject.sprintAccelerate; }
+    public float sprintMaxSpeed { get => this.movementScriptableObject.sprintMaxSpeed; }
+    public float sprintRotateSpeed { get => this.movementScriptableObject.sprintRotateSpeed; }
+
+    public float breakDecelerate { get => this.movementScriptableObject.breakDecelerate; }
 
     public virtual bool isDead { get 
         {

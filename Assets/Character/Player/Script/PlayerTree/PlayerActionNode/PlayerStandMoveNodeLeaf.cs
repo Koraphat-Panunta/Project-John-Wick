@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
 {
+    PlayerMovement playerMovement => this.player._movementCompoent as PlayerMovement;
+    public float moveStanceWeight => 1 - this.playerMovement.stanceRateMovement;
+    public float changeStanceWeightRate = 3;
+
+    
     public PlayerStandMoveNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
@@ -15,10 +20,12 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        PlayerMovement playerMovement = base.player._movementCompoent as PlayerMovement;
+        
 
-        playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed, this.player.StandMoveAccelerate, MoveMode.MaintainMomentum);
-        playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, player.StandMoveRotateSpeed);
+        this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement - this.changeStanceWeightRate * Time.fixedDeltaTime);
+
+        this.playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed, this.player.StandMoveAccelerate * this.moveStanceWeight, MoveMode.MaintainMomentum);
+        this.playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, this.player.rotateSpeed);
 
         base.FixedUpdateNode();
     }

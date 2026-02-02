@@ -20,6 +20,9 @@ public class PlayerMovement : MovementCompoent
     private CharacterMovementControllerScriptableObject crouchCharControllerSCRP;
     private CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP;
 
+
+    public float stanceRateMovement { get; protected set; }//0 : idle/Move 1:Sprint
+
     private Player player;
 
     public PlayerMovement(
@@ -134,5 +137,10 @@ public class PlayerMovement : MovementCompoent
                 break;
         }
         
+    }
+
+    public void SetStanceWeight(float weight)
+    {
+        this.stanceRateMovement = Mathf.Clamp01(weight);
     }
 }

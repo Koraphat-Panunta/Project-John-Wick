@@ -6,8 +6,9 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
 {
     private PlayerMovement playerMovement => player._movementCompoent as PlayerMovement;
     private Vector3 sprintDir;
-    private float sprintStance;
-    private float sprintStanceChangeRate = 4;
+
+    public float sprintWeight => this.playerMovement.stanceRateMovement;
+    public float changeStanceWeight = 4;
     public enum SprintManuver
     {
         Out,
@@ -31,15 +32,12 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         if (player._movementCompoent.curMoveVelocity_World.magnitude <= sprintSpeedZone)
         {
             sprintDir = player.inputMoveDir_World;
-            sprintPhase = SprintManuver.Out;
         }
         else //(player.enemyMovement.curMoveVelocity_World.magnitude > sprintSpeedZone)
         {
             sprintDir = player._movementCompoent.forwardDir;
-            sprintPhase = SprintManuver.Stay;
         }
         player.playerStance = Stance.stand;
-        sprintStance = 0;
         base.Enter();
     }
     public override void UpdateNode()
@@ -48,20 +46,9 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        if (sprintPhase == SprintManuver.Out)
-        {
-            SprintMaintainMomentum(sprintRotateSpeed * 2.75f, sprintRotateSpeed * 1.65f);
-            if (Vector3.Dot(player._movementCompoent.forwardDir.normalized, sprintDir.normalized) >= 0.95f
-                && playerMovement.curMoveVelocity_World.magnitude >= sprintSpeedZone * 0.95f)
-                sprintPhase = SprintManuver.Stay;
-        }
-        else if (sprintPhase == SprintManuver.Stay)
-        {
-            //enemyMovement.MoveToDirWorld(enemyMovement.forwardDir, sprintAcceletion, sprintMaxSpeed, MoveMode.IgnoreMomenTum);
-            //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, sprintRotateSpeed);
-            SprintMaintainMomentum(sprintRotateSpeed * 2.75f, sprintRotateSpeed * 1.65f);
-        }
-        sprintStance = Mathf.Clamp01(sprintStance + Time.deltaTime * sprintStanceChangeRate);
+        this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement + Time.fixedDeltaTime * this.changeStanceWeight);
+       
+        SprintMaintainMomentum(sprintRotateSpeed, sprintRotateSpeed * 3f);
         base.FixedUpdateNode();
     }
     public override void Exit()
@@ -70,9 +57,12 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     }
     private void SprintMaintainMomentum(float sprintDirRotateSpeed,float rotateCharSpeed)
     {
-        sprintDir = Vector3.RotateTowards(sprintDir, player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
-        playerMovement.UpdateMoveToDirWorld(sprintDir.normalized * sprintSpeedZone, sprintAcceletion * sprintStance, MoveMode.MaintainMomentum);
-        playerMovement.SetRotateToDirWorld(sprintDir.normalized, rotateCharSpeed);
+        this.sprintDir = Vector3.RotateTowards(this.sprintDir, this.player.inputMoveDir_World, sprintDirRotateSpeed * Time.deltaTime, 0);
+
+        Vector3 targetMove = Vector3.Lerp(this.playerMovement.curMoveVelocity_World,this.sprintDir * this.sprintMaxSpeed * this.sprintWeight, Time.fixedDeltaTime * this.sprintAcceletion);
+
+        this.playerMovement.UpdateMoveToDirWorld(targetMove, this.sprintAcceletion * this.sprintWeight, MoveMode.MaintainMomentum);
+        this.playerMovement.SetRotateToDirWorld(this.sprintDir.normalized, rotateCharSpeed);
 
     }
    
