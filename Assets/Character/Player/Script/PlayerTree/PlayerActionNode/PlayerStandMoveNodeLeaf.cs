@@ -24,7 +24,7 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
 
         this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement - this.changeStanceWeightRate * Time.fixedDeltaTime);
 
-        this.playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed, this.player.StandMoveAccelerate * this.moveStanceWeight, MoveMode.MaintainMomentum);
+        this.playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed, this.player.StandMoveAccelerate * this.moveStanceWeight, MoveMode.MaintainMomentumDirection);
         this.playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, this.player.rotateSpeed);
 
         base.FixedUpdateNode();

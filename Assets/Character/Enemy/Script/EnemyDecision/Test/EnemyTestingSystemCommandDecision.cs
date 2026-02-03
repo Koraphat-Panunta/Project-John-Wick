@@ -10,9 +10,19 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
     private ITaskingExecute dodge;
     private ITaskingExecute crouch;
+
     private ITaskingExecute moveToPos1;
-    private ITaskingExecute rotateToPos2;
+    private ITaskingExecute moveToPos2;
+    private ITaskingExecute moveToPos3;
+    private ITaskingExecute moveToPos4;
+
+    private ITaskingExecute sprintToPos1;
+    private ITaskingExecute sprintToPos2;
     private ITaskingExecute sprintToPos3;
+    private ITaskingExecute sprintToPos4;
+    private ITaskingExecute sprintToPos5;
+    private ITaskingExecute sprintToPos6;
+
     private ITaskingExecute freez_3s;
     private ITaskingExecute moveToWeaponPickedUpPrimary;
     private ITaskingExecute pickUpWeaponPrimary;
@@ -35,8 +45,16 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
     [SerializeField] private Transform moveTransPos1;
     [SerializeField] private Transform moveTransPos2;
-    [SerializeField] private Transform rotateTransPos2;
+    [SerializeField] private Transform moveTransPos3;
+    [SerializeField] private Transform moveTransPos4;
+
+    [SerializeField] private Transform sprintTransPos1;
+    [SerializeField] private Transform sprintTransPos2;
     [SerializeField] private Transform sprintTransPos3;
+    [SerializeField] private Transform sprintTransPos4;
+    [SerializeField] private Transform sprintTransPos5;
+    [SerializeField] private Transform sprintTransPos6;
+
     [SerializeField] private Weapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
     [SerializeField] private Weapon pickedUpSecondaryWeapon;
@@ -64,11 +82,24 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             enemyCommand = GetComponent<EnemyCommandAPI>();
         dodge = new EnemyTestingCommand(() => enemyCommand.Dodge(enemy.transform.forward)
         , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
+
         crouch = new EnemyTestingCommand(() => enemyCommand.Crouch(),
             () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
+
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
-        rotateToPos2 = new EnemyRotateToPos(enemy.transform, rotateTransPos2.position, enemy.aimingRotateSpeed, enemyCommand);
-        sprintToPos3 = new EnemyTestingCommand(() => { }, ()=>enemyCommand.SprintToPosition(this.sprintTransPos3.position,enemy.sprintRotateSpeed));
+        moveToPos2 = new EnemyMoveToPos(enemy.transform, this.moveTransPos2.position, true, enemyCommand);
+        moveToPos3 = new EnemyMoveToPos(enemy.transform, this.moveTransPos3.position, true, enemyCommand);
+        moveToPos4 = new EnemyMoveToPos(enemy.transform, this.moveTransPos4.position, true, enemyCommand);
+
+        
+
+        sprintToPos1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos1.position,1,1));
+        sprintToPos2 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos2.position, 1,1));
+        sprintToPos3 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos3.position, 1, 1));
+        sprintToPos4 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos4.position, 1, 1));
+        sprintToPos5 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos5.position, 1, 1));
+        sprintToPos6 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos6.position, 1, 1));
+
         freez_3s = new EnemyTestingCommand(
     () =>
     {
@@ -78,7 +109,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     () => this.freezTimer <= 0);
         moveToWeaponPickedUpPrimary = new EnemyTestingCommand(() => { },
             ()=> 
-            { if (enemyCommand.MoveToPositionRotateToward(pickedUpPrimaryWeapon.transform.position, enemy.moveMaxSpeed, enemy.moveRotateSpeed))
+            { if (enemyCommand.MoveToPositionRotateToward(this.pickedUpPrimaryWeapon.transform.position, 1, 1))
                 {
                     enemyCommand.FreezPosition();
                     return true;
@@ -101,7 +132,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         moveToWeaponPickedUpSecondary = new EnemyTestingCommand(() => { },
             () =>
             {
-                if (enemyCommand.MoveToPositionRotateToward(pickedUpSecondaryWeapon.transform.position, enemy.moveMaxSpeed, enemy.moveRotateSpeed))
+                if (enemyCommand.MoveToPositionRotateToward(pickedUpSecondaryWeapon.transform.position, 1, 1))
                 {
                     enemyCommand.FreezPosition();
                     return true;
@@ -153,11 +184,23 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
         enemyTestingCommands.Enqueue(freez_3s);//24
-        enemyTestingCommands.Enqueue(dodge);//23
-        enemyTestingCommands.Enqueue(crouch);//22
-        enemyTestingCommands.Enqueue(moveToPos1);//21
-        enemyTestingCommands.Enqueue(rotateToPos2);//20
+        //enemyTestingCommands.Enqueue(dodge);//23
+        //enemyTestingCommands.Enqueue(crouch);//22
+
+        enemyTestingCommands.Enqueue(sprintToPos1);//21
+        enemyTestingCommands.Enqueue(moveToPos2);//21
+        enemyTestingCommands.Enqueue(moveToPos3);//21
+        enemyTestingCommands.Enqueue(moveToPos4);//21
+
+        //enemyTestingCommands.Enqueue(rotateToSprintPos1);
+     
+        enemyTestingCommands.Enqueue(sprintToPos1);//19
+        enemyTestingCommands.Enqueue(sprintToPos2);//19
         enemyTestingCommands.Enqueue(sprintToPos3);//19
+        enemyTestingCommands.Enqueue(sprintToPos4);//19
+        enemyTestingCommands.Enqueue(sprintToPos5);//19
+        enemyTestingCommands.Enqueue(sprintToPos6);
+
         enemyTestingCommands.Enqueue(freez_3s);//18
         enemyTestingCommands.Enqueue(moveToWeaponPickedUpPrimary);//17
         enemyTestingCommands.Enqueue(pickUpWeaponPrimary);//16
@@ -232,7 +275,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         private bool isRotateTowardDes;
         private Transform myTrans;
         private EnemyCommandAPI enemyCommandAPI;
-        private float reachDes = 0.5f;
+        private float reachDes = 1f;
         public EnemyMoveToPos(Transform myTrans,Vector3 pos, bool isRotateTowardDes,EnemyCommandAPI enemyCommandAPI)
         {
             this.pos = pos;
@@ -256,9 +299,9 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         public void Update()
         {
             if (isRotateTowardDes)
-                enemyCommandAPI.MoveToPositionRotateToward(this.pos, enemyCommandAPI._enemy.moveMaxSpeed, enemyCommandAPI._enemy.moveRotateSpeed, reachDes);
+                enemyCommandAPI.MoveToPositionRotateToward(this.pos, 1, 1, this.reachDes);
             else
-                enemyCommandAPI.MoveToPosition(this.pos, enemyCommandAPI._enemy.moveMaxSpeed, reachDes);
+                enemyCommandAPI.MoveToPosition(this.pos, 1, this.reachDes);
         }
     }
     private class EnemyRotateToPos:ITaskingExecute

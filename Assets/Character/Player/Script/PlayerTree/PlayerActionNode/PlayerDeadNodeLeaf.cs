@@ -20,7 +20,7 @@ public class PlayerDeadNodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, 10, MoveMode.IgnoreMomenTum);
+        player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, 10, MoveMode.IgnoreMomentumDirection);
         base.FixedUpdateNode();
     }
 

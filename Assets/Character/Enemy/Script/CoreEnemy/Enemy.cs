@@ -363,40 +363,7 @@ public partial class Enemy : SubjectEnemy
     public Vector3 moveInputVelocity_LocalCommand;
     public Vector3 lookRotationCommand;
 
-    [Range(0, 10)]
-    public float moveAccelerate;
-    [Range(0, 10)]
-    public float moveMaxSpeed;
-    [Range(0, 10)]
-    public float moveRotateSpeed;
-
-    [Range(0, 100)]
-    public float CrouchMoveAccelerate;
-    [Range(0, 100)]
-    public float CrouchMoveMaxSpeed;
-    [Range(0, 100)]
-    public float CrouchMoveRotateSpeed;
-
-    [Range(0, 10)]
-    public float sprintAccelerate;
-    [Range(0, 10)]
-    public float sprintMaxSpeed;
-    [Range(0, 10)]
-    public float sprintRotateSpeed;
-
-    [Range(0, 10)]
-    public float breakAccelerate;
-    [Range(0, 10)]
-    public float breakMaxSpeed;
-
-    [Range(0, 10)]
-    public float aimingRotateSpeed;
-
-    [Range(0, 100)]
-    public float hitedForceStop;
-
-    [Range(0, 100)]
-    public float painStateForceStop;
+    
 
     [Range(0, 100)]
     public float dodgeImpluseForce;

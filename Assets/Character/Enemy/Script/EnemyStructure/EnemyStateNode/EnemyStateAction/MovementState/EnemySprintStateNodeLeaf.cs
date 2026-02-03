@@ -5,7 +5,10 @@ using UnityEngine.AI;
 public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
 {
     MovementCompoent enemyMovement => enemy._movementCompoent;
-    
+    private Vector3 moveInputVelocity_WorldCommand;
+    private Vector3 lookRotationCommand;
+
+
     public EnemySprintStateNodeLeaf(Enemy enemy,Func<bool> preCondition) : base(enemy,preCondition)
     {
    
@@ -26,8 +29,8 @@ public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
     public override void FixedUpdateNode()
     {
 
-        enemyMovement.UpdateMoveToDirWorld(enemyMovement.forwardDir.normalized * enemy.sprintMaxSpeed, enemy.sprintAccelerate, MoveMode.IgnoreMomenTum);
-        enemyMovement.SetRotateToDirWorld(enemy.lookRotationCommand, enemy.sprintRotateSpeed);
+        enemyMovement.UpdateMoveToDirWorld(this.moveInputVelocity_WorldCommand * enemy.sprintMaxSpeed, enemy.sprintAccelerate, MoveMode.IgnoreMomentumDirection);
+        enemyMovement.SetRotateToDirWorld(this.moveInputVelocity_WorldCommand.normalized, enemy.sprintRotateSpeed);
 
         base.FixedUpdateNode();
     }
@@ -36,7 +39,9 @@ public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
 
     public override void UpdateNode()
     {
-        
+        this.moveInputVelocity_WorldCommand = enemy.moveInputVelocity_WorldCommand;
+        this.lookRotationCommand = enemy.lookRotationCommand;
+
         base.UpdateNode();
     }
 }

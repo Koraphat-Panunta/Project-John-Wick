@@ -113,7 +113,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private void ReleaseMag()
     {
-        Debug.Log("TacticalReload Release Mag "+timelineTriggerEvent.timerNormalized);
+        //Debug.Log("TacticalReload Release Mag "+timelineTriggerEvent.timerNormalized);
 
         this.magazine.UnLoadAllBullet(out int remainBullet);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.ForceAddAmmo(this.magazine.bullet.myType, remainBullet);
@@ -124,7 +124,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
    
     private void InputMag()
     {
-        Debug.Log("TacticalReload InputMag " + timelineTriggerEvent.timerNormalized);
+        //Debug.Log("TacticalReload InputMag " + timelineTriggerEvent.timerNormalized);
 
         BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet, this.weaponMag._weapon.maxAmmoCapacity);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.GetAmmoOut(this.weaponMag._weapon.bullet.myType, newMagazine.maxCapacity, out int amoutAmmo);
@@ -135,12 +135,12 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     }
     private void KeepMag_Out()
     {
-        Debug.Log("TacticalReload KeepMag_Out " + timelineTriggerEvent.timerNormalized);
+        //Debug.Log("TacticalReload KeepMag_Out " + timelineTriggerEvent.timerNormalized);
         this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.KeepMag_Out);
     }
     private void ReChamber()
     {
-        Debug.Log("TacticalReload ReChamber " + timelineTriggerEvent.timerNormalized);
+        //Debug.Log("TacticalReload ReChamber " + timelineTriggerEvent.timerNormalized);
         this.weaponMag.ReloadChamber();
         this.weaponMag._weapon.Notify(this.weaponMag._weapon, IReloadMagazineNode.ReloadMagazineStage.ReChamber);
     }

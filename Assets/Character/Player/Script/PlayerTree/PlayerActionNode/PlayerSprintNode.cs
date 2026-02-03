@@ -61,7 +61,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
 
         Vector3 targetMove = Vector3.Lerp(this.playerMovement.curMoveVelocity_World,this.sprintDir * this.sprintMaxSpeed * this.sprintWeight, Time.fixedDeltaTime * this.sprintAcceletion);
 
-        this.playerMovement.UpdateMoveToDirWorld(targetMove, this.sprintAcceletion * this.sprintWeight, MoveMode.MaintainMomentum);
+        this.playerMovement.UpdateMoveToDirWorld(targetMove, this.sprintAcceletion * this.sprintWeight, MoveMode.MaintainMomentumDirection);
         this.playerMovement.SetRotateToDirWorld(this.sprintDir.normalized, rotateCharSpeed);
 
     }

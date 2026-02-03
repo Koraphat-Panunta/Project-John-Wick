@@ -37,7 +37,7 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
         if (_timer >= _animationClip.length * brounceOffGotAttackGunFuScriptableObject.onGroundNormalized)
             player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, 
                 brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
-                MoveMode.MaintainMomentum);
+                MoveMode.MaintainMomentumDirection);
 
         base.FixedUpdateNode();
     }

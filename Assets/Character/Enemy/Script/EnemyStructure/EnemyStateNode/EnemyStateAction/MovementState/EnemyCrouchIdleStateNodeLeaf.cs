@@ -22,8 +22,8 @@ public class EnemyCrouchIdleStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
-        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
-        this.movementCompoent.SetRotateToDirWorld(lookRotationCommand, enemy.moveRotateSpeed);
+        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.IgnoreMomentumDirection);
+        this.movementCompoent.SetRotateToDirWorld(lookRotationCommand, this.enemy.rotateSpeed);
 
         base.FixedUpdateNode();
     }

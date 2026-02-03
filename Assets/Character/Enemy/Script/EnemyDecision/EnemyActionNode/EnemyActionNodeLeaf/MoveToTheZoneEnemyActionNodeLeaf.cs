@@ -32,9 +32,9 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
         //}
         //else
         //{
-            enemyCommandAPI.MoveToPosition(this.destinateInZone, enemy.moveMaxSpeed);
-            enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
-            enemyCommandAPI.NormalFiringPattern.Performing();
+            this.enemyCommandAPI.MoveToPosition(this.destinateInZone, 1 );
+            this.enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+            this.enemyCommandAPI.NormalFiringPattern.Performing();
         //}
 
         base.UpdateNode();

@@ -11,7 +11,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     public float _exitTime_Normalized { get; set; }
     public float _timer { get; set; }
     public AnimationClip _animationClip { get; set; }
-    float forceStop => enemy.hitedForceStop;
+    float forceStop => this.enemy.breakDecelerate;
     public GotGunFuHitScriptableObject gotGunFuHitScriptableObject { get => _gotGunFuHitScriptableObject; }
     private GotGunFuHitScriptableObject _gotGunFuHitScriptableObject { get; set; }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
@@ -69,7 +69,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode,INodeL
     }
     public override void FixedUpdateNode()
     {
-        enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, forceStop, MoveMode.MaintainMomentum);    
+        enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, forceStop, MoveMode.MaintainMomentumDirection);    
         base.FixedUpdateNode();
     }
 

@@ -48,6 +48,15 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
             agent.SetDestination(DestinatePos);
 
         Vector3 moveDir = agent.steeringTarget - _enemy.transform.position;
+        moveDir = new Vector3(moveDir.x,0,moveDir.z);
+
+        float distanceSteeringTarget = Vector3.Distance(this._enemy.transform.position,agent.steeringTarget);
+        if(distanceSteeringTarget <= 2)
+        {
+            float calculateScale = Mathf.Lerp(0.5f, 1, distanceSteeringTarget / 2f);
+            velocityScale = Mathf.Clamp(calculateScale,0,velocityScale);
+        }
+
         Move(moveDir, velocityScale);
 
         return Vector3.Distance(DestinatePos, _enemy.transform.position) < reachDestinationDistance;
@@ -84,13 +93,8 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public bool SprintToPosition(Vector3 Destination, float rotSpeedScale, float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
-        AIAgent agent = _enemy.agent;
-        if (agent.hasPath == false || Vector3.Distance(Destination, agent.destination) > 0.1f)
-            agent.SetDestination(Destination);
-
-        RotateToPosition(agent.steeringTarget, rotSpeedScale);
-
-        return Vector3.Distance(Destination, _enemy.transform.position) < reachDestinationDistance;
+        
+        return this.MoveToPositionRotateToward(Destination,1,1,reachDestinationDistance);
     }
     public void FreezPosition()
     {
@@ -99,8 +103,14 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public void Move(Vector3 MoveDirWorld, float velocityScale)
     {
+       if(MoveDirWorld.magnitude <= 0.01)
+        {
+            MoveDirWorld = this._enemy.transform.forward;
+        }
+        Debug.Log("MoveDirWorld = "+ MoveDirWorld);
+
         velocityScale = Mathf.Clamp01((float)velocityScale);
-        _enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocityScale;
+        this._enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocityScale;
     }
     public void FreezRotation()
     {

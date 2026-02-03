@@ -1279,6 +1279,8 @@ MonoBehaviour:
   _rightArmBone: {fileID: 8131225159554472219}
   _rightForeArmBone: {fileID: 1721119870269991797}
   _rightHandBone: {fileID: 3601763635188935882}
+  movementScriptableObject: {fileID: 11400000, guid: 2b977574ee197fe4ba12b588ef91f3fc,
+    type: 2}
   animator: {fileID: 1113618680042977909}
   targetMask:
     serializedVersion: 2
@@ -1375,6 +1377,7 @@ MonoBehaviour:
     type: 2}
   gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
     type: 2}
+  maxPosture: 70
   lightPosture: 80
   mediumPosture: 50
   heavyPosture: 20
@@ -1384,8 +1387,6 @@ MonoBehaviour:
   SecondHandSocket: {fileID: 7305386784492792415}
   PrimaryWeaponSocket: {fileID: 8447973264255660244}
   SecondaryWeaponSocket: {fileID: 1109101117113518145}
-  AnimatorOverrideController: {fileID: 22100000, guid: d09978a2c3d697e48b3253760aea4a3b,
-    type: 2}
   trackingTargetAccelerate: 0.1
   trackingTargetDecelerate: 1
   maxTrackRate: 0.4
@@ -1776,15 +1777,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e068183b72afc048a9a580515f15b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
+  isEnableGravity: 1
+  maxSlopeAngle: 45
+  groundState: 0
+  groundNormal: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  verticalDownGravityVelocity: {x: 0, y: 0, z: 0}
   capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
   raduis: 0.5
   height: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 1
-  hitPos: {x: 0, y: 0, z: 0}
-  topPoint: {x: 0, y: 0, z: 0}
-  bottomPoint: {x: 0, y: 0, z: 0}
+  isEnableGizmos: 0
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

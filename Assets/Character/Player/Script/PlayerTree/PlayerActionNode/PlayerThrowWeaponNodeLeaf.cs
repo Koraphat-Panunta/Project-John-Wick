@@ -62,7 +62,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
         this.player._movementCompoent.UpdateMoveToDirWorld(
             Vector3.zero
             , this.player.breakDecelerate 
-            , MoveMode.MaintainMomentum);
+            , MoveMode.MaintainMomentumDirection);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         base.UpdateNode();
     }

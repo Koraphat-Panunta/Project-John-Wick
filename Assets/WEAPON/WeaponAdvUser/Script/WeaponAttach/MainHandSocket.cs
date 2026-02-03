@@ -9,7 +9,7 @@ public class MainHandSocket :  WeaponSocket
 
     public override void Attatch(Weapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
     {
-        Debug.Log("weaponAdvanceUser = " + weaponAdvanceUser._weaponManuverManager.restWeaponManuverLeafNode);
+        //Debug.Log("weaponAdvanceUser = " + weaponAdvanceUser._weaponManuverManager.restWeaponManuverLeafNode);
 
         this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(weapon._reloadSelecotrOverriden);
         weapon._weaponAttacherComponent.Attach(

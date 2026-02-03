@@ -57,7 +57,7 @@ public class WeaponGotDisarmedGunFuGotInteractNodeLeaf : GunFu_GotInteract_NodeL
     public override void UpdateNode()
     {
         animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-        enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakMaxSpeed, MoveMode.MaintainMomentum);
+        enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
         base.UpdateNode();
     }
 }

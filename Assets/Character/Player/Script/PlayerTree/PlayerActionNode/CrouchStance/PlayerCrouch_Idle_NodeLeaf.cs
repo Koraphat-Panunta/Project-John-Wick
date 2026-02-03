@@ -22,7 +22,7 @@ public class PlayerCrouch_Idle_NodeLeaf : PlayerStateNodeLeaf
     {
         MovementCompoent playerMovement = base.player._movementCompoent;
 
-        playerMovement.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentum);
+        playerMovement.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentumDirection);
 
         base.FixedUpdateNode();
     }

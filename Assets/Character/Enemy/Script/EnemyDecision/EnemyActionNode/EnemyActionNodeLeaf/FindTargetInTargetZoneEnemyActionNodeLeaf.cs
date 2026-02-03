@@ -34,7 +34,7 @@ public class FindTargetInTargetZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
 
        
-        if (enemyCommandAPI.MoveToPositionRotateToward(destinate, enemy.moveMaxSpeed, 1, 0.25f))
+        if (enemyCommandAPI.MoveToPositionRotateToward(destinate, 1, 1, 0.25f))
         {
             RandomNewPos();
             elapseWaitTime = waitTime;

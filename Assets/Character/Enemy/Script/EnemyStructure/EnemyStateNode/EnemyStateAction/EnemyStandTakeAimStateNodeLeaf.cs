@@ -36,11 +36,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
                     if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                     {
-                        movementCompoent.UpdateMoveToDirWorld(moveDir * enemy.moveMaxSpeed, enemy.moveAccelerate, MoveMode.MaintainMomentum);
+                        movementCompoent.UpdateMoveToDirWorld(moveDir * this.enemy.StandMoveMaxSpeed, this.enemy.StandMoveAccelerate, MoveMode.MaintainMomentumDirection);
                     }
                     else
                     {
-                        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
+                        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
                     }
                 }
                 break;
@@ -53,11 +53,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
                         if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
-                            movementCompoent.UpdateMoveToDirWorld(moveDir * enemy.moveMaxSpeed, enemy.moveAccelerate, MoveMode.MaintainMomentum);
+                            movementCompoent.UpdateMoveToDirWorld(moveDir * this.enemy.StandMoveMaxSpeed, this.enemy.StandMoveAccelerate, MoveMode.MaintainMomentumDirection);
                         }
                         else
                         {
-                            movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
+                            movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
                         }
                     }
                     else
@@ -66,11 +66,11 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                         Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized ;
                         if (Vector3.Distance(enemy.transform.position, coverUseable.peekPos) > 0.05f)
                         {
-                            movementCompoent.UpdateMoveToDirWorld(moveDir * enemy.moveMaxSpeed, enemy.moveAccelerate, MoveMode.MaintainMomentum);
+                            this.movementCompoent.UpdateMoveToDirWorld(moveDir * this.enemy.StandMoveMaxSpeed, this.enemy.StandMoveAccelerate, MoveMode.MaintainMomentumDirection);
                         }
                         else
                         {
-                            movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
+                            this.movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
                         }
                     }
                 }
@@ -82,18 +82,18 @@ public class EnemyStandTakeAimStateNodeLeaf : EnemyStateLeafNode
                     Vector3 moveDir = (coverUseable.peekPos - enemy.transform.position).normalized;
                     if (Vector3.Distance(enemy.transform.position, coverUseable.coverPos) > 0.05f)
                     {
-                        movementCompoent.UpdateMoveToDirWorld(moveDir * enemy.moveMaxSpeed, enemy.moveAccelerate, MoveMode.MaintainMomentum);
+                        this.movementCompoent.UpdateMoveToDirWorld(moveDir * this.enemy.StandMoveMaxSpeed, this.enemy.StandMoveAccelerate, MoveMode.MaintainMomentumDirection);
                     }
                     else
                     {
-                        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakAccelerate, MoveMode.MaintainMomentum);
+                        movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
                     }
                 }
                 break;
         }
 
 
-        movementCompoent.SetRotateToDirWorld(enemy.lookRotationCommand, enemy.aimingRotateSpeed);
+        this.movementCompoent.SetRotateToDirWorld(this.enemy.lookRotationCommand, this.enemy.rotateSpeed);
 
         base.FixedUpdateNode();
     }

@@ -95,7 +95,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         }
         else if(dodgePhase == DodgePhase.InAir)
         {
-            playerMovement.UpdateMoveToDirWorld(Vector3.zero, player._dodgeInAirStopForce, MoveMode.MaintainMomentum);
+            playerMovement.UpdateMoveToDirWorld(Vector3.zero, player._dodgeInAirStopForce, MoveMode.MaintainMomentumDirection);
             if (elapesTime > InAirNormalized)
             {
                 dodgePhase = DodgePhase.Landing;
@@ -104,7 +104,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         }
         else if(dodgePhase == DodgePhase.Landing)
         {
-            playerMovement.UpdateMoveToDirWorld(Vector3.zero, player._dodgeOnGroundStopForce, MoveMode.MaintainMomentum);
+            playerMovement.UpdateMoveToDirWorld(Vector3.zero, player._dodgeOnGroundStopForce, MoveMode.MaintainMomentumDirection);
             //enemyMovement.RotateToDirWorld(player.inputMoveDir_World, player.sprintRotateSpeed);
         }
         base.UpdateNode();

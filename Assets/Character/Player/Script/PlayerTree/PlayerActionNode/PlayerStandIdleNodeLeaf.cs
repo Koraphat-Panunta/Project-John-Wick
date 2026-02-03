@@ -23,7 +23,7 @@ public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
 
         Vector3 targerMove = Vector3.Lerp(this.playerMovement.curMoveVelocity_World, Vector3.zero, this.player.breakDecelerate * this.weightMovement * Time.fixedDeltaTime);
 
-        playerMovement.UpdateMoveToDirWorld(targerMove, player.breakDecelerate * this.weightMovement, MoveMode.MaintainMomentum);
+        playerMovement.UpdateMoveToDirWorld(targerMove, player.breakDecelerate * this.weightMovement, MoveMode.MaintainMomentumDirection);
 
 
         base.FixedUpdateNode();

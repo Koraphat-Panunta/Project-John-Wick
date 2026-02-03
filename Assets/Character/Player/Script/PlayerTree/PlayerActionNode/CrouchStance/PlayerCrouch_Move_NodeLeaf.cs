@@ -20,7 +20,7 @@ public class PlayerCrouch_Move_NodeLeaf : PlayerStateNodeLeaf
     {
         MovementCompoent playerMovement = base.player._movementCompoent;
 
-        playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.CrouchMoveMaxSpeed * this.player.inputMoveDir_World.magnitude, this.player.CrouchMoveAccelerate, MoveMode.MaintainMomentum);
+        playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.CrouchMoveMaxSpeed * this.player.inputMoveDir_World.magnitude, this.player.CrouchMoveAccelerate, MoveMode.MaintainMomentumDirection);
         playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, this.player.rotateSpeed);
 
         base.FixedUpdateNode();

@@ -135,7 +135,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
                     player._movementCompoent.UpdateMoveToDirLocal(
                         player.inputMoveDir_Local * player.StandMoveMaxSpeed
                         , player.StandMoveAccelerate
-                        , MoveMode.MaintainMomentum
+                        , MoveMode.MaintainMomentumDirection
                         );
 
                     if (weaponAdvanceUser._isAimingCommand == false

@@ -66,7 +66,9 @@ public class AIAgent : MonoBehaviour,IInitializedAble
         if(hasPath == false)
             return;
 
-        if(Vector3.Distance(this.transform.position,steeringTarget) <= reachCornerDistance)
+        Vector3 targetPos = new Vector3(this.steeringTarget.x, this.transform.position.y, this.steeringTarget.z);
+
+        if(Vector3.Distance(this.transform.position, targetPos) <= reachCornerDistance)
         {
             cornerPostion.Dequeue();
 

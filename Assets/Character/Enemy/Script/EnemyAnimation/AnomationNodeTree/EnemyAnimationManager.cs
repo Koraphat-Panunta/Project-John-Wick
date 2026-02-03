@@ -105,9 +105,9 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         else
         {
 
-            this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / enemy.moveMaxSpeed;
-            this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / enemy.moveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = this.curVelocity_Local.x / enemy.moveMaxSpeed;
+            this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / this.enemy.StandMoveMaxSpeed;
+            this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / this.enemy.StandMoveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = this.curVelocity_Local.x / this.enemy.StandMoveMaxSpeed;
 
             isSprint = false;
         }

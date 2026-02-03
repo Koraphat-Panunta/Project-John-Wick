@@ -143,12 +143,12 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
         }
         else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)
         {
-            enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, MoveMode.MaintainMomentum);
+            enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopForceBeginStance, MoveMode.MaintainMomentumDirection);
         }
 
         if (_timer >= _enemySpinKickScriptable._onGroundTimeNormalized * _enemySpinKickScriptable.animationClip.length)
         {
-            enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, MoveMode.MaintainMomentum);
+            enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, _enemySpinKickScriptable._stopingForceOnGround, MoveMode.MaintainMomentumDirection);
         }
 
         base.UpdateNode();

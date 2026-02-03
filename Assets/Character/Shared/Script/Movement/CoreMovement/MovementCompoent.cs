@@ -35,6 +35,8 @@ public abstract partial class MovementCompoent : INodeManager
     public virtual void UpdateNode()
     {
         _nodeManagerBehavior.UpdateNode(this);
+        Debug.DrawRay(this.userMovement.transform.position + Vector3.up, moveInputVelocity_World, Color.blue);
+        Debug.DrawRay(this.userMovement.transform.position + Vector3.up, curMoveVelocity_World, Color.yellow);
     }
 
     public virtual void FixedUpdateNode()
@@ -49,12 +51,12 @@ public abstract partial class MovementCompoent : INodeManager
         this.inputAngularVelocity = targetAngularVelocity;
         switch (moveMode)
         {
-            case MoveMode.MaintainMomentum:
+            case MoveMode.MaintainMomentumDirection:
                 {
                     this.curAngularVelocity = Mathf.MoveTowards(this.curAngularVelocity, targetAngularVelocity, accelerateAngularVelocity * Time.deltaTime);
                     break;
                 }
-            case MoveMode.IgnoreMomenTum:
+            case MoveMode.IgnoreMomentumDirection:
                 {
                     this.curAngularVelocity = targetAngularVelocity;
                     break;
@@ -65,17 +67,29 @@ public abstract partial class MovementCompoent : INodeManager
     {
         moveInputVelocity_World = new Vector3(dirWorldVelocity.x, 0, dirWorldVelocity.z);
 
+        
+
         switch (moveMode)
         {
-            case MoveMode.MaintainMomentum:
+            case MoveMode.MaintainMomentumDirection:
                 {
                     this.curMoveVelocity_World = Vector3.MoveTowards(this.curMoveVelocity_World, this.moveInputVelocity_World, accelerate * Time.deltaTime);
                 }
                 break;
-            case MoveMode.IgnoreMomenTum:
+            case MoveMode.IgnoreMomentumDirection:
                 {
-                    this.curMoveVelocity_World = this.moveInputVelocity_World.normalized
-                        * Mathf.Lerp(this.curMoveVelocity_World.magnitude, this.moveInputVelocity_World.magnitude, accelerate * Time.deltaTime);
+                    if(this.curMoveVelocity_World.magnitude <= 0 || this.moveInputVelocity_World.magnitude <= 0)
+                        this.curMoveVelocity_World = Vector3.MoveTowards(this.curMoveVelocity_World, this.moveInputVelocity_World, accelerate * Time.deltaTime);
+                    else
+                    {
+                        float dot = Mathf.Clamp01(Vector3.Dot(this.curMoveVelocity_World.normalized, this.moveInputVelocity_World.normalized));
+                        this.curMoveVelocity_World 
+                            = this.moveInputVelocity_World.normalized 
+                            * Mathf.MoveTowards
+                            (this.curMoveVelocity_World.magnitude * dot
+                            , this.moveInputVelocity_World.magnitude
+                            , accelerate * Time.deltaTime);
+                    }
                 }
                 break;
         }
@@ -86,20 +100,7 @@ public abstract partial class MovementCompoent : INodeManager
          new Vector3(dirLocalNormalized.x, 0, dirLocalNormalized.y),
          forwardDir);
 
-        switch (moveMode)
-        {
-            case MoveMode.MaintainMomentum:
-                {
-                    this.curMoveVelocity_World = Vector3.Lerp(curMoveVelocity_World, moveInputVelocity_World, speed * Time.deltaTime);
-                }
-                break;
-            case MoveMode.IgnoreMomenTum:
-                {
-                    this.curMoveVelocity_World = this.moveInputVelocity_World.normalized
-                        * Mathf.Lerp(this.curMoveVelocity_World.magnitude,this.moveInputVelocity_World.magnitude, speed * Time.deltaTime);
-                }
-                break;
-        }
+        this.UpdateMoveToDirWorld(moveInputVelocity_World, speed, moveMode);
     }
     public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized,float rotateSpeed)
     {
@@ -195,6 +196,6 @@ public abstract partial class MovementCompoent : INodeManager
 }
 public enum MoveMode
 {
-    MaintainMomentum,
-    IgnoreMomenTum,
+    MaintainMomentumDirection,
+    IgnoreMomentumDirection,
 }

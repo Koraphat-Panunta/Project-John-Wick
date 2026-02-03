@@ -130,7 +130,7 @@ public partial class EnemyStateManagerNode : INodeManager
             );
 
         enemySprintStateNodeLeaf = new EnemySprintStateNodeLeaf(this.enemy,
-           () => this.enemy.isSprintCommand
+           () => this.enemy.isSprintCommand && this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
            );
         enemyDodgeRollStateNodeLeaf = new EnemyDodgeRollStateNodeLeaf(this.enemy
             ,()=> enemy._triggerDodge && enemyDodgeRollStateNodeLeaf.dodgeRollCoolDown <=0
