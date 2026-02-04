@@ -20,7 +20,6 @@ public class PlayerMovement : MovementCompoent
     private CharacterMovementControllerScriptableObject crouchCharControllerSCRP;
     private CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP;
 
-
     public float stanceRateMovement { get; protected set; }//0 : idle/Move 1:Sprint
 
     private Player player;
@@ -44,6 +43,11 @@ public class PlayerMovement : MovementCompoent
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
+    public override void UpdateNode()
+    {
+        this.UpdateProximityInAir();
+        base.UpdateNode();
+    }
     public override void FixedUpdateNode()
     {
         base.FixedUpdateNode();
@@ -139,6 +143,26 @@ public class PlayerMovement : MovementCompoent
         
     }
 
+    private void UpdateProximityInAir()
+    {
+        if(this.characterController.isGrounded)
+            this.inAirTimer = 0;
+        else
+            this.inAirTimer += Time.deltaTime;
+        
+
+        if (this.inAirTimer >= this.inAirTime)
+            this.isProximityInAir = true;
+        else
+            this.isProximityInAir = false;
+
+        if (this.isProximityInAir)
+            Debug.Log("isProximityInAir");
+    }
+    public bool isProximityInAir { get; private set; }
+    private float inAirTimer;
+    private float inAirTime = 0.5f;
+    
     public void SetStanceWeight(float weight)
     {
         this.stanceRateMovement = Mathf.Clamp01(weight);
