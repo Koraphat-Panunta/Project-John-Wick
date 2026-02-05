@@ -14,7 +14,7 @@ public class PlayerMovement : MovementCompoent
     public IMovementMotionWarping movementMotionWarping { get; set; }
     public MovementCompoent movementCompoent => this;
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
-    private CharacterMovementController characterController;
+    public CharacterMovementController characterController { get; protected set; }
 
     private CharacterMovementControllerScriptableObject standCharControllerSCRP;
     private CharacterMovementControllerScriptableObject crouchCharControllerSCRP;
@@ -145,7 +145,8 @@ public class PlayerMovement : MovementCompoent
 
     private void UpdateProximityInAir()
     {
-        if(this.characterController.isGrounded)
+        if(Physics.Raycast(this.characterController.capsuleColliderCenterPosition, Vector3.down, 2f
+            , this.player.playerMovement.characterController.layerMask, QueryTriggerInteraction.Ignore))
             this.inAirTimer = 0;
         else
             this.inAirTimer += Time.deltaTime;
@@ -161,7 +162,7 @@ public class PlayerMovement : MovementCompoent
     }
     public bool isProximityInAir { get; private set; }
     private float inAirTimer;
-    private float inAirTime = 0.5f;
+    private float inAirTime = 0.2f;
     
     public void SetStanceWeight(float weight)
     {
