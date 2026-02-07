@@ -26,7 +26,7 @@ public class CharacterMovementController : MonoBehaviour
     public bool isGrounded;
 
     [SerializeField] private Vector3 verticalDownGravityVelocity;
-    private float maxVerticalDownGravityVelocity = 5;
+    private float maxVerticalDownGravityVelocity = 1.5f;
 
     public static readonly float reach;
 
