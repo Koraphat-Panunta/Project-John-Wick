@@ -3,30 +3,34 @@ using UnityEngine;
 
 public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
 {
-    private PlayerGetUpStateScriptableObject playerGetUpStateScriptable;
-    private AnimationClip animationClip => playerGetUpStateScriptable.animationClip;
+
     private float _timer;
-    public PlayerGetUpStateNodeLeaf(PlayerGetUpStateScriptableObject playerGetUpStateScriptableObject, Player player, Func<bool> preCondition) : base(player, preCondition)
+    public float getUpTime = .5f;
+    protected PlayerMovement playerMovement => this.player.playerMovement;
+    public PlayerGetUpStateNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
-        this.playerGetUpStateScriptable = playerGetUpStateScriptableObject;
+
     }
 
     public override void Enter()
     {
+        this.player.playerStance = Stance.stand;
         _timer = 0;
         isComplete = false;
         (player._movementCompoent as MovementCompoent).CancleMomentum();
-        player.NotifyObserver(player,this);
+        this.player.enableRootMotion = true;
         base.Enter();
     }
 
     public override void Exit()
     {
+        this.player.enableRootMotion = false;
         base.Exit();
     }
 
     public override void FixedUpdateNode()
     {
+
         base.FixedUpdateNode();
     }
 
@@ -47,7 +51,7 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
     {
         this._timer += Time.deltaTime;
 
-        if (this._timer >= this.animationClip.length)
+        if (this._timer >= this.getUpTime)
         {
             player.playerStance = Stance.stand;
             isComplete = true;
@@ -55,5 +59,6 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
             
         base.UpdateNode();
     }
+
 }
 

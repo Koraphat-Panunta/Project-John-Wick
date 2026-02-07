@@ -34,6 +34,7 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerLandingRollStateNodeLeaf landingRollStateNodeLeaf { get; private set; }
     public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
+    public PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNodeLeaf playerStandIdleNode { get; private set; }
     public PlayerStandMoveNodeLeaf playerStandMoveNode { get; private set; }
@@ -45,6 +46,7 @@ public class PlayerStateNodeManager : INodeManager
     public PlayerInCoverStandIdleNodeLeaf playerInCoverStandIdleNode { get; private set; }
 
     public PlayerSelectorStateNode proneStanceSelector { get; private set; }
+    public PlayerProneStateNodeLeaf proneStateNodeLeaf { get; private set; }
     public PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf { get; private set; }
 
     public PlayerPokePickUpWeaponNodeLeaf playerPokePickUpWeaponNodeLeaf { get; private set; }
@@ -111,7 +113,9 @@ public class PlayerStateNodeManager : INodeManager
 
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == Stance.stand || player.isSprint; });
-        playerSprintNode = new PlayerSprintNode(this.player, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
+        this.playerSprintNode = new PlayerSprintNode(this.player,this, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
+        this.playerDolphinDiveStateNodeLeaf = new PlayerDolphinDiveStateNodeLeaf(this.player
+            ,() => this.player.triggerDodgeRoll);
 
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
             () => { return this.player.isInCover; });
@@ -140,10 +144,12 @@ public class PlayerStateNodeManager : INodeManager
             () => this.player.inputMoveDir_Local.magnitude <= 0 || true);
 
 
-        proneStanceSelector = new PlayerSelectorStateNode(this.player, 
+        this.proneStanceSelector = new PlayerSelectorStateNode(this.player, 
             () => this.player.playerStance == Stance.prone);
-        playerGetUpStateNodeLeaf = new PlayerGetUpStateNodeLeaf(player.PlayerGetUpStateScriptableObject, this.player, 
-            () => player.playerStance == Stance.prone || true);
+        this.proneStateNodeLeaf = new PlayerProneStateNodeLeaf(this.player,this
+            ,()=> true);
+        this.playerGetUpStateNodeLeaf = new PlayerGetUpStateNodeLeaf( this.player, 
+            () => this.player.inputMoveDir_World.magnitude > 0);
 
         playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
             this.player, this.player.pokePickUpAnimationSCRP, this.player.rightFootss,
@@ -347,7 +353,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
-        stanceSelectorNode.AddtoChildNode(proneStanceSelector);
+        stanceSelectorNode.AddtoChildNode(this.proneStanceSelector);
 
         this.fallingStateNodeLeaf.AddTransitionNode(this.landingRollStateNodeLeaf);
         this.fallingStateNodeLeaf.AddTransitionNode(this.landingStandStateNodeLeaf);
@@ -355,6 +361,8 @@ public class PlayerStateNodeManager : INodeManager
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
+
+        this.playerSprintNode.AddTransitionNode(this.playerDolphinDiveStateNodeLeaf);
 
         weaponDisarmSelector.AddtoChildNode(primary_WeaponDisarm_GunFuInteraction_NodeLeaf);
         weaponDisarmSelector.AddtoChildNode(secondart_WeaponDisarm_GunFuInteraction_NodeLeaf);
@@ -392,7 +400,8 @@ public class PlayerStateNodeManager : INodeManager
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);
 
-        proneStanceSelector.AddtoChildNode(playerGetUpStateNodeLeaf);
+        this.proneStanceSelector.AddtoChildNode(this.proneStateNodeLeaf);
+        this.proneStateNodeLeaf.AddTransitionNode(this.playerGetUpStateNodeLeaf);
 
         executeGunFuSelector.AddtoChildNode(executeGunFuOnGroundSelector);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_Secondary_Selector);

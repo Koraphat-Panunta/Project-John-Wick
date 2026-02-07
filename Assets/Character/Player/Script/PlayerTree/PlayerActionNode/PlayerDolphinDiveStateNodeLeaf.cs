@@ -1,0 +1,71 @@
+using System;
+using UnityEngine;
+
+public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
+{
+    public bool isPassingJump;
+    private float jumpOutTime = .15f;
+    private float timer;
+
+    private Vector3 jumpDir;
+
+    protected PlayerMovement playerMovement => this.player.playerMovement;
+    protected float jumpVelocuty = 5;
+    protected float jumpVerticalVelocuty = 3;
+    public PlayerDolphinDiveStateNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
+
+    public override void Enter()
+    {
+
+        Debug.Log("Enter PlayerDolphinDiveStateNodeLeaf");
+
+        this.player.playerStance = Stance.prone;
+
+        this.jumpDir = (this.player._movementCompoent.curMoveVelocity_World + this.player._movementCompoent.moveInputVelocity_World).normalized;
+
+        this.timer = 0;
+
+        this.isPassingJump = false;
+
+        base.Enter();
+    }
+    public override bool IsReset()
+    {
+
+        if(this.player.isDead)
+            return true;
+
+        if(IsComplete())
+            return true;
+
+        return false;
+    }
+
+    public override bool IsComplete()
+    {
+        return (this.timer > this.jumpOutTime*2f) && this.playerMovement.characterController.isGrounded;
+    }
+    public override void UpdateNode()
+    {
+        this.timer += Time.deltaTime;
+
+        if (this.timer >= this.jumpOutTime 
+            && this.isPassingJump == false)
+        {
+
+            this.playerMovement.AddForcePush(this.jumpDir * this.jumpVelocuty,IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            this.playerMovement.characterController.PushForceUp(this.jumpVerticalVelocuty);
+
+            this.isPassingJump = true;
+        }
+        else
+        {
+            float t = this.timer/this.jumpOutTime;
+            this.playerMovement.SetRotateToDirWorldSlerp(this.jumpDir,t);
+        }
+
+        base.UpdateNode();
+    }
+}

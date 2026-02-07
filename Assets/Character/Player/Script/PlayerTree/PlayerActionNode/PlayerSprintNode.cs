@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSprintNode : PlayerStateNodeLeaf
+public class PlayerSprintNode : PlayerStateNodeLeaf,INodeLeafTransitionAble
 {
     private PlayerMovement playerMovement => player._movementCompoent as PlayerMovement;
     private Vector3 sprintDir;
+
+    public INodeManager nodeManager { get; set; }
+    public Dictionary<INode, bool> transitionAbleNode { get; set; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     public float sprintWeight => this.playerMovement.stanceRateMovement;
     public float changeStanceWeight = 4;
@@ -15,9 +19,11 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         Stay
     }
     public SprintManuver sprintPhase;
-    public PlayerSprintNode(Player player, Func<bool> preCondition) : base(player, preCondition)
+    public PlayerSprintNode(Player player,PlayerStateNodeManager playerStateNodeManager, Func<bool> preCondition) : base(player, preCondition)
     {
-        
+        this.transitionAbleNode = new Dictionary<INode, bool>();
+        this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+        this.nodeManager = playerStateNodeManager;
     }
 
     private float sprintMaxSpeed => player.sprintMaxSpeed;
@@ -27,8 +33,10 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
     private float sprintSpeedZone => player.StandMoveMaxSpeed + (Mathf.Abs(player.StandMoveMaxSpeed - player.sprintMaxSpeed)) * 0.7f;
 
 
+
     public override void Enter()
     {
+        this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
         if (player._movementCompoent.curMoveVelocity_World.magnitude <= sprintSpeedZone)
         {
             sprintDir = player.inputMoveDir_World;
@@ -40,6 +48,15 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         player.playerStance = Stance.stand;
         base.Enter();
     }
+
+    public override bool IsReset()
+    {
+        if(this.TransitioningCheck())
+            return false;
+
+        return base.IsReset();
+    }
+
     public override void UpdateNode()
     {
         base.UpdateNode();
@@ -65,6 +82,9 @@ public class PlayerSprintNode : PlayerStateNodeLeaf
         this.playerMovement.SetRotateToDirWorld(this.sprintDir.normalized, rotateCharSpeed);
 
     }
-   
-   
+
+    public bool TransitioningCheck() => this.nodeLeafTransitionBehavior.TransitioningCheck(this);
+
+    public void AddTransitionNode(INode node) => this.nodeLeafTransitionBehavior.AddTransistionNode(this, node);
+    
 }

@@ -174,8 +174,6 @@ public partial class Player : SubjectPlayer,
 
     public bool isSprint;
     public bool triggerDodgeRoll;
-
-    public PlayerGetUpStateScriptableObject PlayerGetUpStateScriptableObject;
     
     public Stance playerStance = Stance.stand;
 

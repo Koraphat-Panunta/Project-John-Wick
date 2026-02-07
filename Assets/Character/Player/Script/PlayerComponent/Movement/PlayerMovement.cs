@@ -106,7 +106,7 @@ public class PlayerMovement : MovementCompoent
 
         this.movementMotionWarping.StartMotionWarpingLinear(start,end, duration, animationCurve);
     }
-    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
 
     public override void Move(Vector3 position)
     {

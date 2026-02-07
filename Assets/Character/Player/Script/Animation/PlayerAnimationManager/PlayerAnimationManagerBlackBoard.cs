@@ -5,6 +5,7 @@ public partial class PlayerAnimationManager
     public Animator animator;
     public Player player;
 
+    public AnimationPoseTimeNormalized basedAnimationPoseTimeNormalzied;
     public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
 
     public string Sprint = "Sprint";
@@ -25,6 +26,9 @@ public partial class PlayerAnimationManager
     public float RecoilWeight;
     public float CAR_Weight;
     public float WeaponSwayRate_Normalized;
+
+    public float angleLookHorizontal;
+    public float angleLookVertical;
 
     public bool isIn_C_A_R_aim { get; protected set; }
     [Range(0,10)]
@@ -67,7 +71,18 @@ public partial class PlayerAnimationManager
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
                 )
                 return false;
+
+            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+                && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>() == false)
+                return false;
+
+            if (player.curNodeLeaf is PlayerProneStateNodeLeaf
+                && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>() == false)
+                return false;
+
             return true;
+
+            
         } 
     }
     private bool isPerformGunFu { get 

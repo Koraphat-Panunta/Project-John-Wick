@@ -34,6 +34,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public NodeSelector cameraThirdPersonControllerPlayerBasedSelector { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSStandViewNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSCrouchViewNodeLeaf { get; protected set; }
+    public CameraThirdPersonControllerViewNodeLeaf cameraTPSProneViewNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSDodgeViewNodeLeaf { get; protected set; }
 
     public NodeSelector cameraPerformGunFuSelector { get; protected set; }
@@ -44,8 +45,9 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraStandAimDownSightNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraCrouchAimDownSightNodeLeaf { get; protected set; }
+    public CameraThirdPersonControllerViewNodeLeaf cameraProneAimDownSightNodeLeaf { get; protected set; }
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
-    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
+    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => this.curNodeLeaf = value; }
 
 
     protected INodeLeaf curNodeLeaf;
@@ -55,7 +57,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         startNodeSelector = new NodeSelector(() => true);
 
         cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => cameraController.isOnPlayerThirdPersonController);
-        cameraStandAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraStandAimDownSightView_SCRP,
+        this.cameraStandAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraStandAimDownSightView_SCRP,
             cameraController.cameraTPSStandView_SCRP.viewOffsetRight.z,
             () => 
             {
@@ -65,7 +67,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
                 return false;
             });
-        cameraCrouchAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController,cameraController.cameraCrouchAimDownSightView_SCRP,
+        this.cameraCrouchAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController,cameraController.cameraCrouchAimDownSightView_SCRP,
             cameraController.cameraTPSCrouchView_SCRP.viewOffsetRight.z,
             () => 
             {
@@ -73,6 +75,16 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
                 && cameraController.player.playerStance == Stance.crouch)
                     return true;
                 
+                return false;
+            });
+        this.cameraProneAimDownSightNodeLeaf = new CameraAimDownSightViewNodeLeaf(cameraController, cameraController.cameraProneAimDownSightView_SCRP,
+            cameraController.cameraTPSProneView_SCRP.viewOffsetRight.z,
+            () =>
+            {
+                if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
+                && cameraController.player.playerStance == Stance.prone)
+                    return true;
+
                 return false;
             });
         this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
@@ -90,29 +102,34 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
 
-        cameraTPSCrouchViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSCrouchView_SCRP,
+        this.cameraTPSCrouchViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSCrouchView_SCRP,
             () => cameraController.isCrouching);
-        cameraTPSStandViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSStandView_SCRP,
+        this.cameraTPSProneViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSProneView_SCRP,
+            () => this.cameraController.player.playerStance == Stance.prone);
+        this.cameraTPSStandViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSStandView_SCRP,
             () => true);
 
 
-        cameraRestNodeLeaf = new CameraRestNodeLeaf(cameraController,()=>true);
+
+        this.cameraRestNodeLeaf = new CameraRestNodeLeaf(cameraController,()=>true);
 
 
-        startNodeSelector.AddtoChildNode(cameraThirdPersonControllerPlayerBasedSelector);
-        startNodeSelector.AddtoChildNode(cameraRestNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.cameraThirdPersonControllerPlayerBasedSelector);
+        this.startNodeSelector.AddtoChildNode(this.cameraRestNodeLeaf);
 
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraPerformGunFuSelector);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSSprintViewNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSDodgeViewNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraStandAimDownSightNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraCrouchAimDownSightNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSCrouchViewNodeLeaf);
-        cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(cameraTPSStandViewNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraPerformGunFuSelector);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSSprintViewNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSDodgeViewNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraStandAimDownSightNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraProneAimDownSightNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraCrouchAimDownSightNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSCrouchViewNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSProneViewNodeLeaf);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSStandViewNodeLeaf);
 
-        cameraPerformGunFuSelector.AddtoChildNode(cameraPerformGunFuWeaponDisarmNodeLeaf);
-        cameraPerformGunFuSelector.AddtoChildNode(cameraGunFuExecuteNodeLeaf);
-        cameraPerformGunFuSelector.AddtoChildNode(cameraPerformGunFuHitViewNodeLeaf);
+        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuWeaponDisarmNodeLeaf);
+        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraGunFuExecuteNodeLeaf);
+        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuHitViewNodeLeaf);
 
         this._nodeManagerBehavior.SearchingNewNode(this);
 

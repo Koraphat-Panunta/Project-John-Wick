@@ -19,7 +19,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     }
 
     protected Vector3 forward => this.aimDirConstriant.normalized;
-    protected Vector3 rightWard => Vector3.Cross(Vector3.up, this.aimDirConstriant).normalized;
+    protected Vector3 rightWard => Vector3.Cross(this.rootCharacter.up, this.aimDirConstriant).normalized;
     protected Vector3 upWard => Vector3.Cross(forward, rightWard).normalized;
     public Vector3 targetAnchorHandPosition 
     {

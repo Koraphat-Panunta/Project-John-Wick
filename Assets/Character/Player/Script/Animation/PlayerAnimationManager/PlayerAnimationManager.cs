@@ -124,7 +124,11 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         else
             WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
 
+        Vector3 lookDir = (this.player._lookingPos - this.player.transform.position).normalized;
 
+        this.angleLookHorizontal = Quaternion.FromToRotation(this.player.transform.forward, new Vector3(lookDir.x,this.player.transform.forward.y,lookDir.z)).eulerAngles.y;
+
+        this.angleLookVertical = Vector3.Angle(Vector3.up, lookDir);
 
         animator.SetFloat("InputMoveMagnitude_Normalized", InputMoveMagnitude_Normalized);
         animator.SetFloat("VelocityMoveMagnitude_Normalized", VelocityMoveMagnitude_Normalized);
@@ -142,7 +146,10 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
         animator.SetFloat("CrouchWeight", crouchWeight);
 
-        animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+        this.animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+        this.animator.SetFloat("BasedLayerTimeNormalized",this.basedAnimationPoseTimeNormalzied.timeNormal);
+        this.animator.SetFloat("AngleLookHorizontal", this.angleLookHorizontal);
+        this.animator.SetFloat("AngleLookVertical", this.angleLookVertical);
 
         try
         {

@@ -65,7 +65,8 @@ public class PlayerFallingStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitio
         if(this.playerMovement.characterController.curVelocity.y *-1 > this.fallingVelocity )
             this.fallingVelocity = playerMovement.characterController.curVelocity.y * -1;
 
-        Debug.Log("Falling velocity = " + this.fallingVelocity);
+        //Debug.Log("Falling curVelocity = " + this.fallingVelocity);
+        //Debug.Log("Falling velocity = " + this.playerMovement.characterController.velocityPhysicBased.y);
 
         this.TransitioningCheck();
 

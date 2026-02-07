@@ -28,6 +28,13 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             if((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf)
                 && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;
+
+            if(player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+                && dolphinDiveStateNodeLeaf.isPassingJump)
+                return true;
+
+            if(player.curNodeLeaf is PlayerProneStateNodeLeaf)
+                return true;
            
             return false;
         }
@@ -72,6 +79,13 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerSprintNode
                || player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
                )
+                return true;
+
+            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+                && dolphinDiveStateNodeLeaf.isPassingJump)
+                return true;
+
+            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
                 return true;
 
             return false;

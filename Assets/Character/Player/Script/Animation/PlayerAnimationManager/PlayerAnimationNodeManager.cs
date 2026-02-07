@@ -10,7 +10,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf throwObjectNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
     public PlayAnimationNodeLeaf vaultingNodeLeaf { get; set; }
@@ -44,6 +44,11 @@ public partial class PlayerAnimationManager
 
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
+
+    public NodeSelector proneStateNodeSelector { get; set; }
+    public PlayPoseAnimationNodeLeaf dolphinDiveAnimationNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf proneAnimationNodeLeaf { get; set; }
+
     public PlayAnimationNodeLeaf moveCrouchNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf moveStandNodeLeaf { get; set; }
     private void InitializedBasedLayer()
@@ -59,9 +64,7 @@ public partial class PlayerAnimationManager
             , "PokePickUp"
             , 0, .07f
             , (playerStateNodeMnager as PlayerStateNodeManager).playerPokePickUpWeaponNodeLeaf.animationTriggerEventSCRP.enterNormalizedTime);
-        getUpNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
-            , animator, "PlayerSpringGetUp", 0, .2f);
+ 
         boundOffNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
             , animator, "PlayerBounceOff", 0, .05f);
@@ -114,12 +117,25 @@ public partial class PlayerAnimationManager
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
             animator, "Sprint", 0, .5f);
+
+        this.proneStateNodeSelector = new NodeSelector(
+            ()=> this.player.playerStance == Stance.prone);
+        this.dolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
+            (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
+            , this.animator, "Dolphin Dive", 0, .1f, this.basedAnimationPoseTimeNormalzied, .5f, false);
+        this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+            , this.animator, "Prone", 0, 0, this.basedAnimationPoseTimeNormalzied, 1, false);
+        this.getUpNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
+            , this.animator, "Starfish KickUp", 0, 0.25f,this.basedAnimationPoseTimeNormalzied,.5f,false);
+
         moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf,
             animator, "Crouch", 0, .2f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
-            animator, "Move/Idle", 0, .2f);
+            animator, "Move/Idle", 0, .4f);
     }
     private void InitializedGunFuBasedLayer()
     {
@@ -211,7 +227,6 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(throwObjectNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(pokePickUpNodeLeaf);
-                basedLayerNodeSelector.AddtoChildNode(getUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
                 basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
@@ -219,9 +234,14 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(this.landingRollNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(this.landingStandNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
+                this.basedLayerNodeSelector.AddtoChildNode(this.getUpNodeLeaf);
+                this.basedLayerNodeSelector.AddtoChildNode(this.proneStateNodeSelector);
                 basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
+
+                this.proneStateNodeSelector.AddtoChildNode(this.dolphinDiveAnimationNodeLeaf);
+                this.proneStateNodeSelector.AddtoChildNode(this.proneAnimationNodeLeaf);
 
                 gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
@@ -498,6 +518,7 @@ public partial class PlayerAnimationManager
     public void InitailizedNode()
     {
         this.upperAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
+        this.basedAnimationPoseTimeNormalzied = new AnimationPoseTimeNormalized();
 
         this.InitializedBasedLayerNodeManager();
         this.InitializedUpperLayerNodeManager();

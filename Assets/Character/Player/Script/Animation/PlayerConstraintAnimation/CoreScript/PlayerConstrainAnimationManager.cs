@@ -48,6 +48,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             this.player._currentWeapon != null 
             && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
             && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false
+            && this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>() == false
+            && this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>() == false
             );
 
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
@@ -145,7 +147,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                      () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
                      && player._currentWeapon != null
                      && playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf == false
-                     && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf == false);
+                     && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf == false 
+                     && this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>() == false 
+                     && this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>() == false
+            );
 
         this.leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => true
@@ -293,7 +298,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ,this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            ,this.player.transform
+            ,this.player._hipBone
             ,this.player
             ,this.rightHand_AimDownSight_HumanShield_Primary_SCRP
            ,() => this.player._currentWeapon is PrimaryWeapon);
@@ -304,7 +309,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_AimDownSight_HumanShield_Secondary_SCRP
            , () => this.player._currentWeapon is SecondaryWeapon);
@@ -315,7 +320,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_AimDownSight_Restrain_Primary_SCRP
            , () => this.player._currentWeapon is PrimaryWeapon);
@@ -326,7 +331,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_AimDownSight_Restrain_Secondary_SCRP
            , () => this.player._currentWeapon is SecondaryWeapon);
@@ -337,7 +342,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone            
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP
             ,() => this.player._currentWeapon is PrimaryWeapon && playerAnimationManager.isIn_C_A_R_aim);
@@ -348,7 +353,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_Target_AimDownSight_PrimaryWeapon_SCRP
             , () => this.player._currentWeapon is PrimaryWeapon);
@@ -359,7 +364,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_AimDownSight_QuickSwitch_SCRP            
             , () => this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
@@ -370,7 +375,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP
             , () => this.player._currentWeapon is SecondaryWeapon && this.playerAnimationManager.isIn_C_A_R_aim);
@@ -381,7 +386,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player._rightArmBone
             , this.player._spine_2_Bone
             , this.player._rightArmBone
-            , this.player.transform
+            , this.player._hipBone
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
             , () => this.player._currentWeapon is SecondaryWeapon);

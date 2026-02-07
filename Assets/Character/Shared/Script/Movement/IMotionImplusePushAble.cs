@@ -15,7 +15,7 @@ public interface IMotionImplusePushAble
 public class MotionImplusePushAbleBehavior
 {
    
-    public void AddForecPush(IMotionImplusePushAble motionImplusePushAble,Vector3 force, PushMode pushMode)
+    public void AddInstantVelocity(IMotionImplusePushAble motionImplusePushAble,Vector3 v, PushMode pushMode)
     {
         MovementCompoent movementCompoent = motionImplusePushAble.movementCompoent;
         switch (pushMode)
@@ -23,12 +23,12 @@ public class MotionImplusePushAbleBehavior
             case PushMode.InstanlyIgnoreMomentum:
                 {
                     movementCompoent.CancleMomentum();
-                    movementCompoent.curMoveVelocity_World = force;
+                    movementCompoent.curMoveVelocity_World = v;
                 }
                 break;
             case PushMode.InstanlyMaintainMomentum:
                 {
-                    movementCompoent.curMoveVelocity_World += force;
+                    movementCompoent.curMoveVelocity_World += v;
                 }
                 break;
         }

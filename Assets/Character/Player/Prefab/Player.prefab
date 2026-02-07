@@ -668,8 +668,6 @@ MonoBehaviour:
   inputMoveDir_World: {x: 0, y: 0, z: 0}
   isSprint: 0
   triggerDodgeRoll: 0
-  PlayerGetUpStateScriptableObject: {fileID: 11400000, guid: c199f61db1a48914995d00f36c75e0a1,
-    type: 2}
   playerStance: 0
   centreTransform: {fileID: 6366118577415145198}
   moveWarping:
@@ -811,6 +809,8 @@ MonoBehaviour:
   RecoilWeight: 0
   CAR_Weight: 0
   WeaponSwayRate_Normalized: 0
+  angleLookHorizontal: 0
+  angleLookVertical: 0
   CAR_ChangeRate: 7
   CAR_Range: 2
   CAR_ChangeTime: 0.75
@@ -883,7 +883,7 @@ MonoBehaviour:
   groundState: 0
   groundNormal: {x: 0, y: 0, z: 0}
   isGrounded: 0
-  verticalDownGravityVelocity: {x: 0, y: 0, z: 0}
+  velocityPhysicBased: {x: 0, y: 0, z: 0}
   capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
   raduis: 0.5
   height: 2

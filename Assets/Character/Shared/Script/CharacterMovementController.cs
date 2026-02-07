@@ -13,7 +13,7 @@ public class CharacterMovementController : MonoBehaviour
 
     [Header("Ground & Gravity")]
     public bool isEnableGravity = true;
-    private float gravityScale = 0.01f;
+    private float gravityScale = 1;
     public float gravity => 9.81f * this.gravityScale;
     public float maxSlopeAngle = 45f;
 
@@ -25,8 +25,8 @@ public class CharacterMovementController : MonoBehaviour
     public Vector3 groundNormal;
     public bool isGrounded;
 
-    [SerializeField] private Vector3 verticalDownGravityVelocity;
-    private float maxVerticalDownGravityVelocity = 1.5f;
+    [SerializeField] public Vector3 velocityPhysicBased;
+    private float maxVerticalDownGravityVelocity = 10;
 
     public static readonly float reach;
 
@@ -150,6 +150,8 @@ public class CharacterMovementController : MonoBehaviour
     private void Update()
     {
         this.UpdateGravity();
+        this.UpdateGroundState();
+
 
         Vector3 currentPos = transform.position;
 
@@ -160,8 +162,7 @@ public class CharacterMovementController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        this.UpdateGroundState();
-        this.MoveUpdate(this.verticalDownGravityVelocity);
+        this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
     }
 
     Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);
@@ -216,21 +217,25 @@ public class CharacterMovementController : MonoBehaviour
     {
         if (this.isGrounded == true || this.isEnableGravity == false)
         {
-            this.verticalDownGravityVelocity = Vector3.zero;
+            if (this.velocityPhysicBased.y < 0)
+                this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x,0,this.velocityPhysicBased.z);
             return;
         }
 
 
-        float velocityY = Mathf.Clamp(this.verticalDownGravityVelocity.y - (this.gravity * Time.deltaTime)
+        float velocityY = Mathf.Clamp(this.velocityPhysicBased.y - (this.gravity * Time.deltaTime)
                , -maxVerticalDownGravityVelocity
                , maxVerticalDownGravityVelocity);
 
-        this.verticalDownGravityVelocity = new Vector3(
+        this.velocityPhysicBased = new Vector3(
             0
             , velocityY
             , 0);
     }
-
+    public void PushForceUp(float force)
+    {
+        this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x, force, this.velocityPhysicBased.z);
+    }
   
 
     [SerializeField] protected bool isEnableGizmos;

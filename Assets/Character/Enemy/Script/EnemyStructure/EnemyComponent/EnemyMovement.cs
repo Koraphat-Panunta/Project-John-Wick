@@ -39,7 +39,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
         if(motionImplusePushAbleBehavior == null)
             motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
 
-        motionImplusePushAbleBehavior.AddForecPush(this, force, pushMode);
+        motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
     }
     public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
     {
