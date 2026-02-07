@@ -11,6 +11,8 @@ public class PlayerFallingStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitio
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
+    public float fallingVelocity { get; protected set; }
+
     public PlayerFallingStateNodeLeaf(Player player,PlayerStateNodeManager playerStateNodeManager,PlayerMovement playerMovement, Func<bool> preCondition) : base(player, preCondition)
     {
 
@@ -46,6 +48,7 @@ public class PlayerFallingStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitio
     {
         this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
         base.isComplete = false;
+        this.fallingVelocity = 0f;
         base.Enter();
     }
     public override void FixedUpdateNode()
@@ -56,8 +59,13 @@ public class PlayerFallingStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitio
 
     public override void UpdateNode()
     {
-        if(this.playerMovement.isProximityInAir == false)
+        if(this.playerMovement.characterController.isGrounded)
             this.isComplete = true;
+
+        if(this.playerMovement.characterController.curVelocity.y *-1 > this.fallingVelocity )
+            this.fallingVelocity = playerMovement.characterController.curVelocity.y * -1;
+
+        Debug.Log("Falling velocity = " + this.fallingVelocity);
 
         this.TransitioningCheck();
 

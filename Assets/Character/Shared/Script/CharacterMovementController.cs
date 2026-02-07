@@ -140,11 +140,28 @@ public class CharacterMovementController : MonoBehaviour
 
     }
 
-   
+    private void Start()
+    {
+        this.lastPos = this.transform.position;
+    }
+
+    private Vector3 lastPos;
+    public Vector3 curVelocity;
+    private void Update()
+    {
+        this.UpdateGravity();
+
+        Vector3 currentPos = transform.position;
+
+        Vector3 deltaPos = currentPos - lastPos;
+        this.curVelocity = deltaPos / Time.deltaTime;
+
+        this.lastPos = currentPos;
+    }
     private void FixedUpdate()
     {
         this.UpdateGroundState();
-        this.UpdateGravity();
+        this.MoveUpdate(this.verticalDownGravityVelocity);
     }
 
     Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);
@@ -204,7 +221,7 @@ public class CharacterMovementController : MonoBehaviour
         }
 
 
-        float velocityY = Mathf.Clamp(this.verticalDownGravityVelocity.y - (this.gravity * Time.fixedDeltaTime)
+        float velocityY = Mathf.Clamp(this.verticalDownGravityVelocity.y - (this.gravity * Time.deltaTime)
                , -maxVerticalDownGravityVelocity
                , maxVerticalDownGravityVelocity);
 
@@ -212,10 +229,9 @@ public class CharacterMovementController : MonoBehaviour
             0
             , velocityY
             , 0);
-
-
-        this.MoveUpdate(this.verticalDownGravityVelocity);
     }
+
+  
 
     [SerializeField] protected bool isEnableGizmos;
 

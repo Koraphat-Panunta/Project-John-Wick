@@ -12,6 +12,7 @@ public partial class Player : SubjectPlayer,
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
     public override MovementCompoent _movementCompoent { get; set; }
+    public PlayerMovement playerMovement => _movementCompoent as PlayerMovement;    
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
     [SerializeField] private CharacterMovementController characterController;

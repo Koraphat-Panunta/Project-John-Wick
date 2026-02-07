@@ -38,6 +38,10 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf hit3NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf spinKickNodeLeaf { get; set; }
 
+    public PlayAnimationNodeLeaf fallingNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf landingRollNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf landingStandNodeLeaf { get; set; }
+
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf moveCrouchNodeLeaf { get; set; }
@@ -76,6 +80,28 @@ public partial class PlayerAnimationManager
             , animator, "ClimbLow", 0, .2f);
 
         InitializedGunFuBasedLayer();
+
+        this.fallingNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerFallingStateNodeLeaf>()
+            ,this.animator
+            , "Falling"
+            ,0
+            ,.2f
+            );
+        this.landingRollNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerLandingRollStateNodeLeaf>()
+            , this.animator
+            , "LandingRoll"
+            , 0
+            , .1f
+            );
+        this.landingStandNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerLandingStandStateNodeLeaf>()
+            , this.animator
+            , "LandingStand"
+            , 0
+            , .1f
+            );
 
         dodgeNodeLeaf = new PlayAnimationNodeLeaf(
             () => 
@@ -189,6 +215,9 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
                 basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(this.fallingNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(this.landingRollNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(this.landingStandNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);

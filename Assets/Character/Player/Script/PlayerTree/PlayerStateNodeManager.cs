@@ -30,6 +30,9 @@ public class PlayerStateNodeManager : INodeManager
     public VaultingNodeLeaf vaultingNodeLeaf { get; private set; }
     public ClimbParkourNodeLeaf climbLowNodeLeaf { get; private set; }
     public ClimbParkourNodeLeaf climbHighNodeLeaf { get; private set; }
+    public PlayerFallingStateNodeLeaf fallingStateNodeLeaf { get; private set; }
+    public PlayerLandingRollStateNodeLeaf landingRollStateNodeLeaf { get; private set; }
+    public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNodeLeaf playerStandIdleNode { get; private set; }
@@ -95,6 +98,17 @@ public class PlayerStateNodeManager : INodeManager
             ()=>player._isParkourCommand,player._movementCompoent,player.climbLowScrp);
         climbHighNodeLeaf = new ClimbParkourNodeLeaf(player,
             () => player._isParkourCommand, player._movementCompoent, player.climbHighScrp);
+
+        this.fallingStateNodeLeaf = new PlayerFallingStateNodeLeaf
+            (this.player,this,this.player._movementCompoent as PlayerMovement
+            ,()=> this.player.playerMovement.isProximityInAir  );
+        this.landingRollStateNodeLeaf = new PlayerLandingRollStateNodeLeaf
+            (this.player, this.player.playerMovement, .75f, this.player.StandMoveMaxSpeed
+            , () => this.fallingStateNodeLeaf.isComplete && this.fallingStateNodeLeaf.fallingVelocity >= 10);
+        this.landingStandStateNodeLeaf = new PlayerLandingStandStateNodeLeaf
+            (this.player, this.player.playerMovement, .34f, .66f
+            , () => this.fallingStateNodeLeaf.isComplete && true);
+
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.playerStance == Stance.stand || player.isSprint; });
         playerSprintNode = new PlayerSprintNode(this.player, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
@@ -325,6 +339,7 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(vaultingNodeLeaf);
         stanceSelectorNode.AddtoChildNode(climbHighNodeLeaf);
         stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(this.fallingStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(executeGunFuSelector);
         stanceSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf);
@@ -334,6 +349,8 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
         stanceSelectorNode.AddtoChildNode(proneStanceSelector);
 
+        this.fallingStateNodeLeaf.AddTransitionNode(this.landingRollStateNodeLeaf);
+        this.fallingStateNodeLeaf.AddTransitionNode(this.landingStandStateNodeLeaf);
 // 
         standSelectorNode.AddtoChildNode(playerSprintNode);
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
