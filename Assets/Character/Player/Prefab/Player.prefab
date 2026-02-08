@@ -176,6 +176,8 @@ MonoBehaviour:
   headLookConstraintManager: {fileID: 7504458014509822768}
   leftHandTransformRef: {fileID: 7984018026264039633}
   leftHandBoneTransform: {fileID: 6999503542832735123}
+  body_ADS_Prone_Constrain_SCRP: {fileID: 11400000, guid: 700443a4a63ab734a977e031bebec477,
+    type: 2}
   quickSwitchAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: bb21604480a81b348886951515ebfae1,
     type: 2}
   standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
@@ -212,6 +214,14 @@ MonoBehaviour:
     type: 2}
   rightHand_AimDownSight_Restrain_Secondary_SCRP: {fileID: 11400000, guid: 7b1f66cff7b11ad4b9290d2e460344ed,
     type: 2}
+  rightHand_AimDownSight_ProneUp_PrimaryWeapon_SCRP: {fileID: 11400000, guid: ef8ec2192cea28f4797d51fea0770f0c,
+    type: 2}
+  rightHand_AimDownSight_ProneUp_SecondaryWeapon_SCRP: {fileID: 11400000, guid: 16007af6c59565b47b1f5b2d50943444,
+    type: 2}
+  rightHand_AimDownSight_ProneDown_PrimaryWeapon_SCRP: {fileID: 11400000, guid: 4e2197753558e41419e54169950669f4,
+    type: 2}
+  rightHand_AimDownSight_ProneDown_SecondaryWeapon_SCRP: {fileID: 11400000, guid: ead4f24bcc4dffd4da9085c001872d04,
+    type: 2}
   rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP: {fileID: 11400000, guid: 7e86fd2e41c1e4d4d92e1c572a3a4a60,
     type: 2}
   rightHand_Target_AimDownSight_PrimaryWeapon_SCRP: {fileID: 11400000, guid: 347d4425caf2e9f43bc74a14eb8fce5a,
@@ -221,6 +231,8 @@ MonoBehaviour:
   rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP: {fileID: 11400000, guid: e2095fdd7146c704a986492f5f573492,
     type: 2}
   rightHand_Target_AimDownSight_SecondaryWeapon_SCRP: {fileID: 11400000, guid: 1f00ca67ea9f24746a77e58e507615bb,
+    type: 2}
+  lowReadyProne_LeftHand_IK_ConstrainSCRP: {fileID: 11400000, guid: 85aa02a4cd1cbc54da21e0adf6b79696,
     type: 2}
   leftHandIK_QuickSwitch_SCRP: {fileID: 11400000, guid: 30d3899ea4912514b837ec3578508e3e,
     type: 2}

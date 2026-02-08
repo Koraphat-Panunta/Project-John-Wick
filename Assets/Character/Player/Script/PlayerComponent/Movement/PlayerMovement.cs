@@ -145,8 +145,14 @@ public class PlayerMovement : MovementCompoent
 
     private void UpdateProximityInAir()
     {
-        if(Physics.Raycast(this.characterController.capsuleColliderCenterPosition, Vector3.down, 2f
-            , this.player.playerMovement.characterController.layerMask, QueryTriggerInteraction.Ignore))
+        if(Physics.SphereCast(this.characterController.capsuleColliderCenterPosition
+            ,.2f
+            , Vector3.down
+            ,out RaycastHit hitInfo
+            ,2f
+            , this.player.playerMovement.characterController.layerMask
+            , QueryTriggerInteraction.Ignore)
+            )
             this.inAirTimer = 0;
         else
             this.inAirTimer += Time.deltaTime;

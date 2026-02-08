@@ -16,7 +16,10 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         {
 
             Debug.Log("PLAYER Constraint firing");
-
+            this.rightHand_AimDownSight_ProneUp_Primary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
+            this.rightHand_AimDownSight_ProneUp_Secondary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
+            this.rightHand_AimDownSight_ProneDown_Primary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
+            this.rightHand_AimDownSight_ProneDown_Secondary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_AimDownSight_QuickSwitch_Constraint_NodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_AimDownSight_CAR_Constraint_PrimaryWeapon_NodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_AimDownSight_Constraint_PrimaryWeapon_NodeLeaf.TriggeRecoilWeight(1);

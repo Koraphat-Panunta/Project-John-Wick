@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec47217e62c0a44e8580e7f8c5222f7, type: 3}
   m_Name: Prone_View
   m_EditorClassIdentifier: 
-  viewOffsetRight: {x: 0.47, y: -0.51, z: -0.2}
+  viewOffsetRight: {x: 0.47, y: -0.51, z: -0.52}
   fov: 55
   transitionCurve:
     serializedVersion: 2
@@ -20,18 +20,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -40,4 +40,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   transitionInSpeed: 0.5
   minNormalized: 0
-  maxNormalized: 0.2
+  maxNormalized: 0.1

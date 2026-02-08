@@ -4,13 +4,13 @@ using UnityEngine;
 public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 {
     public bool isPassingJump;
-    private float jumpOutTime = .15f;
+    private float jumpOutTime = .1f;
     private float timer;
 
     private Vector3 jumpDir;
 
     protected PlayerMovement playerMovement => this.player.playerMovement;
-    protected float jumpVelocuty = 5;
+    protected float jumpVelocuty = 6;
     protected float jumpVerticalVelocuty = 3;
     public PlayerDolphinDiveStateNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
@@ -23,7 +23,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 
         this.player.playerStance = Stance.prone;
 
-        this.jumpDir = (this.player._movementCompoent.curMoveVelocity_World + this.player._movementCompoent.moveInputVelocity_World).normalized;
+        this.jumpDir = this.player._movementCompoent.moveInputVelocity_World.normalized;
 
         this.timer = 0;
 

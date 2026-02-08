@@ -53,7 +53,7 @@ public class HeadRotationConstraintManager : MonoBehaviour, IConstraintManager
     protected void UpdateTargetRotate()
     {
 
-        this.targetEulerRotateHorizontal = Quaternion.FromToRotation(this.headAnchor.forward,this.targetDir.normalized).eulerAngles.y;
+        this.targetEulerRotateHorizontal = Quaternion.FromToRotation(new Vector3(this.headAnchor.forward.x,this.targetDir.normalized.y,this.headAnchor.forward.z),this.targetDir.normalized).eulerAngles.y;
         this.targetEulerRotateVertical = Vector3.SignedAngle(this.headAnchor.forward, new Vector3(this.headAnchor.forward.x, this.targetDir.normalized.y, this.headAnchor.forward.z).normalized, this.headAnchor.right);
 
 
@@ -83,10 +83,12 @@ public class HeadRotationConstraintManager : MonoBehaviour, IConstraintManager
         this.eulerRotateHorizontal = Mathf.Lerp(this.eulerRotateHorizontal, Mathf.Clamp(this.targetEulerRotateHorizontal, -this.limitEulerRotateHorizontal, this.limitEulerRotateHorizontal), Time.deltaTime * rotateSpeed);
         this.eulerRotateVertical = Mathf.Lerp(this.eulerRotateVertical, Mathf.Clamp(this.targetEulerRotateVertical, -this.limitEulerRotateVertical, this.limitEulerRotateVertical), Time.deltaTime * this.rotateSpeed);
 
-        Vector3 dir = Quaternion.LookRotation(headAnchor.forward, headAnchor.up) * Quaternion.Euler(this.eulerRotateVertical, this.eulerRotateHorizontal, 0) * Vector3.forward;
+        Vector3 dir = Quaternion.LookRotation(headAnchor.forward, Vector3.up) * Quaternion.Euler(this.eulerRotateVertical, this.eulerRotateHorizontal, 0) * Vector3.forward;
 
         Quaternion rotate = Quaternion.LookRotation(dir.normalized, this.headAnchor.up);
         this.headRotationRef.rotation = rotate;
+
+        Debug.DrawRay(this.multiRotationConstraint.data.constrainedObject.position, this.multiRotationConstraint.data.constrainedObject.forward,Color.blue);
     }
 
 

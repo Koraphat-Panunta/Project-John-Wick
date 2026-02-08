@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da36ddb475224c8419e9a76d4a74abe9, type: 3}
+  m_Name: RightHand_ProneDown_AimDownSight_Secondary_HandIK_ConstraintSCRP
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationEulerOffset: {x: 0, y: 0, z: 0}
+  hintPositionOffset: {x: 0, y: 0, z: 0}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalHandAimDeg: 0
+  maxVerticalHandAimDeg: 0
+  onBlocked_positionOffset: {x: 0, y: 0, z: 0}
+  onBlocked_rotationEulerOffset: {x: 0, y: 0, z: 0}
+  onBlocked_hintPositionOffset: {x: 0, y: 0, z: 0}
+  recoil_Additional_Position_Offset: {x: 0, y: 0, z: 0}
+  recoil_Additional_Rotation_Offset: {x: 0, y: 0, z: 0}

@@ -8,26 +8,26 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         get 
         {
-            Vector3 refDir = Quaternion.LookRotation(this.rootCharacter.forward,Vector3.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotateRefDirOffset) * Vector3.forward;
+            Vector3 refDir = Quaternion.LookRotation(this.rootCharacter.forward, this.rootCharacter.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotateRefDirOffset) * Vector3.forward;
 
-            Debug.DrawRay(this.rootCharacter.position, refDir * 2, Color.yellow);
+            //Debug.DrawRay(this.rootCharacter.position, refDir * 2, Color.yellow);
 
             Vector3 dir = (this.aimingAtTransfrom.position - this.handIK_Transform_Ref_Pos.position).normalized;
-            dir = ClampDirection.GetClampDirection(refDir, dir, this.maxHorizontalHandTargetDegree, this.maxVerticalHandTargetDegree);
+            dir = ClampDirection.GetClampDirection(refDir, dir,this.rootCharacter.up, this.maxHorizontalHandTargetDegree, this.maxVerticalHandTargetDegree);
             return dir;
         }
     }
 
     protected Vector3 forward => this.aimDirConstriant.normalized;
     protected Vector3 rightWard => Vector3.Cross(this.rootCharacter.up, this.aimDirConstriant).normalized;
-    protected Vector3 upWard => Vector3.Cross(forward, rightWard).normalized;
+    protected Vector3 upWard => Vector3.Cross(this.forward, this.rightWard).normalized;
     public Vector3 targetAnchorHandPosition 
     {
         get 
         {
-            //Debug.DrawRay(base.rootIKHandRef.position, forward,Color.blue);
-            //Debug.DrawRay(base.rootIKHandRef.position, rightWard, Color.red);
-            //Debug.DrawRay(base.rootIKHandRef.position, upWard, Color.green);
+            //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, forward, Color.blue);
+            //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, rightWard, Color.red);
+            //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, upWard, Color.green);
 
             return this.handIK_Transform_Ref_Pos.position 
                 + (forward * this.rightHandIK_ConstraintSCRP.positionOffset.z)

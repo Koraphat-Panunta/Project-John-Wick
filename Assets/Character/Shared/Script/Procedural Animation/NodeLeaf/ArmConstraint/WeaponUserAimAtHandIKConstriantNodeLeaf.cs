@@ -6,11 +6,13 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
 
     protected float blockedWeight;
 
+    protected Vector3 handPos => weaponAdvanceUser._userWeapon._rightHandBone.position;
+
     protected Vector3 targetBlockedHand_Position
     {
         get
         {
-            return this.handIK_Transform_Ref_Pos.position
+            return this.handPos
           + (forward * this.weaponRightHandIK_ConstraintSCRP.onBlocked_positionOffset.z)
           + (rightWard * this.weaponRightHandIK_ConstraintSCRP.onBlocked_positionOffset.x)
           + (upWard * this.weaponRightHandIK_ConstraintSCRP.onBlocked_positionOffset.y);
@@ -61,7 +63,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
             Quaternion recoilRot = calculateRot * Quaternion.Euler(this.weaponRightHandIK_ConstraintSCRP.recoil_Additional_Rotation_Offset);
             calculateRot = Quaternion.Lerp(calculateRot,recoilRot,this.recoilWeightRot);
 
-            Debug.DrawRay(this.targetHandPosition, calculateRot * Vector3.forward,Color.yellow);
+            //Debug.DrawRay(this.targetHandPosition, calculateRot * Vector3.forward,Color.yellow);
 
             return calculateRot;
         }
@@ -111,6 +113,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     }
     public override void UpdateNode()
     {
+        //Debug.Log("target Block weight = "+targetBlockWeight);
         this.RecoilWeightUpdate();
         this.BlockingCheck();
         base.UpdateNode();
@@ -120,18 +123,19 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     private float targetBlockWeight = 0;
     protected void BlockingCheck()
     {
-        Vector3 castPos = Vector3.Project(this.weaponAdvanceUser._currentWeapon.bulletSpawner.transform.position - base.handIK_Transform_Ref_Pos.position
-            , base.aimDirConstriant) + base.handIK_Transform_Ref_Pos.position;
+        Vector3 castPos = Vector3.Project(this.weaponAdvanceUser._currentWeapon.bulletSpawner.transform.position - this.handPos
+            , base.aimDirConstriant) + this.handPos;
 
-        //Debug.DrawLine(base.handIK_Transform_Ref_Pos.position, castPos, Color.green);
+        Vector3 castPosToStart = castPos - this.handPos;
 
-        Vector3 castPosToStart = castPos - base.handIK_Transform_Ref_Pos.position;
+        //Debug.DrawLine(castPos, this.handPos, Color.red);
 
-        if (Physics.Raycast(base.handIK_Transform_Ref_Pos.position, castPosToStart.normalized, castPosToStart.magnitude, this.blockedMaskDefault, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(this.handPos, castPosToStart.normalized,out RaycastHit hitInfo, castPosToStart.magnitude, this.blockedMaskDefault, QueryTriggerInteraction.Ignore))
         {
             this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight + Time.deltaTime * 2);
+
         }
-        else if(Physics.Raycast(base.handIK_Transform_Ref_Pos.position, castPosToStart.normalized, castPosToStart.magnitude + .15f, this.blockedMaskDefault, QueryTriggerInteraction.Ignore) == false)
+        else if(Physics.Raycast(this.handPos, castPosToStart.normalized, castPosToStart.magnitude + .15f, this.blockedMaskDefault, QueryTriggerInteraction.Ignore) == false)
         {
             this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight - Time.deltaTime * 5);
         }
@@ -140,6 +144,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     }
     protected void RecoilWeightUpdate()
     {
+
         this.recoilWeightPos = Mathf.Clamp01(this.recoilWeightPos - Time.deltaTime * 4);
         this.recoilWeightRot = Mathf.Clamp01(this.recoilWeightRot - Time.deltaTime * 10);
 

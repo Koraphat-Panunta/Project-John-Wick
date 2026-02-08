@@ -45,6 +45,15 @@ public partial class PlayerConstrainAnimationManager
         }
     }
 
+    protected bool isProne
+    {
+        get 
+        {
+            return this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+            || (this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveNode)
+            && dolphinDiveNode.isPassingJump);
+        }
+    }
     protected void EnableIK() => this.isEnableIK = true;
     protected void DisableIK() => this.isEnableIK = false;  
 

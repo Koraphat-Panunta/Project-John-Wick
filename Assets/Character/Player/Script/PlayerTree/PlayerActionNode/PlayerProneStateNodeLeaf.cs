@@ -11,7 +11,7 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     private float timer;
-    private float stayTime = .5f;
+    private float stayTime = 1;
 
     public PlayerProneStateNodeLeaf(Player player,PlayerStateNodeManager playerStateNodeManager, Func<bool> preCondition) : base(player, preCondition)
     {
@@ -35,8 +35,8 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
         
         if(this.timer < stayTime)
         this.timer += Time.deltaTime;
-
-        this.TransitioningCheck();
+        else
+            this.TransitioningCheck();
 
         base.UpdateNode();
     }

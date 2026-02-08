@@ -5,6 +5,7 @@ public static class ClampDirection
     public static Vector3 GetClampDirection(
      Vector3 referenceDir,
      Vector3 direction,
+     Vector3 upWard,
      float maxHorizontalDeg,
      float maxVerticalDeg)
     {
@@ -17,7 +18,7 @@ public static class ClampDirection
 
         // Basis: forward, right, up
         Vector3 fwd = referenceDir.normalized;
-        Vector3 right = Vector3.Cross(Vector3.up, fwd).normalized;
+        Vector3 right = Vector3.Cross(upWard, fwd).normalized;
         Vector3 up = Vector3.Cross(fwd, right).normalized;
 
         // Project onto local basis (dot products give angles)
@@ -30,7 +31,7 @@ public static class ClampDirection
         verticalAngle = Mathf.Clamp(verticalAngle, -maxVerticalDeg, maxVerticalDeg);
 
         // Rebuild direction from clamped angles
-        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
+        Quaternion rot = Quaternion.AngleAxis(horizontalAngle, upWard) *
                          Quaternion.AngleAxis(verticalAngle, right);
         Vector3 clampedDir = rot * fwd;
 

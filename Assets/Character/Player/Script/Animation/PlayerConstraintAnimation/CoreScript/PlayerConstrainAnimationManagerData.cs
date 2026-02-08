@@ -11,6 +11,7 @@ public partial class PlayerConstrainAnimationManager
     [SerializeField] private Transform leftHandTransformRef;
     [SerializeField] private Transform leftHandBoneTransform;
 
+    public AimBodyConstrainScriptableObject body_ADS_Prone_Constrain_SCRP;
     public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
     public AimBodyConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
     public AimBodyConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
@@ -33,11 +34,17 @@ public partial class PlayerConstrainAnimationManager
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_Restrain_Primary_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_Restrain_Secondary_SCRP;
 
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_ProneUp_PrimaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_ProneUp_SecondaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_ProneDown_PrimaryWeapon_SCRP;
+    public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_ProneDown_SecondaryWeapon_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_PrimaryWeapon_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_QuickSwitch_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_SecondaryWeapon_SCRP;
+
+    public HandIK_ConstraintSCRP lowReadyProne_LeftHand_IK_ConstrainSCRP;
 
     public HandIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
     public HandIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
