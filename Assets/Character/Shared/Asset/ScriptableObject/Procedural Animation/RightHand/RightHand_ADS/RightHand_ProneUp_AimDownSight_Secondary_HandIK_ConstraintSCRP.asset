@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da36ddb475224c8419e9a76d4a74abe9, type: 3}
   m_Name: RightHand_ProneUp_AimDownSight_Secondary_HandIK_ConstraintSCRP
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
-  positionOffset: {x: 0, y: 0, z: 0}
-  rotationEulerOffset: {x: 0, y: 0, z: 0}
-  hintPositionOffset: {x: 0, y: 0, z: 0}
+  positionOffset: {x: -0.05, y: 0.04, z: 0.47}
+  rotationEulerOffset: {x: 0, y: -90, z: -90}
+  hintPositionOffset: {x: 0.22, y: -0.43, z: 0}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
-  maxHorizontalHandAimDeg: 0
-  maxVerticalHandAimDeg: 0
-  onBlocked_positionOffset: {x: 0, y: 0, z: 0}
-  onBlocked_rotationEulerOffset: {x: 0, y: 0, z: 0}
-  onBlocked_hintPositionOffset: {x: 0, y: 0, z: 0}
-  recoil_Additional_Position_Offset: {x: 0, y: 0, z: 0}
-  recoil_Additional_Rotation_Offset: {x: 0, y: 0, z: 0}
+  maxHorizontalHandAimDeg: 45
+  maxVerticalHandAimDeg: 45
+  onBlocked_positionOffset: {x: -0.04, y: -0.03, z: 0.2}
+  onBlocked_rotationEulerOffset: {x: 45, y: 270, z: 320.8}
+  onBlocked_hintPositionOffset: {x: 0.23, y: -0.29, z: -0.25}
+  recoil_Additional_Position_Offset: {x: 0, y: 0.01, z: -0.02}
+  recoil_Additional_Rotation_Offset: {x: 0, y: 0, z: 15}

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae31ab648f48c744b503989fb95f387, type: 3}
   m_Name: ProneAimSplineLookConstrainScriptableObject
   m_EditorClassIdentifier: 
-  weightSpline: 1
-  offsetSpline: {x: 12, y: 0, z: 0}
-  weightSpline1: 1
-  offsetSpline1: {x: 25, y: 0, z: 0}
-  weightSpline2: 1
-  offsetSpline2: {x: 20, y: -10, z: 0}
+  weightSpline: 0
+  offsetSpline: {x: 0, y: 0, z: 0}
+  weightSpline1: 0
+  offsetSpline1: {x: 0, y: 0, z: 0}
+  weightSpline2: 0.5
+  offsetSpline2: {x: 0, y: 45, z: 0}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
-  maxHorizontalDeg: 45
-  maxVerticalDeg: 20
+  maxHorizontalDeg: 180
+  maxVerticalDeg: 0
   offsetChangedRate: 10
