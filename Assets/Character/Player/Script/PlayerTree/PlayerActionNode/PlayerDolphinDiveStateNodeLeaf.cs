@@ -10,8 +10,8 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
     private Vector3 jumpDir;
 
     protected PlayerMovement playerMovement => this.player.playerMovement;
-    protected float jumpVelocuty = 6;
-    protected float jumpVerticalVelocuty = 3;
+    protected float jumpVelocuty = 5;
+    protected float jumpVerticalVelocuty = 3f;
     public PlayerDolphinDiveStateNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }

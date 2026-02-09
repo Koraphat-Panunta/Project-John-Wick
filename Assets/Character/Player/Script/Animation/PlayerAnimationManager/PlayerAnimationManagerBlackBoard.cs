@@ -77,6 +77,7 @@ public partial class PlayerAnimationManager
                 || playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
+                || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
                 )
                 return false;
 

@@ -43,7 +43,7 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
 
     public override void FixedUpdateNode()
     {
-        this.playerMovement.UpdateMoveToDirWorld(Vector3.zero, this.player.breakDecelerate, MoveMode.MaintainMomentumDirection);
+        this.playerMovement.UpdateMoveToDirWorld(Vector3.zero, this.player.breakDecelerate , MoveMode.MaintainMomentumDirection);
         base.FixedUpdateNode();
     }
     public override bool IsReset()

@@ -10,7 +10,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf throwObjectNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf getUpNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
     public PlayAnimationNodeLeaf vaultingNodeLeaf { get; set; }
@@ -126,9 +126,9 @@ public partial class PlayerAnimationManager
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             , this.animator, "Prone", 0, 0, this.basedAnimationPoseTimeNormalzied, 1, false);
-        this.getUpNodeLeaf = new PlayPoseAnimationNodeLeaf(
+        this.getUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
-            , this.animator, "Starfish KickUp", 0, 0.25f,this.basedAnimationPoseTimeNormalzied,.5f,false);
+            , this.animator, "KickUp", 0,.1f);
 
         moveCrouchNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Idle_NodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerCrouch_Move_NodeLeaf,

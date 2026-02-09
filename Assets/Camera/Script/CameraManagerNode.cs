@@ -82,7 +82,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () =>
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Stance.prone)
+                && cameraController.player.playerStance == Stance.prone || playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
                     return true;
 
                 return false;
