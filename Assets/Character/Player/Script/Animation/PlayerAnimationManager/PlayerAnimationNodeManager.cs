@@ -135,7 +135,7 @@ public partial class PlayerAnimationManager
             animator, "Crouch", 0, .2f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
-            animator, "Move/Idle", 0, .4f);
+            animator, "Move/Idle", 0, .1f);
     }
     private void InitializedGunFuBasedLayer()
     {

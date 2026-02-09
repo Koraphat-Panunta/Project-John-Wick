@@ -113,7 +113,7 @@ public abstract partial class MovementCompoent : INodeManager
         if (lookDirWorldNomalized != Vector3.zero)
         {
             // Calculate the target rotation based on the direction
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirWorldNomalized);
+            Quaternion targetRotation = Quaternion.LookRotation(lookDirWorldNomalized,Vector3.up);
 
             // Smoothly rotate towards the target rotation
             this.SetRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));

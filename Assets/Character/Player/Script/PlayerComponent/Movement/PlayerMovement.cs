@@ -163,8 +163,8 @@ public class PlayerMovement : MovementCompoent
         else
             this.isProximityInAir = false;
 
-        if (this.isProximityInAir)
-            Debug.Log("isProximityInAir");
+        //if (this.isProximityInAir)
+        //    Debug.Log("isProximityInAir");
     }
     public bool isProximityInAir { get; private set; }
     private float inAirTimer;

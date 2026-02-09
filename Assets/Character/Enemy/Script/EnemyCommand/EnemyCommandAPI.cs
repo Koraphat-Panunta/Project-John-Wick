@@ -107,7 +107,6 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         {
             MoveDirWorld = this._enemy.transform.forward;
         }
-        Debug.Log("MoveDirWorld = "+ MoveDirWorld);
 
         velocityScale = Mathf.Clamp01((float)velocityScale);
         this._enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocityScale;
@@ -205,6 +204,13 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void PullTrigger()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+
+        if(_enemy._currentWeapon != null
+            && _enemy._currentWeapon.curBulletCapacity <= 0 
+            && _enemy._currentWeapon.chamber.isReadyShoot == false)
+            this.Reload();
+            
+
         weaponAdvanceUser._isPullTriggerCommand = true;
     }
     public void Reload()

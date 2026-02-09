@@ -13,7 +13,7 @@ public class MagazineAnimationEvent : MonoBehaviour
     [SerializeField] protected Transform realWeaponMagazine;
     [SerializeField] protected Transform visibleMag;
 
-    protected MountComponent mountComponent;
+    [SerializeField] protected MountComponent mountComponent;
 
     private void OnValidate()
     {
@@ -39,9 +39,14 @@ public class MagazineAnimationEvent : MonoBehaviour
 
     public void AttatchToHand(float duration)
     {
+
         this.SetActive(true);
-        if(this.weaponAdvanceUserHand != null)
+        if (this.weaponAdvanceUserHand != null)
+        {
             this.mountComponent.Attach(this.weaponAdvanceUserHand, offsetPositionHand, Quaternion.Euler(this.offsetRotationHand), duration);
+        }
+
+ 
     }
 
     public IEnumerator CoundownEnableRealMag(float duration)

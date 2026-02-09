@@ -17,6 +17,7 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                 case FiringNode firingNode:
                     {
                         enemy.NotifyObserver(enemy, firingNode);
+                        this.AutoRegenAmmo();
                         break;
                     }
                 case ReloadMagazineFullStageNodeLeaf reloadMagazineFullStageNodeLeaf:

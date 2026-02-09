@@ -61,7 +61,7 @@ public class NormalFiringPattern : EnemyFiringPattern
         if (isShootAble == false)
             return;
 
-        if (curWeapon.curBulletCapacity <= 0 && curWeapon.chamber.isReadyShoot == false)
+        if (curWeapon.curBulletCapacity <= 0 && curWeapon.chamber.isLoad == false)
         {
             enemyController.Reload();
             return;

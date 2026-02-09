@@ -11,7 +11,7 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     private float timer;
-    private float stayTime = 1;
+    private float stayTime = .5f;
 
     public PlayerProneStateNodeLeaf(Player player,PlayerStateNodeManager playerStateNodeManager, Func<bool> preCondition) : base(player, preCondition)
     {

@@ -156,8 +156,12 @@ public partial class Enemy : SubjectEnemy
 
         curTrackRate = enemyGetShootDirection.trackingTargetRate;
     }
+
+
     public void BlackBoardBufferUpdate()
     {
+
+
         _isHolsterWeaponCommand = false;
         _isDrawPrimaryWeaponCommand = false;
         _isDrawSecondaryWeaponCommand = false;

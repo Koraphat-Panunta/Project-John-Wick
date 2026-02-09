@@ -219,7 +219,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         }
         if(node is IReloadMagazineNode reloadMagazineNode)
         {
-            Debug.Log(reloadMagazineNode._reloadTime);
+            //Debug.Log(reloadMagazineNode._reloadTime);
 
             this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
             this.rifleReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
