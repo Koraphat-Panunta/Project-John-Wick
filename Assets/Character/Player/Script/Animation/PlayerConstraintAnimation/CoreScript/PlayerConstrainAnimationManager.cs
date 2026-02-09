@@ -293,7 +293,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.rightHandLowReadyConstrainNodeSelector = new NodeSelector
             (
             () => this.player._currentWeapon != null
-            && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight <= 0
+            && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() == false
             && 
             (
             this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)

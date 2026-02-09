@@ -59,7 +59,15 @@ public partial class PlayerAnimationManager
                && restrict.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
                 return true;
 
+           if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
+                return true;
 
+           if (playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
+                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>() 
+                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>()
+                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>()
+                )
+                return true;
 
             if (playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
@@ -72,12 +80,10 @@ public partial class PlayerAnimationManager
                 )
                 return false;
 
-            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
-                && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>() == false)
+            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
                 return false;
 
-            if (player.curNodeLeaf is PlayerProneStateNodeLeaf
-                && playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>() == false)
+            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
                 return false;
 
             return true;

@@ -126,7 +126,50 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
         Vector3 lookDir = (this.player._lookingPos - this.player.transform.position).normalized;
 
-        this.angleLookHorizontal = Quaternion.FromToRotation(this.player.transform.forward, new Vector3(lookDir.x,this.player.transform.forward.y,lookDir.z)).eulerAngles.y;
+        lookDir = new Vector3(lookDir.x, this.player.transform.forward.y, lookDir.z).normalized;
+
+        float angleLookHorizontal = Quaternion.FromToRotation(this.player.transform.forward, lookDir).eulerAngles.y;
+
+        Debug.DrawRay(this.player.transform.position, lookDir, Color.red);
+
+
+        if (Vector3.Dot(this.player.transform.forward, lookDir) <= -.99f)
+            angleLookHorizontal = 180;
+
+         if (Vector3.Dot(this.player.transform.forward, lookDir) >= .99f)
+            angleLookHorizontal = 1;
+
+
+        if ((angleLookHorizontal > 0 && angleLookHorizontal <= 180))
+            {
+
+                if (this.angleLookHorizontal > 270 && this.angleLookHorizontal < 360)
+                {
+                    this.angleLookHorizontal = Mathf.Lerp(this.angleLookHorizontal, 361, Time.deltaTime * 50);
+                    if (this.angleLookHorizontal >= 360)
+                    {
+                        this.angleLookHorizontal = 0;
+                    }
+                }
+                else
+                {
+                    this.angleLookHorizontal = Mathf.Lerp(this.angleLookHorizontal, angleLookHorizontal, Time.deltaTime * 50);
+                }
+            }
+            else
+            {
+                if (this.angleLookHorizontal > 0 && this.angleLookHorizontal < 90)
+                {
+                    this.angleLookHorizontal = Mathf.Lerp(this.angleLookHorizontal, -1, Time.deltaTime * 50);
+                    if (this.angleLookHorizontal <= 0)
+                        this.angleLookHorizontal = 360;
+                }
+                else
+                {
+                    this.angleLookHorizontal = Mathf.Lerp(this.angleLookHorizontal, angleLookHorizontal, Time.deltaTime * 50);
+                }
+            }
+
 
         this.angleLookVertical = Vector3.Angle(Vector3.up, lookDir);
 

@@ -105,6 +105,14 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerSprintNode
                )
                 return true;
+
+            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+               && dolphinDiveStateNodeLeaf.isPassingJump)
+                return true;
+
+            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
+                return true;
+
             return false;
         }
     }
