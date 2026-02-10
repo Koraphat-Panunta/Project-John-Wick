@@ -41,6 +41,9 @@ public partial class PlayerConstrainAnimationManager
             if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())
                 return false;
 
+            if(playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
+                return false;
+
             return true;
         }
     }

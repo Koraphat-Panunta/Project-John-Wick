@@ -23,7 +23,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 
         this.player.playerStance = Stance.prone;
 
-        this.jumpDir = this.player._movementCompoent.moveInputVelocity_World.normalized;
+        this.jumpDir = (this.player.inputMoveDir_World.normalized + this.playerMovement.curMoveVelocity_World.normalized).normalized;
 
         this.timer = 0;
 

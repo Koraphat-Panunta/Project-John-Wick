@@ -63,6 +63,10 @@ public abstract partial class MovementCompoent : INodeManager
                 }
         }
     }
+    public void SetVelocityWorld(Vector3 velocity)
+    {
+        this.curMoveVelocity_World = velocity;
+    }
     public void UpdateMoveToDirWorld(Vector3 dirWorldVelocity,float accelerate, MoveMode moveMode)
     {
         moveInputVelocity_World = new Vector3(dirWorldVelocity.x, 0, dirWorldVelocity.z);

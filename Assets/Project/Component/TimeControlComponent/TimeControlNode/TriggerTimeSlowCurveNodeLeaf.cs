@@ -27,9 +27,9 @@ public class TriggerTimeSlowCurveNodeLeaf : TimeNodeLeaf
 
     public override void UpdateNode()
     {
-      
 
-        if(this.timer <= 0)
+        Time.fixedDeltaTime = TimeControlManager.fixDeltaTimeDefault * Time.timeScale;
+        if (this.timer <= 0)
             return;
 
         this.timer -= Time.unscaledDeltaTime;
@@ -40,6 +40,7 @@ public class TriggerTimeSlowCurveNodeLeaf : TimeNodeLeaf
             : normalized;
 
         Time.timeScale = timeScale;
+
 
     }
 

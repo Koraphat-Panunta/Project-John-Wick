@@ -82,7 +82,7 @@ public partial class Player: IWeaponAdvanceUser
                 //Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPointPos, Color.green,5);
                 return shootPointPos;             
             }
-            Debug.Log("dot = " + dot);
+            //Debug.Log("dot = " + dot);
 
             Vector3 shootPoint = this.crosshairController.CrosshiarShootpoint.GetShootPointDirection();
             //Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPoint, Color.red, 5);

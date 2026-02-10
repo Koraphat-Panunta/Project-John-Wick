@@ -22,8 +22,8 @@ public class BulletSpawner : MonoBehaviour
         //thisBullet.travelDri = (shootPos - _transform.position).normalized ;    
         Vector3 bulletHitPos = bullet.Shoot(this, shootPos);
 
-        Debug.DrawLine(this.transform.position, shootPos, Color.red, 5);
-        Debug.DrawLine(this.transform.position, bulletHitPos,Color.green,5);
+        //Debug.DrawLine(this.transform.position, shootPos, Color.red, 5);
+        //Debug.DrawLine(this.transform.position, bulletHitPos,Color.green,5);
 
         Vector3 bulletHitDir = bulletHitPos - transform.position;
         Vector3 shootPointDir = shootPos - transform.position;

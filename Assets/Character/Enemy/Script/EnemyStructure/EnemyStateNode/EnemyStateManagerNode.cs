@@ -141,7 +141,8 @@ public partial class EnemyStateManagerNode : INodeManager
             );
 
         zeroPostureSelector = new NodeSelector(
-            ()=> this.enemy._posture <= 0);
+            ()=> this.enemy._posture <= 0 && this.enemy.isNotFallAble == false
+            );
         gunFuZeroPostureSelector = new NodeSelector(
             () => enemy._triggerHitedGunFu);
         gotExecuteOnGroundSelector = new NodeSelector(

@@ -7,6 +7,7 @@ public class RagdollMotionState : MotionState
     public GameObject hips;
     private Rigidbody hipsRigid;
     private Animator animator;
+
     public RagdollMotionState(List<GameObject> bones,GameObject hips,Animator animator) 
     {
         this.animator = animator;

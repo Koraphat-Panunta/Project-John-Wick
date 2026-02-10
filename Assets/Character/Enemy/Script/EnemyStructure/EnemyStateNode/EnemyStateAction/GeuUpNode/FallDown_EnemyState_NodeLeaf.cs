@@ -63,7 +63,12 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     Vector3 beforeRootPos;
     public override void UpdateNode()
     {
-        (enemy._movementCompoent).UpdateMoveToDirWorld(Vector3.zero,2, MoveMode.MaintainMomentumDirection);
+
+        //Debug.Log("Enemy fall down state");
+
+        //Debug.Log("enemy curVelocity = " + enemy._movementCompoent.curMoveVelocity_World.magnitude);
+
+        this.enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
         RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
         RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
         if (_hipsBone.transform.position.y < enemy.transform.position.y)

@@ -104,9 +104,12 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     [SerializeField] private float restrict_HumanShield_BulletTimeDuration;
     [Range(0, 10)]
     [SerializeField] private float hit3SlowMotionDuration;
+    [Range(0, 10)]
+    [SerializeField] private float bulletTimeSlowMotionDuration;
 
     [SerializeField] private AnimationCurve restrict_HS_BulletTimeCurve;
     [SerializeField] private AnimationCurve hit3_TimeCurve;
+    [SerializeField] private AnimationCurve bulletTimeSlowCurve;
     #endregion
 
     public void OnNotify<T>(InGameLevelGameMaster inGameLevelGameMaster, T var)
@@ -148,6 +151,19 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
                         this.triggerBulletTime.TriggerSlowMotion(this.restrict_HS_BulletTimeCurve, this.restrict_HumanShield_BulletTimeDuration);
                     else if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Exit)
                         this.triggerBulletTime.StopSlowMotion();
+                    break;
+                }
+            case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
+                {
+                    if(aimDownSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter
+                        && (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>())
+                    {
+                        this.triggerBulletTime.TriggerSlowMotion(this.bulletTimeSlowCurve, this.bulletTimeSlowMotionDuration);
+                    }
+                    else if(aimDownSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Exit)
+                    {
+                        this.triggerBulletTime.StopSlowMotion();
+                    }
                     break;
                 }
            

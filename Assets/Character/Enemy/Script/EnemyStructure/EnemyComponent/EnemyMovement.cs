@@ -26,7 +26,9 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     {
         startNodeSelector = new NodeSelector(() => true, "enemy movementComponent startSelector");
 
-        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(()=> isOnUpdateEnable ,this);
+        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(()=> isOnUpdateEnable 
+       
+        ,this);
         restMovementNodeLeaf = new MovementNodeLeaf(()=> true);
 
         startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);

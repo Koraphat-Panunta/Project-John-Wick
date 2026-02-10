@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using static UnityEditor.Recorder.OutputPath;
 
-public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
+public class ArmPrceduralPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
 {
 
     public Vector3 painLookAtPos;
@@ -30,7 +30,7 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
 
     public Vector3 handToBalancePointDir => (this.balancePoint - this.painLookAtPos).normalized;
 
-    public ArmFlickPainStateConstraintNodeLeaf(
+    public ArmPrceduralPainStateConstraintNodeLeaf(
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform rootIKHandRef
         , Func<bool> precondition
@@ -68,8 +68,15 @@ public class ArmFlickPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
         this.curVelocity = curVelocity.normalized * Mathf.Clamp(this.curVelocity.magnitude,0f,2f);
         base.FixedUpdateNode();
     }
+
+    protected float limitDistanceTargetHand = 1;
+
     protected override void UpdateTargetHandPosition()
     {
+        if(Vector3.Distance(base.rootIKHandRef.position,this.painLookAtPos) > this.limitDistanceTargetHand)
+        {
+            this.painLookAtPos = this.rootIKHandRef.position + (this.painLookAtPos - base.rootIKHandRef.position).normalized * this.limitDistanceTargetHand;
+        }
 
         this.painLookAtPos += this.curVelocity * Time.deltaTime;
 

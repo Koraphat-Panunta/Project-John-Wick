@@ -32,6 +32,7 @@ public partial class Enemy : SubjectEnemy
 
     
     [SerializeField] public bool isImortal;
+    [SerializeField] public bool isNotFallAble;
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;

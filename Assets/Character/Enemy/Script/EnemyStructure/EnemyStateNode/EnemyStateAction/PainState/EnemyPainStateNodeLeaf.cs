@@ -92,6 +92,11 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
 
     public override void FixedUpdateNode()
     {
+        if(enemy._movementCompoent.curMoveVelocity_World.magnitude > enemy.StandMoveMaxSpeed)
+        {
+            this.enemy._movementCompoent.SetVelocityWorld(enemy._movementCompoent.curMoveVelocity_World.normalized * enemy.StandMoveMaxSpeed);
+        }
+
         enemy._movementCompoent.UpdateMoveToDirWorld(moveDirWorldRandom.normalized * moveSpeed ,Mathf.Clamp(moveSpeed,1, moveSpeed), MoveMode.MaintainMomentumDirection);
         enemy._movementCompoent.SetRotateToDirWorld(this.rotateDir, this.rotatePower);
         base.FixedUpdateNode();

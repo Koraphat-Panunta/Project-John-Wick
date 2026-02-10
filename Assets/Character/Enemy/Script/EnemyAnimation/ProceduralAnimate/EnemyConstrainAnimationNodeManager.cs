@@ -57,10 +57,10 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     #region ArmConstraintNodeLeaf
     public NodeSelector leftArmConstraintSelector;
     public ArmHoldPainPointConstraintNodeLeaf leftArmHoldPainPointConstraintNodeLeaf;
-    public ArmFlickPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
+    public ArmPrceduralPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
 
     public NodeSelector rightArmConstraintSelector;
-    public ArmFlickPainStateConstraintNodeLeaf rightArmFlickPainStateConstraintNodeLeaf;
+    public ArmPrceduralPainStateConstraintNodeLeaf rightArmFlickPainStateConstraintNodeLeaf;
 
     #endregion
 
@@ -121,7 +121,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
             ,this.armAnchorSwingOffsetPosition);
-        this.leftArmFlickPainStateConstraintNodeLeaf = new ArmFlickPainStateConstraintNodeLeaf
+        this.leftArmFlickPainStateConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.leftHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
@@ -133,7 +133,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.rightArmConstraintSelector = new NodeSelector(
             () => isRightArmConstraintEnable
             );
-        this.rightArmFlickPainStateConstraintNodeLeaf = new ArmFlickPainStateConstraintNodeLeaf
+        this.rightArmFlickPainStateConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.rightHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()

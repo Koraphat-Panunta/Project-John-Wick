@@ -210,6 +210,8 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
             oldRightFootPos = newRightFootPos;
             rightLeg.data.target.position = oldRightFootPos;
         }
+
+
        
     }
     private IEnumerator TransitionOut()
