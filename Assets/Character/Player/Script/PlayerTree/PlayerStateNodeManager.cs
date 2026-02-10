@@ -149,7 +149,7 @@ public class PlayerStateNodeManager : INodeManager
         this.proneStateNodeLeaf = new PlayerProneStateNodeLeaf(this.player,this
             ,()=> true);
         this.playerGetUpStateNodeLeaf = new PlayerGetUpStateNodeLeaf( this.player, 
-            () => this.player.inputMoveDir_World.magnitude > 0);
+            () => (this.player.inputMoveDir_World.magnitude > 0 && this.player.isSprint) || (this.player.triggerDodgeRoll));
 
         playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
             this.player, this.player.pokePickUpAnimationSCRP, this.player.rightFootss,
