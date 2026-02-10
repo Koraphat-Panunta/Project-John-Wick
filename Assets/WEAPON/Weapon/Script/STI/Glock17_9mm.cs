@@ -97,9 +97,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
         base.Update();
     }
 
-   
-
-    private FiringNode fire;
+  
     public AutoLoadChamberNode autoLoadChamber { get; set; }
     public override WeaponRestNodeLeaf restNode { get ; set ; }
     public override INodeSelector startNodeSelector { get; set; }

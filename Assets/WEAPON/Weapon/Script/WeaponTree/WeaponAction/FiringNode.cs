@@ -23,7 +23,6 @@ public class FiringNode : WeaponLeafNode,INodeLeafTransitionAble
         isFiring = false;
         Weapon.chamber.FireTrigger();
         nodeLeafTransitionBehavior.TransitionAbleAll(this);
-        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Firing);
         Weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
              <FiringNode>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
         isFiring = true;

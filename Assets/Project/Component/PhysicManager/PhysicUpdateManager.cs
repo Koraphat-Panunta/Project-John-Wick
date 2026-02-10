@@ -13,10 +13,10 @@ public class PhysicUpdateManager : MonoBehaviour,IInitializedAble
     private void FixedUpdate()
     {
 
-        Debug.Log("Physic deltaTime = " + Time.deltaTime);
-        Debug.Log("Physic fixDeltaTime = " + Time.fixedDeltaTime);
-        Debug.Log("Physic timeScale = " + Time.timeScale);
-        Debug.Log("Physic physicsStep * Time.timeScale = " + physicsStep * Time.timeScale);
+        //Debug.Log("Physic deltaTime = " + Time.deltaTime);
+        //Debug.Log("Physic fixDeltaTime = " + Time.fixedDeltaTime);
+        //Debug.Log("Physic timeScale = " + Time.timeScale);
+        //Debug.Log("Physic physicsStep * Time.timeScale = " + physicsStep * Time.timeScale);
 
 
         Physics.Simulate(physicsStep * Time.timeScale);

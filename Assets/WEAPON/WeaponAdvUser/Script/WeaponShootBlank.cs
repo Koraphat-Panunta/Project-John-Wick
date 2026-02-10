@@ -4,6 +4,7 @@ public static class WeaponShootBlank
 {
     public static void ShootBlank(Weapon weapon)
     {
-        weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.Firing);
+        weapon.fire.SetWeaponNodeLeafPhase(WeaponLeafNode.WeaponNodeLeafPhase.Enter);
+        weapon.Notify<FiringNode>(weapon, weapon.fire);
     }
 }

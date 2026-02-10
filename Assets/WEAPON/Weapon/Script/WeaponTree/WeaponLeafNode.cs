@@ -16,6 +16,11 @@ public abstract class WeaponLeafNode : WeaponNode, INodeLeaf
 
     public WeaponNodeLeafPhase curWeaponNodeLeafPhase { get; protected set; }
 
+    public void SetWeaponNodeLeafPhase(WeaponNodeLeafPhase weaponNodeLeafPhase)
+    {
+        this.curWeaponNodeLeafPhase = weaponNodeLeafPhase;
+    }
+
     protected WeaponLeafNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
         this.isReset = new List<Func<bool>>();

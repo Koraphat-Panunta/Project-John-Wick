@@ -9,8 +9,6 @@ public abstract class WeaponSubject : MonoBehaviour
     {
         ReleseMagazine,
 
-        Firing,
-
         AttachmentSetup,
 
         BeenAttatch,

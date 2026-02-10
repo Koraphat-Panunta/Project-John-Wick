@@ -178,6 +178,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
         gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
 
+        weaponAdvanceUser._currentWeapon.PullTrigger();
+
         //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance pos = "
         //+ Vector3.Distance(
         //           gunFuAble_SubjectInteract.character.transform.position

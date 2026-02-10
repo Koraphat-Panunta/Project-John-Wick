@@ -99,22 +99,33 @@ public class CrosshairSpread : ICrosshairAction
 
     public void CrosshairSpreadUpdate()
     {
-        if(isAiming == false) 
-            sperad_rateDestination = maxWeaponPercision;
+        //if(isAiming == false) 
+        //    sperad_rateDestination = maxWeaponPercision;
 
-        if (isAiming)
-        {
-            sperad_rateDestination = minWeaponPercision + (Mathf.Abs(minWeaponPercision - maxWeaponPercision) * focusSpreadRate);
+        //if (isAiming)
+        //{
+        //    sperad_rateDestination = minWeaponPercision + (Mathf.Abs(minWeaponPercision - maxWeaponPercision) * focusSpreadRate);
 
-            if (crosshairBloom_rate <= sperad_rateDestination)
-            {
-                if (isRecoveryFocus >= 0)
-                    isRecoveryFocus -= Time.deltaTime;
+        //    if (crosshairBloom_rate <= sperad_rateDestination)
+        //    {
+        //        if (isRecoveryFocus >= 0)
+        //            isRecoveryFocus -= Time.deltaTime;
 
-                if (isRecoveryFocus <= 0)
-                    this.focusSpreadRate = Mathf.Clamp(this.focusSpreadRate - recoverFocusRate * Time.deltaTime, 0, focusSpreadMaxRate);
-            }
+        //        if (isRecoveryFocus <= 0)
+        //            this.focusSpreadRate = Mathf.Clamp(this.focusSpreadRate - recoverFocusRate * Time.deltaTime, 0, focusSpreadMaxRate);
+        //    }
                 
+        //}
+
+        sperad_rateDestination = minWeaponPercision + (Mathf.Abs(minWeaponPercision - maxWeaponPercision) * focusSpreadRate);
+
+        if (crosshairBloom_rate <= sperad_rateDestination)
+        {
+            if (isRecoveryFocus >= 0)
+                isRecoveryFocus -= Time.deltaTime;
+
+            if (isRecoveryFocus <= 0)
+                this.focusSpreadRate = Mathf.Clamp(this.focusSpreadRate - recoverFocusRate * Time.deltaTime, 0, focusSpreadMaxRate);
         }
 
         crosshairBloom_rate = Mathf.MoveTowards(crosshairBloom_rate,sperad_rateDestination,spread_rateRecovery * Time.deltaTime);

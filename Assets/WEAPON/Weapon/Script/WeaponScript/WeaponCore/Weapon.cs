@@ -89,6 +89,9 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
             }
         } 
     }
+
+    public FiringNode fire;
+
     public virtual void Initialized()
     {
         weaponLayerMask = gameObject.layer;

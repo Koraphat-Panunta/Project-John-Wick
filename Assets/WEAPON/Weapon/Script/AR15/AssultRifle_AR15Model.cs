@@ -71,7 +71,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
     #region Initilaized Node
 
     public override INodeSelector startNodeSelector { get; set; }
-    private FiringNode fire;
+
     public AutoLoadChamberNode autoLoadChamber { get ; set; }
     public override WeaponRestNodeLeaf restNode { get; set ; }
 
