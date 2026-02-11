@@ -17,57 +17,50 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
     private float weight;
 
-    protected TwoBoneIKConstraint leftLeg => proceduralAnimateNodeManager.leftLeg;
+    protected ProceduralLegsWalkConstrainSCRP proceduralLegsWalkConstrainSCRP;
+
+    protected LegsConstrainManager legsConstrainManager;
+
     public Vector3 oldLeftFootPos;
     public Vector3 newLeftFootPos;
     public Vector3 relativeNewLeftFootPos;
     protected float lerpLeftLeg;
 
-    protected TwoBoneIKConstraint rightLeg => proceduralAnimateNodeManager.rightLeg;
     public Vector3 oldRightFootPos;
     public Vector3 newRightFootPos;
     public Vector3 relativeNewRightFootPos;
     protected float lerpRightLeg;
 
-    protected Transform hipTransform => proceduralAnimateNodeManager.centre;
-    protected float hipLegsSpace => proceduralAnimateNodeManager.hipLegSpace;
+    public Vector3 anchorHipPos;
 
-    protected float stepDistance => proceduralAnimateNodeManager.StepDistacne * Mathf.Clamp(curVelocity.magnitude, 0.1f, 1.2f);
-    protected float stepHeight => proceduralAnimateNodeManager.StepHeight;
-    protected float stepSpeed
-    {
-        get
-        {
-            float stepSpeed = proceduralAnimateNodeManager.StepVelocity * Mathf.Clamp(curVelocity.magnitude, .5f, 1f);
-            proceduralAnimateNodeManager.enemyProceduralAnimateNodeManagerDebug = "stepSpeed = " + stepSpeed + "\n";
-            return stepSpeed;
-        }
-    }
+    protected Transform hipTransform;
+    protected float hipLegsSpace = .26f;
+
+    protected float stepDistance;
+    protected float stepHeight;
+    protected float stepSpeed;
 
     private float maxOffset = 1.5f;
     protected Vector3 footplacementOffsetDistance => Vector3.ClampMagnitude(proceduralAnimateNodeManager.FootstepPlacementOffsetDistance * curVelocity, maxOffset);
 
     protected Vector3 curVelocity => enemy._movementCompoent.curMoveVelocity_World;
 
-    private float transitionVelocity = 3;
 
-    protected Enemy enemy => proceduralAnimateNodeManager.enemy;
-    protected EnemyConstrainAnimationNodeManager proceduralAnimateNodeManager;
 
-    public enum Phase
+
+    public PainStateWalkProceduralAnimateNodeLeaf(
+        LegsConstrainManager legsConstrainManager
+        , Transform hipTransform
+        , ProceduralLegsWalkConstrainSCRP proceduralLegsWalkConstrainSCRP
+        , Func<bool> preCondition
+        ) : base(preCondition)
     {
-        TransitionIn,
-        Stay,
-        TransitionOut
-    }
-    public Phase curPhase;
+        this.legsConstrainManager = legsConstrainManager;
+        this.hipTransform = hipTransform;
 
-    private float transitionInElapesTime;
-    private const float transitionInDuration = 1;
-    public PainStateWalkProceduralAnimateNodeLeaf(EnemyConstrainAnimationNodeManager enemyProceduralAnimateNodeManager, Func<bool> preCondition) : base(preCondition)
-    {
-        this.proceduralAnimateNodeManager = enemyProceduralAnimateNodeManager;
-        stepAbleLayer = LayerMask.GetMask("Ground") | LayerMask.GetMask("Default");
+        this.proceduralLegsWalkConstrainSCRP = proceduralLegsWalkConstrainSCRP;
+
+        this.stepAbleLayer = LayerMask.GetMask("Ground") | LayerMask.GetMask("Default");
     }
 
     public override void Enter()
@@ -80,7 +73,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         {
             Vector3 pos = hitInfoLeft.point + (hipTransform.forward * 0.2f);
             relativeNewLeftFootPos = pos - hipTransform.position;
-            leftLeg.data.target.position = pos;
+            this.legsConstrainManager.SetLeftLeg_Target_Foot(pos);
             newLeftFootPos = pos;
             oldLeftFootPos = pos;
         }
@@ -89,20 +82,26 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         {
             Vector3 pos = hitInfoRight.point + (hipTransform.forward * -0.2f);
             relativeNewRightFootPos = pos - hipTransform.position ;
-            rightLeg.data.target.position = pos;
+            this.legsConstrainManager.SetRightLeg_Target_Foot(pos);
             newRightFootPos = pos;
             oldRightFootPos = pos;
         }
 
-        transitionInElapesTime = 0;
-        curPhase = Phase.TransitionIn;
+        Ray rayHip = new Ray(this.hipTransform.position,Vector3.down); 
+        if(Physics.Raycast(rayHip, out RaycastHit hitInfoHip, 10, stepAbleLayer))
+        {
+            this.anchorHipPos = hitInfoHip.point;
+        }
+        else
+            this.anchorHipPos = this.hipTransform.position;
+
+
         base.Enter();
     }
 
     public override void Exit()
     {
-        curPhase = Phase.TransitionOut;
-        proceduralAnimateNodeManager.StartCoroutine(TransitionOut());
+
         base.Exit();
     }
 
@@ -118,49 +117,37 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         UpdateLerpingStep();
 
 
-        if (curPhase == Phase.TransitionIn)
-        {
-            weight = transitionInElapesTime / transitionInDuration;
-            transitionInElapesTime += Time.deltaTime * this.transitionVelocity;
-
-            leftLeg.weight = weight;
-            rightLeg.weight = weight;
-
-            if (transitionInElapesTime >= transitionInDuration)
-                curPhase = Phase.Stay;
-        }
-        else if (curPhase == Phase.Stay)
-        {
-
-        }
+      
 
         base.UpdateNode();
     }
 
     private void RayCastStepCheck()
     {
-        Ray rayLeftLeg = new Ray(hipTransform.position + (hipTransform.right * -hipLegsSpace) - hipTransform.forward * 0.2f, Vector3.down);
-        Ray rayRightLeg = new Ray(hipTransform.position + (hipTransform.right * hipLegsSpace) - hipTransform.forward * 0.2f, Vector3.down);
+        Ray rayHip = new Ray(this.hipTransform.position,Vector3.down);
 
-        if (curTurn == Turn.left && Physics.Raycast(rayLeftLeg, out RaycastHit hitInfoLeft, 10, stepAbleLayer))
+        if ( this.lerpRightLeg >= 1 && this.lerpLeftLeg >= 1
+            && Physics.Raycast(rayHip, out RaycastHit hitInfo, 10, this.stepAbleLayer)
+            && Vector3.Distance(this.anchorHipPos, hitInfo.point) > this.stepDistance )
         {
-            if (Vector3.Distance(newLeftFootPos, hitInfoLeft.point) > stepDistance && lerpRightLeg >= 1 && lerpLeftLeg >= 1 )
+            if(this.curTurn == Turn.left)
             {
-                lerpLeftLeg = 0;
-                relativeNewLeftFootPos = (hitInfoLeft.point + footplacementOffsetDistance) - hipTransform.position;
-                newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
+                this.lerpLeftLeg = 0;
+                this.relativeNewLeftFootPos = (hitInfo.point + this.footplacementOffsetDistance) - this.hipTransform.position;
+                this.newLeftFootPos = this.hipTransform.position + this.relativeNewLeftFootPos;
+                this.anchorHipPos = this.newLeftFootPos;
             }
-        }
-        else if (curTurn == Turn.right && Physics.Raycast(rayRightLeg, out RaycastHit hitInfoRight, 10, stepAbleLayer))
-        {
-            if (Vector3.Distance(newRightFootPos, hitInfoRight.point) > stepDistance && lerpLeftLeg >= 1 && lerpRightLeg >= 1)
+            else
             {
-                lerpRightLeg = 0;
-                relativeNewRightFootPos = (hitInfoRight.point + footplacementOffsetDistance) - hipTransform.position;
-                newRightFootPos = hipTransform.position + relativeNewRightFootPos;
+                this.lerpRightLeg = 0;
+                this.relativeNewRightFootPos = (hitInfo.point + this.footplacementOffsetDistance) - this.hipTransform.position;
+                this.newRightFootPos = this.hipTransform.position + this.relativeNewRightFootPos;
+                this.anchorHipPos = this.newRightFootPos;
+            }
+           
+        }
 
-            }
-        }
+       
     }
     private void UpdateLerpingStep()
     {
@@ -183,6 +170,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         }
         else
         {
+            newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
             oldLeftFootPos = newLeftFootPos;
             leftLeg.data.target.position = oldLeftFootPos;
         }
@@ -207,6 +195,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         }
         else
         {
+            newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
             oldRightFootPos = newRightFootPos;
             rightLeg.data.target.position = oldRightFootPos;
         }
@@ -214,16 +203,5 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
        
     }
-    private IEnumerator TransitionOut()
-    {
-        while (weight > 0)
-        {
-            if (curPhase != Phase.TransitionOut)
-                break;
-            weight -= Time.deltaTime * transitionVelocity;
-            leftLeg.weight = weight;
-            rightLeg.weight = weight;
-            yield return null;
-        }
-    }
+    
 }

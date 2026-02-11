@@ -4,8 +4,6 @@ using static UnityEditor.Recorder.OutputPath;
 
 public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager,IObserverEnemy
 {
-
-    public Transform centre;
     public TwoBoneIKConstraint leftLeg;
     public TwoBoneIKConstraint rightLeg;
     public Enemy enemy;
@@ -21,46 +19,58 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     [SerializeField] private TransformOffsetSCRP armAnchorSwingOffsetPosition;
     [SerializeField] private TransformOffsetSCRP armBalancePointOffset;
-    #region PainStateWalk
-    [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
-
-    [Range(0, 10)]
-    public float hipLegSpace;
-
-    [Range(0, 10)]
-    public float StepHeight;
-
-    [Range(0, 10)]
-    public float StepDistacne;
-
-    [Range(0, 100)]
-    public float StepVelocity;
-
-    [Range(0, 10)]
-    public float FootstepPlacementOffsetDistance;
-    #endregion
 
     [SerializeField] private Rig rig;
 
     [SerializeField] private AnimationCurve painBodyRespondCurve;
+
     public NodeComponentManager enemyConstraintAnimationNodeManager;
-    public NodeComponentManager enemyConstraintWeightNodeComponentManager;
 
     #region BodyConstraintNode
     public NodeSelector bodyConstraintSelector;
     public PainStateProceduralBodyConstraintNodeLeaf painStateProceduralBodyConstraintNodeLeaf;
+
     public NodeSelector aimDownSightBodyNodeSelector;
     public AimDownSightBodyConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
     public AimDownSightBodyConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
+
+    public RestNodeLeaf restBodyConstrainNodeLeaf;
+
+    public NodeSelector bodyWeightConstranSelector;
+    public SetConstraintWeightNodeLeaf enableBodyConstrainWeightNodeLeaf;
+    public SetConstraintWeightNodeLeaf disableBodyConstrainWeightNodeLeaf;
+
     #endregion
 
-    #region ArmConstraintNodeLeaf
-    public NodeSelector leftArmConstraintSelector;
-    public ArmHoldPainPointConstraintNodeLeaf leftArmHoldPainPointConstraintNodeLeaf;
-    public ArmPrceduralPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
+    #region RightArmConstrainNodeLeaf
+    public NodeComponentManager rightArmNodeComponentManager;
 
     public NodeSelector rightArmConstraintSelector;
     public ArmPrceduralPainStateConstraintNodeLeaf rightArmFlickPainStateConstraintNodeLeaf;
+    public RestNodeLeaf restRightArmConstrainNodeLeaf;
+
+    public NodeSelector rightArmWeightConstrainSelector;
+    public SetConstraintWeightNodeLeaf enableRightArmWeightConstrain;
+    public SetConstraintWeightNodeLeaf disableRightArmWeightConstrain;
+
+    #endregion
+
+    #region LeftArmConstrainNodeLeaf
+
+    public NodeComponentManager leftArmNodeComponentManager;
+
+    public NodeSelector leftArmConstraintSelector;
+    public ArmPrceduralPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
+    public RestNodeLeaf restLeftArmConstrainNodeLeaf;
+
+    public NodeSelector leftArmWeightConstrainSelector;
+    public SetConstraintWeightNodeLeaf enableLeftArmWeightConstrain;
+    public SetConstraintWeightNodeLeaf disableLeftArmWeightConstrain;
+
+    #endregion
+
+    #region ArmConstraintNodeLeaf
+
 
     #endregion
 
@@ -116,11 +126,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             () => isLeftArmConstraintEnable
             );
 
-        this.leftArmHoldPainPointConstraintNodeLeaf = new ArmHoldPainPointConstraintNodeLeaf(
-            this.leftHandIKConstraint
-            , this.enemy._spine_1_Bone
-            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            ,this.armAnchorSwingOffsetPosition);
+        
         this.leftArmFlickPainStateConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.leftHandIKConstraint
             , this.enemy._spine_1_Bone

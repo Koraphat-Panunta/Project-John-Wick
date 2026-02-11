@@ -7,8 +7,8 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
     private CinemachineCamera cinemachineCamera => base.cameraController.cinemachineCamera;
     private Vector2 inputLook => Vector2.Lerp(
-        cameraController.player.inputLookDir_Local * (Time.deltaTime * (1f / Time.timeScale)) * cameraController.standardCameraSensivity
-        , cameraController.player.inputLookDir_Local * (Time.deltaTime * (1f / Time.timeScale)) * cameraController.aimDownSightCameraSensivity
+        cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity
+        , cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.aimDownSightCameraSensivity
         ,cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight) ;
     private float restOffsetZ;
     public CameraAimDownSightViewNodeLeaf(CameraController cameraController,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject,float restOffsetZ, Func<bool> preCondition)

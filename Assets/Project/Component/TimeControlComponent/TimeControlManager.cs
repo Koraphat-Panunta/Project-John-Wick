@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,IGameLevelMasterObserver,IObserverPlayer
 {
+    public static float ReadWorldTimeFactor => (Time.deltaTime * (1f / Mathf.Clamp(Time.timeScale, .1f, 1)));
+
     public static readonly float fixDeltaTimeOnSlowMotion = 0.02f * 0.75f;
     public static readonly float fixDeltaTimeDefault = 0.02f;
     public NodeManagerBehavior _nodeManagerBehavior { get ; set; }

@@ -9,7 +9,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
     private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
     protected ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
-    private Vector2 inputLook => cameraController.player.inputLookDir_Local * (Time.deltaTime * (1f / Time.timeScale)) * cameraController.standardCameraSensivity ;
+    private Vector2 inputLook => cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity ;
     protected Vector3 enteringOffset;
     protected float normalizedTime;
     protected float enteringFOV;
