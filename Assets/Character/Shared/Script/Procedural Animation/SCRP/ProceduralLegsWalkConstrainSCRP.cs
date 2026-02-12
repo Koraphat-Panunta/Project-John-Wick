@@ -20,4 +20,7 @@ public class ProceduralLegsWalkConstrainSCRP : ScriptableObject
     [Range(0, 10)]
     public float stepHeightFactor;
 
+    public Vector3 leftHintOffset;
+    public Vector3 rightHintOffset;
+
 }

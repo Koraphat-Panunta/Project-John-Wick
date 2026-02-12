@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class LegsConstrainManager : IConstraintManager
+public class LegsConstrainManager :MonoBehaviour, IConstraintManager
 {
     [SerializeField] TwoBoneIKConstraint leftLegTwoBoneIKConstrain;
     [SerializeField] TwoBoneIKConstraint rightLegTwoBoneIKConstrain;

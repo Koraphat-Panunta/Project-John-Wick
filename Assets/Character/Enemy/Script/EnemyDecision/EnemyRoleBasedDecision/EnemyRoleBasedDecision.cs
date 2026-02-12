@@ -137,38 +137,38 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         }
     }
     [SerializeField] private bool isEnableDrawGizmosDebug;
-    private void OnDrawGizmos()
-    {
-        //DrawTargetZoneDefine
-        //if (Application.isPlayer ==false)
-        //    return;
-        if(isEnableDrawGizmosDebug == false)
-            return;
+    //private void OnDrawGizmos()
+    //{
+    //    //DrawTargetZoneDefine
+    //    //if (Application.isPlayer ==false)
+    //    //    return;
+    //    if(isEnableDrawGizmosDebug == false)
+    //        return;
 
 
-        if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
-        {
-            if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
-            {
-                Gizmos.color = Color.red * 0.5f;
-                for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
-                {
-                    Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.2f);
-                    if (i > 0)
-                        Gizmos.DrawLine(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i - 1]
-                            , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
-                }
-            }
-        }
-        if(overwatchRoleNodeManager.curNodeLeaf == overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf)
-        {
-            Gizmos.color = Color.blue * 0.5f;
-            Gizmos.DrawSphere(overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition, .25f);
-            Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition);
+    //    if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
+    //    {
+    //        if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
+    //        {
+    //            Gizmos.color = Color.red * 0.5f;
+    //            for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
+    //            {
+    //                Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.2f);
+    //                if (i > 0)
+    //                    Gizmos.DrawLine(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i - 1]
+    //                        , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
+    //            }
+    //        }
+    //    }
+    //    if(overwatchRoleNodeManager.curNodeLeaf == overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf)
+    //    {
+    //        Gizmos.color = Color.blue * 0.5f;
+    //        Gizmos.DrawSphere(overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition, .25f);
+    //        Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition);
            
-        }
+    //    }
 
-    }
+    //}
 
     
 

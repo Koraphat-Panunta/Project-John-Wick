@@ -50,23 +50,23 @@ public class CoverPointTallSingleSide : CoverPoint
     {
         base.Start();
     }
-    private void OnDrawGizmos()
-    {
-        if(isDrawGizmos == false)
-            return;
+    //private void OnDrawGizmos()
+    //{
+    //    if(isDrawGizmos == false)
+    //        return;
 
-        if(coverPos == null || peekPos == null)
-            return;
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(coverPos.position,0.25f);
+    //    if(coverPos == null || peekPos == null)
+    //        return;
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawSphere(coverPos.position,0.25f);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(peekPos.position, 0.25f);
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawSphere(peekPos.position, 0.25f);
 
-        Gizmos.color = Color.green;
-        Vector3 desPos1 = peekPos.position + (Quaternion.Euler(0, fovAngleDegrees / 2, 0) * peekPos.forward) * fovDistance;
-        Vector3 desPos2 = peekPos.position + (Quaternion.Euler(0, -fovAngleDegrees / 2, 0) * peekPos.forward) * fovDistance;
-        Gizmos.DrawLine(peekPos.position,desPos1);
-        Gizmos.DrawLine(peekPos.position, desPos2);
-    }
+    //    Gizmos.color = Color.green;
+    //    Vector3 desPos1 = peekPos.position + (Quaternion.Euler(0, fovAngleDegrees / 2, 0) * peekPos.forward) * fovDistance;
+    //    Vector3 desPos2 = peekPos.position + (Quaternion.Euler(0, -fovAngleDegrees / 2, 0) * peekPos.forward) * fovDistance;
+    //    Gizmos.DrawLine(peekPos.position,desPos1);
+    //    Gizmos.DrawLine(peekPos.position, desPos2);
+    //}
 }

@@ -143,9 +143,9 @@ public class AIAgent : MonoBehaviour,IInitializedAble
         if (Application.isPlaying == false)
             return;
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(this.transform.position,steeringTarget);
-        Gizmos.DrawSphere(steeringTarget, 0.5f);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawLine(this.transform.position,steeringTarget);
+        //Gizmos.DrawSphere(steeringTarget, 0.5f);
 
         Vector3[] drawPositions = _path.corners;
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class BodyLookConstrain : MonoBehaviour, IConstraintManager
+public class BodyLookConstrainManager : MonoBehaviour, IConstraintManager
 {
     [SerializeField] private float weight;
 

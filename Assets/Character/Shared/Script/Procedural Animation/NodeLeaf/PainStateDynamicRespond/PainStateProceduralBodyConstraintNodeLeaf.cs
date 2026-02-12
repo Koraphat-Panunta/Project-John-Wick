@@ -24,7 +24,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root,
-        BodyLookConstrain splineLookConstrain,
+        BodyLookConstrainManager splineLookConstrain,
         AnimationCurve painRespondCurve,
         AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject,
         Func<bool> precondition
@@ -46,7 +46,7 @@ public class PainStateProceduralBodyConstraintNodeLeaf : LookBodyConstraintNodeL
 
     public PainStateProceduralBodyConstraintNodeLeaf(
         Transform root
-        , BodyLookConstrain splineLookConstrain
+        , BodyLookConstrainManager splineLookConstrain
         ,AnimationCurve painRespondCurve
        , Vector3 offsetSpline
        , Vector3 offsetSpline1

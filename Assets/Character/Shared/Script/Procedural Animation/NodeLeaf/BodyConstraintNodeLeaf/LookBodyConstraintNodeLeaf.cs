@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
 {
 
-    protected BodyLookConstrain bodyLookConstrain;
+    protected BodyLookConstrainManager bodyLookConstrain;
 
     protected AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject;
 
@@ -34,7 +34,7 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
     protected float weight;
 
     public LookBodyConstraintNodeLeaf(
-        BodyLookConstrain splineLookConstrain
+        BodyLookConstrainManager splineLookConstrain
         , AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
         , Func<bool> precondition)
         : this(
@@ -53,7 +53,7 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
     }
 
     public LookBodyConstraintNodeLeaf(
-        BodyLookConstrain splineLookConstrain
+        BodyLookConstrainManager splineLookConstrain
         , Vector3 offsetSpline
         , Vector3 offsetSpline1
         , Vector3 offsetSpline2

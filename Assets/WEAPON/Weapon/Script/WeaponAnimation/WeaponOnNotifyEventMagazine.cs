@@ -74,7 +74,6 @@ public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
             if (weaponManuverLeafNode is IReloadMagazineNode
                 && weaponManuverLeafNode.curPhase == WeaponManuverLeafNode.WeaponManuverLeafNodePhase.Exit)
             {
-                Debug.Log("onReloadExit");
                 onReloadExit.Invoke();
             }
         }

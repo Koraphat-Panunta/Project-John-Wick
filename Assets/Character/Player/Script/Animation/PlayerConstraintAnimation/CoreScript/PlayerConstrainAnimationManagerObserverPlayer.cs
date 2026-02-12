@@ -15,7 +15,6 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
             && playerEvent == SubjectPlayer.NotifyEvent.Firing)
         {
 
-            Debug.Log("PLAYER Constraint firing");
             this.rightHand_AimDownSight_ProneUp_Primary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_AimDownSight_ProneUp_Secondary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_AimDownSight_ProneDown_Primary_Constraint_NodeLeaf.TriggeRecoilWeight(1);
