@@ -118,8 +118,8 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     {
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
 
-        Debug.Log("ReloadTimer = " + this.timelineTriggerEvent.timer);
-        Debug.Log("ReloadTimerNormal = " + this.timelineTriggerEvent.timerNormalized);
+        //Debug.Log("ReloadTimer = " + this.timelineTriggerEvent.timer);
+        //Debug.Log("ReloadTimerNormal = " + this.timelineTriggerEvent.timerNormalized);
         if (this.timelineTriggerEvent.IsPlayFinish(this.endReloadStageNormalizedTime))
             isComplete = true;
     }

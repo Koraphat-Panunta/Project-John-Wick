@@ -141,6 +141,9 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void Enter()
     {
+        this.lerpLeftLeg = 1;
+        this.lerpRightLeg = 1;
+
         this.oldPos = this.hipTransform.position;
         this.timerCheckVelocity = 0;
 
@@ -192,7 +195,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
         if((this.distanceLeftLeg >= this.distanceBeginStep
             || this.distanceRightLeg >= this.distanceBeginStep)
-            && this.lerpLeftLeg >= 1 && this.lerpRightLeg >= 1)
+            &&( this.lerpLeftLeg >= 1 && this.lerpRightLeg >= 1))
         {
             if(this.distanceLeftLeg >= this.distanceBeginStep
                 && this.distanceLeftLeg > this.distanceRightLeg)
@@ -202,7 +205,8 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
                 this.newLeftFootPos = this.hipTransform.position + this.relativeNewLeftFootPos;
                 this.oldLeftFootPos = this.legsConstrainManager.GetLeftLeg_Target_Transform().position;
             }
-            else
+            else if(this.distanceRightLeg >= this.distanceBeginStep
+                && this.distanceRightLeg > this.distanceLeftLeg)
             {
                 this.lerpRightLeg = 0;
                 this.relativeNewRightFootPos = (this.rightLegRootPos + (this.curVelocity.normalized * this.stepDistance) - this.hipTransform.position);
@@ -226,7 +230,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
             this.legsConstrainManager.SetLeftLeg_Target_Foot(posL,this.leftFootRot);
             newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
 
-            Debug.Log("lerpLeftLeg = " + lerpLeftLeg);
+            //Debug.Log("lerpLeftLeg = " + lerpLeftLeg);
 
             if(lerpLeftLeg >= 1)
             {
@@ -238,7 +242,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         }
         else
         {
-            if(this.distanceLeftLeg >= this.stepDistance)
+            if (this.distanceLeftLeg >= this.stepDistance)
             {
                 this.legsConstrainManager.SetLeftLeg_Target_Foot(this.hipTransform.position + this.relativeNewLeftFootPos, this.leftFootRot);
             }
@@ -259,13 +263,13 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
             this.legsConstrainManager.SetRightLeg_Target_Foot(posR, this.rightFootRot);
             newRightFootPos = hipTransform.position + relativeNewRightFootPos;
 
-            Debug.Log("lerpRightLeg = " + lerpRightLeg);
+            //Debug.Log("lerpRightLeg = " + lerpRightLeg);
 
             if (lerpRightLeg >= 1)
             {
                 newRightFootPos = hipTransform.position + relativeNewRightFootPos;
                 oldRightFootPos = newRightFootPos;
-                this.legsConstrainManager.SetRightLeg_Target_Foot(this.oldLeftFootPos, this.rightFootRot);
+                this.legsConstrainManager.SetRightLeg_Target_Foot(this.oldRightFootPos, this.rightFootRot);
                 curTurn = Turn.left;
             }
         }
@@ -323,12 +327,15 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
     public void DebugDrawLine()
     {
-        //Draw FootsRoot
-        Debug.DrawLine(this.hipTransform.position, this.leftLegRootPos, Color.blue);
-        Debug.DrawLine(this.hipTransform.position, this.rightLegRootPos, Color.blue);
+        ////Draw FootsRoot
+        //Debug.DrawLine(this.hipTransform.position, this.leftLegRootPos, Color.blue);
+        //Debug.DrawLine(this.hipTransform.position, this.rightLegRootPos, Color.blue);
 
-        //Draw FootPos
-        Debug.DrawLine(this.leftLegRootPos, this.newLeftFootPos, Color.yellow);
-        Debug.DrawLine(this.rightLegRootPos, this.newRightFootPos, Color.yellow);
+        ////Draw FootPos
+        //Debug.DrawLine(this.leftLegRootPos, this.newLeftFootPos, Color.yellow);
+        //Debug.DrawLine(this.rightLegRootPos, this.newRightFootPos, Color.yellow);
+
+        //Debug.DrawLine(this.oldLeftFootPos, this.newLeftFootPos, Color.red);
+        //Debug.DrawLine(this.oldRightFootPos, this.newRightFootPos, Color.blue);
     }
 }

@@ -332,17 +332,12 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //Gizmos.DrawWireSphere(centre.position - (centre.right * hipLegSpace), 0.05f);
 
         #region DrawFootPlacementPosition
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldLeftFootPos, 0.15f);
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newLeftFootPos, 0.15f);
+        //Gizmos.color = Color.blue * .5f;
+        //Gizmos.DrawSphere(this.painStateWalkProceduralAnimateNodeLeaf.oldRightFootPos,.1f);
+        //Gizmos.color = Color.red * .5f;
+        //Gizmos.DrawSphere(this.painStateWalkProceduralAnimateNodeLeaf.newRightFootPos, .1f);
 
-        //Gizmos.color = Color.cyan;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldRightFootPos, 0.15f);
-
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
         #endregion
 
         try
