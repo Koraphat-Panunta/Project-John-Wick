@@ -20,7 +20,8 @@ public partial class Enemy : SubjectEnemy
     public FieldOfView enemyFieldOfView;
     public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
-    public INodeManager enemyStateManagerNode;
+    public INodeManager stateManagerNode;
+    public EnemyStateManagerNode enemyStateManagerNode => this.stateManagerNode as EnemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
     public AIAgent agent;
@@ -55,7 +56,7 @@ public partial class Enemy : SubjectEnemy
         InitailizedCoverUsable();
         InitailizedGunFuComponent();
 
-        enemyStateManagerNode = new EnemyStateManagerNode(this);
+        stateManagerNode = new EnemyStateManagerNode(this);
         Initialized_IWeaponAdvanceUser();
 
         this.SetDefaultAttribute();
@@ -73,7 +74,7 @@ public partial class Enemy : SubjectEnemy
         this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
         this.FindingTargetUpdate();
-        enemyStateManagerNode.UpdateNode();
+        stateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
 
@@ -88,7 +89,7 @@ public partial class Enemy : SubjectEnemy
 
     private void FixedUpdate()
     {
-        enemyStateManagerNode.FixedUpdateNode();
+        stateManagerNode.FixedUpdateNode();
         _weaponManuverManager.FixedUpdateNode();
         _movementCompoent.FixedUpdateNode();
     }
@@ -120,15 +121,17 @@ public partial class Enemy : SubjectEnemy
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
+                        this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
+
                         if(gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
                         {
                             if (this.HP > 0)
-                                this.HP -= 20;
+                                this.TakeDamage(gunFuHitNodeLeaf.hpHitDamage);
                         }
                         else
                         {
                             if (this.HP > 20)
-                                this.HP -= 15;
+                                this.TakeDamage(gunFuHitNodeLeaf.hpHitDamage);
                         }
 
 
@@ -395,14 +398,14 @@ public partial class Enemy : SubjectEnemy
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
-            if(enemyStateManagerNode == null)
+            if(stateManagerNode == null)
                 return false;
 
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
 
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
-                || enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
+                || stateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
                 return true;
 
             return false;

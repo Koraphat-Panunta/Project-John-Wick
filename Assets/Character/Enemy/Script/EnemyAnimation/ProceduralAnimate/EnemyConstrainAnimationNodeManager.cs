@@ -55,7 +55,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
            , this.bodyLookConstrainManager
            , this.painBodyRespondCurve
            , this.painStateBodyConstraintSCRP
-           , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() 
+           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            );
 
         this.aimDownSightBodyNodeSelector = new NodeSelector(
@@ -145,7 +146,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.rightArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.rightHandIKConstraint
             , this.enemy._spine_1_Bone
-            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             , this.armAnchorSwingOffsetPosition
             , this.armBalancePointOffset
             , new Vector3(0, 90, 0)
@@ -205,7 +207,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.leftArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
            (this.leftHandIKConstraint
            , this.enemy._spine_1_Bone
-           , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            , this.armAnchorSwingOffsetPosition
            , this.armBalancePointOffset
            , new Vector3(0, -90, 0)
@@ -260,9 +263,10 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //2
         this.painStateWalkProceduralAnimateNodeLeaf = new PainStateWalkProceduralAnimateNodeLeaf(
             this.legsConstrainManager
-            ,this.enemy._hipBone
+            ,this.enemy.transform
             ,this.proceduralLegsPainStateWalkConstrainSCRP
-            ,()=> (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>());
+            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>());
 
         this.restLegsConstrainNodeLeaf = new RestNodeLeaf(() => true);
 

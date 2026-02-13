@@ -10,12 +10,60 @@ public partial class EnemyAnimationManager : INodeManager
     protected INodeLeaf curNodeLeaf { get; set; }
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
+
+    public PlayAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
     public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf crouchBaseLayerNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf standMoveIdleBaseLayerNodeLeaf { get; set; }
     private RestNodeLeaf rest_BaseLayerAnimation_NodeLeaf { get; set; }
+
+    private void InitializedBaseLayer()
+    {
+        this.startNodeSelector = new NodeSelector(() => true);
+
+        this.painStateAnimationNodeLeaf = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+            || this.enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            , animator, "PainState", 0, 0.2f);
+
+        this.enemySpinKick = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
+            , animator, "EnemySpinKick", 0, .15f);
+
+        this.sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
+            , animator, "Sprint", 0, 0.25f);
+
+        this.enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
+            , animator, "Dodge", 0, 0.2f);
+
+        this.crouchBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+            , animator, "Crouch", 0, .2f);
+
+        this.standMoveIdleBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+            , animator, "Move/Idle", 0, .2f);
+
+        this.rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
+            () => true);
+
+        this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.enemySpinKick);
+        this.startNodeSelector.AddtoChildNode(this.sprintBaseLayerNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.enemyDodgeNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.crouchBaseLayerNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.standMoveIdleBaseLayerNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.rest_BaseLayerAnimation_NodeLeaf);
+
+        _nodeManagerBehavior.SearchingNewNode(this);
+    }
+
     #endregion
 
     #region UpperLayer
@@ -44,47 +92,26 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationBaseStateOffsetNodeLeaf primaryWeaponHandUpperNodeLeaf { get; set; }
     public PlayAnimationBaseStateOffsetNodeLeaf secondaryWeaponHandUpperNodeLeaf { get; set; }
 
-    #endregion
-
-    #region EnemyAnimationNodeComponent
-    public NodeComponentManager enemyAnimationNodeComponentManager { get; private set; }
-    public NodeSelector layerUpperEnableDisableSelector { get; set; }
-    public SetLayerAnimationNodeLeaf enableUpperLayer { get; set; }
-    public SetLayerAnimationNodeLeaf disableUpperLayer { get; set; }
-    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
-
-
-    #endregion
-
-    public void InitailizedNode()
-    {
-        InitializedUpperLayer();
-        InitializedBaseLayer();
-        InitializedNodeComponent();
-
-        _parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
-    }
-    
     private void InitializedUpperLayer()
     {
         this.upperlayerAnimationNodeManagerProtable = new NodeManagerPortable();
         this.upperlayerAnimationNodeManagerProtable.InitialzedOuterNode(
-            () => 
+            () =>
             {
                 this.upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
-                rest_UpperLayerAnimation_NodeLeaf = new RestNodeLeaf(()=> true);
+                rest_UpperLayerAnimation_NodeLeaf = new RestNodeLeaf(() => true);
 
                 this.performReloadNodeSelector = new NodeSelector(() => isPerformReload);
 
                 this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                      () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
                      && this.enemy._currentWeapon is AssultRifle_AR15Model
-                     , this.animator           
-                     , "ReloadMagazine_AR15"           
-                     , 1          
-                     , .3f          
-                     , this.upperAnimationPoseTimeNormalized          
-                     , 1         
+                     , this.animator
+                     , "ReloadMagazine_AR15"
+                     , 1
+                     , .3f
+                     , this.upperAnimationPoseTimeNormalized
+                     , 1
                      , false);
 
                 this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
@@ -180,42 +207,18 @@ public partial class EnemyAnimationManager : INodeManager
 
             });
 
-    
+
     }
-    private void InitializedBaseLayer()
-    {
-        startNodeSelector = new NodeSelector(() => true);
 
-        enemySpinKick = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
-            , animator, "EnemySpinKick", 0, .15f);
-        enemyDodgeNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>()
-            , animator, "Dodge", 0, 0.2f);
-        sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
-            , animator, "Sprint", 0, 0.25f);
-        crouchBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() 
-            || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
-            , animator, "Crouch", 0, .2f);
-        standMoveIdleBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
-            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
-            || enemyStateManager.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>()
-            , animator, "Move/Idle", 0, .2f);
-        rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
-            () => true);
+    #endregion
 
-        startNodeSelector.AddtoChildNode(enemySpinKick);
-        startNodeSelector.AddtoChildNode(sprintBaseLayerNodeLeaf);
-        startNodeSelector.AddtoChildNode(enemyDodgeNodeLeaf);
-        startNodeSelector.AddtoChildNode(crouchBaseLayerNodeLeaf);
-        startNodeSelector.AddtoChildNode(standMoveIdleBaseLayerNodeLeaf);
-        startNodeSelector.AddtoChildNode(rest_BaseLayerAnimation_NodeLeaf);
+    #region EnemyAnimationNodeComponent
+    public NodeComponentManager enemyAnimationNodeComponentManager { get; private set; }
+    public NodeSelector layerUpperEnableDisableSelector { get; set; }
+    public SetLayerAnimationNodeLeaf enableUpperLayer { get; set; }
+    public SetLayerAnimationNodeLeaf disableUpperLayer { get; set; }
+    public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
 
-        _nodeManagerBehavior.SearchingNewNode(this);
-    }
     private void InitializedNodeComponent()
     {
         this.enemyAnimationNodeComponentManager = new NodeComponentManager();
@@ -240,10 +243,21 @@ public partial class EnemyAnimationManager : INodeManager
         this.enemyAnimationNodeComponentManager.AddNode(crouchWeightSoftCoverNodeLeaf);
 
     }
+    #endregion
+
+    public void InitailizedNode()
+    {
+        InitializedBaseLayer();
+        InitializedUpperLayer();
+        InitializedNodeComponent();
+
+        _parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
+    }
+
     public void FixedUpdateNode()
     {
         _nodeManagerBehavior.FixedUpdateNode(this);
-        upperlayerAnimationNodeManagerProtable.UpdateNode();
+        upperlayerAnimationNodeManagerProtable.FixedUpdateNode();
         enemyAnimationNodeComponentManager.FixedUpdate();
     }
 
@@ -251,7 +265,7 @@ public partial class EnemyAnimationManager : INodeManager
     public void UpdateNode()
     {
        _nodeManagerBehavior.UpdateNode(this);
-        upperlayerAnimationNodeManagerProtable.FixedUpdateNode();
+        upperlayerAnimationNodeManagerProtable.UpdateNode();
         enemyAnimationNodeComponentManager.Update();
     }
     

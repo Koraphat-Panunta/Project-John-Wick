@@ -113,7 +113,7 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
             enemyDected.Add(bodyPart.enemy);
 
             if(bodyPart.enemy.isDead
-                ||bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+                ||bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
                 continue;
 
             if (assignInWorldEnemy.ContainsKey(bodyPart.enemy))

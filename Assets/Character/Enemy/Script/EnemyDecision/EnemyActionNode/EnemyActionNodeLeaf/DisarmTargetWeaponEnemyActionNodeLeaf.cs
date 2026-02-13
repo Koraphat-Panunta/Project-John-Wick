@@ -66,7 +66,7 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
                        /* && (Vector3.Dot(enemy._transform.forward,(enemy.targetKnewPos-enemy._transform.position).normalized)>0.75f)*/)
                     {
                         enemyCommandAPI.SpinKick();
-                        if (enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
+                        if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
                             curDisarmWeapon = DisarmTargetWeaponPhase.FindingWeapon;
                     }
                     else

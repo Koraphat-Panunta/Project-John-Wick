@@ -28,12 +28,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
 
         if (node is GotGunFuHitNodeLeaf gotHit
             && gotHit.curstate == EnemyStateLeafNode.Curstate.Enter
-            &&
-            (
-            gotHit.gotHitstateName == GotGunFuManuverStateName.GotHit1_Attack.ToString()||
-            gotHit.gotHitstateName == GotGunFuManuverStateName.GotHit2_Attack.ToString()||    
-            gotHit.gotHitstateName == GotGunFuManuverStateName.GotHit3.ToString()
-            )
             && ammoDropNumber >0)
         {
             ammoDropNumber--;

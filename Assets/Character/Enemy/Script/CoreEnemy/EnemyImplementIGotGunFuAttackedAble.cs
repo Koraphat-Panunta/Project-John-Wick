@@ -15,16 +15,12 @@ public partial class Enemy : IGotGunFuAttackedAble
         get
         {
            
-
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
-                && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
-                return false;
             if(_isFallDown)
                 return false;
            
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
             return true;
@@ -37,9 +33,9 @@ public partial class Enemy : IGotGunFuAttackedAble
         {
             //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
             //    return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
             if (isStagger)
@@ -50,11 +46,7 @@ public partial class Enemy : IGotGunFuAttackedAble
         set { }
     }
 
-    [SerializeField] public GotGunFuHitScriptableObject GotHit1_P;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit1_A;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit2_P;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit2_A;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit3;
+
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP humanShield_GotInteract_Exit_SCRP;
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;

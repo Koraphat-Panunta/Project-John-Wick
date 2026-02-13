@@ -5,7 +5,7 @@ using UnityEngine;
 public class HumanShield_Exit_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAttackNode, INodeLeafTransitionAble
 {
 
-    public INodeManager nodeManager { get => enemy.enemyStateManagerNode; set { } }
+    public INodeManager nodeManager { get => enemy.stateManagerNode; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public AnimationTriggerEventPlayer animationTriggerEventPlayer {get;protected set; }
