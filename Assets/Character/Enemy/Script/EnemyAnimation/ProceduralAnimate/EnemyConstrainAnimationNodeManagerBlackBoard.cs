@@ -17,7 +17,7 @@ public partial class EnemyConstrainAnimationNodeManager
     {
         get 
         {
-            if(enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            if(enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
             return false;
         }
@@ -27,7 +27,7 @@ public partial class EnemyConstrainAnimationNodeManager
     {
         get
         {
-            if (enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
             return false;
         }

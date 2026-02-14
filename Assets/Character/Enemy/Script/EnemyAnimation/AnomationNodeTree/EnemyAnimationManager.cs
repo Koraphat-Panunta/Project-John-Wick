@@ -94,7 +94,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
             , 10 * Time.deltaTime);
 
 
-        if (enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>())
+        if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>())
         {
             this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / enemy.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / enemy.sprintMaxSpeed;

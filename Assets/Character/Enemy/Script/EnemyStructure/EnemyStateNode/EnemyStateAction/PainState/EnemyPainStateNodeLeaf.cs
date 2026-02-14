@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
 {
 
-    protected Animator animator;
     public float painDuration { get; set; }
     public float time;
 
@@ -19,7 +18,6 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
         ,float mediumPainStateDuration
         ,float heavyPainStateDuration) : base(enemy,preCondition)
     {
-        this.animator = animator;
 
         this.enemy.AddObserver(this);
 
@@ -50,9 +48,6 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
                     break;
                 }
         }
-
-        (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.forceSave, IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
-        animator.CrossFade("PainState", 0.1f, 0,0);
 
         base.Enter();
     }

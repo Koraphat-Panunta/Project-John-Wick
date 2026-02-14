@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransitionAble
 {
-    public float staggerHitDamage => gunFuHitScriptableObject.staggerHitDamage;
+    public float staggerHitDamage => this.gunFuHitScriptableObject.staggerHitDamage;
+    public float hpHitDamage => this.gunFuHitScriptableObject.hpHitDamage;
+    public float stuntingTime => this.gunFuHitScriptableObject.stuntingTime; 
     public float _timer { get; set; }
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get ; set; }

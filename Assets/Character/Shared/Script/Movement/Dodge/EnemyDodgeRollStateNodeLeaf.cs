@@ -8,7 +8,7 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
     IMotionImplusePushAble motionImplusePushAble => enemy._movementCompoent as EnemyMovement;
     EnemyMovement enemyMovement => enemy._movementCompoent as EnemyMovement;
 
-    public INodeManager nodeManager { get => enemy.enemyStateManagerNode; set { } }
+    public INodeManager nodeManager { get => enemy.stateManagerNode; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 

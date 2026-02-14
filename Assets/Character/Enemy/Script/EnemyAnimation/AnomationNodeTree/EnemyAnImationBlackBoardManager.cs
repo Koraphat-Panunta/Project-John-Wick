@@ -3,7 +3,7 @@ using UnityEngine;
 public partial class EnemyAnimationManager 
 {
    
-    protected INodeManager enemyStateManager => enemy.enemyStateManagerNode;
+    protected INodeManager enemyStateManager => enemy.stateManagerNode;
     protected INodeManager enemyWeaponManuver => enemy._weaponManuverManager;
     protected bool isEnableUpperLayer
     {

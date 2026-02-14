@@ -13,7 +13,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     private float downTimer;
     public float downDuration = 1;
 
-    public INodeManager nodeManager { get => enemy.enemyStateManagerNode ; set { } }
+    public INodeManager nodeManager { get => enemy.stateManagerNode ; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 

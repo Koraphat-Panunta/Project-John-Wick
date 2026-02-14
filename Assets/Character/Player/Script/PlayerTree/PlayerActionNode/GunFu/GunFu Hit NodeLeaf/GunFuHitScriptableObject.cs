@@ -24,6 +24,12 @@ public class GunFuHitScriptableObject : ScriptableObject
     [Range(0, 100)]
     public float staggerHitDamage;
 
+    [Range(0, 100)]
+    public float hpHitDamage;
+
+    [Range(0, 100)]
+    public float stuntingTime;
+
     [Range(0, 10)]
     public float attackVolumeRaduis;
 

@@ -20,7 +20,7 @@ public partial class Enemy : IGunFuAble
     {
         get
         {
-            if (enemyStateManagerNode.GetCurNodeLeaf() is IGunFuNode gunFuNode)
+            if (stateManagerNode.GetCurNodeLeaf() is IGunFuNode gunFuNode)
                 return gunFuNode;
             return null;
 

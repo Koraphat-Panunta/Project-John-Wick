@@ -81,10 +81,10 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         if (enemyCommand == null)
             enemyCommand = GetComponent<EnemyCommandAPI>();
         dodge = new EnemyTestingCommand(() => enemyCommand.Dodge(enemy.transform.forward)
-        , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
+        , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
 
         crouch = new EnemyTestingCommand(() => enemyCommand.Crouch(),
-            () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
+            () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
         moveToPos2 = new EnemyMoveToPos(enemy.transform, this.moveTransPos2.position, true, enemyCommand);
@@ -181,7 +181,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                     });
         sprintToSpinKick = new EnemyTestingCommand(() => { },
             ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,2f));
-        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
+        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
         enemyTestingCommands.Enqueue(freez_3s);//24
         //enemyTestingCommands.Enqueue(dodge);//23
