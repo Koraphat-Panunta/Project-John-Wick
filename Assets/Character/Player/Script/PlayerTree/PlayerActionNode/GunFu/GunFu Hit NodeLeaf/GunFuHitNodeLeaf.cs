@@ -83,6 +83,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         base.UpdateNode();
     }
 
+    public Vector3 hitDir { get; protected set; }
+
     protected void Attacking()
     {
         Vector3 shperePos = player.transform.position
@@ -117,9 +119,11 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
             try 
             {
-                Vector3 dir = Quaternion.AngleAxis(gunFuHitScriptableObject.hitPushRotationOffset[hitCount], Vector3.up) * (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
+                this.hitDir = (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
+                this.hitDir = Quaternion.Euler(this.gunFuHitScriptableObject.hitDirRotOffset[this.hitCount]) * this.hitDir;
+
                 (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                    (dir * gunFuHitScriptableObject.hitPushForce[hitCount]
+                    (this.hitDir * gunFuHitScriptableObject.hitPushForce[hitCount]
                     , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 targets[i].TakeGunFuAttacked(this, gunFuAble);

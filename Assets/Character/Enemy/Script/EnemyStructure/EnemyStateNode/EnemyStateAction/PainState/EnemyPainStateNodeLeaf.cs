@@ -111,7 +111,7 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
     private float moveSpeed;
     private float moveSpeedDecrease = 1.5f;
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
         if(node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail characterHitedEventDetail)
         {

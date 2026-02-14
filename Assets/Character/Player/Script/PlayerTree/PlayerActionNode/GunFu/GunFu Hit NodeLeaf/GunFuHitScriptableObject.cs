@@ -8,7 +8,7 @@ public class GunFuHitScriptableObject : ScriptableObject
     public AnimationClip animationClip_GunFuHits;
     public string gunFuHitStateName;
     [SerializeField] public List<Vector2> hitTimes;
-    [SerializeField] public List<float> hitPushRotationOffset;
+    [SerializeField] public List<Vector2> hitDirRotOffset;
     [SerializeField] public List<float> hitPushForce;
     [SerializeField] public List<float> hitStopDuration;
     [SerializeField] public List<float> hitResetDuration;
@@ -36,4 +36,8 @@ public class GunFuHitScriptableObject : ScriptableObject
 
     [Range(-10, 10)]
     public float attackVolumeRightward;
+
+   
+
+
 }

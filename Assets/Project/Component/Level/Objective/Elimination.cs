@@ -52,7 +52,7 @@ public class Elimination : Objective,IObserverEnemy
 
    
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is EnemyDeadStateNode)
         {

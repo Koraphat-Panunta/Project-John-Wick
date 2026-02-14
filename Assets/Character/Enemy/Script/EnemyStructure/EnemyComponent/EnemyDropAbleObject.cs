@@ -17,7 +17,7 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
     {
         enemy.AddObserver(this);
     }
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is SubjectEnemy.EnemyEvent enemyEvent
             && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)

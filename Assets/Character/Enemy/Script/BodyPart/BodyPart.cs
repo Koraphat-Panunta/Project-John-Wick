@@ -5,7 +5,6 @@ using static EnemyBodyBulletDamageAbleBehavior;
 
 public abstract class BodyPart : MonoBehaviour
     , IBulletDamageAble
-    , IGotGunFuAttackedAble
     , IFriendlyFirePreventing
     , IObserverEnemy
     , IInitializedAble
@@ -71,10 +70,7 @@ public abstract class BodyPart : MonoBehaviour
         }
     }
 
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
-    {
-        enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
-    }
+   
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
 
@@ -155,7 +151,7 @@ public abstract class BodyPart : MonoBehaviour
 
     public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 
-    public virtual void Notify<T>(Enemy enemy, T node) 
+    public virtual void OnNotify<T>(Enemy enemy, T node) 
     {
         this.ForceCalulate();
     }

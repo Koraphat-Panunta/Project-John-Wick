@@ -73,14 +73,14 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
 
     }
-    public override void Notify<T>(Enemy enemy, T node)
+    public override void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is SubjectEnemy.EnemyEvent enemyEvent 
             && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
         {
             SetDefaultAttribute();
         }
-        base.Notify(enemy, node);
+        base.OnNotify(enemy, node);
     }
   
     private void OnValidate()

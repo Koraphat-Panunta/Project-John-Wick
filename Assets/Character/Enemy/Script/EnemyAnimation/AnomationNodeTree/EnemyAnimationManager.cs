@@ -51,7 +51,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 
         this.InitailizedNode();
     }
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is IGotGunFuExecuteNodeLeaf gotExecute || node is IGotGunFuAttackNode)
             animator.SetLayerWeight(1, 0);
