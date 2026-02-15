@@ -25,7 +25,7 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
     {
         
     }
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         this.curWeapon = enemy._currentWeapon;

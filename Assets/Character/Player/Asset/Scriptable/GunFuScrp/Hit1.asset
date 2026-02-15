@@ -12,34 +12,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit1
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: 5430a8b74b7120f429c657d5ff5ec158,
-    type: 2}
-  gunFuHitStateName: Hit1
-  hitTimes:
-  - {x: 0.34, y: 0.38}
-  - {x: 0.5, y: 0.53}
-  hitPushRotationOffset:
-  - 0
-  - 0
-  hitPushForce:
-  - 0
-  - 1
-  hitStopDuration:
-  - 0
-  - 0
-  hitResetDuration:
-  - 0
-  - 0
-  hitSlowMotionCurve: []
-  warpKeyFrameNormalized:
-  - 0.41
-  - 0.5
-  - 0.59
-  animationGunFuHitOffset: 0.27
-  ExitTime_Normalized: 0.87
-  TransitionAbleTime_Normalized: 0.67
-  staggerHitDamage: 15
-  attackVolumeRaduis: 0.31
-  attackVolumeForward: 0.5
-  attackVolumeUpward: 1.1
-  attackVolumeRightward: 0
+  clip: {fileID: 7400000, guid: 5430a8b74b7120f429c657d5ff5ec158, type: 2}
+  enterNormalizedTime: 0.3
+  triggerEventDetail:
+  - normalizedTime: 0.3
+    eventName: BeginWarp
+  - normalizedTime: 0.51
+    eventName: OpenAttackingTime
+  - normalizedTime: 0.55
+    eventName: CloseAttackingTime
+  - normalizedTime: 0.6
+    eventName: TransitionAble
+  endNormalizedTime: 0.82
+  gunFuHitDetail:
+  - gunFuHitStateName: Hit1
+    staggerHitDamage: 15
+    hpHitDamage: 15
+    stuntingTime: 1.5
+    hitSlowMotionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingMovementCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingTime: {x: 0.3, y: 0.623}
+    hitDirRotOffset: {x: 0, y: 0}
+    hitDirPoseAnimOffset: {x: -60, y: 0, z: 0}
+    hitPushForce: 2
+    hitPushAnimConstrainForce: 2
+    hitStopDuration: 0
+    hitResetDuration: 0
+    attackVolumeRaduis: 0.31
+    attackVolumeForward: 0.5
+    attackVolumeUpward: 1.1
+    attackVolumeRightward: 0

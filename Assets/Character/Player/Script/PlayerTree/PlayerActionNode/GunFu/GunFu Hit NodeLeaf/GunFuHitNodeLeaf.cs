@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransitionAble
 {
-    public float staggerHitDamage => this.gunFuHitScriptableObject.staggerHitDamage;
-    public float hpHitDamage => this.gunFuHitScriptableObject.hpHitDamage;
-    public float stuntingTime => this.gunFuHitScriptableObject.stuntingTime; 
-    public float _timer { get; set; }
+    public float staggerHitDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].staggerHitDamage;
+    public float hpHitDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hpHitDamage;
+    public float stuntingTime => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].stuntingTime; 
+  
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get ; set; }
-    public AnimationClip _animationClip { get => gunFuHitScriptableObject.animationClip_GunFuHits; set { } }
+
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
-    public string _stateName => _gunFuHitScriptableObject.gunFuHitStateName;
+    public string _stateName => _gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].gunFuHitStateName;
     public int hitCount { get; protected set; }
     private float hitDistance = 0.7f;
     private bool isWarping;
-    private int curWarpKeyFrame;
-    private float lenghtOffset => _animationClip.length * gunFuHitScriptableObject.animationGunFuHitOffset;
+    protected bool isAttackingTime;
+
+    protected AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
+
+    
+
     private Quaternion lookAtTarget => Quaternion.LookRotation(
         (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized
         , Vector3.up);
@@ -40,16 +44,24 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
         this.gotAttackedAlready = new List<IGotGunFuAttackedAble>();
+
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(gunFuHitScriptableObject);
+
+        this.animationTriggerEventPlayer.SubscribeEvent("OpenAttackingTime",this.OpenAttackingTime);
+        this.animationTriggerEventPlayer.SubscribeEvent("CloseAttackingTime",this.CloseAttackingTime);
+        this.animationTriggerEventPlayer.SubscribeEvent("BeginWarp", this.BeginWarp);
+        this.animationTriggerEventPlayer.SubscribeEvent("NextHitContinue",this.NextHitContinue);
+        this.animationTriggerEventPlayer.SubscribeEvent("TransitionAble",this.TransitionAble);
     }
     public override void Enter()
     {
+        this.animationTriggerEventPlayer.Rewind();
+
         gotAttackedAlready.Clear();
         gotGunFuAttackedAble = player.attackedAbleGunFu;
         curPhaseGunFuHit = GunFuPhaseHit.Enter;
-        _timer = 0;
+
         hitCount = 0;
-        isWarping = true;
-        curWarpKeyFrame = 0;
         isComplete = false;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         gunFuAble._character._movementCompoent.CancleMomentum();
@@ -57,29 +69,13 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     }
     public override void UpdateNode()
     {
+        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
 
-        _timer += Time.deltaTime;
-
-        if(_timer >(_animationClip.length * gunFuHitScriptableObject.ExitTime_Normalized) - lenghtOffset)
+        if(this.animationTriggerEventPlayer.IsPlayFinish())
             isComplete = true;
 
-        if (_timer > (_animationClip.length * gunFuHitScriptableObject.TransitionAbleTime_Normalized) - lenghtOffset)
-            nodeLeafTransitionBehavior.TransitionAbleAll(this);
-
-        if (hitCount <= gunFuHitScriptableObject.hitTimes.Count - 1)
-        {
-            if (_timer >= (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
-            {
-                gotAttackedAlready.Clear();
-                hitCount++;
-            }
-            else if (_timer > (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].x) - lenghtOffset
-            && _timer < (_animationClip.length * gunFuHitScriptableObject.hitTimes[hitCount].y) - lenghtOffset)
-            {
-                Attacking();
-            }
-
-        }
+        if (this.isAttackingTime)
+            this.Attacking();
        
         nodeLeafTransitionBehavior.TransitioningCheck(this);
         base.UpdateNode();
@@ -87,18 +83,19 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
     public Vector3 hitDir { get; protected set; }
 
+
     protected void Attacking()
     {
         Vector3 shperePos = player.transform.position
-    + (player.transform.forward * gunFuHitScriptableObject.attackVolumeForward)
-    + (player.transform.up * gunFuHitScriptableObject.attackVolumeUpward)
-    + (player.transform.right * gunFuHitScriptableObject.attackVolumeRightward);
+    + (this.player.transform.forward * gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeForward)
+    + (this.player.transform.up * gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeUpward)
+    + (this.player.transform.right * gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeRightward);
 
         //Debug.Log("attacking");
 
         //Debug.DrawLine(player.transform.position,shperePos,Color.green,0.5f);
 
-        player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.attackVolumeRaduis);
+        player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeRaduis);
 
         if (targets.Count <= 0)
             return;
@@ -122,10 +119,10 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             try 
             {
                 this.hitDir = (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
-                this.hitDir = Quaternion.Euler(this.gunFuHitScriptableObject.hitDirRotOffset[this.hitCount]) * this.hitDir;
+                this.hitDir = Quaternion.Euler(this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hitDirRotOffset) * this.hitDir;
 
                 (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
-                    (this.hitDir * gunFuHitScriptableObject.hitPushForce[hitCount]
+                    (this.hitDir * this.gunFuHitScriptableObject.gunFuHitDetail[hitCount].hitPushForce
                     , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 targets[i].TakeGunFuAttacked(this, gunFuAble);
@@ -141,12 +138,56 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
             
         }
 
-        
+
+    }
+
+    protected void OpenAttackingTime()
+    {
+        this.isAttackingTime = true;
+    }
+    protected void CloseAttackingTime() 
+    {
+        this.isAttackingTime = false;
+        gotAttackedAlready.Clear();
+
+    }
+
+    protected void NextHitContinue() => this.hitCount++;
+
+    protected Vector3 enterWarpPos;
+    protected Quaternion enterWarpRot;
+
+    protected Vector3 exitWarpPos;
+    protected Quaternion exitWarpRot;
+
+    protected void BeginWarp() 
+    {
+
+        this.enterWarpPos = this.gunFuAble._character.transform.position;
+        this.enterWarpRot = this.gunFuAble._character.transform.rotation;
+
+        this.UpdateExitWarp();
+
+         this.isWarping = true; 
+    }
+    private void UpdateExitWarp()
+    {
+        this.exitWarpPos = this.gotGunFuAttackedAble._character.transform.position;
+        this.exitWarpRot = this.gotGunFuAttackedAble._character.transform.rotation;
+    }
+    protected void EndWarp() => this.isWarping = false;
+
+    protected void TransitionAble()
+    {
+        Debug.Log("gunGuHit state name " + this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].gunFuHitStateName + "TransitionAble");
+        this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
     }
 
     public override void FixedUpdateNode()
     {
-        PullUpdate();
+
+        WarpingUpdate();
+
         base.FixedUpdateNode();
     }
 
@@ -174,72 +215,32 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
 
         return false;
     }
-    public void PullUpdate()
+    public void WarpingUpdate()
     {
-
-        float t;
-        
-        if (curWarpKeyFrame == 0)
-        {
-            t = Mathf.Clamp01(_timer / ((_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[0] 
-                )- lenghtOffset));
-            if(t <1)
-            {
-                if(this.gotGunFuAttackedAble._isGotAttackedAble == false)
-                    return;
-                //warp
-                if (isWarping)
-                MovementWarper.WarpMovement(
-                    gunFuAble._character.transform.position
-                    , gunFuAble._character.transform.rotation
-                    , gunFuAble._character._movementCompoent
-                    , gotGunFuAttackedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position ).normalized * hitDistance
-                    , lookAtTarget
-                    , t);
-            }
-            else
-            {
-
-                curWarpKeyFrame += 1;
-                if (isWarping == true)
-                    isWarping = false;
-                else
-                    isWarping = true;
-            }
+        if(this.isWarping == false ||
+            this.gotGunFuAttackedAble._isGotAttackedAble == false
+            )
             return;
-        }
-        else // curKeyFrame > 0
-        {
-            if (curWarpKeyFrame >= gunFuHitScriptableObject.warpKeyFrameNormalized.Count - 1)
-                return;
 
+        this.UpdateExitWarp();
 
-            t = Mathf.Clamp01((_timer - (_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame -1] - _animationClip.length * gunFuHitScriptableObject.animationGunFuHitOffset))
-                / (_animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame] - _animationClip.length * gunFuHitScriptableObject.warpKeyFrameNormalized[curWarpKeyFrame - 1]));
-            //warp
-            if (t < 1)
-            {
-                if (isWarping)
-                {
-                    MovementWarper.WarpMovement(
-                        gunFuAble._character.transform.position
-                        , gunFuAble._character.transform.rotation
-                        , gunFuAble._character._movementCompoent
-                        , gotGunFuAttackedAble._character.transform.position + (gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position).normalized * hitDistance
-                        , lookAtTarget
-                        , t);
-                }
-            }
-            else
-            {
-                curWarpKeyFrame += 1;
-                if (isWarping == true)
-                    isWarping = false;
-                else
-                    isWarping = true;
-            }
-        }
-       
+        float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer
+            (this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.x,
+            this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.y
+            );
+
+        MovementWarper.WarpMovement(
+                    this.gunFuAble._character.transform.position
+                    , this.gunFuAble._character.transform.rotation
+                    , this.gunFuAble._character._movementCompoent
+                    , this.gotGunFuAttackedAble._character.transform.position + (this.gunFuAble._character.transform.position - this.gotGunFuAttackedAble._character.transform.position).normalized * this.hitDistance
+                    , this.lookAtTarget
+                    , this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingMovementCurve.Evaluate(t)
+                    );
+
+        if(t >= 1)
+            this.EndWarp();
+
 
     }
     public bool TransitioningCheck()

@@ -4,7 +4,7 @@ using static ItemObject;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class ItemObject : MonoBehaviour 
 {
-    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNodeAndCheckFindingNode after the MonoBehaviour is created
     protected IRecivedAble clent;
     [SerializeField] protected bool isBeenPull;
 
@@ -36,7 +36,7 @@ public abstract class ItemObject : MonoBehaviour
         this.rb = GetComponent<Rigidbody>();
         elapseTimePullAble = 0;
     }
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     private float delay = 0.25f;
     protected virtual void Update()
     {

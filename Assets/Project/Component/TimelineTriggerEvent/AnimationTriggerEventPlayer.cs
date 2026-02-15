@@ -13,6 +13,7 @@ public class AnimationTriggerEventPlayer
     private AnimationTriggerEventDetail[] animationTriggerEventsDetails;
     private Dictionary<AnimationTriggerEventDetail, bool> isAlreadyTrigger;
     private Dictionary<AnimationTriggerEventDetail, Action> animationTriggerEventAction;
+
     public AnimationClip animationClip { get; protected set; }
 
     private int eventCount => animationTriggerEventsDetails.Length;
@@ -52,11 +53,13 @@ public class AnimationTriggerEventPlayer
         animationTriggerEventAction = new Dictionary<AnimationTriggerEventDetail, Action>();
 
 
+
         for (int i = 0; i < triggerEventDetail.Length; i++)
         {
             animationTriggerEventsDetails[i] = triggerEventDetail[i];
             isAlreadyTrigger.Add(animationTriggerEventsDetails[i], true);
             animationTriggerEventAction.Add(animationTriggerEventsDetails[i], new Action(() => { }));
+
         }
     }
     private void RewindPopulateProperties()
@@ -119,6 +122,8 @@ public class AnimationTriggerEventPlayer
 
         return normal;
     }
+
+   
 
     public void SubscribeEvent(string eventName,Action subScribeEvent)
     {

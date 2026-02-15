@@ -39,7 +39,7 @@ public class RagdollAnimation : MonoBehaviour
         
     }
 
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         //if(enableRagdoll == true)

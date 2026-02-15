@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ef5c83297f5dd489545571a76c7ee0, type: 3}
   m_Name: ProceduralLegsWalkConstrainSCRP
   m_EditorClassIdentifier: Assembly-CSharp::ProceduralLegsWalkConstrainSCRP
-  stepMaxHeight: 0.2
+  stepMaxHeight: 0.3
   stepMaxDistance: 0.26
-  stepMaxVelocity: 3
+  stepMaxVelocity: 5
   distanceBeginStep: 0.26
-  stepVelocityFactor: 10
+  stepVelocityFactor: 3
   stepDistanceFactor: 0.2
   stepHeightFactor: 0.2
   leftHintOffset: {x: 0, y: 0.5, z: 0.6}

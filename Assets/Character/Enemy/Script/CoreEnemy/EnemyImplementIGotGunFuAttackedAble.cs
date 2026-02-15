@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EnemyBodyBulletDamageAbleBehavior;
 
 
 public partial class Enemy : IGotGunFuAttackedAble
@@ -65,6 +66,33 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Single_Execute_OnGround_LayDown_I;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
+        if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+        {
+
+            Vector3 gunFuAblePos = new Vector3
+                (
+                gunFuHitNodeLeaf.gunFuAble._character.transform.position.x
+                , this.transform.position.y
+                , gunFuHitNodeLeaf.gunFuAble._character.transform.position.z
+                );
+
+            Vector3 hitDir = (this.transform.position - gunFuAblePos).normalized;
+            hitDir = Quaternion.LookRotation(hitDir, Vector3.up) * Quaternion.Euler(gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitDirPoseAnimOffset) * Vector3.forward;
+
+            Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
+
+            CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
+            {
+                hitDir = hitDir,
+                hitedPart = this.spline,
+                hitforce = gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitPushForce,
+                hitPos = this.transform.position
+            };
+
+            this.NotifyObserver<CharacterHitedEventDetail>(this, characterHitedEventDetail);
+
+        }
+
         _triggerHitedGunFu = true;
         curAttackerGunFuNode = gunFu_NodeLeaf;
         gunFuAbleAttacker = attacker;

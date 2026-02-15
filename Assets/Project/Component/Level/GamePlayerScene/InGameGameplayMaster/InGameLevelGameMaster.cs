@@ -43,7 +43,7 @@ public class InGameLevelGameMaster : GameMaster
 
     public override void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
 
     public InGameLevelFreeStateGameMasterNodeLeaf freeStateGameMasterNodeLeaf { get; protected set; }

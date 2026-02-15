@@ -23,8 +23,26 @@ public class PlayAnimationNodeLeaf : AnimationNodeLeaf
 
     public override void Enter()
     {
+        this.isTriggerReset = false;
         //Debug.Log("Enter Animation State " + stateName);
         animator.CrossFadeInFixedTime(stateName,transitionDurationNormalized,layer,transitionOffsetNormalized);
         base.Enter();
+    }
+    public override void Exit()
+    {
+        this.isTriggerReset = false;
+        base.Exit();
+    }
+
+    public bool isTriggerReset;
+
+    public void TriggerReset() => this.isTriggerReset = true;
+
+    public override bool IsReset()
+    {
+        if(this.isTriggerReset)
+            return true;
+
+        return base.IsReset();
     }
 }

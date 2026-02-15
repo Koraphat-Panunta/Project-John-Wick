@@ -27,7 +27,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     }
     public void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
    
 

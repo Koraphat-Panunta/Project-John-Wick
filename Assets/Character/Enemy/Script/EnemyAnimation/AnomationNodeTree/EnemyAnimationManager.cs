@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static EnemyBodyBulletDamageAbleBehavior;
 [RequireComponent(typeof(Enemy))]
 [RequireComponent(typeof(Animator))]
 public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
-    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNodeAndCheckFindingNode after the MonoBehaviour is created
     public Animator animator;
     public Enemy enemy;
 
+    public AnimationPoseTimeNormalized basedAnimationPoseTimeNormalized;
     public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
 
     private Vector3 inputVelocity_World;
@@ -35,6 +37,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         else return 0;
         } 
     }
+    public float PainStateHorizontal;
+    public float PainStateVertical ;
 
     public bool isGround;
     public bool isSprint;
@@ -43,8 +47,9 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 
     public void Initialized()
     {
+        this.basedAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
         this.upperAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
-
+        
         enemy.AddObserver(this);
         _nodeManagerBehavior = new NodeManagerBehavior();
         _parallelNodeManahger = new List<INodeManager>();
@@ -55,14 +60,32 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     {
         if (node is IGotGunFuExecuteNodeLeaf gotExecute || node is IGotGunFuAttackNode)
             animator.SetLayerWeight(1, 0);
+
+        if(node is CharacterHitedEventDetail hitedEventDetail)
+        {
+            this.PainStateHorizontal = Quaternion.FromToRotation(this.transform.forward * -1,new Vector3(hitedEventDetail.hitDir.x, this.transform.forward.y, hitedEventDetail.hitDir.z) ).eulerAngles.y;
+            //Debug.DrawRay(this.transform.position, new Vector3(hitedEventDetail.hitDir.x, this.transform.forward.y, hitedEventDetail.hitDir.z), Color.yellow, 3);
+            //Debug.DrawRay(this.transform.position, this.transform.forward, Color.blue, 3);
+            this.PainStateVertical = Vector3.Angle(
+                this.transform.up
+                , hitedEventDetail.hitDir);
+
+        }
+
+        if(node is GotGunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf.curGotHitPhase == GotGunFuHitNodeLeaf.GotHitPhase.Enter)
+        {
+            this.painStateAnimationNodeLeaf.TriggerReset();
+        }
     }
   
   
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         UpdateNode();
         BackBoardUpdate();
+
     }
     private void FixedUpdate()
     {
@@ -138,8 +161,11 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         //animator.SetFloat("CAR_Weight", 0);
         animator.SetFloat("DotVectorLeftwardDir_MoveInputVelocity_Normallized", DotVectorLeftwardDir_MoveInputVelocity_Normallized);
         animator.SetFloat("CrouchWeight", CrouchWeight);
+        this.animator.SetFloat("PainStateHorizontal",this.PainStateHorizontal);
+        this.animator.SetFloat("PainStateVertical",this.PainStateVertical);
 
         animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+        this.animator.SetFloat("BasedLayerTimeNormalized", this.basedAnimationPoseTimeNormalized.timeNormal);
     }
 
     #region CalculateDeltaRotation

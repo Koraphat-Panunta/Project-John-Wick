@@ -12,34 +12,114 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit2
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: fe20e1dc0c7589b4499653fd174f7948,
-    type: 2}
-  gunFuHitStateName: Hit2
-  hitTimes:
-  - {x: 0.442, y: 0.461}
-  - {x: 0.59, y: 0.6}
-  hitPushRotationOffset:
-  - 0
-  - 0
-  hitPushForce:
-  - 0
-  - 1
-  hitStopDuration:
-  - 0
-  - 0
-  hitResetDuration:
-  - 0
-  - 0
-  hitSlowMotionCurve: []
-  warpKeyFrameNormalized:
-  - 0.41
-  - 0.51
-  - 0.56
-  animationGunFuHitOffset: 0.37
-  ExitTime_Normalized: 0.9
-  TransitionAbleTime_Normalized: 0.74
-  staggerHitDamage: 30
-  attackVolumeRaduis: 0.31
-  attackVolumeForward: 0.5
-  attackVolumeUpward: 1.1
-  attackVolumeRightward: 0
+  clip: {fileID: 7400000, guid: 4b5960c6b150f1c44a2b2ca56bdd4b4d, type: 2}
+  enterNormalizedTime: 0
+  triggerEventDetail:
+  - normalizedTime: 0
+    eventName: BeginWarp
+  - normalizedTime: 0.16
+    eventName: OpenAttackingTime
+  - normalizedTime: 0.18
+    eventName: CloseAttackingTime
+  - normalizedTime: 0.2
+    eventName: NextHitContinue
+  - normalizedTime: 0.2
+    eventName: BeginWarp
+  - normalizedTime: 0.6
+    eventName: OpenAttackingTime
+  - normalizedTime: 0.635
+    eventName: CloseAttackingTime
+  - normalizedTime: 0.65
+    eventName: TransitionAble
+  endNormalizedTime: 1
+  gunFuHitDetail:
+  - gunFuHitStateName: Hit2
+    staggerHitDamage: 5
+    hpHitDamage: 5
+    stuntingTime: 1
+    hitSlowMotionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingMovementCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingTime: {x: 0, y: 0.18}
+    hitDirRotOffset: {x: 0, y: 0}
+    hitDirPoseAnimOffset: {x: 0, y: 60, z: 0}
+    hitPushForce: 0
+    hitPushAnimConstrainForce: 1
+    hitStopDuration: 0
+    hitResetDuration: 0
+    attackVolumeRaduis: 0.31
+    attackVolumeForward: 0.5
+    attackVolumeUpward: 1.1
+    attackVolumeRightward: 0
+  - gunFuHitStateName: Hit2
+    staggerHitDamage: 10
+    hpHitDamage: 15
+    stuntingTime: 2
+    hitSlowMotionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingMovementCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingTime: {x: 0.2, y: 0.65}
+    hitDirRotOffset: {x: 0, y: 0}
+    hitDirPoseAnimOffset: {x: 0, y: 0, z: 0}
+    hitPushForce: 2
+    hitPushAnimConstrainForce: 2
+    hitStopDuration: 0
+    hitResetDuration: 0
+    attackVolumeRaduis: 0.31
+    attackVolumeForward: 0.5
+    attackVolumeUpward: 1.1
+    attackVolumeRightward: 0

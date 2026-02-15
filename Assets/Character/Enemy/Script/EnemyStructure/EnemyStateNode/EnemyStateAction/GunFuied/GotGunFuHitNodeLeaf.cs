@@ -10,7 +10,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode
     public IGotGunFuAttackedAble gotGunFuAttackedAble => enemy;
     public float _painTime { get; set; }
     public float _timer { get; set; }
-    float forceStop => this.enemy.breakDecelerate * .5f;
+    float forceStop => this.enemy.breakDecelerate * .25f;
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public INodeManager nodeManager { get; set; }

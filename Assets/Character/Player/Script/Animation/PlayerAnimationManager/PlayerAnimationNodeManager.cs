@@ -135,7 +135,7 @@ public partial class PlayerAnimationManager
             animator, "Crouch", 0, .2f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
-            animator, "Move/Idle", 0, .1f);
+            animator, "Move/Idle", 0, .2f);
     }
     private void InitializedGunFuBasedLayer()
     {
@@ -202,19 +202,20 @@ public partial class PlayerAnimationManager
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit1",
-            animator, "Hit1", 0, .1f, player.hit1.animationGunFuHitOffset);
+            animator, "Hit1", 0, .1f, this.player.hit1.enterNormalizedTime);
         hit2NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit2",
-            animator, "Hit2", 0, .1f, player.hit2.animationGunFuHitOffset);
+            animator, "Hit2", 0, .1f, player.hit2.enterNormalizedTime);
         hit3NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit3",
-            animator, "Hit3", 0, .1f, player.hit3.animationGunFuHitOffset);
+            animator, "Hit3", 0, .1f, player.hit3.enterNormalizedTime);
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
-            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.animationGunFuHitOffset);
+            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.enterNormalizedTime
+            );
     }
     private void InitializedBasedLayerNodeManager()
     {

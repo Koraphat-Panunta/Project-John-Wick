@@ -21,7 +21,7 @@ public class MyEnemyController : MonoBehaviour
         
     }
 
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         frame++;

@@ -34,7 +34,7 @@ public abstract partial class MovementCompoent : INodeManager
 
     public virtual void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         Debug.DrawRay(this.userMovement.transform.position + Vector3.up, moveInputVelocity_World, Color.blue);
         Debug.DrawRay(this.userMovement.transform.position + Vector3.up, curMoveVelocity_World, Color.yellow);
     }

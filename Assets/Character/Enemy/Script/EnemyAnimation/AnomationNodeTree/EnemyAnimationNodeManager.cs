@@ -11,7 +11,7 @@ public partial class EnemyAnimationManager : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
 
-    public PlayAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
     public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
@@ -23,10 +23,11 @@ public partial class EnemyAnimationManager : INodeManager
     {
         this.startNodeSelector = new NodeSelector(() => true);
 
-        this.painStateAnimationNodeLeaf = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
-            || this.enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            , animator, "PainState", 0, 0.2f);
+        this.painStateAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => (enemyStateManager.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+            || this.enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            , this.animator, "PainState", 0,this.basedAnimationPoseTimeNormalized,0f
+            ,this.painStatePoseAnimationSCRP);
 
         this.enemySpinKick = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
@@ -264,7 +265,9 @@ public partial class EnemyAnimationManager : INodeManager
 
     public void UpdateNode()
     {
-       _nodeManagerBehavior.UpdateNode(this);
+
+
+       _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         upperlayerAnimationNodeManagerProtable.UpdateNode();
         enemyAnimationNodeComponentManager.Update();
     }

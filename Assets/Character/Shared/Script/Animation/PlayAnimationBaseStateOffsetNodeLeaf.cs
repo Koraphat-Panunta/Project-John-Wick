@@ -9,6 +9,7 @@ public class PlayAnimationBaseStateOffsetNodeLeaf : AnimationNodeLeaf
     protected int baseLayer;
     protected float transitionDurationNormalized;
     protected float transitionOffsetNormalized => animator.GetCurrentAnimatorStateInfo(baseLayer).normalizedTime;
+
     public PlayAnimationBaseStateOffsetNodeLeaf(Func<bool> preCondition,Animator animator, string stateName, int layer,int baseLayer, float transitionDurationNormalized) : base(preCondition)
     {
         this.animator = animator;
@@ -26,4 +27,6 @@ public class PlayAnimationBaseStateOffsetNodeLeaf : AnimationNodeLeaf
         
         base.Enter();
     }
+
+    
 }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using static EnemyBodyBulletDamageAbleBehavior;
 
-public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager,IObserverEnemy
+public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager, IObserverEnemy
 {
 
     public Enemy enemy;
@@ -55,8 +56,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
            , this.bodyLookConstrainManager
            , this.painBodyRespondCurve
            , this.painStateBodyConstraintSCRP
-           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>() 
-           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            );
 
         this.aimDownSightBodyNodeSelector = new NodeSelector(
@@ -67,14 +68,14 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             (() => true);
 
         this.enableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> this.bodyConstraintSelector.curNodeLeaf != this.restBodyConstrainNodeLeaf
-            ,this.bodyLookConstrainManager
-            ,1,1);
+            () => this.bodyConstraintSelector.curNodeLeaf != this.restBodyConstrainNodeLeaf
+            , this.bodyLookConstrainManager
+            , 1, 1);
 
         this.disableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> true
-            ,this.bodyLookConstrainManager
-            ,1,0);
+            () => true
+            , this.bodyLookConstrainManager
+            , 1, 0);
 
         //3
 
@@ -147,7 +148,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             (this.rightHandIKConstraint
             , this.enemy._spine_1_Bone
             , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+            //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             , this.armAnchorSwingOffsetPosition
             , this.armBalancePointOffset
             , new Vector3(0, 90, 0)
@@ -208,7 +209,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
            (this.leftHandIKConstraint
            , this.enemy._spine_1_Bone
            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+           //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            , this.armAnchorSwingOffsetPosition
            , this.armBalancePointOffset
            , new Vector3(0, -90, 0)
@@ -361,26 +362,36 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
-        if (node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
+        
+
+        if(node  is CharacterHitedEventDetail hitedEventDetail)
         {
-            Vector3 hitPos = bulletHitDetail.hitPos;
+            Vector3 hitPos = hitedEventDetail.hitPos;
             this.painStateProceduralBodyConstraintNodeLeaf.SetPainProperties
                 (hitPos
-                , bulletHitDetail.hitDir
+                , hitedEventDetail.hitDir
                 , enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.Flinch ? .5f : 1f
                 );
 
             Vector3 root = this.leftArmPainStateProceduralConstraintNodeLeaf.rootIKHandRef.transform.position;
             Vector3 rootToHitDir = (hitPos - this.leftArmPainStateProceduralConstraintNodeLeaf.rootIKHandRef.transform.position).normalized;
 
-           if(bulletHitDetail.hitedPart is ArmLeftBodyPart)
+            if (hitedEventDetail.hitedPart is ArmLeftBodyPart)
             {
-                this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
+                this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
-            if (bulletHitDetail.hitedPart is ArmRightBodyPart)
+            if (hitedEventDetail.hitedPart is ArmRightBodyPart)
             {
-                this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
+                this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
+
+            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
+            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
+
+            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+
+
 
         }
     }

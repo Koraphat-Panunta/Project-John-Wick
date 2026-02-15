@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         gameObject.transform.position = player.transform.position;

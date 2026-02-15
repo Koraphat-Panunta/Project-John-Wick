@@ -7,7 +7,7 @@ using UnityEngine;
 public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IInitializedAble
 {
 
-    // Start is called once before the first execution of UpdateNode after the MonoBehaviour is created
+    // Start is called once before the first execution of UpdateNodeAndCheckFindingNode after the MonoBehaviour is created
     public void Initialized()
     {
         player.AddObserver(this);

@@ -48,7 +48,7 @@ public abstract class WeaponNodeManuverManager : INodeManager
 
     public virtual void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
     public virtual void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
