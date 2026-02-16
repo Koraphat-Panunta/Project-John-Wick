@@ -17,7 +17,7 @@ public class FieldOfViewDebug : MonoBehaviour
      
     }
 
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         DirecviewLeft = GetVectorView(ObjView.transform.rotation.eulerAngles.y, Radias/2);

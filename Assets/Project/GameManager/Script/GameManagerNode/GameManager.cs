@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour,INodeManager
     }
     public void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
 
    

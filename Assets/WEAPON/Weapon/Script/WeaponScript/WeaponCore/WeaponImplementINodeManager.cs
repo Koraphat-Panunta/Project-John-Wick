@@ -38,7 +38,7 @@ public partial class Weapon : INodeManager
 
     public virtual void UpdateNode()
     {
-        this._nodeManagerBehavior.UpdateNode(this);
+        this._nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         this.nodeComponentManager.Update();
     }
 }

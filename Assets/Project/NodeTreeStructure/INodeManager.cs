@@ -34,19 +34,27 @@ public class NodeManagerBehavior
 {
     
     public INode errorNode { get;private set; }
-    public void UpdateNode(INodeManager nodeManager) 
+    public void UpdateNodeAndCheckFindingNode(INodeManager nodeManager) 
     {
-        if (nodeManager.GetCurNodeLeaf().IsReset())
-            SearchingNewNode(nodeManager);
-        
-        if (nodeManager.GetCurNodeLeaf() != null)
-            nodeManager.GetCurNodeLeaf().UpdateNode();
+        CheckFindingNode(nodeManager);
+        UpdateNode(nodeManager);
     }
     public void FixedUpdateNode(INodeManager nodeManager)
     {
         if(nodeManager.GetCurNodeLeaf() != null)
             nodeManager.GetCurNodeLeaf().FixedUpdateNode();
     }
+    public void UpdateNode(INodeManager nodeManager)
+    {
+        if (nodeManager.GetCurNodeLeaf() != null)
+            nodeManager.GetCurNodeLeaf().UpdateNode();
+    }
+    public void CheckFindingNode(INodeManager nodeManager)
+    {
+        if (nodeManager.GetCurNodeLeaf().IsReset())
+            SearchingNewNode(nodeManager);
+    }
+
     public void SearchingNewNode(INodeManager nodeManager)
     {
        if(nodeManager.startNodeSelector.FindingNode(out INodeLeaf nodeLeaf))

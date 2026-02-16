@@ -57,7 +57,7 @@ public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedA
         enemiesRole.Remove(enemysGetRole[enemy]);
         enemysGetRole.Remove(enemy);
     }
-    public void Notify<T>(Enemy enemy,T node)
+    public void OnNotify<T>(Enemy enemy,T node)
     {
 
         if (node is EnemyEvent enemyEvent 

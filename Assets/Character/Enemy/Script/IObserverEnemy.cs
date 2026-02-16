@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IObserverEnemy 
 {
-    public void Notify<T>(Enemy enemy, T node);
+    public void OnNotify<T>(Enemy enemy, T node);
 }

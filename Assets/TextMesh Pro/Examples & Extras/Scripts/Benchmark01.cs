@@ -110,7 +110,7 @@ namespace TMPro.Examples
 
 
         /*
-        void UpdateNode()
+        void UpdateNodeAndCheckFindingNode()
         {
             if (BenchmarkType == 0)
             {

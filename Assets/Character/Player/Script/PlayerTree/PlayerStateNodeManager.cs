@@ -20,7 +20,7 @@ public class PlayerStateNodeManager : INodeManager
     }
     public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
    
-    public void UpdateNode()=>_nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode()=>_nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
    
     public PlayerSelectorStateNode stanceSelectorNode { get; private set; }
     public PlayerDeadNodeLeaf deadNodeLeaf { get; private set; }
@@ -330,8 +330,17 @@ public class PlayerStateNodeManager : INodeManager
             && this.player.attackedAbleGunFu != null
             , this.player.hit2);
         Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu))) 
-        && this.player.attackedAbleGunFu != null
+            () => 
+            {
+                Debug.Log("attackedAbleGunFu = " + this.player.attackedAbleGunFu);
+
+                if((this.player._triggerGunFu 
+                || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+                && this.player.attackedAbleGunFu != null)
+                    return true;
+
+                else return false;
+            } 
         , this.player.hit3);
         dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))

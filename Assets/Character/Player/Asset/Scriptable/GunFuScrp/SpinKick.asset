@@ -12,27 +12,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: SpinKick
   m_EditorClassIdentifier: 
-  animationClip_GunFuHits: {fileID: 7400000, guid: 7595206ddc2ee104597b0ae5aa5419c8,
-    type: 2}
-  gunFuHitStateName: DodgeSpinKick
-  hitTimes:
-  - {x: 0.35, y: 0.47}
-  hitPushRotationOffset:
-  - 0
-  hitPushForce:
-  - 6
-  hitStopDuration:
-  - 0.05
-  hitResetDuration:
-  - 0
-  hitSlowMotionCurve: []
-  warpKeyFrameNormalized:
-  - 0.35
-  animationGunFuHitOffset: 0.15
-  ExitTime_Normalized: 1
-  TransitionAbleTime_Normalized: 0.887
-  staggerHitDamage: 30
-  attackVolumeRaduis: 0.9
-  attackVolumeForward: 0.68
-  attackVolumeUpward: 0.63
-  attackVolumeRightward: 0
+  clip: {fileID: 7400000, guid: 7595206ddc2ee104597b0ae5aa5419c8, type: 2}
+  enterNormalizedTime: 0.2
+  triggerEventDetail:
+  - normalizedTime: 0.39
+    eventName: OpenAttackingTime
+  - normalizedTime: 0.48
+    eventName: CloseAttackingTime
+  - normalizedTime: 0.6
+    eventName: TransitionAble
+  endNormalizedTime: 0.9
+  gunFuHitDetail:
+  - gunFuHitStateName: DodgeSpinKick
+    staggerHitDamage: 15
+    hpHitDamage: 15
+    stuntingTime: 2
+    hitSlowMotionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingMovementCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    warpingTime: {x: 0.2, y: 0.39}
+    hitDirRotOffset: {x: 0, y: 0}
+    hitDirPoseAnimOffset: {x: 0, y: 0, z: 0}
+    hitPushForce: 2
+    hitPushAnimConstrainForce: 2
+    hitStopDuration: 0
+    hitResetDuration: 0
+    attackVolumeRaduis: 0.9
+    attackVolumeForward: 0.68
+    attackVolumeUpward: 0.63
+    attackVolumeRightward: 0

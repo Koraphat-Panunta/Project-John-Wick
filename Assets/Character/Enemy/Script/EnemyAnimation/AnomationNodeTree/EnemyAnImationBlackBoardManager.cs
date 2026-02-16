@@ -2,7 +2,9 @@ using UnityEngine;
 
 public partial class EnemyAnimationManager 
 {
-   
+
+    public PlayPoseAnimationScriptableObject painStatePoseAnimationSCRP;
+
     protected INodeManager enemyStateManager => enemy.stateManagerNode;
     protected INodeManager enemyWeaponManuver => enemy._weaponManuverManager;
     protected bool isEnableUpperLayer

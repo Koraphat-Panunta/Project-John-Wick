@@ -834,8 +834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a746376f560234f9960318ba6a0ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftLeg: {fileID: 0}
-  rightLeg: {fileID: 0}
   enemy: {fileID: 2619394019457856660}
   bodyLookConstrainManager: {fileID: 1780304511169379162}
   leftHandIKConstraint: {fileID: 2599802802391994588}
@@ -1118,11 +1116,6 @@ MonoBehaviour:
   gunFuDetectTarget: {fileID: 7512234974047621189}
   EnemySpinKickScriptable: {fileID: 11400000, guid: e7f9d54d93dcbd145964a6b83209290c,
     type: 2}
-  GotHit1_P: {fileID: 11400000, guid: d38aa93a29bd8d54ea19b63fbcbc0135, type: 2}
-  GotHit1_A: {fileID: 11400000, guid: 93a76657af3953d43942a9d3216ef963, type: 2}
-  GotHit2_P: {fileID: 11400000, guid: a4196940b9a98dd49b7769925ab8ef96, type: 2}
-  GotHit2_A: {fileID: 11400000, guid: 0075a04ca5164ef4386e5e38b0ed89e5, type: 2}
-  GotHit3: {fileID: 11400000, guid: cecb4fb46ac32c94bb4fc553689ca301, type: 2}
   gotRestrictScriptableObject: {fileID: 11400000, guid: 4aa7503db68cb024282ca8e98fbd4f9a,
     type: 2}
   humanShield_GotInteract_Exit_SCRP: {fileID: 11400000, guid: 442889f0c29e6aa418b8b2e9cc4a022a,
@@ -1178,6 +1171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0410161d8fa6b4eaf3965a5aebc571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  painStatePoseAnimationSCRP: {fileID: 11400000, guid: 2c622d0a94bf5ff44814eafde721ac78,
+    type: 2}
   animator: {fileID: 1113618680042977909}
   enemy: {fileID: 2619394019457856660}
   SholderSide: 0
@@ -1193,6 +1188,8 @@ MonoBehaviour:
   AimDownSightWeight: 0
   DotVelocityWorld_Leftward_Normalized: 0
   RecoilWeight: 0
+  PainStateHorizontal: 0
+  PainStateVertical: 0
   isGround: 0
   isSprint: 0
   AnimationStateName: 

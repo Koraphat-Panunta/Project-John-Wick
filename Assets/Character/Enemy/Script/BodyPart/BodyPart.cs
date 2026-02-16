@@ -5,11 +5,12 @@ using static EnemyBodyBulletDamageAbleBehavior;
 
 public abstract class BodyPart : MonoBehaviour
     , IBulletDamageAble
-    , IGotGunFuAttackedAble
     , IFriendlyFirePreventing
     , IObserverEnemy
     , IInitializedAble
     , IBeenThrewObjectAt
+    , IGotGunFuAttackedAble
+
 {
     [SerializeField] public Enemy enemy;
     public virtual float _hpReciverMultiplyRate { get; set; }
@@ -17,7 +18,6 @@ public abstract class BodyPart : MonoBehaviour
     public virtual float _staggerReciverRate { get; set; }
 
     [SerializeField] protected BodyPartDamageRecivedSCRP bodyPartDamageRecivedSCRP;
-    public bool _triggerHitedGunFu { get; set; }
 
     public Vector3 forceSave;
     public Vector3 hitForcePositionSave;
@@ -35,17 +35,10 @@ public abstract class BodyPart : MonoBehaviour
     }
     
     protected Rigidbody bodyPartRigid;
-    public IGunFuNode curAttackerGunFuNode { get => enemy.curAttackerGunFuNode; set => enemy.curAttackerGunFuNode = value; }
-    public bool _isGotAttackedAble { get => enemy._isGotAttackedAble; set => enemy._isGotAttackedAble = value ; }
-    public bool _isGotExecutedAble { get => enemy._isGotExecutedAble; set => enemy._isGotExecutedAble = value; }
+   
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get => enemy.curFriendlyFireMode; set => enemy.curFriendlyFireMode = value; }
     public int allieID { get => enemy.allieID; set => enemy.allieID = value; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get => enemy.friendlyFirePreventingBehavior; set => enemy.friendlyFirePreventingBehavior = value; }
-    public IGunFuAble gunFuAbleAttacker { get => enemy.gunFuAbleAttacker; set => enemy.gunFuAbleAttacker = value; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => enemy; set { } }
-    public IWeaponAdvanceUser _weaponAdvanceUser { get => enemy._weaponAdvanceUser; set => enemy._weaponAdvanceUser = value; }
-    public IDamageAble _damageAble { get => enemy._damageAble; set => enemy._damageAble = value; }
-    public Character _character => enemy;
 
 
 
@@ -71,10 +64,7 @@ public abstract class BodyPart : MonoBehaviour
         }
     }
 
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
-    {
-        enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
-    }
+   
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
 
@@ -149,13 +139,59 @@ public abstract class BodyPart : MonoBehaviour
 
        
     }
+
+    #region ImplementIGotGunFuAttackedAble
+    public bool _triggerHitedGunFu
+    {
+        get => this.enemy._triggerHitedGunFu;
+        set => this.enemy._triggerHitedGunFu = value;
+    }
+
+    public IGunFuNode curAttackerGunFuNode
+    {
+        get => this.enemy.curAttackerGunFuNode;
+        set => this.enemy.curAttackerGunFuNode = value;
+    }
+    public IGunFuAble gunFuAbleAttacker
+    {
+        get => this.enemy.gunFuAbleAttacker;
+        set => this.enemy.gunFuAbleAttacker = value;
+    }
+    public IWeaponAdvanceUser _weaponAdvanceUser
+    {
+        get => this.enemy._weaponAdvanceUser;
+        set => this.enemy._weaponAdvanceUser = value;
+    }
+    public IGotGunFuAttackedAble gotGunFuAttackedAble
+    {
+        get => this.enemy;
+        set { }
+    }
+    public IDamageAble _damageAble
+    {
+        get => this.enemy;
+        set { }
+    }
+
+    public Character _character => this.enemy;
+
+    public bool _isGotAttackedAble { get => this.enemy._isGotAttackedAble; set { } }
+    public bool _isGotExecutedAble { get => this.enemy._isGotExecutedAble; set { } }
+    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
+    {
+
+        this.enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
+        
+    }
+    #endregion
+
     public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
 
     public Vector3 _beenThrowObjectAtPosition { get => enemy.head.transform.position; set { } }
 
     public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 
-    public virtual void Notify<T>(Enemy enemy, T node) 
+    public virtual void OnNotify<T>(Enemy enemy, T node) 
     {
         this.ForceCalulate();
     }

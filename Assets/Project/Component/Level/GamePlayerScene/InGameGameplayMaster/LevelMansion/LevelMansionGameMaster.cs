@@ -94,7 +94,7 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
                 {
                     Debug.Log("GetNotifyObjectiveUpdate Elimination");
                     if (elimination != this.elimination)
-                        throw new Exception(" Unmatch objective Notify ");
+                        throw new Exception(" Unmatch objective OnNotify ");
 
                     if (elimination.status == Objective.ObjectiveStatus.Complete)
                     {

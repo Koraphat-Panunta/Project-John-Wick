@@ -30,7 +30,7 @@ public partial class EnemyStateManagerNode : INodeManager
     }
     public void UpdateNode() 
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         this.enemyStateNodeComponentManager.Update();
     }
     

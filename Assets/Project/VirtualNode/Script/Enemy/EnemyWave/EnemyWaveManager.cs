@@ -86,7 +86,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
     {
         this.isStartWave = true;
     }
-    public void Notify<T>(Enemy enemy, T node) 
+    public void OnNotify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)
         {

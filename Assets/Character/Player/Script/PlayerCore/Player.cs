@@ -91,7 +91,7 @@ public partial class Player : SubjectPlayer,
         _movementCompoent.UpdateNode();
         MyHP = base.HP;
 
-        commandBufferManager.CommandBufferProcess();
+        this.commandBufferManager.CommandBufferProcess();
         this.RegenHPUpdate();
 
         _triggerHitedGunFu = false;

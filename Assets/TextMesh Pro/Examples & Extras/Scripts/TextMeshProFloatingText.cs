@@ -95,7 +95,7 @@ namespace TMPro.Examples
         }
 
 
-        //void UpdateNode()
+        //void UpdateNodeAndCheckFindingNode()
         //{
         //    if (SpawnType == 0)
         //    {

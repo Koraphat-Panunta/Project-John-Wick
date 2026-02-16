@@ -81,7 +81,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
 
     }
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf && enemyDodgeRollStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
         {

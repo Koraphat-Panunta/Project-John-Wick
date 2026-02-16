@@ -16,7 +16,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
         TakeDamage(damageVisitor);
         base.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
     }
-    public override void Notify<T>(Enemy enemy, T node)
+    public override void OnNotify<T>(Enemy enemy, T node)
     {
       
     }

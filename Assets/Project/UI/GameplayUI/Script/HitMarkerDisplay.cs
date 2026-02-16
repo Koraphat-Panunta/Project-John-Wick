@@ -19,7 +19,7 @@ public class HitMarkerDisplay : GameplayUI, IObserverPlayer
         this.player.AddObserver(this);
     }
     
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         Color color = X_markker.color;

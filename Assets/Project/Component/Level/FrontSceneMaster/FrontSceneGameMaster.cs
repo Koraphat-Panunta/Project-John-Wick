@@ -31,7 +31,7 @@ public class FrontSceneGameMaster : GameMaster
         _nodeManagerBehavior.SearchingNewNode(this);
     }
 
-    public override void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public override void UpdateNode() => _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     public override void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
 }

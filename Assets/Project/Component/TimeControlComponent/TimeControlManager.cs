@@ -34,7 +34,7 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
         if(isSystemStopTime == false)
             this.FixedUpdateNode();
     }
-    public void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode() => _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
     public INodeSelector startNodeSelector { get; set; }
