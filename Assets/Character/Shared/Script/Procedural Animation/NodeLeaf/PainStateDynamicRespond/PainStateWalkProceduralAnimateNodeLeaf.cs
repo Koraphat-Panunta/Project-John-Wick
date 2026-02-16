@@ -31,7 +31,8 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     public Vector3 relativeNewRightFootPos;
     protected float lerpRightLeg;
 
-    protected Transform hipTransform;
+    protected Transform rootCharacterTransform;
+    protected Vector3 rootCharacterPos => this.rootCharacterTransform.position + Vector3.up;
 
     protected float hipLegsSpace = .26f;
 
@@ -39,8 +40,8 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     {
         get 
         {
-            Vector3 dir = this.hipTransform.forward;
-            return Quaternion.LookRotation(new Vector3(dir.x,0,dir.z).normalized,this.hipTransform.up);
+            Vector3 dir = this.rootCharacterTransform.forward;
+            return Quaternion.LookRotation(new Vector3(dir.x,0,dir.z).normalized,this.rootCharacterTransform.up);
         }
     }
 
@@ -48,15 +49,15 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     {
         get
         {
-            Vector3 dir = this.hipTransform.forward;
-            return Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z).normalized, this.hipTransform.up);
+            Vector3 dir = this.rootCharacterTransform.forward;
+            return Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z).normalized, this.rootCharacterTransform.up);
         }
     }
 
     protected Vector3 hipRootPos { 
         get
         {
-            Ray rayHip = new Ray(this.hipTransform.position,Vector3.down);
+            Ray rayHip = new Ray(this.rootCharacterPos, Vector3.down);
 
             if (Physics.Raycast(rayHip, out RaycastHit hitInfo, 1.5f, this.stepAbleLayer, QueryTriggerInteraction.Ignore))
             {
@@ -70,7 +71,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     {
         get
         {
-            Ray rayLeftLeg = new Ray(this.hipTransform.position - (this.hipTransform.right * this.hipLegsSpace),Vector3.down);
+            Ray rayLeftLeg = new Ray(this.rootCharacterPos - (this.rootCharacterTransform.right * this.hipLegsSpace) + (this.rootCharacterTransform.forward * .2f), Vector3.down);
 
             if (Physics.Raycast(rayLeftLeg, out RaycastHit hitInfo, 1.5f, this.stepAbleLayer, QueryTriggerInteraction.Ignore))
             {
@@ -84,7 +85,7 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
     {
         get
         {
-            Ray rayRightLeg = new Ray(this.hipTransform.position + (this.hipTransform.right * this.hipLegsSpace), Vector3.down);
+            Ray rayRightLeg = new Ray(this.rootCharacterPos + (this.rootCharacterTransform.right * this.hipLegsSpace) + (this.rootCharacterTransform.forward * -.2f), Vector3.down);
 
             if (Physics.Raycast(rayRightLeg, out RaycastHit hitInfo, 1.5f, this.stepAbleLayer, QueryTriggerInteraction.Ignore))
             {
@@ -126,13 +127,13 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
     public PainStateWalkProceduralAnimateNodeLeaf(
         LegsConstrainManager legsConstrainManager
-        , Transform hipTransform
+        , Transform rootCharacter
         , ProceduralLegsWalkConstrainSCRP proceduralLegsWalkConstrainSCRP
         , Func<bool> preCondition
         ) : base(preCondition)
     {
         this.legsConstrainManager = legsConstrainManager;
-        this.hipTransform = hipTransform;
+        this.rootCharacterTransform = rootCharacter;
 
         this.proceduralLegsWalkConstrainSCRP = proceduralLegsWalkConstrainSCRP;
 
@@ -144,21 +145,21 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         this.lerpLeftLeg = 1;
         this.lerpRightLeg = 1;
 
-        this.oldPos = this.hipTransform.position;
+        this.oldPos = this.rootCharacterTransform.position;
         this.timerCheckVelocity = 0;
 
         curTurn = Turn.left;
 
 
 
-        Vector3 pos = this.leftLegRootPos + (this.hipTransform.forward * 0.2f);
-        this.relativeNewLeftFootPos = pos - hipTransform.position;
+        Vector3 pos = this.leftLegRootPos + (this.rootCharacterTransform.forward * 0.2f);
+        this.relativeNewLeftFootPos = pos - rootCharacterTransform.position;
         this.legsConstrainManager.SetLeftLeg_Target_Foot(pos);
         newLeftFootPos = pos;
         oldLeftFootPos = pos;
 
-        pos = this.rightLegRootPos + (hipTransform.forward * -0.2f);
-        relativeNewRightFootPos = pos - hipTransform.position;
+        pos = this.rightLegRootPos + (rootCharacterTransform.forward * -0.2f);
+        relativeNewRightFootPos = pos - rootCharacterTransform.position;
         this.legsConstrainManager.SetRightLeg_Target_Foot(pos);
         newRightFootPos = pos;
         oldRightFootPos = pos;
@@ -174,17 +175,17 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        base.FixedUpdateNode();
-    }
-
-    public override void UpdateNode()
-    {
         this.UpdateCurVelocity();
         RayCastStepCheck();
         UpdateLerpingStep();
 
         this.UpdateHintFoot();
 
+        base.FixedUpdateNode();
+    }
+
+    public override void UpdateNode()
+    {
         base.UpdateNode();
 
         this.DebugDrawLine();
@@ -201,16 +202,16 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
                 && this.distanceLeftLeg > this.distanceRightLeg)
             {
                 this.lerpLeftLeg = 0;
-                this.relativeNewLeftFootPos = (this.leftLegRootPos + (this.curVelocity.normalized * this.stepDistance)) - this.hipTransform.position;
-                this.newLeftFootPos = this.hipTransform.position + this.relativeNewLeftFootPos;
+                this.relativeNewLeftFootPos = (this.leftLegRootPos + (this.curVelocity.normalized * this.stepDistance)) - this.rootCharacterTransform.position;
+                this.newLeftFootPos = this.rootCharacterTransform.position + this.relativeNewLeftFootPos;
                 this.oldLeftFootPos = this.legsConstrainManager.GetLeftLeg_Target_Transform().position;
             }
             else if(this.distanceRightLeg >= this.distanceBeginStep
                 && this.distanceRightLeg > this.distanceLeftLeg)
             {
                 this.lerpRightLeg = 0;
-                this.relativeNewRightFootPos = (this.rightLegRootPos + (this.curVelocity.normalized * this.stepDistance) - this.hipTransform.position);
-                this.newRightFootPos = this.hipTransform.position + this.relativeNewRightFootPos;
+                this.relativeNewRightFootPos = (this.rightLegRootPos + (this.curVelocity.normalized * this.stepDistance) - this.rootCharacterTransform.position);
+                this.newRightFootPos = this.rootCharacterTransform.position + this.relativeNewRightFootPos;
                 this.oldRightFootPos = this.legsConstrainManager.GetRightLeg_Target_Transform().position;
             }
         }
@@ -228,15 +229,15 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
             lerpLeftLeg += Time.deltaTime * stepSpeed;
 
             this.legsConstrainManager.SetLeftLeg_Target_Foot(posL,this.leftFootRot);
-            newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
+            newLeftFootPos = rootCharacterTransform.position + relativeNewLeftFootPos;
 
             //Debug.Log("lerpLeftLeg = " + lerpLeftLeg);
 
             if(lerpLeftLeg >= 1)
             {
-                newLeftFootPos = hipTransform.position + relativeNewLeftFootPos;
-                oldLeftFootPos = newLeftFootPos;
-                this.legsConstrainManager.SetLeftLeg_Target_Foot(this.oldLeftFootPos, this.leftFootRot);
+                newLeftFootPos = rootCharacterTransform.position + relativeNewLeftFootPos;
+                //oldLeftFootPos = newLeftFootPos;
+                this.legsConstrainManager.SetLeftLeg_Target_Foot(this.newLeftFootPos, this.leftFootRot);
                 curTurn = Turn.right;
             }
         }
@@ -244,11 +245,11 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         {
             if (this.distanceLeftLeg >= this.stepDistance)
             {
-                this.legsConstrainManager.SetLeftLeg_Target_Foot(this.hipTransform.position + this.relativeNewLeftFootPos, this.leftFootRot);
+                this.legsConstrainManager.SetLeftLeg_Target_Foot(this.rootCharacterTransform.position + this.relativeNewLeftFootPos, this.leftFootRot);
             }
             else
             {
-                this.relativeNewLeftFootPos = this.legsConstrainManager.GetLeftLeg_Target_Transform().position - this.hipTransform.position;
+                this.relativeNewLeftFootPos = this.legsConstrainManager.GetLeftLeg_Target_Transform().position - this.rootCharacterTransform.position;
                 this.legsConstrainManager.SetLeftLeg_Target_Foot(this.newLeftFootPos, this.leftFootRot);
             }
         }
@@ -261,13 +262,13 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
             lerpRightLeg += Time.deltaTime * stepSpeed;
 
             this.legsConstrainManager.SetRightLeg_Target_Foot(posR, this.rightFootRot);
-            newRightFootPos = hipTransform.position + relativeNewRightFootPos;
+            newRightFootPos = rootCharacterTransform.position + relativeNewRightFootPos;
 
             //Debug.Log("lerpRightLeg = " + lerpRightLeg);
 
             if (lerpRightLeg >= 1)
             {
-                newRightFootPos = hipTransform.position + relativeNewRightFootPos;
+                newRightFootPos = rootCharacterTransform.position + relativeNewRightFootPos;
                 oldRightFootPos = newRightFootPos;
                 this.legsConstrainManager.SetRightLeg_Target_Foot(this.oldRightFootPos, this.rightFootRot);
                 curTurn = Turn.left;
@@ -277,11 +278,11 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         {
             if (this.distanceRightLeg >= this.stepDistance)
             {
-                this.legsConstrainManager.SetRightLeg_Target_Foot(this.hipTransform.position + this.relativeNewRightFootPos, this.rightFootRot);
+                this.legsConstrainManager.SetRightLeg_Target_Foot(this.rootCharacterTransform.position + this.relativeNewRightFootPos, this.rightFootRot);
             }
             else
             {
-                this.relativeNewRightFootPos = this.legsConstrainManager.GetRightLeg_Target_Transform().position - this.hipTransform.position;
+                this.relativeNewRightFootPos = this.legsConstrainManager.GetRightLeg_Target_Transform().position - this.rootCharacterTransform.position;
                 this.legsConstrainManager.SetRightLeg_Target_Foot(this.newRightFootPos, this.rightFootRot);
             }
         }
@@ -297,8 +298,8 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
         if(this.timerCheckVelocity >= this.timeCheckVelocity)
         {
             this.timerCheckVelocity = 0;
-            this.curVelocity = (this.hipTransform.position - this.oldPos)/this.timeCheckVelocity;
-            this.oldPos = this.hipTransform.position;
+            this.curVelocity = (this.rootCharacterTransform.position - this.oldPos)/this.timeCheckVelocity;
+            this.oldPos = this.rootCharacterTransform.position;
 
             //Debug.Log("CurVelocity = " + this.curVelocity.magnitude);
         }
