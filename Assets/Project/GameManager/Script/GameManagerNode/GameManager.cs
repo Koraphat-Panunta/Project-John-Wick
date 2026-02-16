@@ -3,18 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameManager : MonoBehaviour,INodeManager
 {
-    public enum GameManagerState
-    {
-        ForntScene,
-        Gameplay
-    }
-    public GameManagerState gameManagerSceneData;
-    public enum GameplayLevel
-    {
-        None,
-        Prologue,
-    }
-    public GameplayLevel gameplayLevelData;
+
+    public static GameManager gameManagerInstance;
+
+
+   
 
     public SoundTrackManager soundTrackManager;
     public AudioClip gamePlaySoundTrack { get; set; }
@@ -39,6 +32,8 @@ public class GameManager : MonoBehaviour,INodeManager
         QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
         dataBased = new DataBased();
         DontDestroyOnLoad(gameObject);
+
+        gameManagerInstance = this;
     }
     public void InitailizedNode()
     {
@@ -73,9 +68,6 @@ public class GameManager : MonoBehaviour,INodeManager
     private void Start()
     {
 
-        this.gameManagerSceneData = GameManagerState.ForntScene;
-        this.gameplayLevelData = GameplayLevel.None;
-
         InitailizedNode();
     }
 
@@ -92,32 +84,15 @@ public class GameManager : MonoBehaviour,INodeManager
     {
         (curNodeLeaf as GameManagerNodeLeaf).Enter();
     }
-    public void StartGameplayScene(GameplayLevel gameplayLevel)
-    {
-        gameManagerSceneData = GameManagerState.Gameplay;
-        gameplayLevelData = gameplayLevel;
-    }
+
     public void ContinueGameplayScene()
     {
-        gameManagerSceneData = GameManagerState.Gameplay;
-
-        switch (gameplayLevelData)
-        {
-            case GameplayLevel.None: 
-                gameplayLevelData 
-                    = GameplayLevel.Prologue; 
-                break;
-            case GameplayLevel.Prologue:
-                {
-                    gameManagerSceneData = GameManagerState.ForntScene;
-                    gameplayLevelData = GameplayLevel.None;
-                    break;
-                }
-        }
+        
     }
+
     public void ExitToMainMenu()
     {
-        gameManagerSceneData = GameManagerState.ForntScene;
+       
     }
 
     public void ExitGame()
