@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour,INodeManager
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
-    public DataBased dataBased { get; set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
     private void Awake()
@@ -30,7 +29,6 @@ public class GameManager : MonoBehaviour,INodeManager
         this._parallelNodeManahger = new List<INodeManager>();
         Application.targetFrameRate = 60; // Match Editor
         QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
-        dataBased = new DataBased();
         DontDestroyOnLoad(gameObject);
 
         gameManagerInstance = this;

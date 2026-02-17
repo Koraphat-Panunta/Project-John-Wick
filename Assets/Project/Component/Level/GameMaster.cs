@@ -12,20 +12,8 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
-    public DataBased dataBased 
-    { 
-        get 
-        {
-            if(gameManager != null)
-                return gameManager.dataBased;
+  
 
-            return this.DataBased;
-        } 
-    }
-
-
-
-    private DataBased DataBased;
 
     public static readonly float lookSensitivityDefault = 20;
     public static readonly float adsSensitivityDefault = 10;
@@ -36,13 +24,7 @@ public abstract class GameMaster : MonoBehaviour,INodeManager,IInitializedAble
     public virtual void Initialized()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        this.DataBased = new DataBased();
-        this.dataBased.settingData.mouseSensitivivty = lookSensitivityDefault;
-        this.dataBased.settingData.mouseAimDownSightSensitivity = adsSensitivityDefault;
 
-        this.dataBased.settingData.volumeMaster = masterVolumeDefault;
-        this.dataBased.settingData.volumeEffect = sfxVolumeDefault;
-        this.dataBased.settingData.volumeMusic = musicVolumeDefault;
 
         _nodeManagerBehavior = new NodeManagerBehavior();
         _parallelNodeManahger = new List<INodeManager>();

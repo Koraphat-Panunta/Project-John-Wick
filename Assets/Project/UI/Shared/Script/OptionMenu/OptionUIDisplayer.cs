@@ -1,3 +1,4 @@
+using UnityEditor.SettingsManagement;
 using UnityEngine;
 
 public abstract class OptionUIDisplayer 
@@ -7,7 +8,7 @@ public abstract class OptionUIDisplayer
     {
         this.optionCanvasSector = canvasSector;
     }
-    public void Show(DataBased dataBased)
+    public void Show(DataBased.SettingData dataBased)
     {
         this.optionCanvasSector.SetActive(true);
         this.Load(dataBased);
@@ -16,5 +17,5 @@ public abstract class OptionUIDisplayer
     {
         this.optionCanvasSector?.SetActive(false);
     }
-    protected abstract void Load(DataBased dataBased);
+    protected abstract void Load(DataBased.SettingData dataBased);
 }

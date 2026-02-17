@@ -88,13 +88,13 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     protected abstract class OptionMenuSector
     {
         protected OptionUICanvas optionUICanvas;
-        protected DataBased savedDataBased;
+        protected DataBased.SettingData savedDataBased;
         protected GameMaster gameMaster;
         protected OptionUIDisplayer optionUIDisplayer;
         public OptionMenuSector(OptionUICanvas optionUICanvas,OptionUIDisplayer optionUIDisplayer,GameMaster gameMaster)
         {
             this.optionUICanvas = optionUICanvas;
-            this.savedDataBased = new DataBased();
+            this.savedDataBased = new DataBased.SettingData();
             this.optionUIDisplayer = optionUIDisplayer;
             this.gameMaster = gameMaster;
         }
@@ -131,23 +131,23 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
 
         private void OnMouseSensitivityChange(float value)
         {
-            gameMaster.dataBased.settingData.mouseSensitivivty = value;
+            DataBased.Instance.settingData.mouseSensitivivty = value;
         }
         private void OnMouseAimDownSightSensitivityChange(float value)
         {
-            gameMaster.dataBased.settingData.mouseAimDownSightSensitivity = value;
+            DataBased.Instance.settingData.mouseAimDownSightSensitivity = value;
         }
 
         protected override void Apply_GameMasterData_To_SaveData()
         {
-            base.savedDataBased.settingData.mouseSensitivivty = gameMaster.dataBased.settingData.mouseSensitivivty;
-            base.savedDataBased.settingData.mouseAimDownSightSensitivity = gameMaster.dataBased.settingData.mouseAimDownSightSensitivity;
+            base.savedDataBased.mouseSensitivivty = DataBased.Instance.settingData.mouseSensitivivty;
+            base.savedDataBased.mouseAimDownSightSensitivity = DataBased.Instance.settingData.mouseAimDownSightSensitivity;
         }
 
         protected override void Apply_SaveData_To_GameMasterData()
         {
-            base.gameMaster.dataBased.settingData.mouseSensitivivty = base.savedDataBased.settingData.mouseSensitivivty;
-            base.gameMaster.dataBased.settingData.mouseAimDownSightSensitivity = base.savedDataBased.settingData.mouseAimDownSightSensitivity;
+            DataBased.Instance.settingData.mouseSensitivivty = base.savedDataBased.mouseSensitivivty;
+            DataBased.Instance.settingData.mouseAimDownSightSensitivity = base.savedDataBased.mouseAimDownSightSensitivity;
         }
     }
     protected class AudioSettingMenuSector : OptionMenuSector
@@ -166,19 +166,19 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
 
         protected override void Apply_GameMasterData_To_SaveData()
         {
-            base.savedDataBased.settingData.volumeMaster = base.gameMaster.dataBased.settingData.volumeMaster;
-            base.savedDataBased.settingData.volumeMusic = base.gameMaster.dataBased.settingData.volumeMusic;
-            base.savedDataBased.settingData.volumeEffect = base.gameMaster.dataBased.settingData.volumeEffect;
+            base.savedDataBased.volumeMaster = DataBased.Instance.settingData.volumeMaster;
+            base.savedDataBased.volumeMusic = DataBased.Instance.settingData.volumeMusic;
+            base.savedDataBased.volumeEffect = DataBased.Instance.settingData.volumeEffect;
         }
         protected override void Apply_SaveData_To_GameMasterData()
         {
-            base.gameMaster.dataBased.settingData.volumeMaster = base.savedDataBased.settingData.volumeMaster;
-            base.gameMaster.dataBased.settingData.volumeMusic = base.savedDataBased.settingData.volumeMusic;
-            base.gameMaster.dataBased.settingData.volumeEffect = base.savedDataBased.settingData.volumeEffect;
+            DataBased.Instance.settingData.volumeMaster = base.savedDataBased.volumeMaster;
+            DataBased.Instance.settingData.volumeMusic = base.savedDataBased.volumeMusic;
+            DataBased.Instance.settingData.volumeEffect = base.savedDataBased.volumeEffect;
         }
 
-        protected void OnMasterVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeMaster = value;
-        protected void OnMusicVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeMusic = value;
-        protected void OnSoundEffectVolumeValueChange(float value) => gameMaster.dataBased.settingData.volumeEffect = value;
+        protected void OnMasterVolumeValueChange(float value) => DataBased.Instance.settingData.volumeMaster = value;
+        protected void OnMusicVolumeValueChange(float value) => DataBased.Instance.settingData.volumeMusic = value;
+        protected void OnSoundEffectVolumeValueChange(float value) => DataBased.Instance.settingData.volumeEffect = value;
     }
 }
