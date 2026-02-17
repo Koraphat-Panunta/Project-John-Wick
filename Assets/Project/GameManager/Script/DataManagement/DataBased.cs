@@ -7,9 +7,9 @@ public class DataBased : MonoBehaviour
 {
     public static DataBased Instance;
 
-    [SerializeField] public DataBasedSCRP<WeaponDataScriptableObject> weaponDataBased;
-    [SerializeField] public DataBasedSCRP<AttachmentDataScriptableObject> weaponAttachmentDataBased;
-    [SerializeField] public DataBasedSCRP<LevelDataScriptableObject> levelDataBased;
+    [SerializeField] public DataEntities<WeaponDataScriptableObject> weaponDataBased;
+    [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
+    [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
 
     public void Awake()
     {
@@ -30,7 +30,7 @@ public class DataBased : MonoBehaviour
 }
 
 [Serializable]
-public class DataBasedSCRP<T> where T : DataScriptableObject
+public class DataEntities<T> where T : DataScriptableObject
 {
     [SerializeField] T[] dataScrp;
 
