@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e78a4e0ee095aac4baa3d0bffbc1bb67, type: 3}
   m_Name: TacticalScope
   m_EditorClassIdentifier: 
-  min_Precision_PN: -10.1
+  attatchmentID: 06b0359bc4a9fdb48ad3e628bad4644a
+  offsetAnchorAttachPos: {x: 0, y: 0, z: 0}
+  offsetAnchorAttachRot: {x: 0, y: 0, z: 0}
+  weaponAttachmentPrefab: {fileID: 6562833396888995354, guid: 11f79661ba7525e44b01f5f10d9c9f65,
+    type: 3}
+  min_Precision_PN: -8
   max_Precision_PN: 1.1
-  accuracy_PN: -32.1
   aimDownSightSpeed_N: -0.5

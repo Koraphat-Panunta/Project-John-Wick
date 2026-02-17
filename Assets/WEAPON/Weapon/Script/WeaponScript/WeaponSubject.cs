@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public abstract class WeaponSubject : MonoBehaviour
 {
     List<IObserverWeapon> _observers = new List<IObserverWeapon>();

@@ -1,5 +1,7 @@
+using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -9,20 +11,33 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public Transform _mainHandGripTransform;
     public Transform _SecondHandGripTransform;
 
-    [SerializeField] protected WeaponStatsScriptableObject weaponStatsScriptableObject;
-    public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity; }
-    public virtual float rate_of_fire { get => weaponStatsScriptableObject.rate_of_fire; }
-    public virtual float reloadTime { get => weaponStatsScriptableObject.reloadTime; }
-    public virtual float Recovery_CrosshairBloomSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairBloomSpeed; }
-    public virtual float Recovery_CrosshairPositionSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairPositionSpeed; }
-    public virtual float Recoil_CrosshairBloomController { get => weaponStatsScriptableObject.Recoil_CrosshairBloomController; }
-    public virtual float Recoil_KickPositionCrosshairController { get => weaponStatsScriptableObject.Recoil_KickPositionPositionCrosshairController; }
-    public virtual float Recoil_CameraControlController { get => weaponStatsScriptableObject.Recoil_CameraControlController; }
-    public virtual float Recoil_VisualImpulseControl { get => weaponStatsScriptableObject.Recoil_VisualImpulseControl; }
+    [SerializeField] protected WeaponDataScriptableObject weaponStatsScriptableObject;
+    public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity + this.maxAmmoCapacityAdditional; }
+    public int maxAmmoCapacityAdditional = 0;
+    
+    public virtual float rate_of_fire { get => weaponStatsScriptableObject.rate_of_fire + this.rate_of_fire_Additional; }
+    public float rate_of_fire_Additional = 0;
+    public virtual float reloadTime { get => weaponStatsScriptableObject.reloadTime + this.reloadTimeAdditional; }
+    public float reloadTimeAdditional = 0;
+    public virtual float Recovery_CrosshairBloomSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairBloomSpeed + this.Recovery_CrosshairBloomSpeed_Additional; }
+    public float Recovery_CrosshairBloomSpeed_Additional = 0;
+    public virtual float Recovery_CrosshairPositionSpeed { get => weaponStatsScriptableObject.Recovery_CrosshairPositionSpeed + this.Recovery_CrosshairPositionSpeed_Additional; }
+    public float Recovery_CrosshairPositionSpeed_Additional = 0;
+    public virtual float Recoil_CrosshairBloomController { get => weaponStatsScriptableObject.Recoil_CrosshairBloomController + this.Recoil_CrosshairBloomController_Additional; }
+    public float Recoil_CrosshairBloomController_Additional = 0;
+    public virtual float Recoil_KickPositionCrosshairController { get => weaponStatsScriptableObject.Recoil_KickPositionPositionCrosshairController + this.Recoil_KickPositionCrosshairController_Additional; }
+    public float Recoil_KickPositionCrosshairController_Additional = 0;
+    public virtual float Recoil_CameraControlController { get => weaponStatsScriptableObject.Recoil_CameraControlController + this.Recoil_CameraControlController_Additional; }
+    public float Recoil_CameraControlController_Additional = 0;
+    public virtual float Recoil_VisualImpulseControl { get => weaponStatsScriptableObject.Recoil_VisualImpulseControl + this.Recoil_VisualImpulseControl_Additional; }
+    public float Recoil_VisualImpulseControl_Additional = 0;
     public virtual float RecoilKickBack { get => 1; }
-    public virtual float min_CrosshairSize { get => weaponStatsScriptableObject.min_CrosshairSize; }
-    public virtual float max_CrosshairSize { get => weaponStatsScriptableObject.max_CrosshairSize; }
-    public virtual float aimDownSight_speed { get => weaponStatsScriptableObject.aimDownSight_speed; }
+    public virtual float min_CrosshairSize { get => weaponStatsScriptableObject.min_CrosshairSize + this.min_CrosshairSize_Additional; }
+    public float min_CrosshairSize_Additional = 0;
+    public virtual float max_CrosshairSize { get => weaponStatsScriptableObject.max_CrosshairSize + this.max_CrosshairSize_Additional; }
+    public float max_CrosshairSize_Additional = 0;
+    public virtual float aimDownSight_speed { get => weaponStatsScriptableObject.aimDownSight_speed + this.aimDownSight_speed_Additional; }
+    public float aimDownSight_speed_Additional = 0;
 
     public float Recoil_CrosshairBloom { get => RecoilKickBack - Recoil_CrosshairBloomController; }
     public float Recoil_CrosshairPosition { get => RecoilKickBack - Recoil_KickPositionCrosshairController; }
@@ -92,8 +107,56 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
 
     public FiringNode fire;
 
+    #region weaponAttachment
+    public WeaponAttachmentSocket[] weaponAttachmentSocket;
+    
+    private void UpdateAdditionalStats()
+    {
+        this.maxAmmoCapacityAdditional = 0;
+        this.rate_of_fire_Additional = 0;
+        this.reloadTimeAdditional = 0;
+        this.Recovery_CrosshairBloomSpeed_Additional = 0;
+        this.Recovery_CrosshairPositionSpeed_Additional = 0;
+        this.Recoil_CrosshairBloomController_Additional = 0;
+        this.Recoil_KickPositionCrosshairController_Additional = 0;
+        this.Recoil_CameraControlController_Additional = 0;
+        this.Recoil_VisualImpulseControl_Additional = 0;
+
+        this.min_CrosshairSize_Additional = 0;
+        this.max_CrosshairSize_Additional = 0;
+        this.aimDownSight_speed_Additional = 0;
+
+        if(this.weaponAttachmentSocket == null
+            || this.weaponAttachmentSocket.Length <= 0)
+            return;
+
+        for (int i = 0; i < this.weaponAttachmentSocket.Length; i++) 
+        {
+            WeaponAttachment weaponAttachment = this.weaponAttachmentSocket[i].curWeaponAttach;
+
+            if (weaponAttachment == null)
+                continue;
+
+            this.maxAmmoCapacityAdditional += weaponAttachment.maxAmmoCapacityAdditional;
+            this.rate_of_fire_Additional += weaponAttachment.rate_of_fire_Additional;
+            this.reloadTimeAdditional += weaponAttachment.reloadTimeAdditional;
+            this.Recovery_CrosshairBloomSpeed_Additional += weaponAttachment.Recovery_CrosshairBloomSpeed_Additional;
+            this.Recovery_CrosshairPositionSpeed_Additional += weaponAttachment.Recovery_CrosshairPositionSpeed_Additional;
+            this.Recoil_CrosshairBloomController_Additional += weaponAttachment.Recoil_CrosshairBloomController_Additional;
+            this.Recoil_KickPositionCrosshairController_Additional += weaponAttachment.Recoil_KickPositionCrosshairController_Additional;
+            this.Recoil_CameraControlController_Additional += weaponAttachment.Recoil_CameraControlController_Additional;
+            this.Recoil_VisualImpulseControl_Additional += weaponAttachment.Recoil_VisualImpulseControl_Additional;
+
+            this.min_CrosshairSize_Additional += weaponAttachment.min_CrosshairSize_Additional;
+            this.max_CrosshairSize_Additional += weaponAttachment.max_CrosshairSize_Additional;
+            this.aimDownSight_speed_Additional += weaponAttachment.aimDownSight_speed_Additional;
+        }
+    }
+    #endregion
+
     public virtual void Initialized()
     {
+
         weaponLayerMask = gameObject.layer;
 
         rb = GetComponent<Rigidbody>();
@@ -135,7 +198,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     }
     protected virtual void LateUpdate()
     {
-
+        this.UpdateAdditionalStats();
     }
     public virtual void PullTrigger() 
     {
@@ -154,6 +217,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
 
     private void OnValidate()
     {
+
         this.Collider = GetComponent<Collider>();   
     }
 
