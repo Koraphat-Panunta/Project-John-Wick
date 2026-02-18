@@ -29,7 +29,16 @@ public struct GraphicSetting
         FullScreen
     }
 
+    public enum Quality
+    {
+        Low,
+        Medium,
+        High,
+        Ultra,
+    }
+
     public ScreenMode screenMode;
+    public Quality quality;
 
     public ResolutionDisplay resolutionDisplay;
 

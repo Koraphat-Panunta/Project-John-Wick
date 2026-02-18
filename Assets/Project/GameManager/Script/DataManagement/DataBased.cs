@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class DataBased : MonoBehaviour
 {
-    public static DataBased Instance;
+    public static DataBased Instance { get; protected set; }
 
     [SerializeField] public DataEntities<WeaponDataScriptableObject> weaponDataBased;
     [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
+
+    [SerializeField] public SettingDataScriptableObject settingDataScriptableObject;
 
     public void Awake()
     {
@@ -19,8 +21,8 @@ public class DataBased : MonoBehaviour
 
    public class SettingData
     {
-        public float mouseSensitivivty = 1;
-        public float mouseAimDownSightSensitivity = 1;
+        public float mouseSensitivivty = 5;
+        public float mouseAimDownSightSensitivity = 5;
         public float volumeMaster = 1;
         public float volumeEffect = 1;
         public float volumeMusic = 1;

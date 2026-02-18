@@ -25,8 +25,12 @@ public class InGameLevelGameMaster : GameMaster
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
     }
+
+
     public override void Initialized()
     {
+            
+
         this.isLevelComplete = false;
         this.isActiveFreeState = false;
         base.Initialized();
