@@ -7,6 +7,14 @@ public class SettingDataScriptableObject : DataScriptableObject
     public AudioSetting audioSetting;
     public GraphicSetting graphicSetting;
     public GameSetting gameSetting;
+
+    public void LoadData(PlayerProfileSaveData.SettingSaveData settingSaveData)
+    {
+        this.audioSetting = settingSaveData.audioSetting;
+        this.graphicSetting = settingSaveData.graphicSetting;
+        this.gameSetting = settingSaveData.gameSetting; 
+    }
+    
 }
 
 [Serializable]

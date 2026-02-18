@@ -20,10 +20,10 @@ public class PlayerProfileSaveData
     public class LoadoutData
     {
         public string primaryWeaponDataSaveID;
-        public string[] primaryWeaponAttachmentData;
+        public string[] primaryWeaponAttachmentDataID;
 
-        public string secondaryWeaponDataSave;
-        public string[] secondaryWeaponAttachmentData;
+        public string secondaryWeaponDataSaveID;
+        public string[] secondaryWeaponAttachmentDataID;
     }
 
     [Serializable]
@@ -35,8 +35,11 @@ public class PlayerProfileSaveData
     [Serializable]
     public class ContinueLevelSaveData
     {
-        public string continueLevelDataSCRP;
+        public string continueLevelDataSCRP_ID;
         public int continueAtCheckPoint;
+
+        public string[] continueWeaponDataID;
+        public Dictionary<string, string[]> continueWeaponAttachmentDataID;
     }
 
     [Serializable]

@@ -44,7 +44,7 @@ public class StaticDataBased : MonoBehaviour
 [Serializable]
 public class DataEntities<T> where T : DataScriptableObject
 {
-    [SerializeField] T[] dataScrp;
+    [SerializeField] public T[] dataScrp;
     private Dictionary<string, T> dataLookUp;
     public void InitilaizedData()
     {
