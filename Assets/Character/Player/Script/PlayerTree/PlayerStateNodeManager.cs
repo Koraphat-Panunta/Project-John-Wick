@@ -360,9 +360,10 @@ public class PlayerStateNodeManager : INodeManager
         stanceSelectorNode.AddtoChildNode(Hit1gunFuNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerThrowWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(this.proneStanceSelector);
         stanceSelectorNode.AddtoChildNode(standSelectorNode);
         stanceSelectorNode.AddtoChildNode(crouchSelectorNode);
-        stanceSelectorNode.AddtoChildNode(this.proneStanceSelector);
+
 
         this.fallingStateNodeLeaf.AddTransitionNode(this.landingRollStateNodeLeaf);
         this.fallingStateNodeLeaf.AddTransitionNode(this.landingStandStateNodeLeaf);
