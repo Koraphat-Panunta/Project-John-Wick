@@ -18,7 +18,7 @@ public class AudioSettingOptionDisplay : OptionUIDisplayer
         this.sfxVolume = sfxVolume;
     }
 
-    protected override void Load(DataBased.SettingData dataBased)
+    protected override void Load(StaticDataBased.SettingData dataBased)
     {
         this.masterVolume.value = dataBased.volumeMaster;
         this.musicVolume.value = dataBased.volumeMusic;

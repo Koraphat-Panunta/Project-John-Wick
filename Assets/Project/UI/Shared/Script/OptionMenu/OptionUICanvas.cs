@@ -23,7 +23,7 @@ public class OptionUICanvas : MonoBehaviour,IInitializedAble
     [SerializeField] public Slider aimSensitivitySlider;
 
 
-    public void ChangeOptionUISector(OptionUIDisplayer optionUISector,DataBased.SettingData loadDataBased)
+    public void ChangeOptionUISector(OptionUIDisplayer optionUISector,StaticDataBased.SettingData loadDataBased)
     {
         if(curOptionUISector != null)
             curOptionUISector.Hide();

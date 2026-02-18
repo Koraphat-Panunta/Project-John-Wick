@@ -13,7 +13,7 @@ public class ControlSettingOptionDisplay : OptionUIDisplayer
         this.aimDownSightSensitivity = adsSensitivity;
     }
 
-    protected override void Load(DataBased.SettingData dataBased)
+    protected override void Load(StaticDataBased.SettingData dataBased)
     {
         this.mouseSensitivity.value = dataBased.mouseSensitivivty;
         this.aimDownSightSensitivity.value = dataBased.mouseAimDownSightSensitivity;

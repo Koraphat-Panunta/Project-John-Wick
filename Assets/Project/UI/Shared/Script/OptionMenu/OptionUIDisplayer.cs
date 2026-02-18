@@ -8,7 +8,7 @@ public abstract class OptionUIDisplayer
     {
         this.optionCanvasSector = canvasSector;
     }
-    public void Show(DataBased.SettingData dataBased)
+    public void Show(StaticDataBased.SettingData dataBased)
     {
         this.optionCanvasSector.SetActive(true);
         this.Load(dataBased);
@@ -17,5 +17,5 @@ public abstract class OptionUIDisplayer
     {
         this.optionCanvasSector?.SetActive(false);
     }
-    protected abstract void Load(DataBased.SettingData dataBased);
+    protected abstract void Load(StaticDataBased.SettingData dataBased);
 }

@@ -8,7 +8,7 @@ public abstract class DataScriptableObject : ScriptableObject
     public string ObjectID => objectID;
 
 #if UNITY_EDITOR
-    private void OnValidate()
+    protected virtual void OnValidate()
     {
         if (string.IsNullOrEmpty(objectID))
         {
