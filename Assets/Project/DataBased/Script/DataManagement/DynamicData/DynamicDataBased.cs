@@ -30,6 +30,14 @@ public class DynamicDataBased : MonoBehaviour
 
     protected void InitializedData()
     {
+        PlayerProfileSaveData playerProfileSaveData = new PlayerProfileSaveData();
+
+        this.playerLoadoutData.LoadData(playerProfileSaveData.loadoutData);
+        this.levelClearProgressionData.LoadData(playerProfileSaveData.levelClearProgressionData);
+        this.continueLevelSaveData.LoadData(playerProfileSaveData.continueLevelSaveData);
+        this.settingDataScriptableObject.LoadData(playerProfileSaveData.settingSaveData);
 
     }
+
+   
 }
