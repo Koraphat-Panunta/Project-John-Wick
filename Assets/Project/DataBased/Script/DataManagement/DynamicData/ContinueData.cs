@@ -2,13 +2,23 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class ContinueSaveData
+public class ContinueData
 {
     public LevelDataScriptableObject continueLevelDataSCRP;
     public int continueAtCheckPoint;
 
     public WeaponDataPackage[] continueWeaponPackage;
    
+    public ContinueData()
+    {
+        this.continueLevelDataSCRP = StaticDataBased.Instance.levelDataBased.GetObjectDataFormIndex(0);
+        this.continueAtCheckPoint = 0;
+        this.continueWeaponPackage = new WeaponDataPackage[1];
+        this.continueWeaponPackage[0] = new WeaponDataPackage 
+        {
+            weaponDataScriptableObject = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormIndex(0),
+        };
+    }
 
     public void SaveContinue(LevelDataScriptableObject levelDataScriptableObject, int atCheckPoint, WeaponDataPackage[] continueWeaponPackage)
     {
@@ -51,6 +61,14 @@ public class ContinueSaveData
             }
 
         }
+
+    }
+
+    public void LoadData(ContinueData continueData)
+    {
+        this.continueLevelDataSCRP = continueData.continueLevelDataSCRP;
+        this.continueAtCheckPoint = continueData.continueAtCheckPoint;
+        this.continueWeaponPackage = continueData.continueWeaponPackage;
 
     }
 }

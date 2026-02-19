@@ -16,7 +16,7 @@ public class GameProgressionData
         }
     }
 
-    public void LoadData(PlayerProfileSaveData.LevelClearProgressionData levelClearProgressionData)
+    public void LoadData(PlayerProfileSaveData.LevelClearProgressionSaveData levelClearProgressionData)
     {
         string[] keyLevelID = levelClearProgressionData.levelIsClear.Keys.ToArray();
 
@@ -25,6 +25,11 @@ public class GameProgressionData
             this.levelIsClear[StaticDataBased.Instance.levelDataBased.GetObjectDataFormID(keyLevelID[i])] = levelClearProgressionData.levelIsClear[keyLevelID[i]];
         }
 
+    }
+
+    public void LoadData(GameProgressionData gameProgressionData)
+    {
+        this.levelIsClear = gameProgressionData.levelIsClear;
     }
 
     public void SetLevelIsClear(LevelDataScriptableObject levelClearProgressionData,bool isClear)

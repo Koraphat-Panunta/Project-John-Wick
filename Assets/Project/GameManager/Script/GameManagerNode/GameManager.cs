@@ -1,16 +1,11 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-public class GameManager : MonoBehaviour,INodeManager
+public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
 {
 
     public static GameManager gameManagerInstance;
 
-
-   
-
-    public SoundTrackManager soundTrackManager;
-    public AudioClip gamePlaySoundTrack { get; set; }
 
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
@@ -22,17 +17,7 @@ public class GameManager : MonoBehaviour,INodeManager
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
-    private void Awake()
-    {
-        soundTrackManager = GetComponent<SoundTrackManager>();
-        _nodeManagerBehavior = new NodeManagerBehavior();
-        this._parallelNodeManahger = new List<INodeManager>();
-        Application.targetFrameRate = 60; // Match Editor
-        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
-        DontDestroyOnLoad(gameObject);
-
-        gameManagerInstance = this;
-    }
+   
     public void InitailizedNode()
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
@@ -51,6 +36,18 @@ public class GameManager : MonoBehaviour,INodeManager
 
 
         _nodeManagerBehavior.SearchingNewNode(this);
+    }
+
+    public void Initialized()
+    {
+
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
+        Application.targetFrameRate = 60; // Match Editor
+        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
+        DontDestroyOnLoad(gameObject);
+
+        gameManagerInstance = this;
     }
 
     public void FixedUpdateNode()
@@ -102,6 +99,8 @@ public class GameManager : MonoBehaviour,INodeManager
 #endif
 
     }
+
+    
     //public void OnNotify()
     //{
     //    switch (gameManagerSendNotifyAble)

@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called before the first frame update
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioSource walkSource;
     [SerializeField] private AudioClip hit;
     [SerializeField] private AudioClip dead;

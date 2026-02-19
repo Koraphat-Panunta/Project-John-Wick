@@ -22,16 +22,7 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
     {
         isComplete = false;
         SplashSceneEvent();
-        try
-        {
-            if (gameMaster.gameManager.TryGetComponent<SoundTrackManager>(out SoundTrackManager soundTrack))
-                soundTrack.PlaySoundTrack(soundTrack.openingTrack);
-        }
-
-        catch
-        {
-            throw new Exception("None Initialized GameManager");
-        }
+       
 
     }
 

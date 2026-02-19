@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class ResolutionDisplay 
 {
-    public ResolutionPreset resolution;
     public enum ResolutionPreset
     {
         _800x600,
@@ -13,6 +12,15 @@ public class ResolutionDisplay
         _1920x1080,
         _2560x1440,
         _3840x2160
+    }
+    public enum TargetFPS
+    {
+        _30,
+        _60,
+        _90,
+        _120,
+        _144,
+        Unlimit,
     }
 
     public static int[,] resolutionPreset 
@@ -24,6 +32,9 @@ public class ResolutionDisplay
         { 3840, 2160 }
     };
 
+    public static int[] limitFPSPreset = { 30, 60, 90, 120, 144,-1 };
+       
+
     public static (int width, int height) GetResolution(ResolutionPreset resolution)
     {
         int index = (int)resolution;
@@ -32,5 +43,12 @@ public class ResolutionDisplay
         int height = resolutionPreset[index, 1];
 
         return (width, height);
+    }
+
+    public static int GetLimitFPS(TargetFPS limitFPS)
+    {
+        int index = (int)limitFPS;
+
+        return limitFPSPreset[index];
     }
 }

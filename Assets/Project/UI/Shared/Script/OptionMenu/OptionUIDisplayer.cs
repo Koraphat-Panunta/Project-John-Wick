@@ -1,13 +1,10 @@
 using UnityEditor.SettingsManagement;
 using UnityEngine;
 
-public abstract class OptionUIDisplayer 
+public abstract class OptionUIDisplayer : MonoBehaviour
 {
-    public GameObject optionCanvasSector { get; protected set; }
-    public OptionUIDisplayer(GameObject canvasSector)
-    {
-        this.optionCanvasSector = canvasSector;
-    }
+    public GameObject optionCanvasSector;
+  
     public void Show(StaticDataBased.SettingData dataBased)
     {
         this.optionCanvasSector.SetActive(true);

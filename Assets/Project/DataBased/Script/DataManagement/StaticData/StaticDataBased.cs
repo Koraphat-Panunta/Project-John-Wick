@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class StaticDataBased : MonoBehaviour
+public class StaticDataBased : MonoBehaviour,IInitializedAble
 {
     public static StaticDataBased Instance { get; protected set; }
 
@@ -11,9 +11,14 @@ public class StaticDataBased : MonoBehaviour
     [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
 
+    [SerializeField] public LoadoutData defualtLoadOut;
+    [SerializeField] public GameProgressionData defaultGameProgressionData;
+    [SerializeField] public ContinueData defualtContinueData;
     [SerializeField] public SettingDataScriptableObject defaultSettingData;
 
-    public void Awake()
+   
+
+    public void Initialized()
     {
         if (Instance != null && Instance != this)
         {
@@ -26,10 +31,11 @@ public class StaticDataBased : MonoBehaviour
         this.weaponDataBased.InitilaizedData();
         this.weaponAttachmentDataBased.InitilaizedData();
         this.levelDataBased.InitilaizedData();
-    }
-  
 
-   public class SettingData
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public class SettingData
     {
         public float mouseSensitivivty = 5;
         public float mouseAimDownSightSensitivity = 5;

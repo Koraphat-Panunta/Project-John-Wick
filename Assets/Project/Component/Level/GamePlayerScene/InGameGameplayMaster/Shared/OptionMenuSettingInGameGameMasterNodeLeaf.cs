@@ -120,8 +120,8 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     {
         public ControlSettingMenuSector(OptionUICanvas optionUICanvas, OptionUIDisplayer optionUIDisplayer, GameMaster gameMaster) : base(optionUICanvas, optionUIDisplayer, gameMaster)
         {
-            optionUICanvas.mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChange);
-            optionUICanvas.aimSensitivitySlider.onValueChanged.AddListener(OnMouseAimDownSightSensitivityChange);
+            optionUICanvas.controlSettingOptionDisplay.mouseSensitivity.onValueChanged.AddListener(OnMouseSensitivityChange);
+            optionUICanvas.controlSettingOptionDisplay.aimDownSightSensitivity.onValueChanged.AddListener(OnMouseAimDownSightSensitivityChange);
         }
 
         public override void ResetToDefault()
@@ -154,9 +154,9 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     {
         public AudioSettingMenuSector(OptionUICanvas optionUICanvas, OptionUIDisplayer optionUIDisplayer, GameMaster gameMaster) : base(optionUICanvas, optionUIDisplayer, gameMaster)
         {
-            this.optionUICanvas.volumeMasterSlider.onValueChanged.AddListener(this.OnMasterVolumeValueChange);
-            this.optionUICanvas.volumeMusicSlider.onValueChanged.AddListener(this.OnMusicVolumeValueChange);
-            this.optionUICanvas.volumeEffectSlider.onValueChanged.AddListener(this.OnSoundEffectVolumeValueChange);
+            this.optionUICanvas.audioSettingOptionDisplay.masterVolume.onValueChanged.AddListener(this.OnMasterVolumeValueChange);
+            this.optionUICanvas.audioSettingOptionDisplay.musicVolume.onValueChanged.AddListener(this.OnMusicVolumeValueChange);
+            this.optionUICanvas.audioSettingOptionDisplay.sfxVolume.onValueChanged.AddListener(this.OnSoundEffectVolumeValueChange);
         }
 
         public override void ResetToDefault()

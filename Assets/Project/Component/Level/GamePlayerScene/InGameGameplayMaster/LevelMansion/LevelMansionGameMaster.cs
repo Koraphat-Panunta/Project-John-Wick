@@ -21,7 +21,6 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 
     protected override void Start()
     {
-        gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theMansionTrack);
         base.Start();
     }
   

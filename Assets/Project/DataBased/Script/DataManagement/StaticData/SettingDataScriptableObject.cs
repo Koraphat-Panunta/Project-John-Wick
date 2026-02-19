@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static ResolutionDisplay;
 
 [CreateAssetMenu(fileName = "SettingDataScriptableObject", menuName = "ScriptableObjects/GameData/SettingDataSCRP")]
 public class SettingDataScriptableObject : DataScriptableObject
@@ -13,6 +14,13 @@ public class SettingDataScriptableObject : DataScriptableObject
         this.audioSetting = settingSaveData.audioSetting;
         this.graphicSetting = settingSaveData.graphicSetting;
         this.gameSetting = settingSaveData.gameSetting; 
+    }
+
+    public void LoadData(SettingDataScriptableObject settingDataScriptable)
+    {
+        this.audioSetting = settingDataScriptable.audioSetting;
+        this.graphicSetting= settingDataScriptable.graphicSetting;
+        this.gameSetting= settingDataScriptable.gameSetting;
     }
     
 }
@@ -31,12 +39,6 @@ public struct AudioSetting
 [Serializable]
 public struct GraphicSetting
 {
-    public enum ScreenMode
-    {
-        Windown,
-        FullScreen
-    }
-
     public enum Quality
     {
         Low,
@@ -45,8 +47,13 @@ public struct GraphicSetting
         Ultra,
     }
 
-    public ScreenMode screenMode;
+    
+
+    public FullScreenMode screenMode;
     public Quality quality;
+    public ResolutionPreset resolution;
+    public TargetFPS targetFPS;
+
 
     public ResolutionDisplay resolutionDisplay;
 

@@ -11,16 +11,10 @@ public class OptionUICanvas : MonoBehaviour,IInitializedAble
 
     public AudioSettingOptionDisplay audioSettingOptionDisplay { get; private set; }
     [SerializeField] public Button audioSettingSelectButton;
-    [SerializeField] public GameObject audioSettingCanvas;
-    [SerializeField] public Slider volumeMasterSlider;
-    [SerializeField] public Slider volumeEffectSlider;
-    [SerializeField] public Slider volumeMusicSlider;
 
     public ControlSettingOptionDisplay controlSettingOptionDisplay { get; private set; }
     [SerializeField] public Button controlSettingSelectButton;
-    [SerializeField] public GameObject controlSettingCanvas;
-    [SerializeField] public Slider mouseSensitivitySlider;
-    [SerializeField] public Slider aimSensitivitySlider;
+
 
 
     public void ChangeOptionUISector(OptionUIDisplayer optionUISector,StaticDataBased.SettingData loadDataBased)
@@ -41,16 +35,7 @@ public class OptionUICanvas : MonoBehaviour,IInitializedAble
     private void InitializedOptionUISector()
     {
 
-        this.controlSettingOptionDisplay = new ControlSettingOptionDisplay(
-            this.controlSettingCanvas
-            ,this.mouseSensitivitySlider
-            ,this.aimSensitivitySlider);
-
-        this.audioSettingOptionDisplay = new AudioSettingOptionDisplay(
-            this.audioSettingCanvas
-            , this.volumeMasterSlider
-            , this.volumeMusicSlider
-            , this.volumeEffectSlider);
+      
 
     }
 

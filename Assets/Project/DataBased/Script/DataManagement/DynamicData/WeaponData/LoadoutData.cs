@@ -9,15 +9,9 @@ public class LoadoutData
         this.primaryWeaponDataPackage = new WeaponDataPackage();
         this.secondaryWeaponDataPackage = new WeaponDataPackage();
 
-        this.LoadDefaultData();
     }
 
-    private void LoadDefaultData()
-    {
-        this.secondaryWeaponDataPackage.weaponDataScriptableObject = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormIndex(0);
-    }
-
-    public void LoadData(PlayerProfileSaveData.LoadoutData loadoutData)
+    public void LoadData(PlayerProfileSaveData.LoadoutSaveData loadoutData)
     {
         this.primaryWeaponDataPackage.weaponDataScriptableObject 
             = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormID(loadoutData.primaryWeaponDataSaveID);
@@ -38,6 +32,12 @@ public class LoadoutData
         {
             this.secondaryWeaponDataPackage.weaponAttachmentData[i] = StaticDataBased.Instance.weaponAttachmentDataBased.GetObjectDataFormID(loadoutData.secondaryWeaponAttachmentDataID[i]);
         }
+    }
+
+    public void LoadData(LoadoutData loadoutData)
+    {
+        this.primaryWeaponDataPackage = loadoutData.primaryWeaponDataPackage;
+        this.secondaryWeaponDataPackage = loadoutData.secondaryWeaponDataPackage;
     }
 
     public WeaponDataPackage primaryWeaponDataPackage;
