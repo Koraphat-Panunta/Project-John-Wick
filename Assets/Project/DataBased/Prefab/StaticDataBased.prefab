@@ -56,3 +56,20 @@ MonoBehaviour:
   levelDataBased:
     dataScrp:
     - {fileID: 11400000, guid: 102609c4ac6992c4a95af7bb18eb9973, type: 2}
+  defualtLoadOut:
+    primaryWeaponDataPackage:
+      weaponDataScriptableObject: {fileID: 0}
+      weaponAttachmentData: []
+    secondaryWeaponDataPackage:
+      weaponDataScriptableObject: {fileID: 11400000, guid: ff9a83f47559f4f418250945a9598ca4,
+        type: 2}
+      weaponAttachmentData: []
+  defualtContinueData:
+    continueLevelDataSCRP: {fileID: 11400000, guid: 102609c4ac6992c4a95af7bb18eb9973,
+      type: 2}
+    continueAtCheckPoint: 0
+    continueWeaponPackage:
+    - weaponDataScriptableObject: {fileID: 11400000, guid: ff9a83f47559f4f418250945a9598ca4,
+        type: 2}
+      weaponAttachmentData: []
+  defaultSettingData: {fileID: 11400000, guid: 3f3bd06472ea2024d93bfcf08da06a76, type: 2}

@@ -17,6 +17,7 @@ public class PlayerProfileSaveData
         ,SettingDataScriptableObject settingDataScriptableObject
         )
     {
+
         this.loadoutData = new LoadoutSaveData(loadoutData);
         this.levelClearProgressionData = new LevelClearProgressionSaveData(gameProgressionData);
         this.continueLevelSaveData = new ContinueLevelSaveData(continueData);

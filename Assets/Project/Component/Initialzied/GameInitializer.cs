@@ -10,6 +10,9 @@ public class GameInitializer : MonoBehaviour
 
     private void Awake()
     {
+
+        Debug.Log("GameInitializer Initalized");
+
         if(gameObjInitialzied.Count > 0)
         for(int i = 0;i < gameObjInitialzied.Count; i++)
         {

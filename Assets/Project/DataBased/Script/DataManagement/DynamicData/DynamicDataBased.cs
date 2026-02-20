@@ -27,9 +27,6 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         }
         else
         {
-            this.playerLoadoutData.LoadData(StaticDataBased.Instance.defualtLoadOut);
-            this.gameProgressionData.LoadData(StaticDataBased.Instance.defaultGameProgressionData);
-            this.continueData.LoadData(StaticDataBased.Instance.defualtContinueData);
             this.settingDataScriptableObject.LoadData(StaticDataBased.Instance.defaultSettingData);
         }
     }
@@ -62,15 +59,12 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         File.WriteAllText(savePath, json);
     }
 
+
     public void Initialized()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
+
+        Debug.Log("Initialized" + this);
 
         this.playerLoadoutData = new LoadoutData();
         this.gameProgressionData = new GameProgressionData();
@@ -79,5 +73,11 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         this.InitializedData();
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveAsPlayerProfile();
+        Debug.Log("Application quit");
     }
 }

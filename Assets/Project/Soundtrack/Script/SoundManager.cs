@@ -4,6 +4,9 @@ using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour,IInitializedAble
 {
+
+    public static SoundManager Instance { get; private set; }
+
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioListener audioListener;
     [SerializeField] private AudioSource globalAudioSource;
@@ -13,6 +16,15 @@ public class SoundManager : MonoBehaviour,IInitializedAble
 
     public void Initialized()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+
         DontDestroyOnLoad(this);
         settingVolume = globalAudioSource.volume;
     }
@@ -29,13 +41,23 @@ public class SoundManager : MonoBehaviour,IInitializedAble
         StartCoroutine(Stop(fadeDuration));
     }
 
-    public void SetVolume(AudioSetting audioSetting)
+    public void SetMasterVolume(float value)
     {
-        DynamicDataBased.Instance.settingDataScriptableObject.audioSetting = audioSetting;
+        DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.MasterVolume = value;
 
-        this.audioMixer.SetFloat("Master",this.GetDecibel(audioSetting.MasterVolume));
-        this.audioMixer.SetFloat("Music", this.GetDecibel(audioSetting.MusicVolume));
-        this.audioMixer.SetFloat("SFX", this.GetDecibel(audioSetting.SoundEffectVolume));
+        this.audioMixer.SetFloat("Master",this.GetDecibel(value));
+
+
+    }
+    public void SetMusicVolume(float value)
+    {
+        DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.MusicVolume = value;
+        this.audioMixer.SetFloat("Music", this.GetDecibel(value));
+    }
+    public void SetSFXVolume(float value)
+    {
+        DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.SoundEffectVolume = value;
+        this.audioMixer.SetFloat("SFX", this.GetDecibel(value));
     }
 
     private float GetDecibel(float audioValue)//Scale 0-10

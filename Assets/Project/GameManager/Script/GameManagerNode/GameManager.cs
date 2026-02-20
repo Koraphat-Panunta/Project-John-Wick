@@ -22,12 +22,10 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
 
-        //this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this,()=> gameManagerSceneData == GameManagerState.ForntScene);
+        this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this, () => true);
 
-        //this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
-        //this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => gameplayLevelData == GameplayLevel.Prologue);
-
-
+        this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => this.triggerEnter );
+        this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => true);
 
         startNodeSelector.AddtoChildNode(this.frontSceneGameManagerNodeLeaf);
         startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
@@ -43,8 +41,6 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
 
         _nodeManagerBehavior = new NodeManagerBehavior();
         this._parallelNodeManahger = new List<INodeManager>();
-        Application.targetFrameRate = 60; // Match Editor
-        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
         DontDestroyOnLoad(gameObject);
 
         gameManagerInstance = this;
@@ -66,28 +62,28 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
         InitailizedNode();
     }
 
-    private void Update()
-    {
-        this.UpdateNode();
-    }
-    private void FixedUpdate()
-    {
-        this.FixedUpdateNode();
-    }
+    
     
     public void RestartScene()
     {
         (curNodeLeaf as GameManagerNodeLeaf).Enter();
     }
 
+    public void GameManagerOnValidate()
+    {
+        this._nodeManagerBehavior.CheckFindingNode(this);
+        this.triggerEnter = false;
+    }
+    public bool triggerEnter;
     public void ContinueGameplayScene()
     {
-        
+        this.triggerEnter = true;
+        this.GameManagerOnValidate();
     }
 
     public void ExitToMainMenu()
     {
-       
+        this.GameManagerOnValidate();
     }
 
     public void ExitGame()

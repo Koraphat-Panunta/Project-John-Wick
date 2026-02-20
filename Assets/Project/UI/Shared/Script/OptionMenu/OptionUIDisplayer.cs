@@ -5,7 +5,7 @@ public abstract class OptionUIDisplayer : MonoBehaviour
 {
     public GameObject optionCanvasSector;
   
-    public void Show(StaticDataBased.SettingData dataBased)
+    public void Show(SettingDataScriptableObject dataBased)
     {
         this.optionCanvasSector.SetActive(true);
         this.Load(dataBased);
@@ -14,5 +14,5 @@ public abstract class OptionUIDisplayer : MonoBehaviour
     {
         this.optionCanvasSector?.SetActive(false);
     }
-    protected abstract void Load(StaticDataBased.SettingData dataBased);
+    protected abstract void Load(SettingDataScriptableObject dataBased);
 }

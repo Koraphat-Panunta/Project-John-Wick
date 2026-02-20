@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class ContinueData
+[CreateAssetMenu(fileName = "ContinueData", menuName = "ScriptableObjects/ContinueData")]
+public class ContinueData : DataScriptableObject
 {
     public LevelDataScriptableObject continueLevelDataSCRP;
     public int continueAtCheckPoint;

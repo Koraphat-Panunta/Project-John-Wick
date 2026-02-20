@@ -62,6 +62,12 @@ public struct GraphicSetting
 [Serializable]
 public struct GameSetting
 {
+    [Range(1, 10)]
+    public float lookSensitivity;
+
+    [Range(1, 10)]
+    public float aimDownSightSensitivity;
+
     public bool displayEnemyHP;
     public bool displayInteract;
     public bool displayHitIndicator;

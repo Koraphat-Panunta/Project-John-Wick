@@ -9,11 +9,11 @@ public class AudioSettingOptionDisplay : OptionUIDisplayer
     [SerializeField] public Slider sfxVolume;
 
 
-    protected override void Load(StaticDataBased.SettingData dataBased)
+    protected override void Load(SettingDataScriptableObject dataBased)
     {
-        this.masterVolume.value = dataBased.volumeMaster;
-        this.musicVolume.value = dataBased.volumeMusic;
-        this.sfxVolume.value = dataBased.volumeEffect;
+        this.masterVolume.value = dataBased.audioSetting.MasterVolume;
+        this.musicVolume.value = dataBased.audioSetting.MusicVolume;
+        this.sfxVolume.value = dataBased.audioSetting.SoundEffectVolume;
 
     }
 }

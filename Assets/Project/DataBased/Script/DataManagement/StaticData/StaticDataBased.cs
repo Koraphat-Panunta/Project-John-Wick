@@ -11,20 +11,13 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
     [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
 
-    [SerializeField] public LoadoutData defualtLoadOut;
-    [SerializeField] public GameProgressionData defaultGameProgressionData;
-    [SerializeField] public ContinueData defualtContinueData;
+    [SerializeField] public ContinueData defaultContinueData;
+    [SerializeField] public LoadoutData defaultLoadoutData;
     [SerializeField] public SettingDataScriptableObject defaultSettingData;
-
-   
 
     public void Initialized()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        Debug.Log("Initialized" + this);
 
         Instance = this;
 
@@ -34,16 +27,6 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
 
         DontDestroyOnLoad(gameObject);
     }
-
-    public class SettingData
-    {
-        public float mouseSensitivivty = 5;
-        public float mouseAimDownSightSensitivity = 5;
-        public float volumeMaster = 1;
-        public float volumeEffect = 1;
-        public float volumeMusic = 1;
-    }
-    public SettingData settingData = new SettingData();
 
 }
 
@@ -55,9 +38,9 @@ public class DataEntities<T> where T : DataScriptableObject
     public void InitilaizedData()
     {
         this.dataLookUp = new Dictionary<string, T>();
-        foreach (var data in dataScrp)
+        foreach (T data in dataScrp)
         {
-            this.dataLookUp[data.ObjectID] = data;
+            this.dataLookUp.Add(data.ObjectID, data);
         }
     }
 

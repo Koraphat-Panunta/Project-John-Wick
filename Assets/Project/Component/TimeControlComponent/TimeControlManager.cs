@@ -45,11 +45,11 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     {
         startNodeSelector = new NodeSelector(() => true, "startNodeSelector TimeControlManager");
 
-        timeDefaultNodeLeaf = new TimeScaleDefaultNodeLeaf(()=> true,this,1,1);
         triggerBulletTime = new TriggerTimeSlowCurveNodeLeaf(
             () => triggerBulletTime.timer > 0
             , this);
-        
+        timeDefaultNodeLeaf = new TimeScaleDefaultNodeLeaf(
+            () => true, this, 1, 1);
 
         startNodeSelector.AddtoChildNode(triggerBulletTime);
         startNodeSelector.AddtoChildNode(timeDefaultNodeLeaf);

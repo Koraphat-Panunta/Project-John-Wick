@@ -1,15 +1,10 @@
 using System;
 using UnityEngine;
 
-[Serializable]
-public class LoadoutData 
+[CreateAssetMenu(fileName = "LoadoutData", menuName = "ScriptableObjects/LoadoutData")]
+public class LoadoutData : DataScriptableObject
 {
-    public LoadoutData() 
-    {
-        this.primaryWeaponDataPackage = new WeaponDataPackage();
-        this.secondaryWeaponDataPackage = new WeaponDataPackage();
-
-    }
+   
 
     public void LoadData(PlayerProfileSaveData.LoadoutSaveData loadoutData)
     {

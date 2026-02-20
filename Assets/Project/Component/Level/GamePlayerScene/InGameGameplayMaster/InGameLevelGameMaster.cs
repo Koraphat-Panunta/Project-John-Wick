@@ -29,8 +29,6 @@ public class InGameLevelGameMaster : GameMaster
 
     public override void Initialized()
     {
-            
-
         this.isLevelComplete = false;
         this.isActiveFreeState = false;
         base.Initialized();

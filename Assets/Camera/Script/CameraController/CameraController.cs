@@ -28,8 +28,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
 
     public CameraManagerNode cameraManagerNode;
 
-    public float standardCameraSensivity => StaticDataBased.Instance.settingData.mouseSensitivivty * 0.1f;
-    public float aimDownSightCameraSensivity => StaticDataBased.Instance.settingData.mouseAimDownSightSensitivity * 0.1f;
+    public float standardCameraSensivity => DynamicDataBased.Instance.settingDataScriptableObject.gameSetting.lookSensitivity * 0.1f;
+    public float aimDownSightCameraSensivity => DynamicDataBased.Instance.settingDataScriptableObject.gameSetting.aimDownSightSensitivity * 0.1f;
 
     [SerializeField,TextArea]
     public string inputLook;

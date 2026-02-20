@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[Serializable]
+
 public class GameProgressionData 
 {
     public GameProgressionData()
     {
         this.levelIsClear = new Dictionary<LevelDataScriptableObject, bool>();
+
+        Debug.Log("StaticDataBased.Instance = " + StaticDataBased.Instance);
 
         for (int i = 0; i < StaticDataBased.Instance.levelDataBased.dataScrp.Length ; i++)
         {
