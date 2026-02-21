@@ -8,17 +8,6 @@ public class ContinueData : DataScriptableObject
     public int continueAtCheckPoint;
 
     public WeaponDataPackage[] continueWeaponPackage;
-   
-    public ContinueData()
-    {
-        this.continueLevelDataSCRP = StaticDataBased.Instance.levelDataBased.GetObjectDataFormIndex(0);
-        this.continueAtCheckPoint = 0;
-        this.continueWeaponPackage = new WeaponDataPackage[1];
-        this.continueWeaponPackage[0] = new WeaponDataPackage 
-        {
-            weaponDataScriptableObject = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormIndex(0),
-        };
-    }
 
     public void SaveContinue(LevelDataScriptableObject levelDataScriptableObject, int atCheckPoint, WeaponDataPackage[] continueWeaponPackage)
     {
@@ -36,17 +25,17 @@ public class ContinueData : DataScriptableObject
         this.continueLevelDataSCRP = StaticDataBased.Instance.levelDataBased.GetObjectDataFormID(continueLevelSaveData.continueLevelDataSCRP_ID);
         this.continueAtCheckPoint = continueLevelSaveData.continueAtCheckPoint;
 
-        if(continueLevelSaveData.continueWeaponDataID == null
-            || continueLevelSaveData.continueWeaponDataID.Length <= 0)
+        if(continueLevelSaveData.weaponSaveDataPackages == null
+            || continueLevelSaveData.weaponSaveDataPackages.Length <= 0)
             return;
 
-        this.continueWeaponPackage = new WeaponDataPackage[continueLevelSaveData.continueWeaponDataID.Length];
+        this.continueWeaponPackage = new WeaponDataPackage[continueLevelSaveData.weaponSaveDataPackages.Length];
 
-        for (int i = 0; i < continueLevelSaveData.continueWeaponDataID.Length; i++)
+        for (int i = 0; i < continueLevelSaveData.weaponSaveDataPackages.Length; i++)
         {
-            this.continueWeaponPackage[i].weaponDataScriptableObject = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormID(continueLevelSaveData.continueWeaponDataID[i]);
+            this.continueWeaponPackage[i].weaponDataScriptableObject = StaticDataBased.Instance.weaponDataBased.GetObjectDataFormID(continueLevelSaveData.weaponSaveDataPackages[i].weaponID);
 
-            string[] attachmentID = continueLevelSaveData.continueWeaponAttachmentDataID[continueLevelSaveData.continueWeaponDataID[i]];
+            string[] attachmentID = continueLevelSaveData.weaponSaveDataPackages[i].weaponAttachmentID;
 
 
             if(attachmentID == null

@@ -44,16 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63a6274894570547aa229da3e659f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DynamicDataBased
-  playerLoadoutData:
-    primaryWeaponDataPackage:
-      weaponDataScriptableObject: {fileID: 0}
-      weaponAttachmentData: []
-    secondaryWeaponDataPackage:
-      weaponDataScriptableObject: {fileID: 0}
-      weaponAttachmentData: []
-  continueData:
-    continueLevelDataSCRP: {fileID: 0}
-    continueAtCheckPoint: 0
-    continueWeaponPackage: []
+  playerLoadoutData: {fileID: 11400000, guid: d7f49b22f7e8f684eab1661ddd4cd19c, type: 2}
+  continueData: {fileID: 11400000, guid: 92c21febbbc7f0b488c027f29c0651a0, type: 2}
   settingDataScriptableObject: {fileID: 11400000, guid: 21ca8de5e573ce142a03be8289da7206,
     type: 2}

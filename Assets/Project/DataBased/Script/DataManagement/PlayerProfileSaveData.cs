@@ -64,11 +64,11 @@ public class PlayerProfileSaveData
 
         
 
-        public string primaryWeaponDataSaveID;
-        public string[] primaryWeaponAttachmentDataID;
+        [SerializeField] public string primaryWeaponDataSaveID;
+        [SerializeField] public string[] primaryWeaponAttachmentDataID;
 
-        public string secondaryWeaponDataSaveID;
-        public string[] secondaryWeaponAttachmentDataID;
+        [SerializeField] public string secondaryWeaponDataSaveID;
+        [SerializeField] public string[] secondaryWeaponAttachmentDataID;
     }
 
     [Serializable]
@@ -76,16 +76,23 @@ public class PlayerProfileSaveData
     {
         public LevelClearProgressionSaveData(GameProgressionData gameProgressionData) 
         {
-            this.levelIsClear = new Dictionary<string, bool>();
+            Debug.Log("LevelClearProgressionSaveData Construtor");
+            this.saveLevelClearProgression = new GameProgrsstionSaveDetail[gameProgressionData.gameProgressionDetails.Length];
 
-            LevelDataScriptableObject[] levelDataScriptableObject = gameProgressionData.levelIsClear.Keys.ToArray();
-
-            for (int i = 0; i < gameProgressionData.levelIsClear.Count; i++) 
+            for (int i = 0; i < gameProgressionData.gameProgressionDetails.Length; i++) 
             {
-                this.levelIsClear.Add(levelDataScriptableObject[i].ObjectID, gameProgressionData.levelIsClear[levelDataScriptableObject[i]]);
+                this.saveLevelClearProgression[i].levelID = gameProgressionData.gameProgressionDetails[i].levelDataScriptableObject.ObjectID;
+                this.saveLevelClearProgression[i].isClear = gameProgressionData.gameProgressionDetails[i].isClear;
             }
         }
-        public Dictionary<string, bool> levelIsClear;
+
+        [Serializable]
+        public struct GameProgrsstionSaveDetail
+        {
+            public string levelID;
+            public bool isClear;
+        }
+        [SerializeField] public GameProgrsstionSaveDetail[] saveLevelClearProgression;
     }
 
     [Serializable]
@@ -105,34 +112,29 @@ public class PlayerProfileSaveData
 
         private void SaveWeaponAndAttachment(WeaponDataPackage[] continueWeaponPackage)
         {
+            this.weaponSaveDataPackages = new WeaponSaveDataPackage[continueWeaponPackage.Length];
+
             for (int i = 0; i < continueWeaponPackage.Length; i++)
             {
-                this.continueWeaponDataID[i] = continueWeaponPackage[i].weaponDataScriptableObject.ObjectID;
+                this.weaponSaveDataPackages[i].weaponID = continueWeaponPackage[i].weaponDataScriptableObject.ObjectID;
 
                 if (continueWeaponPackage[i].weaponAttachmentData == null
                     ||continueWeaponPackage[i].weaponAttachmentData.Length <= 0)
                     continue;
 
-                this.continueWeaponAttachmentDataID = new Dictionary<string, string[]>();
-                this.continueWeaponAttachmentDataID.Add
-                    (this.continueWeaponDataID[i]
-                    , new string[continueWeaponPackage[i].weaponAttachmentData.Length]
-                    );
-
-
-
+                this.weaponSaveDataPackages[i].weaponAttachmentID = new string[continueWeaponPackage[i].weaponAttachmentData.Length];
+           
                 for (int j = 0; j < continueWeaponPackage[i].weaponAttachmentData.Length; j++)
                 {
-                    this.continueWeaponAttachmentDataID[this.continueWeaponDataID[i]][j] = continueWeaponPackage[i].weaponAttachmentData[j].ObjectID;
+                    this.weaponSaveDataPackages[i].weaponAttachmentID[j] = continueWeaponPackage[i].weaponAttachmentData[j].ObjectID;
                 }
             }
         }
 
-        public string continueLevelDataSCRP_ID;
-        public int continueAtCheckPoint;
+        [SerializeField] public string continueLevelDataSCRP_ID;
+        [SerializeField] public int continueAtCheckPoint;
 
-        public string[] continueWeaponDataID;
-        public Dictionary<string, string[]> continueWeaponAttachmentDataID;
+        [SerializeField] public WeaponSaveDataPackage[] weaponSaveDataPackages;
     }
 
     [Serializable]

@@ -12,6 +12,7 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
 
     [SerializeField] public ContinueData defaultContinueData;
+    [SerializeField] public GameProgressionData defaultGameProgressionData;
     [SerializeField] public LoadoutData defaultLoadoutData;
     [SerializeField] public SettingDataScriptableObject defaultSettingData;
 
@@ -49,7 +50,8 @@ public class DataEntities<T> where T : DataScriptableObject
         if(this.dataLookUp.TryGetValue(objectID,out T data))
             return data;
 
-        Debug.LogError("No Object ID " + objectID + " in data based");
+        Debug.Log("objectID = " + objectID);
+        Debug.LogWarning("No Object ID " + objectID + " in data based "+typeof(T));
         return null;
     }
 

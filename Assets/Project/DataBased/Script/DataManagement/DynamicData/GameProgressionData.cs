@@ -1,43 +1,57 @@
+using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-public class GameProgressionData 
+[CreateAssetMenu(fileName = "GameProgressionData", menuName = "ScriptableObjects/GameProgressionData")]
+public class GameProgressionData : DataScriptableObject
 {
-    public GameProgressionData()
-    {
-        this.levelIsClear = new Dictionary<LevelDataScriptableObject, bool>();
 
-        Debug.Log("StaticDataBased.Instance = " + StaticDataBased.Instance);
-
-        for (int i = 0; i < StaticDataBased.Instance.levelDataBased.dataScrp.Length ; i++)
-        {
-            this.levelIsClear.Add(StaticDataBased.Instance.levelDataBased.GetObjectDataFormIndex(i), false);
-        }
-    }
-
+    public GameProgressionDetail[] gameProgressionDetails;
     public void LoadData(PlayerProfileSaveData.LevelClearProgressionSaveData levelClearProgressionData)
     {
-        string[] keyLevelID = levelClearProgressionData.levelIsClear.Keys.ToArray();
 
-        for (int i = 0; i < keyLevelID.Length; i++) 
+        for (int i = 0; i < levelClearProgressionData.saveLevelClearProgression.Length; i++) 
         {
-            this.levelIsClear[StaticDataBased.Instance.levelDataBased.GetObjectDataFormID(keyLevelID[i])] = levelClearProgressionData.levelIsClear[keyLevelID[i]];
+            for (int j = 0; j < this.gameProgressionDetails.Length; j++)
+            {
+
+                if (this.gameProgressionDetails[j].levelDataScriptableObject
+                    == StaticDataBased.Instance.levelDataBased.GetObjectDataFormID(levelClearProgressionData.saveLevelClearProgression[i].levelID))
+                {
+                    this.gameProgressionDetails[j].isClear = levelClearProgressionData.saveLevelClearProgression[i].isClear;
+                }
+            }
         }
 
     }
 
     public void LoadData(GameProgressionData gameProgressionData)
     {
-        this.levelIsClear = gameProgressionData.levelIsClear;
+        this.gameProgressionDetails = gameProgressionData.gameProgressionDetails;
     }
 
-    public void SetLevelIsClear(LevelDataScriptableObject levelClearProgressionData,bool isClear)
+    public void SetLevelIsClear(LevelDataScriptableObject levelClearProgressionData, bool isClear)
     {
-        this.levelIsClear[levelClearProgressionData] = isClear;
+        for (int i = 0; i <= this.gameProgressionDetails.Length; i++)
+        {
+            if (this.gameProgressionDetails[i].levelDataScriptableObject == levelClearProgressionData)
+            {
+                this.gameProgressionDetails[i].isClear = isClear;
+            }
+        }
     }
 
-    public Dictionary<LevelDataScriptableObject, bool> levelIsClear;
+  
+
+    [Serializable]
+    public struct GameProgressionDetail
+    {
+        public LevelDataScriptableObject levelDataScriptableObject;
+        public bool isClear;
+    }
+
+
+
 }

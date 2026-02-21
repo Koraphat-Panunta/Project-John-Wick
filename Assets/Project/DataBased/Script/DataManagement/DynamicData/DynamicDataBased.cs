@@ -14,12 +14,16 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
     public SettingDataScriptableObject settingDataScriptableObject;
 
     public string savePath => Application.persistentDataPath + "/PlayerSaveProfileData.ocm";
+
     protected void InitializedData()
     {
         PlayerProfileSaveData playerProfileSaveData = null;
 
         if(this.LoadPlayerProfileSaveData(out playerProfileSaveData))
         {
+
+            Debug.Log("Found Save files = " + playerProfileSaveData);
+
             this.playerLoadoutData.LoadData(playerProfileSaveData.loadoutData);
             this.gameProgressionData.LoadData(playerProfileSaveData.levelClearProgressionData);
             this.continueData.LoadData(playerProfileSaveData.continueLevelSaveData);
@@ -27,6 +31,11 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         }
         else
         {
+            Debug.LogWarning("not Found Save files ");
+
+            this.playerLoadoutData.LoadData(StaticDataBased.Instance.defaultLoadoutData);
+            this.gameProgressionData.LoadData(StaticDataBased.Instance.defaultGameProgressionData);
+            this.continueData.LoadData(StaticDataBased.Instance.defaultContinueData);
             this.settingDataScriptableObject.LoadData(StaticDataBased.Instance.defaultSettingData);
         }
     }
@@ -65,10 +74,6 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         Instance = this;
 
         Debug.Log("Initialized" + this);
-
-        this.playerLoadoutData = new LoadoutData();
-        this.gameProgressionData = new GameProgressionData();
-        this.continueData = new ContinueData();
 
         this.InitializedData();
 

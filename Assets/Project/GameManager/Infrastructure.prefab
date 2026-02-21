@@ -192,6 +192,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1419365189096685524}
     m_Modifications:
+    - target: {fileID: 481553706581312276, guid: a03de6dd1d7d5fc43ac9ce85dcbad518,
+        type: 3}
+      propertyPath: defaultGameProgressionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4cde15b2bb2ef0f44b50f98f65b050e8,
+        type: 2}
     - target: {fileID: 2998347149430233355, guid: a03de6dd1d7d5fc43ac9ce85dcbad518,
         type: 3}
       propertyPath: m_Name
@@ -410,6 +416,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8753931150944377492, guid: f16de5926c878f04496397f5625b2b30,
+        type: 3}
+      propertyPath: gameProgressionData
+      value: 
+      objectReference: {fileID: 11400000, guid: e8957ffa06ea55f4aa81fb6c291b5f55,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
