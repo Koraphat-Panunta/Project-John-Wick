@@ -6,24 +6,26 @@ using UnityEngine;
 public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGameMaster>
 {
     public bool isComplete { get; private set; }
-    private Canvas splashSceneCanvas => gameMaster.splashScene;
-    private TextMeshProUGUI tile => gameMaster.titleGame;
+
+    private SplashUICanvas splashUICanvas; 
 
     private UIElementFader elementFader;
 
 
-
-    public SplashSceneFrontSceneMasterNodeLeaf(FrontSceneGameMaster gameMaster, Func<bool> preCondition) : base(gameMaster, preCondition)
+    public SplashSceneFrontSceneMasterNodeLeaf(
+        FrontSceneGameMaster gameMaster
+        , SplashUICanvas splashUICanvas
+        , Func<bool> preCondition) 
+        : base(gameMaster, preCondition)
     {
-        elementFader = new UIElementFader();
+        this.splashUICanvas = splashUICanvas;
+        this.elementFader = new UIElementFader();
     }
 
     public override void Enter()
     {
-        isComplete = false;
+        this.isComplete = false;
         SplashSceneEvent();
-       
-
     }
 
     public override void Exit()
@@ -52,13 +54,13 @@ public class SplashSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontScene
     private float fadeOutDuration = 1;  
     private async void SplashSceneEvent()
     {
-        splashSceneCanvas.gameObject.SetActive(true);
-        elementFader.SetAlphaSceneFade(tile, 0);
+        this.splashUICanvas.gameObject.SetActive(true);
+        this.elementFader.SetAlphaSceneFade(this.splashUICanvas.text, 0);
         await Task.Delay((int)(1000 * splashDelay));
-        await elementFader.FadeAppear(tile,this.fadeInDuration);
+        await elementFader.FadeAppear(this.splashUICanvas.text, this.fadeInDuration);
         await Task.Delay((int)(1000 * stayDuration));
-        await elementFader.FadeDisappear(tile, this.fadeOutDuration);
-        splashSceneCanvas.gameObject.SetActive(false);
-        isComplete = true;
+        await elementFader.FadeDisappear(this.splashUICanvas.text, this.fadeOutDuration);
+        this.splashUICanvas.gameObject.SetActive(false);
+        this.isComplete = true;
     }
 }

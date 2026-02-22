@@ -362,7 +362,11 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
-        
+        if(node is GotGunFuHitNodeLeaf)
+        {
+            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+        }
 
         if(node  is CharacterHitedEventDetail hitedEventDetail)
         {
@@ -378,18 +382,19 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
             if (hitedEventDetail.hitedPart is ArmLeftBodyPart)
             {
+
                 this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
             if (hitedEventDetail.hitedPart is ArmRightBodyPart)
             {
+               
                 this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
 
             this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
             this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
 
-            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
-            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+    
 
 
 

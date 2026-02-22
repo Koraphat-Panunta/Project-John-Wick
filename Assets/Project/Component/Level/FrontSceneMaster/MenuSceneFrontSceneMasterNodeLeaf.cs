@@ -26,7 +26,8 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
         UIElementFader = new UIElementFader();
 
-        this.mainMenuUICanvas.newGameButton.onClick.AddListener(() => { TriggerNewGame(); });
+        this.mainMenuUICanvas.newGameButton.onClick.AddListener(this.TriggerNewGame);
+        this.mainMenuUICanvas.optionButton.onClick.AddListener(this.TriggerOption);
         this.mainMenuUICanvas.exitBotton.onClick.AddListener(this.TriggerExitGame);
 
     }
@@ -38,8 +39,8 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
     public override void Enter()
     {
-        isTriggerOption = false;
-
+        this.isTriggerOption = false;
+        Cursor.lockState = CursorLockMode.None;
         UIElementFader.FadeDisappear(this.fadeImgame, this.fadeInduration,
             ()=> 
             { 
@@ -50,6 +51,7 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
 
     public override void Exit()
     {
+        this.isTriggerOption = false;
     }
 
     public override void FixedUpdateNode()
@@ -73,7 +75,7 @@ public class MenuSceneFrontSceneMasterNodeLeaf : GameMasterNodeLeaf<FrontSceneGa
         await UIElementFader.FadeAppear(fadeImgame, fadeOutduration);
         gameManager.ContinueGameplayScene();
     }
-    public void TriggerOption() => isTriggerOption = true;
+    public void TriggerOption() => this.isTriggerOption = true;
     private async void TriggerExitGame()
     {
         await UIElementFader.FadeAppear(fadeImgame, fadeInduration);

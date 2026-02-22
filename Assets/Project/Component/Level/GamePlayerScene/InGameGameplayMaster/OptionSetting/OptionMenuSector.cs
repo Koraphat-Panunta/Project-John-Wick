@@ -12,12 +12,12 @@ public abstract class OptionMenuSector
     }
     public virtual void Enter()
     {
-
+        this.optionUIDisplayer.Show(DynamicDataBased.Instance.settingDataScriptableObject);
     }
 
     public virtual void Exit()
     {
-
+        this.optionUIDisplayer.Hide();
     }
 
     public abstract void ResetToDefault();

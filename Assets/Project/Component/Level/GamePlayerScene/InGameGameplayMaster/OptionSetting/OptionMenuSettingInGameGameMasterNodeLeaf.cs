@@ -5,7 +5,8 @@ using UnityEngine;
 public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INodeLeafTransitionAble
 {
     private OptionUICanvas optionUICanvas;
-    private bool isTriggerExit;
+    public bool isTriggerExit { get; protected set;}
+    public bool isTriggerEnter { get; protected set; }
     private OptionMenuSector curMenuSector;
     private OptionMenuSector controlMenuSector;
     private OptionMenuSector audioMenuSector;
@@ -39,9 +40,10 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
 
     public override void Enter()
     {
+        Debug.Log("OptionMenuSettingInGameGameMasterNodeLeaf Enter");
 
         Cursor.lockState = CursorLockMode.None;
-        
+        this.isTriggerEnter = false;
         this.optionUICanvas.gameObject.SetActive(true);
         this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
         this.SelectControlSetting();
@@ -50,7 +52,11 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     public override void Exit()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        isTriggerExit = false;
+
+        Debug.Log("OptionMenuSettingInGameGameMasterNodeLeaf Exit");
+
+        this.isTriggerEnter = false;
+        this.isTriggerExit = false;
         if (curMenuSector != null)
             curMenuSector.Exit();
 
@@ -64,6 +70,7 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     {
         
     }
+    protected void TriggerEnter() => this.isTriggerEnter = true;
     protected void TriggerExit() => isTriggerExit = true;
     public override bool IsReset()
     {
@@ -83,7 +90,11 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
         curMenuSector.Enter();
     }
     protected void SelectControlSetting() => this.ChangeOptionSettingSector(this.controlMenuSector);
-    protected void SelectAudioSetting() => this.ChangeOptionSettingSector(this.audioMenuSector);
+    protected void SelectAudioSetting() 
+    {
+        Debug.Log("SelectAudioSetting");
+        this.ChangeOptionSettingSector(this.audioMenuSector); 
+    }
 
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 

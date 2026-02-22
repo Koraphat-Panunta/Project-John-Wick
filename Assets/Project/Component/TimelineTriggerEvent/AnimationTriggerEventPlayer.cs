@@ -140,6 +140,6 @@ public class AnimationTriggerEventPlayer
         }
 
         if(isFoundTheName == false)
-            Debug.LogError("Not found the name event = "+eventName);
+            Debug.LogWarning("Not found the name event = "+eventName);
     }
 }

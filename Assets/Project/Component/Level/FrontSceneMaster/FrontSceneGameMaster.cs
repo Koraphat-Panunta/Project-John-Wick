@@ -5,28 +5,41 @@ using UnityEngine.UI;
 
 public class FrontSceneGameMaster : GameMaster
 {
-    public Canvas splashScene;
-    public Canvas menuScene;
-    public Canvas settingScene;
 
+    public SplashUICanvas splashCanvas;
     public MainMenuUICanvas mainMenuUICanvas;
+    public OptionUICanvas optionUICanvas;
 
     public TextMeshProUGUI titleGame;
     public Image fadeImage;
 
     public SplashSceneFrontSceneMasterNodeLeaf splashSceneFrontSceneMasterNodeLeaf;
     public MenuSceneFrontSceneMasterNodeLeaf menuSceneFrontSceneMasterNodeLeaf;
+    public OptionMenuSettingInGameGameMasterNodeLeaf optionMenuSettingInGameMasterNodeLeaf;
 
  
     public override void InitailizedNode()
     {
-        startNodeSelector = new NodeSelector(() => true);
+        this.startNodeSelector = new NodeSelector(() => true);
 
-        splashSceneFrontSceneMasterNodeLeaf = new SplashSceneFrontSceneMasterNodeLeaf(this, () => splashSceneFrontSceneMasterNodeLeaf.isComplete == false);
-        menuSceneFrontSceneMasterNodeLeaf = new MenuSceneFrontSceneMasterNodeLeaf(this, this.mainMenuUICanvas , ()=> true);
+        this.splashSceneFrontSceneMasterNodeLeaf = new SplashSceneFrontSceneMasterNodeLeaf(this
+            , this.splashCanvas
+            , () => splashSceneFrontSceneMasterNodeLeaf.isComplete == false
+            );
 
-        startNodeSelector.AddtoChildNode(splashSceneFrontSceneMasterNodeLeaf);
-        startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
+        this.optionMenuSettingInGameMasterNodeLeaf = new OptionMenuSettingInGameGameMasterNodeLeaf(this
+            ,this.optionUICanvas
+            ,()=> this.optionMenuSettingInGameMasterNodeLeaf.isTriggerEnter 
+            || this.menuSceneFrontSceneMasterNodeLeaf.isTriggerOption
+            );
+
+        this.menuSceneFrontSceneMasterNodeLeaf = new MenuSceneFrontSceneMasterNodeLeaf(this, this.mainMenuUICanvas 
+            , ()=> true
+            );
+
+        this.startNodeSelector.AddtoChildNode(splashSceneFrontSceneMasterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.optionMenuSettingInGameMasterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(menuSceneFrontSceneMasterNodeLeaf);
 
         _nodeManagerBehavior.SearchingNewNode(this);
     }

@@ -15,11 +15,13 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
 
     public string savePath => Application.persistentDataPath + "/PlayerSaveProfileData.ocm";
 
+    [SerializeField] protected bool isEnableSaveAndLoad;
+
     protected void InitializedData()
     {
         PlayerProfileSaveData playerProfileSaveData = null;
 
-        if(this.LoadPlayerProfileSaveData(out playerProfileSaveData))
+        if(this.LoadPlayerProfileSaveData(out playerProfileSaveData) && this.isEnableSaveAndLoad)
         {
 
             Debug.Log("Found Save files = " + playerProfileSaveData);
@@ -31,7 +33,7 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
         }
         else
         {
-            Debug.LogWarning("not Found Save files ");
+            Debug.LogWarning("Load Default Data Found Save files ");
 
             this.playerLoadoutData.LoadData(StaticDataBased.Instance.defaultLoadoutData);
             this.gameProgressionData.LoadData(StaticDataBased.Instance.defaultGameProgressionData);
@@ -82,7 +84,8 @@ public class DynamicDataBased : MonoBehaviour,IInitializedAble
 
     private void OnApplicationQuit()
     {
-        SaveAsPlayerProfile();
+        if(this.isEnableSaveAndLoad)
+            SaveAsPlayerProfile();
         Debug.Log("Application quit");
     }
 }

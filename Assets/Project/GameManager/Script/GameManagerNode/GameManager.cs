@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior _nodeManagerBehavior { get; set; }
-    public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
+    public GameManagerSceneNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
 
-        this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this, () => true);
+        this.frontSceneGameManagerNodeLeaf = new GameManagerSceneNodeLeaf("FrontScene", this, () => true);
 
         this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => this.triggerEnter );
         this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => true);
@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
         ingameGameManagerNodeSelector.AddtoChildNode(this.prologue_GameManagerSceneNodeLeaf);
 
 
-        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public void Initialized()
@@ -44,6 +43,8 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
         DontDestroyOnLoad(gameObject);
 
         gameManagerInstance = this;
+
+        InitailizedNode();
     }
 
     public void FixedUpdateNode()
@@ -58,8 +59,7 @@ public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
    
     private void Start()
     {
-
-        InitailizedNode();
+        this._nodeManagerBehavior.SearchingNewNode(this);
     }
 
     

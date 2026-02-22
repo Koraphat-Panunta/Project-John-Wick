@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour,IInitializedAble
     public static SoundManager Instance { get; private set; }
 
     [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     [SerializeField] private AudioListener audioListener;
     [SerializeField] private AudioSource globalAudioSource;
     private float settingVolume;
@@ -45,19 +46,21 @@ public class SoundManager : MonoBehaviour,IInitializedAble
     {
         DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.MasterVolume = value;
 
-        this.audioMixer.SetFloat("Master",this.GetDecibel(value));
+        this.audioMixer.SetFloat("MasterVolume", this.GetDecibel(value));
+        this.audioMixer.GetFloat("MasterVolume", out float v);
+        Debug.Log("Master V = " + v);
 
 
     }
     public void SetMusicVolume(float value)
     {
         DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.MusicVolume = value;
-        this.audioMixer.SetFloat("Music", this.GetDecibel(value));
+        this.audioMixer.SetFloat("MusicVolume", this.GetDecibel(value));
     }
     public void SetSFXVolume(float value)
     {
         DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.SoundEffectVolume = value;
-        this.audioMixer.SetFloat("SFX", this.GetDecibel(value));
+        this.audioMixer.SetFloat("SFXVolume", this.GetDecibel(value));
     }
 
     private float GetDecibel(float audioValue)//Scale 0-10
@@ -80,12 +83,12 @@ public class SoundManager : MonoBehaviour,IInitializedAble
 
     private void LateUpdate()
     {
-        if(Camera.main != null)
+        if (Camera.main != null)
         {
-            this.audioListener.transform.position = Camera.main.transform.position;
+            this.audioListener.transform.SetParent(Camera.main.transform,false);
         }
         else
-            this.audioListener.transform.position = this.transform.position;
+            this.audioListener.transform.SetParent(null);
     }
 
    
