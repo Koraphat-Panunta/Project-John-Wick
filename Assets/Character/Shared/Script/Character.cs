@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public abstract class Character : MonoBehaviour,IInitializedAble
 {
@@ -57,15 +58,29 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     }
 
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
+    [SerializeField] public CharacterMovementController characterController;
     //public Weapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
+    int frame;
+    [SerializeField] private float SumDeltaPos;
     private void OnAnimatorMove()
     {
         if (enableRootMotion)
         {
-            _movementCompoent.SetPosition(transform.position + animator.deltaPosition);
-            _movementCompoent.SetRotation(transform.rotation * animator.deltaRotation);
+            frame++;
+
+            SumDeltaPos += animator.deltaPosition.magnitude;
+
+            _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
+            _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
+
+            Debug.Log("sum = " + this.SumDeltaPos + "\n" + "frame = " + frame);
+        }
+        else
+        {
+            SumDeltaPos = 0;
+            frame = 0;
         }
 
     }

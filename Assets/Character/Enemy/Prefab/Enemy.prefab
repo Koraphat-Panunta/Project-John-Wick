@@ -1067,12 +1067,6 @@ MonoBehaviour:
   movementScriptableObject: {fileID: 11400000, guid: 2b977574ee197fe4ba12b588ef91f3fc,
     type: 2}
   animator: {fileID: 1113618680042977909}
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
-  targetSpoterMask:
-    serializedVersion: 2
-    m_Bits: 256
   agent: {fileID: 7803922069215804562}
   characterController: {fileID: 102977775201858835}
   forceSave: {x: 0, y: 0, z: 0}
@@ -1096,7 +1090,6 @@ MonoBehaviour:
   right_lower_Arm: {fileID: 7283977535768471014}
   left_upper_Arm: {fileID: 7968910872121005594}
   left_lower_Arm: {fileID: 602099620969790321}
-  targetKnewPos: {x: 0, y: 1, z: 1}
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
   lookRotationCommand: {x: 0, y: 0, z: 0}
@@ -1107,6 +1100,8 @@ MonoBehaviour:
   miniPainStateDuration: 0.75
   mediumPainStateDuration: 2
   heavyPainStateDuration: 5
+  findingTargetScriptableObject: {fileID: 11400000, guid: 7c7b554e66c38d14d970f844488729b8,
+    type: 2}
   standUpAnimationTriggerSCRP: {fileID: 11400000, guid: d1339d4dc4565804cbc727d7ee500918,
     type: 2}
   pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
@@ -1145,10 +1140,10 @@ MonoBehaviour:
   gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
     type: 2}
   maxPosture: 70
+  posture: 0
   lightPosture: 80
   mediumPosture: 50
   heavyPosture: 20
-  _maxStaggerGauge: 100
   pointingTransform: {fileID: 7572410137334796711}
   MainHandSocket: {fileID: 5924970197975984463}
   SecondHandSocket: {fileID: 7305386784492792415}
@@ -1206,7 +1201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e29b5d37fc347604e8b8c3bc10ad0fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 5275516832316452753}
   walkSource: {fileID: 184739853448068401}
   hit: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}
   dead: {fileID: 8300000, guid: da7bfccbaefce304782fb3a6d0ff34d3, type: 3}

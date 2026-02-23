@@ -98,7 +98,7 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                                     curSwarpPhase = SwarPositionPhase.moveToTarget;
                                 }
 
-                                enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                                enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                                 enemyCommandAPI.NormalFiringPattern.Performing();
                                 enemyCommandAPI.AutoDetectSoftCover();
                                 enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
@@ -112,8 +112,8 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                     moveToTargetTimer -= Time.deltaTime;
 
                     if(Physics.Raycast(enemy.transform.position
-                        ,(enemy.targetKnewPos - enemy.transform.position).normalized
-                        , (enemy.targetKnewPos - enemy.transform.position).magnitude
+                        ,(this.enemy.targetKnowPos - enemy.transform.position).normalized
+                        , (this.enemy.targetKnowPos - enemy.transform.position).magnitude
                         ,LayerMask.GetMask("Default")
                         , QueryTriggerInteraction.Ignore) == false || moveToTargetTimer <= 0)
                     {
@@ -122,7 +122,7 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
 
 
 
-                    if(enemyCommandAPI.MoveToPositionRotateToward(enemy.targetKnewPos, 1, 1,2))
+                    if(enemyCommandAPI.MoveToPositionRotateToward(this.enemy.targetKnowPos, 1, 1,2))
                         isComplete = true;
 
                     enemyCommandAPI.AimDownSight();
@@ -136,20 +136,20 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
         float rotateOverwatch = UnityEngine.Random.Range(-this.randomMaxDegreesOverwatchZone, this.randomMaxDegreesOverwatchZone);
         float raduisOverwatch = UnityEngine.Random.Range(this.randomMinRangeOverwatchZone, this.randomMaxRangeOverwatchZone);
 
-        Vector3 targetToEnemyDir =  enemy.transform.position - enemy.targetKnewPos;
+        Vector3 targetToEnemyDir =  enemy.transform.position - this.enemy.targetKnowPos;
         targetToEnemyDir.y = 0;
         targetToEnemyDir.Normalize();
 
 
 
-        Vector3 assignPos = enemy.targetKnewPos + ((Quaternion.AngleAxis(rotateOverwatch, Vector3.up) * targetToEnemyDir) * raduisOverwatch);
-        if (Physics.Raycast(enemy.targetKnewPos
-            , (assignPos - enemy.targetKnewPos).normalized
+        Vector3 assignPos = this.enemy.targetKnowPos + ((Quaternion.AngleAxis(rotateOverwatch, Vector3.up) * targetToEnemyDir) * raduisOverwatch);
+        if (Physics.Raycast(this.enemy.targetKnowPos
+            , (assignPos - this.enemy.targetKnowPos).normalized
             , out RaycastHit hit
-            , (assignPos - enemy.targetKnewPos).magnitude
+            , (assignPos - this.enemy.targetKnowPos).magnitude
             , LayerMask.GetMask("Default")
             , QueryTriggerInteraction.Ignore)
-            && Vector3.Distance(hit.point, enemy.targetKnewPos) >= randomMinRangeOverwatchZone)
+            && Vector3.Distance(hit.point, this.enemy.targetKnowPos) >= randomMinRangeOverwatchZone)
         {
             assignPos = hit.point;
         }

@@ -37,19 +37,19 @@ public class StayEnemyTutorialDecision : EnemyDecision, IEnemyActionNodeManagerI
                 }
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Suspect: 
                 {
-                    enemyCommand.RotateToPosition(enemy.targetKnewPos,1);
+                    enemyCommand.RotateToPosition(this.enemy.targetKnowPos,1);
                     enemyCommand.FreezPosition();
                     break;
                 }
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware: 
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommand.FreezPosition();
                     break;
                 }
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert: 
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommand.NormalFiringPattern.Performing();
                     enemyCommand.FreezPosition();
                     break;

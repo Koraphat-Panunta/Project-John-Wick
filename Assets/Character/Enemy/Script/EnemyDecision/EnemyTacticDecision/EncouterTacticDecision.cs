@@ -16,7 +16,7 @@ public class EncouterTacticDecision : TacticDecision
 
     public override void Enter()
     {
-        curvePath.GenaratePath(enemy.targetKnewPos,enemy.transform.position);
+        curvePath.GenaratePath(this.enemy.targetKnowPos,enemy.transform.position);
         enemyCommand.FreezPosition();
 
     }
@@ -51,19 +51,19 @@ public class EncouterTacticDecision : TacticDecision
         {
             case EnemyTacticDecision.CombatPhase.Alert:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommand.NormalFiringPattern.Performing();
 
                 }
                 break;
             case EnemyTacticDecision.CombatPhase.Aware:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                 }
                 break;
         }
 
-        curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
+        curvePath.AutoRegenaratePath(this.enemy.targetKnowPos, enemy.transform.position, 2);
 
         if (curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
             if (enemyCommand.MoveToPosition(_curvePoint, 1))

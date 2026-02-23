@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public partial class Enemy : SubjectEnemy
     , IMotionDriven
-    , IFindingTarget
     , IHeardingAble
     , IPainStateAble
     , IFriendlyFirePreventing
@@ -14,8 +13,8 @@ public partial class Enemy : SubjectEnemy
     
 {
 
-    public LayerMask targetMask;
-    public LayerMask targetSpoterMask;
+    //public LayerMask targetMask;
+    //public LayerMask targetSpoterMask;
     public FieldOfView enemyFieldOfView;
     public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
@@ -24,7 +23,6 @@ public partial class Enemy : SubjectEnemy
     private EnemyCommunicator enemyCommunicator;
 
     public AIAgent agent;
-    public CharacterMovementController characterController;
 
     public Vector3 forceSave;
 
@@ -39,7 +37,6 @@ public partial class Enemy : SubjectEnemy
   
     public override void Initialized()
     {
-        targetMask.value = LayerMask.GetMask("Player");
 
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
@@ -51,10 +48,11 @@ public partial class Enemy : SubjectEnemy
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
         _movementCompoent = new EnemyMovement(this, transform, this, this.characterController);
         enemyCommunicator = new EnemyCommunicator();
-        InitailizedFindingTarget();
+
         InitailizedGunFuComponent();
 
         stateManagerNode = new EnemyStateManagerNode(this);
+        InitailizedFindingTarget();
         Initialized_IWeaponAdvanceUser();
 
         this.SetDefaultAttribute();
@@ -94,9 +92,9 @@ public partial class Enemy : SubjectEnemy
 
     public void TakeDamage(float Damage)
     {
-        if (isImortal)
-            return;
-
+        if(this.isImortal)
+            SetHP(Mathf.Clamp(HP - Damage, 1, maxHp));
+        else
         SetHP(Mathf.Clamp(HP - Damage, 0, maxHp));
         
     }
@@ -106,7 +104,6 @@ public partial class Enemy : SubjectEnemy
         {
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    Debug.Log("EnemyTakeGunFuHit");
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
@@ -145,14 +142,14 @@ public partial class Enemy : SubjectEnemy
     }
     private void BlackBoardUpdate()
     {
-        isSpottingTaget = this.findingTargetComponent.isSpottingTarget;
-        moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
-        if (this.findingTargetComponent.isSpottingTarget && _isInPain == false)
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate));
+        this.isSpottingTaget = this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.isSpottingTarget;
+        this.moveInputVelocity_LocalCommand = TransformWorldToLocalVector(this.moveInputVelocity_WorldCommand, this.transform.forward);
+        if (this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.isSpottingTarget && _isInPain == false)
+            this.enemyGetShootDirection.SetTrackingRate(this.enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * this.enemyGetShootDirection.trackingTargetAccelerate));
         else
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate));
+            this.enemyGetShootDirection.SetTrackingRate(this.enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * this.enemyGetShootDirection.trackingTargetDecelerate));
 
-        curTrackRate = enemyGetShootDirection.trackingTargetRate;
+        this.curTrackRate = this.enemyGetShootDirection.trackingTargetRate;
     }
 
 
@@ -238,24 +235,23 @@ public partial class Enemy : SubjectEnemy
 
     #region InitailizedFindingTarget
 
-    public FindiAndTrackingTarget findingTargetComponent { get; set; }
-    public Vector3 targetKnewPos;
-    public GameObject target { get; set; }
+    public Vector3 targetKnowPos => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.targetKnewPos;
+
     public Action<GameObject> NotifyEnemySpottingTarget;
+    public Transform target => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.target;
     public void InitailizedFindingTarget()
     {
-        findingTargetComponent = new FindiAndTrackingTarget(targetSpoterMask, enemyFieldOfView);
-        findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
+        
+        this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.OnSpottingTarget += EnemySpotingTarget;
 
     }
     private void EnemySpotingTarget(GameObject target)
     {
+
         if (isDead)
             return;
 
-
-        targetKnewPos = target.transform.position;
-        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,targetKnewPos);
+        this.enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,this.targetKnowPos);
         if (NotifyEnemySpottingTarget != null)
             NotifyEnemySpottingTarget.Invoke(target);
     }
@@ -273,7 +269,7 @@ public partial class Enemy : SubjectEnemy
         if (noiseMakingAble is Bullet bullet
             && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
         {
-            targetKnewPos = i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position;
+            this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position);
         }
 
         NotifyObserver(this, EnemyEvent.HeardingGunShoot);
@@ -301,7 +297,7 @@ public partial class Enemy : SubjectEnemy
                 case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                     {
                         if (var is Vector3 targetSendedPosition)
-                            targetKnewPos = targetSendedPosition;
+                            this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(targetSendedPosition);
                     }
                     break;
             }
@@ -409,9 +405,6 @@ public partial class Enemy : SubjectEnemy
         base.HP = 100;
         base.maxHp = 100;
 
-
-        targetKnewPos = transform.position + transform.forward + Vector3.up;
-
         enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward +Vector3.up);
     }
     private void OnEnable()
@@ -425,14 +418,19 @@ public partial class Enemy : SubjectEnemy
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
+        try
+        {
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position, 0.15f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(this.targetKnowPos, 0.14f);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, transform.forward);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(transform.position, 0.15f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, transform.forward);
+        }
+        catch { }
 
         //Gizmos.color = Color.green;
         //Gizmos.DrawRay(_transform.position, _transform.forward);

@@ -5,7 +5,6 @@ public class EnemyAutoDefendCommand : IObserverEnemy
     protected EnemyCommandAPI enemyCommandAPI;
     protected Enemy enemy;
     protected IWeaponAdvanceUser targerFireArmed;
-    protected GameObject target;
 
     public float dodgeCoolDownTimer;
     protected float minDodgeCoolDownTime = 8;
@@ -39,10 +38,10 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         if(enemy.target == null)
             return false;
 
-        if (this.target == null)
+        if (this.enemy.target == null)
         {
-            this.target = enemy.target;
-            if (this.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
+
+            if (this.enemy.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
                 && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
             {
                 //Debug.Log("this.targerFireArmed = weaponAdvanceUser;");
@@ -55,10 +54,10 @@ public class EnemyAutoDefendCommand : IObserverEnemy
             }
         }
 
-        if(this.target != enemy.target)
+        if(this.enemy.target != enemy.target)
         {
-            this.target = enemy.target;
-            if (this.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
+
+            if (this.enemy.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
                 && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
             {
                 this.targerFireArmed = weaponAdvanceUser;

@@ -9,6 +9,9 @@ public class DummyMovementComponent : MovementCompoent
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
+
+    public override Vector3 curPosition => transform.position;
+
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true, "StartNodeSelector PlayerMovement");

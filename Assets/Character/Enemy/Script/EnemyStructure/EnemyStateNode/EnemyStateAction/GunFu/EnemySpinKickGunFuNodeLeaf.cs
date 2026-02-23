@@ -15,7 +15,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     private bool isAlreadyPush;
     private Dictionary<IGotGunFuAttackedAble, bool> alreadyHittarget;
 
-    private Vector3 targetPosition => enemy.targetKnewPos;
+    private Vector3 targetPosition => this.enemy.targetKnowPos;
     public string _stateName { get; }
 
     public enum SpinKickPhase
@@ -102,7 +102,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
             gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume
                 (out List<IGotGunFuAttackedAble> targets
                 , castPos
-                , _enemySpinKickScriptable._raduisSphereVolume
+                ,this._enemySpinKickScriptable._raduisSphereVolume
                 ,LayerMask.GetMask("Player")|LayerMask.GetMask("Enemy"));
 
             if (targets == null)

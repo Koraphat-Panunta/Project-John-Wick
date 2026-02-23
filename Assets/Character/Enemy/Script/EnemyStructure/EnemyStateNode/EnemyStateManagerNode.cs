@@ -10,7 +10,7 @@ public partial class EnemyStateManagerNode : INodeManager
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
-    //public NodeComponentManager enemyStateNodeComponentManager { get; set; }
+    public NodeComponentManager enemyStateNodeComponentManager { get; set; }
     public Enemy enemy { get; protected set; }
     public EnemyStateManagerNode(Enemy enemy)
     {
@@ -18,7 +18,7 @@ public partial class EnemyStateManagerNode : INodeManager
 
         this._nodeManagerBehavior = new NodeManagerBehavior();
         this._parallelNodeManahger = new List<INodeManager>();
-        //enemyStateNodeComponentManager = new NodeComponentManager();
+        enemyStateNodeComponentManager = new NodeComponentManager();
 
         InitailizedNode();
     }
@@ -26,12 +26,12 @@ public partial class EnemyStateManagerNode : INodeManager
     public void FixedUpdateNode()
     {
         this._nodeManagerBehavior.FixedUpdateNode(this);
-        //this.enemyStateNodeComponentManager.FixedUpdate();
+        this.enemyStateNodeComponentManager.FixedUpdate();
     }
     public void UpdateNode() 
     {
         this._nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
-        //this.enemyStateNodeComponentManager.Update();
+        this.enemyStateNodeComponentManager.Update();
     }
     
 
@@ -133,7 +133,7 @@ public partial class EnemyStateManagerNode : INodeManager
             );
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
-            () => this.enemy.isDead
+            () => this.enemy.isDead 
             );
 
         zeroPostureSelector = new NodeSelector(
@@ -387,11 +387,16 @@ public partial class EnemyStateManagerNode : INodeManager
         InitializedComponentNode();
     }
 
+    #region Initialized ComponentNode
+
+    public FindiAndTrackingTargetNodeLeaf findAndTrackTargetNodeLeaf;
+
     private void InitializedComponentNode()
     {
-        //enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
-        //    () => enemy.staggerGauge <= 0 && enemy._isInPain == false, enemy, 9);
+        this.findAndTrackTargetNodeLeaf = new FindiAndTrackingTargetNodeLeaf(this.enemy.findingTargetScriptableObject,this.enemy.rayCastPos
+            ,()=> this.enemy.isDead == false);
 
-        //this.enemyStateNodeComponentManager.AddNode(enemy.recoveryStaggerNodeLeaf);
+        this.enemyStateNodeComponentManager.AddNode(this.findAndTrackTargetNodeLeaf);
     }
+    #endregion
 }

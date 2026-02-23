@@ -128,8 +128,8 @@ public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedA
 
           
 
-            if (Vector3.Distance(enemiesRole[i].enemy.targetKnewPos, enemiesRole[i].enemy.transform.position) <
-                Vector3.Distance(selectedEnemy.enemy.targetKnewPos, selectedEnemy.enemy.transform.position)
+            if (Vector3.Distance(enemiesRole[i].enemy.targetKnowPos, enemiesRole[i].enemy.transform.position) <
+                Vector3.Distance(selectedEnemy.enemy.targetKnowPos, selectedEnemy.enemy.transform.position)
                 )
             {
                 selectedEnemy = enemiesRole[i];
@@ -223,7 +223,7 @@ public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedA
         {
             case EnemyChaserRoleNodeManager enemyChaserRole:
                 {
-                    if (Vector3.Distance(enemyChaserRole.enemy.targetKnewPos, enemyChaserRole.enemy.transform.position) < 3.5f)
+                    if (Vector3.Distance(enemyChaserRole.enemy.targetKnowPos, enemyChaserRole.enemy.transform.position) < 3.5f)
                         return true;
 
                     int isShootChaser = 0;
@@ -241,7 +241,7 @@ public class EnemyDirector : Actor, IObserverEnemy,IObserverPlayer,IInitializedA
         
             case EnemyOverwatchRoleNodeManager enemyOverwatchRole: 
                 {
-                    if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnewPos,enemyOverwatchRole.enemy.transform.position) < 3.5f)
+                    if(Vector3.Distance(enemyOverwatchRole.enemy.targetKnowPos, enemyOverwatchRole.enemy.transform.position) < 3.5f)
                         return true;
 
                     if(overwatchShootPoint <=0)

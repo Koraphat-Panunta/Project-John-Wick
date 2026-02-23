@@ -48,6 +48,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     [SerializeField] private Transform moveTransPos3;
     [SerializeField] private Transform moveTransPos4;
 
+    [SerializeField] private Transform coverPos1;
+
     [SerializeField] private Transform sprintTransPos1;
     [SerializeField] private Transform sprintTransPos2;
     [SerializeField] private Transform sprintTransPos3;
@@ -58,7 +60,6 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     [SerializeField] private Weapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
     [SerializeField] private Weapon pickedUpSecondaryWeapon;
-    [SerializeField] private CoverPoint coverPoint;
     [SerializeField] private float timerCoverManuver ;
     [SerializeField] private Transform targetPos;
 
@@ -145,13 +146,13 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         ADS_PullTrigger = new EnemyTestingCommand(
             () =>
             {
-                enemyCommand.AimDownSight(enemy.targetKnewPos);
+                enemyCommand.AimDownSight(enemy.targetKnowPos);
                 if(enemy._currentWeapon.triggerState == TriggerState.Up)
                     enemyCommand.PullTrigger();
             }, () => enemy._currentWeapon.curBulletCapacity <= (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f));
         reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.curBulletCapacity == enemy._currentWeapon.maxAmmoCapacity);
        
-        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(coverPoint.coverPos.position,1,0.5f));
+        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.coverPos1.position,1,0.5f));
         softcoverManuver = new EnemyTestingCommand(
             () => 
             {
@@ -180,14 +181,14 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 return false;
                     });
         sprintToSpinKick = new EnemyTestingCommand(() => { },
-            ()=> enemyCommand.SprintToPosition(enemy.targetKnewPos,enemy.sprintRotateSpeed,2f));
+            ()=> enemyCommand.SprintToPosition(enemy.targetKnowPos,enemy.sprintRotateSpeed,2f));
         spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
         enemyTestingCommands.Enqueue(freez_3s);//24
         //enemyTestingCommands.Enqueue(dodge);//23
         //enemyTestingCommands.Enqueue(crouch);//22
 
-        enemyTestingCommands.Enqueue(sprintToPos1);//21
+        enemyTestingCommands.Enqueue(moveToPos1);//21
         enemyTestingCommands.Enqueue(moveToPos2);//21
         enemyTestingCommands.Enqueue(moveToPos3);//21
         enemyTestingCommands.Enqueue(moveToPos4);//21
@@ -373,10 +374,13 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
    
     private void OnDrawGizmos()
     {
-        DrawCircle(enemy.transform.position, raduisFindCover);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(enemy.targetKnewPos, 0.25f);
-
+        try
+        {
+            DrawCircle(enemy.transform.position, raduisFindCover);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(this.enemy.targetKnowPos, 0.25f);
+        }
+        catch { }
        
     }
     private void DrawCircle(Vector3 center, float radius)

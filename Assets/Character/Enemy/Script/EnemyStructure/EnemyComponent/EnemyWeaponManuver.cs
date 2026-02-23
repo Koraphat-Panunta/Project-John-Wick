@@ -33,8 +33,6 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
                 )
@@ -76,8 +74,6 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
 
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>()  
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
@@ -93,8 +89,6 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
@@ -110,8 +104,6 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
@@ -129,8 +121,6 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeCoverStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandTakeAimStateNodeLeaf>() 
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>() 
                 )
                 return true;

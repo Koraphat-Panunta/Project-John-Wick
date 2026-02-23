@@ -51,7 +51,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
                     enemyCommandAPI.FreezPosition();
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
                     enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
@@ -66,7 +66,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
                     enemyCommandAPI.FreezPosition();
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
                 }

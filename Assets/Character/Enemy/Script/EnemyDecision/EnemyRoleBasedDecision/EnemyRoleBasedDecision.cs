@@ -109,6 +109,8 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     protected override void OnNotifySpottingTarget(GameObject target)
     {
+ 
+
         _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert;
         _targetZone.SetZone(target.transform.position, raduisTargetZone);
 
@@ -131,7 +133,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                         return;
 
                     _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
-                    _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
+                    _targetZone.SetZone(this.enemy.targetKnowPos, raduisTargetZone);
                 }
                 break;
         }

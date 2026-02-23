@@ -15,7 +15,6 @@ public partial class Player : SubjectPlayer,
     public PlayerMovement playerMovement => _movementCompoent as PlayerMovement;    
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
-    [SerializeField] private CharacterMovementController characterController;
     public Character selfEnemyAIBeenTargeted => this;
     [SerializeField] public bool isImortal;
 

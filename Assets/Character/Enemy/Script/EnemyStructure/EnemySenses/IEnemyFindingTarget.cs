@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IEnemyFindingTarget 
 {
-    public FindiAndTrackingTarget enemyLookForPlayer { get; set; }
+    public FindiAndTrackingTargetNodeLeaf enemyLookForPlayer { get; set; }
     public FieldOfView fieldOfView { get; set; }
     public Transform targetPos { get; set; }
     public Transform refPoint { get; set; }

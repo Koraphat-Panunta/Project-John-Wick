@@ -44,7 +44,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
                 {
                     Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager);
                     spawnedEnemy.AddObserver(this);
-                    spawnedEnemy.targetKnewPos = player.transform.position;
+                    spawnedEnemy.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(this.player.transform.position);
 
                     EnemyCommunicator enemyCommunicator = new EnemyCommunicator();
                     enemyCommunicator.enemyCommunicateMassage = EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition;

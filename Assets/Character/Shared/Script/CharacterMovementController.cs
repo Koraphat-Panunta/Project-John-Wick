@@ -31,7 +31,7 @@ public class CharacterMovementController : MonoBehaviour
     public static readonly float reach;
 
     public Vector3 capsuleColliderCenterOffset;
-    public Vector3 capsuleColliderCenterPosition => this.transform.position + this.capsuleColliderCenterOffset;
+    public Vector3 capsuleColliderCenterPosition => this.position + this.capsuleColliderCenterOffset;
     public float raduis;
     public float height;
     float halfHeight => Mathf.Max(0, height / 2f - raduis);
@@ -41,6 +41,7 @@ public class CharacterMovementController : MonoBehaviour
     public Vector3 topPoint => capsuleColliderCenterPosition + Vector3.up * halfHeight;
     public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
 
+    public Vector3 position;
 
    
     private void MoveUpdate(Vector3 motion)
@@ -81,14 +82,14 @@ public class CharacterMovementController : MonoBehaviour
             if (!hit)
             {
                 // Free movement
-                this.transform.position += remainingMotion;
+                this.position += remainingMotion;
                 break;
             }
 
             // --- MOVE UP TO HIT POINT ---
             float moveDistance = Mathf.Max(hitInfo.distance - skinWidth, 0f);
             Vector3 moveToHit = direction * moveDistance;
-            this.transform.position += moveToHit;
+            this.position += moveToHit;
 
             // Debug
 
@@ -139,10 +140,13 @@ public class CharacterMovementController : MonoBehaviour
         this.raduis = characterMovementControllerScriptableObject.raduis;
 
     }
-
+    private void Awake()
+    {
+        this.position = transform.position;
+    }
     private void Start()
     {
-        this.lastPos = this.transform.position;
+        this.lastPos = this.position;
     }
 
     private Vector3 lastPos;
@@ -153,7 +157,7 @@ public class CharacterMovementController : MonoBehaviour
         this.UpdateGroundState();
 
 
-        Vector3 currentPos = transform.position;
+        Vector3 currentPos = this.position;
 
         Vector3 deltaPos = currentPos - lastPos;
         this.curVelocity = deltaPos / Time.deltaTime;
@@ -163,6 +167,7 @@ public class CharacterMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
+        this.transform.position = this.position;
     }
 
     Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);
@@ -182,9 +187,9 @@ public class CharacterMovementController : MonoBehaviour
                 //Debug.Log("OnLinear");
                 groundState = GroundState.OnLinear;
                 this.isGrounded = true;
-                if(this.transform.position.y < hit.point.y)
+                if(this.position.y < hit.point.y)
                 {
-                    this.transform.position = new Vector3(this.transform.position.x, hit.point.y + .02f, this.transform.position.z);
+                    this.position = new Vector3(this.position.x, hit.point.y + .02f, this.position.z);
                 }
 
             }
@@ -193,9 +198,9 @@ public class CharacterMovementController : MonoBehaviour
                 //Debug.Log("OnSlope");
                 groundState = GroundState.OnSlope;
                 this.isGrounded = true;
-                if (this.transform.position.y < hit.point.y - .02f)
+                if (this.position.y < hit.point.y - .02f)
                 {
-                    this.transform.position = new Vector3(this.transform.position.x, hit.point.y - .02f, this.transform.position.z);
+                    this.position = new Vector3(this.position.x, hit.point.y - .02f, this.position.z);
                 }
             }
             else

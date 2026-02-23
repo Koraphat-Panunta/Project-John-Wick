@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
-    private Vector3 targetPosition => enemy.targetKnewPos;
+    private Vector3 targetPosition => this.enemy.targetKnowPos;
     private enum DisarmTargetWeaponPhase
     {
         SprintToKick,

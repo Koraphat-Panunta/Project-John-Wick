@@ -5,20 +5,51 @@ using UnityEngine;
 
 public class FieldOfView
 {
-    private float distance;
-    private float angleInDegrees;
+    private float distance 
+    {
+        get => this.fieldOfViewScriptableObject != null 
+            ? this.fieldOfViewScriptableObject.distance 
+            : this._distance; 
+    }
+    private float _distance;
+
+    private float angleInDegrees 
+    {
+        get => this.fieldOfViewScriptableObject != null
+            ? this.fieldOfViewScriptableObject.angleInDegrees
+            : this._angleInDegrees;
+    }
+    private float _angleInDegrees;
+
+    private LayerMask collideLayerMask 
+    {
+        get => this.fieldOfViewScriptableObject != null
+            ? this.fieldOfViewScriptableObject.collideLayerMask
+            : this._collideLayerMask;
+    }
+    private LayerMask _collideLayerMask;
+
     public Transform viewOrigin { get; private set; }
-    private LayerMask collideLayerMask;
+
+
+    protected FieldOfViewScriptableObject fieldOfViewScriptableObject;
 
     public FieldOfView(float distance, float angleInDegrees, Transform viewOrigin)
         : this(distance, angleInDegrees, viewOrigin, LayerMask.GetMask("Default")) { }
 
     public FieldOfView(float distance, float angleInDegrees, Transform viewOrigin, LayerMask collideLayerMask)
     {
-        this.distance = distance;
-        this.angleInDegrees = angleInDegrees;
+        this._distance = distance;
+        this._angleInDegrees = angleInDegrees;
         this.viewOrigin = viewOrigin;
-        this.collideLayerMask.value = collideLayerMask.value;
+        this._collideLayerMask = collideLayerMask;
+    }
+
+    public FieldOfView(FieldOfViewScriptableObject fieldOfViewScriptableObject
+        , Transform viewOrigin)
+    {
+        this.fieldOfViewScriptableObject = fieldOfViewScriptableObject;
+        this.viewOrigin = viewOrigin;
     }
 
     // Existing method (unchanged)
@@ -34,13 +65,30 @@ public class FieldOfView
         foreach (Collider target in hits)
         {
             Vector3 toTarget = (target.transform.position - origin).normalized;
-            if (Vector3.Angle(forward, toTarget) > angleLimit) continue;
 
+            if (Vector3.Angle(forward, toTarget) > angleLimit) 
+                continue;
+
+            LayerMask mask = collideLayerMask.value | targetMask.value;
+
+
+        
+            Debug.DrawRay(origin, toTarget * 30 , Color.red);
             if (Physics.Raycast(origin, toTarget, out RaycastHit hit, distance, collideLayerMask.value | targetMask.value))
             {
+             
                 if (hit.collider.gameObject == target.gameObject)
+                {
+                   
                     return target.gameObject;
+                }
+              
             }
+            else
+            {
+
+            }
+            
         }
         return null;
     }
