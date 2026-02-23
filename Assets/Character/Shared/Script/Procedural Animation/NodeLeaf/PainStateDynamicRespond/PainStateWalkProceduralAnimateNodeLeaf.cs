@@ -152,13 +152,13 @@ public class PainStateWalkProceduralAnimateNodeLeaf : AnimationConstrainNodeLeaf
 
 
 
-        Vector3 pos = this.leftLegRootPos + (this.rootCharacterTransform.forward * 0.2f);
+        Vector3 pos = this.legsConstrainManager.GetLeftLeg_Target_Transform().position;
         this.relativeNewLeftFootPos = pos - rootCharacterTransform.position;
         this.legsConstrainManager.SetLeftLeg_Target_Foot(pos);
         newLeftFootPos = pos;
         oldLeftFootPos = pos;
 
-        pos = this.rightLegRootPos + (rootCharacterTransform.forward * -0.2f);
+        pos = this.legsConstrainManager.GetRightLeg_Target_Transform().position;
         relativeNewRightFootPos = pos - rootCharacterTransform.position;
         this.legsConstrainManager.SetRightLeg_Target_Foot(pos);
         newRightFootPos = pos;

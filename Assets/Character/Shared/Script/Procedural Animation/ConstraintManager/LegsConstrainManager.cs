@@ -15,6 +15,20 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public TwoBoneIKConstraint GetLeftLegTwoBoneIKConstrain() => this.leftLegTwoBoneIKConstrain;
     public TwoBoneIKConstraint GetRightLegTwoBoneIKConstrain() => this.rightLegTwoBoneIKConstrain;
 
+    private void FixedUpdate()
+    {
+        if(this.GetWeight() < .5f)
+        {
+            this.leftLeg_Target_Foot.position = this.leftLegTwoBoneIKConstrain.data.tip.transform.position;
+            this.leftLeg_Target_Foot.rotation = this.leftLegTwoBoneIKConstrain.data.tip.transform.rotation;
+            this.leftLeg_Hint_Foot.transform.position = this.leftLegTwoBoneIKConstrain.data.mid.position;
+
+            this.rightLeg_Target_Foot.position = this.rightLegTwoBoneIKConstrain.data.tip.transform.position;
+            this.rightLeg_Target_Foot.rotation = this.rightLegTwoBoneIKConstrain.data.tip.transform.rotation;
+            this.rightLeg_Hint_Foot.position = this.rightLegTwoBoneIKConstrain.data.mid.transform.position;
+        }
+    }
+
     public float GetWeight()
     {
         return this.leftLegTwoBoneIKConstrain.weight;
