@@ -18,13 +18,13 @@ public class TakeCoverTacticDecision : TacticDecision
         coverTiming = 0f;
         peekTiming = Random.Range(1,2.5f);
 
-        if (enemy.findingCover.FindCoverInRaduisInGunFight(7,out CoverPoint coverPoint))
-            this.coverPoint = coverPoint;
-        else
-        {
-            enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
-            return;
-        }
+        //if (enemy.findingCover.FindCoverInRaduisInGunFight(7,out CoverPoint coverPoint))
+        //    this.coverPoint = coverPoint;
+        //else
+        //{
+        //    enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
+        //    return;
+        //}
 
        
         cost_DrainRate = Random.Range(1.5f,3f);
@@ -53,16 +53,16 @@ public class TakeCoverTacticDecision : TacticDecision
             return ;
         }
 
-        if (enemy.isInCover == false)
-        {
-            if (enemyTacticDecision.pressure < 30)
-                enemyCommand.MoveToPosition(this.coverPoint.coverPos.position, 1);
-            else
-                enemyCommand.SprintToPosition(this.coverPoint.coverPos.position, 1);
-            return;
-        }
-        else
-            PerformCoverManuver();// isInCover == true
+        //if (enemy.isInCover == false)
+        //{
+        //    if (enemyTacticDecision.pressure < 30)
+        //        enemyCommand.MoveToPosition(this.coverPoint.coverPos.position, 1);
+        //    else
+        //        enemyCommand.SprintToPosition(this.coverPoint.coverPos.position, 1);
+        //    return;
+        //}
+        //else
+        //    PerformCoverManuver();// isInCover == true
         
 
        

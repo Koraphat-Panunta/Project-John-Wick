@@ -5,6 +5,7 @@ public partial class Enemy : IPostureAble
     public float _maxPosture { get => this.maxPosture; set => this.maxPosture = value; }
     [SerializeField] private float maxPosture = 70;
     public float _posture { get ; set; }
+    public float posture;
 
     [Range(0,100)]
     [SerializeField] public float lightPosture;
@@ -39,5 +40,12 @@ public partial class Enemy : IPostureAble
         MiniPainState,
         MediumPainState,
         HeavyPainState
+    }
+
+    public void TakePostureDamaged(float postureDamage)
+    {
+        if(this._posture > 0)
+            this._posture -= postureDamage; 
+
     }
 }

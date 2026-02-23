@@ -14,7 +14,7 @@ public struct GunFuHitDetail
     public string gunFuHitStateName;
 
     [Range(0, 100)]
-    public float staggerHitDamage;
+    public float postureHitDamage;
 
     [Range(0, 100)]
     public float hpHitDamage;

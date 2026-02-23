@@ -36,14 +36,14 @@ public class EncouterTacticDecision : TacticDecision
         enemyTacticDecision.cost -= cost_DrainRate * Time.deltaTime;
         if (enemyTacticDecision.cost < exitTacticCost/*&&enemyBody.cost > Vector3.Distance(enemyBody._transform.position,enemyBody.Target._transform.position)*2*/)
         {
-            if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
-            {
-                enemyTacticDecision.ChangeTactic(enemyTacticDecision.takeCoverTacticDecision);
-            }
-            else
-            {
-                enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
-            }
+            //if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
+            //{
+            //    enemyTacticDecision.ChangeTactic(enemyTacticDecision.takeCoverTacticDecision);
+            //}
+            //else
+            //{
+            //    enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
+            //}
             return;
         }
 

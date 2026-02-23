@@ -2,10 +2,15 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransitionAble
+public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
+    , IGunFuNode
+    ,IHPDamageVisitor
+    ,IPostureDamageVisitor
+    ,INodeLeafTransitionAble
 {
-    public float staggerHitDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].staggerHitDamage;
-    public float hpHitDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hpHitDamage;
+
+    public float _postureDamageVisitor => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].postureHitDamage;
+    public float _hPDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hpHitDamage;
     public float stuntingTime => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].stuntingTime; 
   
     public IGunFuAble gunFuAble { get => player; set { } }
@@ -82,7 +87,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf, IGunFuNode, INodeLeafTransi
     }
 
     public Vector3 hitDir { get; protected set; }
-
 
     protected void Attacking()
     {

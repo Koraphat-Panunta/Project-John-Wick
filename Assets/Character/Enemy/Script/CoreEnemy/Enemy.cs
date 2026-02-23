@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public partial class Enemy : SubjectEnemy
     , IMotionDriven
     , IFindingTarget
-    , ICoverUseable
     , IHeardingAble
     , IPainStateAble
     , IFriendlyFirePreventing
@@ -53,7 +52,6 @@ public partial class Enemy : SubjectEnemy
         _movementCompoent = new EnemyMovement(this, transform, this, this.characterController);
         enemyCommunicator = new EnemyCommunicator();
         InitailizedFindingTarget();
-        InitailizedCoverUsable();
         InitailizedGunFuComponent();
 
         stateManagerNode = new EnemyStateManagerNode(this);
@@ -73,7 +71,6 @@ public partial class Enemy : SubjectEnemy
         this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
         myHP = base.HP;
-        this.FindingTargetUpdate();
         stateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
@@ -82,6 +79,7 @@ public partial class Enemy : SubjectEnemy
     }
     private void LateUpdate()
     {
+        this.posture = this._posture;
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
 
@@ -104,44 +102,40 @@ public partial class Enemy : SubjectEnemy
     }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
-        if (NotifyGotAttack != null)
-            NotifyGotAttack.Invoke(damageVisitor);
-
         switch (damageVisitor)
         {
-            case Bullet bullet:
-                {
-                    TakeDamage(bullet.GetHpDamage);
-                    bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-                        <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, this);
-                    NotifyObserver(this, EnemyEvent.GotBulletHit);
-                    break;
-                }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
+                    Debug.Log("EnemyTakeGunFuHit");
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
 
-                        if(gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
+                        if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
                         {
-                            if (this.HP > 0)
-                                this.TakeDamage(gunFuHitNodeLeaf.hpHitDamage);
+                            if (this.GetHP() > 0)
+                                this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+
+                            this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
                         }
                         else
                         {
-                            if (this.HP > 20)
-                                this.TakeDamage(gunFuHitNodeLeaf.hpHitDamage);
+                            if (this.GetHP() > 20)
+                                this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+
+                            this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                         }
 
-
-                        if (this.staggerGauge > 0)
-                            this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
                     }
-                    break;
+                    return;
                 }
         }
 
+        if (damageVisitor is IHPDamageVisitor hPDamageVisitor)
+            this.TakeDamage(hPDamageVisitor._hPDamage);
+
+        if (damageVisitor is IPostureDamageVisitor postureDamageVisitor)
+            this.TakePostureDamaged(postureDamageVisitor._postureDamageVisitor);
 
 
     }
@@ -182,37 +176,7 @@ public partial class Enemy : SubjectEnemy
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
-    private float findingTargetTimeInterval = .25f;
-    private float findingTargetTimer;
-    private void FindingTargetUpdate()
-    {
-        if(isDead)
-            return;
-
-        if(this.target != null
-            && (Physics.Raycast(rayCastPos.position
-                , (this.target.transform.position - rayCastPos.position).normalized
-                , Vector3.Distance(rayCastPos.position, this.target.transform.position)
-                , LayerMask.GetMask("Default")) == false)) 
-        {
-          
-            this.targetKnewPos = this.target.transform.position;
-        }
-       
-        
-
-        findingTargetTimer += Time.deltaTime;
-
-        if(findingTargetTimer < findingTargetTimeInterval)
-            return;
-
-        if(findingTargetComponent.FindTarget(out GameObject target))
-            this.target = target;
-        else
-            this.target = null;
-       
-        findingTargetTimer = 0;
-    }
+  
     #region InitialziedBodyPart
     [SerializeField] public HeadBodyPart head;
     [SerializeField] public ChestBodyPart spline;
@@ -274,13 +238,13 @@ public partial class Enemy : SubjectEnemy
 
     #region InitailizedFindingTarget
 
-    public FindingTarget findingTargetComponent { get; set; }
+    public FindiAndTrackingTarget findingTargetComponent { get; set; }
     public Vector3 targetKnewPos;
     public GameObject target { get; set; }
     public Action<GameObject> NotifyEnemySpottingTarget;
     public void InitailizedFindingTarget()
     {
-        findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
+        findingTargetComponent = new FindiAndTrackingTarget(targetSpoterMask, enemyFieldOfView);
         findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
 
     }
@@ -295,23 +259,6 @@ public partial class Enemy : SubjectEnemy
         if (NotifyEnemySpottingTarget != null)
             NotifyEnemySpottingTarget.Invoke(target);
     }
-
-    #endregion
-
-    #region InitailizedCoverUsable
-    public Vector3 peekPos { get; set; }
-    public Vector3 coverPos { get; set; }
-    public CoverPoint coverPoint { get; set; }
-    public Character userCover { get; set; }
-    public FindingCover findingCover { get; set; }
-    public bool isInCover { get; set; }
-
-    public void InitailizedCoverUsable()
-    {
-        userCover = this;
-        findingCover = new EnemyFindCover(this, this, this);
-    }
-
 
     #endregion
 
@@ -461,7 +408,7 @@ public partial class Enemy : SubjectEnemy
         this._posture = this._maxPosture;
         base.HP = 100;
         base.maxHp = 100;
-        staggerGauge = maxStaggerGauge;
+
 
         targetKnewPos = transform.position + transform.forward + Vector3.up;
 

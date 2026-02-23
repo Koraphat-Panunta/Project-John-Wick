@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyBodyBulletDamageAbleBehavior;
+using static SubjectEnemy;
 
 public abstract class BodyPart : MonoBehaviour
     , IBulletDamageAble
@@ -67,78 +68,71 @@ public abstract class BodyPart : MonoBehaviour
    
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
+        this.enemy._isPainTrigger = true;
+
+        if (this.enemy.NotifyGotAttack != null)
+            this.enemy.NotifyGotAttack.Invoke(damageVisitor);
 
         switch (damageVisitor)
         {
             case Bullet bulletObj:
                 {
-                    float damage = bulletObj.GetHpDamage * _hpReciverMultiplyRate;
-                    float postureDamaged = bulletObj.GetPostureDamage * _postureReciverRate;
-                    float staggerDamaged = bulletObj.GetPostureDamage * _staggerReciverRate;
+                    float damage = bulletObj.GetHpDamage * this._hpReciverMultiplyRate;
+                    float postureDamaged = bulletObj.GetPostureDamage * this._postureReciverRate;
 
                     if (bulletObj.weapon.userWeapon != null && bulletObj.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
                     {
                         damage *= 0.025f;
                         postureDamaged = 0;
-                        staggerDamaged = 0;
                     }
 
-                    enemy._isPainTrigger = true;
-
-                    if (enemy._posture > 0)
-                        enemy._posture -= postureDamaged;
-                    if (enemy.staggerGauge > 0)
-                        enemy.staggerGauge -= staggerDamaged;
-
-                    enemy.TakeDamage(damage);
-                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+                    bulletObj.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
+                       <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, this);
+                    this.enemy.TakePostureDamaged(postureDamaged);
+                    this.enemy.TakeDamage(damage);
+                    this.enemy.NotifyObserver(this.enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
                     
           
-                    break;
+                    return;
                 }
             case Armored_Protection armored_Protection:
                 {
                     float damage = armored_Protection.hpDamage;
                     float postureDamaged = armored_Protection.postureDamage;
-                    float staggerDamaged = armored_Protection.staggerDamage;
 
-                    enemy._isPainTrigger = true;
-
-                    if (enemy._posture > 0)
-                        enemy._posture -= postureDamaged;
-                    if (enemy.staggerGauge > 0)
-                        enemy.staggerGauge -= staggerDamaged;
-
-                    enemy.TakeDamage(damage);
-                    enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
-                    break;
-                }
-            case IThrowAbleObject throwAbleObject: 
-                {
-
-                    if (enemy._posture > 0)
-                        enemy._posture -= 40;
-
-                    enemy._isPainTrigger = true;
-
-                    enemy.NotifyObserver<CharacterHitedEventDetail>(this.enemy
-                        , new CharacterHitedEventDetail
-                        {
-                            hitedPart = this
-                            ,
-                            hitDir = (this.bodyPartRigid.transform.position - throwAbleObject._throwAbleObjectTransform.position).normalized
-                            ,
-                            hitforce = throwAbleObject._throwVelocity
-                            ,
-                            hitPos = throwAbleObject._throwAbleObjectTransform.position
-                        });
-                    break;
+                    this.enemy.TakePostureDamaged(postureDamaged);
+                    this.enemy.TakeDamage(damage);
+                    this.enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
+                    return;
                 }
 
         }
 
+        if(damageVisitor is IThrowAbleObject throwAbleObject)
+        {
+            this.enemy.NotifyObserver<CharacterHitedEventDetail>(this.enemy
+                , new CharacterHitedEventDetail
+                {
+                    hitedPart = this
+                    ,
+                    hitDir = (this.bodyPartRigid.transform.position - throwAbleObject._throwAbleObjectTransform.position).normalized
+                    ,
+                    hitforce = throwAbleObject._throwVelocity
+                    ,
+                    hitPos = throwAbleObject._throwAbleObjectTransform.position
+                });
+        }
+
+        if(damageVisitor is IHPDamageVisitor hPDamageVisitor)
+            this.enemy.TakeDamage(hPDamageVisitor._hPDamage);
+
+        if (damageVisitor is IPostureDamageVisitor postureDamageVisitor)
+            this.enemy.TakePostureDamaged(postureDamageVisitor._postureDamageVisitor);
+        
+
        
     }
+
 
     #region ImplementIGotGunFuAttackedAble
     public bool _triggerHitedGunFu
@@ -179,7 +173,6 @@ public abstract class BodyPart : MonoBehaviour
     public bool _isGotExecutedAble { get => this.enemy._isGotExecutedAble; set { } }
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
     {
-
         this.enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
         
     }

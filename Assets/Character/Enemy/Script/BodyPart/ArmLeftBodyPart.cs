@@ -26,4 +26,10 @@ public class ArmLeftBodyPart : BodyPart,IPostureAble
             this._posture = Mathf.Clamp(this._posture + (Time.fixedDeltaTime * this.postureRecoverySpeed), 0, this._maxPosture);
         }
     }
+
+    public void TakePostureDamaged(float postureDamage)
+    {
+        if(this._posture > 0)
+            this._posture -= postureDamage;
+    }
 }

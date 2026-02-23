@@ -6,17 +6,14 @@ public partial class Enemy : IStaggerAble
     {
         get 
         {
-
-            if (( staggerGauge <= 0)
+            if (( this.staggerGauge <= 15)
                 && (isDead == false))
                 return true;
             return false;
         }
     }
-    public float staggerGauge { get; set; }
 
-    [SerializeField] private float _maxStaggerGauge;
-    public float maxStaggerGauge => _maxStaggerGauge;
-    public RecoveryStaggerNodeLeaf recoveryStaggerNodeLeaf { get; set; }
-    Character IStaggerAble._character { get => this ; set {} }
+    public float staggerGauge { get => this.GetHP(); set { } }
+    public float maxStaggerGauge => this.GetMaxHp();
+    Character IStaggerAble._character { get => this ;  }
 }

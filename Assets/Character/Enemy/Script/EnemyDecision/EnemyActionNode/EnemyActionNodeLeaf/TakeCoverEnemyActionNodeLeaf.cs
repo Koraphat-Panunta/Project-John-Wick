@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
-    private CoverPoint coverPoint => enemy.coverPoint;
+    private CoverPoint coverPoint;
 
     private float elapseCoverTime;
     private float coverTimePerRound = 6;
@@ -41,23 +41,23 @@ public class TakeCoverEnemyActionNodeLeaf : EnemyActionNodeLeaf
         Vector3 enemyToTarget = enemy.targetKnewPos - enemy.transform.position;
 
 
-        if (enemy.isInCover == false)
-        {
-                enemyCommandAPI.MoveToPosition(this.coverPoint.coverPos.position, 1);
-                enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
-                enemyCommandAPI.NormalFiringPattern.Performing();
-        }
-        else
-        {
-            elapseCoverTime += Time.deltaTime;
-            if(elapseCoverTime >= coverTimePerRound)
-                elapseCoverTime = 0;
+        //if (enemy.isInCover == false)
+        //{
+        //        enemyCommandAPI.MoveToPosition(this.coverPoint.coverPos.position, 1);
+        //        enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+        //        enemyCommandAPI.NormalFiringPattern.Performing();
+        //}
+        //else
+        //{
+        //    elapseCoverTime += Time.deltaTime;
+        //    if(elapseCoverTime >= coverTimePerRound)
+        //        elapseCoverTime = 0;
 
-            if (elapseCoverTime < peekTime)
-                Cover();
-            else //elapseCoverTime >= peekTime
-                Peek();
-        }
+        //    if (elapseCoverTime < peekTime)
+        //        Cover();
+        //    else //elapseCoverTime >= peekTime
+        //        Peek();
+        //}
 
         base.UpdateNode();
     }

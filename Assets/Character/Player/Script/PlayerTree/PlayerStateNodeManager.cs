@@ -332,7 +332,6 @@ public class PlayerStateNodeManager : INodeManager
         Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
             () => 
             {
-                Debug.Log("attackedAbleGunFu = " + this.player.attackedAbleGunFu);
 
                 if((this.player._triggerGunFu 
                 || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))

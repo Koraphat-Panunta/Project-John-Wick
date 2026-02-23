@@ -10,28 +10,28 @@ public partial class EnemyStateManagerNode : INodeManager
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior _nodeManagerBehavior { get; set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
-    public NodeComponentManager enemyStateNodeComponentManager { get; set; }
+    //public NodeComponentManager enemyStateNodeComponentManager { get; set; }
     public Enemy enemy { get; protected set; }
     public EnemyStateManagerNode(Enemy enemy)
     {
         this.enemy = enemy;
 
-        _nodeManagerBehavior = new NodeManagerBehavior();
-        _parallelNodeManahger = new List<INodeManager>();
-        enemyStateNodeComponentManager = new NodeComponentManager();
+        this._nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
+        //enemyStateNodeComponentManager = new NodeComponentManager();
 
         InitailizedNode();
     }
 
     public void FixedUpdateNode()
     {
-        _nodeManagerBehavior.FixedUpdateNode(this);
-        this.enemyStateNodeComponentManager.FixedUpdate();
+        this._nodeManagerBehavior.FixedUpdateNode(this);
+        //this.enemyStateNodeComponentManager.FixedUpdate();
     }
     public void UpdateNode() 
     {
-        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
-        this.enemyStateNodeComponentManager.Update();
+        this._nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
+        //this.enemyStateNodeComponentManager.Update();
     }
     
 
@@ -140,7 +140,8 @@ public partial class EnemyStateManagerNode : INodeManager
             ()=> this.enemy._posture <= 0 && this.enemy.isNotFallAble == false
             );
         gunFuZeroPostureSelector = new NodeSelector(
-            () => enemy._triggerHitedGunFu);
+            () => this.enemy._triggerHitedGunFu 
+            && this.enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecuteOnGroundSelector = new NodeSelector(
             () => enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecute_OnGround_LayDown_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy
@@ -388,9 +389,9 @@ public partial class EnemyStateManagerNode : INodeManager
 
     private void InitializedComponentNode()
     {
-        enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
-            () => enemy.staggerGauge <= 0 && enemy._isInPain == false, enemy, 9);
+        //enemy.recoveryStaggerNodeLeaf = new RecoveryStaggerNodeLeaf(
+        //    () => enemy.staggerGauge <= 0 && enemy._isInPain == false, enemy, 9);
 
-        this.enemyStateNodeComponentManager.AddNode(enemy.recoveryStaggerNodeLeaf);
+        //this.enemyStateNodeComponentManager.AddNode(enemy.recoveryStaggerNodeLeaf);
     }
 }
