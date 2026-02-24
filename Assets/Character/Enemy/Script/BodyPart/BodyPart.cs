@@ -24,6 +24,7 @@ public abstract class BodyPart : MonoBehaviour
     public Vector3 hitForcePositionSave;
 
     public bool isForceSave;
+    protected float forceSaveBufferTimeDuration = .15f;
     public virtual void Initialized()
     {
         _hpReciverMultiplyRate = bodyPartDamageRecivedSCRP._hpReciverMultiplyRate;
@@ -45,6 +46,14 @@ public abstract class BodyPart : MonoBehaviour
 
     public virtual void StackingForce(Vector3 forceDir,Vector3 forcePos)
     {
+        if (this.forceStay != null)
+        {
+            this.enemy.StopCoroutine(this.forceStay);
+            this.forceStay = null;
+        }
+
+        this.forceStay = this.enemy.StartCoroutine(this.ForceStay());
+        
         isForceSave = true;
         this.forceSave = forceDir;
         this.hitForcePositionSave = forcePos;
@@ -58,6 +67,7 @@ public abstract class BodyPart : MonoBehaviour
 
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
+            Debug.Log("Implement Force Save");
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
             forceSave = Vector3.zero;
             hitForcePositionSave = Vector3.zero;
@@ -187,6 +197,15 @@ public abstract class BodyPart : MonoBehaviour
     public virtual void OnNotify<T>(Enemy enemy, T node) 
     {
         this.ForceCalulate();
+    }
+
+    private Coroutine forceStay;
+
+    public IEnumerator ForceStay()
+    {
+        yield return new WaitForSeconds(this.forceSaveBufferTimeDuration);
+        this.isForceSave = false;
+        this.forceStay = null;
     }
 
   

@@ -62,6 +62,6 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
   
     public override void Move(Vector3 position)
     {
-        characterController.Move(position);
+        this.characterController.Move(position);
     }
 }

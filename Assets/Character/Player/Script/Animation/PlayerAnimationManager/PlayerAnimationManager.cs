@@ -28,6 +28,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         CalculateDeltaRotation();
         FixedUpdateNode();
     }
+    
     private void BackBoardUpdate()
     {
 

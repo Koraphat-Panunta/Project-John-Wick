@@ -41,7 +41,9 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
         downTimer = 0;
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.ragdollMotionState)
+        {
             enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.ragdollMotionState);
+        }
         isComplete = false;
 
         base.Enter();
@@ -68,7 +70,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
         //Debug.Log("enemy curVelocity = " + enemy._movementCompoent.curMoveVelocity_World.magnitude);
 
-        this.enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
+        this.enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate * .35f, MoveMode.MaintainMomentumDirection);
         RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
         RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
         if (_hipsBone.transform.position.y < enemy.transform.position.y)
@@ -121,7 +123,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
-  
+ 
 }
 
 

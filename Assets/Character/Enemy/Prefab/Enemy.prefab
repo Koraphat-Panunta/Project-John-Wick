@@ -1066,9 +1066,10 @@ MonoBehaviour:
   _rightHandBone: {fileID: 3601763635188935882}
   movementScriptableObject: {fileID: 11400000, guid: 2b977574ee197fe4ba12b588ef91f3fc,
     type: 2}
-  animator: {fileID: 1113618680042977909}
-  agent: {fileID: 7803922069215804562}
   characterController: {fileID: 102977775201858835}
+  animator: {fileID: 1113618680042977909}
+  SumDeltaPos: {x: 0, y: 0, z: 0}
+  agent: {fileID: 7803922069215804562}
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
   isImortal: 0
@@ -1554,6 +1555,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  position: {x: 0, y: 0, z: 0}
   curVelocity: {x: 0, y: 0, z: 0}
   isEnableGizmos: 0
 --- !u!1 &6537584221499319941

@@ -56,6 +56,7 @@ public partial class EnemyStateManagerNode : INodeManager
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_LayUp_I_NodeLeaf { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_LayDown_I_NodeLeaf { get; private set; }
 
+    public EnemyPainStateNodeLeaf enemyFallPainStateNodeLeaf { get; private set; }
     public FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf { get; private set; }
     public GetUpStateNodeLeaf enemyStandUpStateNodeLeaf { get; private set; }
     public GetUpStateNodeLeaf enemyPushUpStateNodeLeaf { get; private set; }
@@ -166,6 +167,19 @@ public partial class EnemyStateManagerNode : INodeManager
            || gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround_Secondary_I)
            && (enemy as IRagdollAble)._isFacingUp 
            );
+        this.enemyFallPainStateNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy
+            , () =>
+            {
+                INodeManager nodeManager = this as INodeManager;
+                if (nodeManager.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>()
+                || nodeManager.TryGetCurNodeLeaf<GetUpStateNodeLeaf>())
+                    return false;
+
+                return true;
+            }
+            , this.enemy.animator
+            , .25f
+            );
         fallDown_EnemyState_NodeLeaf = new FallDown_EnemyState_NodeLeaf(this.enemy, this.enemy,
             () => true
             );
@@ -185,9 +199,7 @@ public partial class EnemyStateManagerNode : INodeManager
         this.painStateNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy
            , () => enemy._isPainTrigger && enemy.getPosturePainPhase >= Enemy.EnemyPosturePainStatePhase.MiniPainState
            , this.enemy.animator
-           , this.enemy.miniPainStateDuration
-           , this.enemy.mediumPainStateDuration
-           , this.enemy.heavyPainStateDuration);
+           , this.enemy.miniPainStateDuration);
 
         gunFuSelector = new NodeSelector(
             () => enemy._triggerGunFu && enemy._isInPain == false);
@@ -340,12 +352,15 @@ public partial class EnemyStateManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(enemyStanceSelector);
 
         zeroPostureSelector.AddtoChildNode(gunFuZeroPostureSelector);
+        zeroPostureSelector.AddtoChildNode(this.enemyFallPainStateNodeLeaf);
         zeroPostureSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
 
         gunFuZeroPostureSelector.AddtoChildNode(gotExecuteOnGroundSelector);
 
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayDown_I_NodeLeaf);
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayUp_I_NodeLeaf);
+
+        this.enemyFallPainStateNodeLeaf.AddTransitionNode(this.fallDown_EnemyState_NodeLeaf);
 
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyStandUpStateNodeLeaf);
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyPushUpStateNodeLeaf);

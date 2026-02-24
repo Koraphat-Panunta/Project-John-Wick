@@ -1,53 +1,41 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
+public class EnemyPainStateNodeLeaf : EnemyStateLeafNode
+    ,IObserverEnemy
+    ,INodeLeafTransitionAble
 {
+
+    public INodeManager nodeManager { get => this.enemy.enemyStateManagerNode; set { } }
+    public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
+    public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get ; set ; }
 
     public float painDuration { get; set; }
     public float time;
 
-    public float miniPainStateDuration { get; protected set; }
-    public float mediumPainStateDuration { get; protected set; }
-    public float heavyPainStateDuration { get; protected set; }
+    public float painStateDuration { get; protected set; }
+  
+
     public EnemyPainStateNodeLeaf(
         Enemy enemy
         ,Func<bool> preCondition
         , Animator animator
-        ,float miniPainStateDuration
-        ,float mediumPainStateDuration
-        ,float heavyPainStateDuration) : base(enemy,preCondition)
+        ,float painStateDuration
+        ) : base(enemy,preCondition)
     {
 
-        this.enemy.AddObserver(this);
+        this.transitionAbleNode = new Dictionary<INode, bool>();
+        this.nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
+        this.painStateDuration = painStateDuration;
 
-        this.miniPainStateDuration = miniPainStateDuration;
-        this.mediumPainStateDuration = mediumPainStateDuration;
-        this.heavyPainStateDuration = heavyPainStateDuration;
+        this.enemy.AddObserver(this);
     }
     public override void Enter()
     {
 
-        time = 0;
-
-        switch (enemy.getPosturePainPhase)
-        {
-            case Enemy.EnemyPosturePainStatePhase.MiniPainState:
-                {
-                    this.painDuration = this.miniPainStateDuration;
-                    break;
-                }
-            case Enemy.EnemyPosturePainStatePhase.MediumPainState:
-                {
-                    this.painDuration = this.mediumPainStateDuration;
-                    break;
-                }
-            case Enemy.EnemyPosturePainStatePhase.HeavyPainState: 
-                {
-                    this.painDuration = this.heavyPainStateDuration;
-                    break;
-                }
-        }
+        time = 0f;
+        this.painDuration = this.painStateDuration;
 
         base.Enter();
     }
@@ -60,8 +48,12 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
         time += Time.deltaTime;
         rotatePower = Mathf.Clamp(rotatePower - (Time.deltaTime * rotatePowerDecrease),0,maxRotatePower);
         this.moveSpeed = Mathf.Clamp(this.moveSpeed - (Time.deltaTime * this.moveSpeedDecrease),0,10);
-        if(time >= painDuration)
+        if (time >= painDuration)
+        {
+            this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
             isComplete = true;
+            this.TransitioningCheck();
+        }
 
     }
     public override bool IsComplete()
@@ -120,5 +112,17 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode,IObserverEnemy
             this.moveDirWorldRandom = Quaternion.Euler(0, UnityEngine.Random.Range(-60, 60), 0) * characterHitedEventDetail.hitDir ;
             this.moveSpeed = UnityEngine.Random.Range(1, 2f);
         }
+    }
+
+    public void SetPainStateDuration(float painStateDuration) => this.painStateDuration = painStateDuration;
+
+    public bool TransitioningCheck()
+    {
+        return this.nodeLeafTransitionBehavior.TransitioningCheck(this);
+    }
+
+    public void AddTransitionNode(INode node)
+    {
+        this.nodeLeafTransitionBehavior.AddTransistionNode(this,node);
     }
 }

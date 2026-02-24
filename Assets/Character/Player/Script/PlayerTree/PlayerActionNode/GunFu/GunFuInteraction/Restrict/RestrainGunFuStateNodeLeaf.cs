@@ -108,18 +108,23 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
                     player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentumDirection);
 
                     float w = phaseTimer / restrictEnterClip.length * restrictScriptableObject.restrictEnter_exitNormalized;
-                   
 
-                    gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
-                        gotGunFuAttackedAble._character.transform.position,
+
+                    this.gotGunFuAttackedAble._character._movementCompoent.SetPosition
+                        (
+                        Vector3.Lerp(gotGunFuAttackedAble._character.transform.position,
                         targetAdjustPosition,
                         w
+                        )
                         );
 
-                    gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(
+                    this.gotGunFuAttackedAble._character._movementCompoent.SetRotation
+                        (
+                        Quaternion.Lerp(
                         gotGunFuAttackedAble._character.transform.rotation,
                         targetAdjustRotation,
                        w
+                        )
                         );
 
        
@@ -136,10 +141,8 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
                 {
                     phaseTimer += Time.deltaTime;
 
-                    gotGunFuAttackedAble._character.transform.position = targetAdjustPosition;
-                    gotGunFuAttackedAble._character.transform.rotation = targetAdjustRotation;
-
-                    
+                    this.gotGunFuAttackedAble._character._movementCompoent.SetPosition(this.targetAdjustPosition);
+                    this.gotGunFuAttackedAble._character._movementCompoent.SetRotation(this.targetAdjustRotation);                    
 
                     this.player._movementCompoent.UpdateMoveToDirLocal(this.player.inputMoveDir_Local * this.player.StandMoveMaxSpeed, player.StandMoveAccelerate, MoveMode.MaintainMomentumDirection);
 
@@ -162,8 +165,8 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
                     player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, player.breakDecelerate, MoveMode.MaintainMomentumDirection);
                     if(isRestrictExitHit == false)
                     {
-                        gotGunFuAttackedAble._character.transform.position = targetAdjustPosition;
-                        gotGunFuAttackedAble._character.transform.rotation = targetAdjustRotation;
+                        this.gotGunFuAttackedAble._character._movementCompoent.SetPosition(this.targetAdjustPosition);
+                        this.gotGunFuAttackedAble._character._movementCompoent.SetRotation(this.targetAdjustRotation);
                     }
                     if (isRestrictExitHit == false && phaseTimer > restrictExitClip.length * restrictScriptableObject.restrictExit_hitNormalized)
                     {

@@ -13,6 +13,8 @@ public class GraphicManager : MonoBehaviour, IInitializedAble
         }
 
         Instance = this;
+
+        this.ApplyGraphicSetting(DynamicDataBased.Instance.settingDataScriptableObject.graphicSetting);
     }
 
     public void ApplyGraphicSetting(GraphicSetting graphicSetting)

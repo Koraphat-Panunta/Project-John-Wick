@@ -1,12 +1,21 @@
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class DummySubject : Character
 {
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private CharacterController characterControllerComponent;
     public override void Initialized()
     {
-        _movementCompoent = new DummyMovementComponent(this.transform,this,this.characterController);
+        this._movementCompoent = new DummyMovementComponent(this.transform,this,this.characterControllerComponent);
         base.Initialized();
+    }
+    protected override void OnAnimatorMove()
+    {
+        if (this.enableRootMotion)
+        {
+            this._movementCompoent.SetPosition(this._movementCompoent.curPosition + animator.deltaPosition);
+            this._movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
+        }
     }
     private void Update()
     {
