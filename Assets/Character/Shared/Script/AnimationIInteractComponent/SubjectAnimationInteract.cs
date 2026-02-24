@@ -87,9 +87,9 @@ public class SubjectAnimationInteract
                 (animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject
                 ,animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
             t = Mathf.Clamp01(t);
-            //Debug.Log("t = " + t);
-            //Debug.Log("begin = " + animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject);
-            //Debug.Log("exit = " + animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
+            Debug.Log("t = " + t);
+            Debug.Log("begin = " + animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject);
+            Debug.Log("exit = " + animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);
 
             MovementWarper.WarpMovement(enterPosition, enterRotation, character._movementCompoent, exitPosition, exitRotation, t);
             //Debug.Log("character = "+character+" distance rot = " + Quaternion.Angle(exitRotation, character._movementCompoent.transform.rotation)+" t = "+t);
@@ -132,7 +132,7 @@ public class SubjectAnimationInteract
     }
     private void BeginPlayAnimation()
     {
-        //Debug.Log("Subject " + character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        Debug.Log("Subject " + this.character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 

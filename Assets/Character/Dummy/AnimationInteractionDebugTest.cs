@@ -68,7 +68,7 @@ public class AnimationInteractionDebugTest : MonoBehaviour
     {
         if (character == subject1)
         {
-            subject1.animator.CrossFadeInFixedTime(
+            subject1.animator.CrossFade(
                 subject1Animation
                 , 0
                 , 0
@@ -78,7 +78,7 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         if (character == subject2)
         {
             
-            subject2.animator.CrossFadeInFixedTime(
+            subject2.animator.CrossFade(
                 subject2Animation
                 , 0
                 , 0

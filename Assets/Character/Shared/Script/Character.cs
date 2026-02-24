@@ -63,24 +63,25 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     //public Transform weaponSocket;
     public Animator animator;
     int frame;
-    [SerializeField] private Vector3 SumDeltaPos;
+    [SerializeField] private float SumDeltaPos;
     protected virtual void OnAnimatorMove()
     {
-        if (enableRootMotion)
+        if (this.enableRootMotion)
         {
             frame++;
 
-            SumDeltaPos += animator.deltaPosition;
+            SumDeltaPos += animator.deltaPosition.magnitude;
 
-            _movementCompoent.SetPosition(this._movementCompoent.curPosition + animator.deltaPosition);
+            _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
             _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
 
+            Debug.Log("curPos = " + this.characterController.position);
             Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);
 
         }
         else
         {
-            SumDeltaPos = Vector3.zero;
+            SumDeltaPos = 0;
             frame = 0;
         }
 

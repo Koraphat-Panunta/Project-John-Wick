@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class DummyMovementComponent : MovementCompoent
 {
-    public DummyMovementComponent(Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement)
+    protected CharacterMovementController characterMovementController;
+    public DummyMovementComponent(Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
-
-        this._curPos = transform.position;
+        this.characterMovementController = characterController; 
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
 
-    public override Vector3 curPosition { get => this._curPos; }
-    protected Vector3 _curPos;
+    public override Vector3 curPosition { get => this.characterMovementController.position; }
 
     public override void InitailizedNode()
     {
@@ -27,11 +26,10 @@ public class DummyMovementComponent : MovementCompoent
     }
     public override void FixedUpdateNode()
     {
-        this.transform.position = this._curPos;
         base.FixedUpdateNode();
     }
     public override void Move(Vector3 position)
     {
-        this._curPos += position;
+        this.characterMovementController.Move(position);
     }
 }

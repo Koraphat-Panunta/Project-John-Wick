@@ -418,7 +418,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c2923ed1be5bb24eaf295598b5a9a8d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8619474267520886007}
+      addedObject: {fileID: 4352933623510584768}
   m_SourcePrefab: {fileID: 100100000, guid: 0c2923ed1be5bb24eaf295598b5a9a8d, type: 3}
 --- !u!1 &5289889890931756199 stripped
 GameObject:
@@ -459,8 +459,11 @@ MonoBehaviour:
   _rightArmBone: {fileID: 0}
   _rightForeArmBone: {fileID: 0}
   _rightHandBone: {fileID: 0}
+  movementScriptableObject: {fileID: 11400000, guid: 2c60039c667772140a3d32a6276279dd,
+    type: 2}
+  characterController: {fileID: 4352933623510584768}
   animator: {fileID: 7462290058440696694}
-  characterController: {fileID: 8619474267520886007}
+  SumDeltaPos: 0
 --- !u!95 &7462290058440696694
 Animator:
   serializedVersion: 7
@@ -483,28 +486,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &8619474267520886007
-CharacterController:
+--- !u!114 &4352933623510584768
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5289889890931756199}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 4
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 640
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.67
-  m_Radius: 0.13
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.83, z: -0.03}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e068183b72afc048a9a580515f15b2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
+  isEnableGravity: 1
+  maxSlopeAngle: 45
+  groundState: 0
+  groundNormal: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  velocityPhysicBased: {x: 0, y: 0, z: 0}
+  capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
+  raduis: 0.5
+  height: 2
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  position: {x: 0, y: 0, z: 0}
+  curVelocity: {x: 0, y: 0, z: 0}
+  isEnableGizmos: 0
