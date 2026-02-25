@@ -142,12 +142,12 @@ public partial class EnemyStateManagerNode : INodeManager
         zeroPostureSelector = new NodeSelector(
             ()=> this.enemy._posture <= 0 && this.enemy.isNotFallAble == false
             );
-        gunFuZeroPostureSelector = new NodeSelector(
+        this.gunFuZeroPostureSelector = new NodeSelector(
             () => this.enemy._triggerHitedGunFu);
         this.gotHitDownNodeLeaf = new GotGunFuInteractingNodeLeaf(this.enemy,this.enemy.gotHitDown_ScriptableObject,
             ()=> this.enemy.curAttackerGunFuNode is GunFuHitDownNodeLeaf);
         this.painStateGotHitDownNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy, 
-            () => this.gotHitDownNodeLeaf.isComplete
+            () => true
             , this.enemy.animator, 3);
         gotExecuteOnGroundSelector = new NodeSelector(
             () => enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
@@ -207,8 +207,10 @@ public partial class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector = new NodeSelector( 
             () => 
             {
-                if (enemy._triggerHitedGunFu)
+                if (this.enemy._triggerHitedGunFu)
                 {
+                    Debug.Log("this.enemy._triggerHitedGunFu");
+                    Debug.Log("this.enemy.curAttackNode = " + this.enemy.curAttackerGunFuNode);
                     return true;
                 }
 
