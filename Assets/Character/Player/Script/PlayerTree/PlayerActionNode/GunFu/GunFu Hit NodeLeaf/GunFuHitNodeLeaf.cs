@@ -179,7 +179,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
     protected void TransitionAble()
     {
-        Debug.Log("gunGuHit state name " + this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].gunFuHitStateName + "TransitionAble");
         this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
     }
 

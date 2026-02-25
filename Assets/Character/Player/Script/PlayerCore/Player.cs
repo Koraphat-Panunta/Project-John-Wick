@@ -34,8 +34,7 @@ public partial class Player : SubjectPlayer,
         {
             try
             {
-                if ((this.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf)
-                    && playerDolphinDiveStateNodeLeaf.isPassingJump)
+                if ((this.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf))
                     || this.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>())
                     return Stance.prone;
 

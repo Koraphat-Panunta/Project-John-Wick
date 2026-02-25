@@ -126,6 +126,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         this.UpdateHintHandPotation();
         base.UpdateNode();
     }
+    public void SetWeight(float weight) => this.weight = Mathf.Clamp01(weight);
     protected void UpdateHintHandPotation()
     {
 

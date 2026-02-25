@@ -121,5 +121,8 @@ public partial class PlayerAnimationManager
             if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
                 return true;
             return false;
-        } }
+        } 
+    }
+
+    [SerializeField] public PlayPoseAnimationScriptableObject dolphinDivePoseAnimationSCRP;
 }

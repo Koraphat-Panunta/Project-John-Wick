@@ -31,5 +31,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
             this.rightHand_ADS_restrict_rifle_AnimationConstraintNodeLeaf.TriggeRecoilWeight(1);
             this.rightHand_ADS_restrict_pistol_AnimationConstraintNodeLeaf.TriggeRecoilWeight(1);
         }
+
+       
     }
 }

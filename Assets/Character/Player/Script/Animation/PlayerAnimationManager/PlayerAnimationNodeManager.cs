@@ -123,7 +123,8 @@ public partial class PlayerAnimationManager
             ()=> this.player.stance == Stance.prone);
         this.dolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
-            , this.animator, "Dolphin Dive", 0, .1f, this.basedAnimationPoseTimeNormalzied, .5f, false);
+            , this.animator, "Dolphin Dive", 0, this.basedAnimationPoseTimeNormalzied, .05f
+            ,this.dolphinDivePoseAnimationSCRP);
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             , this.animator, "Prone", 0, 0, this.basedAnimationPoseTimeNormalzied, 1, false);

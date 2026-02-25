@@ -9,8 +9,8 @@ public class ArmIKConstriantRefTransformNodeLeaf : AnimationConstrainNodeLeaf
     protected Transform refTransformPos;
     protected HandArmIKConstraintManager handArmIKConstraintManager;
 
-    protected float transitionSpeed = 5;
-
+    public float weight;
+    protected float transitionSpeed = 10;
     public Vector3 getTargetHandPosition 
     { 
         get
@@ -64,24 +64,33 @@ public class ArmIKConstriantRefTransformNodeLeaf : AnimationConstrainNodeLeaf
         this.handIKOffsetSCRP = transformOffsetSCRP;
     }
 
+    public override void Enter()
+    {
+        this.weight = 0;
+        base.Enter();
+    }
+
+    public void SetWeight(float w) => this.weight = w;
+
     public override void UpdateNode()
     {
+        this.weight += Time.deltaTime * this.transitionSpeed;
 
         Vector3 targetPos = Vector3.Lerp(
             this.handArmIKConstraintManager.GetTargetHandTransform().position
             ,this.getTargetHandPosition
-            ,Time.deltaTime * this.transitionSpeed);
+            , this.weight);
 
         Quaternion targerRot = Quaternion.Lerp(
             this.handArmIKConstraintManager.GetTargetHandTransform().rotation
             , this.getTargetHandRotation
-            , Time.deltaTime * this.transitionSpeed);
+            , this.weight);
 
         Vector3 targetHintPos = Vector3.Lerp
             (
             this.handArmIKConstraintManager.GetHintHandTransform().position
             , this.getHintPosition
-            , Time.deltaTime * this.transitionSpeed
+            , this.weight
             );
 
         this.handArmIKConstraintManager.SetTargetHand(targetPos, targerRot);

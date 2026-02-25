@@ -31,5 +31,12 @@ public class WeaponDataScriptableObject : DataScriptableObject
     [Range(1, 10)]
     public float aimDownSight_speed; //1 = 5 sec,10 .5 sec
 
+    [Range(0,300)]
+    public float _hpDamage;
+    [Range(0, 300)]
+    public float _postureDamage;
+    [Range(0, 300)]
+    public float _destructionDamage;
+
 
 }

@@ -19,8 +19,6 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
     public override void Enter()
     {
 
-        Debug.Log("Enter PlayerDolphinDiveStateNodeLeaf");
-
         this.jumpDir = (this.player.inputMoveDir_World.normalized + this.playerMovement.curMoveVelocity_World.normalized).normalized;
 
         this.timer = 0;

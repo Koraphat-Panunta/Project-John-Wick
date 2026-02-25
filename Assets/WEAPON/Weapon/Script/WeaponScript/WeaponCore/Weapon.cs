@@ -11,7 +11,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
     public Transform _mainHandGripTransform;
     public Transform _SecondHandGripTransform;
 
-    [SerializeField] protected WeaponDataScriptableObject weaponStatsScriptableObject;
+    [SerializeField] public WeaponDataScriptableObject weaponStatsScriptableObject;
     public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity + this.maxAmmoCapacityAdditional; }
     public int maxAmmoCapacityAdditional = 0;
     
