@@ -52,6 +52,8 @@ public partial class EnemyStateManagerNode : INodeManager
 
     public NodeSelector zeroPostureSelector { get; private set; }
     public NodeSelector gunFuZeroPostureSelector { get; private set; }
+    public GotGunFuInteractingNodeLeaf gotHitDownNodeLeaf { get; private set; }
+    public EnemyPainStateNodeLeaf painStateGotHitDownNodeLeaf { get; private set; }
     public NodeSelector gotExecuteOnGroundSelector { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_LayUp_I_NodeLeaf { get; private set; }
     public GotExecuteOnGround_NodeLeaf gotExecute_OnGround_LayDown_I_NodeLeaf { get; private set; }
@@ -100,7 +102,7 @@ public partial class EnemyStateManagerNode : INodeManager
             , nameof(enemyStanceSelector));
 
         crouchSelector = new NodeSelector(
-            () => enemy.enemyStance == Stance.crouch
+            () => enemy.stanceCommand == Stance.crouch
             , nameof(crouchSelector));
         enemyCrouchMoveStateNodeLeaf = new EnemyCrouchMoveStateNodeLeaf(enemy,
             () => 
@@ -111,7 +113,7 @@ public partial class EnemyStateManagerNode : INodeManager
             () => true);
 
         standSelector = new NodeSelector(
-            () =>enemy.enemyStance == Stance.stand || true
+            () =>enemy.stanceCommand == Stance.stand || true
             ,nameof(standSelector));
         enemyStandIdleStateNodeLeaf = new EnemyStandIdleStateNodeLeaf(this.enemy,
           () => true //Precondition
@@ -141,8 +143,12 @@ public partial class EnemyStateManagerNode : INodeManager
             ()=> this.enemy._posture <= 0 && this.enemy.isNotFallAble == false
             );
         gunFuZeroPostureSelector = new NodeSelector(
-            () => this.enemy._triggerHitedGunFu 
-            && this.enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
+            () => this.enemy._triggerHitedGunFu);
+        this.gotHitDownNodeLeaf = new GotGunFuInteractingNodeLeaf(this.enemy,this.enemy.gotHitDown_ScriptableObject,
+            ()=> this.enemy.curAttackerGunFuNode is GunFuHitDownNodeLeaf);
+        this.painStateGotHitDownNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy, 
+            () => this.gotHitDownNodeLeaf.isComplete
+            , this.enemy.animator, 3);
         gotExecuteOnGroundSelector = new NodeSelector(
             () => enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecute_OnGround_LayDown_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy
@@ -168,15 +174,7 @@ public partial class EnemyStateManagerNode : INodeManager
            && (enemy as IRagdollAble)._isFacingUp 
            );
         this.enemyFallPainStateNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy
-            , () =>
-            {
-                INodeManager nodeManager = this as INodeManager;
-                if (nodeManager.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>()
-                || nodeManager.TryGetCurNodeLeaf<GetUpStateNodeLeaf>())
-                    return false;
-
-                return true;
-            }
+            , () => true
             , this.enemy.animator
             , .25f
             );
@@ -351,11 +349,14 @@ public partial class EnemyStateManagerNode : INodeManager
         startNodeSelector.AddtoChildNode(gunFuSelector);
         startNodeSelector.AddtoChildNode(enemyStanceSelector);
 
-        zeroPostureSelector.AddtoChildNode(gunFuZeroPostureSelector);
-        zeroPostureSelector.AddtoChildNode(this.enemyFallPainStateNodeLeaf);
-        zeroPostureSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
+        this.zeroPostureSelector.AddtoChildNode(this.gunFuZeroPostureSelector);
+        this.zeroPostureSelector.AddtoChildNode(fallDown_EnemyState_NodeLeaf);
 
-        gunFuZeroPostureSelector.AddtoChildNode(gotExecuteOnGroundSelector);
+        this.gunFuZeroPostureSelector.AddtoChildNode(this.gotHitDownNodeLeaf);
+        this.gunFuZeroPostureSelector.AddtoChildNode(gotExecuteOnGroundSelector);
+        this.gunFuZeroPostureSelector.AddtoChildNode(this.enemyFallPainStateNodeLeaf);
+
+        this.gotHitDownNodeLeaf.AddTransitionNode(this.painStateGotHitDownNodeLeaf);
 
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayDown_I_NodeLeaf);
         gotExecuteOnGroundSelector.AddtoChildNode(gotExecute_OnGround_LayUp_I_NodeLeaf);

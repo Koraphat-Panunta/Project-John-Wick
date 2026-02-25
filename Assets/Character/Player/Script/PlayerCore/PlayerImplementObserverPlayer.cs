@@ -31,6 +31,31 @@ public partial class Player : IObserverPlayer
 
                     break;
                 }
+            case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf:
+                {    
+                    player.stanceCommand = Stance.prone;
+                    break;
+                }
+            case PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf:
+                {
+                    player.stanceCommand = Stance.prone;
+                    break;
+                }
+            case PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf: 
+                {
+                    player.stanceCommand = Stance.stand;
+                    break;
+                }
+            case PlayerSprintNode playerSprintNode: 
+                {
+                    player.stanceCommand = Stance.stand;
+                    break;
+                }
+            case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf: 
+                {
+                    player.stanceCommand = Stance.stand;
+                    break;
+                }
 
         }
         if((node is GunFuExecute_Single_NodeLeaf execute_Single_NodeLeaf

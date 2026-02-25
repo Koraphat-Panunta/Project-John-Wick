@@ -41,7 +41,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     }
                 case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
-                        if (player.playerStance != Stance.prone)
+                        if (player.stance != Stance.prone)
                         {
                             player._movementCompoent.SetRotation(Quaternion.Lerp(
                                 this.player.transform.rotation

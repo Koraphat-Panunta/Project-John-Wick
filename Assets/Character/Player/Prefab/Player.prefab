@@ -674,6 +674,7 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 1671305130001768256}
   isImortal: 0
   MyHP: 0
+  stanceCommand: 0
   debugIsIFrame: 0
   inputLookDir_Local: {x: 0, y: 0}
   inputLookDir_World: {x: 0, y: 0, z: 0}
@@ -681,7 +682,6 @@ MonoBehaviour:
   inputMoveDir_World: {x: 0, y: 0, z: 0}
   isSprint: 0
   triggerDodgeRoll: 0
-  playerStance: 0
   centreTransform: {fileID: 6366118577415145198}
   moveWarping:
     serializedVersion: 2
@@ -731,6 +731,8 @@ MonoBehaviour:
   primaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 1f8862e573c972c428ea58c315320f9b,
     type: 2}
   secondaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 75f6e77347fb30749b3174c7abba36f3,
+    type: 2}
+  gunFuHitDownScriptableObject: {fileID: 11400000, guid: 4dc7bea5e46720248ad524634b4868d1,
     type: 2}
   gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I: {fileID: 11400000, guid: 8d852748791675644a006bb5208fe600,
     type: 2}

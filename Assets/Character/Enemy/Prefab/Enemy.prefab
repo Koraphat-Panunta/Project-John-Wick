@@ -1068,7 +1068,7 @@ MonoBehaviour:
     type: 2}
   characterController: {fileID: 102977775201858835}
   animator: {fileID: 1113618680042977909}
-  SumDeltaPos: {x: 0, y: 0, z: 0}
+  SumDeltaPos: 0
   agent: {fileID: 7803922069215804562}
   forceSave: {x: 0, y: 0, z: 0}
   myHP: 100
@@ -1078,6 +1078,7 @@ MonoBehaviour:
   selfLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  stanceCommand: 0
   _staggerGauge: 0
   isGround: 0
   head: {fileID: 2622685816577133962}
@@ -1097,7 +1098,6 @@ MonoBehaviour:
   dodgeImpluseForce: 5
   dodgeInAirStopForce: 0.1
   dodgeOnGroundStopForce: 3.8
-  enemyStance: 0
   miniPainStateDuration: 0.75
   mediumPainStateDuration: 2
   heavyPainStateDuration: 5
@@ -1119,6 +1119,8 @@ MonoBehaviour:
   primary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7ab5ef7c1a3757c49920fbb25c8bf188,
     type: 2}
   secondary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7281fd3728697e84394c1958e16b90fd,
+    type: 2}
+  gotHitDown_ScriptableObject: {fileID: 11400000, guid: 98ad60113c1fcf64d973c13d626fda4d,
     type: 2}
   gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I: {fileID: 11400000, guid: 134cba017d267db4b854b66133a1c620,
     type: 2}

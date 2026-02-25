@@ -90,4 +90,9 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         thirdPersonCamera.UpdateCameraPosition(this.trackPos,this.lookPos);
         
     }
+
+    public void SetCameraThirdPersonControllerViewSCRP(CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject)
+    {
+        this.cameraThirdPersonControllerViewScriptableObject = cameraThirdPersonControllerViewScriptableObject;
+    }
 }

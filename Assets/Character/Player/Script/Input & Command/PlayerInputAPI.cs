@@ -132,11 +132,11 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         {
             
 
-            switch ( player.playerStance) 
+            switch (this.player.stanceCommand) 
             {
-                case Stance.stand: { player.playerStance = Stance.crouch; }
+                case Stance.stand: { this.player.stanceCommand = Stance.crouch; }
                     break;
-                case Stance.crouch: { player.playerStance = Stance.stand; }
+                case Stance.crouch: { this.player.stanceCommand = Stance.stand; }
                     break;
             }
            

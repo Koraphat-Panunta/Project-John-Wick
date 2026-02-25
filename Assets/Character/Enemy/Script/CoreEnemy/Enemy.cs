@@ -13,8 +13,7 @@ public partial class Enemy : SubjectEnemy
     
 {
 
-    //public LayerMask targetMask;
-    //public LayerMask targetSpoterMask;
+
     public FieldOfView enemyFieldOfView;
     public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
@@ -34,7 +33,21 @@ public partial class Enemy : SubjectEnemy
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;
-  
+
+    public override Stance stance 
+    {
+        get 
+        {
+            if(this.stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>()
+                ||(this.stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpStateNodeLeaf)
+                && getUpStateNodeLeaf.isStandingComplete == false))
+                return Stance.prone;
+
+            return Stance.stand;
+        }
+    }
+    public Stance stanceCommand = Stance.stand;
+
     public override void Initialized()
     {
 
@@ -98,28 +111,49 @@ public partial class Enemy : SubjectEnemy
         SetHP(Mathf.Clamp(HP - Damage, 0, maxHp));
         
     }
+    private float gotHitWithStandHP = 20;
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
         switch (damageVisitor)
         {
+            case GunFuHitDownNodeLeaf gunFuHitDownNodeLeaf:
+                {
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Attack)
+                    {
+                        if (this.GetHP() > this.gotHitWithStandHP)
+                        {
+                            this.TakeDamage(Mathf.Clamp(gunFuHitDownNodeLeaf._hPDamage, this.GetHP() - this.gotHitWithStandHP, gunFuHitDownNodeLeaf._hPDamage));
+                        }
+                        else
+                            this.TakeDamage(gunFuHitDownNodeLeaf._hPDamage);
+
+                        this._posture = Mathf.Clamp(this._posture - gunFuHitDownNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
+                    }
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.PullUp)
+                    {
+                        this._posture = Mathf.Clamp(this.maxPosture, 0, this._maxPosture);
+                    }
+                    break;
+                }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
 
+                        if (this.GetHP() > this.gotHitWithStandHP)
+                        {
+                            this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, this.GetHP() - this.gotHitWithStandHP, gunFuHitNodeLeaf._hPDamage));
+                        }
+                        else
+                            this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+
                         if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
                         {
-                            if (this.GetHP() > 0)
-                                this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
-
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
                         }
                         else
                         {
-                            if (this.GetHP() > 20)
-                                this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
-
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                         }
 
@@ -325,8 +359,6 @@ public partial class Enemy : SubjectEnemy
 
     public bool isSprintCommand { get; set; }
     public bool _triggerDodge { get; set; }
-
-    public Stance enemyStance = Stance.stand;
 
 
     #endregion

@@ -45,7 +45,6 @@ public class PlayerSprintNode : PlayerStateNodeLeaf,INodeLeafTransitionAble
         {
             sprintDir = player._movementCompoent.forwardDir;
         }
-        player.playerStance = Stance.stand;
         base.Enter();
     }
 

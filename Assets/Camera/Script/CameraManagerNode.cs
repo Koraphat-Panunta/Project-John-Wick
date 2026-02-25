@@ -39,7 +39,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
     public NodeSelector cameraPerformGunFuSelector { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuWeaponDisarmNodeLeaf { get; protected set; }
-    public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraGunFuExecuteNodeLeaf { get; protected set; }
+    public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraDynamicTrackingNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuHitViewNodeLeaf { get; protected set; }
 
     public CameraThirdPersonControllerViewNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
@@ -62,7 +62,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => 
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Stance.stand)
+                && cameraController.player.stance == Stance.stand)
                     return true;
 
                 return false;
@@ -72,7 +72,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => 
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Stance.crouch)
+                && cameraController.player.stance == Stance.crouch)
                     return true;
                 
                 return false;
@@ -82,7 +82,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () =>
             {
                 if (cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
-                && cameraController.player.playerStance == Stance.prone || playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
+                && cameraController.player.stance == Stance.prone || playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
                     return true;
 
                 return false;
@@ -97,15 +97,19 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             () => cameraController.isPerformGunFu);
         this.cameraPerformGunFuWeaponDisarmNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuWeaponDisarm_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf );
-        this.cameraGunFuExecuteNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(cameraController , cameraController.cameraExecute_Single_SCRP
-           ,() => cameraController.curGunFuNode != null && cameraController.curGunFuNode is IGunFuExecuteNodeLeaf);
+        this.cameraDynamicTrackingNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(cameraController , cameraController.cameraExecute_Single_SCRP
+           ,() => cameraController.curGunFuNode != null 
+           && (
+           cameraController.curGunFuNode is IGunFuExecuteNodeLeaf
+           || this.cameraController.curGunFuNode is GunFuHitDownNodeLeaf)
+           );
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
 
         this.cameraTPSCrouchViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSCrouchView_SCRP,
             () => cameraController.isCrouching);
         this.cameraTPSProneViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSProneView_SCRP,
-            () => this.cameraController.player.playerStance == Stance.prone);
+            () => this.cameraController.player.stance == Stance.prone);
         this.cameraTPSStandViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSStandView_SCRP,
             () => true);
 
@@ -128,7 +132,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSStandViewNodeLeaf);
 
         this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuWeaponDisarmNodeLeaf);
-        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraGunFuExecuteNodeLeaf);
+        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraDynamicTrackingNodeLeaf);
         this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuHitViewNodeLeaf);
 
         this._nodeManagerBehavior.SearchingNewNode(this);

@@ -11,6 +11,7 @@ public partial class Player : SubjectPlayer,
 {
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
+    public INodeManager stateNodeManager => this.playerStateNodeManager as INodeManager;
     public override MovementCompoent _movementCompoent { get; set; }
     public PlayerMovement playerMovement => _movementCompoent as PlayerMovement;    
     public Transform RayCastPos;
@@ -27,7 +28,31 @@ public partial class Player : SubjectPlayer,
 
             return base.isDead;
         } }
+    public override Stance stance 
+    {
+        get 
+        {
+            try
+            {
+                if ((this.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf)
+                    && playerDolphinDiveStateNodeLeaf.isPassingJump)
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>())
+                    return Stance.prone;
 
+                if (this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
+                    return Stance.crouch;
+
+
+                return Stance.stand;
+            }
+            catch 
+            {
+                return Stance.stand;
+            }
+        }
+    }
+    public Stance stanceCommand = Stance.stand;
     public CommandBufferManager commandBufferManager;
     public override void Initialized()
     {
@@ -174,7 +199,7 @@ public partial class Player : SubjectPlayer,
     public bool isSprint;
     public bool triggerDodgeRoll;
     
-    public Stance playerStance = Stance.stand;
+
 
     public Transform centreTransform;
 

@@ -57,6 +57,8 @@ public abstract class Character : MonoBehaviour,IInitializedAble
         }
     }
 
+    public abstract Stance stance { get; }
+
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
     [SerializeField] public CharacterMovementController characterController;
     //public Weapon curentWeapon;
@@ -75,8 +77,8 @@ public abstract class Character : MonoBehaviour,IInitializedAble
             _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
             _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
 
-            Debug.Log("curPos = " + this.characterController.position);
-            Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);
+            //Debug.Log("curPos = " + this.characterController.position);
+            //Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);
 
         }
         else

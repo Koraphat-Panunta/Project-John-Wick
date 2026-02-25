@@ -15,9 +15,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-           
-            if(_isFallDown)
-                return false;
+          
            
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
@@ -53,6 +51,8 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP secondary_WeaponGotDisarmedScriptableObject;
 
+    [SerializeField] public AnimationTriggerEventSCRP gotHitDown_ScriptableObject;
+
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_I;
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_II;
@@ -66,6 +66,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Single_Execute_OnGround_LayDown_I;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
+
         if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
         {
 

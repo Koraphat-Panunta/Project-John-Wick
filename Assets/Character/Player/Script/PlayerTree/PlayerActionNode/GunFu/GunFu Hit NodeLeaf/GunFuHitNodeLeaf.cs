@@ -15,6 +15,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
   
     public IGunFuAble gunFuAble { get => player; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get ; set; }
+    public Vector3 approuchPosition { get => this.gotGunFuAttackedAble != null ? this.gotGunFuAttackedAble._character.transform.position : this._approuchPositionValue; }
+    protected Vector3 _approuchPositionValue;
 
     public GunFuHitScriptableObject gunFuHitScriptableObject { get => this._gunFuHitScriptableObject; }
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
@@ -26,10 +28,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
     protected AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
 
-    
-
     private Quaternion lookAtTarget => Quaternion.LookRotation(
-        (gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position).normalized
+        (this.approuchPosition - gunFuAble._character.transform.position).normalized
         , Vector3.up);
     public enum GunFuPhaseHit
     {
@@ -64,6 +64,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
         gotAttackedAlready.Clear();
         gotGunFuAttackedAble = player.attackedAbleGunFu;
+        this._approuchPositionValue = this.gunFuAble._character.transform.position + this.gunFuAble._character.transform.forward;
         curPhaseGunFuHit = GunFuPhaseHit.Enter;
 
         hitCount = 0;
@@ -159,16 +160,12 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     protected void NextHitContinue() => this.hitCount++;
 
     protected Vector3 enterWarpPos;
-    protected Quaternion enterWarpRot;
 
     protected Vector3 exitWarpPos;
-    protected Quaternion exitWarpRot;
 
     protected void BeginWarp() 
     {
-
         this.enterWarpPos = this.gunFuAble._character.transform.position;
-        this.enterWarpRot = this.gunFuAble._character.transform.rotation;
 
         this.UpdateExitWarp();
 
@@ -176,8 +173,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     }
     private void UpdateExitWarp()
     {
-        this.exitWarpPos = this.gotGunFuAttackedAble._character.transform.position;
-        this.exitWarpRot = this.gotGunFuAttackedAble._character.transform.rotation;
+        this.exitWarpPos = this.approuchPosition;
     }
     protected void EndWarp() => this.isWarping = false;
 
@@ -221,9 +217,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     }
     public void WarpingUpdate()
     {
-        if(this.isWarping == false ||
-            this.gotGunFuAttackedAble._isGotAttackedAble == false
-            )
+        if(this.isWarping == false)
             return;
 
         this.UpdateExitWarp();
@@ -237,7 +231,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
                     this.gunFuAble._character.transform.position
                     , this.gunFuAble._character.transform.rotation
                     , this.gunFuAble._character._movementCompoent
-                    , this.gotGunFuAttackedAble._character.transform.position + (this.gunFuAble._character.transform.position - this.gotGunFuAttackedAble._character.transform.position).normalized * this.hitDistance
+                    , this.approuchPosition + (this.gunFuAble._character.transform.position - this.approuchPosition).normalized * this.hitDistance
                     , this.lookAtTarget
                     , this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingMovementCurve.Evaluate(t)
                     );

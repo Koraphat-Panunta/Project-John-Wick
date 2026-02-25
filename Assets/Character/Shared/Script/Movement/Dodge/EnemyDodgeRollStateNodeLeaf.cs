@@ -43,7 +43,6 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         enemyMovement.AddForcePush(enemy.dodgeImpluseForce * (enemy.moveInputVelocity_WorldCommand + enemy._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
         dodgePhase = DodgePhase.pushOut;
 
-        enemy.enemyStance = Stance.stand;
         dodgeRollCoolDown = 2;
         base.Enter();
     }

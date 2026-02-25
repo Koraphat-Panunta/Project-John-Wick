@@ -231,10 +231,19 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             this.pistolReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
             this.pistolTacticalReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
             this.pistolTacticalReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
-
-
-
         }
+
+        if(node is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
+        {
+            this.hit1NodeLeaf.TriggerReset();
+            this.hit2NodeLeaf.TriggerReset();
+            this.hit3NodeLeaf.TriggerReset();
+        }
+
+        if(node is PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf
+            && dodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+            this.dodgeNodeLeaf.TriggerReset();
     }
 
     #region CalculateRotateRate

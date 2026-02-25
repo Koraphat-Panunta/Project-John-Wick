@@ -16,7 +16,6 @@ public class EnemySprintStateNodeLeaf : EnemyStateLeafNode
 
     public override void Enter()
     {
-        enemy.enemyStance = Stance.stand;
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         base.Enter();
     }

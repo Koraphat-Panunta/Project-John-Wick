@@ -33,6 +33,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf humanShieldExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf humanShieldMoveNodeLeaf { get; set; }
 
+    public PlayAnimationNodeLeaf hitDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit1NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit2NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit3NodeLeaf { get; set; }
@@ -119,7 +120,7 @@ public partial class PlayerAnimationManager
             animator, "Sprint", 0, .5f);
 
         this.proneStateNodeSelector = new NodeSelector(
-            ()=> this.player.playerStance == Stance.prone);
+            ()=> this.player.stance == Stance.prone);
         this.dolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
             , this.animator, "Dolphin Dive", 0, .1f, this.basedAnimationPoseTimeNormalzied, .5f, false);
@@ -142,7 +143,7 @@ public partial class PlayerAnimationManager
         gunFuBaseLayerNodeSelector = new NodeSelector(
             () => 
             {
-                if (isPerformGunFu)
+                if (this.isPerformGunFu)
                 {
                     return true;
                 }
@@ -199,6 +200,9 @@ public partial class PlayerAnimationManager
         humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf
         , animator, "Move/Idle", 0, .35f);
 
+        this.hitDownNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
+            ,this.animator, "HitDown", 0,0);
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit1",
@@ -248,6 +252,7 @@ public partial class PlayerAnimationManager
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
+                this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.hitDownNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit2NodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);

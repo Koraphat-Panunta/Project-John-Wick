@@ -21,8 +21,6 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 
         Debug.Log("Enter PlayerDolphinDiveStateNodeLeaf");
 
-        this.player.playerStance = Stance.prone;
-
         this.jumpDir = (this.player.inputMoveDir_World.normalized + this.playerMovement.curMoveVelocity_World.normalized).normalized;
 
         this.timer = 0;

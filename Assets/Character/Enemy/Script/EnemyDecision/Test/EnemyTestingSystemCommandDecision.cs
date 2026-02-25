@@ -190,6 +190,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
         enemyTestingCommands.Enqueue(moveToPos1);//21
         enemyTestingCommands.Enqueue(moveToPos2);//21
+        enemyTestingCommands.Enqueue(this.crouch);
         enemyTestingCommands.Enqueue(moveToPos3);//21
         enemyTestingCommands.Enqueue(moveToPos4);//21
 

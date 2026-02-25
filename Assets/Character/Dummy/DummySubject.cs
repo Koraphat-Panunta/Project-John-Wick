@@ -17,6 +17,9 @@ public class DummySubject : Character
         _movementCompoent.FixedUpdateNode();
     }
     public override MovementCompoent _movementCompoent { get ; set ; }
+
+    public override Stance stance => Stance.stand;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

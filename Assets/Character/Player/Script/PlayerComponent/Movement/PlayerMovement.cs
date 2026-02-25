@@ -129,7 +129,7 @@ public class PlayerMovement : MovementCompoent
             this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
             return;
         }
-        switch (player.playerStance)
+        switch (player.stance)
         {
             case Stance.stand: 
                 {
