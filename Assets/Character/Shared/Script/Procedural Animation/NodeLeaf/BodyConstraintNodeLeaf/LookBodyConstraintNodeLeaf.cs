@@ -6,7 +6,7 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
 
     protected BodyLookConstrainManager bodyLookConstrain;
 
-    protected AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject;
+    public AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject;
 
     public Vector3 getOffsetSpline { get => aimSplineLookConstrainScriptableObject ? aimSplineLookConstrainScriptableObject.offsetSpline : this._offsetSpline; }
     public Vector3 getOffsetSpline1 { get => aimSplineLookConstrainScriptableObject ? aimSplineLookConstrainScriptableObject.offsetSpline1 : this._offsetSpline1; }
@@ -26,10 +26,6 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
 
     public float getOffsetChangedRate { get => aimSplineLookConstrainScriptableObject ? aimSplineLookConstrainScriptableObject.offsetChangedRate : this._offsetChangedRate; }
     private float _offsetChangedRate;
-
-    private Vector3 enter_OffsetSpline;
-    private Vector3 enter_OffsetSpline1;
-    private Vector3 enter_OffsetSpline2;
 
     protected float weight;
 
@@ -80,10 +76,6 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
     {
         this.weight = 0;
 
-        this.enter_OffsetSpline = this.bodyLookConstrain.getOffsetSpline;
-        this.enter_OffsetSpline1 = this.bodyLookConstrain.getOffsetSpline1;
-        this.enter_OffsetSpline2 = this.bodyLookConstrain.getOffsetSpline2;
-
         base.Enter();
     }
 
@@ -108,16 +100,17 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
             (
 
             Vector3.Lerp
-            (this.enter_OffsetSpline
+            (this.bodyLookConstrain.getOffsetSpline
             , this.getOffsetSpline
             , this.weight /** Time.deltaTime*/)
 
             , Vector3.Lerp
-            (this.enter_OffsetSpline1
+            (this.bodyLookConstrain.getOffsetSpline1
             , this.getOffsetSpline1
             , this.weight /** Time.deltaTime*/)
 
-            , Vector3.Lerp(enter_OffsetSpline2
+            , Vector3.Lerp
+            (this.bodyLookConstrain .getOffsetSpline2
             , this.getOffsetSpline2
             , this.weight /** Time.deltaTime*/)
 
@@ -130,6 +123,12 @@ public abstract class LookBodyConstraintNodeLeaf : AnimationConstrainNodeLeaf
             );
         base.UpdateNode();
     }
+
+    public void SetAimBodyConstrainSCRP(AimBodyConstrainScriptableObject aimBodyConstrainSCRP)
+    {
+        this.aimSplineLookConstrainScriptableObject = aimBodyConstrainSCRP;
+    }
+    public void SetWeight(float w) => this.weight = w;
 
     protected abstract void UpdateWeight();
     protected abstract void UpdateLookAtTarget();
