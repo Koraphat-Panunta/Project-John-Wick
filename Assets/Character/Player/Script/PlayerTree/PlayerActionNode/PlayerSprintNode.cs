@@ -12,7 +12,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf,INodeLeafTransitionAble
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
     public float sprintWeight => this.playerMovement.stanceRateMovement;
-    public float changeStanceWeight = 4;
+    public float changeStanceWeight = 5;
     public enum SprintManuver
     {
         Out,
