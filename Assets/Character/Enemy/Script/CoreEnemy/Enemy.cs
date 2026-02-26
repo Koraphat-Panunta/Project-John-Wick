@@ -122,7 +122,7 @@ public partial class Enemy : SubjectEnemy
                     {
                         if (this.GetHP() > this.gotHitWithStandHP)
                         {
-                            this.TakeDamage(Mathf.Clamp(gunFuHitDownNodeLeaf._hPDamage, this.GetHP() - this.gotHitWithStandHP, gunFuHitDownNodeLeaf._hPDamage));
+                            this.TakeDamage(Mathf.Clamp(gunFuHitDownNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
                         }
                         else
                             this.TakeDamage(gunFuHitDownNodeLeaf._hPDamage);
@@ -133,7 +133,7 @@ public partial class Enemy : SubjectEnemy
                     {
                         this._posture = Mathf.Clamp(this.maxPosture, 0, this._maxPosture);
                     }
-                    break;
+                    return;
                 }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
@@ -143,7 +143,7 @@ public partial class Enemy : SubjectEnemy
 
                         if (this.GetHP() > this.gotHitWithStandHP)
                         {
-                            this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, this.GetHP() - this.gotHitWithStandHP, gunFuHitNodeLeaf._hPDamage));
+                            this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
                         }
                         else
                             this.TakeDamage(gunFuHitNodeLeaf._hPDamage);

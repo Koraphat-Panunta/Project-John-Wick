@@ -237,17 +237,17 @@ public partial class Player : SubjectPlayer,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo)
+                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.handgunAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.rifleAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.buckShotAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.battleRifleAmmo)
                         )
                         return true;
                 }
                 break;
             case HpGetAbleObject hpReciveAble: 
                 {
-                    if(GetHP()< maxHp)
+                    if(GetHP() < maxHp)
                         return true;
                 }
                 break;

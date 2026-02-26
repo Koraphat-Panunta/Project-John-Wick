@@ -6,8 +6,8 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
 {
     [SerializeField] protected Enemy enemy;
     bool isAlreadyDrop;
-    int ammoDropNumber;
- 
+    bool isBeenExecute;
+
 
     [SerializeField] protected AmmoGetAbleObject AmmoGetAbleObject;
     [SerializeField] protected HpGetAbleObject HpGetAbleObject;
@@ -22,23 +22,32 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
         if (node is SubjectEnemy.EnemyEvent enemyEvent
             && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
         {
+            isBeenExecute = false;
             isAlreadyDrop = false;
-            ammoDropNumber = 3;
+
         }
 
-        if (node is GotGunFuHitNodeLeaf gotHit
-            && gotHit.curstate == EnemyStateLeafNode.Curstate.Enter
-            && ammoDropNumber >0)
+        if(node is IGotGunFuExecuteNodeLeaf)
         {
-            ammoDropNumber--;
-            base.DropObject(AmmoGetAbleObject);
+            this.isBeenExecute = true;
         }
+     
 
         if (node is EnemyDeadStateNode deadState && deadState.curstate == EnemyStateLeafNode.Curstate.Enter && isAlreadyDrop == false)
         {
+            if (this.isBeenExecute)
+            {
+                base.DropObject(AmmoGetAbleObject);
+                base.DropObject(AmmoGetAbleObject);
+                base.DropObject(AmmoGetAbleObject);
 
-            HpGetAbleObject.amoutOfHpAdd = 20;
+                base.DropObject(HpGetAbleObject);
+                base.DropObject(HpGetAbleObject);
+            }
+
             base.DropObject(HpGetAbleObject);
+            base.DropObject(AmmoGetAbleObject);
+
             isAlreadyDrop = true;
             return;
         }

@@ -63,7 +63,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
         this.animationTriggerEventPlayer.Rewind();
 
         gotAttackedAlready.Clear();
-        gotGunFuAttackedAble = player.attackedAbleGunFu;
+        this.gotGunFuAttackedAble = player.attackedAbleGunFu;
         this._approuchPositionValue = this.gunFuAble._character.transform.position + this.gunFuAble._character.transform.forward;
         curPhaseGunFuHit = GunFuPhaseHit.Enter;
 
@@ -83,7 +83,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
         if (this.isAttackingTime)
             this.Attacking();
        
-        nodeLeafTransitionBehavior.TransitioningCheck(this);
+        if(this.gotGunFuAttackedAble != null)
+            nodeLeafTransitionBehavior.TransitioningCheck(this);
         base.UpdateNode();
     }
 
