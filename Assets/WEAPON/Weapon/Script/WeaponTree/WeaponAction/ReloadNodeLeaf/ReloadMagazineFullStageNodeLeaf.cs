@@ -133,7 +133,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
     private void ReleaseMag() 
     {
-        Debug.Log("Reload Release Mag");
+        //Debug.Log("Reload Release Mag");
 
         if(this.magazine == null)
             return;
@@ -147,7 +147,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
    
     private void InputMag() 
     {
-        Debug.Log("Reload InputMag");
+        //Debug.Log("Reload InputMag");
 
         BulletCapacity newMagazine = new BulletCapacity(this.weaponMag._weapon.bullet, this.weaponMag._weapon.maxAmmoCapacity);
         this.weaponAdvanceUser._weaponBelt.ammoProuch.GetAmmoOut(this.weaponMag._weapon.bullet.myType, newMagazine.maxCapacity, out int amoutAmmo);

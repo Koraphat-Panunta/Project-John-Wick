@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 {
-    private LeaningRotaionScriptableObject leaningScriptableObject;
+    public LeaningRotaionScriptableObject leaningScriptableObject { get; protected set; }
     private LeaningRotation leaningRotation;
     private IWeaponAdvanceUser weaponAdvanceUser;
     private float checkDistance => leaningScriptableObject.checkDistance;
@@ -173,6 +173,11 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
         return false;
     }
-   
-   
+
+    public void SetLeaningRotaionSCRP(LeaningRotaionScriptableObject leaningRotaionScriptableObject)
+    {
+        this.leaningScriptableObject = leaningRotaionScriptableObject;
+    }
+    public void SetTargetLeanWeight(float w) => this.targetLeanWeight = w;
+ 
 }
