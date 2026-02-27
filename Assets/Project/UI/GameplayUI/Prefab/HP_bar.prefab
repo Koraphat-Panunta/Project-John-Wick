@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4898909147608361837}
   - component: {fileID: 7001613873099312819}
-  - component: {fileID: 1156158961961669084}
+  - component: {fileID: 6858222853595967576}
   m_Layer: 5
   m_Name: BG HP bar Image
   m_TagString: Untagged
@@ -45,7 +45,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3064746121426957173}
   m_CullTransparentMesh: 1
---- !u!114 &1156158961961669084
+--- !u!114 &6858222853595967576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,24 +54,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 3064746121426957173}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.52156866}
+  m_Color: {r: 0.13962269, g: 0.13962269, b: 0.13962269, a: 0.60784316}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: f4764fd2a2c9ade4d8b284b9618712f9, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0.5
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6549099994374774496
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4525815104379230798}
   - component: {fileID: 982795072286479907}
-  - component: {fileID: 811284104492901588}
+  - component: {fileID: 5553242752589816406}
   m_Layer: 5
   m_Name: Front HP bar Image
   m_TagString: Untagged
@@ -117,7 +120,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6549099994374774496}
   m_CullTransparentMesh: 1
---- !u!114 &811284104492901588
+--- !u!114 &5553242752589816406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,9 +129,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6549099994374774496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -137,13 +140,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: f4764fd2a2c9ade4d8b284b9618712f9, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0.5
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7295771522603291441
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +177,7 @@ RectTransform:
   m_GameObject: {fileID: 7295771522603291441}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4898909147608361837}
@@ -181,9 +187,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -111.599915, y: 74}
-  m_SizeDelta: {x: 22.3, y: 100}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 448, y: 448}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4579993191290878800
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -204,8 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29724591799b357438c79cbba5e1e8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  front_HP_bar_image: {fileID: 811284104492901588}
-  back_HP_bar_image: {fileID: 1767881932228311629}
+  bg_HP_bar_image: {fileID: 6858222853595967576}
+  front_HP_bar_image: {fileID: 5553242752589816406}
+  back_HP_bar_image: {fileID: 6858222853595967576}
   iframe_HP_image: {fileID: 0}
   positiveHP_Bar_Color: {r: 0.50980395, g: 1, b: 0.6610907, a: 1}
   negativeHP_Bar_Color: {r: 0.7433963, g: 0, b: 0, a: 1}
@@ -221,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6475651306678584721}
   - component: {fileID: 998927312741876106}
-  - component: {fileID: 1767881932228311629}
+  - component: {fileID: 8247250777809340700}
   m_Layer: 5
   m_Name: 'Back HP bar Image '
   m_TagString: Untagged
@@ -256,7 +263,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9067983323156913300}
   m_CullTransparentMesh: 1
---- !u!114 &1767881932228311629
+--- !u!114 &8247250777809340700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,21 +272,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 9067983323156913300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41320753, g: 1, b: 0.4933021, a: 1}
+  m_Color: {r: 0.110349655, g: 1, b: 0, a: 0.74509805}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: f4764fd2a2c9ade4d8b284b9618712f9, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0.5
+  m_FillClockwise: 1
+  m_FillOrigin: 2
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

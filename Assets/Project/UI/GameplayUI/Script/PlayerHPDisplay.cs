@@ -47,12 +47,18 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
                 && humanShield_GunFuInteraction.subject_GunFuAble.animationTriggerEventPlayer.timer < playerInfo.humanShiedlIFrame)
             || iFrameTime > 0)
         {
+            if(this.iframe_HP_image == null)
+                return;
+
             setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);
             alphaColorIframeUI = Mathf.Clamp01(alphaColorIframeUI + (Time.deltaTime * changeSpeed));
             iFrameTime -= Time.deltaTime;   
         }
         else
         {
+            if (this.iframe_HP_image == null)
+                return;
+
             alphaColorIframeUI = Mathf.Clamp01(alphaColorIframeUI - (Time.deltaTime * changeSpeed));
             setAlphaColorUI.SetColorAlpha(iframe_HP_image, alphaColorIframeUI);
         }

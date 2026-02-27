@@ -74,14 +74,14 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
     }
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {
-        textGUI.text = inLoad + " | " + Ammoprouch;
+        textGUI.text = inLoad + " / " + Ammoprouch;
     }
 
     public void UpdateInfo()
     {
         if (currentWeapon == null)
         {
-            AmmoDisplay.text = "- | -";
+            AmmoDisplay.text = "- / -";
             return;
         }
 
