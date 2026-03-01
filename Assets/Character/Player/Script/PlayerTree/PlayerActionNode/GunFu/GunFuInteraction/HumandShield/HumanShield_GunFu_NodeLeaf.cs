@@ -170,5 +170,9 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
    
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
-    
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
 }

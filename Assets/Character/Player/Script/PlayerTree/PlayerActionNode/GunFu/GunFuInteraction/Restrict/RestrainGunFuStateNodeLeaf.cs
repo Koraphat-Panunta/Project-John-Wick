@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
+public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf
+    , IGunFuNode
+    ,INodeLeafTransitionAble
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
@@ -202,5 +204,9 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeL
 
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
-    
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
 }

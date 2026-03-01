@@ -58,7 +58,11 @@ public class Armored_Protection : BodyPart
 
         syncBodyPart.TakeDamageBullet(this, hitPart, hitDir, hitforce);
     }
-    
+    public override void TakeDamage(IDamageVisitor damageVisitor)
+    {
+        base.TakeDamage(damageVisitor);
+
+    }
     protected virtual void ArmoredDestroyed()
     {
         meshRendererArmored.gameObject.SetActive(false);
@@ -126,4 +130,8 @@ public class Armored_Protection : BodyPart
         meshRendererArmored.gameObject.SetActive(true);
     }
 
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        
+    }
 }

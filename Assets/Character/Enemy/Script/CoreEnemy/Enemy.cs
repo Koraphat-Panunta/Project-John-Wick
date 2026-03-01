@@ -133,6 +133,9 @@ public partial class Enemy : SubjectEnemy
                     {
                         this._posture = Mathf.Clamp(this.maxPosture, 0, this._maxPosture);
                     }
+
+                    gunFuHitDownNodeLeaf.OnNotifyFeedBackVisitor(this);
+
                     return;
                 }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
@@ -157,6 +160,8 @@ public partial class Enemy : SubjectEnemy
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                         }
 
+                        gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
+
                     }
                     return;
                 }
@@ -167,6 +172,8 @@ public partial class Enemy : SubjectEnemy
 
         if (damageVisitor is IPostureDamageVisitor postureDamageVisitor)
             this.TakePostureDamaged(postureDamageVisitor._postureDamageVisitor);
+
+        damageVisitor.OnNotifyFeedBackVisitor(this);
 
 
     }

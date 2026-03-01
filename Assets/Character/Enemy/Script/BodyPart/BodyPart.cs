@@ -102,6 +102,7 @@ public abstract class BodyPart : MonoBehaviour
                     this.enemy.TakeDamage(damage);
                     this.enemy.NotifyObserver(this.enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
                     
+                    damageVisitor.OnNotifyFeedBackVisitor(this.enemy);
           
                     return;
                 }
@@ -131,6 +132,8 @@ public abstract class BodyPart : MonoBehaviour
                     ,
                     hitPos = throwAbleObject._throwAbleObjectTransform.position
                 });
+
+  
         }
 
         if(damageVisitor is IHPDamageVisitor hPDamageVisitor)
@@ -138,9 +141,9 @@ public abstract class BodyPart : MonoBehaviour
 
         if (damageVisitor is IPostureDamageVisitor postureDamageVisitor)
             this.enemy.TakePostureDamaged(postureDamageVisitor._postureDamageVisitor);
-        
 
-       
+        damageVisitor.OnNotifyFeedBackVisitor(this.enemy);
+
     }
 
 

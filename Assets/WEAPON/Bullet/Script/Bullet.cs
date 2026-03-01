@@ -105,8 +105,6 @@ public abstract class Bullet:
                 if(bulletHitNotify!= null)
                 bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);
                 penetrateRate -= bulletDamageAble.penatrateResistance;
-                weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-               <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, bulletDamageAble);
 
                 if(penetrateRate <= 0)
                     break;
@@ -116,6 +114,12 @@ public abstract class Bullet:
         }
         this.penetrateRate = maxPenetrateRate;
     }
-    
-   
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        if(this.weapon.userWeapon != null)
+        {
+            this.weapon.userWeapon.userWeaponDamageVisitor.OnNotifyFeedBackVisitor(damageAble);
+        }
+    }
 }

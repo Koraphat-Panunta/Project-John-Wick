@@ -19,8 +19,9 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     [Range(0, 1)]
     [SerializeField] private float changeVelocityBar;
 
-    private float curHP_OnBar => (playerInfo.GetHP() / playerInfo.GetMaxHp());
+    private float curHP_OnBar => (playerInfo.GetHP() / playerInfo.GetMaxHp()) * this.maxAmount;
     private float saveHP;
+    private float maxAmount = .5f;
 
     float alphaColorIframeUI = 0;
     float changeSpeed = 29f;
@@ -88,6 +89,8 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
             _ = UpdateNegativeHP(tokenSource.Token);
         }
 
+        Debug.Log("saveHP = " + this.saveHP);
+        Debug.Log("curHP_OnBar = " + this.curHP_OnBar);
         saveHP = curHP_OnBar;
     }
 
@@ -96,47 +99,43 @@ public class PlayerHPDisplay : GameplayUI, IObserverPlayer
     {
         this.back_HP_bar_image.color = positiveHP_Bar_Color;
 
-        this.back_HP_bar_image.rectTransform.localScale
-            = new Vector2(back_HP_bar_image.rectTransform.localScale.x, this.curHP_OnBar);
+        this.back_HP_bar_image.fillAmount = this.curHP_OnBar;
 
         try
         {
-            while (this.front_HP_bar_image.rectTransform.localScale.y < this.curHP_OnBar)
+            while (this.front_HP_bar_image.fillAmount < this.curHP_OnBar)
             {
                 token.ThrowIfCancellationRequested();
 
-                this.front_HP_bar_image.rectTransform.localScale
-                    = new Vector2(front_HP_bar_image.rectTransform.localScale.x, front_HP_bar_image.rectTransform.localScale.y + (Time.deltaTime * changeVelocityBar));
+                this.front_HP_bar_image.fillAmount += Time.deltaTime * changeVelocityBar;
 
                 await Task.Yield();
             }
 
-            this.front_HP_bar_image.rectTransform.localScale
-                   = new Vector2(front_HP_bar_image.rectTransform.localScale.x, this.curHP_OnBar);
+            this.front_HP_bar_image.fillAmount = this.curHP_OnBar;
         }
         catch
         {
-            this.front_HP_bar_image.rectTransform.localScale
-                   = new Vector2(front_HP_bar_image.rectTransform.localScale.x, this.curHP_OnBar);
+            this.front_HP_bar_image.fillAmount = this.curHP_OnBar;
             /*Task been Cancel*/
         }
     }
     private async Task UpdateNegativeHP(CancellationToken token)
     {
-
+        Debug.Log("UpdateNegativeHP");
         this.back_HP_bar_image.color = negativeHP_Bar_Color;
-        this.front_HP_bar_image.rectTransform.localScale
-            = new Vector2(this.front_HP_bar_image.rectTransform.localScale.x, curHP_OnBar);
+        this.front_HP_bar_image.fillAmount = this.curHP_OnBar;
 
         try
         {
-            while (this.back_HP_bar_image.rectTransform.localScale.y > this.curHP_OnBar)
+            while (this.back_HP_bar_image.fillAmount > this.curHP_OnBar)
             {
+                Debug.Log("UpdateNegativeHP = "+ this.back_HP_bar_image.fillAmount);
+
                 token.ThrowIfCancellationRequested();
 
-                this.back_HP_bar_image.rectTransform.localScale
-                    = new Vector2(this.back_HP_bar_image.rectTransform.localScale.x
-                    , Mathf.MoveTowards(this.back_HP_bar_image.rectTransform.localScale.y, this.curHP_OnBar, this.changeVelocityBar * Time.deltaTime));
+                this.back_HP_bar_image.fillAmount = Mathf.MoveTowards(this.back_HP_bar_image.fillAmount, this.curHP_OnBar, this.changeVelocityBar * Time.deltaTime);
+                   
 
                 await Task.Yield();
             }

@@ -153,5 +153,10 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
 
         base.UpdateNode();
     }
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        
+    }
 }
 

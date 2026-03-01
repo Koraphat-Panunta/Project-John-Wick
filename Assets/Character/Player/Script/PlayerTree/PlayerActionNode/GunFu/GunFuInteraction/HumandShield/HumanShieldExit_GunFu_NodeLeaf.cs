@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
 
-public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
+public class HumanShieldExit_GunFu_NodeLeaf :
+    PlayerStateNodeLeaf
+    ,IGunFuNode
 {
     public string _stateName => GunFuManaverStateName.HumanShieldExit.ToString();
 
@@ -66,5 +68,10 @@ public class HumanShieldExit_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode
     {
         player.enableRootMotion = false;
         base.Exit();
+    }
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
     }
 }

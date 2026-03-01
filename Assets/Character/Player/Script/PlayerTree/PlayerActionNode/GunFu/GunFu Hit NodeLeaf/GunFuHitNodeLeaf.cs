@@ -249,4 +249,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     {
         nodeLeafTransitionBehavior.AddTransistionNode(this, node);
     }
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
 }

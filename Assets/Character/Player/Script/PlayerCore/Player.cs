@@ -260,7 +260,6 @@ public partial class Player : SubjectPlayer,
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
 
-
     #endregion
 
 
