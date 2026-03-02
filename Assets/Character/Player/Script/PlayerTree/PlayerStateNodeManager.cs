@@ -513,7 +513,7 @@ public class PlayerStateNodeManager :
             () => true,
             this.player.executeGauge
             , this.player.executeGauge.maxGauge
-            , 5
+            , 2
             );
 
 

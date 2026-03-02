@@ -55,9 +55,10 @@ public partial class Weapon :
 
     public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
     {
-        if(this.userThrowWeapon != null)
+        if(this.userThrowWeapon != null
+            && this.userThrowWeapon is IDamageVisitor damageVisitor)
         {
-            this.userThrowWeapon.userWeaponDamageVisitor.OnNotifyFeedBackVisitor(damageAble);
+            damageVisitor.OnNotifyFeedBackVisitor(damageAble);
         }
     }
 }

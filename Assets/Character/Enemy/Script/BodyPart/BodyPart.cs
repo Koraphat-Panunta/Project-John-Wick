@@ -101,9 +101,11 @@ public abstract class BodyPart : MonoBehaviour
                     this.enemy.TakePostureDamaged(postureDamaged);
                     this.enemy.TakeDamage(damage);
                     this.enemy.NotifyObserver(this.enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
-                    
+
+                    Debug.Log("Bullet OnNotifyFeedBackVisitor 1");
                     damageVisitor.OnNotifyFeedBackVisitor(this.enemy);
-          
+                    Debug.Log("Bullet OnNotifyFeedBackVisitor 2");
+
                     return;
                 }
             case Armored_Protection armored_Protection:

@@ -117,9 +117,10 @@ public abstract class Bullet:
 
     public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
     {
-        if(this.weapon.userWeapon != null)
+        if(this.weapon.userWeapon != null 
+            && this.weapon.userWeapon is IDamageVisitor damageVisitor)
         {
-            this.weapon.userWeapon.userWeaponDamageVisitor.OnNotifyFeedBackVisitor(damageAble);
+            damageVisitor.OnNotifyFeedBackVisitor(damageAble);
         }
     }
 }
