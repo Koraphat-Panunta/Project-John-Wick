@@ -25,7 +25,7 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
     {
         
     }
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
         this.curWeapon = enemy._currentWeapon;
@@ -38,7 +38,7 @@ public class EnemyDebuger :MonoBehaviour,IInitializedAble
             curWeaponMagCount = (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f);
         }
 
-       CurrentEnemyState = this.enemy.enemyStateManagerNode.GetCurNodeLeaf().ToString();
+       CurrentEnemyState = this.enemy.stateManagerNode.GetCurNodeLeaf().ToString();
        posture = enemy._posture;
 
 

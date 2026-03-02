@@ -1,12 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour,IInitializedAble
 {
-    protected float HP;
-    protected float maxHp;
+    public abstract Gauge _hpGauge { get; protected set; } 
+
     public bool enableRootMotion;
 
     public Transform _hipBone;
@@ -50,22 +48,40 @@ public abstract class Character : MonoBehaviour,IInitializedAble
 
     public virtual bool isDead { get 
         {
-            if(HP <=0)
+            if(this._hpGauge._gauge <=0)
                 return true;
             else return false;
         }
     }
 
+    public abstract Stance stance { get; }
+
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
+    [SerializeField] public CharacterMovementController characterController;
     //public Weapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
-    private void OnAnimatorMove()
+    int frame;
+    [SerializeField] private float SumDeltaPos;
+    protected virtual void OnAnimatorMove()
     {
-        if (enableRootMotion)
+        if (this.enableRootMotion)
         {
-            _movementCompoent.SetPosition(transform.position + animator.deltaPosition);
-            _movementCompoent.SetRotation(transform.rotation * animator.deltaRotation);
+            frame++;
+
+            SumDeltaPos += animator.deltaPosition.magnitude;
+
+            _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
+            _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
+
+            //Debug.Log("curPos = " + this.characterController.position);
+            //Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);
+
+        }
+        else
+        {
+            SumDeltaPos = 0;
+            frame = 0;
         }
 
     }
@@ -78,17 +94,16 @@ public abstract class Character : MonoBehaviour,IInitializedAble
    
     public float GetHP()
     {
-        return HP;
+        return this._hpGauge._gauge;
     }
-    public float GetMaxHp() => maxHp;
+    public float GetMaxHp() => this._hpGauge.maxGauge;
     public void SetHP(float HP)
     {
-        this.HP = Mathf.Clamp(HP,0,GetMaxHp());
+        this._hpGauge.SetGauge(Mathf.Clamp(HP, 0, GetMaxHp()));
     }
     public void AddHP(float HP)
     {
-        this.HP = Math.Clamp(this.HP+HP, 0, this.maxHp);
-        
+        this._hpGauge.AddGauge(Math.Clamp(this.GetHP() + HP, 0, this.GetMaxHp()));
     }
 
   

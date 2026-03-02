@@ -2,9 +2,18 @@ using UnityEngine;
 
 public partial class Enemy : IPostureAble
 {
-    public float _maxPosture { get => this.maxPosture; set => this.maxPosture = value; }
-    [SerializeField] private float maxPosture = 70;
-    public float _posture { get ; set; }
+    public float _maxPosture 
+    {
+        get => this.postureGauge.maxGauge; 
+        set => this.postureGauge.SetMaxGauge(value); 
+    }
+    public float _posture 
+    {
+        get => this.postureGauge._gauge; 
+        set => this.postureGauge.SetGauge(value);
+    }
+
+    public Gauge postureGauge;
 
     [Range(0,100)]
     [SerializeField] public float lightPosture;
@@ -39,5 +48,12 @@ public partial class Enemy : IPostureAble
         MiniPainState,
         MediumPainState,
         HeavyPainState
+    }
+
+    public void TakePostureDamaged(float postureDamage)
+    {
+        if(this._posture > 0)
+            this._posture -= postureDamage; 
+
     }
 }

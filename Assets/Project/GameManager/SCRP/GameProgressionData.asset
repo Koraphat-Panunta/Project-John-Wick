@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a794c7b9f1afe1c43a4e7e6c3a818092, type: 3}
+  m_Name: GameProgressionData
+  m_EditorClassIdentifier: Assembly-CSharp::GameProgressionData
+  objectID: 3c0f0ed5-084b-400c-a9a4-3bed4ee79f16
+  gameProgressionDetails:
+  - levelDataScriptableObject: {fileID: 11400000, guid: 102609c4ac6992c4a95af7bb18eb9973,
+      type: 2}
+    isClear: 0

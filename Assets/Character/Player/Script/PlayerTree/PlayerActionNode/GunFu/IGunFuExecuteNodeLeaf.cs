@@ -22,9 +22,9 @@ public class BulletExecute : Bullet
         _pureDestructionDamage = weapon.bullet.GetDestructionDamage * 3;
     }
 
-    public override float GetHpDamage => _pureHpDamage;
+    public override float GetHpDamage => _hPDamage;
     public override BulletType myType { get;protected set; }
-    public override float _pureHpDamage { get => 10000; set => throw new System.NotImplementedException(); }
-    public override float _purePostureDamage { get => 0; set => throw new System.NotImplementedException(); }
+    public override float _hPDamage { get => 10000; set => throw new System.NotImplementedException(); }
+    public override float _postureDamageVisitor { get => 0; set => throw new System.NotImplementedException(); }
     public override float _pureDestructionDamage { get ; set ; }
 }

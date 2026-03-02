@@ -15,7 +15,7 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
         , Transform bodyAimRefDir
         , Transform aimAtPosition
         , IWeaponAdvanceUser weaponAdvanceUser
-        , BodyLookConstrain splineLookConstrain
+        , BodyLookConstrainManager splineLookConstrain
         ,AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
         ,Func<bool> precondition) : base(splineLookConstrain,aimSplineLookConstrainScriptableObject,precondition)
     {

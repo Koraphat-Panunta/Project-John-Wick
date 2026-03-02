@@ -73,7 +73,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         get { return Vector3.Lerp(base.targetHintHandPosition, this.hintBlockedHand_Position, this.blockedWeight); }
     }
 
-    protected WeaponHandIK_ConstraintSCRP weaponRightHandIK_ConstraintSCRP;
+    protected WeaponHandIK_ConstraintSCRP weaponRightHandIK_ConstraintSCRP => base.handIK_ConstraintSCRP as WeaponHandIK_ConstraintSCRP;
     protected IWeaponAdvanceUser weaponAdvanceUser;
 
     protected float recoilWeightPos;
@@ -100,7 +100,6 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
             , precondition
             )
     {
-        this.weaponRightHandIK_ConstraintSCRP = rightHandIK_ConstraintSCRP;
         this.weaponAdvanceUser = weaponAdvanceUser;
     }
     public override void Enter()
@@ -147,6 +146,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
 
         this.recoilWeightPos = Mathf.Clamp01(this.recoilWeightPos - Time.deltaTime * 4);
         this.recoilWeightRot = Mathf.Clamp01(this.recoilWeightRot - Time.deltaTime * 10);
+
 
         //this.recoilWeightPos = 1;
         //this.recoilWeightRot = 1;

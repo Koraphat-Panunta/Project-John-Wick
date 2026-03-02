@@ -33,6 +33,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf humanShieldExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf humanShieldMoveNodeLeaf { get; set; }
 
+    public PlayAnimationNodeLeaf hitDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit1NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit2NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf hit3NodeLeaf { get; set; }
@@ -119,10 +120,11 @@ public partial class PlayerAnimationManager
             animator, "Sprint", 0, .5f);
 
         this.proneStateNodeSelector = new NodeSelector(
-            ()=> this.player.playerStance == Stance.prone);
+            ()=> this.player.stance == Stance.prone);
         this.dolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
-            , this.animator, "Dolphin Dive", 0, .1f, this.basedAnimationPoseTimeNormalzied, .5f, false);
+            , this.animator, "Dolphin Dive", 0, this.basedAnimationPoseTimeNormalzied, .05f
+            ,this.dolphinDivePoseAnimationSCRP);
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             , this.animator, "Prone", 0, 0, this.basedAnimationPoseTimeNormalzied, 1, false);
@@ -135,14 +137,14 @@ public partial class PlayerAnimationManager
             animator, "Crouch", 0, .2f);
         moveStandNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandIdleNodeLeaf || playerStateNodeMnager.GetCurNodeLeaf() is PlayerStandMoveNodeLeaf,
-            animator, "Move/Idle", 0, .1f);
+            animator, "Move/Idle", 0, .2f);
     }
     private void InitializedGunFuBasedLayer()
     {
         gunFuBaseLayerNodeSelector = new NodeSelector(
             () => 
             {
-                if (isPerformGunFu)
+                if (this.isPerformGunFu)
                 {
                     return true;
                 }
@@ -199,22 +201,26 @@ public partial class PlayerAnimationManager
         humanShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf
         , animator, "Move/Idle", 0, .35f);
 
+        this.hitDownNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
+            ,this.animator, "HitDown", 0,0);
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit1",
-            animator, "Hit1", 0, .1f, player.hit1.animationGunFuHitOffset);
+            animator, "Hit1", 0, .1f, this.player.hit1.enterNormalizedTime);
         hit2NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit2",
-            animator, "Hit2", 0, .1f, player.hit2.animationGunFuHitOffset);
+            animator, "Hit2", 0, .1f, player.hit2.enterNormalizedTime);
         hit3NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit3",
-            animator, "Hit3", 0, .1f, player.hit3.animationGunFuHitOffset);
+            animator, "Hit3", 0, .1f, player.hit3.enterNormalizedTime);
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
-            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.animationGunFuHitOffset);
+            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.enterNormalizedTime
+            );
     }
     private void InitializedBasedLayerNodeManager()
     {
@@ -247,6 +253,7 @@ public partial class PlayerAnimationManager
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
+                this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.hitDownNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit2NodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit3NodeLeaf);

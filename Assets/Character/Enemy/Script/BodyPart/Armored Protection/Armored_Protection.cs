@@ -1,6 +1,8 @@
 using UnityEngine;
 [ExecuteInEditMode]
-public class Armored_Protection : BodyPart,IDamageVisitor
+public class Armored_Protection : BodyPart
+    ,IHPDamageVisitor
+    ,IPostureDamageVisitor
 {
     [SerializeField] public BodyPart syncBodyPart;
     [SerializeField] public float armorHP;
@@ -13,8 +15,10 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
     public float hpDamage { get; protected set; }
     public float postureDamage { get; protected set; }
-    public float staggerDamage { get; protected set; }
     public override float penatrateResistance { get => armored_ProtectionSCRP._penetrateResistRate; set { } }
+
+    public float _hPDamage => this.hpDamage;
+    public float _postureDamageVisitor => this.postureDamage;
 
     public override void Initialized()
     {
@@ -40,13 +44,12 @@ public class Armored_Protection : BodyPart,IDamageVisitor
             armorHP -= bullet.GetDestructionDamage;
             hpDamage = bullet.GetHpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate);
             postureDamage = bullet.GetPostureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate);
-            staggerDamage = bullet.GetHpDamage * (_staggerReciverRate * syncBodyPart._staggerReciverRate);
 
+            //Friendly Fire
             if (bullet.weapon.userWeapon != null && bullet.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
             {
                 hpDamage *= 0.35f;
                 postureDamage = 0;
-                staggerDamage = 0;
             }
         }
        
@@ -55,7 +58,11 @@ public class Armored_Protection : BodyPart,IDamageVisitor
 
         syncBodyPart.TakeDamageBullet(this, hitPart, hitDir, hitforce);
     }
-    
+    public override void TakeDamage(IDamageVisitor damageVisitor)
+    {
+        base.TakeDamage(damageVisitor);
+
+    }
     protected virtual void ArmoredDestroyed()
     {
         meshRendererArmored.gameObject.SetActive(false);
@@ -73,14 +80,14 @@ public class Armored_Protection : BodyPart,IDamageVisitor
     {
 
     }
-    public override void Notify<T>(Enemy enemy, T node)
+    public override void OnNotify<T>(Enemy enemy, T node)
     {
         if (node is SubjectEnemy.EnemyEvent enemyEvent 
             && enemyEvent == SubjectEnemy.EnemyEvent.OnEnable)
         {
             SetDefaultAttribute();
         }
-        base.Notify(enemy, node);
+        base.OnNotify(enemy, node);
     }
   
     private void OnValidate()
@@ -123,4 +130,8 @@ public class Armored_Protection : BodyPart,IDamageVisitor
         meshRendererArmored.gameObject.SetActive(true);
     }
 
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        
+    }
 }

@@ -78,6 +78,7 @@ public partial class PlayerAnimationManager
                 || playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
                 )
                 return false;
 
@@ -120,5 +121,8 @@ public partial class PlayerAnimationManager
             if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
                 return true;
             return false;
-        } }
+        } 
+    }
+
+    [SerializeField] public PlayPoseAnimationScriptableObject dolphinDivePoseAnimationSCRP;
 }

@@ -77,7 +77,7 @@ public partial class Player: IWeaponAdvanceUser
 
             if(dot < 0.98f)
             {
-                Debug.Log("dot not = " + dot);
+                //Debug.Log("dot not = " + dot);
                 Vector3 shootPointPos = this._currentWeapon.bulletSpawner.transform.position + (this._currentWeapon.bulletSpawner.transform.forward * 100);
                 //Debug.DrawLine(this._currentWeapon.bulletSpawner.transform.position, shootPointPos, Color.green,5);
                 return shootPointPos;             
@@ -102,10 +102,10 @@ public partial class Player: IWeaponAdvanceUser
         _weaponUserAnimator = animator;
         _findingWeaponBehavior = new FindingWeaponBehavior(this);
         _weaponBelt = new WeaponBelt(PrimaryWeaponSocket, SecondaryWeaponSocket, new AmmoProuch());
-        _weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.rifleAmmo, 1000);
-        _weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.handgunAmmo, 1000);
-        _weaponBelt.ammoProuch.SetAmmo(BulletType.rifleAmmo, 1000);
-        _weaponBelt.ammoProuch.SetAmmo(BulletType.handgunAmmo, 1000);
+        //_weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.rifleAmmo, 1000);
+        //_weaponBelt.ammoProuch.SetMaximunAmmo(BulletType.handgunAmmo, 1000);
+        //_weaponBelt.ammoProuch.SetAmmo(BulletType.rifleAmmo, 1000);
+        //_weaponBelt.ammoProuch.SetAmmo(BulletType.handgunAmmo, 1000);
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this, this);

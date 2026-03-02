@@ -28,8 +28,8 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
 
     public CameraManagerNode cameraManagerNode;
 
-    public float standardCameraSensivity => gameMaster.dataBased.settingData.mouseSensitivivty * 0.1f;
-    public float aimDownSightCameraSensivity => gameMaster.dataBased.settingData.mouseAimDownSightSensitivity * 0.1f;
+    public float standardCameraSensivity => DynamicDataBased.Instance.settingDataScriptableObject.gameSetting.lookSensitivity * 0.25f;
+    public float aimDownSightCameraSensivity => DynamicDataBased.Instance.settingDataScriptableObject.gameSetting.aimDownSightSensitivity * 0.25f;
 
     [SerializeField,TextArea]
     public string inputLook;
@@ -129,13 +129,14 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     {
                         if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
                         {
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraExecute_Single_SCRP);
                             this.isPerformGunFu = true;
                             this.curGunFuNode = gunFuExecute_NodeLeaf;
 
                             Transform[] trackTransforms = { player._spine_1_Bone, gunFuExecute_NodeLeaf.gotGunFuAttackedAble._character._spine_0_Bone };
                             float[] trackWeight = { 1, 1 };
-                            this.cameraManagerNode.cameraGunFuExecuteNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
-                            this.cameraManagerNode.cameraGunFuExecuteNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
                         else if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
                         {
@@ -172,6 +173,34 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                     break;
                 }
+                case GunFuHitDownNodeLeaf gunFuHitDownNodeLeaf:
+                    {
+                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Restrain)
+                        {
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
+                            this.isPerformGunFu = true;
+                            this.curGunFuNode = gunFuHitDownNodeLeaf;
+
+                            Transform[] trackTransforms = { player._headBone, gunFuHitDownNodeLeaf.gotGunFuAttackedAble._character._headBone };
+                            float[] trackWeight = { .5f, 1 };
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
+                        }
+                        
+                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Attack)
+                        {
+                            cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
+                            cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);
+                        }
+
+                        if(gunFuHitDownNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        {
+                            this.isPerformGunFu = false;
+                            if (this.curGunFuNode == gunFuHitDownNodeLeaf)
+                                this.curGunFuNode = null;
+                        }
+                        break;
+                    }
             case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
                         if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)

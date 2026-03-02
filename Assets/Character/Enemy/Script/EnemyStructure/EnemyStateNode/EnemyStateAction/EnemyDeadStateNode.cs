@@ -28,7 +28,7 @@ public class EnemyDeadStateNode : EnemyStateLeafNode
     }
     public override void FixedUpdateNode()
     {
-        this.movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakDecelerate, MoveMode.MaintainMomentumDirection);
+        this.movementCompoent.UpdateMoveToDirWorld(Vector3.zero, enemy.breakDecelerate * .35f, MoveMode.MaintainMomentumDirection);
         base.FixedUpdateNode();
     }
 }

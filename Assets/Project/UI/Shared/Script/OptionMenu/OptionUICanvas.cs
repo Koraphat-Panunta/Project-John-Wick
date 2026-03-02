@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,53 +11,68 @@ public class OptionUICanvas : MonoBehaviour,IInitializedAble
 
     public OptionUIDisplayer curOptionUISector { get; private set; }
 
-    public AudioSettingOptionDisplay audioSettingOptionDisplay { get; private set; }
-    [SerializeField] public Button audioSettingSelectButton;
-    [SerializeField] public GameObject audioSettingCanvas;
-    [SerializeField] public Slider volumeMasterSlider;
-    [SerializeField] public Slider volumeEffectSlider;
-    [SerializeField] public Slider volumeMusicSlider;
+    [SerializeField] public SelectOptionSector[] selectOptionSectors;
+    public Dictionary<OptionUIDisplayer, Button> buttonSelectOptionDisplayer;
 
-    public ControlSettingOptionDisplay controlSettingOptionDisplay { get; private set; }
-    [SerializeField] public Button controlSettingSelectButton;
-    [SerializeField] public GameObject controlSettingCanvas;
-    [SerializeField] public Slider mouseSensitivitySlider;
-    [SerializeField] public Slider aimSensitivitySlider;
-
-
-    public void ChangeOptionUISector(OptionUIDisplayer optionUISector,DataBased loadDataBased)
+    public void ChangeOptionUISector(OptionUIDisplayer optionUISector,SettingDataScriptableObject settingDataScriptableObject)
     {
         if(curOptionUISector != null)
             curOptionUISector.Hide();
-
-
 
         curOptionUISector = optionUISector;
 
         Debug.Log("curOptionUISector = " + curOptionUISector);
         Debug.Log("optionUISector = "+ optionUISector);
 
-        curOptionUISector.Show(loadDataBased);
+        curOptionUISector.Show(settingDataScriptableObject);
     }
 
-    private void InitializedOptionUISector()
+    public bool GetOptionDisplayAs<T>(out T optionDisplay) where T : OptionUIDisplayer
     {
+        optionDisplay = null;
 
-        this.controlSettingOptionDisplay = new ControlSettingOptionDisplay(
-            this.controlSettingCanvas
-            ,this.mouseSensitivitySlider
-            ,this.aimSensitivitySlider);
+        if(this.selectOptionSectors == null
+            || this.selectOptionSectors.Length <=0 )
+            return false;
 
-        this.audioSettingOptionDisplay = new AudioSettingOptionDisplay(
-            this.audioSettingCanvas
-            , this.volumeMasterSlider
-            , this.volumeMusicSlider
-            , this.volumeEffectSlider);
 
+        for(int i = 0;i < this.selectOptionSectors.Length; i++)
+        {
+            if (this.selectOptionSectors[i].optionUIDisplayer is T)
+            {
+                optionDisplay = this.selectOptionSectors[i].optionUIDisplayer as T;
+                return true;
+            }
+        }
+
+        return false;
     }
+
+    [Serializable]
+    public struct SelectOptionSector
+    {
+        public OptionUIDisplayer optionUIDisplayer;
+        public Button settingSelectionButton;
+    }
+   
+  
 
     public void Initialized()
     {
-        this.InitializedOptionUISector();
+        this.buttonSelectOptionDisplayer = new Dictionary<OptionUIDisplayer, Button>();
+
+        if (this.selectOptionSectors == null
+           || this.selectOptionSectors.Length <= 0)
+            return;
+
+
+        for (int i = 0; i < this.selectOptionSectors.Length; i++)
+        {
+            this.buttonSelectOptionDisplayer.Add(
+                this.selectOptionSectors[i].optionUIDisplayer
+                , this.selectOptionSectors[i].settingSelectionButton
+                );
+        }
+
     }
 }

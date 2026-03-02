@@ -88,7 +88,7 @@ namespace TMPro.Examples
                 // Get new copy of vertex data if the text has changed.
                 if (hasTextChanged)
                 {
-                    // UpdateNode the copy of the vertex data for the text object.
+                    // UpdateNodeAndCheckFindingNode the copy of the vertex data for the text object.
                     cachedMeshInfo = textInfo.CopyMeshInfoVertexData();
 
                     hasTextChanged = false;

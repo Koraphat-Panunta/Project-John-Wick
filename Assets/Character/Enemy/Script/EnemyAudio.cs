@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called before the first frame update
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioSource walkSource;
     [SerializeField] private AudioClip hit;
     [SerializeField] private AudioClip dead;
@@ -31,7 +30,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
     float footStepTiming = 0;
     private void PlayVolumeMove()
     {
-        EnemyStateLeafNode enemyState = (enemy.enemyStateManagerNode as INodeManager).GetCurNodeLeaf() as EnemyStateLeafNode;
+        EnemyStateLeafNode enemyState = (enemy.stateManagerNode as INodeManager).GetCurNodeLeaf() as EnemyStateLeafNode;
         if (enemyState is EnemyStandMoveStateNodeLeaf)
         {
             float timingRate = 1.2f;
@@ -60,7 +59,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
         }
     }
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
        
     }

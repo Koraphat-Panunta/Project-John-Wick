@@ -226,7 +226,7 @@ MonoBehaviour:
     type: 2}
   rightHand_Target_AimDownSight_PrimaryWeapon_SCRP: {fileID: 11400000, guid: 347d4425caf2e9f43bc74a14eb8fce5a,
     type: 2}
-  rightHand_AimDownSight_QuickSwitch_SCRP: {fileID: 11400000, guid: f56ccc5f8593c254dac3d1e2d7c9e984,
+  rightHand_AimDownSight_QuickSwitch_SCRP: {fileID: 11400000, guid: 6ce34fdbc20585f4383f5cccc93cae09,
     type: 2}
   rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP: {fileID: 11400000, guid: e2095fdd7146c704a986492f5f573492,
     type: 2}
@@ -667,12 +667,14 @@ MonoBehaviour:
   _rightHandBone: {fileID: 2296114816121712487}
   movementScriptableObject: {fileID: 11400000, guid: 2c60039c667772140a3d32a6276279dd,
     type: 2}
+  characterController: {fileID: 4305910727867654801}
   animator: {fileID: 1968153037591969261}
+  SumDeltaPos: 0
   RayCastPos: {fileID: 515110806482555238}
   cinemachineCamera: {fileID: 1671305130001768256}
-  characterController: {fileID: 4305910727867654801}
   isImortal: 0
   MyHP: 0
+  stanceCommand: 0
   debugIsIFrame: 0
   inputLookDir_Local: {x: 0, y: 0}
   inputLookDir_World: {x: 0, y: 0, z: 0}
@@ -680,7 +682,6 @@ MonoBehaviour:
   inputMoveDir_World: {x: 0, y: 0, z: 0}
   isSprint: 0
   triggerDodgeRoll: 0
-  playerStance: 0
   centreTransform: {fileID: 6366118577415145198}
   moveWarping:
     serializedVersion: 2
@@ -712,6 +713,8 @@ MonoBehaviour:
     type: 2}
   parkour_CharacterControllerSCRP: {fileID: 11400000, guid: c28502e2ebefc6d4688b2ae3193eff70,
     type: 2}
+  playerStatsScriptableObject: {fileID: 11400000, guid: 80dae43c79e08fe4b886dbc2a037226b,
+    type: 2}
   PlayerBrounceOffGotAttackGunFuScriptableObject: {fileID: 11400000, guid: 6f2cf868b432bc64c94e4c225e6cfff0,
     type: 2}
   targetAdjustTranform: {fileID: 4967964261953637315}
@@ -730,6 +733,8 @@ MonoBehaviour:
   primaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 1f8862e573c972c428ea58c315320f9b,
     type: 2}
   secondaryWeaponDisarmGunFuScriptableObject: {fileID: 11400000, guid: 75f6e77347fb30749b3174c7abba36f3,
+    type: 2}
+  gunFuHitDownScriptableObject: {fileID: 11400000, guid: 4dc7bea5e46720248ad524634b4868d1,
     type: 2}
   gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I: {fileID: 11400000, guid: 8d852748791675644a006bb5208fe600,
     type: 2}
@@ -788,7 +793,6 @@ MonoBehaviour:
   climbLowScrp: {fileID: 11400000, guid: 6c29a1a6394bfac42a8e4ccc6017a558, type: 2}
   climbHighScrp: {fileID: 11400000, guid: e59af1dd7f14da4409ab34d60655ed35, type: 2}
   vaultingScrp: {fileID: 11400000, guid: e2fea225ee3fd514292418efab7b8c6c, type: 2}
-  regenSpeed: 0.1
 --- !u!114 &4449691354107149587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,6 +832,8 @@ MonoBehaviour:
   CAR_ChangeTime: 0.75
   curUpperLayer: 
   curBaseLayer: 
+  dolphinDivePoseAnimationSCRP: {fileID: 11400000, guid: 3ad00b1f459b99948afb9d754d8eeab4,
+    type: 2}
 --- !u!114 &3521077618753225899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,6 +908,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  position: {x: 0, y: 0, z: 0}
   curVelocity: {x: 0, y: 0, z: 0}
   isEnableGizmos: 0
 --- !u!114 &9030984288096570306
@@ -969,7 +976,8 @@ AudioSource:
   m_GameObject: {fileID: 8373089153652914099}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4205020694465869820, guid: b5913fa8685b45b4bb03d11d88ca2447,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -5083,7 +5091,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa8170b1d6532b498b47ce2a1214f29, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f430de55ff8c34499b6059547f86ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8557572611648622645

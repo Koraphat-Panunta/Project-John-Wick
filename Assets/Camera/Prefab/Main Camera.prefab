@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 6424261375681497480}
   - component: {fileID: 8522622513793723404}
   - component: {fileID: 2349786387772042701}
-  - component: {fileID: 7844203992046025936}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -236,6 +235,8 @@ MonoBehaviour:
   cameraProneAimDownSightView_SCRP: {fileID: 11400000, guid: 36439a595010afc4e9bc86cdee26feb0,
     type: 2}
   cameraExecute_Single_SCRP: {fileID: 11400000, guid: fda8c9140bee9384099f46fc07992d54,
+    type: 2}
+  cameraGunFuHitDown_SCRP: {fileID: 11400000, guid: 35fac65c94f2ac34696bb92ab8f1a934,
     type: 2}
   isAiming: 0
   isSprint: 0
@@ -502,14 +503,6 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
---- !u!81 &7844203992046025936
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3806568399460747138}
-  m_Enabled: 1
 --- !u!1 &5925997669517955013
 GameObject:
   m_ObjectHideFlags: 0

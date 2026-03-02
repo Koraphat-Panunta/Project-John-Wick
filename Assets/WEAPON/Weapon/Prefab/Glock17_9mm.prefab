@@ -547,10 +547,22 @@ MonoBehaviour:
   _SecondHandGripTransform: {fileID: 7888230317182710063}
   weaponStatsScriptableObject: {fileID: 11400000, guid: ff9a83f47559f4f418250945a9598ca4,
     type: 2}
-  isEquiped: 1
+  maxAmmoCapacityAdditional: 0
+  rate_of_fire_Additional: 0
+  reloadTimeAdditional: 0
+  Recovery_CrosshairBloomSpeed_Additional: 0
+  Recovery_CrosshairPositionSpeed_Additional: 0
+  Recoil_CrosshairBloomController_Additional: 0
+  Recoil_KickPositionCrosshairController_Additional: 0
+  Recoil_CameraControlController_Additional: 0
+  Recoil_VisualImpulseControl_Additional: 0
+  min_CrosshairSize_Additional: 0
+  max_CrosshairSize_Additional: 0
+  aimDownSight_speed_Additional: 0
   WeaponAttacherComponent: {fileID: 7665513408781047494}
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 2589834951360758816}
+  weaponAttachmentSocket: []
   Collider: {fileID: 4957479122355972784}
   throwVelocity: 10
   layerHit:
@@ -703,7 +715,8 @@ AudioSource:
   m_GameObject: {fileID: 7594886238610776571}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4205020694465869820, guid: b5913fa8685b45b4bb03d11d88ca2447,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -1472,7 +1485,7 @@ MonoBehaviour:
   spark: {fileID: 7440191685052868192, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
   bloodSplit: {fileID: 1903839483200921912, guid: dce64985075625d4dad0262be6a758df,
     type: 3}
-  bulletHitPrefab: {fileID: 3939261903344632742, guid: c89e6f69359eb52439940b98577659e2,
+  bulletHitPrefab: {fileID: 1001209025161360603, guid: f1b8e62d427131c45b48bc1c14aad24c,
     type: 3}
   hitArmor: {fileID: 8300000, guid: e4b229d1cd4c5954c982c44b6f42eb27, type: 3}
   hitFresh: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}

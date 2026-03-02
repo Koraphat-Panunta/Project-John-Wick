@@ -14,12 +14,12 @@ public abstract class AnimationConstrainNodeLeaf : AnimationConstrainNode, INode
     }
     public virtual void Enter()
     {
-       
+        this.isTriggerReset = false;
     }
 
     public virtual void Exit()
     {
-        
+        this.isTriggerReset = false;
     }
 
     public virtual void FixedUpdateNode()
@@ -32,7 +32,18 @@ public abstract class AnimationConstrainNodeLeaf : AnimationConstrainNode, INode
         return isComplete;
     }
 
-    public virtual bool IsReset() => nodeLeafBehavior.IsReset(isReset);
+    protected bool isTriggerReset;
+    public void TriggerReset()
+    {
+        this.isTriggerReset = true;
+    }
+    public virtual bool IsReset() 
+    {
+        if (this.isTriggerReset)
+            return true;
+
+        return this.nodeLeafBehavior.IsReset(isReset);
+    } 
     
    
 

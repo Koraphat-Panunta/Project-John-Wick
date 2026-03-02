@@ -27,7 +27,6 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
     }
     public override void Exit()
     {
-        this.player.playerStance = Stance.stand;
         base.Exit();
     }
     public override void UpdateNode()

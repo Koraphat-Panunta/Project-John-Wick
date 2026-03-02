@@ -426,7 +426,7 @@ RectTransform:
   m_Father: {fileID: 1628871593883354839}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -479,6 +479,7 @@ GameObject:
   - component: {fileID: 5441170812127089776}
   - component: {fileID: 6770114537276607212}
   - component: {fileID: 1128923925067433797}
+  - component: {fileID: 2293584937613317896}
   m_Layer: 5
   m_Name: AudioSetting
   m_TagString: Untagged
@@ -547,6 +548,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2293584937613317896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943340637534257319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8861c339b90a3454f96186e781f2100c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioSettingOptionDisplay
+  optionCanvasSector: {fileID: 943340637534257319}
+  masterVolume: {fileID: 4486928892942135145}
+  musicVolume: {fileID: 6589930247266853941}
+  sfxVolume: {fileID: 5570799650459750197}
 --- !u!1 &1193582948053600133
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,10 +836,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 3468713140658741780}
   m_HandleRect: {fileID: 3189571448459457883}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 100
+  m_MinValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -945,7 +962,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 524287
 --- !u!114 &1251336135821074353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -960,15 +977,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backButton: {fileID: 4957014347532105749}
   applyButton: {fileID: 3508731936236539983}
-  audioSettingSelectButton: {fileID: 1851632674082599088}
-  audioSettingCanvas: {fileID: 943340637534257319}
-  volumeMasterSlider: {fileID: 4486928892942135145}
-  volumeEffectSlider: {fileID: 5570799650459750197}
-  volumeMusicSlider: {fileID: 6589930247266853941}
-  controlSettingSelectButton: {fileID: 4768792195802474080}
-  controlSettingCanvas: {fileID: 8122022909902258633}
-  mouseSensitivitySlider: {fileID: 8914549898968467170}
-  aimSensitivitySlider: {fileID: 6686134778710021798}
+  selectOptionSectors:
+  - optionUIDisplayer: {fileID: 6992295574410335700}
+    settingSelectionButton: {fileID: 4768792195802474080}
+  - optionUIDisplayer: {fileID: 2293584937613317896}
+    settingSelectionButton: {fileID: 1851632674082599088}
 --- !u!1 &1970102769089486111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,7 +1860,7 @@ RectTransform:
   m_Father: {fileID: 6265710650703222315}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2572,10 +2585,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 4089715385895142973}
   m_HandleRect: {fileID: 8291657590812483490}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 100
+  m_MinValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2678,7 +2691,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7762229119829077455}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -3910,7 +3923,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2835553493921057149}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -3949,7 +3962,7 @@ RectTransform:
   m_Father: {fileID: 529310974806375648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4377,7 +4390,7 @@ RectTransform:
   m_Father: {fileID: 3484916586640421199}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4566,13 +4579,14 @@ GameObject:
   - component: {fileID: 3441034310806408091}
   - component: {fileID: 2500667088246352801}
   - component: {fileID: 2241143480481031348}
+  - component: {fileID: 6992295574410335700}
   m_Layer: 5
   m_Name: ControlSetting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3441034310806408091
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4633,6 +4647,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6992295574410335700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8122022909902258633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e6c21980b4c73498ea5e3ca000d4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ControlSettingOptionDisplay
+  optionCanvasSector: {fileID: 8122022909902258633}
+  mouseSensitivity: {fileID: 8914549898968467170}
+  aimDownSightSensitivity: {fileID: 6686134778710021798}
 --- !u!1 &8210103202124826828
 GameObject:
   m_ObjectHideFlags: 0

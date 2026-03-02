@@ -33,16 +33,16 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
         {
             if(hitInfo.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart)
                 && bodyPart.enemy.isDead == false 
-                && bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
-                && bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
                 detectedEnemy = bodyPart.enemy;
         }
         else if(Physics.SphereCast(this.camera.transform.position,1.25f, (this.pointingPos - this.camera.transform.position).normalized, out RaycastHit hitInfoSphere, range, this.enemyMask))
         {
             if (hitInfoSphere.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart)
                 && bodyPart.enemy.isDead == false
-                && bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
-                && bodyPart.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
                 detectedEnemy = bodyPart.enemy;
         }
 

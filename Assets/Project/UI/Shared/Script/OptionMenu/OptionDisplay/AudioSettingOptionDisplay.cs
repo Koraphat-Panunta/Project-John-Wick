@@ -4,25 +4,16 @@ using UnityEngine.UI;
 public class AudioSettingOptionDisplay : OptionUIDisplayer
 {
 
-    private Slider masterVolume;
-    private Slider musicVolume;
-    private Slider sfxVolume;
+    [SerializeField] public Slider masterVolume;
+    [SerializeField] public Slider musicVolume;
+    [SerializeField] public Slider sfxVolume;
 
-    public AudioSettingOptionDisplay(GameObject canvasSector
-        ,Slider masterVolume
-        ,Slider musicVolume
-        ,Slider sfxVolume) : base(canvasSector)
-    {
-        this.masterVolume = masterVolume;
-        this.musicVolume = musicVolume;
-        this.sfxVolume = sfxVolume;
-    }
 
-    protected override void Load(DataBased dataBased)
+    protected override void Load(SettingDataScriptableObject dataBased)
     {
-        this.masterVolume.value = dataBased.settingData.volumeMaster;
-        this.musicVolume.value = dataBased.settingData.volumeMusic;
-        this.sfxVolume.value = dataBased.settingData.volumeEffect;
+        this.masterVolume.value = dataBased.audioSetting.MasterVolume;
+        this.musicVolume.value = dataBased.audioSetting.MusicVolume;
+        this.sfxVolume.value = dataBased.audioSetting.SoundEffectVolume;
 
     }
 }

@@ -109,6 +109,8 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
 
     protected override void OnNotifySpottingTarget(GameObject target)
     {
+ 
+
         _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert;
         _targetZone.SetZone(target.transform.position, raduisTargetZone);
 
@@ -131,44 +133,44 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
                         return;
 
                     _curCombatPhase = IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware;
-                    _targetZone.SetZone(enemy.targetKnewPos, raduisTargetZone);
+                    _targetZone.SetZone(this.enemy.targetKnowPos, raduisTargetZone);
                 }
                 break;
         }
     }
     [SerializeField] private bool isEnableDrawGizmosDebug;
-    private void OnDrawGizmos()
-    {
-        //DrawTargetZoneDefine
-        //if (Application.isPlayer ==false)
-        //    return;
-        if(isEnableDrawGizmosDebug == false)
-            return;
+    //private void OnDrawGizmos()
+    //{
+    //    //DrawTargetZoneDefine
+    //    //if (Application.isPlayer ==false)
+    //    //    return;
+    //    if(isEnableDrawGizmosDebug == false)
+    //        return;
 
 
-        if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
-        {
-            if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
-            {
-                Gizmos.color = Color.red * 0.5f;
-                for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
-                {
-                    Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.2f);
-                    if (i > 0)
-                        Gizmos.DrawLine(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i - 1]
-                            , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
-                }
-            }
-        }
-        if(overwatchRoleNodeManager.curNodeLeaf == overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf)
-        {
-            Gizmos.color = Color.blue * 0.5f;
-            Gizmos.DrawSphere(overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition, .25f);
-            Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition);
+    //    if (enemyActionNodeManager == chaserRoleNodeManager && chaserRoleNodeManager.curNodeLeaf == chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf)
+    //    {
+    //        if(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
+    //        {
+    //            Gizmos.color = Color.red * 0.5f;
+    //            for(int i = 0;i< chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint.Count; i++)
+    //            {
+    //                Gizmos.DrawSphere(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i],0.2f);
+    //                if (i > 0)
+    //                    Gizmos.DrawLine(chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i - 1]
+    //                        , chaserRoleNodeManager.approuchingTargetEnemyActionNodeLeaf.curvePath._markPoint[i]);
+    //            }
+    //        }
+    //    }
+    //    if(overwatchRoleNodeManager.curNodeLeaf == overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf)
+    //    {
+    //        Gizmos.color = Color.blue * 0.5f;
+    //        Gizmos.DrawSphere(overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition, .25f);
+    //        Gizmos.DrawLine(enemy.transform.position, overwatchRoleNodeManager.swarpCombatPositionActionNodeLeaf.swarpPosition);
            
-        }
+    //    }
 
-    }
+    //}
 
     
 
@@ -180,7 +182,7 @@ public class EnemyRoleBasedDecision : EnemyDecision,IEnemyActionNodeManagerImple
         enemyActionNodeManager.Enter();
     }
 
-    public void Notify<T>(Enemy enemy, T node) 
+    public void OnNotify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyEvent enemyEvent 
             && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit)

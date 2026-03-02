@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,IGameLevelMasterObserver,IObserverPlayer
 {
+    public static float ReadWorldTimeFactor => (Time.deltaTime * (1f / Mathf.Clamp(Time.timeScale, .1f, 1)));
+
     public static readonly float fixDeltaTimeOnSlowMotion = 0.02f * 0.75f;
     public static readonly float fixDeltaTimeDefault = 0.02f;
     public NodeManagerBehavior _nodeManagerBehavior { get ; set; }
@@ -32,7 +34,7 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
         if(isSystemStopTime == false)
             this.FixedUpdateNode();
     }
-    public void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode() => _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
 
     public INodeSelector startNodeSelector { get; set; }
@@ -43,11 +45,11 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     {
         startNodeSelector = new NodeSelector(() => true, "startNodeSelector TimeControlManager");
 
-        timeDefaultNodeLeaf = new TimeScaleDefaultNodeLeaf(()=> true,this,1,1);
         triggerBulletTime = new TriggerTimeSlowCurveNodeLeaf(
             () => triggerBulletTime.timer > 0
             , this);
-        
+        timeDefaultNodeLeaf = new TimeScaleDefaultNodeLeaf(
+            () => true, this, 1, 1);
 
         startNodeSelector.AddtoChildNode(triggerBulletTime);
         startNodeSelector.AddtoChildNode(timeDefaultNodeLeaf);

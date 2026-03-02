@@ -11,7 +11,7 @@ public class TransformReferenceLookBodyConstraintNodeLeaf : LookBodyConstraintNo
         Transform lookTransformRef
         , float targetWeight
         , float weightChangeRate
-        , BodyLookConstrain splineLookConstrain
+        , BodyLookConstrainManager splineLookConstrain
         , AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
         , Func<bool> precondition) : base(splineLookConstrain, aimSplineLookConstrainScriptableObject, precondition)
     {

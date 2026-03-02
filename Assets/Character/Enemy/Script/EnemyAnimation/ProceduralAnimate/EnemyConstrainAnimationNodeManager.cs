@@ -1,18 +1,16 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using static UnityEditor.Recorder.OutputPath;
+using static EnemyBodyBulletDamageAbleBehavior;
 
-public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager,IObserverEnemy
+public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager, IObserverEnemy
 {
 
-    public Transform centre;
-    public TwoBoneIKConstraint leftLeg;
-    public TwoBoneIKConstraint rightLeg;
     public Enemy enemy;
 
-    public BodyLookConstrain bodyLookConstrain;
+    public BodyLookConstrainManager bodyLookConstrainManager;
     public HandArmIKConstraintManager leftHandIKConstraint;
     public HandArmIKConstraintManager rightHandIKConstraint;
+    public LegsConstrainManager legsConstrainManager;
 
     public string curNodeName;
     [SerializeField] private AimBodyConstrainScriptableObject painStateBodyConstraintSCRP;
@@ -21,79 +19,72 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     [SerializeField] private TransformOffsetSCRP armAnchorSwingOffsetPosition;
     [SerializeField] private TransformOffsetSCRP armBalancePointOffset;
-    #region PainStateWalk
-    [SerializeField, TextArea] public string enemyProceduralAnimateNodeManagerDebug;
 
-    [Range(0, 10)]
-    public float hipLegSpace;
-
-    [Range(0, 10)]
-    public float StepHeight;
-
-    [Range(0, 10)]
-    public float StepDistacne;
-
-    [Range(0, 100)]
-    public float StepVelocity;
-
-    [Range(0, 10)]
-    public float FootstepPlacementOffsetDistance;
-    #endregion
+    [SerializeField] private ProceduralLegsWalkConstrainSCRP proceduralLegsPainStateWalkConstrainSCRP;
 
     [SerializeField] private Rig rig;
 
     [SerializeField] private AnimationCurve painBodyRespondCurve;
-    public NodeComponentManager enemyConstraintAnimationNodeManager;
-    public NodeComponentManager enemyConstraintWeightNodeComponentManager;
+
+    public NodeComponentManager enemyBodyConstraintAnimationNodeManager;
 
     #region BodyConstraintNode
     public NodeSelector bodyConstraintSelector;
     public PainStateProceduralBodyConstraintNodeLeaf painStateProceduralBodyConstraintNodeLeaf;
+
     public NodeSelector aimDownSightBodyNodeSelector;
     public AimDownSightBodyConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
     public AimDownSightBodyConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
-    #endregion
 
-    #region ArmConstraintNodeLeaf
-    public NodeSelector leftArmConstraintSelector;
-    public ArmHoldPainPointConstraintNodeLeaf leftArmHoldPainPointConstraintNodeLeaf;
-    public ArmPrceduralPainStateConstraintNodeLeaf leftArmFlickPainStateConstraintNodeLeaf;
+    public RestNodeLeaf restBodyConstrainNodeLeaf;
 
-    public NodeSelector rightArmConstraintSelector;
-    public ArmPrceduralPainStateConstraintNodeLeaf rightArmFlickPainStateConstraintNodeLeaf;
+    public NodeSelector bodyWeightConstranSelector;
+    public SetConstraintWeightNodeLeaf enableBodyConstrainWeightNodeLeaf;
+    public SetConstraintWeightNodeLeaf disableBodyConstrainWeightNodeLeaf;
 
-    #endregion
-
-
-
-    public PainStateWalkProceduralAnimateNodeLeaf painStateWalkProceduralAnimateNodeLeaf;
-
-    public void InitailizedNode()
+    private void InitializedBodyConstrainNode()
     {
-        this.enemyConstraintAnimationNodeManager = new NodeComponentManager();
+        this.enemyBodyConstraintAnimationNodeManager = new NodeComponentManager();
 
-        #region BodyConstraint
+        //1
+        this.bodyConstraintSelector = new NodeSelector(() => true);
+        this.bodyWeightConstranSelector = new NodeSelector(() => true);
 
-        this.bodyConstraintSelector = new NodeSelector(() => isBodyConstriantEnable);
-
+        //2
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
            this.enemy.transform
-           , this.bodyLookConstrain
+           , this.bodyLookConstrainManager
            , this.painBodyRespondCurve
            , this.painStateBodyConstraintSCRP
-           , () => enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            );
 
         this.aimDownSightBodyNodeSelector = new NodeSelector(
             () => enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0
             );
 
+        this.restBodyConstrainNodeLeaf = new RestNodeLeaf
+            (() => true);
+
+        this.enableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => this.bodyConstraintSelector.curNodeLeaf != this.restBodyConstrainNodeLeaf
+            , this.bodyLookConstrainManager
+            , 1, 1);
+
+        this.disableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => true
+            , this.bodyLookConstrainManager
+            , 1, 0);
+
+        //3
+
         this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
             this.enemy._hipBone
             , this.enemy._hipBone
             , this.enemy.pointingTransform
             , this.enemy
-            , bodyLookConstrain
+            , bodyLookConstrainManager
             , primaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is PrimaryWeapon
             );
@@ -103,146 +94,239 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             , this.enemy._hipBone
             , this.enemy.pointingTransform
             , this.enemy
-            , bodyLookConstrain
+            , bodyLookConstrainManager
             , secondaryAimSplineLookConstrainScriptableObject
             , () => enemy._currentWeapon is SecondaryWeapon
             );
+        //
 
-        #endregion
+        //1
+        this.bodyConstraintSelector.AddtoChildNode(this.painStateProceduralBodyConstraintNodeLeaf);
+        this.bodyConstraintSelector.AddtoChildNode(this.aimDownSightBodyNodeSelector);
+        this.bodyConstraintSelector.AddtoChildNode(this.restBodyConstrainNodeLeaf);
 
-        #region ArmsConstraint
+        this.bodyWeightConstranSelector.AddtoChildNode(this.enableBodyConstrainWeightNodeLeaf);
+        this.bodyWeightConstranSelector.AddtoChildNode(this.disableBodyConstrainWeightNodeLeaf);
 
-        this.leftArmConstraintSelector = new NodeSelector(
-            () => isLeftArmConstraintEnable
-            );
+        //2
+        this.aimDownSightBodyNodeSelector.AddtoChildNode(this.primaryAnimationConstrainNodeLeaf);
+        this.aimDownSightBodyNodeSelector.AddtoChildNode(this.secondaryAnimationConstrainNodeLeaf);
 
-        this.leftArmHoldPainPointConstraintNodeLeaf = new ArmHoldPainPointConstraintNodeLeaf(
-            this.leftHandIKConstraint
-            , this.enemy._spine_1_Bone
-            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            ,this.armAnchorSwingOffsetPosition);
-        this.leftArmFlickPainStateConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
-            (this.leftHandIKConstraint
-            , this.enemy._spine_1_Bone
-            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-            , this.armAnchorSwingOffsetPosition
-            , this.armBalancePointOffset
-            , new Vector3(0,-90,0)
-            );
+        //
 
+        this.enemyBodyConstraintAnimationNodeManager.AddNode(this.bodyConstraintSelector);
+        this.enemyBodyConstraintAnimationNodeManager.AddNode(this.bodyWeightConstranSelector);
+    }
+
+    #endregion
+
+    #region RightArmConstrainNodeLeaf
+    public NodeComponentManager rightArmNodeComponentManager;
+
+    public NodeSelector rightArmConstraintSelector;
+    public ArmPrceduralPainStateConstraintNodeLeaf rightArmPainStateProceduralConstraintNodeLeaf;
+    public RestNodeLeaf restRightArmConstrainNodeLeaf;
+
+    public NodeSelector rightArmWeightConstrainSelector;
+    public SetConstraintWeightNodeLeaf enableRightArmWeightConstrainNodeLeaf;
+    public SetConstraintWeightNodeLeaf disableRightArmWeightConstrainNodeLeaf;
+
+    private void InitializedRightArmConstrainNode()
+    {
+        this.rightArmNodeComponentManager = new NodeComponentManager();
+
+        //1
         this.rightArmConstraintSelector = new NodeSelector(
-            () => isRightArmConstraintEnable
+            () => true
             );
-        this.rightArmFlickPainStateConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
+        this.rightArmWeightConstrainSelector = new NodeSelector(
+            () => true
+            );
+
+        //2
+        this.rightArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.rightHandIKConstraint
             , this.enemy._spine_1_Bone
-            , () => this.enemy.enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+            //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             , this.armAnchorSwingOffsetPosition
             , this.armBalancePointOffset
             , new Vector3(0, 90, 0)
             );
 
-        #endregion
+        this.restRightArmConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
-        #region LegsConstraint
+        this.enableRightArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
+            (()=> this.rightArmConstraintSelector.curNodeLeaf != this.restRightArmConstrainNodeLeaf
+            ,this.rightHandIKConstraint
+            ,1,1);
 
-        painStateWalkProceduralAnimateNodeLeaf = new PainStateWalkProceduralAnimateNodeLeaf(this,
-            () =>
-            {
-                return (enemy.enemyStateManagerNode as INodeManager).TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>();
-            }
+        this.disableRightArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
+            (() => true
+            , this.rightHandIKConstraint
+            , 1, 0);
+
+        //1
+        this.rightArmConstraintSelector.AddtoChildNode(this.rightArmPainStateProceduralConstraintNodeLeaf);
+        this.rightArmConstraintSelector.AddtoChildNode(this.restRightArmConstrainNodeLeaf);
+
+        this.rightArmWeightConstrainSelector.AddtoChildNode(this.enableRightArmWeightConstrainNodeLeaf);
+        this.rightArmWeightConstrainSelector.AddtoChildNode(this.disableRightArmWeightConstrainNodeLeaf);
+
+        this.rightArmNodeComponentManager.AddNode(this.rightArmConstraintSelector);
+        this.rightArmNodeComponentManager.AddNode(this.rightArmWeightConstrainSelector);
+    }
+
+
+    #endregion
+
+    #region LeftArmConstrainNodeLeaf
+
+    public NodeComponentManager leftArmNodeComponentManager;
+
+    public NodeSelector leftArmConstraintSelector;
+    public ArmPrceduralPainStateConstraintNodeLeaf leftArmPainStateProceduralConstraintNodeLeaf;
+    public RestNodeLeaf restLeftArmConstrainNodeLeaf;
+
+    public NodeSelector leftArmWeightConstrainSelector;
+    public SetConstraintWeightNodeLeaf enableLeftArmWeightConstrainNodeLeaf;
+    public SetConstraintWeightNodeLeaf disableLeftArmWeightConstrainNodeLeaf;
+
+    private void InitializedLeftArmConstrainNode()
+    {
+        this.leftArmNodeComponentManager = new NodeComponentManager();
+
+        //1
+        this.leftArmConstraintSelector = new NodeSelector(
+            () => true
+            );
+        this.leftArmWeightConstrainSelector = new NodeSelector(
+            () => true
             );
 
-        #endregion
+        //2
+        this.leftArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
+           (this.leftHandIKConstraint
+           , this.enemy._spine_1_Bone
+           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
+           , this.armAnchorSwingOffsetPosition
+           , this.armBalancePointOffset
+           , new Vector3(0, -90, 0)
+           );
 
+        this.restLeftArmConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
-        enemyConstraintAnimationNodeManager.AddNode(bodyConstraintSelector);
-        enemyConstraintAnimationNodeManager.AddNode(leftArmConstraintSelector);
-        enemyConstraintAnimationNodeManager.AddNode(rightArmConstraintSelector);
-        enemyConstraintAnimationNodeManager.AddNode(painStateWalkProceduralAnimateNodeLeaf);
+        this.enableLeftArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
+            (() => this.leftArmConstraintSelector.curNodeLeaf != this.restLeftArmConstrainNodeLeaf
+            , this.leftHandIKConstraint
+            , 1, 1);
 
-        bodyConstraintSelector.AddtoChildNode(painStateProceduralBodyConstraintNodeLeaf);
-        bodyConstraintSelector.AddtoChildNode(aimDownSightBodyNodeSelector);
+        this.disableLeftArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
+            (() => true
+            , this.leftHandIKConstraint
+            , 1, 0);
 
-        leftArmConstraintSelector.AddtoChildNode(leftArmFlickPainStateConstraintNodeLeaf);
+        //1
+        this.leftArmConstraintSelector.AddtoChildNode(this.leftArmPainStateProceduralConstraintNodeLeaf);
+        this.leftArmConstraintSelector.AddtoChildNode(this.restLeftArmConstrainNodeLeaf);
 
-        rightArmConstraintSelector.AddtoChildNode(rightArmFlickPainStateConstraintNodeLeaf);
+        this.leftArmWeightConstrainSelector.AddtoChildNode(this.enableLeftArmWeightConstrainNodeLeaf);
+        this.leftArmWeightConstrainSelector.AddtoChildNode(this.disableLeftArmWeightConstrainNodeLeaf);
 
-        aimDownSightBodyNodeSelector.AddtoChildNode(primaryAnimationConstrainNodeLeaf);
-        aimDownSightBodyNodeSelector.AddtoChildNode(secondaryAnimationConstrainNodeLeaf);
-
+        this.leftArmNodeComponentManager.AddNode(this.leftArmConstraintSelector);
+        this.leftArmNodeComponentManager.AddNode(this.leftArmWeightConstrainSelector);
     }
 
-    public NodeSelector leftArmConstraintWeightSelector;
-    public SetConstraintWeightNodeLeaf enableLeftArmConstraintWeightNodeLeaf;
-    public SetConstraintWeightNodeLeaf disableLeftArmConstraintWeightNodeLeaf;
+    #endregion
 
-    public NodeSelector rightArmConstraintWeightSelector;
-    public SetConstraintWeightNodeLeaf enableRightArmConstraintWeightNodeLeaf;
-    public SetConstraintWeightNodeLeaf disableRightArmConstraintWeightNodeLeaf;
+    #region LegsConstrain
 
-    public RecoveryConstraintManagerWeightNodeLeaf recoveryBodyConstraintManagerWeightNodeLeaf;
-    public void InitializedConstraintWeightNode()
+    public NodeComponentManager legsNodeComponentManager;
+
+    public NodeSelector legsConstrainSelector;
+    public NodeSelector legsWeightConstrainSelector;
+
+    public PainStateWalkProceduralAnimateNodeLeaf painStateWalkProceduralAnimateNodeLeaf;
+    public RestNodeLeaf restLegsConstrainNodeLeaf;
+
+    public SetConstraintWeightNodeLeaf enableLegsWeightConstrainNodeLeaf;
+    public SetConstraintWeightNodeLeaf disableLegsWeightConstrainNodeLeaf;
+
+    private void InitializedLegsConstrainNode()
     {
-        this.enemyConstraintWeightNodeComponentManager = new NodeComponentManager();
+        this.legsNodeComponentManager = new NodeComponentManager();
 
-        this.leftArmConstraintWeightSelector = new NodeSelector(()=>true);
-        this.enableLeftArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> this.isLeftArmConstraintEnable
-            ,this.leftHandIKConstraint
-            ,5
-            ,1);
-        this.disableLeftArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> true
-            ,this.leftHandIKConstraint
-            ,5
-            ,0);
+        //1
+        this.legsConstrainSelector = new NodeSelector(()=>true);
+        this.legsWeightConstrainSelector = new NodeSelector(() => true);
 
-        this.rightArmConstraintWeightSelector = new NodeSelector(()=>true);
-        this.enableRightArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> this.isRightArmConstraintEnable
-            ,this.rightHandIKConstraint
-            ,5
-            ,1);
-        this.disableRightArmConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            ()=> true
-            ,this.rightHandIKConstraint
-            ,5
-            ,0);
+        //2
+        this.painStateWalkProceduralAnimateNodeLeaf = new PainStateWalkProceduralAnimateNodeLeaf(
+            this.legsConstrainManager
+            ,this.enemy.transform
+            ,this.proceduralLegsPainStateWalkConstrainSCRP
+            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
+           || this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>());
 
-        this.recoveryBodyConstraintManagerWeightNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
-            ()=> isBodyConstriantEnable == false
-            ,this.bodyLookConstrain
-            ,1);
+        this.restLegsConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
-        this.enemyConstraintWeightNodeComponentManager.AddNode(this.leftArmConstraintWeightSelector);
-        this.enemyConstraintWeightNodeComponentManager.AddNode(this.rightArmConstraintWeightSelector);
+        this.enableLegsWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => this.legsConstrainSelector.curNodeLeaf != this.restLegsConstrainNodeLeaf
+            , this.legsConstrainManager
+            , 1, 1);
+        this.disableLegsWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => true
+            , this.legsConstrainManager
+            , 1, 0);
 
-        this.leftArmConstraintWeightSelector.AddtoChildNode(this.enableLeftArmConstraintWeightNodeLeaf);
-        this.leftArmConstraintWeightSelector.AddtoChildNode(this.disableLeftArmConstraintWeightNodeLeaf);
 
-        this.rightArmConstraintWeightSelector.AddtoChildNode(this.enableRightArmConstraintWeightNodeLeaf);
-        this.rightArmConstraintWeightSelector.AddtoChildNode(this.disableRightArmConstraintWeightNodeLeaf);
+        this.legsConstrainSelector.AddtoChildNode(this.painStateWalkProceduralAnimateNodeLeaf);
+        this.legsConstrainSelector.AddtoChildNode(this.restLegsConstrainNodeLeaf);
 
-        this.enemyConstraintWeightNodeComponentManager.AddNode(this.recoveryBodyConstraintManagerWeightNodeLeaf);
+        this.legsWeightConstrainSelector.AddtoChildNode(this.enableLegsWeightConstrainNodeLeaf);
+        this.legsWeightConstrainSelector.AddtoChildNode(this.disableLegsWeightConstrainNodeLeaf);
+
+        this.legsNodeComponentManager.AddNode(this.legsConstrainSelector);
+        this.legsNodeComponentManager.AddNode(this.legsWeightConstrainSelector);
     }
 
+    #endregion
+
+
+    public void InitailizedNode()
+    {
+        this.enemyBodyConstraintAnimationNodeManager = new NodeComponentManager();
+
+        this.InitializedBodyConstrainNode();
+        this.InitializedRightArmConstrainNode();
+        this.InitializedLeftArmConstrainNode();
+        this.InitializedLegsConstrainNode();
+
+
+
+    }
+
+   
     public override void Initialized()
     {
         this.enemy.AddObserver(this);
         this.InitailizedNode();
-        this.InitializedConstraintWeightNode();
     }
 
     protected void Update()
     {
-        this.enemyConstraintAnimationNodeManager.Update();
-        this.enemyConstraintWeightNodeComponentManager.Update();
+        this.enemyBodyConstraintAnimationNodeManager.Update();
+        this.rightArmNodeComponentManager.Update();
+        this.leftArmNodeComponentManager.Update();
+        this.legsNodeComponentManager.Update();
     }
     protected void FixedUpdate()
     {
-        this.enemyConstraintAnimationNodeManager.FixedUpdate();
-        this.enemyConstraintWeightNodeComponentManager.FixedUpdate();
+        this.enemyBodyConstraintAnimationNodeManager.FixedUpdate();
+        this.rightArmNodeComponentManager.FixedUpdate();
+        this.leftArmNodeComponentManager.FixedUpdate();
+        this.legsNodeComponentManager.FixedUpdate();
     }
 
     private void OnDrawGizmos()
@@ -253,26 +337,21 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //Gizmos.DrawWireSphere(centre.position - (centre.right * hipLegSpace), 0.05f);
 
         #region DrawFootPlacementPosition
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldLeftFootPos, 0.15f);
 
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newLeftFootPos, 0.15f);
+        //Gizmos.color = Color.blue * .5f;
+        //Gizmos.DrawSphere(this.painStateWalkProceduralAnimateNodeLeaf.oldRightFootPos,.1f);
+        //Gizmos.color = Color.red * .5f;
+        //Gizmos.DrawSphere(this.painStateWalkProceduralAnimateNodeLeaf.newRightFootPos, .1f);
 
-        //Gizmos.color = Color.cyan;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.oldRightFootPos, 0.15f);
-
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(painStateWalkProceduralAnimateNodeLeaf.newRightFootPos, 0.15f);
         #endregion
 
         try
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.balancePoint, .05f);
+            Gizmos.DrawSphere(this.leftArmPainStateProceduralConstraintNodeLeaf.balancePoint, .05f);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(this.leftArmFlickPainStateConstraintNodeLeaf.painLookAtPos, .05f);
+            Gizmos.DrawSphere(this.leftArmPainStateProceduralConstraintNodeLeaf.painLookAtPos, .05f);
 
             
 
@@ -281,30 +360,43 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     }
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
-        if (node is EnemyBodyBulletDamageAbleBehavior.CharacterHitedEventDetail bulletHitDetail)
+        if(node is GotGunFuHitNodeLeaf)
         {
-            Vector3 hitPos = bulletHitDetail.hitPos;
+            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
+        }
+
+        if(node  is CharacterHitedEventDetail hitedEventDetail)
+        {
+            Vector3 hitPos = hitedEventDetail.hitPos;
             this.painStateProceduralBodyConstraintNodeLeaf.SetPainProperties
                 (hitPos
-                , bulletHitDetail.hitDir
+                , hitedEventDetail.hitDir
                 , enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.Flinch ? .5f : 1f
                 );
 
-            this.leftArmHoldPainPointConstraintNodeLeaf.SetPainPoint(hitPos);
+            Vector3 root = this.leftArmPainStateProceduralConstraintNodeLeaf.rootIKHandRef.transform.position;
+            Vector3 rootToHitDir = (hitPos - this.leftArmPainStateProceduralConstraintNodeLeaf.rootIKHandRef.transform.position).normalized;
 
-            Vector3 root = this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position;
-            Vector3 rootToHitDir = (hitPos - this.leftArmFlickPainStateConstraintNodeLeaf.rootIKHandRef.transform.position).normalized;
+            if (hitedEventDetail.hitedPart is ArmLeftBodyPart)
+            {
 
-           if(bulletHitDetail.hitedPart is ArmLeftBodyPart)
-            {
-                this.leftArmFlickPainStateConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
+                this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
-            if (bulletHitDetail.hitedPart is ArmRightBodyPart)
+            if (hitedEventDetail.hitedPart is ArmRightBodyPart)
             {
-                this.rightArmFlickPainStateConstraintNodeLeaf.TriggerForcePush(bulletHitDetail.hitDir + Vector3.up, 2);
+               
+                this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir + Vector3.up, 2);
             }
+
+            this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
+            this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
+
+    
+
+
 
         }
     }

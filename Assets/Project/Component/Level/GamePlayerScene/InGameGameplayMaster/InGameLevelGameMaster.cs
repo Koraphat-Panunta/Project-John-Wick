@@ -25,6 +25,8 @@ public class InGameLevelGameMaster : GameMaster
         yield return new WaitForSeconds(1.7f);
         isCompleteLoad = true;
     }
+
+
     public override void Initialized()
     {
         this.isLevelComplete = false;
@@ -43,7 +45,7 @@ public class InGameLevelGameMaster : GameMaster
 
     public override void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
 
     public InGameLevelFreeStateGameMasterNodeLeaf freeStateGameMasterNodeLeaf { get; protected set; }
@@ -93,7 +95,8 @@ public class InGameLevelGameMaster : GameMaster
         this.InGameLevelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
         this.pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
         this.menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
-        this.optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, () => menuInGameGameMasterNodeLeaf.isTriggerToSetting);
+        this.optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, 
+            () =>this.optionMenuSettingInGameGameMasterNode.isTriggerEnter || menuInGameGameMasterNodeLeaf.isTriggerToSetting);
 
         this.levelCompleteGameMasterNodeLeaf = new InGameLevelCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => this.isLevelComplete);
         this.inGameLevelGamplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<InGameLevelGameMaster>(this, () => true);

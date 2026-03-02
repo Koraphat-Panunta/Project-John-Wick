@@ -16,7 +16,6 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
 
     public override void Enter()
     {
-        this.player.playerStance = Stance.stand;
         _timer = 0;
         isComplete = false;
         (player._movementCompoent as MovementCompoent).CancleMomentum();
@@ -56,7 +55,6 @@ public class PlayerGetUpStateNodeLeaf : PlayerStateNodeLeaf
      
         if (this._timer >= this.getUpTime)
         {
-            player.playerStance = Stance.stand;
             isComplete = true;
         }
             

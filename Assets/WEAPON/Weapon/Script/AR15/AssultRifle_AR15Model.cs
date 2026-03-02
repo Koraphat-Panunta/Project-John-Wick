@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicroOpticAttachAble
+public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType
 {
 
     //SetUpStats
@@ -12,9 +12,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
 
     public override int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity;}
    
-    public override float min_CrosshairSize { get => base.min_CrosshairSize  - this._reduceMinCrosshairSize; }
-    public override float max_CrosshairSize { get => base.max_CrosshairSize - this._reduceMaxCrosshairSize; }
-    public override float aimDownSight_speed { get => base.aimDownSight_speed + _aimDownSightSpeedIncrease; }
+
     public override Bullet bullet { get ; set ; }
 
     public override Chamber chamber { get ; protected set ; }
@@ -117,41 +115,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
 
     #region WeaponAttachment
   
-    public float _reduceMinCrosshairSize
-    { get 
-        {
-            float total = 0;
 
-            if (_microOptic != null)
-                total += _microOptic.min_Precision_PN;
-
-            return total;
-        } set { } }
-    public float _reduceMaxCrosshairSize
-    { get 
-        {
-            float total = 0;
-
-            if (_microOptic != null)
-                total += _microOptic.max_Precision_PN;
-
-            return total;
-        } set { } }
-    public float _aimDownSightSpeedIncrease
-    { get 
-        {
-            float total = 0;
-
-            if (_microOptic != null)
-                total += _microOptic.aimDownSightSpeed_N;
-
-            return total;
-        } set { } }
-
-    [SerializeField] private Transform microOpticSocket;
-    public Transform _microOpticSocket { get => this.microOpticSocket; set => this.microOpticSocket = value; }
-    [SerializeField] private MicroOpticWeaponAttachment microOptic;
-    public MicroOpticWeaponAttachment _microOptic { get => this.microOptic; set => microOptic = value; }
 
     [SerializeField] private Transform FrontGripSocket;
     public Transform forntGripAttachment { get => this.FrontGripSocket; set => this.FrontGripSocket = value; }
@@ -159,10 +123,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType, IMicro
 
     private void OnValidate()
     {
-        if(_microOptic != null)
-        {
-            _microOptic.Attach(this);
-        }
+        
     }
 
 

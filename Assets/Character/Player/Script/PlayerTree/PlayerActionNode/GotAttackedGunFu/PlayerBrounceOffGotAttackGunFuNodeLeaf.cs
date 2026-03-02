@@ -16,7 +16,6 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
     {
         isComplete = false;
         _timer = 0;
-        player.playerStance = Stance.prone;
 
         Vector3 rotateDir =    player.gunFuAbleAttacker._character.transform.position - player.transform.position ;
         player._movementCompoent.SetRotation(Quaternion.LookRotation(rotateDir));

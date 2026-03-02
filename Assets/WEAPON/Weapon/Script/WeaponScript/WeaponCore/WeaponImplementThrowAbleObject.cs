@@ -1,7 +1,9 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public partial class Weapon : IThrowAbleObject
+public partial class Weapon : 
+    IThrowAbleObject
+    ,IPostureDamageVisitor
 {
     public bool _isTriggerThrow { get; set; }
     public Transform _throwAbleObjectTransform { get => this.transform; set { } }
@@ -14,7 +16,12 @@ public partial class Weapon : IThrowAbleObject
     public float _throwVelocity { get => this.throwVelocity; set => this.throwVelocity = value; }
     public Rigidbody _throwAbleObjectRigidBody { get => rb; set => rb = value; }
     public bool _isBeenThrow { get ; set ; }
+
+    public float _postureDamageVisitor => 45;
+
     public LayerMask layerHit;
+
+    private IWeaponAdvanceUser userThrowWeapon;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -30,14 +37,28 @@ public partial class Weapon : IThrowAbleObject
 
     public void Throw(IThrowObjectAble throwerObject, Vector3 targetPosition,LayerMask layerHit)
     {
+
+
         this.layerHit = layerHit;
 
-        if(this.userWeapon != null)
-        WeaponAttachingBehavior.Detach(this, this.userWeapon);
+        if (this.userWeapon != null)
+        {
+            this.userThrowWeapon = this.userWeapon;
+            WeaponAttachingBehavior.Detach(this, this.userWeapon);
+        }
 
         _isTriggerThrow = true;
         this._throwerObject = throwerObject;
 
         this._targetThrowAtPosition = targetPosition;
+    }
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        if(this.userThrowWeapon != null
+            && this.userThrowWeapon is IDamageVisitor damageVisitor)
+        {
+            damageVisitor.OnNotifyFeedBackVisitor(damageAble);
+        }
     }
 }

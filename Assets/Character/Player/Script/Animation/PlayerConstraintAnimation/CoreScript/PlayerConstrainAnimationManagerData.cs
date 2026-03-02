@@ -2,7 +2,7 @@ using UnityEngine;
 
 public partial class PlayerConstrainAnimationManager
 {
-    public BodyLookConstrain standSplineLookConstrain;
+    public BodyLookConstrainManager standSplineLookConstrain;
     public LeaningRotation leaningRotation;
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;

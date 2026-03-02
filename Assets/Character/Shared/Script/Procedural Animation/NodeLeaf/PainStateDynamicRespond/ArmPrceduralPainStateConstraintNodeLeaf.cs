@@ -14,6 +14,7 @@ public class ArmPrceduralPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
 
     public Vector3 curVelocity;
     public float accelToBalancePoint => 20f * Mathf.Clamp(Vector3.Distance(painLookAtPos,balancePoint)/0.7f,0,1);
+    public float gravity = 10;
 
     private TransformOffsetSCRP transformAnchorOffset;
     private TransformOffsetSCRP transformBalancePountOffset;
@@ -64,7 +65,10 @@ public class ArmPrceduralPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        this.curVelocity += this.accelToBalancePoint * this.handToBalancePointDir * Time.fixedDeltaTime;
+        this.curVelocity = this.curVelocity 
+            + ((this.accelToBalancePoint * this.handToBalancePointDir)
+            +(this.gravity * Vector3.down))
+            *  Time.fixedDeltaTime;
         this.curVelocity = curVelocity.normalized * Mathf.Clamp(this.curVelocity.magnitude,0f,2f);
         base.FixedUpdateNode();
     }

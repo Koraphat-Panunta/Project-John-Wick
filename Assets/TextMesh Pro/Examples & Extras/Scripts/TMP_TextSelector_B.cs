@@ -72,7 +72,7 @@ namespace TMPro.Examples
         {
             if (obj == m_TextMeshPro)
             {
-                // UpdateNode cached vertex data.
+                // UpdateNodeAndCheckFindingNode cached vertex data.
                 m_cachedMeshInfoVertexData = m_TextMeshPro.textInfo.CopyMeshInfoVertexData();
             }
         }
@@ -195,7 +195,7 @@ namespace TMPro.Examples
                         vertexColors[vertexIndex + 3] = c;
                     }
 
-                    // UpdateNode Geometry
+                    // UpdateNodeAndCheckFindingNode Geometry
                     m_TextMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
 
                     m_selectedWord = -1;
@@ -230,7 +230,7 @@ namespace TMPro.Examples
                         vertexColors[vertexIndex + 3] = c;
                     }
 
-                    // UpdateNode Geometry
+                    // UpdateNodeAndCheckFindingNode Geometry
                     m_TextMeshPro.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
 
                 }

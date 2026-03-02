@@ -9,6 +9,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public MovementCompoent movementCompoent => this;
     public CharacterMovementController characterController { get; set; }
     public MotionImplusePushAbleBehavior motionImplusePushAbleBehavior { get; set; }
+    public override Vector3 curPosition => this.characterController.position;
     public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
         this.enemy = enemy;
@@ -46,21 +47,21 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
     {
         Vector3 finalDestination = Destination + offset;
-        float distacne = Vector3.Distance(enemy.transform.position, finalDestination);
+        float distacne = Vector3.Distance(curPosition, finalDestination);
 
         curMoveVelocity_World = Vector3.zero;
 
-        if (Vector3.Distance(enemy.transform.position, finalDestination) <= speed * Time.deltaTime)
+        if (Vector3.Distance(curPosition, finalDestination) <= speed * Time.deltaTime)
         {
-            Move((finalDestination - enemy.transform.position).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
+            Move((finalDestination - curPosition).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
             return;
         }
-        Move((finalDestination - enemy.transform.position).normalized * speed * Time.deltaTime);
+        Move((finalDestination - curPosition).normalized * speed * Time.deltaTime);
     }
 
   
     public override void Move(Vector3 position)
     {
-        characterController.Move(position);
+        this.characterController.Move(position);
     }
 }

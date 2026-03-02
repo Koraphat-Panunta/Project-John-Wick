@@ -22,6 +22,8 @@ public abstract partial class MovementCompoent : INodeManager
     public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
     public List<INodeManager> _parallelNodeManahger { get;set; }
 
+    public abstract Vector3 curPosition { get; } 
+
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
         isOnUpdateEnable = true;
@@ -34,7 +36,7 @@ public abstract partial class MovementCompoent : INodeManager
 
     public virtual void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         Debug.DrawRay(this.userMovement.transform.position + Vector3.up, moveInputVelocity_World, Color.blue);
         Debug.DrawRay(this.userMovement.transform.position + Vector3.up, curMoveVelocity_World, Color.yellow);
     }
@@ -133,7 +135,7 @@ public abstract partial class MovementCompoent : INodeManager
     public abstract void Move(Vector3 position);
     public void SetPosition(Vector3 position)
     {
-        this.Move(position - transform.position);
+        this.Move(position - curPosition);
     }
     public void SetRotation(Quaternion rotation)
     {
@@ -183,16 +185,16 @@ public abstract partial class MovementCompoent : INodeManager
     {
         hitGroundPosition = Vector3.zero;
 
-        if (Physics.Raycast(transform.position + (Vector3.up * castCheckIsGroundOffserUp), Vector3.down,out RaycastHit hitGroundPos,castCheckIsGroundOffserUp + .2f, GetGroundLayerMask()))
+        if (Physics.Raycast(curPosition + (Vector3.up * castCheckIsGroundOffserUp), Vector3.down,out RaycastHit hitGroundPos,castCheckIsGroundOffserUp + .2f, GetGroundLayerMask()))
         {
             hitGroundPosition = hitGroundPos.point;
-            Debug.DrawLine(transform.position + (Vector3.up * castCheckIsGroundOffserUp), hitGroundPosition, Color.blue);
+            Debug.DrawLine(curPosition + (Vector3.up * castCheckIsGroundOffserUp), hitGroundPosition, Color.blue);
             return true;
         }
         else
         {
-            Debug.DrawLine(transform.position + (Vector3.up * castCheckIsGroundOffserUp)
-                , transform.position + (Vector3.up * castCheckIsGroundOffserUp) + (Vector3.down * (castCheckIsGroundOffserUp + .12f))
+            Debug.DrawLine(curPosition + (Vector3.up * castCheckIsGroundOffserUp)
+                , curPosition + (Vector3.up * castCheckIsGroundOffserUp) + (Vector3.down * (castCheckIsGroundOffserUp + .12f))
                 , Color.blue);
         }
         return false;

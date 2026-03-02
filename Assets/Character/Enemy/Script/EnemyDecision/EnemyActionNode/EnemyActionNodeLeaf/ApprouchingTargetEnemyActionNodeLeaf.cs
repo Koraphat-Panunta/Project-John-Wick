@@ -19,9 +19,9 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void Enter()
     {
-        Vector3 endPoint = enemy.targetKnewPos + ((enemy.targetKnewPos - enemy.transform.position).normalized * 3);
+        Vector3 endPoint = this.enemy.targetKnowPos + ((this.enemy.targetKnowPos - enemy.transform.position).normalized * 3);
         curvePath.RegenaratePath(endPoint, enemy.transform.position);
-        targetAnchorPos = enemy.targetKnewPos;
+        targetAnchorPos = this.enemy.targetKnowPos;
         if (enemyCommandAPI.enemyAutoDefendCommand.dodgeCoolDownTimer <= 0
             && curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
             enemyCommandAPI.Dodge(_curvePoint);
@@ -65,14 +65,14 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         {
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
                 {
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
                 }
                 break;
             case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
                 {
-                    enemyCommandAPI.AimDownSight(enemy.targetKnewPos);
+                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                 }
                 break;
         }
@@ -83,15 +83,15 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private Vector3 targetAnchorPos;
     private void MovementDecisionUpdate()
     {
-        if(Vector3.Distance(enemy.transform.position,enemy.targetKnewPos) <= 2f)
+        if(Vector3.Distance(enemy.transform.position,this.enemy.targetKnowPos) <= 2f)
             return;
 
-        Vector3 endPoint = enemy.targetKnewPos + ((enemy.targetKnewPos - enemy.transform.position).normalized * 3);
+        Vector3 endPoint = this.enemy.targetKnowPos + ((this.enemy.targetKnowPos - enemy.transform.position).normalized * 3);
 
-        if(Vector3.Distance(targetAnchorPos,enemy.targetKnewPos) > 3)
+        if(Vector3.Distance(targetAnchorPos,this.enemy.targetKnowPos) > 3)
         {
             curvePath.RegenaratePath(endPoint,enemy.transform.position);
-            targetAnchorPos = enemy.targetKnewPos;
+            targetAnchorPos = this.enemy.targetKnowPos;
         }
 
         if (curvePath.TryGetCurvePoint(out Vector3 _curvePoint))

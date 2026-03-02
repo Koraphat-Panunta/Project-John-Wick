@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class DummyMovementComponent : MovementCompoent
 {
-    CharacterController characterController;
-    public DummyMovementComponent(Transform transform, MonoBehaviour myMovement, CharacterController characterController) : base(transform, myMovement)
+    protected CharacterMovementController characterMovementController;
+    public DummyMovementComponent(Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
-        this.characterController = characterController;
+        this.characterMovementController = characterController; 
     }
 
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
+
+    public override Vector3 curPosition { get => this.characterMovementController.position; }
+
     public override void InitailizedNode()
     {
         startNodeSelector = new NodeSelector(() => true, "StartNodeSelector PlayerMovement");
@@ -21,9 +24,12 @@ public class DummyMovementComponent : MovementCompoent
 
         _nodeManagerBehavior.SearchingNewNode(this);
     }
-
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
+    }
     public override void Move(Vector3 position)
     {
-        characterController.Move(position);
+        this.characterMovementController.Move(position);
     }
 }

@@ -2,7 +2,9 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNodeLeaf
+public class GunFuExecute_Single_NodeLeaf : 
+    PlayerStateNodeLeaf
+    , IGunFuExecuteNodeLeaf
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
@@ -207,5 +209,8 @@ public class GunFuExecute_Single_NodeLeaf : PlayerStateNodeLeaf, IGunFuExecuteNo
         player.NotifyObserver(player, this);
     }
 
-    
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
 }

@@ -44,7 +44,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
                 {
                     Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager);
                     spawnedEnemy.AddObserver(this);
-                    spawnedEnemy.targetKnewPos = player.transform.position;
+                    spawnedEnemy.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(this.player.transform.position);
 
                     EnemyCommunicator enemyCommunicator = new EnemyCommunicator();
                     enemyCommunicator.enemyCommunicateMassage = EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition;
@@ -86,7 +86,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
     {
         this.isStartWave = true;
     }
-    public void Notify<T>(Enemy enemy, T node) 
+    public void OnNotify<T>(Enemy enemy, T node) 
     {
         if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)
         {

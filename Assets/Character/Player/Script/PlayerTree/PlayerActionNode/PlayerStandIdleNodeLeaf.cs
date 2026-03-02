@@ -6,7 +6,7 @@ public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
 {
     PlayerMovement playerMovement => this.player._movementCompoent as PlayerMovement;
     public float weightMovement => Mathf.Clamp01(1-this.playerMovement.stanceRateMovement);
-    public float changeStanceWeightRate = 1;
+    public float changeStanceWeightRate = 3;
     public PlayerStandIdleNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }

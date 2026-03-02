@@ -2,11 +2,7 @@ using UnityEngine;
 
 public enum GotGunFuManuverStateName 
 {
-    GotHit1_Parry,
-    GotHit1_Attack,
-    GotHit2_Parry,
-    GotHit2_Attack,
-    GotHit3,
+    GotGunFuHit,
 
     GotHumanShield_Enter,
     GotHumanShield_Stay,

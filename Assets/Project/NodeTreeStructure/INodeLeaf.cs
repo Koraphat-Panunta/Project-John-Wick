@@ -6,6 +6,8 @@ public interface INodeLeaf : INode
 {
     public List<Func<bool>> isReset { get;  set; }
     public NodeLeafBehavior nodeLeafBehavior { get;  set; }
+    //protected INodeNotifyBackAble notifyBackAble;
+    //public void NotifyBack()
     public abstract void UpdateNode();
     public abstract void Enter();
     public abstract void Exit();

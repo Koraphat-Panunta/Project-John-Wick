@@ -120,15 +120,20 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
                 {
                     pullWeight = 1;
 
-                    this.gotGunFuAttackedAble._character.transform.position = Vector3.Lerp(
+                    this.gotGunFuAttackedAble._character._movementCompoent.SetPosition(Vector3.Lerp
+                        (
                         this.gotGunFuAttackedAble._character.transform.position
                         , this.gotHumanShieldPosition
-                        , this.pullWeight);
+                        , this.pullWeight)
+                        );
 
-                    gotGunFuAttackedAble._character.transform.rotation = Quaternion.Lerp(
+                    gotGunFuAttackedAble._character._movementCompoent.SetRotation(Quaternion.Lerp
+                        (
                         this.gotGunFuAttackedAble._character.transform.rotation
                         , this.gotHumanShieldRotation
-                        , this.pullWeight);
+                        , this.pullWeight
+                        )
+                        );
 
                     this.humanShield_Stay_Timer += Time.deltaTime;
 
@@ -165,5 +170,9 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
    
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
-    
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
 }

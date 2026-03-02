@@ -132,7 +132,7 @@ public class SubjectAnimationInteract
     }
     private void BeginPlayAnimation()
     {
-        //Debug.Log("Subject " + character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + this.character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 

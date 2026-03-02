@@ -21,7 +21,6 @@ public class LevelMansionGameMaster : InGameLevelGameMaster
 
     protected override void Start()
     {
-        gameManager.soundTrackManager.PlaySoundTrack(gameManager.soundTrackManager.theMansionTrack);
         base.Start();
     }
   
@@ -94,7 +93,7 @@ public class LevelMansionGamePlaySequence1 : InGameLevelGamplayGameMasterNodeLea
                 {
                     Debug.Log("GetNotifyObjectiveUpdate Elimination");
                     if (elimination != this.elimination)
-                        throw new Exception(" Unmatch objective Notify ");
+                        throw new Exception(" Unmatch objective OnNotify ");
 
                     if (elimination.status == Objective.ObjectiveStatus.Complete)
                     {

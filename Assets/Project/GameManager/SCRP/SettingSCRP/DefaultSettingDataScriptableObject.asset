@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c18b3ebbe1306d4e9b8621e38089f4b, type: 3}
+  m_Name: DefaultSettingDataScriptableObject
+  m_EditorClassIdentifier: Assembly-CSharp::SettingDataScriptableObject
+  objectID: b86979fe-55ee-481a-a0de-ddc15e1dd3c9
+  audioSetting:
+    MasterVolume: 10
+    SoundEffectVolume: 10
+    MusicVolume: 10
+  graphicSetting:
+    screenMode: 2
+    quality: 2
+    resolution: 2
+    targetFPS: 4
+  gameSetting:
+    lookSensitivity: 5
+    aimDownSightSensitivity: 3
+    displayEnemyHP: 1
+    displayInteract: 1
+    displayHitIndicator: 1
+    displayPlayerAmmo: 1
+    displayPlayerHP: 1
+    displayPlayerStamina: 1
+    displayCrosshair: 1

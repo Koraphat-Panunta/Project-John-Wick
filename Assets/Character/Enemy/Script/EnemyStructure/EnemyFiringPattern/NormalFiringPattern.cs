@@ -70,8 +70,8 @@ public class NormalFiringPattern : EnemyFiringPattern
         if (curWeapon.chamber.isReadyShoot)
         {
             //CheckFriendltFire
-            Ray ray = new Ray(enemy.rayCastPos.position, (enemy.targetKnewPos - enemy.rayCastPos.position).normalized);
-            if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, enemy.targetKnewPos), LayerMask.GetMask("Enemy")|LayerMask.GetMask("Player")))
+            Ray ray = new Ray(enemy.rayCastPos.position, (this.enemy.targetKnowPos - enemy.rayCastPos.position).normalized);
+            if (Physics.SphereCast(ray, 0.5f, out RaycastHit hitInfo, Vector3.Distance(enemy.rayCastPos.position, this.enemy.targetKnowPos), LayerMask.GetMask("Enemy")|LayerMask.GetMask("Player")))
             {
 
                 if (hitInfo.collider.gameObject.TryGetComponent<IFriendlyFirePreventing>(out IFriendlyFirePreventing freindly))

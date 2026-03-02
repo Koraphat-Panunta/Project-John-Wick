@@ -3,29 +3,51 @@ using UnityEngine;
 public partial class Enemy : IObserverEnemy
 {
 
-    public void Notify<T>(Enemy enemy, T node)
+    public void OnNotify<T>(Enemy enemy, T node)
     {
+        if (enemy._isPainTrigger
+            || enemy._triggerHitedGunFu)
+        {
+            switch (enemy.getPosturePainPhase)
+            {
+                case EnemyPosturePainStatePhase.MiniPainState:
+                    {
+                        enemy.enemyStateManagerNode.painStateNodeLeaf.SetPainStateDuration(enemy.miniPainStateDuration);
+                        break;
+                    }
+                case EnemyPosturePainStatePhase.MediumPainState:
+                    {
+                        enemy.enemyStateManagerNode.painStateNodeLeaf.SetPainStateDuration(enemy.mediumPainStateDuration);
+                        break;
+                    }
+                case EnemyPosturePainStatePhase.HeavyPainState:
+                    {
+                        enemy.enemyStateManagerNode.painStateNodeLeaf.SetPainStateDuration(enemy.heavyPainStateDuration);
+                        break;
+                    }
+            }
+        }
         switch (node)
         {
-            case GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf:
+
+            case HumanShield_Exit_GotInteract_NodeLeaf gotHumanShieldExitNodeLeaf:
                 {
-                    if(gotGunFuHitNodeLeaf == (enemyStateManagerNode as EnemyStateManagerNode).gotHit3_GunFuNodeLeaf 
-                        && gotGunFuHitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
-                    {
+                    if (gotHumanShieldExitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
                         enemy._posture = 0;
+                    break;
+                }
+            case GetUpStateNodeLeaf getUpStateNodeLeaf:
+                {
+                    if (getUpStateNodeLeaf.isStandingComplete)
+                    {
+                        this.stanceCommand = Stance.stand;
+                        enemy._posture = enemy._maxPosture;
                     }
                     break;
                 }
-            case HumanShield_Exit_GotInteract_NodeLeaf gotHumanShieldExitNodeLeaf:
+            case EnemySprintStateNodeLeaf getSprintStateNodeLeaf:
                 {
-                    if(gotHumanShieldExitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
-                        enemy._posture = 0;
-                    break;
-                }
-            case GetUpStateNodeLeaf getUpStateNodeLeaf: 
-                {
-                    if (getUpStateNodeLeaf.isStandingComplete)
-                        enemy._posture = enemy._maxPosture;
+                    this.stanceCommand = Stance.stand;
                     break;
                 }
         }

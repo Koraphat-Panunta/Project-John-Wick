@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EnemyBodyBulletDamageAbleBehavior;
 
 
 public partial class Enemy : IGotGunFuAttackedAble
@@ -14,17 +15,11 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
+          
            
-
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>(out GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf)
-                && gotGunFuHitNodeLeaf.gotHitstateName == "Hit3")
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if(_isFallDown)
-                return false;
-           
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
-                return false;
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
             return true;
@@ -37,9 +32,9 @@ public partial class Enemy : IGotGunFuAttackedAble
         {
             //if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>())
             //    return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
+            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
             if (isStagger)
@@ -50,15 +45,13 @@ public partial class Enemy : IGotGunFuAttackedAble
         set { }
     }
 
-    [SerializeField] public GotGunFuHitScriptableObject GotHit1_P;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit1_A;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit2_P;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit2_A;
-    [SerializeField] public GotGunFuHitScriptableObject GotHit3;
+
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP humanShield_GotInteract_Exit_SCRP;
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP secondary_WeaponGotDisarmedScriptableObject;
+
+    [SerializeField] public AnimationTriggerEventSCRP gotHitDown_ScriptableObject;
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_ScriptableObject_I;
@@ -73,8 +66,37 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Single_Execute_OnGround_LayDown_I;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
     {
+
+        if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+        {
+
+            Vector3 gunFuAblePos = new Vector3
+                (
+                gunFuHitNodeLeaf.gunFuAble._character.transform.position.x
+                , this.transform.position.y
+                , gunFuHitNodeLeaf.gunFuAble._character.transform.position.z
+                );
+
+            Vector3 hitDir = (this.transform.position - gunFuAblePos).normalized;
+            hitDir = Quaternion.LookRotation(hitDir, Vector3.up) * Quaternion.Euler(gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitDirPoseAnimOffset) * Vector3.forward;
+
+            Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
+
+            CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
+            {
+                hitDir = hitDir,
+                hitedPart = this.spline,
+                hitforce = gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitPushForce,
+                hitPos = this.transform.position
+            };
+
+            this.NotifyObserver<CharacterHitedEventDetail>(this, characterHitedEventDetail);
+
+        }
+
         _triggerHitedGunFu = true;
-        curAttackerGunFuNode = gunFu_NodeLeaf;
+        this.curAttackerGunFuNode = gunFu_NodeLeaf;
+        Debug.Log("this.curAttackerGunFuNode = "+ gunFu_NodeLeaf);
         gunFuAbleAttacker = attacker;
         TakeDamage(gunFu_NodeLeaf);
     }

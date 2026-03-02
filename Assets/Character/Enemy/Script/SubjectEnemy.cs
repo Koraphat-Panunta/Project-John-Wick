@@ -35,7 +35,7 @@ public abstract class SubjectEnemy : Character
                 }
                 else
                 {
-                    Observers[i].Notify(enemy, node);
+                    Observers[i].OnNotify(enemy, node);
                 }
 
             }

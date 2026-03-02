@@ -11,14 +11,17 @@ public partial class Player : SubjectPlayer,
 {
     public CoverDetection coverDetection;
     public PlayerStateNodeManager playerStateNodeManager;
+    public INodeManager stateNodeManager => this.playerStateNodeManager as INodeManager;
     public override MovementCompoent _movementCompoent { get; set; }
     public PlayerMovement playerMovement => _movementCompoent as PlayerMovement;    
     public Transform RayCastPos;
     public CinemachineCamera cinemachineCamera;
-    [SerializeField] private CharacterMovementController characterController;
     public Character selfEnemyAIBeenTargeted => this;
     [SerializeField] public bool isImortal;
 
+    public override Gauge _hpGauge { get; protected set; }
+    public Gauge staminaGauge { get; protected set; }
+    public Gauge executeGauge { get; protected set; }
     public float MyHP;
 
     public override bool isDead { get 
@@ -28,7 +31,30 @@ public partial class Player : SubjectPlayer,
 
             return base.isDead;
         } }
+    public override Stance stance 
+    {
+        get 
+        {
+            try
+            {
+                if ((this.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf))
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>())
+                    return Stance.prone;
 
+                if (this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
+                    return Stance.crouch;
+
+
+                return Stance.stand;
+            }
+            catch 
+            {
+                return Stance.stand;
+            }
+        }
+    }
+    public Stance stanceCommand = Stance.stand;
     public CommandBufferManager commandBufferManager;
     public override void Initialized()
     {
@@ -38,10 +64,24 @@ public partial class Player : SubjectPlayer,
         coverDetection = new CoverDetection();
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = ShoulderSide.Right;
-        base.maxHp = 150;
-        base.SetHP(maxHp);
 
-        _movementCompoent = new PlayerMovement(
+        this._hpGauge = new Gauge
+            (
+            this.playerStatsScriptableObject.maxHP
+            ,this.playerStatsScriptableObject.maxHP
+            );
+        this.staminaGauge = new Gauge
+            (
+            this.playerStatsScriptableObject.maxStamina
+            ,this.playerStatsScriptableObject.maxStamina
+            );
+        this.executeGauge = new Gauge
+            (
+            0
+            ,this.playerStatsScriptableObject.limitExecuteGauge
+            );
+
+        this._movementCompoent = new PlayerMovement(
             this
             , transform
             , this
@@ -89,10 +129,9 @@ public partial class Player : SubjectPlayer,
         _weaponManuverManager.UpdateNode();
 
         _movementCompoent.UpdateNode();
-        MyHP = base.HP;
+  
 
-        commandBufferManager.CommandBufferProcess();
-        this.RegenHPUpdate();
+        this.commandBufferManager.CommandBufferProcess();
 
         _triggerHitedGunFu = false;
         debugIsIFrame = (this as I_IFrameAble)._isIFrame;
@@ -101,6 +140,7 @@ public partial class Player : SubjectPlayer,
     private void LateUpdate()
     {
         BlackBoardBufferUpdate();
+        this.MyHP = base.GetHP();
     }
 
     private void FixedUpdate()
@@ -175,7 +215,7 @@ public partial class Player : SubjectPlayer,
     public bool isSprint;
     public bool triggerDodgeRoll;
     
-    public Stance playerStance = Stance.stand;
+
 
     public Transform centreTransform;
 
@@ -197,7 +237,7 @@ public partial class Player : SubjectPlayer,
         hpGetAbleObject.amoutOfHpAdd = 20f;
         if ((GetHP() / GetMaxHp()) < 0.35f)
         {
-            AddHP(Mathf.Abs((maxHp * 0.35f) - GetHP()));
+            AddHP(Mathf.Abs((this.GetMaxHp() * 0.35f) - GetHP()));
             AddHP(hpGetAbleObject.amoutOfHpAdd );
         }
         else
@@ -214,17 +254,17 @@ public partial class Player : SubjectPlayer,
         {
             case AmmoGetAbleObject ammoRecivedAble: 
                 {
-                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo)
+                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.handgunAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.rifleAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.buckShotAmmo)
+                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.battleRifleAmmo)
                         )
                         return true;
                 }
                 break;
             case HpGetAbleObject hpReciveAble: 
                 {
-                    if(GetHP()< maxHp)
+                    if(GetHP() < this.GetMaxHp())
                         return true;
                 }
                 break;
@@ -236,7 +276,6 @@ public partial class Player : SubjectPlayer,
     public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
     Transform IRecivedAble.transform { get => centreTransform;}
     Character IHPReciveAble.character { get => this; }
-
 
     #endregion
 

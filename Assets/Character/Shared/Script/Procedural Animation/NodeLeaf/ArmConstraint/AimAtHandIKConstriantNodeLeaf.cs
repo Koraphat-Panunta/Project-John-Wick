@@ -8,7 +8,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         get 
         {
-            Vector3 refDir = Quaternion.LookRotation(this.rootCharacter.forward, this.rootCharacter.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotateRefDirOffset) * Vector3.forward;
+            Vector3 refDir = Quaternion.LookRotation(this.rootCharacter.forward, this.rootCharacter.up) * Quaternion.Euler(this.handIK_ConstraintSCRP.rotateRefDirOffset) * Vector3.forward;
 
             //Debug.DrawRay(this.rootCharacter.position, refDir * 2, Color.yellow);
 
@@ -30,16 +30,16 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
             //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, upWard, Color.green);
 
             return this.handIK_Transform_Ref_Pos.position 
-                + (forward * this.rightHandIK_ConstraintSCRP.positionOffset.z)
-                + (rightWard * this.rightHandIK_ConstraintSCRP.positionOffset.x)
-                + (upWard * this.rightHandIK_ConstraintSCRP.positionOffset.y);
+                + (forward * this.handIK_ConstraintSCRP.positionOffset.z)
+                + (rightWard * this.handIK_ConstraintSCRP.positionOffset.x)
+                + (upWard * this.handIK_ConstraintSCRP.positionOffset.y);
         }
     }
     public Quaternion targetAnchorHandRotaion
     {
         get 
         {
-            return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.handIK_Transform_Ref_Rot.up) * Quaternion.Euler(this.rightHandIK_ConstraintSCRP.rotationEulerOffset);
+            return Quaternion.LookRotation((this.aimingAtTransfrom.position - this.targetHandPosition).normalized,this.handIK_Transform_Ref_Rot.up) * Quaternion.Euler(this.handIK_ConstraintSCRP.rotationEulerOffset);
         }
     }
     public Vector3 targerAnchorHintHandPosition
@@ -47,9 +47,9 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         get
         {
             Vector3 hintHandPos = this.targetHandPosition
-           + this.handArmIKConstraintManager.GetTargetHandTransform().forward * this.rightHandIK_ConstraintSCRP.hintPositionOffset.z
-           + this.handArmIKConstraintManager.GetTargetHandTransform().up * this.rightHandIK_ConstraintSCRP.hintPositionOffset.y
-           + this.handArmIKConstraintManager.GetTargetHandTransform().right * this.rightHandIK_ConstraintSCRP.hintPositionOffset.x;
+           + this.handArmIKConstraintManager.GetTargetHandTransform().forward * this.handIK_ConstraintSCRP.hintPositionOffset.z
+           + this.handArmIKConstraintManager.GetTargetHandTransform().up * this.handIK_ConstraintSCRP.hintPositionOffset.y
+           + this.handArmIKConstraintManager.GetTargetHandTransform().right * this.handIK_ConstraintSCRP.hintPositionOffset.x;
 
             return hintHandPos;
         }
@@ -86,13 +86,13 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
     protected Transform rootHintHandTransform;
 
-    protected HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP;
+    public HandIK_ConstraintSCRP handIK_ConstraintSCRP { get; protected set; }
 
     protected Transform aimingAtTransfrom;
     protected Transform rootCharacter;
 
-    protected float maxVerticalHandTargetDegree => this.rightHandIK_ConstraintSCRP.maxVerticalHandAimDeg;
-    protected float maxHorizontalHandTargetDegree => this.rightHandIK_ConstraintSCRP.maxHorizontalHandAimDeg;
+    protected float maxVerticalHandTargetDegree => this.handIK_ConstraintSCRP.maxVerticalHandAimDeg;
+    protected float maxHorizontalHandTargetDegree => this.handIK_ConstraintSCRP.maxHorizontalHandAimDeg;
     public AimAtHandIKConstriantNodeLeaf(
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform aimingAtTransform
@@ -110,7 +110,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
         this.rootCharacter = rootCharacter;
         this.aimingAtTransfrom = aimingAtTransform;
-        this.rightHandIK_ConstraintSCRP = rightHandIK_ConstraintSCRP;
+        this.handIK_ConstraintSCRP = rightHandIK_ConstraintSCRP;
         this.rootHintHandTransform = rootHintHand;
     }
     public override void Enter()
@@ -126,6 +126,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         this.UpdateHintHandPotation();
         base.UpdateNode();
     }
+    public void SetWeight(float weight) => this.weight = Mathf.Clamp01(weight);
     protected void UpdateHintHandPotation()
     {
 
@@ -136,4 +137,6 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         this.handArmIKConstraintManager.SetTargetHand(this.targetHandPosition, this.targetHandRotation);
     }
+
+    public void SetHandIKConstraintSCRP(HandIK_ConstraintSCRP handIK_ConstraintSCRP) => this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;
 }

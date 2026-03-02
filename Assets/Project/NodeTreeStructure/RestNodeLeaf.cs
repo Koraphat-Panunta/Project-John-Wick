@@ -15,38 +15,38 @@ public class RestNodeLeaf : INodeLeaf
         isReset = new List<Func<bool>>();
     }
 
-    public void Enter()
+    public virtual void Enter()
     {
 
     }
 
-    public void Exit()
+    public virtual void Exit()
     {
 
     }
 
-    public void FixedUpdateNode()
+    public virtual void FixedUpdateNode()
     {
 
     }
 
-    public bool IsComplete()
+    public virtual bool IsComplete()
     {
         return true;
     }
 
-    public bool IsReset()
+    public virtual bool IsReset()
     {
         return this.nodeLeafBehavior.IsReset(this.isReset);
     }
 
-    public bool Precondition()
+    public virtual bool Precondition()
     {
         return this.preCondition.Invoke();
     }
 
 
-    public void UpdateNode()
+    public virtual void UpdateNode()
     {
 
     }

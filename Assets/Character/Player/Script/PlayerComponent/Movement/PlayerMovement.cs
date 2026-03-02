@@ -24,6 +24,8 @@ public class PlayerMovement : MovementCompoent
 
     private Player player;
 
+    public override Vector3 curPosition => this.characterController.position;
+
     public PlayerMovement(
         Player player
         ,Transform transform
@@ -127,7 +129,7 @@ public class PlayerMovement : MovementCompoent
             this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
             return;
         }
-        switch (player.playerStance)
+        switch (player.stance)
         {
             case Stance.stand: 
                 {
@@ -167,6 +169,7 @@ public class PlayerMovement : MovementCompoent
         //    Debug.Log("isProximityInAir");
     }
     public bool isProximityInAir { get; private set; }
+
     private float inAirTimer;
     private float inAirTime = 0.2f;
     

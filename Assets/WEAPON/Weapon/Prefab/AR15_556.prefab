@@ -330,8 +330,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7327806260083542802}
+  - component: {fileID: 4948210527691859304}
   m_Layer: 0
-  m_Name: Sight
+  m_Name: OpticAttachmentSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -352,6 +353,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7074491356039985985}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4948210527691859304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476371240685208287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc67aa004aedb764984ed8ac7048e61c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponAttachmentSocket
+  socketAttachmentType: 0
+  curWeaponAttach: {fileID: 0}
+  weapon: {fileID: 2761170129473076366}
 --- !u!1 &5511717781281102947
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,9 +537,23 @@ MonoBehaviour:
   _SecondHandGripTransform: {fileID: 1780952088139185614}
   weaponStatsScriptableObject: {fileID: 11400000, guid: a923dc694aa93d342bdb56b673eacac0,
     type: 2}
+  maxAmmoCapacityAdditional: 0
+  rate_of_fire_Additional: 0
+  reloadTimeAdditional: 0
+  Recovery_CrosshairBloomSpeed_Additional: 0
+  Recovery_CrosshairPositionSpeed_Additional: 0
+  Recoil_CrosshairBloomController_Additional: 0
+  Recoil_KickPositionCrosshairController_Additional: 0
+  Recoil_CameraControlController_Additional: 0
+  Recoil_VisualImpulseControl_Additional: 0
+  min_CrosshairSize_Additional: 0
+  max_CrosshairSize_Additional: 0
+  aimDownSight_speed_Additional: 0
   WeaponAttacherComponent: {fileID: -73435286910230583}
   rb: {fileID: -2014423653459740281}
   bulletSpawner: {fileID: 1537619354982768088}
+  weaponAttachmentSocket:
+  - {fileID: 4948210527691859304}
   Collider: {fileID: 1475053527945465068}
   throwVelocity: 10
   layerHit:
@@ -534,8 +564,6 @@ MonoBehaviour:
   tacticalReload_timelineTriggerEventSCRP: {fileID: 11400000, guid: 6eb1d6e8ead70264c8037b4a5356e0a7,
     type: 2}
   isLoad: 0
-  microOpticSocket: {fileID: 7327806260083542802}
-  microOptic: {fileID: 0}
   FrontGripSocket: {fileID: 1780952088139185614}
 --- !u!114 &-73435286910230583
 MonoBehaviour:
@@ -668,7 +696,8 @@ AudioSource:
   m_GameObject: {fileID: 7594886238610776571}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4205020694465869820, guid: b5913fa8685b45b4bb03d11d88ca2447,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -1251,7 +1280,7 @@ MonoBehaviour:
   spark: {fileID: 7440191685052868192, guid: 5a936c83b1746f14f9100db745e94f04, type: 3}
   bloodSplit: {fileID: 1903839483200921912, guid: dce64985075625d4dad0262be6a758df,
     type: 3}
-  bulletHitPrefab: {fileID: 3939261903344632742, guid: c89e6f69359eb52439940b98577659e2,
+  bulletHitPrefab: {fileID: 1001209025161360603, guid: f1b8e62d427131c45b48bc1c14aad24c,
     type: 3}
   hitArmor: {fileID: 8300000, guid: e4b229d1cd4c5954c982c44b6f42eb27, type: 3}
   hitFresh: {fileID: 8300000, guid: 8ddfa0260fc15754c9da38290793ccc3, type: 3}

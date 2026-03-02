@@ -7,7 +7,7 @@ public class EnemyTacticDecision : EnemyDecision
     public SearchingTacticDecision searchingTacticDecision { get; private set; }
     public EncouterTacticDecision encouterTacticDecision { get; private set; }
     public HoldingTacticDecision holdingTacticDecision { get; private set; }
-    public TakeCoverTacticDecision takeCoverTacticDecision { get; private set; }
+
 
 
     public readonly float maxCost = 100;
@@ -31,7 +31,7 @@ public class EnemyTacticDecision : EnemyDecision
         searchingTacticDecision = new SearchingTacticDecision(enemy, this);
         encouterTacticDecision = new EncouterTacticDecision(enemy, this);
         holdingTacticDecision = new HoldingTacticDecision(enemy, this);
-        takeCoverTacticDecision = new TakeCoverTacticDecision(enemy, this);
+
 
         curTacticDecision = searchingTacticDecision;
         curTacticDecision.Enter();
@@ -83,7 +83,7 @@ public class EnemyTacticDecision : EnemyDecision
     protected override void OnNotifySpottingTarget(GameObject target)
     {
         curCombatPhase = CombatPhase.Alert;
-        enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,enemy.targetKnewPos);
+        enemyCommand.NotifyFriendly(15, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,enemy.targetKnowPos);
     }
 
     private void OnNotifyGetCommunicate(Communicator communicator)

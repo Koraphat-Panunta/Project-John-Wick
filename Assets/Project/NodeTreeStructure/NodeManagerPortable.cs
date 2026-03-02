@@ -21,7 +21,7 @@ public class NodeManagerPortable : INodeManager
     }
 
     public void FixedUpdateNode() => _nodeManagerBehavior.FixedUpdateNode(this);
-    public void UpdateNode() => _nodeManagerBehavior.UpdateNode(this);
+    public void UpdateNode() => _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
 
     public void InitialzedOuterNode(Action initialzedOuterNode)
     {

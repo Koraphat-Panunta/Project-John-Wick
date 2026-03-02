@@ -20,9 +20,9 @@ public partial class Enemy: IRagdollAble
 
     public bool _isFallDown { get 
         {
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
                 return true;
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
+            if(stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
                 && getUpNodeLeaf.isStandingComplete == false)
                 return true;
 
@@ -32,8 +32,8 @@ public partial class Enemy: IRagdollAble
 
     public bool _isGetUp { get 
         {
-            if (enemyStateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>(out FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf)
-                ||enemyStateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>())
+            if (stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>(out FallDown_EnemyState_NodeLeaf fallDown_EnemyState_NodeLeaf)
+                ||stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>())
                 return true;
             return false;
         } 

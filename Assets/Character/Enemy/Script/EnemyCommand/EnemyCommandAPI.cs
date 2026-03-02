@@ -93,7 +93,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public bool SprintToPosition(Vector3 Destination, float rotSpeedScale, float reachDestinationDistance)
     {
         _enemy.isSprintCommand = true;
-        
+        this._enemy.stanceCommand = Stance.stand;
         return this.MoveToPositionRotateToward(Destination,1,1,reachDestinationDistance);
     }
     public void FreezPosition()
@@ -146,16 +146,17 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     #endregion
     public void Dodge(Vector3 dodgeDir)
     {
+        this._enemy.stanceCommand = Stance.stand;
         _enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;
     }
     public void Stand()
     {
-        _enemy.enemyStance = Stance.stand;
+        this._enemy.stanceCommand = Stance.stand;
     }
     public void Crouch()
     {
-        _enemy.enemyStance = Stance.crouch;
+        this._enemy.stanceCommand = Stance.crouch;
     }
 
     public void AutoDetectSoftCover()
@@ -241,6 +242,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public void SpinKick()
     {
+        this._enemy.stanceCommand = Stance.stand;
         _enemy._triggerGunFu = true;
     }
 

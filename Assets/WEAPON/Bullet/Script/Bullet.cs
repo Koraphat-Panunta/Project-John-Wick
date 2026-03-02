@@ -3,14 +3,18 @@ using UnityEngine;
 using System;
 
 
-public abstract class Bullet:IDamageVisitor,INoiseMakingAble
+public abstract class Bullet:
+    IHPDamageVisitor
+    ,IPostureDamageVisitor
+    ,INoiseMakingAble
 {
-    public abstract float _pureHpDamage { get; set; }
-    public abstract float _purePostureDamage { get; set; }
+
+    public abstract float _hPDamage { get; set; }
+    public abstract float _postureDamageVisitor { get; set; }
     public abstract float _pureDestructionDamage { get; set; }
     public virtual float _headShotDamageMultiply { get => 1; }
-    public virtual float GetHpDamage { get => _pureHpDamage * (penetrateRate/maxPenetrateRate);  }
-    public float GetPostureDamage { get => _purePostureDamage * (penetrateRate / maxPenetrateRate); }
+    public virtual float GetHpDamage { get => _hPDamage * (penetrateRate/maxPenetrateRate);  }
+    public float GetPostureDamage { get => _postureDamageVisitor * (penetrateRate / maxPenetrateRate); }
     public float GetDestructionDamage { get => _pureDestructionDamage * (penetrateRate / maxPenetrateRate); }
     public virtual float maxPenetrateRate { get => 1; }
     public float penetrateRate { get;private set; }
@@ -101,8 +105,6 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
                 if(bulletHitNotify!= null)
                 bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);
                 penetrateRate -= bulletDamageAble.penatrateResistance;
-                weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-               <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, bulletDamageAble);
 
                 if(penetrateRate <= 0)
                     break;
@@ -112,6 +114,13 @@ public abstract class Bullet:IDamageVisitor,INoiseMakingAble
         }
         this.penetrateRate = maxPenetrateRate;
     }
-    
-   
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        if(this.weapon.userWeapon != null 
+            && this.weapon.userWeapon is IDamageVisitor damageVisitor)
+        {
+            damageVisitor.OnNotifyFeedBackVisitor(damageAble);
+        }
+    }
 }

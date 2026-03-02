@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class DummySubject : Character
 {
-    [SerializeField] private CharacterController characterController;
+
+    public override Gauge _hpGauge { get ; protected set ; }
+
     public override void Initialized()
     {
-        _movementCompoent = new DummyMovementComponent(this.transform,this,this.characterController);
+        this._hpGauge = new Gauge(100,100);
+        this._movementCompoent = new DummyMovementComponent(this.transform,this,this.characterController);
         base.Initialized();
     }
+ 
     private void Update()
     {
         _movementCompoent.UpdateNode();
@@ -17,6 +21,9 @@ public class DummySubject : Character
         _movementCompoent.FixedUpdateNode();
     }
     public override MovementCompoent _movementCompoent { get ; set ; }
+
+    public override Stance stance => Stance.stand;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

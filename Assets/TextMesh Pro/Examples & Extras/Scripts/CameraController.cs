@@ -76,7 +76,7 @@ namespace TMPro.Examples
             }
         }
 
-        // UpdateNode is called once per frame
+        // UpdateNodeAndCheckFindingNode is called once per frame
         void LateUpdate()
         {
             GetPlayerInput();

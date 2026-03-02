@@ -16,7 +16,7 @@ public class EncouterTacticDecision : TacticDecision
 
     public override void Enter()
     {
-        curvePath.GenaratePath(enemy.targetKnewPos,enemy.transform.position);
+        curvePath.GenaratePath(this.enemy.targetKnowPos,enemy.transform.position);
         enemyCommand.FreezPosition();
 
     }
@@ -36,14 +36,14 @@ public class EncouterTacticDecision : TacticDecision
         enemyTacticDecision.cost -= cost_DrainRate * Time.deltaTime;
         if (enemyTacticDecision.cost < exitTacticCost/*&&enemyBody.cost > Vector3.Distance(enemyBody._transform.position,enemyBody.Target._transform.position)*2*/)
         {
-            if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
-            {
-                enemyTacticDecision.ChangeTactic(enemyTacticDecision.takeCoverTacticDecision);
-            }
-            else
-            {
-                enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
-            }
+            //if (enemy.findingCover.FindCoverInRaduisInGunFight(7, out CoverPoint coverPoint))
+            //{
+            //    enemyTacticDecision.ChangeTactic(enemyTacticDecision.takeCoverTacticDecision);
+            //}
+            //else
+            //{
+            //    enemyTacticDecision.ChangeTactic(enemyTacticDecision.holdingTacticDecision);
+            //}
             return;
         }
 
@@ -51,19 +51,19 @@ public class EncouterTacticDecision : TacticDecision
         {
             case EnemyTacticDecision.CombatPhase.Alert:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommand.NormalFiringPattern.Performing();
 
                 }
                 break;
             case EnemyTacticDecision.CombatPhase.Aware:
                 {
-                    enemyCommand.AimDownSight(enemy.targetKnewPos);
+                    enemyCommand.AimDownSight(this.enemy.targetKnowPos);
                 }
                 break;
         }
 
-        curvePath.AutoRegenaratePath(enemy.targetKnewPos, enemy.transform.position, 2);
+        curvePath.AutoRegenaratePath(this.enemy.targetKnowPos, enemy.transform.position, 2);
 
         if (curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
             if (enemyCommand.MoveToPosition(_curvePoint, 1))

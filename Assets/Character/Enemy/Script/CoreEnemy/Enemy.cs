@@ -6,8 +6,6 @@ using UnityEngine.AI;
 
 public partial class Enemy : SubjectEnemy
     , IMotionDriven
-    , IFindingTarget
-    , ICoverUseable
     , IHeardingAble
     , IPainStateAble
     , IFriendlyFirePreventing
@@ -15,20 +13,17 @@ public partial class Enemy : SubjectEnemy
     
 {
 
-    public LayerMask targetMask;
-    public LayerMask targetSpoterMask;
+
     public FieldOfView enemyFieldOfView;
     public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
-    public INodeManager enemyStateManagerNode;
+    public INodeManager stateManagerNode;
+    public EnemyStateManagerNode enemyStateManagerNode => this.stateManagerNode as EnemyStateManagerNode;
     private EnemyCommunicator enemyCommunicator;
 
     public AIAgent agent;
-    public CharacterMovementController characterController;
 
     public Vector3 forceSave;
-
-    public float myHP;
 
     
     [SerializeField] public bool isImortal;
@@ -36,11 +31,27 @@ public partial class Enemy : SubjectEnemy
     public Transform rayCastPos;
 
     public LayerMask selfLayerMask;
-  
+
+    public override Stance stance 
+    {
+        get 
+        {
+            if(this.stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>()
+                ||(this.stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpStateNodeLeaf)
+                && getUpStateNodeLeaf.isStandingComplete == false))
+                return Stance.prone;
+
+            return Stance.stand;
+        }
+    }
+    public Stance stanceCommand = Stance.stand;
+
+    public override Gauge _hpGauge { get ; protected set ; }
+
     public override void Initialized()
     {
-        targetMask.value = LayerMask.GetMask("Player");
-
+        this._hpGauge = new Gauge(this.enemyStatsScripableObject.maxHp,this.enemyStatsScripableObject.maxHp);
+        this.postureGauge = new Gauge(this.enemyStatsScripableObject.maxPosture,this.enemyStatsScripableObject.maxPosture);
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -51,11 +62,11 @@ public partial class Enemy : SubjectEnemy
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
         _movementCompoent = new EnemyMovement(this, transform, this, this.characterController);
         enemyCommunicator = new EnemyCommunicator();
-        InitailizedFindingTarget();
-        InitailizedCoverUsable();
+
         InitailizedGunFuComponent();
 
-        enemyStateManagerNode = new EnemyStateManagerNode(this);
+        stateManagerNode = new EnemyStateManagerNode(this);
+        InitailizedFindingTarget();
         Initialized_IWeaponAdvanceUser();
 
         this.SetDefaultAttribute();
@@ -71,9 +82,7 @@ public partial class Enemy : SubjectEnemy
     {
         this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
-        myHP = base.HP;
-        this.FindingTargetUpdate();
-        enemyStateManagerNode.UpdateNode();
+        stateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
 
@@ -88,57 +97,82 @@ public partial class Enemy : SubjectEnemy
 
     private void FixedUpdate()
     {
-        enemyStateManagerNode.FixedUpdateNode();
+        stateManagerNode.FixedUpdateNode();
         _weaponManuverManager.FixedUpdateNode();
         _movementCompoent.FixedUpdateNode();
     }
 
     public void TakeDamage(float Damage)
     {
-        if (isImortal)
-            return;
-
-        SetHP(Mathf.Clamp(HP - Damage, 0, maxHp));
+        if(this.isImortal)
+            SetHP(Mathf.Clamp(this.GetHP() - Damage, 1, this.GetMaxHp()));
+        else
+        SetHP(Mathf.Clamp(this.GetHP() - Damage, 0, this.GetMaxHp()));
         
     }
+    private float gotHitWithStandHP = 20;
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
-        if (NotifyGotAttack != null)
-            NotifyGotAttack.Invoke(damageVisitor);
-
         switch (damageVisitor)
         {
-            case Bullet bullet:
+            case GunFuHitDownNodeLeaf gunFuHitDownNodeLeaf:
                 {
-                    TakeDamage(bullet.GetHpDamage);
-                    bullet.weapon.userWeapon._weaponAfterAction.SendFeedBackWeaponAfterAction
-                        <IBulletDamageAble>(WeaponAfterAction.WeaponAfterActionSending.HitConfirm, this);
-                    NotifyObserver(this, EnemyEvent.GotBulletHit);
-                    break;
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Attack)
+                    {
+                        if (this.GetHP() > this.gotHitWithStandHP)
+                        {
+                            this.TakeDamage(Mathf.Clamp(gunFuHitDownNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
+                        }
+                        else
+                            this.TakeDamage(gunFuHitDownNodeLeaf._hPDamage);
+
+                        this._posture = Mathf.Clamp(this._posture - gunFuHitDownNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
+                    }
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.PullUp)
+                    {
+                        this._posture = Mathf.Clamp(this._maxPosture, 0, this._maxPosture);
+                    }
+
+                    gunFuHitDownNodeLeaf.OnNotifyFeedBackVisitor(this);
+
+                    return;
                 }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
-                        if(gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
+                        this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
+
+                        if (this.GetHP() > this.gotHitWithStandHP)
                         {
-                            if (this.HP > 0)
-                                this.HP -= 20;
+                            this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
+                        }
+                        else
+                            this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+
+                        if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
+                        {
+                            this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
                         }
                         else
                         {
-                            if (this.HP > 20)
-                                this.HP -= 15;
+                            this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                         }
 
+                        gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
 
-                        if (this.staggerGauge > 0)
-                            this.staggerGauge -= gunFuHitNodeLeaf.staggerHitDamage;
                     }
-                    break;
+                    return;
                 }
         }
 
+        if (damageVisitor is IHPDamageVisitor hPDamageVisitor)
+            this.TakeDamage(hPDamageVisitor._hPDamage);
+
+        if (damageVisitor is IPostureDamageVisitor postureDamageVisitor)
+            this.TakePostureDamaged(postureDamageVisitor._postureDamageVisitor);
+
+        damageVisitor.OnNotifyFeedBackVisitor(this);
 
 
     }
@@ -148,14 +182,14 @@ public partial class Enemy : SubjectEnemy
     }
     private void BlackBoardUpdate()
     {
-        isSpottingTaget = this.findingTargetComponent.isSpottingTarget;
-        moveInputVelocity_LocalCommand = TransformWorldToLocalVector(moveInputVelocity_WorldCommand, transform.forward);
-        if (this.findingTargetComponent.isSpottingTarget && _isInPain == false)
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * enemyGetShootDirection.trackingTargetAccelerate));
+        this.isSpottingTaget = this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.isSpottingTarget;
+        this.moveInputVelocity_LocalCommand = TransformWorldToLocalVector(this.moveInputVelocity_WorldCommand, this.transform.forward);
+        if (this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.isSpottingTarget && _isInPain == false)
+            this.enemyGetShootDirection.SetTrackingRate(this.enemyGetShootDirection.trackingTargetRate + (Time.deltaTime * this.enemyGetShootDirection.trackingTargetAccelerate));
         else
-            enemyGetShootDirection.SetTrackingRate(enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * enemyGetShootDirection.trackingTargetDecelerate));
+            this.enemyGetShootDirection.SetTrackingRate(this.enemyGetShootDirection.trackingTargetRate - (Time.deltaTime * this.enemyGetShootDirection.trackingTargetDecelerate));
 
-        curTrackRate = enemyGetShootDirection.trackingTargetRate;
+        this.curTrackRate = this.enemyGetShootDirection.trackingTargetRate;
     }
 
 
@@ -179,37 +213,7 @@ public partial class Enemy : SubjectEnemy
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
-    private float findingTargetTimeInterval = .25f;
-    private float findingTargetTimer;
-    private void FindingTargetUpdate()
-    {
-        if(isDead)
-            return;
-
-        if(this.target != null
-            && (Physics.Raycast(rayCastPos.position
-                , (this.target.transform.position - rayCastPos.position).normalized
-                , Vector3.Distance(rayCastPos.position, this.target.transform.position)
-                , LayerMask.GetMask("Default")) == false)) 
-        {
-          
-            this.targetKnewPos = this.target.transform.position;
-        }
-       
-        
-
-        findingTargetTimer += Time.deltaTime;
-
-        if(findingTargetTimer < findingTargetTimeInterval)
-            return;
-
-        if(findingTargetComponent.FindTarget(out GameObject target))
-            this.target = target;
-        else
-            this.target = null;
-       
-        findingTargetTimer = 0;
-    }
+  
     #region InitialziedBodyPart
     [SerializeField] public HeadBodyPart head;
     [SerializeField] public ChestBodyPart spline;
@@ -271,44 +275,26 @@ public partial class Enemy : SubjectEnemy
 
     #region InitailizedFindingTarget
 
-    public FindingTarget findingTargetComponent { get; set; }
-    public Vector3 targetKnewPos;
-    public GameObject target { get; set; }
+    public Vector3 targetKnowPos => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.targetKnewPos;
+
     public Action<GameObject> NotifyEnemySpottingTarget;
+    public Transform target => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.target;
     public void InitailizedFindingTarget()
     {
-        findingTargetComponent = new FindingTarget(targetSpoterMask, enemyFieldOfView);
-        findingTargetComponent.OnSpottingTarget += EnemySpotingTarget;
+        
+        this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.OnSpottingTarget += EnemySpotingTarget;
 
     }
     private void EnemySpotingTarget(GameObject target)
     {
+
         if (isDead)
             return;
 
-
-        targetKnewPos = target.transform.position;
-        enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,targetKnewPos);
+        this.enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,this.targetKnowPos);
         if (NotifyEnemySpottingTarget != null)
             NotifyEnemySpottingTarget.Invoke(target);
     }
-
-    #endregion
-
-    #region InitailizedCoverUsable
-    public Vector3 peekPos { get; set; }
-    public Vector3 coverPos { get; set; }
-    public CoverPoint coverPoint { get; set; }
-    public Character userCover { get; set; }
-    public FindingCover findingCover { get; set; }
-    public bool isInCover { get; set; }
-
-    public void InitailizedCoverUsable()
-    {
-        userCover = this;
-        findingCover = new EnemyFindCover(this, this, this);
-    }
-
 
     #endregion
 
@@ -323,7 +309,7 @@ public partial class Enemy : SubjectEnemy
         if (noiseMakingAble is Bullet bullet
             && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
         {
-            targetKnewPos = i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position;
+            this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position);
         }
 
         NotifyObserver(this, EnemyEvent.HeardingGunShoot);
@@ -351,7 +337,7 @@ public partial class Enemy : SubjectEnemy
                 case EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition:
                     {
                         if (var is Vector3 targetSendedPosition)
-                            targetKnewPos = targetSendedPosition;
+                            this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(targetSendedPosition);
                     }
                     break;
             }
@@ -380,8 +366,6 @@ public partial class Enemy : SubjectEnemy
     public bool isSprintCommand { get; set; }
     public bool _triggerDodge { get; set; }
 
-    public Stance enemyStance = Stance.stand;
-
 
     #endregion
 
@@ -395,14 +379,14 @@ public partial class Enemy : SubjectEnemy
     public bool _isPainTrigger { get; set; }
     public bool _isInPain { get
         {
-            if(enemyStateManagerNode == null)
+            if(stateManagerNode == null)
                 return false;
 
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
 
-            if(enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
-                || enemyStateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<IGotGunFuAttackNode>()
+                || stateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
                 return true;
 
             return false;
@@ -417,7 +401,6 @@ public partial class Enemy : SubjectEnemy
     public IFriendlyFirePreventing.FriendlyFirePreventingMode curFriendlyFireMode { get ; set ; }
     public int allieID { get ; set ; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
-
 
     #endregion
 
@@ -456,11 +439,7 @@ public partial class Enemy : SubjectEnemy
     private void SetDefaultAttribute()
     {
         this._posture = this._maxPosture;
-        base.HP = 100;
-        base.maxHp = 100;
-        staggerGauge = maxStaggerGauge;
-
-        targetKnewPos = transform.position + transform.forward + Vector3.up;
+        this.SetHP(this.GetMaxHp());
 
         enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward +Vector3.up);
     }
@@ -475,14 +454,19 @@ public partial class Enemy : SubjectEnemy
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(targetKnewPos, 0.14f);
+        try
+        {
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(transform.position, 0.15f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(this.targetKnowPos, 0.14f);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, transform.forward);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(transform.position, 0.15f);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, transform.forward);
+        }
+        catch { }
 
         //Gizmos.color = Color.green;
         //Gizmos.DrawRay(_transform.position, _transform.forward);

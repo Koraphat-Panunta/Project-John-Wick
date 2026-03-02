@@ -8,7 +8,7 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
     IMotionImplusePushAble motionImplusePushAble => enemy._movementCompoent as EnemyMovement;
     EnemyMovement enemyMovement => enemy._movementCompoent as EnemyMovement;
 
-    public INodeManager nodeManager { get => enemy.enemyStateManagerNode; set { } }
+    public INodeManager nodeManager { get => enemy.stateManagerNode; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
@@ -43,7 +43,6 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         enemyMovement.AddForcePush(enemy.dodgeImpluseForce * (enemy.moveInputVelocity_WorldCommand + enemy._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
         dodgePhase = DodgePhase.pushOut;
 
-        enemy.enemyStance = Stance.stand;
         dodgeRollCoolDown = 2;
         base.Enter();
     }

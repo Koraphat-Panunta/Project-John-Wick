@@ -27,6 +27,8 @@ public class AnimationInteractionDebugTest : MonoBehaviour
     private bool isEndTrigger;
     private void Awake()
     {
+
+
         this.subject1.Initialized();
         this.subject2.Initialized();
 
@@ -101,33 +103,33 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         //    isInteract = true;
         //}
 
-        //if(character == subjectAnimationInteract1.character)
-        //{
-        //    Debug.Log("Character : " + character + " anchor Distance pos = "
-        //       + Vector3.Distance(
-        //           character.transform.position
-        //           , subjectAnimationInteract1.anhorPosition)
-        //       );
-        //    Debug.Log("Character : " + character +" anchor Distance rot = "
-        //    + Quaternion.Angle(
-        //        character.transform.rotation
-        //        , Quaternion.LookRotation(subjectAnimationInteract1.anhorDir))
-        //    );
-        //}
+        if (character == subjectAnimationInteract1.character)
+        {
+            Debug.Log("Character : " + character + " anchor Distance pos = "
+               + Vector3.Distance(
+                   character.transform.position
+                   , subjectAnimationInteract1.anhorPosition)
+               );
+            Debug.Log("Character : " + character + " anchor Distance rot = "
+            + Quaternion.Angle(
+                character.transform.rotation
+                , Quaternion.LookRotation(subjectAnimationInteract1.anhorDir))
+            );
+        }
 
-        //if (character == subjectAnimationInteract2.character)
-        //{
-        //    Debug.Log("Character : " + character + " anchor Distance pos = "
-        //       + Vector3.Distance(
-        //           character.transform.position
-        //           , subjectAnimationInteract2.anhorPosition)
-        //       );
-        //    Debug.Log("Character : " + character + " anchor Distance rot = "
-        //    + Quaternion.Angle(
-        //        character.transform.rotation
-        //        , Quaternion.LookRotation(subjectAnimationInteract2.anhorDir))
-        //    );
-        //}
+        if (character == subjectAnimationInteract2.character)
+        {
+            Debug.Log("Character : " + character + " anchor Distance pos = "
+               + Vector3.Distance(
+                   character.transform.position
+                   , subjectAnimationInteract2.anhorPosition)
+               );
+            Debug.Log("Character : " + character + " anchor Distance rot = "
+            + Quaternion.Angle(
+                character.transform.rotation
+                , Quaternion.LookRotation(subjectAnimationInteract2.anhorDir))
+            );
+        }
 
     }
 

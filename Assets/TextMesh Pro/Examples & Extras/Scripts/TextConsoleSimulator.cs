@@ -58,7 +58,7 @@ namespace TMPro.Examples
             {
                 if (hasTextChanged)
                 {
-                    totalVisibleCharacters = textInfo.characterCount; // UpdateNode visible selfNPCTarget count.
+                    totalVisibleCharacters = textInfo.characterCount; // UpdateNodeAndCheckFindingNode visible selfNPCTarget count.
                     hasTextChanged = false; 
                 }
 

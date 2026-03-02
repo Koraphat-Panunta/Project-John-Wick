@@ -55,7 +55,7 @@ public class SearchingTacticDecision : TacticDecision
                 break;
             case EnemyTacticDecision.CombatPhase.Aware: 
                 {
-                    enemyCommand.MoveToPositionRotateToward(enemy.targetKnewPos, 1, 1);
+                    enemyCommand.MoveToPositionRotateToward(this.enemy.targetKnowPos, 1, 1);
                     enemyCommand.LowReady();
                 }
                 break;

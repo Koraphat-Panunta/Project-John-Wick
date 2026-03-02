@@ -1,55 +1,31 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-public class GameManager : MonoBehaviour,INodeManager
+public class GameManager : MonoBehaviour,INodeManager,IInitializedAble
 {
-    public enum GameManagerState
-    {
-        ForntScene,
-        Gameplay
-    }
-    public GameManagerState gameManagerSceneData;
-    public enum GameplayLevel
-    {
-        None,
-        Prologue,
-    }
-    public GameplayLevel gameplayLevelData;
 
-    public SoundTrackManager soundTrackManager;
-    public AudioClip gamePlaySoundTrack { get; set; }
+    public static GameManager gameManagerInstance;
+
 
     private INodeLeaf curNodeLeaf;
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     public INodeSelector startNodeSelector { get ; set ; }
     public NodeManagerBehavior _nodeManagerBehavior { get; set; }
-    public FrontSceneGameManagerNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
+    public GameManagerSceneNodeLeaf frontSceneGameManagerNodeLeaf { get; set ; }
 
     public GameManagerNodeSelector ingameGameManagerNodeSelector { get; set; }
     public GameManagerSceneNodeLeaf prologue_GameManagerSceneNodeLeaf { get; set; }
-    public DataBased dataBased { get; set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
-    private void Awake()
-    {
-        soundTrackManager = GetComponent<SoundTrackManager>();
-        _nodeManagerBehavior = new NodeManagerBehavior();
-        this._parallelNodeManahger = new List<INodeManager>();
-        Application.targetFrameRate = 60; // Match Editor
-        QualitySettings.vSyncCount = 1;  // Prevent high FPS affecting physics
-        dataBased = new DataBased();
-        DontDestroyOnLoad(gameObject);
-    }
+   
     public void InitailizedNode()
     {
         startNodeSelector = new GameManagerNodeSelector(() => true);
 
-        this.frontSceneGameManagerNodeLeaf = new FrontSceneGameManagerNodeLeaf("FrontScene", this,()=> gameManagerSceneData == GameManagerState.ForntScene);
+        this.frontSceneGameManagerNodeLeaf = new GameManagerSceneNodeLeaf("FrontScene", this, () => true);
 
-        this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => gameManagerSceneData == GameManagerState.Gameplay);
-        this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => gameplayLevelData == GameplayLevel.Prologue);
-
-
+        this.ingameGameManagerNodeSelector = new GameManagerNodeSelector(() => this.triggerEnter );
+        this.prologue_GameManagerSceneNodeLeaf = new GameManagerSceneNodeLeaf("Scene_ProlougeLevel", this, () => true);
 
         startNodeSelector.AddtoChildNode(this.frontSceneGameManagerNodeLeaf);
         startNodeSelector.AddtoChildNode(ingameGameManagerNodeSelector);
@@ -57,7 +33,18 @@ public class GameManager : MonoBehaviour,INodeManager
         ingameGameManagerNodeSelector.AddtoChildNode(this.prologue_GameManagerSceneNodeLeaf);
 
 
-        _nodeManagerBehavior.SearchingNewNode(this);
+    }
+
+    public void Initialized()
+    {
+
+        _nodeManagerBehavior = new NodeManagerBehavior();
+        this._parallelNodeManahger = new List<INodeManager>();
+        DontDestroyOnLoad(gameObject);
+
+        gameManagerInstance = this;
+
+        InitailizedNode();
     }
 
     public void FixedUpdateNode()
@@ -66,58 +53,37 @@ public class GameManager : MonoBehaviour,INodeManager
     }
     public void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNode(this);
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
 
    
     private void Start()
     {
-
-        this.gameManagerSceneData = GameManagerState.ForntScene;
-        this.gameplayLevelData = GameplayLevel.None;
-
-        InitailizedNode();
+        this._nodeManagerBehavior.SearchingNewNode(this);
     }
 
-    private void Update()
-    {
-        this.UpdateNode();
-    }
-    private void FixedUpdate()
-    {
-        this.FixedUpdateNode();
-    }
+    
     
     public void RestartScene()
     {
         (curNodeLeaf as GameManagerNodeLeaf).Enter();
     }
-    public void StartGameplayScene(GameplayLevel gameplayLevel)
+
+    public void GameManagerOnValidate()
     {
-        gameManagerSceneData = GameManagerState.Gameplay;
-        gameplayLevelData = gameplayLevel;
+        this._nodeManagerBehavior.CheckFindingNode(this);
+        this.triggerEnter = false;
     }
+    public bool triggerEnter;
     public void ContinueGameplayScene()
     {
-        gameManagerSceneData = GameManagerState.Gameplay;
-
-        switch (gameplayLevelData)
-        {
-            case GameplayLevel.None: 
-                gameplayLevelData 
-                    = GameplayLevel.Prologue; 
-                break;
-            case GameplayLevel.Prologue:
-                {
-                    gameManagerSceneData = GameManagerState.ForntScene;
-                    gameplayLevelData = GameplayLevel.None;
-                    break;
-                }
-        }
+        this.triggerEnter = true;
+        this.GameManagerOnValidate();
     }
+
     public void ExitToMainMenu()
     {
-        gameManagerSceneData = GameManagerState.ForntScene;
+        this.GameManagerOnValidate();
     }
 
     public void ExitGame()
@@ -129,6 +95,8 @@ public class GameManager : MonoBehaviour,INodeManager
 #endif
 
     }
+
+    
     //public void OnNotify()
     //{
     //    switch (gameManagerSendNotifyAble)

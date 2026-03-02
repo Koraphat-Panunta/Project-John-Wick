@@ -40,7 +40,7 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
     }
     
 
-    // UpdateNode is called once per frame
+    // UpdateNodeAndCheckFindingNode is called once per frame
     void Update()
     {
 

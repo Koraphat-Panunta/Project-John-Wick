@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 150415aab4f52bc40ae3d5dfad104c99, type: 3}
+  m_Script: {fileID: 11500000, guid: aa393604a468ea7479bc8b2720717891, type: 3}
   m_Name: AR15
   m_EditorClassIdentifier: Assembly-CSharp::WeaponStatsScriptableObject
+  objectID: 3c0f5b01-e440-4abb-ab37-386c7d591db5
+  weaponPrefab: {fileID: 2761170129473076366, guid: 462d94adf4c852c429f55445d516ab1b,
+    type: 3}
   bulletCapacity: 30
   rate_of_fire: 670
   reloadTime: 2
@@ -24,3 +27,6 @@ MonoBehaviour:
   min_CrosshairSize: 20
   max_CrosshairSize: 175
   aimDownSight_speed: 7
+  _hpDamage: 23
+  _postureDamage: 20
+  _destructionDamage: 17
