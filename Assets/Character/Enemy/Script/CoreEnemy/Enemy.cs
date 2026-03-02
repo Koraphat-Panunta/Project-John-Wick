@@ -25,8 +25,6 @@ public partial class Enemy : SubjectEnemy
 
     public Vector3 forceSave;
 
-    public float myHP;
-
     
     [SerializeField] public bool isImortal;
     [SerializeField] public bool isNotFallAble;
@@ -48,9 +46,12 @@ public partial class Enemy : SubjectEnemy
     }
     public Stance stanceCommand = Stance.stand;
 
+    public override Gauge _hpGauge { get ; protected set ; }
+
     public override void Initialized()
     {
-
+        this._hpGauge = new Gauge(this.enemyStatsScripableObject.maxHp,this.enemyStatsScripableObject.maxHp);
+        this.postureGauge = new Gauge(this.enemyStatsScripableObject.maxPosture,this.enemyStatsScripableObject.maxPosture);
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -81,7 +82,6 @@ public partial class Enemy : SubjectEnemy
     {
         this.isGround = _movementCompoent.IsGround(out Vector3 groundPos);
         this._staggerGauge = this.staggerGauge;
-        myHP = base.HP;
         stateManagerNode.UpdateNode();
         _weaponManuverManager.UpdateNode();
         _movementCompoent.UpdateNode();
@@ -90,7 +90,6 @@ public partial class Enemy : SubjectEnemy
     }
     private void LateUpdate()
     {
-        this.posture = this._posture;
         BlackBoardUpdate();
         BlackBoardBufferUpdate();
 
@@ -106,9 +105,9 @@ public partial class Enemy : SubjectEnemy
     public void TakeDamage(float Damage)
     {
         if(this.isImortal)
-            SetHP(Mathf.Clamp(HP - Damage, 1, maxHp));
+            SetHP(Mathf.Clamp(this.GetHP() - Damage, 1, this.GetMaxHp()));
         else
-        SetHP(Mathf.Clamp(HP - Damage, 0, maxHp));
+        SetHP(Mathf.Clamp(this.GetHP() - Damage, 0, this.GetMaxHp()));
         
     }
     private float gotHitWithStandHP = 20;
@@ -131,7 +130,7 @@ public partial class Enemy : SubjectEnemy
                     }
                     if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.PullUp)
                     {
-                        this._posture = Mathf.Clamp(this.maxPosture, 0, this._maxPosture);
+                        this._posture = Mathf.Clamp(this._maxPosture, 0, this._maxPosture);
                     }
 
                     gunFuHitDownNodeLeaf.OnNotifyFeedBackVisitor(this);
@@ -403,7 +402,6 @@ public partial class Enemy : SubjectEnemy
     public int allieID { get ; set ; }
     public FriendlyFirePreventingBehavior friendlyFirePreventingBehavior { get; set; }
 
-
     #endregion
 
     #region TransformLocalWorld
@@ -441,8 +439,7 @@ public partial class Enemy : SubjectEnemy
     private void SetDefaultAttribute()
     {
         this._posture = this._maxPosture;
-        base.HP = 100;
-        base.maxHp = 100;
+        this.SetHP(this.GetMaxHp());
 
         enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward +Vector3.up);
     }

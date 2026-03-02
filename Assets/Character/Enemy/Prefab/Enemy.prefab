@@ -1071,7 +1071,6 @@ MonoBehaviour:
   SumDeltaPos: 0
   agent: {fileID: 7803922069215804562}
   forceSave: {x: 0, y: 0, z: 0}
-  myHP: 100
   isImortal: 0
   isNotFallAble: 0
   rayCastPos: {fileID: 463041512469725749}
@@ -1101,6 +1100,8 @@ MonoBehaviour:
   miniPainStateDuration: 0.75
   mediumPainStateDuration: 2
   heavyPainStateDuration: 5
+  enemyStatsScripableObject: {fileID: 11400000, guid: e5fa0de338a47be41b14e40aa9abd149,
+    type: 2}
   findingTargetScriptableObject: {fileID: 11400000, guid: 7c7b554e66c38d14d970f844488729b8,
     type: 2}
   standUpAnimationTriggerSCRP: {fileID: 11400000, guid: d1339d4dc4565804cbc727d7ee500918,
@@ -1142,8 +1143,6 @@ MonoBehaviour:
     type: 2}
   gotGunFu_Single_Execute_OnGround_LayDown_I: {fileID: 11400000, guid: 9da1eb91b6a4b364193f5aaeaff8f765,
     type: 2}
-  maxPosture: 70
-  posture: 0
   lightPosture: 80
   mediumPosture: 50
   heavyPosture: 20

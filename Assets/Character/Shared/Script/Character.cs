@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public abstract class Character : MonoBehaviour,IInitializedAble
 {
-    protected float HP;
-    protected float maxHp;
+    public abstract Gauge _hpGauge { get; protected set; } 
+
     public bool enableRootMotion;
 
     public Transform _hipBone;
@@ -51,7 +48,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
 
     public virtual bool isDead { get 
         {
-            if(HP <=0)
+            if(this._hpGauge._gauge <=0)
                 return true;
             else return false;
         }
@@ -97,17 +94,16 @@ public abstract class Character : MonoBehaviour,IInitializedAble
    
     public float GetHP()
     {
-        return HP;
+        return this._hpGauge._gauge;
     }
-    public float GetMaxHp() => maxHp;
+    public float GetMaxHp() => this._hpGauge.maxGauge;
     public void SetHP(float HP)
     {
-        this.HP = Mathf.Clamp(HP,0,GetMaxHp());
+        this._hpGauge.SetGauge(Mathf.Clamp(HP, 0, GetMaxHp()));
     }
     public void AddHP(float HP)
     {
-        this.HP = Math.Clamp(this.HP+HP, 0, this.maxHp);
-        
+        this._hpGauge.AddGauge(Math.Clamp(this.GetHP() + HP, 0, this.GetMaxHp()));
     }
 
   

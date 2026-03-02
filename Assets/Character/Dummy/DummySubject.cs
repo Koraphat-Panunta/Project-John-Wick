@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class DummySubject : Character
 {
+
+    public override Gauge _hpGauge { get ; protected set ; }
+
     public override void Initialized()
     {
+        this._hpGauge = new Gauge(100,100);
         this._movementCompoent = new DummyMovementComponent(this.transform,this,this.characterController);
         base.Initialized();
     }

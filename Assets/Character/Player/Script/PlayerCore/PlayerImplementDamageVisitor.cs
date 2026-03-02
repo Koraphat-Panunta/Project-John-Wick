@@ -16,5 +16,17 @@ public partial class Player : IDamageVisitor
                 this.NotifyObserver(this, SubjectPlayer.NotifyEvent.OppenentStagger);
             }
         }
+        if(damageAble is IGotGunFuAttackedAble gotGunFuAttackedAble)
+        {
+            if (gotGunFuAttackedAble._triggerHitedGunFu
+                && 
+                (gotGunFuAttackedAble.curAttackerGunFuNode is GunFuHitNodeLeaf
+                || gotGunFuAttackedAble.curAttackerGunFuNode is GunFuHitDownNodeLeaf
+                )
+                )
+            {
+                this.executeGauge.AddGauge(this.playerStatsScriptableObject.addExecuteGauge);
+            }
+        }
     }
 }
