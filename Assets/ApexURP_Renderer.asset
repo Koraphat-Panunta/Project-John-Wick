@@ -78,7 +78,8 @@ MonoBehaviour:
   - {fileID: -8099124082858237552}
   - {fileID: 1135087671488060834}
   - {fileID: 1028162826406351119}
-  m_RendererFeatureMap: ea47560bd73876ea90616cc18e219a8fa29df82739a4c00f0f5136a7a4c4440e
+  - {fileID: 2557719413322406823}
+  m_RendererFeatureMap: ea47560bd73876ea90616cc18e219a8fa29df82739a4c00f0f5136a7a4c4440ea7db334a41d87e23
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -139,3 +140,23 @@ MonoBehaviour:
   downsampleDepthShader: {fileID: 4800000, guid: cffeaeec0396a2c4dad475266cc8dfeb,
     type: 3}
   volumetricFogShader: {fileID: 4800000, guid: 08f816187f9af0244a95556ee0cab83f, type: 3}
+--- !u!114 &2557719413322406823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: FullScreenPassRendererFeature
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.FullScreenPassRendererFeature
+  m_Active: 1
+  injectionPoint: 450
+  fetchColorBuffer: 1
+  requirements: 7
+  passMaterial: {fileID: 2100000, guid: d31e8aa1e7f802c49afe32628852dacc, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 0
+  m_Version: 1
