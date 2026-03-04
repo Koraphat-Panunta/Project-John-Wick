@@ -159,4 +159,6 @@ public class TimelineTriggerEvent
 
         return 0f;
     }
+
+    public void SetDuration(float duration) => this.timeDuration = duration;
 }

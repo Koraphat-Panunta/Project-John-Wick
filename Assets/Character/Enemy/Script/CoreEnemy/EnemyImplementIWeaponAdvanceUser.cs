@@ -41,6 +41,17 @@ public partial class Enemy : IWeaponAdvanceUser
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
+    public float _ReloadDuration 
+    {
+        get
+        {
+            if (this._currentWeapon != null)
+                return this._currentWeapon.reloadTime;
+
+            return 1;
+        }
+    }
+
     [Range(0,1)]
     public float trackingTargetAccelerate = .002f;
     [Range(0, 1)]

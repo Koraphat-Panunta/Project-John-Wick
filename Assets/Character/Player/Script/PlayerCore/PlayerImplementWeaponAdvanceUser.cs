@@ -53,6 +53,30 @@ public partial class Player: IWeaponAdvanceUser
     public bool _isHolsterWeaponCommand { get; set; }
     public bool _isDrawPrimaryWeaponCommand { get; set; }
     public bool _isDrawSecondaryWeaponCommand { get; set; }
+    public float _ReloadDuration 
+    {
+        get
+        {
+            try
+            {
+                if ((this.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuReloadNodeLeaf>())
+                    return .75f;
+
+                if (this._currentWeapon != null)
+                    return this._currentWeapon.reloadTime;
+
+                return 1;
+            }
+            catch
+            {
+                if (this._currentWeapon != null)
+                    return this._currentWeapon.reloadTime;
+
+                return 1;
+            }
+
+        }
+    }
 
     public Weapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
     public WeaponBelt _weaponBelt { get; set; }
@@ -95,6 +119,9 @@ public partial class Player: IWeaponAdvanceUser
     public Animator _weaponUserAnimator { get; set; }
     public Character _userWeapon { get => this; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
+
+
+
     public void Initialized_IWeaponAdvanceUser()
     {
         _shootingPos = new Vector3();

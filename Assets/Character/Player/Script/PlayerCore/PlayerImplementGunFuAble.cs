@@ -40,6 +40,7 @@ public partial class Player : IGunFuAble
     [SerializeField] public AnimationInteractScriptableObject humanShield_Exit_SCRP;
     [SerializeField] public TransformOffsetSCRP humanShieldTargetAdjustTransform;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
+    [SerializeField] public AnimationInteractScriptableObject gunFuReloadScripatableObject;
     [SerializeField] public AnimationInteractScriptableObject primaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public AnimationInteractScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public AnimationInteractScriptableObject gunFuHitDownScriptableObject;

@@ -9,7 +9,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private bool isComplete;
 
-    protected float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
+    private float reloadTime => this.weaponAdvanceUser != null ? this.weaponAdvanceUser._ReloadDuration : this.weaponMag._weapon.reloadTime;
     public float _reloadTime => this.reloadTime;
 
     private MagazineType weaponMag ;
@@ -18,7 +18,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private float elaspeTime;
 
-    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ;}
+
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
 
