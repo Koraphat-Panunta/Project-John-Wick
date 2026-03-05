@@ -381,6 +381,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected void FixedUpdate()
     {
+        this.playeBodyConstriantAnimationNodeComponentManager.Update();
+        this.rightHandConstraintAnimationNodeComponentManager.Update();
+        this.leftHandConstraintAnimationNodeComponentManager.Update();
+        this.headConstraintAnimationNodeComponentManager.Update();
+
         this.playeBodyConstriantAnimationNodeComponentManager.FixedUpdate();
         this.rightHandConstraintAnimationNodeComponentManager.FixedUpdate();
         this.leftHandConstraintAnimationNodeComponentManager.FixedUpdate();
@@ -388,15 +393,13 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
 
     }
-    protected void Update()
+    private void Update()
     {
         this.UpdateConstrainLookReferencePos();
 
-        this.playeBodyConstriantAnimationNodeComponentManager.Update();
-        this.rightHandConstraintAnimationNodeComponentManager.Update();
-        this.leftHandConstraintAnimationNodeComponentManager.Update();
-        this.headConstraintAnimationNodeComponentManager.Update();
+
     }
+   
 
     private void OnDrawGizmos()
     {
@@ -419,11 +422,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     private void UpdateConstrainLookReferencePos()
     {
-        Ray ray = new Ray(this.player.cinemachineCamera.transform.position, this.player.cinemachineCamera.transform.forward);
+        Ray ray = new Ray(this.player.cinemachineCamera.targetPos, this.player.cinemachineCamera.targetDir);
         Vector3 hitpos;
         hitpos = ray.GetPoint(5);
-       
-        this.aimConstrainPositionReference.transform.position = Vector3.Lerp(this.aimConstrainPositionReference.position, hitpos, Time.deltaTime * 100);
+
+        this.aimConstrainPositionReference.transform.position = hitpos;
     }
 
     

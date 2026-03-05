@@ -15,8 +15,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-          
-           
+         
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
@@ -37,10 +36,7 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
-            if (isStagger)
-                return true;
-
-            return false;
+            return true;
         }
         set { }
     }

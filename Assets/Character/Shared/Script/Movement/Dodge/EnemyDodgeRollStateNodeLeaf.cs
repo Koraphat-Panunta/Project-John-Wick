@@ -71,6 +71,9 @@ public class EnemyDodgeRollStateNodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger)
             return true;
 
+        if(enemy._triggerHitedGunFu)
+            return true;
+
         return IsComplete();
     }
 

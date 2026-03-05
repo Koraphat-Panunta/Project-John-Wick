@@ -72,7 +72,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
             SumDeltaPos += animator.deltaPosition.magnitude;
 
             _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
-            _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
+            _movementCompoent.SetRotation(this.characterController.rotation * animator.deltaRotation);
 
             //Debug.Log("curPos = " + this.characterController.position);
             //Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);

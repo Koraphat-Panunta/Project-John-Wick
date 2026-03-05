@@ -102,7 +102,6 @@ public partial class Player : IObserverPlayer
 
     private void DrainStamina(float value)
     {
-        Debug.Log("Drain Stamina");
         this.staminaGauge.AddGauge(-value);
         this.playerStateNodeManager.regenarateStaminaNodeLeaf.SetDelay(this.playerStatsScriptableObject.delayStaminaDrain);
     }

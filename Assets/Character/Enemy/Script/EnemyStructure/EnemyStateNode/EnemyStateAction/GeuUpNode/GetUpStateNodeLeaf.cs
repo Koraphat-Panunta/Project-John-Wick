@@ -91,7 +91,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
                         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
 
                         _animator.CrossFade(this.getUpAnimatorStateName, 0, 0, 0);
-                        enemy.transform.position = beforeRootPos;
+                        this.enemy._movementCompoent.SetPosition(beforeRootPos);
 
                         enemy.NotifyObserver(enemy, this);
                     }

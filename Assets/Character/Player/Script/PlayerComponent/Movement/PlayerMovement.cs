@@ -25,6 +25,7 @@ public class PlayerMovement : MovementCompoent
     private Player player;
 
     public override Vector3 curPosition => this.characterController.position;
+    public override Quaternion curRotation => this.characterController.rotation;
 
     public PlayerMovement(
         Player player
@@ -176,5 +177,10 @@ public class PlayerMovement : MovementCompoent
     public void SetStanceWeight(float weight)
     {
         this.stanceRateMovement = Mathf.Clamp01(weight);
+    }
+
+    public override void SetRotation(Quaternion rotation)
+    {
+        this.characterController.SetRotation(rotation);
     }
 }

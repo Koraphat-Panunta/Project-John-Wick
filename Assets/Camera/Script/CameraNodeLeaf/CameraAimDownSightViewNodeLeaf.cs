@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
 {
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
-    private CinemachineCamera cinemachineCamera => base.cameraController.cinemachineCamera;
+    private CinemachineCamera cinemachineCamera => base.cameraController.cinemachineCamera.cinemachineCamera;
     private Vector2 inputLook => Vector2.Lerp(
         cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity
         , cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.aimDownSightCameraSensivity

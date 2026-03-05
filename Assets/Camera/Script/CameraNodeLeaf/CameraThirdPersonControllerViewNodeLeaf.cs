@@ -7,7 +7,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 {
     protected CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject;
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
-    private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera;
+    private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera.cinemachineCamera;
     protected ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
     private Vector2 inputLook => cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity ;
     protected Vector3 enteringOffset;

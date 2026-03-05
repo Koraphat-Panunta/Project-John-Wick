@@ -45,9 +45,6 @@ public class EnemyDropAbleObject : DropAbleObjectClient, IObserverEnemy, IInitia
                 base.DropObject(HpGetAbleObject);
             }
 
-            base.DropObject(HpGetAbleObject);
-            base.DropObject(AmmoGetAbleObject);
-
             isAlreadyDrop = true;
             return;
         }

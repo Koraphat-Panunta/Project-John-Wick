@@ -15,7 +15,7 @@ public partial class Player : SubjectPlayer,
     public override MovementCompoent _movementCompoent { get; set; }
     public PlayerMovement playerMovement => _movementCompoent as PlayerMovement;    
     public Transform RayCastPos;
-    public CinemachineCamera cinemachineCamera;
+    public ThirdPersonCinemachineCamera cinemachineCamera;
     public Character selfEnemyAIBeenTargeted => this;
     [SerializeField] public bool isImortal;
 

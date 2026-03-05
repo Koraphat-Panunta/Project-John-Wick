@@ -40,7 +40,6 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Enter()
     {
-        Debug.Log("ReloadTime = " + this.reloadTime);
 
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Enter;
@@ -62,7 +61,6 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Exit()
     {
-        Debug.Log("Reload Exit");
 
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Exit;
@@ -92,7 +90,6 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override bool IsReset()
     {
-        Debug.Log("ReloadNode = " + weaponAdvanceUser);
 
         if (weaponAdvanceUser == null)
             return true;
@@ -111,7 +108,6 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
         if (timelineTriggerEvent.IsPlayFinish())
         {
-            Debug.Log("Reload IsComplete");
             isComplete = true;
         }
     }

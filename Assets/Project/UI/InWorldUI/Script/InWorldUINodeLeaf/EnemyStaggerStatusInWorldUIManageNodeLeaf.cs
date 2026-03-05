@@ -88,7 +88,7 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     }
     private bool CheckIsStaggerTargetInAssinged(Enemy enemy)
     {
-        if (enemy.isStagger)
+        if (enemy._isGotExecutedAble)
         {
             assignInWorldEnemy[enemy].PlayAnimation("Stagger");
             return true;

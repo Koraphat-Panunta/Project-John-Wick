@@ -11,7 +11,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     [SerializeField] public Camera cameraMain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     private List<CinemachineCamera> allCinemachine = new List<CinemachineCamera>(); 
-    [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
+    [SerializeField] public ThirdPersonCinemachineCamera cinemachineCamera => player.cinemachineCamera;
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
 

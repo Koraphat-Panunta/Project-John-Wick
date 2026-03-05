@@ -42,7 +42,7 @@ public class CharacterMovementController : MonoBehaviour
     public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
 
     public Vector3 position;
-
+    public Quaternion rotation;
    
     private void MoveUpdate(Vector3 motion)
     {
@@ -131,6 +131,10 @@ public class CharacterMovementController : MonoBehaviour
 
         this.MoveUpdate(remainingMotion);
     }
+    public void SetRotation(Quaternion quaternion)
+    {
+        this.rotation = Quaternion.Euler(0, quaternion.eulerAngles.y, 0);
+    }
 
     public void SetCharacterControllerAttribute(CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject)
     {
@@ -143,6 +147,7 @@ public class CharacterMovementController : MonoBehaviour
     private void Awake()
     {
         this.position = transform.position;
+        this.transformPositionCheck = transform.localPosition;
     }
     private void Start()
     {
@@ -164,10 +169,34 @@ public class CharacterMovementController : MonoBehaviour
 
         this.lastPos = currentPos;
     }
+
+    private Vector3 transformPositionCheck;
+    private Quaternion transformRotationCheck;
     private void FixedUpdate()
     {
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
+        this.UpdateCharacterTransform();
+    }
+
+    private void UpdateCharacterTransform()
+    {
+        if (this.transform.position != this.transformPositionCheck)
+        {
+            Debug.LogWarning("Transform position been update corrpt" + "obj "+this.gameObject);
+            this.position = this.transform.position;
+        }
+
         this.transform.position = this.position;
+        this.transformPositionCheck = this.transform.position;
+
+        if (this.transformRotationCheck != this.transform.rotation)
+        {
+            Debug.LogWarning("Transform rotation been update corrpt" + "obj " + this.gameObject);
+            this.rotation = this.transform.rotation;
+        }
+
+        this.transform.rotation = this.rotation;
+        this.transformRotationCheck = this.transform.rotation;
     }
 
     Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);

@@ -58,6 +58,8 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     }
     private void LateUpdate()
     {
+        this.transform.position = this.targetPos;
+        this.transform.rotation = Quaternion.LookRotation(this.targetDir);
         isBeenUpdate = false;
     }
 
@@ -165,13 +167,17 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
 
 
-        transform.position = targetPos;
-        transform.rotation = Quaternion.LookRotation(targetDir);
+        this.targetPos = targetPos;
+        this.targetDir = targetDir;
         isBeenUpdate = true;
     }
 
-    
-    
+    public Vector3 targetPos { get; protected set; }
+    public Vector3 targetDir { get; protected set; }
+
+   
+
+
     private void OnValidate()
     {
 

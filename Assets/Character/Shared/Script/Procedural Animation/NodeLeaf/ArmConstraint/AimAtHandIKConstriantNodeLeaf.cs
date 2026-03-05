@@ -121,10 +121,16 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void UpdateNode()
     {
-        this.weight = Mathf.Clamp01(weight + Time.deltaTime );
         this.UpdateTargetHandPosition();
         this.UpdateHintHandPotation();
+        this.weight = Mathf.Clamp01(weight + Time.deltaTime );
+       
         base.UpdateNode();
+    }
+    public override void FixedUpdateNode()
+    {
+
+        base.FixedUpdateNode();
     }
     public void SetWeight(float weight) => this.weight = Mathf.Clamp01(weight);
     protected void UpdateHintHandPotation()
