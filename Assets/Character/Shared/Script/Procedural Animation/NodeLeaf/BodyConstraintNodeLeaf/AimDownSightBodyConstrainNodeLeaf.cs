@@ -46,8 +46,6 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
 
         Vector3 refDir = Quaternion.LookRotation(this.bodyAimRootDirRef.forward, this.bodyAimRootDirRef.up) * Quaternion.Euler(this.aimSplineLookConstrainScriptableObject.rotateRefDirOffset) * Vector3.forward;
 
-        Debug.DrawRay(this.bodyAimRootDirRef.position, refDir * 2, Color.yellow);
-
         Vector3 lookAtDir = ClampDirection.GetClampDirection(
            refDir
            , (this.aimAtPosition.position - this.bodyAimRootPosRef.position).normalized
@@ -57,7 +55,6 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
            );
 
         Vector3 lookAtPos = this.bodyAimRootPosRef.position + (lookAtDir * 2 );
-        Debug.DrawLine(this.bodyAimRootPosRef.position, lookAtPos,Color.blue);
 
         this.bodyLookConstrain.SetLookAtPosition(lookAtPos);
     }

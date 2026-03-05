@@ -9,7 +9,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private bool isComplete;
 
-    protected float reloadTime => weaponAdvanceUser._currentWeapon.reloadTime;
+    private float reloadTime => this.weaponAdvanceUser != null ? this.weaponAdvanceUser._ReloadDuration : this.weaponMag._weapon.reloadTime;
     public float _reloadTime => this.reloadTime;
 
     private MagazineType weaponMag ;
@@ -18,7 +18,8 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private float elaspeTime;
 
-    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ;}
+    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; set { } }
+
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
 
@@ -39,8 +40,10 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Enter()
     {
+
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Enter;
+        this.timelineTriggerEvent.SetDuration(this.reloadTime);
         this.timelineTriggerEvent.Rewind();
         this.weaponMag._weapon.Notify<TacticalReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         this.elaspeTime = 0;
@@ -58,6 +61,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Exit()
     {
+
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Exit;
         this.weaponMag._weapon.Notify<TacticalReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
@@ -86,6 +90,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override bool IsReset()
     {
+
         if (weaponAdvanceUser == null)
             return true;
 
@@ -101,8 +106,10 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     public override void UpdateNode()
     {
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
-        if(timelineTriggerEvent.IsPlayFinish())
+        if (timelineTriggerEvent.IsPlayFinish())
+        {
             isComplete = true;
+        }
     }
     private void PickUpMag_In()
     {

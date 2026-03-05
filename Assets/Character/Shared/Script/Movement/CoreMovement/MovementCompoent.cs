@@ -23,6 +23,7 @@ public abstract partial class MovementCompoent : INodeManager
     public List<INodeManager> _parallelNodeManahger { get;set; }
 
     public abstract Vector3 curPosition { get; } 
+    public abstract Quaternion curRotation { get; }
 
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
@@ -129,7 +130,7 @@ public abstract partial class MovementCompoent : INodeManager
     {
         Quaternion targetRotation = Quaternion.LookRotation(dir);
 
-        Quaternion resault = Quaternion.Lerp(transform.gameObject.transform.rotation, targetRotation, t);
+        Quaternion resault = Quaternion.Lerp(this.curRotation, targetRotation, t);
         SetRotation(resault);
     }
     public abstract void Move(Vector3 position);
@@ -137,10 +138,7 @@ public abstract partial class MovementCompoent : INodeManager
     {
         this.Move(position - curPosition);
     }
-    public void SetRotation(Quaternion rotation)
-    {
-        transform.rotation = rotation;
-    }
+    public abstract void SetRotation(Quaternion rotation);
     public void SetTransform(Vector3 position,Quaternion rotation)
     {
         SetPosition(position);

@@ -1094,7 +1094,7 @@ MonoBehaviour:
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
   lookRotationCommand: {x: 0, y: 0, z: 0}
-  dodgeImpluseForce: 5
+  dodgeImpluseForce: 3
   dodgeInAirStopForce: 0.1
   dodgeOnGroundStopForce: 3.8
   miniPainStateDuration: 0.75
@@ -1120,6 +1120,8 @@ MonoBehaviour:
   primary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7ab5ef7c1a3757c49920fbb25c8bf188,
     type: 2}
   secondary_WeaponGotDisarmedScriptableObject: {fileID: 11400000, guid: 7281fd3728697e84394c1958e16b90fd,
+    type: 2}
+  gotGunFuReloadScriptableObject: {fileID: 11400000, guid: 62bbfa3cae0f4a342aabba637336f8aa,
     type: 2}
   gotHitDown_ScriptableObject: {fileID: 11400000, guid: 98ad60113c1fcf64d973c13d626fda4d,
     type: 2}

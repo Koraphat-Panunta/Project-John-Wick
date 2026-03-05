@@ -181,7 +181,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         animator.SetFloat("MoveVelocityForward_Normalized", MoveVelocityForward_Normalized);
         animator.SetFloat("MoveVelocitySideward_Normalized", MoveVelocitySideward_Normalized);
         animator.SetFloat("DotMoveInputWordl_VelocityWorld_Normalized", DotMoveInputWordl_VelocityWorld_Normalized);
-        animator.SetFloat("Rotating", Rotating);
+        //animator.SetFloat("Rotating", Rotating);
         animator.SetFloat("AimDownSightWeight", AimDownSightWeight);
         animator.SetFloat("DotVelocityWorld_Leftward_Normalized", DotVelocityWorld_Leftward_Normalized);
         animator.SetFloat("RecoilWeight", RecoilWeight);
@@ -220,7 +220,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         }
         if(node is IReloadMagazineNode reloadMagazineNode)
         {
-            //Debug.Log(reloadMagazineNode._reloadTime);
+            Debug.Log(reloadMagazineNode._reloadTime);
 
             this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
             this.rifleReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);

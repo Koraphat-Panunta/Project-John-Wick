@@ -11,6 +11,7 @@ public class DummyMovementComponent : MovementCompoent
     public MovementNodeLeaf restMovementNodeLeaf { get; set; }
 
     public override Vector3 curPosition { get => this.characterMovementController.position; }
+    public override Quaternion curRotation => this.characterMovementController.rotation;
 
     public override void InitailizedNode()
     {
@@ -31,5 +32,10 @@ public class DummyMovementComponent : MovementCompoent
     public override void Move(Vector3 position)
     {
         this.characterMovementController.Move(position);
+    }
+
+    public override void SetRotation(Quaternion rotation)
+    {
+        characterMovementController.SetRotation(rotation);
     }
 }

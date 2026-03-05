@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6528699820251677953}
-  - component: {fileID: 4403190511406469448}
-  - component: {fileID: 3502740955014304758}
   m_Layer: 0
   m_Name: RightTwoBoneIK_hint
   m_TagString: Untagged
@@ -33,47 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8912558917125987268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &4403190511406469448
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1048005900141651283}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0.5340497, y: 0.03104301, z: -0.036015913}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets: []
-  m_RotationOffsets: []
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 0
-  m_IsLocked: 0
-  m_Sources: []
---- !u!114 &3502740955014304758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1048005900141651283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56723fd60a7ab9e449736f5c60a813d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MountComponent
-  attachAbleObject: {fileID: 6528699820251677953}
-  parentAttachTransform: {fileID: 0}
-  offsetPosition: {x: 0, y: 0, z: 0}
-  offsetRotation: {x: 0, y: 0, z: 0, w: 0}
-  attachRate: 0
-  attachDuration: 0
 --- !u!1 &4366332681924865756
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,8 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2193677094755414637}
-  - component: {fileID: 1143901616753309913}
-  - component: {fileID: 1831768756491030687}
   m_Layer: 0
   m_Name: RightTwoBoneIK_target
   m_TagString: Untagged
@@ -107,47 +62,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8912558917125987268}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1773428102 &1143901616753309913
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4366332681924865756}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0.21401572, y: 0.28174427, z: 0.3057793}
-  m_RotationAtRest: {x: 50.945, y: -102.359, z: -82.379}
-  m_TranslationOffsets: []
-  m_RotationOffsets: []
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 0
-  m_IsLocked: 0
-  m_Sources: []
---- !u!114 &1831768756491030687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4366332681924865756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56723fd60a7ab9e449736f5c60a813d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MountComponent
-  attachAbleObject: {fileID: 2193677094755414637}
-  parentAttachTransform: {fileID: 0}
-  offsetPosition: {x: 0, y: 0, z: 0}
-  offsetRotation: {x: 0, y: 0, z: 0, w: 0}
-  attachRate: 0
-  attachDuration: 0
 --- !u!1 &6767066944648838729
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,9 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   twoBoneIKConstraint: {fileID: 2373517542847871347}
   handHint: {fileID: 6528699820251677953}
-  handHintMountComponent: {fileID: 3502740955014304758}
   handTarget: {fileID: 2193677094755414637}
-  handTargetMountComponent: {fileID: 1831768756491030687}
 --- !u!1 &8633974041199942447
 GameObject:
   m_ObjectHideFlags: 0

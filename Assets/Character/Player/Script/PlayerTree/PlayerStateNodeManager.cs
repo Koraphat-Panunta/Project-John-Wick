@@ -90,7 +90,8 @@ public class PlayerStateNodeManager :
 
     public NodeSelector triggerHitGunFuSelector { get; private set; }
     public GunFuHitDownNodeLeaf hitDownNodeLeaf { get; private set; }
-    public GunFuHitNodeLeaf Hit1gunFuNodeLeaf { get; private set; }
+    public GunFuHitNodeLeaf hit1gunFuNodeLeaf { get; private set; }
+    public GunFuReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
     public RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
@@ -310,14 +311,21 @@ public class PlayerStateNodeManager :
             && this.player.attackedAbleGunFu._character.stance == Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false);
 
-        Hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+        this.hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
             () => true 
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain)
             //&& this.player.attackedAbleGunFu != null
             //&& this.player.attackedAbleGunFu._character.isDead == false
             , this.player.hit1);
 
-        restrictGunFuStateNodeLeaf = new RestrainGunFuStateNodeLeaf(player.restrictScriptableObject, player,
+        this.gunFuReloadNodeLeaf = new GunFuReloadNodeLeaf(this.player,
+            () => this.player.attackedAbleGunFu != null
+            && (this.player._isReloadCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isReloadCommand)))
+            && this.player.attackedAbleGunFu._character.isDead == false
+            ,this.player.gunFuReloadScripatableObject
+            );
+
+        this.restrictGunFuStateNodeLeaf = new RestrainGunFuStateNodeLeaf(player.restrictScriptableObject, player,
             () =>
             {
                 if (player._isAimingCommand
@@ -440,23 +448,29 @@ public class PlayerStateNodeManager :
         gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
 
         this.triggerHitGunFuSelector.AddtoChildNode(this.hitDownNodeLeaf);
-        this.triggerHitGunFuSelector.AddtoChildNode(this.Hit1gunFuNodeLeaf);
+        this.triggerHitGunFuSelector.AddtoChildNode(this.hit1gunFuNodeLeaf);
 
+        this.hitDownNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         this.hitDownNodeLeaf.AddTransitionNode(this.restrictGunFuStateNodeLeaf);
         this.hitDownNodeLeaf.AddTransitionNode(this.weaponDisarmSelector);
 
-        Hit1gunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
-        Hit1gunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
-        Hit1gunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
-        Hit1gunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
-        Hit2GunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
-        Hit2GunFuNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
-        Hit2GunFuNodeLeaf.AddTransitionNode(weaponDisarmSelector);
-        Hit2GunFuNodeLeaf.AddTransitionNode(humanShield_GunFuInteraction_NodeLeaf);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.Hit2GunFuNodeLeaf);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.weaponDisarmSelector);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.restrictGunFuStateNodeLeaf);
 
-        this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(humanShieldExit_GunFu_NodeLeaf);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.Hit3GunFuNodeLeaf);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.weaponDisarmSelector);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.humanShield_GunFuInteraction_NodeLeaf);
 
-        restrictGunFuStateNodeLeaf.AddTransitionNode(Hit3GunFuNodeLeaf);
+        this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(this.humanShieldExit_GunFu_NodeLeaf);
+
+        this.restrictGunFuStateNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.restrictGunFuStateNodeLeaf.AddTransitionNode(this.Hit3GunFuNodeLeaf);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);

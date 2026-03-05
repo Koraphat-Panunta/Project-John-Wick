@@ -33,7 +33,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     [SerializeField] MovementScriptableObject movementScriptableObject;
 
     public float StandMoveAccelerate { get => this.movementScriptableObject.StandMoveAccelerate; }
-    public float StandMoveMaxSpeed { get => this.movementScriptableObject.StandMoveMaxSpeed; }
+    public virtual float StandMoveMaxSpeed { get => this.movementScriptableObject.StandMoveMaxSpeed; }
 
     public float CrouchMoveAccelerate { get => this.movementScriptableObject.CrouchMoveAccelerate; }
     public float CrouchMoveMaxSpeed { get => this.movementScriptableObject.CrouchMoveMaxSpeed; }
@@ -72,7 +72,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
             SumDeltaPos += animator.deltaPosition.magnitude;
 
             _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
-            _movementCompoent.SetRotation(this.transform.rotation * animator.deltaRotation);
+            _movementCompoent.SetRotation(this.characterController.rotation * animator.deltaRotation);
 
             //Debug.Log("curPos = " + this.characterController.position);
             //Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);

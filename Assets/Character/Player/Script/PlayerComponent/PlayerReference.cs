@@ -24,6 +24,8 @@ public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
     public MainHandSocket _mainHandSocket { get => player._mainHandSocket; set => player._mainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => player._secondHandSocket; set => player._secondHandSocket = value; }
 
+    public float _ReloadDuration => this.player._ReloadDuration;
+
     public void Initialized_IWeaponAdvanceUser()
     {
        player.Initialized_IWeaponAdvanceUser();

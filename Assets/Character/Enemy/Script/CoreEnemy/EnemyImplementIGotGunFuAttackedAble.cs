@@ -15,8 +15,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     {
         get
         {
-          
-           
+         
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
@@ -37,10 +36,7 @@ public partial class Enemy : IGotGunFuAttackedAble
             if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
                 return false;
 
-            if (isStagger)
-                return true;
-
-            return false;
+            return true;
         }
         set { }
     }
@@ -50,7 +46,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP humanShield_GotInteract_Exit_SCRP;
     [SerializeField] public AnimationTriggerEventSCRP primary_WeaponGotDisarmedScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP secondary_WeaponGotDisarmedScriptableObject;
-
+    [SerializeField] public AnimationTriggerEventSCRP gotGunFuReloadScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP gotHitDown_ScriptableObject;
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;

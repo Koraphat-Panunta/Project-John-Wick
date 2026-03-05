@@ -11,7 +11,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     [SerializeField] public Camera cameraMain;
     [SerializeField] public ThirdPersonCinemachineCamera thirdPersonCinemachineCamera;
     private List<CinemachineCamera> allCinemachine = new List<CinemachineCamera>(); 
-    [SerializeField] public CinemachineCamera cinemachineCamera => player.cinemachineCamera;
+    [SerializeField] public ThirdPersonCinemachineCamera cinemachineCamera => player.cinemachineCamera;
     [SerializeField] public CinemachineImpulseSource impulseSource;
     [SerializeField] public Player player;
 
@@ -182,7 +182,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.curGunFuNode = gunFuHitDownNodeLeaf;
 
                             Transform[] trackTransforms = { player._headBone, gunFuHitDownNodeLeaf.gotGunFuAttackedAble._character._headBone };
-                            float[] trackWeight = { .5f, 1 };
+                            float[] trackWeight = { 1f, .5f };
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
@@ -197,6 +197,27 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == gunFuHitDownNodeLeaf)
+                                this.curGunFuNode = null;
+                        }
+                        break;
+                    }
+            case GunFuReloadNodeLeaf gunFuReloadNodeLeaf:
+                    {
+                        if (gunFuReloadNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        {
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
+                            this.isPerformGunFu = true;
+                            this.curGunFuNode = gunFuReloadNodeLeaf;
+
+                            Transform[] trackTransforms = { player._hipBone, gunFuReloadNodeLeaf.gotGunFuAttackedAble._character._hipBone };
+                            float[] trackWeight = { .5f, .2f };
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
+                        }
+                        if(gunFuReloadNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        {
+                            this.isPerformGunFu = false;
+                            if (this.curGunFuNode == gunFuReloadNodeLeaf)
                                 this.curGunFuNode = null;
                         }
                         break;

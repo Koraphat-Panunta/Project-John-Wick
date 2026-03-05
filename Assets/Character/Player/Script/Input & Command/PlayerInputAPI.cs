@@ -81,7 +81,10 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     public void Reload(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
             player._isReloadCommand = true;
+            this.player.commandBufferManager.AddCommand(nameof(this.player._isReloadCommand),.5f);
+        }
         if (context.canceled)
             player._isReloadCommand = false;
     }

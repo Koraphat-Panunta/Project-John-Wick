@@ -21,6 +21,7 @@ public interface IWeaponAdvanceUser
     public bool _isHolsterWeaponCommand { get; set; }
     public bool _isDrawPrimaryWeaponCommand { get; set; }
     public bool _isDrawSecondaryWeaponCommand { get; set; }
+    public float _ReloadDuration { get; }
 
     public void Initialized_IWeaponAdvanceUser();
 }

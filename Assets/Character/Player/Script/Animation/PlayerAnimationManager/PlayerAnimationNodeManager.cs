@@ -28,6 +28,8 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf restrictShieldExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf restrictShieldMoveNodeLeaf { get; set; }
 
+    public PlayAnimationNodeLeaf gunFuReloadNodeLeaf { get; set; }
+
     public NodeSelector humanShieldSelector { get; set; }
     public PlayAnimationNodeLeaf humanShieldEnterNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf humanShieldExitNodeLeaf { get; set; }
@@ -177,6 +179,15 @@ public partial class PlayerAnimationManager
         && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
         , animator, "Move/Idle", 0, .35f);
 
+        this.gunFuReloadNodeLeaf = new PlayAnimationNodeLeaf
+            (
+            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
+            ,this.animator
+            ,"GunFuReload"
+            ,0
+            ,0
+            );
+
         humanShieldSelector = new NodeSelector(
             () => 
             {
@@ -252,6 +263,7 @@ public partial class PlayerAnimationManager
                 gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
+                this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.gunFuReloadNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
                 this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.hitDownNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(hit1NodeLeaf);
@@ -363,7 +375,7 @@ public partial class PlayerAnimationManager
     {
         upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
 
-        performReloadNodeSelector = new NodeSelector(() => isPerformReload);
+        performReloadNodeSelector = new NodeSelector(() => this.isPerformReload);
 
         this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
@@ -406,7 +418,10 @@ public partial class PlayerAnimationManager
             , 1
             , false);
 
-        performGunFuUpperLayerNodeSelector = new NodeSelector(() => isPerformGunFu);
+        performGunFuUpperLayerNodeSelector = new NodeSelector(
+            () => isPerformGunFu
+            && this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>() == false
+            );
         humanShieldPrimaryStayNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>() && player._currentWeapon is PrimaryWeapon,
             animator, "HS_Stay_Primary", 1, .25f, .3f);
@@ -507,9 +522,9 @@ public partial class PlayerAnimationManager
 
         upperLayerEnableDisableSelector = new NodeSelector(() => true);
         enableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => isEnableUpperLayer
-        , animator, 1, 3f, 1);
+        , animator, 1, 8f, 1);
         disableLayerAnimationNodeLeaf = new SetLayerAnimationNodeLeaf(() => true
-        , animator, 1, 3f, 0);
+        , animator, 1, 8f, 0);
 
         upperLayerEnableDisableSelector.AddtoChildNode(enableLayerAnimationNodeLeaf);
         upperLayerEnableDisableSelector.AddtoChildNode(disableLayerAnimationNodeLeaf);
@@ -519,7 +534,6 @@ public partial class PlayerAnimationManager
 
     }
     #endregion
-
 
 
     public void InitailizedNode()

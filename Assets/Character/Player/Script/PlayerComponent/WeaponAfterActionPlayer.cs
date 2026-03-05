@@ -44,8 +44,8 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         if (player.stance != Stance.prone)
                         {
                             player._movementCompoent.SetRotation(Quaternion.Lerp(
-                                this.player.transform.rotation
-                                , Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, player.transform.forward.y, Camera.main.transform.forward.z))
+                                this.player.playerMovement.characterController.rotation
+                                , Quaternion.LookRotation(new Vector3(this.player.cinemachineCamera.targetDir.x, player.transform.forward.y, this.player.cinemachineCamera.targetDir.z))
                                 , aimDownSightWeaponManuverNodeLeaf.weaponManuverManager.aimingWeight));
                         }
 
