@@ -59,8 +59,12 @@ public partial class Player: IWeaponAdvanceUser
         {
             try
             {
-                if ((this.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuReloadNodeLeaf>())
-                    return .75f;
+                if ((this.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
+                    /*&& this._currentWeapon != null*/)
+                {
+                    return 1.2f;
+                }
+
 
                 if (this._currentWeapon != null)
                     return this._currentWeapon.reloadTime;

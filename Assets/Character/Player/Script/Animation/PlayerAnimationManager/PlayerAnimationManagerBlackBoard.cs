@@ -79,6 +79,7 @@ public partial class PlayerAnimationManager
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
                 )
                 return false;
 

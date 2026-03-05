@@ -321,7 +321,6 @@ public class PlayerStateNodeManager :
         this.gunFuReloadNodeLeaf = new GunFuReloadNodeLeaf(this.player,
             () => this.player.attackedAbleGunFu != null
             && (this.player._isReloadCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isReloadCommand)))
-            && this.player.attackedAbleGunFu._character.stance == Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false
             ,this.player.gunFuReloadScripatableObject
             );

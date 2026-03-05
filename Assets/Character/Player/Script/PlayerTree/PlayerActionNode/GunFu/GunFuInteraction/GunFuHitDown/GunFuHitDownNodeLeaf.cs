@@ -65,7 +65,7 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.gotGunFuAttackedAble = this.player.attackedAbleGunFu;
         Vector3 anchorPos = this.gotGunFuAttackedAble._character.transform.position;
         Vector3 anchorDir = (this.gotGunFuAttackedAble._character.transform.position - this.gunFuAble._character.transform.position);
-        anchorDir = new Vector3(anchorDir.x,this.gotGunFuAttackedAble._character.transform.position.y,anchorDir.z).normalized;
+        anchorDir = new Vector3(anchorDir.x, 0, anchorDir.z).normalized;
 
         this.SubjectAnimationInteract1.finishWarpEvent += this.Interact;
         this.SubjectAnimationInteract1.RestartSubject(this.gunFuAble._character,anchorPos,anchorDir);

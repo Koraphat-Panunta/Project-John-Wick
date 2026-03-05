@@ -14,6 +14,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     private MagazineType weaponMag;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
 
+    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ; set { } }
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected BulletCapacity magazine => weaponMag._weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
@@ -90,6 +91,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
 
         curPhase = WeaponManuverLeafNodePhase.Enter;
         this.isComplete = false;
+        this.timelineTriggerEvent.SetDuration(this.reloadTime);
         this.timelineTriggerEvent.RewindAt(this.startReloadStageNormalizedTime * this.timelineTriggerEvent.timeDuration);
         base.Enter();
         this.weaponMag._weapon.Notify<ReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);

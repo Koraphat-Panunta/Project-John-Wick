@@ -18,6 +18,7 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     private float elaspeTime;
 
+    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon; set { } }
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
@@ -39,8 +40,11 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Enter()
     {
+        Debug.Log("ReloadTime = " + this.reloadTime);
+
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Enter;
+        this.timelineTriggerEvent.SetDuration(this.reloadTime);
         this.timelineTriggerEvent.Rewind();
         this.weaponMag._weapon.Notify<TacticalReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
         this.elaspeTime = 0;
@@ -58,6 +62,8 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override void Exit()
     {
+        Debug.Log("Reload Exit");
+
         this.isComplete = false;
         this.curPhase = WeaponManuverLeafNodePhase.Exit;
         this.weaponMag._weapon.Notify<TacticalReloadMagazineFullStageNodeLeaf>(this.weaponMag._weapon, this);
@@ -86,6 +92,8 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
 
     public override bool IsReset()
     {
+        Debug.Log("ReloadNode = " + weaponAdvanceUser);
+
         if (weaponAdvanceUser == null)
             return true;
 
@@ -101,8 +109,11 @@ public class TacticalReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode, IR
     public override void UpdateNode()
     {
         this.timelineTriggerEvent.UpdatePlay(Time.deltaTime);
-        if(timelineTriggerEvent.IsPlayFinish())
+        if (timelineTriggerEvent.IsPlayFinish())
+        {
+            Debug.Log("Reload IsComplete");
             isComplete = true;
+        }
     }
     private void PickUpMag_In()
     {

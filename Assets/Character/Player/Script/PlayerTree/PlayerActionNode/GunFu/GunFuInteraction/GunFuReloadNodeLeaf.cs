@@ -11,6 +11,14 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
     public bool isReload;
 
+    public enum GunFuReloadPhase
+    {
+        Enter,
+        TriggerReload,
+        Exit
+    }
+    public GunFuReloadPhase curGunFuReloadPhase;
+
     public GunFuReloadNodeLeaf
         (
         Player player
@@ -49,7 +57,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.gotGunFuAttackedAble = this.player.attackedAbleGunFu;
         Vector3 anchorPos = this.gotGunFuAttackedAble._character.transform.position;
         Vector3 anchorDir = (this.gotGunFuAttackedAble._character.transform.position - this.gunFuAble._character.transform.position);
-        anchorDir = new Vector3(anchorDir.x, this.gotGunFuAttackedAble._character.transform.position.y, anchorDir.z).normalized;
+        anchorDir = new Vector3 (anchorDir.x, 0 , anchorDir.z).normalized;
 
         this.SubjectAnimationInteract1.finishWarpEvent += this.Interact;
         this.SubjectAnimationInteract1.RestartSubject(this.gunFuAble._character, anchorPos, anchorDir);
@@ -57,16 +65,20 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
         this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
         this.animationTriggerEventPlayer.Rewind();
+
+        this.curGunFuReloadPhase = GunFuReloadPhase.Enter;
         base.Enter();
     }
     public override void Exit()
     {
         this.player.enableRootMotion = false;
+        this.curGunFuReloadPhase = GunFuReloadPhase.Exit;
         base.Exit();
     }
 
     public override void UpdateNode()
     {
+       
         this.SubjectAnimationInteract1.UpdateInteract(Time.deltaTime);
         this.SubjectAnimationInteract2.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
@@ -77,6 +89,8 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     }
     public override void FixedUpdateNode()
     {
+        
+
         base.FixedUpdateNode();
     }
 
@@ -98,11 +112,14 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     protected void TriggerReload()
     {
         IWeaponAdvanceUser weaponAdvanceUser = this.player.weaponAdvanceUser;
+        this.curGunFuReloadPhase = GunFuReloadPhase.TriggerReload;
 
-        if(weaponAdvanceUser._currentWeapon != null)
+        if (weaponAdvanceUser._currentWeapon != null)
         {
             weaponAdvanceUser._isReloadCommand = true;
             this.isReload = true;
+            this.player.NotifyObserver(this.player, this.curGunFuReloadPhase);
+            Debug.Log("TriggerReload timeNor = "+this.SubjectAnimationInteract1.animationTriggerEventPlayer.timerNormalized);
         }
     }
 }

@@ -101,7 +101,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
            ,() => cameraController.curGunFuNode != null 
            && (
            cameraController.curGunFuNode is IGunFuExecuteNodeLeaf
-           || this.cameraController.curGunFuNode is GunFuHitDownNodeLeaf)
+           || this.cameraController.curGunFuNode is GunFuHitDownNodeLeaf
+           || this.cameraController.curGunFuNode is GunFuReloadNodeLeaf)
            );
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);

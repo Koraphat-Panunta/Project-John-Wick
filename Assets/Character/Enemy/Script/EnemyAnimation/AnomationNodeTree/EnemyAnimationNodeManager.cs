@@ -11,6 +11,7 @@ public partial class EnemyAnimationManager : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
 
+    public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
@@ -24,6 +25,10 @@ public partial class EnemyAnimationManager : INodeManager
     {
         this.startNodeSelector = new NodeSelector(() => true);
 
+        this.gotGunFuReloadNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
+            && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotGunFuReloadNodeLeaf
+            , this.animator, "GotGunFuReload", 0, 0);
         this.gotHitedDownNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
             && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotHitDownNodeLeaf
@@ -59,6 +64,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
             () => true);
 
+        this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.enemySpinKick);
@@ -260,7 +266,10 @@ public partial class EnemyAnimationManager : INodeManager
 
         _parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
     }
-
+    private void Start()
+    {
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
+    }
     public void FixedUpdateNode()
     {
         _nodeManagerBehavior.FixedUpdateNode(this);

@@ -33,7 +33,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     [SerializeField] MovementScriptableObject movementScriptableObject;
 
     public float StandMoveAccelerate { get => this.movementScriptableObject.StandMoveAccelerate; }
-    public float StandMoveMaxSpeed { get => this.movementScriptableObject.StandMoveMaxSpeed; }
+    public virtual float StandMoveMaxSpeed { get => this.movementScriptableObject.StandMoveMaxSpeed; }
 
     public float CrouchMoveAccelerate { get => this.movementScriptableObject.CrouchMoveAccelerate; }
     public float CrouchMoveMaxSpeed { get => this.movementScriptableObject.CrouchMoveMaxSpeed; }
