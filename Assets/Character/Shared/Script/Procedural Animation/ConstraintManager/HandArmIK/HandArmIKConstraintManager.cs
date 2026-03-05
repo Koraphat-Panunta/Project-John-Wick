@@ -39,8 +39,8 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     public Transform GetTargetHandTransform() => this.handTarget;
     public Transform GetHintHandTransform() => this.handHint;
 
-   
 
+   
     // Update is called once per frame
 
 }

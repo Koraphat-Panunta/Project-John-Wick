@@ -168,6 +168,13 @@ public class CharacterMovementController : MonoBehaviour
         this.curVelocity = deltaPos / Time.deltaTime;
 
         this.lastPos = currentPos;
+
+
+    }
+
+    private void LateUpdate()
+    {
+        this.UpdateCharacterRotation();
     }
 
     private Vector3 transformPositionCheck;
@@ -175,10 +182,10 @@ public class CharacterMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
-        this.UpdateCharacterTransform();
+        this.UpdateCharacterPosition();
     }
 
-    private void UpdateCharacterTransform()
+    private void UpdateCharacterPosition()
     {
         if (this.transform.position != this.transformPositionCheck)
         {
@@ -189,6 +196,11 @@ public class CharacterMovementController : MonoBehaviour
         this.transform.position = this.position;
         this.transformPositionCheck = this.transform.position;
 
+      
+    }
+
+    private void UpdateCharacterRotation()
+    {
         if (this.transformRotationCheck != this.transform.rotation)
         {
             Debug.LogWarning("Transform rotation been update corrpt" + "obj " + this.gameObject);

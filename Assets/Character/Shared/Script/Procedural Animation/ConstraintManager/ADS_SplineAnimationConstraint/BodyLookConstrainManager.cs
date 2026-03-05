@@ -64,6 +64,8 @@ public class BodyLookConstrainManager : MonoBehaviour, IConstraintManager
         this.spline2.weight = this.spline2Weight * this.weight;
     }
 
+   
+
     public float splineWeight { get; protected set; }
     public float spline1Weight { get; protected set; }
     public float spline2Weight { get; protected set; }

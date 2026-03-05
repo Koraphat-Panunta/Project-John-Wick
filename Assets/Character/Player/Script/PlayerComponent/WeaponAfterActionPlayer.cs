@@ -46,7 +46,7 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                             player._movementCompoent.SetRotation(Quaternion.Lerp(
                                 this.player.playerMovement.characterController.rotation
                                 , Quaternion.LookRotation(new Vector3(this.player.cinemachineCamera.targetDir.x, player.transform.forward.y, this.player.cinemachineCamera.targetDir.z))
-                                , aimDownSightWeaponManuverNodeLeaf.weaponManuverManager.aimingWeight));
+                                , aimDownSightWeaponManuverNodeLeaf.weaponManuverManager.aimingWeight * (Time.deltaTime * 120)));
                         }
 
                         player.NotifyObserver(player, aimDownSightWeaponManuverNodeLeaf);

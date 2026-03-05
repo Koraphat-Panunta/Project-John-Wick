@@ -1,4 +1,5 @@
 using NUnit.Framework.Constraints;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -381,10 +382,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     protected void FixedUpdate()
     {
-        this.playeBodyConstriantAnimationNodeComponentManager.Update();
-        this.rightHandConstraintAnimationNodeComponentManager.Update();
-        this.leftHandConstraintAnimationNodeComponentManager.Update();
-        this.headConstraintAnimationNodeComponentManager.Update();
 
         this.playeBodyConstriantAnimationNodeComponentManager.FixedUpdate();
         this.rightHandConstraintAnimationNodeComponentManager.FixedUpdate();
@@ -393,12 +390,18 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
 
     }
+
+
     private void Update()
     {
         this.UpdateConstrainLookReferencePos();
 
-
+        this.playeBodyConstriantAnimationNodeComponentManager.Update();
+        this.rightHandConstraintAnimationNodeComponentManager.Update();
+        this.leftHandConstraintAnimationNodeComponentManager.Update();
+        this.headConstraintAnimationNodeComponentManager.Update();
     }
+
    
 
     private void OnDrawGizmos()
@@ -419,12 +422,34 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     private Vector3 pointingPos;
     [SerializeField] Transform aimConstrainPositionReference;
     [SerializeField] Transform beginPos;
-
+    [Range(1,10)]
+    [SerializeField] float maxCastDistacne;
+    [Range(1, 10)]
+    [SerializeField] float minCastDisTance;
+    float distanceCast = 5;
+    [SerializeField] private LayerMask castCollideMask;
     private void UpdateConstrainLookReferencePos()
     {
         Ray ray = new Ray(this.player.cinemachineCamera.targetPos, this.player.cinemachineCamera.targetDir);
         Vector3 hitpos;
-        hitpos = ray.GetPoint(5);
+
+        if(Physics.Raycast(ray,out RaycastHit hitInfo,this.maxCastDistacne, this.castCollideMask,QueryTriggerInteraction.Ignore))
+        {
+            float castHitDistance = Vector3.Distance(this.player.cinemachineCamera.targetPos, hitInfo.point);
+            this.distanceCast = Mathf.Clamp(
+                Mathf.Lerp(this.distanceCast, castHitDistance, Time.deltaTime * 10)
+                , this.minCastDisTance
+                , this.maxCastDistacne
+                ); 
+        }
+        else
+            this.distanceCast = Mathf.Clamp(
+               Mathf.Lerp(this.distanceCast, maxCastDistacne, Time.deltaTime * 10)
+               , this.minCastDisTance
+               , this.maxCastDistacne
+               );
+
+        hitpos = ray.GetPoint(this.distanceCast);
 
         this.aimConstrainPositionReference.transform.position = hitpos;
     }

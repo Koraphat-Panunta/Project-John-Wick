@@ -82,17 +82,17 @@ public class PlayerMovement : MovementCompoent
         }
         Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
     }
-    public void DrawLine()
-    {
-        //InPutMoveWorld 
-        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (moveInputVelocity_World), Color.green);
+    //public void DrawLine()
+    //{
+    //    //InPutMoveWorld 
+    //    Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (moveInputVelocity_World), Color.green);
 
-        //CurVelocityWorld
-        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (curMoveVelocity_World), Color.yellow);
+    //    //CurVelocityWorld
+    //    Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (curMoveVelocity_World), Color.yellow);
 
-        //Forward
-        Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (forwardDir), Color.blue);
-    }
+    //    //Forward
+    //    Debug.DrawLine(userMovement.transform.position, userMovement.transform.position + (forwardDir), Color.blue);
+    //}
     public void StartWarpingCurve(Vector3 start, Vector3 cT1, Vector3 cT2, Vector3 exit, float duration, AnimationCurve animationCurve, MovementCompoent movementCompoent)
     {
         curMoveVelocity_World = Vector3.zero;

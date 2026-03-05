@@ -168,6 +168,11 @@ MonoBehaviour:
   playerAnimationManager: {fileID: 4449691354107149587}
   aimConstrainPositionReference: {fileID: 8527826123242575905}
   beginPos: {fileID: 7002321110991208980}
+  maxCastDistacne: 5
+  minCastDisTance: 2
+  castCollideMask:
+    serializedVersion: 2
+    m_Bits: 0
   standSplineLookConstrain: {fileID: 4451669193015548445}
   leaningRotation: {fileID: 6235775550306045989}
   RightHandConstrainLookAtManager: {fileID: 7982519455462678168}
@@ -1659,12 +1664,12 @@ PrefabInstance:
         type: 3}
       propertyPath: leftHandHintParentConstraint
       value: 
-      objectReference: {fileID: 1514918646113918370}
+      objectReference: {fileID: 0}
     - target: {fileID: 3553617611504659126, guid: 260c35da4644edc4fad11fdeabd060ac,
         type: 3}
       propertyPath: leftHandTargetParentConstraint
       value: 
-      objectReference: {fileID: 2865028776649028659}
+      objectReference: {fileID: 0}
     - target: {fileID: 6767066944648838729, guid: 260c35da4644edc4fad11fdeabd060ac,
         type: 3}
       propertyPath: m_Name
@@ -1681,12 +1686,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2890558944545901802}
   m_PrefabAsset: {fileID: 0}
---- !u!1773428102 &1514918646113918370 stripped
-ParentConstraint:
-  m_CorrespondingSourceObject: {fileID: 4403190511406469448, guid: 260c35da4644edc4fad11fdeabd060ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 2890558944545901802}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1823298590306608732 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3553617611504659126, guid: 260c35da4644edc4fad11fdeabd060ac,
@@ -1699,12 +1698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa64de9edd499df47a4fee70119847f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1773428102 &2865028776649028659 stripped
-ParentConstraint:
-  m_CorrespondingSourceObject: {fileID: 1143901616753309913, guid: 260c35da4644edc4fad11fdeabd060ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 2890558944545901802}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3921744372037729927 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2193677094755414637, guid: 260c35da4644edc4fad11fdeabd060ac,

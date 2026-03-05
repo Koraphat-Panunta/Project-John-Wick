@@ -14,6 +14,11 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     public RectTransform Crosshair_lineRight;
     public RectTransform Crosshair_CenterPosition;
     public RectTransform PointPosition;
+
+    public RectTransform crosshairBlock;
+
+    private RectTransform crosshairRect;
+
     public Vector3 targetAimPaint { get; protected set; }
     public Vector3 targetAim { get; protected set; }
     [SerializeField] public Player player;
@@ -33,6 +38,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
     public override void Initialized()
     {
+        this.crosshairRect = GetComponent<RectTransform>();
         player.AddObserver(this);
         Cursor.lockState = CursorLockMode.Locked;
         CrosshairSpread = new CrosshairSpread(this);
@@ -63,7 +69,9 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     private void LateUpdate()
     {
         GetCrosshairUpdatePosition();
+        calculateCrosshairBlock();
     }
+    private float castDistance = 5;
     public Vector3 GetCrosshairUpdatePosition()
     {
         
@@ -74,30 +82,54 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
         RaycastHit hit;
 
 
-        if (Physics.Raycast(ray, out hit, 10, layerMask,QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out hit, this.castDistance, layerMask,QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
             targetAimPaint = worldPosition;
             if (hit.collider.TryGetComponent<IGotPointingAble>(out IGotPointingAble gotPointingAble) && Vector3.Distance(player.transform.position, hit.point) < 24)
                 gotPointingAble.NotifyPointingAble(this);
         }
-        else if (Physics.Raycast(ray, out hit, 10, 1, QueryTriggerInteraction.Ignore))
+        else if (Physics.Raycast(ray, out hit, this.castDistance, 1, QueryTriggerInteraction.Ignore))
         {
             Vector3 worldPosition = hit.point;
             targetAimPaint = worldPosition;
         }
         else
         {
-            Vector3 worldPosition = ray.GetPoint(10);
+            Vector3 worldPosition = ray.GetPoint(this.castDistance);
             targetAimPaint = worldPosition;
         }
 
-        targetAim = ray.GetPoint(10);
+        targetAim = ray.GetPoint(this.castDistance);
 
         if(crosshairLookPostion != null)
         crosshairLookPostion.Invoke(targetAim);
         return targetAimPaint;
     }
+    private void calculateCrosshairBlock()
+    {
+        if(this.player._currentWeapon == null)
+        {
+            this.crosshairBlock.GetComponent<Image>().enabled = false;
+            return;
+        }
+
+        float castDistance = Vector3.Distance(this.player._currentWeapon.bulletSpawner.transform.position, targetAimPaint);
+        Vector3 startCastPos = this.player._currentWeapon.bulletSpawner.transform.position;
+
+
+        if (Physics.Raycast(startCastPos, (targetAimPaint - startCastPos).normalized, out RaycastHit hitInfo, castDistance, layerMask, QueryTriggerInteraction.Ignore)
+            && Vector3.Distance(this.targetAimPaint, hitInfo.point) > .25f) 
+        {
+            this.crosshairBlock.GetComponent<Image>().enabled = true;
+            this.crosshairBlock.transform.position = Camera.main.WorldToScreenPoint(hitInfo.point);
+        }
+        else
+        {
+            this.crosshairBlock.GetComponent<Image>().enabled = false;
+        }
+    }
+    
     private void OnEnable()
     {
         
@@ -168,17 +200,19 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
     public override void EnableUI()
     {
-        this.Crosshair_lineUp.GetComponent<RawImage>().enabled = true;
-        this.Crosshair_lineDown.GetComponent<RawImage>().enabled = true;
-        this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = true;
-        this.Crosshair_lineRight.GetComponent<RawImage>().enabled = true;
+        this.Crosshair_lineUp.GetComponent<Image>().enabled = true;
+        this.Crosshair_lineDown.GetComponent<Image>().enabled = true;
+        this.Crosshair_lineLeft.GetComponent<Image>().enabled = true;
+        this.Crosshair_lineRight.GetComponent<Image>().enabled = true;
+        this.crosshairBlock.gameObject.SetActive(true);
     }
     public override void DisableUI() 
     {
-        this.Crosshair_lineUp.GetComponent<RawImage>().enabled = false;
-        this.Crosshair_lineDown.GetComponent<RawImage>().enabled = false;
-        this.Crosshair_lineLeft.GetComponent<RawImage>().enabled = false;
-        this.Crosshair_lineRight.GetComponent<RawImage>().enabled = false;
+        this.Crosshair_lineUp.GetComponent<Image>().enabled = false;
+        this.Crosshair_lineDown.GetComponent<Image>().enabled = false;
+        this.Crosshair_lineLeft.GetComponent<Image>().enabled = false;
+        this.Crosshair_lineRight.GetComponent<Image>().enabled = false;
+        this.crosshairBlock.gameObject.SetActive(false);
     }
 
    
