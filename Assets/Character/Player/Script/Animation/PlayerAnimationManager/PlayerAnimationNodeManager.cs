@@ -214,7 +214,9 @@ public partial class PlayerAnimationManager
 
         this.hitDownNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
-            ,this.animator, "HitDown", 0,0);
+            ,this.animator, "HitDown", 0
+            , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
+            );
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit1",

@@ -108,10 +108,6 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
         if (enemy._triggerHitedGunFu)
             return true;
 
-
-        if (IsComplete())
-            return true;
-
         if (enemy.isDead)
             return true;
 

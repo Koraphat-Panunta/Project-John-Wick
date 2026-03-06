@@ -74,6 +74,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
 
     public override void UpdateNode()
     {
+
         switch (curRagdollAnimatorState)
         {
             case IRagdollTransitionAnimatorAbleStateNodeLeaf.RagdollTransitionAnimatorState.ResetingBone:

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Enemy_MovementScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::MovementScriptableObject
   StandMoveAccelerate: 4
-  StandMoveMaxSpeed: 2.7
-  CrouchMoveAccelerate: 10
-  CrouchMoveMaxSpeed: 2.5
+  StandMoveMaxSpeed: 2.2
+  CrouchMoveAccelerate: 4
+  CrouchMoveMaxSpeed: 1.5
   moveRotateSpeed: 89.2
   sprintAccelerate: 4
   sprintMaxSpeed: 4.7
   sprintRotateSpeed: 100
-  breakDecelerate: 8
+  breakDecelerate: 10

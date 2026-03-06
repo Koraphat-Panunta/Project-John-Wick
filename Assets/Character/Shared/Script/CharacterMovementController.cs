@@ -169,13 +169,11 @@ public class CharacterMovementController : MonoBehaviour
 
         this.lastPos = currentPos;
 
-
-    }
-
-    private void LateUpdate()
-    {
         this.UpdateCharacterRotation();
+
     }
+
+    
 
     private Vector3 transformPositionCheck;
     private Quaternion transformRotationCheck;

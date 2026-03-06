@@ -13,9 +13,23 @@ public class WeaponMountComponent : MountComponent
         base.Attach(weaponSocket, offsetPosition, offsetRotation,attatchingDuration);
         this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenAttatch);
     }
-   
+    protected override void LateUpdate()
+    {
+        if(this._parentAttachTransform != null
+            && this.attachRate >= 1
+            && _attachAbleObject.parent != this.parentAttachTransform)
+        {
+            _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
+            _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
+
+            _attachAbleObject.SetParent(this._parentAttachTransform, true);
+        }
+        base.LateUpdate();
+    }
     public override void Detach()
     {
+        if(this._parentAttachTransform != null)
+            this._attachAbleObject.SetParent(null,true);
         this.curWeaponGrip = null;
         base.Detach();
         this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenDetatch);

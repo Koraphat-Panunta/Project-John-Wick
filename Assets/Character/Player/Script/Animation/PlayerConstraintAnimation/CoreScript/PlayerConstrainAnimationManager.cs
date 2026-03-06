@@ -380,6 +380,15 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     }
 
+    private void Update()
+    {
+        this.UpdateConstrainLookReferencePos();
+
+        this.playeBodyConstriantAnimationNodeComponentManager.Update();
+        this.rightHandConstraintAnimationNodeComponentManager.Update();
+        this.leftHandConstraintAnimationNodeComponentManager.Update();
+        this.headConstraintAnimationNodeComponentManager.Update();
+    }
     protected void FixedUpdate()
     {
 
@@ -390,17 +399,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
 
     }
+   
 
-
-    private void Update()
-    {
-        this.UpdateConstrainLookReferencePos();
-
-        this.playeBodyConstriantAnimationNodeComponentManager.Update();
-        this.rightHandConstraintAnimationNodeComponentManager.Update();
-        this.leftHandConstraintAnimationNodeComponentManager.Update();
-        this.headConstraintAnimationNodeComponentManager.Update();
-    }
 
    
 
@@ -451,9 +451,17 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         hitpos = ray.GetPoint(this.distanceCast);
 
-        this.aimConstrainPositionReference.transform.position = hitpos;
+        this.aimConstrainPositionReference.transform.position = Vector3.Lerp
+            (
+            this.aimConstrainPositionReference.position
+            , Vector3.Lerp(this.aimConstrainPositionReference.position,hitpos, Time.deltaTime * 60
+            )
+            , Time.deltaTime * 60
+            );
     }
 
-    
+   
+
+
     #endregion
 }

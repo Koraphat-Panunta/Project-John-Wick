@@ -13,10 +13,10 @@ public class MountComponent : MonoBehaviour
     public bool _isEnableAutoAttachRate { get => this.isEnableAutoAttachRate; protected set => this.isEnableAutoAttachRate = value; }
 
     [Range(0, 1)]
-    [SerializeField] private float attachRate;
+    [SerializeField] protected float attachRate;
 
     [Range(0,10)]
-    [SerializeField] private float attachDuration;
+    [SerializeField] protected float attachDuration;
     public float _attachDuration { get => attachDuration; protected set => attachDuration = value; }
 
     private void Update()

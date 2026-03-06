@@ -42,6 +42,7 @@ public partial class Enemy : IObserverEnemy
                     {
                         this.stanceCommand = Stance.stand;
                         enemy._posture = enemy._maxPosture;
+                        Debug.Log("enemy._posture = "+ enemy._posture);
                     }
                     break;
                 }

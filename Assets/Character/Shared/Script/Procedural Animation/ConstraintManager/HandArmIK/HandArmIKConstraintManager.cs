@@ -9,7 +9,7 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     [SerializeField] private Transform handHint;
     [SerializeField] private Transform handTarget;
     
-    private void LateUpdate()
+    private void Update()
     {
         if (twoBoneIKConstraint.weight < 1)
         {

@@ -16,6 +16,13 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     protected Vector3 trackPos;
     protected Vector3 lookPos;
+
+    protected virtual Vector3 targetOffset => this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight;
+    protected virtual float targetFOV => this.cameraThirdPersonControllerViewScriptableObject.fov;
+
+    protected virtual float transitionSpeed => this.cameraThirdPersonControllerViewScriptableObject.transitionInSpeed;
+    protected virtual float trackingCruve => this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(this.normalizedTime);
+
     public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController
         ,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
         , Func<bool> preCondition) : base(cameraController, preCondition)
@@ -40,22 +47,19 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition, thirdPersonCamera.targetFollowTarget.position, normalizedTime);
-        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition, thirdPersonCamera.targetLookTarget.position, normalizedTime);
+        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition, thirdPersonCamera.targetFollowTarget.position, this.trackingCruve );
+        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition, thirdPersonCamera.targetLookTarget.position, this.trackingCruve);
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
 
-        Debug.DrawLine(this.cameraController.transform.position,this.trackPos,Color.red);
-        Debug.DrawLine(this.cameraController.transform.position, this.lookPos, Color.blue);
-
         float offsetX;
         normalizedTime = Mathf.Clamp(
-            normalizedTime += Time.unscaledDeltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed
-            ,cameraThirdPersonControllerViewScriptableObject.minNormalized
-            ,cameraThirdPersonControllerViewScriptableObject.maxNormalized
+            normalizedTime += Time.unscaledDeltaTime * this.transitionSpeed
+            ,0
+            ,1
             );
 
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
@@ -64,22 +68,22 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         if (this.cameraController.curSide == Player.ShoulderSide.Right)
         {
             offsetX = Mathf.Lerp(this.cinemachineOffset.x,
-                this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
+                this.targetOffset.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
 
         }
         else //this.cameraController.curSide == CameraController.Side.left
         {
             offsetX = Mathf.Lerp(this.cinemachineOffset.x,
-                -this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
+                -this.targetOffset.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
         }
 
-        this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(enteringFOV, this.cameraThirdPersonControllerViewScriptableObject.fov, this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(normalizedTime));
+        this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(enteringFOV, this.targetFOV, this.trackingCruve);
         this.enteringFOV = this.cinemachineFreeLook.Lens.FieldOfView;
 
-        float offsetY = Mathf.Lerp(this.cinemachineOffset.y, this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.y, this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(normalizedTime));
-        float offsetZ = Mathf.Lerp(this.cinemachineOffset.z, this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.z, this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(normalizedTime));
+        float offsetY = Mathf.Lerp(this.cinemachineOffset.y, this.targetOffset.y, this.trackingCruve);
+        float offsetZ = Mathf.Lerp(this.cinemachineOffset.z, this.targetOffset.z, this.trackingCruve);
 
         cameraController.thirdPersonCinemachineCamera.cameraOffset = new Vector3(offsetX, offsetY, offsetZ);
         base.UpdateNode();

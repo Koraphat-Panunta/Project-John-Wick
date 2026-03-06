@@ -4,60 +4,50 @@ using UnityEngine;
 
 public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
 {
-    private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
-    private CinemachineCamera cinemachineCamera => base.cameraController.cinemachineCamera.cinemachineCamera;
-    private Vector2 inputLook => Vector2.Lerp(
-        cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity
-        , cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.aimDownSightCameraSensivity
-        ,cameraController.player.weaponAdvanceUser._weaponManuverManager.aimingWeight) ;
-    private float restOffsetZ;
-    public CameraAimDownSightViewNodeLeaf(CameraController cameraController,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject,float restOffsetZ, Func<bool> preCondition)
-        : base(cameraController,cameraThirdPersonControllerViewScriptableObject, preCondition)
+    
+
+
+    private IWeaponAdvanceUser weaponAdvanceUser;
+    private float aimingWeight => weaponAdvanceUser._weaponManuverManager.aimingWeight;
+
+    CameraThirdPersonControllerViewScriptableObject aimDownSightViewSCRP;
+
+    protected override float trackingCruve
+        => Mathf.Lerp(base.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(normalizedTime)
+            , this.aimDownSightViewSCRP.transitionCurve.Evaluate(normalizedTime)
+            , this.aimingWeight);
+
+    protected override Vector3 targetOffset => Vector3.Lerp
+        (
+        this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight
+        ,this.aimDownSightViewSCRP.viewOffsetRight
+        ,this.aimingWeight
+        );
+
+    protected override float targetFOV => Mathf.Lerp
+        (
+        this.cameraThirdPersonControllerViewScriptableObject.fov
+        , this.aimDownSightViewSCRP.fov
+        , this.aimingWeight
+        );
+
+    protected override float transitionSpeed => this.cameraThirdPersonControllerViewScriptableObject.transitionInSpeed;
+
+
+    public CameraAimDownSightViewNodeLeaf(
+        CameraController cameraController
+        ,CameraThirdPersonControllerViewScriptableObject aimDownSightViewSCRP
+        , CameraThirdPersonControllerViewScriptableObject lowReadyViewSCRP
+        , IWeaponAdvanceUser weaponAdvanceUser
+        , Func<bool> preCondition)
+        : base(cameraController, lowReadyViewSCRP, preCondition)
     {
-        this.restOffsetZ = restOffsetZ;
+        this.weaponAdvanceUser = weaponAdvanceUser;
+        this.aimDownSightViewSCRP = aimDownSightViewSCRP;
     }
-    public override void Enter()
-    {
-        base.Enter();
-    }
+   
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
+   
 
-    public override void FixedUpdateNode()
-    {
-        base.FixedUpdateNode();
-    }
-
-    public override void UpdateNode()
-    {
-        normalizedTime = Mathf.Clamp01(normalizedTime += Time.deltaTime * cameraThirdPersonControllerViewScriptableObject.transitionInSpeed);
-        float offsetX;
-
-        thirdPersonCamera.InputRotateCamera(inputLook.x,-inputLook.y);
-        thirdPersonCamera.UpdateCameraPosition();
-
-        if (this.cameraController.curSide == Player.ShoulderSide.Right)
-        {
-            offsetX = Mathf.Lerp(cameraController.thirdPersonCinemachineCamera.cameraOffset.x, 
-                base.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
-           
-        }
-        else //this.cameraController.curSide == CameraController.Side.left
-        {
-            offsetX = Mathf.Lerp(cameraController.thirdPersonCinemachineCamera.cameraOffset.x,
-                - base.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.deltaTime);
-        }
-
-        this.cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(base.enteringFOV, base.cameraThirdPersonControllerViewScriptableObject.fov, cameraController.zoomingWeight);
-
-        float offsetY = Mathf.Lerp(this.enteringOffset.y, base.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.y, base.normalizedTime);
-        float offsetZ = Mathf.Lerp(this.restOffsetZ, base.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight.z, this.cameraController.zoomingWeight);
-
-        cameraController.thirdPersonCinemachineCamera.cameraOffset = new Vector3(offsetX, offsetY, offsetZ);
-    }
+   
 }

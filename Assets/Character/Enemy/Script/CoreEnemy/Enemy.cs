@@ -123,8 +123,6 @@ public partial class Enemy : SubjectEnemy
                         {
                             this.TakeDamage(Mathf.Clamp(gunFuHitDownNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
                         }
-                        else
-                            this.TakeDamage(gunFuHitDownNodeLeaf._hPDamage);
 
                         this._posture = Mathf.Clamp(this._posture - gunFuHitDownNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                     }
@@ -143,21 +141,25 @@ public partial class Enemy : SubjectEnemy
                     {
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
 
-                        if (this.GetHP() > this.gotHitWithStandHP)
-                        {
-                            this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, 0 , this.GetHP() - this.gotHitWithStandHP));
-                        }
-                        else
-                            this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
-
                         if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
                         {
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
+                            this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
                         }
                         else
                         {
-                            this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
+                            if (this.GetHP() > this.gotHitWithStandHP)
+                            {
+                                this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, 0, this.GetHP() - this.gotHitWithStandHP));
+                            }
+
+                            if (this._posture > 0)
+                            {
+                                this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
+                            }
                         }
+
+                       
 
                         gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
 
