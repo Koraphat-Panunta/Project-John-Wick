@@ -326,6 +326,7 @@ public class PlayerStateNodeManager :
             () => this.player.attackedAbleGunFu != null
             && (this.player._isReloadCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isReloadCommand)))
             && this.player.attackedAbleGunFu._character.isDead == false
+            && this.player.staminaGauge._gauge > 0
             ,this.player.gunFuReloadScripatableObject
             );
 
@@ -523,8 +524,12 @@ public class PlayerStateNodeManager :
         this.regenarateStaminaNodeLeaf = new RegenarateGaugeNodeLeaf
             (
             ()=> this.player.staminaGauge._gauge < this.player.staminaGauge.maxGauge
-            && ((this as INodeManager).GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf
-            || (this as INodeManager).GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf) == false
+            && (
+            (this as INodeManager).GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf
+            || (this as INodeManager).GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf
+            || (this as INodeManager).GetCurNodeLeaf() is GunFuHitDownNodeLeaf
+            || (this as INodeManager).GetCurNodeLeaf() is GunFuReloadNodeLeaf
+            ) == false
             ,this.player.staminaGauge
             ,this.player.staminaGauge.maxGauge
             ,50
