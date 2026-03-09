@@ -19,8 +19,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
    
     void Update()
     {
-        BackBoardUpdate();
         UpdateNode();
+        BackBoardUpdate();
 
     }
     private void FixedUpdate()

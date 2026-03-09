@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using System;
 using UnityEngine;
 
@@ -99,7 +100,7 @@ public class PlayPoseAnimationNodeLeaf : PlayAnimationNodeLeaf
     public override void Enter()
     {
         this.timer = this._startNormalized * this._duration;
-        this.animator.CrossFadeInFixedTime(stateName, transitionDurationNormalized, layer, transitionOffsetNormalized);
+        this.animator.CrossFadeInFixedTime(stateName, transitionDurationNormalized, layer, transitionOffsetNormalized,1f);
 
     }
 

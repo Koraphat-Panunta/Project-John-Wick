@@ -129,7 +129,7 @@ public partial class PlayerAnimationManager
             ,this.dolphinDivePoseAnimationSCRP);
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
-            , this.animator, "Prone", 0, 0, this.basedAnimationPoseTimeNormalzied, 1, false);
+            , this.animator, "Prone", 0, .5f , this.basedAnimationPoseTimeNormalzied, 1 , false);
         this.getUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             , this.animator, "KickUp", 0,.1f);
