@@ -49,8 +49,9 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
 
     public NodeSelector proneStateNodeSelector { get; set; }
-    public PlayPoseAnimationNodeLeaf dolphinDiveAnimationNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf proneAnimationNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf dolphinDiveAnimationNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf diveStallAnimationNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf proneAnimationNodeLeaf { get; set; }
 
     public PlayAnimationNodeLeaf moveCrouchNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf moveStandNodeLeaf { get; set; }
@@ -123,13 +124,18 @@ public partial class PlayerAnimationManager
 
         this.proneStateNodeSelector = new NodeSelector(
             ()=> this.player.stance == Stance.prone);
-        this.dolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
-            (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
-            , this.animator, "Dolphin Dive", 0, this.basedAnimationPoseTimeNormalzied, .05f
-            ,this.dolphinDivePoseAnimationSCRP);
+
+        this.dolphinDiveAnimationNodeLeaf = new PlayAnimationNodeLeaf
+            (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>
+            (out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.isPassingJump == false
+            , this.animator, "Dolphin Dive", 0, .25f);
+        this.diveStallAnimationNodeLeaf = new PlayAnimationNodeLeaf(() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>
+            (out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.isPassingJump 
+            , this.animator, "DiveStall", 0, .25f);
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             , this.animator, "Prone", 0, .5f , this.basedAnimationPoseTimeNormalzied, 1 , false);
+
         this.getUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             , this.animator, "KickUp", 0,.1f);
@@ -260,6 +266,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
 
                 this.proneStateNodeSelector.AddtoChildNode(this.dolphinDiveAnimationNodeLeaf);
+                this.proneStateNodeSelector.AddtoChildNode(this.diveStallAnimationNodeLeaf);
                 this.proneStateNodeSelector.AddtoChildNode(this.proneAnimationNodeLeaf);
 
                 gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);

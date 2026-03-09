@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8b8574fee6f41264483d23a9b428e1fd
+guid: c191949ddf00f7a4495cc3598de659f6
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: ObstacleJump
-      takeName: ObstacleJump
-      internalID: -1854638863589466914
+      name: Dolphin Dive Forward
+      takeName: Dolphin Dive Forward
+      internalID: -5574796665197059531
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,11 +60,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ObstacleJump 0
-      takeName: ObstacleJump
-      internalID: -4123203698342181085
+      name: Dolphin Dive Backward
+      takeName: Dolphin Dive Backward
+      internalID: 322485748360577845
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 140
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -89,11 +89,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ObstacleJump 10
-      takeName: ObstacleJump
-      internalID: 8223220426992456347
+      name: Dolphin Dive LeftWard
+      takeName: Dolphin Dive LeftWard
+      internalID: -2372662590723030466
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -118,11 +118,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ObstacleJump 20
-      takeName: ObstacleJump
-      internalID: 7275947919279750334
+      name: Dolphin Dive Rightward
+      takeName: Dolphin Dive Rightward
+      internalID: -3409516777634140124
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -147,14 +147,246 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ObstacleJump 30
-      takeName: ObstacleJump
-      internalID: 6814208777721038100
+      name: Dive Forward
+      takeName: Dolphin Dive Forward
+      internalID: 6253678203516534269
       firstFrame: 0
-      lastFrame: 50
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Dive Backward
+      takeName: Dolphin Dive Backward
+      internalID: 3924682082563504580
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Dive LeftWard
+      takeName: Dolphin Dive LeftWard
+      internalID: 5105451445222382399
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 90
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Dive Rightward
+      takeName: Dolphin Dive Rightward
+      internalID: 8732219022143583053
+      firstFrame: 0
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: -90
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stall Dive Forward
+      takeName: Dolphin Dive Forward
+      internalID: 1176990812854318027
+      firstFrame: 10
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0.65
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stall Dive Backward
+      takeName: Dolphin Dive Backward
+      internalID: -8923548697880245622
+      firstFrame: 10
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0.65
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stall Dive LeftWard
+      takeName: Dolphin Dive LeftWard
+      internalID: 3351760281256674734
+      firstFrame: 10
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 90
+      level: 0.65
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stall Dive Rightward
+      takeName: Dolphin Dive Rightward
+      internalID: 4328894142448096337
+      firstFrame: 10
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: -90
+      level: 0.65
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Prone Forward
+      takeName: Dolphin Dive Forward
+      internalID: -7699258431903121079
+      firstFrame: 40
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0.14
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -176,20 +408,78 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: ObstacleJump 40
-      takeName: ObstacleJump
-      internalID: 4698508024948737090
-      firstFrame: 0
-      lastFrame: 50
+      name: Prone Backward
+      takeName: Dolphin Dive Backward
+      internalID: -6460943016610733462
+      firstFrame: 40
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: 0.1
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Prone LeftWard
+      takeName: Dolphin Dive LeftWard
+      internalID: 8101505700441538409
+      firstFrame: 40
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 90
+      level: 0.3
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Prone Rightward
+      takeName: Dolphin Dive Rightward
+      internalID: 1165314872378158860
+      firstFrame: 40
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: -90
+      level: 0.3
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
