@@ -29,7 +29,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 
         Vector3 pushDir = this.pickedUpWeapon.transform.position - player.transform.position;
         pushDir = new Vector3(pushDir.x, 0, pushDir.z).normalized;
-        (player._movementCompoent as IMotionImplusePushAble).AddForcePush(pushDir * 1.2f + (Vector3.up*2), IMotionImplusePushAble.PushMode.InstanlyMaintainMomentum);
+        (player._movementCompoent as IMotionImplusePushAble).AddForcePushInstantly(pushDir * 1.2f + (Vector3.up*2), IMotionImplusePushAble.PushMode.MaintainMomentum);
 
         base.Enter();
     }

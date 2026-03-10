@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 {
     public bool isPassingJump;
-    protected virtual float jumpOutTime { get => .1f; }
+    protected virtual float jumpOutTime { get => .3f; }
     protected float timer;
 
     protected Vector3 jumpDir;
@@ -29,6 +29,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
         this.isPassingJump = false;
 
         this.CalculateJumpOutDir();
+        this.playerMovement.SetProneDir(this.jumpDir);
 
         base.Enter();
     }
@@ -67,16 +68,15 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
             && this.isPassingJump == false)
         {
 
-            this.playerMovement.AddForcePush(this.jumpDir * this.jumpVelocuty, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
-            this.playerMovement.characterController.PushForceUp(this.jumpVerticalVelocuty);
+            this.playerMovement.AddForcePushVelocityChange(this.jumpDir * this.jumpVelocuty, IMotionImplusePushAble.PushMode.IgnoreMomentum,.15f);
+            this.playerMovement.characterController.PushForceUp(this.jumpVerticalVelocuty,.15f);
 
             this.isPassingJump = true;
         }
     }
     protected virtual void UpdateRotation()
     {
-        float t = this.timer / this.jumpOutTime;
-        this.playerMovement.SetRotateToDirWorldSlerp(this.jumpDir, t);
+        this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, 1);
     }
     protected virtual void UpdateStall()
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -276,8 +277,25 @@ public class CharacterMovementController : MonoBehaviour
             , velocityY
             , 0);
     }
-    public void PushForceUp(float force)
+    public void PushForceUp(float force,float velocityChangeDuration)
     {
+        this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x, force, this.velocityPhysicBased.z);
+    }
+    private IEnumerator VelocityChange(float force, float velocityChangeDuration)
+    {
+        float time = 0;
+
+        Vector3 enterV = this.velocityPhysicBased;
+
+        while (time < velocityChangeDuration)
+        {
+            if(velocityChangeDuration == 0)
+                break;
+
+            this.velocityPhysicBased = Vector3.Lerp(enterV, new Vector3(this.velocityPhysicBased.x, force, this.velocityPhysicBased.z),time/velocityChangeDuration) ;
+            yield return null;
+        }
+
         this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x, force, this.velocityPhysicBased.z);
     }
   

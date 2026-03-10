@@ -127,9 +127,9 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
                 this.hitDir = (targets[i]._character.transform.position - gunFuAble._character.transform.position).normalized;
                 this.hitDir = Quaternion.Euler(this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hitDirRotOffset) * this.hitDir;
 
-                (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePush
+                (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePushInstantly
                     (this.hitDir * this.gunFuHitScriptableObject.gunFuHitDetail[hitCount].hitPushForce
-                    , IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+                    , IMotionImplusePushAble.PushMode.IgnoreMomentum);
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 targets[i].TakeGunFuAttacked(this, gunFuAble);
                 this.gotAttackedAlready.Add(targets[i]);

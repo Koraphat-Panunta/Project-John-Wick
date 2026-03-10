@@ -4,7 +4,7 @@ using UnityEngine;
 public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 {
 
-    private float anticipateTime = .35f;
+    private float anticipateTime = .6f;
 
     protected override float jumpOutTime => .35f;
 
@@ -22,6 +22,9 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
     private LayerMask obstacleLayer = LayerMask.GetMask("Default");
 
+    public float jumpRotateDuration => .5f;
+    public float jumpRotateTimer;
+
     public WallJumpDolphinDiveNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
@@ -31,7 +34,7 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         this.playerMovement.isOnUpdateEnable = false;
         this.CalculateJumpOutDir();
         this.phase = WallJumpPhase.Anticipate;
-        this.playerMovement.characterController.PushForceUp(5);
+        this.playerMovement.characterController.PushForceUp(1,.15f);
         base.Enter();
     }
     public override void Exit()
@@ -76,18 +79,20 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
             if (this.timer > this.anticipateTime)
             {
+                this.playerMovement.SetProneDir(this.jumpDir);
                 this.playerMovement.isOnUpdateEnable = true;
                 this.phase = WallJumpPhase.Jump;
-           
                 this.player.NotifyObserver(this.player, this);
             }
         }
         else if (this.phase == WallJumpPhase.Jump)
         {
+            if (this.jumpRotateTimer < this.jumpRotateDuration)
+                this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
 
             this.UpdateJumpOut();
             this.UpdateStall();
-            this.playerMovement.SetRotateToDirWorldSlerp(this.jumpDir, Time.deltaTime);
+            this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, this.jumpRotateTimer/ this.jumpRotateDuration);
         }
 
     }
@@ -100,5 +105,6 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
     protected override void CalculateJumpOutDir()
     {
         this.jumpDir = Vector3.Reflect(this.toWallDir, this.wallNormal);
+        this.jumpDir = new Vector3(this.jumpDir.x,0,this.jumpDir.z).normalized;
     }
 }

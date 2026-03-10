@@ -38,7 +38,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
 
         _nodeManagerBehavior.SearchingNewNode(this);
     }
-    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)
+    public void AddForcePushInstantly(Vector3 force, IMotionImplusePushAble.PushMode pushMode)
     {
         if(motionImplusePushAbleBehavior == null)
             motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
@@ -68,5 +68,13 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public override void SetRotation(Quaternion rotation)
     {
         this.characterController.SetRotation(rotation);
+    }
+
+    public void AddForcePushVelocityChange(Vector3 force, IMotionImplusePushAble.PushMode pushMode, float velocityChangeDuration)
+    {
+        if (motionImplusePushAbleBehavior == null)
+            motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
+
+        motionImplusePushAbleBehavior.AddChangeVelocity(this, force, pushMode,velocityChangeDuration);
     }
 }

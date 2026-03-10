@@ -120,7 +120,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
                         if (target._character._movementCompoent is IMotionImplusePushAble motionImplusePushAble)
                         {
                             Vector3 dir = target._character.transform.position - enemy.transform.position;
-                            motionImplusePushAble.AddForcePush(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+                            motionImplusePushAble.AddForcePushInstantly(dir.normalized * _enemySpinKickScriptable._targetPushingForce, IMotionImplusePushAble.PushMode.IgnoreMomentum);
                         }
                         enemy.NotifyObserver(enemy, this);
                     }
@@ -138,7 +138,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
 
         if (_timer >= _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length && isAlreadyPush == false)//Push Enemy toward
         {
-            (enemy._movementCompoent as EnemyMovement).AddForcePush(enemy.transform.forward * _enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            (enemy._movementCompoent as EnemyMovement).AddForcePushInstantly(enemy.transform.forward * _enemySpinKickScriptable._pushSelfTowardForce, IMotionImplusePushAble.PushMode.IgnoreMomentum);
             isAlreadyPush = true;
         }
         else if (isAlreadyPush == false && _timer < _enemySpinKickScriptable._pushForwardTimeNormalized * _enemySpinKickScriptable.animationClip.length)

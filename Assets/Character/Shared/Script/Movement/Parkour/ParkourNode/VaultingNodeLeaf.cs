@@ -75,7 +75,7 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     {
         this.movementCompoent.isOnUpdateEnable = true;
         if (this.movementCompoent is IMotionImplusePushAble motionImplusePush)
-            motionImplusePush.AddForcePush(enterVelocity, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+            motionImplusePush.AddForcePushInstantly(enterVelocity, IMotionImplusePushAble.PushMode.IgnoreMomentum);
         cts.Clear();
         base.Exit();
     }

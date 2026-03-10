@@ -137,7 +137,7 @@ public partial class PlayerAnimationManager
             , this.animator, "Dolphin Dive", 0, .25f);
         this.diveStallAnimationNodeLeaf = new PlayAnimationNodeLeaf(() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>
             (out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.isPassingJump 
-            , this.animator, "DiveStall", 0, .25f);
+            , this.animator, "DiveStall", 0, .5f);
         this.proneAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             , this.animator, "Prone", 0, .5f , this.basedAnimationPoseTimeNormalzied, 1 , false);

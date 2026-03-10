@@ -115,6 +115,9 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         float changeSprintLowRate = 5;
         float changeSprintOutRate = 6;
         float changeSprintStayRate = 9;
+
+        Vector3 upDir = this.player.playerMovement.proneDir;
+
         if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>(out PlayerSprintNode sprintNode))
         {
             if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Out)
@@ -127,17 +130,17 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
         Vector3 lookDir = (this.player._lookingPos - this.player.transform.position).normalized;
 
-        lookDir = new Vector3(lookDir.x, this.player.transform.forward.y, lookDir.z).normalized;
+        lookDir = new Vector3(lookDir.x, upDir.y, lookDir.z).normalized;
 
-        float angleLookHorizontal = Quaternion.FromToRotation(this.player.transform.forward, lookDir).eulerAngles.y;
+        float angleLookHorizontal = Quaternion.FromToRotation(upDir, lookDir).eulerAngles.y;
 
         Debug.DrawRay(this.player.transform.position, lookDir, Color.red);
 
 
-        if (Vector3.Dot(this.player.transform.forward, lookDir) <= -.99f)
+        if (Vector3.Dot(upDir, lookDir) <= -.99f)
             angleLookHorizontal = 180;
 
-         if (Vector3.Dot(this.player.transform.forward, lookDir) >= .99f)
+         if (Vector3.Dot(upDir, lookDir) >= .99f)
             angleLookHorizontal = 1;
 
 

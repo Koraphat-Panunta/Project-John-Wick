@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using static IMotionImplusePushAble;
 
 public class PlayerMovement : MovementCompoent
-    ,IMovementSnaping
-    ,IMotionWarpingAble
-    ,IMotionImplusePushAble
-    ,IObserverPlayer
+    , IMovementSnaping
+    , IMotionWarpingAble
+    , IMotionImplusePushAble
+    , IObserverPlayer
 {
 
     public IMovementMotionWarping movementMotionWarping { get; set; }
@@ -26,6 +27,8 @@ public class PlayerMovement : MovementCompoent
 
     public override Vector3 curPosition => this.characterController.position;
     public override Quaternion curRotation => this.characterController.rotation;
+
+    public Vector3 proneDir { get; protected set; }
 
     public PlayerMovement(
         Player player
@@ -109,7 +112,8 @@ public class PlayerMovement : MovementCompoent
 
         this.movementMotionWarping.StartMotionWarpingLinear(start,end, duration, animationCurve);
     }
-    public void AddForcePush(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
+    public void AddForcePushInstantly(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
+    public void AddForcePushVelocityChange(Vector3 force, PushMode pushMode, float velocityChangeDuration) => motionImplusePushAbleBehavior.AddChangeVelocity(this, force, pushMode, velocityChangeDuration);
 
     public override void Move(Vector3 position)
     {
@@ -184,4 +188,6 @@ public class PlayerMovement : MovementCompoent
     {
         this.characterController.SetRotation(rotation);
     }
+
+    public void SetProneDir(Vector3 dir) => this.proneDir = dir;
 }

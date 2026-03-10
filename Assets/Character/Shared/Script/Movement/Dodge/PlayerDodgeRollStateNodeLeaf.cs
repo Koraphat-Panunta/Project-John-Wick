@@ -45,7 +45,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         elapesTime = 0;
         enterDir = player.inputMoveDir_World;
-        playerMovement.AddForcePush(player._dodgeImpluseForce * (player.inputMoveDir_World + player._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+        playerMovement.AddForcePushInstantly(player._dodgeImpluseForce * (player.inputMoveDir_World + player._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.IgnoreMomentum);
         dodgePhase = DodgePhase.pushOut;
         base.Enter();
     }

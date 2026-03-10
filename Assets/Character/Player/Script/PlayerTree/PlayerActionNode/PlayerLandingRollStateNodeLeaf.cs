@@ -23,7 +23,7 @@ public class PlayerLandingRollStateNodeLeaf : PlayerStateNodeLeaf
     {
         this.timer = 0;
         this.playerMovement.CancleMomentum();
-        this.playerMovement.AddForcePush(this.player.transform.forward * this.landingVelocityForward, IMotionImplusePushAble.PushMode.InstanlyIgnoreMomentum);
+        this.playerMovement.AddForcePushInstantly(this.player.transform.forward * this.landingVelocityForward, IMotionImplusePushAble.PushMode.IgnoreMomentum);
         base.Enter();
     }
 
