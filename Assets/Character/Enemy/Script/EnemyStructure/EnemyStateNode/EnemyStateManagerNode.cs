@@ -141,7 +141,7 @@ public partial class EnemyStateManagerNode : INodeManager
         zeroPostureSelector = new NodeSelector(
             ()=> 
             {
-                Debug.Log("this.enemy._posture = " + this.enemy._posture);
+                //Debug.Log("this.enemy._posture = " + this.enemy._posture);
                 if (this.enemy._posture <= 0 && this.enemy.isNotFallAble == false)
                 {
                     return true;

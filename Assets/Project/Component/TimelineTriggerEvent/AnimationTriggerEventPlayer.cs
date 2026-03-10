@@ -123,8 +123,6 @@ public class AnimationTriggerEventPlayer
         return normal;
     }
 
-   
-
     public void SubscribeEvent(string eventName,Action subScribeEvent)
     {
         bool isFoundTheName = false;
@@ -141,5 +139,25 @@ public class AnimationTriggerEventPlayer
 
         if(isFoundTheName == false)
             Debug.LogWarning("Not found the name event = "+eventName);
+    }
+
+    public bool GetNormalizedTimeFromStateName(string stateName,out float normalizedTime)
+    {
+        normalizedTime = 0;
+
+        if(this.animationTriggerEventsDetails == null
+            || this.animationTriggerEventsDetails.Length <= 0)
+            return false;
+
+        for(int i = 0;i < animationTriggerEventsDetails.Length; i++)
+        {
+            if (this.animationTriggerEventsDetails[i].eventName == stateName)
+            {
+                normalizedTime = this.animationTriggerEventsDetails[i].normalizedTime;
+                break;
+            }
+        }
+
+        return true;
     }
 }

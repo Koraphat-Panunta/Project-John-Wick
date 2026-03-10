@@ -118,12 +118,13 @@ public class PlayerMovement : MovementCompoent
 
     public void OnNotify<T>(Player player, T node)
     {
-        if(isOnUpdateEnable == false)
+        if(this.isOnUpdateEnable == false)
         {
             characterController.isEnableGravity = false;
         }
         else
             characterController.isEnableGravity = true;
+
         if( player.playerStateNodeManager != null 
             && (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf)
         {

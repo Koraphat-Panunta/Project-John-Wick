@@ -49,6 +49,8 @@ public class PlayerStateNodeManager :
     public PlayerLandingRollStateNodeLeaf landingRollStateNodeLeaf { get; private set; }
     public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
+    public NodeSelector dolphinDiveSelector { get; private set; }
+    public WallJumpDolphinDiveNodeLeaf wallJumpDolphinDiveNodeLeaf { get; private set; }
     public PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf { get; private set; }
     public PlayerSelectorStateNode standIncoverSelector { get; private set; }
     public PlayerStandIdleNodeLeaf playerStandIdleNode { get; private set; }
@@ -136,8 +138,14 @@ public class PlayerStateNodeManager :
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => { return this.player.stanceCommand == Stance.stand || player.isSprint; });
         this.playerSprintNode = new PlayerSprintNode(this.player,this, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
+
+        this.dolphinDiveSelector = new NodeSelector(
+            () => this.player.triggerDodgeRoll);
+        this.wallJumpDolphinDiveNodeLeaf = new WallJumpDolphinDiveNodeLeaf(this.player
+            ,()=> true
+            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
         this.playerDolphinDiveStateNodeLeaf = new PlayerDolphinDiveStateNodeLeaf(this.player
-            ,() => this.player.triggerDodgeRoll
+            , () => true
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
 
         standIncoverSelector = new PlayerSelectorStateNode(this.player,
@@ -430,7 +438,10 @@ public class PlayerStateNodeManager :
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
-        this.playerSprintNode.AddTransitionNode(this.playerDolphinDiveStateNodeLeaf);
+        this.playerSprintNode.AddTransitionNode(this.dolphinDiveSelector);
+
+        this.dolphinDiveSelector.AddtoChildNode(this.wallJumpDolphinDiveNodeLeaf);
+        this.dolphinDiveSelector.AddtoChildNode(this.playerDolphinDiveStateNodeLeaf);
 
         weaponDisarmSelector.AddtoChildNode(primary_WeaponDisarm_GunFuInteraction_NodeLeaf);
         weaponDisarmSelector.AddtoChildNode(secondart_WeaponDisarm_GunFuInteraction_NodeLeaf);
