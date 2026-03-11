@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 {
     public bool isPassingJump;
-    protected virtual float jumpOutTime { get => .3f; }
-    protected float timer;
+    public virtual float jumpOutTime { get => .3f; }
+    public float timer;
 
     protected Vector3 jumpDir;
 
@@ -68,8 +68,8 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
             && this.isPassingJump == false)
         {
 
-            this.playerMovement.AddForcePushVelocityChange(this.jumpDir * this.jumpVelocuty, IMotionImplusePushAble.PushMode.IgnoreMomentum,.15f);
-            this.playerMovement.characterController.PushForceUp(this.jumpVerticalVelocuty,.15f);
+            this.playerMovement.AddForcePushVelocityChange(this.jumpDir * this.jumpVelocuty, IMotionImplusePushAble.PushMode.IgnoreMomentum,.05f);
+            this.playerMovement.characterController.PushForceUp(this.jumpVerticalVelocuty,.05f);
 
             this.isPassingJump = true;
         }

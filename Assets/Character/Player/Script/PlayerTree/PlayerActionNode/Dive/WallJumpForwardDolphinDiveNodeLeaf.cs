@@ -1,13 +1,17 @@
 using System;
 using UnityEngine;
 
-public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
+public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 {
+    public float anticipateTime = .5f;
 
-    private float anticipateTime = .6f;
+    public override float jumpOutTime => 0;
 
-    protected override float jumpOutTime => .35f;
+    protected override float stallMinimumTime => .2f;
 
+    protected override float jumpVerticalVelocuty => base.jumpVerticalVelocuty * 1.5f;
+
+    public Vector3 alighWallDir;
     protected Vector3 enterPos;
     protected Vector3 wallPos;
     protected Vector3 wallNormal;
@@ -22,10 +26,12 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
     private LayerMask obstacleLayer = LayerMask.GetMask("Default");
 
-    public float jumpRotateDuration => .5f;
+    public float jumpRotateDuration => .2f;
     public float jumpRotateTimer;
 
-    public WallJumpDolphinDiveNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    public bool isJumpLeft { get; protected set; }
+
+    public WallJumpForwardDolphinDiveNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
     }
     public override void Enter()
@@ -34,7 +40,8 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         this.playerMovement.isOnUpdateEnable = false;
         this.CalculateJumpOutDir();
         this.phase = WallJumpPhase.Anticipate;
-        this.playerMovement.characterController.PushForceUp(1,.15f);
+        this.playerMovement.characterController.PushForceUp(1, .05f);
+        this.jumpRotateTimer = 0;
         base.Enter();
     }
     public override void Exit()
@@ -59,8 +66,15 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             this.wallNormal = hit.normal;
             this.toWallDir = (this.wallPos - this.enterPos).normalized;
 
-            Debug.DrawLine(castPos, wallPos,Color.red,5);
+            this.alighWallDir = Vector3.ProjectOnPlane(this.toWallDir, this.wallNormal);
+            this.alighWallDir = new Vector3(this.alighWallDir.x, 0, this.alighWallDir.z).normalized;
 
+            if (Vector3.Dot(this.player.transform.right, new Vector3(this.wallNormal.x, 0, this.wallNormal.z).normalized) > 0)
+                this.isJumpLeft = true;
+            else
+                this.isJumpLeft = false;
+
+            Debug.DrawLine(castPos, wallPos, Color.red, 5);
             return true;
         }
 
@@ -74,8 +88,9 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             float t = Mathf.Clamp01(this.timer / this.anticipateTime);
 
             this.playerMovement.SetPosition(Vector3.Lerp(this.enterPos, this.wallPos, t));
-            this.playerMovement.SetRotateToDirWorldSlerp((this.wallPos - this.player.transform.position).normalized, t);
-                 Debug.DrawLine(this.wallPos, this.player.transform.position, Color.blue, 5);
+            this.playerMovement.SetRotateToDirWorldSlerp(this.alighWallDir, t);
+            Debug.DrawLine(this.wallPos, this.player.transform.position, Color.blue, 5);
+
 
             if (this.timer > this.anticipateTime)
             {
@@ -87,24 +102,33 @@ public class WallJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         }
         else if (this.phase == WallJumpPhase.Jump)
         {
-            if (this.jumpRotateTimer < this.jumpRotateDuration)
-                this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
+
 
             this.UpdateJumpOut();
             this.UpdateStall();
-            this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, this.jumpRotateTimer/ this.jumpRotateDuration);
+
+            if (this.stallTimeCountDown <= 0)
+            {
+                if (this.jumpRotateTimer < this.jumpRotateDuration)
+                    this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
+
+                this.playerMovement.SetRotation(Quaternion.LookRotation(Vector3.Lerp(this.alighWallDir, this.player.cinemachineCamera.targetDir, this.jumpRotateTimer / this.jumpRotateDuration)));
+            }
+
+
         }
 
     }
     public override void UpdateNode()
     {
         this.timer += Time.deltaTime;
-       
+
     }
- 
     protected override void CalculateJumpOutDir()
     {
         this.jumpDir = Vector3.Reflect(this.toWallDir, this.wallNormal);
-        this.jumpDir = new Vector3(this.jumpDir.x,0,this.jumpDir.z).normalized;
+        this.jumpDir = new Vector3(this.jumpDir.x, 0, this.jumpDir.z).normalized;
+
+
     }
 }
