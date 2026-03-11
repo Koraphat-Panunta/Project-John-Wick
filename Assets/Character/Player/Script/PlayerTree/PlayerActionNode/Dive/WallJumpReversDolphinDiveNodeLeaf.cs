@@ -73,8 +73,10 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
         return false;
     }
-    public override void FixedUpdateNode()
+  
+    public override void UpdateNode()
     {
+        this.timer += Time.deltaTime;
 
         if (this.phase == WallJumpPhase.Anticipate)
         {
@@ -82,9 +84,9 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
             this.playerMovement.SetPosition(Vector3.Lerp(this.enterPos, this.wallPos, t));
             this.playerMovement.SetRotateToDirWorldSlerp(this.jumpDir * -1, t);
-                 Debug.DrawLine(this.wallPos, this.player.transform.position, Color.blue, 5);
+            Debug.DrawLine(this.wallPos, this.player.transform.position, Color.blue, 5);
 
-           
+
             if (this.timer > this.anticipateTime)
             {
                 this.playerMovement.SetProneDir(this.jumpDir);
@@ -95,12 +97,12 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         }
         else if (this.phase == WallJumpPhase.Jump)
         {
-           
+
 
             this.UpdateJumpOut();
             this.UpdateStall();
 
-            if(this.stallTimeCountDown <= 0)
+            if (this.stallTimeCountDown <= 0)
             {
                 if (this.jumpRotateTimer < this.jumpRotateDuration)
                     this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
@@ -111,11 +113,6 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
         }
 
-    }
-    public override void UpdateNode()
-    {
-        this.timer += Time.deltaTime;
-       
     }
     protected override void CalculateJumpOutDir()
     {

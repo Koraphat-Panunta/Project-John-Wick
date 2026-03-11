@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95834ff27908f3f479be31c2f3e59326, type: 3}
+  m_Name: ProneLegsIKConstrainScriptableObject
+  m_EditorClassIdentifier: Assembly-CSharp::LegsBlendingConstrainScriptableObject
+  bledningWeightSCRP:
+  - weight: 0
+    scrp: {fileID: 11400000, guid: 9f4b9624bcfa99047b0cddc29220ac67, type: 2}
+  - weight: 90
+    scrp: {fileID: 11400000, guid: 928b3712745ad964ca73a555a9d141d1, type: 2}
+  - weight: 180
+    scrp: {fileID: 11400000, guid: 199a44f16b7b69c45a0115f89c3b24f9, type: 2}
+  - weight: 270
+    scrp: {fileID: 11400000, guid: 237ab50b8f74a8a49a8004fa92a9a4cb, type: 2}

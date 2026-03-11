@@ -35,7 +35,11 @@ public partial class PlayerConstrainAnimationManager
             if(playerStateManager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
                 return false;
 
-            if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
+            if (playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
+                && dolphinDiveStateNodeLeaf.isPassingJump == false)
+                return false;
+
+            if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
             if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())

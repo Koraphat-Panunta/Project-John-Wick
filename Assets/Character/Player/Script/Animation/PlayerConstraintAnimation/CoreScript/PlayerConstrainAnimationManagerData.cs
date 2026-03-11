@@ -44,9 +44,9 @@ public partial class PlayerConstrainAnimationManager
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_Target_AimDownSight_SecondaryWeapon_SCRP;
 
-    public HandIK_ConstraintSCRP lowReadyProne_LeftHand_IK_ConstrainSCRP;
+    public TwoBoneIK_ConstraintSCRP lowReadyProne_LeftHand_IK_ConstrainSCRP;
 
-    public HandIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
-    public HandIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
-    public HandIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
+    public TwoBoneIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
+    public TwoBoneIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
+    public TwoBoneIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
 }

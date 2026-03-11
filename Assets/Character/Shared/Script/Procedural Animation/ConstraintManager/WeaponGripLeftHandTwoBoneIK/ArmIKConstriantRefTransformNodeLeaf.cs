@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArmIKConstriantRefTransformNodeLeaf : AnimationConstrainNodeLeaf
 {
 
-    protected HandIK_ConstraintSCRP handIKOffsetSCRP;
+    protected TwoBoneIK_ConstraintSCRP handIKOffsetSCRP;
     protected Transform refTransformDir;
     protected Transform refTransformPos;
     protected HandArmIKConstraintManager handArmIKConstraintManager;
@@ -55,7 +55,7 @@ public class ArmIKConstriantRefTransformNodeLeaf : AnimationConstrainNodeLeaf
         HandArmIKConstraintManager handArmIKConstraintManager
         , Transform refTransformPos
         , Transform refTransformDir
-        , HandIK_ConstraintSCRP transformOffsetSCRP
+        , TwoBoneIK_ConstraintSCRP transformOffsetSCRP
         ) : base( precondition)
     {
         this.handArmIKConstraintManager = handArmIKConstraintManager;

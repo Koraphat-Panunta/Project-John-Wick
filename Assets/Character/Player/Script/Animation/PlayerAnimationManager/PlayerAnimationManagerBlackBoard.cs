@@ -83,7 +83,9 @@ public partial class PlayerAnimationManager
                 )
                 return false;
 
-            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
+            if (this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>() 
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpForwardDolphinDiveNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpReversDolphinDiveNodeLeaf>())
                 return false;
 
             if (player.curNodeLeaf is PlayerProneStateNodeLeaf)

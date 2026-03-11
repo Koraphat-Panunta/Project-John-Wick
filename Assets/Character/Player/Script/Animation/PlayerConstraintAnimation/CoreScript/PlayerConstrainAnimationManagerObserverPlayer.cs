@@ -201,7 +201,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
             }
         }
     }
-    private void SetRightHandSCRP(HandIK_ConstraintSCRP handIK_ConstraintSCRP)
+    private void SetRightHandSCRP(TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP)
     {
         if(this.rightHandWeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP == handIK_ConstraintSCRP)
             return;

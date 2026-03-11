@@ -61,7 +61,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         }
     }
 
-    protected HandIK_ConstraintSCRP handIK_ConstraintSCRP;
+    protected TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP;
     protected Transform rightHandTransform;
     protected HandArmIKConstraintManager leftHandConstraintManager;
     protected IWeaponAdvanceUser weaponAdvanceUser;
@@ -69,7 +69,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         Func<bool> precondition
         , Transform rightHandTransform
         , HandArmIKConstraintManager leftHandConstraintManager
-        ,  HandIK_ConstraintSCRP handIK_ConstraintSCRP
+        ,  TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP
         , IWeaponAdvanceUser weaponAdvanceUser
         ) : base(precondition)
     {

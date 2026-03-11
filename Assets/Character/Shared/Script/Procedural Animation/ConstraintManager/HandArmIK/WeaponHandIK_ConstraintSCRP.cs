@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeaponHandIK_ConstraintSCRP", menuName = "ScriptableObjects/ConstrainObject/HandIK_ConstraintSCRP/WeaponHandIK_ConstraintSCRP")]
-public class WeaponHandIK_ConstraintSCRP : HandIK_ConstraintSCRP
+[CreateAssetMenu(fileName = "WeaponHandIK_ConstraintSCRP", menuName = "ScriptableObjects/ConstrainObject/TwoBoneIK_ConstraintSCRP/WeaponHandIK_ConstraintSCRP")]
+public class WeaponHandIK_ConstraintSCRP : TwoBoneIK_ConstraintSCRP
 {
     public Vector3 onBlocked_positionOffset;
     public Vector3 onBlocked_rotationEulerOffset;

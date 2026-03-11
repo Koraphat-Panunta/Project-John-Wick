@@ -86,7 +86,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
     protected Transform rootHintHandTransform;
 
-    public HandIK_ConstraintSCRP handIK_ConstraintSCRP { get; protected set; }
+    public TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP { get; protected set; }
 
     protected Transform aimingAtTransfrom;
     protected Transform rootCharacter;
@@ -100,7 +100,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         , Transform handIK_Transform_Ref_Rot
         , Transform rootHintHand
         , Transform rootCharacter
-        , HandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
+        , TwoBoneIK_ConstraintSCRP rightHandIK_ConstraintSCRP
         , Func<bool> precondition) : base(precondition)
     {
         this.handArmIKConstraintManager = handArmIKConstraintManager;
@@ -144,5 +144,5 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
         this.handArmIKConstraintManager.SetTargetHand(this.targetHandPosition, this.targetHandRotation);
     }
 
-    public void SetHandIKConstraintSCRP(HandIK_ConstraintSCRP handIK_ConstraintSCRP) => this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;
+    public void SetHandIKConstraintSCRP(TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP) => this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;
 }
