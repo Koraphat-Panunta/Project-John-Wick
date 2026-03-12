@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ab88998ca771849b4bca9089cd81d6, type: 3}
+  m_Name: DiveStallLegsIKConstrainSCRP_90
+  m_EditorClassIdentifier: Assembly-CSharp::LegsIKConstrainScriptableObject
+  leftLegPositionOffset: {x: -0.06, y: -0.94, z: -0.44}
+  leftLegRotationEulerOffset: {x: 164.2, y: 180, z: -24.55}
+  leftLegHintPositionOffset: {x: 0, y: -0.5, z: 0.5}
+  rightLegPositionOffset: {x: 0.26, y: -0.33, z: -0.31}
+  rightLegRotationEulerOffset: {x: 148.9, y: 205.6, z: 33.8}
+  rightLegHintPositionOffset: {x: 0, y: -0.5, z: 0.5}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalHandAimDeg: 0
+  maxVerticalHandAimDeg: 0

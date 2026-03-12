@@ -42,4 +42,6 @@ public class SetConstraintWeightNodeLeaf : AnimationConstrainNodeLeaf
 
     public void SetSpeedChangeWeight(float speedChangeWeight) => this.speedChangeWeight = speedChangeWeight;
     public float GetSpeedChangeWeight() => this.speedChangeWeight;
+
+    public void SetWeight(float weight) => this.constraintManager.SetWeight(weight);
 }

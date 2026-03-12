@@ -1,5 +1,4 @@
-using NUnit.Framework.Constraints;
-using Sirenix.Utilities;
+
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -298,6 +297,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public NodeSelector legsConstrainSelector;
     public NodeSelector legConstraintWeightSelector;
 
+
     public ProneLegsConstrainNodeLeaf proneLegsConstrainNodeLeaf;
     public RestNodeLeaf legRestConstrainNodeLeaf;
     public SetConstraintWeightNodeLeaf legsEnableWeightConstraintNodeLeaf { get; set; }
@@ -310,21 +310,20 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.legConstraintWeightSelector = new NodeSelector(() => true);
 
         //2
+      
         this.proneLegsConstrainNodeLeaf = new ProneLegsConstrainNodeLeaf(this.legsConstraintManager
             ,this.player._hipBone
             ,this.player._hipBone
-            ,this.proneLegsBlendingConstrainSCRP
+            ,this.diveStallLegsBlendingConstrainSCRP
             ,()=>
-            (this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
-            && dolphinDiveStateNodeLeaf.stallTimeCountDown <= 0)
-            ||
             this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             );
 
         this.legRestConstrainNodeLeaf = new RestNodeLeaf(()=> true);
 
         this.legsEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
-            () => this.legsConstrainSelector.curNodeLeaf is RestNodeLeaf == false
+            () =>
+           this.legsConstrainSelector.curNodeLeaf is RestNodeLeaf == false
             , this.legsConstraintManager
             , 1
             , 1);

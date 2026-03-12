@@ -213,16 +213,15 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
     }
 
     private void LegsConstrainCondition<T>(Player player,T obj) 
-    {
-        if(obj is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
-            && dolphinDiveStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
-        {
-            this.proneLegsConstrainNodeLeaf.SetSCRP(this.diveStallLegsBlendingConstrainSCRP);
-        }
-        else if(obj is PlayerProneStateNodeLeaf proneStateNodeLeaf
+    { 
+        if(obj is PlayerProneStateNodeLeaf proneStateNodeLeaf
             && proneStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
         {
             this.proneLegsConstrainNodeLeaf.SetSCRP(this.proneLegsBlendingConstrainSCRP);
+            this.proneLegsConstrainNodeLeaf.SetTransitionSpeed(50);
+            this.legsEnableWeightConstraintNodeLeaf.SetWeight(1);
         }
+
+        
     }
 }

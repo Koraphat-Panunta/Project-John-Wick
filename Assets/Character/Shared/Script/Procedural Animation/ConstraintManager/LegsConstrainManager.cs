@@ -17,12 +17,14 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public TransfromValue rightLegTransformValue;
     public Vector3 hintRightLegPos;
 
+
+
     public TwoBoneIKConstraint GetLeftLegTwoBoneIKConstrain() => this.leftLegTwoBoneIKConstrain;
     public TwoBoneIKConstraint GetRightLegTwoBoneIKConstrain() => this.rightLegTwoBoneIKConstrain;
 
     private void FixedUpdate()
     {
-        if (this.GetWeight() < .5f)
+        if (this.GetWeight() < 1)
         {
             this.leftLegTransformValue.position = this.leftLegTwoBoneIKConstrain.data.tip.transform.position;
             this.leftLegTransformValue.rotationEuler = this.leftLegTwoBoneIKConstrain.data.tip.transform.rotation.eulerAngles;
@@ -41,6 +43,18 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
         this.rightLeg_Target_Foot.position = this.rightLegTransformValue.position;
         this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
         this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
+    }
+
+    private void Update()
+    {
+        //this.leftLeg_Target_Foot.position = this.leftLegTransformValue.position;
+        //this.leftLeg_Target_Foot.rotation = Quaternion.Euler(this.leftLegTransformValue.rotationEuler);
+        //this.leftLeg_Hint_Foot.position = this.hintLeftLegPos;
+
+
+        //this.rightLeg_Target_Foot.position = this.rightLegTransformValue.position;
+        //this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
+        //this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
     }
 
     public float GetWeight()
@@ -63,6 +77,8 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public void SetLeftLeg_Target_Foot(Vector3 pos)
     {
         this.leftLegTransformValue.position = pos;
+
+
     }
 
     public void SetLeftLeg_Hint_FootPos(Vector3 pos)
@@ -77,6 +93,7 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     {
         this.SetRightLeg_Target_Foot(pos);
         this.rightLegTransformValue.rotationEuler = rotation.eulerAngles;
+
     }
     public void SetRightLeg_Target_Foot(Vector3 pos)
     {

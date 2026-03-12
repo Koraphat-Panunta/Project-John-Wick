@@ -25,9 +25,10 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
     protected Transform leftFootTransform => this.legsConstrainManager.GetLeftLeg_Target_Transform();
     protected Transform rightFootTransform => this.legsConstrainManager.GetRightLeg_Target_Transform();
 
-    private float transformVelocity = 10;
+    public float transitionSpeed;
 
-    public ProneLegsConstrainNodeLeaf(LegsConstrainManager legsConstrainManager
+    public ProneLegsConstrainNodeLeaf(
+        LegsConstrainManager legsConstrainManager
         ,Transform refPos
         ,Transform refDir
         ,LegsBlendingConstrainScriptableObject legsIKConstrainScriptableObject
@@ -49,7 +50,7 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void UpdateNode()
     {
-        this.weight = Mathf.Clamp01(this.weight + Time.deltaTime);
+        this.weight = Mathf.Clamp(this.weight + Time.deltaTime,0,1);
         this.CalculateProperty();
         this.UpdateLegsConstrainManager();
 
@@ -128,6 +129,7 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // ---------- LEFT FOOT IK ----------
         Vector3 leftDir = (this.target_LeftLeg_Position - castDownWardLeftLegPos);
         float leftDist = leftDir.magnitude + biasIKDistance;
+        Vector3 refToGround = leftLegPos - this.refPos.position;
 
         if (Physics.Raycast(
                 castDownWardLeftLegPos,
@@ -138,20 +140,20 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
                 QueryTriggerInteraction.Ignore))
         {
             leftLegPos = hit.point + (leftDir.normalized*-1 * biasIKDistance);
-            Vector3 refToGround = leftLegPos - this.refPos.position;
+            refToGround = leftLegPos - this.refPos.position;
 
-            if (Physics.Raycast(
-                        this.refPos.position,
-                        refToGround.normalized,
-                        out hit,
-                        refToGround.magnitude + biasIKDistance,
-                        LayerMask.GetMask("Default"),
-                        QueryTriggerInteraction.Ignore))
-            {
-                leftLegPos = hit.point + (refToGround.normalized *-1 * biasIKDistance);
-            }
         }
 
+        if (Physics.Raycast(
+                    this.refPos.position,
+                    refToGround.normalized,
+                    out hit,
+                    refToGround.magnitude + biasIKDistance,
+                    LayerMask.GetMask("Default"),
+                    QueryTriggerInteraction.Ignore))
+        {
+            leftLegPos = hit.point + (refToGround.normalized * -1 * biasIKDistance);
+        }
         //Vector3 hintCastPos = new Vector3(hintLeftPos.x, this.refPos.position.y, hintLeftPos.z);
         //Vector3 hintCastDir = hintLeftPos = hintCastPos;
 
@@ -171,7 +173,7 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // ---------- RIGHT FOOT IK ----------
         Vector3 rightDir = (this.target_RightLeg_Position - castDownWardRightLegPos);
         float rightDist = rightDir.magnitude + biasIKDistance;
-
+        refToGround = rightLegPos - this.refPos.position;
         if (Physics.Raycast(
                 castDownWardRightLegPos,
                 rightDir.normalized,
@@ -181,21 +183,19 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
                 QueryTriggerInteraction.Ignore))
         {
             rightLegPos = hit.point + (rightDir.normalized *-1 * biasIKDistance);
-            Vector3 refToGround = rightLegPos - this.refPos.position;
-
-            if (Physics.Raycast(
-                       this.refPos.position,
-                       refToGround.normalized,
-                       out hit,
-                       refToGround.magnitude + biasIKDistance,
-                       LayerMask.GetMask("Default"),
-                       QueryTriggerInteraction.Ignore))
-            {
-                rightLegPos = hit.point + (refToGround.normalized *-1 * biasIKDistance);
-
-            }
+            refToGround = rightLegPos - this.refPos.position;
         }
 
+        if (Physics.Raycast(
+                      this.refPos.position,
+                      refToGround.normalized,
+                      out hit,
+                      refToGround.magnitude + biasIKDistance,
+                      LayerMask.GetMask("Default"),
+                      QueryTriggerInteraction.Ignore))
+        {
+            rightLegPos = hit.point + (refToGround.normalized * -1 * biasIKDistance);
+        }
         //hintCastPos = new Vector3(hintRightPos.x, this.refPos.position.y, hintRightPos.z);
         //hintCastDir = hintRightPos = hintCastPos;
 
@@ -217,11 +217,11 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
             Vector3.Lerp(
                 this.legsConstrainManager.leftLegTransformValue.position,
                 leftLegPos,
-                this.weight * Time.deltaTime * transformVelocity),
+                this.weight * Time.deltaTime * this.transitionSpeed ),
             Quaternion.Lerp(
                 Quaternion.Euler(this.legsConstrainManager.leftLegTransformValue.rotationEuler),
                 this.target_LeftLeg_Rotation,
-                this.weight * Time.deltaTime * transformVelocity)
+                this.weight * Time.deltaTime * this.transitionSpeed)
         );
 
         // LEFT LEG HINT
@@ -238,11 +238,11 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
             Vector3.Lerp(
                 this.legsConstrainManager.rightLegTransformValue.position,
                 rightLegPos,
-                this.weight * Time.deltaTime * transformVelocity),
+                this.weight * Time.deltaTime * this.transitionSpeed),
             Quaternion.Lerp(
                 Quaternion.Euler(this.legsConstrainManager.rightLegTransformValue.rotationEuler),
                 this.target_RightLeg_Rotation,
-                this.weight * Time.deltaTime * transformVelocity)
+                this.weight * Time.deltaTime * this.transitionSpeed)
         );
 
         // RIGHT LEG HINT
@@ -257,4 +257,7 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
     public void SetAngle(float angle) => this.angle = angle;
     public void SetSCRP(LegsBlendingConstrainScriptableObject legsBlendingConstrainScriptableObject)
         => this.legsBlendIKConstrainScriptableObject = legsBlendingConstrainScriptableObject;
+
+    public void SetTransitionSpeed(float v) => this.transitionSpeed = v;
+    public void SetWeight(float w) => this.weight = w;
 }
