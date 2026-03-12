@@ -28,7 +28,7 @@ public class PlayerMovement : MovementCompoent
     public override Vector3 curPosition => this.characterController.position;
     public override Quaternion curRotation => this.characterController.rotation;
 
-    public Vector3 proneDir { get; protected set; }
+
 
     public PlayerMovement(
         Player player

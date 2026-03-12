@@ -1,9 +1,9 @@
 using UnityEngine;
 
 
-public abstract class BlendingConstrainScriptableObject<T> : ScriptableObject where T : ScriptableObject
+public interface BlendingConstrainScriptableObject<T> where T : ScriptableObject
 {
-    public BledningWeightSCRP<T>[] bledningWeightSCRP;
+    public BledningWeightSCRP<T>[] _bledningWeightSCRP { get; }
 }
 [System.Serializable]
 public struct BledningWeightSCRP<T> where T : ScriptableObject

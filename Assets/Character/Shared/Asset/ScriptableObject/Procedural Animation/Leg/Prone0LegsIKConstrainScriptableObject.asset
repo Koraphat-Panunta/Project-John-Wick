@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ab88998ca771849b4bca9089cd81d6, type: 3}
   m_Name: Prone0LegsIKConstrainScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::LegsIKConstrainScriptableObject
-  leftLegPositionOffset: {x: 0, y: 0, z: 0}
-  leftLegRotationEulerOffset: {x: 0, y: 0, z: 0}
-  leftLegHintPositionOffset: {x: 0, y: 0, z: 0}
-  rightLegPositionOffset: {x: 0, y: 0, z: 0}
-  rightLegRotationEulerOffset: {x: 0, y: 0, z: 0}
-  rightLegHintPositionOffset: {x: 0, y: 0, z: 0}
+  leftLegPositionOffset: {x: -0.3, y: -0.85, z: -0.2}
+  leftLegRotationEulerOffset: {x: 202.67, y: 135, z: -17.1}
+  leftLegHintPositionOffset: {x: 0, y: 0, z: 0.5}
+  rightLegPositionOffset: {x: 0.3, y: -0.85, z: -0.3}
+  rightLegRotationEulerOffset: {x: 202.67, y: 225, z: 25.9}
+  rightLegHintPositionOffset: {x: 0, y: 0, z: 0.5}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalHandAimDeg: 0
   maxVerticalHandAimDeg: 0

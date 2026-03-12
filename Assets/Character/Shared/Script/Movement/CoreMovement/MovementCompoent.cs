@@ -25,6 +25,8 @@ public abstract partial class MovementCompoent : INodeManager
     public abstract Vector3 curPosition { get; } 
     public abstract Quaternion curRotation { get; }
 
+    public Vector3 proneDir { get; protected set; }
+
     public MovementCompoent(Transform transform,MonoBehaviour myMovement)
     {
         isOnUpdateEnable = true;

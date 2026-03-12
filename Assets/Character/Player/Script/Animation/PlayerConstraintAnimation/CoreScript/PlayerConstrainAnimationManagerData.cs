@@ -7,6 +7,7 @@ public partial class PlayerConstrainAnimationManager
     public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HandArmIKConstraintManager rightHandIKConstriantManager;
+    public LegsConstrainManager legsConstraintManager;
     public HeadRotationConstraintManager headLookConstraintManager;
     [SerializeField] private Transform leftHandTransformRef;
     [SerializeField] private Transform leftHandBoneTransform;
@@ -49,4 +50,6 @@ public partial class PlayerConstrainAnimationManager
     public TwoBoneIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
     public TwoBoneIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
     public TwoBoneIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
+
+    public LegsBlendingConstrainScriptableObject proneLegsBlendingConstrainSCRP;
 }

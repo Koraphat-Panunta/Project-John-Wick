@@ -20,6 +20,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public NodeComponentManager playeBodyConstriantAnimationNodeComponentManager;
     public NodeComponentManager rightHandConstraintAnimationNodeComponentManager;
     public NodeComponentManager leftHandConstraintAnimationNodeComponentManager;
+    public NodeComponentManager legsConstraintAnimationNodeComponentManager;
     public NodeComponentManager headConstraintAnimationNodeComponentManager;
 
     #region BodyConstraint
@@ -293,6 +294,57 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     }
     #endregion
 
+    #region LegsConstraint
+    public NodeSelector legsConstrainSelector;
+    public NodeSelector legConstraintWeightSelector;
+
+    public ProneLegsConstrainNodeLeaf proneLegsConstrainNodeLeaf;
+    public RestNodeLeaf legRestConstrainNodeLeaf;
+    public SetConstraintWeightNodeLeaf legsEnableWeightConstraintNodeLeaf { get; set; }
+    public SetConstraintWeightNodeLeaf legsDisableWeightConstraintNodeLeaf { get; set; }
+
+    private void InitializedLegsConstrainNodeManager()
+    {
+        //1
+        this.legsConstrainSelector = new NodeSelector(() => true);
+        this.legConstraintWeightSelector = new NodeSelector(() => true);
+
+        //2
+        this.proneLegsConstrainNodeLeaf = new ProneLegsConstrainNodeLeaf(this.legsConstraintManager
+            ,this.player._hipBone
+            ,this.player._hipBone
+            ,this.proneLegsBlendingConstrainSCRP
+            ,()=> (this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
+            && dolphinDiveStateNodeLeaf.isPassingJump)
+            || this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+            );
+
+        this.legRestConstrainNodeLeaf = new RestNodeLeaf(()=> true);
+
+        this.legsEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => this.legsConstrainSelector.curNodeLeaf is RestNodeLeaf == false
+            , this.legsConstraintManager
+            , 10
+            , 1);
+
+        this.legsDisableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => true
+            , this.legsConstraintManager
+            , 10
+            , 0);
+
+        this.legsConstrainSelector.AddtoChildNode(this.proneLegsConstrainNodeLeaf);
+        this.legsConstrainSelector.AddtoChildNode(this.legRestConstrainNodeLeaf);
+
+        this.legConstraintWeightSelector.AddtoChildNode(this.legsEnableWeightConstraintNodeLeaf);
+        this.legConstraintWeightSelector.AddtoChildNode(this.legsDisableWeightConstraintNodeLeaf);
+
+        this.legsConstraintAnimationNodeComponentManager.AddNode(this.legsConstrainSelector);
+        this.legsConstraintAnimationNodeComponentManager.AddNode(this.legConstraintWeightSelector);
+    }
+
+    #endregion
+
     #region HeadLookConstraint
     public NodeSelector headLookNodeSelector { get; set; }
     public HeadLookConstrainAnimationNodeLeaf headLookAtWeaponConstraintNodeLeaf { get; set; }
@@ -369,6 +421,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.playeBodyConstriantAnimationNodeComponentManager = new NodeComponentManager();
         this.rightHandConstraintAnimationNodeComponentManager = new NodeComponentManager();
         this.leftHandConstraintAnimationNodeComponentManager = new NodeComponentManager();
+        this.legsConstraintAnimationNodeComponentManager = new NodeComponentManager();
         this.headConstraintAnimationNodeComponentManager = new NodeComponentManager();
 
         this.InitializedConstraintWeightManager();
@@ -376,6 +429,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.InitializedLeanNodeManager();
         this.InitialzedRightHandNodeManager();
         this.InitializedLeftHandNodeManager();
+        this.InitializedLegsConstrainNodeManager();
         this.InitializedHeadLookConstriant();
 
     }
@@ -383,10 +437,12 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     private void Update()
     {
         this.UpdateConstrainLookReferencePos();
+        this.UpdateBlackBorad();
 
         this.playeBodyConstriantAnimationNodeComponentManager.Update();
         this.rightHandConstraintAnimationNodeComponentManager.Update();
         this.leftHandConstraintAnimationNodeComponentManager.Update();
+        this.legsConstraintAnimationNodeComponentManager.Update();
         this.headConstraintAnimationNodeComponentManager.Update();
     }
     protected void FixedUpdate()
@@ -395,6 +451,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.playeBodyConstriantAnimationNodeComponentManager.FixedUpdate();
         this.rightHandConstraintAnimationNodeComponentManager.FixedUpdate();
         this.leftHandConstraintAnimationNodeComponentManager.FixedUpdate();
+        this.legsConstraintAnimationNodeComponentManager.FixedUpdate();
         this.headConstraintAnimationNodeComponentManager.FixedUpdate();
 
 
@@ -460,7 +517,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             );
     }
 
-   
+    private void UpdateBlackBorad()
+    {
+        if (this.proneLegsConstrainNodeLeaf != null)
+            this.proneLegsConstrainNodeLeaf.SetAngle(this.playerAnimationManager.angleLookHorizontal);
+    }
 
 
     #endregion
