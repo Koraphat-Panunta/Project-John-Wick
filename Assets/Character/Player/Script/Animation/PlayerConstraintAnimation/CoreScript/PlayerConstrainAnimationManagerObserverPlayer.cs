@@ -9,7 +9,9 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
 
         this.RightHand_ConstrainCondition(player,node);
 
-        if(node is GunFuExecute_Single_NodeLeaf gunFuExecuteNodeLeaf)
+        this.LegsConstrainCondition(player,node);
+
+        if (node is GunFuExecute_Single_NodeLeaf gunFuExecuteNodeLeaf)
         {
             gunFuExecuteNodeLeaf.animationTriggerEventPlayer.SubscribeEvent("EnableIK", this.EnableIK);
             if(gunFuExecuteNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
@@ -208,5 +210,19 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
 
         this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(handIK_ConstraintSCRP);
         this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+    }
+
+    private void LegsConstrainCondition<T>(Player player,T obj) 
+    {
+        if(obj is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+            && dolphinDiveStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+        {
+            this.proneLegsConstrainNodeLeaf.SetSCRP(this.diveStallLegsBlendingConstrainSCRP);
+        }
+        else if(obj is PlayerProneStateNodeLeaf proneStateNodeLeaf
+            && proneStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+        {
+            this.proneLegsConstrainNodeLeaf.SetSCRP(this.proneLegsBlendingConstrainSCRP);
+        }
     }
 }

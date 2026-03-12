@@ -55,7 +55,10 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
         base.UpdateNode();
     }
-
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
+    }
     protected void CalculateProperty()
     {
         LegsIKConstrainScriptableObject scrp =
@@ -105,7 +108,6 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
             + (this.rightFootTransform.right * scrp.rightLegHintPositionOffset.x);
     }
 
-    
     protected void UpdateLegsConstrainManager()
     {
 
@@ -213,11 +215,11 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // LEFT LEG TARGET
         this.legsConstrainManager.SetLeftLeg_Target_Foot(
             Vector3.Lerp(
-                this.leftFootTransform.position,
+                this.legsConstrainManager.leftLegTransformValue.position,
                 leftLegPos,
                 this.weight * Time.deltaTime * transformVelocity),
             Quaternion.Lerp(
-                this.leftFootTransform.rotation,
+                Quaternion.Euler(this.legsConstrainManager.leftLegTransformValue.rotationEuler),
                 this.target_LeftLeg_Rotation,
                 this.weight * Time.deltaTime * transformVelocity)
         );
@@ -225,7 +227,7 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // LEFT LEG HINT
         this.legsConstrainManager.SetLeftLeg_Hint_FootPos(
             Vector3.Lerp(
-                this.legsConstrainManager.GetLeftLeg_Hint_Transform().position,
+                this.legsConstrainManager.hintLeftLegPos,
                 hintLeftPos,
                 this.weight)
         );
@@ -234,11 +236,11 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // RIGHT LEG TARGET
         this.legsConstrainManager.SetRightLeg_Target_Foot(
             Vector3.Lerp(
-                this.rightFootTransform.position,
+                this.legsConstrainManager.rightLegTransformValue.position,
                 rightLegPos,
-                this.weight),
+                this.weight * Time.deltaTime * transformVelocity),
             Quaternion.Lerp(
-                this.rightFootTransform.rotation,
+                Quaternion.Euler(this.legsConstrainManager.rightLegTransformValue.rotationEuler),
                 this.target_RightLeg_Rotation,
                 this.weight * Time.deltaTime * transformVelocity)
         );
@@ -246,11 +248,13 @@ public class ProneLegsConstrainNodeLeaf : AnimationConstrainNodeLeaf
         // RIGHT LEG HINT
         this.legsConstrainManager.SetRightLeg_Hint_FootPos(
             Vector3.Lerp(
-                this.legsConstrainManager.GetRightLeg_Hint_Transform().position,
+                this.legsConstrainManager.hintRightLegPos,
                 hintRightPos,
                 this.weight )
         );
     }
 
     public void SetAngle(float angle) => this.angle = angle;
+    public void SetSCRP(LegsBlendingConstrainScriptableObject legsBlendingConstrainScriptableObject)
+        => this.legsBlendIKConstrainScriptableObject = legsBlendingConstrainScriptableObject;
 }

@@ -12,21 +12,35 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     [SerializeField] Transform rightLeg_Target_Foot;
     [SerializeField] Transform rightLeg_Hint_Foot;
 
+    public TransfromValue leftLegTransformValue;
+    public Vector3 hintLeftLegPos;
+    public TransfromValue rightLegTransformValue;
+    public Vector3 hintRightLegPos;
+
     public TwoBoneIKConstraint GetLeftLegTwoBoneIKConstrain() => this.leftLegTwoBoneIKConstrain;
     public TwoBoneIKConstraint GetRightLegTwoBoneIKConstrain() => this.rightLegTwoBoneIKConstrain;
 
     private void FixedUpdate()
     {
-        if(this.GetWeight() < .5f)
+        if (this.GetWeight() < .5f)
         {
-            this.leftLeg_Target_Foot.position = this.leftLegTwoBoneIKConstrain.data.tip.transform.position;
-            this.leftLeg_Target_Foot.rotation = this.leftLegTwoBoneIKConstrain.data.tip.transform.rotation;
-            this.leftLeg_Hint_Foot.transform.position = this.leftLegTwoBoneIKConstrain.data.mid.position;
+            this.leftLegTransformValue.position = this.leftLegTwoBoneIKConstrain.data.tip.transform.position;
+            this.leftLegTransformValue.rotationEuler = this.leftLegTwoBoneIKConstrain.data.tip.transform.rotation.eulerAngles;
+            this.hintLeftLegPos = this.leftLegTwoBoneIKConstrain.data.mid.position;
 
-            this.rightLeg_Target_Foot.position = this.rightLegTwoBoneIKConstrain.data.tip.transform.position;
-            this.rightLeg_Target_Foot.rotation = this.rightLegTwoBoneIKConstrain.data.tip.transform.rotation;
-            this.rightLeg_Hint_Foot.position = this.rightLegTwoBoneIKConstrain.data.mid.transform.position;
+            this.rightLegTransformValue.position = this.rightLegTwoBoneIKConstrain.data.tip.transform.position;
+            this.rightLegTransformValue.rotationEuler = this.rightLegTwoBoneIKConstrain.data.tip.transform.rotation.eulerAngles;
+            this.hintRightLegPos = this.rightLegTwoBoneIKConstrain.data.mid.transform.position;
         }
+
+        this.leftLeg_Target_Foot.position = this.leftLegTransformValue.position;
+        this.leftLeg_Target_Foot.rotation = Quaternion.Euler(this.leftLegTransformValue.rotationEuler);
+        this.leftLeg_Hint_Foot.position = this.hintLeftLegPos;
+
+
+        this.rightLeg_Target_Foot.position = this.rightLegTransformValue.position;
+        this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
+        this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
     }
 
     public float GetWeight()
@@ -43,17 +57,17 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public void SetLeftLeg_Target_Foot(Vector3 pos,Quaternion rotation)
     {
         this.SetLeftLeg_Target_Foot(pos);
-        this.leftLeg_Target_Foot.rotation = rotation;
+        this.leftLegTransformValue.rotationEuler = rotation.eulerAngles;
     }
 
     public void SetLeftLeg_Target_Foot(Vector3 pos)
     {
-        this.leftLeg_Target_Foot.position = pos;
+        this.leftLegTransformValue.position = pos;
     }
 
     public void SetLeftLeg_Hint_FootPos(Vector3 pos)
     {
-        this.leftLeg_Hint_Foot.position = pos;
+        this.hintLeftLegPos = pos;
     }
 
     public Transform GetLeftLeg_Target_Transform() => this.leftLeg_Target_Foot;
@@ -62,16 +76,16 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public void SetRightLeg_Target_Foot(Vector3 pos, Quaternion rotation)
     {
         this.SetRightLeg_Target_Foot(pos);
-        this.rightLeg_Target_Foot.rotation = rotation;
+        this.rightLegTransformValue.rotationEuler = rotation.eulerAngles;
     }
     public void SetRightLeg_Target_Foot(Vector3 pos)
     {
-        this.rightLeg_Target_Foot.position = pos;
+        this.rightLegTransformValue.position = pos;
     }
 
     public void SetRightLeg_Hint_FootPos(Vector3 pos)
     {
-        this.rightLeg_Hint_Foot.position = pos;
+        this.hintRightLegPos = pos;
     }
 
     public Transform GetRightLeg_Target_Transform() => this.rightLeg_Target_Foot;

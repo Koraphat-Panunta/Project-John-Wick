@@ -314,9 +314,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ,this.player._hipBone
             ,this.player._hipBone
             ,this.proneLegsBlendingConstrainSCRP
-            ,()=> (this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
-            && dolphinDiveStateNodeLeaf.isPassingJump)
-            || this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+            ,()=>
+            (this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
+            && dolphinDiveStateNodeLeaf.stallTimeCountDown <= 0)
+            ||
+            this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             );
 
         this.legRestConstrainNodeLeaf = new RestNodeLeaf(()=> true);
@@ -324,7 +326,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.legsEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => this.legsConstrainSelector.curNodeLeaf is RestNodeLeaf == false
             , this.legsConstraintManager
-            , 10
+            , 1
             , 1);
 
         this.legsDisableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(

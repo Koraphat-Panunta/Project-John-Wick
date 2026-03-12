@@ -52,4 +52,5 @@ public partial class PlayerConstrainAnimationManager
     public TwoBoneIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
 
     public LegsBlendingConstrainScriptableObject proneLegsBlendingConstrainSCRP;
+    public LegsBlendingConstrainScriptableObject diveStallLegsBlendingConstrainSCRP;
 }

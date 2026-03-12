@@ -10,7 +10,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
     protected Vector3 jumpDir;
 
     protected virtual float stallMinimumTime { get => .5f; }
-    protected float stallTimeCountDown;
+    public float stallTimeCountDown { get; protected set; }
 
     protected PlayerMovement playerMovement => this.player.playerMovement;
     protected virtual float jumpVelocuty { get => 5; }
