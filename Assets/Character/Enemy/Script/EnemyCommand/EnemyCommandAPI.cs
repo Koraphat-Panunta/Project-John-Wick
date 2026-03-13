@@ -14,12 +14,12 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         NormalFiringPattern = new NormalFiringPattern(this);
         enemyCommunicator = new EnemyCommunicator();
-        enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
+        this.enemyAutoDefendCommand = new EnemyAutoDefendCommand(this);
     }
    
     private void Update()
     {
-        enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
+        this.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
     }
 
     public bool MoveToPosition(Vector3 DestinatePos, float velocityScale)
@@ -110,6 +110,8 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
 
         velocityScale = Mathf.Clamp01((float)velocityScale);
         this._enemy.moveInputVelocity_WorldCommand = MoveDirWorld.normalized * velocityScale;
+
+        this.OpenDoor();
     }
     public void FreezRotation()
     {
@@ -149,6 +151,8 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         this._enemy.stanceCommand = Stance.stand;
         _enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;
+
+        this.OpenDoor();
     }
     public void Stand()
     {
@@ -158,7 +162,6 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         this._enemy.stanceCommand = Stance.crouch;
     }
-
     public void AutoDetectSoftCover()
     {
         if(Physics.Raycast(
@@ -174,7 +177,6 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
             this.Stand();
     }
 
-    
     public void LowReady()
     {
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
@@ -244,6 +246,26 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         this._enemy.stanceCommand = Stance.stand;
         _enemy._triggerGunFu = true;
+    }
+    float openDoorBufferTimer;
+    float openDoorBufferTime = 1;
+    public void OpenDoor()
+    {
+
+        if (this.openDoorBufferTimer > 0)
+        {
+            this.openDoorBufferTimer -= Time.deltaTime;
+            return;
+        }
+
+        this.openDoorBufferTimer = this.openDoorBufferTime;
+
+
+        if (this._enemy.FindInteractAble<DoorActor>(this._enemy.moveInputVelocity_WorldCommand.normalized,1,out DoorActor doorActor))
+        {
+
+            doorActor.Open();
+        }    
     }
 
     public LayerMask NotifyAbleMask;

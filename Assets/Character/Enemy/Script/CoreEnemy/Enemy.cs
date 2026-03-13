@@ -10,7 +10,7 @@ public partial class Enemy : SubjectEnemy
     , IPainStateAble
     , IFriendlyFirePreventing
     , ICommunicateAble
-    
+
 {
 
 
