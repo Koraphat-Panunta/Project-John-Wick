@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 {
-    public float anticipateTime = .4f;
+    public float anticipateTime = .3f;
 
-    public override float jumpOutTime => 0;
+    public override float jumpOutTime => anticipateTime + .3f;
 
     protected override float stallMinimumTime => .2f;
 
-    protected override float jumpVerticalVelocuty => base.jumpVerticalVelocuty * 1.5f;
+    protected override float jumpVerticalVelocuty => base.jumpVerticalVelocuty * 1.2f;
 
     public Vector3 alighWallDir;
     protected Vector3 enterPos;
@@ -40,7 +40,7 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         this.playerMovement.isOnUpdateEnable = false;
         this.CalculateJumpOutDir();
         this.phase = WallJumpPhase.Anticipate;
-        this.playerMovement.characterController.PushForceUp(2, 0);
+        this.playerMovement.characterController.PushForceUp(1, .05f);
         this.jumpRotateTimer = 0;
         base.Enter();
     }
@@ -56,7 +56,7 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
         this.enterPos = this.player.transform.position;
 
-        Vector3 castPos = this.player.transform.position + (Vector3.up * 1);
+        Vector3 castPos = this.player.transform.position + (Vector3.up *1);
         Vector3 castDir = (this.playerMovement.curMoveVelocity_World.normalized + this.player.inputMoveDir_World.normalized).normalized;
 
         if (Physics.Raycast(castPos, castDir, out RaycastHit hit, 3, obstacleLayer, QueryTriggerInteraction.Ignore))
@@ -80,10 +80,9 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
         return false;
     }
-   
-    public override void UpdateNode()
+    public override void FixedUpdateNode()
     {
-        this.timer += Time.deltaTime;
+        this.timer += Time.fixedDeltaTime;
 
         if (this.phase == WallJumpPhase.Anticipate)
         {
@@ -109,16 +108,36 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             this.UpdateJumpOut();
             this.UpdateStall();
 
-            if (this.stallTimeCountDown <= 0)
+            if (this.isPassingJump)
             {
                 if (this.jumpRotateTimer < this.jumpRotateDuration)
-                    this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
+                    this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.fixedDeltaTime, 0, this.jumpRotateDuration);
 
                 this.playerMovement.SetRotation(Quaternion.LookRotation(Vector3.Lerp(this.alighWallDir, this.player.cinemachineCamera.targetDir, this.jumpRotateTimer / this.jumpRotateDuration)));
             }
 
 
         }
+
+    }
+
+    protected override void UpdateJumpOut()
+    {
+        Vector3 deltaPos = this.playerMovement.curPosition - this.player._leftFootBone.position; 
+
+        if(this.isJumpLeft == false) 
+            deltaPos = this.playerMovement.curPosition - this.player._rightFootBone.position;
+
+        if(this.isPassingJump == false)
+        {
+            this.playerMovement.SetPosition(Vector3.Lerp(this.playerMovement.curPosition, this.wallPos + deltaPos,Time.fixedDeltaTime * 10f));
+        }
+        base.UpdateJumpOut();
+    }
+
+    public override void UpdateNode()
+    {
+       
 
     }
     protected override void CalculateJumpOutDir()

@@ -1546,20 +1546,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e068183b72afc048a9a580515f15b2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
+  enableGravity: 1
   isEnableGravity: 1
-  maxSlopeAngle: 45
   groundState: 0
   groundNormal: {x: 0, y: 0, z: 0}
   isGrounded: 0
   velocityPhysicBased: {x: 0, y: 0, z: 0}
-  capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
-  raduis: 0.5
-  height: 2
+  maxSlopeAngle: 45
+  characterMovementControllerScriptableObject: {fileID: 11400000, guid: c274f49a28fabb246b5aa5d8a0597ecb,
+    type: 2}
   layerMask:
     serializedVersion: 2
     m_Bits: 1
   position: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
   curVelocity: {x: 0, y: 0, z: 0}
+  isUpdateGround: 1
   isEnableGizmos: 0
 --- !u!1 &6537584221499319941
 GameObject:

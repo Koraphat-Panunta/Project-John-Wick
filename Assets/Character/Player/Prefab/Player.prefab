@@ -943,20 +943,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
   enableGravity: 1
   isEnableGravity: 1
-  maxSlopeAngle: 45
   groundState: 0
   groundNormal: {x: 0, y: 0, z: 0}
   isGrounded: 0
   velocityPhysicBased: {x: 0, y: 0, z: 0}
-  capsuleColliderCenterOffset: {x: 0, y: 1, z: 0}
-  raduis: 0.5
-  height: 2
+  maxSlopeAngle: 45
+  characterMovementControllerScriptableObject: {fileID: 11400000, guid: c274f49a28fabb246b5aa5d8a0597ecb,
+    type: 2}
+  capsuleCollider: {fileID: 1108506250238677415}
+  enableDynamicCollider: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 1
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
   curVelocity: {x: 0, y: 0, z: 0}
+  isUpdateGround: 1
   isEnableGizmos: 0
 --- !u!114 &9030984288096570306
 MonoBehaviour:

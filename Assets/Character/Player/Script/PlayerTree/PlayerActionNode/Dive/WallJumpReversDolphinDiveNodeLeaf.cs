@@ -10,7 +10,7 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
     protected override float stallMinimumTime => .2f;
 
-    protected override float jumpVerticalVelocuty => base.jumpVerticalVelocuty * 1.5f;
+    protected override float jumpVerticalVelocuty => base.jumpVerticalVelocuty * 1.2f;
 
     protected Vector3 enterPos;
     protected Vector3 wallPos;
@@ -73,10 +73,10 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
         return false;
     }
-  
-    public override void UpdateNode()
+
+    public override void FixedUpdateNode()
     {
-        this.timer += Time.deltaTime;
+        this.timer += Time.fixedDeltaTime;
 
         if (this.phase == WallJumpPhase.Anticipate)
         {
@@ -105,13 +105,19 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             if (this.stallTimeCountDown <= 0)
             {
                 if (this.jumpRotateTimer < this.jumpRotateDuration)
-                    this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.deltaTime, 0, this.jumpRotateDuration);
+                    this.jumpRotateTimer = Mathf.Clamp(this.jumpRotateTimer + Time.fixedDeltaTime, 0, this.jumpRotateDuration);
 
                 this.playerMovement.SetRotation(Quaternion.LookRotation(Vector3.Lerp(this.jumpDir * -1, this.player.cinemachineCamera.targetDir, this.jumpRotateTimer / this.jumpRotateDuration)));
             }
 
 
         }
+
+        base.FixedUpdateNode();
+    }
+    public override void UpdateNode()
+    {
+
 
     }
     protected override void CalculateJumpOutDir()

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95834ff27908f3f479be31c2f3e59326, type: 3}
   m_Name: ProneLegsIKConstrainScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::LegsBlendingConstrainScriptableObject
-  leftLegPositionOffset: {x: -0.28128806, y: -0.6625761, z: -0.17516139}
-  leftLegRotationEulerOffset: {x: 162.55513, y: 180, z: -14.515834}
-  leftLegHintPositionOffset: {x: 0, y: 0.14515834, z: 0.35484168}
-  rightLegPositionOffset: {x: 0.10580084, y: -0.8174178, z: -0.17096834}
-  rightLegRotationEulerOffset: {x: 197.45128, y: 203.12302, z: 14.515834}
-  rightLegHintPositionOffset: {x: 0, y: 0.14515834, z: 0.35484168}
+  leftLegPositionOffset: {x: -0.1957883, y: -0.49157658, z: -0.17887877}
+  leftLegRotationEulerOffset: {x: 124.782814, y: 180, z: -3.36369}
+  leftLegHintPositionOffset: {x: 0, y: 0.0336369, z: 0.4663631}
+  rightLegPositionOffset: {x: -0.10608989, y: -0.7579397, z: -0.19327262}
+  rightLegRotationEulerOffset: {x: 184.81218, y: 219.77689, z: 3.36369}
+  rightLegHintPositionOffset: {x: 0, y: 0.0336369, z: 0.4663631}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalHandAimDeg: 0
   maxVerticalHandAimDeg: 0
@@ -28,11 +28,11 @@ MonoBehaviour:
     scrp: {fileID: 11400000, guid: 83952a943dad8734d9fb41b44c617c07, type: 2}
   - weight: 90
     scrp: {fileID: 11400000, guid: 928b3712745ad964ca73a555a9d141d1, type: 2}
-  - weight: 135
+  - weight: 160
     scrp: {fileID: 11400000, guid: 199a44f16b7b69c45a0115f89c3b24f9, type: 2}
   - weight: 180
     scrp: {fileID: 11400000, guid: 199a44f16b7b69c45a0115f89c3b24f9, type: 2}
-  - weight: 225
+  - weight: 200
     scrp: {fileID: 11400000, guid: 199a44f16b7b69c45a0115f89c3b24f9, type: 2}
   - weight: 270
     scrp: {fileID: 11400000, guid: 237ab50b8f74a8a49a8004fa92a9a4cb, type: 2}

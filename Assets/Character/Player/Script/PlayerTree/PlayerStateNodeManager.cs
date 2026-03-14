@@ -50,6 +50,7 @@ public class PlayerStateNodeManager :
     public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
     public NodeSelector dolphinDiveSelector { get; private set; }
+    public ObstacleJumpDolphinDiveNodeLeaf obstacleJumpDolphinDiveNodeLeaf { get; private set; }
     public WallJumpReversDolphinDiveNodeLeaf wallJumpReversDolphinDiveNodeLeaf { get; private set; }
     public WallJumpForwardDolphinDiveNodeLeaf wallJumpForwardDolphinDiveNodeLeaf { get; private set; }
     public PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf { get; private set; }
@@ -142,6 +143,11 @@ public class PlayerStateNodeManager :
 
         this.dolphinDiveSelector = new NodeSelector(
             () => this.player.triggerDodgeRoll);
+
+        this.obstacleJumpDolphinDiveNodeLeaf = new ObstacleJumpDolphinDiveNodeLeaf(this.player
+            , () => true
+            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
+
         this.wallJumpReversDolphinDiveNodeLeaf = new WallJumpReversDolphinDiveNodeLeaf(this.player
             ,()=> true
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
@@ -446,6 +452,7 @@ public class PlayerStateNodeManager :
 
         this.playerSprintNode.AddTransitionNode(this.dolphinDiveSelector);
 
+        this.dolphinDiveSelector.AddtoChildNode(this.obstacleJumpDolphinDiveNodeLeaf);
         this.dolphinDiveSelector.AddtoChildNode(this.wallJumpReversDolphinDiveNodeLeaf);
         this.dolphinDiveSelector.AddtoChildNode(this.wallJumpForwardDolphinDiveNodeLeaf);
         this.dolphinDiveSelector.AddtoChildNode(this.playerDolphinDiveStateNodeLeaf);

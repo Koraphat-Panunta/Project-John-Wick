@@ -130,23 +130,36 @@ public class PlayerMovement : MovementCompoent
             characterController.isEnableGravity = true;
 
         if( player.playerStateNodeManager != null 
-            && (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf)
+            &&( (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf))
         {
             this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
             return;
         }
+
+        //if(player.playerStateNodeManager != null
+        //    && (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is ObstacleJumpDolphinDiveNodeLeaf obstacleJumpDolphinDiveNodeLeaf
+        //    && obstacleJumpDolphinDiveNodeLeaf.phase == ObstacleJumpDolphinDiveNodeLeaf.WallJumpPhase.Anticipate)
+        //{
+        //    this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
+        //    return;
+        //}
+        
+
         switch (player.stance)
         {
             case Stance.stand: 
                 {
                     this.characterController.SetCharacterControllerAttribute(this.standCharControllerSCRP);
+                    break;
                 }
-                break;
+
             case Stance.crouch:
                 {
                     this.characterController.SetCharacterControllerAttribute(this.crouchCharControllerSCRP);
+                    break;
                 }
-                break;
+            
+                
         }
         
     }

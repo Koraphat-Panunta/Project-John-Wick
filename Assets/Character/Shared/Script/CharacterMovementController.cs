@@ -17,7 +17,7 @@ public class CharacterMovementController : MonoBehaviour
     public bool isEnableGravity = true;
     private float gravityScale = 1;
     public float gravity => 9.81f * this.gravityScale;
-    public float maxSlopeAngle = 45f;
+
 
     //[Header("Step")]
     //public float stepHeight = 0.35f;
@@ -32,10 +32,26 @@ public class CharacterMovementController : MonoBehaviour
 
     public static readonly float reach;
 
-    public Vector3 capsuleColliderCenterOffset;
+    public float maxSlopeAngle = 45f;
+
+    [SerializeField] protected CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject;
+    [SerializeField] CapsuleCollider capsuleCollider;
+    public bool enableDynamicCollider;
+    public Vector3 capsuleColliderCenterOffset { get => this.enableDynamicCollider
+            ?this.capsuleCollider.center
+            :this.characterMovementControllerScriptableObject.centerOffsetPosition; 
+    }
+    public float raduis { get => this.enableDynamicCollider
+            ?this.capsuleCollider.radius
+            :this.characterMovementControllerScriptableObject.raduis; 
+    }
+    public float height { get => this.enableDynamicCollider
+            ?this.capsuleCollider.height
+            : this.characterMovementControllerScriptableObject.height; 
+    }
+
     public Vector3 capsuleColliderCenterPosition => this.position + this.capsuleColliderCenterOffset;
-    public float raduis;
-    public float height;
+
     float halfHeight => Mathf.Max(0, height / 2f - raduis);
 
     public LayerMask layerMask;
@@ -111,6 +127,8 @@ public class CharacterMovementController : MonoBehaviour
 
     public void Move(Vector3 motion)
     {
+
+      
         float castDistance = (height / 2) + raduis + (Mathf.Sin(maxSlopeAngle * Mathf.Deg2Rad) * raduis) + .02f;
         Vector3 castPos = startCast + (motion.normalized * raduis);
         Vector3 remainingMotion = Vector3.ProjectOnPlane(motion, groundNormal);
@@ -140,10 +158,8 @@ public class CharacterMovementController : MonoBehaviour
 
     public void SetCharacterControllerAttribute(CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject)
     {
-        this.capsuleColliderCenterOffset = characterMovementControllerScriptableObject.centerOffsetPosition;
+        this.characterMovementControllerScriptableObject = characterMovementControllerScriptableObject;
         this.maxSlopeAngle = characterMovementControllerScriptableObject.slopeAngle;
-        this.height = characterMovementControllerScriptableObject.height;
-        this.raduis = characterMovementControllerScriptableObject.raduis;
 
     }
     private void Awake()
@@ -214,9 +230,12 @@ public class CharacterMovementController : MonoBehaviour
     Vector3 startCast => capsuleColliderCenterPosition + (Vector3.up * raduis);
     float castDistance => (height/2) + 0.05f;
 
-    
+    [SerializeField] protected bool isUpdateGround = true;
+    public void SetGroundUpdate(bool value) => this.isUpdateGround = value;
     private void UpdateGroundState()
     {
+        if(this.isUpdateGround == false)
+            return;
 
         if(Physics.SphereCast(this.startCast,raduis,Vector3.down,out RaycastHit hit, this.castDistance, this.layerMask, QueryTriggerInteraction.Ignore))
         {
@@ -259,6 +278,8 @@ public class CharacterMovementController : MonoBehaviour
             groundNormal = Vector3.zero;
         }
     }
+    public void SetVelocityPhysicBased(Vector3 v) => this.velocityPhysicBased = v;
+   
     private void UpdateGravity()
     {
         if (this.isGrounded == true 

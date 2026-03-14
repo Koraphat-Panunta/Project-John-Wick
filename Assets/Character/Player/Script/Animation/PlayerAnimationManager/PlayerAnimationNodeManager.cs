@@ -49,6 +49,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
 
     public NodeSelector proneStateNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf obstacleJumpAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf wallJumpReversDolphinDiveAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf wallJumpForwardLeftDolphinDiveAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf wallJumpForwardRightDolphinDiveAnimationNodeLeaf { get; set; }
@@ -128,6 +129,14 @@ public partial class PlayerAnimationManager
         this.proneStateNodeSelector = new NodeSelector(
             ()=> this.player.stance == Stance.prone);
 
+        this.obstacleJumpAnimationNodeLeaf = new PlayAnimationNodeLeaf
+            (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<ObstacleJumpDolphinDiveNodeLeaf>
+            (out ObstacleJumpDolphinDiveNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.timer
+            < this.player.playerStateNodeManager.obstacleJumpDolphinDiveNodeLeaf.anticipateTime + .2f
+            , this.animator, "ObstacleJump", 0, .2f, 
+            0
+            );
+
         this.wallJumpReversDolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpReversDolphinDiveNodeLeaf>
             (out WallJumpReversDolphinDiveNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.timer 
@@ -139,17 +148,17 @@ public partial class PlayerAnimationManager
         this.wallJumpForwardLeftDolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpForwardDolphinDiveNodeLeaf>
             (out WallJumpForwardDolphinDiveNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.timer
-            < this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.anticipateTime + .2f && playerDolphinDiveStateNodeLeaf.isJumpLeft
+            < this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.jumpOutTime && playerDolphinDiveStateNodeLeaf.isJumpLeft
             , this.animator, "WallForwardLeft", 0, .25f, this.basedAnimationPoseTimeNormalzied,
-            this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.anticipateTime + .2f
+            this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.jumpOutTime
             , false);
 
         this.wallJumpForwardRightDolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpForwardDolphinDiveNodeLeaf>
             (out WallJumpForwardDolphinDiveNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.timer
-            < this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.anticipateTime + .2f 
+            < this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.jumpOutTime
             , this.animator, "WallForwardRight", 0, .25f, this.basedAnimationPoseTimeNormalzied,
-            this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.anticipateTime + .2f
+            this.player.playerStateNodeManager.wallJumpForwardDolphinDiveNodeLeaf.jumpOutTime
             , false);
 
         this.dolphinDiveAnimationNodeLeaf = new PlayAnimationNodeLeaf
@@ -292,6 +301,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
 
+                this.proneStateNodeSelector.AddtoChildNode(this.obstacleJumpAnimationNodeLeaf);
                 this.proneStateNodeSelector.AddtoChildNode(this.wallJumpReversDolphinDiveAnimationNodeLeaf);
                 this.proneStateNodeSelector.AddtoChildNode(this.wallJumpForwardLeftDolphinDiveAnimationNodeLeaf);
                 this.proneStateNodeSelector.AddtoChildNode(this.wallJumpForwardRightDolphinDiveAnimationNodeLeaf);
