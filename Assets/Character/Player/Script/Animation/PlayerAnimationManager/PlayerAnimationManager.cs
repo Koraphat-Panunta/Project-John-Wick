@@ -141,7 +141,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
 
 
-        Debug.Log("angleLookHorizontal = " + angleLookHorizontal);
+        //Debug.Log("angleLookHorizontal = " + angleLookHorizontal);
 
         Debug.DrawRay(this.player.transform.position, lookDir, Color.red);
 

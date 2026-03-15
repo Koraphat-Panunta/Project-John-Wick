@@ -85,6 +85,7 @@ public class CharacterMovementController : MonoBehaviour
             float distance = remainingMotion.magnitude + skinWidth;
 
             //Debug.DrawRay(capsuleBottom, direction * distance,Color.red);
+    
 
             bool hit = Physics.CapsuleCast(
                 this.topPoint,
@@ -93,7 +94,7 @@ public class CharacterMovementController : MonoBehaviour
                 direction,
                 out RaycastHit hitInfo,
                 distance,
-                layerMask,
+                this.layerMask,
                 QueryTriggerInteraction.Ignore
             );
 

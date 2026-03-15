@@ -60,10 +60,9 @@ public abstract class Bullet:
         Vector3 clampedDir = (rot * fwd).normalized;
 
         int DefaultMask = LayerMask.GetMask("Default");
-        int BodyPartMask = LayerMask.GetMask("Enemy");
-        int PlayerHitMask = LayerMask.GetMask("Player");
+        int BodyPartMask = LayerMask.GetMask("BodyPart");
         int GroundHitMask = LayerMask.GetMask("Ground");
-        hitLayer = DefaultMask | BodyPartMask | PlayerHitMask | GroundHitMask;
+        hitLayer = DefaultMask | BodyPartMask  | GroundHitMask;
 
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
 

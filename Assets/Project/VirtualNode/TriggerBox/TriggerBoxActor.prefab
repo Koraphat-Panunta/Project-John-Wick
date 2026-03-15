@@ -46,7 +46,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524416
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -68,4 +68,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnableGizmos: 1
   color: {r: 1, g: 0.4627451, b: 0, a: 0.2}
+  drawNameDistance: 10
   boxCollider: {fileID: 1004739480980816583}
