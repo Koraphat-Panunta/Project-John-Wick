@@ -134,9 +134,9 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
                     this.distance = Vector3.Distance(hit.point, castPos);
                     castFindTargetWeightBeginPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
                     castFindTargetWeightEndPos += (castDir.normalized * (Vector3.Distance(castPos, hit.point) + 0.05f));
-                    Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
-                    Debug.DrawRay(castFindTargetWeightEndPos, castPosDir, Color.green, 0.1f);
-                    Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
+                    //Debug.DrawLine(castPos, hit.point, Color.red, 0.1f);
+                    //Debug.DrawRay(castFindTargetWeightEndPos, castPosDir, Color.green, 0.1f);
+                    //Debug.DrawLine(castFindTargetWeightBeginPos, castFindTargetWeightEndPos, Color.blue, 0.1f);
 
                     if (Vector3.Distance(hit.point, weaponAdvanceUser._pointingPos) < .15f
                         || Vector3.Distance(castPos, hit.point) > Vector3.Distance(castPos, weaponAdvanceUser._pointingPos))

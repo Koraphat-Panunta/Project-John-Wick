@@ -143,7 +143,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
         //Debug.Log("angleLookHorizontal = " + angleLookHorizontal);
 
-        Debug.DrawRay(this.player.transform.position, lookDir, Color.red);
+        //Debug.DrawRay(this.player.transform.position, lookDir, Color.red);
 
 
         //if (Vector3.Dot(upDir, lookDir) <= -.99f)

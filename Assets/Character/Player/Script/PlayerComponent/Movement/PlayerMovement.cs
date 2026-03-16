@@ -28,7 +28,8 @@ public class PlayerMovement : MovementCompoent
     public override Vector3 curPosition => this.characterController.position;
     public override Quaternion curRotation => this.characterController.rotation;
 
-
+    protected LayerMask characterControllerlayerMask { get; set; }
+    protected LayerMask exepCharacterLayerMask { get; set; }
 
     public PlayerMovement(
         Player player
@@ -42,6 +43,8 @@ public class PlayerMovement : MovementCompoent
         this.player = player;
         this.player.AddObserver(this);
         this.characterController = characterController;
+        this.characterControllerlayerMask = this.characterController.layerMask;
+        this.exepCharacterLayerMask = this.characterControllerlayerMask & (1 << LayerMask.GetMask("Enemy"));
         motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
         this.standCharControllerSCRP = standCharControllerSCRP;
         this.crouchCharControllerSCRP = crouchCharControllerSCRP;
@@ -119,10 +122,19 @@ public class PlayerMovement : MovementCompoent
     {
        characterController.Move(position);
     }
-
     public void OnNotify<T>(Player player, T node)
     {
-        if(this.isOnUpdateEnable == false)
+        if (this.player.stateNodeManager != null 
+            && this.player.stateNodeManager.TryGetCurNodeLeaf<IGunFuNode>())
+        {
+            this.characterController.layerMask = this.exepCharacterLayerMask;
+        }
+        else
+        {
+            this.characterController.layerMask = this.characterControllerlayerMask;
+        }
+
+        if (this.isOnUpdateEnable == false)
         {
             characterController.isEnableGravity = false;
         }

@@ -88,7 +88,7 @@ public class HeadRotationConstraintManager : MonoBehaviour, IConstraintManager
         Quaternion rotate = Quaternion.LookRotation(dir.normalized, this.headAnchor.up);
         this.headRotationRef.rotation = rotate;
 
-        Debug.DrawRay(this.multiRotationConstraint.data.constrainedObject.position, this.multiRotationConstraint.data.constrainedObject.forward,Color.blue);
+        //Debug.DrawRay(this.multiRotationConstraint.data.constrainedObject.position, this.multiRotationConstraint.data.constrainedObject.forward,Color.blue);
     }
 
 

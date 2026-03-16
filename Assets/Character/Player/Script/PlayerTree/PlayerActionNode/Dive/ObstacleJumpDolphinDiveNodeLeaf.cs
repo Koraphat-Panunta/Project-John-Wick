@@ -67,7 +67,7 @@ public class ObstacleJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             return false;
         
 
-        Debug.DrawRay(castPos, castDir * castDistance, Color.red, 5);
+        //Debug.DrawRay(castPos, castDir * castDistance, Color.red, 5);
 
         if (EdgeObstacleDetection.GetEdgeObstaclePos(IParkourNodeLeaf.sphereRaduis
             ,castDistance + IParkourNodeLeaf.sphereDistanceDifferenc

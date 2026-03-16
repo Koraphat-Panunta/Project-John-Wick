@@ -107,7 +107,7 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode
             else
                 this.rotateDir = (characterHitedEventDetail.hitPos - new Vector3(this.enemy._root.position.x, characterHitedEventDetail.hitPos.y, this.enemy._root.position.z)).normalized ;
             rotatePower = .5f * Vector3.Dot(enemy.transform.forward * -1,rotateDir);
-            Debug.DrawRay(enemy.transform.position, this.rotateDir, Color.blue, 2);
+            //Debug.DrawRay(enemy.transform.position, this.rotateDir, Color.blue, 2);
 
             this.moveDirWorldRandom = Quaternion.Euler(0, UnityEngine.Random.Range(-60, 60), 0) * characterHitedEventDetail.hitDir ;
             this.moveSpeed = UnityEngine.Random.Range(1, 2f);

@@ -24,6 +24,8 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     [SerializeField, TextArea(10,10)]
     private string gunFuDetectTargetDebug;
 
+    public LayerMask _layerTarget;
+
     public void Initialized()
     {
         this.gunFuAble = GetComponent<IGunFuAble>();
@@ -33,7 +35,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
         gunFuGotExecuteAble = null;
         Vector3 castDir = CastDir();
         Ray ray = new Ray(_castTransform.position, castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + gunFuAble._layerTarget);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget);
         foreach (RaycastHit hit in collider)
         {
             if (hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
@@ -53,7 +55,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 
 
             Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
-            if (Physics.Raycast(ray1, out RaycastHit hitInfo, 100, 0 + gunFuAble._layerTarget))
+            if (Physics.Raycast(ray1, out RaycastHit hitInfo, 100, 0 + this._layerTarget))
             {
                 if (hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
                 {
@@ -89,7 +91,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
         
         Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask);
 
-        gunFuDetectTargetDebug += "layerTarget = " + gunFuAble._layerTarget + "\n";
+        gunFuDetectTargetDebug += "layerTarget = " + this._layerTarget + "\n";
 
         curPositionVolume = positionVolume;
         curRaduis = raduis;
@@ -129,13 +131,13 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     }// Called form gunFuAble
     public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target, Vector3 positionVolume, float raduis)
     {
-        return CastDetectTargetInVolume(out target,positionVolume,raduis,gunFuAble._layerTarget);
+        return CastDetectTargetInVolume(out target,positionVolume,raduis,this._layerTarget);
     }// Called form gunFuAble
     private bool CastDetect(out IGotGunFuAttackedAble target, Vector3 castDir)
     {
         target = null;
         Ray ray = new Ray(_castTransform.position,castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + gunFuAble._layerTarget);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget);
         foreach(RaycastHit hit in collider)
         {
             if(hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
@@ -153,7 +155,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 
 
             Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
-            if (Physics.Raycast(ray1,out RaycastHit hitInfo,100, 0 + gunFuAble._layerTarget))
+            if (Physics.Raycast(ray1,out RaycastHit hitInfo,100, 0 + this._layerTarget))
             {
                 if(hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
                 {
@@ -184,6 +186,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
                 casrDir = Quaternion.Euler(0, LimitAimAngleDegrees, 0) * gunFuAble._character.transform.forward;
 
         }
+
 
         return casrDir;
     }

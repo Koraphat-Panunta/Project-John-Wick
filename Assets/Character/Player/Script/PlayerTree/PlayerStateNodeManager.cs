@@ -327,7 +327,9 @@ public class PlayerStateNodeManager :
             );
 
         this.triggerHitGunFuSelector = new NodeSelector(
-            () => (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+            () =>this.player.attackedAbleGunFu != null
+            && this.player.attackedAbleGunFu._character.isDead == false
+            && (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain));
         this.hitDownNodeLeaf = new GunFuHitDownNodeLeaf(this.player,this.player.gunFuHitDownScriptableObject,this.player.hit1
             ,() =>  this.player.attackedAbleGunFu != null

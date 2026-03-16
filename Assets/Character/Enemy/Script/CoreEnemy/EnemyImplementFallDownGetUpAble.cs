@@ -20,11 +20,19 @@ public partial class Enemy: IRagdollAble
 
     public bool _isFallDown { get 
         {
-            if(stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
-                return true;
-            if(stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
-                && getUpNodeLeaf.isStandingComplete == false)
-                return true;
+            try
+            {
+
+                if (stateManagerNode.TryGetCurNodeLeaf<FallDown_EnemyState_NodeLeaf>())
+                    return true;
+                if (stateManagerNode.TryGetCurNodeLeaf<GetUpStateNodeLeaf>(out GetUpStateNodeLeaf getUpNodeLeaf)
+                    && getUpNodeLeaf.isStandingComplete == false)
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
 
             return false;
         } 

@@ -7,9 +7,15 @@ public partial class Player : IGunFuAble
     public bool _triggerExecuteGunFu { get; set; }
     public float triggerGunFuBufferTime { get; set; }
     public IWeaponAdvanceUser _weaponUser { get; set; }
-    public Vector3 _gunFuAimDir { get; set; }
+    public Vector3 _gunFuAimDir { get 
+        {
+            if (this.inputMoveDir_World.magnitude <= 0)
+                return this.transform.forward;
+
+            return new Vector3(this.inputMoveDir_World.x, 0, this.inputMoveDir_World.z).normalized;
+        } set { } }
     public Transform _gunFuUserTransform { get; set; }
-    public LayerMask _layerTarget { get; set; }
+
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
 
@@ -64,8 +70,6 @@ public partial class Player : IGunFuAble
 
         _weaponUser = this;
         _gunFuUserTransform = RayCastPos;
-        _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(0));
-        _layerTarget += LayerMask.GetMask(LayerMask.LayerToName(7));
 
         _targetAdjustTranform = targetAdjustTranform;
         triggerGunFuBufferTime = 1;

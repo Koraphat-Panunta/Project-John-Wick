@@ -73,7 +73,7 @@ public class FieldOfView
 
 
         
-            Debug.DrawRay(origin, toTarget * 30 , Color.red);
+            //Debug.DrawRay(origin, toTarget * 30 , Color.red);
             if (Physics.Raycast(origin, toTarget, out RaycastHit hit, distance, collideLayerMask.value | targetMask.value))
             {
              

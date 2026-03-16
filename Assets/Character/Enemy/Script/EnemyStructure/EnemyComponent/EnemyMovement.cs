@@ -2,7 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovementSnaping
+public class EnemyMovement : MovementCompoent
+    , IMotionImplusePushAble
+    , IMovementSnaping
+    ,IObserverEnemy
 {
    
     public Enemy enemy { get; set; }
@@ -14,6 +17,7 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
     public EnemyMovement(Enemy enemy,Transform transform, MonoBehaviour myMovement, CharacterMovementController characterController) : base(transform, myMovement)
     {
         this.enemy = enemy;
+        this.enemy.AddObserver(this);
         this.characterController = characterController;
     }
 
@@ -76,5 +80,13 @@ public class EnemyMovement : MovementCompoent, IMotionImplusePushAble, IMovement
             motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
 
         motionImplusePushAbleBehavior.AddChangeVelocity(this, force, pushMode,velocityChangeDuration);
+    }
+
+    public void OnNotify<T>(Enemy enemy, T node)
+    {
+        //if (this.enemy._isFallDown)
+        //    this.characterController.SetCharacterCapsuleCollider(false);
+        //else
+        //    this.characterController.SetCharacterCapsuleCollider(true);
     }
 }

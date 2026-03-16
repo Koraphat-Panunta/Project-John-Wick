@@ -70,7 +70,7 @@ public static class EdgeObstacleDetection
                 {
                     Vector3 desStartDir = (destinatePos - startPos).normalized;
                     Vector3 secondCastCheck = sphereCast[i] + (desStartDir * sphereRadius * 2) + (castDir.normalized * sphereRadius);
-                    Debug.DrawRay(secondCastCheck, desStartDir * -1, Color.red);
+                    //Debug.DrawRay(secondCastCheck, desStartDir * -1, Color.red);
                     if (Physics.SphereCast(secondCastCheck,sphereRadius, desStartDir * -1, out RaycastHit hit, sphereRadius * 2.5f, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore))
                         edgePos = hit.point;
                     else

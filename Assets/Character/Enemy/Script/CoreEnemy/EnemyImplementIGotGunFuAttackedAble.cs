@@ -76,7 +76,7 @@ public partial class Enemy : IGotGunFuAttackedAble
             Vector3 hitDir = (this.transform.position - gunFuAblePos).normalized;
             hitDir = Quaternion.LookRotation(hitDir, Vector3.up) * Quaternion.Euler(gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitDirPoseAnimOffset) * Vector3.forward;
 
-            Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
+            //Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
 
             CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
             {

@@ -126,6 +126,11 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    private void CharacterCollideCheck()//Check CharacterCollideEachOther
+    {
+        
+    }
+
     public void Move(Vector3 motion)
     {
 
@@ -156,12 +161,15 @@ public class CharacterMovementController : MonoBehaviour
     {
         this.rotation = Quaternion.Euler(0, quaternion.eulerAngles.y, 0);
     }
-
     public void SetCharacterControllerAttribute(CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject)
     {
         this.characterMovementControllerScriptableObject = characterMovementControllerScriptableObject;
         this.maxSlopeAngle = characterMovementControllerScriptableObject.slopeAngle;
 
+    }
+    public void SetCharacterCapsuleCollider(bool value)
+    {
+        this.capsuleCollider.enabled = value;
     }
     private void Awake()
     {

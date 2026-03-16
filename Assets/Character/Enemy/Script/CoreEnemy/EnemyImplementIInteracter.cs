@@ -14,7 +14,7 @@ public partial class Enemy : I_Interacter
     {
         i_Interactable = (default);
 
-        Debug.DrawRay(this._hipBone.position, findDir * distance,Color.blue,2);
+        //Debug.DrawRay(this._hipBone.position, findDir * distance,Color.blue,2);
 
         if(Physics.Raycast(this._hipBone.position
             , findDir

@@ -88,13 +88,13 @@ public class ArmPrceduralPainStateConstraintNodeLeaf : ArmIKConstraintNodeLeaf
             + ((this.painLookAtPos - this.anchorRootPosition).normalized * Mathf.Clamp(Vector3.Distance(painLookAtPos, anchorRootPosition),0,.45f) );
         this.handArmIKConstraintManager.SetTargetHand(targetHandPosition,base.handArmIKConstraintManager.twoBoneIKConstraint.data.mid.rotation);
 
-        Debug.DrawRay(this.painLookAtPos, this.curVelocity,Color.red);
-        Debug.DrawLine(this.anchorRootPosition, targetHandPosition, Color.blue);
+        //Debug.DrawRay(this.painLookAtPos, this.curVelocity,Color.red);
+        //Debug.DrawLine(this.anchorRootPosition, targetHandPosition, Color.blue);
     }
     public void TriggerForcePush(Vector3 forcePushDir,float force)
     {
         this.curVelocity = forcePushDir.normalized * force;
-        Debug.DrawRay(painLookAtPos, this.curVelocity,Color.red,2);
+        //Debug.DrawRay(painLookAtPos, this.curVelocity,Color.red,2);
     }
     public void TriggerForcePull(Vector3 pullPosition, float force)
     {

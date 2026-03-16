@@ -9,7 +9,6 @@ public interface IGunFuAble
     public Transform _targetAdjustTranform { get; set; }
     public Vector3 _gunFuAimDir { get; set; }
     public GunFuDetectTarget _gunFuDetectTarget { get; set; }
-    public LayerMask _layerTarget { get; set; }
     public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
     public IGotGunFuAttackedAble executedAbleGunFu { get; set; }
     public IGunFuNode curGunFuNode { get; set; }
