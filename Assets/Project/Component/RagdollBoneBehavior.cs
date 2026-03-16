@@ -3,19 +3,23 @@ using UnityEngine.Animations.Rigging;
 
 public static class RagdollBoneBehavior 
 {
-    public static void AlignPositionToHips(Transform root, Transform hipsBone, Transform enemyTransform, BoneTransform hipsAnimStartTransform)
+    public static void AlignPositionToHips(Transform root, Transform hipsBone, Transform enemyTransform,MovementCompoent movementCompoent, BoneTransform hipsAnimStartTransform)
     {
         Vector3 originalHipsPosition = hipsBone.position;
         Vector3 originalPos = enemyTransform.position;
         //Vector3 hipOffset = enemyTransform.position - root.position;
-        enemyTransform.position = hipsBone.position;
 
-        Vector3 positionOffset = hipsAnimStartTransform.Position;
-        positionOffset.y = 0;
-        positionOffset = enemyTransform.rotation * positionOffset;
+        Vector3 targetPos = hipsBone.position;
 
-        enemyTransform.position -= positionOffset;
-        enemyTransform.position = new Vector3(enemyTransform.position.x, originalPos.y, enemyTransform.position.z);
+        //Vector3 positionOffset = hipsAnimStartTransform.Position;
+        //positionOffset.y = 0;
+        //positionOffset = enemyTransform.rotation * positionOffset;
+
+        //targetPos -= positionOffset;
+        targetPos = new Vector3(targetPos.x, originalPos.y, targetPos.z);
+
+        movementCompoent.SetPosition(targetPos);
+        movementCompoent.ForceUpdateTransform();
        
         hipsBone.position = originalHipsPosition;
     }

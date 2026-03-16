@@ -129,8 +129,8 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
                 }
             case ExecutedPhase.PoppulateStartBoneTransform:
                 {
-                    RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
-                    RagdollBoneBehavior.AlignPositionToHips(enemy._root, _hipsBone, enemy.transform, _startAnimBoneTransforms[0]);
+                    RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
+                    RagdollBoneBehavior.AlignPositionToHips(enemy._root,this.enemy.transform, _hipsBone,this.enemy._movementCompoent, _startAnimBoneTransforms[0]);
                     RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
                     executedPhase = ExecutedPhase.ResetingBone;
                     break;

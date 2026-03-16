@@ -84,9 +84,16 @@ public class EnemyMovement : MovementCompoent
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
-        //if (this.enemy._isFallDown)
-        //    this.characterController.SetCharacterCapsuleCollider(false);
-        //else
-        //    this.characterController.SetCharacterCapsuleCollider(true);
+        if (this.enemy._isFallDown
+            || this.enemy.isDead)
+            this.characterController.GetCharacterCapsuleCollider().isTrigger = true;
+        else
+            this.characterController.GetCharacterCapsuleCollider().isTrigger = false;
+    }
+
+    public override void ForceUpdateTransform()
+    {
+        this.characterController.UpdateCharacterPosition();
+        this.characterController.UpdateCharacterRotation();
     }
 }

@@ -55,6 +55,7 @@ public class CharacterMovementController : MonoBehaviour
     float halfHeight => Mathf.Max(0, height / 2f - raduis);
 
     public LayerMask layerMask;
+    public LayerMask characterCollideLayerMask;
 
     public Vector3 topPoint => capsuleColliderCenterPosition + Vector3.up * halfHeight;
     public Vector3 bottomPoint => capsuleColliderCenterPosition - Vector3.up * halfHeight;
@@ -126,9 +127,30 @@ public class CharacterMovementController : MonoBehaviour
         }
     }
 
+    private float psuhBackCharacterForce = 1.5f;
+    public bool enableCharacterCollide = true;
     private void CharacterCollideCheck()//Check CharacterCollideEachOther
     {
-        
+        if(this.enableCharacterCollide == false)
+            return;
+
+        Collider[] colliders = Physics.OverlapCapsule(this.topPoint, this.bottomPoint, this.raduis, this.characterCollideLayerMask,QueryTriggerInteraction.Ignore);
+        Vector3 moveMotion = Vector3.zero;
+
+        for (int i = 0; i < colliders.Length; i++) 
+        {
+            if (colliders[i].TryGetComponent<CharacterMovementController>(out CharacterMovementController characterMovementController)
+                && characterMovementController == this)
+                continue;
+
+            Vector3 dirPush = this.transform.transform.position - colliders[i].transform.position;
+            moveMotion += new Vector3(dirPush.x, 0, dirPush.z).normalized;
+
+
+        }
+
+        moveMotion = moveMotion.normalized * this.psuhBackCharacterForce * Time.fixedDeltaTime;
+        MoveUpdate(moveMotion);
     }
 
     public void Move(Vector3 motion)
@@ -167,9 +189,9 @@ public class CharacterMovementController : MonoBehaviour
         this.maxSlopeAngle = characterMovementControllerScriptableObject.slopeAngle;
 
     }
-    public void SetCharacterCapsuleCollider(bool value)
+    public CapsuleCollider GetCharacterCapsuleCollider()
     {
-        this.capsuleCollider.enabled = value;
+        return this.capsuleCollider;
     }
     private void Awake()
     {
@@ -192,6 +214,7 @@ public class CharacterMovementController : MonoBehaviour
         Vector3 currentPos = this.position;
 
         Vector3 deltaPos = currentPos - lastPos;
+
         this.curVelocity = deltaPos / Time.deltaTime;
 
         this.lastPos = currentPos;
@@ -206,11 +229,12 @@ public class CharacterMovementController : MonoBehaviour
     private Quaternion transformRotationCheck;
     private void FixedUpdate()
     {
+        this.CharacterCollideCheck();
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
         this.UpdateCharacterPosition();
     }
 
-    private void UpdateCharacterPosition()
+    public void UpdateCharacterPosition()
     {
         if (this.transform.position != this.transformPositionCheck)
         {
@@ -224,7 +248,7 @@ public class CharacterMovementController : MonoBehaviour
       
     }
 
-    private void UpdateCharacterRotation()
+    public void UpdateCharacterRotation()
     {
         if (this.transformRotationCheck != this.transform.rotation)
         {

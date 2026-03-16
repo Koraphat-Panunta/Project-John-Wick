@@ -954,9 +954,13 @@ MonoBehaviour:
   enableDynamicCollider: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 1
+  characterCollideLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
+  enableCharacterCollide: 1
   curVelocity: {x: 0, y: 0, z: 0}
   isUpdateGround: 1
   isEnableGizmos: 0

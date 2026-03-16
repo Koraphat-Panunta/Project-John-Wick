@@ -35,7 +35,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
         gunFuGotExecuteAble = null;
         Vector3 castDir = CastDir();
         Ray ray = new Ray(_castTransform.position, castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget, QueryTriggerInteraction.Collide);
         foreach (RaycastHit hit in collider)
         {
             if (hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
@@ -89,7 +89,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 
         target = new List<IGotGunFuAttackedAble>();
         
-        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask);
+        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask,QueryTriggerInteraction.Collide);
 
         gunFuDetectTargetDebug += "layerTarget = " + this._layerTarget + "\n";
 
@@ -137,7 +137,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     {
         target = null;
         Ray ray = new Ray(_castTransform.position,castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget);
+        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget,QueryTriggerInteraction.Collide);
         foreach(RaycastHit hit in collider)
         {
             if(hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)

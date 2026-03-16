@@ -1517,6 +1517,9 @@ MonoBehaviour:
   Shpere_Raduis_Detecion: 0.45
   Shpere_Distance_Detection: 1
   gunFuDetectTargetDebug: 
+  _layerTarget:
+    serializedVersion: 2
+    m_Bits: 0
   EnableDebug: 0
 --- !u!114 &7803922069215804562
 MonoBehaviour:
@@ -1562,8 +1565,12 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1
+  characterCollideLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   position: {x: 0, y: 0, z: 0}
   rotation: {x: 0, y: 0, z: 0, w: 0}
+  enableCharacterCollide: 1
   curVelocity: {x: 0, y: 0, z: 0}
   isUpdateGround: 1
   isEnableGizmos: 0

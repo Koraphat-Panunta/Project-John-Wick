@@ -140,6 +140,7 @@ public abstract partial class MovementCompoent : INodeManager
     {
         this.Move(position - curPosition);
     }
+    public abstract void ForceUpdateTransform();
     public abstract void SetRotation(Quaternion rotation);
     public void SetTransform(Vector3 position,Quaternion rotation)
     {

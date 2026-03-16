@@ -33,7 +33,7 @@ public class PlayerMovement : MovementCompoent
 
     public PlayerMovement(
         Player player
-        ,Transform transform
+        , Transform transform
         , MonoBehaviour myMovement
         , CharacterMovementController characterController
         , CharacterMovementControllerScriptableObject standCharControllerSCRP
@@ -63,30 +63,30 @@ public class PlayerMovement : MovementCompoent
     }
     public override void InitailizedNode()
     {
-        startNodeSelector = new NodeSelector(()=> true,"StartNodeSelector PlayerMovement");
+        startNodeSelector = new NodeSelector(() => true, "StartNodeSelector PlayerMovement");
 
-        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(()=> isOnUpdateEnable,this);
-        restMovementNodeLeaf = new MovementNodeLeaf(()=> true);
+        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(() => isOnUpdateEnable, this);
+        restMovementNodeLeaf = new MovementNodeLeaf(() => true);
 
         startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
         startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
 
         _nodeManagerBehavior.SearchingNewNode(this);
     }
-   
-    public void SnapingMovement(Vector3 Destination,Vector3 offset,float speed)
+
+    public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
     {
         Vector3 finalDestination = Destination + offset;
         float distacne = Vector3.Distance(player.transform.position, finalDestination);
 
         curMoveVelocity_World = Vector3.zero;
 
-        if (Vector3.Distance(player.transform.position, finalDestination) <= speed*Time.deltaTime)
+        if (Vector3.Distance(player.transform.position, finalDestination) <= speed * Time.deltaTime)
         {
-            Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed*Time.deltaTime) * Time.deltaTime);
+            Move((finalDestination - player.transform.position).normalized * speed * (distacne / speed * Time.deltaTime) * Time.deltaTime);
             return;
         }
-        Move((finalDestination - player.transform.position).normalized * speed  * Time.deltaTime);
+        Move((finalDestination - player.transform.position).normalized * speed * Time.deltaTime);
     }
     //public void DrawLine()
     //{
@@ -102,36 +102,36 @@ public class PlayerMovement : MovementCompoent
     public void StartWarpingCurve(Vector3 start, Vector3 cT1, Vector3 cT2, Vector3 exit, float duration, AnimationCurve animationCurve, MovementCompoent movementCompoent)
     {
         curMoveVelocity_World = Vector3.zero;
-       if(movementMotionWarping == null)
-            movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent,this.characterController);
+        if (movementMotionWarping == null)
+            movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent, this.characterController);
 
         this.movementMotionWarping.StartMotionWarpingCurve(start, cT1, cT2, exit, duration, animationCurve);
     }
-    public void StartWarpingLinear(Vector3 start,Vector3 end,float duration,AnimationCurve animationCurve, MovementCompoent movementCompoent)
+    public void StartWarpingLinear(Vector3 start, Vector3 end, float duration, AnimationCurve animationCurve, MovementCompoent movementCompoent)
     {
         curMoveVelocity_World = Vector3.zero;
         if (movementMotionWarping == null)
             movementMotionWarping = new MotionWarpingByCharacterController(movementCompoent, this.characterController);
 
-        this.movementMotionWarping.StartMotionWarpingLinear(start,end, duration, animationCurve);
+        this.movementMotionWarping.StartMotionWarpingLinear(start, end, duration, animationCurve);
     }
-    public void AddForcePushInstantly(Vector3 force, IMotionImplusePushAble.PushMode pushMode)=> motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
+    public void AddForcePushInstantly(Vector3 force, IMotionImplusePushAble.PushMode pushMode) => motionImplusePushAbleBehavior.AddInstantVelocity(this, force, pushMode);
     public void AddForcePushVelocityChange(Vector3 force, PushMode pushMode, float velocityChangeDuration) => motionImplusePushAbleBehavior.AddChangeVelocity(this, force, pushMode, velocityChangeDuration);
 
     public override void Move(Vector3 position)
     {
-       characterController.Move(position);
+        characterController.Move(position);
     }
     public void OnNotify<T>(Player player, T node)
     {
-        if (this.player.stateNodeManager != null 
+        if (this.player.stateNodeManager != null
             && this.player.stateNodeManager.TryGetCurNodeLeaf<IGunFuNode>())
         {
-            this.characterController.layerMask = this.exepCharacterLayerMask;
+            this.characterController.enableCharacterCollide = false;
         }
         else
         {
-            this.characterController.layerMask = this.characterControllerlayerMask;
+            this.characterController.enableCharacterCollide = true;
         }
 
         if (this.isOnUpdateEnable == false)
@@ -141,8 +141,8 @@ public class PlayerMovement : MovementCompoent
         else
             characterController.isEnableGravity = true;
 
-        if( player.playerStateNodeManager != null 
-            &&( (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf))
+        if (player.playerStateNodeManager != null
+            && ((player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf))
         {
             this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
             return;
@@ -155,11 +155,11 @@ public class PlayerMovement : MovementCompoent
         //    this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
         //    return;
         //}
-        
+
 
         switch (player.stance)
         {
-            case Stance.stand: 
+            case Stance.stand:
                 {
                     this.characterController.SetCharacterControllerAttribute(this.standCharControllerSCRP);
                     break;
@@ -170,26 +170,26 @@ public class PlayerMovement : MovementCompoent
                     this.characterController.SetCharacterControllerAttribute(this.crouchCharControllerSCRP);
                     break;
                 }
-            
-                
+
+
         }
-        
+
     }
 
     private void UpdateProximityInAir()
     {
-        if(Physics.SphereCast(this.characterController.capsuleColliderCenterPosition
-            ,.2f
+        if (Physics.SphereCast(this.characterController.capsuleColliderCenterPosition
+            , .2f
             , Vector3.down
-            ,out RaycastHit hitInfo
-            ,2f
+            , out RaycastHit hitInfo
+            , 2f
             , this.player.playerMovement.characterController.layerMask
             , QueryTriggerInteraction.Ignore)
             )
             this.inAirTimer = 0;
         else
             this.inAirTimer += Time.deltaTime;
-        
+
 
         if (this.inAirTimer >= this.inAirTime)
             this.isProximityInAir = true;
@@ -203,7 +203,7 @@ public class PlayerMovement : MovementCompoent
 
     private float inAirTimer;
     private float inAirTime = 0.2f;
-    
+
     public void SetStanceWeight(float weight)
     {
         this.stanceRateMovement = Mathf.Clamp01(weight);
@@ -215,4 +215,11 @@ public class PlayerMovement : MovementCompoent
     }
 
     public void SetProneDir(Vector3 dir) => this.proneDir = dir;
+
+    public override void ForceUpdateTransform()
+    {
+        this.characterController.UpdateCharacterPosition();
+        this.characterController.UpdateCharacterRotation();
+    }
+    
 }

@@ -38,4 +38,10 @@ public class DummyMovementComponent : MovementCompoent
     {
         characterMovementController.SetRotation(rotation);
     }
+
+    public override void ForceUpdateTransform()
+    {
+        this.characterMovementController.UpdateCharacterPosition();
+        this.characterMovementController.UpdateCharacterRotation();
+    }
 }

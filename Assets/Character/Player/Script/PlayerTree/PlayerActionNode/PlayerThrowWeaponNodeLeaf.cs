@@ -13,7 +13,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
     {
         animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
         animationTriggerEventPlayer.SubscribeEvent("Throwing", this.Throwing);
-        this.targetMask = LayerMask.GetMask("Enemy");
+        this.targetMask = LayerMask.GetMask("BodyPart");
     }
     public override void Enter()
     {

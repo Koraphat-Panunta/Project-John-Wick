@@ -56,6 +56,10 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     }
     public override void FixedUpdateNode()
     {
+        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
+        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, this.enemy.transform,this.enemy._movementCompoent, _ragdollBoneTransforms[0]);
+        if (_hipsBone.transform.position.y < enemy.transform.position.y)
+            _hipsBone.transform.position = enemy.characterController.position;
 
         this.UpdateDownTimer();
         base.FixedUpdateNode();
@@ -63,6 +67,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
 
 
     Vector3 beforeRootPos;
+  
     public override void UpdateNode()
     {
 
@@ -71,10 +76,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
         //Debug.Log("enemy curVelocity = " + enemy._movementCompoent.curMoveVelocity_World.magnitude);
 
         this.enemy._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate * .35f, MoveMode.MaintainMomentumDirection);
-        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
-        if (_hipsBone.transform.position.y < enemy.transform.position.y)
-            _hipsBone.transform.position = enemy.characterController.position;
+      
 
 
 

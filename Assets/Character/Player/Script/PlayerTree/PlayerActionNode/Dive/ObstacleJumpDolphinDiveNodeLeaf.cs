@@ -79,7 +79,7 @@ public class ObstacleJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
             ,out Vector3 edgePos
             ))
         {
-            this.obstaclePos = edgePos;
+            this.obstaclePos = edgePos + (Vector3.up * .1f);
             return true;
         }
 

@@ -66,8 +66,8 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         this.animationTriggerEventPlayer.Rewind();
         curRagdollAnimatorState = IRagdollTransitionAnimatorAbleStateNodeLeaf.RagdollTransitionAnimatorState.ResetingBone;
         this.resetBoneTimer = 0;
-        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, enemy.transform, _ragdollBoneTransforms[0]);
+        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
+        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone,this.enemy.transform,this.enemy._movementCompoent, _ragdollBoneTransforms[0]);
         RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
         base.Enter();
     }
