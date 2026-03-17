@@ -68,8 +68,8 @@ public class EnemyMoveCurvePath
             cp[2] = Vector3.Lerp(curPos, target, 1) + dir;
         }
 
-        Debug.DrawLine(cp[0], cp[1], Color.yellow, 4);
-        Debug.DrawLine(cp[1], cp[2], Color.green, 4);
+        //Debug.DrawLine(cp[0], cp[1], Color.yellow, 4);
+        //Debug.DrawLine(cp[1], cp[2], Color.green, 4);
         for (float T = 0; T <= 1; T = T + 0.2f)
         {
             Vector3 markPos;

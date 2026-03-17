@@ -190,7 +190,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
         _enemy.enemyGetShootDirection.HardSetPointingPos((_enemy.transform.position) + (_enemy.transform.forward) + (Vector3.up*1.25f));
-        Debug.DrawLine(_enemy.transform.position, (_enemy.transform.position) + (_enemy.transform.forward) + (Vector3.up * 1.25f),Color.blue);
+        //Debug.DrawLine(_enemy.transform.position, (_enemy.transform.position) + (_enemy.transform.forward) + (Vector3.up * 1.25f),Color.blue);
     }
     public void AimDownSight(Vector3 aimTargetPos)
     {

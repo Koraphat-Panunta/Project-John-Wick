@@ -30,8 +30,8 @@ public static class EnemyBewareAnalysis
 
 
         Vector3 closestPoint = startPos + t * bulletLine;
-        Debug.DrawLine(closestPoint, referencePos, Color.yellow);
-        Debug.DrawLine(startPos, startPos + bulletLine, Color.red);
+        //Debug.DrawLine(closestPoint, referencePos, Color.yellow);
+        //Debug.DrawLine(startPos, startPos + bulletLine, Color.red);
 
         if (Vector3.Distance(closestPoint, referencePos) < raduisAware)
             return true;

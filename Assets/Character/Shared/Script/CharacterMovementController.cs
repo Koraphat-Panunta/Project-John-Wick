@@ -152,6 +152,42 @@ public class CharacterMovementController : MonoBehaviour
         moveMotion = moveMotion.normalized * this.psuhBackCharacterForce * Time.fixedDeltaTime;
         MoveUpdate(moveMotion);
     }
+    private float psuhBackObsCharacterForce = 5;
+    private void ObstacleCollideCheck()//Check CharacterCollideEachOther
+    {
+        if (this.enableCharacterCollide == false)
+            return;
+
+        Collider[] colliders = Physics.OverlapCapsule(this.topPoint, this.bottomPoint, this.raduis, this.layerMask, QueryTriggerInteraction.Ignore);
+        Vector3 moveMotion = Vector3.zero;
+
+        if(colliders == null
+            || colliders.Length <= 0)
+            return;
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Vector3 castDir = (colliders[i].transform.position - this.startCast);
+            Vector3 dirPush = Vector3.zero;
+
+            if (Physics.Raycast(this.startCast
+                , castDir.normalized
+                , out RaycastHit hitInfo
+                , castDir.magnitude
+                , layerMask
+                , QueryTriggerInteraction.Ignore))
+            {
+               dirPush = hitInfo.normal;
+            }
+            dirPush = this.transform.transform.position - colliders[i].transform.position;
+            moveMotion += new Vector3(dirPush.x, 0, dirPush.z).normalized;
+
+
+        }
+
+        moveMotion = moveMotion.normalized * this.psuhBackObsCharacterForce * Time.fixedDeltaTime;
+        MoveUpdate(moveMotion);
+    }
 
     public void Move(Vector3 motion)
     {
@@ -230,6 +266,7 @@ public class CharacterMovementController : MonoBehaviour
     private void FixedUpdate()
     {
         this.CharacterCollideCheck();
+        this.ObstacleCollideCheck();
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
         this.UpdateCharacterPosition();
     }

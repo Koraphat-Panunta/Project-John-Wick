@@ -39,7 +39,7 @@ public abstract class EnemyFiringPattern
 
         LayerMask layerMask = DefaultMask + BodyPartMask + GroundHitMask;
         Ray ray = new Ray(enemy.rayCastPos.position, enemy.rayCastPos.forward);
-        Debug.DrawLine(enemy.rayCastPos.position, enemy.rayCastPos.forward * distance);
+        //Debug.DrawLine(enemy.rayCastPos.position, enemy.rayCastPos.forward * distance);
         if (Physics.SphereCast(ray, 0.0015f, distance, layerMask))
         {
             return true;
