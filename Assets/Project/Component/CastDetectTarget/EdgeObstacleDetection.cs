@@ -57,7 +57,7 @@ public static class EdgeObstacleDetection
         {
             float gap = Vector3.Distance(sphereCast[i], sphereCast[i + 1]);
             //Debug.Log(" dif = " + gap + " Position = "+ sphereCast[i + 1] + " i = "+(i + 1));
-            Debug.DrawLine(startPos, sphereCast[i + 1], Color.yellow, 3);
+            //Debug.DrawLine(startPos, sphereCast[i + 1], Color.yellow, 3);
             if (gap >= difDistance)
             {
 
