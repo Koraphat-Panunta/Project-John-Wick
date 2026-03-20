@@ -8,6 +8,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     public SubjectAnimationInteract SubjectAnimationInteract2;
 
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
+    public AnimationTriggerAudioEventPlayer audioAnimationTriggerEvent;
 
     public bool isReload;
 
@@ -46,6 +47,12 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
         this.animationTriggerEventPlayer.SubscribeEvent("TriggerReload", this.TriggerReload);
         this.animationTriggerEventPlayer.SubscribeEvent("TransitionAble", this.TransitionAbleAll);
+
+        this.audioAnimationTriggerEvent = new AnimationTriggerAudioEventPlayer
+            (animationInteractScriptableObject.clip
+            , animationInteractScriptableObject.enterNormalizedTime
+            , animationInteractScriptableObject.endNormalizedTime
+            , animationInteractScriptableObject.audioAnimationInteractTriggerEvents);
     }
 
     public override void Enter()
@@ -65,6 +72,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
         this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
         this.animationTriggerEventPlayer.Rewind();
+        this.audioAnimationTriggerEvent.Rewind();
 
         this.curGunFuReloadPhase = GunFuReloadPhase.Enter;
         base.Enter();
@@ -82,6 +90,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.SubjectAnimationInteract1.UpdateInteract(Time.deltaTime);
         this.SubjectAnimationInteract2.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        this.audioAnimationTriggerEvent.Update(Time.deltaTime, this.gunFuAble._character.transform.position);
 
         if (this.animationTriggerEventPlayer.IsPlayFinish())
             this.isComplete = true;

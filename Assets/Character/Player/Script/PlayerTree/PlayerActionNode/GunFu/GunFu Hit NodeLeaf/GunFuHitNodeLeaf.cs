@@ -27,6 +27,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     protected bool isAttackingTime;
 
     protected AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
+    protected AnimationTriggerAudioEventPlayer animationTriggerAudioEventPlayer { get; set; }
 
     private Quaternion lookAtTarget => Quaternion.LookRotation(
         (this.approuchPosition - gunFuAble._character.transform.position).normalized
@@ -57,10 +58,17 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
         this.animationTriggerEventPlayer.SubscribeEvent("BeginWarp", this.BeginWarp);
         this.animationTriggerEventPlayer.SubscribeEvent("NextHitContinue",this.NextHitContinue);
         this.animationTriggerEventPlayer.SubscribeEvent("TransitionAble",this.TransitionAble);
+
+        this.animationTriggerAudioEventPlayer = new AnimationTriggerAudioEventPlayer(
+            this._gunFuHitScriptableObject.clip
+            ,this._gunFuHitScriptableObject.enterNormalizedTime
+            ,this._gunFuHitScriptableObject.endNormalizedTime
+            ,this._gunFuHitScriptableObject.audiotriggerEvents);
     }
     public override void Enter()
     {
         this.animationTriggerEventPlayer.Rewind();
+        this.animationTriggerAudioEventPlayer.Rewind();
 
         gotAttackedAlready.Clear();
         this.gotGunFuAttackedAble = player.attackedAbleGunFu;
@@ -76,6 +84,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public override void UpdateNode()
     {
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        this.animationTriggerAudioEventPlayer.Update(Time.deltaTime, this.gunFuAble._character.transform.position);
 
         if(this.animationTriggerEventPlayer.IsPlayFinish())
             isComplete = true;

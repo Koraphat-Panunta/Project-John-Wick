@@ -6,6 +6,7 @@ using System;
 public class GunFuHitScriptableObject : AnimationTriggerEventSCRP
 {
     public GunFuHitDetail[] gunFuHitDetail;
+    public AudioAnimationTriggerEvent[] audiotriggerEvents;
 }
 
 [Serializable]

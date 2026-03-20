@@ -11,6 +11,7 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     public SubjectAnimationInteract SubjectAnimationInteract2;
 
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
+    protected AnimationTriggerAudioEventPlayer animationTriggerAudioEventPlayer;
     protected GunFuHitScriptableObject hitScriptableObject;
    
     public float _hPDamage => this.hitScriptableObject.gunFuHitDetail[0].hpHitDamage;
@@ -27,16 +28,16 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
     public GunFuHitDownNodeLeaf(
         Player player
-        ,AnimationInteractScriptableObject animationInteractScriptableObject 
-        ,GunFuHitScriptableObject gunFuHitScriptableObject
-        ,Func<bool> preCondition) 
+        , AnimationInteractScriptableObject animationInteractScriptableObject
+        , GunFuHitScriptableObject gunFuHitScriptableObject
+        , Func<bool> preCondition)
         : base(player, preCondition)
     {
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(
             animationInteractScriptableObject.clip
-            ,animationInteractScriptableObject.enterNormalizedTime
-            ,animationInteractScriptableObject.endNormalizedTime
-            ,animationInteractScriptableObject.triggerEventDetail
+            , animationInteractScriptableObject.enterNormalizedTime
+            , animationInteractScriptableObject.endNormalizedTime
+            , animationInteractScriptableObject.triggerEventDetail
             );
 
         this.SubjectAnimationInteract1 = new SubjectAnimationInteract
@@ -47,18 +48,24 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.SubjectAnimationInteract2 = new SubjectAnimationInteract
             (
             animationInteractScriptableObject
-            ,animationInteractScriptableObject.animationInteractCharacterDetail[1]
+            , animationInteractScriptableObject.animationInteractCharacterDetail[1]
             );
 
         this.hitScriptableObject = gunFuHitScriptableObject;
         this.animationTriggerEventPlayer.SubscribeEvent("Hit", Hit);
         this.animationTriggerEventPlayer.SubscribeEvent("PullUp", PullUp);
         this.animationTriggerEventPlayer.SubscribeEvent("TransitionAble", this.TransitionAbleAll);
+
+        this.animationTriggerAudioEventPlayer = new AnimationTriggerAudioEventPlayer(
+           animationInteractScriptableObject.clip
+           , animationInteractScriptableObject.enterNormalizedTime
+           , animationInteractScriptableObject.endNormalizedTime
+           , animationInteractScriptableObject.audioAnimationInteractTriggerEvents
+           );
     }
 
     public override void Enter()
     {
-
 
         this.isComplete = false;
 
@@ -73,7 +80,10 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
         this.gunFuHitDownPhase = GunFuHitDownPhase.Restrain;
         this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+
         this.animationTriggerEventPlayer.Rewind();
+        this.animationTriggerAudioEventPlayer.Rewind();
+
         base.Enter();
     }
     public override void Exit()
@@ -86,7 +96,9 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     {
         this.SubjectAnimationInteract1.UpdateInteract(Time.deltaTime);
         this.SubjectAnimationInteract2.UpdateInteract(Time.deltaTime);
+
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        this.animationTriggerAudioEventPlayer.Update(Time.deltaTime, this.gunFuAble._character.transform.position);
 
         if(this.animationTriggerEventPlayer.IsPlayFinish())
             this.isComplete = true;
