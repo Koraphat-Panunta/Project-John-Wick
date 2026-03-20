@@ -35,3 +35,18 @@ MonoBehaviour:
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.28
     enterAnimationOffsetNormalizedTime: 0.3
     endAnimationNormalizedTime: 1
+  audioAnimationInteractTriggerEvents:
+  - normalizedTime: 0.25
+    soundData:
+      audioClip: {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}
+      audioMixerGroup: {fileID: 4205020694465869820, guid: b5913fa8685b45b4bb03d11d88ca2447,
+        type: 2}
+      volume: 100
+      _3DWeight: 1
+  - normalizedTime: 0.4
+    soundData:
+      audioClip: {fileID: 8300000, guid: 1e3312d22540aa14597a1fb4739f2782, type: 3}
+      audioMixerGroup: {fileID: 4205020694465869820, guid: b5913fa8685b45b4bb03d11d88ca2447,
+        type: 2}
+      volume: 100
+      _3DWeight: 1

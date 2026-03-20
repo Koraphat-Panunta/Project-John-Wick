@@ -23,20 +23,22 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
     }
     [SerializeField] private AudioSource source_Sound;
 
-    [SerializeField] private AudioClip firing;
     [SerializeField] private AudioClip trigger;
     [SerializeField] private AudioClip reload_1;
     [SerializeField] private AudioClip reload_2;
     [SerializeField] private AudioClip reload_3;
     private Coroutine coroutine;
     public Weapon weapon;
+
+    [SerializeField] protected SoundData firingData;
+
     private void TriggerFiringSound()
     {
         if(coroutine != null)
         {
             StopCoroutine(ReloadSoundEvent());
         }
-        source_Sound.PlayOneShot(firing,0.7f);
+        SoundEmitterManager.Instance.CreateSoundBuilder(this.weapon.bulletSpawner.transform.position, this.firingData).Play();
     }
     private void TriggerReloadSound()
     {

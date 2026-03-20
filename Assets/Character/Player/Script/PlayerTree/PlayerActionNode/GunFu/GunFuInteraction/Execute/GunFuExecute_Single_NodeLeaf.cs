@@ -27,6 +27,7 @@ public class GunFuExecute_Single_NodeLeaf :
     public SubjectAnimationInteract gunFuAble_SubjectInteract;
     public SubjectAnimationInteract got_GunFuAttacked_SubjectInteract;
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
+    public AnimationTriggerAudioEventPlayer audioTriggerEventPlayer;
 
     public GunFuExecute_Single_NodeLeaf(
         Player player
@@ -42,6 +43,8 @@ public class GunFuExecute_Single_NodeLeaf :
 
         this.gunFuAble_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0]);
         this.got_GunFuAttacked_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1]);
+
+        //AnimationEventTriggerPlayer
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(
             this.gunFuExecuteInteractSCRP.clip
             , this.gunFuExecuteInteractSCRP.enterNormalizedTime
@@ -53,6 +56,17 @@ public class GunFuExecute_Single_NodeLeaf :
         this.animationTriggerEventPlayer.SubscribeEvent("Execute", this.Execute);
 
         this.got_GunFuAttacked_SubjectInteract.finishWarpEvent += this.Interact;
+
+        AnimationTriggerEventDetail[] audioTriggerEventDetail 
+            = new AnimationTriggerEventDetail[this.gunFuExecuteInteractSCRP.audioAnimationInteractTriggerEvents.Length];
+
+        //AudioEventTriggerPlayer
+        this.audioTriggerEventPlayer = new AnimationTriggerAudioEventPlayer(
+            this.gunFuExecuteInteractSCRP.clip
+            ,this.gunFuExecuteInteractSCRP.enterNormalizedTime
+            ,this.gunFuExecuteInteractSCRP.endNormalizedTime
+            ,this.gunFuExecuteInteractSCRP.audioAnimationInteractTriggerEvents
+            );
     }
 
     public override void Enter()
@@ -74,6 +88,7 @@ public class GunFuExecute_Single_NodeLeaf :
             , executePos
             , executeDir);
         this.animationTriggerEventPlayer.Rewind();
+        this.audioTriggerEventPlayer.Rewind();
 
         this.gunFuAble._character._movementCompoent.CancleMomentum();
         this.gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
@@ -116,6 +131,7 @@ public class GunFuExecute_Single_NodeLeaf :
         //Debug.Log("this.gunFuAble._character._movementCompoent.V_World = " + this.gunFuAble._character._movementCompoent.curMoveVelocity_World);
         this.UpdateSubject();
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+        this.audioTriggerEventPlayer.Update(Time.deltaTime,this.gunFuAble._character.transform.position);
 
         base.UpdateNode();
     }
@@ -208,7 +224,7 @@ public class GunFuExecute_Single_NodeLeaf :
 
         player.NotifyObserver(player, this);
     }
-
+   
     public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
     {
         this.player.OnNotifyFeedBackVisitor(damageAble);

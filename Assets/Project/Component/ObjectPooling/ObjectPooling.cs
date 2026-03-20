@@ -63,4 +63,11 @@ public class ObjectPooling<T> where T : Component
         else
             GameManager.Destroy(obj.gameObject);
     }
+
+    public bool CanGet()
+    {
+        if(this.pool.Count <= 0)
+            return false;
+        return true;
+    }
 }
