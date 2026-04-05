@@ -247,23 +247,21 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         this._enemy.stanceCommand = Stance.stand;
         _enemy._triggerGunFu = true;
     }
-    float openDoorBufferTimer;
-    float openDoorBufferTime = 1;
+    //float openDoorBufferTimer;
+    //float openDoorBufferTime = 1;
     public void OpenDoor()
     {
 
-        if (this.openDoorBufferTimer > 0)
-        {
-            this.openDoorBufferTimer -= Time.deltaTime;
-            return;
-        }
+        //if (this.openDoorBufferTimer > 0)
+        //{
+        //    this.openDoorBufferTimer -= Time.deltaTime;
+        //    return;
+        //}
 
-        this.openDoorBufferTimer = this.openDoorBufferTime;
-
+        //this.openDoorBufferTimer = this.openDoorBufferTime;
 
         if (this._enemy.FindInteractAble<DoorActor>(this._enemy.moveInputVelocity_WorldCommand.normalized,1,out DoorActor doorActor))
         {
-
             doorActor.Open();
         }    
     }

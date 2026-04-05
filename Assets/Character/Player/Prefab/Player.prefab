@@ -606,6 +606,7 @@ GameObject:
   - component: {fileID: 1108506250238677415}
   - component: {fileID: 6419881214304659927}
   - component: {fileID: 13336541786591963}
+  - component: {fileID: 4137166914831565379}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -688,26 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableRootMotion: 0
-  _hipBone: {fileID: 778433200294176050}
-  _leftUpperLegBone: {fileID: 8540152189020056108}
-  _leftLowerLegBone: {fileID: 2090027382058873586}
-  _leftFootBone: {fileID: 7261132497112066758}
-  _rightUpperLegBone: {fileID: 2482133299922719672}
-  _rightLowerLegBone: {fileID: 7222102817077296530}
-  _rightFootBone: {fileID: 41831253394315153}
-  _spine_0_Bone: {fileID: 3189378734690378845}
-  _spine_1_Bone: {fileID: 7758735988701686376}
-  _spine_2_Bone: {fileID: 7984018026264039633}
-  _leftShoulderBone: {fileID: 7094456648819470181}
-  _leftArmBone: {fileID: 8662021978352455514}
-  _leftForeArmBone: {fileID: 8869569442022611075}
-  _leftHandBone: {fileID: 6999503542832735123}
-  _neckBone: {fileID: 2158785667180685469}
-  _headBone: {fileID: 3666092839240614316}
-  _rightShoulderBone: {fileID: 7002321110991208980}
-  _rightArmBone: {fileID: 739219212891845642}
-  _rightForeArmBone: {fileID: 3947899733526157980}
-  _rightHandBone: {fileID: 2296114816121712487}
+  humanoidBone: {fileID: 4137166914831565379}
   movementScriptableObject: {fileID: 11400000, guid: 2c60039c667772140a3d32a6276279dd,
     type: 2}
   characterController: {fileID: 4305910727867654801}
@@ -942,7 +924,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementController
   enableGravity: 1
-  isEnableGravity: 1
   groundState: 0
   groundNormal: {x: 0, y: 0, z: 0}
   isGrounded: 0
@@ -951,7 +932,7 @@ MonoBehaviour:
   characterMovementControllerScriptableObject: {fileID: 11400000, guid: c274f49a28fabb246b5aa5d8a0597ecb,
     type: 2}
   capsuleCollider: {fileID: 1108506250238677415}
-  enableDynamicCollider: 0
+  enableDynamicCollider: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -1163,6 +1144,7 @@ MonoBehaviour:
   - {fileID: 41831253394315153}
   - {fileID: 8662021978352455514}
   - {fileID: 739219212891845642}
+  - {fileID: 1376691160772055220}
 --- !u!54 &13336541786591963
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1190,6 +1172,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4137166914831565379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea74221c57043f04eb1768b1e9f5359b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidBone
+  hips: {fileID: 778433200294176050}
+  _leftUpperLegBone: {fileID: 8540152189020056108}
+  _leftLowerLegBone: {fileID: 2090027382058873586}
+  _leftFootBone: {fileID: 7261132497112066758}
+  _rightUpperLegBone: {fileID: 2482133299922719672}
+  _rightLowerLegBone: {fileID: 7222102817077296530}
+  _rightFootBone: {fileID: 41831253394315153}
+  _spine_0_Bone: {fileID: 3189378734690378845}
+  _spine_1_Bone: {fileID: 7758735988701686376}
+  _spine_2_Bone: {fileID: 7984018026264039633}
+  _leftShoulderBone: {fileID: 7094456648819470181}
+  _leftArmBone: {fileID: 8662021978352455514}
+  _leftForeArmBone: {fileID: 8869569442022611075}
+  _leftHandBone: {fileID: 6999503542832735123}
+  _neckBone: {fileID: 2158785667180685469}
+  _headBone: {fileID: 3666092839240614316}
+  _rightShoulderBone: {fileID: 7002321110991208980}
+  _rightArmBone: {fileID: 739219212891845642}
+  _rightForeArmBone: {fileID: 3947899733526157980}
+  _rightHandBone: {fileID: 2296114816121712487}
 --- !u!1001 &1001974458432819358
 PrefabInstance:
   m_ObjectHideFlags: 0

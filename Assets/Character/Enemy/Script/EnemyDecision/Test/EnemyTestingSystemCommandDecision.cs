@@ -12,6 +12,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     private ITaskingExecute crouch;
 
     private ITaskingExecute moveToPos1;
+    private ITaskingExecute openDoor;
     private ITaskingExecute moveToPos2;
     private ITaskingExecute moveToPos3;
     private ITaskingExecute moveToPos4;
@@ -88,6 +89,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
+        this.openDoor = new EnemyTestingCommand(() => this.enemyCommand.OpenDoor(), () => true);
         moveToPos2 = new EnemyMoveToPos(enemy.transform, this.moveTransPos2.position, true, enemyCommand);
         moveToPos3 = new EnemyMoveToPos(enemy.transform, this.moveTransPos3.position, true, enemyCommand);
         moveToPos4 = new EnemyMoveToPos(enemy.transform, this.moveTransPos4.position, true, enemyCommand);
@@ -189,6 +191,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         //enemyTestingCommands.Enqueue(crouch);//22
 
         enemyTestingCommands.Enqueue(moveToPos1);//21
+        enemyTestingCommands.Enqueue(this.openDoor);
         enemyTestingCommands.Enqueue(moveToPos2);//21
         enemyTestingCommands.Enqueue(this.crouch);
         enemyTestingCommands.Enqueue(moveToPos3);//21
