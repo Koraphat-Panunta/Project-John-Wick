@@ -123,10 +123,10 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
     protected override void UpdateJumpOut()
     {
-        Vector3 deltaPos = this.playerMovement.curPosition - this.player._leftFootBone.position; 
+        Vector3 deltaPos = this.playerMovement.curPosition - this.player.humanoidBone._leftFootBone.position; 
 
         if(this.isJumpLeft == false) 
-            deltaPos = this.playerMovement.curPosition - this.player._rightFootBone.position;
+            deltaPos = this.playerMovement.curPosition - this.player.humanoidBone._rightFootBone.position;
 
         if(this.isPassingJump == false)
         {

@@ -16,7 +16,7 @@ public partial class Enemy : I_Interacter
 
         //Debug.DrawRay(this._hipBone.position, findDir * distance,Color.blue,2);
 
-        if(Physics.Raycast(this._hipBone.position
+        if(Physics.Raycast(this.humanoidBone.hips.position
             , findDir
             , out RaycastHit hit
             , distance

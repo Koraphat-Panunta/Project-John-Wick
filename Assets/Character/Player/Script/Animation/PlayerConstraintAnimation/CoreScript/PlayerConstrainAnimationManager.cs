@@ -39,7 +39,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.bodyLookConstrainSelector = new NodeSelector(() => true);
 
         this.prone_BodyLookConstraintNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.player._hipBone
+            this.player.humanoidBone.hips
             , this.player.transform
             , this.aimConstrainPositionReference
             , this.player
@@ -49,8 +49,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             && this.isProne);
 
         this.bodyLookConstraintNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.player._hipBone
-            , this.player._hipBone
+            this.player.humanoidBone.hips
+            , this.player.humanoidBone.hips
             , this.aimConstrainPositionReference
             , this.player
             , this.standSplineLookConstrain
@@ -157,18 +157,18 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>() == false
             && this.isWeaponSwitching == false
             , this.rightHandIKConstriantManager
-            , this.player._spine_2_Bone
-            , this.player._spine_2_Bone
+            , this.player.humanoidBone._spine_2_Bone
+            , this.player.humanoidBone._spine_2_Bone
             , this.lowReadyProne_LeftHand_IK_ConstrainSCRP
             );
 
         this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
-            , this.player._rightArmBone
-            , this.player._headBone
-            , this.player._rightArmBone
-            , this.player._spine_2_Bone
+            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone._headBone
+            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone._spine_2_Bone
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
            , () => this.player._currentWeapon != null
@@ -182,10 +182,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.rightHandWeaponAimAtIKCinstrainNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
-            , this.player._rightArmBone
-            , this.player._spine_2_Bone
-            , this.player._rightArmBone
-            , this.player._hipBone
+            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone._spine_2_Bone
+            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone.hips
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
            , () => this.player._currentWeapon != null 
@@ -245,8 +245,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leftHandQuickSwitchIKNodeLeaf = new ArmIKConstriantRefTransformNodeLeaf(
             () => this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>()
             , this.leftHandConstraintManager
-            , this.player._spine_2_Bone
-            , this.player._spine_2_Bone
+            , this.player.humanoidBone._spine_2_Bone
+            , this.player.humanoidBone._spine_2_Bone
             , this.leftHandIK_QuickSwitch_SCRP);
 
         this.primaryWeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
@@ -312,9 +312,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         //2
       
         this.proneLegsConstrainNodeLeaf = new ProneLegsConstrainNodeLeaf(this.legsConstraintManager
-            ,this.player._hipBone
-            ,this.player._hipBone
-            ,this.diveStallLegsBlendingConstrainSCRP
+            ,this.player.humanoidBone.hips
+            ,this.player.humanoidBone.hips
+            , this.diveStallLegsBlendingConstrainSCRP
             ,()=>
             this.playerStateManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
             );

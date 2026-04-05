@@ -272,7 +272,7 @@ public partial class Enemy : SubjectEnemy
         bones.Add(left_lower_Arm.gameObject);
 
         motionControlManager = new MotionControlManager(bones, hips, animator);
-    }
+    } 
     #endregion
 
     #region InitailizedFindingTarget

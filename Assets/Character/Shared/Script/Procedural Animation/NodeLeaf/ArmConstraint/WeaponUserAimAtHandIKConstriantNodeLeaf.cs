@@ -6,7 +6,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
 
     protected float blockedWeight;
 
-    protected Vector3 handPos => weaponAdvanceUser._userWeapon._rightHandBone.position;
+    protected Vector3 handPos => weaponAdvanceUser._userWeapon.humanoidBone._rightHandBone.position;
 
     protected Vector3 targetBlockedHand_Position
     {

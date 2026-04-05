@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-[RequireComponent(typeof(EnemyCommandAPI))]
-[RequireComponent(typeof(Enemy))]
 public abstract class EnemyDecision : MonoBehaviour,IInitializedAble
 {
     public EnemyCommandAPI enemyCommand;
@@ -41,8 +39,6 @@ public abstract class EnemyDecision : MonoBehaviour,IInitializedAble
     protected abstract void OnNotifySpottingTarget(GameObject target);
     protected virtual void OnValidate()
     {
-        enemy = GetComponent<Enemy>();
-        enemyCommand = GetComponent<EnemyCommandAPI>();
     }
 
   
