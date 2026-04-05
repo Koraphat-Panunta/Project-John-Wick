@@ -14,7 +14,6 @@ public class CharacterMovementController : MonoBehaviour
 
     [Header("Ground & Gravity")]
     public bool enableGravity = true;
-    public bool isEnableGravity = true;
     private float gravityScale = 1;
     public float gravity => 9.81f * this.gravityScale;
 
@@ -353,7 +352,6 @@ public class CharacterMovementController : MonoBehaviour
     private void UpdateGravity()
     {
         if (this.isGrounded == true 
-            || this.isEnableGravity == false 
             || this.enableGravity == false)
         {
             if (this.velocityPhysicBased.y < 0)
