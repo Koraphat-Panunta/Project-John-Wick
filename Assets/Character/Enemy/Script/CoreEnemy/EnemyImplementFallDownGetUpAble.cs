@@ -9,12 +9,12 @@ public partial class Enemy: IRagdollAble
 
     Animator IRagdollAble._animator => animator;
 
-    [SerializeField] private Transform hipsBone;
-    public Transform _hipsBone => hipsBone;
+
+    public Transform _hipsBone => this.humanoidBone.hips;
 
     [SerializeField] private Transform rootModel;
     public Transform _root => rootModel;
-    public Transform[] _bones => hipsBone.GetComponentsInChildren<Transform>();
+    public Transform[] _bones => this.humanoidBone.hips.GetComponentsInChildren<Transform>();
 
     public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
 

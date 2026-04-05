@@ -80,8 +80,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //3
 
         this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy._hipBone
-            , this.enemy._hipBone
+            this.enemy.humanoidBone.hips
+            , this.enemy.humanoidBone.hips
             , this.enemy.pointingTransform
             , this.enemy
             , bodyLookConstrainManager
@@ -90,8 +90,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             );
 
         this.secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy._hipBone
-            , this.enemy._hipBone
+            this.enemy.humanoidBone.hips
+            , this.enemy.humanoidBone.hips
             , this.enemy.pointingTransform
             , this.enemy
             , bodyLookConstrainManager
@@ -146,7 +146,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //2
         this.rightArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
             (this.rightHandIKConstraint
-            , this.enemy._spine_1_Bone
+            , this.enemy.humanoidBone._spine_1_Bone
             , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
             //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             , this.armAnchorSwingOffsetPosition
@@ -207,7 +207,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         //2
         this.leftArmPainStateProceduralConstraintNodeLeaf = new ArmPrceduralPainStateConstraintNodeLeaf
            (this.leftHandIKConstraint
-           , this.enemy._spine_1_Bone
+           , this.enemy.humanoidBone._spine_1_Bone
            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
            //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
            , this.armAnchorSwingOffsetPosition

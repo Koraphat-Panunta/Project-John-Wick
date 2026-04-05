@@ -88,7 +88,7 @@ public class ObstacleJumpDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 
     }
 
-    protected Vector3 deltaFootPos => this.playerMovement.curPosition - this.player._leftFootBone.transform.position  ;
+    protected Vector3 deltaFootPos => this.playerMovement.curPosition - this.player.humanoidBone._leftFootBone.transform.position  ;
     public override void FixedUpdateNode()
     {
         this.timer += Time.fixedDeltaTime;

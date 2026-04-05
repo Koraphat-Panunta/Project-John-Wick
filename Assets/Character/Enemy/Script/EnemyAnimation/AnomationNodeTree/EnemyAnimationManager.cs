@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static EnemyBodyBulletDamageAbleBehavior;
-[RequireComponent(typeof(Enemy))]
-[RequireComponent(typeof(Animator))]
+
 public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IInitializedAble
 {
     // Start is called once before the first execution of UpdateNodeAndCheckFindingNode after the MonoBehaviour is created

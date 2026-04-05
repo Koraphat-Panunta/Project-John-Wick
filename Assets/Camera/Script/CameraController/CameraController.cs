@@ -133,7 +133,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.isPerformGunFu = true;
                             this.curGunFuNode = gunFuExecute_NodeLeaf;
 
-                            Transform[] trackTransforms = { player._spine_1_Bone, gunFuExecute_NodeLeaf.gotGunFuAttackedAble._character._spine_0_Bone };
+                            Transform[] trackTransforms = { player.humanoidBone._spine_1_Bone, gunFuExecute_NodeLeaf.gotGunFuAttackedAble._character.humanoidBone._spine_0_Bone };
                             float[] trackWeight = { 1, 1 };
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
@@ -181,7 +181,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.isPerformGunFu = true;
                             this.curGunFuNode = gunFuHitDownNodeLeaf;
 
-                            Transform[] trackTransforms = { player._headBone, gunFuHitDownNodeLeaf.gotGunFuAttackedAble._character._headBone };
+                            Transform[] trackTransforms = { player.humanoidBone._headBone, gunFuHitDownNodeLeaf.gotGunFuAttackedAble._character.humanoidBone._headBone };
                             float[] trackWeight = { 1f, .5f };
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
@@ -209,7 +209,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.isPerformGunFu = true;
                             this.curGunFuNode = gunFuReloadNodeLeaf;
 
-                            Transform[] trackTransforms = { player._hipBone, gunFuReloadNodeLeaf.gotGunFuAttackedAble._character._hipBone };
+                            Transform[] trackTransforms = { player.humanoidBone.hips, gunFuReloadNodeLeaf.gotGunFuAttackedAble._character.humanoidBone.hips };
                             float[] trackWeight = { .5f, .2f };
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
