@@ -280,11 +280,13 @@ public partial class EnemyAnimationManager : INodeManager
 
     public void UpdateNode()
     {
-
-
-       _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         upperlayerAnimationNodeManagerProtable.UpdateNode();
         enemyAnimationNodeComponentManager.Update();
+    }
+
+    protected virtual void OnNotifyAnimationNode<T>(Enemy enemy,T var)
+    {
+        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
     }
     
 }

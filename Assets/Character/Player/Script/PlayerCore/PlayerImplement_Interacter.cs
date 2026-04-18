@@ -14,8 +14,6 @@ public partial class Player : I_Interacter
 
     [SerializeField] private string interactableName;
 
-    [SerializeField] public Transform rightFootss;
-
     [SerializeField] public AnimationTriggerEventSCRP pokePickUpAnimationSCRP;
     private void UpdateFindingInteractableObject()
     {

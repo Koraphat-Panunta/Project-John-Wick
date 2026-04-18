@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 935b7239208fa5643b5d62d0ae2f2e9f
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -13,22 +13,22 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Enemy_mask_white_BaseColor
-    second: {fileID: 2800000, guid: 2e0b91a519c2dbd4a89e548bbe1cc2bd, type: 3}
+    second: {fileID: 2800000, guid: 30754e8f877bbcd4492bbe863cdf0bd1, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Enemy_mask_white_Metallic
-    second: {fileID: 2800000, guid: d6fae1e87a64f6543841203c0782455b, type: 3}
+    second: {fileID: 2800000, guid: d55e2e368fd42994da4df0fc270b18c0, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Enemy_mask_white_Normal
-    second: {fileID: 2800000, guid: 4dfd587bac536df46b658e199107fcec, type: 3}
+    second: {fileID: 2800000, guid: a5f00fbae30ca714c9eadfe303af9a8b, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Enemy_mask_white_Roughness
-    second: {fileID: 2800000, guid: ee5524044aa5d7c46a6ac21c972843dd, type: 3}
+    second: {fileID: 2800000, guid: 94282a4d216188646879e5a374232350, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -81,6 +81,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8

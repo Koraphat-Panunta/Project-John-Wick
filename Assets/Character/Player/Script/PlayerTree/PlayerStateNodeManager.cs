@@ -195,7 +195,7 @@ public class PlayerStateNodeManager :
             () => (this.player.inputMoveDir_World.magnitude > 0 && this.player.isSprint) || (this.player.triggerDodgeRoll));
 
         playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
-            this.player, this.player.pokePickUpAnimationSCRP, this.player.rightFootss,
+            this.player, this.player.pokePickUpAnimationSCRP, this.player.humanoidBone._rightFootBone,
             () => (player._isInteractCommand == true || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand)))
             && this.player.currentInteractable is Weapon 
             && player._weaponManuverManager.isPickingUpWeaponManuverAble

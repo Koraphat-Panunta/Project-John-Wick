@@ -79,6 +79,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         {
             this.painStateAnimationNodeLeaf.TriggerReset();
         }
+
+        this.OnNotifyAnimationNode(this.enemy,node);
     }
   
   
