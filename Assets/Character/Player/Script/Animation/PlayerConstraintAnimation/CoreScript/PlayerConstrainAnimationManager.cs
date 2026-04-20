@@ -4,8 +4,7 @@ using UnityEngine.Animations.Rigging;
 
 public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeManager
 {
-    
-
+   
     [SerializeField] private Rig rig;
     [SerializeField] private RigBuilder rigBuilder;
 
@@ -479,7 +478,6 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     private float maxVerticalRotateDegrees = 75;
     private Vector3 pointingPos;
     [SerializeField] Transform aimConstrainPositionReference;
-    [SerializeField] Transform beginPos;
     [Range(1,10)]
     [SerializeField] float maxCastDistacne;
     [Range(1, 10)]

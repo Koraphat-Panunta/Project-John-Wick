@@ -9,8 +9,6 @@ public partial class PlayerConstrainAnimationManager
     public HandArmIKConstraintManager rightHandIKConstriantManager;
     public LegsConstrainManager legsConstraintManager;
     public HeadRotationConstraintManager headLookConstraintManager;
-    [SerializeField] private Transform leftHandTransformRef;
-    [SerializeField] private Transform leftHandBoneTransform;
 
     public AimBodyConstrainScriptableObject body_ADS_Prone_Constrain_SCRP;
     public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
