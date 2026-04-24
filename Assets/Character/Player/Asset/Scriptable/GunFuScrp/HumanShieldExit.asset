@@ -12,26 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
   m_Name: HumanShieldExit
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
-  clip: {fileID: 7400000, guid: b08da54e3f3bf084a8c79c2d8ae165b6, type: 2}
+  clip: {fileID: 5021814327834153371, guid: 7fc7a902c7fbefa4baca7c6a9da841c7, type: 3}
   enterNormalizedTime: 0.349
   triggerEventDetail:
   - normalizedTime: 0.635
     eventName: Transition ragdoll
   endNormalizedTime: 0.8
   animationInteractCharacterDetail:
-  - subjectName: HumanShield
-    offsetPositionFormAnchor: {x: 0, y: 0}
+  - offsetPositionFormAnchor: {x: 0, y: 0}
     RotationRelative: 0
     beginWarpingNormalizedTime_BasedOnMainSubject: 0.35
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.4
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.35
     enterAnimationOffsetNormalizedTime: 0.35
     endAnimationNormalizedTime: 0.8
-  - subjectName: GotHumanShield
-    offsetPositionFormAnchor: {x: 0, y: 0.62}
+  - offsetPositionFormAnchor: {x: 0, y: 0.62}
     RotationRelative: 0
     beginWarpingNormalizedTime_BasedOnMainSubject: 0.35
     finishWarpingNormalizedTime_BasedOnMainSubject: 0.4
     beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.35
     enterAnimationOffsetNormalizedTime: 0.5
     endAnimationNormalizedTime: 0.635
+  audioAnimationInteractTriggerEvents: []

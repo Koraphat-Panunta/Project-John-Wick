@@ -4,7 +4,6 @@ public partial class PlayerConstrainAnimationManager
 {
     public BodyLookConstrainManager standSplineLookConstrain;
     public LeaningRotation leaningRotation;
-    public RightHandConstrainLookAtManager RightHandConstrainLookAtManager;
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HandArmIKConstraintManager rightHandIKConstriantManager;
     public LegsConstrainManager legsConstraintManager;

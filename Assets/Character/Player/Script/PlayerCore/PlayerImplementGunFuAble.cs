@@ -47,21 +47,17 @@ public partial class Player : IGunFuAble
     [SerializeField] public TransformOffsetSCRP humanShieldTargetAdjustTransform;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
     [SerializeField] public AnimationInteractScriptableObject gunFuReloadScripatableObject;
-    [SerializeField] public AnimationInteractScriptableObject primaryWeaponDisarmGunFuScriptableObject;
-    [SerializeField] public AnimationInteractScriptableObject secondaryWeaponDisarmGunFuScriptableObject;
     [SerializeField] public AnimationInteractScriptableObject gunFuHitDownScriptableObject;
 
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_II;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_III;
-    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_IV;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_II;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
 
-    [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround_Secondary_I;
-    [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround_Primary_I;
+    [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround;
 
     public RandomGunFuExecute secondaryExecuteGunFuRandomNumber;
     public RandomGunFuExecute primaryExecuteGunFuRandomNumber;
@@ -74,7 +70,7 @@ public partial class Player : IGunFuAble
         _targetAdjustTranform = targetAdjustTranform;
         triggerGunFuBufferTime = 1;
 
-        secondaryExecuteGunFuRandomNumber = new RandomGunFuExecute(4);
+        secondaryExecuteGunFuRandomNumber = new RandomGunFuExecute(3);
         primaryExecuteGunFuRandomNumber = new RandomGunFuExecute(2);
     }
     public void UpdateDetectingTarget()

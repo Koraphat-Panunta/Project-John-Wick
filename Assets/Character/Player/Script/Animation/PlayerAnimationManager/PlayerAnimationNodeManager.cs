@@ -18,9 +18,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf climbHighNodeLeaf { get; set; }
     public NodeSelector gunFuBaseLayerNodeSelector { get; set; }
 
-    public NodeSelector weaponDisarmSelector { get; set; }
-    public PlayAnimationNodeLeaf weaponDisarmPrimaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf weaponDisarmSecondaryNodeLeaf { get; set; }
+
     public GunFuExecuteAnimationNodeLeaf executeAnimationNodeLeaf { get; set; }
 
     public NodeSelector restrictShieldSelector { get; set; }
@@ -195,17 +193,7 @@ public partial class PlayerAnimationManager
                 return false;
             });
 
-        weaponDisarmSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf);
-        weaponDisarmPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
-            && weaponDisarmNodeLeaf.disarmedWeapon is PrimaryWeapon
-            , animator, GunFuManaverStateName.WeaponDisarmPrimary.ToString(), 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-            ,player.primaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
-        weaponDisarmSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is WeaponDisarm_GunFuInteraction_NodeLeaf weaponDisarmNodeLeaf
-            && weaponDisarmNodeLeaf.disarmedWeapon is SecondaryWeapon
-            , animator, GunFuManaverStateName.WeaponDisarmSecondary.ToString(), 0, AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
-            ,player.secondaryWeaponDisarmGunFuScriptableObject.enterNormalizedTime);
+      
 
         executeAnimationNodeLeaf = new GunFuExecuteAnimationNodeLeaf(() => executeAnimationNodeLeaf.gunFuExecuteNodeLeaf != null, player, animator);
 
@@ -309,7 +297,7 @@ public partial class PlayerAnimationManager
                 this.proneStateNodeSelector.AddtoChildNode(this.diveStallAnimationNodeLeaf);
                 this.proneStateNodeSelector.AddtoChildNode(this.proneAnimationNodeLeaf);
 
-                gunFuBaseLayerNodeSelector.AddtoChildNode(weaponDisarmSelector);
+
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
                 this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.gunFuReloadNodeLeaf);
@@ -327,9 +315,6 @@ public partial class PlayerAnimationManager
                 humanShieldSelector.AddtoChildNode(humanShieldEnterNodeLeaf);
                 humanShieldSelector.AddtoChildNode(humanShieldExitNodeLeaf);
                 humanShieldSelector.AddtoChildNode(humanShieldMoveNodeLeaf);
-
-                weaponDisarmSelector.AddtoChildNode(weaponDisarmPrimaryNodeLeaf);
-                weaponDisarmSelector.AddtoChildNode(weaponDisarmSecondaryNodeLeaf);
 
                 parkourNodeSelector.AddtoChildNode(vaultingNodeLeaf);
                 parkourNodeSelector.AddtoChildNode(climbHighNodeLeaf);

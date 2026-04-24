@@ -27,8 +27,6 @@ public partial class Player: IGotGunFuAttackedAble
     
 
     //public Character _character { get => this; }
-
-    public PlayerBrounceOffGotAttackGunFuScriptableObject PlayerBrounceOffGotAttackGunFuScriptableObject;
     public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble gunFuAble)
     {
         _triggerHitedGunFu = true;

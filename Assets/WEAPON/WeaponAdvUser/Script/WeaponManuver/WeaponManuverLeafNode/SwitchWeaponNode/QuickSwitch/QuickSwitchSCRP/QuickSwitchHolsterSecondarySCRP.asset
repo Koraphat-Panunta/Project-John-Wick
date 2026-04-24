@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
   m_Name: QuickSwitchHolsterSecondarySCRP
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: 0b0048b69ef97f749a9d57d1d472a5dd, type: 2}
+  clip: {fileID: -2611673934661063636, guid: 7384261d3dcdfa9468caae41b1d2c1a8, type: 3}
   enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.56
+  - normalizedTime: 0.5
     eventName: HolsterSecondary
-  - normalizedTime: 0.9
+  - normalizedTime: 0.95
     eventName: DrawPrimary
-  endNormalizedTime: 0.9
+  endNormalizedTime: 1

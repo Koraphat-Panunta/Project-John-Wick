@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit1
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: 41b712eb6b7db8a4088bcb943227162e, type: 2}
-  enterNormalizedTime: 0.3
+  clip: {fileID: 2786917401317576147, guid: c5533531b96b8b74c90217687d4beddc, type: 3}
+  enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.3
+  - normalizedTime: 0.2
     eventName: BeginWarp
-  - normalizedTime: 0.51
+  - normalizedTime: 0.37
     eventName: OpenAttackingTime
-  - normalizedTime: 0.55
+  - normalizedTime: 0.448
     eventName: CloseAttackingTime
   - normalizedTime: 0.6
     eventName: TransitionAble
-  endNormalizedTime: 0.82
+  endNormalizedTime: 1
   gunFuHitDetail:
   - gunFuHitStateName: Hit1
     postureHitDamage: 30
@@ -48,10 +48,19 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
+        time: 0.6491576
+        value: 0.47412148
+        inSlope: 1.4997958
+        outSlope: 1.4997958
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -59,7 +68,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    warpingTime: {x: 0.3, y: 0.623}
+    warpingTime: {x: 0.2, y: 0.39}
     hitDirRotOffset: {x: 0, y: 0}
     hitDirPoseAnimOffset: {x: -60, y: 0, z: 0}
     hitPushForce: 2
@@ -70,3 +79,4 @@ MonoBehaviour:
     attackVolumeForward: 0.5
     attackVolumeUpward: 1.1
     attackVolumeRightward: 0
+  audiotriggerEvents: []

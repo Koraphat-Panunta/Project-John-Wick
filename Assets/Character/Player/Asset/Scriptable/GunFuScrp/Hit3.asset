@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
   m_Name: Hit3
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: b907f65880186bb43a6ec8cd8733b496, type: 2}
+  clip: {fileID: -2424170828309941921, guid: c5533531b96b8b74c90217687d4beddc, type: 3}
   enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.29
-    eventName: OpenAttackingTime
-  - normalizedTime: 0.36
-    eventName: CloseAttackingTime
   - normalizedTime: 0
     eventName: BeginWarp
-  endNormalizedTime: 0.7
+  - normalizedTime: 0.42
+    eventName: OpenAttackingTime
+  - normalizedTime: 0.5
+    eventName: CloseAttackingTime
+  endNormalizedTime: 1
   gunFuHitDetail:
   - gunFuHitStateName: Hit3
     postureHitDamage: 60
@@ -75,7 +75,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    warpingTime: {x: 0, y: 0.29}
+    warpingTime: {x: 0, y: 0.35}
     hitDirRotOffset: {x: 0, y: -45}
     hitDirPoseAnimOffset: {x: 0, y: 270, z: 0}
     hitPushForce: 3
@@ -86,3 +86,4 @@ MonoBehaviour:
     attackVolumeForward: 0.5
     attackVolumeUpward: 1
     attackVolumeRightward: 0
+  audiotriggerEvents: []

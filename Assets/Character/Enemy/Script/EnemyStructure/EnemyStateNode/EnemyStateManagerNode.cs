@@ -166,8 +166,8 @@ public partial class EnemyStateManagerNode : INodeManager
             ,this.enemy._bones
             ,GotExecutedStateName.GotExecuted_OnGround_LayDown_I
             ,()=> enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-            &&( gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround_Primary_I 
-            || gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround_Secondary_I)
+            &&( gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround 
+            || gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround)
             && (enemy as IRagdollAble)._isFacingUp == false
             );
         gotExecute_OnGround_LayUp_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy
@@ -177,8 +177,8 @@ public partial class EnemyStateManagerNode : INodeManager
            , this.enemy._bones
            , GotExecutedStateName.GotExecuted_OnGround_LayUp_I
            , () => enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf
-           && (gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround_Primary_I
-           || gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround_Secondary_I)
+           && (gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround
+           || gunFuExecuteNodeLeaf._executeStateName == GunFuExecuteStateName.GunFu_Single_Execute_OnGround)
            && (enemy as IRagdollAble)._isFacingUp 
            );
        

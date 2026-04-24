@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotGunFuAttackNode
 {
+    public PlayerBrounceOffGotAttackGunFuNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
+    {
+    }
+
     public float _exitTime_Normalized { get ; set ; }
     public float _timer { get ; set ; }
-    public AnimationClip _animationClip { get => brounceOffGotAttackGunFuScriptableObject.animationClip ; set => brounceOffGotAttackGunFuScriptableObject.animationClip = value; }
-    private PlayerBrounceOffGotAttackGunFuScriptableObject brounceOffGotAttackGunFuScriptableObject;
-    public PlayerBrounceOffGotAttackGunFuNodeLeaf(PlayerBrounceOffGotAttackGunFuScriptableObject playerBrounceOffGotAttackGunFuScriptableObject,Player player, Func<bool> preCondition) : base(player, preCondition)
-    {
-        this.brounceOffGotAttackGunFuScriptableObject = playerBrounceOffGotAttackGunFuScriptableObject;
-    }
+    public AnimationClip _animationClip { get; set; }
 
     public override void Enter()
     {
@@ -33,9 +32,9 @@ public class PlayerBrounceOffGotAttackGunFuNodeLeaf : PlayerStateNodeLeaf, IGotG
 
     public override void FixedUpdateNode()
     {
-        if (_timer >= _animationClip.length * brounceOffGotAttackGunFuScriptableObject.onGroundNormalized)
+        if (_timer >= _animationClip.length * .5f)
             player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero, 
-                brounceOffGotAttackGunFuScriptableObject.breakForcingOnGround,
+                this.player.breakDecelerate,
                 MoveMode.MaintainMomentumDirection);
 
         base.FixedUpdateNode();
