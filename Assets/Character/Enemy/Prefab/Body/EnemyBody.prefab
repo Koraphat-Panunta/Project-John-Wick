@@ -1,0 +1,198 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8823995731192281560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6496612367786742079}
+  - component: {fileID: 8825404361266503087}
+  - component: {fileID: 7970066793317922304}
+  - component: {fileID: 6349157179994428953}
+  - component: {fileID: 6121316580327869847}
+  - component: {fileID: 6188234506445754948}
+  - component: {fileID: 8753186759143956534}
+  m_Layer: 0
+  m_Name: EnemyBody
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6496612367786742079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.66123, y: 0.83568, z: 25.17275}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8825404361266503087
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57e2c988ed24de940be8f361798781fd, type: 2}
+  m_CullingMode: 2
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7970066793317922304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e97a104969897d488fb5b36dadb19b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoBodyPartSetUp
+  enemy: {fileID: 0}
+  humanoidBone: {fileID: 6349157179994428953}
+  head_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 2301b8a4e9e1e0d4db3c2f2be65b0fb5,
+    type: 2}
+  body_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 946eb930944358846805857f388404e4,
+    type: 2}
+  arms_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 907938b86376a0c459797ea7a69fa884,
+    type: 2}
+  legs_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: ad1b06b8c0e3af64db69b960a2bdb8a7,
+    type: 2}
+  mass: 20
+  headRaduis: 0.0008
+  headHeight: 0.00284
+  headOffset: {x: 0, y: 0.08, z: 0.04}
+  bodySize: {x: 0.35, y: 0.4, z: 0.24}
+  bodyCenter: {x: 0, y: 0.12, z: 0}
+  hipCenter: {x: 0, y: -0.07, z: 0}
+  hipSize: {x: 0.32, y: 0.23, z: 0.17}
+  legRaduis: 0.00075
+  armRaduis: 0.0006
+  armLenght: 0.00363
+  armOffset: 0.00162
+  enemyAnimationManager: {fileID: 6121316580327869847}
+  enemyConstrainAnimationNodeManager: {fileID: 0}
+--- !u!114 &6349157179994428953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea74221c57043f04eb1768b1e9f5359b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanoidBone
+  hips: {fileID: 0}
+  _leftUpperLegBone: {fileID: 0}
+  _leftLowerLegBone: {fileID: 0}
+  _leftFootBone: {fileID: 0}
+  _rightUpperLegBone: {fileID: 0}
+  _rightLowerLegBone: {fileID: 0}
+  _rightFootBone: {fileID: 0}
+  _spine_0_Bone: {fileID: 0}
+  _spine_1_Bone: {fileID: 0}
+  _spine_2_Bone: {fileID: 0}
+  _leftShoulderBone: {fileID: 0}
+  _leftArmBone: {fileID: 0}
+  _leftForeArmBone: {fileID: 0}
+  _leftHandBone: {fileID: 0}
+  _neckBone: {fileID: 0}
+  _headBone: {fileID: 0}
+  _rightShoulderBone: {fileID: 0}
+  _rightArmBone: {fileID: 0}
+  _rightForeArmBone: {fileID: 0}
+  _rightHandBone: {fileID: 0}
+--- !u!114 &6121316580327869847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0410161d8fa6b4eaf3965a5aebc571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationManager
+  painStatePoseAnimationSCRP: {fileID: 11400000, guid: 2c622d0a94bf5ff44814eafde721ac78,
+    type: 2}
+  animator: {fileID: 8825404361266503087}
+  enemy: {fileID: 0}
+  SholderSide: 0
+  InputMoveMagnitude_Normalized: 0
+  VelocityMoveMagnitude_Normalized: 0
+  MoveInputLocalFoward_Normalized: 0
+  MoveInputLocalSideWard_Normalized: 0
+  MoveVelocityForward_Normalized: 0
+  MoveVelocitySideward_Normalized: 0
+  DotMoveInputWordl_VelocityWorld_Normalized: 0
+  DotVectorLeftwardDir_MoveInputVelocity_Normallized: 0
+  Rotating: 0
+  AimDownSightWeight: 0
+  DotVelocityWorld_Leftward_Normalized: 0
+  RecoilWeight: 0
+  PainStateHorizontal: 0
+  PainStateVertical: 0
+  isGround: 0
+  isSprint: 0
+  AnimationStateName: 
+  lerpingTvelocityAnimation: 0
+--- !u!114 &6188234506445754948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.RigBuilder
+  m_RigLayers:
+  - m_Rig: {fileID: 0}
+    m_Active: 1
+  m_Effectors: []
+--- !u!114 &8753186759143956534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8823995731192281560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bee3d885a465f459a1fca9935917a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConstrainSetUp
+  constrainManager:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  humanoidBone: {fileID: 6349157179994428953}

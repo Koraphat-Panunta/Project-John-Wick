@@ -65,7 +65,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
         thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
         this.UpdateCameraPosition();
 
-        if (this.cameraController.curSide == Player.ShoulderSide.Right)
+        if (this.cameraController.curSide == Side.Right)
         {
             offsetX = Mathf.Lerp(this.cinemachineOffset.x,
                 this.targetOffset.x,

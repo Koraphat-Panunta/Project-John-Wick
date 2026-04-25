@@ -63,7 +63,7 @@ public partial class Player : SubjectPlayer,
         this.AddObserver(this);
         coverDetection = new CoverDetection();
         commandBufferManager = new CommandBufferManager();
-        curShoulderSide = ShoulderSide.Right;
+        curShoulderSide = Side.Right;
 
         this._hpGauge = new Gauge
             (

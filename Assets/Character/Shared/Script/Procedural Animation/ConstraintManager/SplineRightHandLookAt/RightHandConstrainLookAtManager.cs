@@ -50,4 +50,11 @@ public class RightHandConstrainLookAtManager : MonoBehaviour,IConstraintManager
 
        
     }
+
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        this.rightArm_MultiAimConstraint.data.constrainedObject = humanoidBone._rightArmBone;
+        this.rightForeArm_MultiAimConstraint.data.constrainedObject = humanoidBone._rightForeArmBone;
+        this.rightHand_MultiAimConstraint.data.constrainedObject = humanoidBone._rightHandBone;
+    }
 }

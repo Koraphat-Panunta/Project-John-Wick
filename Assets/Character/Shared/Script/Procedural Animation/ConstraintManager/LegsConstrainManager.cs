@@ -108,4 +108,14 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
     public Transform GetRightLeg_Target_Transform() => this.rightLeg_Target_Foot;
     public Transform GetRightLeg_Hint_Transform() => this.rightLeg_Hint_Foot;
 
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        this.leftLegTwoBoneIKConstrain.data.root = humanoidBone._leftUpperLegBone;
+        this.leftLegTwoBoneIKConstrain.data.mid = humanoidBone._leftLowerLegBone;
+        this.leftLegTwoBoneIKConstrain.data.tip = humanoidBone._leftFootBone;
+
+        this.rightLegTwoBoneIKConstrain.data.root = humanoidBone._rightUpperLegBone;
+        this.rightLegTwoBoneIKConstrain.data.mid = humanoidBone._rightLowerLegBone;
+        this.rightLegTwoBoneIKConstrain.data.tip = humanoidBone._rightFootBone;
+    }
 }

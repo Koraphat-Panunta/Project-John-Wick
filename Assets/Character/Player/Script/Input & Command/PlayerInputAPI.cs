@@ -92,11 +92,11 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     {
 
 
-        if (player.curShoulderSide == ShoulderSide.Left)
-        { player.curShoulderSide = ShoulderSide.Right; }
+        if (player.curShoulderSide == Side.Left)
+        { player.curShoulderSide = Side.Right; }
 
-        else if (player.curShoulderSide == ShoulderSide.Right)
-        { player.curShoulderSide = ShoulderSide.Left; }
+        else if (player.curShoulderSide == Side.Right)
+        { player.curShoulderSide = Side.Left; }
         player.NotifyObserver(player, NotifyEvent.SwapShoulder);
 
     }

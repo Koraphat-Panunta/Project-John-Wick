@@ -91,5 +91,8 @@ public class HeadRotationConstraintManager : MonoBehaviour, IConstraintManager
         //Debug.DrawRay(this.multiRotationConstraint.data.constrainedObject.position, this.multiRotationConstraint.data.constrainedObject.forward,Color.blue);
     }
 
-
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        this.multiRotationConstraint.data.constrainedObject = humanoidBone._headBone;
+    }
 }

@@ -70,5 +70,14 @@ public class BodyLookConstrainManager : MonoBehaviour, IConstraintManager
     public float spline1Weight { get; protected set; }
     public float spline2Weight { get; protected set; }
 
-    
+    public MultiAimConstraint GetMultiAimConstraint_Spline_0() => this.spline;
+    public MultiAimConstraint GetMultiAimConstraint_Spline_1() => this.spline1;
+    public MultiAimConstraint GetMultiAimConstraint_Spline_2() => this.spline2;
+
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        this.GetMultiAimConstraint_Spline_0().data.constrainedObject = humanoidBone._spine_0_Bone;
+        this.GetMultiAimConstraint_Spline_1().data.constrainedObject = humanoidBone._spine_1_Bone;
+        this.GetMultiAimConstraint_Spline_2().data.constrainedObject = humanoidBone._spine_2_Bone;
+    }
 }

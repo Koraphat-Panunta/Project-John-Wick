@@ -16,12 +16,8 @@ public partial class Player: IWeaponAdvanceUser
     [SerializeField] public TransformOffsetSCRP quickSwitchHoldOffset;
 
     public CrosshairController crosshairController;
-    public enum ShoulderSide
-    {
-        Left,
-        Right
-    }
-    public ShoulderSide curShoulderSide;
+    
+    public Side curShoulderSide;
     public MainHandSocket _mainHandSocket { get => this.MainHandSocket; set => this.MainHandSocket = value; }
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 

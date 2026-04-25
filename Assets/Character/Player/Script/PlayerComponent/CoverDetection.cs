@@ -36,7 +36,7 @@ public class CoverDetection
         }
        
     }
-    public bool GetAimPos(Player.ShoulderSide shoulderSide)
+    public bool GetAimPos(Side shoulderSide)
     {
         float sphereCastRaduis = 0.02f;
         List<Vector3> sphereCastPos = new List<Vector3>();
@@ -55,14 +55,14 @@ public class CoverDetection
             if (Vector3.Distance(sphereCastPos[i], sphereCastPos[i - 1]) <= sphereCastRaduis * 2 + 0.1f)
                 continue;
 
-            if (shoulderSide == Player.ShoulderSide.Left)
+            if (shoulderSide == Side.Left)
             {
                 coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized * 0.5f;
                 aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.up, obstacleSurfaceDir)).normalized * 0.1f;
                 PlayerDeBuger.AimPos = aimPos;
                 PlayerDeBuger.CoverPos = coverPos;
             }
-            else if (shoulderSide == Player.ShoulderSide.Right)
+            else if (shoulderSide == Side.Right)
             {
                 coverPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.5f;
                 aimPos = sphereCastPos[i - 1] - (Vector3.Cross(Vector3.down, obstacleSurfaceDir)).normalized * 0.1f;
@@ -75,10 +75,10 @@ public class CoverDetection
 
         return false;
     }
-    private List<Vector3> GetSphereCast(Player.ShoulderSide shoulderSide,float sphereRaduis,Vector3 castDir)
+    private List<Vector3> GetSphereCast(Side shoulderSide,float sphereRaduis,Vector3 castDir)
     {
         List<Vector3> sphereCast = new List<Vector3>();
-        if (shoulderSide == Player.ShoulderSide.Left)
+        if (shoulderSide == Side.Left)
         {
             detecEdgeDes = detecEdgeOri + Vector3.Cross(Vector3.up, obstacleSurfaceDir);
             sphereCast = ObstacleDetectionSurface.GetSphereCast(sphereRaduis, detecEdgeDetect, castDir,detecEdgeOri,detecEdgeDes);

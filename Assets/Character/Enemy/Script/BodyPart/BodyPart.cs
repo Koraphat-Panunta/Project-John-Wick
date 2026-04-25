@@ -148,6 +148,7 @@ public abstract class BodyPart : MonoBehaviour
 
     }
 
+    public void SetBodyPartDamageRecivedSCRP(BodyPartDamageRecivedSCRP bodyPartDamageRecivedSCRP) => this.bodyPartDamageRecivedSCRP = bodyPartDamageRecivedSCRP;
 
     #region ImplementIGotGunFuAttackedAble
     public bool _triggerHitedGunFu
@@ -206,6 +207,10 @@ public abstract class BodyPart : MonoBehaviour
 
     private Coroutine forceStay;
 
+    public void SetCharacterBodyOwner(Enemy character)
+    {
+        this.enemy = character;
+    }
     public IEnumerator ForceStay()
     {
         yield return new WaitForSeconds(this.forceSaveBufferTimeDuration);

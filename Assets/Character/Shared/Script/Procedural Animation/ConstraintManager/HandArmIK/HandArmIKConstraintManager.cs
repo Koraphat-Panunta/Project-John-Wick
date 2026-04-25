@@ -4,6 +4,8 @@ using UnityEngine.Animations.Rigging;
 
 public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 {
+    public Side side;
+
     [SerializeField] public TwoBoneIKConstraint twoBoneIKConstraint;
 
     [SerializeField] private Transform handHint;
@@ -39,8 +41,24 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     public Transform GetTargetHandTransform() => this.handTarget;
     public Transform GetHintHandTransform() => this.handHint;
 
+    public TwoBoneIKConstraint GetTwoBoneIKConstraint() => this.twoBoneIKConstraint;
 
-   
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        if (this.side == Side.Left)
+        {
+            this.GetTwoBoneIKConstraint().data.root = humanoidBone._leftArmBone;
+            this.GetTwoBoneIKConstraint().data.mid = humanoidBone._leftForeArmBone;
+            this.GetTwoBoneIKConstraint().data.tip = humanoidBone._leftHandBone;
+        }
+        else
+        {
+            this.GetTwoBoneIKConstraint().data.root = humanoidBone._rightArmBone;
+            this.GetTwoBoneIKConstraint().data.mid = humanoidBone._rightForeArmBone;
+            this.GetTwoBoneIKConstraint().data.tip = humanoidBone._rightHandBone;
+        }
+    }
+
     // Update is called once per frame
 
 }

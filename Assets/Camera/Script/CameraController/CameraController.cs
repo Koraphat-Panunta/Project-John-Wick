@@ -33,13 +33,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
 
     [SerializeField,TextArea]
     public string inputLook;
-    public enum Side
-    {
-        left,
-        right
-    }
+
     
-    public Player.ShoulderSide curSide;
+    public Side curSide;
 
     [Range(0, 10)]
     [SerializeField] private float shootImpluseDuration;

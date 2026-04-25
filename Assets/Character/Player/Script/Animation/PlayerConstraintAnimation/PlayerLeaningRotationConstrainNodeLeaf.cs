@@ -72,7 +72,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         Vector3 castDir = weaponAdvanceUser._pointingPos - playerCastAnchorPos;
         Vector3 castFindTargetWeightBeginPos = playerCastAnchorPos;
         Vector3 castFindTargetWeightEndPos = playerCastAnchorPos;
-        if (player.curShoulderSide == Player.ShoulderSide.Left)
+        if (player.curShoulderSide == Side.Left)
         {
 
             for (int i = 0; i <= numberRaycast; i++)
@@ -117,7 +117,7 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
             this.targetLeanWeight = -leaningScriptableObject.leanWeightCurve.Evaluate(targetWeight);
 
         }
-        else if (player.curShoulderSide == Player.ShoulderSide.Right)
+        else if (player.curShoulderSide == Side.Right)
         {
             for (int i = 0; i <= numberRaycast; i++)
             {

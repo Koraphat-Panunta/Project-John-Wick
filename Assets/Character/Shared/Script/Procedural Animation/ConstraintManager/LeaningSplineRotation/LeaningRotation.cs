@@ -75,6 +75,12 @@ public class LeaningRotation : MonoBehaviour, IConstraintManager
         rotationConstraintSpline1.data.sourceObjects = leanRef;
         rotationConstraintSpline1.data.offset = Vector3.Lerp(Vector3.zero, leaningRotaionScriptable.leaningLeftRightSpline1Offset, weight);
     }
+
+    public void AssignBone(HumanoidBone humanoidBone)
+    {
+        this.rotationConstraintSpline.data.constrainedObject = humanoidBone._spine_0_Bone;
+        this.rotationConstraintSpline1.data.constrainedObject = humanoidBone._spine_1_Bone;
+    }
 }
 
 
