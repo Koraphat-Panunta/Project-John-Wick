@@ -232,20 +232,20 @@ public partial class Enemy : SubjectEnemy
     public void InitializedBodyPart()
     {
         //Head
-        head.Initialized();
+        this.head.Initialized();
         //Chest
-        spline.Initialized();
-        hip.Initialized();
+        this.spline.Initialized();
+        this.hip.Initialized();
         //Legs
-        right_upper_Leg.Initialized();
-        right_lower_Leg.Initialized();
+        this.right_upper_Leg.Initialized();
+        this.right_lower_Leg.Initialized();
         left_upper_Leg.Initialized();
-        left_lower_Leg.Initialized();
+        this.left_lower_Leg.Initialized();
         //Arm
-        right_lower_Arm.Initialized();
-        right_upper_Arm.Initialized();
-        left_lower_Arm.Initialized();
-        left_upper_Arm.Initialized();
+        this.right_lower_Arm.Initialized();
+        this.right_upper_Arm.Initialized();
+        this.left_lower_Arm.Initialized();
+        this.left_upper_Arm.Initialized();
     }
     #endregion
     #region InitializedMotionControl

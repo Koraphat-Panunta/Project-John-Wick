@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(HumanoidBone))]
+
 public abstract class Character : MonoBehaviour,IInitializedAble
 {
     public abstract Gauge _hpGauge { get; protected set; } 
