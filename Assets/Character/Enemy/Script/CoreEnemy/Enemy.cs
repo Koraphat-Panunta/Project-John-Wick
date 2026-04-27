@@ -13,7 +13,7 @@ public partial class Enemy : SubjectEnemy
 
 {
 
-
+    public LocalServiceLocator localServiceLocator;
     public FieldOfView enemyFieldOfView;
     public override MovementCompoent _movementCompoent { get ; set ; }
     public EnemyGetShootDirection enemyGetShootDirection;
@@ -57,7 +57,6 @@ public partial class Enemy : SubjectEnemy
         enemyGetShootDirection = new EnemyGetShootDirection(this);
 
         _isGotAttackedAble = true;
-        InitializedBodyPart();
         MotionControlInitailized();
         friendlyFirePreventingBehavior = new FriendlyFirePreventingBehavior(this);
         _movementCompoent = new EnemyMovement(this, transform, this, this.characterController);
@@ -216,38 +215,7 @@ public partial class Enemy : SubjectEnemy
 
     }
   
-    #region InitialziedBodyPart
-    [SerializeField] public HeadBodyPart head;
-    [SerializeField] public ChestBodyPart spline;
-    [SerializeField] public ChestBodyPart hip;
-    [SerializeField] public LegRightBodyPart right_upper_Leg;
-    [SerializeField] public LegRightBodyPart right_lower_Leg;
-    [SerializeField] public LegLeftBodyPart left_upper_Leg;
-    [SerializeField] public LegLeftBodyPart left_lower_Leg;
-    [SerializeField] public ArmRightBodyPart right_upper_Arm;
-    [SerializeField] public ArmRightBodyPart right_lower_Arm;
-    [SerializeField] public ArmLeftBodyPart left_upper_Arm;
-    [SerializeField] public ArmLeftBodyPart left_lower_Arm;
 
-    public void InitializedBodyPart()
-    {
-        //Head
-        this.head.Initialized();
-        //Chest
-        this.spline.Initialized();
-        this.hip.Initialized();
-        //Legs
-        this.right_upper_Leg.Initialized();
-        this.right_lower_Leg.Initialized();
-        left_upper_Leg.Initialized();
-        this.left_lower_Leg.Initialized();
-        //Arm
-        this.right_lower_Arm.Initialized();
-        this.right_upper_Arm.Initialized();
-        this.left_lower_Arm.Initialized();
-        this.left_upper_Arm.Initialized();
-    }
-    #endregion
     #region InitializedMotionControl
 
 
@@ -257,19 +225,21 @@ public partial class Enemy : SubjectEnemy
     public MotionControlManager motionControlManager { get; set; }
     public void MotionControlInitailized()
     {
-        hips = this.hip.gameObject;
+        FullBodyCharacterPart fullBodyCharacterPart = this.localServiceLocator.Get<FullBodyCharacterPart>();
+
+        hips = fullBodyCharacterPart.hipBodyPart.gameObject;
         bones = new List<GameObject>();
-        bones.Add(head.gameObject);
-        bones.Add(spline.gameObject);
-        bones.Add(hip.gameObject);
-        bones.Add(right_upper_Leg.gameObject);
-        bones.Add(right_lower_Leg.gameObject);
-        bones.Add(left_upper_Leg.gameObject);
-        bones.Add(left_lower_Leg.gameObject);
-        bones.Add(right_upper_Arm.gameObject);
-        bones.Add(right_lower_Arm.gameObject);
-        bones.Add(left_upper_Arm.gameObject);
-        bones.Add(left_lower_Arm.gameObject);
+        bones.Add(fullBodyCharacterPart.headBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.spline_0BodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.hipBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.upperLegRightBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.lowerLegRightBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.upperLegLeftBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.lowerLegLeftBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.armRightBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.foreArmRightBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.armLeftBodyPart.gameObject);
+        bones.Add(fullBodyCharacterPart.foreArmLeftBodyPart.gameObject);
 
         motionControlManager = new MotionControlManager(bones, hips, animator);
     } 

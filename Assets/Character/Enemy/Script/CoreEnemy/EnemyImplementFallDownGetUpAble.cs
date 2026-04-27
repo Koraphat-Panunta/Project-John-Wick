@@ -12,11 +12,10 @@ public partial class Enemy: IRagdollAble
 
     public Transform _hipsBone => this.humanoidBone.hips;
 
-    [SerializeField] private Transform rootModel;
-    public Transform _root => rootModel;
+    public Transform _root => this.humanoidBone.hips.parent;
     public Transform[] _bones => this.humanoidBone.hips.GetComponentsInChildren<Transform>();
 
-    public Rigidbody[] _ragdollRigidbodies => rootModel.GetComponentsInChildren<Rigidbody>();
+    public Rigidbody[] _ragdollRigidbodies => _root.GetComponentsInChildren<Rigidbody>();
 
     public bool _isFallDown { get 
         {

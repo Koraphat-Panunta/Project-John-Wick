@@ -50,7 +50,7 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
         {
             enemyHPInWorldUI.gameObject.SetActive(true);
             enemyHPInWorldUI.SetValue(detectedEnemy.GetHP(),detectedEnemy.GetMaxHp());
-            enemyHPInWorldUI.SetAnchorPosition(detectedEnemy.head.transform.position);
+            enemyHPInWorldUI.SetAnchorPosition(detectedEnemy.humanoidBone._headBone.position);
             enemyHPInWorldUI.SetCameraLookAt(this.camera);
             
         }

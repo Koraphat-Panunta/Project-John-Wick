@@ -40,7 +40,7 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 
         for (int i = 0; i < enemyList.Count; i++) 
         {
-            assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].head.transform.position);
+            assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].humanoidBone._headBone.transform.position);
             if (enemyList[i].isDead
                 ){
                 objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);

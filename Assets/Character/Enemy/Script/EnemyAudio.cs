@@ -10,7 +10,6 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
     [SerializeField] private AudioClip dead;
     [SerializeField] private AudioClip footStep;
     [SerializeField] private Enemy enemy;
-    [SerializeField] private Animator animator;
    
     bool isdead = false;
 

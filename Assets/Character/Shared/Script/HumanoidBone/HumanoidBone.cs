@@ -21,6 +21,7 @@ public class HumanoidBone : MonoBehaviour
 
     [SerializeField] public Transform _neckBone;
     [SerializeField] public Transform _headBone;
+    [SerializeField] public Transform _top_head_bone;
 
     [SerializeField] public Transform _rightShoulderBone;
     [SerializeField] public Transform _rightArmBone;
@@ -68,6 +69,7 @@ public class HumanoidBone : MonoBehaviour
 
         _neckBone = Find(boneMap, "mixamorig:Neck");
         _headBone = Find(boneMap, "mixamorig:Head");
+        _top_head_bone = Find(boneMap, "mixamorig:HeadTop_End");
 
         Debug.Log("Humanoid bones populated!");
     }

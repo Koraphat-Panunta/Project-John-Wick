@@ -85,6 +85,6 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     {
         this._hpGauge.AddGauge(Math.Clamp(this.GetHP() + HP, 0, this.GetMaxHp()));
     }
-
+   
   
 }

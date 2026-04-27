@@ -3,7 +3,7 @@ using UnityEngine;
 public class DynamicCapsuleCollider : MonoBehaviour
 {
     [SerializeField] CapsuleCollider capsuleCollider;
-    [SerializeField] Transform[] transformPoints;
+    [SerializeField] public Transform[] transformPoints;
 
     private void FixedUpdate()
     {

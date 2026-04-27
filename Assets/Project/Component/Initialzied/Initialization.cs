@@ -25,6 +25,7 @@ public class Initialization : MonoBehaviour
             }
         }
     }
+   
     private void OnValidate()
     {
         for (int i = 0; i < initializedComponent.Length; i++)

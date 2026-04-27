@@ -81,7 +81,7 @@ public partial class Enemy : IGotGunFuAttackedAble
             CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
             {
                 hitDir = hitDir,
-                hitedPart = this.spline,
+                hitedPart = this.localServiceLocator.Get<FullBodyCharacterPart>().spline_0BodyPart,
                 hitforce = gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitPushForce,
                 hitPos = this.transform.position
             };

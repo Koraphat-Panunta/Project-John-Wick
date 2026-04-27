@@ -196,7 +196,7 @@ public abstract class BodyPart : MonoBehaviour
 
     public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
 
-    public Vector3 _beenThrowObjectAtPosition { get => enemy.head.transform.position; set { } }
+    public Vector3 _beenThrowObjectAtPosition { get => this.enemy.humanoidBone._headBone.position; set { } }
 
     public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 

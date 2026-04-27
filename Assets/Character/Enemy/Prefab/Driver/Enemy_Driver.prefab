@@ -541,6 +541,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6454910191179571215}
   - component: {fileID: 3893735730334051125}
+  - component: {fileID: 5086926799334731215}
   - component: {fileID: 3858380618204543065}
   - component: {fileID: 8785008869752914700}
   - component: {fileID: 2619394019457856660}
@@ -553,6 +554,7 @@ GameObject:
   - component: {fileID: 102977775201858835}
   - component: {fileID: 538703854921222313}
   - component: {fileID: 7162862331276064084}
+  - component: {fileID: 1553858211654410854}
   m_Layer: 7
   m_Name: Enemy_Driver
   m_TagString: Untagged
@@ -599,13 +601,23 @@ MonoBehaviour:
   - {fileID: 7803922069215804562}
   - {fileID: 8785008869752914700}
   - {fileID: 3858380618204543065}
-  - {fileID: 0}
   - {fileID: -7130791345041273299}
-  - {fileID: 0}
   - {fileID: 1068420054499277711}
   - {fileID: 7512234974047621189}
-  - {fileID: 0}
+  - {fileID: 1553858211654410854}
   initializedOrder: 5
+--- !u!114 &5086926799334731215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25e79df846c00c40b0aeb50ea0a9460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalServiceLocator
 --- !u!114 &3858380618204543065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,6 +677,7 @@ MonoBehaviour:
   characterController: {fileID: 102977775201858835}
   animator: {fileID: 0}
   SumDeltaPos: 0
+  localServiceLocator: {fileID: 5086926799334731215}
   agent: {fileID: 7803922069215804562}
   forceSave: {x: 0, y: 0, z: 0}
   isImortal: 0
@@ -676,17 +689,6 @@ MonoBehaviour:
   stanceCommand: 0
   _staggerGauge: 0
   isGround: 0
-  head: {fileID: 0}
-  spline: {fileID: 0}
-  hip: {fileID: 0}
-  right_upper_Leg: {fileID: 0}
-  right_lower_Leg: {fileID: 0}
-  left_upper_Leg: {fileID: 0}
-  left_lower_Leg: {fileID: 0}
-  right_upper_Arm: {fileID: 0}
-  right_lower_Arm: {fileID: 0}
-  left_upper_Arm: {fileID: 0}
-  left_lower_Arm: {fileID: 0}
   moveInputVelocity_WorldCommand: {x: 0, y: 0, z: 0}
   moveInputVelocity_LocalCommand: {x: 0, y: 0, z: 0}
   lookRotationCommand: {x: 0, y: 0, z: 0}
@@ -704,7 +706,6 @@ MonoBehaviour:
     type: 2}
   pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
     type: 2}
-  rootModel: {fileID: 0}
   gunFuDetectTarget: {fileID: 7512234974047621189}
   EnemySpinKickScriptable: {fileID: 11400000, guid: e7f9d54d93dcbd145964a6b83209290c,
     type: 2}
@@ -770,7 +771,6 @@ MonoBehaviour:
   dead: {fileID: 8300000, guid: da7bfccbaefce304782fb3a6d0ff34d3, type: 3}
   footStep: {fileID: 8300000, guid: e7771bf1f0795df44a5054befbff8bc8, type: 3}
   enemy: {fileID: 2619394019457856660}
-  animator: {fileID: 0}
 --- !u!82 &5275516832316452753
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1101,6 +1101,26 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 6454910191179571215}
+--- !u!114 &1553858211654410854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971669966833777333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa1dbbc726c9ba4484cf1edf3d9658d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAutoSetUp
+  bodySetup: {fileID: 0}
+  localServiceLocator: {fileID: 5086926799334731215}
+  enemy: {fileID: 2619394019457856660}
+  dynamicCapsuleCollider: {fileID: 7162862331276064084}
+  mainHandSocket: {fileID: 698325615304488224}
+  secondHandSocket: {fileID: 1419745545511319424}
+  primaryWeaponSocket: {fileID: 9133735303108314318}
+  secondaryWeaponSocket: {fileID: 9047957542759394177}
 --- !u!1 &6537584221499319941
 GameObject:
   m_ObjectHideFlags: 0

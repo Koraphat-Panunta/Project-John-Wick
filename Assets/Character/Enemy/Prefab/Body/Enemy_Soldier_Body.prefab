@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5264832153379084341}
   - component: {fileID: 3313265535618419536}
   - component: {fileID: 813458736474991493}
+  - component: {fileID: 369509462227704222}
   m_Layer: 0
   m_Name: Enemy_Soldier_Body
   m_TagString: Untagged
@@ -74,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AutoBodyPartSetUp
   enemy: {fileID: 0}
   humanoidBone: {fileID: 685827715060152452}
+  fullBodyCharacterPart: {fileID: 369509462227704222}
   head_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 2301b8a4e9e1e0d4db3c2f2be65b0fb5,
     type: 2}
   body_BodyPartDamageRecivedSCRP: {fileID: 11400000, guid: 946eb930944358846805857f388404e4,
@@ -124,6 +126,7 @@ MonoBehaviour:
   _leftHandBone: {fileID: 7092398917669670732}
   _neckBone: {fileID: 4314861280673640617}
   _headBone: {fileID: 1384084422802935640}
+  _top_head_bone: {fileID: 2234238962712918469}
   _rightShoulderBone: {fileID: 5044595352157435619}
   _rightArmBone: {fileID: 303826000098095567}
   _rightForeArmBone: {fileID: 3927452265181112657}
@@ -197,6 +200,29 @@ MonoBehaviour:
   - {fileID: 5514319696493917665}
   - {fileID: 5724020739310564917}
   humanoidBone: {fileID: 685827715060152452}
+--- !u!114 &369509462227704222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7247303869463918796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41302610512d29e47aa8acf867160dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FullBodyCharacterPart
+  headBodyPart: {fileID: 0}
+  hipBodyPart: {fileID: 0}
+  spline_0BodyPart: {fileID: 0}
+  armLeftBodyPart: {fileID: 0}
+  foreArmLeftBodyPart: {fileID: 0}
+  armRightBodyPart: {fileID: 0}
+  foreArmRightBodyPart: {fileID: 0}
+  upperLegLeftBodyPart: {fileID: 0}
+  lowerLegLeftBodyPart: {fileID: 0}
+  upperLegRightBodyPart: {fileID: 0}
+  lowerLegRightBodyPart: {fileID: 0}
 --- !u!1001 &812945607456085719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1168,6 +1194,12 @@ MonoBehaviour:
   hitForcePositionSave: {x: 0, y: 0, z: 0}
   isForceSave: 0
   postureRecoverySpeed: 6
+--- !u!4 &2234238962712918469 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2192198762912233154, guid: 049996ca8eaf5ae4a81bb40affbd090c,
+    type: 3}
+  m_PrefabInstance: {fileID: 9120390303554466043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2489687022835537518 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2585339411423762795, guid: 049996ca8eaf5ae4a81bb40affbd090c,

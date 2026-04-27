@@ -4,11 +4,12 @@ using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-public class BodySetup : MonoBehaviour
+public class BodySetup : MonoBehaviour,IInitializedAble
 {
     [SerializeField] protected Enemy enemy;
 
-    [SerializeField] protected HumanoidBone humanoidBone;
+    [SerializeField] public HumanoidBone humanoidBone;
+    [SerializeField] public FullBodyCharacterPart fullBodyCharacterPart;
 
     [SerializeField] protected BodyPartDamageRecivedSCRP head_BodyPartDamageRecivedSCRP;
     [SerializeField] protected BodyPartDamageRecivedSCRP body_BodyPartDamageRecivedSCRP;
@@ -43,9 +44,14 @@ public class BodySetup : MonoBehaviour
     [Range(-.01f,.01f)]
     [SerializeField] private float armOffset;
 
-    [SerializeField] EnemyAnimationManager enemyAnimationManager;
-    [SerializeField] EnemyConstrainAnimationNodeManager enemyConstrainAnimationNodeManager;
-
+    [SerializeField] public EnemyAnimationManager enemyAnimationManager;
+    [SerializeField] public EnemyConstrainAnimationNodeManager enemyConstrainAnimationNodeManager;
+    public void Initialized()
+    {
+        this.enemyAnimationManager.Initialized();
+        this.enemyConstrainAnimationNodeManager.Initialized();
+        this.fullBodyCharacterPart.Initialized();
+    }
     public void SetBodyOwner()
     {
         Transform[] bones = this.GetBoneRagdollPart();
@@ -82,21 +88,32 @@ public class BodySetup : MonoBehaviour
         }
 
         this.SetUpBodyPart<HeadBodyPart>(this.humanoidBone._headBone, this.head_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.headBodyPart = this.humanoidBone._headBone.GetComponent<HeadBodyPart>();
 
         this.SetUpBodyPart<ChestBodyPart>(this.humanoidBone.hips, this.body_BodyPartDamageRecivedSCRP);
         this.SetUpBodyPart<ChestBodyPart>(this.humanoidBone._spine_0_Bone, this.body_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.hipBodyPart = this.humanoidBone.hips.GetComponent<ChestBodyPart>();
+        this.fullBodyCharacterPart.spline_0BodyPart = this.humanoidBone._spine_0_Bone.GetComponent<ChestBodyPart>();
 
         this.SetUpBodyPart<ArmLeftBodyPart>(this.humanoidBone._leftForeArmBone, this.arms_BodyPartDamageRecivedSCRP);
         this.SetUpBodyPart<ArmLeftBodyPart>(this.humanoidBone._leftArmBone, this.arms_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.foreArmLeftBodyPart = this.humanoidBone._leftForeArmBone.GetComponent<ArmLeftBodyPart>();
+        this.fullBodyCharacterPart.armLeftBodyPart = this.humanoidBone._leftArmBone.GetComponent<ArmLeftBodyPart>();
 
         this.SetUpBodyPart<ArmRightBodyPart>(this.humanoidBone._rightArmBone, this.arms_BodyPartDamageRecivedSCRP);
         this.SetUpBodyPart<ArmRightBodyPart>(this.humanoidBone._rightForeArmBone, this.arms_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.foreArmRightBodyPart = this.humanoidBone._rightForeArmBone.GetComponent<ArmRightBodyPart>();
+        this.fullBodyCharacterPart.armRightBodyPart = this.humanoidBone._rightArmBone.GetComponent<ArmRightBodyPart>();
 
         this.SetUpBodyPart<LegLeftBodyPart>(this.humanoidBone._leftUpperLegBone, this.legs_BodyPartDamageRecivedSCRP);
         this.SetUpBodyPart<LegLeftBodyPart>(this.humanoidBone._leftLowerLegBone, this.legs_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.upperLegLeftBodyPart = this.humanoidBone._leftUpperLegBone.GetComponent<LegLeftBodyPart>();
+        this.fullBodyCharacterPart.lowerLegLeftBodyPart = this.humanoidBone._leftLowerLegBone.GetComponent<LegLeftBodyPart>();
 
         this.SetUpBodyPart<LegRightBodyPart>(this.humanoidBone._rightUpperLegBone, this.legs_BodyPartDamageRecivedSCRP);
         this.SetUpBodyPart<LegRightBodyPart>(this.humanoidBone._rightLowerLegBone, this.legs_BodyPartDamageRecivedSCRP);
+        this.fullBodyCharacterPart.upperLegRightBodyPart = this.humanoidBone._rightUpperLegBone.GetComponent<LegRightBodyPart>();
+        this.fullBodyCharacterPart.lowerLegRightBodyPart = this.humanoidBone._rightLowerLegBone.GetComponent<LegRightBodyPart>();
 
     }
 
@@ -112,6 +129,7 @@ public class BodySetup : MonoBehaviour
         else
         {
             bodyPart.SetBodyPartDamageRecivedSCRP(bodyPartDamageRecivedSCRP);
+
         }
 
 
@@ -214,6 +232,8 @@ public class BodySetup : MonoBehaviour
             this.ReValue(this.humanoidBone._rightUpperLegBone, this.legMassRatio, this.legRaduis);
         }
     }
+
+  
 #endif
 
 }
