@@ -25,8 +25,12 @@ public class EnemySetUp : MonoBehaviour, IInitializedAble
         this.dynamicCapsuleCollider.transformPoints[4] = this.bodySetup.humanoidBone._rightFootBone;
         this.dynamicCapsuleCollider.transformPoints[5] = this.enemy.transform;
 
+        SaveEditorChanged.SaveEditorChangedObject(this.dynamicCapsuleCollider);
+
         this.enemy.humanoidBone = this.bodySetup.humanoidBone;
         this.enemy.animator = this.bodySetup.enemyAnimationManager.animator;
+
+        SaveEditorChanged.SaveEditorChangedObject(this.enemy);
 
 
         this.mainHandSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._rightHandBone });
@@ -37,13 +41,10 @@ public class EnemySetUp : MonoBehaviour, IInitializedAble
 
     public void Initialized()
     {
-        this.bodySetup.Initialized();
         this.RegisterLocalServiceLocator();
     }
     private void RegisterLocalServiceLocator()
     {
-  
-
         this.localServiceLocator.Register<FullBodyCharacterPart>(this.bodySetup.fullBodyCharacterPart);
         this.localServiceLocator.Register<HumanoidBone>(this.bodySetup.humanoidBone);
         this.localServiceLocator.Register<Animator>(this.bodySetup.enemyAnimationManager.animator);
@@ -70,6 +71,7 @@ public class EnemySetUp : MonoBehaviour, IInitializedAble
                 TryGetComponent<DynamicCapsuleCollider>(out DynamicCapsuleCollider dynamicCapsuleCollider);
                 this.dynamicCapsuleCollider = dynamicCapsuleCollider;
             }
+
         }
 #endif
     }

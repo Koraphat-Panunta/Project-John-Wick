@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -51,6 +50,7 @@ public class BodySetup : MonoBehaviour,IInitializedAble
         this.enemyAnimationManager.Initialized();
         this.enemyConstrainAnimationNodeManager.Initialized();
         this.fullBodyCharacterPart.Initialized();
+        
     }
     public void SetBodyOwner()
     {
@@ -61,10 +61,17 @@ public class BodySetup : MonoBehaviour,IInitializedAble
         }
 
         if (this.enemyAnimationManager != null)
-            this.enemyAnimationManager.enemy = this.enemy;
+        {
+            this.enemyAnimationManager.SetEnemy(this.enemy);
+            SaveEditorChanged.SaveEditorChangedObject(this.enemyAnimationManager);
+            
+        }
 
         if (this.enemyConstrainAnimationNodeManager != null)
+        {
             this.enemyConstrainAnimationNodeManager.enemy = this.enemy;
+            SaveEditorChanged.SaveEditorChangedObject(this.enemyConstrainAnimationNodeManager);
+        }
 
     }
     private void SetBoneBodyOwner(Transform bone)
@@ -72,6 +79,7 @@ public class BodySetup : MonoBehaviour,IInitializedAble
         if (bone.TryGetComponent<BodyPart>(out BodyPart bodyPart))
         {
             bodyPart.SetCharacterBodyOwner(this.enemy);
+            SaveEditorChanged.SaveEditorChangedObject(bodyPart);
         }
         else
         {
@@ -115,6 +123,8 @@ public class BodySetup : MonoBehaviour,IInitializedAble
         this.fullBodyCharacterPart.upperLegRightBodyPart = this.humanoidBone._rightUpperLegBone.GetComponent<LegRightBodyPart>();
         this.fullBodyCharacterPart.lowerLegRightBodyPart = this.humanoidBone._rightLowerLegBone.GetComponent<LegRightBodyPart>();
 
+        SaveEditorChanged.SaveEditorChangedObject(this.fullBodyCharacterPart);
+
     }
 
     private void SetUpBodyPart<T>(Transform bone,BodyPartDamageRecivedSCRP bodyPartDamageRecivedSCRP) where T : BodyPart
@@ -131,6 +141,8 @@ public class BodySetup : MonoBehaviour,IInitializedAble
             bodyPart.SetBodyPartDamageRecivedSCRP(bodyPartDamageRecivedSCRP);
 
         }
+
+        bone.gameObject.layer = LayerMask.NameToLayer("BodyPart");
 
 
     }
@@ -177,7 +189,7 @@ public class BodySetup : MonoBehaviour,IInitializedAble
 #if UNITY_EDITOR
     void OnValidate()
     {
-        if (!Application.isPlaying)
+        if (Application.isEditor)
         {
             if(this.enemyAnimationManager == null)
             {
@@ -197,7 +209,6 @@ public class BodySetup : MonoBehaviour,IInitializedAble
                 headCollider.center = this.headOffset * .01f;
                 headCollider.height = this.headHeight;
             }
-
 
             this.ReValue(this.humanoidBone._spine_0_Bone, this.bodyMassRatio, this.bodySize);
             if (this.humanoidBone._spine_0_Bone.TryGetComponent<BoxCollider>(out BoxCollider splineCollider))

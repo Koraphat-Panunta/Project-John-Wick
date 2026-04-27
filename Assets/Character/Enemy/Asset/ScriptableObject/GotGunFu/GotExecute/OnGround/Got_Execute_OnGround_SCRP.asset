@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
-  m_Name: PrimaryWeaponGotWeaponDisarm
+  m_Name: Got_Execute_OnGround_SCRP
   m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
-  clip: {fileID: 7400000, guid: 214bb344c072f5a498438381e3297477, type: 2}
-  enterNormalizedTime: 0.14
-  triggerEventDetail:
-  - normalizedTime: 1
-    eventName: end
+  clip: {fileID: 149313719546877591, guid: 3eeb239c5809bb846bc322d257dbe310, type: 3}
+  enterNormalizedTime: 0
+  triggerEventDetail: []
   endNormalizedTime: 1

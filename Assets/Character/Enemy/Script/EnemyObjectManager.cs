@@ -17,7 +17,6 @@ public class EnemyObjectManager: MonoBehaviour ,IInitializedAble,IObserverEnemy
    
     public void Initialized()
     {
-      
         enemyObjPooling = new ObjectPooling<Enemy>(this.enemyPrefab,this.maxPoolNumber ,this.initializedSNumber , Vector3.zero);
         clearEnemyList = new Dictionary<Enemy, float>();
     }

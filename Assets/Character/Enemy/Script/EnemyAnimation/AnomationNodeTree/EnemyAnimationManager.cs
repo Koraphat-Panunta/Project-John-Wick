@@ -6,7 +6,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 {
     // Start is called once before the first execution of UpdateNodeAndCheckFindingNode after the MonoBehaviour is created
     public Animator animator;
-    public Enemy enemy;
+    [SerializeField] public Enemy enemy;
 
     public AnimationPoseTimeNormalized basedAnimationPoseTimeNormalized;
     public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
@@ -184,4 +184,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 
    
     #endregion
+
+    public void SetEnemy(Enemy enemy) => this.enemy = enemy;
 }

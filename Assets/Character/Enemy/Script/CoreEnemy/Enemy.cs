@@ -196,7 +196,7 @@ public partial class Enemy : SubjectEnemy
 
     public void BlackBoardBufferUpdate()
     {
-
+        
 
         _isHolsterWeaponCommand = false;
         _isDrawPrimaryWeaponCommand = false;

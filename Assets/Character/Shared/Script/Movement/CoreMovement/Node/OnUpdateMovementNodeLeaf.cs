@@ -14,7 +14,6 @@ public class OnUpdateMovementNodeLeaf : MovementNodeLeaf
   
     public override void FixedUpdateNode()
     {
-
         movementCompoent.Move(movementCompoent.curMoveVelocity_World * Time.fixedDeltaTime);
 
     }

@@ -12,6 +12,5 @@ public enum GotExecutedStateName
     GotExecuted_Single_Primary_I,
     GotExecuted_Single_Primary_II,
 
-    GotExecuted_OnGround_LayUp_I,
-    GotExecuted_OnGround_LayDown_I
+    GotExecuted_OnGround_I
 }
