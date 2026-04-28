@@ -13,26 +13,28 @@ MonoBehaviour:
   m_Name: New_GunFu_Single_Secondary_Execute_I
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
   clip: {fileID: 5485087364205898347, guid: 221eccaf3b2ee6f4c94500a6db38c4a7, type: 3}
-  enterNormalizedTime: 0.12
+  enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.761
+  - normalizedTime: 0.28
     eventName: Shoot
-  - normalizedTime: 0.761
+  - normalizedTime: 0.7
+    eventName: Shoot
+  - normalizedTime: 0.7
     eventName: Execute
-  endNormalizedTime: 0.93
+  endNormalizedTime: 1
   animationInteractCharacterDetail:
-  - offsetPositionFormAnchor: {x: 0, y: 0.76}
-    RotationRelative: 225
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.12
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.235
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.12
-    enterAnimationOffsetNormalizedTime: 0.12
-    endAnimationNormalizedTime: 0.93
-  - offsetPositionFormAnchor: {x: 0, y: 0}
+  - offsetPositionFormAnchor: {x: 0.1, y: -0.86}
     RotationRelative: 0
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.12
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.235
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.235
-    enterAnimationOffsetNormalizedTime: 0.27
-    endAnimationNormalizedTime: 0.93
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.158
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
+    enterAnimationOffsetNormalizedTime: 0
+    endAnimationNormalizedTime: 1
+  - offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 180
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.158
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.158
+    enterAnimationOffsetNormalizedTime: 0.158
+    endAnimationNormalizedTime: 1
   audioAnimationInteractTriggerEvents: []
