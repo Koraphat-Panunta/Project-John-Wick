@@ -79,12 +79,9 @@ public class PlayerStateNodeManager :
 
     public NodeSelector gunFuExecute_Single_Secondary_Selector;
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_NodeLeaf_I { get; set; }
-    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_NodeLeaf_II { get; set; }
-    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_NodeLeaf_III { get; set; }
 
     public NodeSelector gunFuExecute_Single_Primary_Selector;
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_I { get; set; }
-    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_II { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_Dodge_NodeLeaf_I { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I { get; set; }
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
@@ -245,15 +242,9 @@ public class PlayerStateNodeManager :
 
         gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,
-            () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 1
+            () => true
             , player.gunFuExecute_Single_Primary_ScriptableObject_I
             ,GunFuExecuteStateName.GunFu_Execute_Single_Primary_I
-            );
-        gunFuExecute_Single_Primary_NodeLeaf_II = new GunFuExecute_Single_NodeLeaf(
-            player,
-            () => player.primaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 2
-            , player.gunFuExecute_Single_Primary_ScriptableObject_II
-            ,GunFuExecuteStateName.GunFu_Execute_Single_Primary_II
             );
 
         gunFuExecute_Single_Secondary_Selector = new NodeSelector(
@@ -261,23 +252,11 @@ public class PlayerStateNodeManager :
 
         gunFuExecute_Single_Secondary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
             player,
-            () => player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 1
-            || player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 0
+            () => true
             , player.gunFuExecute_Single_Secondary_ScriptableObject_I
             ,GunFuExecuteStateName.GunFu_Execute_Single_Secondary_I
             );
-        gunFuExecute_Single_Secondary_NodeLeaf_II = new GunFuExecute_Single_NodeLeaf(
-            player,
-            () => player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 2
-            , player.gunFuExecute_Single_Secondary_ScriptableObject_II
-            ,GunFuExecuteStateName.GunFu_Execute_Single_Secondary_II
-            );
-        gunFuExecute_Single_Secondary_NodeLeaf_III = new GunFuExecute_Single_NodeLeaf(
-            player,
-            () => player.secondaryExecuteGunFuRandomNumber.GetGunExecuteGuNumber() == 3
-            , player.gunFuExecute_Single_Secondary_ScriptableObject_III
-            ,GunFuExecuteStateName.GunFu_Execute_Single_Secondary_III
-            );
+       
 
         gunFuExecute_OnGround = new GunFuExecute_Single_NodeLeaf(player,
             () => 
@@ -452,11 +431,8 @@ public class PlayerStateNodeManager :
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_Primary_Selector);
 
         gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_I);
-        gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_II);
 
         gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_I);
-        gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_II);
-        gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_III);
 
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround);
 
