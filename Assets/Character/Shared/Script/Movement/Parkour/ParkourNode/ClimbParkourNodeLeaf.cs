@@ -65,6 +65,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         timer = 0;
         this.movementCompoent.CancleMomentum();
         this.movementCompoent.isOnUpdateEnable = false;
+        this.player.playerMovement.characterController.PushForceUp(1, 0.05f);
         this.enterPos = player.transform.position;
         BezierurveBehavior.DrawBezierCurve(enterPos, cts, exit, 5);
         base.Enter();

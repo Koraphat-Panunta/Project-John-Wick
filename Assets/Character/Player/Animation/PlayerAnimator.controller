@@ -3098,15 +3098,15 @@ BlendTree:
   m_Name: SecondaryWeaponHand
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7440607654270924209}
-    m_Threshold: 1
+    m_Motion: {fileID: -319952861979074622}
+    m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -319952861979074622}
+    m_Motion: {fileID: 7440607654270924209}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -3115,7 +3115,7 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: AimDownSightWeight
   m_BlendParameterY: CoverWeight
-  m_MinThreshold: 1
+  m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
@@ -3641,7 +3641,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TacticalReloadMagazine_Glock17
+  m_Name: ReloadMagazine_Glock17
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -6517,7 +6517,7 @@ BlendTree:
   m_Name: AimDownSightStance
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 1356bd4dd6f80b4418faf00215a436c5, type: 2}
+    m_Motion: {fileID: 7400000, guid: e79d195eb68c6fd4a81b55825b5747a3, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -6525,7 +6525,7 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: df636ab9d5ddcce4688bf5c2d70aa8bf, type: 2}
+    m_Motion: {fileID: 7400000, guid: 05f2d8b2936f5cb4b9fd5fbfc12e092f, type: 2}
     m_Threshold: 0.25
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
@@ -6533,7 +6533,7 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 813af73d25ce04d43999fb57ad5da459, type: 2}
+    m_Motion: {fileID: 7400000, guid: 4c16f34508ee5a7469f71af7f9e01ecd, type: 2}
     m_Threshold: 0.5
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -6541,7 +6541,7 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0f5e50ccef355e945993de546da8aea0, type: 2}
+    m_Motion: {fileID: 7400000, guid: 1dfac5c8b6df2d240be17c3c92469778, type: 2}
     m_Threshold: 0.75
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -6549,7 +6549,7 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: bbec80720b6636143a6062a9112da597, type: 2}
+    m_Motion: {fileID: 7400000, guid: fca112d7cadde4e4b8a8c51ce0eff002, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -11447,7 +11447,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ReloadMagazine_Glock17
+  m_Name: TacticalReloadMagazine_Glock17
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -13172,7 +13172,7 @@ BlendTree:
   m_Name: TacticalReloadMagazine_Glock17
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: efbcdf8be0d00d4469f25e6fc0feed32, type: 2}
+    m_Motion: {fileID: 7400000, guid: e24a5b32323103941bc8bed04e5dc938, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -13180,135 +13180,95 @@ BlendTree:
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 9ea82ad66d8586b4f9ede54f8ae929e9, type: 2}
-    m_Threshold: 0.05882353
+    m_Motion: {fileID: 7400000, guid: a7a2c030678041f458683c8e12d1d3d5, type: 2}
+    m_Threshold: 0.1538462
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f79807fafbf85404092885239a587e0a, type: 2}
-    m_Threshold: 0.11764706
+    m_Motion: {fileID: 7400000, guid: 8d59e8099fb377d4b9a2590ea04f77ea, type: 2}
+    m_Threshold: 0.3076923
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0e6c22fbc4e3bbb4090ae0a9d28a0f03, type: 2}
-    m_Threshold: 0.1764706
+    m_Motion: {fileID: 7400000, guid: 0892c4e9feb86ec44bd96a8957499a05, type: 2}
+    m_Threshold: 0.4615385
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 92ef30934d311484eab5c461d4c1192a, type: 2}
-    m_Threshold: 0.23529412
+    m_Motion: {fileID: 7400000, guid: 7e608f0dc461f904fb9703131ae55441, type: 2}
+    m_Threshold: 0.4923077
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 84bd6d5310d8ec8468fe19c7a255b403, type: 2}
-    m_Threshold: 0.29411766
+    m_Motion: {fileID: 7400000, guid: 0e8411697cc4b724291c08f4c6700cda, type: 2}
+    m_Threshold: 0.5384615
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7b38353494945cd44a727841081efba5, type: 2}
-    m_Threshold: 0.3529412
+    m_Motion: {fileID: 7400000, guid: ea57b29f720c92a44867a5cc1753f76b, type: 2}
+    m_Threshold: 0.6153846
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0ca1ea644b235e24caae4b939502f88b, type: 2}
-    m_Threshold: 0.4117647
+    m_Motion: {fileID: 7400000, guid: df87a6d67961d6141ae1a95bbc4e846a, type: 2}
+    m_Threshold: 0.6615385
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 997d6b040866c5c44825e6520499a672, type: 2}
-    m_Threshold: 0.47058824
+    m_Motion: {fileID: 7400000, guid: f6ff1744994b6c74e8631e6b2369cb9d, type: 2}
+    m_Threshold: 0.6923077
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 8b8a3d06bd3d27441a86a67370c7e992, type: 2}
-    m_Threshold: 0.5294118
+    m_Motion: {fileID: 7400000, guid: 11f61abc81f376846bdcd3f41bc1242d, type: 2}
+    m_Threshold: 0.7692308
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 0df72bc09dea07e46889377b1f15a7af, type: 2}
-    m_Threshold: 0.5882353
+    m_Motion: {fileID: 7400000, guid: 56634c63b097f9b4da57067f12b63a77, type: 2}
+    m_Threshold: 0.8
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 097b02284a9eaf44ea84e90aabfa8b90, type: 2}
-    m_Threshold: 0.64705884
+    m_Motion: {fileID: 7400000, guid: 9555080ba09064c41a522b5fbd8cf4aa, type: 2}
+    m_Threshold: 0.8461538
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: CoverWeight
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 8e9dc2e50c41992408b5e8cfaad11e2b, type: 2}
-    m_Threshold: 0.7058824
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: CoverWeight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 140bd31aff938494398a40c02b1889b8, type: 2}
-    m_Threshold: 0.7647059
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: CoverWeight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f7335f2c9d20ddc488f0d372de56a814, type: 2}
-    m_Threshold: 0.8235294
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: CoverWeight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 5d3bdd4260e322b42a0e29c77d913bec, type: 2}
-    m_Threshold: 0.88235295
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: CoverWeight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 785d55426ec03594b99067e2453e4c0f, type: 2}
-    m_Threshold: 0.9411765
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: CoverWeight
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 52e4f907ca399d340aac12f2b742fc46, type: 2}
+    m_Motion: {fileID: 7400000, guid: f187b7c3ef4902c488b2ffe4219faf3c, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -13319,7 +13279,7 @@ BlendTree:
   m_BlendParameterY: CoverWeight
   m_MinThreshold: 0
   m_MaxThreshold: 1
-  m_UseAutomaticThresholds: 1
+  m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
 --- !u!206 &8448542607454226370

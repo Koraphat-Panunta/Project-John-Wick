@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: RifleAimSplineLookConstrainScriptableObject
   m_EditorClassIdentifier: 
   weightSpline: 1
-  offsetSpline: {x: 12, y: 20, z: 10}
+  offsetSpline: {x: 20, y: 20, z: 0}
   weightSpline1: 1
-  offsetSpline1: {x: 25, y: 20, z: -15}
+  offsetSpline1: {x: 20, y: 25, z: 0}
   weightSpline2: 1
-  offsetSpline2: {x: 20, y: 40, z: 5}
-  rotateRefDirOffset: {x: -15, y: 0, z: 0}
+  offsetSpline2: {x: 20, y: 30, z: 0}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalDeg: 45
   maxVerticalDeg: 45
   offsetChangedRate: 2

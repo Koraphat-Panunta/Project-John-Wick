@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6884115457744097235}
   - component: {fileID: -6438017147843581320}
-  m_Layer: 0
+  - component: {fileID: 2746655393228131352}
+  m_Layer: 6
   m_Name: MainHandWeaponSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685068307830921063}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.6079917, y: 0.45871523, z: 0.38740635, w: 0.5194639}
+  m_LocalPosition: {x: 0.75637865, y: 1.3710523, z: -0.03196907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 16.036, y: 99.592, z: 92.354}
 --- !u!114 &-6438017147843581320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,3 +46,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 0}
+--- !u!1773428102 &2746655393228131352
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685068307830921063}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0.7682288, y: 1.3626572, z: -0.009826868}
+  m_RotationAtRest: {x: 16.007902, y: 99.59059, z: 92.35373}
+  m_TranslationOffsets:
+  - {x: -0.02401071, y: 0.06000012, z: 0.024884105}
+  m_RotationOffsets:
+  - {x: -90, y: 0, z: 89.99987}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1

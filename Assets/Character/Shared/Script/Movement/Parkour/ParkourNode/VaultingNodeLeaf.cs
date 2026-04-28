@@ -67,6 +67,7 @@ public class VaultingNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         enterVelocity = this.movementCompoent.curMoveVelocity_World;
         this.movementCompoent.CancleMomentum();
         this.movementCompoent.isOnUpdateEnable = false;
+        this.player.playerMovement.characterController.PushForceUp(1, 0.05f);
         this.enterPos = player.transform.position;
         BezierurveBehavior.DrawBezierCurve(enterPos, cts, exitPos, 5);
         base.Enter();

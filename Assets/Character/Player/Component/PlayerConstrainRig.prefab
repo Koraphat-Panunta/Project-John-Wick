@@ -31,8 +31,8 @@ Transform:
   m_LocalScale: {x: 0.01, y: 0.009999997, z: 0.009999997}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4501845500325103288}
   - {fileID: 5834462848745238325}
+  - {fileID: 4501845500325103288}
   - {fileID: 6831738263291915525}
   - {fileID: 3482425461970386122}
   - {fileID: 9185699727745651826}
@@ -169,14 +169,6 @@ MonoBehaviour:
     type: 2}
   rifileLeaning_CAR_ConstrainScriptableObject: {fileID: 11400000, guid: 0b8be58ebdeb32141b66c331549295d3,
     type: 2}
-  humanShieldRightHandConstrainLookAtScriptableObject_rifle: {fileID: 11400000, guid: 6493f53ac5850be4f92d4d33be5f5521,
-    type: 2}
-  humanShieldRightHandConstrainLookAtScriptableObject_pistol: {fileID: 11400000, guid: 0cf524ce36ef48e4e96d9598e9c16506,
-    type: 2}
-  restrictRightHandConstrainLookAtScriptableObject_pistol: {fileID: 11400000, guid: 49239cd2a387ae548b74272cb7493a38,
-    type: 2}
-  restrictRightHandConstrainLookAtScriptableObject_rifle: {fileID: 11400000, guid: 25ffddac452f6fd41826c045c030af93,
-    type: 2}
   rightHand_AimDownSight_HumanShield_Primary_SCRP: {fileID: 11400000, guid: 10f37aa506404424d8df2849d75f52d3,
     type: 2}
   rightHand_AimDownSight_HumanShield_Secondary_SCRP: {fileID: 11400000, guid: ede574274cb4a5e48bc66fd49cc72ed6,
@@ -210,6 +202,8 @@ MonoBehaviour:
   primaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: 36f44929132a58d4aa2a7dc3d0ff10a4,
     type: 2}
   secondaryWeaponGripLeftHandScrp: {fileID: 11400000, guid: e7760d4426a7e99459faa6e46ac9b63c,
+    type: 2}
+  lowReadyWeaponGripLeftHandScrp: {fileID: 11400000, guid: 035bc0b2c79837e4a82a31fd60d1ed0d,
     type: 2}
   proneLegsBlendingConstrainSCRP: {fileID: 11400000, guid: a0a8b5529a2fca143927e95f8f5299b1,
     type: 2}

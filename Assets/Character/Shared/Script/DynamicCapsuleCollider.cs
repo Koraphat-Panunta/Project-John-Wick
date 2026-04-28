@@ -17,6 +17,7 @@ public class DynamicCapsuleCollider : MonoBehaviour
             transformPoints.Length == 0)
             return;
 
+
         // Initialize bounds
         Vector3 min = transformPoints[0].position;
         Vector3 max = transformPoints[0].position;

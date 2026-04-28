@@ -54,20 +54,22 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
     {
         get
         {
-            return this.leftHandConstraintManager.GetTargetHandTransform().position 
-                + (this.leftHandConstraintManager.GetTargetHandTransform().forward * this.handIK_ConstraintSCRP.hintPositionOffset.z)
-                + (this.leftHandConstraintManager.GetTargetHandTransform().up * this.handIK_ConstraintSCRP.hintPositionOffset.y)
-                + (this.leftHandConstraintManager.GetTargetHandTransform().right * this.handIK_ConstraintSCRP.hintPositionOffset.x);
+            return this.hintRootTransform.position 
+                + (this.hintRootTransform.forward * this.handIK_ConstraintSCRP.hintPositionOffset.z)
+                + (this.hintRootTransform.up * this.handIK_ConstraintSCRP.hintPositionOffset.y)
+                + (this.hintRootTransform.right * this.handIK_ConstraintSCRP.hintPositionOffset.x);
         }
     }
 
     protected TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP;
     protected Transform rightHandTransform;
+    protected Transform hintRootTransform;
     protected HandArmIKConstraintManager leftHandConstraintManager;
     protected IWeaponAdvanceUser weaponAdvanceUser;
     public WeaponLeftHandGripHandConstraintNodeLeaf(
         Func<bool> precondition
         , Transform rightHandTransform
+        , Transform hintRootTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         ,  TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP
         , IWeaponAdvanceUser weaponAdvanceUser
@@ -75,6 +77,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
     {
         this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;
         this.rightHandTransform = rightHandTransform;
+        this.hintRootTransform = hintRootTransform;
         this.leftHandConstraintManager = leftHandConstraintManager;
         this.weaponAdvanceUser = weaponAdvanceUser;
     }

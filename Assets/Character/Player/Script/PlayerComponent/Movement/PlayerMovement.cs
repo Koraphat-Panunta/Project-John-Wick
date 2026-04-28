@@ -145,8 +145,14 @@ public class PlayerMovement : MovementCompoent
             && ((player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf))
         {
             this.characterController.SetCharacterControllerAttribute(this.parkour_CharacterControllerSCRP);
+            this.characterController.enableDynamicCollider = false;
             return;
         }
+        else
+        {
+            this.characterController.enableDynamicCollider = true;
+        }
+       
 
         //if(player.playerStateNodeManager != null
         //    && (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is ObstacleJumpDolphinDiveNodeLeaf obstacleJumpDolphinDiveNodeLeaf

@@ -134,6 +134,9 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
 
             this.VelocityMoveMagnitude_Normalized = this.curVelocity_Local.magnitude / this.enemy.StandMoveMaxSpeed;
             this.MoveVelocityForward_Normalized = this.curVelocity_Local.z / this.enemy.StandMoveMaxSpeed;
+            Debug.Log("curVelocity_Local.z = " + curVelocity_Local.z);
+            Debug.Log("StandMoveMaxSpeed = "+this.enemy.StandMoveMaxSpeed);
+            Debug.Log("MoveVelocityForward_Normalized = " + MoveVelocityForward_Normalized);
             this.MoveVelocitySideward_Normalized = this.curVelocity_Local.x / this.enemy.StandMoveMaxSpeed;
 
             isSprint = false;

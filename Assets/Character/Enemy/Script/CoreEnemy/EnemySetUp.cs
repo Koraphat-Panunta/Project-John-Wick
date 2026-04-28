@@ -33,10 +33,10 @@ public class EnemySetUp : MonoBehaviour, IInitializedAble
         SaveEditorChanged.SaveEditorChangedObject(this.enemy);
 
 
-        this.mainHandSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._rightHandBone });
-        this.secondHandSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._leftHandBone });
-        this.primaryWeaponSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._spine_0_Bone });
-        this.secondaryWeaponSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone.hips });
+        this.mainHandSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._rightHandBone,weight = 1 });
+        this.secondHandSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._leftHandBone, weight = 1 });
+        this.primaryWeaponSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone._spine_0_Bone, weight = 1 });
+        this.secondaryWeaponSocket.SetSource(0, new ConstraintSource { sourceTransform = this.bodySetup.humanoidBone.hips, weight = 1 });
     }
 
     public void Initialized()

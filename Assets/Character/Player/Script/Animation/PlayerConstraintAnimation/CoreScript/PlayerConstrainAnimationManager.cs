@@ -98,8 +98,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => true
             , leaningRotation, 1);
-       
-        this.leanConstraintSelector.AddtoChildNode(this.leaningRotationConstrainNodeLeaf);
+
+        //this.leanConstraintSelector.AddtoChildNode(this.leaningRotationConstrainNodeLeaf);
         this.leanConstraintSelector.AddtoChildNode(this.leanRotationRecoveryWeightConstraintNodeLeaf);
 
         this.playeBodyConstriantAnimationNodeComponentManager.AddNode(this.leanConstraintSelector);
@@ -184,7 +184,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player.humanoidBone._rightArmBone
             , this.player.humanoidBone._spine_2_Bone
             , this.player.humanoidBone._rightArmBone
-            , this.player.humanoidBone.hips
+            , this.player.transform
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
            , () => this.player._currentWeapon != null 
@@ -229,6 +229,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public ArmIKConstriantRefTransformNodeLeaf leftHandQuickSwitchIKNodeLeaf { get; protected set; }
     public WeaponLeftHandGripHandConstraintNodeLeaf primaryWeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
     public WeaponLeftHandGripHandConstraintNodeLeaf secondaryWeaponGripLeftHandTwoBoneIKNodeLeaf { get; private set; }
+    public WeaponLeftHandGripHandConstraintNodeLeaf lowReadyWeaponLeftHandTwoBoneIKNodeLeaf { get; set; }
     public RestNodeLeaf leftHandConstriantRestNodeLeaf { get; private set; }
 
     public SetConstraintWeightNodeLeaf leftHandEnableWeightConstraintNodeLeaf { get; set; }
@@ -253,6 +254,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                    && this.player._currentWeapon != null
                    && this.player._currentWeapon is PrimaryWeapon
                    , this.rightHandIKConstriantManager.GetTargetHandTransform()
+                   ,this.leftHandConstraintManager.GetTargetHandTransform()
                    , this.leftHandConstraintManager
                    , this.primaryWeaponGripLeftHandScrp
                    , this.player);
@@ -261,9 +263,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                    && player._currentWeapon != null
                    && player._currentWeapon is SecondaryWeapon
                    , this.rightHandIKConstriantManager.GetTargetHandTransform()
+                   , this.leftHandConstraintManager.GetTargetHandTransform()
                    , this.leftHandConstraintManager
                    , this.secondaryWeaponGripLeftHandScrp
                    , this.player);
+       
         this.leftHandConstriantRestNodeLeaf = new RestNodeLeaf(() => true);
 
         this.leftHandEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
@@ -281,6 +285,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leftHandConstraintNodeSelector.AddtoChildNode(this.leftHandQuickSwitchIKNodeLeaf);
         this.leftHandConstraintNodeSelector.AddtoChildNode(this.primaryWeaponGripLeftHandTwoBoneIKNodeLeaf);
         this.leftHandConstraintNodeSelector.AddtoChildNode(this.secondaryWeaponGripLeftHandTwoBoneIKNodeLeaf);
+        //this.leftHandConstraintNodeSelector.AddtoChildNode(this.lowReadyWeaponLeftHandTwoBoneIKNodeLeaf);
         this.leftHandConstraintNodeSelector.AddtoChildNode(this.leftHandConstriantRestNodeLeaf);
 
         this.leftHandWeightConstraintSelector.AddtoChildNode(this.leftHandEnableWeightConstraintNodeLeaf);

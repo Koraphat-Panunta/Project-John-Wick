@@ -22,11 +22,6 @@ public partial class PlayerConstrainAnimationManager
     public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
     public LeaningRotaionScriptableObject rifileLeaning_CAR_ConstrainScriptableObject;
 
-    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_rifle;
-    public RightHandConstrainLookAtScriptableObject humanShieldRightHandConstrainLookAtScriptableObject_pistol;
-    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_pistol;
-    public RightHandConstrainLookAtScriptableObject restrictRightHandConstrainLookAtScriptableObject_rifle;
-
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_HumanShield_Primary_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_HumanShield_Secondary_SCRP;
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_Restrain_Primary_SCRP;
@@ -47,6 +42,7 @@ public partial class PlayerConstrainAnimationManager
     public TwoBoneIK_ConstraintSCRP leftHandIK_QuickSwitch_SCRP;
     public TwoBoneIK_ConstraintSCRP primaryWeaponGripLeftHandScrp;
     public TwoBoneIK_ConstraintSCRP secondaryWeaponGripLeftHandScrp;
+    public TwoBoneIK_ConstraintSCRP lowReadyWeaponGripLeftHandScrp;
 
     public LegsBlendingConstrainScriptableObject proneLegsBlendingConstrainSCRP;
     public LegsBlendingConstrainScriptableObject diveStallLegsBlendingConstrainSCRP;
