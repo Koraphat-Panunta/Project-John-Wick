@@ -354,7 +354,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
-    public PlayAnimationBaseStateOffsetNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintUpperNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
 
     public NodeSelector weaponHandSelector { get; set; }
@@ -511,9 +511,9 @@ public partial class PlayerAnimationManager
          () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>(),
          animator, "SwitchWeaponSecondary -> Primary", 1, .2f);
 
-        sprintUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+        sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-         animator, "SprintWeaponSway", 1, 0, .2f);
+         animator, "SprintWeaponSway", 1, 0, "UpperLayerTimeNormalized", .2f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             () =>
