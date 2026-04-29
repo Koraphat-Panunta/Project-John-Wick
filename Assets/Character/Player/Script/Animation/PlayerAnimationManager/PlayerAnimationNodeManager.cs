@@ -371,9 +371,9 @@ public partial class PlayerAnimationManager
                 this.InitializedUpperLayer();
 
                 upperLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
-                upperLayerNodeSelector.AddtoChildNode(performGunFuUpperLayerNodeSelector);
-                upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
-                upperLayerNodeSelector.AddtoChildNode(sprintUpperNodeLeaf);
+                upperLayerNodeSelector.AddtoChildNode(this.performGunFuUpperLayerNodeSelector);
+                upperLayerNodeSelector.AddtoChildNode(this.drawSwitchSelector);
+                upperLayerNodeSelector.AddtoChildNode(this.sprintUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
 
