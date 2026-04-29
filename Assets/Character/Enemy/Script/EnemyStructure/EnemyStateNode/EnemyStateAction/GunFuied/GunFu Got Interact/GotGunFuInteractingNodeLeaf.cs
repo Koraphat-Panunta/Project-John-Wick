@@ -18,9 +18,9 @@ public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode, IGotGunFuAttackNo
     }
     public override void Enter()
     {
-        if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.animationDrivenMotionState)
+        if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.codeDrivenMotionState)
         {
-            enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+            enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         }
         this.isComplete = false;
         this.animationTriggerEventPlayer.Rewind();

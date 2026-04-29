@@ -3,7 +3,7 @@ using UnityEngine.Animations.Rigging;
 
 public static class RagdollBoneBehavior 
 {
-    public static void AlignPositionToHips(Transform root, Transform hipsBone, Transform enemyTransform,MovementCompoent movementCompoent, BoneTransform hipsAnimStartTransform)
+    public static void AlignPositionToHips(Transform hipsBone, Transform enemyTransform,MovementCompoent movementCompoent)
     {
         Vector3 originalHipsPosition = hipsBone.position;
         Vector3 originalPos = enemyTransform.position;
@@ -48,6 +48,7 @@ public static class RagdollBoneBehavior
     {
         for (int i = 0; i < bones.Length; i++)
         {
+
             boneTransforms[i].Position = bones[i].localPosition;
             boneTransforms[i].Rotation = bones[i].localRotation;
         }
@@ -64,6 +65,7 @@ public static class RagdollBoneBehavior
         Vector3 positionBeforeSampling = enemyTransform.position;
         Quaternion rotationBeforeSampling = enemyTransform.rotation;
 
+        
         clip.SampleAnimation(enemyGO, sampleTime);
         PopulateBoneTransforms(bones, boneTransforms);
 

@@ -36,6 +36,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         , string getUpAnimatorStateName
         ) : base(enemy, preCondition)
     {
+
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
         this.getUpAnimatorStateName = getUpAnimatorStateName;
         this.ragdollAble = ragdollAble;
@@ -44,6 +45,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         this.animationTriggerEventPlayer.SubscribeEvent("Standing", this.Standing);
 
         _root = ragdollAble._root;
+        Debug.Log("root = " + _root);
         _hipsBone = ragdollAble._hipsBone;
         _bones = ragdollAble._bones;
 
@@ -66,8 +68,8 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         this.animationTriggerEventPlayer.Rewind();
         curRagdollAnimatorState = IRagdollTransitionAnimatorAbleStateNodeLeaf.RagdollTransitionAnimatorState.ResetingBone;
         this.resetBoneTimer = 0;
-        RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone,this.enemy.transform,this.enemy._movementCompoent, _ragdollBoneTransforms[0]);
+        RagdollBoneBehavior.AlignRotationToHips(this._hipsBone, this.enemy.transform);
+        RagdollBoneBehavior.AlignPositionToHips(this._hipsBone,this.enemy.transform,this.enemy._movementCompoent);
         RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
         base.Enter();
     }
@@ -89,7 +91,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
                         beforeRootPos = enemy.transform.position;
                         curRagdollAnimatorState = IRagdollTransitionAnimatorAbleStateNodeLeaf.RagdollTransitionAnimatorState.PlayAnimation;
 
-                        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+                        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
 
                         _animator.CrossFade(this.getUpAnimatorStateName, 0, 0, 0);
                         this.enemy._movementCompoent.SetPosition(beforeRootPos);

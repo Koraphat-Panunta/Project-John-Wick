@@ -57,7 +57,7 @@ public class FallDown_EnemyState_NodeLeaf : EnemyStateLeafNode,INodeLeafTransiti
     public override void FixedUpdateNode()
     {
         RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
-        RagdollBoneBehavior.AlignPositionToHips(_root, _hipsBone, this.enemy.transform,this.enemy._movementCompoent, _ragdollBoneTransforms[0]);
+        RagdollBoneBehavior.AlignPositionToHips(_hipsBone, this.enemy.transform,this.enemy._movementCompoent);
         if (_hipsBone.transform.position.y < enemy.transform.position.y)
             _hipsBone.transform.position = enemy.characterController.position;
 

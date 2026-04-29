@@ -12,7 +12,7 @@ public partial class Enemy: IRagdollAble
 
     public Transform _hipsBone => this.humanoidBone.hips;
 
-    public Transform _root => this.gameObject.transform;
+    public Transform _root => this.humanoidBone.hips.parent;
     public Transform[] _bones => this.humanoidBone.hips.GetComponentsInChildren<Transform>();
 
     public Rigidbody[] _ragdollRigidbodies => _root.GetComponentsInChildren<Rigidbody>();

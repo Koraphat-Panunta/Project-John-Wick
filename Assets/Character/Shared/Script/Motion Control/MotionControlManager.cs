@@ -5,7 +5,6 @@ using UnityEngine;
 public class MotionControlManager 
 {
     public RagdollMotionState ragdollMotionState;
-    public AnimationDrivenMotionState animationDrivenMotionState;
     public CodeDrivenMotionState codeDrivenMotionState;
 
     private ResetingBoneMotionState resetingBoneMotionState;
@@ -31,10 +30,9 @@ public class MotionControlManager
         myAnimator = animator;
 
         ragdollMotionState = new RagdollMotionState(bones,hips,myAnimator);
-        animationDrivenMotionState = new AnimationDrivenMotionState(animator);
         codeDrivenMotionState = new CodeDrivenMotionState(animator);
         resetingBoneMotionState = new ResetingBoneMotionState(myBones);
-        ChangeMotionState(animationDrivenMotionState);
+        ChangeMotionState(codeDrivenMotionState);
     }
     public void Update()
     {
@@ -57,7 +55,8 @@ public class MotionControlManager
     public void ChangeMotionState(MotionState nextMotionState,AnimationClip animationClip)
     {
         if (curMotionState == ragdollMotionState
-             && nextMotionState == animationDrivenMotionState){
+             && nextMotionState == codeDrivenMotionState)
+        {
 
             AlignRotationToHips();
             AlignPositionToHips();

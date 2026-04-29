@@ -16,14 +16,12 @@ public class EnemySetUp : MonoBehaviour, IInitializedAble
     [SerializeField] ParentConstraint secondaryWeaponSocket;
     public void SetUp()
     {
-        this.dynamicCapsuleCollider.transformPoints = new Transform[6];
+        this.dynamicCapsuleCollider.transformPoints = new Transform[4];
 
         this.dynamicCapsuleCollider.transformPoints[0] = this.bodySetup.humanoidBone._top_head_bone;//Top_Head_Bone
         this.dynamicCapsuleCollider.transformPoints[1] = this.bodySetup.humanoidBone._leftShoulderBone;
         this.dynamicCapsuleCollider.transformPoints[2] = this.bodySetup.humanoidBone._rightShoulderBone;
-        this.dynamicCapsuleCollider.transformPoints[3] = this.bodySetup.humanoidBone._leftFootBone;
-        this.dynamicCapsuleCollider.transformPoints[4] = this.bodySetup.humanoidBone._rightFootBone;
-        this.dynamicCapsuleCollider.transformPoints[5] = this.enemy.transform;
+        this.dynamicCapsuleCollider.transformPoints[3] = this.enemy.transform;
 
         SaveEditorChanged.SaveEditorChangedObject(this.dynamicCapsuleCollider);
 

@@ -61,7 +61,7 @@ public class ResetingBoneMotionState : MotionState
         }
 
         if (elapsedPercentage >= 1){
-            motionControlManager.ChangeMotionState(motionControlManager.animationDrivenMotionState);
+            motionControlManager.ChangeMotionState(motionControlManager.codeDrivenMotionState);
             IsReseting = true;
         }
         

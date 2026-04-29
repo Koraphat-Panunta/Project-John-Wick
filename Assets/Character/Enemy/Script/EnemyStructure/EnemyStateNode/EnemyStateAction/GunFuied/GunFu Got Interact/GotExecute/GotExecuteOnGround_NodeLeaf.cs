@@ -90,7 +90,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
         executedPhase = ExecutedPhase.Animate;
-        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         _animator.CrossFade(gotExecuteStateName, .15f, 0, 0);
 
         enemy.NotifyObserver(enemy, this); 
@@ -130,7 +130,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
             case ExecutedPhase.PoppulateStartBoneTransform:
                 {
                     RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
-                    RagdollBoneBehavior.AlignPositionToHips(enemy._root,this.enemy.transform, _hipsBone,this.enemy._movementCompoent, _startAnimBoneTransforms[0]);
+                    RagdollBoneBehavior.AlignPositionToHips(this.enemy.transform, _hipsBone,this.enemy._movementCompoent);
                     RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
                     executedPhase = ExecutedPhase.ResetingBone;
                     break;
@@ -142,7 +142,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
                     if (resetBoneTimer >= reserBoneDuration)
                     {
                         executedPhase = ExecutedPhase.Animate;
-                        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.animationDrivenMotionState);
+                        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
                         _animator.CrossFade(gotExecuteStateName, 0, 0, 0);
                         enemy.NotifyObserver(enemy, this);
                     }
