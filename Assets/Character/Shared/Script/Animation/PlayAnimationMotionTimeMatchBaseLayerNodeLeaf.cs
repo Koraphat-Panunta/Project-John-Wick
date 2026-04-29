@@ -7,7 +7,7 @@ public class PlayAnimationMotionTimeMatchBaseLayerNodeLeaf : AnimationNodeLeaf
     public string stateName;
     protected int layer;
     protected int baseLayer;
-    protected string motionTimeParameter;
+    protected AnimationPoseTimeNormalized motionTimeParameter;
     protected float transitionDurationNormalized;
 
     public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
@@ -16,7 +16,7 @@ public class PlayAnimationMotionTimeMatchBaseLayerNodeLeaf : AnimationNodeLeaf
         string stateName,
         int layer,
         int baseLayer,
-        string motionTimeParameter,
+        AnimationPoseTimeNormalized motionTimeParameter,
         float transitionDurationNormalized) : base(preCondition)
     {
         this.animator = animator;
@@ -35,8 +35,10 @@ public class PlayAnimationMotionTimeMatchBaseLayerNodeLeaf : AnimationNodeLeaf
 
     public override void UpdateNode()
     {
+
         float baseNormalizedTime = animator.GetCurrentAnimatorStateInfo(baseLayer).normalizedTime;
-        animator.SetFloat(motionTimeParameter, Mathf.Repeat(baseNormalizedTime, 1f));
+
+        this.motionTimeParameter.timeNormal = Mathf.Repeat(baseNormalizedTime, 1f);
         base.UpdateNode();
     }
 }

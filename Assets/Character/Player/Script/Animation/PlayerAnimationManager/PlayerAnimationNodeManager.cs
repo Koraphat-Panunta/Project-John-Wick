@@ -513,7 +513,7 @@ public partial class PlayerAnimationManager
 
         sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-         animator, "SprintWeaponSway", 1, 0, "UpperLayerTimeNormalized", .2f);
+         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .2f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             () =>

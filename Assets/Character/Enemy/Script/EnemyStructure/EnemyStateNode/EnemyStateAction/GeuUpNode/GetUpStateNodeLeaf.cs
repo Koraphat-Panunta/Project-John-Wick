@@ -56,7 +56,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
             _ragdollBoneTransforms[i] = new BoneTransform();
         }
 
-        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(animationTriggerEventPlayer.animationClip, enemy.gameObject, _bones, _getUpBoneTransforms, enemy.transform, 0);
+        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(animationTriggerEventPlayer.animationClip, enemy.animator.gameObject, _bones, _getUpBoneTransforms, enemy.transform, 0);
 
     }
     public override void Enter()
