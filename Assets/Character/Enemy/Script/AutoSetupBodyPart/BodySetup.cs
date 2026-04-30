@@ -43,6 +43,7 @@ public class BodySetup : MonoBehaviour,IInitializedAble
     [Range(-.01f,.01f)]
     [SerializeField] private float armOffset;
 
+    [SerializeField] public CharacterAnimatorMoveForwarder characterAnimatorMoveForwarder;
     [SerializeField] public EnemyAnimationManager enemyAnimationManager;
     [SerializeField] public EnemyConstrainAnimationNodeManager enemyConstrainAnimationNodeManager;
     public void Initialized()
@@ -71,6 +72,12 @@ public class BodySetup : MonoBehaviour,IInitializedAble
         {
             this.enemyConstrainAnimationNodeManager.enemy = this.enemy;
             SaveEditorChanged.SaveEditorChangedObject(this.enemyConstrainAnimationNodeManager);
+        }
+
+        if(this.characterAnimatorMoveForwarder != null)
+        {
+            this.characterAnimatorMoveForwarder.SetCharacter(this.enemy);
+            SaveEditorChanged.SaveEditorChangedObject(this.characterAnimatorMoveForwarder);
         }
 
     }
@@ -191,6 +198,11 @@ public class BodySetup : MonoBehaviour,IInitializedAble
     {
         if (Application.isEditor)
         {
+            if(this.characterAnimatorMoveForwarder == null)
+            {
+                if(TryGetComponent<CharacterAnimatorMoveForwarder>(out CharacterAnimatorMoveForwarder characterAnimatorMoveForwarder))
+                    this.characterAnimatorMoveForwarder = characterAnimatorMoveForwarder;
+            }
             if(this.enemyAnimationManager == null)
             {
                 if(TryGetComponent<EnemyAnimationManager>(out EnemyAnimationManager enemyAnimationManager))

@@ -29,7 +29,7 @@ public class PlayAnimationMotionTimeMatchBaseLayerNodeLeaf : AnimationNodeLeaf
 
     public override void Enter()
     {
-        animator.CrossFade(stateName, transitionDurationNormalized, layer, 0);
+        animator.CrossFadeInFixedTime(stateName, transitionDurationNormalized, layer, 0);
         base.Enter();
     }
 

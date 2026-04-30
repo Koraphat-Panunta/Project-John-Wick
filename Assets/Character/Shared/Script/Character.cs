@@ -43,28 +43,24 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     public Animator animator;
     int frame;
     [SerializeField] private float SumDeltaPos;
-    protected virtual void OnAnimatorMove()
+
+    public virtual void HandleAnimatorMove(Vector3 deltaPosition, Quaternion deltaRotation)
     {
-        if (this.enableRootMotion)
+        if (!this.enableRootMotion) 
         {
-            frame++;
-
-            SumDeltaPos += animator.deltaPosition.magnitude;
-
-            _movementCompoent.SetPosition(this.characterController.position + animator.deltaPosition);
-            _movementCompoent.SetRotation(this.characterController.rotation * animator.deltaRotation);
-
-            //Debug.Log("curPos = " + this.characterController.position);
-            //Debug.Log("frame "+frame+"\n"+"SumDeltaPos = "+this.SumDeltaPos);
-
-        }
-        else
-        {
-            SumDeltaPos = 0;
-            frame = 0;
+            this.SumDeltaPos = 0;
+            this.frame = 0;
+            return; 
         }
 
+        this.frame++;
+
+        this.SumDeltaPos += animator.deltaPosition.magnitude;
+
+        this._movementCompoent.SetPosition(transform.position + deltaPosition);
+        this._movementCompoent.SetRotation(transform.rotation * deltaRotation);
     }
+   
 
     public virtual void Initialized()
     {

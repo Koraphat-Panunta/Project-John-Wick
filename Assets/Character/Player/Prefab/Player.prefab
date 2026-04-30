@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 6419881214304659927}
   - component: {fileID: 13336541786591963}
   - component: {fileID: 4137166914831565379}
+  - component: {fileID: 6445944122413160126}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -862,6 +863,19 @@ MonoBehaviour:
   _rightArmBone: {fileID: 4766824805798441201}
   _rightForeArmBone: {fileID: 6544663581695103603}
   _rightHandBone: {fileID: 6685904687278254798}
+--- !u!114 &6445944122413160126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373089153652914099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46761d173115a8b498db4ed54dfe3db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimatorMoveForwarder
+  character: {fileID: 3508049754622093220}
 --- !u!1001 &2119898344068439617
 PrefabInstance:
   m_ObjectHideFlags: 0

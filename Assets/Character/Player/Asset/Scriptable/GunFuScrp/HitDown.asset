@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8e93dcbff298c64488524b9f69e450e, type: 3}
-  m_Name: GunFuHitDown
+  m_Name: HitDown
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
   clip: {fileID: 1690646821414345268, guid: e990ec85ec59d034dac42c5cd7182a32, type: 3}
   enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.248
+  - normalizedTime: 0.3
     eventName: Hit
   - normalizedTime: 0.8
     eventName: PullUp
-  - normalizedTime: 0.85
+  - normalizedTime: 0.93
     eventName: TransitionAble
   endNormalizedTime: 1
   animationInteractCharacterDetail:

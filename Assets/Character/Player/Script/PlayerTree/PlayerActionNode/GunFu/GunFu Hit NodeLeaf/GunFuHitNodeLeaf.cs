@@ -185,7 +185,11 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     {
         this.exitWarpPos = this.approuchPosition;
     }
-    protected void EndWarp() => this.isWarping = false;
+    protected void EndWarp() 
+    {
+        this.isWarping = false; 
+        this.player.enableRootMotion = true;
+    }
 
     protected void TransitionAble()
     {
@@ -203,6 +207,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public override void Exit()
     {
         curPhaseGunFuHit = GunFuPhaseHit.Exit;
+        this.player.enableRootMotion = false;
+
         base.Exit();
     }
 
