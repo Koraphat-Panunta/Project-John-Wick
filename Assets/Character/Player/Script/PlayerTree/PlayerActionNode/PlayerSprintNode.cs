@@ -64,7 +64,7 @@ public class PlayerSprintNode : PlayerStateNodeLeaf,INodeLeafTransitionAble
     {
         this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement + Time.fixedDeltaTime * this.changeStanceWeight);
        
-        SprintMaintainMomentum(sprintRotateSpeed, sprintRotateSpeed * 3f);
+        SprintMaintainMomentum(sprintRotateSpeed, sprintRotateSpeed * 1.5f);
         base.FixedUpdateNode();
     }
     public override void Exit()

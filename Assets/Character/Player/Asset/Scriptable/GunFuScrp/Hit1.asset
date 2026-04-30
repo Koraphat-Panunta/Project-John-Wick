@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Hit1
   m_EditorClassIdentifier: 
   clip: {fileID: 2786917401317576147, guid: c5533531b96b8b74c90217687d4beddc, type: 3}
-  enterNormalizedTime: 0
+  enterNormalizedTime: 0.17
   triggerEventDetail:
-  - normalizedTime: 0.2
+  - normalizedTime: 0.17
     eventName: BeginWarp
   - normalizedTime: 0.37
     eventName: OpenAttackingTime
@@ -68,7 +68,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    warpingTime: {x: 0.2, y: 0.39}
+    warpingTime: {x: 0.2, y: 0.42}
     hitDirRotOffset: {x: 0, y: 0}
     hitDirPoseAnimOffset: {x: -60, y: 0, z: 0}
     hitPushForce: 2

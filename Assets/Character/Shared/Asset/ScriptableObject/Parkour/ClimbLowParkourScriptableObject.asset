@@ -9,40 +9,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df02b2946ce7e4c4fb6f546ec5ed2c71, type: 3}
+  m_Script: {fileID: 11500000, guid: e0fc9b7972f8e134c9e485e332a717d7, type: 3}
   m_Name: ClimbLowParkourScriptableObject
-  m_EditorClassIdentifier: 
-  forWardControlPoint_1_offset: -0.35
-  upWardControlPoint_1_offset: 0.27
-  forwardExitPoint_offset: 0.4
+  m_EditorClassIdentifier: Assembly-CSharp::ClimbParkourScriptableObject
+  forWardControlPoint_1_offset: -0.3
+  upWardControlPoint_1_offset: 0.4
+  forwardExitPoint_offset: 0.3
   upWardExitPoint_offset: 0.1
-  speed: 0
-  hieght: 1.35
-  minHieght: 0.37
-  detectDistance: 1.5
+  hieght: 1.12
+  minHieght: 0.35
+  detectDistance: 1
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  clip: {fileID: 7400000, guid: 28f2b1dedaa158746a882425fd2707f3, type: 2}
+  clip: {fileID: 6791345302321073908, guid: 2c31503f76aeb9c40af4722e41de30ff, type: 3}
   stateName: ClimbLow
+  forwardStartClimbPoint_offset: -0.3
+  upWardStartClimbPoint_offset: -0.4
+  catchEdgeTimeNormalized: 0.3

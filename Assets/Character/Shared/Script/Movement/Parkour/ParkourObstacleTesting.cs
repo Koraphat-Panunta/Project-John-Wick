@@ -20,9 +20,9 @@ public class ParkourObstacleTesting : MonoBehaviour
         {
             DrawGizmosVaultingParkour(vaultingParkourScriptableObject);
         }
-        else
+        else if(curParkourScriptableObject is ClimbParkourScriptableObject climbParkourScriptableObject)
         {
-            DrawGizmosParkourClimb(curParkourScriptableObject);
+            DrawGizmosParkourClimb(climbParkourScriptableObject);
         }
     }
 
@@ -53,14 +53,16 @@ public class ParkourObstacleTesting : MonoBehaviour
                 + startCastPoint.forward * curParkourScriptableObject.forWardControlPoint_1_offset
                 + startCastPoint.up * curParkourScriptableObject.upWardControlPoint_1_offset;
 
-
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(startPos, 0.15f);
 
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(ct1, 0.15f);
-           
+
+
+
             cts.Add(ct1);
+
 
             if (spheresH.Count > 0)
             {
@@ -93,6 +95,7 @@ public class ParkourObstacleTesting : MonoBehaviour
 
             cts.Add(ct2);
 
+
             exitPos
                 = edgePos2
                 + startCastPoint.forward * vaultingParkourScriptableObject.forwardExitPoint_offset
@@ -103,6 +106,8 @@ public class ParkourObstacleTesting : MonoBehaviour
 
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(ct2, 0.15f);
+
+
 
             Gizmos.color = Color.blue;
             if (sphereLine.Count > 0)
@@ -118,7 +123,7 @@ public class ParkourObstacleTesting : MonoBehaviour
         Gizmos.DrawSphere(exitPos, .15f);
         DrawBezierCurve(startCastPoint.position,cts,exitPos);
     }
-    private void DrawGizmosParkourClimb(ParkourScriptableObject parkourScriptableObject)
+    private void DrawGizmosParkourClimb(ClimbParkourScriptableObject climbParkourScriptableObject)
     {
         
 
@@ -127,7 +132,7 @@ public class ParkourObstacleTesting : MonoBehaviour
               ,10
               , startCastPoint.forward
               , startCastPoint.position
-              , startCastPoint.position + (Vector3.up * parkourScriptableObject.hieght)
+              , startCastPoint.position + (Vector3.up * climbParkourScriptableObject.hieght)
               , sphereDistanceDifference
               , out Vector3 edgePos
               , out List<Vector3> spheres
@@ -138,17 +143,26 @@ public class ParkourObstacleTesting : MonoBehaviour
             Gizmos.DrawSphere(edgePos, sphereCastRaduis * 1.5f);
 
             Vector3 startPos = startCastPoint.position;
+
+            Vector3 startClimb = edgePos 
+                + startCastPoint.forward * climbParkourScriptableObject.forwardStartClimbPoint_offset
+                + startCastPoint.up * climbParkourScriptableObject.upWardStartClimbPoint_offset;
+
             Vector3 ct1
                 = edgePos
-                + startCastPoint.forward * parkourScriptableObject.forWardControlPoint_1_offset
-                + startCastPoint.up * parkourScriptableObject.upWardControlPoint_1_offset;
+                + startCastPoint.forward * climbParkourScriptableObject.forWardControlPoint_1_offset
+                + startCastPoint.up * climbParkourScriptableObject.upWardControlPoint_1_offset;
+
             Vector3 exit
                 = edgePos
-                + startCastPoint.forward * parkourScriptableObject.forwardExitPoint_offset
-                + startCastPoint.up * parkourScriptableObject.upWardExitPoint_offset;
+                + startCastPoint.forward * climbParkourScriptableObject.forwardExitPoint_offset
+                + startCastPoint.up * climbParkourScriptableObject.upWardExitPoint_offset;
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(startPos, 0.15f);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(startClimb, 0.15f);
 
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(ct1, 0.15f);
@@ -159,7 +173,9 @@ public class ParkourObstacleTesting : MonoBehaviour
 
             List<Vector3> cts = new List<Vector3>();
             cts.Add(ct1);
-            DrawBezierCurve(startPos, cts, exit);
+
+            DrawBezierCurve(startPos, null, startClimb);
+            DrawBezierCurve(startClimb, cts, exit);
         }
         if (spheres.Count > 0)
         {
@@ -170,14 +186,18 @@ public class ParkourObstacleTesting : MonoBehaviour
 
         Gizmos.color = Color.green;
         Vector3 atLowestObs = new Vector3(edgePos.x, startCastPoint.position.y, edgePos.z);
-        Gizmos.DrawSphere(atLowestObs + (Vector3.up * parkourScriptableObject.minHieght), 0.15f);
+        Gizmos.DrawSphere(atLowestObs + (Vector3.up * climbParkourScriptableObject.minHieght), 0.15f);
     }
-    private void DrawBezierCurve(Vector3 startPos,List<Vector3> controlPoints , Vector3 endPos)
+    private void DrawBezierCurve(Vector3 startPos,List<Vector3> controlPoints, Vector3 endPos)
     {
         float curveResolution = 30;
 
         if (controlPoints == null || controlPoints.Count == 0)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(startPos, endPos);
             return;
+        }
 
         Vector3 previousPoint = startPos;
 

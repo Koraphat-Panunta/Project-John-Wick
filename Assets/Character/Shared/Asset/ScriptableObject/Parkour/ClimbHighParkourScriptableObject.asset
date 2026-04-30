@@ -9,58 +9,69 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df02b2946ce7e4c4fb6f546ec5ed2c71, type: 3}
+  m_Script: {fileID: 11500000, guid: e0fc9b7972f8e134c9e485e332a717d7, type: 3}
   m_Name: ClimbHighParkourScriptableObject
-  m_EditorClassIdentifier: 
-  forWardControlPoint_1_offset: -0.35
-  upWardControlPoint_1_offset: 0.5
-  forwardExitPoint_offset: 0.27
+  m_EditorClassIdentifier: Assembly-CSharp::ClimbParkourScriptableObject
+  forWardControlPoint_1_offset: -0.5
+  upWardControlPoint_1_offset: 0.52
+  forwardExitPoint_offset: 0.4
   upWardExitPoint_offset: 0.04
-  speed: 1
-  hieght: 2.5
-  minHieght: 1.3
-  detectDistance: 1.5
+  hieght: 3
+  minHieght: 1
+  detectDistance: 2
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1.3580291
+      outSlope: 1.3580291
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.25602788
-      value: 0.3559665
-      inSlope: 0.44706902
-      outSlope: 0.44706902
+      time: 0.1
+      value: 0.13580291
+      inSlope: 0.022577325
+      outSlope: 0.022577325
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.69602567
+      outWeight: 0.20000005
     - serializedVersion: 3
-      time: 0.6063919
-      value: 0.5221098
-      inSlope: 0.96612334
-      outSlope: 0.96612334
+      time: 0.6134347
+      value: 0.41802692
+      inSlope: 1.356482
+      outSlope: 1.356482
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.25843534
-      outWeight: 0.33333334
+      inWeight: 0.33333334
+      outWeight: 0.29218942
     - serializedVersion: 3
-      time: 1.0029907
-      value: 1.0037689
-      inSlope: 0
-      outSlope: 0
+      time: 0.8193068
+      value: 0.87373245
+      inSlope: 1.2632293
+      outSlope: 1.2632293
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.2544512
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.03481006
+      outSlope: 0.03481006
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  clip: {fileID: 7400000, guid: 245ab2a028e32de42b67e4b3b7cc64ff, type: 2}
+  clip: {fileID: 8251311719085023612, guid: 2c31503f76aeb9c40af4722e41de30ff, type: 3}
   stateName: ClimbHigh
+  forwardStartClimbPoint_offset: -0.4
+  upWardStartClimbPoint_offset: -1.37
+  catchEdgeTimeNormalized: 0.1

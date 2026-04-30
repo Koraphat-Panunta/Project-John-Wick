@@ -6,12 +6,14 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 {
     MovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
     private MovementCompoent movementCompoent;
-    private ParkourScriptableObject climbParkourScriptableObject;
+    private ClimbParkourScriptableObject climbParkourScriptableObject;
+    protected HumanoidBone humanoidBone;
     public string nameState { get => climbParkourScriptableObject.stateName; }
     public AnimationClip clip { get => climbParkourScriptableObject.clip; }
     private Transform parkourAble => player.transform;
 
     private Vector3 enterPos;
+    private Vector3 startClimbPos;
     private Vector3 ct1;
     private Vector3 exit;
 
@@ -23,7 +25,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
 
     private Vector3 obstacleSurfaceDir;
     private float rotateToWardSurfaceDir = 0.2f;
-    public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent, ParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
+    public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent, ClimbParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
     {
         this.movementCompoent = movementCompoent;
         this.climbParkourScriptableObject = climbParkourScriptableObject;
@@ -67,7 +69,8 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         this.movementCompoent.isOnUpdateEnable = false;
         this.player.playerMovement.characterController.PushForceUp(1, 0.05f);
         this.enterPos = player.transform.position;
-        BezierurveBehavior.DrawBezierCurve(enterPos, cts, exit, 5);
+        Debug.DrawLine(this.enterPos, this.startClimbPos);
+        BezierurveBehavior.DrawBezierCurve(this.startClimbPos, cts, exit, 5);
         base.Enter();
     }
     public override void Exit()
@@ -79,7 +82,23 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     public override void FixedUpdateNode()
     {
         timer += Time.fixedDeltaTime;
-        movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, exit, parkourTimeNormalized));
+
+        if (parkourTimeNormalized <= this.climbParkourScriptableObject.catchEdgeTimeNormalized)
+        {
+            movementCompoent.SetPosition(Vector3.Lerp(this.enterPos, this.startClimbPos, (parkourTimeNormalized / this.climbParkourScriptableObject.catchEdgeTimeNormalized)));
+        }
+        else
+        {
+            movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve
+                (startClimbPos
+                , cts
+                , exit
+                , (parkourTimeNormalized - this.climbParkourScriptableObject.catchEdgeTimeNormalized) / (1 - this.climbParkourScriptableObject.catchEdgeTimeNormalized))
+                );
+        }
+
+
+
         this.MovementRotateToWardSurface();
         base.FixedUpdateNode();
     }
@@ -101,7 +120,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         //Debug.DrawLine(parkourAble.position,parkourAble.position + (parkourAble.forward * climbParkourScriptableObject.detectDistance) ,Color.red,2);
         if(EdgeObstacleDetection.GetEdgeObstaclePos(
             IParkourNodeLeaf.sphereRaduis
-            ,10
+            ,this.climbParkourScriptableObject.detectDistance 
             ,obstacleSurfaceDir
             , parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght)
             , castUpDes
@@ -116,6 +135,10 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
             if (Vector3.Distance(edgePos1, new Vector3(edgePos1.x, parkourAble.position.y, edgePos1.z)) < climbParkourScriptableObject.minHieght)
                 return false;
 
+            this.startClimbPos = edgePos1
+                + (obstacleSurfaceDir * climbParkourScriptableObject.forwardStartClimbPoint_offset)
+                + (parkourAble.transform.up * climbParkourScriptableObject.upWardStartClimbPoint_offset);
+
             ct1 = edgePos1
                 + (obstacleSurfaceDir * climbParkourScriptableObject.forWardControlPoint_1_offset)
                 + (parkourAble.transform.up * climbParkourScriptableObject.upWardControlPoint_1_offset);
@@ -125,8 +148,6 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
                 + (parkourAble.up * climbParkourScriptableObject.upWardExitPoint_offset);
 
             cts.Add(ct1);
-
-
 
             return true;
         }

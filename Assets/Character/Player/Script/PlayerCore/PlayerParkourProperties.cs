@@ -4,7 +4,7 @@ public partial class Player
 {
     public bool _isParkourCommand;
 
-    [SerializeField] public ParkourScriptableObject climbLowScrp;
-    [SerializeField] public ParkourScriptableObject climbHighScrp;
+    [SerializeField] public ClimbParkourScriptableObject climbLowScrp;
+    [SerializeField] public ClimbParkourScriptableObject climbHighScrp;
     [SerializeField] public VaultingParkourScriptableObject vaultingScrp;
 }

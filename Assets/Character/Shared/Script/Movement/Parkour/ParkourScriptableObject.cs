@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ClimbParkourScriptableObject", menuName = "ScriptableObjects/Parkour/ClimbParkourScriptableObject")]
+[CreateAssetMenu(fileName = "ParkourScriptableObject", menuName = "ScriptableObjects/Parkour/ParkourScriptableObject")]
 public class ParkourScriptableObject : ScriptableObject
 {
     [Range(-10, 10)]
@@ -12,9 +12,6 @@ public class ParkourScriptableObject : ScriptableObject
     public float forwardExitPoint_offset;
     [Range(-10, 10)]
     public float upWardExitPoint_offset;
-
-    [Range(0, 10)]
-    public float speed;
 
     [Range(0, 10)]
     public float hieght;
