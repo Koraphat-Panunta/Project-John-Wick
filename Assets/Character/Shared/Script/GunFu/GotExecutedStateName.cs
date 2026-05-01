@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum GotExecutedStateName 
 {
-    GotExecuted_Dodge_Secondary,
+    GotExecuted_Dodge,
     GotExecuted_Single_Secondary_I,
     GotExecuted_Single_Secondary_II,
     GotExecuted_Single_Secondary_III,

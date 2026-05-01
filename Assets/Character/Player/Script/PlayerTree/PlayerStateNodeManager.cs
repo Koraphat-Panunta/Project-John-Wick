@@ -81,7 +81,7 @@ public class PlayerStateNodeManager :
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_NodeLeaf_I { get; set; }
 
     public NodeSelector gunFuExecute_Single_Primary_Selector;
-    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_I { get; set; }
+    public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_II { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_Dodge_NodeLeaf_I { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I { get; set; }
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
@@ -210,8 +210,12 @@ public class PlayerStateNodeManager :
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
             && player._currentWeapon.chamber.isReadyShoot );
+
         executeGunFuOnGroundSelector = new NodeSelector(
-            () => player.executedAbleGunFu._character is IRagdollAble downGetUpAble 
+            () => player._triggerExecuteGunFu
+            && player.executeGauge._gauge >= this.player.executeGauge.maxGauge
+            && player.executedAbleGunFu != null
+            && player.executedAbleGunFu._character is IRagdollAble downGetUpAble 
             && downGetUpAble._isFallDown);
 
         gunFuExecute_Single_Primary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
@@ -240,11 +244,11 @@ public class PlayerStateNodeManager :
         gunFuExecute_Single_Primary_Selector = new NodeSelector(
             () => player._currentWeapon is PrimaryWeapon);
 
-        gunFuExecute_Single_Primary_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(
+        gunFuExecute_Single_Primary_NodeLeaf_II = new GunFuExecute_Single_NodeLeaf(
             player,
             () => true
-            , player.gunFuExecute_Single_Primary_ScriptableObject_I
-            ,GunFuExecuteStateName.GunFu_Execute_Single_Primary_I
+            , player.gunFuExecute_Single_Primary_ScriptableObject_II
+            ,GunFuExecuteStateName.GunFu_Execute_Single_Primary_II
             );
 
         gunFuExecute_Single_Secondary_Selector = new NodeSelector(
@@ -261,7 +265,6 @@ public class PlayerStateNodeManager :
         gunFuExecute_OnGround = new GunFuExecute_Single_NodeLeaf(player,
             () => 
             {
-                
                 if (
                 player.executedAbleGunFu._character is IRagdollAble downGetUpAble
                 && downGetUpAble._isFallDown 
@@ -270,7 +273,7 @@ public class PlayerStateNodeManager :
                 return false;
             }
             ,this.player.gunFu_Single_Execute_OnGround
-            ,GunFuExecuteStateName.GunFu_Single_Execute_OnGround
+            ,GunFuExecuteStateName.GunFu_Single_Execute_OnGround_I
             );
        
        
@@ -363,7 +366,8 @@ public class PlayerStateNodeManager :
         stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.fallingStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
-        stanceSelectorNode.AddtoChildNode(executeGunFuSelector);
+        stanceSelectorNode.AddtoChildNode(this.executeGunFuOnGroundSelector);
+        stanceSelectorNode.AddtoChildNode(this.executeGunFuSelector);
         stanceSelectorNode.AddtoChildNode(this.triggerHitGunFuSelector);
         stanceSelectorNode.AddtoChildNode(playerThrowWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
@@ -426,12 +430,10 @@ public class PlayerStateNodeManager :
         this.proneStanceSelector.AddtoChildNode(this.proneStateNodeLeaf);
         this.proneStateNodeLeaf.AddTransitionNode(this.playerGetUpStateNodeLeaf);
 
-        executeGunFuSelector.AddtoChildNode(executeGunFuOnGroundSelector);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_Secondary_Selector);
         executeGunFuSelector.AddtoChildNode(gunFuExecute_Single_Primary_Selector);
 
-        gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_I);
-
+        gunFuExecute_Single_Primary_Selector.AddtoChildNode(gunFuExecute_Single_Primary_NodeLeaf_II);
         gunFuExecute_Single_Secondary_Selector.AddtoChildNode(gunFuExecute_Single_Secondary_NodeLeaf_I);
 
         executeGunFuOnGroundSelector.AddtoChildNode(gunFuExecute_OnGround);

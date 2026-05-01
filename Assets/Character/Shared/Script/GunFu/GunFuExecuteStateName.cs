@@ -12,5 +12,5 @@ public enum GunFuExecuteStateName
     GunFu_Execute_Single_Primary_I,
     GunFu_Execute_Single_Primary_II,
 
-    GunFu_Single_Execute_OnGround
+    GunFu_Single_Execute_OnGround_I
 }

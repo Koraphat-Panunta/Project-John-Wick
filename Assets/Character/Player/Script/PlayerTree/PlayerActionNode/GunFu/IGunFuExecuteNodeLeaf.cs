@@ -28,3 +28,15 @@ public class BulletExecute : Bullet
     public override float _postureDamageVisitor { get => 0; set => throw new System.NotImplementedException(); }
     public override float _pureDestructionDamage { get ; set ; }
 }
+public class ExecuteMethod : IDamageVisitor
+{
+    public IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf;
+    public ExecuteMethod(IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf)
+    {
+        this.gunFuExecuteNodeLeaf = gunFuExecuteNodeLeaf;
+    }
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        this.gunFuExecuteNodeLeaf.OnNotifyFeedBackVisitor(damageAble);
+    }
+}

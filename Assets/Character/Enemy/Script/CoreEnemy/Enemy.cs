@@ -165,6 +165,11 @@ public partial class Enemy : SubjectEnemy
                     }
                     return;
                 }
+            case ExecuteMethod gunFuMethod:
+                {
+                    this.TakeDamage(this.GetHP());
+                    break;
+                }
         }
 
         if (damageVisitor is IHPDamageVisitor hPDamageVisitor)

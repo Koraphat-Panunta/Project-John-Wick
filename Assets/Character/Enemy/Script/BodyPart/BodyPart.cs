@@ -182,6 +182,7 @@ public abstract class BodyPart : MonoBehaviour
         get => this.enemy;
         set { }
     }
+    public IGotGunFuAttackNode gotGunFuAttackNode => this.enemy.gotGunFuAttackNode;
 
     public Character _character => this.enemy;
 

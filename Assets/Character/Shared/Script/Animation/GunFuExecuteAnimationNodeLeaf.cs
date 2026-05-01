@@ -28,7 +28,7 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
 
         animator.CrossFade(
             gunFuExecuteNodeLeaf._stateName
-            , 0
+            , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
             , 0
             , gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime
             );

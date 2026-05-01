@@ -22,6 +22,8 @@ public partial class Player: IGotGunFuAttackedAble
     }
     public bool _isGotExecutedAble { get; set; }
 
+    public IGotGunFuAttackNode gotGunFuAttackNode => ReturnGotAttackNodeFromStateMachine.GetAttackNode(this.playerStateNodeManager);
+
     Character IGotGunFuAttackedAble._character => this;
 
     

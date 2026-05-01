@@ -5,10 +5,12 @@ using UnityEngine;
 public class GunFuExecute_Single_NodeLeaf : 
     PlayerStateNodeLeaf
     , IGunFuExecuteNodeLeaf
+    , IDamageVisitor
 {
     public IWeaponAdvanceUser weaponAdvanceUser;
     public IGunFuAble gunFuAble { get; set; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public ExecuteMethod executeMethod;
 
     public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get => this.gunFuExecuteInteractSCRP; }
     protected AnimationInteractScriptableObject gunFuExecuteInteractSCRP;
@@ -41,6 +43,8 @@ public class GunFuExecute_Single_NodeLeaf :
         this.weaponAdvanceUser = player;
         this.executeStateName = stateName;
 
+        this.executeMethod = new ExecuteMethod(this);
+
         this.gunFuAble_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[0]);
         this.got_GunFuAttacked_SubjectInteract = new SubjectAnimationInteract(this.gunFuExecuteInteractSCRP, this.gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1]);
 
@@ -54,6 +58,7 @@ public class GunFuExecute_Single_NodeLeaf :
         this.gunFuAble_SubjectInteract.finishWarpEvent += this.Interact;
         this.animationTriggerEventPlayer.SubscribeEvent("Shoot", this.Shoot);
         this.animationTriggerEventPlayer.SubscribeEvent("Execute", this.Execute);
+        this.animationTriggerEventPlayer.SubscribeEvent("Releses", this.Releses);
 
         this.got_GunFuAttacked_SubjectInteract.finishWarpEvent += this.Interact;
 
@@ -75,7 +80,7 @@ public class GunFuExecute_Single_NodeLeaf :
         gotGunFuAttackedAble = gunFuAble.executedAbleGunFu;
         gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = false;
         curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Warping;
-        Vector3 executeDir = gunFuAble._character.transform.position - gotGunFuAttackedAble._character.transform.position ;
+        Vector3 executeDir = gotGunFuAttackedAble._character.transform.position - gunFuAble._character.transform.position;
         executeDir = new Vector3(executeDir.x,0,executeDir.z).normalized;
         Vector3 executePos = gotGunFuAttackedAble._character.transform.position;
 
@@ -95,18 +100,16 @@ public class GunFuExecute_Single_NodeLeaf :
 
         base.Enter();
     }
-
     public override void Exit()
     {
-        isExecuteAlready = false;
-        gunFuAble._character.enableRootMotion = false;
-        gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = true;
+        this.isExecuteAlready = false;
+        this.gunFuAble._character.enableRootMotion = false;
+        this.gotGunFuAttackedAble._character._movementCompoent.isOnUpdateEnable = true;
 
-        
+        this.Releses();
 
         base.Exit();
     }
-
     public override void FixedUpdateNode()
     {
         base.FixedUpdateNode();
@@ -117,7 +120,6 @@ public class GunFuExecute_Single_NodeLeaf :
             return true;
         return false;
     }
-
     public override bool IsReset()
     {
         if(this.IsComplete())
@@ -125,7 +127,6 @@ public class GunFuExecute_Single_NodeLeaf :
 
         return false;
     }
-
     public override void UpdateNode()
     {
         //Debug.Log("this.gunFuAble._character._movementCompoent.V_World = " + this.gunFuAble._character._movementCompoent.curMoveVelocity_World);
@@ -140,17 +141,7 @@ public class GunFuExecute_Single_NodeLeaf :
         this.gunFuAble_SubjectInteract.UpdateInteract(Time.deltaTime);
         this.got_GunFuAttacked_SubjectInteract.UpdateInteract(Time.deltaTime);
     }
-    //private void BeginWarp(Character character)
-    //{
-    //    if(character == gunFuAble._character)
-    //    {
-    //        Debug.DrawRay(this.gunFuAble_SubjectInteract.exitPosition,this.gun)
-    //    }
-    //    if(character == gotGunFuAttackedAble._character)
-    //    {
-
-    //    }
-    //}
+    
     private void Interact(Character character)
     {
         if(character == gunFuAble._character)
@@ -163,6 +154,8 @@ public class GunFuExecute_Single_NodeLeaf :
         {
             //Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
             this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+
+            #region DebugPos
             //Debug.Log("Player anchor Distance pos = "
             //    + Vector3.Distance(
             //        gunFuAble._character.transform.position
@@ -184,20 +177,18 @@ public class GunFuExecute_Single_NodeLeaf :
             //        gotGunFuAttackedAble._character.transform.rotation
             //        , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
             //    );
+            #endregion
         }
     }
     private void Shoot()
     {
         WeaponShootBlank.ShootBlank(weaponAdvanceUser._currentWeapon);
     }
-
     private void Execute()
     {
-        BulletExecute bulletExecute = new BulletExecute(weaponAdvanceUser._currentWeapon);
-        gotGunFuAttackedAble._damageAble.TakeDamage(bulletExecute);
+        gotGunFuAttackedAble._damageAble.TakeDamage(this.executeMethod);
 
-        weaponAdvanceUser._currentWeapon.PullTrigger();
-
+        #region DebugPos
         //Debug.Log("Character : " + gunFuAble_SubjectInteract.character + " execute anchor Distance pos = "
         //+ Vector3.Distance(
         //           gunFuAble_SubjectInteract.character.transform.position
@@ -219,14 +210,32 @@ public class GunFuExecute_Single_NodeLeaf :
         //     got_GunFuAttacked_SubjectInteract.character.transform.rotation
         //    , Quaternion.LookRotation(got_GunFuAttacked_SubjectInteract.anhorDir))
         //);
+        #endregion
 
         isExecuteAlready = true;
 
         player.NotifyObserver(player, this);
     }
-   
     public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
     {
         this.player.OnNotifyFeedBackVisitor(damageAble);
+    }
+
+    protected IGotGunFuExecuteNodeLeaf GetGotExecuteNodeLeaf()
+    {
+        if (this.gotGunFuAttackedAble.gotGunFuAttackNode != null
+            && this.gotGunFuAttackedAble.gotGunFuAttackNode is IGotGunFuExecuteNodeLeaf gotGunFuExecuteNodeLeaf)
+            return gotGunFuExecuteNodeLeaf;
+
+        return null;
+           
+    }
+    protected void Releses()
+    {
+        IGotGunFuExecuteNodeLeaf gotGunFuExecuteNode = this.GetGotExecuteNodeLeaf();
+        if(gotGunFuExecuteNode == null)
+            return;
+
+        gotGunFuExecuteNode.Releses();
     }
 }

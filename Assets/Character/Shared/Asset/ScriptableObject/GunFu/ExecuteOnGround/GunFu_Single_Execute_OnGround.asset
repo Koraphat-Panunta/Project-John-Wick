@@ -13,24 +13,24 @@ MonoBehaviour:
   m_Name: GunFu_Single_Execute_OnGround
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractScriptableObject
   clip: {fileID: -9007366472760053690, guid: 0938a132684c5e64c98db7e134066b51, type: 3}
-  enterNormalizedTime: 0.049
+  enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.56
+  - normalizedTime: 0.475
     eventName: Execute
-  endNormalizedTime: 0.87
+  endNormalizedTime: 1
   animationInteractCharacterDetail:
-  - offsetPositionFormAnchor: {x: -0.18, y: 0.8}
-    RotationRelative: -183.5
-    beginWarpingNormalizedTime_BasedOnMainSubject: 0.05
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.22
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.05
-    enterAnimationOffsetNormalizedTime: 0.05
-    endAnimationNormalizedTime: 0.87
-  - offsetPositionFormAnchor: {x: 0, y: 0}
-    RotationRelative: 0
+  - offsetPositionFormAnchor: {x: 0.37, y: -0.54}
+    RotationRelative: -28.3
     beginWarpingNormalizedTime_BasedOnMainSubject: 0
-    finishWarpingNormalizedTime_BasedOnMainSubject: 0.05
-    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0.05
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0.283
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
+    enterAnimationOffsetNormalizedTime: 0
+    endAnimationNormalizedTime: 1
+  - offsetPositionFormAnchor: {x: 0, y: 0}
+    RotationRelative: 90
+    beginWarpingNormalizedTime_BasedOnMainSubject: 0
+    finishWarpingNormalizedTime_BasedOnMainSubject: 0
+    beginPlayAnimationNormalizedTime_BasedOnMainSubject: 0
     enterAnimationOffsetNormalizedTime: 0
     endAnimationNormalizedTime: 1
   audioAnimationInteractTriggerEvents: []

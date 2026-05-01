@@ -32,6 +32,9 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         this.subject1.Initialized();
         this.subject2.Initialized();
 
+        this.anchorPos = transform.position;
+        this.anchorDir = transform.forward;
+
         this.subject1_Enter_Pos = this.subject1.transform.position;
         this.subject1_Enter_Dir = this.subject1.transform.forward;
 
@@ -39,28 +42,7 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         this.subject2_Enter_Dir = this.subject2.transform.forward;
 
 
-        subjectAnimationInteract1 = new SubjectAnimationInteract(
-            animationInteractScriptableObject.clip
-            , animationInteractScriptableObject.enterNormalizedTime
-            , animationInteractScriptableObject.endNormalizedTime
-            , animationInteractScriptableObject.animationInteractCharacterDetail[0]);
-
-        subjectAnimationInteract1.beginPlayAnimationEvent += BeginPlayAnimation;
-        subjectAnimationInteract1.finishWarpEvent += BeginInteract;
-
-
-        subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
-
-        subjectAnimationInteract2 = new SubjectAnimationInteract(
-           animationInteractScriptableObject.clip
-           , animationInteractScriptableObject.enterNormalizedTime
-           , animationInteractScriptableObject.endNormalizedTime
-           , animationInteractScriptableObject.animationInteractCharacterDetail[1]);
-
-        subjectAnimationInteract2.beginPlayAnimationEvent += BeginPlayAnimation;
-        subjectAnimationInteract2.finishWarpEvent += BeginInteract;
-
-        subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
+        this.InitilaizedSubject();
     }
  
 
@@ -152,9 +134,8 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         subject2._movementCompoent.SetPosition(this.subject2_Enter_Pos);
         subject2._movementCompoent.SetRotation(Quaternion.LookRotation(this.subject2_Enter_Dir));
 
-                
-        subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
-        subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
+
+        this.InitilaizedSubject();
 
         this.triggerRestart = false;
 
@@ -162,6 +143,31 @@ public class AnimationInteractionDebugTest : MonoBehaviour
         debug = 0;
     }
 
+    protected void InitilaizedSubject()
+    {
+        subjectAnimationInteract1 = new SubjectAnimationInteract(
+           animationInteractScriptableObject.clip
+           , animationInteractScriptableObject.enterNormalizedTime
+           , animationInteractScriptableObject.endNormalizedTime
+           , animationInteractScriptableObject.animationInteractCharacterDetail[0]);
+
+        subjectAnimationInteract1.beginPlayAnimationEvent += BeginPlayAnimation;
+        subjectAnimationInteract1.finishWarpEvent += BeginInteract;
+
+
+        subjectAnimationInteract1.RestartSubject(subject1, anchorPos, anchorDir);
+
+        subjectAnimationInteract2 = new SubjectAnimationInteract(
+           animationInteractScriptableObject.clip
+           , animationInteractScriptableObject.enterNormalizedTime
+           , animationInteractScriptableObject.endNormalizedTime
+           , animationInteractScriptableObject.animationInteractCharacterDetail[1]);
+
+        subjectAnimationInteract2.beginPlayAnimationEvent += BeginPlayAnimation;
+        subjectAnimationInteract2.finishWarpEvent += BeginInteract;
+
+        subjectAnimationInteract2.RestartSubject(subject2, anchorPos, anchorDir);
+    }
 
     // Update is called once per frame
     void Update()

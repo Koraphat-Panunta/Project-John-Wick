@@ -11,6 +11,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
     public IDamageAble _damageAble { get => this; set { } }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get => this; set { } }
+    public IGotGunFuAttackNode gotGunFuAttackNode => ReturnGotAttackNodeFromStateMachine.GetAttackNode(this.enemyStateManagerNode);
     public bool _isGotAttackedAble
     {
         get
@@ -40,6 +41,7 @@ public partial class Enemy : IGotGunFuAttackedAble
         }
         set { }
     }
+
 
 
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;

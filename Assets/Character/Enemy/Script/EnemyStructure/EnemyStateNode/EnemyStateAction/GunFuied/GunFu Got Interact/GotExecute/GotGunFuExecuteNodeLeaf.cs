@@ -14,24 +14,22 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
 
     private IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf;
 
-    protected AnimationTriggerEventPlayer animationTriggerEventPlayer;
-
     public GotGunFuExecuteNodeLeaf(Enemy enemy, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP, GotExecutedStateName gotExecuteStateName) : base(enemy, preCondition)
     {
         this.gotExecutedStateName = gotExecuteStateName;
-        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(animationTriggerEventSCRP);
     }
     
     public override void Enter()
     {
         this.gunFuExecuteNodeLeaf = this._gotExecutedGunFu.curAttackerGunFuNode as IGunFuExecuteNodeLeaf;
         this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
-        this.animationTriggerEventPlayer.Rewind();
+        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
         this._gotExecutedGunFu._character.animator.CrossFade
             (gotExecuteStateName
             , 0 
             , 0
             , gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1].enterAnimationOffsetNormalizedTime);
+
 
         _ = SubjectAnimationInteract.DelayRootMotion(this._gotExecutedGunFu._character);
         base.Enter();
@@ -40,7 +38,7 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     public override void Exit()
     {
         this._gotExecutedGunFu._character.enableRootMotion = false;
-        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
+
         base.Exit();
     }
 
@@ -48,21 +46,22 @@ public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeL
     {
         
         //Debug.Log("this._gotExecutedGunFu._character._movementCompoent.V_World = "+this._gotExecutedGunFu._character._movementCompoent.curMoveVelocity_World);
-        this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         this._gotExecutedGunFu._character._movementCompoent.CancleMomentum();
         base.UpdateNode();
     }
     public override bool IsReset()
     {
-        if(this.animationTriggerEventPlayer.IsPlayFinish())
+        if(this.IsComplete())
             return true;
 
-        if(this.enemy.isDead)
+        if(this._executerGunFu == null)
             return true;
 
         return false;
     }
 
-   
-   
+    public void Releses()
+    {
+        this.isComplete = true;
+    }
 }

@@ -24,7 +24,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
         Landing
     }
     private const float pushOutNormalized = 0.23f;
-    private const float InAirNormalized = 0.5f;
+    private const float InAirNormalized = 0.7f;
     private const float LandingNormalized = 1;
     public DodgePhase dodgePhase;
     private Vector3 enterDir;

@@ -51,9 +51,6 @@ public partial class Player : IGunFuAble
 
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_I;
-    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_II;
-    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Secondary_ScriptableObject_III;
-    [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_I;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_ScriptableObject_II;
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
 

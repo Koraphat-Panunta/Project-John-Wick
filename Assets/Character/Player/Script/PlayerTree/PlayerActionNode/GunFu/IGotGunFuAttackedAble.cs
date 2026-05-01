@@ -9,6 +9,7 @@ public interface IGotGunFuAttackedAble
     public IGunFuAble gunFuAbleAttacker { get; set; }
     public IWeaponAdvanceUser _weaponAdvanceUser { get; set; }
     public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public IGotGunFuAttackNode gotGunFuAttackNode { get; }
     public IDamageAble _damageAble { get; set; }
     public Character _character { get; }
     public bool _isGotAttackedAble { get; set; }

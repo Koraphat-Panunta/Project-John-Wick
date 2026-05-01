@@ -3,11 +3,7 @@ using UnityEngine;
 
 public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNodeLeaf
 {
-    private Transform _root;
-    private Transform _hipsBone;
-    private Transform[] _bones;
-    private BoneTransform[] _ragdollBoneTransforms;
-    private BoneTransform[] _startAnimBoneTransforms;
+
 
     private Animator _animator => enemy.animator;
 
@@ -18,53 +14,19 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     GotExecutedStateName IGotGunFuExecuteNodeLeaf._gotExecutedStateName => this.gotExecutedStateName;
     private GotExecutedStateName gotExecutedStateName;
+    private IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf;
     public string gotExecuteStateName { get => this.gotExecutedStateName.ToString(); }
-
-    public enum ExecutedPhase
-    {
-        None,
-        PoppulateStartBoneTransform,
-        ResetingBone,
-        Animate,
-    }
-    public ExecutedPhase executedPhase { get; set; }
-
-
-    protected AnimationTriggerEventSCRP gunFuExecuteSInteractSCRP;
-    public AnimationTriggerEventPlayer animationTriggerEventPlayer { get; protected set; }
-    protected AnimationClip animationClip { get => this.gunFuExecuteSInteractSCRP.clip; }
-    protected float opponentAnimationOffset { get => gunFuExecuteSInteractSCRP.enterNormalizedTime; }
-
-    public float resetBoneTimer { get; protected set; }
-
-    public float reserBoneDuration = .1f;
 
     public GotExecuteOnGround_NodeLeaf(
         Enemy enemy,AnimationTriggerEventSCRP gunFuExecuteSInteractSCRP, Transform root,Transform hipsBone, Transform[] bones,GotExecutedStateName gotExecuteStateName, Func<bool> preCondition) : base(enemy, preCondition)
-    {
-        this._root = root;
-        this._hipsBone =hipsBone;
-        this._bones = bones;
+    {   
         this.gotExecutedStateName = gotExecuteStateName;
-
-        this._ragdollBoneTransforms = new BoneTransform[_bones.Length];
-        this._startAnimBoneTransforms = new BoneTransform[_bones.Length];
-
-        for (int i = 0; i < _bones.Length; i++)
-        {
-            this._ragdollBoneTransforms[i] = new BoneTransform();
-            this._startAnimBoneTransforms[i] = new BoneTransform();
-        }
-
-
-        this.gunFuExecuteSInteractSCRP = gunFuExecuteSInteractSCRP;
-        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.gunFuExecuteSInteractSCRP);
 
     }
   
     public override bool IsComplete()
     {
-        if(animationTriggerEventPlayer.IsPlayFinish())
+        if(this.isComplete)
             return true;
 
         return false;
@@ -75,7 +37,7 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
         if(IsComplete())
             return true;
 
-        if(enemy.isDead)
+        if (this._executerGunFu == null)
             return true;
 
         return false;
@@ -83,15 +45,13 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void Enter()
     {
-        this.animationTriggerEventPlayer.Rewind();
-    
-        resetBoneTimer = 0;
-   
+        this.gunFuExecuteNodeLeaf = this._gotExecutedGunFu.curAttackerGunFuNode as IGunFuExecuteNodeLeaf;
         _gotExecutedGunFu._character._movementCompoent.CancleMomentum();
 
-        executedPhase = ExecutedPhase.Animate;
         enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-        _animator.CrossFade(gotExecuteStateName, .15f, 0, 0);
+        _animator.CrossFade(gotExecuteStateName, 0, 0, this.gunFuExecuteNodeLeaf._gunFuExecuteInteractSCRP.animationInteractCharacterDetail[1].enterAnimationOffsetNormalizedTime);
+
+        _ = SubjectAnimationInteract.DelayRootMotion(this._gotExecutedGunFu._character);
 
         enemy.NotifyObserver(enemy, this); 
 
@@ -100,7 +60,6 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void Exit()
     {
-        executedPhase = ExecutedPhase.None;
         base.Exit();
     }
 
@@ -111,51 +70,11 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
 
     public override void UpdateNode()
     {
-        switch (this.executedPhase)
-        {
-            case ExecutedPhase.None:
-                {
-                    RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(
-                        animationClip,
-                        enemy.gameObject,
-                        this._bones,
-                        _startAnimBoneTransforms,
-                        enemy.transform,
-                        animationClip.length * this.opponentAnimationOffset
-                        );
-
-                    executedPhase = ExecutedPhase.PoppulateStartBoneTransform;
-                    break;
-                }
-            case ExecutedPhase.PoppulateStartBoneTransform:
-                {
-                    RagdollBoneBehavior.AlignRotationToHips(_hipsBone, this.enemy.transform);
-                    RagdollBoneBehavior.AlignPositionToHips(this.enemy.transform, _hipsBone,this.enemy._movementCompoent);
-                    RagdollBoneBehavior.PopulateBoneTransforms(_bones, _ragdollBoneTransforms);
-                    executedPhase = ExecutedPhase.ResetingBone;
-                    break;
-                }
-            case ExecutedPhase.ResetingBone:
-                {
-                    this.resetBoneTimer = Mathf.Clamp01(this.resetBoneTimer + Time.deltaTime);
-                    RagdollBoneBehavior.LerpBoneTransforms(_bones, _ragdollBoneTransforms, _startAnimBoneTransforms, resetBoneTimer/reserBoneDuration);
-                    if (resetBoneTimer >= reserBoneDuration)
-                    {
-                        executedPhase = ExecutedPhase.Animate;
-                        enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-                        _animator.CrossFade(gotExecuteStateName, 0, 0, 0);
-                        enemy.NotifyObserver(enemy, this);
-                    }
-                    break;
-                }
-            case ExecutedPhase.Animate:
-                {
-                    this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-                    break;
-                }
-        }
-
         base.UpdateNode();
+    }
+    public void Releses()
+    {
+        this.isComplete = true;
     }
 }
  
