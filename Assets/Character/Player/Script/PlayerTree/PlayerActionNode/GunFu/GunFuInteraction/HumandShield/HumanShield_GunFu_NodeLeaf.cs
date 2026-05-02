@@ -30,10 +30,10 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
-    private Vector3 gotHumanShieldPosition => player.transform.position 
-        + (player.transform.forward * transformOffsetSCRP.postitionOffset.z)
-        + (player.transform.right * transformOffsetSCRP.postitionOffset.x)
-        + (player.transform.up * transformOffsetSCRP.postitionOffset.y);
+    private Vector3 gotHumanShieldPosition => this.player._movementCompoent.curPosition
+        + (this.player.transform.forward * transformOffsetSCRP.postitionOffset.z)
+        + (this.player.transform.right * transformOffsetSCRP.postitionOffset.x)
+        + (this.player.transform.up * transformOffsetSCRP.postitionOffset.y);
 
     private Quaternion gotHumanShieldRotation => player.transform.rotation * Quaternion.Euler(transformOffsetSCRP.rotationEulerOffset);
 
@@ -62,14 +62,19 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
         curIntphase = HumanShieldInteractionPhase.Enter;
         this.gotGunFuAttackedAble = player.attackedAbleGunFu;
 
+        Vector3 anchorDir = (this.gotGunFuAttackedAble._character.transform.position - this.gunFuAble._character.transform.position);
+        anchorDir = new Vector3(anchorDir.x, 0, anchorDir.z).normalized;
+
         this.subject_GunFuAble.RestartSubject(
             player
             , this.gotGunFuAttackedAble._character.transform.position
-            , this.gotGunFuAttackedAble._character.transform.forward);
+            , anchorDir);
         this.subject_GotGunFuAble.RestartSubject(
             this.gotGunFuAttackedAble._character
             , this.gotGunFuAttackedAble._character.transform.position
-            , this.gotGunFuAttackedAble._character.transform.forward);
+            , anchorDir);
+
+        this.pullWeight = 0;
 
         base.Enter();
     }
@@ -118,7 +123,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLe
 
             case HumanShieldInteractionPhase.Stay:
                 {
-                    pullWeight = 1;
+                    pullWeight = Mathf.Clamp01(this.pullWeight + Time.deltaTime);
 
                     this.gotGunFuAttackedAble._character._movementCompoent.SetPosition(Vector3.Lerp
                         (

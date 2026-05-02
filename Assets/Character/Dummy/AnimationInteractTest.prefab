@@ -68,7 +68,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 049996ca8eaf5ae4a81bb40affbd090c, type: 3}
   m_Controller: {fileID: 9100000, guid: fa6142a8a133df8458b1d9df1954d87f, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048169df8a649974896b9a30fdd97860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationInteractionDebugTest
-  animationInteractScriptableObject: {fileID: 11400000, guid: fb21cdbe00c7c66419c73c3779b3212d,
+  animationInteractScriptableObject: {fileID: 11400000, guid: c7c7ae38711f2d6499a208c831b5d5ba,
     type: 2}
   subject1: {fileID: 6567711578033998182}
   subject1Animation: GunFuReload
@@ -286,7 +286,7 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: c73cd909eef66fd4487fa7cbb86b865d, type: 3}
   m_Controller: {fileID: 9100000, guid: fa6142a8a133df8458b1d9df1954d87f, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0

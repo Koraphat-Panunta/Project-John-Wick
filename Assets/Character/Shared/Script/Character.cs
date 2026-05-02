@@ -48,11 +48,13 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     {
         if (!this.enableRootMotion) 
         {
+            this.animator.updateMode = AnimatorUpdateMode.Normal;
             this.SumDeltaPos = 0;
             this.frame = 0;
             return; 
         }
 
+        this.animator.updateMode = AnimatorUpdateMode.Fixed;
         this.frame++;
 
         this.SumDeltaPos += animator.deltaPosition.magnitude;

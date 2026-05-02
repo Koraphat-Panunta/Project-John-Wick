@@ -66,6 +66,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         Vector3 anchorDir = (this.gotGunFuAttackedAble._character.transform.position - this.gunFuAble._character.transform.position);
         anchorDir = new Vector3 (anchorDir.x, 0 , anchorDir.z).normalized;
 
+
         this.SubjectAnimationInteract1.finishWarpEvent += this.Interact;
         this.SubjectAnimationInteract1.RestartSubject(this.gunFuAble._character, anchorPos, anchorDir);
         this.SubjectAnimationInteract2.RestartSubject(this.gotGunFuAttackedAble._character, anchorPos, anchorDir);

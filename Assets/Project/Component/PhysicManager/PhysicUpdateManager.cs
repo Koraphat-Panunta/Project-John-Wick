@@ -26,10 +26,6 @@ public class PhysicUpdateManager : MonoBehaviour,IInitializedAble
             return;
 
         this.physicsAccumulator = 0;
-        //Debug.Log("Physic deltaTime = " + Time.deltaTime);
-        //Debug.Log("Physic fixDeltaTime = " + Time.fixedDeltaTime);
-        //Debug.Log("Physic timeScale = " + Time.timeScale);
-        //Debug.Log("Physic physicsStep * Time.timeScale = " + physicsStep * Time.timeScale);
 
 
         Physics.Simulate(timeStep);
