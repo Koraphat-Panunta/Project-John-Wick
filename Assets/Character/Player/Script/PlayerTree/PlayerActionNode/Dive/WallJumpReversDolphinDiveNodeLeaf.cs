@@ -4,7 +4,7 @@ using UnityEngine;
 public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 {
 
-    public float anticipateTime = .4f;
+    public float anticipateTime = .25f;
 
     public override float jumpOutTime => 0;
 
@@ -60,7 +60,7 @@ public class WallJumpReversDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         if (Physics.Raycast(castPos, castDir, out RaycastHit hit, 2, obstacleLayer, QueryTriggerInteraction.Ignore))
         {
 
-            this.wallPos = hit.point;
+            this.wallPos = hit.point + (hit.normal * .25f);
             this.wallNormal = hit.normal;
             this.toWallDir = (this.wallPos - this.enterPos).normalized;
 

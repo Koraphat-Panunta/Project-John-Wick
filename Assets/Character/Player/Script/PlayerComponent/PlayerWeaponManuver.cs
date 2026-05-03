@@ -19,8 +19,6 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                 || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                 || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                 || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                 || player.curNodeLeaf is RestrainGunFuStateNodeLeaf
                 )
                 return true;
@@ -74,8 +72,6 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
                || player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
                || (this.player.curNodeLeaf is GunFuReloadNodeLeaf gunFuReloadNodeLeaf
@@ -102,8 +98,6 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
                )
                 return true;
@@ -127,8 +121,6 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
                || player.curNodeLeaf is PlayerPokePickUpWeaponNodeLeaf
                )
@@ -145,8 +137,6 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
                || player.curNodeLeaf is PlayerSprintNode
                )
                 return true;
@@ -162,8 +152,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
                 || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
                 || player.curNodeLeaf is PlayerStandIdleNodeLeaf
                 || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-                || player.curNodeLeaf is PlayerInCoverStandIdleNodeLeaf
-                || player.curNodeLeaf is PlayerInCoverStandMoveNodeLeaf
+
                 )
                 return true;
 

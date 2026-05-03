@@ -56,7 +56,6 @@ public partial class Player : IObserverPlayer
                 }
             case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf:
                 {    
-                    player.stanceCommand = Stance.prone;
                     break;
                 }
             case PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf:
@@ -65,17 +64,14 @@ public partial class Player : IObserverPlayer
                     {
                         this.DrainStamina(this.playerStatsScriptableObject.dolphinDiveStaminaDrain);
                     }
-                    player.stanceCommand = Stance.prone;
                     break;
                 }
             case PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf: 
                 {
-                    player.stanceCommand = Stance.stand;
                     break;
                 }
             case PlayerSprintNode playerSprintNode: 
                 {
-                    player.stanceCommand = Stance.stand;
                     break;
                 }
             case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf: 
@@ -86,7 +82,6 @@ public partial class Player : IObserverPlayer
                         TriggerIFrame(0.45f);
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
                     }
-                    player.stanceCommand = Stance.stand;
                     break;
                 }
 

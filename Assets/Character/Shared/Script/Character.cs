@@ -26,6 +26,8 @@ public abstract class Character : MonoBehaviour,IInitializedAble
 
     public float breakDecelerate { get => this.movementScriptableObject.breakDecelerate; }
 
+    public float changeDirAccel { get => this.movementScriptableObject.changeDirAccel; }
+
     public virtual bool isDead { get 
         {
             if(this._hpGauge._gauge <=0)

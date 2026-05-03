@@ -10,7 +10,7 @@ public partial class Player
         {
             try
             {
-                return base.StandMoveMaxSpeed * ((this._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()? .8f : 1);
+                return base.StandMoveMaxSpeed * ((this._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()? .7f : 1);
             }
             catch
             {

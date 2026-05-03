@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -111,7 +111,8 @@ public abstract partial class MovementCompoent : INodeManager
 
         this.UpdateMoveToDirWorld(moveInputVelocity_World, speed, moveMode);
     }
-    public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized,float rotateSpeed)
+   
+    public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed)
     {
         lookDirWorldNomalized.Normalize();
 
@@ -121,20 +122,31 @@ public abstract partial class MovementCompoent : INodeManager
         // Check if the direction is not zero to avoid setting a NaN rotation
         if (lookDirWorldNomalized != Vector3.zero)
         {
-            // Calculate the target rotation based on the direction
-            Quaternion targetRotation = Quaternion.LookRotation(lookDirWorldNomalized,Vector3.up);
+            float currentY = this.curRotation.eulerAngles.y;
+            float targetY = Quaternion.LookRotation(lookDirWorldNomalized, Vector3.up).eulerAngles.y;
 
-            // Smoothly rotate towards the target rotation
-            this.SetRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime));
+            // Mathf.MoveTowardsAngle is the 1D equivalent of Quaternion.RotateTowards:
+            // it advances at a fixed angular velocity (degrees/sec) and always picks
+            // the shortest arc across the 0/360 boundary.
+            float resultY = Mathf.MoveTowardsAngle(currentY, targetY, rotateSpeed * Time.deltaTime);
+
+            this.SetRotation(Quaternion.Euler(0f, resultY, 0f));
         }
     }
+
+
     public void SetRotateToDirWorldSlerp(Vector3 dir, float t)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(dir);
+        float currentY = this.curRotation.eulerAngles.y;
+        float targetY = Quaternion.LookRotation(dir).eulerAngles.y;
 
-        Quaternion resault = Quaternion.Lerp(this.curRotation, targetRotation, t);
-        SetRotation(resault);
+        // Mathf.LerpAngle handles the 360 wrap and always picks the shortest arc.
+        // (e.g. current=320, target=30 → goes +70° forward through 0°, not -290° backward)
+        float resultY = Mathf.LerpAngle(currentY, targetY, t);
+
+        SetRotation(Quaternion.Euler(0f, resultY, 0f));
     }
+
     public abstract void Move(Vector3 position);
     public void SetPosition(Vector3 position)
     {

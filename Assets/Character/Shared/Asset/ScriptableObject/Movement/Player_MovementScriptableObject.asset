@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e213e6ee7ee61fe41a18c1b66b808988, type: 3}
   m_Name: Player_MovementScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::MovementScriptableObject
-  StandMoveAccelerate: 10
+  StandMoveAccelerate: 9
   StandMoveMaxSpeed: 2.7
-  CrouchMoveAccelerate: 10
+  CrouchMoveAccelerate: 5
   CrouchMoveMaxSpeed: 1.8
-  moveRotateSpeed: 89.2
-  sprintAccelerate: 10
+  moveRotateSpeed: 235
+  sprintAccelerate: 6
   sprintMaxSpeed: 5
-  sprintRotateSpeed: 100
+  sprintRotateSpeed: 3
   breakDecelerate: 8
+  changeDirAccel: 2.5

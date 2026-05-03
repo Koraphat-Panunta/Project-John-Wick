@@ -21,7 +21,7 @@ public class PlayerMovement : MovementCompoent
     private CharacterMovementControllerScriptableObject crouchCharControllerSCRP;
     private CharacterMovementControllerScriptableObject parkour_CharacterControllerSCRP;
 
-    public float stanceRateMovement { get; protected set; }//0 : idle/Move 1:Sprint
+    public MovementAttribute movementAttribute { get; set; }
 
     private Player player;
 
@@ -46,6 +46,7 @@ public class PlayerMovement : MovementCompoent
         this.characterControllerlayerMask = this.characterController.layerMask;
         this.exepCharacterLayerMask = this.characterControllerlayerMask & (1 << LayerMask.GetMask("Enemy"));
         motionImplusePushAbleBehavior = new MotionImplusePushAbleBehavior();
+        this.movementAttribute = new MovementAttribute();
         this.standCharControllerSCRP = standCharControllerSCRP;
         this.crouchCharControllerSCRP = crouchCharControllerSCRP;
         this.parkour_CharacterControllerSCRP = parkour_CharacterControllerSCRP;
@@ -212,7 +213,7 @@ public class PlayerMovement : MovementCompoent
 
     public void SetStanceWeight(float weight)
     {
-        this.stanceRateMovement = Mathf.Clamp01(weight);
+        this.movementAttribute.stanceRate = Mathf.Clamp01(weight);
     }
 
     public override void SetRotation(Quaternion rotation)

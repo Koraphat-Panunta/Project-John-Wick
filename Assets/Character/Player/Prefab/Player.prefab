@@ -368,7 +368,6 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 104828536550568714}
   isImortal: 0
   MyHP: 0
-  stanceCommand: 0
   debugIsIFrame: 0
   inputLookDir_Local: {x: 0, y: 0}
   inputLookDir_World: {x: 0, y: 0, z: 0}
@@ -376,6 +375,7 @@ MonoBehaviour:
   inputMoveDir_World: {x: 0, y: 0, z: 0}
   isSprint: 0
   triggerDodgeRoll: 0
+  isTriggerCrouchStand: 0
   centreTransform: {fileID: 6366118577415145198}
   moveWarping:
     serializedVersion: 2

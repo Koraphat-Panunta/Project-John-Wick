@@ -52,21 +52,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
                 Vector3.Cross(player.transform.forward, Vector3.up))
             , 3.5f * Time.deltaTime);
 
-        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>())
-        {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;
-        }
-        else
-        {
-            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.StandMoveMaxSpeed;
-            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.StandMoveMaxSpeed;
-            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.StandMoveMaxSpeed;
-        }
-
-
-
+        this.CalculateMoveVelocity(curVelocity_Local);
+       
         AimDownSightWeight = (player as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
 
 
@@ -187,7 +174,30 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
         }
     }
+    private void CalculateMoveVelocity(Vector3 curVelocity_Local)
+    {
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>())
+        {
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.sprintMaxSpeed;
+            return;
+        }
 
+        if((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
+            || (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>())
+        {
+            this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.CrouchMoveMaxSpeed;
+            this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.CrouchMoveMaxSpeed;
+            this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.CrouchMoveMaxSpeed;
+            return;
+        }
+
+        //Stand Move/idle
+        this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.StandMoveMaxSpeed;
+        this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.StandMoveMaxSpeed;
+        this.MoveVelocitySideward_Normalized = curVelocity_Local.x / player.StandMoveMaxSpeed;
+    }
 
   
     public void OnNotify<T>(Player player, T node)

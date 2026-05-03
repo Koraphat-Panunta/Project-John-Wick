@@ -127,12 +127,12 @@ public partial class PlayerAnimationManager
         this.proneStateNodeSelector = new NodeSelector(
             ()=> this.player.stance == Stance.prone);
 
-        this.obstacleJumpAnimationNodeLeaf = new PlayAnimationNodeLeaf
+        this.obstacleJumpAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<ObstacleJumpDolphinDiveNodeLeaf>
             (out ObstacleJumpDolphinDiveNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.timer
             < this.player.playerStateNodeManager.obstacleJumpDolphinDiveNodeLeaf.anticipateTime + .2f
             , this.animator, "ObstacleJump", 0, .2f, 
-            0
+            this.basedAnimationPoseTimeNormalzied,1,false
             );
 
         this.wallJumpReversDolphinDiveAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf
@@ -262,7 +262,7 @@ public partial class PlayerAnimationManager
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
-            animator, "DodgeSpinKick", 0, .1f, player.dodgeSpinKick.enterNormalizedTime
+            animator, "DodgeSpinKick", 0, .25f, player.dodgeSpinKick.enterNormalizedTime
             );
     }
     private void InitializedBasedLayerNodeManager()

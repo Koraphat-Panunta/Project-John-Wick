@@ -133,16 +133,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
 
         if (context.performed)
         {
-            
-
-            switch (this.player.stanceCommand) 
-            {
-                case Stance.stand: { this.player.stanceCommand = Stance.crouch; }
-                    break;
-                case Stance.crouch: { this.player.stanceCommand = Stance.stand; }
-                    break;
-            }
-           
+            this.player.isTriggerCrouchStand = true;
         }
     }
     public void TriggerSpecialMove(InputAction.CallbackContext context)

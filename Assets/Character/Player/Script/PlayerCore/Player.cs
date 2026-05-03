@@ -9,7 +9,7 @@ public partial class Player : SubjectPlayer,
     I_EnemyAITargeted
     
 {
-    public CoverDetection coverDetection;
+
     public PlayerStateNodeManager playerStateNodeManager;
     public INodeManager stateNodeManager => this.playerStateNodeManager as INodeManager;
     public override MovementCompoent _movementCompoent { get; set; }
@@ -54,14 +54,12 @@ public partial class Player : SubjectPlayer,
             }
         }
     }
-    public Stance stanceCommand = Stance.stand;
     public CommandBufferManager commandBufferManager;
     public override void Initialized()
     {
 
         //_+_+_+_+_+_ SetUp Queqe Order _+_+_+_+_+_//
         this.AddObserver(this);
-        coverDetection = new CoverDetection();
         commandBufferManager = new CommandBufferManager();
         curShoulderSide = Side.Right;
 
@@ -113,6 +111,7 @@ public partial class Player : SubjectPlayer,
         _isParkourCommand = false;
         _triggerGunFu = false;
         _isTriggerThrowCommand = false;
+        isTriggerCrouchStand = false;
  
     }
    
@@ -205,8 +204,6 @@ public partial class Player : SubjectPlayer,
     #region MovementStats
 
 
-    public bool isInCover { get { return coverDetection.CheckingObstacleToward(RayCastPos.position, Camera.main.transform.forward); } }
-
     public Vector2 inputLookDir_Local;
     public Vector3 inputLookDir_World;
     public Vector2 inputMoveDir_Local;
@@ -214,7 +211,7 @@ public partial class Player : SubjectPlayer,
 
     public bool isSprint;
     public bool triggerDodgeRoll;
-    
+    public bool isTriggerCrouchStand;
 
 
     public Transform centreTransform;

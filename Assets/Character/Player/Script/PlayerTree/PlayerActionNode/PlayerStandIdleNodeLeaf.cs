@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
 {
     PlayerMovement playerMovement => this.player._movementCompoent as PlayerMovement;
-    public float weightMovement => Mathf.Clamp01(1-this.playerMovement.stanceRateMovement);
+    public float weightMovement => Mathf.Clamp01(1-this.playerMovement.movementAttribute.stanceRate);
     public float changeStanceWeightRate = 3;
     public PlayerStandIdleNodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
@@ -19,7 +19,7 @@ public class PlayerStandIdleNodeLeaf : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
-        this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement - this.changeStanceWeightRate * Time.fixedDeltaTime);
+        this.playerMovement.SetStanceWeight(this.playerMovement.movementAttribute.stanceRate - this.changeStanceWeightRate * Time.fixedDeltaTime);
 
         Vector3 targerMove = Vector3.Lerp(this.playerMovement.curMoveVelocity_World, Vector3.zero, this.player.breakDecelerate * this.weightMovement * Time.fixedDeltaTime);
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
 {
     PlayerMovement playerMovement => this.player._movementCompoent as PlayerMovement;
-    public float moveStanceWeight => 1 - this.playerMovement.stanceRateMovement;
+    public float moveStanceWeight => 1 - this.playerMovement.movementAttribute.stanceRate;
     public float changeStanceWeightRate = 5;
 
     
@@ -22,10 +22,18 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
     {
         
 
-        this.playerMovement.SetStanceWeight(this.playerMovement.stanceRateMovement - this.changeStanceWeightRate * Time.fixedDeltaTime);
+        this.playerMovement.SetStanceWeight(this.playerMovement.movementAttribute.stanceRate - this.changeStanceWeightRate * Time.fixedDeltaTime);
 
-        this.playerMovement.UpdateMoveToDirWorld(this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed, this.player.StandMoveAccelerate * this.moveStanceWeight, MoveMode.MaintainMomentumDirection);
-        this.playerMovement.SetRotateToDirWorld(this.player.cinemachineCamera.targetDir, this.player.rotateSpeed);
+        float inversAccel = GetInverseDirectionalAccelMovement.GetInverseDirectionalAccel(this.player.inputMoveDir_World.normalized, this.playerMovement.curMoveVelocity_World.normalized, this.player.changeDirAccel);
+        Debug.Log("InversAccel = " + inversAccel);
+
+        this.playerMovement.UpdateMoveToDirWorld(
+            this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed
+            , this.player.StandMoveAccelerate * this.moveStanceWeight * inversAccel
+            , MoveMode.MaintainMomentumDirection
+            );
+        this.playerMovement.SetRotateToDirWorld(this.player.cinemachineCamera.targetDir
+            , SlowDownRotateSpeed.GetSlowDownRotateSpeedOnNearlyTargetRotation(this.playerMovement.forwardDir, this.player.cinemachineCamera.targetDir,30,this.player.rotateSpeed));
 
         base.FixedUpdateNode();
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
 {
-    public float anticipateTime = .3f;
+    public float anticipateTime = .25f;
 
     public override float jumpOutTime => anticipateTime + .3f;
 
@@ -62,7 +62,7 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
         if (Physics.Raycast(castPos, castDir, out RaycastHit hit, 3, obstacleLayer, QueryTriggerInteraction.Ignore))
         {
 
-            this.wallPos = hit.point;
+            this.wallPos = hit.point + (hit.normal * .2f);
             this.wallNormal = hit.normal;
             this.toWallDir = (this.wallPos - this.enterPos).normalized;
 
