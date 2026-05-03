@@ -6,8 +6,9 @@ public partial class Player : SubjectPlayer,
     IBulletDamageAble,
     IAmmoRecivedAble,
     IHPReciveAble,
-    I_EnemyAITargeted
-    
+    I_EnemyAITargeted,
+    IPowerUpReceiver
+
 {
 
     public PlayerStateNodeManager playerStateNodeManager;
@@ -68,6 +69,7 @@ public partial class Player : SubjectPlayer,
             this.playerStatsScriptableObject.maxHP
             ,this.playerStatsScriptableObject.maxHP
             );
+        this.InitializePowerUpReceiver();
         this.staminaGauge = new Gauge
             (
             this.playerStatsScriptableObject.maxStamina
