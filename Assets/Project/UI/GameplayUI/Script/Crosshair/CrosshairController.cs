@@ -58,7 +58,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
 
         if(player != null)
         CrosshairSpread.CrosshairSpreadUpdate();
-        if (player._currentWeapon == null || player.weaponAdvanceUser._weaponManuverManager.aimingWeight <= 0)
+        if (player._currentWeapon == null || player._weaponManuverManager.aimingWeight <= 0)
         {
             this.DisableUI();
             return;
@@ -147,7 +147,7 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
     public void OnNotify<T>(Player player, T node)
     {
 
-        if (player._currentWeapon == null || player.weaponAdvanceUser._weaponManuverManager.aimingWeight <=0 )
+        if (player._currentWeapon == null || player._weaponManuverManager.aimingWeight <=0 )
             return;
         
         if (node is SubjectPlayer.NotifyEvent playerEvent)

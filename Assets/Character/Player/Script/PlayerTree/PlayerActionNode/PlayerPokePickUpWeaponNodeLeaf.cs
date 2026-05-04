@@ -53,7 +53,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
     private void Attaching()
     {
         isWarpingWeapon = false;
-        player.weaponAdvanceUser._findingWeaponBehavior.SetWeaponFindingSelecting(this.pickedUpWeapon);
+        player._findingWeaponBehavior.SetWeaponFindingSelecting(this.pickedUpWeapon);
         player._isPickingUpWeaponCommand = true;
     }
     public override bool IsComplete()

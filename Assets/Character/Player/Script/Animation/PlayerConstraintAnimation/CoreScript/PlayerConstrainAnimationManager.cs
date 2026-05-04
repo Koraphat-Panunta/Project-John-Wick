@@ -44,7 +44,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player
             , this.standSplineLookConstrain
             ,this.body_ADS_Prone_Constrain_SCRP
-            , () => this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0 
+            , () => this.player._weaponManuverManager.aimingWeight > 0 
             && this.isProne);
 
         this.bodyLookConstraintNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
@@ -55,7 +55,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.standSplineLookConstrain
             , standPistolAimSplineLookConstrainScriptableObject
             , () => this.player._currentWeapon != null
-            && this.player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0
+            && this.player._weaponManuverManager.aimingWeight > 0
             && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false
             );
 
@@ -87,7 +87,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.rifileLeaningConstrainScriptableObject
             , leaningRotation
             , player
-            , () => player.weaponAdvanceUser._weaponManuverManager.aimingWeight > 0         
+            , () => player._weaponManuverManager.aimingWeight > 0         
             && player._currentWeapon != null
             && playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf == false       
             && playerStateManager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf == false      

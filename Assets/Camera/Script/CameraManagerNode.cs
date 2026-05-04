@@ -10,7 +10,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraController cameraController { get;protected set; }
     private Dictionary<CameraThirdPersonControllerViewNodeLeaf, CameraThirdPersonControllerViewScriptableObject> cameraTPPC_ScriptableObject;
     private INodeManager playerStateManager => cameraController.player.playerStateNodeManager;
-    private INodeManager playerWeaponManuverStateManager => cameraController.player.weaponAdvanceUser._weaponManuverManager;
+    private INodeManager playerWeaponManuverStateManager => cameraController.player._weaponManuverManager;
     public CameraManagerNode(CameraController cameraController)
     {
         this.cameraController = cameraController;

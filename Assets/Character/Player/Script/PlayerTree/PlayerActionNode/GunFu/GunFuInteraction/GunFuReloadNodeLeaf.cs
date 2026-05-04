@@ -121,7 +121,7 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     protected void TransitionAbleAll() => this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
     protected void TriggerReload()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = this.player.weaponAdvanceUser;
+        IWeaponAdvanceUser weaponAdvanceUser = this.player;
         this.curGunFuReloadPhase = GunFuReloadPhase.TriggerReload;
 
         if (weaponAdvanceUser._currentWeapon != null)

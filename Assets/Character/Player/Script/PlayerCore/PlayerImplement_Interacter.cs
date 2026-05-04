@@ -18,7 +18,7 @@ public partial class Player : I_Interacter
     private void UpdateFindingInteractableObject()
     {
         Vector3 castPos = this.centreTransform.position;
-        Vector3 castDir = (weaponAdvanceUser._pointingPos - castPos).normalized;
+        Vector3 castDir = (this._pointingPos - castPos).normalized;
 
         if(FindingInteractable.FindingInteractableObject(
             this.findInteractAbleObject

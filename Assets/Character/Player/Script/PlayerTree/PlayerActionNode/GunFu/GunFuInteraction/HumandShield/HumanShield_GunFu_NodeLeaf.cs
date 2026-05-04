@@ -5,7 +5,7 @@ using UnityEngine.ProBuilder;
 
 public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLeafTransitionAble
 {
-    IWeaponAdvanceUser weaponAdvanceUser => player.weaponAdvanceUser;
+    IWeaponAdvanceUser weaponAdvanceUser => player;
 
     public string _stateName => GunFuManaverStateName.HumanShield.ToString() ;
 

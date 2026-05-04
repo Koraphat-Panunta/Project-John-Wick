@@ -33,7 +33,7 @@ public partial class Player
     private void DrawGizmosInteractAble()
     {
         Vector3 castPos = centreTransform.position;
-        Vector3 castDir = (weaponAdvanceUser._pointingPos - castPos).normalized;
+        Vector3 castDir = (this._pointingPos - castPos).normalized;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(castPos, castPos + (castDir*interacter_distaceDetect));

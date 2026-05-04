@@ -30,8 +30,8 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
         this.throwWeapon = player._currentWeapon;
         this.animationTriggerEventPlayer.Rewind();
         WeaponAttachingBehavior.Detach(this.throwWeapon, this.player);
-        throwWeapon._weaponAttacherComponent.Attach(player.weaponAdvanceUser._mainHandSocket.weaponAttachingAbleTransform, throwWeapon._SecondHandGripTransform, Vector3.zero,
-            Quaternion.FromToRotation(player.weaponAdvanceUser._mainHandSocket.weaponAttachingAbleTransform.forward, player.weaponAdvanceUser._mainHandSocket.weaponAttachingAbleTransform.forward * -1)
+        throwWeapon._weaponAttacherComponent.Attach(player._mainHandSocket.weaponAttachingAbleTransform, throwWeapon._SecondHandGripTransform, Vector3.zero,
+            Quaternion.FromToRotation(player._mainHandSocket.weaponAttachingAbleTransform.forward, player._mainHandSocket.weaponAttachingAbleTransform.forward * -1)
             ,WeaponMountComponent.attatchingDurationGlobal);
         base.Enter();
     }

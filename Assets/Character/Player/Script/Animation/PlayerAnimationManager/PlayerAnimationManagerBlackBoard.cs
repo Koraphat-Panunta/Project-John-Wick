@@ -42,7 +42,7 @@ public partial class PlayerAnimationManager
 
 
     private INodeManager playerStateNodeMnager => player.playerStateNodeManager;
-    private INodeManager playerWeaponManuverNodeManager => player.weaponAdvanceUser._weaponManuverManager;
+    private INodeManager playerWeaponManuverNodeManager => player._weaponManuverManager;
     private bool isEnableUpperLayer { get 
         {
             if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<RestWeaponManuverLeafNode>())
