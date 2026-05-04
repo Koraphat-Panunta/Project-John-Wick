@@ -4,8 +4,7 @@ using UnityEngine;
 
 public partial class Player : SubjectPlayer,
     IBulletDamageAble,
-    IAmmoRecivedAble,
-    IHPReciveAble,
+    IItemReceiver,
     I_EnemyAITargeted,
     IPowerUpReceiver
 
@@ -225,58 +224,9 @@ public partial class Player : SubjectPlayer,
 
     #endregion
 
-    #region ImplementIAmmoGetAble & IHpGetAble
-    public void Recived(AmmoGetAbleObject ammoGetAbleObject)
-    {
-        NotifyObserver(this, NotifyEvent.RecivedAmmo);
-    }
-
-    void IHPReciveAble.Recived(HpGetAbleObject hpGetAbleObject)
-    {
-        hpGetAbleObject.amoutOfHpAdd = 20f;
-        if ((GetHP() / GetMaxHp()) < 0.35f)
-        {
-            AddHP(Mathf.Abs((this.GetMaxHp() * 0.35f) - GetHP()));
-            AddHP(hpGetAbleObject.amoutOfHpAdd );
-        }
-        else
-        {
-            AddHP(hpGetAbleObject.amoutOfHpAdd);
-
-        }
-        NotifyObserver(this, NotifyEvent.RecivedHp);
-    }
-
-    public bool PreCondition(ItemObject itemObject)
-    {
-        switch (itemObject)
-        {
-            case AmmoGetAbleObject ammoRecivedAble: 
-                {
-                    if (_weaponBelt.ammoProuch.CheckAmmo(BulletType.handgunAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.handgunAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.rifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.rifleAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.buckShotAmmo)
-                        || _weaponBelt.ammoProuch.CheckAmmo(BulletType.battleRifleAmmo) < _weaponBelt.ammoProuch.CheckMaxAmmo(BulletType.battleRifleAmmo)
-                        )
-                        return true;
-                }
-                break;
-            case HpGetAbleObject hpReciveAble: 
-                {
-                    if(GetHP() < this.GetMaxHp())
-                        return true;
-                }
-                break;
-        }
-        return false;
-    }
-
-   
-    public IWeaponAdvanceUser weaponAdvanceUser { get => this; }
-    Transform IRecivedAble.transform { get => centreTransform;}
-    Character IHPReciveAble.character { get => this; }
-
-    #endregion
+    // ----- ImplementIAmmoGetAble & IHpGetAble removed -----
+    // Replaced by PlayerImplementIItemReceiver.cs (unified IItemReceiver capability).
+    // Power-up reception unchanged (still routes through PlayerImplementIPowerUpReceiver).
 
 
     private void OnValidate()
