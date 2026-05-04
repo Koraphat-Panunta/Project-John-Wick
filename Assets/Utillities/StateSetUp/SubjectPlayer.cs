@@ -50,8 +50,9 @@ public abstract class SubjectPlayer : Character
         OppenentStagger,
         OpponentKilled,
 
-        RecivedAmmo,
-        RecivedHp,
+        ReceiveItem,
+        AppliedPowerUp,
+        RemovePowerUp
 
     }
     

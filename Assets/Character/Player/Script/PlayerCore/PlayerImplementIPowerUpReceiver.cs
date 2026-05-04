@@ -5,6 +5,8 @@ public partial class Player : IPowerUpReceiver
 {
     /// <summary>Modifiable max-HP. Drives _hpGauge.maxGauge through OnValueChanged.</summary>
     public ModifiableStat maxHpStat { get; private set; }
+    public ModifiableStat maxStamina { get; private set; }
+    public ModifiableStat ammoProuchTier { get; private set; }
 
     /// <summary>Per-source list of currently-applied modifiers, for fast removal.</summary>
     private readonly Dictionary<object, List<(StatType stat, StatModifier mod)>> activePowerUps
@@ -22,6 +24,21 @@ public partial class Player : IPowerUpReceiver
             this._hpGauge.SetMaxGauge(newMax);
             if (this._hpGauge._gauge > newMax)
                 this._hpGauge.SetGauge(newMax); // clamp current HP if max dropped
+        };
+
+        this.maxStamina = new ModifiableStat(this.staminaGauge.maxGauge);
+        this.maxStamina.OnValueChanged += newMax =>
+        {
+            this.staminaGauge.SetMaxGauge(newMax);
+            if (this.staminaGauge._gauge > newMax)
+                this.staminaGauge.SetGauge(newMax);
+        };
+
+        this.ammoProuchTier = new ModifiableStat(this._weaponBelt.ammoProuch.ammoProuchTier);
+        this.ammoProuchTier.OnValueChanged += newTier =>
+        {
+            this._weaponBelt.ammoProuch.SetMaximumAmmoTier((int)newTier);
+            this._weaponBelt.ammoProuch.RefillAmmo();
         };
     }
 
@@ -47,9 +64,12 @@ public partial class Player : IPowerUpReceiver
                 var mod = new StatModifier(source, effect.value, effect.modType);
                 stat.AddModifier(mod);
                 applied.Add((effect.targetStat, mod));
+
+
             }
         }
         activePowerUps[source] = applied;
+        this.NotifyObserver<SubjectPlayer.NotifyEvent>(this, NotifyEvent.AppliedPowerUp);
     }
 
     public void RemovePowerUp(object source)
@@ -64,6 +84,7 @@ public partial class Player : IPowerUpReceiver
             stat?.RemoveModifier(mod);
         }
         activePowerUps.Remove(source);
+        this.NotifyObserver<SubjectPlayer.NotifyEvent>(this, NotifyEvent.RemovePowerUp);
     }
 
     public bool HasPowerUpFromSource(object source)
@@ -77,6 +98,8 @@ public partial class Player : IPowerUpReceiver
         switch (type)
         {
             case StatType.MaxHP: return maxHpStat;
+            case StatType.MaxStamina: return maxStamina;
+            case StatType.AmmoProuch: return ammoProuchTier;
             // Add cases here as new StatType entries are introduced.
             default:
                 Debug.LogWarning($"[Player.GetStatForType] No stat wired for {type}.", this);

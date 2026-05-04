@@ -3,6 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerStatsScriptableObject", menuName = "ScriptableObjects/Player/PlayerStatsScriptableObject")]
 public class PlayerStatsScriptableObject : ScriptableObject
 {
+    public static float totalMaxHP = 200; // Max hp value that player max hp can not over than
+    public static float totalMaxStamina = 200; // Max hp value that player max hp can not over than
+
     [Range(1, 500)]
     public float maxHP;
 

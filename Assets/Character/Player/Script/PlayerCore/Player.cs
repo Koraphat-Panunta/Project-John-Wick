@@ -22,7 +22,7 @@ public partial class Player : SubjectPlayer,
     public override Gauge _hpGauge { get; protected set; }
     public Gauge staminaGauge { get; protected set; }
     public Gauge executeGauge { get; protected set; }
-    public float MyHP;
+    public float MyMaxHP;
 
     public override bool isDead { get 
         {
@@ -68,7 +68,7 @@ public partial class Player : SubjectPlayer,
             this.playerStatsScriptableObject.maxHP
             ,this.playerStatsScriptableObject.maxHP
             );
-        this.InitializePowerUpReceiver();
+
         this.staminaGauge = new Gauge
             (
             this.playerStatsScriptableObject.maxStamina
@@ -79,7 +79,6 @@ public partial class Player : SubjectPlayer,
             0
             ,this.playerStatsScriptableObject.limitExecuteGauge
             );
-
         this._movementCompoent = new PlayerMovement(
             this
             , transform
@@ -90,8 +89,9 @@ public partial class Player : SubjectPlayer,
             , this.parkour_CharacterControllerSCRP
             );
         playerStateNodeManager = new PlayerStateNodeManager(this);
-        InitailizedGunFuComponent();
         Initialized_IWeaponAdvanceUser();
+        this.InitializePowerUpReceiver();
+        InitailizedGunFuComponent();
         playerBulletDamageAbleBehavior = new PlayerBulletDamageAbleBehavior(this);
 
         base.Initialized();
@@ -140,7 +140,7 @@ public partial class Player : SubjectPlayer,
     private void LateUpdate()
     {
         BlackBoardBufferUpdate();
-        this.MyHP = base.GetHP();
+        this.MyMaxHP = base.GetMaxHp();
     }
 
     private void FixedUpdate()

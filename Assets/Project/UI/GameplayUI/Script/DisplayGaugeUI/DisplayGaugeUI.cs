@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public abstract class DisplayGaugeUI : GameplayUI, IObserverPlayer
 {
-    [SerializeField] private Image bg_HP_bar_image;
-    [SerializeField] private Image front_HP_bar_image;
-    [SerializeField] private Image back_HP_bar_image;
-    [SerializeField] private Image iframe_HP_image;
+    [SerializeField] protected Image bg_HP_bar_image;
+    [SerializeField] protected Image front_HP_bar_image;
+    [SerializeField] protected Image back_HP_bar_image;
+    [SerializeField] protected Image iframe_HP_image;
 
-    [SerializeField] private Color positiveHP_Bar_Color;
-    [SerializeField] private Color negativeHP_Bar_Color;
+    [SerializeField] protected Color positiveHP_Bar_Color;
+    [SerializeField] protected Color negativeHP_Bar_Color;
 
     [SerializeField] protected Player playerInfo;
 
     [Range(0, 1)]
-    [SerializeField] private float changeVelocityBar;
+    [SerializeField] protected float changeVelocityBar;
 
     protected abstract float gaugeValueRefNormalized { get; }
     protected float curGaugeValue { get => this.gaugeValueRefNormalized * this.maxAmount; }
@@ -115,7 +115,7 @@ public abstract class DisplayGaugeUI : GameplayUI, IObserverPlayer
         this.bg_HP_bar_image.enabled = false;
     }
     
-    public void OnNotify<T>(Player player, T node)
+    public virtual void OnNotify<T>(Player player, T node)
     {
         if (node is SubjectPlayer.NotifyEvent playerEvent)
         {

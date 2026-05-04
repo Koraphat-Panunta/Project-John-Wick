@@ -62,7 +62,9 @@ public abstract class Bullet:
         int DefaultMask = LayerMask.GetMask("Default");
         int BodyPartMask = LayerMask.GetMask("BodyPart");
         int GroundHitMask = LayerMask.GetMask("Ground");
-        hitLayer = DefaultMask | BodyPartMask  | GroundHitMask;
+        int PlayerHitMask = LayerMask.GetMask("Player");
+
+        hitLayer = DefaultMask | BodyPartMask  | GroundHitMask | PlayerHitMask;
 
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
 

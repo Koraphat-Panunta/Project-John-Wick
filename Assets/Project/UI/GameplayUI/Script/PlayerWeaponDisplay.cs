@@ -37,7 +37,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
                     UpdateInfo();
                 }
             }
-            if (playerEvent == SubjectPlayer.NotifyEvent.RecivedAmmo)
+            if (playerEvent == SubjectPlayer.NotifyEvent.ReceiveItem)
             {
                 UpdateInfo();
             }

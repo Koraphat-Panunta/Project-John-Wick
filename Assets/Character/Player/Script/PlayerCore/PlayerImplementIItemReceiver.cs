@@ -36,7 +36,7 @@ public partial class Player : IItemReceiver
             AddHP(effect.amount);
         }
 
-        NotifyObserver(this, NotifyEvent.RecivedHp);
+        NotifyObserver(this, NotifyEvent.ReceiveItem);
     }
 
     public void ReceiveAmmo(AmmoEffect effect)
@@ -46,7 +46,7 @@ public partial class Player : IItemReceiver
         _weaponBelt.ammoProuch.AddAmmo(BulletType.rifleAmmo, effect.rifleAmmo);
         _weaponBelt.ammoProuch.AddAmmo(BulletType.battleRifleAmmo, effect.battleRifleAmmo);
         _weaponBelt.ammoProuch.AddAmmo(BulletType.buckShotAmmo, effect.shotgunAmmo);
-        NotifyObserver(this, NotifyEvent.RecivedAmmo);
+        NotifyObserver(this, NotifyEvent.ReceiveItem);
     }
 
     public void ReceivePowerUp(PowerUpScriptableObject def, object source)

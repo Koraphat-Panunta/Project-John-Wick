@@ -6,7 +6,8 @@ public enum StatType
 {
     MaxHP,
     // Future:
-    // MaxStamina,
+     MaxStamina,
+     AmmoProuch,
     // ReloadSpeed,
     // DamageMultiplier,
     // MoveSpeedMultiplier,
