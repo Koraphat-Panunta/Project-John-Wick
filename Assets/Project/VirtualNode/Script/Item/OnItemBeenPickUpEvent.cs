@@ -1,34 +1,39 @@
 using UnityEngine;
 
-public class OnItemBeenPickUpEvent : VirtualEventNode, IObserverItem
+/// <summary>
+/// Level virtual node that fires when a watched <see cref="Pickupable"/> gets consumed.
+/// Used to chain item pickup → cinematic / mission-progress / next-spawn / etc.
+/// </summary>
+public class OnItemBeenPickUpEvent : VirtualEventNode
 {
-    [SerializeField] ItemObject ItemObject;
+    [SerializeField] Pickupable pickupable;
 
     private void Awake()
     {
-        ItemObject.AddObserver(this);
+        if (pickupable != null)
+            pickupable.OnConsumedEvent += HandleConsumed;
     }
-   
 
-   
+    private void OnDestroy()
+    {
+        if (pickupable != null)
+            pickupable.OnConsumedEvent -= HandleConsumed;
+    }
+
+    private void HandleConsumed(Pickupable item, IItemReceiver receiver)
+    {
+        Execute();
+        if (pickupable != null)
+            pickupable.OnConsumedEvent -= HandleConsumed;
+    }
 
     protected override void OnDrawGizmos()
     {
-        if (isEnableGizmos
-            && ItemObject != null)
+        if (isEnableGizmos && pickupable != null)
         {
             Gizmos.color = color;
-            Gizmos.DrawLine(this.transform.position, this.ItemObject.transform.position);
+            Gizmos.DrawLine(transform.position, pickupable.transform.position);
         }
         base.OnDrawGizmos();
-    }
-
-    public void OnNotifyObserver(ItemObject itemObject, ItemObject.ItemNotifyMassage itemNotifyMassage)
-    {
-        if(itemNotifyMassage == ItemObject.ItemNotifyMassage.PickedUp)
-        {
-            this.Execute();
-            itemObject.RemovedObserver(this);
-        }
     }
 }

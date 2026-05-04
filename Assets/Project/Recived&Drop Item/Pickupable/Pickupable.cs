@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,8 @@ using UnityEngine;
 /// MonoBehaviour (Magnet / Trigger / future Interact).
 ///
 /// Behaviors call back via <see cref="TryConsume"/> when they detect a valid receiver.
+/// Subscribers can observe pickup via <see cref="OnConsumedEvent"/> (used by
+/// in-world UI badges and level-trigger virtual nodes).
 /// </summary>
 public class Pickupable : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class Pickupable : MonoBehaviour
     private bool consumed;
 
     public PickupableDefinition Definition => definition;
+
+    /// <summary>Fired immediately after every effect has been applied to the receiver.</summary>
+    public event Action<Pickupable, IItemReceiver> OnConsumedEvent;
 
     private void Awake()
     {
@@ -51,6 +57,7 @@ public class Pickupable : MonoBehaviour
             effects[i]?.Apply(receiver, this);
 
         consumed = true;
+        OnConsumedEvent?.Invoke(this, receiver);
         return true;
     }
 

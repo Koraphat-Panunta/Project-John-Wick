@@ -1,10 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AmmoGetAbleObject))]
+[RequireComponent(typeof(Pickupable))]
 public class AmmoRecievedAbleItemHeadUpDisplay : HeadUpDisplayItem
 {
-    [SerializeField] AmmoGetAbleObject m_Ammo;
-    protected override string textShow { get => "AMMO" ; set { } }
-
-   
+    protected override string textShow { get => "AMMO"; set { } }
 }
