@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d53e0cdde42f904fbf36ac45ac55394, type: 3}
   m_Name: EnemyDirectedDecisionSCRP
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDirectedDecisionScriptableObject
-  enemyDecisionContextScriptableObject: {fileID: 0}
+  enemyDecisionContextScriptableObject: {fileID: 11400000, guid: 63ac14e50b8412e449fc75dead0140ea,
+    type: 2}
   camperPhaseTimer:
-    duration: 0
+    duration: 2
     phaseThresholds: []
   engagingPhaseTimer:
-    duration: 0
-    phaseThresholds: []
+    duration: 10
+    phaseThresholds:
+    - 4
