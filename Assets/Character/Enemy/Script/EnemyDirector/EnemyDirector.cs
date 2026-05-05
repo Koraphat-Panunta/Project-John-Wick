@@ -119,15 +119,15 @@ public class EnemyDirector :
 
         for (int i = 0; i < allEnemiesAliveCount; i++)
         {
-            if (enemies[i].curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Ambush)
+            if (enemies[i]._curCommandPerforme == EnemyRoleCommand.Ambush)
                 continue;
 
-            if (enemies[i].combatPhase != IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert)
+            if (enemies[i]._combatPhase != CombatPhase.Alert)
                 continue;
 
             if (Vector3.Distance(enemies[i]._enemy.targetKnowPos, enemies[i]._enemy.transform.position) <= 5) // Found the near target
             {
-                enemies[i].SetDirectorCommand(IEnemyDirectedAble.DirectorCommand.Ambush);
+                enemies[i].SetDirectorCommand(EnemyRoleCommand.Ambush);
                 return;
             }
 
@@ -149,7 +149,7 @@ public class EnemyDirector :
         if (selectedEnemy == null)
             return;
 
-        selectedEnemy.SetDirectorCommand(IEnemyDirectedAble.DirectorCommand.Ambush);
+        selectedEnemy.SetDirectorCommand(EnemyRoleCommand.Ambush);
 
         CalcuateRoleCount();
 
@@ -160,17 +160,17 @@ public class EnemyDirector :
             return;
 
         if (chaserCount < MAX_ChaserCount)
-            enemyRoleBased.SetDirectorCommand(IEnemyDirectedAble.DirectorCommand.Ambush);
+            enemyRoleBased.SetDirectorCommand(EnemyRoleCommand.Ambush);
         else if (chaserCount >= MAX_ChaserCount)
         {
             foreach (Enemy enemy in this.enemysDirectedAble.Keys)
             {
-                if (this.enemysDirectedAble[enemy].curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Ambush)
-                    this.enemysDirectedAble[enemy].SetDirectorCommand(IEnemyDirectedAble.DirectorCommand.Support);
+                if (this.enemysDirectedAble[enemy]._curCommandPerforme == EnemyRoleCommand.Ambush)
+                    this.enemysDirectedAble[enemy].SetDirectorCommand(EnemyRoleCommand.Support);
                 break;
             }
 
-            enemyRoleBased.SetDirectorCommand(IEnemyDirectedAble.DirectorCommand.Ambush);
+            enemyRoleBased.SetDirectorCommand(EnemyRoleCommand.Ambush);
 
         }
 
@@ -186,10 +186,10 @@ public class EnemyDirector :
         foreach (IEnemyDirectedAble enemyDirected in this.enemysDirectedAble.Values)
         {
 
-            if (enemyDirected.curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Ambush )
+            if (enemyDirected._curCommandPerforme == EnemyRoleCommand.Ambush )
                 chaserCount++;
 
-            if (enemyDirected.curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Support)
+            if (enemyDirected._curCommandPerforme == EnemyRoleCommand.Support)
                 overwatchCount++;
         }
 
@@ -222,7 +222,7 @@ public class EnemyDirector :
     }
     public bool GetShooterPermission(IEnemyDirectedAble enemyDirected)
     {
-        IEnemyDirectedAble.DirectorCommand directedCommand = enemyDirected.curCommandPerforme;
+        EnemyRoleCommand directedCommand = enemyDirected._curCommandPerforme;
 
         // Free to shoot if near target
         if (Vector3.Distance(enemyDirected._enemy.targetKnowPos, enemyDirected._enemy.transform.position) < 3.5f)
@@ -230,13 +230,13 @@ public class EnemyDirector :
 
         switch (directedCommand)
         {
-            case IEnemyDirectedAble.DirectorCommand.Ambush:
+            case EnemyRoleCommand.Ambush:
                 {
                     int isShootChaser = 0;
 
                     foreach(IEnemyDirectedAble enemyRoleBD in this.enemysDirectedAble.Values) // Count the all will shoot enemy
                     {
-                        if(enemyRoleBD.curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Ambush
+                        if(enemyRoleBD._curCommandPerforme == EnemyRoleCommand.Ambush
                             && enemyRoleBD._enemyCommandAPI.NormalFiringPattern.isWillShoot)
                             isShootChaser++;
 
@@ -246,7 +246,7 @@ public class EnemyDirector :
                     return true;
                 }
         
-            case IEnemyDirectedAble.DirectorCommand.Support: 
+            case EnemyRoleCommand.Support: 
                 {
            
                     if(this.overwatchShootPoint <=0)
@@ -255,7 +255,7 @@ public class EnemyDirector :
                     int isShootOverwatch = 0;
                     foreach (IEnemyDirectedAble enemyRoleBD in this.enemysDirectedAble.Values)
                     {
-                        if (enemyRoleBD.curCommandPerforme == IEnemyDirectedAble.DirectorCommand.Support
+                        if (enemyRoleBD._curCommandPerforme == EnemyRoleCommand.Support
                             && enemyRoleBD._enemyCommandAPI.NormalFiringPattern.isWillShoot)
                             isShootOverwatch++;
 

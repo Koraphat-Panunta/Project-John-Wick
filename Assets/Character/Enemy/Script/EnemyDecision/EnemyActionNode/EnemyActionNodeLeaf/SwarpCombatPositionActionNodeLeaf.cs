@@ -26,15 +26,15 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
 
     private bool isComplete;
 
-    private IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    private EnemyDecisionContext enemyDecisionContext;
 
     public SwarpCombatPositionActionNodeLeaf(Enemy enemy
         , EnemyCommandAPI enemyCommandAPI
         , Func<bool> preCondition
-        ,IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision
+        ,EnemyDecisionContext enemyDecisionContext
         , EnemyDecision enemyDecision) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
-        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManagerImplementDecision;
+        this.enemyDecisionContext = enemyDecisionContext;
     }
 
     public override void Enter()
@@ -81,9 +81,9 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                         curSwarpPhase = SwarPositionPhase.moveToTarget;
                     }
 
-                    switch (this.enemyActionNodeManagerImplementDecision._curCombatPhase)
+                    switch (this.enemyDecisionContext.combatPhase)
                     {
-                        case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
+                        case CombatPhase.Aware:
                             {
                                 if (enemyCommandAPI.SprintToPosition(this.swarpPosition, 1, 2))
                                 {
@@ -91,7 +91,7 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                                 }
                             }
                             break;
-                        case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
+                        case CombatPhase.Alert:
                             {
                                 if (enemyCommandAPI.MoveToPosition(this.swarpPosition, 1, 2))
                                 {

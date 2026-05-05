@@ -14,14 +14,14 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private readonly float findingWeaponTime = 3;
     private float findingWeaponElapseTime;
 
-    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    protected EnemyDecisionContext enemyDecisionContext;
     public DisarmTargetWeaponEnemyActionNodeLeaf(Enemy enemy
         , EnemyCommandAPI enemyCommandAPI
         , Func<bool> preCondition
         ,EnemyDecision enemyDecision
-        , IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
+        , EnemyDecisionContext enemyDecisionContext) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
-        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManagerImplementDecision;
+        this.enemyDecisionContext = enemyDecisionContext;
     }
 
     public override void Enter()

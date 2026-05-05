@@ -19,7 +19,7 @@ public class DynamicCapsuleCollider : MonoBehaviour
 
 
         // Initialize bounds
-        Vector3 min = transformPoints[0].position;
+        Vector3 min = transformPoints[0].position; 
         Vector3 max = transformPoints[0].position;
 
         // World-space bounds

@@ -48,3 +48,36 @@ public interface IObserverEnemyDecision
     public void OnNotifyEnemyDecision<T>(EnemyDecision enemyDecision, T var);
  
 }
+
+public static class EnemyDecisionInjectionEvent
+{
+    public static void OnHearding(
+        INoiseMakingAble noiseMaker
+        , EnemyDecisionContext enemyDecisionContext
+        )
+    {
+
+        if (enemyDecisionContext.combatPhase == CombatPhase.Alert)
+            return;
+
+        if (noiseMaker is Bullet bullet
+            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
+        {
+            if (enemyDecisionContext.combatPhase == CombatPhase.Chill)
+                enemyDecisionContext.SetCombatPhase(CombatPhase.Suspect);
+            else
+                enemyDecisionContext.SetCombatPhase(CombatPhase.Aware);
+
+            enemyDecisionContext._targetZone.SetZone(noiseMaker.position, enemyDecisionContext.raduisTargetZone);
+        }
+    }
+
+    public static void OnSpotingTarget(Transform target,EnemyDecisionContext enemyDecisionContext)
+    {
+
+        enemyDecisionContext.SetCombatPhase(CombatPhase.Alert);
+        enemyDecisionContext._targetZone.SetZone(target.transform.position, enemyDecisionContext.raduisTargetZone);
+
+        enemyDecisionContext.elapesLostSightTime = 0;
+    }
+}

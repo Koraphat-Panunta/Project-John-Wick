@@ -6,15 +6,15 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
     private Vector3 insistPos;
     private float distance;
-    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    protected EnemyDecisionContext enemyDecisionContext;
     public InsistEnemyActionNodeLeaf(Enemy enemy
         , EnemyCommandAPI enemyCommandAPI
         , Func<bool> preCondition
         , EnemyDecision enemyDecision
-        ,IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision) 
+        ,EnemyDecisionContext enemyDecisionContext) 
         : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
-        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManagerImplementDecision;
+        this.enemyDecisionContext = enemyDecisionContext;
     }
 
     public override void Enter()
@@ -46,9 +46,9 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
-        switch (this.enemyActionNodeManagerImplementDecision._curCombatPhase)
+        switch (this.enemyDecisionContext.combatPhase)
         {
-            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
+            case CombatPhase.Alert:
                 {
                     enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
@@ -63,7 +63,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                 }
                 break;
-            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
+            case CombatPhase.Aware:
                 {
                     enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
@@ -71,7 +71,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                 }
                 break;
-            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Chill:
+            case CombatPhase.Chill:
                 {
                     enemyCommandAPI.FreezPosition();
                     enemyCommandAPI.LowReady();
