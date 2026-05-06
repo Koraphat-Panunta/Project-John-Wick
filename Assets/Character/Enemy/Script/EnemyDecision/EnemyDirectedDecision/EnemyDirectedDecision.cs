@@ -4,6 +4,7 @@ using UnityEngine;
 public partial class EnemyDirectedDecision : EnemyDecision
     , IEnemyDirectedAble 
     , IObserverEnemy
+    , IObserverEnemyDecision
 {
     [SerializeField] public EnemyDirectedDecisionScriptableObject enemyDirectedDecisionScriptableObject;
     public EnemyDecisionContext enemyDecisionContext;
@@ -16,6 +17,7 @@ public partial class EnemyDirectedDecision : EnemyDecision
         this.enemyDecisionContext = new EnemyDecisionContext(this.startCombatPhase,this.startRoleCommand,this.enemyDirectedDecisionScriptableObject.enemyDecisionContextScriptableObject);
         this._nodeManagerBehavior = new NodeManagerBehavior();
         this.enemy.AddObserver(this);
+        this.AddEnemyDecisionObserver(this);
         this.InitailizedNode();
         base.Initialized();
     }
@@ -30,6 +32,8 @@ public partial class EnemyDirectedDecision : EnemyDecision
         this.FixedUpdateNode();
         base.FixedUpdate();
     }
+
+   
 
     protected override void OnNotifyHearding(INoiseMakingAble noiseMaker)
     {
@@ -52,7 +56,18 @@ public partial class EnemyDirectedDecision : EnemyDecision
         
     }
 
-  
+    public void OnNotifyEnemyDecision<T>(EnemyDecision enemyDecision, T var)
+    {
+        if (var is InsistEnemyActionNodeLeaf insistEnemyActionNodeLeaf
+            && insistEnemyActionNodeLeaf == this.insist_Camper_EnemyActionNodeLeaf
+            && this.camperPhaseTimerNodeLeaf.IsComplete()
+            && this.enemyDecisionContext.roleCommand == EnemyRoleCommand.Camping)
+        {
+            this.enemyDecisionContext.SetRoleCommand(EnemyRoleCommand.Support);
+        }
+    }
+
+
     #region ImplementDirectedAble
 
     EnemyRoleCommand IEnemyDirectedAble._curCommandPerforme { get => this.enemyDecisionContext.roleCommand; set => this.enemyDecisionContext.SetRoleCommand(value); }
@@ -75,7 +90,7 @@ public partial class EnemyDirectedDecision : INodeManager
     protected RestNodeLeaf noneDecisionNodeLeaf;
 
     protected NodeSelector camperBehaviorNodeSelector;
-    protected EngageActionNodeLeaf engageTargetEnemyActionNodeLeaf;
+    protected CamperEngageActionNodeLeaf engageTargetEnemyActionNodeLeaf;
     protected HoldSightActionNodeLeaf holdSightActionNodeLeaf;
     protected InsistEnemyActionNodeLeaf insist_Camper_EnemyActionNodeLeaf;
 
@@ -143,6 +158,8 @@ public partial class EnemyDirectedDecision : INodeManager
 
         this.ambusherBehaviorNodeSelector.AddtoChildNode(this.approuchingTargetEnemyActionNodeLeaf);
         this.ambusherBehaviorNodeSelector.AddtoChildNode(this.insist_Approucher_EnemyActionNodeLeaf);
+
+        this._nodeManagerBehavior.SearchingNewNode(this);
     }
     
     private void InitializedCamper()
@@ -150,9 +167,10 @@ public partial class EnemyDirectedDecision : INodeManager
         this.camperBehaviorNodeSelector = new NodeSelector(
            () => this.enemyDecisionContext.roleCommand == EnemyRoleCommand.Camping
            );
-        this.engageTargetEnemyActionNodeLeaf = new EngageActionNodeLeaf(
+        this.engageTargetEnemyActionNodeLeaf = new CamperEngageActionNodeLeaf(
             this._enemy, this.enemyCommand
-            , () => this._combatPhase == CombatPhase.Alert
+            , () => this._combatPhase == CombatPhase.Alert 
+            && this.camperPhaseTimerNodeLeaf.IsComplete() == false
             , this
             );
         this.holdSightActionNodeLeaf = new HoldSightActionNodeLeaf(
@@ -240,7 +258,7 @@ public partial class EnemyDirectedDecision : INodeManager
     }
     public void UpdateNode()
     {
-        this._nodeManagerBehavior.UpdateNode(this);
+        this._nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
         this.enemyDecisionNodeComponentManager.Update();
     }
     public void FixedUpdateNode()

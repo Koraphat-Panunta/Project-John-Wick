@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class EngageActionNodeLeaf : EnemyActionNodeLeaf
+public class CamperEngageActionNodeLeaf : EnemyActionNodeLeaf
 {
     float maxDelayTime = .5f;
     float minDelayTime = .05f;
@@ -11,7 +11,7 @@ public class EngageActionNodeLeaf : EnemyActionNodeLeaf
     private bool isApprouch;
 
     private EnemyMoveCurvePath curvePath;
-    public EngageActionNodeLeaf(
+    public CamperEngageActionNodeLeaf(
         Enemy enemy
         , EnemyCommandAPI enemyCommandAPI
         , Func<bool> preCondition
@@ -29,6 +29,7 @@ public class EngageActionNodeLeaf : EnemyActionNodeLeaf
         this.enemy.StartCoroutine(this.DelayShootAble());
         base.Enter();
     }
+    
     public override void UpdateNode()
     {
         this.enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);

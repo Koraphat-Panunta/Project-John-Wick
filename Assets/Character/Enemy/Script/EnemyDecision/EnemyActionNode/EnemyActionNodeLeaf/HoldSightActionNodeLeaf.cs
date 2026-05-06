@@ -29,7 +29,7 @@ public class HoldSightActionNodeLeaf : EnemyActionNodeLeaf
         this.enemyCommandAPI.FreezPosition();
         base.UpdateNode();
     }
-   
+  
 
     private Vector3 holdPosition;
     private void UpdateHoldPosition()
