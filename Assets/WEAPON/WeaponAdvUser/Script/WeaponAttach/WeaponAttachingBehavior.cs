@@ -3,13 +3,13 @@ using UnityEngine.Animations;
 
 public static class WeaponAttachingBehavior
 {
-    public static void Attach(Weapon weapon,WeaponSocket weaponAttachingAble,float attatchingDuration)
+    public static void Attach(Weapon weapon,IGrabWeaponAble weaponAttachingAble,float attatchingDuration)
     {
         Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity,attatchingDuration);
     }
     public static void Attach(
         Weapon weapon
-        , WeaponSocket weaponAttachingAble
+        , IGrabWeaponAble weaponAttachingAble
         ,Vector3 additionalOffsetPosition
         ,Quaternion additionalOffsetRotation
         , float attatchingDuration)
