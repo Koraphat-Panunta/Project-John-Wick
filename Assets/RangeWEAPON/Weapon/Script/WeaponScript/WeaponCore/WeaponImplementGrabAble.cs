@@ -12,6 +12,6 @@ public partial class RangeWeapon : IGrabAbleObject
 
     void IGrabAbleObject.SetCurrentGrabbedAt(IObjectGrabbedAble socket)
     {
-        this.SetCurAttatchAble(socket as WeaponSocket);
+        this.SetCurAttatchAble(socket as IGrabWeaponAble);
     }
 }

@@ -71,7 +71,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
 
             return this.curAttatch.weaponAdvanceUser;
         } }
-    public WeaponSocket curAttatch { get; private set; }
+    public IGrabWeaponAble curAttatch { get; private set; }
     [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
     public WeaponMountComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
     public Rigidbody rb;
@@ -230,7 +230,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
         return true;
     }
 
-    public void SetCurAttatchAble(WeaponSocket weaponAttachingAble)
+    public void SetCurAttatchAble(IGrabWeaponAble weaponAttachingAble)
     {
         this.curAttatch = weaponAttachingAble;
 
