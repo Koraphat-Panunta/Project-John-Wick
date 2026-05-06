@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class WeaponSocket : MonoBehaviour 
+public abstract class WeaponSocket : MonoBehaviour, IObjectGrabbedAble
 {
     public abstract Transform weaponAttachingAbleTransform { get; }
     public abstract IWeaponAdvanceUser weaponAdvanceUser { get; }
@@ -13,11 +13,11 @@ public abstract class WeaponSocket : MonoBehaviour
         , float attatchingDuration
         )
     {
-        
+
         this.curWeaponAtSocket = weapon;
         this.curWeaponAtSocket.SetCurAttatchAble(this);
-       
-       
+
+
     }
     public virtual void Detach()
     {
@@ -26,5 +26,20 @@ public abstract class WeaponSocket : MonoBehaviour
         this.curWeaponAtSocket = null;
 
     }
-    
+
+    Transform IObjectGrabbedAble.grabSocketTransform => this.weaponAttachingAbleTransform;
+    IGrabAbleObject IObjectGrabbedAble.currentGrabbedObject => this.curWeaponAtSocket as IGrabAbleObject;
+    void IObjectGrabbedAble.GrabAttach(IGrabAbleObject grabAble,
+        Vector3 additionalOffsetPosition,
+        Quaternion additionalOffsetRotation,
+        float attachingDuration)
+    {
+        if (grabAble is Weapon weapon)
+            this.Attatch(weapon, additionalOffsetPosition, additionalOffsetRotation, attachingDuration);
+    }
+    void IObjectGrabbedAble.GrabDetach()
+    {
+        if (this.curWeaponAtSocket != null)
+            this.Detach();
+    }
 }
