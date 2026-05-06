@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Weapon : INodeManager
+public partial class RangeWeapon : INodeManager
 {
 
     public NodeManagerBehavior _nodeManagerBehavior { get => this.nodeManagerBehavior; set => this.nodeManagerBehavior = value; }

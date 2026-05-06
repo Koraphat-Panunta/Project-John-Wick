@@ -183,7 +183,7 @@ public partial class EnemyStateManagerNode : INodeManager
            , this.enemy.miniPainStateDuration);
 
         gunFuSelector = new NodeSelector(
-            () => enemy._triggerGunFu && enemy._isInPain == false);
+            () => enemy._triggerAttack && enemy._isInPain == false);
 
         enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
 

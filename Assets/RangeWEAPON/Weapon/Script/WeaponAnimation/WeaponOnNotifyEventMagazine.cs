@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine.Events;
 
-public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
+public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverRangeWeapon
 {
     public UnityEvent onWeaponFiring;
 
@@ -14,7 +14,7 @@ public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
     public UnityEvent keepMag_Out;
     public UnityEvent onReloadExit;
 
-    [SerializeField] public Weapon weapon;
+    [SerializeField] public RangeWeapon weapon;
 
     // Start is called before the first frame update
     private void Awake()
@@ -26,11 +26,11 @@ public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
     {
         if (this.weapon == null)
         {
-            this.weapon = GetComponent<Weapon>();
+            this.weapon = GetComponent<RangeWeapon>();
         }
        
     }
-    public void OnNotify<T>(Weapon weapon, T weaponNotify)
+    public void OnNotify<T>(RangeWeapon weapon, T weaponNotify)
     {
 
         if(weaponNotify is FiringNode firingNode
@@ -57,7 +57,7 @@ public class WeaponOnNotifyEventMagazine : MonoBehaviour,IObserverWeapon
                         }
                         catch
                         {
-                            Debug.LogError("OnNotify Weapon " + weapon+ "ReleaseMag ");
+                            Debug.LogError("OnNotify RangeWeapon " + weapon+ "ReleaseMag ");
                         }
                         break;
                     }

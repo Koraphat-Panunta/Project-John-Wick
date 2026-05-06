@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class HumanShieldExit_GunFu_NodeLeaf :
     PlayerStateNodeLeaf
-    ,IGunFuNode
+    ,I_OCM_Node
 {
     public string _stateName => GunFuManaverStateName.HumanShieldExit.ToString();
 
-    public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public I_OCM_Attack_Able gunFuAble { get => player; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     protected AnimationInteractScriptableObject animationInteractScriptableObject { get; set; }
     public SubjectAnimationInteract subject_GunFuAble { get; protected set; }
     public SubjectAnimationInteract subject_GotGunFuAble { get; protected set; }

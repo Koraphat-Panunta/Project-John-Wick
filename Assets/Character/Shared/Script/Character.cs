@@ -40,7 +40,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
 
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
     [SerializeField] public CharacterMovementController characterController;
-    //public Weapon curentWeapon;
+    //public RangeWeapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
     int frame;

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializedAble 
+public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWeapon,IInitializedAble 
 {
 
     public Transform _mainHandGripTransform;
@@ -246,7 +246,7 @@ public abstract partial class Weapon : WeaponSubject ,IObserverWeapon,IInitializ
         }
     }
 
-    public void OnNotify<T>(Weapon weapon, T weaponNotify)
+    public void OnNotify<T>(RangeWeapon weapon, T weaponNotify)
     {
         
     }

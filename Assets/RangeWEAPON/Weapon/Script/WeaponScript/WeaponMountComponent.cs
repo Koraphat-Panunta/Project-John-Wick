@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeaponMountComponent : MountComponent
 {
-    [SerializeField] Weapon weapon;
+    [SerializeField] RangeWeapon weapon;
     public Transform curWeaponGrip;
     public Transform mainHandGrip => weapon._mainHandGripTransform;
     public Transform secondHandGrip => weapon._SecondHandGripTransform;
@@ -11,7 +11,7 @@ public class WeaponMountComponent : MountComponent
     {
         this.curWeaponGrip = weaponGrip;
         base.Attach(weaponSocket, offsetPosition, offsetRotation,attatchingDuration);
-        this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenAttatch);
+        this.weapon.Notify(weapon, RangeWeaponSubject.WeaponNotifyType.BeenAttatch);
     }
     protected override void LateUpdate()
     {
@@ -32,7 +32,7 @@ public class WeaponMountComponent : MountComponent
             this._attachAbleObject.SetParent(null,true);
         this.curWeaponGrip = null;
         base.Detach();
-        this.weapon.Notify(weapon, WeaponSubject.WeaponNotifyType.BeenDetatch);
+        this.weapon.Notify(weapon, RangeWeaponSubject.WeaponNotifyType.BeenDetatch);
     }
     public override Vector3 GetAttachPosition()
     {
@@ -73,7 +73,7 @@ public class WeaponMountComponent : MountComponent
     {
         if (this.weapon == null)
         {
-            this.weapon = GetComponent<Weapon>();
+            this.weapon = GetComponent<RangeWeapon>();
             base._attachAbleObject = this.weapon.transform;
         }
     }

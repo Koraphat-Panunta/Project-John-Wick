@@ -10,7 +10,7 @@ public abstract class BodyPart : MonoBehaviour
     , IObserverEnemy
     , IInitializedAble
     , IBeenThrewObjectAt
-    , IGotGunFuAttackedAble
+    , I_Got_OCM_Attacked_Able
 
 {
     [SerializeField] public Enemy enemy;
@@ -157,22 +157,17 @@ public abstract class BodyPart : MonoBehaviour
         set => this.enemy._triggerHitedGunFu = value;
     }
 
-    public IGunFuNode curAttackerGunFuNode
+    public I_OCM_Node curAttackerGunFuNode
     {
         get => this.enemy.curAttackerGunFuNode;
         set => this.enemy.curAttackerGunFuNode = value;
     }
-    public IGunFuAble gunFuAbleAttacker
+    public I_OCM_Attack_Able gunFuAbleAttacker
     {
         get => this.enemy.gunFuAbleAttacker;
         set => this.enemy.gunFuAbleAttacker = value;
     }
-    public IWeaponAdvanceUser _weaponAdvanceUser
-    {
-        get => this.enemy._weaponAdvanceUser;
-        set => this.enemy._weaponAdvanceUser = value;
-    }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble
     {
         get => this.enemy;
         set { }
@@ -188,7 +183,7 @@ public abstract class BodyPart : MonoBehaviour
 
     public bool _isGotAttackedAble { get => this.enemy._isGotAttackedAble; set { } }
     public bool _isGotExecutedAble { get => this.enemy._isGotExecutedAble; set { } }
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attackerPos)
+    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attackerPos)
     {
         this.enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
         

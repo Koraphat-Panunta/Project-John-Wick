@@ -5,10 +5,10 @@ public class Chamber
     public bool isReadyShoot { get => this.isLoad && bulletIsFiring == false ?true:false ;}
     public bool isLoad { get => this.bullet != null ? true : false; }
     public Bullet bullet { get; protected set; }
-    public Weapon weapon { get; protected set; }
+    public RangeWeapon weapon { get; protected set; }
     public BulletSpawner bulletSpawner { get; protected set; }
     public bool bulletIsFiring { get; protected set; }
-    public Chamber(Bullet bulletType,BulletSpawner bulletSpawner,Weapon weapon) 
+    public Chamber(Bullet bulletType,BulletSpawner bulletSpawner,RangeWeapon weapon) 
     {
         this.bullet = bulletType;
         this.weapon = weapon;

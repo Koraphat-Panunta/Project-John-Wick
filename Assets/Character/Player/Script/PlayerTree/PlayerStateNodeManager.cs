@@ -181,7 +181,7 @@ public class PlayerStateNodeManager :
         playerPokePickUpWeaponNodeLeaf = new PlayerPokePickUpWeaponNodeLeaf(
             this.player, this.player.pokePickUpAnimationSCRP, this.player.humanoidBone._rightFootBone,
             () => (player._isInteractCommand == true || player.commandBufferManager.TryGetCommand(nameof(player._isInteractCommand)))
-            && this.player.currentInteractable is Weapon 
+            && this.player.currentInteractable is RangeWeapon 
             && player._weaponManuverManager.isPickingUpWeaponManuverAble
             );
 
@@ -197,21 +197,21 @@ public class PlayerStateNodeManager :
             () => player.curAttackerGunFuNode is EnemySpinKickGunFuNodeLeaf);
 
         executeGunFuSelector = new NodeSelector(
-            ()=> player._triggerExecuteGunFu
+            ()=> player._triggerExecute
             && player.executeGauge._gauge >= this.player.executeGauge.maxGauge
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
             && player._currentWeapon.chamber.isReadyShoot );
 
         executeGunFuOnGroundSelector = new NodeSelector(
-            () => player._triggerExecuteGunFu
+            () => player._triggerExecute
             && player.executeGauge._gauge >= this.player.executeGauge.maxGauge
             && player.executedAbleGunFu != null
             && player.executedAbleGunFu._character is IRagdollAble downGetUpAble 
             && downGetUpAble._isFallDown);
 
         gunFuExecute_Single_Primary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
-            () => (player._triggerExecuteGunFu
+            () => (player._triggerExecute
             && player.executeGauge._gauge >= this.player.executeGauge.maxGauge
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
@@ -222,7 +222,7 @@ public class PlayerStateNodeManager :
             ,GunFuExecuteStateName.GunFu_Execute_Dodge_Primary
             );
         gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I = new GunFuExecute_Single_NodeLeaf(player,
-            ()=> (player._triggerExecuteGunFu
+            ()=> (player._triggerExecute
             && player.executeGauge._gauge >= this.player.executeGauge.maxGauge
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
@@ -273,11 +273,11 @@ public class PlayerStateNodeManager :
         this.triggerHitGunFuSelector = new NodeSelector(
             () =>this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false
-            && (this.player._triggerGunFu || player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+            && (this.player._triggerAttack || player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain));
         this.hitDownNodeLeaf = new GunFuHitDownNodeLeaf(this.player,this.player.gunFuHitDownScriptableObject,this.player.hit1
             ,() =>  this.player.attackedAbleGunFu != null
-            && this.player._triggerGunFu
+            && this.player._triggerAttack
             && this.player.attackedAbleGunFu._character.stance == Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false);
 
@@ -324,7 +324,7 @@ public class PlayerStateNodeManager :
             ,() => true);
         
         Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+            () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.stance != Stance.prone
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain)
@@ -333,8 +333,8 @@ public class PlayerStateNodeManager :
             () => 
             {
 
-                if((this.player._triggerGunFu 
-                || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+                if((this.player._triggerAttack 
+                || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
                 && this.player.attackedAbleGunFu != null
                 && this.player.attackedAbleGunFu._character.stance != Stance.prone
                 && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain))
@@ -344,7 +344,7 @@ public class PlayerStateNodeManager :
             } 
         , this.player.hit3);
         dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => (this.player._triggerGunFu || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerGunFu)))
+            () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain)
        , player.dodgeSpinKick);
 

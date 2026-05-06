@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
+public class Glock17_9mm : RangeWeapon, SecondaryWeapon, MagazineType
 {
     //SetUpStats
   
@@ -17,7 +17,7 @@ public class Glock17_9mm : Weapon, SecondaryWeapon, MagazineType
 
     #region Initialized MagazineType
    
-    public Weapon _weapon { get => this; set { } }
+    public RangeWeapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
     public NodeSelector _reloadStageSelector { get; set; }

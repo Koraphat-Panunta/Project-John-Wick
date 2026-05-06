@@ -7,7 +7,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     private bool isComplete;
     private bool isHolsterPrimaryWeapon;
     private AnimationTriggerEventSCRP animationTriggerEventSCRP;
-    private Weapon secondHandWeapon;
+    private RangeWeapon secondHandWeapon;
     private float timer;
 
     public INodeManager nodeManager { get => weaponAdvanceUser._weaponManuverManager; set { } }

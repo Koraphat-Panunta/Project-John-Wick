@@ -22,7 +22,7 @@ public class EnemySpawnerPoint : MonoBehaviour
     {
 
         Enemy enemy = this.SpawnEnemy(enemyObjectManager);
-        Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
+        RangeWeapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
         return enemy;
     }

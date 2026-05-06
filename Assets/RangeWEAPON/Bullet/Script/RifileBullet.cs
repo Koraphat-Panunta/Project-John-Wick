@@ -9,7 +9,7 @@ public class RifileBullet : Bullet
     public override float _pureDestructionDamage { get => this.weapon.weaponStatsScriptableObject._destructionDamage; set { } }
     public override float maxPenetrateRate => 1f;
 
-    public RifileBullet(Weapon weapon):base(weapon)
+    public RifileBullet(RangeWeapon weapon):base(weapon)
     {
         myType = BulletType.rifleAmmo;
     }

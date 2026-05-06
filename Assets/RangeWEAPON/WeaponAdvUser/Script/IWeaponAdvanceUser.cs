@@ -3,9 +3,9 @@ using UnityEngine;
 public interface IWeaponAdvanceUser
 {
     public Animator _weaponUserAnimator { get; set; }
-    public Weapon _currentWeapon { get; }
+    public RangeWeapon _currentWeapon { get; }
     public MainHandSocket _mainHandSocket { get; set; }
-    public SecondHandSocket _secondHandSocket { get; set; }//For Hoster Primary Weapon When QuickDraw
+    public SecondHandSocket _secondHandSocket { get; set; }//For Hoster Primary RangeWeapon When QuickDraw
     public Vector3 _shootingPos { get; set; } //Position of bullet destinate
     public Vector3 _pointingPos { get; set; } //Position of aiming
     public WeaponBelt _weaponBelt { get; set; }
@@ -28,8 +28,8 @@ public interface IWeaponAdvanceUser
 public class FindingWeaponBehavior
 {
     private IWeaponAdvanceUser weaponAdvanceUser;
-    public Weapon weaponFindingSelecting { get;private set; }
-    public void SetWeaponFindingSelecting(Weapon weapon) => weaponFindingSelecting = weapon;
+    public RangeWeapon weaponFindingSelecting { get;private set; }
+    public void SetWeaponFindingSelecting(RangeWeapon weapon) => weaponFindingSelecting = weapon;
 
     public readonly float findingWeaponRaduisDefault = 1;
 
@@ -37,7 +37,7 @@ public class FindingWeaponBehavior
     public FindingWeaponBehavior(IWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
-        this.layerMask = LayerMask.GetMask("Weapon");
+        this.layerMask = LayerMask.GetMask("RangeWeapon");
     }
     public bool FindingWeapon()
     {
@@ -61,7 +61,7 @@ public class FindingWeaponBehavior
         {
             if (weaponFindingSelecting == null)
             {
-                if (collider[i].TryGetComponent<Weapon>(out Weapon weapon))
+                if (collider[i].TryGetComponent<RangeWeapon>(out RangeWeapon weapon))
                 {
                     if (weapon.userWeapon == null)
                         weaponFindingSelecting = weapon;
@@ -73,8 +73,8 @@ public class FindingWeaponBehavior
             if (Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, weaponFindingSelecting.transform.position) >
                 Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, collider[i].transform.position))
             {
-                if (collider[i].GetComponent<Weapon>().userWeapon == null)
-                    weaponFindingSelecting = collider[i].GetComponent<Weapon>();
+                if (collider[i].GetComponent<RangeWeapon>().userWeapon == null)
+                    weaponFindingSelecting = collider[i].GetComponent<RangeWeapon>();
             }
         }
 

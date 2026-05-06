@@ -7,7 +7,7 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private bool isComplete;
 
     private float elapsTime;
-    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
+    RangeWeapon curWeapon => weaponAdvanceUser._currentWeapon;
     WeaponAfterAction weaponAfterAction;
     public enum TransitionPhase
     {
@@ -64,9 +64,9 @@ public class SecondaryToPrimarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     {
         elapsTime += Time.deltaTime;
 
-        Weapon primaryWeapon = weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon;
-        Weapon secondaryWeapon = weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon;
-        Weapon curWeapon = weaponAdvanceUser._currentWeapon;
+        RangeWeapon primaryWeapon = weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon;
+        RangeWeapon secondaryWeapon = weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon;
+        RangeWeapon curWeapon = weaponAdvanceUser._currentWeapon;
 
         switch (curPhase)
         {

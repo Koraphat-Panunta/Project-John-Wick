@@ -16,7 +16,7 @@ public partial class Player : IDamageVisitor
                 this.NotifyObserver(this, SubjectPlayer.NotifyEvent.OppenentStagger);
             }
         }
-        if(damageAble is IGotGunFuAttackedAble gotGunFuAttackedAble)
+        if(damageAble is I_Got_OCM_Attacked_Able gotGunFuAttackedAble)
         {
             if (gotGunFuAttackedAble._triggerHitedGunFu
                 && 

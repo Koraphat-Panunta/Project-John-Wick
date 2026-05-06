@@ -21,7 +21,7 @@ public abstract class WeaponLeafNode : WeaponNode, INodeLeaf
         this.curWeaponNodeLeafPhase = weaponNodeLeafPhase;
     }
 
-    protected WeaponLeafNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    protected WeaponLeafNode(RangeWeapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
         this.isReset = new List<Func<bool>>();
         this.nodeLeafBehavior = new NodeLeafBehavior();

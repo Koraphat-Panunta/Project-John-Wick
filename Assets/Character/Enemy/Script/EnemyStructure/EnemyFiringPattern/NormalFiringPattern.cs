@@ -90,7 +90,7 @@ public class NormalFiringPattern : EnemyFiringPattern
     }
     protected override void Shoot()
     {
-        if (enemy._currentWeapon.fireMode == Weapon.FireMode.Single && enemy._currentWeapon.triggerState == TriggerState.Up)
+        if (enemy._currentWeapon.fireMode == RangeWeapon.FireMode.Single && enemy._currentWeapon.triggerState == TriggerState.Up)
         {
             base.Shoot();
             deltaFireTiming = 0;
@@ -99,7 +99,7 @@ public class NormalFiringPattern : EnemyFiringPattern
             isCheckShoot = false;
             isWillShoot = false;
         }
-        else if(enemy._currentWeapon.fireMode == Weapon.FireMode.FullAuto)
+        else if(enemy._currentWeapon.fireMode == RangeWeapon.FireMode.FullAuto)
             base.Shoot();
     }
 

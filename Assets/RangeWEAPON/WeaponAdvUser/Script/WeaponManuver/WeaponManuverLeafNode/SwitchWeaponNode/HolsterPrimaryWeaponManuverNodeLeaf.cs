@@ -18,7 +18,7 @@ public class HolsterPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
 
     public override void Exit()
     {
-        WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon), weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
+        WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon), weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
 
     }
 

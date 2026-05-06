@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponRestNodeLeaf : WeaponLeafNode
 {
-    public WeaponRestNodeLeaf(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    public WeaponRestNodeLeaf(RangeWeapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
     }
     public override void FixedUpdateNode()
@@ -17,7 +17,7 @@ public class WeaponRestNodeLeaf : WeaponLeafNode
     }
     public override void Enter()
     {
-        Weapon.Notify(Weapon, WeaponSubject.WeaponNotifyType.Rest);
+        Weapon.Notify(Weapon, RangeWeaponSubject.WeaponNotifyType.Rest);
     }
 
     public override void Exit()

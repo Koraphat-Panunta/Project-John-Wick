@@ -245,7 +245,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void SpinKick()
     {
         this._enemy.stanceCommand = Stance.stand;
-        _enemy._triggerGunFu = true;
+        _enemy._triggerAttack = true;
     }
     //float openDoorBufferTimer;
     //float openDoorBufferTime = 1;

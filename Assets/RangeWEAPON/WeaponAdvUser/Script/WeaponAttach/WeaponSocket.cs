@@ -4,10 +4,10 @@ public abstract class WeaponSocket : MonoBehaviour, IObjectGrabbedAble
 {
     public abstract Transform weaponAttachingAbleTransform { get; }
     public abstract IWeaponAdvanceUser weaponAdvanceUser { get; }
-    public Weapon curWeaponAtSocket { get; protected set; }
+    public RangeWeapon curWeaponAtSocket { get; protected set; }
 
-    public void Attatch(Weapon weapon) => this.Attatch(weapon,Vector3.zero,Quaternion.identity,0);
-    public virtual void Attatch(Weapon weapon
+    public void Attatch(RangeWeapon weapon) => this.Attatch(weapon,Vector3.zero,Quaternion.identity,0);
+    public virtual void Attatch(RangeWeapon weapon
         , Vector3 additionalOffsetPosition
         , Quaternion additionalOffsetRotation
         , float attatchingDuration
@@ -34,7 +34,7 @@ public abstract class WeaponSocket : MonoBehaviour, IObjectGrabbedAble
         Quaternion additionalOffsetRotation,
         float attachingDuration)
     {
-        if (grabAble is Weapon weapon)
+        if (grabAble is RangeWeapon weapon)
             this.Attatch(weapon, additionalOffsetPosition, additionalOffsetRotation, attachingDuration);
     }
     void IObjectGrabbedAble.GrabDetach()

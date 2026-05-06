@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletHitEvent : MonoBehaviour,IInitializedAble
 {
-    [SerializeField] Weapon weapon;
+    [SerializeField] RangeWeapon weapon;
     private Bullet bullet;
     [SerializeField] ParticleSystem spark;
     [SerializeField] ParticleSystem bloodSplit;

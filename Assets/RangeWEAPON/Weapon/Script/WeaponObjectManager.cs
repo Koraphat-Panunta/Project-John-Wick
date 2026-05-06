@@ -6,16 +6,16 @@ using UnityEngine;
 public class WeaponObjectManager : MonoBehaviour , IInitializedAble
 {
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private Weapon weaponPrefab;
-    protected ObjectPooling<Weapon> weaponObjPooling;
-    public Dictionary<Weapon, float> clearWeaponList { get; protected set; }
+    [SerializeField] private RangeWeapon weaponPrefab;
+    protected ObjectPooling<RangeWeapon> weaponObjPooling;
+    public Dictionary<RangeWeapon, float> clearWeaponList { get; protected set; }
 
     protected readonly int weaponDisapearTime = 10;
     protected readonly int weaponDisapearDistance = 6;
     public void Initialized()
     {
-        weaponObjPooling = new ObjectPooling<Weapon>(this.weaponPrefab, 10, 2, Vector3.zero);
-        clearWeaponList = new Dictionary<Weapon, float>();
+        weaponObjPooling = new ObjectPooling<RangeWeapon>(this.weaponPrefab, 10, 2, Vector3.zero);
+        clearWeaponList = new Dictionary<RangeWeapon, float>();
     }
     public void SpawnWeapon(GameObject weaponAdvanceUser)
     {
@@ -27,16 +27,16 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
             throw new System.Exception("the parameter is not weaponAdvanceUser");
        
     }
-    public Weapon SpawnWeapon(IWeaponAdvanceUser weaponAdvanceUser)
+    public RangeWeapon SpawnWeapon(IWeaponAdvanceUser weaponAdvanceUser)
     {
-        Weapon weapon = this.SpawnWeapon(Vector3.zero, Quaternion.identity);
+        RangeWeapon weapon = this.SpawnWeapon(Vector3.zero, Quaternion.identity);
         WeaponAttachingBehavior.Attach(weapon, weaponAdvanceUser._mainHandSocket,0);
 
         return weapon;
     }
-    public Weapon SpawnWeapon(Vector3 position, Quaternion rotation)
+    public RangeWeapon SpawnWeapon(Vector3 position, Quaternion rotation)
     {
-        Weapon weapon = this.weaponObjPooling.Get();
+        RangeWeapon weapon = this.weaponObjPooling.Get();
         weapon.transform.position = position;
         weapon.transform.rotation = rotation;
         clearWeaponList.Add(weapon, 0);
@@ -67,8 +67,8 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
     {
         if (clearWeaponList.Count > 0)
         {
-            List<Weapon> weapons = clearWeaponList.Keys.ToList();
-            foreach (Weapon weapon in weapons)
+            List<RangeWeapon> weapons = clearWeaponList.Keys.ToList();
+            foreach (RangeWeapon weapon in weapons)
             {
                 if (weapon.userWeapon == null)
                 {

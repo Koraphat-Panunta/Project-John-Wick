@@ -22,12 +22,12 @@ public abstract class Bullet:
 
     public static LayerMask hitLayer;
     protected const float MAX_DISTANCE = 350;
-    public Weapon weapon { get; protected set; }
+    public RangeWeapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawner.transform.position; set { } }
     public NoiseMakingBehavior noiseMakingBehavior { get ; set ; }
     public Action<Collider, Vector3, Vector3> bulletHitNotify;
     public abstract BulletType myType { get; protected set; }
-    public Bullet(Weapon weapon)
+    public Bullet(RangeWeapon weapon)
     {
         bulletHitForce = 5;
         this.weapon = weapon;

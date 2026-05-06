@@ -2,15 +2,14 @@ using UnityEngine;
 using static EnemyBodyBulletDamageAbleBehavior;
 
 
-public partial class Enemy : IGotGunFuAttackedAble
+public partial class Enemy : I_Got_OCM_Attacked_Able
 {
     #region ImplementGunFuGotHitAble
     public bool _triggerHitedGunFu { get; set; }
-    public IGunFuAble gunFuAbleAttacker { get; set; }
-    public IGunFuNode curAttackerGunFuNode { get; set; }
-    public IWeaponAdvanceUser _weaponAdvanceUser { get => this; set { } }
+    public I_OCM_Attack_Able gunFuAbleAttacker { get; set; }
+    public I_OCM_Node curAttackerGunFuNode { get; set; }
     public IDamageAble _damageAble { get => this; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get => this; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get => this; set { } }
     public IGotGunFuAttackNode gotGunFuAttackNode => ReturnGotAttackNodeFromStateMachine.GetAttackNode(this.enemyStateManagerNode);
     public bool _isGotAttackedAble
     {
@@ -57,7 +56,7 @@ public partial class Enemy : IGotGunFuAttackedAble
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Primary_ScriptableObject_II;
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Execute_OnGround_I;
-    public void TakeGunFuAttacked(IGunFuNode gunFu_NodeLeaf, IGunFuAble attacker)
+    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attacker)
     {
 
         if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)

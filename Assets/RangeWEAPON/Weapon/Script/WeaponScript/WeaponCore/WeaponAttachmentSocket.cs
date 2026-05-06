@@ -6,7 +6,7 @@ public class WeaponAttachmentSocket : MonoBehaviour
     public AttachmentType socketAttachmentType;
     public WeaponAttachment curWeaponAttach;
 
-    public Weapon weapon;
+    public RangeWeapon weapon;
 
     public Transform socketTransform => this.transform;
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public partial class Weapon : IGrabAbleObject
+public partial class RangeWeapon : IGrabAbleObject
 {
     public Transform grabAbleTransform => this.transform;
     public Transform defaultGrabPoint => this._mainHandGripTransform;

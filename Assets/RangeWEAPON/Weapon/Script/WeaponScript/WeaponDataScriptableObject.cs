@@ -1,11 +1,11 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeaponStatsScriptableObject", menuName = "ScriptableObjects/Weapon/WeaponStats")]
+[CreateAssetMenu(fileName = "WeaponStatsScriptableObject", menuName = "ScriptableObjects/RangeWeapon/WeaponStats")]
 public class WeaponDataScriptableObject : DataScriptableObject
 {
 
-    [SerializeField] public Weapon weaponPrefab;
+    [SerializeField] public RangeWeapon weaponPrefab;
     
     public int bulletCapacity;
     [Range(1,2000)]

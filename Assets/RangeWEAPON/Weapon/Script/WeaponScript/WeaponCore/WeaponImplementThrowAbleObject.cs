@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public partial class Weapon : 
+public partial class RangeWeapon : 
     IThrowAbleObject
     ,IPostureDamageVisitor
 {

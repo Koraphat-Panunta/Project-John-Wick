@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
     
-public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IGunFuNode,INodeLeafTransitionAble
+public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, I_OCM_Node,INodeLeafTransitionAble
 {
 
     #region ImplementIGunFuNode
-    public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public I_OCM_Attack_Able gunFuAble { get; set; }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     #endregion
 
     #region ImplementINodeTransitionAble
@@ -27,7 +27,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition,GunFuInteraction_ScriptableObject gunFuInteraction_ScriptableObject) : base(player, preCondition)
     {
-        gunFuAble = player as IGunFuAble;
+        gunFuAble = player as I_OCM_Attack_Able;
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 
@@ -38,7 +38,7 @@ public abstract class PlayerGunFu_Interaction_NodeLeaf : PlayerStateNodeLeaf, IG
 
     protected PlayerGunFu_Interaction_NodeLeaf(Player player, Func<bool> preCondition) : base(player, preCondition)
     {
-        gunFuAble = player as IGunFuAble;
+        gunFuAble = player as I_OCM_Attack_Able;
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
 

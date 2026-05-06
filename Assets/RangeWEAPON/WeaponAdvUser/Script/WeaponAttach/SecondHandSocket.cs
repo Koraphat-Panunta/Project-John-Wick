@@ -6,7 +6,7 @@ public class SecondHandSocket :  WeaponSocket
     public override Transform weaponAttachingAbleTransform { get { return this.transform; } }
     public override IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
 
-    public override void Attatch(Weapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
+    public override void Attatch(RangeWeapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
     {
         weapon._weaponAttacherComponent.Attach(
                 this.weaponAttachingAbleTransform

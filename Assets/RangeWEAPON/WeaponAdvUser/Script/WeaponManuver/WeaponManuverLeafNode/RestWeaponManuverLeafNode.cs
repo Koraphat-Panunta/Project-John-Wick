@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 {
-    Weapon curWeapon;
+    RangeWeapon curWeapon;
     WeaponAfterAction weaponAfterAction;
     WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     private float recoverFormAimDownSight = 2.5f;

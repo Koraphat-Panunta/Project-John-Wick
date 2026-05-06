@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class OnWeaponPickedUp : VirtualEventNode,IObserverWeapon
+public class OnWeaponPickedUp : VirtualEventNode,IObserverRangeWeapon
 {
-    [SerializeField] Weapon weapon;
+    [SerializeField] RangeWeapon weapon;
     [SerializeField] bool triggerOnce;
     private bool isAlreadyTrigger;
     private void Awake()
@@ -15,10 +15,10 @@ public class OnWeaponPickedUp : VirtualEventNode,IObserverWeapon
         isAlreadyTrigger = true;
     }
 
-    public void OnNotify<T>(Weapon weapon,T weaponNotify)
+    public void OnNotify<T>(RangeWeapon weapon,T weaponNotify)
     {
-        if(weaponNotify is WeaponSubject.WeaponNotifyType weaponNotifyMassage 
-            && weaponNotifyMassage == WeaponSubject.WeaponNotifyType.BeenAttatch )
+        if(weaponNotify is RangeWeaponSubject.WeaponNotifyType weaponNotifyMassage 
+            && weaponNotifyMassage == RangeWeaponSubject.WeaponNotifyType.BeenAttatch )
         {
             if(this.triggerOnce
                 && this.isAlreadyTrigger == false

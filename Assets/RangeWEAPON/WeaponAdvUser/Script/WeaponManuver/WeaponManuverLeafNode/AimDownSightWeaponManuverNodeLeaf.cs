@@ -5,7 +5,7 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     public WeaponNodeManuverManager weaponManuverManager => weaponAdvanceUser._weaponManuverManager;
     WeaponAfterAction weaponAfterAction;
-    Weapon curWeapon => weaponAdvanceUser._currentWeapon;
+    RangeWeapon curWeapon => weaponAdvanceUser._currentWeapon;
 
     protected LayerMask blockLayer = LayerMask.GetMask("Default");
     public bool isBlocked 

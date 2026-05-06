@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
-public partial class Player : IGunFuAble
+public partial class Player : I_OCM_Attack_Able
 {
     #region InitailizedGunFu
-    public bool _triggerGunFu { get; set; }
-    public bool _triggerExecuteGunFu { get; set; }
+    public bool _triggerAttack { get; set; }
+    public bool _triggerExecute { get; set; }
     public float triggerGunFuBufferTime { get; set; }
     public IWeaponAdvanceUser _weaponUser { get; set; }
-    public Vector3 _gunFuAimDir { get 
+    public Vector3 _attackAimDir { get 
         {
             if (this.inputMoveDir_World.magnitude <= 0)
                 return this.transform.forward;
@@ -19,15 +19,15 @@ public partial class Player : IGunFuAble
     [SerializeField] Transform targetAdjustTranform;
     public Transform _targetAdjustTranform { get; set; }
 
-    [SerializeField] private GunFuDetectTarget GunFuDetectTarget;
-    public GunFuDetectTarget _gunFuDetectTarget { get => this.GunFuDetectTarget; set => this.GunFuDetectTarget = value; }
-    public IGotGunFuAttackedAble attackedAbleGunFu { get; set; }
-    public IGotGunFuAttackedAble executedAbleGunFu { get; set; }
-    public IGunFuNode curGunFuNode
+    [SerializeField] private OCM_Offendsive_DetectTarget GunFuDetectTarget;
+    public OCM_Offendsive_DetectTarget _gunFuDetectTarget { get => this.GunFuDetectTarget; set => this.GunFuDetectTarget = value; }
+    public I_Got_OCM_Attacked_Able attackedAbleGunFu { get; set; }
+    public I_Got_OCM_Attacked_Able executedAbleGunFu { get; set; }
+    public I_OCM_Node curGunFuNode
     {
         get
         {
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuNode>(out IGunFuNode gunFuNode))
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<I_OCM_Node>(out I_OCM_Node gunFuNode))
                 return gunFuNode;
             return null;
         }
@@ -36,7 +36,7 @@ public partial class Player : IGunFuAble
 
     public Animator _gunFuAnimator => animator;
 
-    Character IGunFuAble._character => this;
+    Character I_OCM_Attack_Able._character => this;
 
     [SerializeField] public GunFuHitScriptableObject hit1;
     [SerializeField] public GunFuHitScriptableObject hit2;
@@ -72,12 +72,12 @@ public partial class Player : IGunFuAble
     }
     public void UpdateDetectingTarget()
     {
-        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble excecuteTarget))
+        if (_gunFuDetectTarget.CastDetectExecuteAbleTarget(out I_Got_OCM_Attacked_Able excecuteTarget))
             executedAbleGunFu = excecuteTarget;
         else
             executedAbleGunFu = null;
 
-        if (_gunFuDetectTarget.CastDetect(out IGotGunFuAttackedAble target))
+        if (_gunFuDetectTarget.CastDetect(out I_Got_OCM_Attacked_Able target))
             attackedAbleGunFu = target;
         else
             attackedAbleGunFu = null;

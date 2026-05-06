@@ -58,7 +58,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
                 }
 
                 if (player._currentWeapon != null
-                    && player._currentWeapon.fireMode == Weapon.FireMode.Single
+                    && player._currentWeapon.fireMode == RangeWeapon.FireMode.Single
                     && (player._currentWeapon.triggerState == TriggerState.Up
                     || player._currentWeapon.triggerState == TriggerState.IsUp))
                 {
@@ -67,8 +67,8 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
             }
             else
             {
-                player._triggerGunFu = true;
-                player.commandBufferManager.AddCommand(nameof(player._triggerGunFu), 0.15f);
+                player._triggerAttack = true;
+                player.commandBufferManager.AddCommand(nameof(player._triggerAttack), 0.15f);
                 player._isPullTriggerCommand = false;
             }
         }
@@ -125,7 +125,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     {
         if (context.performed)
         {
-            player._triggerExecuteGunFu = true;
+            player._triggerExecute = true;
         }
     }
     public void ToggleCrouchStand(InputAction.CallbackContext context)

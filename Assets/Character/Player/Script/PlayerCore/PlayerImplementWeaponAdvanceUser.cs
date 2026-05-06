@@ -29,7 +29,7 @@ public partial class Player: IWeaponAdvanceUser
                 return true;
 
             if(_currentWeapon != null
-                && _currentWeapon.fireMode == Weapon.FireMode.Single
+                && _currentWeapon.fireMode == RangeWeapon.FireMode.Single
                 && (_currentWeapon.triggerState == TriggerState.Up || _currentWeapon.triggerState == TriggerState.IsUp)
                 && commandBufferManager.TryGetCommand(nameof(_isPullTriggerCommand)))
                 return true;
@@ -78,7 +78,7 @@ public partial class Player: IWeaponAdvanceUser
         }
     }
 
-    public Weapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
+    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }

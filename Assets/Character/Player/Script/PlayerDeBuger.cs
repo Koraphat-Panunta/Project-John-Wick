@@ -26,9 +26,9 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
     Player player;
 
     [SerializeField] private string PlayerCurNodeLeaf;
-    [SerializeField] private Weapon curWeapon;
-    [SerializeField] private Weapon myPrimaryWeapon;
-    [SerializeField] private Weapon mySecondaryWeapon;
+    [SerializeField] private RangeWeapon curWeapon;
+    [SerializeField] private RangeWeapon myPrimaryWeapon;
+    [SerializeField] private RangeWeapon mySecondaryWeapon;
     // Start is called before the first frame update
 
     [SerializeField] private GunFuHitScriptableObject gunFuHitScriptableObject;
@@ -57,8 +57,8 @@ public class PlayerDeBuger : MonoBehaviour,IInitializedAble
         PlayerCurNodeLeaf = (player.playerStateNodeManager as INodeManager).GetCurNodeLeaf().ToString();
 
         curWeapon = player._currentWeapon;
-        myPrimaryWeapon = player._weaponBelt.myPrimaryWeapon as Weapon;
-        mySecondaryWeapon = player._weaponBelt.mySecondaryWeapon as Weapon;
+        myPrimaryWeapon = player._weaponBelt.myPrimaryWeapon as RangeWeapon;
+        mySecondaryWeapon = player._weaponBelt.mySecondaryWeapon as RangeWeapon;
     }
    
     private void OnDrawGizmos()

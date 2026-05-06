@@ -7,7 +7,7 @@ public class WeaponAnimationMagazine : MonoBehaviour
     [Range(0, 1)]
     [SerializeField] public float sliceBarrelNormalized;
 
-    [SerializeField] Weapon weapon;
+    [SerializeField] RangeWeapon weapon;
     
 
     public void Update()

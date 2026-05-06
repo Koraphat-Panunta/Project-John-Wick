@@ -58,9 +58,9 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
     [SerializeField] private Transform sprintTransPos5;
     [SerializeField] private Transform sprintTransPos6;
 
-    [SerializeField] private Weapon pickedUpPrimaryWeapon;
+    [SerializeField] private RangeWeapon pickedUpPrimaryWeapon;
     [SerializeField] private float freezTimer = 3;
-    [SerializeField] private Weapon pickedUpSecondaryWeapon;
+    [SerializeField] private RangeWeapon pickedUpSecondaryWeapon;
     [SerializeField] private float timerCoverManuver ;
     [SerializeField] private Transform targetPos;
 
@@ -121,7 +121,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             });
         pickUpWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> { return enemy._currentWeapon ? true : false; });
         holsterWeaponPrimary = new EnemyTestingCommand(()=> enemyCommand.HolsterWeapon(),()=> enemy._currentWeapon == null);
-        drawWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as Weapon);
+        drawWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as RangeWeapon);
         dropWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DropWeapon(), () => enemy._currentWeapon == null);
         pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), 
             () => 

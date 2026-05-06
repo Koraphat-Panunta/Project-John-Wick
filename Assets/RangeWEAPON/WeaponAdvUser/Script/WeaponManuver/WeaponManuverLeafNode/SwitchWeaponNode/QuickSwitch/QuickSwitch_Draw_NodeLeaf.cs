@@ -7,7 +7,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     private bool isComplete;
     private AnimationTriggerEventSCRP animationTriggerEventSCRP;
     private bool isDrawSecondary;
-    private Weapon secondHandWeapon;
+    private RangeWeapon secondHandWeapon;
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get ; set ; }
     private TransformOffsetSCRP quickSwitchHoldOffset;
@@ -72,7 +72,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     {
         //Debug.Log("Draw timer = "+animationTriggerEventPlayer.timer);
         isDrawSecondary = true;
-        WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
+        WeaponAttachingBehavior.Attach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
     public override bool IsReset()

@@ -9,7 +9,7 @@ public class CrosshairAiming
     {
         this._crosshairController = crosshairController;
     }
-    //public void Performed(Weapon weapon)
+    //public void Performed(RangeWeapon weapon)
     //{
         
     //}

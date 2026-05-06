@@ -152,7 +152,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         }
         else if(this.player._currentWeapon != null
             && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>() == false
-            && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false)
+            && this.playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>() == false)
         {
             if (this.isProne
                 && this.player._currentWeapon is PrimaryWeapon)

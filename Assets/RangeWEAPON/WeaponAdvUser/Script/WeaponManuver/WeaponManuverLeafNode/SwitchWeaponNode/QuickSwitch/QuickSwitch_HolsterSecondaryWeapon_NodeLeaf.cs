@@ -6,7 +6,7 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
     private bool isComplete;
     private bool isHolsterSecondaryWeapon;
     private AnimationTriggerEventSCRP animationTriggerEventSCRP;
-    private Weapon secondaryWeapon;
+    private RangeWeapon secondaryWeapon;
     private float timer;
     private AnimationTriggerEventPlayer animationTriggerEventPlayer;
 

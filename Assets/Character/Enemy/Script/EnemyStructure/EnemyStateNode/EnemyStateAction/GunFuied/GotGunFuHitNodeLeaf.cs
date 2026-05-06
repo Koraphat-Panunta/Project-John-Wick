@@ -6,8 +6,8 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode
     ,IGotGunFuAttackNode
     ,INodeLeafTransitionAble
 {
-    public IGunFuAble gunFuAble => enemy.gunFuAbleAttacker;
-    public IGotGunFuAttackedAble gotGunFuAttackedAble => enemy;
+    public I_OCM_Attack_Able gunFuAble => enemy.gunFuAbleAttacker;
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble => enemy;
     public float _painTime { get; set; }
     public float _timer { get; set; }
     float forceStop => this.enemy.breakDecelerate * .25f;

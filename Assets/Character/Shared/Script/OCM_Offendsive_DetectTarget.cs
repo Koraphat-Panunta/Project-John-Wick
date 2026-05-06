@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(IGunFuAble))]
-public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
+[RequireComponent(typeof(I_OCM_Attack_Able))]
+public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
 {
-    [SerializeField] protected IGunFuAble gunFuAble;
+    [SerializeField] protected I_OCM_Attack_Able gunFuAble;
 
     [SerializeField] private Transform CastTransform;
     public Transform _castTransform { get => this.CastTransform; set => this.CastTransform = value; }
@@ -28,9 +28,9 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
 
     public void Initialized()
     {
-        this.gunFuAble = GetComponent<IGunFuAble>();
+        this.gunFuAble = GetComponent<I_OCM_Attack_Able>();
     }
-    public bool CastDetectExecuteAbleTarget(out IGotGunFuAttackedAble gunFuGotExecuteAble)
+    public bool CastDetectExecuteAbleTarget(out I_Got_OCM_Attacked_Able gunFuGotExecuteAble)
     {
         gunFuGotExecuteAble = null;
         Vector3 castDir = CastDir();
@@ -38,7 +38,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
         RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget, QueryTriggerInteraction.Collide);
         foreach (RaycastHit hit in collider)
         {
-            if (hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
+            if (hit.collider.gameObject.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
                 continue;
 
             if (gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
@@ -67,12 +67,12 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
         return false;
 
     } // Called form gunFuAble
-    public bool CastDetect(out IGotGunFuAttackedAble target)
+    public bool CastDetect(out I_Got_OCM_Attacked_Able target)
     {
         target = null;
         Vector3 casrDir = CastDir();
 
-        if (CastDetect(out IGotGunFuAttackedAble gunFuTarget, casrDir))
+        if (CastDetect(out I_Got_OCM_Attacked_Able gunFuTarget, casrDir))
         {
             target = gunFuTarget;
             return true;
@@ -84,10 +84,10 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     } // Called form player
     private Vector3 curPositionVolume;
     private float curRaduis;
-    public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target,Vector3 positionVolume,float raduis,LayerMask targetMask)
+    public bool CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> target,Vector3 positionVolume,float raduis,LayerMask targetMask)
     {
 
-        target = new List<IGotGunFuAttackedAble>();
+        target = new List<I_Got_OCM_Attacked_Able>();
         
         Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask,QueryTriggerInteraction.Collide);
 
@@ -106,7 +106,7 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             gunFuDetectTargetDebug += "in collider = " + item +"0 \n";
 
 
-            if (item.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
+            if (item.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
                 continue;
 
             
@@ -129,18 +129,18 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
             return true;
         return false;
     }// Called form gunFuAble
-    public bool CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> target, Vector3 positionVolume, float raduis)
+    public bool CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> target, Vector3 positionVolume, float raduis)
     {
         return CastDetectTargetInVolume(out target,positionVolume,raduis,this._layerTarget);
     }// Called form gunFuAble
-    private bool CastDetect(out IGotGunFuAttackedAble target, Vector3 castDir)
+    private bool CastDetect(out I_Got_OCM_Attacked_Able target, Vector3 castDir)
     {
         target = null;
         Ray ray = new Ray(_castTransform.position,castDir);
         RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget,QueryTriggerInteraction.Collide);
         foreach(RaycastHit hit in collider)
         {
-            if(hit.collider.gameObject.TryGetComponent<IGotGunFuAttackedAble>(out IGotGunFuAttackedAble gunFuGotAttackedAble) == false)
+            if(hit.collider.gameObject.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
                 continue;
 
             if(gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead 
@@ -172,13 +172,13 @@ public class GunFuDetectTarget : MonoBehaviour,IInitializedAble
     {
         Vector3 casrDir;
 
-        if (Vector3.Angle(gunFuAble._character.transform.forward, gunFuAble._gunFuAimDir) <= _limitAimAngleDegrees)
+        if (Vector3.Angle(gunFuAble._character.transform.forward, gunFuAble._attackAimDir) <= _limitAimAngleDegrees)
         {
-            casrDir = new Vector3(gunFuAble._gunFuAimDir.x, 0, gunFuAble._gunFuAimDir.z);
+            casrDir = new Vector3(gunFuAble._attackAimDir.x, 0, gunFuAble._attackAimDir.z);
         }
         else
         {
-            if (Vector3.Dot(gunFuAble._character.transform.right, gunFuAble._gunFuAimDir) < 0)
+            if (Vector3.Dot(gunFuAble._character.transform.right, gunFuAble._attackAimDir) < 0)
             {
                 casrDir = Quaternion.Euler(0,-LimitAimAngleDegrees,0) * gunFuAble._character.transform.forward;
             }

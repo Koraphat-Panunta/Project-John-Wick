@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttatchWeaponEventVirtualEventNode : VirtualEventNode
 {
-    [SerializeField] Weapon curWeapon;
+    [SerializeField] RangeWeapon curWeapon;
     [SerializeField] public Character weaponUser;
 
     public enum AttatchType

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType
+public class AssultRifle_AR15Model : RangeWeapon, PrimaryWeapon, MagazineType
 {
 
     //SetUpStats
@@ -20,7 +20,7 @@ public class AssultRifle_AR15Model : Weapon, PrimaryWeapon, MagazineType
 
 
     #region Initialized MagazineType
-    public Weapon _weapon { get => this; set { } }
+    public RangeWeapon _weapon { get => this; set { } }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => this._reloadStageSelector;
     public NodeSelector _reloadStageSelector { get; set; }

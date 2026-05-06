@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
+public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
-    public IGunFuAble gunFuAble { get => enemy; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public I_OCM_Attack_Able gunFuAble { get => enemy; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     public AnimationClip _animationClip { get => _enemySpinKickScriptable.animationClip; set => _enemySpinKickScriptable.animationClip = value; }
     public override bool isComplete { get => base.isComplete; protected set => base.isComplete = value; }
     private EnemySpinKickScriptable _enemySpinKickScriptable { get; set; }
 
     private bool isAlreadyPush;
-    private Dictionary<IGotGunFuAttackedAble, bool> alreadyHittarget;
+    private Dictionary<I_Got_OCM_Attacked_Able, bool> alreadyHittarget;
 
     private Vector3 targetPosition => this.enemy.targetKnowPos;
     public string _stateName { get; }
@@ -31,7 +31,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
     public EnemySpinKickGunFuNodeLeaf(EnemySpinKickScriptable enemySpinKickScriptable,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this._enemySpinKickScriptable = enemySpinKickScriptable;
-        alreadyHittarget = new Dictionary<IGotGunFuAttackedAble, bool> ();
+        alreadyHittarget = new Dictionary<I_Got_OCM_Attacked_Able, bool> ();
     }
 
   
@@ -100,7 +100,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, IGunFuNode
             Vector3 castPos = enemy.transform.position + enemy.transform.forward * _enemySpinKickScriptable._distanceCastVolume + enemy.transform.up * _enemySpinKickScriptable._upperCastOffsetVolume;
 
             gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume
-                (out List<IGotGunFuAttackedAble> targets
+                (out List<I_Got_OCM_Attacked_Able> targets
                 , castPos
                 ,this._enemySpinKickScriptable._raduisSphereVolume
                 ,LayerMask.GetMask("Player")|LayerMask.GetMask("Enemy"));

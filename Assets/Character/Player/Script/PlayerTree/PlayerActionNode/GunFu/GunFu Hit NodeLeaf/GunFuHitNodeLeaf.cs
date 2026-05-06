@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
-    , IGunFuNode
+    , I_OCM_Node
     ,IHPDamageVisitor
     ,IPostureDamageVisitor
     ,INodeLeafTransitionAble
@@ -13,8 +13,8 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public float _hPDamage => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].hpHitDamage;
     public float stuntingTime => this.gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].stuntingTime; 
   
-    public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get ; set; }
+    public I_OCM_Attack_Able gunFuAble { get => player; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get ; set; }
     public Vector3 approuchPosition { get => this.gotGunFuAttackedAble != null ? this.gotGunFuAttackedAble._character.transform.position : this._approuchPositionValue; }
     protected Vector3 _approuchPositionValue;
 
@@ -42,14 +42,14 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public INodeManager nodeManager { get => player.playerStateNodeManager; set { } }
     public Dictionary<INode, bool> transitionAbleNode { get ; set ; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get;set; }
-    private List<IGotGunFuAttackedAble> gotAttackedAlready;
+    private List<I_Got_OCM_Attacked_Able> gotAttackedAlready;
 
     public GunFuHitNodeLeaf(Player player, Func<bool> preCondition,GunFuHitScriptableObject gunFuHitScriptableObject) : base(player, preCondition)
     {
         this._gunFuHitScriptableObject = gunFuHitScriptableObject;
         transitionAbleNode = new Dictionary<INode, bool>();
         nodeLeafTransitionBehavior = new NodeLeafTransitionBehavior();
-        this.gotAttackedAlready = new List<IGotGunFuAttackedAble>();
+        this.gotAttackedAlready = new List<I_Got_OCM_Attacked_Able>();
 
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(gunFuHitScriptableObject);
 
@@ -110,7 +110,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
         //Debug.DrawLine(player.transform.position,shperePos,Color.green,0.5f);
 
-        player._gunFuDetectTarget.CastDetectTargetInVolume(out List<IGotGunFuAttackedAble> targets, shperePos, gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeRaduis);
+        player._gunFuDetectTarget.CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> targets, shperePos, gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackVolumeRaduis);
 
         if (targets.Count <= 0)
             return;

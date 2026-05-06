@@ -98,7 +98,7 @@ public partial class PlayerAnimationManager
     }
     private bool isPerformGunFu { get 
         {
-            if(playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuNode>())
+            if(playerStateNodeMnager.TryGetCurNodeLeaf<I_OCM_Node>())
                 return true;
             return false;
         } 

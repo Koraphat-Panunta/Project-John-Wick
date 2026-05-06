@@ -3,12 +3,12 @@ using UnityEngine.Animations;
 
 public static class WeaponAttachingBehavior
 {
-    public static void Attach(Weapon weapon,WeaponSocket weaponAttachingAble,float attatchingDuration)
+    public static void Attach(RangeWeapon weapon,WeaponSocket weaponAttachingAble,float attatchingDuration)
     {
         Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity,attatchingDuration);
     }
     public static void Attach(
-        Weapon weapon
+        RangeWeapon weapon
         , WeaponSocket weaponAttachingAble
         ,Vector3 additionalOffsetPosition
         ,Quaternion additionalOffsetRotation
@@ -36,7 +36,7 @@ public static class WeaponAttachingBehavior
 
        
     }
-    public static void Detach(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
+    public static void Detach(RangeWeapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
     {
         if(weapon.curAttatch != null)
             weapon.curAttatch.Detach();

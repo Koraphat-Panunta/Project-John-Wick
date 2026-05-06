@@ -29,7 +29,7 @@ public partial class PlayerConstrainAnimationManager
             if(this.isWeaponSwitching)
                 return false;
 
-            if(playerStateManager.TryGetCurNodeLeaf<IGunFuNode>())
+            if(playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>())
                 return false;
 
             if(playerStateManager.TryGetCurNodeLeaf<IParkourNodeLeaf>())

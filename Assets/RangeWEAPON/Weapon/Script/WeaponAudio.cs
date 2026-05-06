@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAble
+public abstract class WeaponAudio : MonoBehaviour,IObserverRangeWeapon,IInitializedAble
 {
-    public void OnNotify<T>(Weapon weapon, T weaponNotify)
+    public void OnNotify<T>(RangeWeapon weapon, T weaponNotify)
     {
         if(weaponNotify is FiringNode)
         {
@@ -28,7 +28,7 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
     [SerializeField] private AudioClip reload_2;
     [SerializeField] private AudioClip reload_3;
     private Coroutine coroutine;
-    public Weapon weapon;
+    public RangeWeapon weapon;
 
     [SerializeField] protected SoundData firingData;
 
@@ -79,7 +79,7 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverWeapon,IInitializedAb
     public virtual void Initialized()
     {
         this.source_Sound = GetComponent<AudioSource>();
-        weapon = GetComponent<Weapon>();
+        weapon = GetComponent<RangeWeapon>();
         weapon.AddObserver(this);
     }
 }

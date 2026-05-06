@@ -254,7 +254,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             });
         quickSwitch_Draw_OnEmpty_NodeLeaf = new QuickSwitch_Draw_NodeLeaf(weaponAdvanceUser, this,
             () => weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null
-            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null
             && weaponAdvanceUser._currentWeapon.chamber.isReadyShoot == false && weaponAdvanceUser._currentWeapon.curBulletCapacity <= 0
             && isQuickSwtichWeaponManuverAble
@@ -267,7 +267,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             || weaponAdvanceUser._isHolsterWeaponCommand
             || weaponAdvanceUser._isReloadCommand)
             && isSwitchWeaponManuverAble
-            && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon
+            && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon
             && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
             , "QuickSwitchExitSelector");
 
@@ -291,13 +291,13 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
            && isSwitchWeaponManuverAble
-           && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon
+           && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon
            && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
 
         switchDrawSecondaryNodeSelector = new NodeSelector(
             () => weaponAdvanceUser._isDrawSecondaryWeaponCommand
             && isSwitchWeaponManuverAble
-            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+            && weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
             && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
         //quickDrawWeaponManuverLeafNode = new QuickDrawWeaponManuverLeafNodeLeaf(this.weaponAdvanceUser,
         //    () => isQuickDrawWeaponManuverAble 
@@ -312,9 +312,9 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
         holsterSelector = new NodeSelector(
             () => weaponAdvanceUser._isHolsterWeaponCommand && isSwitchWeaponManuverAble);
         holsterPrimaryWeaponManuverNodeLeaf = new HolsterPrimaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon);
+            () => curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon);
         holsterSecondaryWeaponManuverNodeLeaf = new HolsterSecondaryWeaponManuverNodeLeaf(this.weaponAdvanceUser,
-            () => curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon);
+            () => curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon);
 
 
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();

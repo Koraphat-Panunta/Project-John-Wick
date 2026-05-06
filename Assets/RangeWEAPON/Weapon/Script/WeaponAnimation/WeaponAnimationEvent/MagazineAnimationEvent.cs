@@ -8,7 +8,7 @@ public class MagazineAnimationEvent : MonoBehaviour
     [SerializeField] public Vector3 offsetPositionHand;
     [SerializeField] public Vector3 offsetRotationHand;
 
-    [SerializeField] protected Weapon weapon;
+    [SerializeField] protected RangeWeapon weapon;
     protected Transform weaponAdvanceUserHand => this.weapon.userWeapon._secondHandSocket.transform;
     [SerializeField] protected Transform realWeaponMagazine;
     [SerializeField] protected Transform visibleMag;

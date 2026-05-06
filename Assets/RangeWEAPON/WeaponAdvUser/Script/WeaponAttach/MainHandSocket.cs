@@ -7,7 +7,7 @@ public class MainHandSocket :  WeaponSocket
     public override IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
 
 
-    public override void Attatch(Weapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
+    public override void Attatch(RangeWeapon weapon, Vector3 additionalOffsetPosition, Quaternion additionalOffsetRotation, float attatchingDuration)
     {
         //Debug.Log("weaponAdvanceUser = " + weaponAdvanceUser._weaponManuverManager.restWeaponManuverLeafNode);
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface MagazineType 
 {
-    public Weapon _weapon { get; set; }
+    public RangeWeapon _weapon { get; set; }
     public ReloadMagazineLogic _reloadMagazineLogic { get; set; }
     public NodeSelector _reloadStageSelector { get; set; }
     public TimelineTriggerEventScriptableObject _reload_timelineTriggerEventSCRP { get; }
@@ -30,7 +30,7 @@ public class ReloadMagazineLogic
     public void InitailizedReloadStageSelector(MagazineType magazineType)
     {
 
-        Weapon weapon = magazineType._weapon;
+        RangeWeapon weapon = magazineType._weapon;
 
         magazineType._reloadStageSelector = new NodeSelector(
            () => {

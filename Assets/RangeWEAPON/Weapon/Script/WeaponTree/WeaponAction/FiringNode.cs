@@ -10,7 +10,7 @@ public class FiringNode : WeaponLeafNode,INodeLeafTransitionAble
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
-    public FiringNode(Weapon weapon,INodeManager nodeManager, Func<bool> preCondition) : base(weapon, preCondition)
+    public FiringNode(RangeWeapon weapon,INodeManager nodeManager, Func<bool> preCondition) : base(weapon, preCondition)
     {
         this.nodeManager = nodeManager;
         transitionAbleNode = new Dictionary<INode, bool>();

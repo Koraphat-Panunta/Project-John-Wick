@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyGetShootDirection 
 {
     private Enemy enemy;
-    private Weapon weapon;
+    private RangeWeapon weapon;
     public float trackingTargetRate { get; protected set; }
     public float trackingTargetAccelerate => enemy.trackingTargetAccelerate;
     public float trackingTargetDecelerate => enemy.trackingTargetDecelerate;

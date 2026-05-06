@@ -108,9 +108,9 @@ public partial class Player : SubjectPlayer,
         triggerDodgeRoll = false;
         _isPickingUpWeaponCommand = false;
         _isDropWeaponCommand = false;
-        _triggerExecuteGunFu = false;
+        _triggerExecute = false;
         _isParkourCommand = false;
-        _triggerGunFu = false;
+        _triggerAttack = false;
         _isTriggerThrowCommand = false;
         isTriggerCrouchStand = false;
  

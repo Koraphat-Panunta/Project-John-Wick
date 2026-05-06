@@ -7,7 +7,7 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
     private bool isShowGage ;
     [SerializeField] Image humanShieldGage;
     private float maxWidthImage;
-    IGunFuNode curGunFuInteraction_NodeLeaf;
+    I_OCM_Node curGunFuInteraction_NodeLeaf;
 
     public override void Initialized()
     {

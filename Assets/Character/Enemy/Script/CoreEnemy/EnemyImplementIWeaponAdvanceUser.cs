@@ -22,7 +22,7 @@ public partial class Enemy : IWeaponAdvanceUser
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 
     public Animator _weaponUserAnimator { get; set; }
-    public Weapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
+    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
 
     public Vector3 _shootingPos
     {

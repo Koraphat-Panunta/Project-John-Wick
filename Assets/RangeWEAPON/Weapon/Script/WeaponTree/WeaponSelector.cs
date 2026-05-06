@@ -9,7 +9,7 @@ public class WeaponSelector : WeaponNode, INodeSelector
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
     public INodeLeaf curNodeLeaf { get ; set ; }
 
-    public WeaponSelector(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    public WeaponSelector(RangeWeapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
         childNode = new List<INode>();
         nodeSelectorBehavior = new NodeSelectorBehavior();

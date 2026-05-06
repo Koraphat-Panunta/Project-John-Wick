@@ -76,7 +76,7 @@ public class CrosshiarShootpoint : ICrosshairAction
         
         return crosshairController.targetAimPaint;
     }
-    public void Performed(Weapon weapon)
+    public void Performed(RangeWeapon weapon)
     {
         throw new System.NotImplementedException();
     }

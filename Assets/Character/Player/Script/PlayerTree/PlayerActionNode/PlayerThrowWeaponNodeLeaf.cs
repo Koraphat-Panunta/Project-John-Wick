@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
 {
     private AnimationTriggerEventPlayer animationTriggerEventPlayer;
-    private Weapon throwWeapon;
+    private RangeWeapon throwWeapon;
     private bool isThrowing;
     private Vector3 startCastPos => player.RayCastPos.position;
     private Vector3 castDir => (player._lookingPos - startCastPos).normalized;

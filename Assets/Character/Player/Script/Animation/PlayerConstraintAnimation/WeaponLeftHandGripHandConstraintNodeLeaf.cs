@@ -9,7 +9,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         {
             try
             {
-                Weapon curWeapon = this.weaponAdvanceUser._currentWeapon;
+                RangeWeapon curWeapon = this.weaponAdvanceUser._currentWeapon;
                 Vector3 offset = curWeapon._SecondHandGripTransform.localPosition - curWeapon._mainHandGripTransform.localPosition;
                 return offset;
             }
@@ -26,7 +26,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         {
             try
             {
-                Weapon curWeapon = this.weaponAdvanceUser._currentWeapon;
+                RangeWeapon curWeapon = this.weaponAdvanceUser._currentWeapon;
                 Quaternion resutl = curWeapon._SecondHandGripTransform.localRotation * Quaternion.Inverse(curWeapon._mainHandGripTransform.localRotation);
                 return resutl;
             }

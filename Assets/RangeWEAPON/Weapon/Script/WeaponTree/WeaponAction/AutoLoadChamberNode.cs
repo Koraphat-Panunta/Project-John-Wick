@@ -9,7 +9,7 @@ public class AutoLoadChamberNode : WeaponLeafNode
     private Chamber chamber => this.Weapon.chamber;
     private BulletCapacity bulletCapacity => this.Weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
 
-    public AutoLoadChamberNode(Weapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
+    public AutoLoadChamberNode(RangeWeapon weapon, Func<bool> preCondition) : base(weapon, preCondition)
     {
     }
 
@@ -45,10 +45,10 @@ public class AutoLoadChamberNode : WeaponLeafNode
             &&this.bulletCapacity.GetBulletOut(out Bullet bullet)
             )
         {
-            //Debug.Log("Auto load Chamber "+this.Weapon);
+            //Debug.Log("Auto load Chamber "+this.RangeWeapon);
 
             this.chamber.Load(bullet);
-            //Debug.Log(this.Weapon + "isReadyShoot == "+this.chamber.isReadyShoot);
+            //Debug.Log(this.RangeWeapon + "isReadyShoot == "+this.chamber.isReadyShoot);
         }
 
         this.reChamber = null;

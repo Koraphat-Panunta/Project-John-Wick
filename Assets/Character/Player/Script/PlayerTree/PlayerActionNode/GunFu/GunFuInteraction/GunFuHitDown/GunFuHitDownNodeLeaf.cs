@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
-    ,IGunFuNode
+    ,I_OCM_Node
     ,IHPDamageVisitor
     ,IPostureDamageVisitor
 {

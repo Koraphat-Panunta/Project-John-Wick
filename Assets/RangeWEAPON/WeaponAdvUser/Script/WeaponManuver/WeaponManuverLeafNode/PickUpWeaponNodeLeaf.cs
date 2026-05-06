@@ -13,16 +13,16 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
         isComplete = false;
 
         if (findingWeaponBehavior.weaponFindingSelecting is PrimaryWeapon && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null)
-            WeaponAttachingBehavior.Detach(weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon,weaponAdvanceUser);
+            WeaponAttachingBehavior.Detach(weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon,weaponAdvanceUser);
 
         if (findingWeaponBehavior.weaponFindingSelecting is SecondaryWeapon && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null)
-            WeaponAttachingBehavior.Detach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon, weaponAdvanceUser);
+            WeaponAttachingBehavior.Detach(weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon, weaponAdvanceUser);
 
         if(weaponAdvanceUser._currentWeapon != null)
         {
-            if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon)
+            if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon)
                 WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.primaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
-            else if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon)
+            else if (weaponAdvanceUser._currentWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon)
                 WeaponAttachingBehavior.Attach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser._weaponBelt.secondaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
 
