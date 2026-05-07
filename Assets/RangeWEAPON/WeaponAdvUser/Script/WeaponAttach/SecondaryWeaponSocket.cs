@@ -5,7 +5,7 @@ public class SecondaryWeaponSocket : MonoBehaviour, IGrabRangeWeaponAble
     [SerializeField] private Character character;
     public Transform weaponAttachingAbleTransform => this.transform;
     public IRangeWeaponAdvanceUser weaponAdvanceUser => character as IRangeWeaponAdvanceUser;
-    public RangeWeapon curRangeWeaponAtSocket { get => (this._currentGrabbedObject is RangeWeapon rangeWeapon?rangeWeapon:null); }
+    public RangeWeapon curRangeWeaponAtSocket { get => IGrabAbleObject.GetCurentGrabAbleObjectAs<RangeWeapon>(this); }
 
 
 
@@ -20,8 +20,8 @@ public class SecondaryWeaponSocket : MonoBehaviour, IGrabRangeWeaponAble
     }
     void IGrabAbleObject.GrabDetach() 
     {
-        this._currentGrabbedObject = null;
         RangeWeaponSocketBehavior.GrabDetach(this);
+        this._currentGrabbedObject = null;
     } 
 
     public void OnValidate()

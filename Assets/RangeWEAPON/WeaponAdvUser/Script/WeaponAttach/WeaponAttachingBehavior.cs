@@ -28,18 +28,18 @@ public static class WeaponAttachingBehavior
         }
 
         if (weapon.curAttatch != null)
-            weapon.curAttatch.DetachRangeWeapon();
+            weapon.curAttatch.GrabDetach();
 
         
 
-        weaponAttachingAble.AttatchRangeWeapon(weapon,additionalOffsetPosition,additionalOffsetRotation,attatchingDuration);
+        weaponAttachingAble.GrabAttach(weapon,additionalOffsetPosition,additionalOffsetRotation,attatchingDuration);
 
        
     }
     public static void Detach(RangeWeapon weapon, IRangeWeaponAdvanceUser weaponAdvanceUser)
     {
         if(weapon.curAttatch != null)
-            weapon.curAttatch.DetachRangeWeapon();
+            weapon.curAttatch.GrabDetach();
 
         if (weapon is PrimaryWeapon)
         {
