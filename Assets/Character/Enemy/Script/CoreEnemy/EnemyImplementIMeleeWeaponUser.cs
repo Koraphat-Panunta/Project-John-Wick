@@ -26,12 +26,11 @@ public partial class Enemy : IMeleeWeaponUserAble
         }
     }
 
-    public MeleeWeapon _curMeleeWeapon => throw new System.NotImplementedException();
+    public MeleeWeapon _curMeleeWeapon => this.MainHandSocket.curMeleeWeapon;
 
     public Transform _meleeWeaponUserTransform => this.transform;
 
-    public Transform targetTransform;
-    public Transform _targetTransform => this.targetTransform; 
+    public Transform _targetTransform => this.target; 
 
     public bool _isPerformAttackAble 
     {
@@ -41,6 +40,7 @@ public partial class Enemy : IMeleeWeaponUserAble
                 this.isDead
                 || this._isInPain
                 || this._isFallDown
+                || this._posture <= 0
                 )
                 return false;
 
