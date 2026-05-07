@@ -6,7 +6,7 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
     protected Transform aimAtPosition;
     protected Transform bodyAimRootPosRef;
     protected Transform bodyAimRootDirRef;
-    protected IWeaponAdvanceUser weaponAdvanceUser;
+    protected IRangeWeaponAdvanceUser weaponAdvanceUser;
 
     protected float maxHorizontalAngleDeg => this.aimSplineLookConstrainScriptableObject.maxHorizontalDeg;
     protected float maxVerticalAngleDeg => this.aimSplineLookConstrainScriptableObject.maxVerticalDeg;
@@ -14,7 +14,7 @@ public class AimDownSightBodyConstrainNodeLeaf : LookBodyConstraintNodeLeaf
         Transform bodyAimRootPosRef
         , Transform bodyAimRefDir
         , Transform aimAtPosition
-        , IWeaponAdvanceUser weaponAdvanceUser
+        , IRangeWeaponAdvanceUser weaponAdvanceUser
         , BodyLookConstrainManager splineLookConstrain
         ,AimBodyConstrainScriptableObject aimSplineLookConstrainScriptableObject
         ,Func<bool> precondition) : base(splineLookConstrain,aimSplineLookConstrainScriptableObject,precondition)

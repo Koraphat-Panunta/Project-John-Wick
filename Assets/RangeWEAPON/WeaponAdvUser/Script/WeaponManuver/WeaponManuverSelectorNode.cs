@@ -11,7 +11,7 @@ public class WeaponManuverSelectorNode : WeaponManuverNode,INodeSelector
     public NodeSelectorBehavior nodeSelectorBehavior { get; set; }
     public INodeLeaf curNodeLeaf { get ; set ; }
 
-    public WeaponManuverSelectorNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public WeaponManuverSelectorNode(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         childNode = new List<INode>();
         nodePrecondition = new Dictionary<INode, Func<bool>>(); 

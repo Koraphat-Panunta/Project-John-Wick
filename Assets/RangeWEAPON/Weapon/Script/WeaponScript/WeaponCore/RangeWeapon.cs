@@ -63,7 +63,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
     public int curBulletCapacity { get => bulletCap != null ? this.bulletCap.curCount : 0; }
 
 
-    public IWeaponAdvanceUser userWeapon { 
+    public IRangeWeaponAdvanceUser userWeapon { 
         get
         {
             if(curAttatch == null)
@@ -71,7 +71,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
 
             return this.curAttatch.weaponAdvanceUser;
         } }
-    public IGrabWeaponAble curAttatch { get; private set; }
+    public IGrabRangeWeaponAble curAttatch { get; private set; }
     [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
     public WeaponMountComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
     public Rigidbody rb;
@@ -230,7 +230,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
         return true;
     }
 
-    public void SetCurAttatchAble(IGrabWeaponAble weaponAttachingAble)
+    public void SetCurAttatchAble(IGrabRangeWeaponAble weaponAttachingAble)
     {
         this.curAttatch = weaponAttachingAble;
 

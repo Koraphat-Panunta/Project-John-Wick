@@ -21,7 +21,7 @@ public partial class RangeWeapon :
 
     public LayerMask layerHit;
 
-    private IWeaponAdvanceUser userThrowWeapon;
+    private IRangeWeaponAdvanceUser userThrowWeapon;
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -3,13 +3,13 @@ using UnityEngine.Animations;
 
 public static class WeaponAttachingBehavior
 {
-    public static void Attach(Weapon weapon,IGrabWeaponAble weaponAttachingAble,float attatchingDuration)
+    public static void Attach(RangeWeapon weapon,IGrabRangeWeaponAble weaponAttachingAble,float attatchingDuration)
     {
         Attach(weapon,weaponAttachingAble,Vector3.zero,Quaternion.identity,attatchingDuration);
     }
     public static void Attach(
-        Weapon weapon
-        , IGrabWeaponAble weaponAttachingAble
+        RangeWeapon weapon
+        , IGrabRangeWeaponAble weaponAttachingAble
         ,Vector3 additionalOffsetPosition
         ,Quaternion additionalOffsetRotation
         , float attatchingDuration)
@@ -28,18 +28,18 @@ public static class WeaponAttachingBehavior
         }
 
         if (weapon.curAttatch != null)
-            weapon.curAttatch.Detach();
+            weapon.curAttatch.DetachRangeWeapon();
 
         
 
-        weaponAttachingAble.Attatch(weapon,additionalOffsetPosition,additionalOffsetRotation,attatchingDuration);
+        weaponAttachingAble.AttatchRangeWeapon(weapon,additionalOffsetPosition,additionalOffsetRotation,attatchingDuration);
 
        
     }
-    public static void Detach(Weapon weapon, IWeaponAdvanceUser weaponAdvanceUser)
+    public static void Detach(RangeWeapon weapon, IRangeWeaponAdvanceUser weaponAdvanceUser)
     {
         if(weapon.curAttatch != null)
-            weapon.curAttatch.Detach();
+            weapon.curAttatch.DetachRangeWeapon();
 
         if (weapon is PrimaryWeapon)
         {

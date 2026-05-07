@@ -15,7 +15,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     private AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
     public QuickSwitch_Draw_NodeLeaf(
-        IWeaponAdvanceUser weaponAdvanceUser
+        IRangeWeaponAdvanceUser weaponAdvanceUser
         , IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble
         , Func<bool> preCondition
         , AnimationTriggerEventSCRP animationTriggerEventSCRP

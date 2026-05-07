@@ -5,7 +5,7 @@ public class DrawPrimaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
     private float duration = 0.26f;
     private float elapesTime;
-    public DrawPrimaryWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public DrawPrimaryWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
     }
 

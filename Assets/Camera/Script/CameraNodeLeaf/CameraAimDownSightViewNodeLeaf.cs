@@ -7,7 +7,7 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
     
 
 
-    private IWeaponAdvanceUser weaponAdvanceUser;
+    private IRangeWeaponAdvanceUser weaponAdvanceUser;
     private float aimingWeight => weaponAdvanceUser._weaponManuverManager.aimingWeight;
 
     CameraThirdPersonControllerViewScriptableObject aimDownSightViewSCRP;
@@ -38,7 +38,7 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
         CameraController cameraController
         ,CameraThirdPersonControllerViewScriptableObject aimDownSightViewSCRP
         , CameraThirdPersonControllerViewScriptableObject lowReadyViewSCRP
-        , IWeaponAdvanceUser weaponAdvanceUser
+        , IRangeWeaponAdvanceUser weaponAdvanceUser
         , Func<bool> preCondition)
         : base(cameraController, lowReadyViewSCRP, preCondition)
     {

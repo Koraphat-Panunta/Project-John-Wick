@@ -1,44 +1,64 @@
 using UnityEngine;
 
-public class MainHandSocket : MonoBehaviour, IGrabWeaponAble
+public class MainHandSocket : 
+    MonoBehaviour
+    , IGrabRangeWeaponAble
+    ,IGrabMeleeWeaponAble
 {
+
     [SerializeField] private Character character;
     public Transform weaponAttachingAbleTransform => this.transform;
-    public IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
-    public Weapon curWeaponAtSocket { get; private set; }
 
-    public void Attatch(Weapon weapon)
-        => this.Attatch(weapon, Vector3.zero, Quaternion.identity, 0);
+    Transform IGrabAbleObject._grabSocketTransform => this.weaponAttachingAbleTransform;
 
-    public void Attatch(Weapon weapon,
-        Vector3 additionalOffsetPosition,
-        Quaternion additionalOffsetRotation,
-        float attatchingDuration)
+    public IObjectGrabbedAble _currentGrabbedObject { get; private set; }
+
+    
+
+    void IGrabAbleObject.GrabAttach(IObjectGrabbedAble grabAble, Vector3 p, Quaternion r, float d)
     {
-        this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(weapon._reloadSelecotrOverriden);
-        weapon._weaponAttacherComponent.Attach(
-            this.weaponAttachingAbleTransform,
-            weapon._mainHandGripTransform,
-            additionalOffsetPosition,
-            additionalOffsetRotation,
-            attatchingDuration);
+        this._currentGrabbedObject = grabAble;
 
-        this.curWeaponAtSocket = weapon;
-        WeaponSocketBehavior.Attatch(this, weapon);
+        switch (grabAble)
+        {
+            case RangeWeapon rangeWeapon:
+                {
+                    RangeWeaponSocketBehavior.GrabAttach(this.weaponAdvanceUser, this, rangeWeapon, p, r, d);
+                    this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.AddtoChildNode(rangeWeapon._reloadSelecotrOverriden);
+                }
+                break;
+            case MeleeWeapon meleeWeapon:
+                {
+
+                }break;
+        }
+
+       
+    }
+    void IGrabAbleObject.GrabDetach()
+    {
+        RangeWeaponSocketBehavior.GrabDetach(this);
+        this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this.curRangeWeaponAtSocket._reloadSelecotrOverriden);
+        this._currentGrabbedObject = null;
     }
 
-    public void Detach()
-    {
-        this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this.curWeaponAtSocket._reloadSelecotrOverriden);
-        WeaponSocketBehavior.Detach(this);
-        this.curWeaponAtSocket = null;
-    }
 
-    Transform IObjectGrabbedAble.grabSocketTransform => this.weaponAttachingAbleTransform;
-    IGrabAbleObject IObjectGrabbedAble.currentGrabbedObject => this.curWeaponAtSocket as IGrabAbleObject;
-    void IObjectGrabbedAble.GrabAttach(IGrabAbleObject grabAble, Vector3 p, Quaternion r, float d)
-        => WeaponSocketBehavior.GrabAttach(this, grabAble, p, r, d);
-    void IObjectGrabbedAble.GrabDetach() => WeaponSocketBehavior.GrabDetach(this);
+    #region IGrabRangeWeaponAble
+    public IRangeWeaponAdvanceUser weaponAdvanceUser => character as IRangeWeaponAdvanceUser;
+    public RangeWeapon curRangeWeaponAtSocket { get => IGrabAbleObject.GetCurentGrabAbleObjectAs<RangeWeapon>(this); }
+
+    
+
+
+    #endregion
+
+    #region IGrabMeleeWeapon
+    public IMeleeWeaponUserAble _meleeWeaponUser => character as IMeleeWeaponUserAble;
+    public MeleeWeapon curMeleeWeapon => IGrabAbleObject.GetCurentGrabAbleObjectAs<MeleeWeapon>(this);
+
+    #endregion
+
+   
 
     private void OnValidate()
     {

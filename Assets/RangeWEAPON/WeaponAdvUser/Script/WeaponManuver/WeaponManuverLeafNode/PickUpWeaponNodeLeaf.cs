@@ -5,7 +5,7 @@ public class PickUpWeaponNodeLeaf : WeaponManuverLeafNode
 {
     private FindingWeaponBehavior findingWeaponBehavior => weaponAdvanceUser._findingWeaponBehavior;
     private bool isComplete;
-    public PickUpWeaponNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public PickUpWeaponNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
     }
     public override void Enter()

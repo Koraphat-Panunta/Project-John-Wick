@@ -179,7 +179,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
 
     public void LowReady()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
         _enemy.enemyGetShootDirection.SetPointingPos(_enemy.transform.position + _enemy.transform.forward + Vector3.up);
         weaponAdvanceUser._isAimingCommand = false;
         weaponAdvanceUser._isPullTriggerCommand = false;
@@ -187,14 +187,14 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public void AimDownSight()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
         weaponAdvanceUser._isAimingCommand = true;
         _enemy.enemyGetShootDirection.HardSetPointingPos((_enemy.transform.position) + (_enemy.transform.forward) + (Vector3.up*1.25f));
         //Debug.DrawLine(_enemy.transform.position, (_enemy.transform.position) + (_enemy.transform.forward) + (Vector3.up * 1.25f),Color.blue);
     }
     public void AimDownSight(Vector3 aimTargetPos)
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
         _enemy.enemyGetShootDirection.SetPointingPos(aimTargetPos);
 
         if (_enemy.enemyGetShootDirection.outOfHorizontalLimit)
@@ -206,7 +206,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public void PullTrigger()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
 
         if(_enemy._currentWeapon != null
             && _enemy._currentWeapon.curBulletCapacity <= 0 
@@ -218,29 +218,29 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     }
     public void Reload()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
         weaponAdvanceUser._isReloadCommand = true;
     }
     public void PickUpWeapon()
     {
-        IWeaponAdvanceUser weaponAdvanceUser = _enemy as IWeaponAdvanceUser;
+        IRangeWeaponAdvanceUser weaponAdvanceUser = _enemy as IRangeWeaponAdvanceUser;
         weaponAdvanceUser._isPickingUpWeaponCommand = true;
     }
     public void HolsterWeapon()
     {
-        (_enemy as IWeaponAdvanceUser)._isHolsterWeaponCommand = true;
+        (_enemy as IRangeWeaponAdvanceUser)._isHolsterWeaponCommand = true;
     }
     public void DrawWeaponPrimary()
     {
-        (_enemy as IWeaponAdvanceUser)._isDrawPrimaryWeaponCommand = true;
+        (_enemy as IRangeWeaponAdvanceUser)._isDrawPrimaryWeaponCommand = true;
     }
     public void DrawWeaponSecondary()
     {
-        (_enemy as IWeaponAdvanceUser)._isDrawSecondaryWeaponCommand = true;
+        (_enemy as IRangeWeaponAdvanceUser)._isDrawSecondaryWeaponCommand = true;
     }
     public void DropWeapon()
     {
-        (_enemy as IWeaponAdvanceUser)._isDropWeaponCommand = true;
+        (_enemy as IRangeWeaponAdvanceUser)._isDropWeaponCommand = true;
     }
     public void SpinKick()
     {

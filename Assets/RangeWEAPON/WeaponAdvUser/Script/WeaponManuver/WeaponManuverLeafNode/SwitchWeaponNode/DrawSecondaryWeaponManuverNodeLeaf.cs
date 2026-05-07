@@ -6,7 +6,7 @@ public class DrawSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
     private float duration = 0.25f;
     private float elapseTime;
     
-    public DrawSecondaryWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public DrawSecondaryWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
     }
 

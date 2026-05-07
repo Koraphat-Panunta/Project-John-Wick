@@ -15,7 +15,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
     private AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
-    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
+    public QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
 
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
@@ -32,7 +32,7 @@ public class QuickSwitch_HolsterPrimaryWeapon_NodeLeaf : WeaponManuverLeafNode,I
         timer = 0;
         isComplete = false;
         isHolsterPrimaryWeapon = false;
-        secondHandWeapon = weaponAdvanceUser._secondHandSocket.curWeaponAtSocket;
+        secondHandWeapon = weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }

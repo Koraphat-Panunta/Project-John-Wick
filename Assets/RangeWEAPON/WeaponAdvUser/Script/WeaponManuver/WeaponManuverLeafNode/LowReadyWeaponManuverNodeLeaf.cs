@@ -8,7 +8,7 @@ public class LowReadyWeaponManuverNodeLeaf : WeaponManuverLeafNode
     RangeWeapon curWeapon => weaponAdvanceUser._currentWeapon;
 
     public float recoverFormAimDownSight {private get; set; }
-    public LowReadyWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public LowReadyWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
         recoverFormAimDownSight = 2;

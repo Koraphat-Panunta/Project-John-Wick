@@ -5,7 +5,7 @@ public class QuickSwitch_Reload_NodeLeaf : WeaponManuverLeafNode, IQuickSwitchNo
 {
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
-    public QuickSwitch_Reload_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public QuickSwitch_Reload_NodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
     }

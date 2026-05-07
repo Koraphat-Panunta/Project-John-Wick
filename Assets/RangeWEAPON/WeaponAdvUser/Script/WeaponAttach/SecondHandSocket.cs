@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class SecondHandSocket : MonoBehaviour, IGrabWeaponAble
+public class SecondHandSocket : MonoBehaviour, IGrabRangeWeaponAble
 {
     [SerializeField] private Character character;
     public Transform weaponAttachingAbleTransform => this.transform;
-    public IWeaponAdvanceUser weaponAdvanceUser => character as IWeaponAdvanceUser;
-    public Weapon curWeaponAtSocket { get; private set; }
+    public IRangeWeaponAdvanceUser weaponAdvanceUser => character as IRangeWeaponAdvanceUser;
+    public RangeWeapon curRangeWeaponAtSocket { get; private set; }
 
-    public void Attatch(Weapon weapon)
-        => this.Attatch(weapon, Vector3.zero, Quaternion.identity, 0);
+    public void AttatchRangeWeapon(RangeWeapon weapon)
+        => this.AttatchRangeWeapon(weapon, Vector3.zero, Quaternion.identity, 0);
 
-    public void Attatch(Weapon weapon,
+    public void AttatchRangeWeapon(RangeWeapon weapon,
         Vector3 additionalOffsetPosition,
         Quaternion additionalOffsetRotation,
         float attatchingDuration)
@@ -22,21 +22,21 @@ public class SecondHandSocket : MonoBehaviour, IGrabWeaponAble
             additionalOffsetRotation,
             attatchingDuration);
 
-        this.curWeaponAtSocket = weapon;
-        WeaponSocketBehavior.Attatch(this, weapon);
+        this.curRangeWeaponAtSocket = weapon;
+        RangeWeaponSocketBehavior.Attatch(this, weapon);
     }
 
-    public void Detach()
+    public void DetachRangeWeapon()
     {
-        WeaponSocketBehavior.Detach(this);
-        this.curWeaponAtSocket = null;
+        RangeWeaponSocketBehavior.Detach(this);
+        this.curRangeWeaponAtSocket = null;
     }
 
-    Transform IObjectGrabbedAble.grabSocketTransform => this.weaponAttachingAbleTransform;
-    IGrabAbleObject IObjectGrabbedAble.currentGrabbedObject => this.curWeaponAtSocket as IGrabAbleObject;
-    void IObjectGrabbedAble.GrabAttach(IGrabAbleObject grabAble, Vector3 p, Quaternion r, float d)
-        => WeaponSocketBehavior.GrabAttach(this, grabAble, p, r, d);
-    void IObjectGrabbedAble.GrabDetach() => WeaponSocketBehavior.GrabDetach(this);
+    Transform IGrabAbleObject._grabSocketTransform => this.weaponAttachingAbleTransform;
+    IObjectGrabbedAble IGrabAbleObject._currentGrabbedObject => this.curRangeWeaponAtSocket as IObjectGrabbedAble;
+    void IGrabAbleObject.GrabAttach(IObjectGrabbedAble grabAble, Vector3 p, Quaternion r, float d)
+        => RangeWeaponSocketBehavior.GrabAttach(this, grabAble, p, r, d);
+    void IGrabAbleObject.GrabDetach() => RangeWeaponSocketBehavior.GrabDetach(this);
 
     private void OnValidate()
     {

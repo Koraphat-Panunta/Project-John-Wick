@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyWeaponManuver : WeaponNodeManuverManager
 {
     private Enemy enemy => weaponAdvanceUser as Enemy;
-    public EnemyWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser, Enemy enemy) : base(weaponAdvanceUser)
+    public EnemyWeaponManuver(IRangeWeaponAdvanceUser weaponAdvanceUser, Enemy enemy) : base(weaponAdvanceUser)
     {
 
     }

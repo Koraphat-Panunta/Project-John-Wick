@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public partial class Player: IWeaponAdvanceUser
+public partial class Player: IRangeWeaponAdvanceUser
 {
     #region InitailizedWeaponAdvanceUser
 
@@ -78,7 +78,7 @@ public partial class Player: IWeaponAdvanceUser
         }
     }
 
-    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
+    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curRangeWeaponAtSocket; }
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }

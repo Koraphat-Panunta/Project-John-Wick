@@ -14,7 +14,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     private MagazineType weaponMag;
     protected TimelineTriggerEvent timelineTriggerEvent { get; set; }
 
-    protected override IWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ; set { } }
+    protected override IRangeWeaponAdvanceUser weaponAdvanceUser { get => weaponMag._weapon.userWeapon ; set { } }
 
     private AmmoProuch ammoProuch => weaponAdvanceUser._weaponBelt.ammoProuch;
     protected BulletCapacity magazine => weaponMag._weapon.TryGetBulletCapacity(out BulletCapacity bulletCapacity)?bulletCapacity:null;
@@ -27,7 +27,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     protected float endReloadStageNormalizedTime;
 
     public ReloadMagazineFullStageNodeLeaf
-        (IWeaponAdvanceUser weaponUser
+        (IRangeWeaponAdvanceUser weaponUser
         , MagazineType weaponMag
         ,TimelineTriggerEventScriptableObject timelineTriggerEventScriptableObject
         , Func<bool> preCondition) :
@@ -50,7 +50,7 @@ public class ReloadMagazineFullStageNodeLeaf : WeaponManuverLeafNode,IReloadMaga
     
 
     public ReloadMagazineFullStageNodeLeaf
-        (IWeaponAdvanceUser weaponUser
+        (IRangeWeaponAdvanceUser weaponUser
         , MagazineType weaponMag
         , IReloadMagazineNode.ReloadMagazineStage startReloadStage
         , IReloadMagazineNode.ReloadMagazineStage endReloadStage

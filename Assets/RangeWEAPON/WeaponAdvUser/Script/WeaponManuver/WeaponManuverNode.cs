@@ -4,10 +4,10 @@ using UnityEngine;
 public abstract class WeaponManuverNode : INode
 {
 
-    protected virtual IWeaponAdvanceUser weaponAdvanceUser { get; set; }
+    protected virtual IRangeWeaponAdvanceUser weaponAdvanceUser { get; set; }
     public Func<bool> preCondition { get ; set ; }
     public INode parentNode { get ; set ; }
-    public WeaponManuverNode(IWeaponAdvanceUser weaponAdvanceUser,Func<bool> preCondition)
+    public WeaponManuverNode(IRangeWeaponAdvanceUser weaponAdvanceUser,Func<bool> preCondition)
     {
         this.preCondition = preCondition;
         this.weaponAdvanceUser = weaponAdvanceUser;

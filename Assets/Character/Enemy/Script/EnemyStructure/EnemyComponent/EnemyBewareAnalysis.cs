@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class EnemyBewareAnalysis 
 {
-    public static bool IsTargetAimingTo(IWeaponAdvanceUser target,Vector3 aimedPos,float raduisAware,float limitDistance)
+    public static bool IsTargetAimingTo(IRangeWeaponAdvanceUser target,Vector3 aimedPos,float raduisAware,float limitDistance)
     {
         if(target._currentWeapon == null)
             return false;

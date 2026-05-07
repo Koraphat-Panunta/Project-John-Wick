@@ -65,14 +65,14 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
     protected Transform rightHandTransform;
     protected Transform hintRootTransform;
     protected HandArmIKConstraintManager leftHandConstraintManager;
-    protected IWeaponAdvanceUser weaponAdvanceUser;
+    protected IRangeWeaponAdvanceUser weaponAdvanceUser;
     public WeaponLeftHandGripHandConstraintNodeLeaf(
         Func<bool> precondition
         , Transform rightHandTransform
         , Transform hintRootTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         ,  TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP
-        , IWeaponAdvanceUser weaponAdvanceUser
+        , IRangeWeaponAdvanceUser weaponAdvanceUser
         ) : base(precondition)
     {
         this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;

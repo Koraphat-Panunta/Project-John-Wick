@@ -6,7 +6,7 @@ public partial class Player : I_OCM_Attack_Able
     public bool _triggerAttack { get; set; }
     public bool _triggerExecute { get; set; }
     public float triggerGunFuBufferTime { get; set; }
-    public IWeaponAdvanceUser _weaponUser { get; set; }
+    public IRangeWeaponAdvanceUser _weaponUser { get; set; }
     public Vector3 _attackAimDir { get 
         {
             if (this.inputMoveDir_World.magnitude <= 0)

@@ -16,7 +16,7 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode,INodeLeaf
 
     public WeaponManuverLeafNodePhase curPhase { get; protected set; }
 
-    public WeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public WeaponManuverLeafNode(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         nodeLeafBehavior = new NodeLeafBehavior();
 

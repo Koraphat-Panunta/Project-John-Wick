@@ -25,7 +25,7 @@ public class PrimaryToSecondarySwitchWeaponManuverLeafNode : WeaponManuverLeafNo
     private float holsterPrimaryWeaponTime = 0.3f;
     private float drawSecondaryWeaponTime = 0.3f;
 
-    public PrimaryToSecondarySwitchWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public PrimaryToSecondarySwitchWeaponManuverLeafNode(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
 

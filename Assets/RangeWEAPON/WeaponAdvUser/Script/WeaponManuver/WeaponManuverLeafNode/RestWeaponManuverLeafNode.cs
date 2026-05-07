@@ -9,7 +9,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
     private float recoverFormAimDownSight = 2.5f;
 
 
-    public RestWeaponManuverLeafNode(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public RestWeaponManuverLeafNode(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         this.curWeapon = weaponAdvanceUser._currentWeapon;
         this.weaponAfterAction = weaponAdvanceUser._weaponAfterAction;

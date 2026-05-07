@@ -12,7 +12,7 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get; set; }
 
-    public QuickSwitch_HolsterSecondaryWeapon_NodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
+    public QuickSwitch_HolsterSecondaryWeapon_NodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser,IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
         this.animationTriggerEventSCRP = animationTriggerEventSCRP;
         this.quickSwitchWeaponManuverAble = quickSwitchWeaponManuverAble;
@@ -36,7 +36,7 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
     {
         if(isHolsterSecondaryWeapon && isComplete == false)
         {
-            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
+            WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
@@ -58,7 +58,7 @@ public class QuickSwitch_HolsterSecondaryWeapon_NodeLeaf : WeaponManuverLeafNode
     }
     private void DrawPrimary()
     {
-        WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
+        WeaponAttachingBehavior.Attach(weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket, weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
         isComplete = true;
         weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }

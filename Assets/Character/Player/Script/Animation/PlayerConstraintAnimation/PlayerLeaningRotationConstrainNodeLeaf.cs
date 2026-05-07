@@ -7,14 +7,14 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 {
     public LeaningRotaionScriptableObject leaningScriptableObject { get; protected set; }
     private LeaningRotation leaningRotation;
-    private IWeaponAdvanceUser weaponAdvanceUser;
+    private IRangeWeaponAdvanceUser weaponAdvanceUser;
     private float checkDistance => leaningScriptableObject.checkDistance;
     private int numberRaycast => leaningScriptableObject.numberRaycast;
     private float targetLeanWeight;
     private float leaningSpeed => leaningScriptableObject.leaningSpeed;
     private Player player;
     private Vector3 playerCastAnchorPos => player.RayCastPos.position;
-    public PlayerLeaningRotationConstrainNodeLeaf(Player player,LeaningRotaionScriptableObject leaningScriptableObject,LeaningRotation leaningRotation,IWeaponAdvanceUser weaponAdvanceUser,Func<bool> precondition) : base(precondition)
+    public PlayerLeaningRotationConstrainNodeLeaf(Player player,LeaningRotaionScriptableObject leaningScriptableObject,LeaningRotation leaningRotation,IRangeWeaponAdvanceUser weaponAdvanceUser,Func<bool> precondition) : base(precondition)
     {
         this.leaningScriptableObject = leaningScriptableObject;
         this.leaningRotation = leaningRotation;

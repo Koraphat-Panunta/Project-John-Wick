@@ -139,7 +139,7 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
             isSprint = false;
         }
 
-        AimDownSightWeight = (enemy as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
+        AimDownSightWeight = (enemy as IRangeWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
 
         this.DotVelocityWorld_Leftward_Normalized = Vector3.Dot(
             Vector3.Cross(enemy.transform.forward, Vector3.up).normalized

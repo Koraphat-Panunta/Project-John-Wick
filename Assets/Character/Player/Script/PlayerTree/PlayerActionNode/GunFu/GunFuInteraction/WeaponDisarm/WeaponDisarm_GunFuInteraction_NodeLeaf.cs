@@ -45,7 +45,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         isComplete = false;
         gotGunFuAttackedAble = player.attackedAbleGunFu;
-        disarmedWeapon = (gotGunFuAttackedAble as IWeaponAdvanceUser)._currentWeapon;
+        disarmedWeapon = (gotGunFuAttackedAble as IRangeWeaponAdvanceUser)._currentWeapon;
         this.subject_Disarmer.RestartSubject(gunFuAble._character, gotGunFuAttackedAble._character.transform.position, gotGunFuAttackedAble._character.transform.forward);
         this.subject_Disarmed.RestartSubject(gotGunFuAttackedAble._character, gotGunFuAttackedAble._character.transform.position, gotGunFuAttackedAble._character.transform.forward);
         this.animationTriggerEventPlayer.Rewind();

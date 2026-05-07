@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public partial class RangeWeapon : IGrabAbleObject
+public partial class RangeWeapon : IObjectGrabbedAble
 {
-    public Transform grabAbleTransform => this.transform;
-    public Transform defaultGrabPoint => this._mainHandGripTransform;
-    public MountComponent mountComponent => this._weaponAttacherComponent;
-    public Rigidbody grabAbleRigidbody => this.rb;
-    public Collider grabAbleCollider => this._collider;
+    public Transform _grabAbleTransform => this.transform;
+    public Transform _defaultGrabPoint => this._mainHandGripTransform;
+    public MountComponent _mountComponent => this._weaponAttacherComponent;
+    public Rigidbody _grabAbleRigidbody => this.rb;
+    public Collider _grabAbleCollider => this._collider;
 
-    IObjectGrabbedAble IGrabAbleObject.currentGrabbedAt => this.curAttatch as IObjectGrabbedAble;
+    IGrabAbleObject IObjectGrabbedAble._currentGrabbedAt => this.curAttatch as IGrabAbleObject;
 
-    void IGrabAbleObject.SetCurrentGrabbedAt(IObjectGrabbedAble socket)
+    void IObjectGrabbedAble.SetCurrentGrabbedAt(IGrabAbleObject socket)
     {
-        this.SetCurAttatchAble(socket as IGrabWeaponAble);
+        this.SetCurAttatchAble(socket as IGrabRangeWeaponAble);
     }
 }

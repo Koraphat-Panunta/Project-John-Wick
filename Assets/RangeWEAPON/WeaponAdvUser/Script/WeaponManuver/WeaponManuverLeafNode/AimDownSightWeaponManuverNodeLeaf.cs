@@ -34,7 +34,7 @@ public class AimDownSightWeaponManuverNodeLeaf : WeaponManuverLeafNode
         Exit
     }
     public AimDownSightPhase curPhase { get; protected set; }
-    public AimDownSightWeaponManuverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    public AimDownSightWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
     {
         weaponAfterAction = weaponAdvanceUser._weaponAfterAction;
     }

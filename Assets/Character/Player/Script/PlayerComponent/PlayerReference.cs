@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
+public class PlayerReference : MonoBehaviour,IRangeWeaponAdvanceUser
 {
     [SerializeField] private Player player;
     public Animator _weaponUserAnimator { get => player.animator; set => player.animator = value; }

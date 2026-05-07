@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrouchWeightSoftCoverNodeLeaf : AnimationNodeLeaf
 {
-    IWeaponAdvanceUser weaponAdvanceUser;
+    IRangeWeaponAdvanceUser weaponAdvanceUser;
     private float crouchWeight;
     private float crouchWeightOffset;
 
@@ -13,7 +13,7 @@ public class CrouchWeightSoftCoverNodeLeaf : AnimationNodeLeaf
     private float crouchUpdateTimeInterval = 0.25f;
     private float crouchUpdateTimer;
     public float checkDistance { get; }
-    public CrouchWeightSoftCoverNodeLeaf(IWeaponAdvanceUser weaponAdvanceUser,
+    public CrouchWeightSoftCoverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser,
         float crouchWeightOffset,float checkDistance, Func<bool> preCondition) : base(preCondition)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;

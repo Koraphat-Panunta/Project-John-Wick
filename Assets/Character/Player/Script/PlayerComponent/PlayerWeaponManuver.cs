@@ -6,7 +6,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
 {
     private Player player => weaponAdvanceUser as Player;
 
-    public PlayerWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser, Player player) : base(weaponAdvanceUser)
+    public PlayerWeaponManuver(IRangeWeaponAdvanceUser weaponAdvanceUser, Player player) : base(weaponAdvanceUser)
     {
 
     }
@@ -169,7 +169,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
         }
         set { }
     }
-    public IWeaponAdvanceUser _weaponAdvanceUser { get => weaponAdvanceUser; set { } }
+    public IRangeWeaponAdvanceUser _weaponAdvanceUser { get => weaponAdvanceUser; set { } }
     #endregion
 
     #endregion
@@ -268,7 +268,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             || weaponAdvanceUser._isReloadCommand)
             && isSwitchWeaponManuverAble
             && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon
-            && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            && weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket != null
             , "QuickSwitchExitSelector");
 
         quickSwitch_HolsterSecondHandWeapon_To_Reload = new QuickSwitch_HolsterPrimaryWeapon_NodeLeaf(this.weaponAdvanceUser, this
@@ -324,13 +324,13 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             , () =>
             isAimingManuverAble
             && weaponAdvanceUser._isAimingCommand
-            && weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            && weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket != null
             && isQuickSwtichWeaponManuverAble);
         quickSwitch_LowReady_NodeLeaf = new QuickSwitch_LowReady_NodeLeaf(
             this.weaponAdvanceUser
             , this
             , player.quickSwitchHoldOffset
-            , () => weaponAdvanceUser._secondHandSocket.curWeaponAtSocket != null
+            , () => weaponAdvanceUser._secondHandSocket.curRangeWeaponAtSocket != null
             && isQuickSwtichWeaponManuverAble);
 
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,

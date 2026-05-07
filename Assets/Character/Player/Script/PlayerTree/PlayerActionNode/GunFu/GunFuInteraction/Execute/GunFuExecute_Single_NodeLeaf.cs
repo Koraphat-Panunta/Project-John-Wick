@@ -7,7 +7,7 @@ public class GunFuExecute_Single_NodeLeaf :
     , IGunFuExecuteNodeLeaf
     , IDamageVisitor
 {
-    public IWeaponAdvanceUser weaponAdvanceUser;
+    public IRangeWeaponAdvanceUser weaponAdvanceUser;
     public I_OCM_Attack_Able gunFuAble { get; set; }
     public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     public ExecuteMethod executeMethod;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public partial class Enemy : IWeaponAdvanceUser
+public partial class Enemy : IRangeWeaponAdvanceUser
 {
     [SerializeField] public Transform pointingTransform;
 
@@ -22,7 +22,7 @@ public partial class Enemy : IWeaponAdvanceUser
     public SecondHandSocket _secondHandSocket { get => this.SecondHandSocket; set => this.SecondHandSocket = value; }
 
     public Animator _weaponUserAnimator { get; set; }
-    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curWeaponAtSocket; }
+    public RangeWeapon _currentWeapon { get => this._mainHandSocket.curRangeWeaponAtSocket; }
 
     public Vector3 _shootingPos
     {

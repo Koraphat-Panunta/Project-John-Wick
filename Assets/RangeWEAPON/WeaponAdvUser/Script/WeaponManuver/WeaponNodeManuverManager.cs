@@ -8,7 +8,7 @@ public abstract class WeaponNodeManuverManager : INodeManager
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get; set; }
 
-    public IWeaponAdvanceUser weaponAdvanceUser;
+    public IRangeWeaponAdvanceUser weaponAdvanceUser;
     public MovementCompoent movementCompoent;
     public RangeWeapon curWeapon => weaponAdvanceUser._currentWeapon;
 
@@ -35,7 +35,7 @@ public abstract class WeaponNodeManuverManager : INodeManager
     public abstract NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
     public List<INodeManager> _parallelNodeManahger { get ; set ; }
 
-    public WeaponNodeManuverManager(IWeaponAdvanceUser weaponAdvanceUser)
+    public WeaponNodeManuverManager(IRangeWeaponAdvanceUser weaponAdvanceUser)
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
         this.startNodeSelector = new WeaponManuverSelectorNode(weaponAdvanceUser, () => true);

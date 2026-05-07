@@ -17,7 +17,7 @@ public class AttatchWeaponEventVirtualEventNode : VirtualEventNode
     {
         if(curWeapon != null 
             && weaponUser != null
-            && weaponUser is IWeaponAdvanceUser weaponAdvanceUser)
+            && weaponUser is IRangeWeaponAdvanceUser weaponAdvanceUser)
         {
             switch (attachType)
             {

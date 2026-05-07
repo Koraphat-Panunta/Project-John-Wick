@@ -19,7 +19,7 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
     }
     public void SpawnWeapon(GameObject weaponAdvanceUser)
     {
-        if (weaponAdvanceUser.TryGetComponent<IWeaponAdvanceUser>(out IWeaponAdvanceUser weaponUser))
+        if (weaponAdvanceUser.TryGetComponent<IRangeWeaponAdvanceUser>(out IRangeWeaponAdvanceUser weaponUser))
         {
             this.SpawnWeapon(weaponUser);
         }
@@ -27,7 +27,7 @@ public class WeaponObjectManager : MonoBehaviour , IInitializedAble
             throw new System.Exception("the parameter is not weaponAdvanceUser");
        
     }
-    public RangeWeapon SpawnWeapon(IWeaponAdvanceUser weaponAdvanceUser)
+    public RangeWeapon SpawnWeapon(IRangeWeaponAdvanceUser weaponAdvanceUser)
     {
         RangeWeapon weapon = this.SpawnWeapon(Vector3.zero, Quaternion.identity);
         WeaponAttachingBehavior.Attach(weapon, weaponAdvanceUser._mainHandSocket,0);
