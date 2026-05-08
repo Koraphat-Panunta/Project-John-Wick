@@ -36,7 +36,19 @@ public partial class Player : I_OCM_Attack_Able
 
     public Animator _gunFuAnimator => animator;
 
-    Character I_OCM_Attack_Able._character => this;
+    Character IMeleeAttackerAble._character => this;
+    Transform IMeleeAttackerAble._attackerTransform => this.transform;
+    MeleeAttackingPhase IMeleeAttackerAble._curAttackPhase
+    {
+        get
+        {
+            if (this._triggerExecute)
+                return MeleeAttackingPhase.Attacking;
+            if (this._triggerAttack)
+                return MeleeAttackingPhase.PreAttack;
+            return MeleeAttackingPhase.None;
+        }
+    }
 
     [SerializeField] public GunFuHitScriptableObject hit1;
     [SerializeField] public GunFuHitScriptableObject hit2;

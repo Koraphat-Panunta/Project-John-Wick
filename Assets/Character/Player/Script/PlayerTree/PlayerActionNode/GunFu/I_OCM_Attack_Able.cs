@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface I_OCM_Attack_Able
+public interface I_OCM_Attack_Able : IMeleeAttackerAble
 {
     public Animator _gunFuAnimator { get; }
     public bool _triggerAttack { get; set; }
@@ -12,7 +12,6 @@ public interface I_OCM_Attack_Able
     public I_Got_OCM_Attacked_Able attackedAbleGunFu { get; set; }
     public I_Got_OCM_Attacked_Able executedAbleGunFu { get; set; }
     public I_OCM_Node curGunFuNode { get; set; }
-    public Character _character { get; }
     public void InitailizedGunFuComponent();
     public void UpdateDetectingTarget();
 }

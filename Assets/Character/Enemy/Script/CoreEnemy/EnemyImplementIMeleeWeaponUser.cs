@@ -55,6 +55,22 @@ public partial class Enemy : IMeleeWeaponUserAble
 
     public IGrabMeleeWeaponAble _grabMeleeWeaponAble => this.MainHandSocket;
 
+    Transform IMeleeAttackerAble._attackerTransform => this.transform;
+    MeleeAttackingPhase IMeleeAttackerAble._curAttackPhase
+    {
+        get
+        {
+            MeleeAttackingPhase meleePhase = this._curMeleeAttackPhase;
+            if (meleePhase != MeleeAttackingPhase.None)
+                return meleePhase;
+
+            if (this._triggerAttack)
+                return MeleeAttackingPhase.PreAttack;
+
+            return MeleeAttackingPhase.None;
+        }
+    }
+
     public void OnNotifyMeleeAttack<T>(T var)
     {
         this.NotifyObserver<T>(this, var);

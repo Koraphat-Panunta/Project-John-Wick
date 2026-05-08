@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IMeleeWeaponUserAble 
+public interface IMeleeWeaponUserAble : IMeleeAttackerAble
 {
     public IMeleeAttackNodeLeaf _curMeleeNodeLeaf { get; }
     public MeleeAttackingPhase _curMeleeAttackPhase { get; }
