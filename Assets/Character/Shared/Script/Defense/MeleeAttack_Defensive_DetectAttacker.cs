@@ -24,6 +24,7 @@ public class MeleeAttack_Defensive_DetectAttacker : MonoBehaviour, IInitializedA
     {
         MeleeAttackingPhase.Anticipate,
         MeleeAttackingPhase.PreAttack,
+        MeleeAttackingPhase.Attacking,
     };
 
     [SerializeField] private bool EnableDebug;

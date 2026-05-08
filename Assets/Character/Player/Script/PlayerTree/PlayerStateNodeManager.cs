@@ -85,6 +85,8 @@ public class PlayerStateNodeManager :
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_OnGround { get; protected set; }
 
+    public ParryNodeLeaf parryNodeLeaf { get; private set; }
+
     public NodeSelector triggerHitGunFuSelector { get; private set; }
     public GunFuHitDownNodeLeaf hitDownNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf hit1gunFuNodeLeaf { get; private set; }
@@ -270,6 +272,15 @@ public class PlayerStateNodeManager :
        
        
 
+        this.parryNodeLeaf = new ParryNodeLeaf(
+            this.player,
+            () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
+            && this.player._currentWeapon != null
+            && this.player.meleeAttackerAble != null
+            && (this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.PreAttack
+                || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Attacking),
+            this.player.parryScriptableObject);
+
         this.triggerHitGunFuSelector = new NodeSelector(
             () =>this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false
@@ -360,6 +371,7 @@ public class PlayerStateNodeManager :
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuOnGroundSelector);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuSelector);
+        stanceSelectorNode.AddtoChildNode(this.parryNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.triggerHitGunFuSelector);
         stanceSelectorNode.AddtoChildNode(playerThrowWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);
