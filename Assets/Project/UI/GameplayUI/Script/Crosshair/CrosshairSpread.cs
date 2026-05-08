@@ -72,7 +72,7 @@ public class CrosshairSpread : ICrosshairAction
         this._crosshairController = crosshairController;
         this.crosshairBloom_rate = 0;
     }
-    public void Performed(Weapon weapon)
+    public void Performed(RangeWeapon weapon)
     {
         this.Performed(Mathf.Lerp(_crosshairController.crosshairBloomRange.x,_crosshairController.crosshairBloomRange.y,weapon.Recoil_CrosshairBloom));
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using static GunFuExecute_Single_NodeLeaf;
 
-public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
+public interface IGunFuExecuteNodeLeaf : INodeLeaf,I_OCM_Node
 {
     public enum GunFuExecutePhase
     {
@@ -16,7 +16,7 @@ public interface IGunFuExecuteNodeLeaf : INodeLeaf,IGunFuNode
 }
 public class BulletExecute : Bullet
 {
-    public BulletExecute(Weapon weapon) : base(weapon)
+    public BulletExecute(RangeWeapon weapon) : base(weapon)
     {
         myType = weapon.bullet.myType;
         _pureDestructionDamage = weapon.bullet.GetDestructionDamage * 3;

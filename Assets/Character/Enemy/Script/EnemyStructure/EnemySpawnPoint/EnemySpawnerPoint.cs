@@ -11,7 +11,7 @@ public class EnemySpawnerPoint : MonoBehaviour
     {
         Enemy enemy = this.SpawnEnemy(enemyObjectManager, weaponObjectManager);
 
-        if (enemy.TryGetComponent<EnemyRoleBasedDecision>(out EnemyRoleBasedDecision enemyRoleBasedDecision))
+        if (enemy.TryGetComponent<IEnemyDirectedAble>(out IEnemyDirectedAble enemyRoleBasedDecision))
             enemyDirector.AddEnemy(enemyRoleBasedDecision);
         else
             throw new Exception("Can not get enemyRoleBasedDicision " + enemy);
@@ -22,7 +22,7 @@ public class EnemySpawnerPoint : MonoBehaviour
     {
 
         Enemy enemy = this.SpawnEnemy(enemyObjectManager);
-        Weapon weapon = weaponObjectManager.SpawnWeapon(enemy);
+        RangeWeapon weapon = weaponObjectManager.SpawnWeapon(enemy);
 
         return enemy;
     }

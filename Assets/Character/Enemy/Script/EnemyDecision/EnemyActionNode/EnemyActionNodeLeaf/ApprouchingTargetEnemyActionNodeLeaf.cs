@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
-    private IEnemyActionNodeManagerImplementDecision enemyActionNodeManager;
+    private EnemyDecisionContext enemyActionNodeManager;
     public EnemyMoveCurvePath curvePath;
     private const float MIN_CURVE_MOVE = 4;
     private const float MAX_CURVE_MOVE = 8;
@@ -11,10 +11,11 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
     private const float MAX_APPROUCH_TIME = 9;
     private float approuchingTime;
     private float approuchCooldOWN;
-    public ApprouchingTargetEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyDecision enemyDecision, IEnemyActionNodeManagerImplementDecision enemyActionNodeManager) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
+    public ApprouchingTargetEnemyActionNodeLeaf(
+        Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyDecision enemyDecision, EnemyDecisionContext enemyDecisionContext) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
         curvePath = new EnemyMoveCurvePath(MIN_CURVE_MOVE,MAX_CURVE_MOVE);
-        this.enemyActionNodeManager = enemyActionNodeManager;
+        this.enemyActionNodeManager = enemyDecisionContext;
     }
 
     public override void Enter()
@@ -61,16 +62,16 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
     {
         approuchingTime -= Time.deltaTime;
 
-        switch (enemyActionNodeManager._curCombatPhase)
+        switch (enemyActionNodeManager.combatPhase)
         {
-            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Alert:
+            case CombatPhase.Alert:
                 {
                     enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                     enemyCommandAPI.NormalFiringPattern.Performing();
 
                 }
                 break;
-            case IEnemyActionNodeManagerImplementDecision.CombatPhase.Aware:
+            case CombatPhase.Aware:
                 {
                     enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
                 }

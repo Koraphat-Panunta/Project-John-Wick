@@ -280,8 +280,6 @@ public class CharacterMovementController : MonoBehaviour
 
         this.transform.position = this.position;
         this.transformPositionCheck = this.transform.position;
-
-      
     }
 
     public void UpdateCharacterRotation()

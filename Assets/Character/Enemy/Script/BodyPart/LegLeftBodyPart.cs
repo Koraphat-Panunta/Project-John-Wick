@@ -9,7 +9,7 @@ public class LegLeftBodyPart : BodyPart
     {
         base.TakeDamage(damageVisitor);
     }
-    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
 
         TakeDamage(damageVisitor);

@@ -3,16 +3,16 @@ using UnityEngine;
 public class NormalFiringPatternEnemyDirectorBased : NormalFiringPattern
 {
     private EnemyDirector enemyDirector { get; set; }
-    private EnemyRoleBasedDecision enemyRoleBasedDecision { get; set; }
-    public NormalFiringPatternEnemyDirectorBased(EnemyCommandAPI enemyController,EnemyDirector enemyDirector, EnemyRoleBasedDecision enemyRoleBasedDecision) : base(enemyController)
+    private IEnemyDirectedAble enemyDirectedAble { get; set; }
+    public NormalFiringPatternEnemyDirectorBased(EnemyCommandAPI enemyController,EnemyDirector enemyDirector, IEnemyDirectedAble enemyRoleBasedDecision) : base(enemyController)
     {
 
         this.enemyDirector = enemyDirector;
-        this.enemyRoleBasedDecision = enemyRoleBasedDecision;
+        this.enemyDirectedAble = enemyRoleBasedDecision;
     }
     protected override void WillShoot()
     {
-        if (enemyDirector.GetShooterPermission(enemyRoleBasedDecision))
+        if (this.enemyDirector.GetShooterPermission(this.enemyDirectedAble))
             base.WillShoot();
     }
 

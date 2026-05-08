@@ -9,7 +9,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         {
             try
             {
-                Weapon curWeapon = this.weaponAdvanceUser._currentWeapon;
+                RangeWeapon curWeapon = this.weaponAdvanceUser._currentWeapon;
                 Vector3 offset = curWeapon._SecondHandGripTransform.localPosition - curWeapon._mainHandGripTransform.localPosition;
                 return offset;
             }
@@ -26,7 +26,7 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
         {
             try
             {
-                Weapon curWeapon = this.weaponAdvanceUser._currentWeapon;
+                RangeWeapon curWeapon = this.weaponAdvanceUser._currentWeapon;
                 Quaternion resutl = curWeapon._SecondHandGripTransform.localRotation * Quaternion.Inverse(curWeapon._mainHandGripTransform.localRotation);
                 return resutl;
             }
@@ -65,14 +65,14 @@ public class WeaponLeftHandGripHandConstraintNodeLeaf : AnimationConstrainNodeLe
     protected Transform rightHandTransform;
     protected Transform hintRootTransform;
     protected HandArmIKConstraintManager leftHandConstraintManager;
-    protected IWeaponAdvanceUser weaponAdvanceUser;
+    protected IRangeWeaponAdvanceUser weaponAdvanceUser;
     public WeaponLeftHandGripHandConstraintNodeLeaf(
         Func<bool> precondition
         , Transform rightHandTransform
         , Transform hintRootTransform
         , HandArmIKConstraintManager leftHandConstraintManager
         ,  TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP
-        , IWeaponAdvanceUser weaponAdvanceUser
+        , IRangeWeaponAdvanceUser weaponAdvanceUser
         ) : base(precondition)
     {
         this.handIK_ConstraintSCRP = handIK_ConstraintSCRP;

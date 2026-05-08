@@ -1,0 +1,64 @@
+using UnityEngine;
+
+[RequireComponent(typeof(Collider))]
+public partial class RangeWeapon : 
+    IThrowAbleObject
+    ,IPostureDamageVisitor
+{
+    public bool _isTriggerThrow { get; set; }
+    public Transform _throwAbleObjectTransform { get => this.transform; set { } }
+    public ObjectIsBeenThrowNodeLeaf _objectIsBeenThrowNodeLeaf { get; set; }
+    public Vector3 _targetThrowAtPosition { get; set; }
+    public IThrowObjectAble _throwerObject { get; set; }
+    public IBeenThrewObjectAt _targetBeenThrowAbleObjectAt { get; set; }
+    [Range(0,100)]
+    [SerializeField] private float throwVelocity;
+    public float _throwVelocity { get => this.throwVelocity; set => this.throwVelocity = value; }
+    public Rigidbody _throwAbleObjectRigidBody { get => rb; set => rb = value; }
+    public bool _isBeenThrow { get ; set ; }
+
+    public float _postureDamageVisitor => 45;
+
+    public LayerMask layerHit;
+
+    private IRangeWeaponAdvanceUser userThrowWeapon;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(_objectIsBeenThrowNodeLeaf != null)
+            _objectIsBeenThrowNodeLeaf.OnColliderHit(collision.collider);
+    }
+
+    public void Throw(IThrowObjectAble throwerObject, IBeenThrewObjectAt beenThrewObjectAt,LayerMask layerHit)
+    {
+        this._targetBeenThrowAbleObjectAt = beenThrewObjectAt;
+        this.Throw(throwerObject,beenThrewObjectAt._beenThrowObjectAtPosition,layerHit);
+    }
+
+    public void Throw(IThrowObjectAble throwerObject, Vector3 targetPosition,LayerMask layerHit)
+    {
+
+
+        this.layerHit = layerHit;
+
+        if (this.userWeapon != null)
+        {
+            this.userThrowWeapon = this.userWeapon;
+            WeaponAttachingBehavior.Detach(this, this.userWeapon);
+        }
+
+        _isTriggerThrow = true;
+        this._throwerObject = throwerObject;
+
+        this._targetThrowAtPosition = targetPosition;
+    }
+
+    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
+    {
+        if(this.userThrowWeapon != null
+            && this.userThrowWeapon is IDamageVisitor damageVisitor)
+        {
+            damageVisitor.OnNotifyFeedBackVisitor(damageAble);
+        }
+    }
+}

@@ -56,7 +56,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , standPistolAimSplineLookConstrainScriptableObject
             , () => this.player._currentWeapon != null
             && this.player._weaponManuverManager.aimingWeight > 0
-            && this.playerStateManager.TryGetCurNodeLeaf<IGunFuNode>() == false
+            && this.playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>() == false
             );
 
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
@@ -382,7 +382,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             this.playerStateManager.GetCurNodeLeaf() is GunFuExecute_Single_NodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is GunFuHitNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf
-            || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             ) == false
             &&

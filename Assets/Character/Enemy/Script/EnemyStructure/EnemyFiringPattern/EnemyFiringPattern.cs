@@ -8,7 +8,7 @@ public abstract class EnemyFiringPattern
     public abstract bool isReadyToShoot { get; set; }
     protected Enemy enemy;
     protected EnemyCommandAPI enemyController;
-    protected Weapon curWeapon => enemy._currentWeapon;
+    protected RangeWeapon curWeapon => enemy._currentWeapon;
 
     public EnemyFiringPattern(EnemyCommandAPI enemyController)
     {

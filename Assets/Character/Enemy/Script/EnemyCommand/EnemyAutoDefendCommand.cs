@@ -4,7 +4,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
 {
     protected EnemyCommandAPI enemyCommandAPI;
     protected Enemy enemy;
-    protected IWeaponAdvanceUser targerFireArmed;
+    protected IRangeWeaponAdvanceUser targerFireArmed;
 
     public float dodgeCoolDownTimer;
     protected float minDodgeCoolDownTime = 8;
@@ -42,7 +42,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         {
 
             if (this.enemy.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
-                && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
+                && enemyAITargeted.selfEnemyAIBeenTargeted is IRangeWeaponAdvanceUser weaponAdvanceUser)
             {
                 //Debug.Log("this.targerFireArmed = weaponAdvanceUser;");
                 this.targerFireArmed = weaponAdvanceUser;
@@ -58,7 +58,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
         {
 
             if (this.enemy.target.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted enemyAITargeted)
-                && enemyAITargeted.selfEnemyAIBeenTargeted is IWeaponAdvanceUser weaponAdvanceUser)
+                && enemyAITargeted.selfEnemyAIBeenTargeted is IRangeWeaponAdvanceUser weaponAdvanceUser)
             {
                 this.targerFireArmed = weaponAdvanceUser;
             }

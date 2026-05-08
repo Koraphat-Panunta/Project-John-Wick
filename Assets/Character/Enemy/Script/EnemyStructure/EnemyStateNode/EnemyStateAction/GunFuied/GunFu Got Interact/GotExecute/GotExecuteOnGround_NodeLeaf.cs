@@ -8,9 +8,9 @@ public class GotExecuteOnGround_NodeLeaf : EnemyStateLeafNode,IGotGunFuExecuteNo
     private Animator _animator => enemy.animator;
 
 
-    public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
+    public I_Got_OCM_Attacked_Able _gotExecutedGunFu => enemy;
 
-    public IGunFuAble _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
+    public I_OCM_Attack_Able _executerGunFu => _gotExecutedGunFu.gunFuAbleAttacker;
 
     GotExecutedStateName IGotGunFuExecuteNodeLeaf._gotExecutedStateName => this.gotExecutedStateName;
     private GotExecutedStateName gotExecutedStateName;

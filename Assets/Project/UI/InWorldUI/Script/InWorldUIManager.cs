@@ -51,7 +51,7 @@ public class InWorldUIManager : MonoBehaviour,IInitializedAble
             interactableInWorldUI, 
             mainCamera,
             player,
-            LayerMask.GetMask("Weapon"),
+            LayerMask.GetMask("RangeWeapon"),
             Vector3.zero
             );
         doorInteractablePointUIManagerNodeLeaf = new DoorInteractablePointUIManagerNodeLeaf(

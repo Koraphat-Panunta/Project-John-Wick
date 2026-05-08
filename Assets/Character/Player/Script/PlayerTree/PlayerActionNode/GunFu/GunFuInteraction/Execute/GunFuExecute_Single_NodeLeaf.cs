@@ -7,9 +7,9 @@ public class GunFuExecute_Single_NodeLeaf :
     , IGunFuExecuteNodeLeaf
     , IDamageVisitor
 {
-    public IWeaponAdvanceUser weaponAdvanceUser;
-    public IGunFuAble gunFuAble { get; set; }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public IRangeWeaponAdvanceUser weaponAdvanceUser;
+    public I_OCM_Attack_Able gunFuAble { get; set; }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     public ExecuteMethod executeMethod;
 
     public AnimationInteractScriptableObject _gunFuExecuteInteractSCRP { get => this.gunFuExecuteInteractSCRP; }
@@ -24,7 +24,7 @@ public class GunFuExecute_Single_NodeLeaf :
     GunFuExecuteStateName IGunFuExecuteNodeLeaf._executeStateName { get => executeStateName; set => executeStateName = value; }
     private GunFuExecuteStateName executeStateName;
 
-    string IGunFuNode._stateName => executeStateName.ToString();
+    string I_OCM_Node._stateName => executeStateName.ToString();
 
     public SubjectAnimationInteract gunFuAble_SubjectInteract;
     public SubjectAnimationInteract got_GunFuAttacked_SubjectInteract;

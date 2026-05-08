@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyWeaponManuver : WeaponNodeManuverManager
 {
     private Enemy enemy => weaponAdvanceUser as Enemy;
-    public EnemyWeaponManuver(IWeaponAdvanceUser weaponAdvanceUser, Enemy enemy) : base(weaponAdvanceUser)
+    public EnemyWeaponManuver(IRangeWeaponAdvanceUser weaponAdvanceUser, Enemy enemy) : base(weaponAdvanceUser)
     {
 
     }
@@ -154,12 +154,12 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
            && isSwitchWeaponManuverAble
-           && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as Weapon 
+           && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon 
            && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
         primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => weaponAdvanceUser._isDrawSecondaryWeaponCommand
            && isSwitchWeaponManuverAble
-           && curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as Weapon
+           && curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
 
         holsterWeaponSelector = new NodeSelector(

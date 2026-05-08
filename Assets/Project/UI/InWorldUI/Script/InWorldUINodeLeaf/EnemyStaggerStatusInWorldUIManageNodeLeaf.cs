@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
 {
     private FieldOfView fieldOfView;
-    private IGunFuAble gunFuAble;
+    private I_OCM_Attack_Able gunFuAble;
     private ObjectPooling<InWorldUI> objectPooling;
     private Camera camera;
     private LayerMask enemyMask;
     public Dictionary<Enemy, InWorldUI> assignInWorldEnemy;
     public EnemyStaggerStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
         ,Camera camera
-        ,IGunFuAble gunFuAble
+        ,I_OCM_Attack_Able gunFuAble
         , InWorldUI enemyStatusInWorldUI) : base(preCondition)
     {
         this.fieldOfView = new FieldOfView(19f,90,camera.transform);
@@ -77,7 +77,7 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
             assignInWorldEnemy[enemy].PlayAnimation("ExecuteTrigger");
             return true;
         }
-        else if(gunFuAble.executedAbleGunFu  == enemy as IGotGunFuAttackedAble)
+        else if(gunFuAble.executedAbleGunFu  == enemy as I_Got_OCM_Attacked_Able)
         {
             assignInWorldEnemy[enemy].PlayAnimation("ExecuteAble");
             return true;

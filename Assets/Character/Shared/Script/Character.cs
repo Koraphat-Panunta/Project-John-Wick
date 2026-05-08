@@ -40,7 +40,7 @@ public abstract class Character : MonoBehaviour,IInitializedAble
 
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
     [SerializeField] public CharacterMovementController characterController;
-    //public Weapon curentWeapon;
+    //public RangeWeapon curentWeapon;
     //public Transform weaponSocket;
     public Animator animator;
     int frame;
@@ -56,15 +56,17 @@ public abstract class Character : MonoBehaviour,IInitializedAble
             return; 
         }
 
-        this.animator.updateMode = AnimatorUpdateMode.Fixed;
+        //this.animator.updateMode = AnimatorUpdateMode.Fixed;
         this.frame++;
 
         this.SumDeltaPos += animator.deltaPosition.magnitude;
 
-        this._movementCompoent.SetPosition(transform.position + deltaPosition);
-        this._movementCompoent.SetRotation(transform.rotation * deltaRotation);
+        this._movementCompoent.SetPosition(this._movementCompoent.curPosition + (deltaPosition));
+        this._movementCompoent.SetRotation(this._movementCompoent.curRotation * (deltaRotation));
+      
     }
    
+
 
     public virtual void Initialized()
     {

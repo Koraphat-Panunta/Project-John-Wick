@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 public class GotGunFuExecuteNodeLeaf : EnemyStateLeafNode, IGotGunFuExecuteNodeLeaf
 {
 
-    public IGotGunFuAttackedAble _gotExecutedGunFu => enemy;
-    public IGunFuAble _executerGunFu => this._gotExecutedGunFu.gunFuAbleAttacker;
+    public I_Got_OCM_Attacked_Able _gotExecutedGunFu => enemy;
+    public I_OCM_Attack_Able _executerGunFu => this._gotExecutedGunFu.gunFuAbleAttacker;
     public string gotExecuteStateName { get => this._gotExecutedStateName.ToString(); }
 
     public GotExecutedStateName _gotExecutedStateName => gotExecutedStateName;

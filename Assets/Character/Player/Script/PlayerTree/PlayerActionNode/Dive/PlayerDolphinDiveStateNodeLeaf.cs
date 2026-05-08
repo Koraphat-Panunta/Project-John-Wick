@@ -59,9 +59,14 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
 
         this.UpdateStall();
 
+    
+
         base.UpdateNode();
     }
-
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
+    }
     protected virtual void UpdateJumpOut()
     {
         if (this.timer >= this.jumpOutTime

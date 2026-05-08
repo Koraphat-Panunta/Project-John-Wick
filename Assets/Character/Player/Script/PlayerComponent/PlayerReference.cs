@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PlayerReference : MonoBehaviour,IWeaponAdvanceUser
+public class PlayerReference : MonoBehaviour,IRangeWeaponAdvanceUser
 {
     [SerializeField] private Player player;
     public Animator _weaponUserAnimator { get => player.animator; set => player.animator = value; }
-    public Weapon _currentWeapon { get => player._currentWeapon; }
+    public RangeWeapon _currentWeapon { get => player._currentWeapon; }
     public Vector3 _shootingPos { get => player._shootingPos; set => player._shootingPos = value; }
     public WeaponBelt _weaponBelt { get => player._weaponBelt; set => player._weaponBelt = value; }
     public WeaponAfterAction _weaponAfterAction { get => player._weaponAfterAction; set => player._weaponAfterAction = value; }

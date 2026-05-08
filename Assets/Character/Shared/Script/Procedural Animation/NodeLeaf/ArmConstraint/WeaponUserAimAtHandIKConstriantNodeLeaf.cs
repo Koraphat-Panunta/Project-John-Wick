@@ -74,7 +74,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     }
 
     protected WeaponHandIK_ConstraintSCRP weaponRightHandIK_ConstraintSCRP => base.handIK_ConstraintSCRP as WeaponHandIK_ConstraintSCRP;
-    protected IWeaponAdvanceUser weaponAdvanceUser;
+    protected IRangeWeaponAdvanceUser weaponAdvanceUser;
 
     protected float recoilWeightPos;
     protected float recoilWeightRot;
@@ -86,7 +86,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         , Transform handIK_Transform_Ref_Rot
         , Transform rootHintHand
         , Transform rootCharacter
-        , IWeaponAdvanceUser weaponAdvanceUser
+        , IRangeWeaponAdvanceUser weaponAdvanceUser
         , WeaponHandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
         , Func<bool> precondition) : 
         base(

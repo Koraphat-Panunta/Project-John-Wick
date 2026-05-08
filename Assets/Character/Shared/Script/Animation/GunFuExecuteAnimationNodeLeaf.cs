@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
 {
-    private IGunFuAble gunFuAble;
+    private I_OCM_Attack_Able gunFuAble;
     private Animator animator;
     public IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf 
     {
@@ -18,7 +18,7 @@ public class GunFuExecuteAnimationNodeLeaf : AnimationNodeLeaf
                 return null;
         }
     }
-    public GunFuExecuteAnimationNodeLeaf(Func<bool> preCondition, IGunFuAble gunFuAble,Animator animator) : base(preCondition)
+    public GunFuExecuteAnimationNodeLeaf(Func<bool> preCondition, I_OCM_Attack_Able gunFuAble,Animator animator) : base(preCondition)
     {
         this.gunFuAble = gunFuAble;
         this.animator = animator;

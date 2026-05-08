@@ -16,7 +16,7 @@ public class CameraKickBack : ICameraAction
     {
         
     }
-    public void Performed(Weapon weapon)
+    public void Performed(RangeWeapon weapon)
     {
         if(this.coroutine != null)
         {

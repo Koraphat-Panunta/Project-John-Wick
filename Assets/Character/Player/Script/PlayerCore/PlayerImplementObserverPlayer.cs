@@ -54,7 +54,7 @@ public partial class Player : IObserverPlayer
 
                     break;
                 }
-            case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf:
+            case PlayerBrounceOffNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf:
                 {    
                     break;
                 }

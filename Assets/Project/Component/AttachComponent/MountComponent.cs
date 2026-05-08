@@ -7,7 +7,7 @@ public class MountComponent : MonoBehaviour
     public Transform _parentAttachTransform { get; protected set; }
     public Transform parentAttachTransform;
     public Vector3 offsetPosition;
-    public Quaternion offsetRotation;
+    public Quaternion offsetRotation = Quaternion.identity;
 
     private bool isEnableAutoAttachRate = true;
     public bool _isEnableAutoAttachRate { get => this.isEnableAutoAttachRate; protected set => this.isEnableAutoAttachRate = value; }

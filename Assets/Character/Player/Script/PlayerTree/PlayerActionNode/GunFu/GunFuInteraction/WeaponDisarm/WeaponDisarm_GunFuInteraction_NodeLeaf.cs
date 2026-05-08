@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 {
 
-    public Weapon disarmedWeapon;
+    public RangeWeapon disarmedWeapon;
 
     private AnimationInteractScriptableObject animationInteractScriptableObject;
 
@@ -45,7 +45,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         isComplete = false;
         gotGunFuAttackedAble = player.attackedAbleGunFu;
-        disarmedWeapon = gotGunFuAttackedAble._weaponAdvanceUser._currentWeapon;
+        disarmedWeapon = (gotGunFuAttackedAble as IRangeWeaponAdvanceUser)._currentWeapon;
         this.subject_Disarmer.RestartSubject(gunFuAble._character, gotGunFuAttackedAble._character.transform.position, gotGunFuAttackedAble._character.transform.forward);
         this.subject_Disarmed.RestartSubject(gotGunFuAttackedAble._character, gotGunFuAttackedAble._character.transform.position, gotGunFuAttackedAble._character.transform.forward);
         this.animationTriggerEventPlayer.Rewind();
@@ -99,9 +99,9 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     {
         if (player._currentWeapon != null)
         {
-            if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as Weapon)
+            if (player._currentWeapon == player._weaponBelt.myPrimaryWeapon as RangeWeapon)
                 WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.primaryWeaponSocket,WeaponMountComponent.attatchingDurationGlobal);
-            else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as Weapon)
+            else if (player._currentWeapon == player._weaponBelt.mySecondaryWeapon as RangeWeapon)
                 WeaponAttachingBehavior.Attach(player._currentWeapon, player._weaponBelt.secondaryWeaponSocket, WeaponMountComponent.attatchingDurationGlobal);
         }
     }
@@ -116,10 +116,10 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         WeaponAttachingBehavior.Detach(disarmedWeapon, disarmedWeapon.userWeapon);
 
         if (disarmedWeapon is PrimaryWeapon && player._weaponBelt.myPrimaryWeapon != null)
-            WeaponAttachingBehavior.Detach(player._weaponBelt.myPrimaryWeapon as Weapon, player);
+            WeaponAttachingBehavior.Detach(player._weaponBelt.myPrimaryWeapon as RangeWeapon, player);
 
         if (disarmedWeapon is SecondaryWeapon && player._weaponBelt.mySecondaryWeapon != null)
-            WeaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as Weapon, player);
+            WeaponAttachingBehavior.Detach(player._weaponBelt.mySecondaryWeapon as RangeWeapon, player);
 
        
 

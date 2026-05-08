@@ -7,7 +7,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
     public float _timer { get ; set ; }
     public AnimationClip _animationClip { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public override bool isComplete { get  ; protected set ; }
-    private IGunFuAble attacker => enemy.gunFuAbleAttacker;
+    private I_OCM_Attack_Able attacker => enemy.gunFuAbleAttacker;
     public enum GotRestrictPhase
     {
         Enter,

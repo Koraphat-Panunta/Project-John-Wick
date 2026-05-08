@@ -8,7 +8,7 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
     private Image WeaponIcon;
     [SerializeField] private TextMeshProUGUI AmmoDisplay;
     [SerializeField] private Player playerInfo;
-    private Weapon currentWeapon => playerInfo._currentWeapon;
+    private RangeWeapon currentWeapon => playerInfo._currentWeapon;
     public int MagazineCount;
     public int AmmoCount;
 

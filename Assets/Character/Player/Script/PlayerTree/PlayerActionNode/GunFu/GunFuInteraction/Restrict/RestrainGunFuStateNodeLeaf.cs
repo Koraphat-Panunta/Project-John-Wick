@@ -4,14 +4,14 @@ using Unity.Cinemachine;
 using UnityEngine;
 
 public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf
-    , IGunFuNode
+    , I_OCM_Node
     ,INodeLeafTransitionAble
 {
     public float _transitionAbleTime_Nornalized { get; set; }
     public float _timer { get; set; }
     public float phaseTimer { get; private set; }
-    public IGunFuAble gunFuAble { get => player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public I_OCM_Attack_Able gunFuAble { get => player; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
     public AnimationClip _animationClip { get; set; }
 
     private Transform targetAdjustTransform => gunFuAble._targetAdjustTranform;

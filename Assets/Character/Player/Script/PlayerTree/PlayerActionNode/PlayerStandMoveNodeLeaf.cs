@@ -25,7 +25,6 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
         this.playerMovement.SetStanceWeight(this.playerMovement.movementAttribute.stanceRate - this.changeStanceWeightRate * Time.fixedDeltaTime);
 
         float inversAccel = GetInverseDirectionalAccelMovement.GetInverseDirectionalAccel(this.player.inputMoveDir_World.normalized, this.playerMovement.curMoveVelocity_World.normalized, this.player.changeDirAccel);
-        Debug.Log("InversAccel = " + inversAccel);
 
         this.playerMovement.UpdateMoveToDirWorld(
             this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed

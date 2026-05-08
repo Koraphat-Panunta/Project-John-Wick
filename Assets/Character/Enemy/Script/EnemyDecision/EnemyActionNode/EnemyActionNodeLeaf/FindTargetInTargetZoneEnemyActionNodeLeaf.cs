@@ -9,13 +9,22 @@ public class FindTargetInTargetZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
     public Vector3 destinate { get; private set; }
     public readonly float waitTime = 4;
     public float elapseWaitTime { get; private set; }
-    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
+    protected EnemyDecisionContext enemyDecisionContext;
 
-    public FindTargetInTargetZoneEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition, EnemyDecision enemyDecision,IEnemyActionNodeManagerImplementDecision enemyActionNodeManager,ZoneDefine targetZone) 
-        : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
+    public FindTargetInTargetZoneEnemyActionNodeLeaf(
+        Enemy enemy
+        , EnemyCommandAPI enemyCommandAPI
+        , Func<bool> preCondition
+        , EnemyDecision enemyDecision
+        ,EnemyDecisionContext enemyDecisionContext
+        ,ZoneDefine targetZone
+        ) 
+        : base(
+            enemy
+             , enemyCommandAPI, preCondition, enemyDecision)
     {
         this.targetZone = targetZone;
-        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManager;
+        this.enemyDecisionContext = enemyDecisionContext;
     }
     public override void Enter()
     {

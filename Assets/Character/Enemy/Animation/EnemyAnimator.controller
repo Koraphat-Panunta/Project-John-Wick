@@ -545,6 +545,33 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-8046769497006179048
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OCM_Attack_MeleeWeapon_I
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 4563003445152953920, guid: 393b0a198ac778d44921b58bc0d3691b,
+    type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &-7906755533516805254
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1144,6 +1171,33 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-6810530080561256900
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Got_Parried_I
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 4864580850258439783, guid: d0d0b131453ba2f4f81f41f2e1025dd9,
+    type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &-6782586979268090715
 BlendTree:
   m_ObjectHideFlags: 1
@@ -5759,6 +5813,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 606642402478189740}
     m_Position: {x: 280, y: 120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7330815027837041330}
+    m_Position: {x: 280, y: 20, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -7319,16 +7376,16 @@ AnimatorStateMachine:
     m_Position: {x: -1880, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5115707047167367088}
-    m_Position: {x: -1670, y: 300, z: 0}
+    m_Position: {x: -1670, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 257911163911731875}
     m_Position: {x: -1880, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 764502291978834361}
-    m_Position: {x: -1670, y: 350, z: 0}
+    m_Position: {x: -1670, y: 250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6256241181091223611}
-    m_Position: {x: -1670, y: 400, z: 0}
+    m_Position: {x: -1670, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1331856965029355420}
     m_Position: {x: -1880, y: 350, z: 0}
@@ -7347,6 +7404,12 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 2320590301487577131}
     m_Position: {x: -1530, y: -500, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8046769497006179048}
+    m_Position: {x: -900, y: -50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6810530080561256900}
+    m_Position: {x: -1880, y: -70, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -8792,6 +8855,33 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &7330815027837041330
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hold_Melee_Weapon
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -6603983284923403348, guid: c759f8843143dbe4e9e7d82fcca8a60f,
+    type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &7355275111481319114
 BlendTree:
   m_ObjectHideFlags: 1

@@ -6,14 +6,14 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
 {
     private LayerMask enemyMask;
     private Camera camera;
-    private IWeaponAdvanceUser weaponAdvanceUser;
+    private IRangeWeaponAdvanceUser weaponAdvanceUser;
     private Vector3 pointingPos => weaponAdvanceUser._pointingPos;
     private float range => Mathf.Lerp(3, 8, weaponAdvanceUser._weaponManuverManager.aimingWeight);
 
     private EnemyHPInWorldUI enemyHPInWorldUI;
     public EnemyHP_Bar_InWorldUINodeLeaf(Func<bool> preCondition
         ,Camera camera
-        ,IWeaponAdvanceUser weaponAdvanceUser
+        ,IRangeWeaponAdvanceUser weaponAdvanceUser
         ,EnemyHPInWorldUI enemyHPInWorldUIPrefab) : base(preCondition)
     {
 

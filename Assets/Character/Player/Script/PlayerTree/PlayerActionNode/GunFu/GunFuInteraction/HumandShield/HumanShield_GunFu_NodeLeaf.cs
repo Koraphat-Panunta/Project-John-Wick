@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,IGunFuNode,INodeLeafTransitionAble
+public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,I_OCM_Node,INodeLeafTransitionAble
 {
-    IWeaponAdvanceUser weaponAdvanceUser => player;
+    IRangeWeaponAdvanceUser weaponAdvanceUser => player;
 
     public string _stateName => GunFuManaverStateName.HumanShield.ToString() ;
 
-    public IGunFuAble gunFuAble { get => this.player; set { } }
-    public IGotGunFuAttackedAble gotGunFuAttackedAble { get; set; }
+    public I_OCM_Attack_Able gunFuAble { get => this.player; set { } }
+    public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
 
     public enum HumanShieldInteractionPhase
     {

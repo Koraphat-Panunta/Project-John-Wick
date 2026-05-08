@@ -126,7 +126,7 @@ public class PlayerMovement : MovementCompoent
     public void OnNotify<T>(Player player, T node)
     {
         if (this.player.stateNodeManager != null
-            && this.player.stateNodeManager.TryGetCurNodeLeaf<IGunFuNode>())
+            && this.player.stateNodeManager.TryGetCurNodeLeaf<I_OCM_Node>())
         {
             this.characterController.enableCharacterCollide = false;
         }

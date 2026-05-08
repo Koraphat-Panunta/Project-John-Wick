@@ -21,7 +21,7 @@ public partial class CameraController
     [SerializeField] public bool isPerformGunFu;
     [SerializeField] public bool isCrouching;
     [SerializeField] public bool isOnPlayerThirdPersonController;
-    [SerializeField] public IGunFuNode curGunFuNode;
+    [SerializeField] public I_OCM_Node curGunFuNode;
 
 
 }

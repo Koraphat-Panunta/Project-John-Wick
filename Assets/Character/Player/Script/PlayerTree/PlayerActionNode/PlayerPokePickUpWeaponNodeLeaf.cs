@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 {
     Transform rightFoots;
-    Weapon pickedUpWeapon;
+    RangeWeapon pickedUpWeapon;
     public AnimationTriggerEventSCRP animationTriggerEventSCRP;
     private AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
@@ -24,7 +24,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
     {
         this.animationTriggerEventPlayer.Rewind();  
         this.isWarpingWeapon = true;
-        this.pickedUpWeapon = player.currentInteractable as Weapon;
+        this.pickedUpWeapon = player.currentInteractable as RangeWeapon;
         this.isComplete = false;
 
         Vector3 pushDir = this.pickedUpWeapon.transform.position - player.transform.position;

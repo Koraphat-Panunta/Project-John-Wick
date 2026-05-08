@@ -72,7 +72,7 @@ public partial class PlayerAnimationManager
             , (playerStateNodeMnager as PlayerStateNodeManager).playerPokePickUpWeaponNodeLeaf.animationTriggerEventSCRP.enterNormalizedTime);
  
         boundOffNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerBrounceOffNodeLeaf
             , animator, "PlayerBounceOff", 0, .05f);
         parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is IParkourNodeLeaf);
         vaultingNodeLeaf = new PlayAnimationNodeLeaf(

@@ -6,10 +6,10 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
 {
     public ZoneDefine assignZone;
     private Vector3 destinateInZone;
-    protected IEnemyActionNodeManagerImplementDecision enemyActionNodeManagerImplementDecision;
-    public MoveToTheZoneEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition,EnemyDecision enemyDecision, IEnemyActionNodeManagerImplementDecision enemyActionNodeManager, ZoneDefine assignZone) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
+    protected EnemyDecisionContext enemyDecisionContext;
+    public MoveToTheZoneEnemyActionNodeLeaf(Enemy enemy, EnemyCommandAPI enemyCommandAPI, Func<bool> preCondition,EnemyDecision enemyDecision, EnemyDecisionContext enemyDecisionContext, ZoneDefine assignZone) : base(enemy, enemyCommandAPI, preCondition, enemyDecision)
     {
-        this.enemyActionNodeManagerImplementDecision = enemyActionNodeManager;
+        this.enemyDecisionContext = enemyDecisionContext;
         this.assignZone = assignZone;
     }
     public override void Enter()

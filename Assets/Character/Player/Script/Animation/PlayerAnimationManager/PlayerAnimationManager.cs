@@ -54,7 +54,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
 
         this.CalculateMoveVelocity(curVelocity_Local);
        
-        AimDownSightWeight = (player as IWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
+        AimDownSightWeight = (player as IRangeWeaponAdvanceUser)._weaponManuverManager.aimingWeight;
 
 
 
@@ -66,12 +66,12 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             RecoilWeight = Mathf.Clamp(RecoilWeight - 3 * Time.deltaTime, 0, 1);
 
 
-        if ((player as IWeaponAdvanceUser)._currentWeapon != null)
+        if ((player as IRangeWeaponAdvanceUser)._currentWeapon != null)
         {
             if (isIn_C_A_R_aim)
             {
-                if (Vector3.Distance((player as IWeaponAdvanceUser)._pointingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) >= CAR_Range)
+                if (Vector3.Distance((player as IRangeWeaponAdvanceUser)._pointingPos
+               , (player as IRangeWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) >= CAR_Range)
                 {
                     CAR_ChangeTimer -= Time.deltaTime;
 
@@ -86,8 +86,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             }
             else if (isIn_C_A_R_aim == false)
             {
-                if (Vector3.Distance((player as IWeaponAdvanceUser)._pointingPos
-              , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) <= CAR_Range)
+                if (Vector3.Distance((player as IRangeWeaponAdvanceUser)._pointingPos
+              , (player as IRangeWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) <= CAR_Range)
                 {
                    
                     isIn_C_A_R_aim = true;
@@ -204,8 +204,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
     {
         if (node is AimDownSightWeaponManuverNodeLeaf downSightWeaponManuverNodeLeaf && downSightWeaponManuverNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)
         {
-            if (Vector3.Distance((player as IWeaponAdvanceUser)._shootingPos
-               , (player as IWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) < 3.5f)
+            if (Vector3.Distance((player as IRangeWeaponAdvanceUser)._shootingPos
+               , (player as IRangeWeaponAdvanceUser)._currentWeapon.bulletSpawner.transform.position) < 3.5f)
                 isIn_C_A_R_aim = true;
             else
                 isIn_C_A_R_aim = false;

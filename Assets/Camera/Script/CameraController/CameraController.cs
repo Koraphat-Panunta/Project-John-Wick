@@ -229,7 +229,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                     break;
                 }
-            case PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf: 
+            case PlayerBrounceOffNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf: 
                 {
                     cameraImpluse.Performed(-0.2f);
                     break;
