@@ -42,11 +42,14 @@ public partial class Player : I_OCM_Attack_Able
     {
         get
         {
-            if (this._triggerExecute)
+            if(this.curGunFuNode == null)
+                return MeleeAttackingPhase.None;
+
+            if(this.curGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf)
                 return MeleeAttackingPhase.Attacking;
-            if (this._triggerAttack)
-                return MeleeAttackingPhase.PreAttack;
+
             return MeleeAttackingPhase.None;
+            
         }
     }
 

@@ -11,6 +11,7 @@ public abstract class BodyPart : MonoBehaviour
     , IInitializedAble
     , IBeenThrewObjectAt
     , I_Got_OCM_Attacked_Able
+    , IMeleeAttackerAble
 
 {
     [SerializeField] public Enemy enemy;
@@ -181,6 +182,12 @@ public abstract class BodyPart : MonoBehaviour
     public virtual float penatrateResistance { get => bodyPartDamageRecivedSCRP._penetrateResistRate; set { } }
 
     public Vector3 _beenThrowObjectAtPosition { get => this.enemy.humanoidBone._headBone.position; set { } }
+
+    public Transform _attackerTransform => this.enemy.transform;
+
+    public Vector3 _attackAimDir => this.enemy._attackAimDir;
+
+    public MeleeAttackingPhase _curAttackPhase => this.enemy._curMeleeAttackPhase;
 
     public virtual void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 
