@@ -139,6 +139,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
                 (targets[i]._character._movementCompoent as IMotionImplusePushAble).AddForcePushInstantly
                     (this.hitDir * this.gunFuHitScriptableObject.gunFuHitDetail[hitCount].hitPushForce
                     , IMotionImplusePushAble.PushMode.IgnoreMomentum);
+
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
                 targets[i].TakeGunFuAttacked(this, gunFuAble);
                 this.gotAttackedAlready.Add(targets[i]);

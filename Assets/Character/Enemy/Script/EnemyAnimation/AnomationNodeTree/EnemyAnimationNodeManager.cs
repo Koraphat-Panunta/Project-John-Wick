@@ -11,6 +11,7 @@ public partial class EnemyAnimationManager : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
 
+    public PlayAnimationNodeLeaf meleeAttackMoveAnimationNodeLeaf { get; set; } 
     public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
@@ -25,6 +26,12 @@ public partial class EnemyAnimationManager : INodeManager
     {
         this.startNodeSelector = new NodeSelector(() => true);
 
+        this.meleeAttackMoveAnimationNodeLeaf = new PlayAnimationNodeLeaf(
+            ()=> this.enemyStateManager.TryGetCurNodeLeaf<AttackMoveMeleeWeaponNodeLeaf>(out AttackMoveMeleeWeaponNodeLeaf attackMoveMeleeWeaponNodeLeaf)
+            ,this.animator
+            ,"MeleeAttack"
+            ,0
+            ,.2f);
         this.gotGunFuReloadNodeLeaf = new PlayAnimationNodeLeaf(
             () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
             && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotGunFuReloadNodeLeaf
@@ -64,6 +71,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
             () => true);
 
+        this.startNodeSelector.AddtoChildNode(this.meleeAttackMoveAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);

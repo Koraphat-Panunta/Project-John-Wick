@@ -26,10 +26,8 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
         damageDetail = new BulletDamageDetail();
         player.AddObserver(this);
     }
-    public virtual void TakeDamage(IDamageVisitor damageVisitor)
+    public virtual void TakeDamage(Bullet bulletObj)
     {
-
-        Bullet bulletObj = damageVisitor as Bullet;
 
         if(bulletObj.weapon.userWeapon != null 
             && bulletObj.weapon.userWeapon is Player)
@@ -40,10 +38,8 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
         player.SetHP(player.GetHP() - damage * 1f);
         player.NotifyObserver(this.player, NotifyEvent.GetDamaged);
     }
-    public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
+    public virtual void TakeDamageBullet(Bullet bulletObj, Vector3 hitPos, Vector3 hitDir, float hitforce)
     {
-
-        Bullet bulletObj = damageVisitor as Bullet;
 
         if (bulletObj.weapon.userWeapon != null
             && bulletObj.weapon.userWeapon is Player)
@@ -52,13 +48,13 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
         if (Random.Range(0f,1f) < ignoreBulletChance)
             return;
 
-        damageDetail.damageVisitor = damageVisitor;
+        damageDetail.damageVisitor = bulletObj;
         damageDetail.hitPos = hitPos;
         damageDetail.hitDir = hitDir;
         damageDetail.hitforce = hitforce;
         player.NotifyObserver(this.player, NotifyEvent.GetShoot);
 
-        player.TakeDamage(damageVisitor);
+        player.TakeDamage(bulletObj);
     }
 
     public void OnNotify<T>(Player player, T node)
@@ -85,5 +81,11 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
 
 
             
+    }
+
+    public void TakeDamage(IDamageVisitor damageVisitor)
+    {
+        if (damageVisitor is Bullet bullet)
+            this.TakeDamage(bullet);
     }
 }

@@ -13,7 +13,7 @@ public class ArmLeftBodyPart : BodyPart,IPostureAble
         base.TakeDamage(damageVisitor);
     }
 
-    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         this.TakeDamage(damageVisitor);
         base.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);

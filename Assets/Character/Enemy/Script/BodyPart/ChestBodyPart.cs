@@ -10,7 +10,7 @@ public class ChestBodyPart : BodyPart
     }
    
 
-    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
 
         this.TakeDamage(damageVisitor);

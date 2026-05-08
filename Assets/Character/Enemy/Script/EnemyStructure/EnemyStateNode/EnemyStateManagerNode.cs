@@ -47,6 +47,9 @@ public partial class EnemyStateManagerNode : INodeManager
     public EnemyStandIdleStateNodeLeaf enemyStandIdleStateNodeLeaf { get; private set; }
     public EnemyStandMoveStateNodeLeaf enemyStandMoveStateNodeLeaf { get; private set; }
 
+    public NodeSelector meleeAttackMoveNodeSelector { get; private set; }
+    public AttackMoveMeleeWeaponNodeLeaf meleeAttackMove_I_NodeLeaf { get; private set; }   
+
     public EnemySprintStateNodeLeaf enemySprintStateNodeLeaf { get; private set; }
     public EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf { get; private set; }
 
@@ -117,6 +120,17 @@ public partial class EnemyStateManagerNode : INodeManager
                 return false;
             }
             );
+
+        this.meleeAttackMoveNodeSelector = new NodeSelector(
+            () => this.enemy._isPerformAttackAble 
+            && this.enemy.isTriggerMeleeWeaponAttack
+            );
+
+        this.meleeAttackMove_I_NodeLeaf = new AttackMoveMeleeWeaponNodeLeaf(
+            () => true
+            , this.enemy
+            , this.enemy
+            , this.enemy._meleeAttackMoveScriptableObject_I);
 
         enemySprintStateNodeLeaf = new EnemySprintStateNodeLeaf(this.enemy,
            () => this.enemy.isSprintCommand && this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
@@ -299,6 +313,7 @@ public partial class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuHitNodeLeaf);
 
         enemyStanceSelector.AddtoChildNode(enemyDodgeRollStateNodeLeaf);
+        enemyStanceSelector.AddtoChildNode(this.meleeAttackMoveNodeSelector);
         enemyStanceSelector.AddtoChildNode(enemySprintStateNodeLeaf);
         enemyStanceSelector.AddtoChildNode(crouchSelector);
         enemyStanceSelector.AddtoChildNode(standSelector);
@@ -312,6 +327,8 @@ public partial class EnemyStateManagerNode : INodeManager
         this.gotExecuteSelector.AddtoChildNode(gotExecute_Dodge_I);
         this.gotExecuteSelector.AddtoChildNode(gotExecute_Primary_NodeLeaf_II);
         this.gotExecuteSelector.AddtoChildNode(gotExecute_Secondary_NodeLeaf_I);
+
+        this.meleeAttackMoveNodeSelector.AddtoChildNode(this.meleeAttackMove_I_NodeLeaf);
 
         _nodeManagerBehavior.SearchingNewNode(this);
 

@@ -13,7 +13,7 @@ public partial class Player: I_Got_OCM_Attacked_Able
     {
         get
         {
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerBrounceOffGotAttackGunFuNodeLeaf>())
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerBrounceOffNodeLeaf>())
                 return false;
             return true;
         }

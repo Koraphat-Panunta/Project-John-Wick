@@ -1,8 +1,6 @@
 using UnityEngine;
 [ExecuteInEditMode]
 public class Armored_Protection : BodyPart
-    ,IHPDamageVisitor
-    ,IPostureDamageVisitor
 {
     [SerializeField] public BodyPart syncBodyPart;
     [SerializeField] public float armorHP;
@@ -13,12 +11,7 @@ public class Armored_Protection : BodyPart
 
     [SerializeField] private Collider armordCollider;
 
-    public float hpDamage { get; protected set; }
-    public float postureDamage { get; protected set; }
     public override float penatrateResistance { get => armored_ProtectionSCRP._penetrateResistRate; set { } }
-
-    public float _hPDamage => this.hpDamage;
-    public float _postureDamageVisitor => this.postureDamage;
 
     public override void Initialized()
     {
@@ -37,26 +30,30 @@ public class Armored_Protection : BodyPart
     }
 
   
-    public override void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         if(damageVisitor is Bullet bullet)
         {
             armorHP -= bullet.GetDestructionDamage;
-            hpDamage = bullet.GetHpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate);
-            postureDamage = bullet.GetPostureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate);
-
-            //Friendly Fire
-            if (bullet.weapon.userWeapon != null && bullet.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
-            {
-                hpDamage *= 0.35f;
-                postureDamage = 0;
-            }
         }
        
         if (armorHP <= 0)
             ArmoredDestroyed();
 
-        syncBodyPart.TakeDamageBullet(this, hitPart, hitDir, hitforce);
+        VirtualBullet bulletDeformeAttribute = new VirtualBullet(damageVisitor, damageVisitor.weapon)
+        {
+            _hPDamage = damageVisitor.GetHpDamage * (_hpReciverMultiplyRate * syncBodyPart._hpReciverMultiplyRate),
+            _postureDamageVisitor = damageVisitor.GetPostureDamage * (_postureReciverRate * syncBodyPart._postureReciverRate)
+        };
+
+        //Friendly Fire
+        if (damageVisitor.weapon.userWeapon != null && damageVisitor.weapon.userWeapon is IFriendlyFirePreventing friendly && friendly.IsFriendlyCheck(enemy))
+        {
+            bulletDeformeAttribute._hPDamage *= 0.35f;
+            bulletDeformeAttribute._postureDamageVisitor = 0;
+        }
+
+        syncBodyPart.TakeDamageBullet(bulletDeformeAttribute, hitPart, hitDir, hitforce);
     }
     public override void TakeDamage(IDamageVisitor damageVisitor)
     {
@@ -134,4 +131,22 @@ public class Armored_Protection : BodyPart
     {
         
     }
+}
+
+public class VirtualBullet : Bullet
+{
+   
+
+    public VirtualBullet(
+        Bullet bullet
+        
+        ,RangeWeapon weapon) : base(weapon)
+    {
+        
+    }
+
+    public override float _hPDamage { get ; set ; }
+    public override float _postureDamageVisitor { get ; set ; }
+    public override float _pureDestructionDamage { get; set; }
+    public override BulletType myType { get ; protected set ; }
 }

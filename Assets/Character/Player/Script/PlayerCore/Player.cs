@@ -38,7 +38,8 @@ public partial class Player : SubjectPlayer,
             try
             {
                 if ((this.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf))
-                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>())
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerBrounceOffNodeLeaf>())
                     return Stance.prone;
 
                 if (this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
@@ -157,12 +158,30 @@ public partial class Player : SubjectPlayer,
     public float penatrateResistance { get => 10; set { } }
     public void TakeDamage(IDamageVisitor damageVisitor)
     {
+
         if((this as I_IFrameAble)._isIFrame)
             return;
 
-        playerBulletDamageAbleBehavior.TakeDamage(damageVisitor);
+        switch (damageVisitor)
+        {
+            case MeleeWeapon meleeWeapon:
+                {
+                    this._triggerHitedGunFu = true;
+
+                    Vector3 rotateDir = (meleeWeapon.transform.position - this.playerMovement.curPosition).normalized;
+                    rotateDir = new Vector3(rotateDir.x,0, rotateDir.z).normalized;
+                    this._movementCompoent.SetRotateToDirWorldSlerp(rotateDir, 1);
+                }
+                break;
+        }
+
+        if (damageVisitor is IHPDamageVisitor hPDamageVisitor)
+            this.AddHP(-hPDamageVisitor._hPDamage);
+
+        this.NotifyObserver(this, NotifyEvent.GetDamaged);
+
     }
-    public void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) 
+    public void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce) 
     {
         if ((this as I_IFrameAble)._isIFrame)
             return;

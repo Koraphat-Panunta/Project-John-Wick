@@ -62,6 +62,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
         if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
         {
 
+
             Vector3 gunFuAblePos = new Vector3
                 (
                 gunFuHitNodeLeaf.gunFuAble._character.transform.position.x

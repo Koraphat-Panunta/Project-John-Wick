@@ -29,7 +29,7 @@ public class MainHandSocket :
                 break;
             case MeleeWeapon meleeWeapon:
                 {
-
+                    meleeWeapon.SetCurrentGrabbedAt(this);
                 }break;
         }
 
@@ -37,8 +37,25 @@ public class MainHandSocket :
     }
     void IGrabAbleObject.GrabDetach()
     {
-        RangeWeaponSocketBehavior.GrabDetach(this);
-        this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this.curRangeWeaponAtSocket._reloadSelecotrOverriden);
+        if(this._currentGrabbedObject == null)
+            return;
+
+        switch (this._currentGrabbedObject)
+        {
+            case RangeWeapon rangeWeapon:
+                {
+                    RangeWeaponSocketBehavior.GrabDetach(this);
+                    this.weaponAdvanceUser._weaponManuverManager.reloadNodeAttachAbleSelector.RemoveNode(this.curRangeWeaponAtSocket._reloadSelecotrOverriden);
+                }
+                break;
+            case MeleeWeapon meleeWeapon:
+                {
+                    meleeWeapon.SetCurrentGrabbedAt(null);
+                }
+                break;
+        }
+        
+      
         this._currentGrabbedObject = null;
     }
 

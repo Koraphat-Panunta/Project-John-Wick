@@ -182,10 +182,7 @@ public partial class Enemy : SubjectEnemy
 
 
     }
-    public void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPos, Vector3 hitDir, float hitforce)
-    {
-        throw new NotImplementedException();
-    }
+   
     private void BlackBoardUpdate()
     {
         this.isSpottingTaget = this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.isSpottingTarget;
@@ -216,7 +213,9 @@ public partial class Enemy : SubjectEnemy
         _triggerAttack = false;
         _triggerDodge = false;
         isSprintCommand = false;
-        moveInputVelocity_WorldCommand = Vector3.zero;
+        isTriggerMeleeWeaponAttack = false;
+
+    moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
   

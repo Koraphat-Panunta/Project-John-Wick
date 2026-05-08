@@ -382,7 +382,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             this.playerStateManager.GetCurNodeLeaf() is GunFuExecute_Single_NodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is GunFuHitNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf
-            || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffGotAttackGunFuNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf
             ) == false
             &&

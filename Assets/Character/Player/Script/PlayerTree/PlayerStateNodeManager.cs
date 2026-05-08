@@ -70,8 +70,8 @@ public class PlayerStateNodeManager :
 
     public PlayerThrowWeaponNodeLeaf playerThrowWeaponNodeLeaf { get; private set; }
 
-    public PlayerSelectorStateNode gotGunFuAttackSelectorNodeLeaf { get; private set; }
-    public PlayerBrounceOffGotAttackGunFuNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf { get; private set; }
+    public PlayerSelectorStateNode PainStateSelectorNodeLeaf { get; private set; }
+    public PlayerBrounceOffNodeLeaf playerBrounceOffNodeLeaf { get; private set; }
 
     public NodeSelector executeGunFuSelector { get; set; }
 
@@ -191,10 +191,10 @@ public class PlayerStateNodeManager :
             && player._currentWeapon != null
             );
 
-        gotGunFuAttackSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, 
+        PainStateSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, 
             () => player._triggerHitedGunFu);
-        playerBrounceOffGotAttackGunFuNodeLeaf = new PlayerBrounceOffGotAttackGunFuNodeLeaf( this.player,
-            () => player.curAttackerGunFuNode is EnemySpinKickGunFuNodeLeaf);
+        playerBrounceOffNodeLeaf = new PlayerBrounceOffNodeLeaf( this.player,
+            () => true);
 
         executeGunFuSelector = new NodeSelector(
             ()=> player._triggerExecute
@@ -352,7 +352,7 @@ public class PlayerStateNodeManager :
         startNodeSelector.AddtoChildNode(deadNodeLeaf);
         startNodeSelector.AddtoChildNode(stanceSelectorNode);
 
-        stanceSelectorNode.AddtoChildNode(gotGunFuAttackSelectorNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(PainStateSelectorNodeLeaf);
         stanceSelectorNode.AddtoChildNode(vaultingNodeLeaf);
         stanceSelectorNode.AddtoChildNode(climbHighNodeLeaf);
         stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
@@ -393,7 +393,7 @@ public class PlayerStateNodeManager :
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
 
-        gotGunFuAttackSelectorNodeLeaf.AddtoChildNode(playerBrounceOffGotAttackGunFuNodeLeaf);
+        PainStateSelectorNodeLeaf.AddtoChildNode(playerBrounceOffNodeLeaf);
 
         this.triggerHitGunFuSelector.AddtoChildNode(this.hitDownNodeLeaf);
         this.triggerHitGunFuSelector.AddtoChildNode(this.hit1gunFuNodeLeaf);

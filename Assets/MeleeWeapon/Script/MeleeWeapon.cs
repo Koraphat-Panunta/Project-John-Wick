@@ -54,11 +54,13 @@ public class MeleeWeapon : MonoBehaviour
 
         if (this.currentGrabbedAt != null)
         {
+            this.mountComponent.Attach(this.currentGrabbedAt._grabSocketTransform,IGrabMeleeWeaponAble.grabDuration);
             this._grabAbleRigidbody.isKinematic = true;
             this.grabAbleCollider.isTrigger = true;
         }
         else
         {
+            this._mountComponent.Detach();
             this._grabAbleRigidbody.isKinematic = false;
             this.grabAbleCollider.isTrigger = false;
         }
@@ -66,6 +68,7 @@ public class MeleeWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if(this.attackingPhase != MeleeAttackingPhase.Attacking)
             return;
 

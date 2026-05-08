@@ -247,6 +247,10 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         this._enemy.stanceCommand = Stance.stand;
         _enemy._triggerAttack = true;
     }
+    public void MeleeAttack()
+    {
+        this._enemy.isTriggerMeleeWeaponAttack = true;
+    }
     //float openDoorBufferTimer;
     //float openDoorBufferTime = 1;
     public void OpenDoor()

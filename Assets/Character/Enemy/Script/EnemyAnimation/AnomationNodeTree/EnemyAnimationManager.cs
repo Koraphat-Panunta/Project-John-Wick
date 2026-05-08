@@ -80,6 +80,12 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
             this.painStateAnimationNodeLeaf.TriggerReset();
         }
 
+        if(node is AttackMoveMeleeWeaponNodeLeaf attackMoveMeleeWeaponNodeLeaf
+            && attackMoveMeleeWeaponNodeLeaf._attackingPhase == MeleeAttackingPhase.Anticipate)
+        {
+            this.meleeAttackMoveAnimationNodeLeaf.TriggerReset();
+            this.meleeAttackMoveAnimationNodeLeaf.stateName = attackMoveMeleeWeaponNodeLeaf.attackMoveScriptableObject.attackMoveName;
+        }
         this.OnNotifyAnimationNode(this.enemy,node);
     }
   

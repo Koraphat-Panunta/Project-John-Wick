@@ -30,12 +30,29 @@ public static class WeaponAttachingBehavior
         if (weapon.curAttatch != null)
             weapon.curAttatch.GrabDetach();
 
-        
-
         weaponAttachingAble.GrabAttach(weapon,additionalOffsetPosition,additionalOffsetRotation,attatchingDuration);
 
        
     }
+    public static void Attach(
+       MeleeWeapon weapon
+       , IGrabMeleeWeaponAble weaponAttachingAble
+       , Vector3 additionalOffsetPosition
+       , Quaternion additionalOffsetRotation
+       , float attatchingDuration)
+    {
+
+        if (weapon._currentGrabbedAt != null)
+            weapon._currentGrabbedAt.GrabDetach();
+
+        weaponAttachingAble.GrabAttach(weapon, additionalOffsetPosition, additionalOffsetRotation, attatchingDuration);
+
+    }
+    public static void Attach(
+       MeleeWeapon weapon
+       , IGrabMeleeWeaponAble weaponAttachingAble
+       , float attatchingDuration) => Attach(weapon, weaponAttachingAble, Vector3.zero, Quaternion.identity, attatchingDuration);
+   
     public static void Detach(RangeWeapon weapon, IRangeWeaponAdvanceUser weaponAdvanceUser)
     {
         if(weapon.curAttatch != null)

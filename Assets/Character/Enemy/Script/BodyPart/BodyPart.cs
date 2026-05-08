@@ -102,20 +102,8 @@ public abstract class BodyPart : MonoBehaviour
                     this.enemy.TakeDamage(damage);
                     this.enemy.NotifyObserver(this.enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
 
-                    Debug.Log("Bullet OnNotifyFeedBackVisitor 1");
                     damageVisitor.OnNotifyFeedBackVisitor(this.enemy);
-                    Debug.Log("Bullet OnNotifyFeedBackVisitor 2");
 
-                    return;
-                }
-            case Armored_Protection armored_Protection:
-                {
-                    float damage = armored_Protection.hpDamage;
-                    float postureDamaged = armored_Protection.postureDamage;
-
-                    this.enemy.TakePostureDamaged(postureDamaged);
-                    this.enemy.TakeDamage(damage);
-                    this.enemy.NotifyObserver(enemy, SubjectEnemy.EnemyEvent.GotBulletHit);
                     return;
                 }
 
@@ -194,7 +182,7 @@ public abstract class BodyPart : MonoBehaviour
 
     public Vector3 _beenThrowObjectAtPosition { get => this.enemy.humanoidBone._headBone.position; set { } }
 
-    public virtual void TakeDamageBullet(IDamageVisitor damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
+    public virtual void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 
     public virtual void OnNotify<T>(Enemy enemy, T node) 
     {

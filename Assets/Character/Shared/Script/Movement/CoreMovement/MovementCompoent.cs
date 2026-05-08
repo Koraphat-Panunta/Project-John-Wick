@@ -13,6 +13,7 @@ public abstract partial class MovementCompoent : INodeManager
     public Vector3 curMoveVelocity_Local { get => TransformWorldToLocalVector(curMoveVelocity_World, transform.forward); }
     public Vector3 forwardDir { get => transform.forward; }
     public Transform transform { get; protected set; }
+
     public bool isOnUpdateEnable { get; set; }
    
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }

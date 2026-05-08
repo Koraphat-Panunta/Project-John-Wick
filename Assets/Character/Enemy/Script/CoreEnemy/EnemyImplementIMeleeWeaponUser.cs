@@ -30,12 +30,17 @@ public partial class Enemy : IMeleeWeaponUserAble
 
     public Transform _meleeWeaponUserTransform => this.transform;
 
-    public Transform _targetTransform => this.target; 
+    public Transform _targetTransform => this.target;
+
+    public bool isTriggerMeleeWeaponAttack { get; set; }
 
     public bool _isPerformAttackAble 
     {
         get 
         {
+            if(this._curMeleeWeapon == null)
+                return false;
+
             if(
                 this.isDead
                 || this._isInPain
@@ -48,8 +53,12 @@ public partial class Enemy : IMeleeWeaponUserAble
         }
     }
 
+    public IGrabMeleeWeaponAble _grabMeleeWeaponAble => this.MainHandSocket;
+
     public void OnNotifyMeleeAttack<T>(T var)
     {
         this.NotifyObserver<T>(this, var);
     }
+
+    [SerializeField] public MeleeWeaponAttackMoveScriptableObject _meleeAttackMoveScriptableObject_I;
 }
