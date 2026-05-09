@@ -7,15 +7,7 @@ public interface IQuickShotAble
     public QuickShootRangeWeaponNodeLeaf _quickShootRangeWeaponNodeLeaf { get; }
     public Vector3 _quickShotTargetPos { get 
         {
-            try
-            {
-                return this._quickShootRangeWeaponNodeLeaf.targetQuickShot;
-            }
-            catch
-            {
-                return _rangeWeaponAdvanceUser._pointingPos;
-            }
-            
+            return this._quickShootRangeWeaponNodeLeaf.targetQuickShot;
         }
     }
     public bool _isQucikShot { get => _nodeManager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>(); }

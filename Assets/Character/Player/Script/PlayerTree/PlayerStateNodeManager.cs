@@ -208,11 +208,11 @@ public class PlayerStateNodeManager :
 
         this.quickShootRangeWeaponNodeLeaf = new QuickShootRangeWeaponNodeLeaf(
             this.player
-            , .5f
+            , .8f
             ,this.player.castFindingScriptableObject
             ,this.player.quickShotAnimationTriggerEventSCRP
             , () => this.player._isAimingCommand
-            && this.player._isPullTriggerCommand
+            && (this.player._isPullTriggerCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isPullTriggerCommand)))
             && this.player._currentWeapon != null
             && this.player._currentWeapon.chamber.isReadyShoot
             && this.player._weaponManuverManager.aimingWeight < this.quickShootRangeWeaponNodeLeaf.aimingWeightQuickShot);

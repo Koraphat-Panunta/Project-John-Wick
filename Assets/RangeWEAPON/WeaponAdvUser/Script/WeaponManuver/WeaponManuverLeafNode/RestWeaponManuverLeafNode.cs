@@ -27,7 +27,7 @@ public class RestWeaponManuverLeafNode : WeaponManuverLeafNode
 
     public override void FixedUpdateNode()
     {
-        weaponManuverManager.aimingWeight = Mathf.Clamp01(weaponManuverManager.aimingWeight - Time.deltaTime * recoverFormAimDownSight);
+        
     }
 
     public override bool IsComplete()

@@ -205,6 +205,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
         isPullTrigger = true;
     }
 
+
     protected virtual void OnEnable()
     {
         SetDefaultAttribute();

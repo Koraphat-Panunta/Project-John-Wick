@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
 {
-    
-
 
     private IRangeWeaponAdvanceUser weaponAdvanceUser;
     private float aimingWeight => weaponAdvanceUser._weaponManuverManager.aimingWeight;

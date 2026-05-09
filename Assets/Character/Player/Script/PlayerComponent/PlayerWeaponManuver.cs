@@ -11,6 +11,16 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
 
     }
     #region Initailized WeaponManuver Property
+    public bool isOverridenStateManager
+    {
+        get 
+        {
+            if(this.player.stateNodeManager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>())
+                return true;
+
+            return false; 
+        }
+    }
     public override bool isAimingManuverAble
     {
         get
@@ -241,7 +251,7 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
             });
 
         curWeaponManuverSelectorNode = new NodeSelector(
-            () => curWeapon != null);
+            () => curWeapon != null && this.isOverridenStateManager == false);
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(this.weaponAdvanceUser,
             () =>
             {

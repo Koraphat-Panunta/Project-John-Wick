@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
   m_Name: QuickShotAnimationTriggerEventSCRP
   m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
-  clip: {fileID: 0}
+  clip: {fileID: 7108657478567177983, guid: 6a1925f8364d157419e7f9e4224487ad, type: 3}
   enterNormalizedTime: 0
-  triggerEventDetail: []
-  endNormalizedTime: 0
+  triggerEventDetail:
+  - normalizedTime: 0.24
+    eventName: RotateEnd
+  - normalizedTime: 0.25
+    eventName: Shoot
+  - normalizedTime: 0.5
+    eventName: Shoot
+  endNormalizedTime: 1

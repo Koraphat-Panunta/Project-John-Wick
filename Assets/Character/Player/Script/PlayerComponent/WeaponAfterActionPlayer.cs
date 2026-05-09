@@ -56,7 +56,9 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                 case QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf:
                     {
                         this.player.cinemachineCamera.RotateCameraTowardsDirection(quickShootRangeWeaponNodeLeaf.shootDir, 150 * Time.deltaTime);
-                    }break;
+                        player.NotifyObserver(player, quickShootRangeWeaponNodeLeaf);
+                    }
+                    break;
                 case LowReadyWeaponManuverNodeLeaf lowReady:
                     {
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));

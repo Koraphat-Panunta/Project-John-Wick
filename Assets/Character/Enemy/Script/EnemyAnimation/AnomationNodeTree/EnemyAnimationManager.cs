@@ -63,8 +63,6 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         if(node is CharacterHitedEventDetail hitedEventDetail)
         {
 
-            Debug.Log("Implement hit Pose dir");
-
             this.PainStateHorizontal = Quaternion.FromToRotation(this.transform.forward * -1,new Vector3(hitedEventDetail.hitDir.x, this.transform.forward.y, hitedEventDetail.hitDir.z) ).eulerAngles.y;
             //Debug.DrawRay(this.transform.position, new Vector3(hitedEventDetail.hitDir.x, this.transform.forward.y, hitedEventDetail.hitDir.z), Color.yellow, 3);
             //Debug.DrawRay(this.transform.position, this.transform.forward, Color.blue, 3);
