@@ -51,6 +51,9 @@ public partial class PlayerAnimationManager
             if(playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
                 return false;
 
+            if (playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>())
+                return false;
+
             if(playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShiedl) 
                 && humanShiedl.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;

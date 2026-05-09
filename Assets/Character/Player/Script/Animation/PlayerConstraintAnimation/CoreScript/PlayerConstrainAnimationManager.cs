@@ -56,6 +56,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , standPistolAimSplineLookConstrainScriptableObject
             , () => this.player._currentWeapon != null
             && this.player._weaponManuverManager.aimingWeight > 0
+            && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
             && this.playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>() == false
             );
 

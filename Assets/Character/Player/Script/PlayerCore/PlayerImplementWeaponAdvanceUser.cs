@@ -86,14 +86,25 @@ public partial class Player: IRangeWeaponAdvanceUser
     {
         get
         {
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
+            switch (this._nodeManager.GetCurNodeLeaf())
             {
-                Ray ray = new Ray(_currentWeapon.bulletSpawner.transform.position, _currentWeapon.bulletSpawner.transform.forward);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
-                    return hitInfo.point;
-                else
-                    return ray.GetPoint(100);
+                case IGunFuExecuteNodeLeaf gunFuExecuteNodeLeaf:
+                    {
+                        Ray ray = new Ray(_currentWeapon.bulletSpawner.transform.position, _currentWeapon.bulletSpawner.transform.forward);
+                        if (Physics.Raycast(ray, out RaycastHit hitInfo, 100, 0))
+                            return hitInfo.point;
+                        else
+                            return ray.GetPoint(100);
+                    }
+                    break;
+                case QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf:
+                    {
+                        return (this as IQuickShotAble)._quickShotTargetPos;
+                    }
+                    break;
             }
+
+          
 
             Vector3 buttetSpanwToPointingPos = this._pointingPos - this._currentWeapon.bulletSpawner.transform.position;
 

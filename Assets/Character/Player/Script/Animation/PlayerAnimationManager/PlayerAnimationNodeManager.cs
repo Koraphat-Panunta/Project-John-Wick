@@ -9,6 +9,7 @@ public partial class PlayerAnimationManager
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf throwObjectNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickshot_Sec_I_NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
@@ -64,6 +65,12 @@ public partial class PlayerAnimationManager
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDeadNodeLeaf, animator, "Dead", 0, 0.14f);
         throwObjectNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerThrowWeaponNodeLeaf>(), animator, "Throwing", 0, .05f,player.throwObjectAnimationTriggerEventSCRP.enterNormalizedTime);
+        quickshot_Sec_I_NodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>()
+            , animator
+            , "Quickshot_Sec_I"
+            , 0
+            , .025f);
         pokePickUpNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
             , animator
@@ -275,6 +282,7 @@ public partial class PlayerAnimationManager
 
                 basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(throwObjectNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(quickshot_Sec_I_NodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(pokePickUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);

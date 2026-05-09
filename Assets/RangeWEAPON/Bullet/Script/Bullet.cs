@@ -73,6 +73,8 @@ public abstract class Bullet:
         Vector3 rayDir = clampedDir;
         Ray ray = new Ray(bulletSpawner.transform.position,rayDir);
 
+        Debug.DrawRay(bulletSpawner.transform.position, rayDir, Color.yellow, 5);
+
         RaycastHit[] raycastHits = Physics.SphereCastAll(ray, 0.015f, MAX_DISTANCE, hitLayer, QueryTriggerInteraction.Ignore);
 
         if (raycastHits.Length > 0)
