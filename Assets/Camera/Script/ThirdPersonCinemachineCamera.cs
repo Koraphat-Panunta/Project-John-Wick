@@ -69,7 +69,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         this.SetYaw(yaw += (horizontalInput * rotationSpeed));
         this.SetPitch(pitch -= (verticalInput * rotationSpeed));
     }
-    public void InputRotateCameraToDirection(Vector3 lookDirection, Vector3 upCamera)
+    public void InputRotateCameraToDirection(Vector3 lookDirection)
     {
         // Compute the direction from the follow target (camera pivot) to the lookAt position
         if (lookDirection == Vector3.zero)
@@ -89,16 +89,38 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         pitch = Mathf.Clamp(rawPitch, minPitch, maxPitch);
 
     }
-    public void InputRotateCamera(Vector3 lookAtPosition, Vector3 upCamera)
+    public void InputRotateCamera(Vector3 lookAtPosition)
     {
         // Compute the direction from the follow target (camera pivot) to the lookAt position
         Vector3 lookDir = (lookAtPosition - targetFollow.position);
         if (lookDir == Vector3.zero)
             return;
 
-        this.InputRotateCameraToDirection(lookDir,upCamera);
+        this.InputRotateCameraToDirection(lookDir);
 
     }
+    public void RotateCameraTowardsDirection(Vector3 lookDirection, float rotateSpeed)
+    {
+        if (lookDirection == Vector3.zero)
+            return;
+
+        lookDirection.Normalize();
+
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection * -1, Vector3.up);
+
+        float targetYaw = targetRotation.eulerAngles.y;
+        float targetPitch = targetRotation.eulerAngles.x;
+        if (targetPitch > 180f)
+            targetPitch -= 360f;
+
+        targetPitch = Mathf.Clamp(targetPitch, minPitch, maxPitch);
+
+        float step = rotateSpeed * Time.deltaTime;
+
+        yaw = Mathf.MoveTowardsAngle(yaw, targetYaw, step);
+        pitch = Mathf.MoveTowards(pitch, targetPitch, step);
+    }
+
     public void SetYaw(float value)=>this.yaw = value;
     public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);
 

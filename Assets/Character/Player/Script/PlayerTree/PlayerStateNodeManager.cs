@@ -82,6 +82,9 @@ public class PlayerStateNodeManager :
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_NodeLeaf_II { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Primary_Dodge_NodeLeaf_I { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I { get; set; }
+
+    public QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf { get; set; }
+
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
     public GunFuExecute_Single_NodeLeaf gunFuExecute_OnGround { get; protected set; }
 
@@ -202,6 +205,17 @@ public class PlayerStateNodeManager :
             && player.executedAbleGunFu != null
             && player._currentWeapon != null
             && player._currentWeapon.chamber.isReadyShoot );
+
+        this.quickShootRangeWeaponNodeLeaf = new QuickShootRangeWeaponNodeLeaf(
+            this.player
+            , .5f
+            ,this.player.castFindingScriptableObject
+            ,this.player.quickShotAnimationTriggerEventSCRP
+            , () => this.player._isAimingCommand
+            && this.player._isPullTriggerCommand
+            && this.player._currentWeapon != null
+            && this.player._currentWeapon.chamber.isReadyShoot
+            && this.player._weaponManuverManager.aimingWeight < this.quickShootRangeWeaponNodeLeaf.aimingWeightQuickShot);
 
         executeGunFuOnGroundSelector = new NodeSelector(
             () => player._triggerExecute
@@ -358,6 +372,7 @@ public class PlayerStateNodeManager :
         stanceSelectorNode.AddtoChildNode(climbLowNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.fallingStateNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerDodgeRollStateNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(this.quickShootRangeWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuOnGroundSelector);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuSelector);
         stanceSelectorNode.AddtoChildNode(this.triggerHitGunFuSelector);
