@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
@@ -18,6 +19,9 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
 
     private float rotateNormalTime;
 
+    public bool isQuickShotAble;
+    public float quickShotCoolDownTime = 3;
+
     public QuickShootRangeWeaponNodeLeaf(
         IRangeWeaponAdvanceUser weaponAdvanceUser
         ,float aimingWeightQuickShot
@@ -33,9 +37,11 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
         this.animationTriggerEventPlayer.SubscribeEvent("Shoot", this.Shoot);
 
         this.animationTriggerEventPlayer.GetNormalizedTimeFromStateName("RotateEnd", out this.rotateNormalTime);
+        this.isQuickShotAble = true;
     }
     public override void Enter()
     {
+        this.isQuickShotAble = false;
         this.weaponAdvanceUser._userWeapon._movementCompoent.CancleMomentum();
         this.triggerReset = false;
         this.isRotate = true;
@@ -71,14 +77,26 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     }
     public override void Exit()
     {
+        this.isQuickShotAble = false;
 
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction(
           WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive
           , this
           );
 
+        this.weaponAdvanceUser._userWeapon.StartCoroutine(this.CoolDownQuickShot());
+
         base.Exit();
     }
+
+    public override bool Precondition()
+    {
+        if(this.isQuickShotAble == false)
+            return false;
+
+        return base.Precondition();
+    }
+
     public override void FixedUpdateNode()
     {
         if (this.isRotate)
@@ -134,5 +152,11 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     {
 
         RangeWeaponBehavior.ShootByPassRateOfFire(this.weaponAdvanceUser._currentWeapon);
+    }
+
+    protected IEnumerator CoolDownQuickShot()
+    {
+        yield return new WaitForSeconds(this.quickShotCoolDownTime);
+        this.isQuickShotAble = true;
     }
 }
