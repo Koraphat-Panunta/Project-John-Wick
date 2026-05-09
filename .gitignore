@@ -75,3 +75,20 @@ Assets/LeartesStudios/*
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+############################################
+# Claude Code - machine-local / ephemeral
+############################################
+.claude/downloads/
+.claude/shell-snapshots/
+.claude/projects/
+.claude/sessions/
+.claude/history.jsonl
+.claude/cache/
+.claude/backups/
+.claude/.credentials.json
+.claude/.last-cleanup
+.claude/.update.lock
+.claude/settings.local.json
+.claude/worktrees/
+.claude/plugins/marketplaces/
