@@ -1,30 +1,10 @@
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
 using static EnemyBodyBulletDamageAbleBehavior;
 
 public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNodeManager, IObserverEnemy
 {
-
     public Enemy enemy;
-
-    public BodyLookConstrainManager bodyLookConstrainManager;
-    public HandArmIKConstraintManager leftHandIKConstraint;
-    public HandArmIKConstraintManager rightHandIKConstraint;
-    public LegsConstrainManager legsConstrainManager;
-
     public string curNodeName;
-    [SerializeField] private AimBodyConstrainScriptableObject painStateBodyConstraintSCRP;
-    [SerializeField] private AimBodyConstrainScriptableObject primaryAimSplineLookConstrainScriptableObject;
-    [SerializeField] private AimBodyConstrainScriptableObject secondaryAimSplineLookConstrainScriptableObject;
-
-    [SerializeField] private TransformOffsetSCRP armAnchorSwingOffsetPosition;
-    [SerializeField] private TransformOffsetSCRP armBalancePointOffset;
-
-    [SerializeField] private ProceduralLegsWalkConstrainSCRP proceduralLegsPainStateWalkConstrainSCRP;
-
-    [SerializeField] private Rig rig;
-
-    [SerializeField] private AnimationCurve painBodyRespondCurve;
 
     public NodeComponentManager enemyBodyConstraintAnimationNodeManager;
 
