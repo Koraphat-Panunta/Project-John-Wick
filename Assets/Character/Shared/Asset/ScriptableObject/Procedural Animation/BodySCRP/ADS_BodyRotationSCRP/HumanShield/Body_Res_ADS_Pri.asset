@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89639f48c525b90498ff85ccfbf00bcb, type: 3}
+  m_Name: Body_Res_ADS_Pri
+  m_EditorClassIdentifier: Assembly-CSharp::BodyRotationConstrainScriptableObject
+  weightConstraint: 0
+  offsetConstraint: {x: 0, y: 0, z: 0}
+  weightConstraint1: 0
+  offsetConstraint1: {x: 0, y: 0, z: 0}
+  weightConstraint2: 0
+  offsetConstraint2: {x: 0, y: 0, z: 0}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalDeg: 0
+  maxVerticalDeg: 0
+  offsetChangedRate: 0

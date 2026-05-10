@@ -31,69 +31,86 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         if(this.bodyLookConstraintNodeLeaf.Precondition() == false)
             return;
 
-        if(obj is PlayerProneStateNodeLeaf stateNodeLeaf)
+        switch (obj)
         {
-            if(this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject 
-                == this.body_ADS_Prone_Constrain_SCRP)
-                return;
-            this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.body_ADS_Prone_Constrain_SCRP);
-            this.bodyLookConstraintNodeLeaf.SetWeight(0);
+            case PlayerProneStateNodeLeaf proneStateNodeLeaf:
+                {
+                    if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                        == this.body_ADS_Prone_Constrain_SCRP)
+                        return;
+                    this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.body_ADS_Prone_Constrain_SCRP);
+                    this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                }
+                break;
+            case IQuickSwitchNode quickSwitchNode:
+                {
+                    if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                        == this.quickSwitchAimSplineLookConstrainScriptableObject)
+                        return;
+                    this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.quickSwitchAimSplineLookConstrainScriptableObject);
+                    this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                }
+                break;
+            case AimDownSightWeaponManuverNodeLeaf:
+                {
+                    if(this.player._currentWeapon == null)
+                        return;
+
+                    if(this.player._currentWeapon != null
+                        && this.player._currentWeapon is PrimaryWeapon
+                        && this.playerAnimationManager.isIn_C_A_R_aim)
+                    {
+                        if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                            == this.standRifleAim_CAR_SplineLookConstrainScriptableObject)
+                            return;
+
+                        this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.standRifleAim_CAR_SplineLookConstrainScriptableObject);
+                        this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                        return;
+                    }
+
+                    if (this.player._currentWeapon != null
+                        && this.player._currentWeapon is PrimaryWeapon
+                       )
+                    {
+                        if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                            == this.standRifleAimSplineLookConstrainScriptableObject)
+                            return;
+
+                        this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.standRifleAimSplineLookConstrainScriptableObject);
+                        this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                        return;
+                    }
+
+                    if(this.player._currentWeapon != null
+                        && this.player._currentWeapon is SecondaryWeapon
+                        && this.playerAnimationManager.isIn_C_A_R_aim)
+                    {
+                        if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                            == this.standPistolAim_CAR_SplineLookConstrainScriptableObject)
+                            return;
+
+                        this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.standPistolAim_CAR_SplineLookConstrainScriptableObject);
+                        this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                        return;
+                    }
+
+                    if (this.player._currentWeapon != null
+                       && this.player._currentWeapon is SecondaryWeapon
+                       )
+                    {
+                        if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject
+                            == this.standPistolAimSplineLookConstrainScriptableObject)
+                            return;
+
+                        this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(this.standPistolAimSplineLookConstrainScriptableObject);
+                        this.bodyLookConstraintNodeLeaf.SetWeight(0);
+                        return;
+                    }
+
+                }
+                break;
         }
-        else if (obj is IQuickSwitchNode quickSwitchNode)
-        {
-            if(this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject
-            == this.quickSwitchAimSplineLookConstrainScriptableObject)
-                return;
-            this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.quickSwitchAimSplineLookConstrainScriptableObject);
-            this.bodyLookConstraintNodeLeaf.SetWeight(0);
-        }
-        else if(obj is AimDownSightWeaponManuverNodeLeaf
-            && this.player._currentWeapon != null
-            && this.player._currentWeapon is PrimaryWeapon)
-        {
-            if(this.playerAnimationManager.isIn_C_A_R_aim)
-            {
-                if(this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject
-                == this.standRifleAim_CAR_SplineLookConstrainScriptableObject)
-                    return;
-
-                this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.standRifleAim_CAR_SplineLookConstrainScriptableObject);
-                this.bodyLookConstraintNodeLeaf.SetWeight(0);
-            }
-            else 
-            {
-                if (this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject
-                == this.standRifleAimSplineLookConstrainScriptableObject)
-                    return;
-
-                this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.standRifleAimSplineLookConstrainScriptableObject);
-                this.bodyLookConstraintNodeLeaf.SetWeight(0);
-            }
-        }
-        else if(obj is AimDownSightWeaponManuverNodeLeaf
-            && this.player._currentWeapon != null
-            && this.player._currentWeapon is SecondaryWeapon)
-        {
-            if (this.playerAnimationManager.isIn_C_A_R_aim)
-            {
-                if(this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject
-                == this.standPistolAim_CAR_SplineLookConstrainScriptableObject)
-                    return;
-
-                this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.standPistolAim_CAR_SplineLookConstrainScriptableObject);
-                this.bodyLookConstraintNodeLeaf.SetWeight(0);
-            }
-            else
-            {
-                if(this.bodyLookConstraintNodeLeaf.aimSplineLookConstrainScriptableObject
-                == this.standPistolAimSplineLookConstrainScriptableObject)
-                    return;
-
-                this.bodyLookConstraintNodeLeaf.SetAimBodyConstrainSCRP(this.standPistolAimSplineLookConstrainScriptableObject);
-                this.bodyLookConstraintNodeLeaf.SetWeight(0);
-            }
-        }
-
 
     }
     private void Body_Lean_ConstrainCondition<T>(Player player,T obj)
