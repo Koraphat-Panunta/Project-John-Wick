@@ -70,6 +70,7 @@ public partial class Player : I_OCM_Attack_Able
     [SerializeField] public AnimationInteractScriptableObject gunFuExecute_Single_Primary_Dodge_ScriptableObject_I;
 
     [SerializeField] public AnimationInteractScriptableObject gunFu_Single_Execute_OnGround;
+    [SerializeField] public AnimationInteractScriptableObject parryScriptableObject;
 
     public RandomGunFuExecute secondaryExecuteGunFuRandomNumber;
     public RandomGunFuExecute primaryExecuteGunFuRandomNumber;

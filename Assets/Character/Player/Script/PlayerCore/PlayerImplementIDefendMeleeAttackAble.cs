@@ -27,11 +27,16 @@ public partial class Player : IDefendMeleeAttackAble
 
     public void OnIncomingMeleeAttack(IMeleeAttackerAble attacker)
     {
-        Debug.Log("InComingAttack");
+        this.meleeAttackerAble = attacker;
+        this.isInComingMeleeAttack = true;
     }
 
     public void OnIncomingMeleeAttackEnded(IMeleeAttackerAble attacker)
     {
-
+        if (this.meleeAttackerAble == attacker)
+        {
+            this.meleeAttackerAble = null;
+            this.isInComingMeleeAttack = false;
+        }
     }
 }

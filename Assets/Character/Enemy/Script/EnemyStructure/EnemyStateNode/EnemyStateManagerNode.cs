@@ -84,6 +84,8 @@ public partial class EnemyStateManagerNode : INodeManager
 
     public EnemyPainStateNodeLeaf painStateNodeLeaf { get; private set; }
 
+    public GotParriedNodeLeaf gotParriedNodeLeaf { get; private set; }
+
   
     #endregion
     public void InitailizedNode()
@@ -199,6 +201,11 @@ public partial class EnemyStateManagerNode : INodeManager
         gunFuSelector = new NodeSelector(
             () => enemy._triggerAttack && enemy._isInPain == false);
 
+        this.gotParriedNodeLeaf = new GotParriedNodeLeaf(
+            this.enemy,
+            this.enemy.gotParriedScriptableObject,
+            () => this.enemy._triggerGotParried);
+
         enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
 
         gotGunFuAttackSelector = new NodeSelector( 
@@ -287,6 +294,7 @@ public partial class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
         startNodeSelector.AddtoChildNode(zeroPostureSelector);
+        startNodeSelector.AddtoChildNode(this.gotParriedNodeLeaf);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(painStateNodeLeaf);
         startNodeSelector.AddtoChildNode(gunFuSelector);
