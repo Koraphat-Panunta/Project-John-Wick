@@ -27,8 +27,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public NodeSelector bodyLookConstrainSelector { get; private set; }
     public NodeSelector bodyWeaponManuverConstrainSelector { get; private set; }
 
-    public AimDownSightBodyConstrainNodeLeaf prone_BodyLookConstraintNodeLeaf { get; private set; }
-    public AimDownSightBodyConstrainNodeLeaf bodyLookConstraintNodeLeaf { get; private set; }
+    public AimDownSightBodyRotationConstraintNodeLeaf prone_BodyLookConstraintNodeLeaf { get; private set; }
+    public AimDownSightBodyRotationConstraintNodeLeaf bodyLookConstraintNodeLeaf { get; private set; }
     public RecoveryConstraintManagerWeightNodeLeaf splineLookConstraintRecoveryWeightConstraintNodeLeaf { get; set; }
 
 
@@ -37,22 +37,22 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         //1
         this.bodyLookConstrainSelector = new NodeSelector(() => true);
 
-        this.prone_BodyLookConstraintNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
+        this.prone_BodyLookConstraintNodeLeaf = new AimDownSightBodyRotationConstraintNodeLeaf(
             this.player.humanoidBone.hips
             , this.player.transform
             , this.aimConstrainPositionReference
             , this.player
-            , this.standSplineLookConstrain
-            ,this.body_ADS_Prone_Constrain_SCRP
+            , this.bodyRotateConstraintManager
+            , this.body_ADS_Prone_Constrain_SCRP
             , () => this.player._weaponManuverManager.aimingWeight > 0 
             && this.isProne);
 
-        this.bodyLookConstraintNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
+        this.bodyLookConstraintNodeLeaf = new AimDownSightBodyRotationConstraintNodeLeaf(
             this.player.humanoidBone.hips
             , this.player.humanoidBone.hips
             , this.aimConstrainPositionReference
             , this.player
-            , this.standSplineLookConstrain
+            , this.bodyRotateConstraintManager
             , standPistolAimSplineLookConstrainScriptableObject
             , () => this.player._currentWeapon != null
             && this.player._weaponManuverManager.aimingWeight > 0
@@ -62,7 +62,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
                     () => true
-                    , standSplineLookConstrain, 10);
+                    , bodyRotateConstraintManager, 10);
 
         this.bodyLookConstrainSelector.AddtoChildNode(this.prone_BodyLookConstraintNodeLeaf);
         this.bodyLookConstrainSelector.AddtoChildNode(this.bodyLookConstraintNodeLeaf);
@@ -199,7 +199,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.rightHandEnableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => this.rightHandConstriantSelector.curNodeLeaf != this.rightHandConstraintRestNodeLeaf
             , this.rightHandIKConstriantManager
-            , 10
+            , 3
             , 1);
         this.rightHandRecoveryWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => true       

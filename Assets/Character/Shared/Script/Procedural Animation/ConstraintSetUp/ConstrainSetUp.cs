@@ -19,6 +19,7 @@ public class ConstrainSetUp : MonoBehaviour
             if (this.constrainManager[i] is IConstraintManager constraint)
             {
                 constraint.AssignBone(this.humanoidBone);
+                SaveEditorChanged.SaveEditorChangedObject(constrainManager[i]);
             }
             else
                 continue;

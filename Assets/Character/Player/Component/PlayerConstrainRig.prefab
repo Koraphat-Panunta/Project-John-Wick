@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1454898863446376311}
   - component: {fileID: 8390192922055335804}
   - component: {fileID: 5025353115701352989}
+  - component: {fileID: 8360118828724763082}
   m_Layer: 6
   m_Name: PlayerConstrainRig
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_LocalScale: {x: 0.01, y: 0.009999997, z: 0.009999997}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5834462848745238325}
+  - {fileID: 465881225915224846}
   - {fileID: 4501845500325103288}
   - {fileID: 6831738263291915525}
   - {fileID: 3482425461970386122}
@@ -141,23 +142,23 @@ MonoBehaviour:
   castCollideMask:
     serializedVersion: 2
     m_Bits: 526337
-  standSplineLookConstrain: {fileID: 7923776106875291084}
+  bodyRotateConstraintManager: {fileID: 7313165551347692142}
   leaningRotation: {fileID: 484283451180355572}
   leftHandConstraintManager: {fileID: 2590741156681470792}
   rightHandIKConstriantManager: {fileID: 5295320021466642829}
   legsConstraintManager: {fileID: 5980359881043081926}
   headLookConstraintManager: {fileID: 4040952782776872161}
-  body_ADS_Prone_Constrain_SCRP: {fileID: 11400000, guid: 700443a4a63ab734a977e031bebec477,
+  body_ADS_Prone_Constrain_SCRP: {fileID: 11400000, guid: 0edfa13d3b04a6b46b27c484cdc0be36,
     type: 2}
-  quickSwitchAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: bb21604480a81b348886951515ebfae1,
+  quickSwitchAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 774b5f8fcc3fbb940a0a24fe46e74f14,
     type: 2}
-  standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 973b6def43799e14983b915cb5ee0215,
+  standPistolAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: 774b5f8fcc3fbb940a0a24fe46e74f14,
     type: 2}
-  standPistolAim_CAR_SplineLookConstrainScriptableObject: {fileID: 11400000, guid: 272929b5f52e94c4eadd626110bea290,
+  standPistolAim_CAR_SplineLookConstrainScriptableObject: {fileID: 11400000, guid: c8633fbcaf3746948a75f4c1045eebce,
     type: 2}
-  standRifleAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: acf6789c224babf4a8c2dabecc43bcaf,
+  standRifleAimSplineLookConstrainScriptableObject: {fileID: 11400000, guid: ed7dfd6d9d796b44c897f0d5fe8e3d62,
     type: 2}
-  standRifleAim_CAR_SplineLookConstrainScriptableObject: {fileID: 11400000, guid: 3a807a0cdfb394e44ac06e7f87279404,
+  standRifleAim_CAR_SplineLookConstrainScriptableObject: {fileID: 11400000, guid: ae097df7b0f08cb4fb2c269936f439f2,
     type: 2}
   quickSwitchlLeaningConstrainScriptableObject: {fileID: 11400000, guid: 84d66212d4189124eb7acc71f13d9326,
     type: 2}
@@ -209,6 +210,21 @@ MonoBehaviour:
     type: 2}
   diveStallLegsBlendingConstrainSCRP: {fileID: 11400000, guid: fac9f2dd99416754cbb9559a599787cb,
     type: 2}
+--- !u!114 &8360118828724763082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81212568186886411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bee3d885a465f459a1fca9935917a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConstrainSetUp
+  constrainManager:
+  - {fileID: 7313165551347692142}
+  humanoidBone: {fileID: 0}
 --- !u!1 &4419135326582356420
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,7 +430,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 405619966699479738}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3618121936321417107
+--- !u!1001 &782332919196457008
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -422,135 +438,84 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1454898863446376311}
     m_Modifications:
-    - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MaxLimit
-      value: 37
-      objectReference: {fileID: 0}
-    - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MinLimit
-      value: -37
-      objectReference: {fileID: 0}
-    - target: {fileID: 1791196382017366098, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 5595538928692581458}
-    - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MaxLimit
-      value: 37
-      objectReference: {fileID: 0}
-    - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MinLimit
-      value: -37
-      objectReference: {fileID: 0}
-    - target: {fileID: 2754730406256431278, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 5595538928692581458}
-    - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MaxLimit
-      value: 37
-      objectReference: {fileID: 0}
-    - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_MinLimit
-      value: -37
-      objectReference: {fileID: 0}
-    - target: {fileID: 4377826604267308364, guid: a4e57ee532cb42445bec2daa32898d34,
-        type: 3}
-      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
-      value: 
-      objectReference: {fileID: 5595538928692581458}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8960001975895404668, guid: a4e57ee532cb42445bec2daa32898d34,
+    - target: {fileID: 966130596324349166, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
         type: 3}
       propertyPath: m_Name
-      value: BodyConstraint
+      value: BodyRotationConstraint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a4e57ee532cb42445bec2daa32898d34, type: 3}
---- !u!4 &5595538928692581458 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: aafc3794dbec3ab48a49f7f1ea455a3a, type: 3}
+--- !u!4 &465881225915224846 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 9192268747454012353, guid: a4e57ee532cb42445bec2daa32898d34,
+  m_CorrespondingSourceObject: {fileID: 913178648813488958, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
     type: 3}
-  m_PrefabInstance: {fileID: 3618121936321417107}
+  m_PrefabInstance: {fileID: 782332919196457008}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5834462848745238325 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7119640942378803366, guid: a4e57ee532cb42445bec2daa32898d34,
-    type: 3}
-  m_PrefabInstance: {fileID: 3618121936321417107}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7923776106875291084 stripped
+--- !u!114 &7313165551347692142 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6899742057892088415, guid: a4e57ee532cb42445bec2daa32898d34,
+  m_CorrespondingSourceObject: {fileID: 8045384928482781790, guid: aafc3794dbec3ab48a49f7f1ea455a3a,
     type: 3}
-  m_PrefabInstance: {fileID: 3618121936321417107}
+  m_PrefabInstance: {fileID: 782332919196457008}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f430de55ff8c34499b6059547f86ea9, type: 3}
+  m_Script: {fileID: 11500000, guid: 581bf2ebee0b3cc4bac1414542b8ebdb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::BodyConstraintManager
 --- !u!1001 &6761824569287069519
 PrefabInstance:
   m_ObjectHideFlags: 0

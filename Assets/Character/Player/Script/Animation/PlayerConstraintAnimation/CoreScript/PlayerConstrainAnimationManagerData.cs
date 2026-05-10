@@ -3,7 +3,7 @@ using UnityEngine;
 public partial class PlayerConstrainAnimationManager
 {
     [Header("── Constraint Components ──────────────────────────────────")]
-    public BodyLookConstrainManager standSplineLookConstrain;
+    public BodyConstraintManager bodyRotateConstraintManager;
     public LeaningRotation leaningRotation;
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HandArmIKConstraintManager rightHandIKConstriantManager;
@@ -11,12 +11,12 @@ public partial class PlayerConstrainAnimationManager
     public HeadRotationConstraintManager headLookConstraintManager;
 
     [Header("── Body ADS ScriptableObjects ──────────────────────────────")]
-    public AimBodyConstrainScriptableObject body_ADS_Prone_Constrain_SCRP;
-    public AimBodyConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
-    public AimBodyConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
-    public AimBodyConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
-    public AimBodyConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
-    public AimBodyConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
+    public BodyRotationConstrainScriptableObject body_ADS_Prone_Constrain_SCRP;
+    public BodyRotationConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
+    public BodyRotationConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
+    public BodyRotationConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;
+    public BodyRotationConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
+    public BodyRotationConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
 
     [Header("── Lean ScriptableObjects ──────────────────────────────────")]
     public LeaningRotaionScriptableObject quickSwitchlLeaningConstrainScriptableObject;
