@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 3323362237717470727}
   - component: {fileID: 7818289248158937892}
   - component: {fileID: 6714183826785666762}
-  m_Layer: 0
+  - component: {fileID: -1329951641787864534}
+  - component: {fileID: 1158385824407467562}
+  m_Layer: 9
   m_Name: Sight_Optic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,6 +67,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,6 +90,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -129,10 +134,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cc637fc1b848a42871f470f7b6317d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchor: {fileID: 5147843636973753310}
+  _attachmentType: 0
+  _rigidbody: {fileID: 1158385824407467562}
+  _collider: {fileID: -1329951641787864534}
   microOpticWeaponAttachmentScriptableObject: {fileID: 11400000, guid: 29412edb2bf39b342b19c00af76d70fb,
     type: 2}
-  ParentConstraint: {fileID: 7818289248158937892}
+--- !u!65 &-1329951641787864534
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827505704721678290}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.06625, y: 0.12710965, z: 0.175}
+  m_Center: {x: 0.0018750038, y: 0.05980482, z: -0.0075000003}
+--- !u!54 &1158385824407467562
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827505704721678290}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5380972047793156322
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +198,7 @@ GameObject:
   - component: {fileID: 4292238414170524152}
   - component: {fileID: 1277800065556016226}
   - component: {fileID: 1291430427544406028}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Optic_H_Lens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,6 +248,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -215,6 +271,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -230,7 +287,7 @@ GameObject:
   - component: {fileID: 5147843636973753310}
   - component: {fileID: 5060922036542168729}
   - component: {fileID: 7687769465285383306}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SightPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,10 +321,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cc637fc1b848a42871f470f7b6317d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchor: {fileID: 5147843636973753310}
+  _attachmentType: 0
+  _rigidbody: {fileID: 0}
+  _collider: {fileID: 0}
   microOpticWeaponAttachmentScriptableObject: {fileID: 11400000, guid: 29412edb2bf39b342b19c00af76d70fb,
     type: 2}
-  ParentConstraint: {fileID: 7687769465285383306}
 --- !u!1773428102 &7687769465285383306
 ParentConstraint:
   m_ObjectHideFlags: 0

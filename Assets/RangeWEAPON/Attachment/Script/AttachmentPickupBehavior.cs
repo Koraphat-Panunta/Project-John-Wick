@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Trigger-based pickup behavior for world-space attachment items.
-/// After the WeaponAttachment (IPickupEffect) re-parents itself onto the
+/// After the WeaponAttachment (IPickupItem) re-parents itself onto the
 /// weapon socket, this behavior strips the pickup infrastructure
 /// (Collider, Rigidbody, Pickupable, itself) so the attachment remains
 /// alive but no longer acts as a world item.

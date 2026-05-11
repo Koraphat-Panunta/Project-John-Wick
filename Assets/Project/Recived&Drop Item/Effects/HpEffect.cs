@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class HpEffect : IPickupEffect
+public class HpEffect : IPickupItem
 {
     [Range(0, 200)] public float amount = 20f;
 

@@ -2,13 +2,19 @@
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
+public abstract class WeaponAttachment : 
+    MonoBehaviour
+    , IPickupItem
+    , I_Interactable
 {
     [SerializeField] private AttachmentType _attachmentType;
     public AttachmentType attachmentType => _attachmentType;
     public bool isAttaching { get => this.weaponAttachmentSocket != null ? true : false ; }
     public WeaponAttachmentSocket weaponAttachmentSocket { get; set; }
     public abstract AttachmentDataScriptableObject attachmentDataScriptableObject { get; }
+
+    [SerializeField] protected Rigidbody _rigidbody;
+    [SerializeField] protected BoxCollider _collider;
 
     public virtual int maxAmmoCapacityAdditional { get; }
     public virtual float rate_of_fire_Additional { get; }
@@ -23,6 +29,7 @@ public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
     public virtual float min_CrosshairSize_Additional { get; }
     public virtual float max_CrosshairSize_Additional { get; }
     public virtual float aimDownSight_speed_Additional { get; }
+   
 
     public virtual void SetToSocket(WeaponAttachmentSocket weaponAttachmentSocket)
     {
@@ -38,6 +45,9 @@ public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
 
         this.transform.localPosition = this.attachmentDataScriptableObject.offsetAnchorAttachPos;
         this.transform.localRotation = Quaternion.Euler(this.attachmentDataScriptableObject.offsetAnchorAttachRot);
+
+        this._rigidbody.isKinematic = true;
+        this._collider.isTrigger = true;
     } 
 
 
@@ -45,9 +55,12 @@ public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
     {
         this.transform.SetParent(null);
         this.weaponAttachmentSocket = null;
+
+        this._rigidbody.isKinematic = false;
+        this._collider.isTrigger = false;
     }
 
-    // --- IPickupEffect -------------------------------------------------------
+    // --- IPickupItem -------------------------------------------------------
 
     public bool CanBeReceivedBy(IItemReceiver receiver)
     {
@@ -81,6 +94,30 @@ public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
             targetSocket.Detach();
 
         targetSocket.Attach(this);
+    }
+
+    private void OnValidate()
+    {
+        if (this._rigidbody == null)
+            this._rigidbody = GetComponent<Rigidbody>();
+
+        if (this._collider == null)
+            this._collider = GetComponent<BoxCollider>();
+    }
+
+    Collider I_Interactable._collider { get => this._collider; set { } }
+    public Transform _transform { get => this.transform; set { } }
+    public bool isBeenInteractAble { get => true; set { } }
+    public void DoInteract(I_Interacter i_Interacter)
+    {
+        if (i_Interacter is IItemReceiver itemReceiver == false)
+            return;
+
+        if(this.CanBeReceivedBy(itemReceiver))
+        {
+            this.Apply(itemReceiver, this);
+        }
+      
     }
 }
 

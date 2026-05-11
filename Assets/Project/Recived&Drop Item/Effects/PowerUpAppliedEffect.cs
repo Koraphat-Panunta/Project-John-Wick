@@ -6,7 +6,7 @@ using UnityEngine;
 /// The Pickupable instance is used as the removal source key.
 /// </summary>
 [Serializable]
-public class PowerUpAppliedEffect : IPickupEffect
+public class PowerUpAppliedEffect : IPickupItem
 {
     [Tooltip("Power-up definition (stat changes, duration). Reused unchanged from the existing PowerUp system.")]
     public PowerUpScriptableObject definition;

@@ -17,5 +17,5 @@ public class PickupableDefinition : ScriptableObject
     public GameObject worldPrefab;
 
     [Tooltip("Polymorphic list of pickup effects. Right-click to Add: HpEffect, AmmoEffect, PowerUpAppliedEffect.")]
-    [SerializeReference] public List<IPickupEffect> effects = new List<IPickupEffect>();
+    [SerializeReference] public List<IPickupItem> effects = new List<IPickupItem>();
 }

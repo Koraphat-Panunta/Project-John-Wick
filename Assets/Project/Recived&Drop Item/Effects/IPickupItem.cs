@@ -11,7 +11,7 @@
 /// The <c>source</c> argument is the Pickupable instance itself — used for removable
 /// effects (e.g. timed power-ups) so they can be undone later by the same key.
 /// </summary>
-public interface IPickupEffect
+public interface IPickupItem
 {
     bool CanBeReceivedBy(IItemReceiver receiver);
     void Apply(IItemReceiver receiver, object source);

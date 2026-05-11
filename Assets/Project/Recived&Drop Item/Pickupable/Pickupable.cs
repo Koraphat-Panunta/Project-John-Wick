@@ -38,7 +38,7 @@ public class Pickupable : MonoBehaviour
         if (definition != null && definition.effects != null)
             for (int i = 0; i < definition.effects.Count; i++)
                 if (definition.effects[i] != null && definition.effects[i].CanBeReceivedBy(receiver)) return true;
-        foreach (var e in GetComponents<IPickupEffect>())
+        foreach (var e in GetComponents<IPickupItem>())
             if (e != null && e.CanBeReceivedBy(receiver)) return true;
         return false;
     }
@@ -57,7 +57,7 @@ public class Pickupable : MonoBehaviour
             for (int i = 0; i < definition.effects.Count; i++)
                 definition.effects[i]?.Apply(receiver, this);
 
-        foreach (var e in GetComponents<IPickupEffect>())
+        foreach (var e in GetComponents<IPickupItem>())
             e?.Apply(receiver, this);
 
         consumed = true;

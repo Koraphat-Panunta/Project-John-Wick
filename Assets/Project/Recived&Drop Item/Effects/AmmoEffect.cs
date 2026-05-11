@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class AmmoEffect : IPickupEffect
+public class AmmoEffect : IPickupItem
 {
     [Range(0, 200)] public int handgunAmmo = 5;
     [Range(0, 200)] public int rifleAmmo = 3;
