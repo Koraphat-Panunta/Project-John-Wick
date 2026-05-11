@@ -4,7 +4,8 @@ using UnityEngine.Animations;
 
 public abstract class WeaponAttachment : MonoBehaviour
 {
-    public AttachmentType attachmentType { get; }
+    [SerializeField] private AttachmentType _attachmentType;
+    public AttachmentType attachmentType => _attachmentType;
     public bool isAttaching { get => this.weaponAttachmentSocket != null ? true : false ; }
     public WeaponAttachmentSocket weaponAttachmentSocket { get; set; }
     public abstract AttachmentDataScriptableObject attachmentDataScriptableObject { get; }
