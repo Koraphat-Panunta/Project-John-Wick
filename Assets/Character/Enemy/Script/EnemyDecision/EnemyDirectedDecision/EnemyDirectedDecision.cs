@@ -100,6 +100,7 @@ public partial class EnemyDirectedDecision : INodeManager
 
     protected NodeSelector supporterBehaviorNodeSelector;
     protected SwarpCombatPositionActionNodeLeaf swarpCombatPositionActionNodeLeaf;
+    protected SurroundPlayerPositioningActionNodeLeaf surroundPlayerPositioningActionNodeLeaf;
     protected InsistEnemyActionNodeLeaf insist_Supporter_EnemyActionNodeLeaf;
 
     protected NodeSelector ambusherBehaviorNodeSelector;
@@ -154,6 +155,7 @@ public partial class EnemyDirectedDecision : INodeManager
         this.camperBehaviorNodeSelector.AddtoChildNode(this.insist_Camper_EnemyActionNodeLeaf);
 
         this.supporterBehaviorNodeSelector.AddtoChildNode(this.swarpCombatPositionActionNodeLeaf);
+        this.supporterBehaviorNodeSelector.AddtoChildNode(this.surroundPlayerPositioningActionNodeLeaf);
         this.supporterBehaviorNodeSelector.AddtoChildNode(this.insist_Supporter_EnemyActionNodeLeaf);
 
         this.ambusherBehaviorNodeSelector.AddtoChildNode(this.approuchingTargetEnemyActionNodeLeaf);
@@ -201,6 +203,13 @@ public partial class EnemyDirectedDecision : INodeManager
             ,()=> this.engaingPhaseTimerNodeLeaf.GetCurrentPhase() > 0
             ,this.enemyDecisionContext
             ,this);
+
+        this.surroundPlayerPositioningActionNodeLeaf = new SurroundPlayerPositioningActionNodeLeaf(
+            this.enemy
+            , this._enemyCommandAPI
+            , () => this.enemyDecisionContext.combatPhase >= CombatPhase.Aware
+            , this
+            , this.enemyDecisionContext);
 
         this.insist_Supporter_EnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(
             this.enemy
