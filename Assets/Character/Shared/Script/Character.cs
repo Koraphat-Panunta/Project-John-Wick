@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 
 
-public abstract class Character : MonoBehaviour,IInitializedAble
+public abstract class Character : MonoBehaviour
+    ,IInitializedAble
+    ,ILiveAbleThing
 {
     public abstract Gauge _hpGauge { get; protected set; } 
 
@@ -39,6 +41,9 @@ public abstract class Character : MonoBehaviour,IInitializedAble
     public abstract Stance stance { get; }
 
     public abstract MovementCompoent _movementCompoent { get; /*protected*/ set; }
+
+    public bool _isDead => this.isDead;
+
     [SerializeField] public CharacterMovementController characterController;
     //public RangeWeapon curentWeapon;
     //public Transform weaponSocket;

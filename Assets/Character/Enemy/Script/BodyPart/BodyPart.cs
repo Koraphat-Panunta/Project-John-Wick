@@ -12,6 +12,7 @@ public abstract class BodyPart : MonoBehaviour
     , IBeenThrewObjectAt
     , I_Got_OCM_Attacked_Able
     , IMeleeAttackerAble
+    , ILiveAbleThing
 
 {
     [SerializeField] public Enemy enemy;
@@ -188,6 +189,8 @@ public abstract class BodyPart : MonoBehaviour
     public Vector3 _attackAimDir => this.enemy._attackAimDir;
 
     public MeleeAttackingPhase _curAttackPhase => this.enemy._curMeleeAttackPhase;
+
+    public bool _isDead => this.enemy._isDead;
 
     public virtual void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
 

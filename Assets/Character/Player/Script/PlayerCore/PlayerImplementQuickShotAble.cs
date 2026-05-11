@@ -9,5 +9,7 @@ public partial class Player : IQuickShotAble
 
     public INodeManager _nodeManager => this.playerStateNodeManager;
 
+    public bool isTriggerQuickShot;
+
     public QuickShootRangeWeaponNodeLeaf _quickShootRangeWeaponNodeLeaf => this.playerStateNodeManager.quickShootRangeWeaponNodeLeaf;
 }

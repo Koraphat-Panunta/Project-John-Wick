@@ -9,6 +9,9 @@ public partial class Player : I_IFrameAble
             if(isIFrame)
                 return true;
             
+            if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<ParryNodeLeaf>())
+                return true;
+
             if((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>())
                 return true;
 

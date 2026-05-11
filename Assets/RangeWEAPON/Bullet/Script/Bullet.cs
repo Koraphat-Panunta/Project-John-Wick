@@ -54,6 +54,9 @@ public abstract class Bullet:
         horizontalAngle = Mathf.Clamp(horizontalAngle, - this.maxAngle, this.maxAngle);
         verticalAngle = Mathf.Clamp(verticalAngle, -this.maxAngle, this.maxAngle);
 
+        Debug.Log("horizontalAngle =" + horizontalAngle);
+        Debug.Log("verticalAngle =" + verticalAngle);
+
         // Rebuild direction from clamped angles
         Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
                          Quaternion.AngleAxis(verticalAngle, right);
@@ -73,18 +76,20 @@ public abstract class Bullet:
         Vector3 rayDir = clampedDir;
         Ray ray = new Ray(bulletSpawner.transform.position,rayDir);
 
-        Debug.DrawRay(bulletSpawner.transform.position, rayDir, Color.yellow, 5);
+        
 
         RaycastHit[] raycastHits = Physics.SphereCastAll(ray, 0.015f, MAX_DISTANCE, hitLayer, QueryTriggerInteraction.Ignore);
+
+        Debug.DrawRay(bulletSpawner.transform.position, rayDir * MAX_DISTANCE, Color.yellow,5);
 
         if (raycastHits.Length > 0)
         {
             System.Array.Sort(raycastHits, (a, b) => a.distance.CompareTo(b.distance));
-            //for (int i = raycastHits.Length - 1; i >= 0; i--)
-            //{
-            //    Debug.Log("bullet raycast hit = " + raycastHits[i].collider.gameObject);
-            //}
-                HitExecute(raycastHits, rayDir,out RaycastHit lastHit);
+            for (int i = raycastHits.Length - 1; i >= 0; i--)
+            {
+                Debug.Log("bullet raycast hit = " + raycastHits[i].collider.gameObject);
+            }
+            HitExecute(raycastHits, rayDir,out RaycastHit lastHit);
             return lastHit.point;
         }
         else
@@ -104,6 +109,12 @@ public abstract class Bullet:
             {
                 //Debug.Log("bullet raycast hit = " + rayCastHits[i].collider.gameObject);
                 //Debug.Log("panetrateRate = " + this.penetrateRate);
+                if(bulletDamageAble == (weapon.userWeapon as IBulletDamageAble))
+                {
+                    Debug.Log("Ignore self damaged");
+                    continue;
+                }
+
                 bulletDamageAble.TakeDamageBullet(this, rayCastHits[i].point,dir,bulletHitForce);
                 if(bulletHitNotify!= null)
                 bulletHitNotify.Invoke(rayCastHits[i].collider, rayCastHits[i].point,dir);

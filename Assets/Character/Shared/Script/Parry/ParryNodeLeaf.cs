@@ -13,6 +13,9 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
     public IDefendMeleeAttackAble _parrier => this.player;
     public IMeleeAttackerAble _parriedAttacker => this.parriedAttacker;
 
+    protected SubjectAnimationInteract sbjectAnimationInteract_1;
+    protected SubjectAnimationInteract sbjectAnimationInteract_2;
+
     public ParryNodeLeaf(Player player, Func<bool> preCondition, AnimationInteractScriptableObject parryScriptableObject)
         : base(player, preCondition)
     {
@@ -20,30 +23,52 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(parryScriptableObject);
 
         this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.Attacking.ToString(), this.OnAttackingPhase);
+
+        this.sbjectAnimationInteract_1 = new SubjectAnimationInteract(parryScriptableObject, parryScriptableObject.animationInteractCharacterDetail[0]);
+        this.sbjectAnimationInteract_2 = new SubjectAnimationInteract(parryScriptableObject, parryScriptableObject.animationInteractCharacterDetail[1]);
     }
 
     public override void Enter()
     {
+
+        Debug.Log("ParryEnter");
         this.animationTriggerEventPlayer.Rewind();
         this.parriedAttacker = this.player.meleeAttackerAble;
         this.hasNotifiedParry = false;
+    
+        Vector3 dir = this.parriedAttacker._character._movementCompoent.curPosition - this.player._movementCompoent.curPosition;
+        dir = new Vector3(dir.x, 0, dir.z);
+        dir.Normalize();
+        this.sbjectAnimationInteract_1.RestartSubject(this.player, this.parriedAttacker._character._movementCompoent.curPosition, dir);
+        this.sbjectAnimationInteract_2.RestartSubject(this.parriedAttacker._character, this.parriedAttacker._character._movementCompoent.curPosition, dir);
         this.player._character._movementCompoent.CancleMomentum();
         base.Enter();
     }
 
     public override void UpdateNode()
     {
+        this.sbjectAnimationInteract_1.UpdateInteract(Time.deltaTime);
+        this.sbjectAnimationInteract_2.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         if (this.animationTriggerEventPlayer.IsPlayFinish())
+        {
+            Debug.Log("ParryComplete");
             this.isComplete = true;
+        }
 
         base.UpdateNode();
     }
-
+    public override void Exit()
+    {
+        this.player.enableRootMotion = false;
+        Debug.Log("ParryExit()");
+        base.Exit();
+    }
     public override bool IsReset()
     {
         if (this.player.isDead)
             return true;
+
         return this.IsComplete();
     }
 
@@ -51,6 +76,8 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
 
     private void OnAttackingPhase()
     {
+        this.player.enableRootMotion = true;
+
         if (this.hasNotifiedParry)
             return;
 

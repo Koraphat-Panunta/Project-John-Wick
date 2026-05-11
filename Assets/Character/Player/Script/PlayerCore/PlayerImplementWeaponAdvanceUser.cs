@@ -99,7 +99,8 @@ public partial class Player: IRangeWeaponAdvanceUser
                     break;
                 case QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf:
                     {
-                        return (this as IQuickShotAble)._quickShotTargetPos;
+                        if(quickShootRangeWeaponNodeLeaf.target != null)    
+                            return (this as IQuickShotAble)._quickShotTargetPos;
                     }
                     break;
             }

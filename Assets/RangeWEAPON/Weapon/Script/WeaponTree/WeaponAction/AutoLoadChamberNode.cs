@@ -25,7 +25,6 @@ public class AutoLoadChamberNode : WeaponLeafNode
 
     public override void UpdateNode()
     {
-        Debug.Log("AutoLoadChamberNode UpdateNode " + this.timer);
         this.timer += Time.deltaTime;
         if(this.timer >= this.rechamberTime)
         {

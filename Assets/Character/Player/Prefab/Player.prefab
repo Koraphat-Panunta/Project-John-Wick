@@ -436,6 +436,7 @@ MonoBehaviour:
     type: 2}
   gunFu_Single_Execute_OnGround: {fileID: 11400000, guid: fb21cdbe00c7c66419c73c3779b3212d,
     type: 2}
+  parryScriptableObject: {fileID: 0}
   defensiveDetector: {fileID: 0}
   isInComingMeleeAttack: 0
   dodgeImpluseForce: 4.5
@@ -445,6 +446,7 @@ MonoBehaviour:
   restrictShieldIFrame: 1.5
   quickShotAnimationTriggerEventSCRP: {fileID: 0}
   castFindingScriptableObject: {fileID: 0}
+  isTriggerQuickShot: 0
   throwObjectAnimationTriggerEventSCRP: {fileID: 11400000, guid: d8574fbabb784c0498fdfa6be2f220fc,
     type: 2}
   _isTriggerThrowCommand: 0

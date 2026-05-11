@@ -55,7 +55,11 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     }
                 case QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf:
                     {
-                        this.player.cinemachineCamera.RotateCameraTowardsDirection(quickShootRangeWeaponNodeLeaf.shootDir, 150 * Time.deltaTime);
+                        if (quickShootRangeWeaponNodeLeaf.target != null)
+                        {
+                            float rotateSPeed = SlowDownRotateSpeed.GetSlowDownRotateSpeedOnNearlyTargetRotation(this.player.cinemachineCamera.transform.forward, quickShootRangeWeaponNodeLeaf.shootDir, 45, 300);
+                            this.player.cinemachineCamera.RotateCameraTowardsDirection(quickShootRangeWeaponNodeLeaf.shootDir, rotateSPeed);
+                        }
                         player.NotifyObserver(player, quickShootRangeWeaponNodeLeaf);
                     }
                     break;

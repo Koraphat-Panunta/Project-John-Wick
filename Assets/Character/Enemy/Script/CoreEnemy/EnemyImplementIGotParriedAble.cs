@@ -11,5 +11,7 @@ public partial class Enemy : IGotParriedAble
     {
         this._parrier = parrier;
         this._triggerGotParried = true;
+        this.enemyStateManagerNode.meleeAttackMove_I_NodeLeaf.TriggerReset();
+        
     }
 }

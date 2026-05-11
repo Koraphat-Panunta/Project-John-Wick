@@ -358,6 +358,9 @@ public partial class Enemy : SubjectEnemy
             if(stateManagerNode == null)
                 return false;
 
+            if(stateManagerNode.TryGetCurNodeLeaf<IGotParriedNode>())
+                return true;
+
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;    
 

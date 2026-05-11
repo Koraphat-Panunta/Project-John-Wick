@@ -210,11 +210,10 @@ public class PlayerStateNodeManager :
 
         this.quickShootRangeWeaponNodeLeaf = new QuickShootRangeWeaponNodeLeaf(
             this.player
-            , .8f
+            , .67f
             ,this.player.castFindingScriptableObject
             ,this.player.quickShotAnimationTriggerEventSCRP
-            , () => this.player._isAimingCommand
-            && (this.player._isPullTriggerCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isPullTriggerCommand)))
+            , () => this.player.commandBufferManager.TryGetCommand(nameof(this.player.isTriggerQuickShot))
             && this.player._currentWeapon != null
             && this.player._currentWeapon.chamber.isReadyShoot
             && this.player._weaponManuverManager.aimingWeight < this.quickShootRangeWeaponNodeLeaf.aimingWeightQuickShot);
@@ -291,7 +290,8 @@ public class PlayerStateNodeManager :
             () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player._currentWeapon != null
             && this.player.meleeAttackerAble != null
-            && (this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.PreAttack
+            && (this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Anticipate
+            || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.PreAttack
                 || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Attacking),
             this.player.parryScriptableObject);
 

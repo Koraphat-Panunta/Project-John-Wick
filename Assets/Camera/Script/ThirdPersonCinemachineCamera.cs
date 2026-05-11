@@ -120,6 +120,7 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         yaw = Mathf.MoveTowardsAngle(yaw, targetYaw, step);
         pitch = Mathf.MoveTowards(pitch, targetPitch, step);
     }
+   
 
     public void SetYaw(float value)=>this.yaw = value;
     public void SetPitch(float value)=> this.pitch = Mathf.Clamp(value,minPitch,maxPitch);

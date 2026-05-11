@@ -38,9 +38,13 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     public void Aim(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
             player._isAimingCommand = true;
+        }
         if (context.canceled)
             player._isAimingCommand = false;
+
+        this.QuickShot();
     }
     public void Attack(InputAction.CallbackContext context)
     {
@@ -76,6 +80,21 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         {
             player._isPullTriggerCommand = false;
         }
+
+        this.QuickShot();
+
+    }
+    private void QuickShot()
+    {
+        if(this.player._isAimingCommand 
+            && (this.player._isPullTriggerCommand || this.player._triggerAttack)
+            && this.player._weaponManuverManager.aimingWeight < this.player.playerStateNodeManager.quickShootRangeWeaponNodeLeaf.aimingWeightQuickShot)
+        {
+            this.player.isTriggerQuickShot = true;
+            this.player.commandBufferManager.AddCommand(nameof(this.player.isTriggerQuickShot), .35f);
+        }
+
+
     }
    
     public void Reload(InputAction.CallbackContext context)

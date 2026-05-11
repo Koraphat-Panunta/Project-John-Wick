@@ -114,6 +114,7 @@ public partial class Player : SubjectPlayer,
         _triggerAttack = false;
         _isTriggerThrowCommand = false;
         isTriggerCrouchStand = false;
+        isTriggerQuickShot = false;
  
     }
    

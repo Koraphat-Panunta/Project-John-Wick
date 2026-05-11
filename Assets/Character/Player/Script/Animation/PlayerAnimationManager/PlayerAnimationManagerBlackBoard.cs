@@ -51,6 +51,9 @@ public partial class PlayerAnimationManager
             if(playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
                 return false;
 
+            if (playerStateNodeMnager.TryGetCurNodeLeaf<ParryNodeLeaf>())
+                return false;
+
             if (playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>())
                 return false;
 

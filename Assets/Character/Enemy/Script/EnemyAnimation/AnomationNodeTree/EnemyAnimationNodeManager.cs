@@ -11,6 +11,7 @@ public partial class EnemyAnimationManager : INodeManager
     INodeLeaf INodeManager._curNodeLeaf { get => this.curNodeLeaf; set => this.curNodeLeaf = value; }
     public List<INodeManager> _parallelNodeManahger { get; set; }
 
+    public PlayAnimationNodeLeaf gotParriedNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf meleeAttackMoveAnimationNodeLeaf { get; set; } 
     public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
@@ -26,6 +27,12 @@ public partial class EnemyAnimationManager : INodeManager
     {
         this.startNodeSelector = new NodeSelector(() => true);
 
+        this.gotParriedNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotParriedNodeLeaf>(out GotParriedNodeLeaf attackMoveMeleeWeaponNodeLeaf)
+            , this.animator
+            , "Got_Parried_I"
+            , 0
+            , .2f);
         this.meleeAttackMoveAnimationNodeLeaf = new PlayAnimationNodeLeaf(
             ()=> this.enemyStateManager.TryGetCurNodeLeaf<AttackMoveMeleeWeaponNodeLeaf>(out AttackMoveMeleeWeaponNodeLeaf attackMoveMeleeWeaponNodeLeaf)
             ,this.animator
@@ -71,6 +78,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.rest_BaseLayerAnimation_NodeLeaf = new RestNodeLeaf(
             () => true);
 
+        this.startNodeSelector.AddtoChildNode(this.gotParriedNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.meleeAttackMoveAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);

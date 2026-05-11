@@ -166,4 +166,30 @@ public static class CastFinding
 
         return detects.Count > 0;
     }
+
+    //public static bool FindLiveAbleThingInConeByComponent<T>(
+    //    Vector3 origin,
+    //    Vector3 castDir,
+    //    float castDistance,
+    //    float halfAngleDegrees,
+    //    LayerMask castLayerMask,
+    //    out List<T> detects,
+    //    LayerMask obstacleLayerMask = default)
+    //{
+    //    List<ILiveAbleThing> liveAbleThings = new List<ILiveAbleThing>();
+
+    //    FindAllObjectsInConeByComponent<ILiveAbleThing>(
+    //       origin
+    //       , castDir
+    //       , castDistance
+    //       , halfAngleDegrees
+    //       , castLayerMask
+    //       , out liveAbleThings
+    //       , obstacleLayerMask);
+
+    //    for (int i = 0;i < liveAbleThings.Count; i++)
+    //    {
+            
+    //    }
+    //}
 }

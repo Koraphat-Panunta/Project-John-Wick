@@ -76,7 +76,6 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
     public override void UpdateNode()
     {
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
-        Debug.Log("Melee attack phase = " + this.attackingPhase);
 
         this.MoveUpdate();
         base.UpdateNode();
@@ -84,6 +83,9 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     public override bool IsReset()
     {
+        if (this.meleeWeaponUserAble._isPerformAttackAble == false)
+            return true;
+
         if(this.character.isDead)
             return true;
 

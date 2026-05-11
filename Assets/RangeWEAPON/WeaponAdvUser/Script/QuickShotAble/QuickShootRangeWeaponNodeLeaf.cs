@@ -12,15 +12,15 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     public Vector3 shootDir 
     { 
         get => this.target
-            ? (this.target.position - this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition).normalized
-            : (this.weaponAdvanceUser._pointingPos - this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition).normalized;
+            ? (this.target.position - this.weaponAdvanceUser._currentWeapon.bulletSpawner.transform.position).normalized
+            : (this.weaponAdvanceUser._pointingPos - this.weaponAdvanceUser._currentWeapon.bulletSpawner.transform.position).normalized;
     }
-    protected Transform target;
+    public Transform target { get; protected set; }
 
     private float rotateNormalTime;
 
     public bool isQuickShotAble;
-    public float quickShotCoolDownTime = 3;
+    public float quickShotCoolDownTime = 1;
 
     public QuickShootRangeWeaponNodeLeaf(
         IRangeWeaponAdvanceUser weaponAdvanceUser
@@ -54,7 +54,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
         Vector3 castDir = this.weaponAdvanceUser._shootingPos - this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition;
         castDir.Normalize();
 
-        if (CastFinding.FindObectInViewByComponent<BodyPart>(
+        if (CastFinding.FindObjectInConeByComponent<BodyPart>(
             this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition
             , castDir
             , this.castFindingScriptableObject.castDistance
@@ -63,7 +63,8 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
             , out BodyPart bulletDamageAble
             ))
         {
-            this.target = bulletDamageAble.enemy.humanoidBone.hips;
+            Debug.Log("QuickShot bulletDamagedAble = " + bulletDamageAble);
+            this.target = (bulletDamageAble.enemy.humanoidBone.hips);
         }
         else
         {
@@ -136,6 +137,9 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     public override void UpdateNode()
     {
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
+
+        this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Lerp(this.weaponAdvanceUser._weaponManuverManager.aimingWeight
+            , this.aimingWeightQuickShot, Time.deltaTime);
 
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction(
          WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive
