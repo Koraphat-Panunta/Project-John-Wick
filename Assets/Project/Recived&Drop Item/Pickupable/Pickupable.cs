@@ -34,11 +34,12 @@ public class Pickupable : MonoBehaviour
     /// <summary>True if at least one effect can be received by the candidate.</summary>
     public bool CanBeReceivedBy(IItemReceiver receiver)
     {
-        if (definition == null || receiver == null) return false;
-        var effects = definition.effects;
-        if (effects == null) return false;
-        for (int i = 0; i < effects.Count; i++)
-            if (effects[i] != null && effects[i].CanBeReceivedBy(receiver)) return true;
+        if (receiver == null) return false;
+        if (definition != null && definition.effects != null)
+            for (int i = 0; i < definition.effects.Count; i++)
+                if (definition.effects[i] != null && definition.effects[i].CanBeReceivedBy(receiver)) return true;
+        foreach (var e in GetComponents<IPickupEffect>())
+            if (e != null && e.CanBeReceivedBy(receiver)) return true;
         return false;
     }
 
@@ -52,9 +53,12 @@ public class Pickupable : MonoBehaviour
         if (consumed) return false;
         if (!CanBeReceivedBy(receiver)) return false;
 
-        var effects = definition.effects;
-        for (int i = 0; i < effects.Count; i++)
-            effects[i]?.Apply(receiver, this);
+        if (definition != null && definition.effects != null)
+            for (int i = 0; i < definition.effects.Count; i++)
+                definition.effects[i]?.Apply(receiver, this);
+
+        foreach (var e in GetComponents<IPickupEffect>())
+            e?.Apply(receiver, this);
 
         consumed = true;
         OnConsumedEvent?.Invoke(this, receiver);
