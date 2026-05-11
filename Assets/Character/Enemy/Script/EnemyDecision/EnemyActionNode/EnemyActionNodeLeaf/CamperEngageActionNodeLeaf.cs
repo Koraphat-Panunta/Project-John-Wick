@@ -32,13 +32,14 @@ public class CamperEngageActionNodeLeaf : EnemyActionNodeLeaf
     
     public override void UpdateNode()
     {
-        this.enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
+        EnemyOffendCommandWeaponBased.Hold(this.enemy,this.enemyCommandAPI,this.enemy.targetKnowPos);
         if (this.isShootAble) 
         {
-            this.enemyCommandAPI.NormalFiringPattern.Performing();
+            EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
         }
         if (this.isApprouch)
         {
+            EnemyOffendCommandWeaponBased.Ambush(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
             if (this.curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
                 this.enemyCommandAPI.MoveToPosition(_curvePoint, 1);
             else

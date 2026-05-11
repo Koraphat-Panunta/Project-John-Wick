@@ -51,8 +51,9 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case CombatPhase.Alert:
                 {
                     enemyCommandAPI.FreezPosition();
-                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
-                    enemyCommandAPI.NormalFiringPattern.Performing();
+
+                    EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
+
                     enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
                     //if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
@@ -66,7 +67,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case CombatPhase.Aware:
                 {
                     enemyCommandAPI.FreezPosition();
-                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
+                    EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
                     enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
 
                 }
@@ -74,7 +75,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
             case CombatPhase.Chill:
                 {
                     enemyCommandAPI.FreezPosition();
-                    enemyCommandAPI.LowReady();
+                    EnemyOffendCommandWeaponBased.Rest(this.enemy, this.enemyCommandAPI);
                 }
                 break;
         }

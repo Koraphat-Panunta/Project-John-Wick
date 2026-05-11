@@ -4,13 +4,12 @@ using static SubjectEnemy;
 using System.Linq;
 
 public class EnemyDirector :
-    Actor, 
-    IObserverEnemy
-    ,IObserverPlayer
-    ,IInitializedAble
+    Actor,
+    IObserverEnemy,
+    IObserverPlayer,
+    IInitializedAble
 {
-
-    protected Dictionary<Enemy,IEnemyDirectedAble> enemysDirectedAble = new Dictionary<Enemy, IEnemyDirectedAble>();
+    protected Dictionary<Enemy, IEnemyDirectedAble> enemysDirectedAble = new Dictionary<Enemy, IEnemyDirectedAble>();
 
     [SerializeField] public int MAX_ChaserCount;
     [SerializeField] private int chaserCount;
@@ -19,197 +18,196 @@ public class EnemyDirector :
 
     [SerializeField] public float chaserChangeDelay;
     private float elapseTimeChaserChange;
+    private int assignCycleCount;
 
-    [SerializeField] private int assingTime;
+    private const int MAX_MeleeChaserCount = 1;
 
     [SerializeField] private Player player;
+
     public void Initialized()
     {
         player.AddObserver(this);
     }
-   
-    private void Start()
-    {
-        //enemiesRole.ForEach(eRole => 
-        //{
-        //    this.AddEnemy(eRole);
-        //});
-        assingTime = 0;
-    }
-    // Update is called once per frame
+
     void Update()
     {
-        this.UpdateOverwatchShootPoint();
-        this.UpdateRoleManager();    
+        UpdateOverwatchShootPoint();
+        UpdateRoleManager();
     }
-    
+
     public void AddEnemy(IEnemyDirectedAble enemyDirected)
     {
         enemyDirected._enemy.AddObserver(this);
-        this.enemysDirectedAble.Add(enemyDirected._enemy, enemyDirected);
+        enemysDirectedAble.Add(enemyDirected._enemy, enemyDirected);
         enemyDirected._enemyCommandAPI.NormalFiringPattern = new NormalFiringPatternEnemyDirectorBased(enemyDirected._enemyCommandAPI, this, enemyDirected);
     }
+
     public void RemoveEnemy(IEnemyDirectedAble enemyRoleBasedDecision)
     {
-       this.RemoveEnemy(enemyRoleBasedDecision._enemy);
+        RemoveEnemy(enemyRoleBasedDecision._enemy);
     }
+
     public void RemoveEnemy(Enemy enemy)
     {
         enemy.RemoveObserver(this);
         enemysDirectedAble.Remove(enemy);
     }
-    public void OnNotify<T>(Enemy enemy,T node)
+
+    public void OnNotify<T>(Enemy enemy, T node)
     {
-
-        if (node is EnemyEvent enemyEvent 
-            && enemyEvent == SubjectEnemy.EnemyEvent.GotBulletHit
+        if (node is EnemyEvent enemyEvent
+            && enemyEvent == EnemyEvent.GotBulletHit
             && enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.HeavyPainState)
-            AssignChaser(enemysDirectedAble[enemy]);
+            AssignChaserManual(enemysDirectedAble[enemy]);
 
-        if (node is EnemyStateLeafNode enemyStateNodeLeaf)
-            switch (enemyStateNodeLeaf)
+        if (node is EnemyStateLeafNode enemyStateNode)
+            switch (enemyStateNode)
             {
-                case EnemyDeadStateNode deadStateNodeDead:
-                    {
-                        if (deadStateNodeDead.curstate == EnemyStateLeafNode.Curstate.Enter)
-                        {
-                            this.RemoveEnemy(enemy);
-                            elapseTimeChaserChange = chaserChangeDelay;
-                            CalcuateRoleCount();
-                        }
-                        break;
-                    }
-                case IGotGunFuAttackNode gotGunFuAttackAbleNode:
-                    {
-                        AssignChaser(enemysDirectedAble[enemy]);
-                        break;
-                    }
+                case EnemyDeadStateNode deadNode when deadNode.curstate == EnemyStateLeafNode.Curstate.Enter:
+                    RemoveEnemy(enemy);
+                    elapseTimeChaserChange = chaserChangeDelay;
+                    RecalculateRoleCounts();
+                    break;
+
+                case IGotGunFuAttackNode:
+                    AssignChaserManual(enemysDirectedAble[enemy]);
+                    break;
             }
     }
+
     private void UpdateRoleManager()
     {
-        if (chaserCount < MAX_ChaserCount)
-        {
-            elapseTimeChaserChange -= Time.deltaTime;
-            if (elapseTimeChaserChange <= 0)
-            {
-                if (assingTime >= MAX_ChaserCount)
-                {
-                    elapseTimeChaserChange = chaserChangeDelay * 2;
-                    assingTime = 0;
-                }
-                else
-                {
-                    assingTime += 1;
-                    elapseTimeChaserChange = chaserChangeDelay;
-                }
-                AssignChaser();
-            }
-        }
-    }
-    
-    private void AssignChaser() //AutoChangeWhen Chaser < MaxChaser find near target
-    {
-
-        IEnemyDirectedAble selectedEnemy = null;
-        if(allEnemiesAliveCount <=0)
+        if (chaserCount >= MAX_ChaserCount)
             return;
 
-        IEnemyDirectedAble[] enemies = this.enemysDirectedAble.Values.ToArray();
+        elapseTimeChaserChange -= Time.deltaTime;
+        if (elapseTimeChaserChange > 0)
+            return;
 
-        for (int i = 0; i < allEnemiesAliveCount; i++)
+        if (assignCycleCount >= MAX_ChaserCount)
         {
-            if (enemies[i]._curCommandPerforme == EnemyRoleCommand.Ambush)
-                continue;
+            elapseTimeChaserChange = chaserChangeDelay * 2;
+            assignCycleCount = 0;
+        }
+        else
+        {
+            assignCycleCount++;
+            elapseTimeChaserChange = chaserChangeDelay;
+        }
 
-            if (enemies[i]._combatPhase != CombatPhase.Alert)
-                continue;
+        AssignChaserAuto();
+    }
 
-            if (Vector3.Distance(enemies[i]._enemy.targetKnowPos, enemies[i]._enemy.transform.position) <= 5) // Found the near target
+    // Promotes the nearest non-chaser enemy (Alert phase) to Ambush.
+    // Prefers enemies within 5 units; otherwise picks the globally nearest candidate.
+    // Melee enemies are skipped when the melee chaser slot is already filled.
+    private void AssignChaserAuto()
+    {
+        if (allEnemiesAliveCount <= 0)
+            return;
+
+        int meleeChaserCount = CountChasersWithMelee();
+        IEnemyDirectedAble nearestCandidate = null;
+        IEnemyDirectedAble[] enemies = enemysDirectedAble.Values.ToArray();
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            IEnemyDirectedAble e = enemies[i];
+
+            if (e._curCommandPerforme == EnemyRoleCommand.Ambush) continue;
+            if (e._combatPhase != CombatPhase.Alert) continue;
+            if (IsMeleeEnemy(e) && meleeChaserCount >= MAX_MeleeChaserCount) continue;
+
+            float dist = Vector3.Distance(e._enemy.targetKnowPos, e._enemy.transform.position);
+
+            if (dist <= 5f)
             {
-                enemies[i].SetDirectorCommand(EnemyRoleCommand.Ambush);
+                e.SetDirectorCommand(EnemyRoleCommand.Ambush);
+                RecalculateRoleCounts();
                 return;
             }
 
-            // Find the nearest as posible if distance > 5
-            if (selectedEnemy == null)
+            if (nearestCandidate == null || dist <
+                Vector3.Distance(nearestCandidate._enemy.targetKnowPos, nearestCandidate._enemy.transform.position))
             {
-                selectedEnemy = enemies[i];
-                continue;
-            }
-
-            if (Vector3.Distance(enemies[i]._enemy.targetKnowPos, enemies[i]._enemy.transform.position) <
-                Vector3.Distance(selectedEnemy._enemy.targetKnowPos, selectedEnemy._enemy.transform.position)
-                )
-            {
-                selectedEnemy = enemies[i];
+                nearestCandidate = e;
             }
         }
 
-        if (selectedEnemy == null)
+        if (nearestCandidate == null)
             return;
 
-        selectedEnemy.SetDirectorCommand(EnemyRoleCommand.Ambush);
-
-        CalcuateRoleCount();
-
+        nearestCandidate.SetDirectorCommand(EnemyRoleCommand.Ambush);
+        RecalculateRoleCounts();
     }
-    private void AssignChaser(IEnemyDirectedAble enemyRoleBased) //Manual Change Role
+
+    // Reactively promotes a specific enemy to Ambush (triggered by GunFu or heavy pain hit).
+    // Rotates the first found Ambush enemy back to Support when at capacity.
+    // Blocked for melee enemies when the melee chaser slot is already filled.
+    private void AssignChaserManual(IEnemyDirectedAble enemyRoleBased)
     {
-        if(elapseTimeChaserChange > 0)
+        if (elapseTimeChaserChange > 0)
+            return;
+        if (IsMeleeEnemy(enemyRoleBased) && CountChasersWithMelee() >= MAX_MeleeChaserCount)
             return;
 
-        if (chaserCount < MAX_ChaserCount)
-            enemyRoleBased.SetDirectorCommand(EnemyRoleCommand.Ambush);
-        else if (chaserCount >= MAX_ChaserCount)
+        if (chaserCount >= MAX_ChaserCount)
         {
-            foreach (Enemy enemy in this.enemysDirectedAble.Keys)
+            foreach (IEnemyDirectedAble e in enemysDirectedAble.Values)
             {
-                if (this.enemysDirectedAble[enemy]._curCommandPerforme == EnemyRoleCommand.Ambush)
-                    this.enemysDirectedAble[enemy].SetDirectorCommand(EnemyRoleCommand.Support);
-                break;
+                if (e._curCommandPerforme == EnemyRoleCommand.Ambush)
+                {
+                    e.SetDirectorCommand(EnemyRoleCommand.Support);
+                    break;
+                }
             }
-
-            enemyRoleBased.SetDirectorCommand(EnemyRoleCommand.Ambush);
-
         }
 
-        CalcuateRoleCount();
-
+        enemyRoleBased.SetDirectorCommand(EnemyRoleCommand.Ambush);
+        RecalculateRoleCounts();
     }
-    private void CalcuateRoleCount()
+
+    private void RecalculateRoleCounts()
     {
-        int chaserCount = 0;
-        int overwatchCount = 0;
+        int chasers = 0;
+        int overwatch = 0;
 
-        if(this.enemysDirectedAble.Count > 0)
-        foreach (IEnemyDirectedAble enemyDirected in this.enemysDirectedAble.Values)
+        foreach (IEnemyDirectedAble e in enemysDirectedAble.Values)
         {
-
-            if (enemyDirected._curCommandPerforme == EnemyRoleCommand.Ambush )
-                chaserCount++;
-
-            if (enemyDirected._curCommandPerforme == EnemyRoleCommand.Support)
-                overwatchCount++;
+            if (e._curCommandPerforme == EnemyRoleCommand.Ambush) chasers++;
+            else if (e._curCommandPerforme == EnemyRoleCommand.Support) overwatch++;
         }
 
-        this.chaserCount = chaserCount;
-        this.overwatchCount = overwatchCount;
+        chaserCount = chasers;
+        overwatchCount = overwatch;
     }
 
-    #region Manage number of shooter 
+    private static bool IsMeleeEnemy(IEnemyDirectedAble enemyDirected)
+        => enemyDirected._enemy._curMeleeWeapon != null;
 
+    private int CountChasersWithMelee()
+    {
+        int count = 0;
+        foreach (IEnemyDirectedAble e in enemysDirectedAble.Values)
+        {
+            if (e._curCommandPerforme == EnemyRoleCommand.Ambush && IsMeleeEnemy(e))
+                count++;
+        }
+        return count;
+    }
+
+    #region Shooter Permission
 
     [SerializeField] private int maxNumberChaserShooter;
     [SerializeField] private int maxNumberOverwatchShooter;
-
     [SerializeField] private int maxOverwatchShootPoint;
     [SerializeField] private int overwatchShootPoint;
     [SerializeField] private float shootPointCoolDown;
     [SerializeField] private float shootPointCoolDownTimer;
+
     private void UpdateOverwatchShootPoint()
     {
-        if(overwatchShootPoint >= maxOverwatchShootPoint)
+        if (overwatchShootPoint >= maxOverwatchShootPoint)
             return;
 
         if (shootPointCoolDownTimer >= shootPointCoolDown)
@@ -220,78 +218,56 @@ public class EnemyDirector :
         else
             shootPointCoolDownTimer += Time.deltaTime;
     }
+
     public bool GetShooterPermission(IEnemyDirectedAble enemyDirected)
     {
-        EnemyRoleCommand directedCommand = enemyDirected._curCommandPerforme;
-
-        // Free to shoot if near target
         if (Vector3.Distance(enemyDirected._enemy.targetKnowPos, enemyDirected._enemy.transform.position) < 3.5f)
             return true;
 
-        switch (directedCommand)
+        switch (enemyDirected._curCommandPerforme)
         {
             case EnemyRoleCommand.Ambush:
-                {
-                    int isShootChaser = 0;
+                return CountActiveShooters(EnemyRoleCommand.Ambush) < maxNumberChaserShooter;
 
-                    foreach(IEnemyDirectedAble enemyRoleBD in this.enemysDirectedAble.Values) // Count the all will shoot enemy
-                    {
-                        if(enemyRoleBD._curCommandPerforme == EnemyRoleCommand.Ambush
-                            && enemyRoleBD._enemyCommandAPI.NormalFiringPattern.isWillShoot)
-                            isShootChaser++;
-
-                        if (isShootChaser >= maxNumberChaserShooter)
-                            return false;
-                    }
-                    return true;
-                }
-        
-            case EnemyRoleCommand.Support: 
-                {
-           
-                    if(this.overwatchShootPoint <=0)
-                        return false;
-
-                    int isShootOverwatch = 0;
-                    foreach (IEnemyDirectedAble enemyRoleBD in this.enemysDirectedAble.Values)
-                    {
-                        if (enemyRoleBD._curCommandPerforme == EnemyRoleCommand.Support
-                            && enemyRoleBD._enemyCommandAPI.NormalFiringPattern.isWillShoot)
-                            isShootOverwatch++;
-
-                        if(isShootOverwatch >= maxNumberOverwatchShooter)
-                            return false;
-                    }
-                    this.overwatchShootPoint--;
-                    return true;
-                  
-                }
-        
+            case EnemyRoleCommand.Support:
+                if (overwatchShootPoint <= 0) return false;
+                if (CountActiveShooters(EnemyRoleCommand.Support) >= maxNumberOverwatchShooter) return false;
+                overwatchShootPoint--;
+                return true;
         }
+
         return false;
     }
+
+    private int CountActiveShooters(EnemyRoleCommand role)
+    {
+        int count = 0;
+        foreach (IEnemyDirectedAble e in enemysDirectedAble.Values)
+        {
+            if (e._curCommandPerforme == role && e._enemyCommandAPI.NormalFiringPattern.isWillShoot)
+                count++;
+        }
+        return count;
+    }
+
     #endregion
+
     public List<Enemy> GetAllEnemyAlive()
     {
-        List<Enemy> enemies = new List<Enemy>();
-        foreach(Enemy enemy in this.enemysDirectedAble.Keys)
+        var enemies = new List<Enemy>();
+        foreach (Enemy enemy in enemysDirectedAble.Keys)
         {
-            if (enemy.isDead == false)
+            if (!enemy.isDead)
                 enemies.Add(enemy);
         }
         return enemies;
     }
+
     private void OnValidate()
     {
-        if(player == null)
+        if (player == null)
             player = FindAnyObjectByType<Player>();
     }
 
-   
-    public void OnNotify<T>(Player player, T node)
-    {
-       
-    }
-  
-    
+    public void OnNotify<T>(Player player, T node) { }
 }

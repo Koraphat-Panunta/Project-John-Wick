@@ -66,14 +66,12 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         {
             case CombatPhase.Alert:
                 {
-                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
-                    enemyCommandAPI.NormalFiringPattern.Performing();
-
+                    EnemyOffendCommandWeaponBased.Ambush(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
                 }
                 break;
             case CombatPhase.Aware:
                 {
-                    enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
+                    EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
                 }
                 break;
         }

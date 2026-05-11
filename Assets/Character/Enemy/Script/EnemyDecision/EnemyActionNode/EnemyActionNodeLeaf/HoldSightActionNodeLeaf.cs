@@ -25,7 +25,7 @@ public class HoldSightActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void UpdateNode()
     {
-        this.enemyCommandAPI.AimDownSight(this.holdPosition);
+        EnemyOffendCommandWeaponBased.Hold(this.enemy,this.enemyCommandAPI,this.holdPosition);
         this.enemyCommandAPI.FreezPosition();
         base.UpdateNode();
     }
