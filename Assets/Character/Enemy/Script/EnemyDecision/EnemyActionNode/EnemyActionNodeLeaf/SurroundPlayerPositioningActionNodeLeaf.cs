@@ -17,13 +17,18 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
     public const float SURROUND_RADIUS_MAX = 8f;
     private const float POSITION_REACH_DISTANCE = 1.5f;
     private const float REPOSITION_INTERVAL_MIN = 3f;
-    private const float REPOSITION_INTERVAL_MAX = 6f;
+    private const float REPOSITION_INTERVAL_MAX = 12f;
     private const float DRIFT_SPEED_DEG_PER_SEC = 12f;
-    private const float PLAYER_MOVE_REPOSITION_THRESHOLD = 2f;
+    private const float PLAYER_MOVE_REPOSITION_THRESHOLD = 3f;
     private const float NAVMESH_SAMPLE_RADIUS = 3f;
-    private const float MOVE_VELOCITY_SCALE = 0.5f;
+    private const float MAX_MOVE_VELOCITY_SCALE = 0.5f;
 
-    private Vector3 currentTargetPosition;
+    private float curMoveVelocityScale = 0;
+    private float targetMoveVelocityScale = 0;
+
+    private Vector3 targetPosition;
+    private Vector3 curTargetPosition;
+
     public float currentAngle { get; private set; }
     private float currentRadius;
     private float repositionTimer;
@@ -43,6 +48,8 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void Enter()
     {
+        Debug.Log("Enter");
+        this.curTargetPosition = this.enemy.transform.position;
         s_activeInstances.Add(this);
         driftDirection = UnityEngine.Random.value > 0.5f ? 1f : -1f;
         currentRadius = UnityEngine.Random.Range(SURROUND_RADIUS_MIN, SURROUND_RADIUS_MAX);
@@ -55,6 +62,7 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
 
     public override void Exit()
     {
+        Debug.Log("Exit");
         s_activeInstances.Remove(this);
         base.Exit();
     }
@@ -77,7 +85,16 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
             RefreshTargetPosition();
         }
 
-        enemyCommandAPI.MoveToPositionRotateToward(currentTargetPosition, MOVE_VELOCITY_SCALE, 1f, POSITION_REACH_DISTANCE);
+        this.curMoveVelocityScale = Mathf.MoveTowards(this.curMoveVelocityScale, this.targetMoveVelocityScale, Time.deltaTime * .5f);
+        this.curTargetPosition = Vector3.MoveTowards(this.curTargetPosition, this.targetPosition, Time.deltaTime * 5);
+
+        Debug.DrawLine(this.curTargetPosition, this.targetPosition, Color.yellow);
+
+        if(this.enemyCommandAPI.MoveToPosition(this.targetPosition, this.curMoveVelocityScale, POSITION_REACH_DISTANCE))
+        {
+            this.enemyCommandAPI.FreezPosition();
+        }
+
 
         switch (enemyDecisionContext.combatPhase)
         {
@@ -107,13 +124,15 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
 
     private void RefreshTargetPosition()
     {
+        this.curMoveVelocityScale = 0;
+        this.targetMoveVelocityScale = UnityEngine.Random.Range(0, MAX_MOVE_VELOCITY_SCALE);
         Vector3 offset = Quaternion.AngleAxis(currentAngle, Vector3.up) * Vector3.forward * currentRadius;
         Vector3 desired = enemy.targetKnowPos + offset;
 
         if (NavMesh.SamplePosition(desired, out NavMeshHit hit, NAVMESH_SAMPLE_RADIUS, NavMesh.AllAreas))
-            currentTargetPosition = hit.position;
+            targetPosition = hit.position;
         else
-            currentTargetPosition = desired;
+            targetPosition = desired;
     }
 
     // Finds the angle that sits at the midpoint of the largest angular gap between other surrounding enemies.
