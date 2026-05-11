@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract class WeaponAttachment : MonoBehaviour
+public abstract class WeaponAttachment : MonoBehaviour, IPickupEffect
 {
     [SerializeField] private AttachmentType _attachmentType;
     public AttachmentType attachmentType => _attachmentType;
@@ -45,6 +45,42 @@ public abstract class WeaponAttachment : MonoBehaviour
     {
         this.transform.SetParent(null);
         this.weaponAttachmentSocket = null;
+    }
+
+    // --- IPickupEffect -------------------------------------------------------
+
+    public bool CanBeReceivedBy(IItemReceiver receiver)
+    {
+        if (receiver is not IRangeWeaponAdvanceUser user) return false;
+        var weapon = user._currentWeapon;
+        if (weapon == null || weapon.weaponAttachmentSocket == null) return false;
+        foreach (var socket in weapon.weaponAttachmentSocket)
+            if (socket != null && socket.socketAttachmentType == attachmentType) return true;
+        return false;
+    }
+
+    public void Apply(IItemReceiver receiver, object source)
+    {
+        if (receiver is not IRangeWeaponAdvanceUser user) return;
+        var weapon = user._currentWeapon;
+        if (weapon == null || weapon.weaponAttachmentSocket == null) return;
+
+        WeaponAttachmentSocket targetSocket = null;
+        foreach (var socket in weapon.weaponAttachmentSocket)
+        {
+            if (socket != null && socket.socketAttachmentType == attachmentType)
+            {
+                targetSocket = socket;
+                break;
+            }
+        }
+
+        if (targetSocket == null) return;
+
+        if (targetSocket.curWeaponAttach != null)
+            targetSocket.Detach();
+
+        targetSocket.Attach(this);
     }
 }
 
