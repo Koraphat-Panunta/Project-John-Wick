@@ -71,6 +71,8 @@ public partial class Enemy : IMeleeWeaponUserAble
         }
     }
 
+    public float _attackRange => this._meleeAttackMoveScriptableObject_I._beginAttackDistance;
+
     public void OnNotifyMeleeAttack<T>(T var)
     {
         this.NotifyObserver<T>(this, var);

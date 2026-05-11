@@ -207,7 +207,7 @@ public partial class EnemyDirectedDecision : INodeManager
         this.surroundPlayerPositioningActionNodeLeaf = new SurroundPlayerPositioningActionNodeLeaf(
             this.enemy
             , this._enemyCommandAPI
-            , () => this.enemyDecisionContext.combatPhase >= CombatPhase.Aware
+            , () => Vector3.Distance(this.enemy.targetKnowPos, this.enemy.transform.position) <= 12
             , this
             , this.enemyDecisionContext);
 

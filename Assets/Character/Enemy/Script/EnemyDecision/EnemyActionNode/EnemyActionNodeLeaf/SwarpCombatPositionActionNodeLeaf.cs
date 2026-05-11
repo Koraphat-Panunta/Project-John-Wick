@@ -98,9 +98,8 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                                     curSwarpPhase = SwarPositionPhase.moveToTarget;
                                 }
 
-                                enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
-                                enemyCommandAPI.NormalFiringPattern.Performing();
-                                enemyCommandAPI.AutoDetectSoftCover();
+                                EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
+
                                 enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
                             }
                             break;
@@ -125,7 +124,7 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
                     if(enemyCommandAPI.MoveToPositionRotateToward(this.enemy.targetKnowPos, 1, 1,2))
                         isComplete = true;
 
-                    enemyCommandAPI.AimDownSight();
+                    EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI);
                 }
                 break;
         }

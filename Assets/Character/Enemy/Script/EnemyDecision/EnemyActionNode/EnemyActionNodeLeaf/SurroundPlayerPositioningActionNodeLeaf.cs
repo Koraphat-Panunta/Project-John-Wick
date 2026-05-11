@@ -14,7 +14,7 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
     private EnemyDecisionContext enemyDecisionContext;
 
     private const float SURROUND_RADIUS_MIN = 5f;
-    private const float SURROUND_RADIUS_MAX = 8f;
+    public const float SURROUND_RADIUS_MAX = 8f;
     private const float POSITION_REACH_DISTANCE = 1.5f;
     private const float REPOSITION_INTERVAL_MIN = 3f;
     private const float REPOSITION_INTERVAL_MAX = 6f;
@@ -82,14 +82,14 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
         switch (enemyDecisionContext.combatPhase)
         {
             case CombatPhase.Alert:
-                enemyCommandAPI.AimDownSight(enemy.targetKnowPos);
+                EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
                 enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
                 break;
             case CombatPhase.Aware:
-                enemyCommandAPI.AimDownSight(enemy.targetKnowPos);
+                EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
                 break;
             default:
-                enemyCommandAPI.LowReady();
+                EnemyOffendCommandWeaponBased.Rest(this.enemy, this.enemyCommandAPI);
                 break;
         }
 

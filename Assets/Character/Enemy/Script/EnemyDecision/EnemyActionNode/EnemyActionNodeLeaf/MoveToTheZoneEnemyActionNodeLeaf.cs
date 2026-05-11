@@ -33,9 +33,9 @@ public class MoveToTheZoneEnemyActionNodeLeaf : EnemyActionNodeLeaf
         //else
         //{
             this.enemyCommandAPI.MoveToPosition(this.destinateInZone, 1 );
-            this.enemyCommandAPI.AimDownSight(this.enemy.targetKnowPos);
-            this.enemyCommandAPI.NormalFiringPattern.Performing();
         //}
+
+        EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
 
         base.UpdateNode();
     }

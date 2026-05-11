@@ -251,6 +251,24 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         this._enemy.isTriggerMeleeWeaponAttack = true;
     }
+
+    public void MoveToMeleeAttack(Vector3 targetPos,float attackRange)
+    {
+       
+        if(this.MoveToPositionRotateToward(targetPos, 1, attackRange))
+        {
+            this.MeleeAttack();
+        }
+    }
+    public void SprintToMeleeAttack(Vector3 targetPos, float attackRange)
+    {
+        if(this.SprintToPosition(targetPos, 1, attackRange))
+        {
+            this.MeleeAttack();
+        }
+       
+    }
+
     //float openDoorBufferTimer;
     //float openDoorBufferTime = 1;
     public void OpenDoor()
