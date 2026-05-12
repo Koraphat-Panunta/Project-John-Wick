@@ -46,7 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWaveManager
   isEnableGizmos: 1
   color: {r: 0.54901963, g: 0, b: 0.33777654, a: 0.8901961}
-  enemyWaves: []
+  drawNameDistance: 10
+  enemyWaves:
+  - enemyListSpawn: []
+    enemyRemainStartSpawn: 0
+    spawnDelay: 0
   curWave:
     enemyListSpawn: []
     enemyRemainStartSpawn: 0

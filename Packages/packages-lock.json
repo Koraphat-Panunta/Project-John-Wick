@@ -14,6 +14,17 @@
       "dependencies": {},
       "hash": "733f113e365583098805e4c926a88b275c51531d"
     },
+    "com.ivanmurzak.unity.mcp": {
+      "version": "0.72.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.test-framework": "1.1.33",
+        "extensions.unity.playerprefsex": "2.1.3"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.unity.2d.animation": {
       "version": "12.0.2",
       "depth": 1,
@@ -487,6 +498,13 @@
         "com.unity.shadergraph": "17.2.0",
         "com.unity.render-pipelines.core": "17.2.0"
       }
+    },
+    "extensions.unity.playerprefsex": {
+      "version": "2.1.3",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
