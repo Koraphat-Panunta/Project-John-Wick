@@ -10,6 +10,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
 
     [SerializeField] public EnemySpawnerPoint[] enemySpawnerPoints;
     [SerializeField] public EnemyDirector enemyDirector;
+    [SerializeField] private EnemyPoolManager enemyPoolManager;
 
     public bool waveIsClear => enemyWaves.Count <= 0 && numberOfEnemy <= 0;
 
@@ -37,12 +38,12 @@ public class EnemyWaveManager : Actor,IObserverEnemy
             //SpawnEnemyList
             while(curWave.enemyListSpawn.Count > 0)
             {
-                EnemyDetailSpawn enemyListSpawn = curWave.enemyListSpawn[0];
+                EnemySpawnerData spawnData = curWave.enemyListSpawn[0];
                 curWave.enemyListSpawn.RemoveAt(0);
                 //SpawnEnemyNumber
-                for (int j = 0; j < enemyListSpawn.numberSpawn; j++)
+                for (int j = 0; j < spawnData.numberSpawn; j++)
                 {
-                    Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyListSpawn.enemyObjectManager, this.enemyDirector, enemyListSpawn.weaponObjectManager);
+                    Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyPoolManager, spawnData, this.enemyDirector);
                     spawnedEnemy.AddObserver(this);
                     spawnedEnemy.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(this.player.transform.position);
 
