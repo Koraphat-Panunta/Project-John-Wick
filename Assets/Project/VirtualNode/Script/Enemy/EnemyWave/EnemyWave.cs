@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyWave 
 {
-    public List<EnemyDetailSpawn> enemyListSpawn;
+    public List<EnemySpawnerData> enemyListSpawn;
     [SerializeField] protected int enemyRemainStartSpawn;
     [SerializeField] protected float spawnDelay;
    

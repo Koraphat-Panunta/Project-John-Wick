@@ -36,9 +36,9 @@ public class EnemySpawnPointRoom : EnemySpawnerPoint
     public override Vector3 spawnPosition { get => spawnPoint.position; protected set => spawnPoint.position = value; }
     public override Quaternion spawnRotiation { get => spawnPoint.rotation; protected set => spawnPoint.rotation = value; }
 
-    public override Enemy SpawnEnemy(EnemyObjectManager enemyObjectManager)
+    public override Enemy SpawnEnemy(EnemyPoolManager poolManager, EnemySpawnerData data, EnemyDirector fallbackDirector)
     {
-        Enemy enemy = base.SpawnEnemy(enemyObjectManager);
+        Enemy enemy = base.SpawnEnemy(poolManager, data, fallbackDirector);
         spawnedEnemy.Add(enemy, enemy.GetComponent<EnemyCommandAPI>());
         enemy.GetComponent<EnemyDecision>().enabled = false;
         door.Open();

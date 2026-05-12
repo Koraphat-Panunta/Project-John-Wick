@@ -1,33 +1,19 @@
-using System;
 using UnityEngine;
 
 public class EnemySpawnerActor : Actor
 {
-    [SerializeField] private EnemyObjectManager enemyObjectManager;
-    [SerializeField] private EnemyDirector enemyDirector;
-    [SerializeField] private WeaponObjectManager weaponObjectManager;
-
+    [SerializeField] private EnemySpawnerData spawnerData;
+    [SerializeField] private EnemyPoolManager enemyPoolManager;
     [SerializeField] private EnemySpawnerPoint enemySpawnerPoint;
 
     protected OnDrawGizmosTriggerEvent drawGizmosTriggerEvent = new OnDrawGizmosTriggerEvent();
+
     public void SpawnEnemyUnityEvent()
     {
+        Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyPoolManager, spawnerData, null);
 
-        //Debug.Log("EnemySpawnerActor SpawnEnemyUnityEvent");
-
-        Enemy spawnedEnemy;
-
-
-            
-        if (enemyDirector == null && weaponObjectManager == null)
-            spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyObjectManager);
-        else if (enemyDirector == null)
-            spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyObjectManager, weaponObjectManager);
-        else
-            spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyObjectManager,enemyDirector,weaponObjectManager);
-
-        if(returnEnemyActor != null)
-        this.returnEnemyActor.AddEnemy(spawnedEnemy);
+        if (returnEnemyActor != null)
+            returnEnemyActor.AddEnemy(spawnedEnemy);
     }
 
     [SerializeField] protected EnemyActor returnEnemyActor;

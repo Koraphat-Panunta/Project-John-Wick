@@ -10,6 +10,7 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
     [SerializeField] public DataEntities<WeaponDataScriptableObject> weaponDataBased;
     [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
+    [SerializeField] public DataEntities<EnemyDataScriptableObject> enemyDataBased;
 
     [SerializeField] public ContinueData defaultContinueData;
     [SerializeField] public GameProgressionData defaultGameProgressionData;
@@ -25,6 +26,7 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
         this.weaponDataBased.InitilaizedData();
         this.weaponAttachmentDataBased.InitilaizedData();
         this.levelDataBased.InitilaizedData();
+        this.enemyDataBased.InitilaizedData();
 
         DontDestroyOnLoad(gameObject);
     }
