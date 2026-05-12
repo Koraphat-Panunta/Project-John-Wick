@@ -33,7 +33,7 @@ public abstract class BodyPart : MonoBehaviour
         _postureReciverRate = bodyPartDamageRecivedSCRP._postureReciverRate;
         _staggerReciverRate = bodyPartDamageRecivedSCRP._staggerReciverRate;
 
-        enemy.bulletDamageAbleBodyPartBehavior = new EnemyBodyBulletDamageAbleBehavior(this);
+
         bodyPartRigid = GetComponent<Rigidbody>();
         enemy.AddObserver(this);
     }
@@ -77,7 +77,11 @@ public abstract class BodyPart : MonoBehaviour
         }
     }
 
-   
+    public virtual void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
+    {
+        this.TakeDamage(damageVisitor);
+        EnemyBodyBulletDamageAbleBehavior.TakeDamageBullet(damageVisitor, this, hitPart, hitDir, hitforce);
+    } 
     public virtual void TakeDamage(IDamageVisitor damageVisitor)
     {
         this.enemy._isPainTrigger = true;
@@ -192,7 +196,7 @@ public abstract class BodyPart : MonoBehaviour
 
     public bool _isDead => this.enemy._isDead;
 
-    public virtual void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce) => enemy.bulletDamageAbleBodyPartBehavior.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
+
 
     public virtual void OnNotify<T>(Enemy enemy, T node) 
     {

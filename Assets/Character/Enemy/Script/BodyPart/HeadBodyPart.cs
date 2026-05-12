@@ -7,15 +7,7 @@ public class HeadBodyPart : BodyPart,IHeardingAble,ICommunicateAble,I_UI_InWorld
 {
 
 
-    public override void TakeDamage(IDamageVisitor damageVisitor)
-    {
-        base.TakeDamage(damageVisitor);
-    }
-    public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
-    {
-        TakeDamage(damageVisitor);
-        base.TakeDamageBullet(damageVisitor, hitPart, hitDir, hitforce);
-    }
+   
     public override void OnNotify<T>(Enemy enemy, T node)
     {
       

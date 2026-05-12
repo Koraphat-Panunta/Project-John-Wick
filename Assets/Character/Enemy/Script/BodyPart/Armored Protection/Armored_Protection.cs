@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 [ExecuteInEditMode]
 public class Armored_Protection : BodyPart
@@ -7,11 +8,15 @@ public class Armored_Protection : BodyPart
 
     [SerializeField] private Armored_ProtectionSCRP armored_ProtectionSCRP;
 
-    [SerializeField] private GameObject meshRendererArmored;
+    [SerializeField] protected Renderer armoredSkinMeshRenderer;
 
     [SerializeField] private Collider armordCollider;
 
+    [SerializeField] private MountComponent mountComponent;
+
     public override float penatrateResistance { get => armored_ProtectionSCRP._penetrateResistRate; set { } }
+
+    public bool isResizeBaseOnBody;
 
     public override void Initialized()
     {
@@ -22,14 +27,10 @@ public class Armored_Protection : BodyPart
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
 
         enemy.AddObserver(this);
-        if (syncBodyPart != null)
-        {
-            meshRendererArmored.gameObject.SetActive(true);
-            this.Attach(syncBodyPart);
-        }
     }
 
-  
+    
+
     public override void TakeDamageBullet(Bullet damageVisitor, Vector3 hitPart, Vector3 hitDir, float hitforce)
     {
         if(damageVisitor is Bullet bullet)
@@ -62,20 +63,56 @@ public class Armored_Protection : BodyPart
     }
     protected virtual void ArmoredDestroyed()
     {
-        meshRendererArmored.gameObject.SetActive(false);
+        armoredSkinMeshRenderer.gameObject.SetActive(false);
         armordCollider.enabled = false;
-        Detach();
     }
 
-    public void Attach(BodyPart attachable)
+    public virtual void Attach(BodyPart bodyPart)
     {
+        this.enemy = bodyPart.enemy;
+        this.syncBodyPart = bodyPart;
 
+        this.mountComponent.Attach(bodyPart.transform,this.armored_ProtectionSCRP.attachOffsetPosition,Quaternion.identity);
+        this.mountComponent.SetAttachRate(1);
+        this.mountComponent.UpdatePosition();
 
+        SaveEditorChanged.SaveEditorChangedObject(this.mountComponent);
+
+        if(this.isResizeBaseOnBody == false)
+            return;
+
+        if (bodyPart.TryGetComponent<Collider>(out Collider collider))
+        {
+            switch (collider)
+            {
+                case BoxCollider boxCollider:
+                    {
+                        BoxCollider armoredBoxCollider = this.armordCollider as BoxCollider;
+
+                        armoredBoxCollider.center = boxCollider.center;
+                        armoredBoxCollider.size = new Vector3(
+                            boxCollider.size.x + .025f
+                            , boxCollider.size.y + .025f
+                            , boxCollider.size.z + .025f
+                            );
+                    }
+                    break;
+                case CapsuleCollider capsuleCollider:
+                    {
+                        CapsuleCollider armoredCapsueCollider = this.armordCollider as CapsuleCollider;
+
+                        armoredCapsueCollider.center = capsuleCollider.center;
+                        armoredCapsueCollider.height = capsuleCollider.height + .025f;
+                        armoredCapsueCollider.radius = capsuleCollider.radius + .025f;
+                    }
+                    break;
+            }
+        }
     }
-
-    public void Detach()
+   
+    public virtual void Detach()
     {
-
+        this.syncBodyPart = null;
     }
     public override void OnNotify<T>(Enemy enemy, T node)
     {
@@ -87,31 +124,19 @@ public class Armored_Protection : BodyPart
         base.OnNotify(enemy, node);
     }
   
-    private void OnValidate()
-    {
-        if (gameObject.activeSelf)
-        {
-            if (meshRendererArmored != null)
-                meshRendererArmored.gameObject.SetActive(true);
-        }
-        else
-        {
-            if (meshRendererArmored != null)
-                meshRendererArmored.gameObject.SetActive(false);
-        }
-
-    }
+   
     private void OnDisable()
     {
-        if(meshRendererArmored != null)
-            meshRendererArmored.gameObject.SetActive(false);
+        if(armoredSkinMeshRenderer != null)
+            armoredSkinMeshRenderer.gameObject.SetActive(false);
     }
     private void OnEnable()
     {
-        if (meshRendererArmored != null)
-            meshRendererArmored.gameObject.SetActive(true);
+        if (armoredSkinMeshRenderer != null)
+            armoredSkinMeshRenderer.gameObject.SetActive(true);
 
         base.bodyPartDamageRecivedSCRP = armored_ProtectionSCRP;
+
         armorHP = armored_ProtectionSCRP.armorHP;
         _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
@@ -123,26 +148,23 @@ public class Armored_Protection : BodyPart
         _hpReciverMultiplyRate = armored_ProtectionSCRP._hpReciverMultiplyRate;
         _postureReciverRate = armored_ProtectionSCRP._postureReciverRate;
         _staggerReciverRate = armored_ProtectionSCRP._staggerReciverRate;
+
         armordCollider.enabled = true;
-        meshRendererArmored.gameObject.SetActive(true);
+        armoredSkinMeshRenderer.gameObject.SetActive(true);
     }
 
-    public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
-    {
-        
-    }
+   
 }
 
 public class VirtualBullet : Bullet
 {
-   
 
+    public Bullet bullet;
     public VirtualBullet(
         Bullet bullet
-        
         ,RangeWeapon weapon) : base(weapon)
     {
-        
+        this.bullet = bullet;
     }
 
     public override float _hPDamage { get ; set ; }

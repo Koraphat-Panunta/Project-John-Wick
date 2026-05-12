@@ -6,5 +6,5 @@ public class Armored_ProtectionSCRP : BodyPartDamageRecivedSCRP
     [Range(0,500)]
     public float armorHP;
 
-
+    public Vector3 attachOffsetPosition;
 }

@@ -4,7 +4,7 @@ public class MountComponent : MonoBehaviour
 {
     [SerializeField] private Transform attachAbleObject;
     public Transform _attachAbleObject { get => this.attachAbleObject; protected set => attachAbleObject = value; }
-    public Transform _parentAttachTransform { get; protected set; }
+    public Transform _parentAttachTransform { get => this.parentAttachTransform; protected set => this.parentAttachTransform = value; }
     public Transform parentAttachTransform;
     public Vector3 offsetPosition;
     public Quaternion offsetRotation = Quaternion.identity;
@@ -26,7 +26,7 @@ public class MountComponent : MonoBehaviour
     }
     protected virtual void LateUpdate()
     {
-        this.parentAttachTransform = _parentAttachTransform;
+        //this.parentAttachTransform = _parentAttachTransform;
         if (_parentAttachTransform != null)
         {
             if (_isEnableAutoAttachRate)
@@ -37,9 +37,13 @@ public class MountComponent : MonoBehaviour
                     attachRate = Mathf.Clamp01(attachRate + (Time.deltaTime * (1 / _attachDuration)));
             }
 
-            _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
-            _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
+           this.UpdatePosition();
         }
+    }
+    public void UpdatePosition()
+    {
+        _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
+        _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
     }
     public virtual void Attach(Transform parentTransform, float attatchingDuration)
     {
@@ -55,7 +59,7 @@ public class MountComponent : MonoBehaviour
     public void SetOffserRotation(Quaternion offsetRotation) => this.offsetRotation = offsetRotation;
     public virtual void Attach(Transform parentTransform, Vector3 offsetPosition, Quaternion offsetRotation)
     {
-
+        
         this.offsetPosition = offsetPosition;
         this.offsetRotation = offsetRotation;
 
@@ -100,4 +104,8 @@ public class MountComponent : MonoBehaviour
 
         return _parentAttachTransform.rotation * offsetRotation;
     }
+
+    public void SetAttachRate(float r) => this.attachRate = Mathf.Clamp01(r);
+
+  
 }
