@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IRangeWeaponAdvanceUser
+public interface IRangeWeaponAdvanceUser : IWeaponUser
 {
     public Animator _weaponUserAnimator { get; set; }
     public RangeWeapon _currentWeapon { get; }
@@ -10,7 +10,6 @@ public interface IRangeWeaponAdvanceUser
     public Vector3 _pointingPos { get; set; } //Position of aiming
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
-    public Character _userWeapon { get;}
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
     public bool _isPullTriggerCommand { get; set; }
@@ -24,6 +23,7 @@ public interface IRangeWeaponAdvanceUser
     public float _ReloadDuration { get; }
 
     public void Initialized_IWeaponAdvanceUser();
+
 }
 public class FindingWeaponBehavior
 {
@@ -42,7 +42,7 @@ public class FindingWeaponBehavior
     public bool FindingWeapon()
     {
         
-        if(FindingWeapon(weaponAdvanceUser._userWeapon.transform.position, findingWeaponRaduisDefault))
+        if(FindingWeapon(weaponAdvanceUser._character.transform.position, findingWeaponRaduisDefault))
             return true;
 
         return false;
@@ -70,8 +70,8 @@ public class FindingWeaponBehavior
                 continue;
             }
 
-            if (Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, weaponFindingSelecting.transform.position) >
-                Vector3.Distance(weaponAdvanceUser._userWeapon.transform.position, collider[i].transform.position))
+            if (Vector3.Distance(weaponAdvanceUser._character.transform.position, weaponFindingSelecting.transform.position) >
+                Vector3.Distance(weaponAdvanceUser._character.transform.position, collider[i].transform.position))
             {
                 if (collider[i].GetComponent<RangeWeapon>().userWeapon == null)
                     weaponFindingSelecting = collider[i].GetComponent<RangeWeapon>();

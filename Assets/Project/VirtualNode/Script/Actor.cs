@@ -20,6 +20,8 @@ public abstract class Actor : MonoBehaviour
     }
     public void AddActorObserver(IObserverActor observerTriggerBox)
     {
+        if(this.observer == null)
+            this.observer = new List<IObserverActor>();
         this.observer.Add(observerTriggerBox);
     }
     public void RemoveActorObserver(IObserverActor observerTriggerBox)

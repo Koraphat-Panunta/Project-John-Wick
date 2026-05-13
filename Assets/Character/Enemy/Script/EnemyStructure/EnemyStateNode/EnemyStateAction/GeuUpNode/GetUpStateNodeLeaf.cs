@@ -45,7 +45,6 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         this.animationTriggerEventPlayer.SubscribeEvent("Standing", this.Standing);
 
         _root = ragdollAble._root;
-        Debug.Log("root = " + _root);
         _hipsBone = ragdollAble._hipsBone;
         _bones = ragdollAble._bones;
 

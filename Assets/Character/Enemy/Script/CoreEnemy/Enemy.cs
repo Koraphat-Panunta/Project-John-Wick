@@ -50,6 +50,7 @@ public partial class Enemy : SubjectEnemy
 
     public override void Initialized()
     {
+        Debug.Log("enemy Initialized" + this.gameObject);
         this._hpGauge = new Gauge(this.enemyStatsScripableObject.maxHp,this.enemyStatsScripableObject.maxHp);
         this.postureGauge = new Gauge(this.enemyStatsScripableObject.maxPosture,this.enemyStatsScripableObject.maxPosture);
 
@@ -283,7 +284,7 @@ public partial class Enemy : SubjectEnemy
             return;
 
         if (noiseMakingAble is Bullet bullet
-            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
+            && bullet.weapon.userWeapon._character.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_enemyAITargeted))
         {
             this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(i_enemyAITargeted.selfEnemyAIBeenTargeted.transform.position);
         }
@@ -417,10 +418,17 @@ public partial class Enemy : SubjectEnemy
 
     private void SetDefaultAttribute()
     {
-        this._posture = this._maxPosture;
-        this.SetHP(this.GetMaxHp());
+        try
+        {
+            this._posture = this._maxPosture;
+            this.SetHP(this.GetMaxHp());
+            enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward + Vector3.up);
+        }
+        catch
+        {
+            
+        }
 
-        enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward +Vector3.up);
     }
     private void OnEnable()
     {

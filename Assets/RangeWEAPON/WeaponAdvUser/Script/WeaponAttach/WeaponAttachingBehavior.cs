@@ -70,7 +70,31 @@ public static class WeaponAttachingBehavior
         }
 
     }
-   
- 
-    
+
+    public static void Attach(Weapon weapon
+       , IGrabAbleObject weaponAttachingAble
+       , Vector3 additionalOffsetPosition
+       , Quaternion additionalOffsetRotation
+       , float attatchingDuration)
+    {
+        switch (weapon)
+        {
+            case RangeWeapon rangeWeapon when weaponAttachingAble is IGrabRangeWeaponAble rangeSocket:
+                Attach(rangeWeapon, rangeSocket, additionalOffsetPosition, additionalOffsetRotation, attatchingDuration);
+                break;
+            case MeleeWeapon meleeWeapon when weaponAttachingAble is IGrabMeleeWeaponAble meleeSocket:
+                Attach(meleeWeapon, meleeSocket, additionalOffsetPosition, additionalOffsetRotation, attatchingDuration);
+                break;
+            default:
+                UnityEngine.Debug.LogWarning($"WeaponAttachingBehavior: socket/weapon type mismatch — {weapon?.GetType().Name}");
+                break;
+        }
+    }
+    public static void Attach(Weapon weapon
+       , IGrabAbleObject weaponAttachingAble
+       , float attatchingDuration)
+    {
+        Attach(weapon, weaponAttachingAble, Vector3.zero, Quaternion.identity, attatchingDuration);
+    }
+
 }

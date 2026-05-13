@@ -30,7 +30,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
         this.throwWeapon = player._currentWeapon;
         this.animationTriggerEventPlayer.Rewind();
         WeaponAttachingBehavior.Detach(this.throwWeapon, this.player);
-        throwWeapon._weaponAttacherComponent.Attach(player._mainHandSocket.weaponAttachingAbleTransform, throwWeapon._SecondHandGripTransform, Vector3.zero,
+        throwWeapon.WeaponAttacherComponent.Attach(player._mainHandSocket.weaponAttachingAbleTransform, throwWeapon._SecondHandGripTransform, Vector3.zero,
             Quaternion.FromToRotation(player._mainHandSocket.weaponAttachingAbleTransform.forward, player._mainHandSocket.weaponAttachingAbleTransform.forward * -1)
             ,WeaponMountComponent.attatchingDurationGlobal);
         base.Enter();
@@ -39,7 +39,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
     {
         if(isThrowing == false)
         {
-            throwWeapon._weaponAttacherComponent.Detach();
+            throwWeapon.WeaponAttacherComponent.Detach();
         }
         player.curBeenThrowObjectAt = null;
         base.Exit();
@@ -86,7 +86,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
     private void Throwing()
     {
         this.isThrowing = true;
-        throwWeapon._weaponAttacherComponent.Detach();
+        throwWeapon.WeaponAttacherComponent.Detach();
         if (player.curBeenThrowObjectAt != null)
             this.throwWeapon.Throw(player, player.curBeenThrowObjectAt,this.targetMask);
         else

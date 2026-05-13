@@ -37,7 +37,7 @@ public partial class Enemy : IRangeWeaponAdvanceUser
 
     public WeaponBelt _weaponBelt { get; set; }
     public WeaponAfterAction _weaponAfterAction { get; set; }
-    public Character _userWeapon => this;
+    public IGrabAbleObject _weaponGripSocket => this.MainHandSocket;
     public WeaponNodeManuverManager _weaponManuverManager { get; set; }
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 

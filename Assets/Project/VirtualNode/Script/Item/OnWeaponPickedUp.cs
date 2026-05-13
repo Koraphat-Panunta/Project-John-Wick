@@ -17,8 +17,8 @@ public class OnWeaponPickedUp : VirtualEventNode,IObserverRangeWeapon
 
     public void OnNotify<T>(RangeWeapon weapon,T weaponNotify)
     {
-        if(weaponNotify is RangeWeaponSubject.WeaponNotifyType weaponNotifyMassage 
-            && weaponNotifyMassage == RangeWeaponSubject.WeaponNotifyType.BeenAttatch )
+        if(weaponNotify is RangeWeapon.WeaponNotifyType weaponNotifyMassage 
+            && weaponNotifyMassage == RangeWeapon.WeaponNotifyType.BeenAttatch )
         {
             if(this.triggerOnce
                 && this.isAlreadyTrigger == false

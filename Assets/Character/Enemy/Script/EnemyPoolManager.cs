@@ -18,12 +18,15 @@ public class EnemyPoolManager : MonoBehaviour, IInitializedAble, IObserverEnemy
 
     public void Initialized()
     {
-        _pools = new Dictionary<EnemyDataScriptableObject, ObjectPooling<Enemy>>();
-        _enemyTypeMap = new Dictionary<Enemy, EnemyDataScriptableObject>();
-        _clearEnemyList = new Dictionary<Enemy, float>();
+        this._pools = new Dictionary<EnemyDataScriptableObject, ObjectPooling<Enemy>>();
+        this._enemyTypeMap = new Dictionary<Enemy, EnemyDataScriptableObject>();
+        this._clearEnemyList = new Dictionary<Enemy, float>();
 
         foreach (EnemyDataScriptableObject data in registeredEnemyTypes)
-            _pools[data] = new ObjectPooling<Enemy>(data.enemyPrefab, maxPoolSize, initialPoolSize, Vector3.zero);
+        {
+            this._pools[data] = new ObjectPooling<Enemy>(data.enemyPrefab, maxPoolSize, initialPoolSize, Vector3.zero, this.transform);
+            
+        }
     }
 
     public Enemy GetEnemy(EnemyDataScriptableObject data, Vector3 position, Quaternion rotation)

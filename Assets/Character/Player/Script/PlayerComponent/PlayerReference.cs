@@ -8,7 +8,8 @@ public class PlayerReference : MonoBehaviour,IRangeWeaponAdvanceUser
     public Vector3 _shootingPos { get => player._shootingPos; set => player._shootingPos = value; }
     public WeaponBelt _weaponBelt { get => player._weaponBelt; set => player._weaponBelt = value; }
     public WeaponAfterAction _weaponAfterAction { get => player._weaponAfterAction; set => player._weaponAfterAction = value; }
-    public Character _userWeapon => player;
+    public Character _character => player;
+    public IGrabAbleObject _weaponGripSocket => player._mainHandSocket;
     public Vector3 _pointingPos { get => player._pointingPos; set => player._pointingPos = value; }
     public WeaponNodeManuverManager _weaponManuverManager { get => player._weaponManuverManager; set => player._weaponManuverManager = value; }
     public bool _isPullTriggerCommand { get => player._isPullTriggerCommand; set => player._isPullTriggerCommand = value; }

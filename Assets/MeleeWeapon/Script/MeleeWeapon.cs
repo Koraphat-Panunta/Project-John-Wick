@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class MeleeWeapon : MonoBehaviour
-    ,IObjectGrabbedAble
+public class MeleeWeapon : Weapon
     ,IHPDamageVisitor
-    ,IInitializedAble
 {
-    [SerializeField] MeleeWeaponScriptableObject meleeWeaponScriptableObject;
+    [SerializeField] MeleeWeaponDataScriptableObject meleeWeaponScriptableObject;
     [SerializeField] private Transform gripSocketTransform;
     [SerializeField] private MountComponent mountComponent;
     [SerializeField] private Rigidbody grabAbleRigidbody;
@@ -15,18 +13,15 @@ public class MeleeWeapon : MonoBehaviour
     private float hpDamage;
     public float _hPDamage => this.hpDamage;
 
-    public Transform _grabAbleTransform => this.transform;
+    public override Transform _defaultGrabPoint => this.gripSocketTransform;
 
-    public Transform _defaultGrabPoint => this.gripSocketTransform;
+    public override MountComponent _mountComponent { get => this.mountComponent;  }
+    public override Rigidbody _grabAbleRigidbody { get => this.grabAbleRigidbody;  }
+    public override Collider _grabAbleCollider { get => this.grabAbleCollider; }
+    public override IGrabAbleObject _currentGrabbedAt { get => this.currentGrabbedAt; }
 
-    public MountComponent _mountComponent => this.mountComponent;
-
-    public Rigidbody _grabAbleRigidbody => this.grabAbleRigidbody;
-
-    public Collider _grabAbleCollider => this.grabAbleCollider;
 
     private IGrabMeleeWeaponAble currentGrabbedAt ;
-    public IGrabAbleObject _currentGrabbedAt => this.currentGrabbedAt;
     public IMeleeWeaponUserAble _meleeWeaponUserAble => this.currentGrabbedAt._meleeWeaponUser;
     public MeleeAttackingPhase attackingPhase 
     { 
@@ -39,7 +34,9 @@ public class MeleeWeapon : MonoBehaviour
         } 
     }
 
-    public void Initialized()
+
+
+    public override void Initialized()
     {
         this.hpDamage = this.meleeWeaponScriptableObject.damage;
     }
@@ -48,7 +45,7 @@ public class MeleeWeapon : MonoBehaviour
     {
         this._meleeWeaponUserAble.OnNotifyMeleeAttack<IDamageAble>(damageAble);
     }
-    public void SetCurrentGrabbedAt(IGrabAbleObject socket)
+    public override void SetCurrentGrabbedAt(IGrabAbleObject socket)
     {
         this.currentGrabbedAt = socket as IGrabMeleeWeaponAble;
 

@@ -11,7 +11,7 @@ public class WeaponMountComponent : MountComponent
     {
         this.curWeaponGrip = weaponGrip;
         base.Attach(weaponSocket, offsetPosition, offsetRotation,attatchingDuration);
-        this.weapon.Notify(weapon, RangeWeaponSubject.WeaponNotifyType.BeenAttatch);
+        this.weapon.Notify(weapon, RangeWeapon.WeaponNotifyType.BeenAttatch);
     }
     protected override void LateUpdate()
     {
@@ -32,14 +32,14 @@ public class WeaponMountComponent : MountComponent
             this._attachAbleObject.SetParent(null,true);
         this.curWeaponGrip = null;
         base.Detach();
-        this.weapon.Notify(weapon, RangeWeaponSubject.WeaponNotifyType.BeenDetatch);
+        this.weapon.Notify(weapon, RangeWeapon.WeaponNotifyType.BeenDetatch);
     }
     public override Vector3 GetAttachPosition()
     {
         if (_parentAttachTransform == null || curWeaponGrip == null)
             return base._attachAbleObject.position;
 
-        // Calculate how far the grip is from the weapon’s origin in world space.
+        // Calculate how far the grip is from the weaponï¿½s origin in world space.
         Vector3 gripToWeaponOffset = weapon.transform.position - curWeaponGrip.position;
 
         // Start with the socket position, then apply the offset in socket's local space.
@@ -48,7 +48,7 @@ public class WeaponMountComponent : MountComponent
             + (_parentAttachTransform.up * offsetPosition.y)
             + (_parentAttachTransform.forward * offsetPosition.z);
 
-        // Apply the offset so that the weapon’s grip aligns perfectly with the socket.
+        // Apply the offset so that the weaponï¿½s grip aligns perfectly with the socket.
         return socketPosition + gripToWeaponOffset;
     }
     public override Quaternion GetAttachRotation()
@@ -57,7 +57,7 @@ public class WeaponMountComponent : MountComponent
             return base._attachAbleObject.rotation;
 
 
-        // This aligns the grip's rotation to match the socket’s rotation.
+        // This aligns the grip's rotation to match the socketï¿½s rotation.
         // We first calculate the relative rotation difference between weapon and grip.
         Quaternion gripToWeaponRotationOffset = Quaternion.Inverse(curWeaponGrip.rotation) * weapon.transform.rotation;
 

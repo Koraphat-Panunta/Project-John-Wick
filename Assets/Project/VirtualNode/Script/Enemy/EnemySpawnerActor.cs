@@ -4,13 +4,14 @@ public class EnemySpawnerActor : Actor
 {
     [SerializeField] private EnemySpawnerData spawnerData;
     [SerializeField] private EnemyPoolManager enemyPoolManager;
+    [SerializeField] private WeaponPoolManager weaponObjectManager;
     [SerializeField] private EnemySpawnerPoint enemySpawnerPoint;
 
     protected OnDrawGizmosTriggerEvent drawGizmosTriggerEvent = new OnDrawGizmosTriggerEvent();
 
     public void SpawnEnemyUnityEvent()
     {
-        Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyPoolManager, spawnerData, null);
+        Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyPoolManager, weaponObjectManager, spawnerData, null);
 
         if (returnEnemyActor != null)
             returnEnemyActor.AddEnemy(spawnedEnemy);
@@ -38,5 +39,14 @@ public class EnemySpawnerActor : Actor
         //}
 
         base.OnDrawGizmos();
+    }
+
+    private void OnValidate()
+    {
+        if (this.enemyPoolManager == null)
+            this.enemyPoolManager = FindAnyObjectByType<EnemyPoolManager>();
+
+        if (this.weaponObjectManager == null)
+            this.weaponObjectManager = FindAnyObjectByType<WeaponPoolManager>();
     }
 }

@@ -96,7 +96,6 @@ public partial class Player: IRangeWeaponAdvanceUser
                         else
                             return ray.GetPoint(100);
                     }
-                    break;
                 case QuickShootRangeWeaponNodeLeaf quickShootRangeWeaponNodeLeaf:
                     {
                         if(quickShootRangeWeaponNodeLeaf.target != null)    
@@ -129,7 +128,8 @@ public partial class Player: IRangeWeaponAdvanceUser
     public Vector3 _pointingPos { get => this.crosshairController.CrosshiarShootpoint.GetPointDirection(); set { } }
     public Vector3 _lookingPos => crosshairController.targetAim;
     public Animator _weaponUserAnimator { get; set; }
-    public Character _userWeapon { get => this; }
+
+    public IGrabAbleObject _weaponGripSocket => _mainHandSocket;
     public FindingWeaponBehavior _findingWeaponBehavior { get; set; }
 
 

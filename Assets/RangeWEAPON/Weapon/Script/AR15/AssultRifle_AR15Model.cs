@@ -106,6 +106,8 @@ public class AssultRifle_AR15Model : RangeWeapon, PrimaryWeapon, MagazineType
     
     protected override void SetDefaultAttribute()
     {
+        this.bulletCap = new BulletCapacity(this.bullet, this.maxAmmoCapacity);
+        this.chamber = new Chamber(this.bullet, this.bulletSpawner, this);
 
         this.bulletCap.Load(this.bullet, this.maxAmmoCapacity, out int overAmout);
         this.chamber.Load(this.bullet);

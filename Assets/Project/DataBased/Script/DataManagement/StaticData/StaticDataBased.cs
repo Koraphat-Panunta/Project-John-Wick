@@ -7,7 +7,7 @@ public class StaticDataBased : MonoBehaviour,IInitializedAble
 {
     public static StaticDataBased Instance { get; protected set; }
 
-    [SerializeField] public DataEntities<WeaponDataScriptableObject> weaponDataBased;
+    [SerializeField] public DataEntities<RangeWeaponDataScriptableObject> weaponDataBased;
     [SerializeField] public DataEntities<AttachmentDataScriptableObject> weaponAttachmentDataBased;
     [SerializeField] public DataEntities<LevelDataScriptableObject> levelDataBased;
     [SerializeField] public DataEntities<EnemyDataScriptableObject> enemyDataBased;

@@ -42,7 +42,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     public override void Enter()
     {
         this.isQuickShotAble = false;
-        this.weaponAdvanceUser._userWeapon._movementCompoent.CancleMomentum();
+        this.weaponAdvanceUser._character._movementCompoent.CancleMomentum();
         this.triggerReset = false;
         this.isRotate = true;
         this.animationTriggerEventPlayer.Rewind();
@@ -51,11 +51,11 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
             ,this
             );
 
-        Vector3 castDir = this.weaponAdvanceUser._shootingPos - this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition;
+        Vector3 castDir = this.weaponAdvanceUser._shootingPos - this.weaponAdvanceUser._character._movementCompoent.curPosition;
         castDir.Normalize();
 
         if (CastFinding.FindObjectInConeByComponent<BodyPart>(
-            this.weaponAdvanceUser._userWeapon._movementCompoent.curPosition
+            this.weaponAdvanceUser._character._movementCompoent.curPosition
             , castDir
             , this.castFindingScriptableObject.castDistance
             , this.castFindingScriptableObject.casthalfAngleDegrees
@@ -85,7 +85,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
           , this
           );
 
-        this.weaponAdvanceUser._userWeapon.StartCoroutine(this.CoolDownQuickShot());
+        this.weaponAdvanceUser._character.StartCoroutine(this.CoolDownQuickShot());
 
         base.Exit();
     }
@@ -103,7 +103,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
         if (this.isRotate)
         {
             float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer(0, this.rotateNormalTime);
-            this.weaponAdvanceUser._userWeapon._movementCompoent.SetRotateToDirWorldSlerp(this.shootDir,t);
+            this.weaponAdvanceUser._character._movementCompoent.SetRotateToDirWorldSlerp(this.shootDir,t);
         }
     }
 
@@ -120,7 +120,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
     protected bool triggerReset;
     public override bool IsReset()
     {
-        if(this.weaponAdvanceUser._userWeapon.isDead)
+        if(this.weaponAdvanceUser._character.isDead)
             return true;
 
         if (this.IsComplete())
@@ -139,7 +139,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
 
         this.weaponAdvanceUser._weaponManuverManager.aimingWeight = Mathf.Lerp(this.weaponAdvanceUser._weaponManuverManager.aimingWeight
-            , this.aimingWeightQuickShot, Time.deltaTime);
+            , this.aimingWeightQuickShot, Time.deltaTime * 10);
 
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction(
          WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive

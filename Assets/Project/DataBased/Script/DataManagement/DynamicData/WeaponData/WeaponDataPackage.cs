@@ -4,6 +4,6 @@ using UnityEngine;
 [Serializable]
 public struct WeaponDataPackage 
 {
-    public WeaponDataScriptableObject weaponDataScriptableObject;
+    public RangeWeaponDataScriptableObject weaponDataScriptableObject;
     public AttachmentDataScriptableObject[] weaponAttachmentData;
 }

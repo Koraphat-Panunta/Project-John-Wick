@@ -21,8 +21,7 @@ public class MountComponent : MonoBehaviour
 
     private void Update()
     {
-        _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
-        _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
+       this.UpdatePosition();
     }
     protected virtual void LateUpdate()
     {
@@ -42,8 +41,19 @@ public class MountComponent : MonoBehaviour
     }
     public void UpdatePosition()
     {
+        Quaternion targetRot = GetAttachRotation();
+
+        // Check if the target rotation is nearly zero (invalid)
+        if (Mathf.Approximately(targetRot.x, 0) && Mathf.Approximately(targetRot.y, 0) &&
+            Mathf.Approximately(targetRot.z, 0) && Mathf.Approximately(targetRot.w, 0))
+        {
+            targetRot = Quaternion.identity;
+        }
+
+        Debug.Log("target Rot = " + targetRot);
+
         _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
-        _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, GetAttachRotation(), this.attachRate);
+        _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, targetRot, this.attachRate);
     }
     public virtual void Attach(Transform parentTransform, float attatchingDuration)
     {
@@ -99,10 +109,19 @@ public class MountComponent : MonoBehaviour
     }
     public virtual Quaternion GetAttachRotation()
     {
+
         if (_parentAttachTransform == null)
             return Quaternion.identity;
 
-        return _parentAttachTransform.rotation * offsetRotation;
+        try
+        {
+            return _parentAttachTransform.rotation * offsetRotation;
+        }
+        catch
+        {
+            return Quaternion.identity;
+        }
+       
     }
 
     public void SetAttachRate(float r) => this.attachRate = Mathf.Clamp01(r);

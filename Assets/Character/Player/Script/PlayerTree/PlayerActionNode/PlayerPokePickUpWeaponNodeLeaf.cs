@@ -40,7 +40,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         if(isWarpingWeapon)
-            this.pickedUpWeapon._weaponAttacherComponent.Hold(
+            this.pickedUpWeapon.WeaponAttacherComponent.Hold(
                 this.rightFoots.position + (Vector3.up * 0.1f)
                 , Quaternion.LookRotation(rightFoots.right)
                 , 1

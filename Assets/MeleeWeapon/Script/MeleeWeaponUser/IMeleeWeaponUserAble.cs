@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IMeleeWeaponUserAble : IMeleeAttackerAble
+public interface IMeleeWeaponUserAble : IMeleeAttackerAble, IWeaponUser
 {
     public IMeleeAttackNodeLeaf _curMeleeNodeLeaf { get; }
     public MeleeAttackingPhase _curMeleeAttackPhase { get; }
@@ -11,5 +11,5 @@ public interface IMeleeWeaponUserAble : IMeleeAttackerAble
     public bool _isPerformAttackAble { get; }
     public float _attackRange { get; }
     public void OnNotifyMeleeAttack<T>(T var);
-    
+    public IGrabAbleObject _weaponGripSocket { get; }
 }

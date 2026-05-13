@@ -3,6 +3,7 @@ using UnityEngine;
 public partial class RangeWeapon : I_Interactable
 {
     public Collider _collider { get => this.Collider; set => this.Collider = value; }
+
     [SerializeField] private Collider Collider;
     public bool isBeenInteractAble { get 
         {

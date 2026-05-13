@@ -2,16 +2,15 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponStatsScriptableObject", menuName = "ScriptableObjects/RangeWeapon/WeaponStats")]
-public class WeaponDataScriptableObject : DataScriptableObject
+public class RangeWeaponDataScriptableObject : WeaponDataScriptableObject
 {
+    [SerializeField] public RangeWeapon rangeWeaponPrefab;
 
-    [SerializeField] public RangeWeapon weaponPrefab;
-    
     public int bulletCapacity;
     [Range(1,2000)]
     public float rate_of_fire; //fire per 60 second
     [Range(0.1f,10)]
-    public float reloadTime; 
+    public float reloadTime;
     [Range(0,1)]
     public float Recovery_CrosshairBloomSpeed;
     [Range(0,1)]
@@ -38,5 +37,5 @@ public class WeaponDataScriptableObject : DataScriptableObject
     [Range(0, 300)]
     public float _destructionDamage;
 
-
+    public override Weapon _weaponPrefab => this.rangeWeaponPrefab;
 }

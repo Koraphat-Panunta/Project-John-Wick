@@ -4,7 +4,7 @@ using UnityEngine;
 public struct EnemySpawnerData
 {
     public EnemyDataScriptableObject enemyData;
-    public WeaponObjectManager weaponObjectManager;
+    public WeaponSpawnerData weaponSpawnerData;
     public EnemyDirector enemyDirector;
     public int numberSpawn;
 

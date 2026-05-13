@@ -12,7 +12,7 @@ public static class RangeWeaponSocketBehavior
         float attachingDuration)
     {
 
-        rangeWeapon._weaponAttacherComponent.Attach(
+        rangeWeapon.WeaponAttacherComponent.Attach(
             socket.weaponAttachingAbleTransform,
             rangeWeapon._mainHandGripTransform,
             additionalOffsetPosition,
@@ -30,6 +30,6 @@ public static class RangeWeaponSocketBehavior
         RangeWeapon weapon = socket.curRangeWeaponAtSocket;
 
         weapon.SetCurAttatchAble(null);
-        weapon._weaponAttacherComponent.Detach();
+        weapon.WeaponAttacherComponent.Detach();
     }
 }

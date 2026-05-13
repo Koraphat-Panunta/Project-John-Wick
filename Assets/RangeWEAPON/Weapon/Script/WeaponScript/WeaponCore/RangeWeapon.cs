@@ -5,13 +5,44 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWeapon,IInitializedAble 
+public abstract partial class RangeWeapon : Weapon
+    ,IObserverRangeWeapon
+    ,IInitializedAble
+
 {
+    #region Observer
+    List<IObserverRangeWeapon> _observers = new List<IObserverRangeWeapon>();
+
+    public enum WeaponNotifyType
+    {
+        ReleseMagazine,
+        AttachmentSetup,
+        BeenAttatch,
+        BeenDetatch,
+        Rest
+    }
+
+    public void Notify<T>(RangeWeapon weapon, T weaponNotifyType)
+    {
+        for (int i = 0; i <= _observers.Count - 1; i++)
+        {
+            if (_observers[i] != null)
+                _observers[i].OnNotify(weapon, weaponNotifyType);
+        }
+    }
+
+    public void AddObserver(IObserverRangeWeapon observer) => _observers.Add(observer);
+    public void Remove(IObserverRangeWeapon observer) => _observers.Remove(observer);
+    #endregion
 
     public Transform _mainHandGripTransform;
     public Transform _SecondHandGripTransform;
 
-    [SerializeField] public WeaponDataScriptableObject weaponStatsScriptableObject;
+    
+
+    #region WeaponData
+
+    [SerializeField] public RangeWeaponDataScriptableObject weaponStatsScriptableObject;
     public virtual int maxAmmoCapacity { get => weaponStatsScriptableObject.bulletCapacity + this.maxAmmoCapacityAdditional; }
     public int maxAmmoCapacityAdditional = 0;
     
@@ -43,7 +74,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
     public float Recoil_CrosshairPosition { get => RecoilKickBack - Recoil_KickPositionCrosshairController; }
     public float Recoil_Camera { get => RecoilKickBack - Recoil_CameraControlController; }
     public float Recoil_VisualImpulse { get => RecoilKickBack - Recoil_VisualImpulseControl; }
-
+    #endregion
     public abstract Bullet bullet { get;  set; }
 
     public bool isPullTrigger { get; protected set; }
@@ -72,8 +103,8 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
             return this.curAttatch.weaponAdvanceUser;
         } }
     public IGrabRangeWeaponAble curAttatch { get; private set; }
-    [SerializeField] private WeaponMountComponent WeaponAttacherComponent;
-    public WeaponMountComponent _weaponAttacherComponent { get => WeaponAttacherComponent; protected set => WeaponAttacherComponent =value; }
+    [SerializeField] public WeaponMountComponent WeaponAttacherComponent;
+    
     public Rigidbody rb;
     public BulletSpawner bulletSpawner;
     public enum FireMode
@@ -154,7 +185,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
     }
     #endregion
 
-    public virtual void Initialized()
+    public override void Initialized()
     {
 
         weaponLayerMask = gameObject.layer;
@@ -246,7 +277,7 @@ public abstract partial class RangeWeapon : RangeWeaponSubject ,IObserverRangeWe
             this._collider.isTrigger = false;
         }
     }
-
+   
     public void OnNotify<T>(RangeWeapon weapon, T weaponNotify)
     {
         

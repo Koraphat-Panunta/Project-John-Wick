@@ -57,9 +57,9 @@ public class CrouchWeightSoftCoverNodeLeaf : AnimationNodeLeaf
     }
 
     public float GetCrouchWeight() => this.crouchWeight;
-    private Vector3 crouchCastPosStart => weaponAdvanceUser._userWeapon.transform.position + (Vector3.up * .5f) + (weaponAdvanceUser._userWeapon.transform.forward * -0.1f);
-    private Vector3 crouchCastPosEnd => weaponAdvanceUser._userWeapon.transform.position + Vector3.up * 2f;
-    private Vector3 crouchCastDir => weaponAdvanceUser._pointingPos - new Vector3(weaponAdvanceUser._userWeapon.transform.position.x, weaponAdvanceUser._pointingPos.y, weaponAdvanceUser._userWeapon.transform.position.z);
+    private Vector3 crouchCastPosStart => weaponAdvanceUser._character.transform.position + (Vector3.up * .5f) + (weaponAdvanceUser._character.transform.forward * -0.1f);
+    private Vector3 crouchCastPosEnd => weaponAdvanceUser._character.transform.position + Vector3.up * 2f;
+    private Vector3 crouchCastDir => weaponAdvanceUser._pointingPos - new Vector3(weaponAdvanceUser._character.transform.position.x, weaponAdvanceUser._pointingPos.y, weaponAdvanceUser._character.transform.position.z);
     private float crouchSphereRaduis = .2f;
 
     private List<Vector3> crouchSphereSurface;
@@ -74,7 +74,7 @@ public class CrouchWeightSoftCoverNodeLeaf : AnimationNodeLeaf
         {
             if (EdgeObstacleDetection.GetEdgeObstaclePos(crouchSphereRaduis, this.checkDistance, crouchCastDir, this.crouchCastPosStart, crouchCastPosEnd, .5f, true, out Vector3 edgePos, out List<Vector3> sphereSurface))
             {
-                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(weaponAdvanceUser._userWeapon.transform.position.y - edgePos.y) - crouchWeightOffset);
+                float targetCrouchWeight = Mathf.Clamp01(Mathf.Abs(weaponAdvanceUser._character.transform.position.y - edgePos.y) - crouchWeightOffset);
                 if (weaponAdvanceUser._currentWeapon != null && weaponAdvanceUser._weaponManuverManager.aimingWeight >= 1 && Vector3.Dot(Vector3.up, weaponAdvanceUser._currentWeapon.bulletSpawner.transform.forward) <= 0)
                 {
                     float angleCrouchPeekOffset = Mathf.Clamp01(

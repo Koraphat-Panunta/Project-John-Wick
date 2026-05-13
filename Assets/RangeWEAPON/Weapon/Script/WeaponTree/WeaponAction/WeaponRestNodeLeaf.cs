@@ -17,7 +17,7 @@ public class WeaponRestNodeLeaf : WeaponLeafNode
     }
     public override void Enter()
     {
-        Weapon.Notify(Weapon, RangeWeaponSubject.WeaponNotifyType.Rest);
+        Weapon.Notify(Weapon, RangeWeapon.WeaponNotifyType.Rest);
     }
 
     public override void Exit()

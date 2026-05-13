@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4751986237675007187}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.4568992, y: 0.295, z: 3.1459856}
+  m_LocalRotation: {x: 0.000000059604645, y: 0.00000015025496, z: 8.231063e-11, w: 1}
+  m_LocalPosition: {x: 3.815858, y: 1.6495697, z: 1.256074}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MountComponent
   attachAbleObject: {fileID: 9187506740209925345}
   parentAttachTransform: {fileID: 0}
-  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetPosition: {x: 0, y: 0.09, z: 0.125}
   offsetRotation: {x: 0, y: 0, z: 0, w: 1}
-  attachRate: 0
+  attachRate: 1
   attachDuration: 0

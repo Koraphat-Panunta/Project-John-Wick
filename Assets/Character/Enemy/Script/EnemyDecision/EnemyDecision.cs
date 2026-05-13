@@ -61,7 +61,7 @@ public static class EnemyDecisionInjectionEvent
             return;
 
         if (noiseMaker is Bullet bullet
-            && bullet.weapon.userWeapon._userWeapon.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
+            && bullet.weapon.userWeapon._character.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
         {
             if (enemyDecisionContext.combatPhase == CombatPhase.Chill)
                 enemyDecisionContext.SetCombatPhase(CombatPhase.Suspect);
