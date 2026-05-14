@@ -72,7 +72,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                 }
                 break;
-            case CombatPhase.Chill:
+            case CombatPhase.Suspect:
                 {
                     enemyCommandAPI.FreezPosition();
                     EnemyOffendCommandWeaponBased.Rest(this.enemy, this.enemyCommandAPI);

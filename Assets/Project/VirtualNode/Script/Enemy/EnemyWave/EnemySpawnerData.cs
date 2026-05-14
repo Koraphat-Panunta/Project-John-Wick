@@ -8,6 +8,12 @@ public struct EnemySpawnerData
     public EnemyDirector enemyDirector;
     public int numberSpawn;
 
+    public EnemyRoleCommand spawnRole ;
+    public CombatPhase spawnCombatPhase;
+
     [SerializeReference]
     public EnemySpawnerExtensionData[] extensions;
 }
+
+
+

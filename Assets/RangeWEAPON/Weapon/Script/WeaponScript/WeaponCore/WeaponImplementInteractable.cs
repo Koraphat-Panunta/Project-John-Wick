@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public partial class RangeWeapon : I_Interactable
@@ -17,8 +18,11 @@ public partial class RangeWeapon : I_Interactable
 
     public Transform _transform { get => transform; set { } }
 
+    public Action<I_Interactable> onDoInteract { get ; set ; }
+
     public void DoInteract(I_Interacter i_Interacter)
     {
-        
+        if (this.onDoInteract != null)
+            this.onDoInteract.Invoke(this);
     }
 }

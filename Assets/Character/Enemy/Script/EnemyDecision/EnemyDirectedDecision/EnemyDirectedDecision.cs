@@ -7,14 +7,10 @@ public partial class EnemyDirectedDecision : EnemyDecision
     , IObserverEnemyDecision
 {
     [SerializeField] public EnemyDirectedDecisionScriptableObject enemyDirectedDecisionScriptableObject;
-    public EnemyDecisionContext enemyDecisionContext;
-
-    [SerializeField] private CombatPhase startCombatPhase;
-    [SerializeField] private EnemyRoleCommand startRoleCommand;
 
     public override void Initialized()
     {
-        this.enemyDecisionContext = new EnemyDecisionContext(this.startCombatPhase,this.startRoleCommand,this.enemyDirectedDecisionScriptableObject.enemyDecisionContextScriptableObject);
+        this.enemyDecisionContext = new EnemyDecisionContext(this.enemyDirectedDecisionScriptableObject.enemyDecisionContextScriptableObject);
         this._nodeManagerBehavior = new NodeManagerBehavior();
         this.enemy.AddObserver(this);
         this.AddEnemyDecisionObserver(this);
@@ -126,7 +122,7 @@ public partial class EnemyDirectedDecision : INodeManager
         this.insist_Chill_EnemyActionNodeLeaf = new InsistEnemyActionNodeLeaf(
             this.enemy
             , this.enemyCommand
-            , () => this._combatPhase == CombatPhase.Chill
+            , () => this._combatPhase == CombatPhase.Suspect
             , this
             , this.enemyDecisionContext
             );

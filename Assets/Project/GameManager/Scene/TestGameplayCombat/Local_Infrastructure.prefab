@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55e8f9ea30a2fb4dbdc2d7b8020c13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEmitterManager
-  soundEmitterPrefab: {fileID: 8182121936884724447, guid: 1d00eed2042046849a0b648a164c6ffd,
+  soundEmitterPrefab: {fileID: 8182121936884724447, guid: cdde77a19fcfbf843bfdfd802a633181,
     type: 3}
   maxPoolObject: 20
   soundEmittersList: []
@@ -187,6 +187,131 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4097252299039581662}
     m_Modifications:
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: initializedOrder.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: gameObjInitialzied.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[2]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[3]'
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[4]'
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[5]'
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[6]'
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[7]'
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[8]'
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[9]'
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[10]'
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'initializedOrder.Array.data[11]'
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[3]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[4]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[5]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[6]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[7]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[8]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[9]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[10]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 633557868480345274, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: 'gameObjInitialzied.Array.data[11]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1793850318337108224, guid: d3131ca17616a8e45945e5ff14ae7b26,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -236,6 +361,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261115536860104353, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: user
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261115536860104353, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261115536860104353, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: gamePlayUICanvas
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306493788617013658, guid: d3131ca17616a8e45945e5ff14ae7b26,
+        type: 3}
+      propertyPath: player
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6428323591366249912, guid: d3131ca17616a8e45945e5ff14ae7b26,
         type: 3}

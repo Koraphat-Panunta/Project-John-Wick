@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public abstract class EnemyDecision : MonoBehaviour,IInitializedAble
 {
+    public EnemyDecisionContext enemyDecisionContext;
     public EnemyCommandAPI enemyCommand;
     public Enemy enemy;
     public virtual void Initialized()
@@ -62,11 +63,8 @@ public static class EnemyDecisionInjectionEvent
 
         if (noiseMaker is Bullet bullet
             && bullet.weapon.userWeapon._character.gameObject.TryGetComponent<I_EnemyAITargeted>(out I_EnemyAITargeted i_NPCTargetAble))
-        {
-            if (enemyDecisionContext.combatPhase == CombatPhase.Chill)
-                enemyDecisionContext.SetCombatPhase(CombatPhase.Suspect);
-            else
-                enemyDecisionContext.SetCombatPhase(CombatPhase.Aware);
+        {    
+            enemyDecisionContext.SetCombatPhase(CombatPhase.Aware);
 
             enemyDecisionContext._targetZone.SetZone(noiseMaker.position, enemyDecisionContext.raduisTargetZone);
         }

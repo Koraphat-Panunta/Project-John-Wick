@@ -19,7 +19,9 @@ public class EnemyDecisionSurroundTest : EnemyDecision
 
     public override void Initialized()
     {
-        enemyDecisionContext = new EnemyDecisionContext(CombatPhase.Chill, EnemyRoleCommand.Support, 5f, 5f);
+        enemyDecisionContext = new EnemyDecisionContext( 5f, 5f);
+        enemyDecisionContext.SetRoleCommand(EnemyRoleCommand.Support);
+        enemyDecisionContext.SetCombatPhase(CombatPhase.Suspect);
 
         surroundNode = new SurroundPlayerPositioningActionNodeLeaf(
             enemy, enemyCommand, () => true, this, enemyDecisionContext);

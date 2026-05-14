@@ -62,6 +62,9 @@ public class DoorActor : Actor, I_Interactable
             lockedValue = value;
         }
     }
+
+    public Action<I_Interactable> onDoInteract { get; set ; }
+
     private void Awake()
     {
         if (this.doors == null || this.doors.Length <= 0)
@@ -103,18 +106,21 @@ public class DoorActor : Actor, I_Interactable
         base.NotifyObserver(DoorEvent.Close);
         this.NotifyObserver();
     }
-    public void DoInteract()
-    {
-        this.DoInteract(null);
-    }
+  
     public virtual void DoInteract(I_Interacter i_Interacter)
     {
-
         if (isLocked)
+        {
+            if (this.onDoInteract != null) ;
+            this.NotifyDoInteract();
             return;
+        }
 
         if (isOpen)
+        {
             Close();
+            this.NotifyDoInteract();
+        }
         else
         {
             //Debug.Log("I_Interacter = " + i_Interacter);
@@ -126,12 +132,20 @@ public class DoorActor : Actor, I_Interactable
                     this.Open(1);
                 else
                     this.Open(0);
+
+                this.NotifyDoInteract();
                 return;
             }
 
             Open();
+            this.NotifyDoInteract();
         }
 
+    }
+    private void NotifyDoInteract()
+    {
+        if(this.onDoInteract != null)
+            this.onDoInteract.Invoke(this);
     }
     protected List<IObserverDoor> observerDoors = new List<IObserverDoor>();
     public void AddOberver(IObserverDoor observerDoor)

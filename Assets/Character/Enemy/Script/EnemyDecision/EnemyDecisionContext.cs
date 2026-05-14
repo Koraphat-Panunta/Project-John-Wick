@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class EnemyDecisionContext
 {
-    public EnemyDecisionContext(CombatPhase startCombatPhase
-        ,EnemyRoleCommand roleCommand
-        ,float raduisTargetZone
-        ,float lostSightTime)
+    public EnemyDecisionContext(
+        float raduisTargetZone
+        ,float lostSightTime
+        ,CombatPhase startCombatPhase = CombatPhase.Suspect
+        , EnemyRoleCommand roleCommand = EnemyRoleCommand.Support)
     {
         this.combatPhase = startCombatPhase;
         this.roleCommand = roleCommand;
@@ -16,12 +17,15 @@ public class EnemyDecisionContext
         this._targetZone = new ZoneDefine(Vector3.zero,this.raduisTargetZone);
     }
 
-    public EnemyDecisionContext(CombatPhase startCombatPhase, EnemyRoleCommand startRoleCommand,EnemyDecisionContextScriptableObject enemyDecisionContextScriptableObject) 
+    public EnemyDecisionContext(
+        EnemyDecisionContextScriptableObject enemyDecisionContextScriptableObject
+        ,CombatPhase startCombatPhase = CombatPhase.Suspect
+        , EnemyRoleCommand startRoleCommand = EnemyRoleCommand.Support) 
         : this(
-              startCombatPhase
-              ,startRoleCommand
-              ,enemyDecisionContextScriptableObject.raduisTargetZone
+              enemyDecisionContextScriptableObject.raduisTargetZone
               ,enemyDecisionContextScriptableObject.lostSightTargetTime
+               ,startCombatPhase
+              , startRoleCommand
               )
     {
 

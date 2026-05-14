@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttatchGrabAbleObjectEventVirtualEventNode : VirtualEventNode
 {
-    [SerializeField] GameObject curWeapon;
+    [SerializeField] Weapon curWeapon;
     [SerializeField] public Character weaponUser;
 
     public enum AttatchType
@@ -15,13 +15,8 @@ public class AttatchGrabAbleObjectEventVirtualEventNode : VirtualEventNode
 
     public override void Execute()
     {
-        if(curWeapon.TryGetComponent<IObjectGrabbedAble>(out IObjectGrabbedAble grabAbleObject) == false)
-        {
-            base.Execute();
-            return;
-        }
-
-        switch (grabAbleObject)
+        
+        switch (curWeapon)
         {
             case RangeWeapon rangeWeapon:
                 {

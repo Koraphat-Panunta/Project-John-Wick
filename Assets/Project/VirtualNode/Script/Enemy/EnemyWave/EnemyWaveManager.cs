@@ -17,7 +17,15 @@ public class EnemyWaveManager : Actor,IObserverEnemy
 
     [SerializeField] private bool isStartWave = false;
 
-   
+    private Camera _camera;
+    private int _spawnRoundRobinIndex;
+    private readonly List<EnemySpawnerPoint> _validSpawnPoints = new List<EnemySpawnerPoint>();
+
+    private void Start()
+    {
+        _camera = Camera.main;
+    }
+
     private void Update()
     {
         this.EnemyWaveUpdate();
@@ -35,16 +43,14 @@ public class EnemyWaveManager : Actor,IObserverEnemy
             curWave = enemyWaves[0];
             enemyWaves.RemoveAt(0);
 
-            EnemySpawnerPoint enemySpawnerPoint = GetSelectedEnemySpawnerPoint();
-            //SpawnEnemyList
+            BuildValidSpawnPoints();
             while(curWave.enemyListSpawn.Count > 0)
             {
                 EnemySpawnerData spawnData = curWave.enemyListSpawn[0];
                 curWave.enemyListSpawn.RemoveAt(0);
-                //SpawnEnemyNumber
                 for (int j = 0; j < spawnData.numberSpawn; j++)
                 {
-                    Enemy spawnedEnemy = enemySpawnerPoint.SpawnEnemy(enemyPoolManager, weaponPoolManager, spawnData, this.enemyDirector);
+                    Enemy spawnedEnemy = GetNextSpawnPoint().SpawnEnemy(enemyPoolManager, weaponPoolManager, spawnData, this.enemyDirector);
                     spawnedEnemy.AddObserver(this);
                     spawnedEnemy.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(this.player.transform.position);
 
@@ -53,35 +59,35 @@ public class EnemyWaveManager : Actor,IObserverEnemy
                     spawnedEnemy.GetCommunicate<EnemyCommunicator,Vector3>(enemyCommunicator, player.transform.position);
                     enemies.Add(spawnedEnemy);
                 }
-
             }
-           
         }
-        
     }
-    private EnemySpawnerPoint GetSelectedEnemySpawnerPoint()
+
+    private void BuildValidSpawnPoints()
     {
-        EnemySpawnerPoint selectedSpawnPoint = null;
+        _validSpawnPoints.Clear();
+        _spawnRoundRobinIndex = 0;
         for (int i = 0; i < enemySpawnerPoints.Length; i++)
-        {
-            if(selectedSpawnPoint == null)
-            {
-                if (i >= enemySpawnerPoints.Length - 1)
-                {
-                    selectedSpawnPoint = enemySpawnerPoints[i];
-                    break;
-                }
-                
-                selectedSpawnPoint = enemySpawnerPoints[i];
-                continue;
-            }
+            if (IsOffCamera(enemySpawnerPoints[i].spawnPosition))
+                _validSpawnPoints.Add(enemySpawnerPoints[i]);
 
+        if (_validSpawnPoints.Count == 0)
+            for (int i = 0; i < enemySpawnerPoints.Length; i++)
+                _validSpawnPoints.Add(enemySpawnerPoints[i]);
+    }
 
-            if (Vector3.Distance(player.transform.position, enemySpawnerPoints[i].transform.position)
-                > Vector3.Distance(player.transform.position, selectedSpawnPoint.transform.position))
-                selectedSpawnPoint = enemySpawnerPoints[i];
-        }
-        return selectedSpawnPoint;
+    private EnemySpawnerPoint GetNextSpawnPoint()
+    {
+        EnemySpawnerPoint point = _validSpawnPoints[_spawnRoundRobinIndex % _validSpawnPoints.Count];
+        _spawnRoundRobinIndex++;
+        return point;
+    }
+
+    private bool IsOffCamera(Vector3 worldPos)
+    {
+        if (_camera == null) return true;
+        Vector3 vp = _camera.WorldToViewportPoint(worldPos);
+        return !(vp.z > 0 && vp.x > 0 && vp.x < 1 && vp.y > 0 && vp.y < 1);
     }
    
     public void StartWave()
@@ -115,7 +121,8 @@ public class EnemyWaveManager : Actor,IObserverEnemy
             for (int i = 0; i < enemySpawnerPoints.Length; i++)
             {
                 Gizmos.color = Color.white * .5f;
-                Gizmos.DrawLine(transform.position, enemySpawnerPoints[i].spawnPosition);
+                if (this.enemySpawnerPoints[i] != null)
+                    Gizmos.DrawLine(transform.position, enemySpawnerPoints[i].spawnPosition);
             }
         }
         base.OnDrawGizmos();

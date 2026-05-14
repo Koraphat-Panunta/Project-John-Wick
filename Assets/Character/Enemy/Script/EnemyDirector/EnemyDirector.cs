@@ -24,9 +24,12 @@ public class EnemyDirector :
 
     [SerializeField] private Player player;
 
+    public Vector3 globalTargetKnowPos;
+
     public void Initialized()
     {
         player.AddObserver(this);
+        this.globalTargetKnowPos = this.player.transform.position;
     }
 
     void Update()
@@ -55,6 +58,11 @@ public class EnemyDirector :
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
+        if(node is FindiAndTrackingTargetNodeLeaf findiAndTrackingTargetNodeLeaf)
+        {
+            this.globalTargetKnowPos = findiAndTrackingTargetNodeLeaf.targetKnewPos;
+        }
+
         if (node is EnemyEvent enemyEvent
             && enemyEvent == EnemyEvent.GotBulletHit
             && enemy.getPosturePainPhase == Enemy.EnemyPosturePainStatePhase.HeavyPainState)
@@ -261,6 +269,11 @@ public class EnemyDirector :
                 enemies.Add(enemy);
         }
         return enemies;
+    }
+
+    public void UpdateGlobalTargetKnowPos()
+    {
+        this.globalTargetKnowPos = this.player.transform.position;
     }
 
     private void OnValidate()

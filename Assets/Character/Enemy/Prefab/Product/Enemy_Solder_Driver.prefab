@@ -571,6 +571,7 @@ GameObject:
   - component: {fileID: 4667831613134429475}
   - component: {fileID: 2930863595733507818}
   - component: {fileID: 908760415311358006}
+  - component: {fileID: 1357141212215129237}
   m_Layer: 7
   m_Name: Enemy_Solder_Driver
   m_TagString: Untagged
@@ -652,8 +653,6 @@ MonoBehaviour:
   enemy: {fileID: 1047174480390236368}
   enemyDirectedDecisionScriptableObject: {fileID: 11400000, guid: 53c35e26d31301d44998953f60f6742e,
     type: 2}
-  startCombatPhase: 2
-  startRoleCommand: 0
 --- !u!114 &4725104103229315707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,6 +1171,26 @@ MonoBehaviour:
   - bodyPart: {fileID: 5607200273276217259}
     armored_Protection: {fileID: 0}
   fullBodyCharacterPart: {fileID: 6120905666913085498}
+--- !u!114 &1357141212215129237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4991193612353864792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f43b36e8866544b07ea25930c2f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDecisionDebugDisplay
+  decision: {fileID: 3427749730373386911}
+  headAnchor: {fileID: 5679195106195458145}
+  verticalOffset: 2.2
+  fontSize: 12
+  nodeLeafColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  combatPhaseColor: {r: 1, g: 0.55, b: 0.15, a: 1}
+  roleCommandColor: {r: 0, g: 1, b: 1, a: 1}
+  showInGameView: 1
 --- !u!1 &5311822552820714862
 GameObject:
   m_ObjectHideFlags: 0

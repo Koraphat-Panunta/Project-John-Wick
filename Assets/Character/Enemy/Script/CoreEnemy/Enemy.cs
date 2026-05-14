@@ -255,7 +255,15 @@ public partial class Enemy : SubjectEnemy
     public Vector3 targetKnowPos => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.targetKnewPos;
 
     public Action<GameObject> NotifyEnemySpottingTarget;
-    public Transform target => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.target;
+    public Transform target 
+    { 
+        get => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.target ;
+        set => this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.target = value; 
+    }
+    public void SetTargetKnowPos(Vector3 targetKnowPos)
+    {
+        this.enemyStateManagerNode.findAndTrackTargetNodeLeaf.SetTargetKnowPos(targetKnowPos);
+    }
     public void InitailizedFindingTarget()
     {
         
@@ -271,6 +279,8 @@ public partial class Enemy : SubjectEnemy
         this.enemyCommunicator.SendCommunicate(transform.position, 10, selfLayerMask, EnemyCommunicator.EnemyCommunicateMassage.SendTargetPosition,this.targetKnowPos);
         if (NotifyEnemySpottingTarget != null)
             NotifyEnemySpottingTarget.Invoke(target);
+
+        this.NotifyObserver<FindiAndTrackingTargetNodeLeaf>(this, this.enemyStateManagerNode.findAndTrackTargetNodeLeaf);
     }
 
     #endregion

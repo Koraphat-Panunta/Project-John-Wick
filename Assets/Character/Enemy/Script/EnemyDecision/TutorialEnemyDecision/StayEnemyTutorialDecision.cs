@@ -13,7 +13,7 @@ public class StayEnemyTutorialDecision : EnemyDecision
     {
         _takeCoverAble = false;
         _targetZone = new ZoneDefine(this.transform.position,2.5f);
-        _curCombatPhase = CombatPhase.Chill;
+        _curCombatPhase = CombatPhase.Suspect;
 
         base.Initialized();
     }
@@ -29,12 +29,6 @@ public class StayEnemyTutorialDecision : EnemyDecision
 
         switch (_curCombatPhase)
         {
-            case CombatPhase.Chill:
-                {
-                    enemyCommand.LowReady();
-                    enemyCommand.FreezPosition();
-                    break;
-                }
             case CombatPhase.Suspect: 
                 {
                     enemyCommand.RotateToPosition(this.enemy.targetKnowPos,1);

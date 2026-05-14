@@ -23,6 +23,9 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
     public float collisionPushForward = 0;
     public LayerMask collisionLayers;
 
+    [Header("Debug")]
+    public bool showCollisionDebug = true;
+
     public CinemachineCamera cinemachineCamera;
 
     [Range(0,10)]
@@ -159,19 +162,32 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
         Vector3 targetFollowTargetPosition = this.targetFollowTarget.position + (Vector3.up*0.5f) + (camUp*cameraOffset.y);
 
+#if UNITY_EDITOR
+        _dbgCastFrom = targetFollowTargetPosition;
+        _dbgDesiredPos = targetPos;
+        _dbgSphereHit = false;
+        _dbgRayHit = false;
+#endif
 
         if (Physics.SphereCast(
            targetFollowTargetPosition
            ,collideSphereRaduis
            , (targetPos - targetFollowTargetPosition).normalized
            , out RaycastHit hitInfo
-           , (targetPos - targetFollowTargetPosition).magnitude 
+           , (targetPos - targetFollowTargetPosition).magnitude
            , LayerMask.GetMask("Default")
            , QueryTriggerInteraction.Ignore))
         {
-            //Debug.DrawRay(targetFollowTargetPosition, (targetPos - targetFollowTargetPosition), Color.red);
-            //Debug.DrawLine(targetFollowTargetPosition, hitInfo.point, Color.green);
-
+#if UNITY_EDITOR
+            _dbgSphereHit = true;
+            _dbgHitPoint = hitInfo.point;
+            _dbgHitNormal = hitInfo.normal;
+            if (showCollisionDebug)
+            {
+                Debug.DrawLine(targetFollowTargetPosition, hitInfo.point, Color.red);
+                Debug.DrawRay(hitInfo.point, hitInfo.normal * 0.3f, Color.yellow);
+            }
+#endif
             targetPos = hitInfo.point + ((hitInfo.normal * (collideSphereRaduis)));
         }
         else
@@ -184,8 +200,24 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
             , LayerMask.GetMask("Default")
             , QueryTriggerInteraction.Ignore))
             {
+#if UNITY_EDITOR
+                _dbgRayHit = true;
+                _dbgHitPoint = hitInfoRay.point;
+                _dbgHitNormal = hitInfoRay.normal;
+                if (showCollisionDebug)
+                {
+                    Debug.DrawLine(targetFollowTargetPosition, hitInfoRay.point, Color.magenta);
+                    Debug.DrawRay(hitInfoRay.point, hitInfoRay.normal * 0.3f, Color.yellow);
+                }
+#endif
                 targetPos = hitInfoRay.point + (hitInfoRay.normal* (collideSphereRaduis));
             }
+#if UNITY_EDITOR
+            else if (showCollisionDebug)
+            {
+                Debug.DrawLine(targetFollowTargetPosition, targetPos, Color.green);
+            }
+#endif
         }
 
 
@@ -197,6 +229,16 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 
     public Vector3 targetPos { get; protected set; }
     public Vector3 targetDir { get; protected set; }
+
+#if UNITY_EDITOR
+    private Vector3 _dbgCastFrom;
+    private Vector3 _dbgDesiredPos;
+    private bool _dbgSphereHit;
+    private bool _dbgRayHit;
+    private Vector3 _dbgHitPoint;
+    private Vector3 _dbgHitNormal;
+    private const float _dbgSphereRadius = 0.15f;
+#endif
 
    
 
@@ -217,16 +259,89 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        //Gizmos.color = new Color(0.02f, 0.455f, 0.851f);
-        //Gizmos.DrawWireSphere(targetFollow.position, distance);
+        if (!showCollisionDebug) return;
 
-        //Gizmos.DrawWireSphere(transform.position,0.15f);
-        //Gizmos.color = Color.white;
-        //Gizmos.DrawWireSphere(_transform.position, collisionRaduisCheck);
+        // Always draw camera position and look direction
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, 0.08f);
 
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawLine(_transform.position + _transform.forward * -collisionRaduisCheck, (_transform.position + _transform.forward * -collisionRaduisCheck)+_transform.forward*collisionPushForward);
+        if (targetLook != null)
+        {
+            Gizmos.color = new Color(0f, 0.8f, 1f, 0.5f);
+            Gizmos.DrawLine(transform.position, targetLook.position);
+        }
+    }
 
+    void OnDrawGizmosSelected()
+    {
+        if (!showCollisionDebug || targetFollow == null) return;
+
+        // --- Sphere cast origin marker ---
+        Gizmos.color = new Color(1f, 1f, 0f, 0.8f);
+        Gizmos.DrawWireSphere(_dbgCastFrom, _dbgSphereRadius);
+
+        if (Application.isPlaying)
+        {
+            Vector3 castDir = (_dbgDesiredPos - _dbgCastFrom).normalized;
+            float castDist = (_dbgDesiredPos - _dbgCastFrom).magnitude;
+
+            if (_dbgSphereHit)
+            {
+                // Red path = sphere cast blocked
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(_dbgCastFrom, _dbgHitPoint);
+                Gizmos.DrawWireSphere(_dbgHitPoint, _dbgSphereRadius);
+
+                // Yellow normal
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(_dbgHitPoint, _dbgHitPoint + _dbgHitNormal * 0.4f);
+
+                // Final adjusted camera position
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(targetPos, _dbgSphereRadius);
+                Gizmos.DrawLine(_dbgHitPoint, targetPos);
+            }
+            else if (_dbgRayHit)
+            {
+                // Magenta path = raycast fallback blocked
+                Gizmos.color = new Color(1f, 0.2f, 0.8f);
+                Gizmos.DrawLine(_dbgCastFrom, _dbgHitPoint);
+                Gizmos.DrawWireSphere(_dbgHitPoint, 0.05f);
+
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawLine(_dbgHitPoint, _dbgHitPoint + _dbgHitNormal * 0.4f);
+
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(targetPos, _dbgSphereRadius);
+                Gizmos.DrawLine(_dbgHitPoint, targetPos);
+            }
+            else
+            {
+                // Green path = no collision
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(_dbgCastFrom, _dbgDesiredPos);
+                Gizmos.DrawWireSphere(_dbgDesiredPos, _dbgSphereRadius);
+            }
+        }
+        else
+        {
+            // Edit-mode: show desired cast path from pivot to camera
+            Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
+            Vector3 desiredPos = targetFollow.position + rotation * (cameradistance * distance);
+            desiredPos += transform.right * cameraOffset.x + transform.up * cameraOffset.y + transform.forward * cameraOffset.z;
+
+            Gizmos.color = new Color(0f, 1f, 0.4f, 0.6f);
+            Gizmos.DrawLine(targetFollow.position, desiredPos);
+            Gizmos.DrawWireSphere(targetFollow.position, _dbgSphereRadius);
+            Gizmos.DrawWireSphere(desiredPos, _dbgSphereRadius);
+        }
+
+        // Legend label at camera position
+        UnityEditor.Handles.color = Color.white;
+        UnityEditor.Handles.Label(transform.position + Vector3.up * 0.3f,
+            _dbgSphereHit ? "[Collision: SphereCast]" :
+            _dbgRayHit   ? "[Collision: Raycast]"    :
+            Application.isPlaying ? "[No Collision]" : "[Edit Mode]");
     }
 #endif
 }

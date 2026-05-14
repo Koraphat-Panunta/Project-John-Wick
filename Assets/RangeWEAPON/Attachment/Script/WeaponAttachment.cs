@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -108,16 +109,29 @@ public abstract class WeaponAttachment :
     Collider I_Interactable._collider { get => this._collider; set { } }
     public Transform _transform { get => this.transform; set { } }
     public bool isBeenInteractAble { get => true; set { } }
+
+    public Action<I_Interactable> onDoInteract { get; set; }
+
     public void DoInteract(I_Interacter i_Interacter)
     {
         if (i_Interacter is IItemReceiver itemReceiver == false)
+        {
+            this.OnDoInteract();
             return;
+        }
 
         if(this.CanBeReceivedBy(itemReceiver))
         {
             this.Apply(itemReceiver, this);
+            this.OnDoInteract();
         }
       
+    }
+
+    private void OnDoInteract()
+    {
+        if(this.onDoInteract != null)
+            this.onDoInteract.Invoke(this);
     }
 }
 
