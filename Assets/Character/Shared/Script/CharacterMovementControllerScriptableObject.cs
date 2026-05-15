@@ -7,4 +7,5 @@ public class CharacterMovementControllerScriptableObject : ScriptableObject
     public float slopeAngle;
     public float height;
     public float raduis;
+    public float maxStepHeight = .35f;
 }

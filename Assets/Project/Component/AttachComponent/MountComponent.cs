@@ -50,8 +50,6 @@ public class MountComponent : MonoBehaviour
             targetRot = Quaternion.identity;
         }
 
-        Debug.Log("target Rot = " + targetRot);
-
         _attachAbleObject.position = Vector3.Lerp(_attachAbleObject.position, GetAttachPosition(), this.attachRate);
         _attachAbleObject.rotation = Quaternion.Lerp(_attachAbleObject.rotation, targetRot, this.attachRate);
     }

@@ -32,6 +32,7 @@ public class CharacterMovementController : MonoBehaviour
     public static readonly float reach;
 
     public float maxSlopeAngle = 45f;
+    
 
     [SerializeField] protected CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject;
     [SerializeField] CapsuleCollider capsuleCollider;
@@ -301,49 +302,157 @@ public class CharacterMovementController : MonoBehaviour
     public void SetGroundUpdate(bool value) => this.isUpdateGround = value;
     private void UpdateGroundState()
     {
-        if(this.isUpdateGround == false)
+        if (this.isUpdateGround == false)
             return;
 
-        if(Physics.SphereCast(this.startCast,raduis,Vector3.down,out RaycastHit hit, this.castDistance, this.layerMask, QueryTriggerInteraction.Ignore))
+        if (Physics.SphereCast(
+            this.startCast
+            , raduis
+            , Vector3.down
+            , out RaycastHit hit
+            , this.castDistance + this.characterMovementControllerScriptableObject.maxStepHeight + 0.5f
+            , this.layerMask
+            , QueryTriggerInteraction.Ignore)
+            )
         {
-            groundNormal = hit.normal;
-            //Debug.DrawLine(startCast, hit.point, Color.yellow);
-            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            if (slopeAngle < 5)
+            // === คำนวณทิศทาง forward (แนวนอนเท่านั้น) ===
+            Vector3 forwardDir = this.rotation * Vector3.forward;
+            forwardDir.y = 0;
+            forwardDir.Normalize();
+
+            // === สร้าง 3 ทิศทางในการ cast (รูปสามเหลี่ยม) ===
+            Vector3 dirForward = forwardDir;
+            Vector3 dirBackLeft = Quaternion.Euler(0, -135, 0) * forwardDir;
+            Vector3 dirBackRight = Quaternion.Euler(0, 135, 0) * forwardDir;
+
+            float vertexDistance = this.raduis * 2;
+
+            // === คำนวณจุดเริ่มต้นของการ cast (เหนือตัวละคร) ===
+            Vector3 castStartForward = this.startCast + (dirForward * vertexDistance);
+            Vector3 castStartBackLeft = this.startCast + (dirBackLeft * vertexDistance);
+            Vector3 castStartBackRight = this.startCast + (dirBackRight * vertexDistance);
+
+            // === ยิง 3 ray ลงข้างล่างเพื่อหา 3 จุดบนพื้น (vertices) ===
+            Vector3 vertexForward = GetGroundVertex(castStartForward);
+            Vector3 vertexBackLeft = GetGroundVertex(castStartBackLeft);
+            Vector3 vertexBackRight = GetGroundVertex(castStartBackRight);
+
+            // === คำนวณ Normal จาก 3 vertices ===
+            Vector3 edge1 = vertexForward - vertexBackLeft;
+            Vector3 edge2 = vertexBackRight - vertexBackLeft;
+            Vector3 virtualNormal = Vector3.Cross(edge2, edge1).normalized;
+
+            if (virtualNormal.y < 0)
+                virtualNormal = -virtualNormal;
+
+            // === คำนวณ slope angle ===
+            float virtualSlopeAngle = Vector3.Angle(virtualNormal, Vector3.up);
+
+            Vector3 finalNormal;
+            float finalSlopeAngle;
+
+            // === จุดบน plane ที่ใช้อ้างอิง (centroid ของ triangle) ===
+            Vector3 trianglePointOnPlane = (vertexForward + vertexBackLeft + vertexBackRight) / 3f;
+
+            // === Place Position (ตำแหน่งที่ต้องการให้ตัวละครยืน) ===
+            Vector3 placePosition = this.position;
+
+            finalNormal = virtualNormal;
+            finalSlopeAngle = virtualSlopeAngle;
+
+            // === PROJECT placePosition ลงบน virtual plane ===
+            // หาตำแหน่ง Y ที่ตัวละครควรอยู่เมื่ออยู่บน plane
+            placePosition = ProjectPointOntoPlane(this.position, trianglePointOnPlane, virtualNormal);
+
+            Debug.Log("finalSlopeAngle = " + finalSlopeAngle);
+
+            groundNormal = finalNormal;
+
+            // === Debug: วาด triangle ===
+            Debug.DrawLine(vertexForward, vertexBackLeft, Color.cyan);
+            Debug.DrawLine(vertexBackLeft, vertexBackRight, Color.cyan);
+            Debug.DrawLine(vertexBackRight, vertexForward, Color.cyan);
+
+            // วาด normal
+            Debug.DrawRay(trianglePointOnPlane, virtualNormal * 0.5f, Color.magenta);
+
+            // วาด place position (ที่ projected แล้ว)
+            Debug.DrawLine(this.position, placePosition, Color.yellow);
+
+            // === Update Ground State ตาม finalSlopeAngle ===
+            if (finalSlopeAngle < 5)
             {
-                //Debug.Log("OnLinear");
                 groundState = GroundState.OnLinear;
                 this.isGrounded = true;
-                if(this.position.y < hit.point.y)
-                {
-                    this.position = new Vector3(this.position.x, hit.point.y + .02f, this.position.z);
-                }
 
+                // ใช้ projected position
+                this.position = new Vector3(this.position.x, placePosition.y + .02f, this.position.z);
             }
-            else if (slopeAngle <= maxSlopeAngle)
+            else if (finalSlopeAngle <= maxSlopeAngle)
             {
-                //Debug.Log("OnSlope");
                 groundState = GroundState.OnSlope;
                 this.isGrounded = true;
-                if (this.position.y < hit.point.y - .02f)
+
+                // ใช้ projected position - ตัวละครจะติดกับ plane เสมอ
+                if (this.position.y < placePosition.y - .02f)
                 {
-                    this.position = new Vector3(this.position.x, hit.point.y - .02f, this.position.z);
+                    this.position = new Vector3(this.position.x, placePosition.y - .02f, this.position.z);
                 }
             }
             else
             {
-                //Debug.Log("Stall OnSlope Angle = " + slopeAngle);
                 groundState = GroundState.Stall;
                 this.isGrounded = false;
             }
         }
         else
         {
-            //Debug.Log("Stall");
             this.groundState = GroundState.Stall;
             this.isGrounded = false;
             groundNormal = Vector3.zero;
         }
+    }
+
+    /// <summary>
+    /// Project จุดลงบน plane โดยใช้ normal ของ plane
+    /// คืนค่าตำแหน่งที่ X, Z คงเดิม แต่ Y อยู่บน plane
+    /// </summary>
+    /// <param name="point">จุดที่ต้องการ project</param>
+    /// <param name="pointOnPlane">จุดใดๆ ที่อยู่บน plane (เช่น triangle centroid)</param>
+    /// <param name="planeNormal">normal ของ plane</param>
+    /// <returns>ตำแหน่งที่ projected บน plane</returns>
+    private Vector3 ProjectPointOntoPlane(Vector3 point, Vector3 pointOnPlane, Vector3 planeNormal)
+    {
+        // ป้องกันกรณี normal เป็นแนวนอนสมบูรณ์ (จะหารด้วยศูนย์)
+        if (Mathf.Abs(planeNormal.y) < 0.0001f)
+            return point;
+
+        // สมการ plane: N·(P - P0) = 0
+        // เมื่อเรารู้ X และ Z แล้วต้องหา Y:
+        // N.x*(P.x - P0.x) + N.y*(P.y - P0.y) + N.z*(P.z - P0.z) = 0
+        // N.y*(P.y - P0.y) = -(N.x*(P.x - P0.x) + N.z*(P.z - P0.z))
+        // P.y = P0.y - (N.x*(P.x - P0.x) + N.z*(P.z - P0.z)) / N.y
+
+        float projectedY = pointOnPlane.y -
+            (planeNormal.x * (point.x - pointOnPlane.x) +
+             planeNormal.z * (point.z - pointOnPlane.z)) / planeNormal.y;
+
+        return new Vector3(point.x, projectedY, point.z);
+    }
+
+    /// <summary>
+    /// ยิง ray ลงเพื่อหาจุดบนพื้น (vertex) สำหรับการคำนวณ virtual ramp
+    /// </summary>
+    private Vector3 GetGroundVertex(Vector3 origin)
+    {
+        float maxCastDistance = this.castDistance + this.characterMovementControllerScriptableObject.maxStepHeight + 0.5f;
+
+        if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, maxCastDistance, this.layerMask, QueryTriggerInteraction.Ignore))
+        {
+            return hit.point;
+        }
+
+        return origin + Vector3.down * maxCastDistance;
     }
     public void SetVelocityPhysicBased(Vector3 v) => this.velocityPhysicBased = v;
    
