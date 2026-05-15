@@ -363,7 +363,7 @@ public class CharacterMovementController : MonoBehaviour
                     }
 
                     this.groundNormal = _groundTriangle.normal;
-                    this.UpdateGroundStatePositionOnGround(hit.point);
+                    this.UpdateGroundStatePositionOnGround( hit.point);
                 }
                 break;
             case GroundState.OnSlope:
@@ -397,7 +397,7 @@ public class CharacterMovementController : MonoBehaviour
             this.isGrounded = true;
 
             //if (this.position.y < placePosition.y + SKIN_WIDTH_THREASHORED)
-                this.position = new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z);
+            this.position = Vector3.Lerp(this.position, new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z),Time.deltaTime * 10);
             Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
         }
         else if (_groundTriangle.slopeAngle <= maxSlopeAngle)
