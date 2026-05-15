@@ -140,7 +140,9 @@ public class PlayerMovement : MovementCompoent
             this.characterController.enableGravity = false;
         }
         else
+        {
             this.characterController.enableGravity = true;
+        }
 
         if (player.playerStateNodeManager != null
             && ((player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is IParkourNodeLeaf))

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98972084c446d784abceca772a79ad88, type: 3}
   m_Name: Parkour_CharacterMovementControllerSCRP
   m_EditorClassIdentifier: Assembly-CSharp::CharacterMovementControllerScriptableObject
-  centerOffsetPosition: {x: 0, y: 1, z: 0}
+  centerOffsetPosition: {x: 0, y: 1.25, z: 0}
   slopeAngle: 45
-  height: 1
+  height: 0.25
   raduis: 0.5
+  maxStepHeight: 0

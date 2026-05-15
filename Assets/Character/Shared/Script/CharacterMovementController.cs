@@ -12,11 +12,22 @@ public class CharacterMovementController : MonoBehaviour
         Stall
     }
 
+    private struct VirtualTriangle
+    {
+        public Vector3 vertexForward;
+        public Vector3 vertexBackLeft;
+        public Vector3 vertexBackRight;
+        public Vector3 normal;
+        public float slopeAngle;
+        public Vector3 centroid;
+    }
+
     [Header("Ground & Gravity")]
     public bool enableGravity = true;
     private float gravityScale = 1;
     public float gravity => 9.81f * this.gravityScale;
 
+    public static readonly float SKIN_WIDTH_THREASHORED = .02f;
 
     //[Header("Step")]
     //public float stepHeight = 0.35f;
@@ -25,6 +36,7 @@ public class CharacterMovementController : MonoBehaviour
     public GroundState groundState;
     public Vector3 groundNormal;
     public bool isGrounded;
+    private VirtualTriangle _groundTriangle;
 
     [SerializeField] public Vector3 velocityPhysicBased;
     private float maxVerticalDownGravityVelocity = 10;
@@ -305,112 +317,155 @@ public class CharacterMovementController : MonoBehaviour
         if (this.isUpdateGround == false)
             return;
 
-        if (Physics.SphereCast(
-            this.startCast
-            , raduis
-            , Vector3.down
-            , out RaycastHit hit
-            , this.castDistance + this.characterMovementControllerScriptableObject.maxStepHeight + 0.5f
-            , this.layerMask
-            , QueryTriggerInteraction.Ignore)
-            )
+        UpdateGroundTriangle();
+
+        Vector3 placePosition = ProjectPointOntoPlane(this.position, _groundTriangle.centroid, _groundTriangle.normal);
+
+
+
+
+
+        Debug.DrawLine(_groundTriangle.vertexForward, _groundTriangle.vertexBackLeft, Color.cyan);
+        Debug.DrawLine(_groundTriangle.vertexBackLeft, _groundTriangle.vertexBackRight, Color.cyan);
+        Debug.DrawLine(_groundTriangle.vertexBackRight, _groundTriangle.vertexForward, Color.cyan);
+        Debug.DrawRay(_groundTriangle.centroid, _groundTriangle.normal * 0.5f, Color.magenta);
+        Debug.DrawLine(this.position, placePosition, Color.yellow);
+
+        switch (this.groundState)
         {
-            // === คำนวณทิศทาง forward (แนวนอนเท่านั้น) ===
-            Vector3 forwardDir = this.rotation * Vector3.forward;
-            forwardDir.y = 0;
-            forwardDir.Normalize();
-
-            // === สร้าง 3 ทิศทางในการ cast (รูปสามเหลี่ยม) ===
-            Vector3 dirForward = forwardDir;
-            Vector3 dirBackLeft = Quaternion.Euler(0, -135, 0) * forwardDir;
-            Vector3 dirBackRight = Quaternion.Euler(0, 135, 0) * forwardDir;
-
-            float vertexDistance = this.raduis * 2;
-
-            // === คำนวณจุดเริ่มต้นของการ cast (เหนือตัวละคร) ===
-            Vector3 castStartForward = this.startCast + (dirForward * vertexDistance);
-            Vector3 castStartBackLeft = this.startCast + (dirBackLeft * vertexDistance);
-            Vector3 castStartBackRight = this.startCast + (dirBackRight * vertexDistance);
-
-            // === ยิง 3 ray ลงข้างล่างเพื่อหา 3 จุดบนพื้น (vertices) ===
-            Vector3 vertexForward = GetGroundVertex(castStartForward);
-            Vector3 vertexBackLeft = GetGroundVertex(castStartBackLeft);
-            Vector3 vertexBackRight = GetGroundVertex(castStartBackRight);
-
-            // === คำนวณ Normal จาก 3 vertices ===
-            Vector3 edge1 = vertexForward - vertexBackLeft;
-            Vector3 edge2 = vertexBackRight - vertexBackLeft;
-            Vector3 virtualNormal = Vector3.Cross(edge2, edge1).normalized;
-
-            if (virtualNormal.y < 0)
-                virtualNormal = -virtualNormal;
-
-            // === คำนวณ slope angle ===
-            float virtualSlopeAngle = Vector3.Angle(virtualNormal, Vector3.up);
-
-            Vector3 finalNormal;
-            float finalSlopeAngle;
-
-            // === จุดบน plane ที่ใช้อ้างอิง (centroid ของ triangle) ===
-            Vector3 trianglePointOnPlane = (vertexForward + vertexBackLeft + vertexBackRight) / 3f;
-
-            // === Place Position (ตำแหน่งที่ต้องการให้ตัวละครยืน) ===
-            Vector3 placePosition = this.position;
-
-            finalNormal = virtualNormal;
-            finalSlopeAngle = virtualSlopeAngle;
-
-            // === PROJECT placePosition ลงบน virtual plane ===
-            // หาตำแหน่ง Y ที่ตัวละครควรอยู่เมื่ออยู่บน plane
-            placePosition = ProjectPointOntoPlane(this.position, trianglePointOnPlane, virtualNormal);
-
-            Debug.Log("finalSlopeAngle = " + finalSlopeAngle);
-
-            groundNormal = finalNormal;
-
-            // === Debug: วาด triangle ===
-            Debug.DrawLine(vertexForward, vertexBackLeft, Color.cyan);
-            Debug.DrawLine(vertexBackLeft, vertexBackRight, Color.cyan);
-            Debug.DrawLine(vertexBackRight, vertexForward, Color.cyan);
-
-            // วาด normal
-            Debug.DrawRay(trianglePointOnPlane, virtualNormal * 0.5f, Color.magenta);
-
-            // วาด place position (ที่ projected แล้ว)
-            Debug.DrawLine(this.position, placePosition, Color.yellow);
-
-            // === Update Ground State ตาม finalSlopeAngle ===
-            if (finalSlopeAngle < 5)
-            {
-                groundState = GroundState.OnLinear;
-                this.isGrounded = true;
-
-                // ใช้ projected position
-                this.position = new Vector3(this.position.x, placePosition.y + .02f, this.position.z);
-            }
-            else if (finalSlopeAngle <= maxSlopeAngle)
-            {
-                groundState = GroundState.OnSlope;
-                this.isGrounded = true;
-
-                // ใช้ projected position - ตัวละครจะติดกับ plane เสมอ
-                if (this.position.y < placePosition.y - .02f)
+            case GroundState.Stall:
                 {
-                    this.position = new Vector3(this.position.x, placePosition.y - .02f, this.position.z);
+                    if (!Physics.SphereCast(
+                        this.startCast, raduis, Vector3.down,
+                        out RaycastHit hit,
+                        this.castDistance - .002f ,
+                        this.layerMask, QueryTriggerInteraction.Ignore)
+                        ||this.stallExitAble == false)
+                    {
+                        break;
+                    }
+
+                    this.groundNormal = Vector3.zero;
+                    this.UpdateGroundStatePositionOnGround(hit.point);
+
                 }
-            }
-            else
-            {
-                groundState = GroundState.Stall;
-                this.isGrounded = false;
-            }
+                break;
+            case GroundState.OnLinear: 
+                {
+                    if (!Physics.SphereCast(
+                       this.startCast, raduis, Vector3.down,
+                       out RaycastHit hit,
+                       this.castDistance + this.characterMovementControllerScriptableObject.maxStepHeight + 0.5f,
+                       this.layerMask, QueryTriggerInteraction.Ignore))
+                    {
+                        this.TriggerStall();
+                        break;
+                    }
+
+                    this.groundNormal = _groundTriangle.normal;
+                    this.UpdateGroundStatePositionOnGround(hit.point);
+                }
+                break;
+            case GroundState.OnSlope:
+                {
+                    if (!Physics.SphereCast(
+                        this.startCast, raduis, Vector3.down,           
+                        out RaycastHit hit,            
+                        this.castDistance + this.characterMovementControllerScriptableObject.maxStepHeight + 0.5f,
+                        this.layerMask, QueryTriggerInteraction.Ignore))
+                    {
+                        this.TriggerStall();
+                        break;
+                    }
+
+                    this.groundNormal = _groundTriangle.normal;
+                    this.UpdateGroundStatePositionOnGround(placePosition);
+                }
+                break;
+            
+        }
+
+   
+    }
+
+    private void UpdateGroundStatePositionOnGround(Vector3 placePosition)
+    {
+       
+        if (_groundTriangle.slopeAngle < 5)
+        {
+            this.groundState = GroundState.OnLinear;
+            this.isGrounded = true;
+
+            //if (this.position.y < placePosition.y + SKIN_WIDTH_THREASHORED)
+                this.position = new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z);
+            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
+        }
+        else if (_groundTriangle.slopeAngle <= maxSlopeAngle)
+        {
+            this.groundState = GroundState.OnSlope;
+            this.isGrounded = true;
+            if (this.position.y < placePosition.y - SKIN_WIDTH_THREASHORED)
+                this.position = new Vector3(this.position.x, placePosition.y - SKIN_WIDTH_THREASHORED , this.position.z);
+            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
+
         }
         else
         {
             this.groundState = GroundState.Stall;
             this.isGrounded = false;
-            groundNormal = Vector3.zero;
+            this.groundNormal = Vector3.zero;
+            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
         }
+    }
+
+    private void UpdateGroundTriangle()
+    {
+        Vector3 forwardDir = this.rotation * Vector3.forward;
+        forwardDir.y = 0;
+        forwardDir.Normalize();
+
+        float vertexDistance = this.raduis * 2;
+        Vector3 castStartForward   = this.startCast + (forwardDir * vertexDistance);
+        Vector3 castStartBackLeft  = this.startCast + (Quaternion.Euler(0, -135, 0) * forwardDir * vertexDistance);
+        Vector3 castStartBackRight = this.startCast + (Quaternion.Euler(0,  135, 0) * forwardDir * vertexDistance);
+        
+        Vector3 terrainForward = GetGroundVertex(castStartForward);
+        Vector3 terrainBackLeft = GetGroundVertex(castStartBackLeft);
+        Vector3 terrainBackRight = GetGroundVertex(castStartBackRight);
+        Vector3 terrainCenter = GetGroundVertex(this.startCast);
+
+        Vector3 middleBack = (terrainBackLeft + terrainBackRight) / 2f;
+
+        Vector3 middlePlane = (terrainForward + terrainBackLeft + terrainBackRight)/3f;
+
+        if (middlePlane.y < terrainCenter.y)
+        {
+            if(Mathf.Abs(terrainCenter.y - terrainForward.y) <= .005f
+                || Mathf.Abs(terrainCenter.y - middleBack.y) <= .005f)
+            {
+                terrainForward = new Vector3(terrainForward.x, terrainCenter.y, terrainForward.z);
+                terrainBackLeft = new Vector3(terrainBackLeft.x, terrainCenter.y, terrainBackLeft.z);
+                terrainBackRight = new Vector3(terrainBackRight.x, terrainCenter.y, terrainBackRight.z);
+            }
+            
+        }
+
+        _groundTriangle.vertexBackLeft  = terrainBackLeft;
+        _groundTriangle.vertexBackRight = terrainBackRight;
+        _groundTriangle.vertexForward = terrainForward;
+
+        Vector3 edge1 = _groundTriangle.vertexForward   - _groundTriangle.vertexBackLeft;
+        Vector3 edge2 = _groundTriangle.vertexBackRight - _groundTriangle.vertexBackLeft;
+        Vector3 normal = Vector3.Cross(edge2, edge1).normalized;
+
+        if (normal.y < 0)
+            normal = -normal;
+
+        _groundTriangle.normal = normal;
+        _groundTriangle.slopeAngle = Vector3.Angle(normal, Vector3.up);
+        _groundTriangle.centroid = (_groundTriangle.vertexForward + _groundTriangle.vertexBackLeft + _groundTriangle.vertexBackRight) / 3f;
+
+
     }
 
     /// <summary>
@@ -459,9 +514,10 @@ public class CharacterMovementController : MonoBehaviour
     private void UpdateGravity()
     {
         if (this.isGrounded == true 
-            || this.enableGravity == false)
+            || this.enableGravity == false
+            || this.groundState == GroundState.OnLinear
+            || this.groundState == GroundState.OnSlope)
         {
-            if (this.velocityPhysicBased.y < 0)
                 this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x,0,this.velocityPhysicBased.z);
             return;
         }
@@ -478,7 +534,23 @@ public class CharacterMovementController : MonoBehaviour
     }
     public void PushForceUp(float force,float velocityChangeDuration)
     {
+        Debug.Log("PushForceUp");
+        this.TriggerStall();
         this.velocityPhysicBased = new Vector3(this.velocityPhysicBased.x, force, this.velocityPhysicBased.z);
+    }
+    public void TriggerStall()
+    {
+        this.groundState = GroundState.Stall;
+        this.isGrounded = false;
+        this.groundNormal = Vector3.zero;
+        this.stallExitAble = false;
+        this.StartCoroutine(StallBufferTime());
+    }
+    private bool stallExitAble;
+    private IEnumerator StallBufferTime()
+    {
+        yield return new WaitForSeconds(.5f);
+        this.stallExitAble = true;
     }
     private IEnumerator VelocityChange(float force, float velocityChangeDuration)
     {

@@ -98,6 +98,7 @@ public class WallJumpForwardDolphinDiveNodeLeaf : PlayerDolphinDiveStateNodeLeaf
                 this.playerMovement.SetProneDir(this.jumpDir);
                 this.playerMovement.isOnUpdateEnable = true;
                 this.phase = WallJumpPhase.Jump;
+                this.playerMovement.characterController.PushForceUp(1, .05f);
                 this.player.NotifyObserver(this.player, this);
             }
         }
