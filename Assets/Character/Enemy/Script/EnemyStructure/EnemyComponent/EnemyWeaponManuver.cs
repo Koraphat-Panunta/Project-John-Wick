@@ -128,6 +128,8 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         }
     }
 
+    public override INodeManager _reloadNodeManager => this;
+
     public override void InitailizedNode()
     {
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,

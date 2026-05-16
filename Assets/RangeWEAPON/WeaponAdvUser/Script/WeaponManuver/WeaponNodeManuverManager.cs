@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class WeaponNodeManuverManager : INodeManager
 {
     public NodeManagerBehavior _nodeManagerBehavior { get; set ; }
+    public abstract INodeManager _reloadNodeManager { get; }
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
     private INodeLeaf curNodeLeaf;
     public INodeSelector startNodeSelector { get; set; }
