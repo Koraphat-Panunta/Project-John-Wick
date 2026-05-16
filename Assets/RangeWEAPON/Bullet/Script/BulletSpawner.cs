@@ -39,7 +39,7 @@ public class BulletSpawner : MonoBehaviour
         //    Bullet.GetComponent<Bullet>().Execute(_enemy.enemyGetShootDirection.GetShootingPos());
         //}
     }
-    private IEnumerator SpawnTrail(Vector3 startPos,Vector3 endPos,TrailRenderer bulletTrail)
+    public IEnumerator SpawnTrail(Vector3 startPos,Vector3 endPos,TrailRenderer bulletTrail)
     {
         bulletTrail = GameObject.Instantiate(bulletTrail);
 

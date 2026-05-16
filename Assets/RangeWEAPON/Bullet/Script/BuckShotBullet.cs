@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
 public class BuckShotBullet : Bullet
 {
@@ -6,9 +7,9 @@ public class BuckShotBullet : Bullet
     private const float SPREAD_ANGLE = 10f;
 
     public override BulletType myType { get; protected set; }
-    public override float _hPDamage { get => weapon.weaponStatsScriptableObject._hpDamage; set { } }
-    public override float _postureDamageVisitor { get => weapon.weaponStatsScriptableObject._postureDamage; set { } }
-    public override float _pureDestructionDamage { get => weapon.weaponStatsScriptableObject._destructionDamage; set { } }
+    public override float _hPDamage { get => weapon.weaponStatsScriptableObject._hpDamage / PELLET_COUNT; set { } }
+    public override float _postureDamageVisitor { get => weapon.weaponStatsScriptableObject._postureDamage / PELLET_COUNT; set { } }
+    public override float _pureDestructionDamage { get => weapon.weaponStatsScriptableObject._destructionDamage / PELLET_COUNT; set { } }
 
     public BuckShotBullet(RangeWeapon weapon) : base(weapon)
     {
@@ -22,7 +23,10 @@ public class BuckShotBullet : Bullet
 
         Vector3 lastHitPos = bulletSpawner.transform.position;
         for (int i = 0; i < PELLET_COUNT; i++)
+        {
             lastHitPos = ShootPellet(bulletSpawner);
+            Debug.DrawLine(this.position, lastHitPos, Color.red, 3);
+        }
 
         return lastHitPos;
     }
@@ -31,6 +35,8 @@ public class BuckShotBullet : Bullet
     {
         Vector3 pelletDir = GetSpreadDirection(bulletSpawner.transform);
         Ray ray = new Ray(bulletSpawner.transform.position, pelletDir);
+
+        //Debug.DrawRay(bulletSpawner.transform.position, pelletDir,Color.red,4);
 
         RaycastHit[] hits = Physics.SphereCastAll(ray, 0.015f, MAX_DISTANCE, hitLayer, QueryTriggerInteraction.Ignore);
 

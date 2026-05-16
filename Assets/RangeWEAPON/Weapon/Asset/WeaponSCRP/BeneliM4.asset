@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BeneliM4
   m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataScriptableObject
   objectID: 63683629-a907-4d1d-a0f2-8bad56ee87e5
-  rangeWeaponPrefab: {fileID: 0}
+  rangeWeaponPrefab: {fileID: 2631053837837289885, guid: 054cf2c6c644a9d4b9b3528e4a862c9a,
+    type: 3}
   bulletCapacity: 8
-  rate_of_fire: 100
+  rate_of_fire: 200
   reloadTime: 1
   Recovery_CrosshairBloomSpeed: 0.6
   Recovery_CrosshairPositionSpeed: 0.85
@@ -26,6 +27,6 @@ MonoBehaviour:
   min_CrosshairSize: 22
   max_CrosshairSize: 200
   aimDownSight_speed: 7
-  _hpDamage: 25
-  _postureDamage: 25
-  _destructionDamage: 15
+  _hpDamage: 100
+  _postureDamage: 100
+  _destructionDamage: 60
