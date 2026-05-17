@@ -47,6 +47,7 @@ public partial class PlayerAnimationManager
 
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf sprintChangeDirNodeLeaf { get; set; }
 
     public NodeSelector proneStateNodeSelector { get; set; }
     public PlayAnimationNodeLeaf obstacleJumpAnimationNodeLeaf { get; set; }
@@ -137,6 +138,9 @@ public partial class PlayerAnimationManager
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
             animator, "Sprint", 0, .5f);
+        sprintChangeDirNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintChangeDirectionNode,
+            animator, "SprintChangeDir", 0, .1f);
 
         this.proneStateNodeSelector = new NodeSelector(
             ()=> this.player.stance == Stance.prone);
@@ -301,6 +305,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.getUpNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.proneStateNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(sprintChangeDirNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
@@ -373,6 +378,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
     public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintChangeDirUpperNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
 
     public NodeSelector weaponHandSelector { get; set; }
@@ -391,6 +397,7 @@ public partial class PlayerAnimationManager
                 upperLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(this.performGunFuUpperLayerNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(this.drawSwitchSelector);
+                upperLayerNodeSelector.AddtoChildNode(this.sprintChangeDirUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.sprintUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
@@ -565,6 +572,10 @@ public partial class PlayerAnimationManager
         sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
          animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .6f);
+
+        sprintChangeDirUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
+         () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>(),
+         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .3f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             () =>

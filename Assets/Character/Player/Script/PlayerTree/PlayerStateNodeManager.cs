@@ -49,6 +49,7 @@ public class PlayerStateNodeManager :
     public PlayerLandingRollStateNodeLeaf landingRollStateNodeLeaf { get; private set; }
     public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
+    public PlayerSprintChangeDirectionNode playerSprintChangeDirectionNode { get; private set; }
     public NodeSelector dolphinDiveSelector { get; private set; }
     public ObstacleJumpDolphinDiveNodeLeaf obstacleJumpDolphinDiveNodeLeaf { get; private set; }
     public WallJumpReversDolphinDiveNodeLeaf wallJumpReversDolphinDiveNodeLeaf { get; private set; }
@@ -135,6 +136,16 @@ public class PlayerStateNodeManager :
         standSelectorNode = new PlayerSelectorStateNode(this.player,
             () => true );
         this.playerSprintNode = new PlayerSprintNode(this.player,this, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
+
+        const float CHANGE_DIR_DOT_THRESHOLD = 0.3f;
+        const float CHANGE_DIR_MIN_SPEED_RATIO = 0.5f;
+        this.playerSprintChangeDirectionNode = new PlayerSprintChangeDirectionNode(
+            this.player,
+            () => this.player.isSprint
+                && this.player.inputMoveDir_World.magnitude > 0
+                && this.player._movementCompoent.curMoveVelocity_World.magnitude > this.player.StandMoveMaxSpeed * CHANGE_DIR_MIN_SPEED_RATIO
+                && Vector3.Dot(this.player.inputMoveDir_World.normalized, this.player._movementCompoent.curMoveVelocity_World.normalized) < CHANGE_DIR_DOT_THRESHOLD,
+            this.player.sprintChangeDirSCRP);
 
         this.dolphinDiveSelector = new NodeSelector(
             () => this.player.triggerDodgeRoll);
@@ -403,6 +414,7 @@ public class PlayerStateNodeManager :
         standSelectorNode.AddtoChildNode(playerStandMoveNode);
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
+        this.playerSprintNode.AddTransitionNode(this.playerSprintChangeDirectionNode);
         this.playerSprintNode.AddTransitionNode(this.dolphinDiveSelector);
 
         this.dolphinDiveSelector.AddtoChildNode(this.obstacleJumpDolphinDiveNodeLeaf);
