@@ -63,8 +63,8 @@ public class AmmoProuch
 
         this.amountOf_ammo.Add(BulletType.handgunAmmo, 24);
         this.amountOf_ammo.Add(BulletType.rifleAmmo, 30);
-        this.amountOf_ammo.Add(BulletType.buckShotAmmo, 0);
-        this.amountOf_ammo.Add(BulletType.battleRifleAmmo, 0);
+        this.amountOf_ammo.Add(BulletType.buckShotAmmo, 8);
+        this.amountOf_ammo.Add(BulletType.battleRifleAmmo, 20);
 
         this.SetMaximumAmmoTier(this.ammoProuchTier);
     }

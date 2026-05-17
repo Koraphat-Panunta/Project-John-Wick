@@ -11,6 +11,7 @@ public abstract class WeaponManuverLeafNode : WeaponManuverNode,INodeLeaf
     public enum WeaponManuverLeafNodePhase
     {
         Enter,
+        Update,
         Exit
     }
 

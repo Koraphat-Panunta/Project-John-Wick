@@ -11,7 +11,6 @@ public class AutomaticShotgunModel : RangeWeapon, PrimaryWeapon
     protected override BulletCapacity bulletCap { get; set; }
 
     // True while the player is mid-reload sequence (after Preload, before QuardLoad finishes)
-    public bool _isReloadStanceEntered { get; set; }
 
     [SerializeField] private AnimationTriggerEventSCRP chamberLoad_timelineSCRP;
     [SerializeField] private AnimationTriggerEventSCRP preload_timelineSCRP;
@@ -20,9 +19,9 @@ public class AutomaticShotgunModel : RangeWeapon, PrimaryWeapon
     public NodeSelector _shotgunReloadSelector { get; set; }
     public override NodeSelector _reloadSelecotrOverriden => _shotgunReloadSelector;
 
-    public ChamberLoadShotgunNodeLeaf _chamberLoadNode { get; set; }
-    public PreloadNodeLeaf _preloadNode { get; set; }
-    public QuardLoadNodeLeaf _quardLoadNode { get; set; }
+    public ChamberLoadShotgunNodeLeaf _chamberLoadNodeLeaf { get; set; }
+    public PreloadNodeLeaf _preloadNodeLeaf { get; set; }
+    public QuardLoadNodeLeaf _quardLoadNodeLeaf { get; set; }
 
     public override INodeSelector startNodeSelector { get; set; }
     public AutoLoadChamberNode autoLoadChamber { get; set; }
@@ -56,30 +55,31 @@ public class AutomaticShotgunModel : RangeWeapon, PrimaryWeapon
                 && userWeapon._weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) > 0;
         });
 
-        _chamberLoadNode = new ChamberLoadShotgunNodeLeaf(
+        _chamberLoadNodeLeaf = new ChamberLoadShotgunNodeLeaf(
             this,
             chamberLoad_timelineSCRP,
-            () => chamber.isLoad == false && curBulletCapacity > 0);
+            () => chamber.isLoad == false );
 
-        _preloadNode = new PreloadNodeLeaf(
+        _preloadNodeLeaf = new PreloadNodeLeaf(
             this,
             preload_timelineSCRP,
-            () => _isReloadStanceEntered == false
-                && curBulletCapacity < maxAmmoCapacity
+            () => curBulletCapacity < maxAmmoCapacity
                 && userWeapon != null
                 && userWeapon._weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) > 0);
 
-        _quardLoadNode = new QuardLoadNodeLeaf(
+        _quardLoadNodeLeaf = new QuardLoadNodeLeaf(
             this,
             quardLoad_timelineSCRP,
-            () => _isReloadStanceEntered
-                && curBulletCapacity < maxAmmoCapacity
+            () =>  curBulletCapacity < maxAmmoCapacity
                 && userWeapon != null
                 && userWeapon._weaponBelt.ammoProuch.CheckAmmo(BulletType.buckShotAmmo) > 0);
 
-        _shotgunReloadSelector.AddtoChildNode(_chamberLoadNode);
-        _shotgunReloadSelector.AddtoChildNode(_preloadNode);
-        _shotgunReloadSelector.AddtoChildNode(_quardLoadNode);
+        this._chamberLoadNodeLeaf.AddTransitionNode(_preloadNodeLeaf);
+        this._preloadNodeLeaf.AddTransitionNode(_quardLoadNodeLeaf);
+
+        _shotgunReloadSelector.AddtoChildNode(_chamberLoadNodeLeaf);
+        _shotgunReloadSelector.AddtoChildNode(_preloadNodeLeaf);
+        _shotgunReloadSelector.AddtoChildNode(_quardLoadNodeLeaf);
     }
 
     public override void InitailizedNode()
@@ -106,7 +106,6 @@ public class AutomaticShotgunModel : RangeWeapon, PrimaryWeapon
 
     protected override void SetDefaultAttribute()
     {
-        _isReloadStanceEntered = false;
         bulletCap = new BulletCapacity(bullet, maxAmmoCapacity);
         chamber = new Chamber(bullet, bulletSpawner, this);
         bulletCap.Load(bullet, maxAmmoCapacity, out _);
@@ -123,18 +122,7 @@ public class AutomaticShotgunModel : RangeWeapon, PrimaryWeapon
     {
         base.FixedUpdate();
     }
-
-    // Removes one shell from the tube into the caller's hands
-    public bool TryGetShellFromTube(out Bullet shell)
-    {
-        if (bulletCap == null)
-        {
-            shell = null;
-            return false;
-        }
-        return bulletCap.GetBulletOut(out shell);
-    }
-
+   
     // Pulls count shells from the ammo pouch and loads them into the tube
     public void LoadShellsIntoTube(int count)
     {

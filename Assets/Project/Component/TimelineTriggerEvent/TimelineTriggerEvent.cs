@@ -95,10 +95,12 @@ public class TimelineTriggerEvent
     {
 
 
-        if (this.IsPlayFinish())
-            return;
+
 
         this.UpdateProperties();
+
+        if (this.IsPlayFinish())
+            return;
 
         timer += deltaTime;
 

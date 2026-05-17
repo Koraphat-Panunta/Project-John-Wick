@@ -398,7 +398,7 @@ public class CharacterMovementController : MonoBehaviour
 
             //if (this.position.y < placePosition.y + SKIN_WIDTH_THREASHORED)
             this.position = Vector3.Lerp(this.position, new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z),Time.deltaTime * 10);
-            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
+
         }
         else if (_groundTriangle.slopeAngle <= maxSlopeAngle)
         {
@@ -406,7 +406,7 @@ public class CharacterMovementController : MonoBehaviour
             this.isGrounded = true;
             if (this.position.y < placePosition.y - SKIN_WIDTH_THREASHORED)
                 this.position = new Vector3(this.position.x, placePosition.y - SKIN_WIDTH_THREASHORED , this.position.z);
-            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
+
 
         }
         else
@@ -414,7 +414,7 @@ public class CharacterMovementController : MonoBehaviour
             this.groundState = GroundState.Stall;
             this.isGrounded = false;
             this.groundNormal = Vector3.zero;
-            Debug.Log("UpdateGroundStatePositionOnGround on gc =" + groundState);
+
         }
     }
 

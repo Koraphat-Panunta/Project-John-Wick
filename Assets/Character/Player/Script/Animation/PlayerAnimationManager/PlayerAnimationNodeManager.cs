@@ -345,6 +345,10 @@ public partial class PlayerAnimationManager
     public NodeSelector upperLayerNodeSelector { get; set; }
     public NodeSelector performReloadNodeSelector { get; set; }
 
+    public NodeSelector shotgunReloadNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf chamberloadShotgunNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf preLoadShotgunNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf quadloadShotgunNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf pistolReloadNodeLeaf { get; set; }
@@ -394,10 +398,15 @@ public partial class PlayerAnimationManager
                 this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
                 this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);
 
+                this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
+
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.chamberloadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
 
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldNodeLeaf);
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(restrianShieldNodeLeaf);
@@ -422,6 +431,40 @@ public partial class PlayerAnimationManager
         upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
 
         performReloadNodeSelector = new NodeSelector(() => this.isPerformReload);
+
+        this.shotgunReloadNodeSelector = new NodeSelector(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IShotgunReloadNode>()
+            );
+
+        this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "ChamberLoadShotgun"
+            , 1
+            , .1f
+            );
+
+        this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PreloadNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "PreLoadShotgun"
+            , 1
+            , .1f
+            );
+
+        this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "QuadLoadShotgun"
+            , 1
+            , .1f
+            ,this.upperAnimationPoseTimeNormalized
+            ,1
+            ,true
+            );
 
         this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 

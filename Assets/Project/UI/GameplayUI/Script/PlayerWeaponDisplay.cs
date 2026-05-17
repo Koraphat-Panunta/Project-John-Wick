@@ -28,49 +28,51 @@ public class PlayerWeaponDisplay : GameplayUI, IObserverPlayer
   
     public void OnNotify<T>(Player player, T node)
     {
-        if(node is SubjectPlayer.NotifyEvent playerEvent)
-        {
-            if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
-            {
-                if (this.playerInfo._currentWeapon != null)
-                {
-                    UpdateInfo();
-                }
-            }
-            if (playerEvent == SubjectPlayer.NotifyEvent.ReceiveItem)
-            {
-                UpdateInfo();
-            }
+        UpdateInfo();
 
-            if (player.playerStateNodeManager != null &&
-                (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>())
-                UpdateInfo();
-        }
-        else
-        if(node is WeaponManuverLeafNode weaponManuverLeafNode)
-        {
-            switch (weaponManuverLeafNode)
-            {
-                case ReloadMagazineFullStageNodeLeaf:
-                case TacticalReloadMagazineFullStageNodeLeaf:
-                case PickUpWeaponNodeLeaf:
-                case DropWeaponManuverNodeLeaf:
-                case DrawPrimaryWeaponManuverNodeLeaf:
-                case DrawSecondaryWeaponManuverNodeLeaf:
-                case HolsterPrimaryWeaponManuverNodeLeaf:
-                case HolsterSecondaryWeaponManuverNodeLeaf:
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
-                case IQuickSwitchNode:
-                    {
-                        UpdateInfo();
-                        break;
-                    }
-            }
+        //if (node is SubjectPlayer.NotifyEvent playerEvent)
+        //{
+        //    if (playerEvent == SubjectPlayer.NotifyEvent.Firing)
+        //    {
+        //        if (this.playerInfo._currentWeapon != null)
+        //        {
+        //            UpdateInfo();
+        //        }
+        //    }
+        //    if (playerEvent == SubjectPlayer.NotifyEvent.ReceiveItem)
+        //    {
+        //        UpdateInfo();
+        //    }
+
+        //    if (player.playerStateNodeManager != null &&
+        //        (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>())
+        //        UpdateInfo();
+        //}
+        //else
+        //if(node is WeaponManuverLeafNode weaponManuverLeafNode)
+        //{
+        //    switch (weaponManuverLeafNode)
+        //    {
+        //        case ReloadMagazineFullStageNodeLeaf:
+        //        case TacticalReloadMagazineFullStageNodeLeaf:
+        //        case PickUpWeaponNodeLeaf:
+        //        case DropWeaponManuverNodeLeaf:
+        //        case DrawPrimaryWeaponManuverNodeLeaf:
+        //        case DrawSecondaryWeaponManuverNodeLeaf:
+        //        case HolsterPrimaryWeaponManuverNodeLeaf:
+        //        case HolsterSecondaryWeaponManuverNodeLeaf:
+        //        case PrimaryToSecondarySwitchWeaponManuverLeafNode:
+        //        case SecondaryToPrimarySwitchWeaponManuverLeafNode:
+        //        case IQuickSwitchNode:
+        //            {
+        //                UpdateInfo();
+        //                break;
+        //            }
+        //    }
             
-        }
-        if(node is PlayerStateNodeLeaf)
-            UpdateInfo();
+        //}
+        //if(node is PlayerStateNodeLeaf)
+        //    UpdateInfo();
     }
     private void SetAmmoDisplay(TextMeshProUGUI textGUI,float inLoad,float Ammoprouch)
     {

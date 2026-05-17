@@ -210,9 +210,16 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             else
                 isIn_C_A_R_aim = false;
         }
+        if(node is IShotgunReloadNode shotgunReloadNode)
+        {
+            this.quadloadShotgunNodeLeaf.SetDuration(shotgunReloadNode._reloadTime);
+            this.quadloadShotgunNodeLeaf.SetStartNormalized(0);
+            if(node is QuardLoadNodeLeaf quadLoad && quadLoad.curPhase == WeaponManuverLeafNode.WeaponManuverLeafNodePhase.Enter)
+                this.quadloadShotgunNodeLeaf.TriggerReset();
+        }
         if(node is IReloadMagazineNode reloadMagazineNode)
         {
-            Debug.Log(reloadMagazineNode._reloadTime);
+            
 
             this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
             this.rifleReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
