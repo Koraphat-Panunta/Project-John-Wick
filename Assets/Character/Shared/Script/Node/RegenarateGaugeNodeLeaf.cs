@@ -58,6 +58,8 @@ public class RegenarateGaugeNodeLeaf : RestNodeLeaf
     public void SetLimitRegenValue(float value) => this.limitRegenValue = value;
     public void SetRegenSpeed(float value) => this.regenSpeed = value;
 
+    public bool IsGaugeFull() => this.gauge._gauge >= this.limitRegenValue;
+
 
     protected INodeNotifyBackAble notifyBackAble;
     public void SubcribeNotifyBack(INodeNotifyBackAble nodeNotifyBackAble) => this.notifyBackAble = nodeNotifyBackAble;

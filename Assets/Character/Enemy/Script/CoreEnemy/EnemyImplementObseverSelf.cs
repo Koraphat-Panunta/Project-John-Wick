@@ -8,6 +8,8 @@ public partial class Enemy : IObserverEnemy
         if (enemy._isPainTrigger
             || enemy._triggerHitedGunFu)
         {
+          
+
             switch (enemy.getPosturePainPhase)
             {
                 case EnemyPosturePainStatePhase.MiniPainState:
@@ -52,5 +54,8 @@ public partial class Enemy : IObserverEnemy
                     break;
                 }
         }
+
+        if (this._isInPain)
+            this.reactionTime.SetGauge(0);
     }
 }

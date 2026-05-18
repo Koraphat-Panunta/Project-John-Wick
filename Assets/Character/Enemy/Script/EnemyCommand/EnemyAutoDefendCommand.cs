@@ -97,7 +97,7 @@ public class EnemyAutoDefendCommand : IObserverEnemy
 
         if (node is GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf && gotGunFuHitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
         {
-            gotHitedReactionDefendRate = 1;
+            gotHitedReactionDefendRate -= 1;
             dodgeCoolDownTimer -= 1;
         }
 

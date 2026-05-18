@@ -101,6 +101,10 @@ public partial class EnemyAnimationManager : INodeManager
     public NodeSelector upperLayerNodeSelector { get; set; }
     public RestNodeLeaf rest_UpperLayerAnimation_NodeLeaf { get; set; }
 
+    public NodeSelector shotgunReloadNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf chamberloadShotgunNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf preLoadShotgunNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf quadloadShotgunNodeLeaf { get; set; }
     public NodeSelector performReloadNodeSelector { get; set; }
     public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
@@ -131,6 +135,41 @@ public partial class EnemyAnimationManager : INodeManager
                 rest_UpperLayerAnimation_NodeLeaf = new RestNodeLeaf(() => true);
 
                 this.performReloadNodeSelector = new NodeSelector(() => isPerformReload);
+
+                this.shotgunReloadNodeSelector = new NodeSelector(
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<IShotgunReloadNode>()
+           );
+
+                this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
+                    && this.enemy._currentWeapon is AutomaticShotgunModel
+                    , this.animator
+                    , "ChamberLoadShotgun"
+                    , 1
+                    , .1f
+                    );
+
+                this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<PreloadNodeLeaf>()
+                    && this.enemy._currentWeapon is AutomaticShotgunModel
+                    , this.animator
+                    , "PreLoadShotgun"
+                    , 1
+                    , .1f
+                    );
+
+                this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
+                    && this.enemy._currentWeapon is AutomaticShotgunModel
+                    , this.animator
+                    , "QuadLoadShotgun"
+                    , 1
+                    , .1f
+                    , this.upperAnimationPoseTimeNormalized
+                    , 1
+                    , true
+                    );
+
 
                 this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                      () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
@@ -216,10 +255,15 @@ public partial class EnemyAnimationManager : INodeManager
                 upperLayerNodeSelector.AddtoChildNode(sprintManuverUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
 
+                this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
+
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.chamberloadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
 
                 this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
                 this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);

@@ -271,8 +271,6 @@ public partial class EnemyDirectedDecision : INodeManager
         this._nodeManagerBehavior.FixedUpdateNode(this);
         this.enemyDecisionNodeComponentManager.FixedUpdate();
 
-        Debug.Log("Combat phase = " + this.enemyDecisionContext.combatPhase);
-        Debug.Log("Role Command = " + this.enemyDecisionContext.roleCommand);
     }
 
   

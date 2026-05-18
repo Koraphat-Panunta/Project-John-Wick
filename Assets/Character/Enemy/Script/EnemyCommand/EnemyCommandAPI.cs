@@ -212,7 +212,6 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
             && _enemy._currentWeapon.curBulletCapacity <= 0 
             && _enemy._currentWeapon.chamber.isReadyShoot == false)
             this.Reload();
-            
 
         weaponAdvanceUser._isPullTriggerCommand = true;
     }

@@ -46,6 +46,7 @@ public partial class Enemy : IMeleeWeaponUserAble
                 || this._isInPain
                 || this._isFallDown
                 || this._posture <= 0
+                || this.isReactAble == false
                 )
                 return false;
 

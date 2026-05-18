@@ -61,13 +61,13 @@ public static class EnemyOffendCommandWeaponBased
             case MeleeWeapon meleeWeapon:
                 {
                     enemyCommandAPI.AimDownSight(targetKnow);
-                    enemyCommandAPI.NormalFiringPattern.Performing();
                     enemyCommandAPI.AutoDetectSoftCover();
                 }
                 break;
             case RangeWeapon rangeWeapon:
                 {
                     enemyCommandAPI.AimDownSight(targetKnow);
+                    enemyCommandAPI.NormalFiringPattern.Performing();
                     enemyCommandAPI.AutoDetectSoftCover();
                 }
                 break;

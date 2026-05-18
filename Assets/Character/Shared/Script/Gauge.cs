@@ -40,6 +40,8 @@ public class Gauge
         this.SetGauge( this._gauge + value );
     }
 
+    public bool IsFull() => this._gauge >= this.maxGauge;
+
     public bool CompareValue_Greater_Equal_ThanGauge(float value)
     {
         if(this._gauge >= value)

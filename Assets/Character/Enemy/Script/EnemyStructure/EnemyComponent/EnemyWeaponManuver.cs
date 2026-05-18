@@ -45,8 +45,12 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
     {
         get
         {
+            if(this.enemy.isReactAble == false)
+                return false;
+
             if (aimingWeight >= 1)
                 return true;
+
             return false;
         }
     }

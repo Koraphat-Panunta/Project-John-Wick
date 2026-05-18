@@ -199,7 +199,11 @@ public partial class EnemyStateManagerNode : INodeManager
            , this.enemy.miniPainStateDuration);
 
         gunFuSelector = new NodeSelector(
-            () => enemy._triggerAttack && enemy._isInPain == false);
+            () => 
+            this.enemy._triggerAttack 
+            && enemy._isInPain == false 
+            && this.enemy.isReactAble
+            );
 
         this.gotParriedNodeLeaf = new GotParriedNodeLeaf(
             this.enemy,
@@ -346,13 +350,23 @@ public partial class EnemyStateManagerNode : INodeManager
     #region Initialized ComponentNode
 
     public FindiAndTrackingTargetNodeLeaf findAndTrackTargetNodeLeaf;
+    public RegenarateGaugeNodeLeaf regenarate_reaction_GaugeNodeLeaf;
 
     private void InitializedComponentNode()
     {
         this.findAndTrackTargetNodeLeaf = new FindiAndTrackingTargetNodeLeaf(this.enemy.findingTargetScriptableObject,this.enemy.rayCastPos
             ,()=> this.enemy.isDead == false);
 
+        this.regenarate_reaction_GaugeNodeLeaf = new RegenarateGaugeNodeLeaf(
+            () => this.enemy._isInPain == false 
+            && this.enemy._isFallDown == false
+            && this.enemy.reactionTime.IsFull() == false
+            , this.enemy.reactionTime
+            , this.enemy.reactionTime.maxGauge
+            , 1);
+
         this.enemyStateNodeComponentManager.AddNode(this.findAndTrackTargetNodeLeaf);
+        this.enemyStateNodeComponentManager.AddNode(this.regenarate_reaction_GaugeNodeLeaf);
     }
     #endregion
 }

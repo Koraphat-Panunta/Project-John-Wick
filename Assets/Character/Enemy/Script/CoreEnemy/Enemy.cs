@@ -53,6 +53,7 @@ public partial class Enemy : SubjectEnemy
         Debug.Log("enemy Initialized" + this.gameObject);
         this._hpGauge = new Gauge(this.enemyStatsScripableObject.maxHp,this.enemyStatsScripableObject.maxHp);
         this.postureGauge = new Gauge(this.enemyStatsScripableObject.maxPosture,this.enemyStatsScripableObject.maxPosture);
+        this.reactionTime = new Gauge(this.enemyStatsScripableObject.reactionTime, this.enemyStatsScripableObject.reactionTime);
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
