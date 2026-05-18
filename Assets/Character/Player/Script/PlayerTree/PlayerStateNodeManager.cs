@@ -137,7 +137,7 @@ public class PlayerStateNodeManager :
             () => true );
         this.playerSprintNode = new PlayerSprintNode(this.player,this, () => this.player.isSprint && player.inputMoveDir_World.magnitude > 0 );
 
-        const float CHANGE_DIR_DOT_THRESHOLD = 0.3f;
+        const float CHANGE_DIR_DOT_THRESHOLD = -.5f;
         const float CHANGE_DIR_MIN_SPEED_RATIO = 0.5f;
         this.playerSprintChangeDirectionNode = new PlayerSprintChangeDirectionNode(
             this.player,

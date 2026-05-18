@@ -48,6 +48,8 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
     {
         if (_isSprintOutPhase)
         {
+
+
             _rotateRate = Mathf.Clamp01(_rotateRate + Time.fixedDeltaTime * ROTATE_RAMP_SPEED_SPRINT_OUT);
             SprintOut();
         }
@@ -73,7 +75,7 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
             breakDecelerate * Time.fixedDeltaTime);
 
         playerMovement.UpdateMoveToDirWorld(brakingVelocity, breakDecelerate, MoveMode.IgnoreMomentumDirection);
-        playerMovement.SetRotateToDirWorldSlerp(_targetDir.normalized, _rotateRate * 0.5f);
+        RotateCounterClockwiseToward(_targetDir.normalized, _rotateRate * .5f);
     }
 
     private void SprintOut()
@@ -81,9 +83,9 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
         playerMovement.SetStanceWeight(_sprintWeight);
         playerMovement.UpdateMoveToDirWorld(
             _targetDir * sprintMaxSpeed * _sprintWeight,
-            sprintAccelerate * _sprintWeight,
+            sprintAccelerate * _sprintWeight * 2f,
             MoveMode.IgnoreMomentumDirection);
-        playerMovement.SetRotateToDirWorldSlerp(_targetDir.normalized, _rotateRate);
+        RotateCounterClockwiseToward(_targetDir.normalized, _rotateRate);
     }
 
     private void OnSprintOutPhase()
@@ -91,5 +93,20 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
         _targetDir = player.inputMoveDir_World.magnitude > 0 ? player.inputMoveDir_World : _targetDir;
         _isSprintOutPhase = true;
         _rotateRate = 0;
+    }
+
+    // Rotates the character toward targetDir always going counter-clockwise (left turn when viewed from above).
+    // Avoids the shortest-path behaviour of SetRotateToDirWorldSlerp to match the animation pivot direction.
+    private void RotateCounterClockwiseToward(Vector3 targetDir, float t)
+    {
+        float currentY = playerMovement.curRotation.eulerAngles.y;
+        float targetY  = Quaternion.LookRotation(targetDir).eulerAngles.y;
+
+        // Map delta to (-360, 0] so rotation is always counter-clockwise (negative Y in Unity)
+        float delta = ((targetY - currentY) % 360f + 360f) % 360f;
+        if (delta > 0f) delta -= 360f;
+
+        float resultY = Mathf.Lerp(currentY, currentY + delta, t);
+        playerMovement.SetRotation(Quaternion.Euler(0f, resultY, 0f));
     }
 }

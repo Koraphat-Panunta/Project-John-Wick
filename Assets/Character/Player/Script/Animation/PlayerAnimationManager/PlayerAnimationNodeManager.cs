@@ -137,7 +137,7 @@ public partial class PlayerAnimationManager
             ,
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
-            animator, "Sprint", 0, .5f);
+            animator, "Sprint", 0, .15f);
         sprintChangeDirNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintChangeDirectionNode,
             animator, "SprintChangeDir", 0, .1f);
