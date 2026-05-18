@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa393604a468ea7479bc8b2720717891, type: 3}
+  m_Name: BeneliM4
+  m_EditorClassIdentifier: Assembly-CSharp::RangeWeaponDataScriptableObject
+  objectID: 63683629-a907-4d1d-a0f2-8bad56ee87e5
+  rangeWeaponPrefab: {fileID: 2631053837837289885, guid: 054cf2c6c644a9d4b9b3528e4a862c9a,
+    type: 3}
+  bulletCapacity: 7
+  rate_of_fire: 200
+  reloadTime: 1
+  Recovery_CrosshairBloomSpeed: 0.6
+  Recovery_CrosshairPositionSpeed: 0.85
+  Recoil_CrosshairBloomController: 0.5
+  Recoil_KickPositionPositionCrosshairController: 0.5
+  Recoil_CameraControlController: 0.8
+  Recoil_VisualImpulseControl: 0.85
+  min_CrosshairSize: 22
+  max_CrosshairSize: 200
+  aimDownSight_speed: 7
+  _hpDamage: 100
+  _postureDamage: 100
+  _destructionDamage: 60

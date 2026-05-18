@@ -234,14 +234,6 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     cameraImpluse.Performed(-0.2f);
                     break;
                 }
-            case PlayerSprintNode playerSprintNode: 
-                {
-                    if (playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
-                        this.isSprint = true;
-                    else if(playerSprintNode.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
-                        this.isSprint = false;
-                    break;
-                }
             case PlayerStandIdleNodeLeaf:
             case PlayerStandMoveNodeLeaf: 
                 {

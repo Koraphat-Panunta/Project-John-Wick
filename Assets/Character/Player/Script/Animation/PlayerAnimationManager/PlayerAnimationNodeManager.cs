@@ -47,6 +47,7 @@ public partial class PlayerAnimationManager
 
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf sprintChangeDirNodeLeaf { get; set; }
 
     public NodeSelector proneStateNodeSelector { get; set; }
     public PlayAnimationNodeLeaf obstacleJumpAnimationNodeLeaf { get; set; }
@@ -136,7 +137,10 @@ public partial class PlayerAnimationManager
             ,
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
-            animator, "Sprint", 0, .5f);
+            animator, "Sprint", 0, .15f);
+        sprintChangeDirNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintChangeDirectionNode,
+            animator, "SprintChangeDir", 0, .1f);
 
         this.proneStateNodeSelector = new NodeSelector(
             ()=> this.player.stance == Stance.prone);
@@ -301,6 +305,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.getUpNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.proneStateNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(sprintChangeDirNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveStandNodeLeaf);
@@ -345,6 +350,10 @@ public partial class PlayerAnimationManager
     public NodeSelector upperLayerNodeSelector { get; set; }
     public NodeSelector performReloadNodeSelector { get; set; }
 
+    public NodeSelector shotgunReloadNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf chamberloadShotgunNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf preLoadShotgunNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf quadloadShotgunNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf pistolReloadNodeLeaf { get; set; }
@@ -369,6 +378,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
     public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintUpperNodeLeaf { get; set; }
+    public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintChangeDirUpperNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
 
     public NodeSelector weaponHandSelector { get; set; }
@@ -387,6 +397,7 @@ public partial class PlayerAnimationManager
                 upperLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(this.performGunFuUpperLayerNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(this.drawSwitchSelector);
+                upperLayerNodeSelector.AddtoChildNode(this.sprintChangeDirUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.sprintUpperNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
                 upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
@@ -394,10 +405,15 @@ public partial class PlayerAnimationManager
                 this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
                 this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);
 
+                this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
                 this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
+
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.chamberloadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
+                this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
 
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(humanShieldNodeLeaf);
                 performGunFuUpperLayerNodeSelector.AddtoChildNode(restrianShieldNodeLeaf);
@@ -422,6 +438,40 @@ public partial class PlayerAnimationManager
         upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
 
         performReloadNodeSelector = new NodeSelector(() => this.isPerformReload);
+
+        this.shotgunReloadNodeSelector = new NodeSelector(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IShotgunReloadNode>()
+            );
+
+        this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "ChamberLoadShotgun"
+            , 1
+            , .1f
+            );
+
+        this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PreloadNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "PreLoadShotgun"
+            , 1
+            , .1f
+            );
+
+        this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
+            && this.player._currentWeapon is AutomaticShotgunModel
+            , this.animator
+            , "QuadLoadShotgun"
+            , 1
+            , .1f
+            ,this.upperAnimationPoseTimeNormalized
+            ,1
+            ,true
+            );
 
         this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
@@ -522,6 +572,10 @@ public partial class PlayerAnimationManager
         sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
          animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .6f);
+
+        sprintChangeDirUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
+         () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>(),
+         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .3f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             () =>

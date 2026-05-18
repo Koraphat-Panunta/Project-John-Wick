@@ -110,12 +110,15 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
     public void SwapShoulder(InputAction.CallbackContext context)
     {
 
+        if (context.performed == false)
+            return;
 
         if (player.curShoulderSide == Side.Left)
         { player.curShoulderSide = Side.Right; }
 
         else if (player.curShoulderSide == Side.Right)
         { player.curShoulderSide = Side.Left; }
+
         player.NotifyObserver(player, NotifyEvent.SwapShoulder);
 
     }

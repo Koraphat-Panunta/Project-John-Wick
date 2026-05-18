@@ -2,7 +2,9 @@ using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponManuverAble
+public class PlayerWeaponManuver : 
+    WeaponNodeManuverManager
+    ,IQuickSwitchWeaponManuverAble
 {
     private Player player => weaponAdvanceUser as Player;
 
@@ -65,35 +67,35 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
         get
         {
 
-            if (player._currentWeapon == null)
+            if (this.player._currentWeapon == null)
                 return false;
 
-            if (weaponAdvanceUser._weaponManuverManager.isDropWeaponManuverAble
+            if (this.weaponAdvanceUser._weaponManuverManager.isDropWeaponManuverAble
                 && weaponAdvanceUser._isDropWeaponCommand)
                 return false;
 
-            if (secondaryToPrimarySwitchWeaponManuverLeafNode.preCondition.Invoke())
+            if (this.secondaryToPrimarySwitchWeaponManuverLeafNode.preCondition.Invoke())
                 return false;
 
-            if (switchDrawSecondaryNodeSelector.preCondition.Invoke())
+            if (this.switchDrawSecondaryNodeSelector.preCondition.Invoke())
                 return false;
 
-            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
-               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerSprintNode
-               || player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
+            if (this.player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || this.player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || this.player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || this.player.curNodeLeaf is PlayerSprintNode
+               || this.player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
                || (this.player.curNodeLeaf is GunFuReloadNodeLeaf gunFuReloadNodeLeaf
                && gunFuReloadNodeLeaf.isReload)
                )
                 return true;
 
-            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+            if (this.player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
                 && dolphinDiveStateNodeLeaf.isPassingJump)
                 return true;
 
-            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
+            if (this.player.curNodeLeaf is PlayerProneStateNodeLeaf)
                 return true;
 
             return false;
@@ -104,19 +106,19 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
     {
         get
         {
-            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
-               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerSprintNode
+            if (this.player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || this.player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || this.player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || this.player.curNodeLeaf is PlayerSprintNode
                )
                 return true;
 
-            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+            if (this.player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
                && dolphinDiveStateNodeLeaf.isPassingJump)
                 return true;
 
-            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
+            if (this.player.curNodeLeaf is PlayerProneStateNodeLeaf)
                 return true;
 
             return false;
@@ -127,12 +129,12 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
     {
         get
         {
-            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
-               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerSprintNode
-               || player.curNodeLeaf is PlayerPokePickUpWeaponNodeLeaf
+            if (this.player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || this.player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || this.player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || this.player.curNodeLeaf is PlayerSprintNode
+               || this.player.curNodeLeaf is PlayerPokePickUpWeaponNodeLeaf
                )
                 return true;
             return false;
@@ -143,11 +145,11 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
     {
         get
         {
-            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-               || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
-               || player.curNodeLeaf is PlayerStandIdleNodeLeaf
-               || player.curNodeLeaf is PlayerStandMoveNodeLeaf
-               || player.curNodeLeaf is PlayerSprintNode
+            if (this.player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+               || this.player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+               || this.player.curNodeLeaf is PlayerStandIdleNodeLeaf
+               || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
+               || this.player.curNodeLeaf is PlayerSprintNode
                )
                 return true;
             return false;
@@ -158,15 +160,15 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
     {
         get
         {
-            if (player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
-                || player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
-                || player.curNodeLeaf is PlayerStandIdleNodeLeaf
-                || player.curNodeLeaf is PlayerStandMoveNodeLeaf
+            if (this.player.curNodeLeaf is PlayerCrouch_Idle_NodeLeaf
+                || this.player.curNodeLeaf is PlayerCrouch_Move_NodeLeaf
+                || this.player.curNodeLeaf is PlayerStandIdleNodeLeaf
+                || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
 
                 )
                 return true;
 
-            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+            if (this.player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
               && dolphinDiveStateNodeLeaf.isPassingJump)
                 return true;
 
@@ -220,6 +222,8 @@ public class PlayerWeaponManuver : WeaponNodeManuverManager,IQuickSwitchWeaponMa
 
     public NodeManagerPortable reloadNodeManagerPortable { get; protected set; }
     public override NodeAttachAbleSelector reloadNodeAttachAbleSelector { get; protected set; }
+
+    public override INodeManager _reloadNodeManager => this.reloadNodeManagerPortable;
 
     private void InitialzedReloadNode()
     {

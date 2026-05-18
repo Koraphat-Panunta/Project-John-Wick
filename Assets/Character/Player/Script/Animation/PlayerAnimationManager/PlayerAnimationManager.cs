@@ -112,6 +112,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             else if (sprintNode.sprintPhase == PlayerSprintNode.SprintManuver.Stay)
                 WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 1, changeSprintStayRate * Time.deltaTime);
         }
+        else if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>())
+            WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 1, changeSprintStayRate * Time.deltaTime);
         else
             WeaponSwayRate_Normalized = Mathf.MoveTowards(WeaponSwayRate_Normalized, 0, changeSprintLowRate * Time.deltaTime);
 
@@ -176,7 +178,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
     }
     private void CalculateMoveVelocity(Vector3 curVelocity_Local)
     {
-        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>())
+        if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintNode>()
+            || (player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>())
         {
             this.VelocityMoveMagnitude_Normalized = curVelocity_Local.magnitude / player.sprintMaxSpeed;
             this.MoveVelocityForward_Normalized = curVelocity_Local.z / player.sprintMaxSpeed;
@@ -210,9 +213,16 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             else
                 isIn_C_A_R_aim = false;
         }
+        if(node is IShotgunReloadNode shotgunReloadNode)
+        {
+            this.quadloadShotgunNodeLeaf.SetDuration(shotgunReloadNode._reloadTime);
+            this.quadloadShotgunNodeLeaf.SetStartNormalized(0);
+            if(node is QuardLoadNodeLeaf quadLoad && quadLoad.curPhase == WeaponManuverLeafNode.WeaponManuverLeafNodePhase.Enter)
+                this.quadloadShotgunNodeLeaf.TriggerReset();
+        }
         if(node is IReloadMagazineNode reloadMagazineNode)
         {
-            Debug.Log(reloadMagazineNode._reloadTime);
+            
 
             this.rifleReloadNodeLeaf.SetDuration(reloadMagazineNode._reloadTime);
             this.rifleReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);

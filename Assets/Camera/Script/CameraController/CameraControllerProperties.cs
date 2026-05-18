@@ -17,7 +17,16 @@ public partial class CameraController
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraGunFuHitDown_SCRP;
 
     [SerializeField] public bool isAiming;
-    [SerializeField] public bool isSprint;
+    public bool isSprint 
+    {
+        get
+        {
+            if((this.player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is PlayerSprintNode
+                || (this.player.playerStateNodeManager as INodeManager).GetCurNodeLeaf() is PlayerSprintChangeDirectionNode)
+                return true;
+            return false;
+        }
+    }
     [SerializeField] public bool isPerformGunFu;
     [SerializeField] public bool isCrouching;
     [SerializeField] public bool isOnPlayerThirdPersonController;

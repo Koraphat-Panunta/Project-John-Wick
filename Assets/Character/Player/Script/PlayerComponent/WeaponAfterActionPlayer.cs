@@ -27,18 +27,13 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, NotifyEvent.Firing);
                         break;
                     }
-                case ReloadMagazineFullStageNodeLeaf _reloadMagFullStage:
+                case IReloadNode _reloadNode:
                     {
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
-                        player.NotifyObserver(player, _reloadMagFullStage);
+                        player.NotifyObserver(player, _reloadNode);
                         break;
                     }
-                case TacticalReloadMagazineFullStageNodeLeaf _tacticalReloadMagFullStage:
-                    {
-                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
-                        player.NotifyObserver(player, _tacticalReloadMagFullStage);
-                        break;
-                    }
+               
                 case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
                         if (player.stance != Stance.prone)

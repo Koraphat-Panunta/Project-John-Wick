@@ -10,6 +10,7 @@ public class PlayerEditor : Editor
     private static bool _showParkour = true;
     private static bool _showWeaponSockets = true;
     private static bool _showWeaponQuickSwitch = true;
+    private static bool _showSprint = true;
     private static bool _showQuickShot = true;
     private static bool _showThrowObject = true;
     private static bool _showIFrame = true;
@@ -51,6 +52,8 @@ public class PlayerEditor : Editor
         "quickSiwthcHolsterPrimarySCRP",
         "quickSwitchHoslterSecondarySCRP",
         "quickSwitchHoldOffset",
+        // Sprint
+        "sprintChangeDirSCRP",
         // Quick Shot
         "quickShotAnimationTriggerEventSCRP",
         "castFindingScriptableObject",
@@ -140,6 +143,11 @@ public class PlayerEditor : Editor
             Field("quickSiwthcHolsterPrimarySCRP");
             Field("quickSwitchHoslterSecondarySCRP");
             Field("quickSwitchHoldOffset");
+        });
+
+        Section(ref _showSprint, "Sprint", () =>
+        {
+            Field("sprintChangeDirSCRP");
         });
 
         Section(ref _showQuickShot, "Quick Shot", () =>
