@@ -4,7 +4,6 @@ public partial class PlayerConstrainAnimationManager
 {
     [Header("── Constraint Components ──────────────────────────────────")]
     public BodyConstraintManager bodyRotateConstraintManager;
-    public LeaningRotation leaningRotation;
     public HandArmIKConstraintManager leftHandConstraintManager;
     public HandArmIKConstraintManager rightHandIKConstriantManager;
     public LegsConstrainManager legsConstraintManager;

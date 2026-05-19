@@ -26,6 +26,14 @@ public abstract class BodyRotationConstraintNodeLeaf : AnimationConstrainNodeLea
     public float getOffsetChangedRate => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetChangedRate : this._offsetChangedRate;
     private float _offsetChangedRate;
 
+    private Vector3 _smoothedOffset;
+    private Vector3 _smoothedOffset1;
+    private Vector3 _smoothedOffset2;
+
+    public Vector3 currentSmoothedOffset  => _smoothedOffset;
+    public Vector3 currentSmoothedOffset1 => _smoothedOffset1;
+    public Vector3 currentSmoothedOffset2 => _smoothedOffset2;
+
     protected float weight;
 
     public BodyRotationConstraintNodeLeaf(
@@ -72,6 +80,9 @@ public abstract class BodyRotationConstraintNodeLeaf : AnimationConstrainNodeLea
 
     public override void Enter()
     {
+        _smoothedOffset  = getOffsetConstraint;
+        _smoothedOffset1 = getOffsetConstraint1;
+        _smoothedOffset2 = getOffsetConstraint2;
         this.weight = 0;
         base.Enter();
     }
@@ -91,11 +102,11 @@ public abstract class BodyRotationConstraintNodeLeaf : AnimationConstrainNodeLea
         this.UpdateWeight();
         this.UpdateLookAtTarget();
 
-        this.bodyConstraint.SetAllConstraintOffsetData(
-            Vector3.MoveTowards(this.bodyConstraint.getOffsetConstraint, this.getOffsetConstraint, Time.deltaTime * this.getOffsetChangedRate),
-            Vector3.MoveTowards(this.bodyConstraint.getOffsetConstraint1, this.getOffsetConstraint1, Time.deltaTime * this.getOffsetChangedRate),
-            Vector3.MoveTowards(this.bodyConstraint.getOffsetConstraint2, this.getOffsetConstraint2, Time.deltaTime * this.getOffsetChangedRate)
-        );
+        _smoothedOffset  = Vector3.MoveTowards(_smoothedOffset,  getOffsetConstraint,  Time.deltaTime * getOffsetChangedRate);
+        _smoothedOffset1 = Vector3.MoveTowards(_smoothedOffset1, getOffsetConstraint1, Time.deltaTime * getOffsetChangedRate);
+        _smoothedOffset2 = Vector3.MoveTowards(_smoothedOffset2, getOffsetConstraint2, Time.deltaTime * getOffsetChangedRate);
+
+        this.bodyConstraint.SetAllConstraintOffsetData(_smoothedOffset, _smoothedOffset1, _smoothedOffset2);
         this.bodyConstraint.SetAllConstraintWeights(
             this.getWeightConstraint,
             this.getWeightConstraint1,

@@ -74,7 +74,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     //BODY LEAN CONSTRAINT
     public NodeSelector leanConstraintSelector { get; private set; }
     public PlayerLeaningRotationConstrainNodeLeaf leaningRotationConstrainNodeLeaf { get; private set; }
-    public RecoveryConstraintManagerWeightNodeLeaf leanRotationRecoveryWeightConstraintNodeLeaf { get; set; }
+    public RestNodeLeaf leaningRestNodeLeaf { get; private set; }
 
 
     private void InitializedLeanNodeManager()
@@ -86,7 +86,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf
             (this.player
             , this.rifileLeaningConstrainScriptableObject
-            , leaningRotation
+            , this.bodyRotateConstraintManager
+            ,this.bodyLookConstraintNodeLeaf
             , player
             , () => player._weaponManuverManager.aimingWeight > 0         
             && player._currentWeapon != null
@@ -96,12 +97,12 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             && this.playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>() == false         
             );
 
-        this.leanRotationRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
-            () => true
-            , leaningRotation, 1);
+        this.leaningRestNodeLeaf = new RestNodeLeaf(() => true);
+
+
 
         //this.leanConstraintSelector.AddtoChildNode(this.leaningRotationConstrainNodeLeaf);
-        this.leanConstraintSelector.AddtoChildNode(this.leanRotationRecoveryWeightConstraintNodeLeaf);
+        this.leanConstraintSelector.AddtoChildNode(this.leaningRestNodeLeaf);
 
         this.playeBodyConstriantAnimationNodeComponentManager.AddNode(this.leanConstraintSelector);
 
