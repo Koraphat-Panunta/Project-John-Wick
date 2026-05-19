@@ -23,7 +23,8 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
         Vector3 endPoint = this.enemy.targetKnowPos + ((this.enemy.targetKnowPos - enemy.transform.position).normalized * 3);
         curvePath.RegenaratePath(endPoint, enemy.transform.position);
         targetAnchorPos = this.enemy.targetKnowPos;
-        if (enemyCommandAPI.enemyAutoDefendCommand.dodgeCoolDownTimer <= 0
+
+        if (this.enemyCommandAPI.enemyAutoDefendCommand._dodgingDecision.dodgeCoolDownTimer <= 0
             && curvePath.TryGetCurvePoint(out Vector3 _curvePoint))
             enemyCommandAPI.Dodge(_curvePoint);
 
@@ -75,7 +76,7 @@ public class ApprouchingTargetEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 }
                 break;
         }
-        enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+        enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
         MovementDecisionUpdate();
         base.UpdateNode();
     }

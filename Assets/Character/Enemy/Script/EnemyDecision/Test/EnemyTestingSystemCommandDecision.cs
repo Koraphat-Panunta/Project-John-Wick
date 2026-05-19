@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class EnemyTestingSystemCommandDecision : EnemyDecision
 {
-    private Queue<ITaskingExecute> enemyTestingCommands = new Queue<ITaskingExecute>();
+    private TaskingExecuteQueue _queue = new TaskingExecuteQueue();
 
     private ITaskingExecute dodge;
     private ITaskingExecute crouch;
@@ -76,63 +76,68 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
         InitializedCommand();
         base.Initialized();
     }
-  
+
 
     private void InitializedCommand()
     {
         if (enemyCommand == null)
             enemyCommand = GetComponent<EnemyCommandAPI>();
-        dodge = new EnemyTestingCommand(() => enemyCommand.Dodge(enemy.transform.forward)
-        , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>());
 
-        crouch = new EnemyTestingCommand(() => enemyCommand.Crouch(),
+        dodge = new TaskingExecute(() => enemyCommand.Dodge(enemy.transform.forward)
+        , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeStateNodeLeaf>());
+
+        crouch = new TaskingExecute(() => enemyCommand.Crouch(),
             () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>() || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
         moveToPos1 = new EnemyMoveToPos(enemy.transform, this.moveTransPos1.position, true, enemyCommand);
-        this.openDoor = new EnemyTestingCommand(() => this.enemyCommand.OpenDoor(), () => true);
+        this.openDoor = new TaskingExecute(() => this.enemyCommand.OpenDoor(), () => true);
         moveToPos2 = new EnemyMoveToPos(enemy.transform, this.moveTransPos2.position, true, enemyCommand);
         moveToPos3 = new EnemyMoveToPos(enemy.transform, this.moveTransPos3.position, true, enemyCommand);
         moveToPos4 = new EnemyMoveToPos(enemy.transform, this.moveTransPos4.position, true, enemyCommand);
 
-        
+        sprintToPos1 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos1.position,1,1));
+        sprintToPos2 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos2.position, 1,1));
+        sprintToPos3 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos3.position, 1, 1));
+        sprintToPos4 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos4.position, 1, 1));
+        sprintToPos5 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos5.position, 1, 1));
+        sprintToPos6 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos6.position, 1, 1));
 
-        sprintToPos1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos1.position,1,1));
-        sprintToPos2 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos2.position, 1,1));
-        sprintToPos3 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos3.position, 1, 1));
-        sprintToPos4 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos4.position, 1, 1));
-        sprintToPos5 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos5.position, 1, 1));
-        sprintToPos6 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.sprintTransPos6.position, 1, 1));
+        freez_3s = new TaskingExecute(
+            () =>
+            {
+                this.freezTimer -= Time.deltaTime;
+                enemyCommand.FreezPosition();
+            },
+            () => this.freezTimer <= 0);
 
-        freez_3s = new EnemyTestingCommand(
-    () =>
-    {
-        this.freezTimer -= Time.deltaTime;
-        enemyCommand.FreezPosition();
-    },
-    () => this.freezTimer <= 0);
-        moveToWeaponPickedUpPrimary = new EnemyTestingCommand(() => { },
-            ()=> 
-            { if (enemyCommand.MoveToPositionRotateToward(this.pickedUpPrimaryWeapon.transform.position, 1, 1))
+        moveToWeaponPickedUpPrimary = new TaskingExecute(() => { },
+            ()=>
+            {
+                if (enemyCommand.MoveToPositionRotateToward(this.pickedUpPrimaryWeapon.transform.position, 1, 1))
                 {
                     enemyCommand.FreezPosition();
                     return true;
                 }
-            return false;
+                return false;
             });
-        pickUpWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(),()=> { return enemy._currentWeapon ? true : false; });
-        holsterWeaponPrimary = new EnemyTestingCommand(()=> enemyCommand.HolsterWeapon(),()=> enemy._currentWeapon == null);
-        drawWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as RangeWeapon);
-        dropWeaponPrimary = new EnemyTestingCommand(() => enemyCommand.DropWeapon(), () => enemy._currentWeapon == null);
-        pickUpWeaponPrimary2 = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), 
-            () => 
-            { if(enemy._currentWeapon != null)
+
+        pickUpWeaponPrimary = new TaskingExecute(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon ? true : false);
+        holsterWeaponPrimary = new TaskingExecute(() => enemyCommand.HolsterWeapon(), () => enemy._currentWeapon == null);
+        drawWeaponPrimary = new TaskingExecute(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon == enemy._weaponBelt.myPrimaryWeapon as RangeWeapon);
+        dropWeaponPrimary = new TaskingExecute(() => enemyCommand.DropWeapon(), () => enemy._currentWeapon == null);
+
+        pickUpWeaponPrimary2 = new TaskingExecute(() => enemyCommand.PickUpWeapon(),
+            () =>
+            {
+                if (enemy._currentWeapon != null)
                 {
                     debugLog += enemy._currentWeapon;
                     return true;
                 }
-            return false;
-                    });
-        moveToWeaponPickedUpSecondary = new EnemyTestingCommand(() => { },
+                return false;
+            });
+
+        moveToWeaponPickedUpSecondary = new TaskingExecute(() => { },
             () =>
             {
                 if (enemyCommand.MoveToPositionRotateToward(pickedUpSecondaryWeapon.transform.position, 1, 1))
@@ -142,30 +147,32 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 }
                 return false;
             });
-        pickUpWeaponSecondary = new EnemyTestingCommand(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
-        switchWeaponSecondaryToPrimary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponPrimary(),()=> enemy._currentWeapon is PrimaryWeapon);
-        switchWeaponPrimaryToSecondary = new EnemyTestingCommand(() => enemyCommand.DrawWeaponSecondary(), () => enemy._currentWeapon is SecondaryWeapon);
-        ADS_PullTrigger = new EnemyTestingCommand(
+
+        pickUpWeaponSecondary = new TaskingExecute(() => enemyCommand.PickUpWeapon(), () => enemy._currentWeapon is SecondaryWeapon);
+        switchWeaponSecondaryToPrimary = new TaskingExecute(() => enemyCommand.DrawWeaponPrimary(), () => enemy._currentWeapon is PrimaryWeapon);
+        switchWeaponPrimaryToSecondary = new TaskingExecute(() => enemyCommand.DrawWeaponSecondary(), () => enemy._currentWeapon is SecondaryWeapon);
+
+        ADS_PullTrigger = new TaskingExecute(
             () =>
             {
                 enemyCommand.AimDownSight(enemy.targetKnowPos);
-                if(enemy._currentWeapon.triggerState == TriggerState.Up)
+                if (enemy._currentWeapon.triggerState == TriggerState.Up)
                     enemyCommand.PullTrigger();
-            }, () => enemy._currentWeapon.curBulletCapacity <= (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f));
-        reload = new EnemyTestingCommand(() => enemyCommand.Reload(), () => enemy._currentWeapon.curBulletCapacity == enemy._currentWeapon.maxAmmoCapacity);
-       
-        moveToTakeCover1 = new EnemyTestingCommand(() => { }, () => enemyCommand.SprintToPosition(this.coverPos1.position,1,0.5f));
-        softcoverManuver = new EnemyTestingCommand(
-            () => 
+            },
+            () => enemy._currentWeapon.curBulletCapacity <= (int)(enemy._currentWeapon.maxAmmoCapacity * 0.7f));
+
+        reload = new TaskingExecute(() => enemyCommand.Reload(), () => enemy._currentWeapon.curBulletCapacity == enemy._currentWeapon.maxAmmoCapacity);
+
+        moveToTakeCover1 = new TaskingExecute(() => { }, () => enemyCommand.SprintToPosition(this.coverPos1.position, 1, 0.5f));
+        softcoverManuver = new TaskingExecute(
+            () =>
             {
                 enemyCommand.AutoDetectSoftCover();
-
                 timerCoverManuver -= Time.deltaTime;
-
                 if (timerCoverManuver <= 0)
                     timerCoverManuver = 3;
 
-                if(timerCoverManuver > 1f)
+                if (timerCoverManuver > 1f)
                 {
                     enemyCommand.AimDownSight(targetPos.position);
                     enemyCommand.NormalFiringPattern.Performing();
@@ -174,208 +181,80 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
                 {
                     enemyCommand.LowReady();
                 }
-               
             },
-            () => 
+            () =>
             {
                 if (enemyCommand.MoveToPosition(this.moveTransPos2.position, 1))
                     return true;
                 return false;
-                    });
-        sprintToSpinKick = new EnemyTestingCommand(() => { },
-            ()=> enemyCommand.SprintToPosition(enemy.targetKnowPos,enemy.sprintRotateSpeed,2f));
-        spinKick = new EnemyTestingCommand(() => enemyCommand.SpinKick(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
+            });
 
-        enemyTestingCommands.Enqueue(freez_3s);//24
-        //enemyTestingCommands.Enqueue(dodge);//23
-        //enemyTestingCommands.Enqueue(crouch);//22
+        sprintToSpinKick = new TaskingExecute(() => { },
+            () => enemyCommand.SprintToPosition(enemy.targetKnowPos, enemy.sprintRotateSpeed, 2f));
+        spinKick = new TaskingExecute(() => enemyCommand.SpinKick(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
 
-        enemyTestingCommands.Enqueue(moveToPos1);//21
-        enemyTestingCommands.Enqueue(this.openDoor);
-        enemyTestingCommands.Enqueue(moveToPos2);//21
-        enemyTestingCommands.Enqueue(this.crouch);
-        enemyTestingCommands.Enqueue(moveToPos3);//21
-        enemyTestingCommands.Enqueue(moveToPos4);//21
+        _queue.Enqueue(freez_3s);//24
+        //_queue.Enqueue(dodge);//23
+        //_queue.Enqueue(crouch);//22
 
-        //enemyTestingCommands.Enqueue(rotateToSprintPos1);
-     
-        enemyTestingCommands.Enqueue(sprintToPos1);//19
-        enemyTestingCommands.Enqueue(sprintToPos2);//19
-        enemyTestingCommands.Enqueue(sprintToPos3);//19
-        enemyTestingCommands.Enqueue(sprintToPos4);//19
-        enemyTestingCommands.Enqueue(sprintToPos5);//19
-        enemyTestingCommands.Enqueue(sprintToPos6);
+        _queue.Enqueue(moveToPos1);//21
+        _queue.Enqueue(this.openDoor);
+        _queue.Enqueue(moveToPos2);//21
+        _queue.Enqueue(this.crouch);
+        _queue.Enqueue(moveToPos3);//21
+        _queue.Enqueue(moveToPos4);//21
 
-        enemyTestingCommands.Enqueue(freez_3s);//18
-        enemyTestingCommands.Enqueue(moveToWeaponPickedUpPrimary);//17
-        enemyTestingCommands.Enqueue(pickUpWeaponPrimary);//16
-        enemyTestingCommands.Enqueue(holsterWeaponPrimary);//15
-        enemyTestingCommands.Enqueue(drawWeaponPrimary);//14
-        enemyTestingCommands.Enqueue(dropWeaponPrimary);//13
-        enemyTestingCommands.Enqueue(pickUpWeaponPrimary2);//12
-        enemyTestingCommands.Enqueue(moveToWeaponPickedUpSecondary);//11
-        enemyTestingCommands.Enqueue(pickUpWeaponSecondary);//10
-        enemyTestingCommands.Enqueue(switchWeaponSecondaryToPrimary);//9
-        enemyTestingCommands.Enqueue(switchWeaponPrimaryToSecondary);//8
-        enemyTestingCommands.Enqueue(ADS_PullTrigger);//7
-        enemyTestingCommands.Enqueue(reload);//6
-        enemyTestingCommands.Enqueue(moveToTakeCover1);//4
-        enemyTestingCommands.Enqueue(softcoverManuver);//3
-        enemyTestingCommands.Enqueue(sprintToSpinKick);//2
-        enemyTestingCommands.Enqueue(spinKick);//1
+        //_queue.Enqueue(rotateToSprintPos1);
 
+        _queue.Enqueue(sprintToPos1);//19
+        _queue.Enqueue(sprintToPos2);//19
+        _queue.Enqueue(sprintToPos3);//19
+        _queue.Enqueue(sprintToPos4);//19
+        _queue.Enqueue(sprintToPos5);//19
+        _queue.Enqueue(sprintToPos6);
+
+        _queue.Enqueue(freez_3s);//18
+        _queue.Enqueue(moveToWeaponPickedUpPrimary);//17
+        _queue.Enqueue(pickUpWeaponPrimary);//16
+        _queue.Enqueue(holsterWeaponPrimary);//15
+        _queue.Enqueue(drawWeaponPrimary);//14
+        _queue.Enqueue(dropWeaponPrimary);//13
+        _queue.Enqueue(pickUpWeaponPrimary2);//12
+        _queue.Enqueue(moveToWeaponPickedUpSecondary);//11
+        _queue.Enqueue(pickUpWeaponSecondary);//10
+        _queue.Enqueue(switchWeaponSecondaryToPrimary);//9
+        _queue.Enqueue(switchWeaponPrimaryToSecondary);//8
+        _queue.Enqueue(ADS_PullTrigger);//7
+        _queue.Enqueue(reload);//6
+        _queue.Enqueue(moveToTakeCover1);//4
+        _queue.Enqueue(softcoverManuver);//3
+        _queue.Enqueue(sprintToSpinKick);//2
+        _queue.Enqueue(spinKick);//1
     }
 
     protected override void Update()
     {
-        queueCount = enemyTestingCommands.Count;
-
-        if(enemyTestingCommands == null || enemyTestingCommands.Count <= 0)
-            return;
-
-        if (enemyTestingCommands.Peek().IsComplete())
-        {
-            enemyTestingCommands.Dequeue();
-            debugLog += enemyTestingCommands + " been complete \n";
-            if (enemyTestingCommands.Count <= 0)
-                debugLog += "complete all command test \n";
-        }
-
-        try
-        {
-            enemyTestingCommands.Peek().Update();
-        }
-        catch (Exception e) 
-        {
-            
-        }
+        queueCount = _queue.Count;
+        _queue.Update();
         base.Update();
     }
+
     protected override void FixedUpdate()
     {
-
-        try
-        {
-            enemyTestingCommands.Peek().FixedUpdate();
-        }
-        catch (Exception e)
-        {
-
-        }
+        _queue.FixedUpdate();
         base.FixedUpdate();
     }
 
     protected override void OnNotifyHearding(INoiseMakingAble noiseMaker)
     {
-        
+
     }
 
     protected override void OnNotifySpottingTarget(GameObject target)
     {
-         
+
     }
-    private class EnemyMoveToPos : ITaskingExecute
-    {
-        private Vector3 pos;
-        private bool isRotateTowardDes;
-        private Transform myTrans;
-        private EnemyCommandAPI enemyCommandAPI;
-        private float reachDes = 1f;
-        public EnemyMoveToPos(Transform myTrans,Vector3 pos, bool isRotateTowardDes,EnemyCommandAPI enemyCommandAPI)
-        {
-            this.pos = pos;
-            this.isRotateTowardDes = isRotateTowardDes;
-            this.myTrans = myTrans;
-            this.enemyCommandAPI = enemyCommandAPI;
-        }
 
-        public void FixedUpdate()
-        {
-            
-        }
-
-        public bool IsComplete()
-        {
-            if(Vector3.Distance(myTrans.position,this.pos) <= this.reachDes)
-                return true;
-            return false;
-        }
-
-        public void Update()
-        {
-            if (isRotateTowardDes)
-                enemyCommandAPI.MoveToPositionRotateToward(this.pos, 1, 1, this.reachDes);
-            else
-                enemyCommandAPI.MoveToPosition(this.pos, 1, this.reachDes);
-        }
-    }
-    private class EnemyRotateToPos:ITaskingExecute
-    {
-        private float rotateSpeed;
-        private Vector3 towardedPos;
-        private Transform myTrans;
-        private EnemyCommandAPI enemyCommandAPI;
-        public EnemyRotateToPos(Transform myTrans,Vector3 towardedPos,float rotateSpeed,EnemyCommandAPI enemyCommandAPI) 
-        {
-            this.myTrans = myTrans;
-            this.towardedPos = towardedPos;
-            this.rotateSpeed = rotateSpeed;
-            this.enemyCommandAPI = enemyCommandAPI;
-        }
-
-        public void FixedUpdate()
-        {
-            
-        }
-
-        public bool IsComplete()
-        {
-            Vector3 dir = this.towardedPos - myTrans.position;
-            dir.Normalize();
-
-            if (Vector3.Dot(myTrans.forward, dir) > 0.95f)
-                return true;
-            return false;
-        }
-
-        public void Update()
-        {
-            enemyCommandAPI.RotateToPosition(this.towardedPos,this.rotateSpeed);
-        }
-    }
-    private class EnemyTestingCommand:ITaskingExecute
-    {
-        private Action update;
-        private Action fixUpdate;
-        private Func<bool> isComplete;
-        public EnemyTestingCommand(Action update,Action fixUpdate, Func<bool> isComplete) 
-        {
-            this.update = update;
-            this.fixUpdate = fixUpdate;
-            this.isComplete = isComplete;
-        }
-        public EnemyTestingCommand(Action update,Func<bool> isComplete) : this(update,null,isComplete)
-        {
-
-        }
-        public void FixedUpdate()
-        {
-           if(this.fixUpdate != null)
-                this.fixUpdate.Invoke();
-        }
-
-        public bool IsComplete()
-        {
-            return isComplete.Invoke();
-        }
-
-        public void Update()
-        {
-            if(this.update != null)
-                this.update.Invoke();
-        }
-    }
-   
     private void OnDrawGizmos()
     {
         try
@@ -385,8 +264,8 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             Gizmos.DrawSphere(this.enemy.targetKnowPos, 0.25f);
         }
         catch { }
-       
     }
+
     private void DrawCircle(Vector3 center, float radius)
     {
         int segments = 32;
@@ -402,10 +281,4 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
             prevPoint = nextPoint;
         }
     }
-
-
-
-   
-
 }
-

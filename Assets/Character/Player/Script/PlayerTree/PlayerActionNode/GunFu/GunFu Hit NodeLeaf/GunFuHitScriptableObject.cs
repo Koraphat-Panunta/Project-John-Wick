@@ -23,6 +23,15 @@ public struct GunFuHitDetail
     [Range(0, 100)]
     public float stuntingTime;
 
+    [Range(0, 10)]
+    public float attackRange;
+
+    [Range(0, 100)]
+    public float attackMoveVelocity;
+
+    [Range(0, 500)]
+    public float attackRotateVelocity;
+
     public AnimationCurve hitSlowMotionCurve;
     public AnimationCurve warpingMovementCurve;
 

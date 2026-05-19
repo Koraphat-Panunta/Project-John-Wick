@@ -51,7 +51,8 @@ public partial class EnemyStateManagerNode : INodeManager
     public AttackMoveMeleeWeaponNodeLeaf meleeAttackMove_I_NodeLeaf { get; private set; }   
 
     public EnemySprintStateNodeLeaf enemySprintStateNodeLeaf { get; private set; }
-    public EnemyDodgeRollStateNodeLeaf enemyDodgeRollStateNodeLeaf { get; private set; }
+    public EnemyDodgeStateNodeLeaf enemyDodgeRollStateNodeLeaf { get; private set; }
+    public EnemyDodgeStateNodeLeaf evadeStateNodeLeaf { get; private set; }
 
     public NodeSelector zeroPostureSelector { get; private set; }
     public GotGunFuInteractingNodeLeaf gotHitDownNodeLeaf { get; private set; }
@@ -86,7 +87,9 @@ public partial class EnemyStateManagerNode : INodeManager
 
     public GotParriedNodeLeaf gotParriedNodeLeaf { get; private set; }
 
-  
+    public BlockStateNodeLeaf blockStateNodeLeaf { get; private set; }
+    public GuardBreakNodeLeaf guardBreakNodeLeaf { get; private set; }
+
     #endregion
     public void InitailizedNode()
     {
@@ -137,8 +140,21 @@ public partial class EnemyStateManagerNode : INodeManager
         enemySprintStateNodeLeaf = new EnemySprintStateNodeLeaf(this.enemy,
            () => this.enemy.isSprintCommand && this.enemy.moveInputVelocity_WorldCommand.magnitude > 0
            );
-        enemyDodgeRollStateNodeLeaf = new EnemyDodgeRollStateNodeLeaf(this.enemy
-            ,()=> enemy._triggerDodge && enemyDodgeRollStateNodeLeaf.dodgeRollCoolDown <=0
+        enemyDodgeRollStateNodeLeaf = new EnemyDodgeStateNodeLeaf(this.enemy,
+            () => enemy._triggerDodge && enemyDodgeRollStateNodeLeaf.dodgeRollCoolDown <= 0,
+            duration:          0.75f,
+            pushOutNormalized: 0.23f,
+            inAirNormalized:   0.5f,
+            landingNormalized: 1f,
+            coolDownTime:      2f);
+
+        evadeStateNodeLeaf = new EnemyDodgeStateNodeLeaf(this.enemy,
+            () => enemy._triggerEvade,
+            duration:          0.75f,
+            pushOutNormalized: 0.23f,
+            inAirNormalized:   0.5f,
+            landingNormalized: 1f,
+            coolDownTime:      0f
             );
 
         enemtDeadState = new EnemyDeadStateNode(this.enemy,
@@ -210,7 +226,18 @@ public partial class EnemyStateManagerNode : INodeManager
             this.enemy.gotParriedScriptableObject,
             () => this.enemy._triggerGotParried);
 
-        enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(this.enemy.EnemySpinKickScriptable,this.enemy,()=>true);
+        this.blockStateNodeLeaf = new BlockStateNodeLeaf(this.enemy,
+            () => enemy._triggerBlock,
+            1f);
+
+        //this.guardBreakNodeLeaf = new GuardBreakNodeLeaf(this.enemy,
+        //    () => enemy._triggerGuardBreak,
+        //    1.5f);
+
+        this.enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(
+            this.enemy.spinKickScriptable
+            ,this.enemy
+            ,()=>true);
 
         gotGunFuAttackSelector = new NodeSelector( 
             () => 
@@ -298,6 +325,7 @@ public partial class EnemyStateManagerNode : INodeManager
 
         startNodeSelector.AddtoChildNode(enemtDeadState);
         startNodeSelector.AddtoChildNode(zeroPostureSelector);
+        //startNodeSelector.AddtoChildNode(this.guardBreakNodeLeaf);
         startNodeSelector.AddtoChildNode(this.gotParriedNodeLeaf);
         startNodeSelector.AddtoChildNode(gotGunFuAttackSelector);
         startNodeSelector.AddtoChildNode(painStateNodeLeaf);
@@ -322,12 +350,14 @@ public partial class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector.AddtoChildNode(humanShield_Exit_GotInteract_NodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
         this.gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
+        gotGunFuAttackSelector.AddtoChildNode(this.blockStateNodeLeaf);
         gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuHitNodeLeaf);
 
-        enemyStanceSelector.AddtoChildNode(enemyDodgeRollStateNodeLeaf);
+        enemyStanceSelector.AddtoChildNode(this.evadeStateNodeLeaf);
+        enemyStanceSelector.AddtoChildNode(this.enemyDodgeRollStateNodeLeaf);
         enemyStanceSelector.AddtoChildNode(this.meleeAttackMoveNodeSelector);
         enemyStanceSelector.AddtoChildNode(enemySprintStateNodeLeaf);
-        enemyStanceSelector.AddtoChildNode(crouchSelector);
+        enemyStanceSelector.AddtoChildNode(crouchSelector); 
         enemyStanceSelector.AddtoChildNode(standSelector);
 
         standSelector.AddtoChildNode(enemyStandMoveStateNodeLeaf);
@@ -351,6 +381,7 @@ public partial class EnemyStateManagerNode : INodeManager
 
     public FindiAndTrackingTargetNodeLeaf findAndTrackTargetNodeLeaf;
     public RegenarateGaugeNodeLeaf regenarate_reaction_GaugeNodeLeaf;
+    public GuardModeComponentNodeLeaf guardModeComponentNodeLeaf;
 
     private void InitializedComponentNode()
     {
@@ -365,8 +396,16 @@ public partial class EnemyStateManagerNode : INodeManager
             , this.enemy.reactionTime.maxGauge
             , 1);
 
+        this.guardModeComponentNodeLeaf = new GuardModeComponentNodeLeaf(
+            () => this.guardModeComponentNodeLeaf.isTriggerGuard && this.guardModeComponentNodeLeaf.isGuardAble
+            , this.enemy
+            , this.enemy.guardGauge
+            , this.enemy.enemyStatsScripableObject.guardCoolDownTime
+            , this.enemy.enemyStatsScripableObject.guardTime);
+
         this.enemyStateNodeComponentManager.AddNode(this.findAndTrackTargetNodeLeaf);
         this.enemyStateNodeComponentManager.AddNode(this.regenarate_reaction_GaugeNodeLeaf);
+        this.enemyStateNodeComponentManager.AddNode(this.guardModeComponentNodeLeaf);
     }
     #endregion
 }

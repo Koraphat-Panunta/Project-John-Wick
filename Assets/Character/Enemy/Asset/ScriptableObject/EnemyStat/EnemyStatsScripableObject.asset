@@ -14,4 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsScripableObject
   maxHp: 100
   maxPosture: 70
+  guardGuage: 100
+  guardTime: 3
+  guardCoolDownTime: 3
+  minDodgeCoolDownTime: 7
+  maxDodgeCoolDownTime: 18
+  minDodgeHitRate: 7
+  maxDodgeHitRate: 18
+  minGuardRate: 2
+  maxGuardRate: 4
+  minCounterRate: 1
+  maxCounterRate: 3
   reactionTime: 1.5

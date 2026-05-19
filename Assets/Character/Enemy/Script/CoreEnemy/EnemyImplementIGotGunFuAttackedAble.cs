@@ -18,7 +18,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
          
             if(stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if(stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeStateNodeLeaf>())
                 return false;
 
             return true;
@@ -33,7 +33,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
             //    return false;
             if (stateManagerNode.TryGetCurNodeLeaf<EnemyDeadStateNode>())
                 return false;
-            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if (stateManagerNode.TryGetCurNodeLeaf<EnemyDodgeStateNodeLeaf>())
                 return false;
 
             return true;

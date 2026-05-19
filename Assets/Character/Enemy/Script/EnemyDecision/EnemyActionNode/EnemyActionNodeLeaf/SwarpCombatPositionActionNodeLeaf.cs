@@ -100,7 +100,7 @@ public class SwarpCombatPositionActionNodeLeaf : EnemyActionNodeLeaf
 
                                 EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
 
-                                enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+                                this.enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
                             }
                             break;
                     }

@@ -149,7 +149,7 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void Dodge(Vector3 dodgeDir)
     {
         this._enemy.stanceCommand = Stance.stand;
-        _enemy.moveInputVelocity_WorldCommand = dodgeDir;
+        this._enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;
 
         this.OpenDoor();
@@ -241,6 +241,20 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     {
         (_enemy as IRangeWeaponAdvanceUser)._isDropWeaponCommand = true;
     }
+    public void Guard()
+    {
+        this._enemy.enemyStateManagerNode.guardModeComponentNodeLeaf.TriggerGuard();
+    }
+
+    public void TriggerEvade(Vector3 dodgeDir)
+    {
+        Debug.Log("TriggerEvade Command");
+
+        this._enemy.stanceCommand = Stance.stand;
+        this._enemy.moveInputVelocity_WorldCommand = dodgeDir;
+        this._enemy._triggerEvade = true;
+    }
+
     public void SpinKick()
     {
         this._enemy.stanceCommand = Stance.stand;

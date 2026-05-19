@@ -100,7 +100,7 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
         {
             case CombatPhase.Alert:
                 EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
-                enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+                enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
                 break;
             case CombatPhase.Aware:
                 EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);

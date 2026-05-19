@@ -32,7 +32,7 @@ public partial class Enemy : I_OCM_Attack_Able
 
     public Character _character { get => this; }
 
-    [SerializeField] public EnemySpinKickScriptable EnemySpinKickScriptable;
+    [SerializeField] public GunFuHitScriptableObject spinKickScriptable;
     public void InitailizedGunFuComponent()
     {
         _gunFuUserTransform = transform;

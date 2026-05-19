@@ -70,7 +70,7 @@ public class DisarmTargetWeaponEnemyActionNodeLeaf : EnemyActionNodeLeaf
                             curDisarmWeapon = DisarmTargetWeaponPhase.FindingWeapon;
                     }
                     else
-                        enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+                        enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
 
                 }
                 break;

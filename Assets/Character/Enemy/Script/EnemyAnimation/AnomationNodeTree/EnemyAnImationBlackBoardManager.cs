@@ -22,7 +22,7 @@ public partial class EnemyAnimationManager
                 )
                 return false;
 
-            if(enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeRollStateNodeLeaf>())
+            if(enemyStateManager.TryGetCurNodeLeaf<EnemyDodgeStateNodeLeaf>())
                 return false;
 
 

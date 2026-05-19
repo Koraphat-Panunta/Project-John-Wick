@@ -102,4 +102,15 @@ public class NodeComponentManager
         }
     }
 
+    public bool CheckNodeIsActive(INode node)
+    {
+        if (this.combineNodeActivate.ContainsKey(node) == false)
+            return false;
+
+        if (this.combineNodeActivate[node])
+            return true;
+
+        return false;
+    }
+
 }

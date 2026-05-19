@@ -120,15 +120,7 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
                 {
                     this.RotateUpdate();
                     this.character.enableRootMotion = false;
-                    Vector3 targetDir = (this.targetPos - this.meleeWeaponUserAble._meleeWeaponUserTransform.position);
-                    targetDir = new Vector3(targetDir.x,0,targetDir.z).normalized;
-
-                    float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer(this.beginmoveNormalizedTime, this.moveNormalizedTime);
-
-                    if (Vector3.Distance(this.targetPos, this.meleeWeaponUserAble._meleeWeaponUserTransform.position) > this.attackMoveScriptableObject._attackMove_Range)
-                        this.character._movementCompoent.Move(targetDir * attackMoveScriptableObject._moveVelocityCurve.Evaluate(t) * this.attackMoveScriptableObject._topVelocityMove * Time.deltaTime);
-                    else
-                        this.character.enableRootMotion = true;
+                    this.MoveToTargetPos();
                     this.UpdateTargetPos();
                 }
                 break;
@@ -161,4 +153,20 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
         if (this.meleeWeaponUserAble._targetTransform != null)
             this.targetPos = this.meleeWeaponUserAble._targetTransform.position;
     }
+
+    private void MoveToTargetPos()
+    {
+        Vector3 targetDir = (this.targetPos - this.meleeWeaponUserAble._meleeWeaponUserTransform.position);
+        targetDir = new Vector3(targetDir.x, 0, targetDir.z).normalized;
+
+        float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer(this.beginmoveNormalizedTime, this.moveNormalizedTime);
+
+        if (Vector3.Distance(this.targetPos, this.meleeWeaponUserAble._meleeWeaponUserTransform.position) > this.attackMoveScriptableObject._attackMove_Range)
+            this.character._movementCompoent.Move(
+                targetDir * attackMoveScriptableObject._moveVelocityCurve.Evaluate(t) * this.attackMoveScriptableObject._topVelocityMove * Time.deltaTime
+                );
+        else
+            this.character.enableRootMotion = true;
+    }
+
 }

@@ -54,6 +54,7 @@ public partial class Enemy : SubjectEnemy
         this._hpGauge = new Gauge(this.enemyStatsScripableObject.maxHp,this.enemyStatsScripableObject.maxHp);
         this.postureGauge = new Gauge(this.enemyStatsScripableObject.maxPosture,this.enemyStatsScripableObject.maxPosture);
         this.reactionTime = new Gauge(this.enemyStatsScripableObject.reactionTime, this.enemyStatsScripableObject.reactionTime);
+        InitializeGuardSystem();
 
         enemyFieldOfView = new FieldOfView(120, 225, rayCastPos.transform);
         enemyGetShootDirection = new EnemyGetShootDirection(this);
@@ -140,6 +141,19 @@ public partial class Enemy : SubjectEnemy
                 {
                     if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
                     {
+                        Vector3 hitDir = gunFuHitNodeLeaf.gunFuAble._character._movementCompoent.curPosition - this._movementCompoent.curPosition;
+                        hitDir = new Vector3(hitDir.x, this._movementCompoent.curPosition.y , hitDir.z).normalized;
+
+                        if(this.guardGauge._gauge > 0 
+                            && this.isGuardModeEnabled
+                            && Vector3.Dot(hitDir,this.transform.forward) > 0) // Block
+                        {
+                            this.guardGauge.AddGauge(-gunFuHitNodeLeaf._hPDamage);
+                            this._triggerBlock = true;
+                            gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
+                            return;
+                        }
+
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
 
                         if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
@@ -200,8 +214,6 @@ public partial class Enemy : SubjectEnemy
 
     public void BlackBoardBufferUpdate()
     {
-        
-
         _isHolsterWeaponCommand = false;
         _isDrawPrimaryWeaponCommand = false;
         _isDrawSecondaryWeaponCommand = false;
@@ -216,8 +228,9 @@ public partial class Enemy : SubjectEnemy
         _triggerDodge = false;
         isSprintCommand = false;
         isTriggerMeleeWeaponAttack = false;
-
-    moveInputVelocity_WorldCommand = Vector3.zero;
+        _triggerEvade = false;
+        _triggerBlock = false;
+        moveInputVelocity_WorldCommand = Vector3.zero;
 
     }
   
@@ -433,6 +446,7 @@ public partial class Enemy : SubjectEnemy
         {
             this._posture = this._maxPosture;
             this.SetHP(this.GetMaxHp());
+            ResetGuardSystem();
             enemyGetShootDirection.HardSetPointingPos(transform.position + transform.forward + Vector3.up);
         }
         catch

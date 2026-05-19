@@ -54,7 +54,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
 
                     EnemyOffendCommandWeaponBased.Engage(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
 
-                    enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+                    enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
 
                     //if (Vector3.Distance(insistPos, enemy.transform.position) < distance 
                     //    && Vector3.Distance(enemy.transform.position, enemy.targetKnewPos) > f)
@@ -68,7 +68,7 @@ public class InsistEnemyActionNodeLeaf : EnemyActionNodeLeaf
                 {
                     enemyCommandAPI.FreezPosition();
                     EnemyOffendCommandWeaponBased.Hold(this.enemy, this.enemyCommandAPI, this.enemy.targetKnowPos);
-                    enemyCommandAPI.enemyAutoDefendCommand.UpdateAutoDefend();
+                    enemyCommandAPI.enemyAutoDefendCommand.UpdateDefendActionBlackBoard();
 
                 }
                 break;
