@@ -97,7 +97,7 @@ public class PlayerStateNodeManager :
     public GunFuReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
-    public RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf { get; private set; }
+    public RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit2GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf Hit3GunFuNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf dodgeSpinKicklGunFuNodeLeaf { get; private set; }
@@ -332,11 +332,12 @@ public class PlayerStateNodeManager :
             ,this.player.gunFuReloadScripatableObject
             );
 
-        this.restrictGunFuStateNodeLeaf = new RestrainGunFuStateNodeLeaf(player.restrictScriptableObject, player,
+        this.restrainGunFuStateNodeLeaf = new RestrainGunFuStateNodeLeaf(player.restrictScriptableObject, player,
             () =>
             {
                 if (player._isAimingCommand
                 && this.player.attackedAbleGunFu != null
+                && this.player.attackedAbleGunFu.CanTakeAttack(this.restrainGunFuStateNodeLeaf)
                 && this.player.attackedAbleGunFu._character.stance != Stance.prone)
                 {
                     if (player._currentWeapon != null
@@ -351,6 +352,7 @@ public class PlayerStateNodeManager :
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.stance != Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false
+            && this.player.attackedAbleGunFu.CanTakeAttack(this.humanShield_GunFuInteraction_NodeLeaf)
             && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.restrainHumanShieldStaminaDrain)
             , this.player.humanShieldSCRP
             ,this.player.humanShieldTargetAdjustTransform);
@@ -429,7 +431,7 @@ public class PlayerStateNodeManager :
 
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrictGunFuStateNodeLeaf);
+        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrainGunFuStateNodeLeaf);
         dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
 
         PainStateSelectorNodeLeaf.AddtoChildNode(playerBrounceOffNodeLeaf);
@@ -438,12 +440,12 @@ public class PlayerStateNodeManager :
         this.triggerHitGunFuSelector.AddtoChildNode(this.hit1gunFuNodeLeaf);
 
         this.hitDownNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
-        this.hitDownNodeLeaf.AddTransitionNode(this.restrictGunFuStateNodeLeaf);
+        this.hitDownNodeLeaf.AddTransitionNode(this.restrainGunFuStateNodeLeaf);
 
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.Hit2GunFuNodeLeaf);
-        this.hit1gunFuNodeLeaf.AddTransitionNode(this.restrictGunFuStateNodeLeaf);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.restrainGunFuStateNodeLeaf);
 
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
@@ -453,8 +455,8 @@ public class PlayerStateNodeManager :
         this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         this.humanShield_GunFuInteraction_NodeLeaf.AddTransitionNode(this.humanShieldExit_GunFu_NodeLeaf);
 
-        this.restrictGunFuStateNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
-        this.restrictGunFuStateNodeLeaf.AddTransitionNode(this.Hit3GunFuNodeLeaf);
+        this.restrainGunFuStateNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.restrainGunFuStateNodeLeaf.AddTransitionNode(this.Hit3GunFuNodeLeaf);
 
         crouchSelectorNode.AddtoChildNode(playerCrouch_Move_NodeLeaf);
         crouchSelectorNode.AddtoChildNode(playerCrouch_Idle_NodeLeaf);

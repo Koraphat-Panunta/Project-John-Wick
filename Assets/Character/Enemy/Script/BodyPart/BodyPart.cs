@@ -216,5 +216,8 @@ public abstract class BodyPart : MonoBehaviour
         this.forceStay = null;
     }
 
-  
+    public bool CanTakeAttack<T>(T attackNode) where T : I_OCM_Node
+    {
+        return this.enemy.CanTakeAttack(attackNode);
+    }
 }

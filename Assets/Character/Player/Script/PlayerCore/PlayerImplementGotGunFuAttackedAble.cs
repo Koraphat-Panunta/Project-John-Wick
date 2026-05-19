@@ -25,7 +25,12 @@ public partial class Player: I_Got_OCM_Attacked_Able
 
     Character I_Got_OCM_Attacked_Able._character => this;
 
-    
+    public bool CanTakeAttack<T>(T attackNode) where T : I_OCM_Node
+    {
+        return true;
+    }
+
+
 
     //public Character _character { get => this; }
     public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able gunFuAble)

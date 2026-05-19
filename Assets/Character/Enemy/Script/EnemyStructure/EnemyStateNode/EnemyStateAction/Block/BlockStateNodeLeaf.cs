@@ -37,6 +37,12 @@ public class BlockStateNodeLeaf : EnemyStateLeafNode
         if (enemy.isDead)
             return true;
 
+        if(enemy._isPainTrigger)
+            return true;
+
+        if(enemy._triggerHitedGunFu)
+            return true;
+
         return IsComplete();
     }
 }

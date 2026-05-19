@@ -93,5 +93,21 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
         gunFuAbleAttacker = attacker;
         TakeDamage(gunFu_NodeLeaf);
     }
+
+    public bool CanTakeAttack<T>(T attackNode) where T : I_OCM_Node
+    {
+        switch (attackNode)
+        {
+            case RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf:
+            case HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf:
+                {
+                    if (this._isInPain == false)
+                        return false;
+                    break;
+                }
+        }
+
+        return true;
+    }
     #endregion
 }

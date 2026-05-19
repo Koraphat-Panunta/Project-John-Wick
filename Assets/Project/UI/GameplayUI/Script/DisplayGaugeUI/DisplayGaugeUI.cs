@@ -43,8 +43,8 @@ public abstract class DisplayGaugeUI : GameplayUI, IObserverPlayer
 
         //if ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
         //    || 
-        //    ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
-        //        && restrictGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
+        //    ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf)
+        //        && restrainGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
         //        || 
         //        ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)
         //        && humanShield_GunFuInteraction.subject_GunFuAble.animationTriggerEventPlayer.timer < playerInfo.humanShiedlIFrame)
