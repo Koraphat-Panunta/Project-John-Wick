@@ -94,7 +94,8 @@ public class PlayerStateNodeManager :
     public NodeSelector triggerHitGunFuSelector { get; private set; }
     public GunFuHitDownNodeLeaf hitDownNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf hit1gunFuNodeLeaf { get; private set; }
-    public GunFuReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
+    public OCM_KnockDown_NodeLeaf ocmKnockDownNodeLeaf { get; private set; }
+    public OCMReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
     public RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf { get; private set; }
@@ -324,7 +325,15 @@ public class PlayerStateNodeManager :
             //&& this.player.attackedAbleGunFu._character.isDead == false
             , this.player.hit1);
 
-        this.gunFuReloadNodeLeaf = new GunFuReloadNodeLeaf(this.player,
+        this.ocmKnockDownNodeLeaf = new OCM_KnockDown_NodeLeaf(this.player,
+            () => this.player.attackedAbleGunFu != null
+            && this.player.isTriggerCrouchStand || this.player.commandBufferManager.TryGetCommand(nameof(this.player.isTriggerCrouchStand))
+            && this.player.attackedAbleGunFu.CanTakeAttack(this.ocmKnockDownNodeLeaf)
+            && this.player.staminaGauge._gauge > 0
+            ,this.player.ocmKnockDownScripatableObject
+            );
+
+        this.gunFuReloadNodeLeaf = new OCMReloadNodeLeaf(this.player,
             () => this.player.attackedAbleGunFu != null
             && (this.player._isReloadCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isReloadCommand)))
             && this.player.attackedAbleGunFu._character.isDead == false
@@ -429,10 +438,11 @@ public class PlayerStateNodeManager :
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Primary_Dodge_NodeLeaf_I);
         playerDodgeRollStateNodeLeaf.AddTransitionNode(gunFuExecute_Single_Secondary_Dodge_NodeLeaf_I);
 
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(executeGunFuSelector);
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(restrainGunFuStateNodeLeaf);
-        dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(Hit2GunFuNodeLeaf);
+
+        this.dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
+        this.dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
+        this.dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.restrainGunFuStateNodeLeaf);
+        this.dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.Hit2GunFuNodeLeaf);
 
         PainStateSelectorNodeLeaf.AddtoChildNode(playerBrounceOffNodeLeaf);
 
@@ -443,11 +453,13 @@ public class PlayerStateNodeManager :
         this.hitDownNodeLeaf.AddTransitionNode(this.restrainGunFuStateNodeLeaf);
 
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
+        this.hit1gunFuNodeLeaf.AddTransitionNode(this.ocmKnockDownNodeLeaf);
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.Hit2GunFuNodeLeaf);
         this.hit1gunFuNodeLeaf.AddTransitionNode(this.restrainGunFuStateNodeLeaf);
 
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.executeGunFuSelector);
+        this.Hit2GunFuNodeLeaf.AddTransitionNode(this.ocmKnockDownNodeLeaf);
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.gunFuReloadNodeLeaf);
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.Hit3GunFuNodeLeaf);
         this.Hit2GunFuNodeLeaf.AddTransitionNode(this.humanShield_GunFuInteraction_NodeLeaf);
@@ -500,7 +512,7 @@ public class PlayerStateNodeManager :
             (this as INodeManager).GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf
             || (this as INodeManager).GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf
             || (this as INodeManager).GetCurNodeLeaf() is GunFuHitDownNodeLeaf
-            || (this as INodeManager).GetCurNodeLeaf() is GunFuReloadNodeLeaf
+            || (this as INodeManager).GetCurNodeLeaf() is OCMReloadNodeLeaf
             ) == false
             ,this.player.staminaGauge
             ,this.player.staminaGauge.maxGauge

@@ -46,6 +46,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
     [SerializeField] public GotRestrictScriptableObject gotRestrictScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP humanShield_GotInteract_Exit_SCRP;
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuReloadScriptableObject;
+    [SerializeField] public AnimationTriggerEventSCRP gotKnockDownScriptableObject;
     [SerializeField] public AnimationTriggerEventSCRP gotHitDown_ScriptableObject;
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Dodge_ScriptableObject_I;
@@ -61,8 +62,6 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
 
         if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
         {
-
-
             Vector3 gunFuAblePos = new Vector3
                 (
                 gunFuHitNodeLeaf.gunFuAble._character.transform.position.x
@@ -105,7 +104,16 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
                         return false;
                     break;
                 }
+            case OCM_KnockDown_NodeLeaf oCM_KnockDown_NodeLeaf:
+                {
+                    if(this._isFallDown)
+                        return false;
+                    break;
+                }
         }
+
+        if(this.isDead)
+            return false;
 
         return true;
     }

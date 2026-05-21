@@ -28,6 +28,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf restrictShieldExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf restrictShieldMoveNodeLeaf { get; set; }
 
+    public PlayAnimationNodeLeaf knockDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gunFuReloadNodeLeaf { get; set; }
 
     public NodeSelector humanShieldSelector { get; set; }
@@ -227,9 +228,17 @@ public partial class PlayerAnimationManager
         && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
         , animator, "Move/Idle", 0, .35f);
 
+        this.knockDownNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerStateNodeMnager.TryGetCurNodeLeaf<OCM_KnockDown_NodeLeaf>()
+            , this.animator
+            , "KnockDown"
+            , 0
+            , 0
+            );
+
         this.gunFuReloadNodeLeaf = new PlayAnimationNodeLeaf
             (
-            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
+            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<OCMReloadNodeLeaf>()
             ,this.animator
             ,"GunFuReload"
             ,0
@@ -321,6 +330,7 @@ public partial class PlayerAnimationManager
 
                 gunFuBaseLayerNodeSelector.AddtoChildNode(executeAnimationNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(restrictShieldSelector);
+                this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.knockDownNodeLeaf);
                 this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.gunFuReloadNodeLeaf);
                 gunFuBaseLayerNodeSelector.AddtoChildNode(humanShieldSelector);
                 this.gunFuBaseLayerNodeSelector.AddtoChildNode(this.hitDownNodeLeaf);
@@ -516,7 +526,7 @@ public partial class PlayerAnimationManager
 
         performGunFuUpperLayerNodeSelector = new NodeSelector(
             () => isPerformGunFu
-            && this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>() == false
+            && this.playerStateNodeMnager.TryGetCurNodeLeaf<OCMReloadNodeLeaf>() == false
             );
         humanShieldNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(),

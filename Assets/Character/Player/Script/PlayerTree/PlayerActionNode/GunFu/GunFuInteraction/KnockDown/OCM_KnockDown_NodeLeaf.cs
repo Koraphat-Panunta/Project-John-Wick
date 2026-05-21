@@ -1,26 +1,28 @@
 using System;
 using UnityEngine;
 
-public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
+public class OCM_KnockDown_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf,IHPDamageVisitor
 {
-
     public SubjectAnimationInteract SubjectAnimationInteract1;
     public SubjectAnimationInteract SubjectAnimationInteract2;
 
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
     public AnimationTriggerAudioEventPlayer audioAnimationTriggerEvent;
 
-    public bool isReload;
 
-    public enum GunFuReloadPhase
+    public float guardDamage { get; }
+
+    public float _hPDamage { get => 0; }
+
+    public enum KnockDownPhase
     {
         Enter,
-        TriggerReload,
+        TriggerKnockDown,
         Exit
     }
-    public GunFuReloadPhase curGunFuReloadPhase;
+    public KnockDownPhase curKnockDownPhase;
 
-    public GunFuReloadNodeLeaf
+    public OCM_KnockDown_NodeLeaf
         (
         Player player
         , Func<bool> preCondition
@@ -28,66 +30,64 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         ) : base(player, preCondition)
     {
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(
-           animationInteractScriptableObject.clip
-           , animationInteractScriptableObject.enterNormalizedTime
-           , animationInteractScriptableObject.endNormalizedTime
-           , animationInteractScriptableObject.triggerEventDetail
-           );
+            animationInteractScriptableObject.clip
+            , animationInteractScriptableObject.enterNormalizedTime
+            , animationInteractScriptableObject.endNormalizedTime
+            , animationInteractScriptableObject.triggerEventDetail
+            );
 
-        this.SubjectAnimationInteract1 = new SubjectAnimationInteract
-            (animationInteractScriptableObject
+        this.SubjectAnimationInteract1 = new SubjectAnimationInteract(
+            animationInteractScriptableObject
             , animationInteractScriptableObject.animationInteractCharacterDetail[0]
             );
 
-        this.SubjectAnimationInteract2 = new SubjectAnimationInteract
-            (
+        this.SubjectAnimationInteract2 = new SubjectAnimationInteract(
             animationInteractScriptableObject
             , animationInteractScriptableObject.animationInteractCharacterDetail[1]
             );
 
-        this.animationTriggerEventPlayer.SubscribeEvent("TriggerReload", this.TriggerReload);
-        this.animationTriggerEventPlayer.SubscribeEvent("TransitionAble", this.TransitionAbleAll);
-
-        this.audioAnimationTriggerEvent = new AnimationTriggerAudioEventPlayer
-            (animationInteractScriptableObject.clip
+        this.audioAnimationTriggerEvent = new AnimationTriggerAudioEventPlayer(
+            animationInteractScriptableObject.clip
             , animationInteractScriptableObject.enterNormalizedTime
             , animationInteractScriptableObject.endNormalizedTime
-            , animationInteractScriptableObject.audioAnimationInteractTriggerEvents);
+            , animationInteractScriptableObject.audioAnimationInteractTriggerEvents
+            );
+
+        this.animationTriggerEventPlayer.SubscribeEvent("KnockDown",this.KnockDown);
     }
 
     public override void Enter()
     {
-        
         this.isComplete = false;
 
-        this.isReload = false;
+        this.curKnockDownPhase = KnockDownPhase.Enter;
         this.gotGunFuAttackedAble = this.player.attackedAbleGunFu;
+
         Vector3 anchorPos = this.gotGunFuAttackedAble._character.transform.position;
         Vector3 anchorDir = (this.gotGunFuAttackedAble._character.transform.position - this.gunFuAble._character.transform.position);
-        anchorDir = new Vector3 (anchorDir.x, 0 , anchorDir.z).normalized;
-
+        anchorDir = new Vector3(anchorDir.x, 0, anchorDir.z).normalized;
 
         this.SubjectAnimationInteract1.finishWarpEvent += this.Interact;
         this.SubjectAnimationInteract1.RestartSubject(this.gunFuAble._character, anchorPos, anchorDir);
         this.SubjectAnimationInteract2.RestartSubject(this.gotGunFuAttackedAble._character, anchorPos, anchorDir);
 
+
         this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
         this.animationTriggerEventPlayer.Rewind();
         this.audioAnimationTriggerEvent.Rewind();
 
-        this.curGunFuReloadPhase = GunFuReloadPhase.Enter;
         base.Enter();
     }
+
     public override void Exit()
     {
         this.player.enableRootMotion = false;
-        this.curGunFuReloadPhase = GunFuReloadPhase.Exit;
+        this.curKnockDownPhase = KnockDownPhase.Exit;
         base.Exit();
     }
 
     public override void UpdateNode()
     {
-       
         this.SubjectAnimationInteract1.UpdateInteract(Time.deltaTime);
         this.SubjectAnimationInteract2.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
@@ -95,12 +95,12 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
         if (this.animationTriggerEventPlayer.IsPlayFinish())
             this.isComplete = true;
+
         base.UpdateNode();
     }
+
     public override void FixedUpdateNode()
     {
-        
-
         base.FixedUpdateNode();
     }
 
@@ -108,28 +108,23 @@ public class GunFuReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     {
         _ = SubjectAnimationInteract.DelayRootMotion(character);
     }
-  
+
     public override bool IsComplete()
     {
         return this.isComplete;
     }
+
     public override bool IsReset()
     {
         return this.IsComplete();
     }
 
     protected void TransitionAbleAll() => this.nodeLeafTransitionBehavior.TransitionAbleAll(this);
-    protected void TriggerReload()
-    {
-        IRangeWeaponAdvanceUser weaponAdvanceUser = this.player;
-        this.curGunFuReloadPhase = GunFuReloadPhase.TriggerReload;
 
-        if (weaponAdvanceUser._currentWeapon != null)
-        {
-            weaponAdvanceUser._isReloadCommand = true;
-            this.isReload = true;
-            this.player.NotifyObserver(this.player, this.curGunFuReloadPhase);
-            Debug.Log("TriggerReload timeNor = "+this.SubjectAnimationInteract1.animationTriggerEventPlayer.timerNormalized);
-        }
+    public void KnockDown()
+    {
+        this.curKnockDownPhase = KnockDownPhase.TriggerKnockDown;
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.player.NotifyObserver(this.player, this.curKnockDownPhase);
     }
 }

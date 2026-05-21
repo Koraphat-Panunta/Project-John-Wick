@@ -86,7 +86,7 @@ public class PlayerWeaponManuver :
                || this.player.curNodeLeaf is PlayerStandMoveNodeLeaf
                || this.player.curNodeLeaf is PlayerSprintNode
                || this.player.curNodeLeaf is PlayerDodgeRollStateNodeLeaf
-               || (this.player.curNodeLeaf is GunFuReloadNodeLeaf gunFuReloadNodeLeaf
+               || (this.player.curNodeLeaf is OCMReloadNodeLeaf gunFuReloadNodeLeaf
                && gunFuReloadNodeLeaf.isReload)
                )
                 return true;

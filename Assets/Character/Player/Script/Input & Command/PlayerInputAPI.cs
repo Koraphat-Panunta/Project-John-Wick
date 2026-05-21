@@ -156,6 +156,7 @@ public class PlayerInputAPI : MonoBehaviour,IInitializedAble
         if (context.performed)
         {
             this.player.isTriggerCrouchStand = true;
+            this.player.commandBufferManager.AddCommand(nameof(this.player.isTriggerCrouchStand),.5f);
         }
     }
     public void TriggerSpecialMove(InputAction.CallbackContext context)

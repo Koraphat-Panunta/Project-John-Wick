@@ -55,7 +55,7 @@ public partial class Player: IRangeWeaponAdvanceUser
         {
             try
             {
-                if ((this.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
+                if ((this.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<OCMReloadNodeLeaf>()
                     /*&& this._currentWeapon != null*/)
                 {
                     return 1.2f;

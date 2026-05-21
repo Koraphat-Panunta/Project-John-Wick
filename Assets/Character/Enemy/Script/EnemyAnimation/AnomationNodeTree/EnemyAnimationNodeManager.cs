@@ -13,7 +13,8 @@ public partial class EnemyAnimationManager : INodeManager
 
     public PlayAnimationNodeLeaf blockAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotParriedNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf meleeAttackMoveAnimationNodeLeaf { get; set; } 
+    public PlayAnimationNodeLeaf meleeAttackMoveAnimationNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf gotKnockDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
@@ -47,6 +48,10 @@ public partial class EnemyAnimationManager : INodeManager
             ,"MeleeAttack"
             ,0
             ,.2f);
+        this.gotKnockDownNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
+            && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotKnockDown_OCM_NodeLeaf
+            , this.animator, "GotKnockDown", 0, 0);
         this.gotGunFuReloadNodeLeaf = new PlayAnimationNodeLeaf(
             () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
             && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotGunFuReloadNodeLeaf
@@ -94,6 +99,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.startNodeSelector.AddtoChildNode(this.blockAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotParriedNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.meleeAttackMoveAnimationNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.gotKnockDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);

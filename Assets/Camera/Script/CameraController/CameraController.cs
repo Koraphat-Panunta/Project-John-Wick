@@ -197,7 +197,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                         break;
                     }
-            case GunFuReloadNodeLeaf gunFuReloadNodeLeaf:
+            case OCMReloadNodeLeaf gunFuReloadNodeLeaf:
                     {
                         if (gunFuReloadNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
                         {
@@ -214,6 +214,27 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == gunFuReloadNodeLeaf)
+                                this.curGunFuNode = null;
+                        }
+                        break;
+                    }
+            case OCM_KnockDown_NodeLeaf oCM_KnockDown_NodeLeaf:
+                    {
+                        if (oCM_KnockDown_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        {
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
+                            this.isPerformGunFu = true;
+                            this.curGunFuNode = oCM_KnockDown_NodeLeaf;
+
+                            Transform[] trackTransforms = { player.humanoidBone.hips, oCM_KnockDown_NodeLeaf.gotGunFuAttackedAble._character.humanoidBone.hips };
+                            float[] trackWeight = { .5f, .2f };
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
+                        }
+                        if (oCM_KnockDown_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        {
+                            this.isPerformGunFu = false;
+                            if (this.curGunFuNode == oCM_KnockDown_NodeLeaf)
                                 this.curGunFuNode = null;
                         }
                         break;

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf,I_OCM_Node,INodeLeafTransitionAble
+public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
+    ,I_OCM_Node
+    ,INodeLeafTransitionAble
 {
     IRangeWeaponAdvanceUser weaponAdvanceUser => player;
 

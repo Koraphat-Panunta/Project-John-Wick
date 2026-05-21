@@ -78,6 +78,7 @@ public partial class EnemyStateManagerNode : INodeManager
     public GotGunFuExecuteNodeLeaf gotExecute_Primary_NodeLeaf_II { get; private set; }
     public GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf { get; private set; }
 
+    public GotGunFuInteractingNodeLeaf gotKnockDown_OCM_NodeLeaf { get; private set; }
     public GotRestrictNodeLeaf gotRestrictNodeLeaf { get; private set; }
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
     public HumanShield_Exit_GotInteract_NodeLeaf humanShield_Exit_GotInteract_NodeLeaf { get; private set; }
@@ -165,7 +166,8 @@ public partial class EnemyStateManagerNode : INodeManager
             ()=> 
             {
                 //Debug.Log("this.enemy._posture = " + this.enemy._posture);
-                if (this.enemy._posture <= 0 && this.enemy.isNotFallAble == false)
+                if (this.enemy._posture <= 0 
+                && this.enemy.isNotFallAble == false)
                 {
                     return true;
                 }
@@ -173,7 +175,9 @@ public partial class EnemyStateManagerNode : INodeManager
             }
             );
 
-        this.gotHitDownNodeLeaf = new GotGunFuInteractingNodeLeaf(this.enemy,this.enemy.gotHitDown_ScriptableObject,
+        this.gotHitDownNodeLeaf = new GotGunFuInteractingNodeLeaf(
+            this.enemy
+            ,this.enemy.gotHitDown_ScriptableObject,
             ()=> this.enemy._triggerHitedGunFu 
             && this.enemy.curAttackerGunFuNode is GunFuHitDownNodeLeaf);
         this.painStateGotHitDownNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy, 
@@ -298,6 +302,12 @@ public partial class EnemyStateManagerNode : INodeManager
                 return false;
             });
 
+        this.gotKnockDown_OCM_NodeLeaf = new GotGunFuInteractingNodeLeaf
+            (this.enemy
+            ,this.enemy.gotKnockDownScriptableObject
+            ,()=> this.enemy.curAttackerGunFuNode is OCM_KnockDown_NodeLeaf
+            );
+
         gotRestrictNodeLeaf = new GotRestrictNodeLeaf(this.enemy.gotRestrictScriptableObject, this.enemy,
             () => 
             {
@@ -313,7 +323,7 @@ public partial class EnemyStateManagerNode : INodeManager
 
         this.gotGunFuReloadNodeLeaf = new GotGunFuInteractingNodeLeaf(this.enemy
             , this.enemy.gotGunFuReloadScriptableObject
-            , () => this.enemy.curAttackerGunFuNode is GunFuReloadNodeLeaf
+            , () => this.enemy.curAttackerGunFuNode is OCMReloadNodeLeaf
             );
 
         this.humanShield_Exit_GotInteract_NodeLeaf = new HumanShield_Exit_GotInteract_NodeLeaf(this.enemy
@@ -345,13 +355,14 @@ public partial class EnemyStateManagerNode : INodeManager
 
         gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
 
-        gotGunFuAttackSelector.AddtoChildNode(gotExecuteSelector);
-        gotGunFuAttackSelector.AddtoChildNode(gotRestrictNodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(humanShield_Exit_GotInteract_NodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(gotHumandShielded_GunFuNodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.gotExecuteSelector);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.gotKnockDown_OCM_NodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.gotRestrictNodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.humanShield_Exit_GotInteract_NodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.gotHumandShielded_GunFuNodeLeaf);
         this.gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(this.blockStateNodeLeaf);
-        gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuHitNodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.blockStateNodeLeaf);
+        this.gotGunFuAttackSelector.AddtoChildNode(this.gotGunFuHitNodeLeaf);
 
         enemyStanceSelector.AddtoChildNode(this.evadeStateNodeLeaf);
         enemyStanceSelector.AddtoChildNode(this.enemyDodgeRollStateNodeLeaf);

@@ -85,7 +85,7 @@ public partial class PlayerAnimationManager
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
-                || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuReloadNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<OCMReloadNodeLeaf>()
                 )
                 return false;
 
@@ -97,7 +97,15 @@ public partial class PlayerAnimationManager
             if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
                 return false;
 
-            return true;
+            if(this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>()
+                )
+                return true;
+
+            return false;
 
             
         } 

@@ -186,6 +186,15 @@ public partial class Enemy : SubjectEnemy
                     this.TakeDamage(this.GetHP());
                     break;
                 }
+            case OCM_KnockDown_NodeLeaf ocm_KnockDown_NodeLeaf: 
+                {
+                    if(ocm_KnockDown_NodeLeaf.curKnockDownPhase == OCM_KnockDown_NodeLeaf.KnockDownPhase.TriggerKnockDown)
+                    {
+                        this.guardGauge.AddGauge(- ocm_KnockDown_NodeLeaf.guardDamage);
+                        this.postureGauge.SetGauge(0);
+                        
+                    }
+                }break;
         }
 
         if (damageVisitor is IHPDamageVisitor hPDamageVisitor)

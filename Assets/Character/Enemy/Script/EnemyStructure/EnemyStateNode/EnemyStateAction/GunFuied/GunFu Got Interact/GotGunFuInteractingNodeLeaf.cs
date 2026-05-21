@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode, IGotGunFuAttackNode,INodeLeafTransitionAble
+public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode
+    , IGotGunFuAttackNode
+    ,INodeLeafTransitionAble
 {
     protected AnimationTriggerEventPlayer animationTriggerEventPlayer;
 

@@ -61,6 +61,7 @@ public partial class Player : I_OCM_Attack_Able
     [SerializeField] public AnimationInteractScriptableObject humanShield_Exit_SCRP;
     [SerializeField] public TransformOffsetSCRP humanShieldTargetAdjustTransform;
     [SerializeField] public RestrictScriptableObject restrictScriptableObject;
+    [SerializeField] public AnimationInteractScriptableObject ocmKnockDownScripatableObject;
     [SerializeField] public AnimationInteractScriptableObject gunFuReloadScripatableObject;
     [SerializeField] public AnimationInteractScriptableObject gunFuHitDownScriptableObject;
 
