@@ -148,7 +148,7 @@ public partial class Enemy : SubjectEnemy
                             && this.isGuardModeEnabled
                             && Vector3.Dot(hitDir,this.transform.forward) > 0) // Block
                         {
-                            this.guardGauge.AddGauge(-gunFuHitNodeLeaf._hPDamage);
+                            this.guardGauge.AddGauge(- gunFuHitNodeLeaf._hPDamage);
                             this._triggerBlock = true;
                             gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
                             return;
@@ -156,18 +156,15 @@ public partial class Enemy : SubjectEnemy
 
                         this.enemyStateManagerNode.gotGunFuHitNodeLeaf.SetPainTime(gunFuHitNodeLeaf.stuntingTime);
 
+                        this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+
                         if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
                         {
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
-                            this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
+                            
                         }
                         else
                         {
-                            if (this.GetHP() > this.gotHitWithStandHP)
-                            {
-                                this.TakeDamage(Mathf.Clamp(gunFuHitNodeLeaf._hPDamage, 0, this.GetHP() - this.gotHitWithStandHP));
-                            }
-
                             if (this._posture > 0)
                             {
                                 this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 1, this._maxPosture);

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hit2
   m_EditorClassIdentifier: 
   clip: {fileID: 7400000, guid: faf44e5b64d404f4fabb2883ff9e6a2b, type: 2}
-  enterNormalizedTime: 0.1
+  enterNormalizedTime: 0.07
   triggerEventDetail:
   - normalizedTime: 0.1
     eventName: BeginWarp
@@ -29,6 +29,9 @@ MonoBehaviour:
     postureHitDamage: 15
     hpHitDamage: 5
     stuntingTime: 1
+    attackRange: 0
+    attackMoveVelocity: 0
+    attackRotateVelocity: 0
     hitSlowMotionCurve:
       serializedVersion: 2
       m_Curve: []

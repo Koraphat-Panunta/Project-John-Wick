@@ -11,7 +11,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
 
         this.LegsConstrainCondition(player,node);
 
-        if (node is GunFuExecute_Single_NodeLeaf gunFuExecuteNodeLeaf)
+        if (node is OCM_Execute_Single_NodeLeaf gunFuExecuteNodeLeaf)
         {
             if(gunFuExecuteNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
                 isEnableIK = false;

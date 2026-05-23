@@ -1,163 +1,44 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class AnimationTriggerEventPlayer 
+public class AnimationTriggerEventPlayer : TimelineTriggerEvent
 {
-    public float startTimer { get; protected set; }
-    public float timer { get; protected set; }
-    public float timerNormalized { get => timer/endTimer; }
-    public float endTimer { get; protected set; }
-    private AnimationTriggerEventDetail[] animationTriggerEventsDetails;
-    private Dictionary<AnimationTriggerEventDetail, bool> isAlreadyTrigger;
-    private Dictionary<AnimationTriggerEventDetail, Action> animationTriggerEventAction;
+    public float startTimer { get; private set; }
+    public float endTimer { get; private set; }
+    public AnimationClip animationClip { get; private set; }
+    public float enterNormalizedTime { get; private set; }
+    public float endNormalizedTime { get; private set; }
 
-    public AnimationClip animationClip { get; protected set; }
-
-    private int eventCount => animationTriggerEventsDetails.Length;
-
-    public float enterNormalizedTime;
-    public float endNormalizedTime;
-
-    //private AnimationTriggerEventSCRP animationTriggerEventSCRP;
-    public AnimationTriggerEventPlayer(AnimationTriggerEventSCRP animationTriggerEventSCRP) 
-        : this(animationTriggerEventSCRP.clip
-              , animationTriggerEventSCRP.enterNormalizedTime
-              , animationTriggerEventSCRP.endNormalizedTime
-              , animationTriggerEventSCRP.triggerEventDetail)
+    public AnimationTriggerEventPlayer(AnimationTriggerEventSCRP animationTriggerEventSCRP)
+        : this(animationTriggerEventSCRP.clip,
+               animationTriggerEventSCRP.enterNormalizedTime,
+               animationTriggerEventSCRP.endNormalizedTime,
+               animationTriggerEventSCRP.triggerEventDetail)
     {
-        
     }
-    public AnimationTriggerEventPlayer(AnimationClip animationClip,float enterNormalized,float endNormalized, AnimationTriggerEventDetail[] triggerEventDetail)
+
+    public AnimationTriggerEventPlayer(AnimationClip animationClip, float enterNormalized, float endNormalized,
+        AnimationTriggerEventDetail[] triggerEventDetail)
+        : base(animationClip.length, triggerEventDetail)
     {
         this.animationClip = animationClip;
         this.enterNormalizedTime = enterNormalized;
         this.endNormalizedTime = endNormalized;
-
         startTimer = animationClip.length * enterNormalized;
         endTimer = animationClip.length * endNormalized;
-
-        this.PopulateProperties(triggerEventDetail);
-
     }
 
-    private void PopulateProperties(AnimationTriggerEventDetail[] triggerEventDetail)
-    {
-        if (triggerEventDetail == null || triggerEventDetail.Length <= 0)
-            return;
+    public override void Rewind() => RewindAt(startTimer);
 
-        animationTriggerEventsDetails = new AnimationTriggerEventDetail[triggerEventDetail.Length];
-        isAlreadyTrigger = new Dictionary<AnimationTriggerEventDetail, bool>();
-        animationTriggerEventAction = new Dictionary<AnimationTriggerEventDetail, Action>();
+    public override bool IsPlayFinish() => timer >= endTimer;
 
-
-
-        for (int i = 0; i < triggerEventDetail.Length; i++)
-        {
-            animationTriggerEventsDetails[i] = triggerEventDetail[i];
-            isAlreadyTrigger.Add(animationTriggerEventsDetails[i], true);
-            animationTriggerEventAction.Add(animationTriggerEventsDetails[i], new Action(() => { }));
-
-        }
-    }
-    private void RewindPopulateProperties()
-    {
-        if(animationTriggerEventsDetails == null || animationTriggerEventsDetails.Length <= 0)
-            return;
-
-        for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
-        {
-            isAlreadyTrigger[animationTriggerEventsDetails[i]] = false;
-        }
-    }
-    private void UpdateProperties()
-    {
-        if(animationTriggerEventsDetails == null || animationTriggerEventsDetails.Length <= 0)
-            return;
-
-        for (int i = 0; i < animationTriggerEventsDetails.Length; i++)
-        {
-            if (isAlreadyTrigger[animationTriggerEventsDetails[i]])
-                continue;
-
-            if (timer >= animationTriggerEventsDetails[i].normalizedTime * animationClip.length)
-            {
-                animationTriggerEventAction[animationTriggerEventsDetails[i]].Invoke();
-                isAlreadyTrigger[animationTriggerEventsDetails[i]] = true;
-            }
-        }
-    }
-    public void Rewind()
-    {
-        timer = startTimer;
-        this.RewindPopulateProperties();
-       
-    }
-
-    public void UpdatePlay(float deltaTime)
-    {
-
-
-        if (this.IsPlayFinish())
-            return;
-
-        this.UpdateProperties();
-
-        timer += deltaTime;
-
-    }
-
-    public bool IsPlayFinish()
-    {
-        return timer >= endTimer;
-    }
-
-    public float GetRemapNormalizedTimer(float enterNormalized,float exitNormalized)
-    {
-        float normal = 0;
-
-        normal = (timer - (animationClip.length * enterNormalized)) /  ((animationClip.length * exitNormalized) - (animationClip.length * enterNormalized));
-
-        return normal;
-    }
-
-    public void SubscribeEvent(string eventName,Action subScribeEvent)
-    {
-        bool isFoundTheName = false;
-
-        for (int i = 0; i < animationTriggerEventsDetails.Length; i++) 
-        {
-            //Debug.Log("animationTriggerEventsDetails[i].eventName = "+ animationTriggerEventsDetails[i].eventName);
-            if (animationTriggerEventsDetails[i].eventName == eventName)
-            {
-                isFoundTheName = true;
-                animationTriggerEventAction[animationTriggerEventsDetails[i]] += subScribeEvent;
-            }
-        }
-
-        if(isFoundTheName == false)
-            Debug.LogWarning("Not found the name event = "+eventName);
-    }
-
-    public bool GetNormalizedTimeFromStateName(string stateName,out float normalizedTime)
+    // Kept for callers: EnemySpinKickGunFuNodeLeaf, AttackMoveMeleeWeaponNodeLeaf, QuickShootRangeWeaponNodeLeaf
+    public bool GetNormalizedTimeFromStateName(string stateName, out float normalizedTime)
     {
         normalizedTime = 0;
-
-        if(this.animationTriggerEventsDetails == null
-            || this.animationTriggerEventsDetails.Length <= 0)
+        if (animationTriggerEventsDetails == null || animationTriggerEventsDetails.Length <= 0)
             return false;
-
-        for(int i = 0;i < animationTriggerEventsDetails.Length; i++)
-        {
-            if (this.animationTriggerEventsDetails[i].eventName == stateName)
-            {
-                normalizedTime = this.animationTriggerEventsDetails[i].normalizedTime;
-                break;
-            }
-        }
-
+        normalizedTime = GetEventNormalizedTime(stateName);
         return true;
     }
 }

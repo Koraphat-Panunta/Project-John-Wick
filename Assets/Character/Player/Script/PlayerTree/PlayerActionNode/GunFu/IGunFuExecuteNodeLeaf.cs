@@ -1,5 +1,5 @@
 using UnityEngine;
-using static GunFuExecute_Single_NodeLeaf;
+using static OCM_Execute_Single_NodeLeaf;
 
 public interface IGunFuExecuteNodeLeaf : INodeLeaf,I_OCM_Node
 {

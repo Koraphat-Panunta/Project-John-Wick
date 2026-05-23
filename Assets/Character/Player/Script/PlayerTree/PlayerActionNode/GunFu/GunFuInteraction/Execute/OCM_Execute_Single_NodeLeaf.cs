@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class GunFuExecute_Single_NodeLeaf : 
+public class OCM_Execute_Single_NodeLeaf : 
     PlayerStateNodeLeaf
     , IGunFuExecuteNodeLeaf
     , IDamageVisitor
@@ -31,7 +31,7 @@ public class GunFuExecute_Single_NodeLeaf :
     public AnimationTriggerEventPlayer animationTriggerEventPlayer;
     public AnimationTriggerAudioEventPlayer audioTriggerEventPlayer;
 
-    public GunFuExecute_Single_NodeLeaf(
+    public OCM_Execute_Single_NodeLeaf(
         Player player
         , Func<bool> preCondition
         , AnimationInteractScriptableObject gunFuExecuteInteractSCRP
@@ -149,8 +149,8 @@ public class GunFuExecute_Single_NodeLeaf :
             _ = SubjectAnimationInteract.DelayRootMotion(character);
             curGunFuPhase = IGunFuExecuteNodeLeaf.GunFuExecutePhase.Interacting;
 
-        }
-         if(character == gotGunFuAttackedAble._character)
+        } 
+        if(character == gotGunFuAttackedAble._character)
         {
             //Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
             this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);

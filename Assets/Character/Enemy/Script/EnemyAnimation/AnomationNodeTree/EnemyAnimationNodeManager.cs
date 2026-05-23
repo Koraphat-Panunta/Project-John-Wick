@@ -17,6 +17,7 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationNodeLeaf gotKnockDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf gotMeleeExecuteAnimationNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
     public PlayAnimationNodeLeaf enemyEvadeNodeLeaf { get; set; }
@@ -60,6 +61,12 @@ public partial class EnemyAnimationManager : INodeManager
             ()=> this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
             && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotHitDownNodeLeaf
             ,this.animator,"GotHitedDown", 0,0);
+
+        this.gotMeleeExecuteAnimationNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
+            && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotMeleeExecuteNodeLeaf
+            , this.animator, "Got_MeleeExecute_I", 0, 0);
+
         this.painStateAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => (enemyStateManager.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             || this.enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
@@ -99,6 +106,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.startNodeSelector.AddtoChildNode(this.blockAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotParriedNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.meleeAttackMoveAnimationNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.gotMeleeExecuteAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotKnockDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);

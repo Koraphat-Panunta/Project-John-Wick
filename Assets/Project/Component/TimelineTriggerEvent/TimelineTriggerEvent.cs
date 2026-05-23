@@ -8,7 +8,7 @@ public class TimelineTriggerEvent
     public float timer { get; protected set; }
     public float timerNormalized { get => timer / timeDuration; }
     public virtual float timeDuration { get; protected set; }
-    private AnimationTriggerEventDetail[] animationTriggerEventsDetails;
+    protected AnimationTriggerEventDetail[] animationTriggerEventsDetails;
     private Dictionary<AnimationTriggerEventDetail, bool> isAlreadyTrigger;
     private Dictionary<AnimationTriggerEventDetail, Action> animationTriggerEventAction;
 
@@ -81,7 +81,7 @@ public class TimelineTriggerEvent
             }
         }
     }
-    public void Rewind()
+    public virtual void Rewind()
     {
         this.RewindAt(0);
     }
@@ -93,9 +93,6 @@ public class TimelineTriggerEvent
 
     public void UpdatePlay(float deltaTime)
     {
-
-
-
 
         this.UpdateProperties();
 
@@ -110,7 +107,7 @@ public class TimelineTriggerEvent
     {
         return timer >= timeDuration * endNormalized;
     }
-    public bool IsPlayFinish()
+    public virtual bool IsPlayFinish()
     {
         return this.IsPlayFinish(1);
     }
@@ -139,7 +136,7 @@ public class TimelineTriggerEvent
         }
 
         if (isFoundTheName == false)
-            Debug.LogError("Not found the name event = " + eventName);
+            Debug.LogWarning("Not found the name event = " + eventName);
     }
     public float GetEventNormalizedTime(string eventName)
     {

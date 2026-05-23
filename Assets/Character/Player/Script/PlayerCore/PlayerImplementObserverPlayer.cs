@@ -15,7 +15,7 @@ public partial class Player : IObserverPlayer
                     this.DrainStamina(this.playerStatsScriptableObject.HitStaminaDrain);
                     break;
                 }
-            case GunFuExecute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf:
+            case OCM_Execute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf:
                 {
                     if(gunFuExecute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
                     {

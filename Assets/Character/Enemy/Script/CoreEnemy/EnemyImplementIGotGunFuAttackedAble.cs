@@ -57,6 +57,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
     [SerializeField] public AnimationTriggerEventSCRP gotGunFuExecute_Single_Primary_ScriptableObject_II;
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Execute_OnGround_I;
+    [SerializeField] public AnimationTriggerEventSCRP gotMeleeExecute_SCRP;
     public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attacker)
     {
 
