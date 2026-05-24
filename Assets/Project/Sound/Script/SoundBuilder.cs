@@ -12,17 +12,20 @@ public class SoundBuilder
         this.position = pos;
         this.soundData = soundData;
     }
-    public void WithPosition(Vector3 position)
+    public SoundBuilder WithPosition(Vector3 position)
     {
         this.position = position;
+        return this;
     }
-    public void WithRotation(Quaternion rotation)
+    public SoundBuilder WithRotation(Quaternion rotation)
     {
-        this.rotation = rotation;   
+        this.rotation = rotation;
+        return this;
     }
-    public void WithSoundData(SoundData soundData)
+    public SoundBuilder WithSoundData(SoundData soundData)
     {
         this.soundData = soundData;
+        return this;
     }
     public void Play()
     {

@@ -36,7 +36,7 @@ public abstract class WeaponAudio : MonoBehaviour,IObserverRangeWeapon,IInitiali
     {
         if(coroutine != null)
         {
-            StopCoroutine(ReloadSoundEvent());
+            StopCoroutine(coroutine);
         }
         SoundEmitterManager.Instance.CreateSoundBuilder(this.weapon.bulletSpawner.transform.position, this.firingData).Play();
     }

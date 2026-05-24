@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
@@ -10,8 +8,6 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
     [SerializeField] private AudioClip dead;
     [SerializeField] private AudioClip footStep;
     [SerializeField] private Enemy enemy;
-   
-    bool isdead = false;
 
     public void Initialized()
     {
@@ -20,7 +16,7 @@ public class EnemyAudio : MonoBehaviour,IObserverEnemy,IInitializedAble
    
     private void OnDisable()
     {
-        GetComponent<Enemy>().RemoveObserver(this);
+        enemy.RemoveObserver(this);
     }
     private void Update()
     {

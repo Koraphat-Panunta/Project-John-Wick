@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationTriggerAudioEventPlayer 
@@ -7,7 +6,7 @@ public class AnimationTriggerAudioEventPlayer
     AnimationTriggerEventPlayer animationTriggerEventPlayer;
     AudioAnimationTriggerEvent[] audioAnimationTriggerEvents;
 
-    Dictionary<int, SoundData> soundData;
+    SoundData[] soundData;
 
     public Vector3 playSoundPos;
 
@@ -15,18 +14,18 @@ public class AnimationTriggerAudioEventPlayer
     {
         this.audioIndex = 0;
         this.audioAnimationTriggerEvents = audioAnimationTriggerEvents;
-        this.soundData = new Dictionary<int, SoundData>();
+        this.soundData = new SoundData[audioAnimationTriggerEvents.Length];
 
         AnimationTriggerEventDetail[] animationTriggerEventDetail = new AnimationTriggerEventDetail[audioAnimationTriggerEvents.Length];
 
-        for (int i = 0; i < audioAnimationTriggerEvents.Length; i++) 
+        for (int i = 0; i < audioAnimationTriggerEvents.Length; i++)
         {
             animationTriggerEventDetail[i] = new AnimationTriggerEventDetail
             {
                 normalizedTime = audioAnimationTriggerEvents[i].normalizedTime,
                 eventName = "Audio " + i
             };
-            this.soundData.Add(i, audioAnimationTriggerEvents[i].soundData);
+            this.soundData[i] = audioAnimationTriggerEvents[i].soundData;
         }
 
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(clip,enterNormalized,exitNormalized,animationTriggerEventDetail);

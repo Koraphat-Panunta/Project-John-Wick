@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour,IInitializedAble
     [SerializeField] private AudioListener audioListener;
     [SerializeField] private AudioSource globalAudioSource;
     private float settingVolume;
-    [SerializeField] private string curTrack;
+    private Camera _cachedCamera;
     // Start is called before the first frame update
     
     public void Initialized()
@@ -48,8 +48,6 @@ public class SoundManager : MonoBehaviour,IInitializedAble
         DynamicDataBased.Instance.settingDataScriptableObject.audioSetting.MasterVolume = value;
 
         this.audioMixer.SetFloat("MasterVolume", this.GetDecibel(value));
-        this.audioMixer.GetFloat("MasterVolume", out float v);
-        Debug.Log("Master V = " + v);
 
 
     }
@@ -84,12 +82,12 @@ public class SoundManager : MonoBehaviour,IInitializedAble
 
     private void LateUpdate()
     {
-        if (Camera.main != null)
+        Camera cam = Camera.main;
+        if (cam != _cachedCamera)
         {
-            this.audioListener.transform.SetParent(Camera.main.transform,false);
+            _cachedCamera = cam;
+            this.audioListener.transform.SetParent(cam != null ? cam.transform : null, false);
         }
-        else
-            this.audioListener.transform.SetParent(null);
     }
 
     

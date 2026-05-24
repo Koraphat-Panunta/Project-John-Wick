@@ -37,7 +37,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer,IInitializedAble
             footStepTiming += Time.deltaTime * timingRateWalk;
             if (footStepTiming >= 1)
             {
-                audioSource.clip = footsStep[Random.Range(0,footsStep.Length-1)];
+                audioSource.clip = footsStep[Random.Range(0, footsStep.Length)];
                 audioSource.Play();
                 footStepTiming = 0;
             }
@@ -48,7 +48,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer,IInitializedAble
             footStepTiming += Time.deltaTime * timingRateSprint;
             if (footStepTiming >= 1)
             {
-                audioSource.clip = footsStep[Random.Range(0, footsStep.Length - 1)];
+                audioSource.clip = footsStep[Random.Range(0, footsStep.Length)];
                 audioSource.Play();
                 footStepTiming = 0;
             }

@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[System.Serializable]
 public class SoundEmitter : MonoBehaviour
 {
     public AudioSource audioSource;
@@ -35,7 +34,7 @@ public class SoundEmitter : MonoBehaviour
 
     IEnumerator ReturnAudioEmitter()
     {
-        yield return new WaitWhile(()=> this.audioSource.isPlaying);
+        while (this.audioSource.isPlaying) yield return null;
         SoundEmitterManager.Instance.ReturnSoundEmitter(this);
         this.Clear();
         this.coroutine = null;
