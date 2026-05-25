@@ -153,7 +153,7 @@ public class OCM_Execute_Single_NodeLeaf :
         if(character == gotGunFuAttackedAble._character)
         {
             //Debug.Log("gotGunFuAttackedAble " + gotGunFuAttackedAble + " TakeGunFuAttacked ");
-            this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+            this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble, true);
 
             #region DebugPos
             //Debug.Log("Player anchor Distance pos = "

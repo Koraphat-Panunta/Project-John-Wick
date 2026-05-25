@@ -42,7 +42,7 @@ public class EnemyDropAbleObject : MonoBehaviour, IObserverEnemy, IInitializedAb
             isBeenExecute = true;
 
         if (node is EnemyDeadStateNode deadState
-            && deadState.curstate == EnemyStateLeafNode.Curstate.Enter
+            && deadState.curstate == NodePhase.Enter
             && !isAlreadyDrop)
         {
             if (isBeenExecute)

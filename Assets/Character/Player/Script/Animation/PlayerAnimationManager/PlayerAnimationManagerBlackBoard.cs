@@ -77,8 +77,8 @@ public partial class PlayerAnimationManager
 
             if (playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || nodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit))
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShield) && (humanShield.curPhase == PlayerStateNodeLeaf.NodePhase.Enter ))
+                || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf._curPhase == NodePhase.Enter || nodeLeaf._curPhase == NodePhase.Exit))
+                || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShield) && (humanShield._curPhase == NodePhase.Enter ))
                 || playerStateNodeMnager.TryGetCurNodeLeaf<HumanShieldExit_GunFu_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>()
                 || playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()

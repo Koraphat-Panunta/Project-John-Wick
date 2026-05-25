@@ -34,7 +34,7 @@ public class HumanShieldExit_GunFu_NodeLeaf :
             , this.gunFuAble._character.transform.position
             , this.gunFuAble._character.transform.forward);
 
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, player, true);
 
         gunFuAble._character.enableRootMotion = true;
         gotGunFuAttackedAble._character.enableRootMotion = true;
@@ -53,7 +53,7 @@ public class HumanShieldExit_GunFu_NodeLeaf :
     }
     public override bool IsReset()
     {
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         if(player.isDead)

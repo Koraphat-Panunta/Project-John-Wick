@@ -65,7 +65,7 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
         if(player.isDead)
             return true;
 
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         return IsComplete();

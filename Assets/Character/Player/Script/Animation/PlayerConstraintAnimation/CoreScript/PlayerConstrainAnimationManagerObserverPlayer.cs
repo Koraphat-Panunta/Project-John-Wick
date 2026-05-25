@@ -13,7 +13,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
 
         if (node is OCM_Execute_Single_NodeLeaf gunFuExecuteNodeLeaf)
         {
-            if(gunFuExecuteNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            if(gunFuExecuteNodeLeaf._curPhase == NodePhase.Exit)
                 isEnableIK = false;
         }
 
@@ -231,7 +231,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
     private void LegsConstrainCondition<T>(Player player,T obj) 
     { 
         if(obj is PlayerProneStateNodeLeaf proneStateNodeLeaf
-            && proneStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+            && proneStateNodeLeaf._curPhase == NodePhase.Enter)
         {
             this.proneLegsConstrainNodeLeaf.SetSCRP(this.proneLegsBlendingConstrainSCRP);
             this.proneLegsConstrainNodeLeaf.SetTransitionSpeed(50);

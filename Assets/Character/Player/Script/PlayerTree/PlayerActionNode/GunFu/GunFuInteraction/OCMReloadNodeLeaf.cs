@@ -71,7 +71,7 @@ public class OCMReloadNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.SubjectAnimationInteract1.RestartSubject(this.gunFuAble._character, anchorPos, anchorDir);
         this.SubjectAnimationInteract2.RestartSubject(this.gotGunFuAttackedAble._character, anchorPos, anchorDir);
 
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, true);
         this.animationTriggerEventPlayer.Rewind();
         this.audioAnimationTriggerEvent.Rewind();
 

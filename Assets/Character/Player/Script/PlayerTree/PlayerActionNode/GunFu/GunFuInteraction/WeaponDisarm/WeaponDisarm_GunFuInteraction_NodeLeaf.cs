@@ -81,7 +81,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
         if(player.isDead)
             return  true;
 
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         return IsComplete();
@@ -108,7 +108,7 @@ public class WeaponDisarm_GunFuInteraction_NodeLeaf : PlayerGunFu_Interaction_No
     private void Interact(Character character)
     {
         gunFuAble._character.enableRootMotion = true;
-        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+        gotGunFuAttackedAble.TakeGunFuAttacked(this, player, true);
     }
     private void Disarm()
     {

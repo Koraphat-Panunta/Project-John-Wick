@@ -95,7 +95,7 @@ public class GuardingDecisionNodeLeaf : NodeLeaf
         }
         
         if(node is BlockStateNodeLeaf blockStateNodeLeaf 
-            && blockStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
+            && blockStateNodeLeaf.curstate == NodePhase.Enter)
         {
             this._counterReactionRate = Mathf.Clamp
                (

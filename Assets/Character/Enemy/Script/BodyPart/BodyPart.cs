@@ -145,10 +145,10 @@ public abstract class BodyPart : MonoBehaviour
     public void SetBodyPartDamageRecivedSCRP(BodyPartDamageRecivedSCRP bodyPartDamageRecivedSCRP) => this.bodyPartDamageRecivedSCRP = bodyPartDamageRecivedSCRP;
 
     #region ImplementIGotGunFuAttackedAble
-    public bool _triggerHitedGunFu
+    public bool _triggerEnterGotAttacked_OCM
     {
-        get => this.enemy._triggerHitedGunFu;
-        set => this.enemy._triggerHitedGunFu = value;
+        get => this.enemy._triggerEnterGotAttacked_OCM;
+        set => this.enemy._triggerEnterGotAttacked_OCM = value;
     }
 
     public I_OCM_Node curAttackerGunFuNode
@@ -177,9 +177,9 @@ public abstract class BodyPart : MonoBehaviour
 
     public bool _isGotAttackedAble { get => this.enemy._isGotAttackedAble; set { } }
     public bool _isGotExecutedAble { get => this.enemy._isGotExecutedAble; set { } }
-    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attackerPos)
+    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attackerPos, bool isTriggerEnterGotAttack_OCM)
     {
-        this.enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos);
+        this.enemy.TakeGunFuAttacked(gunFu_NodeLeaf, attackerPos,isTriggerEnterGotAttack_OCM);
         
     }
     #endregion

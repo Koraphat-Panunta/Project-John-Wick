@@ -11,7 +11,7 @@ public class OnEnemyActorDeadEvent : VirtualEventNode, IObserverActor
     {
         if(actor is EnemyActor
             && var is EnemyDeadStateNode enenmyDead
-            && enenmyDead.curstate == EnemyStateLeafNode.Curstate.Enter)
+            && enenmyDead.curstate == NodePhase.Enter)
         {
             Execute();
         }

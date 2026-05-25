@@ -86,7 +86,7 @@ public class DodgingDecisionNodeLeaf : NodeLeaf
             case EnemyDodgeStateNodeLeaf enemyDodgeStateNodeLeaf:
                 {
                     if(enemyDodgeStateNodeLeaf == this._enemy.enemyStateManagerNode.enemyDodgeRollStateNodeLeaf 
-                        && enemyDodgeStateNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Exit)
+                        && enemyDodgeStateNodeLeaf.curstate == NodePhase.Exit)
                         this.dodgeCoolDownTimer = Random.Range(_minCoolDown, _maxCoolDown);
                 }break;
         }

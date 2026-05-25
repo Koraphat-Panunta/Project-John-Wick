@@ -244,7 +244,7 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         }
 
         if(node is PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf
-            && dodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+            && dodgeRollStateNodeLeaf._curPhase == NodePhase.Enter)
             this.dodgeNodeLeaf.TriggerReset();
     }
 

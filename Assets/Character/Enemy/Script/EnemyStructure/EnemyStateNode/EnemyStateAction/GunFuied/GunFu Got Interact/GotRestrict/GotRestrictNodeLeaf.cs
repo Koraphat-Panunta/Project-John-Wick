@@ -62,7 +62,7 @@ public class GotRestrictNodeLeaf : EnemyStateLeafNode,IGotGunFuAttackNode
         if (IsComplete())
             return true;
 
-        if(enemy._triggerHitedGunFu)
+        if(enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         if (enemy.isDead)

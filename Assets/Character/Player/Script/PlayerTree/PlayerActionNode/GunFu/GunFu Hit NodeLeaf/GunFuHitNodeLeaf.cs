@@ -141,7 +141,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
                     , IMotionImplusePushAble.PushMode.IgnoreMomentum);
 
                 curPhaseGunFuHit = GunFuPhaseHit.Attacking;
-                targets[i].TakeGunFuAttacked(this, gunFuAble);
+                targets[i].TakeGunFuAttacked(this, gunFuAble, true);
                 this.gotAttackedAlready.Add(targets[i]);
                 //Debug.Log("PlayerNotufyHit");
                 player.NotifyObserver(player, this);
@@ -220,7 +220,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
     public override bool IsReset()
     {
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         if(IsComplete())

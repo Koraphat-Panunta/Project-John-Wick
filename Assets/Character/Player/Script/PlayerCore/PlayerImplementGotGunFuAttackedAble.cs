@@ -3,7 +3,7 @@ using UnityEngine;
 public partial class Player: I_Got_OCM_Attacked_Able
 {
     #region InitializedGotAttackedGunFu
-    public bool _triggerHitedGunFu { get; set; }
+    public bool _triggerEnterGotAttacked_OCM { get; set; }
     public I_OCM_Node curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get => (playerStateNodeManager as INodeManager).GetCurNodeLeaf(); set => (playerStateNodeManager as INodeManager).SetCurNodeLeaf(value); }
     public I_OCM_Attack_Able gunFuAbleAttacker { get; set; }
@@ -33,9 +33,9 @@ public partial class Player: I_Got_OCM_Attacked_Able
 
 
     //public Character _character { get => this; }
-    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able gunFuAble)
+    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able gunFuAble, bool isTriggerEnterGotAttack_OCM)
     {
-        _triggerHitedGunFu = true;
+        _triggerEnterGotAttacked_OCM = isTriggerEnterGotAttack_OCM;
         gunFuAbleAttacker = gunFuAble;
         curAttackerGunFuNode = gunFu_NodeLeaf;
     }

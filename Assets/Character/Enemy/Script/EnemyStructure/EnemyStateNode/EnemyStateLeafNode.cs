@@ -6,12 +6,8 @@ public class EnemyStateLeafNode : EnemyStateNode, INodeLeaf
     public List<Func<bool>> isReset { get; set ; }
     public NodeLeafBehavior nodeLeafBehavior { get; set ; }
     public virtual bool isComplete { get; protected set ; }
-    public enum Curstate
-    {
-        Enter,
-        Exit,   
-    }
-    public Curstate curstate { get; protected set ; }
+    
+    public NodePhase curstate { get; protected set ; }
 
     public EnemyStateLeafNode(Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
     {
@@ -22,13 +18,13 @@ public class EnemyStateLeafNode : EnemyStateNode, INodeLeaf
     public virtual void Enter()
     {
         isComplete = false;
-        curstate = Curstate.Enter;
+        curstate = NodePhase.Enter;
         enemy.NotifyObserver(enemy, this);
     }
 
     public virtual void Exit()
     {
-        curstate = Curstate.Exit;
+        curstate = NodePhase.Exit;
         enemy.NotifyObserver(enemy, this);
     }
 

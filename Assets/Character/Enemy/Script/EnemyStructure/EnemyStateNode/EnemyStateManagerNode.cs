@@ -179,13 +179,13 @@ public partial class EnemyStateManagerNode : INodeManager
         this.gotHitDownNodeLeaf = new GotGunFuInteractingNodeLeaf(
             this.enemy
             ,this.enemy.gotHitDown_ScriptableObject,
-            ()=> this.enemy._triggerHitedGunFu 
+            ()=> this.enemy._triggerEnterGotAttacked_OCM 
             && this.enemy.curAttackerGunFuNode is GunFuHitDownNodeLeaf);
         this.painStateGotHitDownNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy, 
             () => true
             , this.enemy.animator, 3);
         gotExecuteOnGroundSelector = new NodeSelector(
-            () => this.enemy._triggerHitedGunFu 
+            () => this.enemy._triggerEnterGotAttacked_OCM 
             && enemy.curAttackerGunFuNode is IGunFuExecuteNodeLeaf);
         gotExecute_OnGround_I_NodeLeaf = new GotExecuteOnGround_NodeLeaf(this.enemy
             ,this.enemy.gotGunFu_Execute_OnGround_I
@@ -247,9 +247,9 @@ public partial class EnemyStateManagerNode : INodeManager
         gotGunFuAttackSelector = new NodeSelector( 
             () => 
             {
-                Debug.Log("gotGunFuAttackSelector trigger hit = " + this.enemy._triggerHitedGunFu);
+                
                  
-                if (this.enemy._triggerHitedGunFu)
+                if (this.enemy._triggerEnterGotAttacked_OCM)
                 {
                     
                     return true;

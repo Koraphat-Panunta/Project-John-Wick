@@ -71,7 +71,7 @@ public class EnemyDirector :
         if (node is EnemyStateLeafNode enemyStateNode)
             switch (enemyStateNode)
             {
-                case EnemyDeadStateNode deadNode when deadNode.curstate == EnemyStateLeafNode.Curstate.Enter:
+                case EnemyDeadStateNode deadNode when deadNode.curstate == NodePhase.Enter:
                     RemoveEnemy(enemy);
                     elapseTimeChaserChange = chaserChangeDelay;
                     RecalculateRoleCounts();

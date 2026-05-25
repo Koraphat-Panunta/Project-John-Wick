@@ -96,7 +96,7 @@ public class EnemyWaveManager : Actor,IObserverEnemy
     }
     public void OnNotify<T>(Enemy enemy, T node) 
     {
-        if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == EnemyStateLeafNode.Curstate.Enter)
+        if (node is EnemyDeadStateNode deadStateNode && deadStateNode.curstate == NodePhase.Enter)
         {
             enemies.Remove(enemy);
             enemy.RemoveObserver(this);

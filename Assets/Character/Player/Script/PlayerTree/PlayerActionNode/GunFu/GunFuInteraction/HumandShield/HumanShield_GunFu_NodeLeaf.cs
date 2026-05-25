@@ -99,7 +99,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
         if(player.isDead)
             return true;
 
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         return false;
@@ -172,7 +172,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
     private void Interact(Character character)
     {
         this.gunFuAble._character.enableRootMotion = true;
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, true);
     }
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
    

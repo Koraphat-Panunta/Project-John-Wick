@@ -64,7 +64,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
             if (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
                 ignoreBulletChance = 0.25f;
 
-            if (restrictNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            if (restrictNodeLeaf._curPhase == NodePhase.Exit)
                 ignoreBulletChance = 0;
         }
 
@@ -74,7 +74,7 @@ public class PlayerBulletDamageAbleBehavior : IBulletDamageAble,IObserverPlayer
             if(humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
                 ignoreBulletChance = 0.5f;
 
-            if(humanShield_GunFuInteraction_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            if(humanShield_GunFuInteraction_NodeLeaf._curPhase == NodePhase.Exit)
                 ignoreBulletChance = 0;
         }
            

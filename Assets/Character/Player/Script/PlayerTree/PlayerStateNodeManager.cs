@@ -116,7 +116,6 @@ public class PlayerStateNodeManager :
             () =>
             this.player.triggerDodgeRoll
             && this.player.inputMoveDir_World.magnitude > 0
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain)
             );
         vaultingNodeLeaf = new VaultingNodeLeaf(player,
             () => player._isParkourCommand && player.isSprint, player._movementCompoent, player.vaultingScrp);
@@ -153,20 +152,16 @@ public class PlayerStateNodeManager :
             () => this.player.triggerDodgeRoll);
 
         this.obstacleJumpDolphinDiveNodeLeaf = new ObstacleJumpDolphinDiveNodeLeaf(this.player
-            , () => true
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
+            , () => true);
 
         this.wallJumpReversDolphinDiveNodeLeaf = new WallJumpReversDolphinDiveNodeLeaf(this.player
-            ,()=> true
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
+            ,()=> true);
 
         this.wallJumpForwardDolphinDiveNodeLeaf = new WallJumpForwardDolphinDiveNodeLeaf(this.player
-            , () => true
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
+            , () => true);
 
         this.playerDolphinDiveStateNodeLeaf = new PlayerDolphinDiveStateNodeLeaf(this.player
-            , () => true
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dolphinDiveStaminaDrain));
+            , () => true);
 
    
         playerStandMoveNode = new PlayerStandMoveNodeLeaf(this.player,
@@ -210,7 +205,7 @@ public class PlayerStateNodeManager :
             );
 
         PainStateSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, 
-            () => player._triggerHitedGunFu);
+            () => player._triggerEnterGotAttacked_OCM);
         playerBrounceOffNodeLeaf = new PlayerBrounceOffNodeLeaf( this.player,
             () => true);
 
@@ -311,8 +306,7 @@ public class PlayerStateNodeManager :
         this.triggerHitGunFuSelector = new NodeSelector(
             () =>this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false
-            && (this.player._triggerAttack || player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain));
+            && (this.player._triggerAttack || player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack))));
         this.hitDownNodeLeaf = new GunFuHitDownNodeLeaf(this.player,this.player.gunFuHitDownScriptableObject,this.player.hit1
             ,() =>  this.player.attackedAbleGunFu != null
             && this.player._triggerAttack
@@ -320,17 +314,13 @@ public class PlayerStateNodeManager :
             && this.player.attackedAbleGunFu._character.isDead == false);
 
         this.hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
-            () => true 
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.dodgeStaminaDrain)
-            //&& this.player.attackedAbleGunFu != null
-            //&& this.player.attackedAbleGunFu._character.isDead == false
+            () => true
             , this.player.hit1);
 
         this.ocmKnockDownNodeLeaf = new OCM_KnockDown_NodeLeaf(this.player,
             () => this.player.attackedAbleGunFu != null
             &&( this.player.isTriggerCrouchStand || this.player.commandBufferManager.TryGetCommand(nameof(this.player.isTriggerCrouchStand)))
             && this.player.attackedAbleGunFu.CanTakeAttack(this.ocmKnockDownNodeLeaf)
-            && this.player.staminaGauge._gauge > 0
             ,this.player.ocmKnockDownScripatableObject
             );
 
@@ -338,7 +328,6 @@ public class PlayerStateNodeManager :
             () => this.player.attackedAbleGunFu != null
             && (this.player._isReloadCommand || this.player.commandBufferManager.TryGetCommand(nameof(this.player._isReloadCommand)))
             && this.player.attackedAbleGunFu._character.isDead == false
-            && this.player.staminaGauge._gauge > 0
             ,this.player.gunFuReloadScripatableObject
             );
 
@@ -348,12 +337,9 @@ public class PlayerStateNodeManager :
                 if (player._isAimingCommand
                 && this.player.attackedAbleGunFu != null
                 && this.player.attackedAbleGunFu.CanTakeAttack(this.restrainGunFuStateNodeLeaf)
-                && this.player.attackedAbleGunFu._character.stance != Stance.prone)
-                {
-                    if (player._currentWeapon != null
-                    && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.restrainHumanShieldStaminaDrain))
-                        return true;
-                }
+                && this.player.attackedAbleGunFu._character.stance != Stance.prone
+                && player._currentWeapon != null)
+                    return true;
                 return false;
             });
 
@@ -363,7 +349,6 @@ public class PlayerStateNodeManager :
             && this.player.attackedAbleGunFu._character.stance != Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false
             && this.player.attackedAbleGunFu.CanTakeAttack(this.humanShield_GunFuInteraction_NodeLeaf)
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.restrainHumanShieldStaminaDrain)
             , this.player.humanShieldSCRP
             ,this.player.humanShieldTargetAdjustTransform);
 
@@ -371,29 +356,25 @@ public class PlayerStateNodeManager :
             ,this.player.humanShield_Exit_SCRP
             ,() => true);
         
-        Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
+        Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
             () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.stance != Stance.prone
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain)
             , this.player.hit2);
-        Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player, 
-            () => 
+        Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+            () =>
             {
-
-                if((this.player._triggerAttack 
+                if((this.player._triggerAttack
                 || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
                 && this.player.attackedAbleGunFu != null
-                && this.player.attackedAbleGunFu._character.stance != Stance.prone
-                && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain))
+                && this.player.attackedAbleGunFu._character.stance != Stance.prone)
                     return true;
 
                 else return false;
-            } 
+            }
         , this.player.hit3);
         dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
             () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
-            && this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain)
        , player.dodgeSpinKick);
 
         this.meleeExecuteNodeLeaf_I = new MeleeExecute_NodeLeaf(player,
@@ -406,10 +387,6 @@ public class PlayerStateNodeManager :
                 Debug.Log("meleeExecuteNodeLeaf_I 2");
                 if (this.player.attackedAbleGunFu == null
                 || this.player.attackedAbleGunFu.CanTakeAttack(this.meleeExecuteNodeLeaf_I) == false)
-                    return false;
-
-                Debug.Log("meleeExecuteNodeLeaf_I 3");
-                if (this.player.staminaGauge.CompareValue_Greater_Equal_ThanGauge(this.player.playerStatsScriptableObject.HitStaminaDrain) == false)
                     return false;
 
                 IHPDamageVisitor damagedCheck = this.hit1gunFuNodeLeaf;
@@ -528,7 +505,6 @@ public class PlayerStateNodeManager :
 
     #region NodeComponent
     public RegenarateGaugeNodeLeaf regenarateHPNodeLeaf;
-    public RegenarateGaugeNodeLeaf regenarateStaminaNodeLeaf;
     public RegenarateGaugeNodeLeaf regenarateExecuteGaugeNodeLeaf;
     private void InitializedNodeComponent()
     {
@@ -541,20 +517,6 @@ public class PlayerStateNodeManager :
             ,20);
         this.regenarateHPNodeLeaf.SubcribeNotifyBack(this);
 
-        this.regenarateStaminaNodeLeaf = new RegenarateGaugeNodeLeaf
-            (
-            ()=> this.player.staminaGauge._gauge < this.player.staminaGauge.maxGauge
-            && (
-            (this as INodeManager).GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf
-            || (this as INodeManager).GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf
-            || (this as INodeManager).GetCurNodeLeaf() is GunFuHitDownNodeLeaf
-            || (this as INodeManager).GetCurNodeLeaf() is OCMReloadNodeLeaf
-            ) == false
-            ,this.player.staminaGauge
-            ,this.player.staminaGauge.maxGauge
-            ,50
-            );
-
         this.regenarateExecuteGaugeNodeLeaf = new RegenarateGaugeNodeLeaf
             (
             () => true,
@@ -565,7 +527,6 @@ public class PlayerStateNodeManager :
 
 
         this._nodeComponentManager.AddNode(this.regenarateHPNodeLeaf);
-        this._nodeComponentManager.AddNode(this.regenarateStaminaNodeLeaf);
         this._nodeComponentManager.AddNode(this.regenarateExecuteGaugeNodeLeaf);
     }
     #endregion

@@ -40,7 +40,7 @@ public class BlockStateNodeLeaf : EnemyStateLeafNode
         if(enemy._isPainTrigger)
             return true;
 
-        if(enemy._triggerHitedGunFu)
+        if(enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         return IsComplete();

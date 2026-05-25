@@ -74,7 +74,7 @@ public class GotGunFuHitNodeLeaf : EnemyStateLeafNode
             return true;
 
         if(this.enemy._isPainTrigger
-            ||this.enemy._triggerHitedGunFu)
+            ||this.enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         return false;

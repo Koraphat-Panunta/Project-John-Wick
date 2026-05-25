@@ -12,6 +12,9 @@ public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
+    public bool triggerReset;
+
+
     public GotGunFuInteractingNodeLeaf(Enemy enemy,AnimationTriggerEventSCRP animationTriggerEventSCRP, Func<bool> preCondition) : base(enemy, preCondition)
     {
         this.transitionAbleNode = new Dictionary<INode, bool>();
@@ -20,6 +23,8 @@ public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode
     }
     public override void Enter()
     {
+        this.triggerReset = false;
+
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.codeDrivenMotionState)
         {
             enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
@@ -31,6 +36,7 @@ public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode
     }
     public override void Exit()
     {
+        this.triggerReset = false;
         this.enemy.enableRootMotion = false;
         base.Exit();
     }
@@ -51,8 +57,14 @@ public class GotGunFuInteractingNodeLeaf : EnemyStateLeafNode
     }
     public override bool IsReset()
     {
+
+        if (this.enemy._triggerEnterGotAttacked_OCM)
+            return true;
+
         return IsComplete();
     }
+
+    public void TriggerReset() => this.triggerReset = true;
 
     public bool TransitioningCheck() => this.nodeLeafTransitionBehavior.TransitioningCheck(this);
     public void AddTransitionNode(INode node) => this.nodeLeafTransitionBehavior.AddTransistionNode(this, node);

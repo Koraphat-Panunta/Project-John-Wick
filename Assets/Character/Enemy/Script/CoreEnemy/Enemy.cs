@@ -135,6 +135,8 @@ public partial class Enemy : SubjectEnemy
 
                     gunFuHitDownNodeLeaf.OnNotifyFeedBackVisitor(this);
 
+
+                    this.NotifyObserver(this, damageVisitor);
                     return;
                 }
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
@@ -151,6 +153,9 @@ public partial class Enemy : SubjectEnemy
                             this.guardGauge.AddGauge(- gunFuHitNodeLeaf._hPDamage);
                             this._triggerBlock = true;
                             gunFuHitNodeLeaf.OnNotifyFeedBackVisitor(this);
+
+                            this.NotifyObserver(this, damageVisitor);
+
                             return;
                         }
 
@@ -202,7 +207,7 @@ public partial class Enemy : SubjectEnemy
 
         damageVisitor.OnNotifyFeedBackVisitor(this);
 
-
+        this.NotifyObserver(this, damageVisitor);
     }
    
     private void BlackBoardUpdate()
@@ -227,7 +232,7 @@ public partial class Enemy : SubjectEnemy
         _isAimingCommand = false;
         _isReloadCommand = false;
         _isPainTrigger = false;
-        _triggerHitedGunFu = false;
+        _triggerEnterGotAttacked_OCM = false;
         _isPickingUpWeaponCommand = false;
         _isPullTriggerCommand = false;
         _triggerAttack = false;

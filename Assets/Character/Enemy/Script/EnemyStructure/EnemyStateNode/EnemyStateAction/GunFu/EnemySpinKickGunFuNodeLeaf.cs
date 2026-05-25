@@ -22,6 +22,8 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
   
     public MeleeAttackingPhase curPhaseGunFuHit { get; protected set; }
 
+    public NodePhase _curPhase => this.curstate;
+
     protected float beginMoveNormalizedTime;
     protected float finishMoveWarpPos;
 
@@ -102,7 +104,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
                             if (this.alreadyHittarget.ContainsKey(target) == false)
                             {
                                 this.alreadyHittarget.Add(target, true);
-                                target.TakeGunFuAttacked(this, enemy);
+                                target.TakeGunFuAttacked(this, enemy,true);
                                 this.enemy.NotifyObserver(enemy, this);
                             }
                         }

@@ -49,7 +49,7 @@ public class GotParriedNodeLeaf : EnemyStateLeafNode, IGotParriedNode
             return true;
 
         if (this.enemy._isPainTrigger
-            || this.enemy._triggerHitedGunFu)
+            || this.enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         return this.IsComplete();

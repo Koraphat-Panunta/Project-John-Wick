@@ -393,7 +393,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ) == false
             &&
             (this.playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf
-            && (restrainGunFuStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter || restrainGunFuStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+            && (restrainGunFuStateNodeLeaf._curPhase == NodePhase.Enter || restrainGunFuStateNodeLeaf._curPhase == NodePhase.Exit)
             ) == false
             );
         this.headConstraintRestNodeLeaf = new RestNodeLeaf(() => true);

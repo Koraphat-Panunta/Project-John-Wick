@@ -135,7 +135,7 @@ public partial class Player : SubjectPlayer,
 
         this.commandBufferManager.CommandBufferProcess();
 
-        _triggerHitedGunFu = false;
+        _triggerEnterGotAttacked_OCM = false;
         debugIsIFrame = (this as I_IFrameAble)._isIFrame;
     }
     [SerializeField] bool debugIsIFrame;
@@ -167,7 +167,7 @@ public partial class Player : SubjectPlayer,
         {
             case MeleeWeapon meleeWeapon:
                 {
-                    this._triggerHitedGunFu = true;
+                    this._triggerEnterGotAttacked_OCM = true;
 
                     Vector3 rotateDir = (meleeWeapon.transform.position - this.playerMovement.curPosition).normalized;
                     rotateDir = new Vector3(rotateDir.x,0, rotateDir.z).normalized;

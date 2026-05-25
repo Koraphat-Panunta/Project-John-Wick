@@ -61,7 +61,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf
         curRestrictGunFuPhase = RestrictGunFuPhase.Enter;
         isRestrictExitHit = false;
         gotGunFuAttackedAble._character._movementCompoent.CancleMomentum();
-        gotGunFuAttackedAble.TakeGunFuAttacked(this, player);
+        gotGunFuAttackedAble.TakeGunFuAttacked(this, player, true);
         player.NotifyObserver(player, this);
         base.Enter();
     }
@@ -91,7 +91,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf
         if (player.isDead)
             return true;
 
-        if(player._triggerHitedGunFu)
+        if(player._triggerEnterGotAttacked_OCM)
             return true;
 
         return false;

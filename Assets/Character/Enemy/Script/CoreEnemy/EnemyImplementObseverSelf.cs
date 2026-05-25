@@ -6,7 +6,7 @@ public partial class Enemy : IObserverEnemy
     public void OnNotify<T>(Enemy enemy, T node)
     {
         if (enemy._isPainTrigger
-            || enemy._triggerHitedGunFu)
+            || enemy._triggerEnterGotAttacked_OCM)
         {
           
 
@@ -31,10 +31,9 @@ public partial class Enemy : IObserverEnemy
         }
         switch (node)
         {
-
             case HumanShield_Exit_GotInteract_NodeLeaf gotHumanShieldExitNodeLeaf:
                 {
-                    if (gotHumanShieldExitNodeLeaf.curstate == EnemyStateLeafNode.Curstate.Enter)
+                    if (gotHumanShieldExitNodeLeaf.curstate == NodePhase.Enter)
                         enemy._posture = 0;
                     break;
                 }

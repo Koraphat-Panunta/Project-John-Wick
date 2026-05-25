@@ -5,7 +5,7 @@ using static EnemyBodyBulletDamageAbleBehavior;
 public partial class Enemy : I_Got_OCM_Attacked_Able
 {
     #region ImplementGunFuGotHitAble
-    public bool _triggerHitedGunFu { get; set; }
+    public bool _triggerEnterGotAttacked_OCM { get; set; }
     public I_OCM_Attack_Able gunFuAbleAttacker { get; set; }
     public I_OCM_Node curAttackerGunFuNode { get; set; }
     public IDamageAble _damageAble { get => this; set { } }
@@ -58,7 +58,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
 
     [SerializeField] public AnimationTriggerEventSCRP gotGunFu_Execute_OnGround_I;
     [SerializeField] public AnimationTriggerEventSCRP gotMeleeExecute_SCRP;
-    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attacker)
+    public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attacker,bool isTriggerEnterGotAttack_OCM)
     {
 
         if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
@@ -86,11 +86,13 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
             this.NotifyObserver<CharacterHitedEventDetail>(this, characterHitedEventDetail);
 
         }
-
-        _triggerHitedGunFu = true;
         this.curAttackerGunFuNode = gunFu_NodeLeaf;
         Debug.Log("this.curAttackerGunFuNode = "+ gunFu_NodeLeaf);
         gunFuAbleAttacker = attacker;
+
+        this._triggerEnterGotAttacked_OCM = isTriggerEnterGotAttack_OCM;
+
+
         TakeDamage(gunFu_NodeLeaf);
     }
 

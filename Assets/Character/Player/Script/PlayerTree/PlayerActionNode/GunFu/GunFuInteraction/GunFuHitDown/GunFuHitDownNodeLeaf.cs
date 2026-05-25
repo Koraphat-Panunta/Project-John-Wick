@@ -79,7 +79,7 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
         this.SubjectAnimationInteract2.RestartSubject(this.gotGunFuAttackedAble._character, anchorPos, anchorDir);
 
         this.gunFuHitDownPhase = GunFuHitDownPhase.Restrain;
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, true);
 
         this.animationTriggerEventPlayer.Rewind();
         this.animationTriggerAudioEventPlayer.Rewind();
@@ -116,13 +116,13 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     protected void Hit()
     {
         this.gunFuHitDownPhase = GunFuHitDownPhase.Attack;
-        base.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        base.gotGunFuAttackedAble._damageAble.TakeDamage(this);
         this.player.NotifyObserver(this.player,this);
     }
     protected void PullUp()
     {
         this.gunFuHitDownPhase = GunFuHitDownPhase.PullUp;
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this,this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, false);
         this.player.NotifyObserver(this.player, this);
     }
 

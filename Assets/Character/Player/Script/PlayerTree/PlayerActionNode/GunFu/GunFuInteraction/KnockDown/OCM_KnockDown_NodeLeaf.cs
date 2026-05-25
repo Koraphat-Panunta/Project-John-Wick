@@ -72,7 +72,7 @@ public class OCM_KnockDown_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf,IHPDamage
         this.SubjectAnimationInteract2.RestartSubject(this.gotGunFuAttackedAble._character, anchorPos, anchorDir);
 
 
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, true);
         this.animationTriggerEventPlayer.Rewind();
         this.audioAnimationTriggerEvent.Rewind();
 
@@ -124,7 +124,7 @@ public class OCM_KnockDown_NodeLeaf : PlayerGunFu_Interaction_NodeLeaf,IHPDamage
     public void KnockDown()
     {
         this.curKnockDownPhase = KnockDownPhase.TriggerKnockDown;
-        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble);
+        this.gotGunFuAttackedAble.TakeGunFuAttacked(this, this.gunFuAble, false);
         this.player.NotifyObserver(this.player, this.curKnockDownPhase);
     }
 }

@@ -129,7 +129,7 @@ public class MeleeExecute_NodeLeaf :
         }
         if (character == gotGunFuAttackedAble._character)
         {
-            this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble);
+            this.gotGunFuAttackedAble.TakeGunFuAttacked(this, gunFuAble, true);
         }
     }
 

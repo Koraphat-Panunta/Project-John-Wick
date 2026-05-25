@@ -100,7 +100,7 @@ public class HumandShield_GotInteract_NodeLeaf : EnemyStateLeafNode, IGotGunFuAt
 
     public override bool IsReset()
     {
-        if (enemy._triggerHitedGunFu)
+        if (enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         if (enemy.gunFuAbleAttacker.curGunFuNode 

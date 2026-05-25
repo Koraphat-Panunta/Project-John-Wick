@@ -11,18 +11,16 @@ public partial class Player : IObserverPlayer
         {
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
-                    if(gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
-                    this.DrainStamina(this.playerStatsScriptableObject.HitStaminaDrain);
                     break;
                 }
             case OCM_Execute_Single_NodeLeaf gunFuExecute_Single_NodeLeaf:
                 {
-                    if(gunFuExecute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                    if(gunFuExecute_Single_NodeLeaf._curPhase == NodePhase.Enter)
                     {
                         this.executeGauge.SetGauge(0);
                     }
 
-                    if(gunFuExecute_Single_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                    if(gunFuExecute_Single_NodeLeaf._curPhase == NodePhase.Exit)
                     {
                         secondaryExecuteGunFuRandomNumber.UpdateGunFuNumber();
                         primaryExecuteGunFuRandomNumber.UpdateGunFuNumber();
@@ -34,10 +32,8 @@ public partial class Player : IObserverPlayer
                 }
             case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
-
                     if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
                     {
-                        this.DrainStamina(this.playerStatsScriptableObject.restrainHumanShieldStaminaDrain);
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
                     }
 
@@ -45,10 +41,8 @@ public partial class Player : IObserverPlayer
                 }
             case HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf:
                 {
-
                     if (humanShield_GunFuInteraction_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
                     {
-                        this.DrainStamina(this.playerStatsScriptableObject.restrainHumanShieldStaminaDrain);
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
                     }
 
@@ -60,10 +54,6 @@ public partial class Player : IObserverPlayer
                 }
             case PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf:
                 {
-                    if(playerDolphinDiveStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
-                    {
-                        this.DrainStamina(this.playerStatsScriptableObject.dolphinDiveStaminaDrain);
-                    }
                     break;
                 }
             case PlayerGetUpStateNodeLeaf playerGetUpStateNodeLeaf: 
@@ -74,11 +64,10 @@ public partial class Player : IObserverPlayer
                 {
                     break;
                 }
-            case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf: 
+            case PlayerDodgeRollStateNodeLeaf playerDodgeRollStateNodeLeaf:
                 {
-                    if(playerDodgeRollStateNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                    if(playerDodgeRollStateNodeLeaf._curPhase == NodePhase.Enter)
                     {
-                        this.DrainStamina(this.playerStatsScriptableObject.dodgeStaminaDrain);
                         TriggerIFrame(0.45f);
                         NotifyObserver(player, SubjectPlayer.NotifyEvent.TriggerIframe);
                     }
@@ -93,12 +82,6 @@ public partial class Player : IObserverPlayer
             TriggerIFrame(1);
         }
 
-    }
-
-    private void DrainStamina(float value)
-    {
-        this.staminaGauge.AddGauge(-value);
-        this.playerStateNodeManager.regenarateStaminaNodeLeaf.SetDelay(this.playerStatsScriptableObject.delayStaminaDrain);
     }
 
 

@@ -123,7 +123,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
         {
            case IGunFuExecuteNodeLeaf gunFuExecute_NodeLeaf:
                     {
-                        if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf)._curPhase == NodePhase.Enter)
                         {
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraExecute_Single_SCRP);
                             this.isPerformGunFu = true;
@@ -134,7 +134,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
-                        else if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        else if ((gunFuExecute_NodeLeaf as PlayerStateNodeLeaf)._curPhase == NodePhase.Exit)
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == gunFuExecute_NodeLeaf)
@@ -189,7 +189,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);
                         }
 
-                        if(gunFuHitDownNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        if(gunFuHitDownNodeLeaf._curPhase == NodePhase.Exit)
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == gunFuHitDownNodeLeaf)
@@ -199,7 +199,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     }
             case OCMReloadNodeLeaf gunFuReloadNodeLeaf:
                     {
-                        if (gunFuReloadNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        if (gunFuReloadNodeLeaf._curPhase == NodePhase.Enter)
                         {
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
                             this.isPerformGunFu = true;
@@ -210,7 +210,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
-                        if(gunFuReloadNodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        if(gunFuReloadNodeLeaf._curPhase == NodePhase.Exit)
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == gunFuReloadNodeLeaf)
@@ -220,7 +220,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     }
             case OCM_KnockDown_NodeLeaf oCM_KnockDown_NodeLeaf:
                     {
-                        if (oCM_KnockDown_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                        if (oCM_KnockDown_NodeLeaf._curPhase == NodePhase.Enter)
                         {
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
                             this.isPerformGunFu = true;
@@ -231,7 +231,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
-                        if (oCM_KnockDown_NodeLeaf.curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                        if (oCM_KnockDown_NodeLeaf._curPhase == NodePhase.Exit)
                         {
                             this.isPerformGunFu = false;
                             if (this.curGunFuNode == oCM_KnockDown_NodeLeaf)
@@ -264,9 +264,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
             case PlayerCrouch_Idle_NodeLeaf:
             case PlayerCrouch_Move_NodeLeaf: 
                 {
-                    if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Enter)
+                    if ((node as PlayerStateNodeLeaf)._curPhase == NodePhase.Enter)
                         this.isCrouching = true;
-                    else if ((node as PlayerStateNodeLeaf).curPhase == PlayerStateNodeLeaf.NodePhase.Exit)
+                    else if ((node as PlayerStateNodeLeaf)._curPhase == NodePhase.Exit)
                         this.isCrouching = false;
                     break;
                 }

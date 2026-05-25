@@ -38,7 +38,7 @@ public class GuardBreakNodeLeaf : EnemyStateLeafNode
         if (this.enemy._isPainTrigger)
             return true;
 
-        if (this.enemy._triggerHitedGunFu)
+        if (this.enemy._triggerEnterGotAttacked_OCM)
             return true;
 
         if (this.enemy.isDead)
