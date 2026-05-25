@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class WeaponPoolManager : MonoBehaviour, IInitializedAble
@@ -50,6 +49,8 @@ public class WeaponPoolManager : MonoBehaviour, IInitializedAble
         return weapon;
     }
 
+    private readonly List<Weapon> _clearWeaponCheckBuffer = new List<Weapon>();
+
     private float _checkTimer = 0f;
     private readonly float _checkInterval = 1f;
 
@@ -65,8 +66,11 @@ public class WeaponPoolManager : MonoBehaviour, IInitializedAble
     {
         if (_clearWeaponList.Count == 0) return;
 
-        List<Weapon> weapons = _clearWeaponList.Keys.ToList();
-        foreach (Weapon weapon in weapons)
+        _clearWeaponCheckBuffer.Clear();
+        foreach (Weapon weapon in _clearWeaponList.Keys)
+            _clearWeaponCheckBuffer.Add(weapon);
+
+        foreach (Weapon weapon in _clearWeaponCheckBuffer)
         {
             if (weapon._currentGrabbedAt == null)
             {

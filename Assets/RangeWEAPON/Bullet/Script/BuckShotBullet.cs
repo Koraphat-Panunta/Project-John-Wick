@@ -18,8 +18,7 @@ public class BuckShotBullet : Bullet
 
     public override Vector3 Shoot(BulletSpawner bulletSpawner, Vector3 pointPos)
     {
-        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19, LayerMask.GetMask("BodyPart"));
-        hitLayer = LayerMask.GetMask("Default", "BodyPart", "Ground", "Player");
+        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19, _bodyPartMask);
 
         Vector3 lastHitPos = bulletSpawner.transform.position;
         for (int i = 0; i < PELLET_COUNT; i++)

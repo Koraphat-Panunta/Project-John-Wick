@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static SubjectEnemy;
-using System.Linq;
 
 public class EnemyDirector :
     Actor,
@@ -116,12 +115,9 @@ public class EnemyDirector :
 
         int meleeChaserCount = CountChasersWithMelee();
         IEnemyDirectedAble nearestCandidate = null;
-        IEnemyDirectedAble[] enemies = enemysDirectedAble.Values.ToArray();
 
-        for (int i = 0; i < enemies.Length; i++)
+        foreach (IEnemyDirectedAble e in enemysDirectedAble.Values)
         {
-            IEnemyDirectedAble e = enemies[i];
-
             if (e._curCommandPerforme == EnemyRoleCommand.Ambush) continue;
             if (e._combatPhase != CombatPhase.Alert) continue;
             if (IsMeleeEnemy(e) && meleeChaserCount >= MAX_MeleeChaserCount) continue;

@@ -43,7 +43,9 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
 
             if (gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
             {
+#if UNITY_EDITOR
                 gunFuDetectTargetDebug += "cast to self \n";
+#endif
                 continue;
             }
 
@@ -91,7 +93,9 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
         
         Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask,QueryTriggerInteraction.Collide);
 
+#if UNITY_EDITOR
         gunFuDetectTargetDebug += "layerTarget = " + this._layerTarget + "\n";
+#endif
 
         curPositionVolume = positionVolume;
         curRaduis = raduis;
@@ -103,15 +107,16 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
 
         foreach (Collider item in colliders)
         {
+#if UNITY_EDITOR
             gunFuDetectTargetDebug += "in collider = " + item +"0 \n";
-
+#endif
 
             if (item.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
                 continue;
 
-            
-
+#if UNITY_EDITOR
             gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
+#endif
 
             if (gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead
                 || gunFuGotAttackedAble.gotGunFuAttackedAble._isGotAttackedAble == false
@@ -119,7 +124,9 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
                 )
                 continue;
 
+#if UNITY_EDITOR
             gunFuDetectTargetDebug += "in collider = " + item + "2 \n";
+#endif
 
             if(target.Contains(gunFuGotAttackedAble.gotGunFuAttackedAble) == false)
                 target.Add(gunFuGotAttackedAble.gotGunFuAttackedAble);

@@ -34,6 +34,7 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
     private float repositionTimer;
     private Vector3 lastKnownPlayerPos;
     private float driftDirection;
+    private readonly List<float> _surroundAngleBuffer = new List<float>();
 
     public SurroundPlayerPositioningActionNodeLeaf(
         Enemy enemy,
@@ -138,27 +139,27 @@ public class SurroundPlayerPositioningActionNodeLeaf : EnemyActionNodeLeaf
     // Finds the angle that sits at the midpoint of the largest angular gap between other surrounding enemies.
     private float FindBestSurroundAngle()
     {
-        var otherAngles = new List<float>();
+        _surroundAngleBuffer.Clear();
         foreach (var inst in s_activeInstances)
         {
             if (inst != this)
-                otherAngles.Add(((inst.currentAngle % 360f) + 360f) % 360f);
+                _surroundAngleBuffer.Add(((inst.currentAngle % 360f) + 360f) % 360f);
         }
 
-        if (otherAngles.Count == 0)
+        if (_surroundAngleBuffer.Count == 0)
             return UnityEngine.Random.Range(0f, 360f);
 
-        otherAngles.Sort();
+        _surroundAngleBuffer.Sort();
 
-        float bestMidAngle = otherAngles[0] + 180f;
+        float bestMidAngle = _surroundAngleBuffer[0] + 180f;
         float bestGap = 0f;
 
-        for (int i = 0; i < otherAngles.Count; i++)
+        for (int i = 0; i < _surroundAngleBuffer.Count; i++)
         {
-            float a = otherAngles[i];
-            float b = i + 1 < otherAngles.Count
-                ? otherAngles[i + 1]
-                : otherAngles[0] + 360f;
+            float a = _surroundAngleBuffer[i];
+            float b = i + 1 < _surroundAngleBuffer.Count
+                ? _surroundAngleBuffer[i + 1]
+                : _surroundAngleBuffer[0] + 360f;
 
             float gap = b - a;
             if (gap > bestGap)

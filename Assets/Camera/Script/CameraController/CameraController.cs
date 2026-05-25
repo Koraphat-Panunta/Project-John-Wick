@@ -77,7 +77,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
     }
     private void FixedUpdate()
     {
-        inputLook = "ScreenWidht = " + Screen.width + " ScreenHight = "+Screen.height;
+#if UNITY_EDITOR
+        inputLook = $"ScreenWidht = {Screen.width} ScreenHight = {Screen.height}";
+#endif
         cameraManagerNode.FixedUpdateNode();
     }
 

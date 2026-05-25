@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyCommunicator : Communicator
 {
-    public EnemyCommunicator() 
+    public EnemyCommunicator()
     {
 
     }
@@ -12,22 +12,19 @@ public class EnemyCommunicator : Communicator
         SendTargetPosition
    }
     public EnemyCommunicateMassage enemyCommunicateMassage { get; set; }
+    private static readonly Collider[] _communicateBuffer = new Collider[32];
     public void SendCommunicate<T>(Vector3 position, float raduis, LayerMask layerMask,EnemyCommunicateMassage enemyCommunicateMassage, T var)
     {
         this.enemyCommunicateMassage = enemyCommunicateMassage;
-        Collider[] target = Physics.OverlapSphere(position, raduis,layerMask.value);
+        int count = Physics.OverlapSphereNonAlloc(position, raduis, _communicateBuffer, layerMask.value);
 
-        //Debug.Log("Layer = " + layerMask.value);
-
-        if (target.Length <= 0)
+        if (count <= 0)
             return;
-        //Debug.Log("SendCommunicate 2");
-        foreach (Collider collider in target) 
+
+        for (int i = 0; i < count; i++)
         {
-            //Debug.Log("SendCommunicate 3" + collider);
-            if (collider.gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble))
+            if (_communicateBuffer[i].gameObject.TryGetComponent<ICommunicateAble>(out ICommunicateAble communicateAble))
             {
-                //Debug.Log("SendCommunicate 4" + communicateAble);
                 communicateAble.GetCommunicate<EnemyCommunicator,T>(this,var);
             }
         }

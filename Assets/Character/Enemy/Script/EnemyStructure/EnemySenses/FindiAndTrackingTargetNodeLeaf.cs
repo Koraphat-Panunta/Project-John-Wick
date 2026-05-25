@@ -23,6 +23,8 @@ public class FindiAndTrackingTargetNodeLeaf : INodeLeaf
 
     protected FindingTargetScriptableObject findingTargetScriptableObject;
 
+    private static readonly LayerMask _defaultMask = LayerMask.GetMask("Default");
+
     public FindiAndTrackingTargetNodeLeaf(FindingTargetScriptableObject findingTargetScriptableObject,Transform rayCastPos,Func<bool> preCondition)
     {
         this.isReset = new List<Func<bool>>();
@@ -73,7 +75,7 @@ public class FindiAndTrackingTargetNodeLeaf : INodeLeaf
            && (Physics.Raycast(this.rayCastPos.position
                , (this.target.transform.position - this.rayCastPos.position).normalized
                , Vector3.Distance(this.rayCastPos.position, this.target.transform.position)
-               , LayerMask.GetMask("Default")) == false))
+               , _defaultMask) == false))
         {
 
             this.targetKnewPos = this.target.transform.position;

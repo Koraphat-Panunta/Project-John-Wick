@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
 {
@@ -16,6 +14,13 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     protected Vector3 offset;
 
     protected virtual float searchRadius { get => 7.5f; }
+
+    private LayerMask _defaultAndInteractableMask;
+    private readonly Collider[] _overlapBuffer = new Collider[32];
+    private readonly List<I_Interactable> _foundInteractables = new List<I_Interactable>();
+    private readonly List<I_Interactable> _detectedThisFrame = new List<I_Interactable>();
+    private readonly List<I_Interactable> _assignedKeysBuffer = new List<I_Interactable>();
+
     public InteractablePointUIManagerNodeLeaf(Func<bool> preCondition, InWorldUI inWorldUI, Camera camera,I_Interacter i_Interacter,LayerMask interactAbleMask,Vector3 offset) : base(preCondition)
     {
         this.interacter = i_Interacter;
@@ -26,6 +31,7 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
         this.assignInWorldInteractable = new Dictionary<I_Interactable, InWorldUI>();
         this.interactableMask = interactAbleMask;
         this.offset = offset;
+        _defaultAndInteractableMask = LayerMask.GetMask("Default") | interactAbleMask.value;
     }
 
     public override void Enter()
@@ -46,16 +52,17 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
     }
     protected virtual void UpdateInteractableDetected()
     {
-        List<I_Interactable> interactableDetected = new List<I_Interactable>();
-        foreach(I_Interactable i_Interactable in FindInteractAbleObject())
+        _detectedThisFrame.Clear();
+        FindInteractAbleObject(_foundInteractables);
+        foreach(I_Interactable i_Interactable in _foundInteractables)
         {
-            if(interactableDetected.Contains(i_Interactable))
+            if(_detectedThisFrame.Contains(i_Interactable))
                 continue;
 
             if(i_Interactable.isBeenInteractAble == false)
                 continue;
 
-            interactableDetected.Add(i_Interactable);
+            _detectedThisFrame.Add(i_Interactable);
 
             if (this.assignInWorldInteractable.ContainsKey(i_Interactable) == false)
             {
@@ -63,91 +70,91 @@ public class InteractablePointUIManagerNodeLeaf : InWorldUINodeLeaf
                 this.assignInWorldInteractable.Add(i_Interactable, inWorldUI);
                 assignInWorldInteractable[i_Interactable].PlayAnimation("PointingAppear");
             }
-
         }
 
-        List<I_Interactable> interactablesAssigned = assignInWorldInteractable.Keys.ToList();
-        for (int i = 0; i < interactablesAssigned.Count; i++)
+        _assignedKeysBuffer.Clear();
+        foreach (I_Interactable key in assignInWorldInteractable.Keys)
+            _assignedKeysBuffer.Add(key);
+
+        for (int i = 0; i < _assignedKeysBuffer.Count; i++)
         {
-            if (interactableDetected.Contains(interactablesAssigned[i]) == false)
+            if (_detectedThisFrame.Contains(_assignedKeysBuffer[i]) == false)
             {
-                objectPooling.ReturnToPool(assignInWorldInteractable[interactablesAssigned[i]]);
-                assignInWorldInteractable.Remove(interactablesAssigned[i]);
+                objectPooling.ReturnToPool(assignInWorldInteractable[_assignedKeysBuffer[i]]);
+                assignInWorldInteractable.Remove(_assignedKeysBuffer[i]);
             }
         }
-
-
     }
     protected virtual void UpdateAssignedUI()
     {
-        bool isFoundCurrentInteractAble = false;
-        List<I_Interactable> interactables = assignInWorldInteractable.Keys.ToList();
-
-        if(assignInWorldInteractable.Count <=0)
+        if(assignInWorldInteractable.Count <= 0)
             return;
 
-        for (int i = 0; i < interactables.Count; i++) 
+        _assignedKeysBuffer.Clear();
+        foreach (I_Interactable key in assignInWorldInteractable.Keys)
+            _assignedKeysBuffer.Add(key);
+
+        bool isFoundCurrentInteractAble = false;
+        for (int i = 0; i < _assignedKeysBuffer.Count; i++)
         {
-            Vector3 setPos = interactables[i]._transform.position 
-                + interactables[i]._transform.forward * offset.z
-                + interactables[i]._transform.up * offset.y
-                + interactables[i]._transform.right * offset.x;
+            I_Interactable interactable = _assignedKeysBuffer[i];
+            Vector3 setPos = interactable._transform.position
+                + interactable._transform.forward * offset.z
+                + interactable._transform.up * offset.y
+                + interactable._transform.right * offset.x;
 
-            assignInWorldInteractable[interactables[i]].SetAnchorPosition(setPos);
+            assignInWorldInteractable[interactable].SetAnchorPosition(setPos);
 
-            if (interactables[i].isBeenInteractAble == false)
+            if (interactable.isBeenInteractAble == false)
             {
-                objectPooling.ReturnToPool(assignInWorldInteractable[interactables[i]]);
-                assignInWorldInteractable.Remove(interactables[i]);
+                objectPooling.ReturnToPool(assignInWorldInteractable[interactable]);
+                assignInWorldInteractable.Remove(interactable);
                 continue;
             }
 
             if(isFoundCurrentInteractAble)
             {
-                assignInWorldInteractable[interactables[i]].PlayAnimation("PointingAppear");
+                assignInWorldInteractable[interactable].PlayAnimation("PointingAppear");
                 continue;
             }
 
-            if(interacter.currentInteractable == interactables[i])
+            if(interacter.currentInteractable == interactable)
             {
                 isFoundCurrentInteractAble = true;
-                assignInWorldInteractable[interactables[i]].PlayAnimation("InteractableAppear");
-                continue;
+                assignInWorldInteractable[interactable].PlayAnimation("InteractableAppear");
             }
             else
             {
-                assignInWorldInteractable[interactables[i]].PlayAnimation("PointingAppear");
+                assignInWorldInteractable[interactable].PlayAnimation("PointingAppear");
             }
         }
     }
-    protected List<I_Interactable> FindInteractAbleObject()
+    protected void FindInteractAbleObject(List<I_Interactable> results)
     {
-        List<I_Interactable> i_Interactables = new List<I_Interactable>();
+        results.Clear();
 
+        int count = Physics.OverlapSphereNonAlloc(camera.transform.position, searchRadius, _overlapBuffer, interactableMask.value, QueryTriggerInteraction.Collide);
 
-        Collider[] hits = Physics.OverlapSphere(camera.transform.position, searchRadius, interactableMask.value, QueryTriggerInteraction.Collide);
+        if (count == 0)
+            return;
 
-        if (hits.Length == 0) 
-            return i_Interactables;
-
-
-        foreach (Collider target in hits)
+        float halfFOV = camera.fieldOfView / 2f;
+        for (int i = 0; i < count; i++)
         {
-            if (target.TryGetComponent<I_Interactable>(out I_Interactable interactAbleObject) == false)
+            if (_overlapBuffer[i].TryGetComponent<I_Interactable>(out I_Interactable interactAbleObject) == false)
                 continue;
 
             Vector3 toTarget = (interactAbleObject._transform.position - camera.transform.position).normalized;
 
-            if ( Vector3.Angle(camera.transform.forward, toTarget) > camera.fieldOfView / 2f)
+            if (Vector3.Angle(camera.transform.forward, toTarget) > halfFOV)
                 continue;
 
-            if (Physics.Raycast(camera.transform.position, toTarget, out RaycastHit hit, searchRadius, LayerMask.GetMask("Default") | interactableMask.value, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(camera.transform.position, toTarget, out RaycastHit hit, searchRadius, _defaultAndInteractableMask, QueryTriggerInteraction.Collide))
             {
-                if (hit.collider.gameObject == target.gameObject)
-                    i_Interactables.Add(interactAbleObject);
+                if (hit.collider.gameObject == _overlapBuffer[i].gameObject)
+                    results.Add(interactAbleObject);
             }
         }
-        return i_Interactables;
     }
 
 }

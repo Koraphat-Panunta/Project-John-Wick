@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EnemyPoolManager : MonoBehaviour, IInitializedAble, IObserverEnemy
@@ -52,6 +51,8 @@ public class EnemyPoolManager : MonoBehaviour, IInitializedAble, IObserverEnemy
         }
     }
 
+    private readonly List<Enemy> _clearEnemyCheckBuffer = new List<Enemy>();
+
     float _checkTimer = 0f;
     private readonly float _checkInterval = 0.25f;
 
@@ -67,8 +68,11 @@ public class EnemyPoolManager : MonoBehaviour, IInitializedAble, IObserverEnemy
     {
         if (_clearEnemyList.Count == 0) return;
 
-        List<Enemy> enemies = _clearEnemyList.Keys.ToList();
-        foreach (Enemy enemy in enemies)
+        _clearEnemyCheckBuffer.Clear();
+        foreach (Enemy enemy in _clearEnemyList.Keys)
+            _clearEnemyCheckBuffer.Add(enemy);
+
+        foreach (Enemy enemy in _clearEnemyCheckBuffer)
         {
             if (!enemy.isDead) continue;
 

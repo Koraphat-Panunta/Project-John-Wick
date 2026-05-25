@@ -20,7 +20,8 @@ public abstract class Bullet:
     public float penetrateRate { get;private set; }
     protected virtual float bulletHitForce { get; set; }
 
-    public static LayerMask hitLayer;
+    public static LayerMask hitLayer = LayerMask.GetMask("Default", "BodyPart", "Ground", "Player");
+    protected static readonly int _bodyPartMask = LayerMask.GetMask("BodyPart");
     protected const float MAX_DISTANCE = 350;
     public RangeWeapon weapon { get; protected set; }
     public Vector3 position { get => weapon.bulletSpawner.transform.position; set { } }
@@ -54,22 +55,12 @@ public abstract class Bullet:
         horizontalAngle = Mathf.Clamp(horizontalAngle, - this.maxAngle, this.maxAngle);
         verticalAngle = Mathf.Clamp(verticalAngle, -this.maxAngle, this.maxAngle);
 
-        Debug.Log("horizontalAngle =" + horizontalAngle);
-        Debug.Log("verticalAngle =" + verticalAngle);
-
         // Rebuild direction from clamped angles
         Quaternion rot = Quaternion.AngleAxis(horizontalAngle, Vector3.up) *
                          Quaternion.AngleAxis(verticalAngle, right);
         Vector3 clampedDir = (rot * fwd).normalized;
 
-        int DefaultMask = LayerMask.GetMask("Default");
-        int BodyPartMask = LayerMask.GetMask("BodyPart");
-        int GroundHitMask = LayerMask.GetMask("Ground");
-        int PlayerHitMask = LayerMask.GetMask("Player");
-
-        hitLayer = DefaultMask | BodyPartMask  | GroundHitMask | PlayerHitMask;
-
-        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19,BodyPartMask);
+        noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19, _bodyPartMask);
 
         // Calculate and apply impulse force
         Vector3 force = clampedDir;
@@ -85,10 +76,6 @@ public abstract class Bullet:
         if (raycastHits.Length > 0)
         {
             System.Array.Sort(raycastHits, (a, b) => a.distance.CompareTo(b.distance));
-            for (int i = raycastHits.Length - 1; i >= 0; i--)
-            {
-                Debug.Log("bullet raycast hit = " + raycastHits[i].collider.gameObject);
-            }
             HitExecute(raycastHits, rayDir,out RaycastHit lastHit);
             return lastHit.point;
         }
