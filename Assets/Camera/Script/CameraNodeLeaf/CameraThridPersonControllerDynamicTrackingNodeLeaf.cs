@@ -4,65 +4,41 @@ using UnityEngine;
 
 public class CameraThridPersonControllerDynamicTrackingNodeLeaf : CameraThirdPersonControllerViewNodeLeaf
 {
-
     Transform[] trackTransform;
     float[] trackTransformWeight;
     Transform[] lookTransform;
     float[] lookTransformWeight;
 
-    float trackRate;
-    protected bool isRecovery;
-
     public CameraThridPersonControllerDynamicTrackingNodeLeaf(
-        CameraController cameraController
-        , CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
-        , Func<bool> preCondition
-        ) : base(cameraController,cameraThirdPersonViewScriptableObject, preCondition)
+        CameraController cameraController,
+        CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject,
+        Func<bool> preCondition)
+        : base(cameraController, cameraThirdPersonViewScriptableObject, preCondition)
     {
         this.trackTransform = new Transform[2];
         this.trackTransformWeight = new float[2];
         this.lookTransform = new Transform[2];
         this.lookTransformWeight = new float[2];
-
     }
 
-    public override void Enter()
+    public override void TrackPosUpdate()
     {
-        this.isRecovery = false;
-        this.trackRate = 0;
-        base.Enter();
+        base.trackPos = CalculateAveragePosition.WeightedAverage(trackTransform.ToList<Transform>(), trackTransformWeight.ToList<float>());
     }
-    public override void UpdateNode()
+    public override void LookPosUpdate()
     {
-
-        if (isRecovery)
-            this.trackRate = Mathf.Clamp01(this.trackRate - (Time.deltaTime * 2));
-        else
-            this.trackRate = Mathf.Clamp01(this.trackRate + Time.deltaTime);
-
-       
-        base.UpdateNode();
+        base.lookPos = CalculateAveragePosition.WeightedAverage(lookTransform.ToList<Transform>(), lookTransformWeight.ToList<float>());
     }
-  
-    public override void UpdateCameraPosition()
-    {
-        Vector3 trackPos = CalculateAveragePosition.WeightedAverage(trackTransform.ToList<Transform>(), trackTransformWeight.ToList<float>());
-        Vector3 lookPos = CalculateAveragePosition.WeightedAverage(lookTransform.ToList<Transform>(), lookTransformWeight.ToList<float>());
-
-        trackPos = Vector3.Lerp(thirdPersonCamera.targetFollowTarget.position,trackPos,this.trackRate);
-        lookPos = Vector3.Lerp(thirdPersonCamera.targetLookTarget.position, trackPos, this.trackRate);
-
-        this.thirdPersonCamera.UpdateCameraPosition(trackPos, lookPos);
-    }
+   
     public void SetTrackTransform(Transform[] trackTransform, float[] trackWeight)
     {
         this.trackTransform = trackTransform;
         this.trackTransformWeight = trackWeight;
     }
-    public void SetLookTransform(Transform[] lookTransform, float[] lookWeight) 
+
+    public void SetLookTransform(Transform[] lookTransform, float[] lookWeight)
     {
         this.lookTransform = lookTransform;
         this.lookTransformWeight = lookWeight;
     }
-  
 }

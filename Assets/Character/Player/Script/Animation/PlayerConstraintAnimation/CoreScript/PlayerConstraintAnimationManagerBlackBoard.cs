@@ -13,7 +13,8 @@ public partial class PlayerConstrainAnimationManager
             if (playerStateManager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
-                || playerStateManager.TryGetCurNodeLeaf<PlayerSprintNode>())
+                || playerStateManager.TryGetCurNodeLeaf<PlayerSprintNode>() 
+                || playerStateManager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>())
                 return false;
 
             return true;

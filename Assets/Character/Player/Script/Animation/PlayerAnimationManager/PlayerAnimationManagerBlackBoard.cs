@@ -102,6 +102,7 @@ public partial class PlayerAnimationManager
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>()
+                || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>()
                 )
                 return true;
 

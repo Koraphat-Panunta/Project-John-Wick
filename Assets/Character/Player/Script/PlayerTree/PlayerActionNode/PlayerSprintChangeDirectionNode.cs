@@ -83,14 +83,14 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
         playerMovement.SetStanceWeight(_sprintWeight);
         playerMovement.UpdateMoveToDirWorld(
             _targetDir * sprintMaxSpeed * _sprintWeight,
-            sprintAccelerate * _sprintWeight * 2f,
+            sprintAccelerate * _sprintWeight * 3f,
             MoveMode.IgnoreMomentumDirection);
         RotateCounterClockwiseToward(_targetDir.normalized, _rotateRate);
     }
 
     private void OnSprintOutPhase()
     {
-        _targetDir = player.inputMoveDir_World.magnitude > 0 ? player.inputMoveDir_World : _targetDir;
+        //_targetDir = player.inputMoveDir_World.magnitude > 0 ? player.inputMoveDir_World : _targetDir;
         _isSprintOutPhase = true;
         _rotateRate = 0;
     }

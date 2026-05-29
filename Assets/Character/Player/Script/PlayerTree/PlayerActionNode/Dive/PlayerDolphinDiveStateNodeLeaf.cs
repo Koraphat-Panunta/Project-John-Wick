@@ -81,7 +81,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
     }
     protected virtual void UpdateRotation()
     {
-        this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, 1);
+        this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, Mathf.Clamp01(this.timer / this.jumpOutTime));
     }
     protected virtual void UpdateStall()
     {

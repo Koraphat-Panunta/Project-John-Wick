@@ -7,36 +7,35 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 {
     protected CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject;
     private Vector3 cinemachineOffset => base.cameraController.thirdPersonCinemachineCamera.cameraOffset;
-    private CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera.cinemachineCamera;
+    protected CinemachineCamera cinemachineFreeLook => base.cameraController.cinemachineCamera.cinemachineCamera;
     protected ThirdPersonCinemachineCamera thirdPersonCamera => base.cameraController.thirdPersonCinemachineCamera;
-    private Vector2 inputLook => cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity ;
-    protected Vector3 enteringOffset;
+    private Vector2 inputLook => cameraController.player.inputLookDir_Local * TimeControlManager.ReadWorldTimeFactor * cameraController.standardCameraSensivity;
+    protected Vector3 curOffset;
     protected float normalizedTime;
-    protected float enteringFOV;
+    protected float curFOV;
 
-    protected Vector3 trackPos;
-    protected Vector3 lookPos;
+    public Vector3 trackPos;
+    public Vector3 lookPos;
 
-    protected virtual Vector3 targetOffset => this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight;
-    protected virtual float targetFOV => this.cameraThirdPersonControllerViewScriptableObject.fov;
+    public virtual Vector3 targetOffset => this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight;
+    public virtual float targetFOV => this.cameraThirdPersonControllerViewScriptableObject.fov;
+    public virtual float transitionSpeed => this.cameraThirdPersonControllerViewScriptableObject.transitionInSpeed;
+    public virtual float trackingCruve => this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(this.normalizedTime);
 
-    protected virtual float transitionSpeed => this.cameraThirdPersonControllerViewScriptableObject.transitionInSpeed;
-    protected virtual float trackingCruve => this.cameraThirdPersonControllerViewScriptableObject.transitionCurve.Evaluate(this.normalizedTime);
-
-    public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController
-        ,CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject
-        , Func<bool> preCondition) : base(cameraController, preCondition)
+    public CameraThirdPersonControllerViewNodeLeaf(CameraController cameraController,
+        CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject,
+        Func<bool> preCondition) : base(cameraController, preCondition)
     {
         this.cameraThirdPersonControllerViewScriptableObject = cameraThirdPersonViewScriptableObject;
     }
-   
+
     public override void Enter()
     {
         this.trackPos = thirdPersonCamera.curTrackPosition;
         this.lookPos = thirdPersonCamera.curLookPosition;
-        enteringOffset = cinemachineOffset;
+        this.curOffset = cinemachineOffset;
         normalizedTime = 0;
-        enteringFOV = cinemachineFreeLook.Lens.FieldOfView;
+        curFOV = cinemachineFreeLook.Lens.FieldOfView;
         base.Enter();
     }
 
@@ -47,56 +46,78 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition, thirdPersonCamera.targetFollowTarget.position, this.trackingCruve );
-        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition, thirdPersonCamera.targetLookTarget.position, this.trackingCruve);
+        TrackPosUpdate();
+        LookPosUpdate();
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
+        NormalizedTimeUpdate();
+        this.thirdPersonCamera.InputRotateCamera(this.inputLook.x, -this.inputLook.y);
+        this.UpdateCameraData();
+        OffsetUpdate();
+        FOVUpdate();
+        base.UpdateNode();
+    }
 
+    public virtual void TrackPosUpdate()
+    {
+        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition,
+            thirdPersonCamera.targetFollowTarget.position, this.trackingCruve);
+    }
+
+    public virtual void LookPosUpdate()
+    {
+        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition,
+            thirdPersonCamera.targetLookTarget.position, this.trackingCruve);
+    }
+
+    public virtual void NormalizedTimeUpdate()
+    {
+        this.normalizedTime = Mathf.Clamp(
+            this.normalizedTime += Time.unscaledDeltaTime * this.transitionSpeed, 0, 1);
+    }
+
+    public virtual void FOVUpdate()
+    {
+        this.curFOV = Mathf.Lerp(curFOV, this.targetFOV, this.trackingCruve);
+       
+    }
+
+    public virtual void OffsetUpdate()
+    {
         float offsetX;
-        normalizedTime = Mathf.Clamp(
-            normalizedTime += Time.unscaledDeltaTime * this.transitionSpeed
-            ,0
-            ,1
-            );
-
-        thirdPersonCamera.InputRotateCamera(inputLook.x, -inputLook.y);
-        this.UpdateCameraPosition();
-
         if (this.cameraController.curSide == Side.Right)
-        {
-            offsetX = Mathf.Lerp(this.cinemachineOffset.x,
-                this.targetOffset.x,
+            offsetX = Mathf.Lerp(this.cinemachineOffset.x, this.targetOffset.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
-
-        }
-        else //this.cameraController.curSide == CameraController.Side.left
-        {
-            offsetX = Mathf.Lerp(this.cinemachineOffset.x,
-                -this.targetOffset.x,
+        else
+            offsetX = Mathf.Lerp(this.cinemachineOffset.x, -this.targetOffset.x,
                 this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
-        }
-
-        this.cinemachineFreeLook.Lens.FieldOfView = Mathf.Lerp(enteringFOV, this.targetFOV, this.trackingCruve);
-        this.enteringFOV = this.cinemachineFreeLook.Lens.FieldOfView;
 
         float offsetY = Mathf.Lerp(this.cinemachineOffset.y, this.targetOffset.y, this.trackingCruve);
         float offsetZ = Mathf.Lerp(this.cinemachineOffset.z, this.targetOffset.z, this.trackingCruve);
 
-        cameraController.thirdPersonCinemachineCamera.cameraOffset = new Vector3(offsetX, offsetY, offsetZ);
-        base.UpdateNode();
+        this.curOffset = new Vector3(offsetX, offsetY, offsetZ);
     }
 
-    public virtual void UpdateCameraPosition()
+    public virtual void UpdateCameraData()
     {
-        thirdPersonCamera.UpdateCameraPosition(this.trackPos,this.lookPos);
-        
+       this.thirdPersonCamera.cameraOffset = this.curOffset;
+        this.cinemachineFreeLook.Lens.FieldOfView = this.curFOV;
+
+        this.thirdPersonCamera.MoveTargetFollow(this.trackPos,this.trackingCruve);
+        this.thirdPersonCamera.MoveTargetLook(this.lookPos,this.trackingCruve);
+
+        this.thirdPersonCamera.UpdateCameraPosition();
     }
 
     public void SetCameraThirdPersonControllerViewSCRP(CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject)
     {
         this.cameraThirdPersonControllerViewScriptableObject = cameraThirdPersonControllerViewScriptableObject;
     }
+
+    public CameraThirdPersonControllerViewScriptableObject ViewSCRP => cameraThirdPersonControllerViewScriptableObject;
+    public Vector3 TrackPosition => trackPos;
+    public Vector3 LookPosition  => lookPos;
 }

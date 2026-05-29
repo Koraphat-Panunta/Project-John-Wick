@@ -42,7 +42,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
     public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraDynamicTrackingNodeLeaf { get; protected set; }
     public CameraThirdPersonControllerViewNodeLeaf cameraPerformGunFuHitViewNodeLeaf { get; protected set; }
 
-    public CameraThirdPersonControllerViewNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
+    public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraTPSSprintViewNodeLeaf { get; protected set; }
+    public CameraThridPersonControllerDynamicTrackingNodeLeaf cameraTPSParkourViewNodeLeaf { get; protected set; }
 
     public CameraRestNodeLeaf cameraRestNodeLeaf { get; protected set; }
     INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => this.curNodeLeaf = value; }
@@ -56,9 +57,29 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
 
         cameraThirdPersonControllerPlayerBasedSelector = new NodeSelector(() => cameraController.isOnPlayerThirdPersonController);
       
-        this.cameraTPSSprintViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSSprintView_SCRP,
-            () => 
-            cameraController.isSprint );
+        this.cameraTPSSprintViewNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(
+            cameraController, cameraController.cameraTPSSprintView_SCRP,
+            () => cameraController.isSprint);
+
+        var cam = cameraController.thirdPersonCinemachineCamera;
+ 
+        this.cameraTPSSprintViewNodeLeaf.SetTrackTransform(
+            new Transform[] { cam.targetFollowTarget, cameraController.player.humanoidBone._headBone },
+            new float[]     { 0.5f, 0.5f });
+        this.cameraTPSSprintViewNodeLeaf.SetLookTransform(
+            new Transform[] { cam.targetLookTarget, cameraController.player.humanoidBone._headBone },
+            new float[] { 0.5f, 0.5f });
+
+        this.cameraTPSParkourViewNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(
+            cameraController, cameraController.cameraTPSParkourView_SCRP,
+            () => playerStateManager.TryGetCurNodeLeaf<IParkourNodeLeaf>());
+        this.cameraTPSParkourViewNodeLeaf.SetTrackTransform(
+            new Transform[] { cam.targetFollowTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 0.5f, 0.5f });
+        this.cameraTPSParkourViewNodeLeaf.SetLookTransform(
+            new Transform[] { cam.targetLookTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 1f, 0f });
+
         this.cameraTPSDodgeViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSDodgeView_SCRP
             , () => playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>());
 
@@ -77,23 +98,43 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
 
+        var standLowReadyNode = new CameraThridPersonControllerDynamicTrackingNodeLeaf(
+            cameraController, cameraController.cameraTPSStandView_SCRP, () => false);
+        standLowReadyNode.SetTrackTransform(
+            new Transform[] { cam.targetFollowTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 1, 0.3f });
+        standLowReadyNode.SetLookTransform(
+            new Transform[] { cam.targetLookTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 1, 0 });
+
+        var crouchLowReadyNode = new CameraThridPersonControllerDynamicTrackingNodeLeaf(
+            cameraController, cameraController.cameraTPSCrouchView_SCRP, () => false);
+        crouchLowReadyNode.SetTrackTransform(
+            new Transform[] { cam.targetFollowTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 1, 0.3f });
+        crouchLowReadyNode.SetLookTransform(
+            new Transform[] { cam.targetLookTarget, cameraController.player.humanoidBone.hips },
+            new float[]     { 1, 0 });
+
+        var proneLowReadyNode = new CameraThirdPersonControllerViewNodeLeaf(
+            cameraController, cameraController.cameraTPSProneView_SCRP, () => false);
+
         this.cameraTPSCrouchViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(
-            cameraController
-            , cameraController.cameraCrouchAimDownSightView_SCRP
-            , cameraController.cameraTPSCrouchView_SCRP
-            ,this.cameraController.player,
+            cameraController,
+            cameraController.cameraCrouchAimDownSightView_SCRP,
+            crouchLowReadyNode,
+            this.cameraController.player,
             () => cameraController.isCrouching);
         this.cameraTPSProneViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(
-            cameraController
-            ,this.cameraController.cameraProneAimDownSightView_SCRP
-            , cameraController.cameraTPSProneView_SCRP
-            ,this.cameraController.player,
+            cameraController,
+            this.cameraController.cameraProneAimDownSightView_SCRP,
+            proneLowReadyNode,
+            this.cameraController.player,
             () => this.cameraController.player.stance == Stance.prone);
-        this.cameraTPSStandViewNodeLeaf = new CameraAimDownSightViewNodeLeaf
-            (
-            cameraController
-            ,this.cameraController.cameraStandAimDownSightView_SCRP
-            ,this.cameraController.cameraTPSStandView_SCRP,
+        this.cameraTPSStandViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(
+            cameraController,
+            this.cameraController.cameraStandAimDownSightView_SCRP,
+            standLowReadyNode,
             this.cameraController.player,
             () => true);
 
@@ -106,6 +147,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.startNodeSelector.AddtoChildNode(this.cameraRestNodeLeaf);
 
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraPerformGunFuSelector);
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSParkourViewNodeLeaf);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSSprintViewNodeLeaf);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSDodgeViewNodeLeaf);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSCrouchViewNodeLeaf);

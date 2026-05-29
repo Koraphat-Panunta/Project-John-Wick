@@ -181,7 +181,7 @@ public partial class PlayerAnimationManager
         this.dolphinDiveAnimationNodeLeaf = new PlayAnimationNodeLeaf
             (() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>
             (out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.isPassingJump == false
-            , this.animator, "Dolphin Dive", 0, .25f);
+            , this.animator, "Dolphin Dive", 0, .1f);
         this.diveStallAnimationNodeLeaf = new PlayAnimationNodeLeaf(() => this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>
             (out PlayerDolphinDiveStateNodeLeaf playerDolphinDiveStateNodeLeaf) && playerDolphinDiveStateNodeLeaf.isPassingJump 
             , this.animator, "DiveStall", 0, .2f);
@@ -580,12 +580,13 @@ public partial class PlayerAnimationManager
          animator, "SwitchWeaponSecondary -> Primary", 1, .2f);
 
         sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
-         () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>(),
-         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .6f);
+         () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>() 
+         ,
+         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .35f);
 
         sprintChangeDirUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>(),
-         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, .3f);
+         animator, "SprintWeaponSway", 1, 0, this.upperAnimationPoseTimeNormalized, 1f);
 
         quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
             () =>
