@@ -8,12 +8,14 @@ public class SettingDataScriptableObject : DataScriptableObject
     public AudioSetting audioSetting;
     public GraphicSetting graphicSetting;
     public GameSetting gameSetting;
+    public KeyBindingSetting keyBindingSetting;
 
     public void LoadData(PlayerProfileSaveData.SettingSaveData settingSaveData)
     {
         this.audioSetting = settingSaveData.audioSetting;
         this.graphicSetting = settingSaveData.graphicSetting;
-        this.gameSetting = settingSaveData.gameSetting; 
+        this.gameSetting = settingSaveData.gameSetting;
+        this.keyBindingSetting = settingSaveData.keyBindingSetting;
     }
 
     public void LoadData(SettingDataScriptableObject settingDataScriptable)
@@ -21,6 +23,7 @@ public class SettingDataScriptableObject : DataScriptableObject
         this.audioSetting = settingDataScriptable.audioSetting;
         this.graphicSetting= settingDataScriptable.graphicSetting;
         this.gameSetting= settingDataScriptable.gameSetting;
+        this.keyBindingSetting = settingDataScriptable.keyBindingSetting;
     }
     
 }
@@ -75,4 +78,12 @@ public struct GameSetting
     public bool displayPlayerHP;
     public bool displayPlayerStamina;
     public bool displayCrosshair;
+}
+
+[Serializable]
+public struct KeyBindingSetting
+{
+    // Unity InputActionAsset binding override JSON — populated at runtime when the player remaps keys.
+    // Empty string means use the default bindings defined in UserInput.inputactions.
+    public string bindingOverridesJson;
 }

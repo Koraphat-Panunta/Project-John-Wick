@@ -48,7 +48,9 @@ public class PrologueLevelGameMaster : InGameLevelGameMaster
         levelGameOverGameMasterNodeLeaf = new InGameLevelGameOverGameMasterNodeLeaf(this, gameOverUICanvas, () => player.isDead);
         pausingSelector = new NodeSelector(() => this.menuInGameGameMasterNodeLeaf.isMenu);
         menuInGameGameMasterNodeLeaf = new MenuInGameGameMasterNodeLeaf(this, pauseCanvasUI, () => true);
-        optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI, () => menuInGameGameMasterNodeLeaf.isTriggerToSetting);
+        optionMenuSettingInGameGameMasterNode = new OptionMenuSettingInGameGameMasterNodeLeaf(this, optionCanvasUI,
+            () => menuInGameGameMasterNodeLeaf.isTriggerToSetting,
+            this.user?.userInput);
 
         levelMisstionCompleteGameMasterNodeLeaf = new InGameLevelCompleteGameMasterNodeLeaf(this, missionCompleteUICanvas, () => base.isLevelComplete);
         prologueInGameLevelGameplayGameMasterNodeLeaf = new InGameLevelGamplayGameMasterNodeLeaf<PrologueLevelGameMaster>(this,()=> true);

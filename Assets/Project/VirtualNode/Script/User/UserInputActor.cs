@@ -8,9 +8,13 @@ public class UserInputActor : Actor,IInitializedAble,UserInput.IPlayerActionActi
     public void Initialized()
     {
         userInput = new UserInput();
+
+        string savedJson = DynamicDataBased.Instance?.settingDataScriptableObject?.keyBindingSetting.bindingOverridesJson;
+        if (!string.IsNullOrEmpty(savedJson))
+            userInput.LoadBindingOverridesFromJson(savedJson);
+
         userInput.PlayerAction.AddCallbacks(this);
         userInput.PlayerAction.Enable();
-        
         userInput.PauseAction.Enable();
     }
 

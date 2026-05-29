@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INodeLeafTransitionAble
 {
@@ -10,15 +11,18 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     private OptionMenuSector curMenuSector;
     private OptionMenuSector controlMenuSector;
     private OptionMenuSector audioMenuSector;
+    private OptionMenuSector keyBindingMenuSector;
 
     public INodeManager nodeManager { get; set; }
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
 
-    public OptionMenuSettingInGameGameMasterNodeLeaf(GameMaster gameMaster,OptionUICanvas optionUICanvas, Func<bool> preCondition) : base(gameMaster, preCondition)
+    // userInput is optional: in-game passes the live UserInputActor.userInput so rebinds take effect immediately;
+    // front-scene callers can omit it and a temporary instance with saved overrides is created instead.
+    public OptionMenuSettingInGameGameMasterNodeLeaf(GameMaster gameMaster, OptionUICanvas optionUICanvas, Func<bool> preCondition, UserInput userInput = null) : base(gameMaster, preCondition)
     {
         this.optionUICanvas = optionUICanvas;
-        
+
         if(this.optionUICanvas.GetOptionDisplayAs<ControlSettingOptionDisplay>(out ControlSettingOptionDisplay controlSettingOptionDisplay))
         {
             this.controlMenuSector = new ControlSettingMenuSector(this.optionUICanvas, controlSettingOptionDisplay, this.gameMaster);
@@ -30,7 +34,19 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
             this.audioMenuSector = new AudioSettingMenuSector(this.optionUICanvas, audioSettingOptionDisplay, this.gameMaster);
             this.optionUICanvas.buttonSelectOptionDisplayer[audioSettingOptionDisplay].onClick.AddListener(this.SelectAudioSetting);
         }
-            
+
+        if(this.optionUICanvas.GetOptionDisplayAs<KeyBindingSettingOptionDisplay>(out KeyBindingSettingOptionDisplay keyBindingDisplay))
+        {
+            UserInput activeUserInput = userInput ?? CreateTempUserInputWithOverrides();
+            this.keyBindingMenuSector = new KeyBindingSettingMenuSector(this.optionUICanvas, keyBindingDisplay, activeUserInput, this.gameMaster);
+
+            if (this.optionUICanvas.buttonSelectOptionDisplayer != null
+                && this.optionUICanvas.buttonSelectOptionDisplayer.ContainsKey(keyBindingDisplay))
+                this.optionUICanvas.buttonSelectOptionDisplayer[keyBindingDisplay].onClick.AddListener(this.SelectKeyBindingSetting);
+            else
+                Debug.LogWarning("[OptionMenuSetting] Key Binding tab button not found in buttonSelectOptionDisplayer — assign it via OptionUICanvas.selectOptionSectors in the prefab.");
+        }
+
         this.optionUICanvas.backButton.onClick.AddListener(this.TriggerExit);
 
         this.nodeManager = gameMaster;
@@ -68,7 +84,7 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
     }
     public override void FixedUpdateNode()
     {
-        
+
     }
     protected void TriggerEnter() => this.isTriggerEnter = true;
     protected void TriggerExit() => isTriggerExit = true;
@@ -90,18 +106,23 @@ public class OptionMenuSettingInGameGameMasterNodeLeaf : GameMasterNodeLeaf,INod
         curMenuSector.Enter();
     }
     protected void SelectControlSetting() => this.ChangeOptionSettingSector(this.controlMenuSector);
-    protected void SelectAudioSetting() 
+    protected void SelectAudioSetting()
     {
         Debug.Log("SelectAudioSetting");
-        this.ChangeOptionSettingSector(this.audioMenuSector); 
+        this.ChangeOptionSettingSector(this.audioMenuSector);
     }
+    protected void SelectKeyBindingSetting() => this.ChangeOptionSettingSector(this.keyBindingMenuSector);
 
     public bool TransitioningCheck() => nodeLeafTransitionBehavior.TransitioningCheck(this);
 
-
     public void AddTransitionNode(INode node) => nodeLeafTransitionBehavior.AddTransistionNode(this, node);
-    
 
-    
-   
+    private UserInput CreateTempUserInputWithOverrides()
+    {
+        var temp = new UserInput();
+        string savedJson = DynamicDataBased.Instance?.settingDataScriptableObject?.keyBindingSetting.bindingOverridesJson;
+        if (!string.IsNullOrEmpty(savedJson))
+            temp.LoadBindingOverridesFromJson(savedJson);
+        return temp;
+    }
 }

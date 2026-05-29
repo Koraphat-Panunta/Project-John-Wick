@@ -140,16 +140,18 @@ public class PlayerProfileSaveData
     [Serializable]
     public class SettingSaveData
     {
-        public SettingSaveData(SettingDataScriptableObject settingDataScriptableObject) 
+        public SettingSaveData(SettingDataScriptableObject settingDataScriptableObject)
         {
             this.audioSetting = settingDataScriptableObject.audioSetting;
             this.gameSetting = settingDataScriptableObject.gameSetting;
             this.graphicSetting = settingDataScriptableObject.graphicSetting;
+            this.keyBindingSetting = settingDataScriptableObject.keyBindingSetting;
         }
 
         public AudioSetting audioSetting;
         public GraphicSetting graphicSetting;
         public GameSetting gameSetting;
+        public KeyBindingSetting keyBindingSetting;
     }
     
 }
