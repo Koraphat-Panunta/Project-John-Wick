@@ -14,8 +14,11 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     protected float normalizedTime;
     protected float curFOV;
 
-    public Vector3 trackPos;
-    public Vector3 lookPos;
+    public Vector3 curTrackPos;
+    public Vector3 curLookPos;
+
+    public virtual Vector3 targetTrackPos { get => thirdPersonCamera.targetFollowTarget.position; }
+    public virtual Vector3 targetLookPos { get => thirdPersonCamera.targetLookTarget.position; }
 
     public virtual Vector3 targetOffset => this.cameraThirdPersonControllerViewScriptableObject.viewOffsetRight;
     public virtual float targetFOV => this.cameraThirdPersonControllerViewScriptableObject.fov;
@@ -31,8 +34,8 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void Enter()
     {
-        this.trackPos = thirdPersonCamera.curTrackPosition;
-        this.lookPos = thirdPersonCamera.curLookPosition;
+        this.curTrackPos = thirdPersonCamera.curTrackPosition;
+        this.curLookPos = thirdPersonCamera.curLookPosition;
         this.curOffset = cinemachineOffset;
         normalizedTime = 0;
         curFOV = cinemachineFreeLook.Lens.FieldOfView;
@@ -46,31 +49,32 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void FixedUpdateNode()
     {
-        TrackPosUpdate();
-        LookPosUpdate();
+      
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
+        TrackPosUpdate();
+        LookPosUpdate();
         NormalizedTimeUpdate();
         this.thirdPersonCamera.InputRotateCamera(this.inputLook.x, -this.inputLook.y);
-        this.UpdateCameraData();
         OffsetUpdate();
         FOVUpdate();
+        this.UpdateCameraData();
         base.UpdateNode();
     }
 
     public virtual void TrackPosUpdate()
     {
-        this.trackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition,
-            thirdPersonCamera.targetFollowTarget.position, this.trackingCruve);
+        this.curTrackPos = Vector3.Lerp(thirdPersonCamera.curTrackPosition,
+            this.targetTrackPos, this.trackingCruve);
     }
 
     public virtual void LookPosUpdate()
     {
-        this.lookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition,
-            thirdPersonCamera.targetLookTarget.position, this.trackingCruve);
+        this.curLookPos = Vector3.Lerp(thirdPersonCamera.curLookPosition,
+            this.targetLookPos, this.trackingCruve);
     }
 
     public virtual void NormalizedTimeUpdate()
@@ -106,10 +110,7 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
        this.thirdPersonCamera.cameraOffset = this.curOffset;
         this.cinemachineFreeLook.Lens.FieldOfView = this.curFOV;
 
-        this.thirdPersonCamera.MoveTargetFollow(this.trackPos,this.trackingCruve);
-        this.thirdPersonCamera.MoveTargetLook(this.lookPos,this.trackingCruve);
-
-        this.thirdPersonCamera.UpdateCameraPosition();
+        this.thirdPersonCamera.UpdateCameraPosition(this.curTrackPos,this.curLookPos);
     }
 
     public void SetCameraThirdPersonControllerViewSCRP(CameraThirdPersonControllerViewScriptableObject cameraThirdPersonControllerViewScriptableObject)
@@ -118,6 +119,6 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
     }
 
     public CameraThirdPersonControllerViewScriptableObject ViewSCRP => cameraThirdPersonControllerViewScriptableObject;
-    public Vector3 TrackPosition => trackPos;
-    public Vector3 LookPosition  => lookPos;
+    public Vector3 TrackPosition => curTrackPos;
+    public Vector3 LookPosition  => curLookPos;
 }

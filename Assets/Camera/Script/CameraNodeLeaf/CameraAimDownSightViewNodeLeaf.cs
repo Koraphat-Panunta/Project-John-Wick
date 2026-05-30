@@ -10,6 +10,9 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
     private CameraThirdPersonControllerViewScriptableObject aimDownSightViewSCRP;
     private CameraThirdPersonControllerViewNodeLeaf lowReadyNode;
 
+    public override Vector3 targetLookPos => Vector3.Lerp(this.lowReadyNode.LookPosition, this.thirdPersonCamera.targetLookTarget.position, this.aimingWeight);
+    public override Vector3 targetTrackPos => Vector3.Lerp(this.lowReadyNode.TrackPosition, this.thirdPersonCamera.targetFollowTarget.position, this.aimingWeight);
+
     public override float trackingCruve
         => Mathf.Lerp(
             this.lowReadyNode.trackingCruve
@@ -70,14 +73,5 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
         base.Exit();
     }
 
-    public override void UpdateCameraData()
-    {
-        this.thirdPersonCamera.cameraOffset = this.curOffset;
-        this.cinemachineFreeLook.Lens.FieldOfView = this.curFOV;
 
-        Vector3 finalTrack = Vector3.Lerp(this.lowReadyNode.TrackPosition, this.thirdPersonCamera.targetFollowTarget.position, this.aimingWeight);
-        Vector3 finalLook = Vector3.Lerp(this.lowReadyNode.LookPosition, this.thirdPersonCamera.targetLookTarget.position, this.aimingWeight);
-
-        this.thirdPersonCamera.UpdateCameraPosition(finalTrack, finalLook);
-    }
 }

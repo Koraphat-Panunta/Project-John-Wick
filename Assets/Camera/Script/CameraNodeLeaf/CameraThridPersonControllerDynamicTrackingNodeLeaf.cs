@@ -9,6 +9,9 @@ public class CameraThridPersonControllerDynamicTrackingNodeLeaf : CameraThirdPer
     Transform[] lookTransform;
     float[] lookTransformWeight;
 
+    public override Vector3 targetTrackPos => CalculateAveragePosition.WeightedAverage(trackTransform.ToList<Transform>(), trackTransformWeight.ToList<float>());
+    public override Vector3 targetLookPos => CalculateAveragePosition.WeightedAverage(lookTransform.ToList<Transform>(), lookTransformWeight.ToList<float>());
+
     public CameraThridPersonControllerDynamicTrackingNodeLeaf(
         CameraController cameraController,
         CameraThirdPersonControllerViewScriptableObject cameraThirdPersonViewScriptableObject,
@@ -21,14 +24,7 @@ public class CameraThridPersonControllerDynamicTrackingNodeLeaf : CameraThirdPer
         this.lookTransformWeight = new float[2];
     }
 
-    public override void TrackPosUpdate()
-    {
-        base.trackPos = CalculateAveragePosition.WeightedAverage(trackTransform.ToList<Transform>(), trackTransformWeight.ToList<float>());
-    }
-    public override void LookPosUpdate()
-    {
-        base.lookPos = CalculateAveragePosition.WeightedAverage(lookTransform.ToList<Transform>(), lookTransformWeight.ToList<float>());
-    }
+    
    
     public void SetTrackTransform(Transform[] trackTransform, float[] trackWeight)
     {

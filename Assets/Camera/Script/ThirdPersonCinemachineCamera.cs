@@ -156,20 +156,6 @@ public class ThirdPersonCinemachineCamera : MonoBehaviour
         UpdateCameraPositionInternal(trackWorld, lookWorld);
     }
 
-    // Move the track pivot toward a world-space target position at units/second.
-    public void MoveTargetFollow(Vector3 worldTargetPos, float speed)
-    {
-        Vector3 localTarget = targetFollowTarget.InverseTransformPoint(worldTargetPos);
-        _trackLocalOffset = Vector3.MoveTowards(_trackLocalOffset, localTarget, speed * Time.deltaTime);
-    }
-
-    // Move the look pivot toward a world-space target position at units/second.
-    public void MoveTargetLook(Vector3 worldTargetPos, float speed)
-    {
-        Vector3 localTarget = targetLookTarget.InverseTransformPoint(worldTargetPos);
-        _lookLocalOffset = Vector3.MoveTowards(_lookLocalOffset, localTarget, speed * Time.deltaTime);
-    }
-
     private void UpdateCameraPositionInternal(Vector3 trackWorld, Vector3 lookWorld)
     {
         Vector3 targetPos;
