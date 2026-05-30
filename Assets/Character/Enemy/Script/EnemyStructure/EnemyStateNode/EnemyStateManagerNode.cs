@@ -205,12 +205,14 @@ public partial class EnemyStateManagerNode : INodeManager
         ()=> Vector3.Dot(this.enemy._hipsBone.forward, Vector3.up) > 0
         ,this.enemy
         ,this.enemy.standUpAnimationTriggerSCRP
+        ,this.enemy.standUpPoseSCRP
         , "StandUp"
         );
         enemyPushUpStateNodeLeaf = new GetUpStateNodeLeaf(this.enemy,
         () => true
         , this.enemy
         , this.enemy.pushUpAnimationTriggerSCRP
+        , this.enemy.pushUpPoseSCRP
         , "PushUp"
         );
 

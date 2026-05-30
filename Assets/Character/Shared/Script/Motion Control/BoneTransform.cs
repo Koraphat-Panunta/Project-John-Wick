@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class BoneTransform 
+[System.Serializable]
+public class BoneTransform
 {
     public BoneTransform()
     {

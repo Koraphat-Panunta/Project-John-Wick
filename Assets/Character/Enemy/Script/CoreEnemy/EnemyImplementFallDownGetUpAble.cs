@@ -7,6 +7,11 @@ public partial class Enemy: IRagdollAble
     [SerializeField] public AnimationTriggerEventSCRP standUpAnimationTriggerSCRP;
     [SerializeField] public AnimationTriggerEventSCRP pushUpAnimationTriggerSCRP;
 
+    // Baked get-up start poses (produced by PoseBoneTransformBaker). Passed into the
+    // GetUpStateNodeLeaf so it reads the pose instead of sampling the clip at runtime.
+    [SerializeField] public PoseBoneTransformSCRP standUpPoseSCRP;
+    [SerializeField] public PoseBoneTransformSCRP pushUpPoseSCRP;
+
     Animator IRagdollAble._animator => animator;
 
 

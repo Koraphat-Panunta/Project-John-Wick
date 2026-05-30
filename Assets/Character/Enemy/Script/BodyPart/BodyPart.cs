@@ -69,7 +69,6 @@ public abstract class BodyPart : MonoBehaviour
 
         if (motionControlManager.curMotionState == motionControlManager.ragdollMotionState)
         {
-            Debug.Log("Implement Force Save");
             bodyPartRigid.AddForceAtPosition(forceSave, hitForcePositionSave, ForceMode.Impulse);
             forceSave = Vector3.zero;
             hitForcePositionSave = Vector3.zero;

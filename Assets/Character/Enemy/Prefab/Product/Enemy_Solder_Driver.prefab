@@ -164,7 +164,7 @@ Transform:
   m_GameObject: {fileID: 666962514011957720}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7132003, y: 0.0069010947, z: 0.0081077125, w: 0.7008795}
-  m_LocalPosition: {x: -0.1034144, y: 1.1575038, z: 0.005537019}
+  m_LocalPosition: {x: -0.10341452, y: 1.1575038, z: 0.005537033}
   m_LocalScale: {x: 100, y: 100, z: 100.000015}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -372,7 +372,7 @@ Transform:
   m_GameObject: {fileID: 3900299544232136476}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04542755, y: -0.052469786, z: -0.70782465, w: 0.70297056}
-  m_LocalPosition: {x: -0.80055714, y: 1.3988181, z: -0.036234528}
+  m_LocalPosition: {x: -0.80055714, y: 1.3988181, z: -0.036234856}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -571,7 +571,6 @@ GameObject:
   - component: {fileID: 4667831613134429475}
   - component: {fileID: 2930863595733507818}
   - component: {fileID: 908760415311358006}
-  - component: {fileID: 1357141212215129237}
   m_Layer: 7
   m_Name: Enemy_Solder_Driver
   m_TagString: Untagged
@@ -717,6 +716,8 @@ MonoBehaviour:
     type: 2}
   pushUpAnimationTriggerSCRP: {fileID: 11400000, guid: 10dbc636fc226234ebe507fd8b08c5b8,
     type: 2}
+  standUpPoseSCRP: {fileID: 11400000, guid: 49ce8fe2f54a42efa530c6537aeb3a84, type: 2}
+  pushUpPoseSCRP: {fileID: 11400000, guid: ffd4238892b54933879b85b0f5aeffad, type: 2}
   gunFuDetectTarget: {fileID: 3462143931163896493}
   spinKickScriptable: {fileID: 11400000, guid: b704557c0fd821144abb055425abeede, type: 2}
   gotRestrictScriptableObject: {fileID: 11400000, guid: 4aa7503db68cb024282ca8e98fbd4f9a,
@@ -1174,26 +1175,6 @@ MonoBehaviour:
   - bodyPart: {fileID: 5607200273276217259}
     armored_Protection: {fileID: 0}
   fullBodyCharacterPart: {fileID: 6120905666913085498}
---- !u!114 &1357141212215129237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4991193612353864792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502f43b36e8866544b07ea25930c2f98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyDecisionDebugDisplay
-  decision: {fileID: 3427749730373386911}
-  headAnchor: {fileID: 5679195106195458145}
-  verticalOffset: 2.2
-  fontSize: 12
-  nodeLeafColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  combatPhaseColor: {r: 1, g: 0.55, b: 0.15, a: 1}
-  roleCommandColor: {r: 0, g: 1, b: 1, a: 1}
-  showInGameView: 1
 --- !u!1 &5311822552820714862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1733,7 @@ Transform:
   m_GameObject: {fileID: 7627419608387580712}
   serializedVersion: 2
   m_LocalRotation: {x: 0.14388412, y: -0.7463773, z: 0.581283, w: 0.29039368}
-  m_LocalPosition: {x: -0.14224687, y: 1.2121805, z: 0.12585193}
+  m_LocalPosition: {x: -0.14224672, y: 1.2121805, z: 0.12585163}
   m_LocalScale: {x: 100.000015, y: 100.000046, z: 100.00004}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2546,7 +2527,7 @@ PrefabInstance:
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.79678774
+      value: 0.79678726
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
@@ -2556,7 +2537,7 @@ PrefabInstance:
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.026502782
+      value: -0.02650261
       objectReference: {fileID: 0}
     - target: {fileID: 6884115457744097235, guid: 87cba2b59823c2e498807517d66f02a3,
         type: 3}

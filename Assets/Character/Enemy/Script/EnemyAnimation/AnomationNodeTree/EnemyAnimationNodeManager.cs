@@ -70,7 +70,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.painStateAnimationNodeLeaf = new PlayPoseAnimationNodeLeaf(
             () => (enemyStateManager.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
             || this.enemyStateManager.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
-            , this.animator, "PainState", 0,this.basedAnimationPoseTimeNormalized,0f
+            , this.animator, "PainState", 0,this.basedAnimationPoseTimeNormalized,.1f
             ,this.painStatePoseAnimationSCRP);
 
         this.enemySpinKick = new PlayAnimationNodeLeaf(

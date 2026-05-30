@@ -33,6 +33,7 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
         , Func<bool> preCondition
         ,IRagdollAble ragdollAble
         , AnimationTriggerEventSCRP animationTriggerEventSCRP
+        , PoseBoneTransformSCRP startPose
         , string getUpAnimatorStateName
         ) : base(enemy, preCondition)
     {
@@ -57,7 +58,24 @@ public class GetUpStateNodeLeaf : EnemyStateLeafNode,IRagdollTransitionAnimatorA
             _ragdollBoneTransforms[i] = new BoneTransform();
         }
 
-        RagdollBoneBehavior.PopulateAnimationStartBoneTransforms(animationTriggerEventPlayer.animationClip, enemy.animator.gameObject, _bones, _getUpBoneTransforms, enemy.transform, 0);
+        // Use the baked get-up start pose (passed in) instead of sampling the clip at runtime.
+        // Runtime SampleAnimation is destructive (stamps the skeleton), which broke the
+        // ragdoll pose for pooled enemies. The pose is baked offline via PoseBoneTransformBaker.
+        if (startPose != null
+            && startPose.boneLocalTransforms != null
+            && startPose.boneLocalTransforms.Length == _bones.Length)
+        {
+            for (int i = 0; i < _bones.Length; i++)
+            {
+                _getUpBoneTransforms[i].Position = startPose.boneLocalTransforms[i].Position;
+                _getUpBoneTransforms[i].Rotation = startPose.boneLocalTransforms[i].Rotation;
+            }
+        }
+        else
+        {
+            Debug.LogError($"[GetUpStateNodeLeaf] Missing or mismatched startPose on '{this.animationTriggerEventSCRP?.name}' " +
+                           $"(bones expected {_bones.Length}, got {startPose?.boneLocalTransforms?.Length}). Bake it with PoseBoneTransformBaker.");
+        }
 
     }
     public override void Enter()

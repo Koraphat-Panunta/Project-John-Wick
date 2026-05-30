@@ -70,17 +70,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  initializedOrder: 0100000002000000030000000400000005000000050000000500000005000000050000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000700000007000000070000000800000009000000
+  initializedOrder: 00000000010000000200000003000000040000000500000007000000070000000700000007000000070000000700000007000000070000000800000009000000
 --- !u!114 &4546198631519832747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +417,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3189571448459457883, guid: 4ce8ae178fb7c7e4698c29f60b2129bd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3468713140658741780, guid: 4ce8ae178fb7c7e4698c29f60b2129bd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4089715385895142973, guid: 4ce8ae178fb7c7e4698c29f60b2129bd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5069182286364554960, guid: 4ce8ae178fb7c7e4698c29f60b2129bd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -526,6 +531,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291657590812483490, guid: 4ce8ae178fb7c7e4698c29f60b2129bd,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
