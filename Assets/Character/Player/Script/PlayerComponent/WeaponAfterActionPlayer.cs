@@ -38,9 +38,12 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                     {
                         if (player.stance != Stance.prone)
                         {
+
+                            Vector3 dir = (this.player.crosshairController.targetAim - this.player._movementCompoent.curPosition).normalized;
+
                             player._movementCompoent.SetRotation(Quaternion.Lerp(
                                 this.player.playerMovement.characterController.rotation
-                                , Quaternion.LookRotation(new Vector3(this.player.cinemachineCamera.targetDir.x, player.transform.forward.y, this.player.cinemachineCamera.targetDir.z))
+                                , Quaternion.LookRotation(new Vector3(dir.x, player.transform.forward.y, dir.z))
                                 , aimDownSightWeaponManuverNodeLeaf.weaponManuverManager.aimingWeight));
                         }
 
