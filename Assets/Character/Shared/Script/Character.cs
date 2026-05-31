@@ -10,6 +10,11 @@ public abstract class Character : MonoBehaviour
 
     public bool enableRootMotion;
 
+    // Per-component multiplier applied to baked root motion while enableRootMotion is true.
+    // Defaults to Vector3.one (no scaling); nodes that need to stretch a clip's motion
+    // (e.g. climb reach/height) set it on entry and reset it to one on exit.
+    public Vector3 rootMotionScale = Vector3.one;
+
     public HumanoidBone humanoidBone;
 
     [SerializeField] MovementScriptableObject movementScriptableObject;
@@ -66,7 +71,7 @@ public abstract class Character : MonoBehaviour
 
         this.SumDeltaPos += animator.deltaPosition.magnitude;
 
-        this._movementCompoent.SetPosition(this._movementCompoent.curPosition + (deltaPosition));
+        this._movementCompoent.SetPosition(this._movementCompoent.curPosition + Vector3.Scale(deltaPosition, this.rootMotionScale));
         this._movementCompoent.SetRotation(this._movementCompoent.curRotation * (deltaRotation));
       
     }

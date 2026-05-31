@@ -145,8 +145,8 @@ public class ParkourObstacleTesting : MonoBehaviour
             Vector3 startPos = startCastPoint.position;
 
             Vector3 startClimb = edgePos 
-                + startCastPoint.forward * climbParkourScriptableObject.forwardStartClimbPoint_offset
-                + startCastPoint.up * climbParkourScriptableObject.upWardStartClimbPoint_offset;
+                + startCastPoint.forward * climbParkourScriptableObject.forwardExitPoint_offset
+                + startCastPoint.up * climbParkourScriptableObject.upWardExitPoint_offset;
 
             Vector3 ct1
                 = edgePos

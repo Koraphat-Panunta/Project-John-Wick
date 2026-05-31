@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ClimbHighParkourScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::ClimbParkourScriptableObject
   forWardControlPoint_1_offset: -0.5
-  upWardControlPoint_1_offset: 0.52
-  forwardExitPoint_offset: 0.4
-  upWardExitPoint_offset: 0.04
+  upWardControlPoint_1_offset: -1.6
+  forwardExitPoint_offset: -0.31
+  upWardExitPoint_offset: -1.38
   hieght: 3
   minHieght: 1
   detectDistance: 2
@@ -72,6 +72,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   clip: {fileID: 8251311719085023612, guid: 2c31503f76aeb9c40af4722e41de30ff, type: 3}
   stateName: ClimbHigh
-  forwardStartClimbPoint_offset: -0.4
-  upWardStartClimbPoint_offset: -1.37
-  catchEdgeTimeNormalized: 0.1
+  animationTriggerEventSCRP: {fileID: 11400000, guid: 1b3e516d1f5a43a469469a09d770d09c,
+    type: 2}
+  rootMotionScale: {x: 1, y: 1, z: 1}

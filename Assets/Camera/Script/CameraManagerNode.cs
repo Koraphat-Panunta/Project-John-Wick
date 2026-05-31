@@ -78,7 +78,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             new float[]     { 0.5f, 0.5f });
         this.cameraTPSParkourViewNodeLeaf.SetLookTransform(
             new Transform[] { cam.targetLookTarget, cameraController.player.humanoidBone.hips },
-            new float[]     { 1f, 0f });
+            new float[]     { .5f, .5f });
 
         this.cameraTPSDodgeViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSDodgeView_SCRP
             , () => playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>());

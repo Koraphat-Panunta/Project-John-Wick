@@ -7,28 +7,34 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     MovementCompoent IParkourNodeLeaf._movementCompoent { get => movementCompoent; set => movementCompoent = value; }
     private MovementCompoent movementCompoent;
     private ClimbParkourScriptableObject climbParkourScriptableObject;
-    protected HumanoidBone humanoidBone;
     public string nameState { get => climbParkourScriptableObject.stateName; }
-    public AnimationClip clip { get => climbParkourScriptableObject.clip; }
     private Transform parkourAble => player.transform;
 
     private Vector3 enterPos;
     private Vector3 startClimbPos;
     private Vector3 ct1;
-    private Vector3 exit;
 
     private List<Vector3> cts = new List<Vector3>();
 
-    public float timer { get; protected set; }
-    public float parkourTimeNormalized { get => climbParkourScriptableObject.curve.Evaluate((timer / clip.length)); }
+    private readonly AnimationTriggerEventPlayer _animTriggerPlayer;
+    private bool _isClimbPhase;
+    private readonly float _warpEventNormalized;
+
     private LayerMask obstacleLayer = LayerMask.GetMask("Default");
 
     private Vector3 obstacleSurfaceDir;
     private float rotateToWardSurfaceDir = 0.2f;
+
+    private const string CLIMB_EVENT = "Climb";
+
     public ClimbParkourNodeLeaf(Player player, Func<bool> preCondition,MovementCompoent movementCompoent, ClimbParkourScriptableObject climbParkourScriptableObject) : base(player, preCondition)
     {
         this.movementCompoent = movementCompoent;
         this.climbParkourScriptableObject = climbParkourScriptableObject;
+
+        _animTriggerPlayer = new AnimationTriggerEventPlayer(climbParkourScriptableObject.animationTriggerEventSCRP);
+        _animTriggerPlayer.SubscribeEvent(CLIMB_EVENT, OnClimbPhase);
+        _warpEventNormalized = _animTriggerPlayer.GetEventNormalizedTime(CLIMB_EVENT);
     }
     public override bool Precondition()
     {
@@ -50,9 +56,7 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     }
     public override bool IsComplete()
     {
-        if(parkourTimeNormalized >= 1)
-            return true;
-        return false;
+        return _animTriggerPlayer.IsPlayFinish();
     }
     public override bool IsReset()
     {
@@ -64,48 +68,56 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     }
     public override void Enter()
     {
-        timer = 0;
+        _isClimbPhase = false;
+        this.player.enableRootMotion = false;
         this.movementCompoent.CancleMomentum();
         this.movementCompoent.isOnUpdateEnable = false;
         this.player.playerMovement.characterController.PushForceUp(1, 0.05f);
         this.enterPos = player.transform.position;
-        Debug.DrawLine(this.enterPos, this.startClimbPos);
-        BezierurveBehavior.DrawBezierCurve(this.startClimbPos, cts, exit, 5);
+        _animTriggerPlayer.Rewind();
         base.Enter();
     }
     public override void Exit()
     {
+        this.player.enableRootMotion = false;
+        this.player.rootMotionScale = Vector3.one;
         this.movementCompoent.isOnUpdateEnable = true;
         cts.Clear();
         base.Exit();
     }
+    public override void UpdateNode()
+    {
+        _animTriggerPlayer.UpdatePlay(Time.deltaTime);
+        base.UpdateNode();
+    }
     public override void FixedUpdateNode()
     {
-        timer += Time.fixedDeltaTime;
-
-        if (parkourTimeNormalized <= this.climbParkourScriptableObject.catchEdgeTimeNormalized)
+        // Climb phase: baked root motion drives position/rotation (see Character.HandleAnimatorMove).
+        if (_isClimbPhase)
         {
-            movementCompoent.SetPosition(Vector3.Lerp(this.enterPos, this.startClimbPos, (parkourTimeNormalized / this.climbParkourScriptableObject.catchEdgeTimeNormalized)));
-        }
-        else
-        {
-            movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve
-                (startClimbPos
-                , cts
-                , exit
-                , (parkourTimeNormalized - this.climbParkourScriptableObject.catchEdgeTimeNormalized) / (1 - this.climbParkourScriptableObject.catchEdgeTimeNormalized))
-                );
+            base.FixedUpdateNode();
+            return;
         }
 
-
-
-        this.MovementRotateToWardSurface();
+        // Warp phase: code-driven bezier arc from the entry point to the tuned warp destination.
+        float t = _animTriggerPlayer.GetRemapNormalizedTimer(_animTriggerPlayer.enterNormalizedTime, _warpEventNormalized);
+        movementCompoent.SetPosition(BezierurveBehavior.GetPointOnBezierCurve(enterPos, cts, startClimbPos, t));
+        this.MovementRotateToWardSurface(t);
         base.FixedUpdateNode();
     }
-   
-    private void MovementRotateToWardSurface()
+
+    // Hand-off: snap exactly to the tuned warp destination, then let scaled root motion finish the climb.
+    private void OnClimbPhase()
     {
-        float t = Mathf.Clamp(parkourTimeNormalized / rotateToWardSurfaceDir, 0, rotateToWardSurfaceDir);
+        movementCompoent.SetPosition(startClimbPos);
+        this.player.rootMotionScale = climbParkourScriptableObject.rootMotionScale;
+        this.player.enableRootMotion = true;
+        _isClimbPhase = true;
+    }
+
+    private void MovementRotateToWardSurface(float warpNormalized)
+    {
+        float t = Mathf.Clamp(warpNormalized / rotateToWardSurfaceDir, 0, rotateToWardSurfaceDir);
 
         Quaternion rotate = Quaternion.Lerp(
             Quaternion.LookRotation(parkourAble.forward, Vector3.up)
@@ -117,10 +129,9 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
     {
         cts.Clear();
         Vector3 castUpDes = parkourAble.position + (Vector3.up*climbParkourScriptableObject.hieght);
-        //Debug.DrawLine(parkourAble.position,parkourAble.position + (parkourAble.forward * climbParkourScriptableObject.detectDistance) ,Color.red,2);
         if(EdgeObstacleDetection.GetEdgeObstaclePos(
             IParkourNodeLeaf.sphereRaduis
-            ,this.climbParkourScriptableObject.detectDistance 
+            ,this.climbParkourScriptableObject.detectDistance
             ,obstacleSurfaceDir
             , parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght)
             , castUpDes
@@ -130,22 +141,18 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
             )
             )
         {
-            Debug.DrawLine(parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght), edgePos1, Color.red, 2f);
+            //Debug.DrawLine(parkourAble.position + (Vector3.up * climbParkourScriptableObject.minHieght), edgePos1, Color.red, 2f);
 
             if (Vector3.Distance(edgePos1, new Vector3(edgePos1.x, parkourAble.position.y, edgePos1.z)) < climbParkourScriptableObject.minHieght)
                 return false;
 
             this.startClimbPos = edgePos1
-                + (obstacleSurfaceDir * climbParkourScriptableObject.forwardStartClimbPoint_offset)
-                + (parkourAble.transform.up * climbParkourScriptableObject.upWardStartClimbPoint_offset);
+                + (obstacleSurfaceDir * climbParkourScriptableObject.forwardExitPoint_offset)
+                + (parkourAble.transform.up * climbParkourScriptableObject.upWardExitPoint_offset);
 
             ct1 = edgePos1
                 + (obstacleSurfaceDir * climbParkourScriptableObject.forWardControlPoint_1_offset)
                 + (parkourAble.transform.up * climbParkourScriptableObject.upWardControlPoint_1_offset);
-
-            exit = edgePos1
-                + (obstacleSurfaceDir * climbParkourScriptableObject.forwardExitPoint_offset)
-                + (parkourAble.up * climbParkourScriptableObject.upWardExitPoint_offset);
 
             cts.Add(ct1);
 
@@ -154,6 +161,6 @@ public class ClimbParkourNodeLeaf : PlayerStateNodeLeaf, IParkourNodeLeaf
         else
             return false;
 
-       
+
     }
 }

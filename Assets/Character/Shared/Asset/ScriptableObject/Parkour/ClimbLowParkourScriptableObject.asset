@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0fc9b7972f8e134c9e485e332a717d7, type: 3}
   m_Name: ClimbLowParkourScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::ClimbParkourScriptableObject
-  forWardControlPoint_1_offset: -0.3
-  upWardControlPoint_1_offset: 0.4
-  forwardExitPoint_offset: 0.3
-  upWardExitPoint_offset: 0.1
+  forWardControlPoint_1_offset: -0.94
+  upWardControlPoint_1_offset: -0.8
+  forwardExitPoint_offset: -0.48
+  upWardExitPoint_offset: -0.82
   hieght: 1.12
   minHieght: 0.35
   detectDistance: 1
@@ -45,6 +45,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   clip: {fileID: 6791345302321073908, guid: 2c31503f76aeb9c40af4722e41de30ff, type: 3}
   stateName: ClimbLow
-  forwardStartClimbPoint_offset: -0.3
-  upWardStartClimbPoint_offset: -0.4
-  catchEdgeTimeNormalized: 0.3
+  animationTriggerEventSCRP: {fileID: 11400000, guid: b2b47c83773838d42ad6c87387af6e32,
+    type: 2}
+  rootMotionScale: {x: 1, y: 1, z: 1}
