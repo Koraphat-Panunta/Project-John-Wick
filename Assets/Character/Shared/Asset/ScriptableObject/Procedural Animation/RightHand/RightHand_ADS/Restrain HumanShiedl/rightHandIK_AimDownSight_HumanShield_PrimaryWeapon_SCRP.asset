@@ -18,8 +18,5 @@ MonoBehaviour:
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalHandAimDeg: 0
   maxVerticalHandAimDeg: 0
-  onBlocked_positionOffset: {x: 0.04, y: -0.08, z: 0.2}
-  onBlocked_rotationEulerOffset: {x: 53.41, y: 270, z: 270}
-  onBlocked_hintPositionOffset: {x: 0.12, y: -0.13, z: -0.2}
-  recoil_Additional_Position_Offset: {x: 0, y: 0, z: -0.03}
-  recoil_Additional_Rotation_Offset: {x: 0, y: 0, z: 1}
+  recoilData: {fileID: 11400000, guid: f7a8b9c0d1e23d4e5f60718293041526, type: 2}
+  blockData: {fileID: 11400000, guid: a8b9c0d1e2f34e5f6071829304152637, type: 2}

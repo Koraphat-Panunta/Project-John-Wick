@@ -36,6 +36,8 @@ public class BodyConstraintManager : MonoBehaviour, IConstraintManager
     public Vector3 getOffsetConstraint1 => this.rotationConstraint1.data.offset;
     public Vector3 getOffsetConstraint2 => this.rotationConstraint2.data.offset;
 
+    public Quaternion SourceLookRotation => this.bodyRotationRef.rotation;
+
     private Vector3 targetDir;
 
     protected Quaternion restRotation;

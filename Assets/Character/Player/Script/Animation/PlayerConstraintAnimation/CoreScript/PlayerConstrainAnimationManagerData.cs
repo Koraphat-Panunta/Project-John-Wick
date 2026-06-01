@@ -18,11 +18,8 @@ public partial class PlayerConstrainAnimationManager
     public BodyRotationConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
 
     [Header("── Lean ScriptableObjects ──────────────────────────────────")]
-    public LeaningRotaionScriptableObject quickSwitchlLeaningConstrainScriptableObject;
-    public LeaningRotaionScriptableObject pistolLeaningConstrainScriptableObject;
-    public LeaningRotaionScriptableObject pistolLeaning_CAR_ConstrainScriptableObject;
-    public LeaningRotaionScriptableObject rifileLeaningConstrainScriptableObject;
-    public LeaningRotaionScriptableObject rifileLeaning_CAR_ConstrainScriptableObject;
+    public LeaningRotaionScriptableObject leaningConstrainScriptableObject;
+
 
     [Header("── Right Hand IK ScriptableObjects ────────────────────────")]
     public WeaponHandIK_ConstraintSCRP rightHand_AimDownSight_HumanShield_Primary_SCRP;

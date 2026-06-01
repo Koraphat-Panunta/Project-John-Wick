@@ -118,25 +118,13 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         if(this.leaningRotationConstrainNodeLeaf.Precondition() == false)
             return;
 
-        if(obj is IQuickSwitchNode)
-            this.SetLeanSCRP(this.quickSwitchlLeaningConstrainScriptableObject);
-        else if(this.player._currentWeapon != null
-            && this.player._currentWeapon is PrimaryWeapon)
-        {
-            if (this.playerAnimationManager.isIn_C_A_R_aim)
-                this.SetLeanSCRP(this.rifileLeaning_CAR_ConstrainScriptableObject);
-            else
-                this.SetLeanSCRP(this.rifileLeaningConstrainScriptableObject);
-        }
-        else if(this.player._currentWeapon != null
-            && this.player._currentWeapon is SecondaryWeapon)
-        {
-            if (this.playerAnimationManager.isIn_C_A_R_aim)
-                this.SetLeanSCRP(this.pistolLeaning_CAR_ConstrainScriptableObject);
-            else
-                this.SetLeanSCRP(this.pistolLeaningConstrainScriptableObject);
-        }
-        
+        if (this.leaningRotationConstrainNodeLeaf.leaningScriptableObject
+        == this.leaningConstrainScriptableObject)
+            return;
+
+        this.leaningRotationConstrainNodeLeaf.SetLeaningRotaionSCRP(this.leaningConstrainScriptableObject);
+        this.leaningRotationConstrainNodeLeaf.SetTargetLeanWeight(0);
+
 
     } 
     private void SetLeanSCRP(LeaningRotaionScriptableObject leaningRotaionScriptableObject)

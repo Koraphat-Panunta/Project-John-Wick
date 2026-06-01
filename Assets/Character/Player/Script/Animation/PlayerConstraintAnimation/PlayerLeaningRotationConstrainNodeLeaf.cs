@@ -50,8 +50,6 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
     public override void UpdateNode()
     {
-        Debug.Log("LeaningUpdate");
-
         float goal = _targetLeanWeight * multipleTargetWeight;
         float smoothTime = Mathf.Approximately(goal, 0f)
             ? leaningScriptableObject.recoverySmoothTime
@@ -59,12 +57,27 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
 
         _currentLean = Mathf.SmoothDamp(_currentLean, goal, ref _leanVelocity, smoothTime);
 
+        // Roll axis = the weapon aim line, expressed in the source look frame so the
+        // constraint offset (which post-multiplies in that frame) rolls about world aim.
+        Vector3 aimDir       = (_weaponAdvanceUser._pointingPos - castAnchorPos).normalized;
+        Quaternion source    = _bodyConstraintManager.SourceLookRotation;
+        Quaternion worldRoll = Quaternion.AngleAxis(leaningScriptableObject.maxLeanAngle * _currentLean, aimDir);
+        Quaternion localRoll = Quaternion.Inverse(source) * worldRoll * source;
+
         _bodyConstraintManager.SetAllConstraintOffsetData(
-            _bodyRotationNode.currentSmoothedOffset  + leaningScriptableObject.spine0LeanOffset * _currentLean,
-            _bodyRotationNode.currentSmoothedOffset1 + leaningScriptableObject.spine1LeanOffset * _currentLean,
-            _bodyRotationNode.currentSmoothedOffset2 + leaningScriptableObject.spine2LeanOffset * _currentLean);
+            ComposeLeanOffset(_bodyRotationNode.currentSmoothedOffset,  localRoll, leaningScriptableObject.spine0LeanScale),
+            ComposeLeanOffset(_bodyRotationNode.currentSmoothedOffset1, localRoll, leaningScriptableObject.spine1LeanScale),
+            ComposeLeanOffset(_bodyRotationNode.currentSmoothedOffset2, localRoll, leaningScriptableObject.spine2LeanScale));
 
         base.UpdateNode();
+    }
+
+    // Scales the roll per spine bone and composes it with the ADS look offset
+    // (rotation composition, not Euler addition). scale = 0 -> pure ADS offset.
+    private static Vector3 ComposeLeanOffset(Vector3 adsEuler, Quaternion localRoll, float scale)
+    {
+        Quaternion scaledRoll = Quaternion.SlerpUnclamped(Quaternion.identity, localRoll, scale);
+        return (scaledRoll * Quaternion.Euler(adsEuler)).eulerAngles;
     }
 
     public override void FixedUpdateNode()
@@ -89,12 +102,12 @@ public class PlayerLeaningRotationConstrainNodeLeaf : AnimationConstrainNodeLeaf
         if (_player.curShoulderSide == Side.Left)
         {
             Vector3 perpDir = Vector3.Cross(castDir.normalized, Vector3.down);
-            _targetLeanWeight = -leaningScriptableObject.leanWeightCurve.Evaluate(CalculateSideWeight(perpDir, castDir));
+            _targetLeanWeight = leaningScriptableObject.leanWeightCurve.Evaluate(CalculateSideWeight(perpDir, castDir));
         }
         else
         {
             Vector3 perpDir = Vector3.Cross(castDir.normalized, Vector3.up);
-            _targetLeanWeight = leaningScriptableObject.leanWeightCurve.Evaluate(CalculateSideWeight(perpDir, castDir));
+            _targetLeanWeight = -leaningScriptableObject.leanWeightCurve.Evaluate(CalculateSideWeight(perpDir, castDir));
         }
     }
 

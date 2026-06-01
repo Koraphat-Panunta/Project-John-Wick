@@ -12,14 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da36ddb475224c8419e9a76d4a74abe9, type: 3}
   m_Name: rightHand_AimDownSight_SecondaryWeapon_SCRP
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
-  positionOffset: {x: -0.07, y: 0.06, z: 0.5}
+  positionOffset: {x: -0.12, y: 0.04, z: 0.47}
   rotationEulerOffset: {x: 5, y: 270, z: 270}
   hintPositionOffset: {x: 0.3, y: -0.28, z: -0.29}
   rotateRefDirOffset: {x: 15, y: 0, z: 0}
   maxHorizontalHandAimDeg: 0
   maxVerticalHandAimDeg: 67
-  onBlocked_positionOffset: {x: -0.04, y: -0.03, z: 0.2}
-  onBlocked_rotationEulerOffset: {x: 45, y: 270, z: 320.8}
-  onBlocked_hintPositionOffset: {x: 0.23, y: -0.29, z: -0.25}
-  recoil_Additional_Position_Offset: {x: 0, y: 0.01, z: -0.02}
-  recoil_Additional_Rotation_Offset: {x: 0, y: 0, z: 15}
+  recoilData: {fileID: 11400000, guid: 2c3c4c5c6c7c8c9c0c1c2c3c4c5c6c7c, type: 2}
+  blockData: {fileID: 11400000, guid: 4e5e6e7e8e9e0e1e2e3e4e5e6e7e8e9e, type: 2}

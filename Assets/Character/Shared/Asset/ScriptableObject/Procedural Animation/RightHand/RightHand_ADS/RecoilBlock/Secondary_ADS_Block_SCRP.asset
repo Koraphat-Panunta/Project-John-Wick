@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e6f7a8b9c01b2c3d4e5f6071829304, type: 3}
+  m_Name: Secondary_ADS_Block_SCRP
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponHandBlockSCRP
+  positionOffset: {x: 0.08, y: -0.03, z: -0.16}
+  rotationEulerOffset: {x: 45, y: 270, z: 320.8}
+  hintPositionOffset: {x: 0.23, y: -0.29, z: -0.25}
+  raiseSpeed: 2
+  lowerSpeed: 5
+  smoothingSpeed: 80
+  clearBuffer: 0.15
+  blockMask:
+    serializedVersion: 2
+    m_Bits: 1

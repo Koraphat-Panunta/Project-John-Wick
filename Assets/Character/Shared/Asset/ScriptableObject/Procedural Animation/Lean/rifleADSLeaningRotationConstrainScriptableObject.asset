@@ -12,13 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da8f7622a1bc15d40b0fceef8a6cb9de, type: 3}
   m_Name: rifleADSLeaningRotationConstrainScriptableObject
   m_EditorClassIdentifier: Assembly-CSharp::LeaningRotaionScriptableObject
-  leaningLeftRightSplineMax: 0.175
-  leaningLeftRightSplineOffset: {x: 0, y: 0, z: 0}
-  leaningLeftRightSpline1Offset: {x: 0, y: 0, z: 0}
-  multiplyleaningLeftRightSpline1: 1.44
   checkDistance: 1
   numberRaycast: 7
-  leaningSpeed: 5
   maxDistanceCheck: 6
   minDistanceCheck: 2.5
   castingCheckLayer:
@@ -48,3 +43,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  maxLeanAngle: 42
+  spine0LeanScale: 1
+  spine1LeanScale: 1
+  spine2LeanScale: 0.65
+  leanSmoothTime: 0.3
+  recoverySmoothTime: 0.3

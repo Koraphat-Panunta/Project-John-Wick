@@ -85,7 +85,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         //2
         this.leaningRotationConstrainNodeLeaf = new PlayerLeaningRotationConstrainNodeLeaf
             (this.player
-            , this.rifileLeaningConstrainScriptableObject
+            , this.leaningConstrainScriptableObject
             , this.bodyRotateConstraintManager
             ,this.bodyLookConstraintNodeLeaf
             , player
@@ -101,7 +101,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
 
 
-        //this.leanConstraintSelector.AddtoChildNode(this.leaningRotationConstrainNodeLeaf);
+        this.leanConstraintSelector.AddtoChildNode(this.leaningRotationConstrainNodeLeaf);
         this.leanConstraintSelector.AddtoChildNode(this.leaningRestNodeLeaf);
 
         this.playeBodyConstriantAnimationNodeComponentManager.AddNode(this.leanConstraintSelector);
@@ -167,8 +167,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
             , this.player.humanoidBone._rightArmBone
-            , this.player.humanoidBone._headBone
-            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone._spine_2_Bone
+            , this.player.humanoidBone._spine_2_Bone
             , this.player.humanoidBone._spine_2_Bone
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
@@ -185,7 +185,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.aimConstrainPositionReference
             , this.player.humanoidBone._rightArmBone
             , this.player.humanoidBone._spine_2_Bone
-            , this.player.humanoidBone._rightArmBone
+            , this.player.humanoidBone._spine_2_Bone
             , this.player.transform
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP

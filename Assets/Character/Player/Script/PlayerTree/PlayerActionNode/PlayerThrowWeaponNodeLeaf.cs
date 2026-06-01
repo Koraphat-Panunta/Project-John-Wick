@@ -17,6 +17,8 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
     }
     public override void Enter()
     {
+        this.player._movementCompoent.CancleMomentum();
+        this.player.enableRootMotion = true;
          if(CastFinding.FindObectInViewByComponent<IBeenThrewObjectAt>(
             this.startCastPos
             , this.castDir
@@ -42,6 +44,7 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
             throwWeapon.WeaponAttacherComponent.Detach();
         }
         player.curBeenThrowObjectAt = null;
+        this.player.enableRootMotion = false;
         base.Exit();
     }
     public override void UpdateNode()

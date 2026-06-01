@@ -16,9 +16,11 @@ public class LeaningRotaionScriptableObject : ScriptableObject
     public LayerMask castingCheckLayer;
     public AnimationCurve leanWeightCurve;
 
-    public Vector3 spine0LeanOffset;
-    public Vector3 spine1LeanOffset;
-    public Vector3 spine2LeanOffset;
+    [Range(0, 90)] public float maxLeanAngle;
+
+    [Range(0, 1)] public float spine0LeanScale;
+    [Range(0, 1)] public float spine1LeanScale;
+    [Range(0, 1)] public float spine2LeanScale;
 
     [Range(0, 1)]
     public float leanSmoothTime;
