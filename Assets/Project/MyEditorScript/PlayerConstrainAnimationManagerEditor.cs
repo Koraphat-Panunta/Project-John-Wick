@@ -90,7 +90,7 @@ public class PlayerConstrainAnimationManagerEditor : Editor
         DrawProperty("quickSwitchlLeaningConstrainScriptableObject");
         DrawProperty("pistolLeaningConstrainScriptableObject");
         DrawProperty("pistolLeaning_CAR_ConstrainScriptableObject");
-        DrawProperty("rifileLeaningConstrainScriptableObject");
+        DrawProperty("leaningConstrainScriptableObject");
         DrawProperty("rifileLeaning_CAR_ConstrainScriptableObject");
     }
 
