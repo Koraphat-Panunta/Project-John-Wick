@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,8 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     private Camera camera;
     private LayerMask enemyMask;
     public Dictionary<Enemy, InWorldUI> assignInWorldEnemy;
+    private readonly List<Enemy> _enemyListCache = new List<Enemy>();
+    private readonly List<Enemy> _detectedCache = new List<Enemy>();
     public EnemyStaggerStatusInWorldUIManageNodeLeaf(Func<bool> preCondition
         ,Camera camera
         ,I_OCM_Attack_Able gunFuAble
@@ -36,32 +37,28 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
         if(assignInWorldEnemy.Count <= 0)
             return;
 
-        List<Enemy> enemyList = assignInWorldEnemy.Keys.ToList<Enemy>();
+        _enemyListCache.Clear();
+        _enemyListCache.AddRange(assignInWorldEnemy.Keys);
 
-        for (int i = 0; i < enemyList.Count; i++) 
+        for (int i = 0; i < _enemyListCache.Count; i++)
         {
-            assignInWorldEnemy[enemyList[i]].SetAnchorPosition(enemyList[i].humanoidBone._headBone.transform.position);
-            if (enemyList[i].isDead
-                ){
-                objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
-                assignInWorldEnemy.Remove(enemyList[i]);
-                //Debug.Log(enemyList[i] + "is dead");
+            Enemy e = _enemyListCache[i];
+            assignInWorldEnemy[e].SetAnchorPosition(e.humanoidBone._headBone.transform.position);
+            if (e.isDead)
+            {
+                objectPooling.ReturnToPool(assignInWorldEnemy[e]);
+                assignInWorldEnemy.Remove(e);
                 continue;
             }
 
-            if (CheckExecuteTargetInAssinged(enemyList[i])){
-                //Debug.Log(enemyList[i] + "is executeAble");
+            if (CheckExecuteTargetInAssinged(e))
                 continue;
-            }
 
-            if (CheckIsStaggerTargetInAssinged(enemyList[i])){
-                //Debug.Log(enemyList[i] + "is Stagger");
+            if (CheckIsStaggerTargetInAssinged(e))
                 continue;
-            }
 
-            //Debug.Log(enemyList[i] + " last");
-            objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
-            assignInWorldEnemy.Remove(enemyList[i]);
+            objectPooling.ReturnToPool(assignInWorldEnemy[e]);
+            assignInWorldEnemy.Remove(e);
         }
        
     }
@@ -98,22 +95,20 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     }
     private void UpdateEnemyDetectStagger()
     {
-
-        List<Enemy> enemyDected = new List<Enemy>();
+        _detectedCache.Clear();
 
         foreach (GameObject obj in fieldOfView.FindMultipleTargetsInView(this.enemyMask))
         {
-
             if (obj.TryGetComponent<BodyPart>(out BodyPart bodyPart) == false)
                 continue;
 
-            if (enemyDected.Contains(bodyPart.enemy))
+            if (_detectedCache.Contains(bodyPart.enemy))
                 continue;
 
-            enemyDected.Add(bodyPart.enemy);
+            _detectedCache.Add(bodyPart.enemy);
 
-            if(bodyPart.enemy.isDead
-                ||bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
+            if (bodyPart.enemy.isDead
+                || bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<IGotGunFuExecuteNodeLeaf>())
                 continue;
 
             if (assignInWorldEnemy.ContainsKey(bodyPart.enemy))
@@ -122,18 +117,19 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
             if (bodyPart.enemy.isStagger)
             {
                 InWorldUI enemyStatusInWorldUI = objectPooling.Get();
-                assignInWorldEnemy.Add(bodyPart.enemy,enemyStatusInWorldUI);
+                assignInWorldEnemy.Add(bodyPart.enemy, enemyStatusInWorldUI);
             }
         }
 
-        List<Enemy> assignEnemy = assignInWorldEnemy.Keys.ToList();
+        _enemyListCache.Clear();
+        _enemyListCache.AddRange(assignInWorldEnemy.Keys);
 
-        for (int i = 0; i < assignEnemy.Count; i++) 
+        for (int i = 0; i < _enemyListCache.Count; i++)
         {
-            if (enemyDected.Contains(assignEnemy[i]) == false)
+            if (!_detectedCache.Contains(_enemyListCache[i]))
             {
-                objectPooling.ReturnToPool(assignInWorldEnemy[assignEnemy[i]]);
-                assignInWorldEnemy.Remove(assignEnemy[i]);
+                objectPooling.ReturnToPool(assignInWorldEnemy[_enemyListCache[i]]);
+                assignInWorldEnemy.Remove(_enemyListCache[i]);
             }
         }
     }
@@ -146,12 +142,13 @@ public class EnemyStaggerStatusInWorldUIManageNodeLeaf : InWorldUINodeLeaf
     {
         if (assignInWorldEnemy.Count > 0)
         {
-            List<Enemy> enemyList = assignInWorldEnemy.Keys.ToList<Enemy>();
+            _enemyListCache.Clear();
+            _enemyListCache.AddRange(assignInWorldEnemy.Keys);
 
-            for (int i = 0; i < enemyList.Count; i++)
+            for (int i = 0; i < _enemyListCache.Count; i++)
             {
-                objectPooling.ReturnToPool(assignInWorldEnemy[enemyList[i]]);
-                assignInWorldEnemy.Remove(enemyList[i]);
+                objectPooling.ReturnToPool(assignInWorldEnemy[_enemyListCache[i]]);
+                assignInWorldEnemy.Remove(_enemyListCache[i]);
             }
         }
 

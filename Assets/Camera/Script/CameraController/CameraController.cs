@@ -263,15 +263,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     
                     break;
                 }
-            case PlayerCrouch_Idle_NodeLeaf:
-            case PlayerCrouch_Move_NodeLeaf: 
-                {
-                    if ((node as PlayerStateNodeLeaf)._curPhase == NodePhase.Enter)
-                        this.isCrouching = true;
-                    else if ((node as PlayerStateNodeLeaf)._curPhase == NodePhase.Exit)
-                        this.isCrouching = false;
-                    break;
-                }
+          
             case AimDownSightWeaponManuverNodeLeaf adsNodeLeaf:
                 {
                    if(adsNodeLeaf.curPhase == AimDownSightWeaponManuverNodeLeaf.AimDownSightPhase.Enter)

@@ -22,4 +22,14 @@ MonoBehaviour:
   maxHorizontalDeg: 0
   maxVerticalDeg: 0
   offsetChangedRate: 0
-  bledningWeightSCRP: []
+  bledningWeightSCRP:
+  - weight: 0
+    scrp: {fileID: 11400000, guid: a8c95f684351fe346a207aa6a6fce48d, type: 2}
+  - weight: 90
+    scrp: {fileID: 11400000, guid: 9c0f952a612c48e488d2c6d5a0449eb7, type: 2}
+  - weight: 180
+    scrp: {fileID: 11400000, guid: 45fb654a08f1adf42a58eba6d9d6ed54, type: 2}
+  - weight: 270
+    scrp: {fileID: 11400000, guid: 01761851df8376a47a3993c7400b2428, type: 2}
+  - weight: 360
+    scrp: {fileID: 11400000, guid: a8c95f684351fe346a207aa6a6fce48d, type: 2}

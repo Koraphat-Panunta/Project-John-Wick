@@ -43,6 +43,11 @@ public class EnemyTacticDecision : EnemyDecision
         cost = Random.Range(50, 70);
     }
 
+    protected void OnDestroy()
+    {
+        enemy.NotifyCommunicate -= OnNotifyGetCommunicate;
+    }
+
     protected override void Update()
     {
         if (curTacticDecision != null)

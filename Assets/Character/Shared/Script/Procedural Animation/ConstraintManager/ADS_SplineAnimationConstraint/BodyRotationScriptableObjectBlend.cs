@@ -8,9 +8,18 @@ public class BodyRotationScriptableObjectBlend : BodyRotationConstrainScriptable
     [SerializeField]
     private BledningWeightSCRP<BodyRotationConstrainScriptableObject>[] bledningWeightSCRP;
 
+    public float weight;
+
+    public void SetWeight(float w)
+    {
+        GetBlendData(w);
+    }
+
     public BodyRotationConstrainScriptableObject GetBlendData(float weight)
     {
         var data = this.bledningWeightSCRP;
+
+        this.weight = weight;
 
         if (data == null || data.Length == 0)
             return this;
@@ -41,7 +50,7 @@ public class BodyRotationScriptableObjectBlend : BodyRotationConstrainScriptable
 
         for (int i = 0; i < data.Length - 1; i++)
         {
-            if (weight >= data[i].weight && weight <= data[i + 1].weight)
+            if (this.weight >= data[i].weight && this.weight <= data[i + 1].weight)
             {
                 a = data[i];
                 b = data[i + 1];
@@ -49,7 +58,7 @@ public class BodyRotationScriptableObjectBlend : BodyRotationConstrainScriptable
             }
         }
 
-        float t = Mathf.InverseLerp(a.weight, b.weight, weight);
+        float t = Mathf.InverseLerp(a.weight, b.weight, this.weight);
 
         var sa = a.scrp;
         var sb = b.scrp;

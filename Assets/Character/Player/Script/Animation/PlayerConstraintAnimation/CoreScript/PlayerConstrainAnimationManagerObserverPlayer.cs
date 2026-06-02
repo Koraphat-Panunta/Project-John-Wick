@@ -136,6 +136,8 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         this.leaningRotationConstrainNodeLeaf.SetLeaningRotaionSCRP(leaningRotaionScriptableObject);
         this.leaningRotationConstrainNodeLeaf.SetTargetLeanWeight(0);
     }
+
+   
     private void RightHand_ConstrainCondition<T>(Player player,T obj)
     {
 
@@ -159,28 +161,25 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
             && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>() == false
             && this.playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>() == false)
         {
-            if (this.isProne
-                && this.player._currentWeapon is PrimaryWeapon)
+            if (this.isProne && this.player._currentWeapon is PrimaryWeapon)
             {
-                if(this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP
-                    == this.rightHand_AimDownSight_ProneUp_PrimaryWeapon_SCRP)
+
+                if (this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP 
+                    == this.rightHand_AimDownSight_Prone_PrimaryWeapon_SCRP)
                     return;
 
-                this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP
-                    (this.rightHand_AimDownSight_ProneUp_PrimaryWeapon_SCRP);
+                this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(this.rightHand_AimDownSight_Prone_PrimaryWeapon_SCRP);
                 this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
             }
-            else if (this.isProne
-                && this.player._currentWeapon is SecondaryWeapon)
+            else if (this.isProne && this.player._currentWeapon is SecondaryWeapon)
             {
-                if (this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP
-                   == this.rightHand_AimDownSight_ProneUp_SecondaryWeapon_SCRP)
+                
+                if (this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP 
+                    == this.rightHand_AimDownSight_Prone_SecondaryWeapon_SCRP)
                     return;
 
-                this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP
-                    (this.rightHand_AimDownSight_ProneUp_SecondaryWeapon_SCRP);
+                this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(this.rightHand_AimDownSight_Prone_SecondaryWeapon_SCRP);
                 this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
-
             }
             else if(this.player._currentWeapon is PrimaryWeapon
                 && this.playerAnimationManager.isIn_C_A_R_aim)
@@ -207,6 +206,7 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
             }
         }
     }
+
     private void SetRightHandSCRP(TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP)
     {
         if(this.rightHandWeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP == handIK_ConstraintSCRP)

@@ -50,6 +50,7 @@ public class PlayerStateNodeManager :
     public PlayerLandingStandStateNodeLeaf landingStandStateNodeLeaf { get; private set; }
     public PlayerSprintNode playerSprintNode { get; private set; }
     public PlayerSprintChangeDirectionNode playerSprintChangeDirectionNode { get; private set; }
+    public PlayerSlideNodeLeaf playerSlideNodeLeaf { get; private set; }
     public NodeSelector dolphinDiveSelector { get; private set; }
     public ObstacleJumpDolphinDiveNodeLeaf obstacleJumpDolphinDiveNodeLeaf { get; private set; }
     public WallJumpReversDolphinDiveNodeLeaf wallJumpReversDolphinDiveNodeLeaf { get; private set; }
@@ -147,6 +148,11 @@ public class PlayerStateNodeManager :
                 && this.player._movementCompoent.curMoveVelocity_World.magnitude > this.player.StandMoveMaxSpeed * CHANGE_DIR_MIN_SPEED_RATIO
                 && Vector3.Dot(this.player.inputMoveDir_World.normalized, this.player._movementCompoent.curMoveVelocity_World.normalized) < CHANGE_DIR_DOT_THRESHOLD,
             this.player.sprintChangeDirSCRP);
+
+        this.playerSlideNodeLeaf = new PlayerSlideNodeLeaf(
+            this.player, this, this.player.slideSCRP,
+            () => this.player.isTriggerCrouchStand 
+            && this.player._movementCompoent.curMoveVelocity_World.magnitude >= this.player.sprintMaxSpeed * .9f);
 
         this.dolphinDiveSelector = new NodeSelector(
             () => this.player.triggerDodgeRoll);
@@ -435,7 +441,10 @@ public class PlayerStateNodeManager :
         standSelectorNode.AddtoChildNode(playerStandIdleNode);
 
         this.playerSprintNode.AddTransitionNode(this.playerSprintChangeDirectionNode);
+        this.playerSprintNode.AddTransitionNode(this.playerSlideNodeLeaf);
         this.playerSprintNode.AddTransitionNode(this.dolphinDiveSelector);
+
+        this.playerSlideNodeLeaf.AddTransitionNode(this.dodgeSpinKicklGunFuNodeLeaf);
 
         this.dolphinDiveSelector.AddtoChildNode(this.obstacleJumpDolphinDiveNodeLeaf);
         this.dolphinDiveSelector.AddtoChildNode(this.wallJumpReversDolphinDiveNodeLeaf);

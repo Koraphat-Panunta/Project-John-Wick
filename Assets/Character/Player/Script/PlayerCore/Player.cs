@@ -42,7 +42,8 @@ public partial class Player : SubjectPlayer,
                     || this.stateNodeManager.TryGetCurNodeLeaf<PlayerBrounceOffNodeLeaf>())
                     return Stance.prone;
 
-                if (this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+                if (this.stateNodeManager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>()
+                    || this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
                     || this.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>())
                     return Stance.crouch;
 

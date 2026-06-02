@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da36ddb475224c8419e9a76d4a74abe9, type: 3}
-  m_Name: RightHand_ProneUp_AimDownSight_Secondary_HandIK_ConstraintSCRP
+  m_Name: RightHand_ProneUp_AimDownSight_Secondary_HandIK_ConstraintSCRP_180
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
-  positionOffset: {x: -0.05, y: 0.04, z: 0.47}
-  rotationEulerOffset: {x: 20, y: -90, z: -90}
+  positionOffset: {x: 0.04, y: 0.12, z: 0.42}
+  rotationEulerOffset: {x: 7, y: -90, z: -90}
   hintPositionOffset: {x: 0.22, y: -0.43, z: -0.23}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalHandAimDeg: 45
   maxVerticalHandAimDeg: 45
   recoilData: {fileID: 11400000, guid: 2c3c4c5c6c7c8c9c0c1c2c3c4c5c6c7c, type: 2}
-  blockData: {fileID: 11400000, guid: 7b8b9b0b1b2b3b4b5b6b7b8b9b0b1b2b, type: 2}
+  blockData: {fileID: 0}

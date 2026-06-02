@@ -50,26 +50,38 @@ public class BulletSpawner : MonoBehaviour
         float distance = Vector3.Distance(startPos, endPos);
         float curDistance = 0;
         float t = 0;
-        while (t<=1) 
+        while (t <= 1)
         {
+            if (bulletTrail == null) yield break;
             bulletTrail.transform.position = Vector3.Lerp(startPos, endPos, t);
             curDistance += speedTrail * Time.deltaTime;
-            t = curDistance/distance;
+            t = curDistance / distance;
             yield return null;
         }
+
+        if (bulletTrail == null) yield break;
         bulletTrail.transform.position = endPos;
 
         float fadeTime = 0;
         float fadeTimeDuration = 1;
 
-        while (fadeTime >= fadeTimeDuration)
+        while (fadeTime < fadeTimeDuration)
         {
+            if (bulletTrail == null) yield break;
             fadeTime += Time.deltaTime;
-            for (int i = 0; i < bulletTrail.colorGradient.alphaKeys.Length; i++) 
-            {
-                bulletTrail.colorGradient.alphaKeys[i].alpha = Mathf.Lerp(bulletTrail.colorGradient.alphaKeys[i].alpha, 0, fadeTime);
-            }
+
+            // colorGradient returns a copy — must write the modified gradient back
+            Gradient gradient = bulletTrail.colorGradient;
+            GradientAlphaKey[] alphaKeys = gradient.alphaKeys;
+            for (int i = 0; i < alphaKeys.Length; i++)
+                alphaKeys[i].alpha = Mathf.Lerp(alphaKeys[i].alpha, 0, fadeTime / fadeTimeDuration);
+            gradient.alphaKeys = alphaKeys;
+            bulletTrail.colorGradient = gradient;
+
             yield return null;
         }
+
+        if (bulletTrail != null)
+            Destroy(bulletTrail.gameObject);
     }
 }

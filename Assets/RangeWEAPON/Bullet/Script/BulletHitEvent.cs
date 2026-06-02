@@ -67,4 +67,9 @@ public class BulletHitEvent : MonoBehaviour,IInitializedAble
         this.bloodSplits = new ObjectPooling<ParticleSystem>(bloodSplit, 12, 3, Vector3.zero);
         weapon.bullet.bulletHitNotify += OnBulletHit;
     }
+
+    private void OnDestroy()
+    {
+        weapon.bullet.bulletHitNotify -= OnBulletHit;
+    }
 }

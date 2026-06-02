@@ -47,6 +47,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf landingStandNodeLeaf { get; set; }
 
     public PlayAnimationNodeLeaf dodgeNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf slideNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintChangeDirNodeLeaf { get; set; }
 
@@ -138,7 +139,12 @@ public partial class PlayerAnimationManager
             ,
             animator, "DodgeRoll", 0, .2f, 0.1f);
         sprintNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintNode,
-            animator, "Sprint", 0, .15f);
+            animator, "Sprint", 0, .4f);
+
+        this.slideNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>(),
+            animator, "Slide", 0, .4f);
+
         sprintChangeDirNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintChangeDirectionNode,
             animator, "SprintChangeDir", 0, .1f);
@@ -314,6 +320,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(dodgeNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.getUpNodeLeaf);
                 this.basedLayerNodeSelector.AddtoChildNode(this.proneStateNodeSelector);
+                basedLayerNodeSelector.AddtoChildNode(slideNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(sprintChangeDirNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(sprintNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(moveCrouchNodeLeaf);

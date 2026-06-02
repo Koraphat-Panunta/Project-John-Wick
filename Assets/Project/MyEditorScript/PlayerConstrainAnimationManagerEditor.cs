@@ -1,129 +1,111 @@
 #if UNITY_EDITOR
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(PlayerConstrainAnimationManager))]
 public class PlayerConstrainAnimationManagerEditor : Editor
 {
-    private bool showGeneral = true;
-    private bool showConstraintComponents = true;
-    private bool showBodyADS = true;
-    private bool showLean = true;
-    private bool showRightHandIK = true;
-    private bool showLeftHandIK = true;
-    private bool showLegs = true;
+    private List<string> _sectionOrder;
+    private Dictionary<string, List<string>> _sections;
+    private Dictionary<string, bool> _foldouts;
+
+    private void OnEnable()
+    {
+        BuildSections();
+        _foldouts = new Dictionary<string, bool>();
+        foreach (var section in _sectionOrder)
+            _foldouts[section] = true;
+    }
+
+    private void BuildSections()
+    {
+        _sections = new Dictionary<string, List<string>>();
+        _sectionOrder = new List<string>();
+
+        const string GENERAL = "General";
+        string currentSection = GENERAL;
+        AddSection(GENERAL);
+
+        var type = typeof(PlayerConstrainAnimationManager);
+        var iterator = serializedObject.GetIterator();
+        iterator.NextVisible(true); // moves to m_Script, skip it
+
+        while (iterator.NextVisible(false))
+        {
+            var fieldInfo = GetFieldRecursive(type, iterator.name);
+            if (fieldInfo != null)
+            {
+                var header = fieldInfo.GetCustomAttribute<HeaderAttribute>();
+                if (header != null)
+                {
+                    currentSection = ExtractSectionName(header.header);
+                    AddSection(currentSection);
+                }
+            }
+            _sections[currentSection].Add(iterator.name);
+        }
+    }
+
+    private void AddSection(string name)
+    {
+        if (!_sections.ContainsKey(name))
+        {
+            _sections[name] = new List<string>();
+            _sectionOrder.Add(name);
+        }
+    }
+
+    private static FieldInfo GetFieldRecursive(System.Type type, string fieldName)
+    {
+        while (type != null)
+        {
+            var fi = type.GetField(fieldName,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            if (fi != null) return fi;
+            type = type.BaseType;
+        }
+        return null;
+    }
+
+    private static string ExtractSectionName(string header)
+    {
+        var match = Regex.Match(header, @"^─+\s*(.*?)\s*─*$");
+        return match.Success ? match.Groups[1].Value.Trim() : header.Trim();
+    }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        showGeneral = DrawSection("General", showGeneral, DrawGeneral);
-        EditorGUILayout.Space(4);
-        showConstraintComponents = DrawSection("Constraint Components", showConstraintComponents, DrawConstraintComponents);
-        EditorGUILayout.Space(4);
-        showBodyADS = DrawSection("Body ADS ScriptableObjects", showBodyADS, DrawBodyADS);
-        EditorGUILayout.Space(4);
-        showLean = DrawSection("Lean ScriptableObjects", showLean, DrawLean);
-        EditorGUILayout.Space(4);
-        showRightHandIK = DrawSection("Right Hand IK ScriptableObjects", showRightHandIK, DrawRightHandIK);
-        EditorGUILayout.Space(4);
-        showLeftHandIK = DrawSection("Left Hand IK ScriptableObjects", showLeftHandIK, DrawLeftHandIK);
-        EditorGUILayout.Space(4);
-        showLegs = DrawSection("Legs ScriptableObjects", showLegs, DrawLegs);
+        for (int i = 0; i < _sectionOrder.Count; i++)
+        {
+            var sectionName = _sectionOrder[i];
+            var fields = _sections[sectionName];
+
+            if (fields.Count == 0) continue;
+
+            if (i > 0) EditorGUILayout.Space(4);
+
+            _foldouts[sectionName] = EditorGUILayout.Foldout(
+                _foldouts[sectionName], sectionName, true, EditorStyles.foldoutHeader);
+
+            if (_foldouts[sectionName])
+            {
+                EditorGUI.indentLevel++;
+                foreach (var fieldName in fields)
+                {
+                    var prop = serializedObject.FindProperty(fieldName);
+                    if (prop != null)
+                        EditorGUILayout.PropertyField(prop, true);
+                }
+                EditorGUI.indentLevel--;
+            }
+        }
 
         serializedObject.ApplyModifiedProperties();
-    }
-
-    private bool DrawSection(string label, bool foldout, System.Action drawContent)
-    {
-        foldout = EditorGUILayout.Foldout(foldout, label, true, EditorStyles.foldoutHeader);
-        if (foldout)
-        {
-            EditorGUI.indentLevel++;
-            drawContent();
-            EditorGUI.indentLevel--;
-        }
-        return foldout;
-    }
-
-    private void DrawProperty(string fieldName)
-    {
-        SerializedProperty prop = serializedObject.FindProperty(fieldName);
-        if (prop != null)
-            EditorGUILayout.PropertyField(prop, true);
-    }
-
-    private void DrawGeneral()
-    {
-        DrawProperty("rig");
-        DrawProperty("rigBuilder");
-        DrawProperty("player");
-        DrawProperty("playerAnimationManager");
-        DrawProperty("aimConstrainPositionReference");
-        DrawProperty("maxCastDistacne");
-        DrawProperty("minCastDisTance");
-        DrawProperty("castCollideMask");
-    }
-
-    private void DrawConstraintComponents()
-    {
-        DrawProperty("bodyRotateConstraintManager");
-        DrawProperty("leaningRotation");
-        DrawProperty("leftHandConstraintManager");
-        DrawProperty("rightHandIKConstriantManager");
-        DrawProperty("legsConstraintManager");
-        DrawProperty("headLookConstraintManager");
-    }
-
-    private void DrawBodyADS()
-    {
-        DrawProperty("body_ADS_Prone_Constrain_SCRP");
-        DrawProperty("quickSwitchAimSplineLookConstrainScriptableObject");
-        DrawProperty("standPistolAimSplineLookConstrainScriptableObject");
-        DrawProperty("standPistolAim_CAR_SplineLookConstrainScriptableObject");
-        DrawProperty("standRifleAimSplineLookConstrainScriptableObject");
-        DrawProperty("standRifleAim_CAR_SplineLookConstrainScriptableObject");
-    }
-
-    private void DrawLean()
-    {
-        DrawProperty("quickSwitchlLeaningConstrainScriptableObject");
-        DrawProperty("pistolLeaningConstrainScriptableObject");
-        DrawProperty("pistolLeaning_CAR_ConstrainScriptableObject");
-        DrawProperty("leaningConstrainScriptableObject");
-        DrawProperty("rifileLeaning_CAR_ConstrainScriptableObject");
-    }
-
-    private void DrawRightHandIK()
-    {
-        DrawProperty("rightHand_AimDownSight_HumanShield_Primary_SCRP");
-        DrawProperty("rightHand_AimDownSight_HumanShield_Secondary_SCRP");
-        DrawProperty("rightHand_AimDownSight_Restrain_Primary_SCRP");
-        DrawProperty("rightHand_AimDownSight_Restrain_Secondary_SCRP");
-        DrawProperty("rightHand_AimDownSight_ProneUp_PrimaryWeapon_SCRP");
-        DrawProperty("rightHand_AimDownSight_ProneUp_SecondaryWeapon_SCRP");
-        DrawProperty("rightHand_AimDownSight_ProneDown_PrimaryWeapon_SCRP");
-        DrawProperty("rightHand_AimDownSight_ProneDown_SecondaryWeapon_SCRP");
-        DrawProperty("rightHand_Target_AimDownSight_CAR_PrimaryWeapon_SCRP");
-        DrawProperty("rightHand_Target_AimDownSight_PrimaryWeapon_SCRP");
-        DrawProperty("rightHand_AimDownSight_QuickSwitch_SCRP");
-        DrawProperty("rightHand_Target_AimDownSight_CAR_SecondaryWeapon_SCRP");
-        DrawProperty("rightHand_Target_AimDownSight_SecondaryWeapon_SCRP");
-    }
-
-    private void DrawLeftHandIK()
-    {
-        DrawProperty("lowReadyProne_LeftHand_IK_ConstrainSCRP");
-        DrawProperty("leftHandIK_QuickSwitch_SCRP");
-        DrawProperty("primaryWeaponGripLeftHandScrp");
-        DrawProperty("secondaryWeaponGripLeftHandScrp");
-        DrawProperty("lowReadyWeaponGripLeftHandScrp");
-    }
-
-    private void DrawLegs()
-    {
-        DrawProperty("proneLegsBlendingConstrainSCRP");
-        DrawProperty("diveStallLegsBlendingConstrainSCRP");
     }
 }
 #endif

@@ -81,7 +81,8 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             new float[]     { .5f, .5f });
 
         this.cameraTPSDodgeViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraTPSDodgeView_SCRP
-            , () => playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>());
+            , () => playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
+            || playerStateManager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>());
 
         this.cameraPerformGunFuSelector = new NodeSelector(
             () => cameraController.isPerformGunFu);
@@ -124,7 +125,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
             cameraController.cameraCrouchAimDownSightView_SCRP,
             crouchLowReadyNode,
             this.cameraController.player,
-            () => cameraController.isCrouching);
+            () => this.cameraController.player.stance == Stance.crouch);
         this.cameraTPSProneViewNodeLeaf = new CameraAimDownSightViewNodeLeaf(
             cameraController,
             this.cameraController.cameraProneAimDownSightView_SCRP,

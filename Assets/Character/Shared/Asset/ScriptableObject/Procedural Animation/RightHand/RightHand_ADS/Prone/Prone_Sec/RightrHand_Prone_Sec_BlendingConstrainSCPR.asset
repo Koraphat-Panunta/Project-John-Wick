@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58500beaaa5e9f4bb302e221c10acde, type: 3}
+  m_Name: RightrHand_Prone_Sec_BlendingConstrainSCPR
+  m_EditorClassIdentifier: Assembly-CSharp::TwoBoneIKBlendingConstrainScriptableObject
+  positionOffset: {x: 0.01602295, y: 0.11200765, z: 0.43332058}
+  rotationEulerOffset: {x: 27.78011, y: -90, z: -90}
+  hintPositionOffset: {x: 0.24131294, y: -0.3953665, z: -0.23266412}
+  rotateRefDirOffset: {x: 0, y: 0, z: 0}
+  maxHorizontalHandAimDeg: 33.011475
+  maxVerticalHandAimDeg: 33.011475
+  bledningWeightSCRP:
+  - weight: 0
+    scrp: {fileID: 11400000, guid: ead4f24bcc4dffd4da9085c001872d04, type: 2}
+  - weight: 90
+    scrp: {fileID: 11400000, guid: 057691cede62cb94aab1e13697dd41f6, type: 2}
+  - weight: 135
+    scrp: {fileID: 11400000, guid: 16007af6c59565b47b1f5b2d50943444, type: 2}
+  - weight: 180
+    scrp: {fileID: 11400000, guid: 16007af6c59565b47b1f5b2d50943444, type: 2}
+  - weight: 225
+    scrp: {fileID: 11400000, guid: 16007af6c59565b47b1f5b2d50943444, type: 2}
+  - weight: 270
+    scrp: {fileID: 11400000, guid: 68d4abfe40e9f0f4b844f87ef3485339, type: 2}
+  - weight: 360
+    scrp: {fileID: 11400000, guid: ead4f24bcc4dffd4da9085c001872d04, type: 2}
+  weight: 156.02295

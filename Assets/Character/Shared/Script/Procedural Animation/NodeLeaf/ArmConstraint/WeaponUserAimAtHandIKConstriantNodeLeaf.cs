@@ -77,7 +77,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
     public override void UpdateNode()
     {
         this.recoilModifier.UpdateWeights(this.recoilData);
-        this.blockModifier.UpdateBlocking(this.handPos, base.aimDirConstriant, this.recoilDir.position, this.blockData);
+        this.blockModifier.UpdateBlocking(this.handIK_Transform_Ref_Pos.position, base.aimDirConstriant, this.recoilDir.position, this.blockData);
         base.UpdateNode();
     }
 

@@ -49,6 +49,9 @@ public partial class PlayerConstrainAnimationManager
             if(playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
                 return false;
 
+            if (playerStateManager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>())
+                return false;
+
             return true;
         }
     }

@@ -166,10 +166,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
             this.rightHandIKConstriantManager
             , this.aimConstrainPositionReference
-            , this.player.humanoidBone._rightArmBone
             , this.player.humanoidBone._spine_2_Bone
+            , this.player.humanoidBone.transform
             , this.player.humanoidBone._spine_2_Bone
-            , this.player.humanoidBone._spine_2_Bone
+            , this.player.transform
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
            , () => this.player._currentWeapon != null
@@ -527,6 +527,14 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     {
         if (this.proneLegsConstrainNodeLeaf != null)
             this.proneLegsConstrainNodeLeaf.SetAngle(this.playerAnimationManager.angleLookHorizontal);
+
+        if (this.isProne 
+            )
+        {
+            this.rightHand_AimDownSight_Prone_PrimaryWeapon_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
+            this.rightHand_AimDownSight_Prone_SecondaryWeapon_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
+            this.body_ADS_Prone_Constrain_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
+        }
     }
 
 

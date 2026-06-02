@@ -34,7 +34,7 @@ public class HandBlockModifier
             this.targetBlockWeight = Mathf.Clamp01(this.targetBlockWeight - Time.deltaTime * data.lowerSpeed);
         }
 
-        this.blockedWeight =1 /*Mathf.Lerp(this.blockedWeight, this.targetBlockWeight, Time.deltaTime * data.smoothingSpeed)*/;
+        this.blockedWeight = Mathf.Lerp(this.blockedWeight, this.targetBlockWeight, Time.deltaTime * data.smoothingSpeed);
     }
 
     public Vector3 ApplyPosition(Vector3 basePos, Vector3 handPos, Vector3 forward, Vector3 rightWard, Vector3 upWard, WeaponHandBlockSCRP data)

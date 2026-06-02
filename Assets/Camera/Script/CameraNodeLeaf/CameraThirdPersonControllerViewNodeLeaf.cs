@@ -49,12 +49,13 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public override void FixedUpdateNode()
     {
-      
+        
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
+
         TrackPosUpdate();
         LookPosUpdate();
         NormalizedTimeUpdate();
