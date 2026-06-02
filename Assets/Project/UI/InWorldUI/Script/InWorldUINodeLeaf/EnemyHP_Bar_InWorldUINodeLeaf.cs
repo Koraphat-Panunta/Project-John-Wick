@@ -33,7 +33,7 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
         {
             if(hitInfo.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart)
                 && bodyPart.enemy.isDead == false 
-                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestraintNodeLeaf>() == false
                 && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
                 detectedEnemy = bodyPart.enemy;
         }
@@ -41,7 +41,7 @@ public class EnemyHP_Bar_InWorldUINodeLeaf : InWorldUINodeLeaf
         {
             if (hitInfoSphere.collider.TryGetComponent<BodyPart>(out BodyPart bodyPart)
                 && bodyPart.enemy.isDead == false
-                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestrictNodeLeaf>() == false
+                && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<GotRestraintNodeLeaf>() == false
                 && bodyPart.enemy.stateManagerNode.TryGetCurNodeLeaf<HumandShield_GotInteract_NodeLeaf>() == false)
                 detectedEnemy = bodyPart.enemy;
         }

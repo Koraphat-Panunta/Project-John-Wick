@@ -39,7 +39,11 @@ public class PlayerWeaponManuver :
                 && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;
 
-            if(player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
+            if ((player.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf)
+                && restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                return true;
+
+            if (player.curNodeLeaf is PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf
                 && dolphinDiveStateNodeLeaf.isPassingJump)
                 return true;
 

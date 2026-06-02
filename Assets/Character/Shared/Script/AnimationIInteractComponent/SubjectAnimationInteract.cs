@@ -115,7 +115,7 @@ public class SubjectAnimationInteract
     }
     private void BeginWarp()
     {
-        //Debug.Log("Subject " + character + " begin warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + character + " begin warp" + " timeNormalized = " + exitAnimationTriggerEventPlayer.timerNormalized);
         isWarping = true;
         this.CalculateAdjustTransform();
         this.beginWarpEvent.Invoke(this.character);
@@ -124,7 +124,7 @@ public class SubjectAnimationInteract
     {
         character._movementCompoent.SetPosition(exitPosition);
         character._movementCompoent.SetRotation(exitRotation);
-        //Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + character + " stop warp" + " timeNormalized = " + exitAnimationTriggerEventPlayer.timerNormalized);
         //Debug.Log("character " + character + " position = " + character.transform.position + " rotation = " + character.transform.rotation + " exit position = " + exitPosition + " exit rotation = " + exitRotation);
         //Debug.Log("Character = "+character +" Distance pos anchor = "+Vector3.Distance(anhorPosition,exitPosition) + " Distance dir anchor = "+Quaternion.Angle(Quaternion.LookRotation(anhorDir),exitRotation));
         isWarping = false;
@@ -132,7 +132,7 @@ public class SubjectAnimationInteract
     }
     private void BeginPlayAnimation()
     {
-        //Debug.Log("Subject " + this.character + " begin play animation" + " timeNormalized = " + animationTriggerEventPlayer.timerNormalized);
+        //Debug.Log("Subject " + this.character + " begin play animation" + " timeNormalized = " + exitAnimationTriggerEventPlayer.timerNormalized);
         this.beginPlayAnimationEvent.Invoke(this.character);
     }
 

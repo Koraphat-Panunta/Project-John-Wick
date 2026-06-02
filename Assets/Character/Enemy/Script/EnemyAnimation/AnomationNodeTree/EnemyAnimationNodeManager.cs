@@ -17,6 +17,8 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationNodeLeaf gotKnockDownNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotGunFuReloadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotHitedDownNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf gotRestrictEnterNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf gotRestrictExitNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf gotMeleeExecuteAnimationNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
@@ -61,6 +63,24 @@ public partial class EnemyAnimationManager : INodeManager
             ()=> this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
             && interactingNodeLeaf == this.enemy.enemyStateManagerNode.gotHitDownNodeLeaf
             ,this.animator,"GotHitedDown", 0,0);
+
+        this.gotRestrictEnterNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotRestraintNodeLeaf>(out GotRestraintNodeLeaf n)
+                  && (n.curRestrainPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter || n.curRestrainPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay),
+            this.animator,
+            "GotRestrain_Enter",
+            0, 0.075f,
+            0);
+
+        
+
+        this.gotRestrictExitNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.enemyStateManager.TryGetCurNodeLeaf<GotRestraintNodeLeaf>(out GotRestraintNodeLeaf n)
+                  && (n.curRestrainPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit ),
+            this.animator,
+            "GotRestrain_Exit",
+            0, 0.075f,
+            0);
 
         this.gotMeleeExecuteAnimationNodeLeaf = new PlayAnimationNodeLeaf(
             () => this.enemyStateManager.TryGetCurNodeLeaf<GotGunFuInteractingNodeLeaf>(out GotGunFuInteractingNodeLeaf interactingNodeLeaf)
@@ -110,6 +130,8 @@ public partial class EnemyAnimationManager : INodeManager
         this.startNodeSelector.AddtoChildNode(this.gotKnockDownNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotGunFuReloadNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.gotHitedDownNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.gotRestrictEnterNodeLeaf);
+        this.startNodeSelector.AddtoChildNode(this.gotRestrictExitNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.enemySpinKick);
         this.startNodeSelector.AddtoChildNode(this.sprintBaseLayerNodeLeaf);

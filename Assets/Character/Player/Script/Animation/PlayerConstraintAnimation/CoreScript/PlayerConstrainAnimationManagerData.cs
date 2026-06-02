@@ -11,6 +11,7 @@ public partial class PlayerConstrainAnimationManager
 
     [Header("── Body ADS ScriptableObjects ──────────────────────────────")]
     public BodyRotationScriptableObjectBlend body_ADS_Prone_Constrain_SCRP;
+    public BodyRotationConstrainScriptableObject body_Restrain_ConstrainSCRP;
     public BodyRotationConstrainScriptableObject quickSwitchAimSplineLookConstrainScriptableObject;
     public BodyRotationConstrainScriptableObject standPistolAimSplineLookConstrainScriptableObject;
     public BodyRotationConstrainScriptableObject standPistolAim_CAR_SplineLookConstrainScriptableObject;

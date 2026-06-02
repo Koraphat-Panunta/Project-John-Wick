@@ -7,6 +7,7 @@ public partial class PlayerAnimationManager
 
     public AnimationPoseTimeNormalized basedAnimationPoseTimeNormalzied;
     public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
+    public AnimationPoseTimeNormalized upperBodyAnimationPoseTimeNormalized;
 
     public string Sprint = "Sprint";
     public string Move_Idle = "Move/Idle";
@@ -37,13 +38,29 @@ public partial class PlayerAnimationManager
     [SerializeField] private float CAR_ChangeTime = .75f;
     private float CAR_ChangeTimer;
 
-    [SerializeField] string curUpperLayer;
+    [SerializeField] string curUpperBodyLayer;
+    [SerializeField] string curUpperArmLayer;
     [SerializeField] string curBaseLayer;
 
 
     private INodeManager playerStateNodeMnager => player.playerStateNodeManager;
     private INodeManager playerWeaponManuverNodeManager => player._weaponManuverManager;
-    private bool isEnableUpperLayer { get 
+    private bool isEnableUpperBodyLayer 
+    {
+        get
+        {
+            if(this.playerStateNodeMnager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf)
+                && restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                return true;
+
+            if (this.playerStateNodeMnager.TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFu_NodeLeaf)
+                && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
+                return true;
+
+            return false;
+        }
+    }
+    private bool isEnableUpperArmLayer { get 
         {
             if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<RestWeaponManuverLeafNode>())
                 return false;
@@ -59,14 +76,6 @@ public partial class PlayerAnimationManager
 
             if (playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>())
                 return false;
-
-            if(playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShiedl) 
-                && humanShiedl.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
-                return true;
-
-            if (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf restrict)
-               && restrict.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
-                return true;
 
            if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
                 return true;

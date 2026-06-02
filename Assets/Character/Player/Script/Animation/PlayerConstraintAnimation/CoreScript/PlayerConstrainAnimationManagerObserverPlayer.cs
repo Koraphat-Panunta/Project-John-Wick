@@ -33,6 +33,8 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
 
         switch (obj)
         {
+           
+           
             case PlayerProneStateNodeLeaf proneStateNodeLeaf:
                 {
                     if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject

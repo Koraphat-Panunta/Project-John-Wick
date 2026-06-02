@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8857f0dad36c5dd47820e50fd2915970, type: 3}
+  m_Name: RestrictScriptableObject
+  m_EditorClassIdentifier: 
+  stateName: OCM_Restrain
+  enterInteractSCRP: {fileID: 11400000, guid: 0e7e201067f0af3409943c85e81a408c, type: 2}
+  exitInteractSCRP: {fileID: 11400000, guid: ace757f8e9a56a043bbfc65911f7ec30, type: 2}
+  holdTargetOffset: {x: 0.08, y: 0.61, z: 0}
+  holdRotationOffset: {x: 0, y: 193.34, z: 0}
+  holdDuration: 5

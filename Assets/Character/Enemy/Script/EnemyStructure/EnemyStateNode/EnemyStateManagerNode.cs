@@ -79,7 +79,7 @@ public partial class EnemyStateManagerNode : INodeManager
     public GotGunFuHitNodeLeaf gotGunFuHitNodeLeaf { get; private set; }
 
     public GotGunFuInteractingNodeLeaf gotKnockDown_OCM_NodeLeaf { get; private set; }
-    public GotRestrictNodeLeaf gotRestrictNodeLeaf { get; private set; }
+    public GotRestraintNodeLeaf gotRestrictNodeLeaf { get; private set; }
     public HumandShield_GotInteract_NodeLeaf gotHumandShielded_GunFuNodeLeaf { get; private set; }
     public HumanShield_Exit_GotInteract_NodeLeaf humanShield_Exit_GotInteract_NodeLeaf { get; private set; }
     public GotGunFuInteractingNodeLeaf gotGunFuReloadNodeLeaf { get; private set; }
@@ -312,7 +312,7 @@ public partial class EnemyStateManagerNode : INodeManager
             ,()=> this.enemy.curAttackerGunFuNode is OCM_KnockDown_NodeLeaf
             );
 
-        gotRestrictNodeLeaf = new GotRestrictNodeLeaf(this.enemy.gotRestrictScriptableObject, this.enemy,
+        gotRestrictNodeLeaf = new GotRestraintNodeLeaf(this.enemy.gotRestrictScriptableObject, this.enemy,
             () => 
             {
                 return enemy.curAttackerGunFuNode is RestrainGunFuStateNodeLeaf;

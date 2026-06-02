@@ -64,12 +64,7 @@ public class PlayerAudio : MonoBehaviour,IObserverPlayer,IInitializedAble
     {
         switch (node)
         {
-            case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
-                {
-                    if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
-                        PlayAudio(hit);
-                    break;
-                }
+            
             case GunFuHitNodeLeaf gunFuHitNodeLeaf:
                 {
                     switch (gunFuHitNodeLeaf._stateName)

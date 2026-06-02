@@ -161,7 +161,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         animator.SetFloat("WeaponSwayRate_Normalized", WeaponSwayRate_Normalized);
         animator.SetFloat("CrouchWeight", crouchWeight);
 
-        this.animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+        this.animator.SetFloat("UpperBodyLayerTimeNormalized", this.upperBodyAnimationPoseTimeNormalized.timeNormal);
+        this.animator.SetFloat("UpperArmLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
         this.animator.SetFloat("BasedLayerTimeNormalized",this.basedAnimationPoseTimeNormalzied.timeNormal);
         this.animator.SetFloat("AngleLookHorizontal", this.angleLookHorizontal);
         this.animator.SetFloat("AngleLookVertical", this.angleLookVertical);
@@ -169,7 +170,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         try
         {
             curBaseLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
-            curUpperLayer = (basedLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
+            curUpperBodyLayer = (upperBodyLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf)?.stateName;
+            curUpperArmLayer = (upperArmLayerNodeSelector.curNodeLeaf as PlayAnimationNodeLeaf).stateName;
         }
         catch
         {

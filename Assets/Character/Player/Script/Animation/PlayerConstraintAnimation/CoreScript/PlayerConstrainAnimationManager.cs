@@ -27,8 +27,10 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     public NodeSelector bodyLookConstrainSelector { get; private set; }
     public NodeSelector bodyWeaponManuverConstrainSelector { get; private set; }
 
+
     public AimDownSightBodyRotationConstraintNodeLeaf prone_BodyLookConstraintNodeLeaf { get; private set; }
     public AimDownSightBodyRotationConstraintNodeLeaf bodyLookConstraintNodeLeaf { get; private set; }
+    public BodySetRotationConstraintNodeLeaf bodySetRotationConstraintNodeLeaf { get; private set; }
     public RecoveryConstraintManagerWeightNodeLeaf splineLookConstraintRecoveryWeightConstraintNodeLeaf { get; set; }
 
 
@@ -36,6 +38,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     {
         //1
         this.bodyLookConstrainSelector = new NodeSelector(() => true);
+
+        
 
         this.prone_BodyLookConstraintNodeLeaf = new AimDownSightBodyRotationConstraintNodeLeaf(
             this.player.humanoidBone.hips
@@ -60,10 +64,20 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             && this.playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>() == false
             );
 
+        this.bodySetRotationConstraintNodeLeaf = new BodySetRotationConstraintNodeLeaf(
+            this.bodyRotateConstraintManager
+            , this.body_Restrain_ConstrainSCRP
+            , 0.2f
+            , this.player.transform
+            , () => this.playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrainNode
+                 && (restrainNode.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay 
+                 || restrainNode.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter));
+
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
                     () => true
                     , bodyRotateConstraintManager, 10);
 
+        this.bodyLookConstrainSelector.AddtoChildNode(this.bodySetRotationConstraintNodeLeaf);
         this.bodyLookConstrainSelector.AddtoChildNode(this.prone_BodyLookConstraintNodeLeaf);
         this.bodyLookConstrainSelector.AddtoChildNode(this.bodyLookConstraintNodeLeaf);
         this.bodyLookConstrainSelector.AddtoChildNode(this.splineLookConstraintRecoveryWeightConstraintNodeLeaf);
@@ -393,7 +407,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ) == false
             &&
             (this.playerStateManager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf
-            && (restrainGunFuStateNodeLeaf._curPhase == NodePhase.Enter || restrainGunFuStateNodeLeaf._curPhase == NodePhase.Exit)
+            && (restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter || restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
             ) == false
             );
         this.headConstraintRestNodeLeaf = new RestNodeLeaf(() => true);

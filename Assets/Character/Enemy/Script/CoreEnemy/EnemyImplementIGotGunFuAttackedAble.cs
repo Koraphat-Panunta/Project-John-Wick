@@ -60,32 +60,42 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
     [SerializeField] public AnimationTriggerEventSCRP gotMeleeExecute_SCRP;
     public void TakeGunFuAttacked(I_OCM_Node gunFu_NodeLeaf, I_OCM_Attack_Able attacker,bool isTriggerEnterGotAttack_OCM)
     {
-
-        if (gunFu_NodeLeaf is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+        switch (gunFu_NodeLeaf)
         {
-            Vector3 gunFuAblePos = new Vector3
-                (
-                gunFuHitNodeLeaf.gunFuAble._character.transform.position.x
-                , this.transform.position.y
-                , gunFuHitNodeLeaf.gunFuAble._character.transform.position.z
-                );
+            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+                {
+                    Vector3 gunFuAblePos = new Vector3
+               (
+               gunFuHitNodeLeaf.gunFuAble._character.transform.position.x
+               , this.transform.position.y
+               , gunFuHitNodeLeaf.gunFuAble._character.transform.position.z
+               );
 
-            Vector3 hitDir = (this.transform.position - gunFuAblePos).normalized;
-            hitDir = Quaternion.LookRotation(hitDir, Vector3.up) * Quaternion.Euler(gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitDirPoseAnimOffset) * Vector3.forward;
+                    Vector3 hitDir = (this.transform.position - gunFuAblePos).normalized;
+                    hitDir = Quaternion.LookRotation(hitDir, Vector3.up) * Quaternion.Euler(gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitDirPoseAnimOffset) * Vector3.forward;
 
-            //Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
+                    //Debug.DrawRay(this.transform.position, hitDir, Color.red, 3);
 
-            CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
-            {
-                hitDir = hitDir,
-                hitedPart = this.localServiceLocator.Get<FullBodyCharacterPart>().spline_0BodyPart,
-                hitforce = gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitPushForce,
-                hitPos = this.transform.position
-            };
+                    CharacterHitedEventDetail characterHitedEventDetail = new CharacterHitedEventDetail
+                    {
+                        hitDir = hitDir,
+                        hitedPart = this.localServiceLocator.Get<FullBodyCharacterPart>().spline_0BodyPart,
+                        hitforce = gunFuHitNodeLeaf.gunFuHitScriptableObject.gunFuHitDetail[gunFuHitNodeLeaf.hitCount].hitPushForce,
+                        hitPos = this.transform.position
+                    };
 
-            this.NotifyObserver<CharacterHitedEventDetail>(this, characterHitedEventDetail);
-
+                    this.NotifyObserver<CharacterHitedEventDetail>(this, characterHitedEventDetail);
+                }
+                break;
+            case RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf:
+                {
+                    if (restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
+                        this.enemyStateManagerNode.gotRestrictNodeLeaf.Hold();
+                    else if (restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
+                        this.enemyStateManagerNode.gotRestrictNodeLeaf.Relese();
+                }break;
         }
+      
         this.curAttackerGunFuNode = gunFu_NodeLeaf;
         Debug.Log("this.curAttackerGunFuNode = "+ gunFu_NodeLeaf);
         gunFuAbleAttacker = attacker;

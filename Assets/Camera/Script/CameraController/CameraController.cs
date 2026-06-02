@@ -245,11 +245,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                 {
                         if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)
                             gunFuCameraTimer = gunFuCameraDuration;
-                        else if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.ExitAttack)
-                        {
-                            cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
-                            cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);
-                        }
+                       
                     break;
                 }
             case PlayerBrounceOffNodeLeaf playerBrounceOffGotAttackGunFuNodeLeaf: 

@@ -71,8 +71,8 @@ public class HumanShieldStayGage : GameplayUI, IObserverPlayer
                 case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                     {
                         humanShieldGage.enabled = true;
-                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (restrictGunFuStateNodeLeaf.phaseTimer
-                          / restrictGunFuStateNodeLeaf.StayDuration)
+                        humanShieldGage.rectTransform.localScale = new Vector3(1 - (restrictGunFuStateNodeLeaf.holdTimer
+                          / restrictGunFuStateNodeLeaf.holdDuration)
                           , humanShieldGage.rectTransform.localScale.y
                           , humanShieldGage.rectTransform.localScale.z);
 

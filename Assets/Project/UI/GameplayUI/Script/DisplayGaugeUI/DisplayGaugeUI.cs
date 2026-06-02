@@ -47,7 +47,7 @@ public abstract class DisplayGaugeUI : GameplayUI, IObserverPlayer
         //        && restrainGunFuStateNodeLeaf._timer < playerInfo.restrictShieldIFrame)
         //        || 
         //        ((playerInfo.playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)
-        //        && humanShield_GunFuInteraction.subject_GunFuAble.animationTriggerEventPlayer.timer < playerInfo.humanShiedlIFrame)
+        //        && humanShield_GunFuInteraction.subject_GunFuAble.exitAnimationTriggerEventPlayer.timer < playerInfo.humanShiedlIFrame)
         //    || iFrameTime > 0)
         //{
         //    if(this.iframe_HP_image == null)

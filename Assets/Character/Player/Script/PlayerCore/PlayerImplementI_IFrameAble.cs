@@ -22,7 +22,7 @@ public partial class Player : I_IFrameAble
                 return true;
 
             if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)
-                && restrictGunFuStateNodeLeaf._timer < restrictShieldIFrame)
+                && restrictGunFuStateNodeLeaf.timer < restrictShieldIFrame)
                 return true;
 
             if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<HumanShield_GunFu_NodeLeaf>(out HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction)
