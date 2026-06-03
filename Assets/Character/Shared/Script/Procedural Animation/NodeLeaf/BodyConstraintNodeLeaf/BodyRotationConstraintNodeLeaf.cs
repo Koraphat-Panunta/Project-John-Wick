@@ -7,9 +7,9 @@ public abstract class BodyRotationConstraintNodeLeaf : AnimationConstrainNodeLea
 
     public BodyRotationConstrainScriptableObject bodyRotationConstrainScriptableObject;
 
-    public Vector3 getOffsetConstraint => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint : this._offsetConstraint;
-    public Vector3 getOffsetConstraint1 => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint1 : this._offsetConstraint1;
-    public Vector3 getOffsetConstraint2 => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint2 : this._offsetConstraint2;
+    public virtual Vector3 getOffsetConstraint => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint : this._offsetConstraint;
+    public virtual Vector3 getOffsetConstraint1 => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint1 : this._offsetConstraint1;
+    public virtual Vector3 getOffsetConstraint2 => this.bodyRotationConstrainScriptableObject ? this.bodyRotationConstrainScriptableObject.offsetConstraint2 : this._offsetConstraint2;
 
     private Vector3 _offsetConstraint;
     private Vector3 _offsetConstraint1;

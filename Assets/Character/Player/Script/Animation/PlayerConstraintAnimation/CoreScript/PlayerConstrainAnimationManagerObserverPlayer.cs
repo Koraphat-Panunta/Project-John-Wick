@@ -22,8 +22,13 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         {
             this.rightHandWeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight();
             this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight();
+            this.bodyLookConstraintNodeLeaf.TriggerRecoil();
         }
 
+        if (this.player._currentWeapon is AutomaticShotgunModel)
+            this.bodyLookConstraintNodeLeaf.SetRecoilScriptableObject(this.shotGun_BodyRecoil_SCRP);
+        else
+            this.bodyLookConstraintNodeLeaf.SetRecoilScriptableObject(null);
     }
 
     private void Body_Look_ConstrainCondition<T>(Player player,T obj)
@@ -31,10 +36,10 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         if(this.bodyLookConstraintNodeLeaf.Precondition() == false)
             return;
 
+       
+
         switch (obj)
         {
-           
-           
             case PlayerProneStateNodeLeaf proneStateNodeLeaf:
                 {
                     if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject

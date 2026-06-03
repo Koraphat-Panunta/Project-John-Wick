@@ -18,6 +18,8 @@ public partial class PlayerConstrainAnimationManager
     public BodyRotationConstrainScriptableObject standRifleAimSplineLookConstrainScriptableObject;
     public BodyRotationConstrainScriptableObject standRifleAim_CAR_SplineLookConstrainScriptableObject;
 
+    public BodyRecoilSCRP shotGun_BodyRecoil_SCRP;
+
     [Header("── Lean ScriptableObjects ──────────────────────────────────")]
     public LeaningRotaionScriptableObject leaningConstrainScriptableObject;
 

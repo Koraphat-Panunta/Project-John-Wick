@@ -87,7 +87,6 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
 
     public void TriggeRecoilWeight() 
     {
-        Debug.Log("weight = "+this.weight);
         if (this.weight < 1)
             Debug.DrawRay(this.handIK_Transform_Ref_Pos.position,  this.targetHandRotation * Vector3.forward, Color.red, 6);
         else

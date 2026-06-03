@@ -8,6 +8,13 @@ public class AimDownSightBodyRotationConstraintNodeLeaf : BodyRotationConstraint
     protected Transform bodyAimRootDirRef;
     protected IRangeWeaponAdvanceUser weaponAdvanceUser;
 
+    public override Vector3 getOffsetConstraint => this.bodyRecoilModifier.ApplyOffset(base.getOffsetConstraint,this.bodyRecoilSCRP,this.weight);
+    public override Vector3 getOffsetConstraint1 => this.bodyRecoilModifier.ApplyOffset(base.getOffsetConstraint1, this.bodyRecoilSCRP, this.weight);
+    public override Vector3 getOffsetConstraint2 => this.bodyRecoilModifier.ApplyOffset(base.getOffsetConstraint2, this.bodyRecoilSCRP, this.weight);
+
+    public BodyRecoilModifier bodyRecoilModifier { get; protected set; }
+    public BodyRecoilSCRP bodyRecoilSCRP { get; protected set; }
+
     protected float maxHorizontalAngleDeg => this.bodyRotationConstrainScriptableObject.maxHorizontalDeg;
     protected float maxVerticalAngleDeg => this.bodyRotationConstrainScriptableObject.maxVerticalDeg;
 
@@ -24,10 +31,13 @@ public class AimDownSightBodyRotationConstraintNodeLeaf : BodyRotationConstraint
         this.bodyAimRootDirRef = bodyAimRefDir;
         this.aimAtPosition = aimAtPosition;
         this.weaponAdvanceUser = weaponAdvanceUser;
+
+        this.bodyRecoilModifier = new BodyRecoilModifier();
     }
 
     public override void Enter()
     {
+        this.bodyRecoilModifier.Reset();
         base.Enter();
     }
 
@@ -43,6 +53,8 @@ public class AimDownSightBodyRotationConstraintNodeLeaf : BodyRotationConstraint
 
     protected override void UpdateLookAtTarget()
     {
+        this.bodyRecoilModifier.UpdateWeights(this.bodyRecoilSCRP);
+
         Vector3 refDir = Quaternion.LookRotation(this.bodyAimRootDirRef.forward, this.bodyAimRootDirRef.up)
             * Quaternion.Euler(this.bodyRotationConstrainScriptableObject.rotateRefDirOffset)
             * Vector3.forward;
@@ -57,9 +69,20 @@ public class AimDownSightBodyRotationConstraintNodeLeaf : BodyRotationConstraint
         this.bodyConstraint.SetLookPos(this.bodyAimRootPosRef.position + lookAtDir * 2);
     }
 
+    public void TriggerRecoil()
+    {
+        this.bodyRecoilModifier.Trigger();
+    }
+
+    public void SetRecoilScriptableObject(BodyRecoilSCRP bodyRecoilSCRP)
+    {
+        this.bodyRecoilSCRP = bodyRecoilSCRP;
+    }
+
     protected override void UpdateWeight()
     {
         float w = Mathf.MoveTowards(this.bodyConstraint.GetWeight(), this.weaponAdvanceUser._weaponManuverManager.aimingWeight, Time.deltaTime * 3);
+        this.weight = w;
         this.bodyConstraint.SetWeight(w);
     }
 }
