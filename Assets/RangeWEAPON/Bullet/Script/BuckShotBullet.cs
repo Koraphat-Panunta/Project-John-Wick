@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
 public class BuckShotBullet : Bullet
 {
@@ -20,14 +19,15 @@ public class BuckShotBullet : Bullet
     {
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19, _bodyPartMask);
 
-        Vector3 lastHitPos = bulletSpawner.transform.position;
         for (int i = 0; i < PELLET_COUNT; i++)
         {
-            lastHitPos = ShootPellet(bulletSpawner);
-            Debug.DrawLine(this.position, lastHitPos, Color.red, 3);
+            Vector3 hitPos = ShootPellet(bulletSpawner);
+            Debug.DrawLine(this.position, hitPos, Color.red, 3);
+            bulletSpawner.StartCoroutine(bulletSpawner.SpawnTrail(bulletSpawner.transform.position, hitPos, bulletSpawner.bulletTrail));
         }
 
-        return lastHitPos;
+        // Return start position so BulletSpawner's direction-check (> .9) evaluates to 0 and skips its own trail
+        return bulletSpawner.transform.position;
     }
 
     private Vector3 ShootPellet(BulletSpawner bulletSpawner)

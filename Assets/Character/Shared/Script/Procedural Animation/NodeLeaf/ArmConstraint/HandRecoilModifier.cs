@@ -1,26 +1,22 @@
 using UnityEngine;
 
-/// <summary>
-/// Single responsibility: weapon recoil for a hand IK target. Holds the decaying recoil
-/// weights, gets kicked by <see cref="Trigger"/> on fire, and applies an additive offset
-/// (driven by a <see cref="WeaponHandRecoilSCRP"/>) on top of a hand position/rotation.
-/// All methods no-op when no data is supplied.
-/// </summary>
 public class HandRecoilModifier
 {
-    private float weightPos;
-    private float weightRot;
-
+    private float _posTimer;
+    private float _rotTimer;
+    public float weight;
     public void Reset()
     {
-        this.weightPos = 0;
-        this.weightRot = 0;
+        _posTimer = 1;
+        _rotTimer = 1;
+        this.weight = 0;
     }
 
-    public void Trigger(float weight)
+    public void Trigger()
     {
-        this.weightPos = Mathf.Clamp01(weight);
-        this.weightRot = Mathf.Clamp01(weight);
+        _posTimer = 0f;
+        _rotTimer = 0f;
+        this.weight = 0;
     }
 
     public void UpdateWeights(WeaponHandRecoilSCRP data)
@@ -28,29 +24,36 @@ public class HandRecoilModifier
         if (data == null)
             return;
 
-        this.weightPos = Mathf.Clamp01(this.weightPos - Time.deltaTime * data.positionRecoverySpeed);
-        this.weightRot = Mathf.Clamp01(this.weightRot - Time.deltaTime * data.rotationRecoverySpeed);
+        _posTimer = Mathf.Min(_posTimer + Time.deltaTime, data.positionRecoilDurattion);
+        _rotTimer = Mathf.Min(_rotTimer + Time.deltaTime, data.rotationRecoilDurattion);
     }
 
-    public Vector3 ApplyPosition(Vector3 position, Transform recoilDir, WeaponHandRecoilSCRP data)
+    public Vector3 ApplyPosition(Vector3 position, Transform recoilDir, WeaponHandRecoilSCRP data,float constrainWeight)
     {
         if (data == null)
             return position;
 
+        float t = data.positionRecoilDurattion > 0f ? _posTimer / data.positionRecoilDurattion : 1f;
+        float weight = data.positionRecoilCurve.Evaluate(t);
+
         Vector3 recoilPos = position
             + recoilDir.forward * data.additionalPositionOffset.z
-            + recoilDir.up * data.additionalPositionOffset.y
-            + recoilDir.right * data.additionalPositionOffset.x;
+            + recoilDir.up    * data.additionalPositionOffset.y
+            + recoilDir.right  * data.additionalPositionOffset.x;
 
-        return Vector3.Lerp(position, recoilPos, this.weightPos);
+
+        return Vector3.Lerp(position, Vector3.Lerp(position, recoilPos, weight), constrainWeight) ;
     }
 
-    public Quaternion ApplyRotation(Quaternion rotation, WeaponHandRecoilSCRP data)
+    public Quaternion ApplyRotation(Quaternion rotation, WeaponHandRecoilSCRP data, float constrainWeight)
     {
         if (data == null)
             return rotation;
 
+        float t = data.rotationRecoilDurattion > 0f ? _rotTimer / data.rotationRecoilDurattion : 1f;
+        this.weight = data.rotationRecoilCurve.Evaluate(t);
+
         Quaternion recoilRot = rotation * Quaternion.Euler(data.additionalRotationEulerOffset);
-        return Quaternion.Lerp(rotation, recoilRot, this.weightRot);
+        return Quaternion.Lerp(rotation, Quaternion.Lerp(rotation, recoilRot, weight), constrainWeight) ;
     }
 }

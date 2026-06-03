@@ -6,6 +6,9 @@ public class WeaponHandRecoilSCRP : ScriptableObject
     public Vector3 additionalPositionOffset;
     public Vector3 additionalRotationEulerOffset;
 
-    public float positionRecoverySpeed = 4f;
-    public float rotationRecoverySpeed = 10f;
+    public AnimationCurve positionRecoilCurve;
+    public AnimationCurve rotationRecoilCurve;
+
+    public float positionRecoilDurattion;
+    public float rotationRecoilDurattion;
 }

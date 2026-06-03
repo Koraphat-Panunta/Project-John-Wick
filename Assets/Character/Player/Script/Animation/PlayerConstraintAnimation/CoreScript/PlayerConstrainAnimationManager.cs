@@ -186,6 +186,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player.transform
             , this.player
             , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
+            ,this.pistolHandRecoilData
+            ,this.secondaryWeaponBlockData
            , () => this.player._currentWeapon != null
            && this.isProne
            && this.player._weaponManuverManager.aimingWeight > 0
@@ -202,7 +204,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             , this.player.humanoidBone._spine_2_Bone
             , this.player.transform
             , this.player
-            , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
+            , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP       
+            , this.pistolHandRecoilData
+            , this.secondaryWeaponBlockData
            , () => this.player._currentWeapon != null 
            && this.player._weaponManuverManager.aimingWeight > 0
            && this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>() 
@@ -548,6 +552,11 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             this.rightHand_AimDownSight_Prone_PrimaryWeapon_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
             this.rightHand_AimDownSight_Prone_SecondaryWeapon_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
             this.body_ADS_Prone_Constrain_SCRP.SetWeight(this.playerAnimationManager.angleLookHorizontal);
+        }
+
+        if(this.rightHandConstriantSelector.curNodeLeaf is WeaponUserAimAtHandIKConstriantNodeLeaf)
+        {
+            this.rightHandEnableWeightConstraintNodeLeaf.SetWeight(this.player._weaponManuverManager.aimingWeight);
         }
     }
 

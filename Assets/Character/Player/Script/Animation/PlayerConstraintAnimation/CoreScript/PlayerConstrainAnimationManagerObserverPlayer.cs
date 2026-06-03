@@ -20,8 +20,8 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         if(node is SubjectPlayer.NotifyEvent playerEvent
             && playerEvent == SubjectPlayer.NotifyEvent.Firing)
         {
-            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight(1);
-            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight(1);
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight();
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight();
         }
 
     }
@@ -142,6 +142,32 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
    
     private void RightHand_ConstrainCondition<T>(Player player,T obj)
     {
+        if(this.player._currentWeapon == null)
+            return;
+        //Update RightHand Block & Recoil Data
+        switch (this.player._currentWeapon)
+        {
+            case AutomaticShotgunModel automaticShotgunModel:
+                {
+                    this.SetRightHandRecoilData(this.shotgunHandRecoilData);
+                    this.SetRightHandRecoilBlockData(this.primaryWeaponBlockData);
+                }break;
+            case PrimaryWeapon primaryWeapon:
+                {
+                    this.SetRightHandRecoilData(this.rifileHandRecoilData);
+                    this.SetRightHandRecoilBlockData(this.primaryWeaponBlockData);
+                }break;
+            case SecondaryWeapon secondaryWeapon:
+                {
+                    this.SetRightHandRecoilData(this.pistolHandRecoilData);
+                    this.SetRightHandRecoilBlockData(this.secondaryWeaponBlockData);
+                }
+                break;
+        }
+
+        //Update RightHand ScriptableObjectData
+
+
 
         if(obj is HumanShield_GunFu_NodeLeaf humanShield
             && humanShield.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
@@ -209,13 +235,48 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
         }
     }
 
+   
     private void SetRightHandSCRP(TwoBoneIK_ConstraintSCRP handIK_ConstraintSCRP)
     {
-        if(this.rightHandWeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP == handIK_ConstraintSCRP)
-            return;
+        if (this.rightHandWeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP != handIK_ConstraintSCRP)
+        {
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(handIK_ConstraintSCRP);
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
 
-        this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(handIK_ConstraintSCRP);
-        this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        if(this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP != handIK_ConstraintSCRP)
+        {
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(handIK_ConstraintSCRP);
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
+    }
+    private void SetRightHandRecoilData(WeaponHandRecoilSCRP weaponHandRecoilSCRP)
+    {
+        if (this.rightHandWeaponAimAtIKCinstrainNodeLeaf.recoilData != weaponHandRecoilSCRP)
+        {
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandRecoilData(weaponHandRecoilSCRP);
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
+
+        if (this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.recoilData != weaponHandRecoilSCRP)
+        {
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandRecoilData(weaponHandRecoilSCRP);
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
+    }
+    private void SetRightHandRecoilBlockData(WeaponHandBlockSCRP weaponHandBlockSCRP)
+    {
+        if (this.rightHandWeaponAimAtIKCinstrainNodeLeaf.blockData != weaponHandBlockSCRP)
+        {
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandBlockData(weaponHandBlockSCRP);
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
+
+        if (this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.blockData != weaponHandBlockSCRP)
+        {
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetHandBlockData(weaponHandBlockSCRP);
+            this.rightHand_Prone_WeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
     }
 
     private void LegsConstrainCondition<T>(Player player,T obj) 

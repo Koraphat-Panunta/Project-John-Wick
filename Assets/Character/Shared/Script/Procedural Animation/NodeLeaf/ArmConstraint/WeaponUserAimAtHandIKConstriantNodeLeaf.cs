@@ -8,11 +8,11 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
 
     protected IRangeWeaponAdvanceUser weaponAdvanceUser;
 
-    private WeaponHandIK_ConstraintSCRP weaponSCRP => base.handIK_ConstraintSCRP as WeaponHandIK_ConstraintSCRP;
-    private WeaponHandRecoilSCRP recoilData => this.weaponSCRP != null ? this.weaponSCRP.recoilData : null;
-    private WeaponHandBlockSCRP blockData => this.weaponSCRP != null ? this.weaponSCRP.blockData : null;
 
-    private Vector3 handPos => this.weaponAdvanceUser._character.humanoidBone._rightHandBone.position;
+    public WeaponHandRecoilSCRP recoilData { get; protected set; }
+    public WeaponHandBlockSCRP blockData { get; protected set; }
+
+
     private Transform recoilDir => this.weaponAdvanceUser._currentWeapon.bulletSpawner.transform;
 
     public override Vector3 targetHandPosition
@@ -21,7 +21,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         {
             Vector3 pos = base.targetHandPosition;
             pos = this.blockModifier.ApplyPosition(pos, this.handIK_Transform_Ref_Pos.position, this.handIK_Transform_Ref_Rot.forward, this.handIK_Transform_Ref_Rot.right, this.handIK_Transform_Ref_Rot.up, this.blockData);
-            pos = this.recoilModifier.ApplyPosition(pos, this.recoilDir, this.recoilData);
+            pos = this.recoilModifier.ApplyPosition(pos, this.recoilDir, this.recoilData,this.weight);
             return pos;
         }
     }
@@ -31,7 +31,7 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         {
             Quaternion rot = base.targetHandRotation;
             rot = this.blockModifier.ApplyRotation(rot, this.targetHandPosition, this.aimingAtTransfrom.position, this.handIK_Transform_Ref_Rot.up, this.blockData);
-            rot = this.recoilModifier.ApplyRotation(rot, this.recoilData);
+            rot = this.recoilModifier.ApplyRotation(rot, this.recoilData, this.weight);
             return rot;
         }
     }
@@ -52,6 +52,8 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         , Transform rootCharacter
         , IRangeWeaponAdvanceUser weaponAdvanceUser
         , WeaponHandIK_ConstraintSCRP rightHandIK_ConstraintSCRP
+        , WeaponHandRecoilSCRP weaponHandRecoilSCRP
+        , WeaponHandBlockSCRP weaponHandBlockSCRP
         , Func<bool> precondition) :
         base(
             handArmIKConstraintManager
@@ -65,6 +67,8 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
             )
     {
         this.weaponAdvanceUser = weaponAdvanceUser;
+        this.recoilData = weaponHandRecoilSCRP;
+        this.blockData = weaponHandBlockSCRP;
     }
 
     public override void Enter()
@@ -81,5 +85,19 @@ public class WeaponUserAimAtHandIKConstriantNodeLeaf : AimAtHandIKConstriantNode
         base.UpdateNode();
     }
 
-    public void TriggeRecoilWeight(float weight) => this.recoilModifier.Trigger(weight);
+    public void TriggeRecoilWeight() 
+    {
+        Debug.Log("weight = "+this.weight);
+        if (this.weight < 1)
+            Debug.DrawRay(this.handIK_Transform_Ref_Pos.position,  this.targetHandRotation * Vector3.forward, Color.red, 6);
+        else
+        {
+            Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, this.targetHandRotation * Vector3.forward, Color.yellow, 6);
+        }
+        this.recoilModifier.Trigger(); 
+    }
+    
+
+    public void SetHandRecoilData(WeaponHandRecoilSCRP weaponHandRecoilSCRP) => this.recoilData = weaponHandRecoilSCRP;
+    public void SetHandBlockData(WeaponHandBlockSCRP weaponHandBlockSCRP) => this.blockData = weaponHandBlockSCRP;
 }

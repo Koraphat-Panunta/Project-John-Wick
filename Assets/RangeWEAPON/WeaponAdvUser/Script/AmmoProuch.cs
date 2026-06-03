@@ -51,8 +51,11 @@ public class AmmoProuch
         },
     };
     public int ammoProuchTier { get; protected set; }
+    public bool isInfiniteAmmo { get; private set; }
 
-    public AmmoProuch() 
+    public void SetInfiniteAmmo(bool infinite) => isInfiniteAmmo = infinite;
+
+    public AmmoProuch()
     {
         this.ammoProuchTier = 1;
 
@@ -91,8 +94,9 @@ public class AmmoProuch
     }
     public void GetAmmoOut(BulletType bulletType,int getAmout,out int outAmout)
     {
-        outAmout = Mathf.Clamp(getAmout,0, this.amountOf_ammo[bulletType]);
-        this.amountOf_ammo[bulletType] -= outAmout; 
+        outAmout = isInfiniteAmmo ? getAmout : Mathf.Clamp(getAmout, 0, this.amountOf_ammo[bulletType]);
+        if (!isInfiniteAmmo)
+            this.amountOf_ammo[bulletType] -= outAmout;
     }
     public int CheckMaxAmmo(BulletType bulletType)
     {

@@ -38,4 +38,6 @@ public class RangeWeaponDataScriptableObject : WeaponDataScriptableObject
     public float _destructionDamage;
 
     public override Weapon _weaponPrefab => this.rangeWeaponPrefab;
+
+
 }

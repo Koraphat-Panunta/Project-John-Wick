@@ -148,6 +148,9 @@ public partial class Player: IRangeWeaponAdvanceUser
         _weaponAfterAction = new WeaponAfterActionPlayer(this);
 
         _weaponManuverManager = new PlayerWeaponManuver(this, this);
+
+        //Test Infinite Ammo
+        this._weaponBelt.ammoProuch.SetInfiniteAmmo(true);
     }
     #endregion
 }

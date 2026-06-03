@@ -28,6 +28,8 @@ public class BulletSpawner : MonoBehaviour
         Vector3 bulletHitDir = bulletHitPos - transform.position;
         Vector3 shootPointDir = shootPos - transform.position;
 
+
+
         if (Vector3.Dot(bulletHitDir, shootPointDir) > .9 )
             StartCoroutine(SpawnTrail(transform.position , bulletHitPos, this.bulletTrail));
         //if(weapon._userWeapon.TryGetComponent<Player>(out Player playerAnimationManager))
