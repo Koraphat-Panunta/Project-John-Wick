@@ -42,4 +42,7 @@ public partial class EnemyConstrainAnimationNodeManager
 
     [Header("── Legs ScriptableObjects ───────────────────────────────────")]
     [SerializeField] private ProceduralLegsWalkConstrainSCRP proceduralLegsPainStateWalkConstrainSCRP;
+
+    [Header("── Head Look Constraint ──────────────────────────────────")]
+    public HeadRotationConstraintManager headRotateConstraintManager;
 }

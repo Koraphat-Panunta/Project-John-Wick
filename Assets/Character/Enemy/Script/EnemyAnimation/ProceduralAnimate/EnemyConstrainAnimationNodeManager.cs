@@ -39,6 +39,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             , () => this.enemy._currentWeapon != null
                  && this.enemy._weaponManuverManager.aimingWeight > 0
                  && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
+                 && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>() == false
             );
 
         this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
@@ -73,7 +74,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         //1
         this.rightArmConstraintSelector = new NodeSelector(
-            () => true
+            () => this.isRightArmConstraintEnable
             );
         this.rightArmWeightConstrainSelector = new NodeSelector(
             () => true
@@ -106,10 +107,11 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             , () => this.enemy._currentWeapon != null
                && this.enemy._weaponManuverManager.aimingWeight > 0 
                && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
+               && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>() == false
             );
 
         this.enableRightArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
-            (()=> this.rightArmConstraintSelector.curNodeLeaf != this.restRightArmConstrainNodeLeaf
+            (()=> this.rightArmConstraintSelector.curNodeLeaf != this.restRightArmConstrainNodeLeaf && this.isRightArmConstraintEnable
             ,this.rightHandIKConstraint
             ,1,1);
 
@@ -153,7 +155,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         //1
         this.leftArmConstraintSelector = new NodeSelector(
-            () => true
+            () => this.isLeftArmConstraintEnable
             );
         this.leftArmWeightConstrainSelector = new NodeSelector(
             () => true
@@ -189,7 +191,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.restLeftArmConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
         this.enableLeftArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
-            (() => this.leftArmConstraintSelector.curNodeLeaf != this.restLeftArmConstrainNodeLeaf
+            (() => this.leftArmConstraintSelector.curNodeLeaf != this.restLeftArmConstrainNodeLeaf && this.isLeftArmConstraintEnable
             , this.leftHandIKConstraint
             , 1, 1);
 
@@ -267,6 +269,64 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     #endregion
 
 
+    #region HeadConstrainNode
+    public NodeComponentManager headNodeComponentManager;
+
+    public NodeSelector headLookNodeSelector;
+    public HeadLookConstrainAnimationNodeLeaf headLookAtWeaponConstraintNodeLeaf;
+    public HeadLookConstrainAnimationNodeLeaf headLookPointingPosConstrainNodeLeaf;
+    public RestNodeLeaf headConstraintRestNodeLeaf;
+
+    public NodeSelector headWeightConstraintSelector;
+    public SetConstraintWeightNodeLeaf headEnableConstraintWeightNodeLeaf;
+    public SetConstraintWeightNodeLeaf headLookRecoveryConstraintManagerWeightNodeLeaf;
+
+    private void InitializedHeadConstrainNode()
+    {
+        this.headNodeComponentManager = new NodeComponentManager();
+
+        this.headLookNodeSelector = new NodeSelector(() => true);
+        this.headWeightConstraintSelector = new NodeSelector(() => true);
+
+        this.headLookAtWeaponConstraintNodeLeaf = new HeadLookConstrainAnimationNodeLeaf(
+            this.headRotateConstraintManager,
+            this.enemy._mainHandSocket.transform,
+            () => (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>());
+
+        this.headLookPointingPosConstrainNodeLeaf = new HeadLookConstrainAnimationNodeLeaf(
+            this.headRotateConstraintManager,
+            this.enemy.pointingTransform,
+            () => this.enemy._currentWeapon != null
+               && (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                   || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                   || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                   || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>())
+               && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>() == false);
+
+        this.headConstraintRestNodeLeaf = new RestNodeLeaf(() => true);
+
+        this.headEnableConstraintWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => this.headLookNodeSelector.curNodeLeaf != this.headConstraintRestNodeLeaf,
+            this.headRotateConstraintManager,
+            5, 1);
+
+        this.headLookRecoveryConstraintManagerWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+            () => true,
+            this.headRotateConstraintManager,
+            5, 0);
+
+        this.headLookNodeSelector.AddtoChildNode(this.headLookAtWeaponConstraintNodeLeaf);
+        this.headLookNodeSelector.AddtoChildNode(this.headLookPointingPosConstrainNodeLeaf);
+        this.headLookNodeSelector.AddtoChildNode(this.headConstraintRestNodeLeaf);
+
+        this.headWeightConstraintSelector.AddtoChildNode(this.headEnableConstraintWeightNodeLeaf);
+        this.headWeightConstraintSelector.AddtoChildNode(this.headLookRecoveryConstraintManagerWeightNodeLeaf);
+
+        this.headNodeComponentManager.AddNode(this.headLookNodeSelector);
+        this.headNodeComponentManager.AddNode(this.headWeightConstraintSelector);
+    }
+    #endregion
+
     public void InitailizedNode()
     {
         this.enemyBodyConstraintAnimationNodeManager = new NodeComponentManager();
@@ -275,9 +335,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.InitializedRightArmConstrainNode();
         this.InitializedLeftArmConstrainNode();
         this.InitializedLegsConstrainNode();
-
-
-
+        this.InitializedHeadConstrainNode();
     }
 
    
@@ -293,6 +351,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.rightArmNodeComponentManager.Update();
         this.leftArmNodeComponentManager.Update();
         this.legsNodeComponentManager.Update();
+        this.headNodeComponentManager.Update();
     }
     protected void FixedUpdate()
     {
@@ -300,6 +359,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
         this.rightArmNodeComponentManager.FixedUpdate();
         this.leftArmNodeComponentManager.FixedUpdate();
         this.legsNodeComponentManager.FixedUpdate();
+        this.headNodeComponentManager.FixedUpdate();
     }
 
     private void OnDrawGizmos()
@@ -335,6 +395,13 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
+        if((this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
+        {
+            this.leftHandIKConstraint.SetWeight(0);
+            this.rightHandIKConstraint.SetWeight(0);
+            
+        }
+
         this.Body_Look_ConstrainCondition(enemy, node);
         this.RightHand_ConstrainCondition(enemy, node);
 

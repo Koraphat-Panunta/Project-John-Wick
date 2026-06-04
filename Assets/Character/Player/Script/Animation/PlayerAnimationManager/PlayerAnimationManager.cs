@@ -248,6 +248,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
         if(node is PlayerDodgeRollStateNodeLeaf dodgeRollStateNodeLeaf
             && dodgeRollStateNodeLeaf._curPhase == NodePhase.Enter)
             this.dodgeNodeLeaf.TriggerReset();
+
+       
     }
 
     #region CalculateRotateRate

@@ -6,9 +6,23 @@ public partial class EnemyConstrainAnimationNodeManager
     {
         get
         {
-            if (painStateProceduralBodyConstraintNodeLeaf.Precondition()
-                || bodyLookConstraintNodeLeaf.Precondition())
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
+
+            if (this.enemy._currentWeapon == null)
+                return false;
+
+            if ((this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
+                return false;
+
+            if (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+                )
+                return true;
+
+
             return false;
         }
     }
@@ -17,8 +31,23 @@ public partial class EnemyConstrainAnimationNodeManager
     {
         get 
         {
-            if(enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
+
+            if (this.enemy._currentWeapon == null)
+                return false;
+
+            if ((this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
+                return false;
+
+            if (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+                )
+                return true;
+
+
             return false;
         }
     }
@@ -29,6 +58,21 @@ public partial class EnemyConstrainAnimationNodeManager
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
+
+            if (this.enemy._currentWeapon == null)
+                return false;
+
+            if ((this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
+                return false;
+
+            if (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+                )
+                return true;
+
+           
             return false;
         }
     }
@@ -39,6 +83,8 @@ public partial class EnemyConstrainAnimationNodeManager
         {
             if (this.enemy._currentWeapon == null)
                 return false;
+
+            
 
             if (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
                 || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()

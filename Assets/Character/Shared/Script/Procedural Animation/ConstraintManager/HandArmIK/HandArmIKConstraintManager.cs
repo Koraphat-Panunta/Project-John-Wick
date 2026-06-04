@@ -21,13 +21,13 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 
     private void Update()
     {
-        if (twoBoneIKConstraint.weight < 1)
+        if (twoBoneIKConstraint.weight <= 0)
         {
             SetTargetHand(twoBoneIKConstraint.data.tip.position, twoBoneIKConstraint.data.tip.rotation);
             SetHintHandPosition(twoBoneIKConstraint.data.mid.position);
         }
 
-        this.handTarget.position = curHandTargetPosition;
+        this.handTarget.position =  curHandTargetPosition;
         this.handTarget.rotation = curHandTargetRotation;
         this.handHint.position   = curHandHintPosition;
     }

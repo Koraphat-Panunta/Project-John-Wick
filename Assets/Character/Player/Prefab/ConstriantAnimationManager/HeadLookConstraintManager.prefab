@@ -51,10 +51,13 @@ MonoBehaviour:
   headAnchor: {fileID: 0}
   headRotationRef: {fileID: 5313045102098869585}
   rotateSpeed: 5
-  edgeEulerRotate: 220
-  limitEulerRotate: 90
-  targetEulerRotate: 0
-  eulerRotate: 0
+  edgeEulerRotate: 240
+  limitEulerRotateHorizontal: 45
+  limitEulerRotateVertical: 45
+  targetEulerRotateHorizontal: 0
+  eulerRotateHorizontal: 0
+  targetEulerRotateVertical: 0
+  eulerRotateVertical: 0
 --- !u!1 &6993502092955793183
 GameObject:
   m_ObjectHideFlags: 0

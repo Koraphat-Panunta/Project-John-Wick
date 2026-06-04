@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ConstrainSetUp
   constrainManager:
-  - {fileID: 2182208716139581321}
+  - {fileID: 6993606381464781572}
   - {fileID: 2515383644859114511}
   - {fileID: 5514319696493917665}
   - {fileID: 5724020739310564917}
@@ -311,6 +311,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4597564970889546498, guid: 9b6e9a99bb578a44fa3de04282da4024,
+        type: 3}
+      propertyPath: m_Data.m_ConstrainedObject
+      value: 
+      objectReference: {fileID: 1384084422802935640}
     - target: {fileID: 5136386542570338568, guid: 9b6e9a99bb578a44fa3de04282da4024,
         type: 3}
       propertyPath: m_Name
@@ -466,18 +471,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b6e9a99bb578a44fa3de04282da4024, type: 3}
---- !u!114 &2182208716139581321 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1513467838510176606, guid: 9b6e9a99bb578a44fa3de04282da4024,
-    type: 3}
-  m_PrefabInstance: {fileID: 812945607456085719}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f430de55ff8c34499b6059547f86ea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2515383644859114511 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2999495896020153048, guid: 9b6e9a99bb578a44fa3de04282da4024,
@@ -536,6 +529,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6a746376f560234f9960318ba6a0ee8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6993606381464781572 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7657929481708852691, guid: 9b6e9a99bb578a44fa3de04282da4024,
+    type: 3}
+  m_PrefabInstance: {fileID: 812945607456085719}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6a3a5190a1fea4c8cac52ea42fabb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &8655168765809799411 stripped

@@ -24,7 +24,7 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
 
     private void FixedUpdate()
     {
-        if (this.GetWeight() < 1)
+        if (this.GetWeight() <= 0)
         {
             this.leftLegTransformValue.position = this.leftLegTwoBoneIKConstrain.data.tip.transform.position;
             this.leftLegTransformValue.rotationEuler = this.leftLegTwoBoneIKConstrain.data.tip.transform.rotation.eulerAngles;

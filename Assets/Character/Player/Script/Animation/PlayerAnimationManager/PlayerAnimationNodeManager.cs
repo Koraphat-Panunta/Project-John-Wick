@@ -143,7 +143,7 @@ public partial class PlayerAnimationManager
 
         this.slideNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>(),
-            animator, "Slide", 0, .4f);
+            animator, "Slide", 0, .35f);
 
         sprintChangeDirNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerSprintChangeDirectionNode,
@@ -371,6 +371,26 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf restrianShieldNodeLeaf { get; set; }
     public RestNodeLeaf upperBodyLayerRestNodeLeaf { get; set; }
 
+    public NodeSelector performReloadNodeSelector { get; set; }
+    public NodeSelector shotgunReloadNodeSelector { get; set; }
+    public PlayAnimationNodeLeaf chamberloadShotgunNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf preLoadShotgunNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf quadloadShotgunNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf pistolReloadNodeLeaf { get; set; }
+    public PlayPoseAnimationNodeLeaf pistolTacticalReloadNodeLeaf { get; set; }
+
+    public NodeSelector drawSwitchSelector { get; set; }
+    public NodeSelector quickSwitchSelector { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHolsterSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf quickSwitchHoslterPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf holsterPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf holsterSecondaryNodeLeaf { get; set; }
+
     private void InitializedUpperBodyLayerNodeManager()
     {
         playerUpperBodyLayerNodeManagerPortable = new NodeManagerPortable();
@@ -395,49 +415,102 @@ public partial class PlayerAnimationManager
             && restrainGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay,
             this.animator, "OCM_Restrain", 1, .25f, 1);
 
+        this.performReloadNodeSelector = new NodeSelector(() => this.isPerformReload);
+        this.shotgunReloadNodeSelector = new NodeSelector(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IShotgunReloadNode>());
+        this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
+               && this.player._currentWeapon is AutomaticShotgunModel,
+            this.animator, "ChamberLoadShotgun", 1, .1f);
+        this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PreloadNodeLeaf>()
+               && this.player._currentWeapon is AutomaticShotgunModel,
+            this.animator, "PreLoadShotgun", 1, .1f);
+        this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
+               && this.player._currentWeapon is AutomaticShotgunModel,
+            this.animator, "QuadLoadShotgun", 1, .1f, this.upperBodyAnimationPoseTimeNormalized, 1, true);
+        this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+               && this.player._currentWeapon is AssultRifle_AR15Model,
+            this.animator, "ReloadMagazine_AR15", 1, .05f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+        this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
+               && this.player._currentWeapon is AssultRifle_AR15Model,
+            this.animator, "TacticalReloadMagazine_AR15", 1, .05f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+        this.pistolReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+               && this.player._currentWeapon is Glock17_9mm,
+            this.animator, "ReloadMagazine_Glock17", 1, .05f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+        this.pistolTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
+               && this.player._currentWeapon is Glock17_9mm,
+            this.animator, "TacticalReloadMagazine_Glock17", 1, .05f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+
+        this.drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);
+        this.quickSwitchSelector = new NodeSelector(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
+        this.quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>(),
+            animator, "QuickSwitchDraw", 1, 0.2f);
+        this.quickSwitchHolsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>(),
+            animator, "QuickSwitchHolsterSecondary", 1, 0.25f);
+        this.quickSwitchHoslterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>(),
+            animator, "QuickSwitchHolsterPrimary", 1, 0.25f);
+        this.drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
+            animator, "DrawPrimary", 1, .2f);
+        this.drawSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
+            animator, "DrawSecondary", 1, .2f);
+        this.holsterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>(),
+            animator, "HolsterPrimary", 1, .2f);
+        this.holsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>(),
+            animator, "HolsterSecondary", 1, .2f);
+
         this.upperBodyLayerRestNodeLeaf = new RestNodeLeaf(() => true);
 
         this.upperBodyLayerNodeSelector.AddtoChildNode(this.humanShieldNodeLeaf);
         this.upperBodyLayerNodeSelector.AddtoChildNode(this.restrianShieldNodeLeaf);
+        this.upperBodyLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
+        this.upperBodyLayerNodeSelector.AddtoChildNode(this.drawSwitchSelector);
         this.upperBodyLayerNodeSelector.AddtoChildNode(this.upperBodyLayerRestNodeLeaf);
+
+        this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
+        this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
+        this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
+        this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
+        this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
+
+        this.shotgunReloadNodeSelector.AddtoChildNode(this.chamberloadShotgunNodeLeaf);
+        this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
+        this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
+
+        this.drawSwitchSelector.AddtoChildNode(this.quickSwitchSelector);
+        this.drawSwitchSelector.AddtoChildNode(this.drawPrimaryNodeLeaf);
+        this.drawSwitchSelector.AddtoChildNode(this.drawSecondaryNodeLeaf);
+        this.drawSwitchSelector.AddtoChildNode(this.holsterPrimaryNodeLeaf);
+        this.drawSwitchSelector.AddtoChildNode(this.holsterSecondaryNodeLeaf);
+
+        this.quickSwitchSelector.AddtoChildNode(this.quickSwitchDrawNodeLeaf);
+        this.quickSwitchSelector.AddtoChildNode(this.quickSwitchHolsterSecondaryNodeLeaf);
+        this.quickSwitchSelector.AddtoChildNode(this.quickSwitchHoslterPrimaryNodeLeaf);
     }
     #endregion
 
     #region UpperArmLayer
     public NodeSelector upperArmLayerNodeSelector { get; set; }
-    public NodeSelector performReloadNodeSelector { get; set; }
-
-    public NodeSelector shotgunReloadNodeSelector { get; set; }
-    public PlayAnimationNodeLeaf chamberloadShotgunNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf preLoadShotgunNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf quadloadShotgunNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf rifleReloadNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf rifleTacticalReloadNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf pistolReloadNodeLeaf { get; set; }
-    public PlayPoseAnimationNodeLeaf pistolTacticalReloadNodeLeaf { get; set; }
-
-    public NodeSelector drawSwitchSelector { get; set; }
-    public NodeSelector quickSwitchSelector { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchDrawNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchHolsterSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchHoslterPrimaryNodeLeaf { get; set; }
-
-
-    public PlayAnimationNodeLeaf drawPrimaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf holsterPrimaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf holsterSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
     public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintUpperNodeLeaf { get; set; }
     public PlayAnimationMotionTimeMatchBaseLayerNodeLeaf sprintChangeDirUpperNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf quickSwitchWeaponManuverNodeLeaf { get; set; }
-
     public NodeSelector weaponHandSelector { get; set; }
     public PlayAnimationBaseStateOffsetNodeLeaf primaryWeaponHandUpperNodeLeaf { get; set; }
     public PlayAnimationBaseStateOffsetNodeLeaf secondaryWeaponHandUpperNodeLeaf { get; set; }
-
+    public PlayAnimationNodeLeaf restUpperArmNodeLeaf { get; set; }
     public NodeManagerPortable playerUpperArmLayerNodeManagerPortable { get; private set; }
     private void InitializedUpperArmLayerNodeManager()
     {
@@ -447,37 +520,13 @@ public partial class PlayerAnimationManager
             {
                 this.InitializedUpperArmLayer();
 
-                upperArmLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
-                upperArmLayerNodeSelector.AddtoChildNode(this.drawSwitchSelector);
                 upperArmLayerNodeSelector.AddtoChildNode(this.sprintChangeDirUpperNodeLeaf);
                 upperArmLayerNodeSelector.AddtoChildNode(this.sprintUpperNodeLeaf);
-                upperArmLayerNodeSelector.AddtoChildNode(quickSwitchWeaponManuverNodeLeaf);
                 upperArmLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
+                upperArmLayerNodeSelector.AddtoChildNode(this.restUpperArmNodeLeaf);
 
                 this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
                 this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);
-
-                this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
-                this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
-                this.performReloadNodeSelector.AddtoChildNode(this.rifleTacticalReloadNodeLeaf);
-                this.performReloadNodeSelector.AddtoChildNode(this.pistolReloadNodeLeaf);
-                this.performReloadNodeSelector.AddtoChildNode(this.pistolTacticalReloadNodeLeaf);
-
-                this.shotgunReloadNodeSelector.AddtoChildNode(this.chamberloadShotgunNodeLeaf);
-                this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
-                this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
-
-                drawSwitchSelector.AddtoChildNode(quickSwitchSelector);
-                drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(holsterPrimaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
-
-                quickSwitchSelector.AddtoChildNode(quickSwitchDrawNodeLeaf);
-                quickSwitchSelector.AddtoChildNode(quickSwitchHolsterSecondaryNodeLeaf);
-                quickSwitchSelector.AddtoChildNode(quickSwitchHoslterPrimaryNodeLeaf);
 
                 this.playerUpperArmLayerNodeManagerPortable.startNodeSelector.AddtoChildNode(upperArmLayerNodeSelector);
             });
@@ -485,125 +534,6 @@ public partial class PlayerAnimationManager
     private void InitializedUpperArmLayer()
     {
         upperArmLayerNodeSelector = new NodeSelector(() => isEnableUpperArmLayer);
-
-        performReloadNodeSelector = new NodeSelector(() => this.isPerformReload);
-
-        this.shotgunReloadNodeSelector = new NodeSelector(
-            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IShotgunReloadNode>()
-            );
-
-        this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
-            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
-            && this.player._currentWeapon is AutomaticShotgunModel
-            , this.animator
-            , "ChamberLoadShotgun"
-            , 2
-            , .1f
-            );
-
-        this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
-            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PreloadNodeLeaf>()
-            && this.player._currentWeapon is AutomaticShotgunModel
-            , this.animator
-            , "PreLoadShotgun"
-            , 2
-            , .1f
-            );
-
-        this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
-            && this.player._currentWeapon is AutomaticShotgunModel
-            , this.animator
-            , "QuadLoadShotgun"
-            , 2
-            , .1f
-            ,this.upperAnimationPoseTimeNormalized
-            ,1
-            ,true
-            );
-
-        this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>() 
-            && this.player._currentWeapon is AssultRifle_AR15Model 
-            , this.animator
-            , "ReloadMagazine_AR15"
-            , 2
-            ,.05f
-            ,this.upperAnimationPoseTimeNormalized
-            ,1
-            ,false);
-        this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-            && this.player._currentWeapon is AssultRifle_AR15Model
-            , this.animator
-            , "TacticalReloadMagazine_AR15"
-            , 2
-            ,.05f
-            ,this.upperAnimationPoseTimeNormalized
-            ,1
-            ,false);
-        this.pistolReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-            && this.player._currentWeapon is Glock17_9mm
-            , this.animator
-            , "ReloadMagazine_Glock17"
-            , 2
-            , .05f
-            , this.upperAnimationPoseTimeNormalized
-            , 1
-            , false);
-        this.pistolTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-            && this.player._currentWeapon is Glock17_9mm
-            , this.animator
-            , "TacticalReloadMagazine_Glock17"
-            , 2
-            , .05f
-            , this.upperAnimationPoseTimeNormalized
-            , 1
-            , false);
-
-        drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);
-
-        quickSwitchSelector = new NodeSelector(() => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IQuickSwitchNode>());
-        quickSwitchDrawNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
-            , animator
-            , "QuickSwitchDraw"
-            , 2
-            , 0.2f);
-        quickSwitchHolsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>()
-            , animator
-            , "QuickSwitchHolsterSecondary"
-            , 2
-            , 0.25f);
-        quickSwitchHoslterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>()
-            , animator
-            , "QuickSwitchHolsterPrimary"
-            , 2
-            , 0.25f);
-
-
-        drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
-            animator, "DrawPrimary", 2, .2f);
-        drawSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-           () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
-           animator, "DrawSecondary", 2, .2f);
-        holsterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-           () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>(),
-           animator, "HolsterPrimary", 2, .2f);
-        holsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-         () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>(),
-         animator, "HolsterSecondary", 2, .2f);
-        switchPrimaryToSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-         () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>(),
-         animator, "SwitchWeaponPrimary -> Secondary", 2, .2f);
-        swtichSecondaryToPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-         () => playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>(),
-         animator, "SwitchWeaponSecondary -> Primary", 2, .2f);
 
         sprintUpperNodeLeaf = new PlayAnimationMotionTimeMatchBaseLayerNodeLeaf(
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintNode>() 
@@ -614,13 +544,7 @@ public partial class PlayerAnimationManager
          () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>(),
          animator, "SprintWeaponSway", 2, 0, this.upperAnimationPoseTimeNormalized, 1f);
 
-        quickSwitchWeaponManuverNodeLeaf = new PlayAnimationNodeLeaf(
-            () =>
-            playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_AimDownSight_NodeLeaf>()
-            || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_LowReady_NodeLeaf>()
-            , animator, "QuickSwitchWeaponManuver", 2, .25f);
-
-        this.weaponHandSelector = new NodeSelector(()=> true);
+        this.weaponHandSelector = new NodeSelector(()=> this.player._currentWeapon != null);
 
         this.primaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
             () => this.player._currentWeapon != null
@@ -632,6 +556,13 @@ public partial class PlayerAnimationManager
             () => true
             , this.animator
             , "SecondaryWeaponHand", 2, 0, .2f);
+
+        this.restUpperArmNodeLeaf = new PlayAnimationNodeLeaf(
+            () => true
+            , this.animator
+            , "Rest"
+            , 2
+            , .1f);
 
     }
     #endregion

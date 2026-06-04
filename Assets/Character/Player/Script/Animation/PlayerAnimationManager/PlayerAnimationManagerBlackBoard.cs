@@ -45,7 +45,7 @@ public partial class PlayerAnimationManager
 
     private INodeManager playerStateNodeMnager => player.playerStateNodeManager;
     private INodeManager playerWeaponManuverNodeManager => player._weaponManuverManager;
-    private bool isEnableUpperBodyLayer 
+    private bool isEnableUpperBodyLayer
     {
         get
         {
@@ -57,56 +57,21 @@ public partial class PlayerAnimationManager
                 && humanShield_GunFu_NodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Stay)
                 return true;
 
+            if (this.isPerformReload)
+                return true;
+
+            if (this.isDrawSwitchWeapon)
+                return true;
+
             return false;
         }
     }
     private bool isEnableUpperArmLayer { get 
         {
-            if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<RestWeaponManuverLeafNode>())
+            if (this.player._currentWeapon == null)
                 return false;
 
-            if(playerStateNodeMnager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
-                return false;
-
-            if (playerStateNodeMnager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>())
-                return false;
-
-            if (playerStateNodeMnager.TryGetCurNodeLeaf<ParryNodeLeaf>())
-                return false;
-
-            if (playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>())
-                return false;
-
-           if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
-                return true;
-
-           if (playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
-                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>() 
-                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>()
-                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>()
-                )
-                return true;
-
-            if (playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
-                || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out RestrainGunFuStateNodeLeaf nodeLeaf) && (nodeLeaf._curPhase == NodePhase.Enter || nodeLeaf._curPhase == NodePhase.Exit))
-                || (playerStateNodeMnager.TryGetCurNodeLeaf(out HumanShield_GunFu_NodeLeaf humanShield) && (humanShield._curPhase == NodePhase.Enter ))
-                || playerStateNodeMnager.TryGetCurNodeLeaf<HumanShieldExit_GunFu_NodeLeaf>()
-                || playerStateNodeMnager.TryGetCurNodeLeaf<WeaponDisarm_GunFuInteraction_NodeLeaf>()
-                || playerStateNodeMnager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
-                || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerPokePickUpWeaponNodeLeaf>()
-                || playerStateNodeMnager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>()
-                || this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
-                || this.playerStateNodeMnager.TryGetCurNodeLeaf<OCMReloadNodeLeaf>()
-                )
-                return false;
-
-            if (this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>() 
-                || this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpForwardDolphinDiveNodeLeaf>()
-                || this.playerStateNodeMnager.TryGetCurNodeLeaf<WallJumpReversDolphinDiveNodeLeaf>())
-                return false;
-
-            if (player.curNodeLeaf is PlayerProneStateNodeLeaf)
+            if (this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
             if(this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>()

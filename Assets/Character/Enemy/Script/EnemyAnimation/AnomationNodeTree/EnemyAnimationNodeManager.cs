@@ -145,8 +145,8 @@ public partial class EnemyAnimationManager : INodeManager
 
     #endregion
 
-    #region UpperLayer
-    public NodeManagerPortable upperlayerAnimationNodeManagerProtable;
+    #region UpperBodyLayer
+    public NodeManagerPortable upperBodyLayerNodeManagerPortable { get; private set; }
 
     public NodeSelector upperLayerNodeSelector { get; set; }
     public RestNodeLeaf rest_UpperLayerAnimation_NodeLeaf { get; set; }
@@ -166,144 +166,71 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationNodeLeaf drawSecondaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf holsterPrimaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf holsterSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf switchPrimaryToSecondaryNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf swtichSecondaryToPrimaryNodeLeaf { get; set; }
 
-    public PlayAnimationNodeLeaf sprintManuverUpperNodeLeaf { get; set; }
-
-    public NodeSelector weaponHandSelector { get; set; }
-    public PlayAnimationBaseStateOffsetNodeLeaf primaryWeaponHandUpperNodeLeaf { get; set; }
-    public PlayAnimationBaseStateOffsetNodeLeaf secondaryWeaponHandUpperNodeLeaf { get; set; }
-
-    private void InitializedUpperLayer()
+    private void InitializedUpperBodyLayer()
     {
-        this.upperlayerAnimationNodeManagerProtable = new NodeManagerPortable();
-        this.upperlayerAnimationNodeManagerProtable.InitialzedOuterNode(
+        this.upperBodyLayerNodeManagerPortable = new NodeManagerPortable();
+        this.upperBodyLayerNodeManagerPortable.InitialzedOuterNode(
             () =>
             {
-                this.upperLayerNodeSelector = new NodeSelector(() => isEnableUpperLayer);
-                rest_UpperLayerAnimation_NodeLeaf = new RestNodeLeaf(() => true);
+                this.upperLayerNodeSelector = new NodeSelector(() => isEnableUpperBodyLayer);
 
                 this.performReloadNodeSelector = new NodeSelector(() => isPerformReload);
 
                 this.shotgunReloadNodeSelector = new NodeSelector(
-                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<IShotgunReloadNode>()
-           );
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<IShotgunReloadNode>());
 
                 this.chamberloadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ChamberLoadShotgunNodeLeaf>()
-                    && this.enemy._currentWeapon is AutomaticShotgunModel
-                    , this.animator
-                    , "ChamberLoadShotgun"
-                    , 1
-                    , .1f
-                    );
+                    && this.enemy._currentWeapon is AutomaticShotgunModel,
+                    this.animator, "ChamberLoadShotgun", 1, .1f);
 
                 this.preLoadShotgunNodeLeaf = new PlayAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<PreloadNodeLeaf>()
-                    && this.enemy._currentWeapon is AutomaticShotgunModel
-                    , this.animator
-                    , "PreLoadShotgun"
-                    , 1
-                    , .1f
-                    );
+                    && this.enemy._currentWeapon is AutomaticShotgunModel,
+                    this.animator, "PreLoadShotgun", 1, .1f);
 
                 this.quadloadShotgunNodeLeaf = new PlayPoseAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<QuardLoadNodeLeaf>()
-                    && this.enemy._currentWeapon is AutomaticShotgunModel
-                    , this.animator
-                    , "QuadLoadShotgun"
-                    , 1
-                    , .1f
-                    , this.upperAnimationPoseTimeNormalized
-                    , 1
-                    , true
-                    );
-
+                    && this.enemy._currentWeapon is AutomaticShotgunModel,
+                    this.animator, "QuadLoadShotgun", 1, .1f, this.upperBodyAnimationPoseTimeNormalized, 1, true);
 
                 this.rifleReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
-                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-                     && this.enemy._currentWeapon is AssultRifle_AR15Model
-                     , this.animator
-                     , "ReloadMagazine_AR15"
-                     , 1
-                     , .3f
-                     , this.upperAnimationPoseTimeNormalized
-                     , 1
-                     , false);
+                    () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
+                    && this.enemy._currentWeapon is AssultRifle_AR15Model,
+                    this.animator, "ReloadMagazine_AR15", 1, .3f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
 
                 this.rifleTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-                    && this.enemy._currentWeapon is AssultRifle_AR15Model
-                    , this.animator
-                    , "TacticalReloadMagazine_AR15"
-                    , 1
-                    , .3f
-                    , this.upperAnimationPoseTimeNormalized
-                    , 1
-                    , false);
+                    && this.enemy._currentWeapon is AssultRifle_AR15Model,
+                    this.animator, "TacticalReloadMagazine_AR15", 1, .3f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+
                 this.pistolReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<ReloadMagazineFullStageNodeLeaf>()
-                    && this.enemy._currentWeapon is Glock17_9mm
-                    , this.animator
-                    , "ReloadMagazine_Glock17"
-                    , 1
-                    , .3f
-                    , this.upperAnimationPoseTimeNormalized
-                    , 1
-                    , false);
+                    && this.enemy._currentWeapon is Glock17_9mm,
+                    this.animator, "ReloadMagazine_Glock17", 1, .3f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
+
                 this.pistolTacticalReloadNodeLeaf = new PlayPoseAnimationNodeLeaf(
                     () => this.enemyWeaponManuver.TryGetCurNodeLeaf<TacticalReloadMagazineFullStageNodeLeaf>()
-                    && this.enemy._currentWeapon is Glock17_9mm
-                    , this.animator
-                    , "TacticalReloadMagazine_Glock17"
-                    , 1
-                    , .3f
-                    , this.upperAnimationPoseTimeNormalized
-                    , 1
-                    , false);
-
+                    && this.enemy._currentWeapon is Glock17_9mm,
+                    this.animator, "TacticalReloadMagazine_Glock17", 1, .3f, this.upperBodyAnimationPoseTimeNormalized, 1, false);
 
                 drawSwitchSelector = new NodeSelector(() => isDrawSwitchWeapon);
                 drawPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
                     () => enemyWeaponManuver.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>(),
                     animator, "DrawPrimary", 1, .2f);
                 drawSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                   () => enemyWeaponManuver.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
-                   animator, "DrawSecondary", 1, .2f);
+                    () => enemyWeaponManuver.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>(),
+                    animator, "DrawSecondary", 1, .2f);
                 holsterPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-                   () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>(),
-                   animator, "HolsterPrimary", 1, .2f);
+                    () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>(),
+                    animator, "HolsterPrimary", 1, .2f);
                 holsterSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>(),
-                 animator, "HolsterSecondary", 1, .2f);
-                switchPrimaryToSecondaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>(),
-                 animator, "SwitchWeaponPrimary -> Secondary", 1, .2f);
-                swtichSecondaryToPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
-                 () => enemyWeaponManuver.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>(),
-                 animator, "SwitchWeaponSecondary -> Primary", 1, .2f);
-
-                sprintManuverUpperNodeLeaf = new PlayAnimationNodeLeaf(() => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
-                , animator, "SprintWeaponSway", 1, .2f);
-
-                this.weaponHandSelector = new NodeSelector(() => true);
-
-                this.primaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
-                    () => this.enemy._currentWeapon != null
-                    && this.enemy._currentWeapon is PrimaryWeapon,
-                    animator
-                    , "PrimaryWeaponHand", 1, 0, .2f);
-
-                this.secondaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
-                    () => true
-                    , this.animator
-                    , "SecondaryWeaponHand", 1, 0, .2f);
+                    () => enemyWeaponManuver.TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>(),
+                    animator, "HolsterSecondary", 1, .2f);
 
                 upperLayerNodeSelector.AddtoChildNode(this.performReloadNodeSelector);
                 upperLayerNodeSelector.AddtoChildNode(drawSwitchSelector);
-                upperLayerNodeSelector.AddtoChildNode(sprintManuverUpperNodeLeaf);
-                upperLayerNodeSelector.AddtoChildNode(this.weaponHandSelector);
 
                 this.performReloadNodeSelector.AddtoChildNode(this.shotgunReloadNodeSelector);
                 this.performReloadNodeSelector.AddtoChildNode(this.rifleReloadNodeLeaf);
@@ -315,22 +242,51 @@ public partial class EnemyAnimationManager : INodeManager
                 this.shotgunReloadNodeSelector.AddtoChildNode(this.preLoadShotgunNodeLeaf);
                 this.shotgunReloadNodeSelector.AddtoChildNode(this.quadloadShotgunNodeLeaf);
 
-                this.weaponHandSelector.AddtoChildNode(this.primaryWeaponHandUpperNodeLeaf);
-                this.weaponHandSelector.AddtoChildNode(this.secondaryWeaponHandUpperNodeLeaf);
-
                 drawSwitchSelector.AddtoChildNode(drawPrimaryNodeLeaf);
                 drawSwitchSelector.AddtoChildNode(drawSecondaryNodeLeaf);
                 drawSwitchSelector.AddtoChildNode(holsterPrimaryNodeLeaf);
                 drawSwitchSelector.AddtoChildNode(holsterSecondaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(switchPrimaryToSecondaryNodeLeaf);
-                drawSwitchSelector.AddtoChildNode(swtichSecondaryToPrimaryNodeLeaf);
 
-                this.upperlayerAnimationNodeManagerProtable.startNodeSelector.AddtoChildNode(this.upperLayerNodeSelector);
-                this.upperlayerAnimationNodeManagerProtable.startNodeSelector.AddtoChildNode(this.rest_UpperLayerAnimation_NodeLeaf);
-
+                this.upperBodyLayerNodeManagerPortable.startNodeSelector.AddtoChildNode(this.upperLayerNodeSelector);
             });
+    }
 
+    #endregion
 
+    #region UpperArmLayer
+    public NodeManagerPortable upperArmLayerNodeManagerPortable { get; private set; }
+    public NodeSelector upperArmLayerNodeSelector { get; set; }
+    public NodeSelector weaponHandSelector { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf primaryWeaponHandUpperNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf secondaryWeaponHandUpperNodeLeaf { get; set; }
+    public PlayAnimationBaseStateOffsetNodeLeaf holdMeleeWeaponNodeLeaf { get; set; }
+
+    private void InitializedUpperArmLayer()
+    {
+        upperArmLayerNodeManagerPortable = new NodeManagerPortable();
+        upperArmLayerNodeManagerPortable.InitialzedOuterNode(
+            () =>
+            {
+                upperArmLayerNodeSelector = new NodeSelector(() => this.isEnableUpperArmLayer);
+
+                primaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+                    () => this.enemy._currentWeapon != null && this.enemy._currentWeapon is PrimaryWeapon,
+                    animator, "PrimaryWeaponHand", 2, 0, .2f);
+                holdMeleeWeaponNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+                    () => this.enemy._curMeleeWeapon != null,
+                    animator, "Hold_Melee_Weapon", 2, 0, .2f);
+                secondaryWeaponHandUpperNodeLeaf = new PlayAnimationBaseStateOffsetNodeLeaf(
+                    () => true,
+                    this.animator, "SecondaryWeaponHand", 2, 0, .2f);
+
+                weaponHandSelector = new NodeSelector(() => true);
+                weaponHandSelector.AddtoChildNode(primaryWeaponHandUpperNodeLeaf);
+                weaponHandSelector.AddtoChildNode(holdMeleeWeaponNodeLeaf);
+                weaponHandSelector.AddtoChildNode(secondaryWeaponHandUpperNodeLeaf);
+
+                upperArmLayerNodeSelector.AddtoChildNode(weaponHandSelector);
+                upperArmLayerNodeManagerPortable.startNodeSelector.AddtoChildNode(upperArmLayerNodeSelector);
+            });
     }
 
     #endregion
@@ -340,41 +296,52 @@ public partial class EnemyAnimationManager : INodeManager
     public NodeSelector layerUpperEnableDisableSelector { get; set; }
     public SetLayerAnimationNodeLeaf enableUpperLayer { get; set; }
     public SetLayerAnimationNodeLeaf disableUpperLayer { get; set; }
+
+    public NodeSelector layerUpperArmEnableDisableSelector { get; set; }
+    public SetLayerAnimationNodeLeaf enableUpperArmLayer { get; set; }
+    public SetLayerAnimationNodeLeaf disableUpperArmLayer { get; set; }
+
     public CrouchWeightSoftCoverNodeLeaf crouchWeightSoftCoverNodeLeaf { get; set; }
 
     private void InitializedNodeComponent()
     {
         this.enemyAnimationNodeComponentManager = new NodeComponentManager();
 
-        layerUpperEnableDisableSelector = new NodeSelector(
-            () => true);
+        layerUpperEnableDisableSelector = new NodeSelector(() => true);
         enableUpperLayer = new SetLayerAnimationNodeLeaf(
-            () => isEnableUpperLayer
-            , animator, 1, 4f, 1);
+            () => isEnableUpperBodyLayer, animator, 1, 4f, 1);
         disableUpperLayer = new SetLayerAnimationNodeLeaf(
-            () => true
-            , animator, 1, 5f, 0);
+            () => true, animator, 1, 5f, 0);
+        layerUpperEnableDisableSelector.AddtoChildNode(enableUpperLayer);
+        layerUpperEnableDisableSelector.AddtoChildNode(disableUpperLayer);
+
+        layerUpperArmEnableDisableSelector = new NodeSelector(() => true);
+        enableUpperArmLayer = new SetLayerAnimationNodeLeaf(
+            () => isEnableUpperArmLayer, animator, 2, 4f, 1);
+        disableUpperArmLayer = new SetLayerAnimationNodeLeaf(
+            () => true, animator, 2, 5f, 0);
+        layerUpperArmEnableDisableSelector.AddtoChildNode(enableUpperArmLayer);
+        layerUpperArmEnableDisableSelector.AddtoChildNode(disableUpperArmLayer);
 
         crouchWeightSoftCoverNodeLeaf = new CrouchWeightSoftCoverNodeLeaf(enemy, 0.725f, 6,
             () => enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
             || enemyStateManager.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>());
 
-        layerUpperEnableDisableSelector.AddtoChildNode(enableUpperLayer);
-        layerUpperEnableDisableSelector.AddtoChildNode(disableUpperLayer);
-
         this.enemyAnimationNodeComponentManager.AddNode(layerUpperEnableDisableSelector);
+        this.enemyAnimationNodeComponentManager.AddNode(layerUpperArmEnableDisableSelector);
         this.enemyAnimationNodeComponentManager.AddNode(crouchWeightSoftCoverNodeLeaf);
-
     }
     #endregion
 
     public void InitailizedNode()
     {
         InitializedBaseLayer();
-        InitializedUpperLayer();
+        InitializedUpperBodyLayer();
+        InitializedUpperArmLayer();
         InitializedNodeComponent();
 
-        _parallelNodeManahger.Add(upperlayerAnimationNodeManagerProtable);
+        _parallelNodeManahger.Add(upperBodyLayerNodeManagerPortable);
+        _parallelNodeManahger.Add(upperArmLayerNodeManagerPortable);
     }
     private void Start()
     {
@@ -383,14 +350,16 @@ public partial class EnemyAnimationManager : INodeManager
     public void FixedUpdateNode()
     {
         _nodeManagerBehavior.FixedUpdateNode(this);
-        upperlayerAnimationNodeManagerProtable.FixedUpdateNode();
+        upperBodyLayerNodeManagerPortable.FixedUpdateNode();
+        upperArmLayerNodeManagerPortable.FixedUpdateNode();
         enemyAnimationNodeComponentManager.FixedUpdate();
     }
 
 
     public void UpdateNode()
     {
-        upperlayerAnimationNodeManagerProtable.UpdateNode();
+        upperBodyLayerNodeManagerPortable.UpdateNode();
+        upperArmLayerNodeManagerPortable.UpdateNode();
         enemyAnimationNodeComponentManager.Update();
     }
 

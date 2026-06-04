@@ -17,6 +17,11 @@ public partial class PlayerConstrainAnimationManager : IObserverPlayer
                 isEnableIK = false;
         }
 
+        if(node is PlayerSlideNodeLeaf)
+        {
+            this.leftHandConstraintManager.SetWeight(0);
+        }
+
         if(node is SubjectPlayer.NotifyEvent playerEvent
             && playerEvent == SubjectPlayer.NotifyEvent.Firing)
         {

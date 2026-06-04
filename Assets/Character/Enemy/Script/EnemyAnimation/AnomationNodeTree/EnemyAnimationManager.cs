@@ -9,7 +9,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     [SerializeField] public Enemy enemy;
 
     public AnimationPoseTimeNormalized basedAnimationPoseTimeNormalized;
-    public AnimationPoseTimeNormalized upperAnimationPoseTimeNormalized;
+    public AnimationPoseTimeNormalized upperBodyAnimationPoseTimeNormalized;
+    public AnimationPoseTimeNormalized upperArmAnimationPoseTimeNormalized;
 
     private Vector3 inputVelocity_World;
     private Vector3 inputVelocity_Local;
@@ -47,7 +48,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
     public void Initialized()
     {
         this.basedAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
-        this.upperAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
+        this.upperBodyAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
+        this.upperArmAnimationPoseTimeNormalized = new AnimationPoseTimeNormalized();
         
         enemy.AddObserver(this);
         _nodeManagerBehavior = new NodeManagerBehavior();
@@ -172,7 +174,8 @@ public partial class EnemyAnimationManager : MonoBehaviour,IObserverEnemy,IIniti
         this.animator.SetFloat("PainStateHorizontal",this.PainStateHorizontal);
         this.animator.SetFloat("PainStateVertical",this.PainStateVertical);
 
-        animator.SetFloat("UpperLayerTimeNormalized", this.upperAnimationPoseTimeNormalized.timeNormal);
+        animator.SetFloat("UpperBodyLayerTimeNormalized", this.upperBodyAnimationPoseTimeNormalized.timeNormal);
+        animator.SetFloat("UpperArmLayerTimeNormalized", this.upperArmAnimationPoseTimeNormalized.timeNormal);
         this.animator.SetFloat("BasedLayerTimeNormalized", this.basedAnimationPoseTimeNormalized.timeNormal);
     }
 
