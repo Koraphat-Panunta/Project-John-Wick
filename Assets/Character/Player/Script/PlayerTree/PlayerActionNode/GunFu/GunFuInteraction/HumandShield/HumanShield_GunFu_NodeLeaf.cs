@@ -59,6 +59,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
 
     public override void Enter()
     {
+
         this.humanShield_Stay_Timer = 0;
         this.nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         curIntphase = HumanShieldInteractionPhase.Enter;
@@ -111,6 +112,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
         {
             case HumanShieldInteractionPhase.Enter:
                 {
+                    RotateCamera();
                     this.subject_GunFuAble.UpdateInteract(Time.deltaTime);
                     this.subject_GotGunFuAble.UpdateInteract(Time.deltaTime);
 
@@ -125,7 +127,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
 
             case HumanShieldInteractionPhase.Stay:
                 {
-                    pullWeight = Mathf.Clamp01(this.pullWeight + Time.deltaTime);
+                    pullWeight = Mathf.Clamp01(this.pullWeight + Time.deltaTime * 2);
 
                     this.gotGunFuAttackedAble._character._movementCompoent.SetPosition(Vector3.Lerp
                         (
@@ -143,6 +145,8 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
                         );
 
                     this.humanShield_Stay_Timer += Time.deltaTime;
+
+
 
                     player._movementCompoent.UpdateMoveToDirLocal(
                         player.inputMoveDir_Local * player.StandMoveMaxSpeed
@@ -182,4 +186,20 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
     {
         this.player.OnNotifyFeedBackVisitor(damageAble);
     }
+
+    //Danger_Zone_HumanShield_RotateCamera
+    private ThirdPersonCinemachineCamera thirdPersonCinemachineCamera => this.player.cinemachineCamera;
+    private float rotateRadiantSpeed = 90f * 1.5f;
+
+    private void RotateCamera()
+    {
+        Vector3 flatForward = new Vector3(gotGunFuAttackedAble._character.transform.forward.x, 0, gotGunFuAttackedAble._character.transform.forward.z).normalized;
+        if (flatForward == Vector3.zero) return;
+
+        float targetYaw = Quaternion.LookRotation(flatForward * -1, Vector3.up).eulerAngles.y;
+        thirdPersonCinemachineCamera.SetYaw(
+            Mathf.MoveTowardsAngle(thirdPersonCinemachineCamera.yaw, targetYaw, rotateRadiantSpeed * Time.deltaTime)
+        );
+    }
+    //Danger_Zone_HumanShield_RotateCamera
 }
