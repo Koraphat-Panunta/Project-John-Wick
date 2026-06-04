@@ -30,9 +30,9 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                         enemy.NotifyObserver(enemy,tacticalReloadMagazineFullStageNodeLeaf);
                         break;
                     }
-                case AimDownSightWeaponManuverNodeLeaf:
+                case AimDownSightWeaponManuverNodeLeaf aimDownSightWeaponManuverNodeLeaf:
                     {
-                        //No logic yet
+                        enemy.NotifyObserver(enemy, aimDownSightWeaponManuverNodeLeaf);
                         break;
                     }
                 case LowReadyWeaponManuverNodeLeaf:

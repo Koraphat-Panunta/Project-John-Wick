@@ -12,90 +12,45 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
     public NodeSelector bodyConstraintSelector;
     public PainStateProceduralBodyConstraintNodeLeaf painStateProceduralBodyConstraintNodeLeaf;
 
-    public NodeSelector aimDownSightBodyNodeSelector;
-    public AimDownSightBodyConstrainNodeLeaf primaryAnimationConstrainNodeLeaf;
-    public AimDownSightBodyConstrainNodeLeaf secondaryAnimationConstrainNodeLeaf;
-
-    public RestNodeLeaf restBodyConstrainNodeLeaf;
-
-    public NodeSelector bodyWeightConstranSelector;
-    public SetConstraintWeightNodeLeaf enableBodyConstrainWeightNodeLeaf;
-    public SetConstraintWeightNodeLeaf disableBodyConstrainWeightNodeLeaf;
+    public AimDownSightBodyRotationConstraintNodeLeaf bodyLookConstraintNodeLeaf;
+    public RecoveryConstraintManagerWeightNodeLeaf splineLookConstraintRecoveryWeightConstraintNodeLeaf;
 
     private void InitializedBodyConstrainNode()
     {
         this.enemyBodyConstraintAnimationNodeManager = new NodeComponentManager();
 
-        //1
         this.bodyConstraintSelector = new NodeSelector(() => true);
-        this.bodyWeightConstranSelector = new NodeSelector(() => true);
 
-        //2
         this.painStateProceduralBodyConstraintNodeLeaf = new PainStateProceduralBodyConstraintNodeLeaf(
-           this.enemy.transform
-           , this.bodyLookConstrainManager
-           , this.painBodyRespondCurve
-           , this.painStateBodyConstraintSCRP
-           , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
-           //|| this.enemy.stateManagerNode.TryGetCurNodeLeaf<GotGunFuHitNodeLeaf>()
-           );
-
-        this.aimDownSightBodyNodeSelector = new NodeSelector(
-            () => enemy._currentWeapon != null && enemy._weaponManuverManager.aimingWeight > 0
+            this.enemy.transform
+            , this.bodyRotateConstraintManager
+            , this.painBodyRespondCurve
+            , this.painStateBodyConstraintSCRP
+            , () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>()
             );
 
-        this.restBodyConstrainNodeLeaf = new RestNodeLeaf
-            (() => true);
+        this.bodyLookConstraintNodeLeaf = new AimDownSightBodyRotationConstraintNodeLeaf(
+            this.enemy.humanoidBone.hips
+            , this.enemy.humanoidBone.hips
+            , this.enemy.pointingTransform
+            , this.enemy
+            , this.bodyRotateConstraintManager
+            , this.primaryAimBodyRotationConstrainSCRP
+            , () => this.enemy._currentWeapon != null
+                 && this.enemy._weaponManuverManager.aimingWeight > 0
+                 && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
+            );
 
-        this.enableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
-            () => this.bodyConstraintSelector.curNodeLeaf != this.restBodyConstrainNodeLeaf
-            , this.bodyLookConstrainManager
-            , 1, 1);
-
-        this.disableBodyConstrainWeightNodeLeaf = new SetConstraintWeightNodeLeaf(
+        this.splineLookConstraintRecoveryWeightConstraintNodeLeaf = new RecoveryConstraintManagerWeightNodeLeaf(
             () => true
-            , this.bodyLookConstrainManager
-            , 1, 0);
+            , this.bodyRotateConstraintManager
+            , 10);
 
-        //3
-
-        this.primaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy.humanoidBone.hips
-            , this.enemy.humanoidBone.hips
-            , this.enemy.pointingTransform
-            , this.enemy
-            , bodyLookConstrainManager
-            , primaryAimSplineLookConstrainScriptableObject
-            , () => enemy._currentWeapon is PrimaryWeapon
-            );
-
-        this.secondaryAnimationConstrainNodeLeaf = new AimDownSightBodyConstrainNodeLeaf(
-            this.enemy.humanoidBone.hips
-            , this.enemy.humanoidBone.hips
-            , this.enemy.pointingTransform
-            , this.enemy
-            , bodyLookConstrainManager
-            , secondaryAimSplineLookConstrainScriptableObject
-            , () => enemy._currentWeapon is SecondaryWeapon
-            );
-        //
-
-        //1
         this.bodyConstraintSelector.AddtoChildNode(this.painStateProceduralBodyConstraintNodeLeaf);
-        this.bodyConstraintSelector.AddtoChildNode(this.aimDownSightBodyNodeSelector);
-        this.bodyConstraintSelector.AddtoChildNode(this.restBodyConstrainNodeLeaf);
-
-        this.bodyWeightConstranSelector.AddtoChildNode(this.enableBodyConstrainWeightNodeLeaf);
-        this.bodyWeightConstranSelector.AddtoChildNode(this.disableBodyConstrainWeightNodeLeaf);
-
-        //2
-        this.aimDownSightBodyNodeSelector.AddtoChildNode(this.primaryAnimationConstrainNodeLeaf);
-        this.aimDownSightBodyNodeSelector.AddtoChildNode(this.secondaryAnimationConstrainNodeLeaf);
-
-        //
+        this.bodyConstraintSelector.AddtoChildNode(this.bodyLookConstraintNodeLeaf);
+        this.bodyConstraintSelector.AddtoChildNode(this.splineLookConstraintRecoveryWeightConstraintNodeLeaf);
 
         this.enemyBodyConstraintAnimationNodeManager.AddNode(this.bodyConstraintSelector);
-        this.enemyBodyConstraintAnimationNodeManager.AddNode(this.bodyWeightConstranSelector);
     }
 
     #endregion
@@ -105,6 +60,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public NodeSelector rightArmConstraintSelector;
     public ArmPrceduralPainStateConstraintNodeLeaf rightArmPainStateProceduralConstraintNodeLeaf;
+    public WeaponUserAimAtHandIKConstriantNodeLeaf rightHandWeaponAimAtIKCinstrainNodeLeaf;
     public RestNodeLeaf restRightArmConstrainNodeLeaf;
 
     public NodeSelector rightArmWeightConstrainSelector;
@@ -136,6 +92,22 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         this.restRightArmConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
+        this.rightHandWeaponAimAtIKCinstrainNodeLeaf = new WeaponUserAimAtHandIKConstriantNodeLeaf(
+            this.rightHandIKConstraint
+            , this.enemy.pointingTransform
+            , this.enemy.humanoidBone._rightArmBone
+            , this.enemy.humanoidBone._spine_2_Bone
+            , this.enemy.humanoidBone._spine_2_Bone
+            , this.enemy.transform
+            , this.enemy
+            , this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
+            , this.pistolHandRecoilData
+            , this.secondaryWeaponBlockData
+            , () => this.enemy._currentWeapon != null
+               && this.enemy._weaponManuverManager.aimingWeight > 0 
+               && (this.enemy._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<AimDownSightWeaponManuverNodeLeaf>()
+            );
+
         this.enableRightArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
             (()=> this.rightArmConstraintSelector.curNodeLeaf != this.restRightArmConstrainNodeLeaf
             ,this.rightHandIKConstraint
@@ -148,6 +120,7 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         //1
         this.rightArmConstraintSelector.AddtoChildNode(this.rightArmPainStateProceduralConstraintNodeLeaf);
+        this.rightArmConstraintSelector.AddtoChildNode(this.rightHandWeaponAimAtIKCinstrainNodeLeaf);
         this.rightArmConstraintSelector.AddtoChildNode(this.restRightArmConstrainNodeLeaf);
 
         this.rightArmWeightConstrainSelector.AddtoChildNode(this.enableRightArmWeightConstrainNodeLeaf);
@@ -166,6 +139,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public NodeSelector leftArmConstraintSelector;
     public ArmPrceduralPainStateConstraintNodeLeaf leftArmPainStateProceduralConstraintNodeLeaf;
+    public WeaponLeftHandGripHandConstraintNodeLeaf primaryWeaponGripLeftHandTwoBoneIKNodeLeaf;
+    public WeaponLeftHandGripHandConstraintNodeLeaf secondaryWeaponGripLeftHandTwoBoneIKNodeLeaf;
     public RestNodeLeaf restLeftArmConstrainNodeLeaf;
 
     public NodeSelector leftArmWeightConstrainSelector;
@@ -195,6 +170,22 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
            , new Vector3(0, -90, 0)
            );
 
+        this.primaryWeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
+            () => this.isWeaponGripConstraintEnable && enemy._currentWeapon is PrimaryWeapon,
+            this.rightHandIKConstraint.GetTargetHandTransform(),
+            this.leftHandIKConstraint.GetTargetHandTransform(),
+            this.leftHandIKConstraint,
+            this.primaryWeaponGripLeftHandScrp,
+            this.enemy);
+
+        this.secondaryWeaponGripLeftHandTwoBoneIKNodeLeaf = new WeaponLeftHandGripHandConstraintNodeLeaf(
+            () => this.isWeaponGripConstraintEnable && enemy._currentWeapon is SecondaryWeapon,
+            this.rightHandIKConstraint.GetTargetHandTransform(),
+            this.leftHandIKConstraint.GetTargetHandTransform(),
+            this.leftHandIKConstraint,
+            this.secondaryWeaponGripLeftHandScrp,
+            this.enemy);
+
         this.restLeftArmConstrainNodeLeaf = new RestNodeLeaf(() => true);
 
         this.enableLeftArmWeightConstrainNodeLeaf = new SetConstraintWeightNodeLeaf
@@ -209,6 +200,8 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
         //1
         this.leftArmConstraintSelector.AddtoChildNode(this.leftArmPainStateProceduralConstraintNodeLeaf);
+        this.leftArmConstraintSelector.AddtoChildNode(this.primaryWeaponGripLeftHandTwoBoneIKNodeLeaf);
+        this.leftArmConstraintSelector.AddtoChildNode(this.secondaryWeaponGripLeftHandTwoBoneIKNodeLeaf);
         this.leftArmConstraintSelector.AddtoChildNode(this.restLeftArmConstrainNodeLeaf);
 
         this.leftArmWeightConstrainSelector.AddtoChildNode(this.enableLeftArmWeightConstrainNodeLeaf);
@@ -342,6 +335,20 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
 
     public void OnNotify<T>(Enemy enemy, T node)
     {
+        this.Body_Look_ConstrainCondition(enemy, node);
+        this.RightHand_ConstrainCondition(enemy, node);
+
+        if (node is FiringNode)
+        {
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.TriggeRecoilWeight();
+            this.bodyLookConstraintNodeLeaf.TriggerRecoil();
+        }
+
+        if (this.enemy._currentWeapon is AutomaticShotgunModel)
+            this.bodyLookConstraintNodeLeaf.SetRecoilScriptableObject(this.shotGun_BodyRecoil_SCRP);
+        else
+            this.bodyLookConstraintNodeLeaf.SetRecoilScriptableObject(null);
+
         if(node is GotGunFuHitNodeLeaf)
         {
             this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerReset();
@@ -374,10 +381,69 @@ public partial class EnemyConstrainAnimationNodeManager : AnimationConstrainNode
             this.leftArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
             this.rightArmPainStateProceduralConstraintNodeLeaf.TriggerForcePush(hitedEventDetail.hitDir , hitedEventDetail.hitforce);
 
-    
 
 
+        }
+    }
 
+    private void RightHand_ConstrainCondition<T>(Enemy enemy, T node)
+    {
+        if (this.enemy._currentWeapon == null) return;
+
+        switch (this.enemy._currentWeapon)
+        {
+            case AutomaticShotgunModel:
+                SetRightHandRecoilData(this.shotgunHandRecoilData);
+                SetRightHandRecoilBlockData(this.primaryWeaponBlockData);
+                break;
+            case PrimaryWeapon:
+                SetRightHandRecoilData(this.rifileHandRecoilData);
+                SetRightHandRecoilBlockData(this.primaryWeaponBlockData);
+                break;
+            case SecondaryWeapon:
+                SetRightHandRecoilData(this.pistolHandRecoilData);
+                SetRightHandRecoilBlockData(this.secondaryWeaponBlockData);
+                break;
+        }
+
+        if (this.enemy._currentWeapon is PrimaryWeapon)
+            SetRightHandSCRP(this.rightHand_Target_AimDownSight_PrimaryWeapon_SCRP);
+        else if (this.enemy._currentWeapon is SecondaryWeapon)
+            SetRightHandSCRP(this.rightHand_Target_AimDownSight_SecondaryWeapon_SCRP);
+    }
+
+    private void SetRightHandSCRP(TwoBoneIK_ConstraintSCRP scrp)
+    {
+        if (this.rightHandWeaponAimAtIKCinstrainNodeLeaf.handIK_ConstraintSCRP != scrp)
+        {
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandIKConstraintSCRP(scrp);
+            this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetWeight(0);
+        }
+    }
+
+    private void SetRightHandRecoilData(WeaponHandRecoilSCRP data) =>
+        this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandRecoilData(data);
+
+    private void SetRightHandRecoilBlockData(WeaponHandBlockSCRP data) =>
+        this.rightHandWeaponAimAtIKCinstrainNodeLeaf.SetHandBlockData(data);
+
+    private void Body_Look_ConstrainCondition<T>(Enemy enemy, T node)
+    {
+        if (node is AimDownSightWeaponManuverNodeLeaf && this.enemy._currentWeapon != null)
+        {
+            if (this.enemy._currentWeapon is PrimaryWeapon)
+                SetBodyRotationSCRP(this.primaryAimBodyRotationConstrainSCRP);
+            else if (this.enemy._currentWeapon is SecondaryWeapon)
+                SetBodyRotationSCRP(this.secondaryAimBodyRotationConstrainSCRP);
+        }
+    }
+
+    private void SetBodyRotationSCRP(BodyRotationConstrainScriptableObject scrp)
+    {
+        if (this.bodyLookConstraintNodeLeaf.bodyRotationConstrainScriptableObject != scrp)
+        {
+            this.bodyLookConstraintNodeLeaf.SetBodyRotationConstrainSCRP(scrp);
+            this.bodyLookConstraintNodeLeaf.SetWeight(0);
         }
     }
 }

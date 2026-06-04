@@ -2,12 +2,12 @@ using UnityEngine;
 
 public partial class EnemyConstrainAnimationNodeManager 
 {
-    public bool isBodyConstriantEnable 
+    public bool isBodyConstriantEnable
     {
-        get 
+        get
         {
-            if(aimDownSightBodyNodeSelector.Precondition()
-                ||painStateProceduralBodyConstraintNodeLeaf.Precondition())
+            if (painStateProceduralBodyConstraintNodeLeaf.Precondition()
+                || bodyLookConstraintNodeLeaf.Precondition())
                 return true;
             return false;
         }
@@ -29,6 +29,24 @@ public partial class EnemyConstrainAnimationNodeManager
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyPainStateNodeLeaf>())
                 return true;
+            return false;
+        }
+    }
+
+    public bool isWeaponGripConstraintEnable
+    {
+        get
+        {
+            if (this.enemy._currentWeapon == null)
+                return false;
+
+            if (this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                || this.enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+                )
+                return true;
+
             return false;
         }
     }

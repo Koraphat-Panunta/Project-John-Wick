@@ -19,23 +19,39 @@ public class BuckShotBullet : Bullet
     {
         noiseMakingBehavior.VisitAllHeardingAbleInRaduis(19, _bodyPartMask);
 
-        for (int i = 0; i < PELLET_COUNT; i++)
+        bool isPlayer = weapon.userWeapon is Player;
+
+        if(this.weapon.userWeapon is Player)
         {
-            Vector3 hitPos = ShootPellet(bulletSpawner);
-            Debug.DrawLine(this.position, hitPos, Color.red, 3);
-            bulletSpawner.StartCoroutine(bulletSpawner.SpawnTrail(bulletSpawner.transform.position, hitPos, bulletSpawner.bulletTrail));
+            for (int i = 0; i < PELLET_COUNT; i++)
+            {
+                Vector3 pelletDir = GetPlayerSpreadDirection(bulletSpawner.transform,this.weapon.shootingPosition);
+
+                Vector3 hitPos = ShootPellet(bulletSpawner, pelletDir);
+                Debug.DrawLine(this.position, hitPos, Color.red, 3);
+                bulletSpawner.StartCoroutine(bulletSpawner.SpawnTrail(bulletSpawner.transform.position, hitPos, bulletSpawner.bulletTrail));
+            }
         }
+        else
+        {
+            for (int i = 0; i < PELLET_COUNT; i++)
+            {
+                Vector3 pelletDir = GetSpreadDirection(bulletSpawner.transform);
+
+                Vector3 hitPos = ShootPellet(bulletSpawner, pelletDir);
+                bulletSpawner.StartCoroutine(bulletSpawner.SpawnTrail(bulletSpawner.transform.position, hitPos, bulletSpawner.bulletTrail));
+            }
+        }
+
+        
 
         // Return start position so BulletSpawner's direction-check (> .9) evaluates to 0 and skips its own trail
         return bulletSpawner.transform.position;
     }
 
-    private Vector3 ShootPellet(BulletSpawner bulletSpawner)
+    private Vector3 ShootPellet(BulletSpawner bulletSpawner, Vector3 pelletDir)
     {
-        Vector3 pelletDir = GetSpreadDirection(bulletSpawner.transform);
         Ray ray = new Ray(bulletSpawner.transform.position, pelletDir);
-
-        //Debug.DrawRay(bulletSpawner.transform.position, pelletDir,Color.red,4);
 
         RaycastHit[] hits = Physics.SphereCastAll(ray, 0.015f, MAX_DISTANCE, hitLayer, QueryTriggerInteraction.Ignore);
 
@@ -54,5 +70,14 @@ public class BuckShotBullet : Bullet
         Vector2 disk = Random.insideUnitCircle * Mathf.Tan(SPREAD_ANGLE * Mathf.Deg2Rad);
         Vector3 localDir = new Vector3(disk.x, disk.y, 1f);
         return spawner.TransformDirection(localDir.normalized);
+    }
+
+    // Same cone spread but centred on the spawner→crosshair direction so pellets converge at the aim point
+    private Vector3 GetPlayerSpreadDirection(Transform spawner, Vector3 pointPos)
+    {
+
+        Vector3 baseDir = (pointPos - spawner.position).normalized;
+
+        return baseDir ;
     }
 }

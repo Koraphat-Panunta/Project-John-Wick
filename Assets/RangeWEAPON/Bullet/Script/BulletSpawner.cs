@@ -87,3 +87,4 @@ public class BulletSpawner : MonoBehaviour
             Destroy(bulletTrail.gameObject);
     }
 }
+

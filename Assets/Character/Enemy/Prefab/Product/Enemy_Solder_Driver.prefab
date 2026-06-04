@@ -681,6 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableRootMotion: 0
+  rootMotionScale: {x: 1, y: 1, z: 1}
   humanoidBone: {fileID: 6365166338599209248}
   movementScriptableObject: {fileID: 11400000, guid: 2b977574ee197fe4ba12b588ef91f3fc,
     type: 2}
@@ -2142,6 +2143,60 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 1047174480390236368}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: pistolHandRecoilData
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c3c4c5c6c7c8c9c0c1c2c3c4c5c6c7c,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: rifileHandRecoilData
+      value: 
+      objectReference: {fileID: 11400000, guid: f7a8b9c0d1e23d4e5f60718293041526,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: shotgunHandRecoilData
+      value: 
+      objectReference: {fileID: 11400000, guid: e13858a53d6c17c48b91a759ab0a8eef,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: primaryWeaponBlockData
+      value: 
+      objectReference: {fileID: 11400000, guid: a8b9c0d1e2f34e5f6071829304152637,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: secondaryWeaponBlockData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e5e6e7e8e9e0e1e2e3e4e5e6e7e8e9e,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: primaryWeaponGripLeftHandScrp
+      value: 
+      objectReference: {fileID: 11400000, guid: 36f44929132a58d4aa2a7dc3d0ff10a4,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: secondaryWeaponGripLeftHandScrp
+      value: 
+      objectReference: {fileID: 11400000, guid: e7760d4426a7e99459faa6e46ac9b63c,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: rightHand_Target_AimDownSight_PrimaryWeapon_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 347d4425caf2e9f43bc74a14eb8fce5a,
+        type: 2}
+    - target: {fileID: 6745237828941347057, guid: 678a9c4e7521e354d925f896de39c59c,
+        type: 3}
+      propertyPath: rightHand_Target_AimDownSight_SecondaryWeapon_SCRP
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f00ca67ea9f24746a77e58e507615bb,
+        type: 2}
     - target: {fileID: 7247303869463918796, guid: 678a9c4e7521e354d925f896de39c59c,
         type: 3}
       propertyPath: m_Name
