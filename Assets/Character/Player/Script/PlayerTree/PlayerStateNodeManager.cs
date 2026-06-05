@@ -93,7 +93,7 @@ public class PlayerStateNodeManager :
     public ParryNodeLeaf parryNodeLeaf { get; private set; }
 
     public NodeSelector triggerHitGunFuSelector { get; private set; }
-    public GunFuHitDownNodeLeaf hitDownNodeLeaf { get; private set; }
+    public OCM_HitDownNodeLeaf hitDownNodeLeaf { get; private set; }
     public GunFuHitNodeLeaf hit1gunFuNodeLeaf { get; private set; }
     public OCM_KnockDown_NodeLeaf ocmKnockDownNodeLeaf { get; private set; }
     public OCMReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
@@ -313,7 +313,7 @@ public class PlayerStateNodeManager :
             () =>this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.isDead == false
             && (this.player._triggerAttack || player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack))));
-        this.hitDownNodeLeaf = new GunFuHitDownNodeLeaf(this.player,this.player.gunFuHitDownScriptableObject,this.player.hit1
+        this.hitDownNodeLeaf = new OCM_HitDownNodeLeaf(this.player,this.player.gunFuHitDownScriptableObject,this.player.hit1
             ,() =>  this.player.attackedAbleGunFu != null
             && this.player._triggerAttack
             && this.player.attackedAbleGunFu._character.stance == Stance.prone

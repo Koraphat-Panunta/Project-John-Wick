@@ -1,9 +1,22 @@
 ---
 name: editor-selection-get
-description: Get information about the current Selection in the Unity Editor. Use 'editor-selection-set' tool to set the selection.
+description: Get information about the current Selection in the Unity Editor — active object, active transform, selected GameObjects, transforms, instance IDs, and asset GUIDs (each enrichment is opt-in). Pair with 'editor-selection-set' to change the selection.
 ---
 
 # Editor / Selection / Get
+
+Get information about the current Selection in the Unity Editor. Use 'editor-selection-set' tool to set the selection.
+
+## Toggles (default off where indicated to keep responses small)
+
+- `includeGameObjects` (default `false`) — populate `GameObjects[]`.
+- `includeTransforms` (default `false`) — populate `Transforms[]` as `ComponentRef`s.
+- `includeInstanceIDs` (default `false`) — populate `InstanceIDs[]`.
+- `includeAssetGUIDs` (default `false`) — populate `AssetGUIDs[]` from project-window selection.
+- `includeActiveObject` (default `true`) — populate `ActiveObject` as a generic `ObjectRef`.
+- `includeActiveTransform` (default `true`) — populate `ActiveTransform` as a `ComponentRef`.
+
+`ActiveGameObject` and `ActiveInstanceID` are always populated.
 
 ## How to Call
 
@@ -88,7 +101,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
     }
   },
   "$defs": {
-    "AIGD.GameObjectRef[]": {
+    "AIGD.GameObjectRef-1": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.GameObjectRef",
@@ -131,7 +144,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
     "System.Type": {
       "type": "string"
     },
-    "AIGD.ComponentRef[]": {
+    "AIGD.ComponentRef-1": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.ComponentRef",
@@ -160,13 +173,13 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       ],
       "description": "Component reference. Used to find a Component at GameObject."
     },
-    "System.Int32[]": {
+    "System.Int32-1": {
       "type": "array",
       "items": {
         "type": "integer"
       }
     },
-    "System.String[]": {
+    "System.String-1": {
       "type": "array",
       "items": {
         "type": "string"
@@ -189,19 +202,19 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "object",
       "properties": {
         "GameObjects": {
-          "$ref": "#/$defs/AIGD.GameObjectRef[]",
+          "$ref": "#/$defs/AIGD.GameObjectRef-1",
           "description": "Returns the actual game object selection. Includes Prefabs, non-modifiable objects."
         },
         "Transforms": {
-          "$ref": "#/$defs/AIGD.ComponentRef[]",
+          "$ref": "#/$defs/AIGD.ComponentRef-1",
           "description": "Returns the top level selection, excluding Prefabs."
         },
         "InstanceIDs": {
-          "$ref": "#/$defs/System.Int32[]",
+          "$ref": "#/$defs/System.Int32-1",
           "description": "The actual unfiltered selection from the Scene returned as instance ids instead of objects."
         },
         "AssetGUIDs": {
-          "$ref": "#/$defs/System.String[]",
+          "$ref": "#/$defs/System.String-1",
           "description": "Returns the guids of the selected assets."
         },
         "ActiveGameObject": {

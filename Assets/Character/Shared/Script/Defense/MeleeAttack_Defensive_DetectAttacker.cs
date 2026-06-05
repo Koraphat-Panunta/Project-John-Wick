@@ -55,26 +55,19 @@ public class MeleeAttack_Defensive_DetectAttacker : MonoBehaviour, IInitializedA
         Vector3 castPos = this.CastTransform != null ? this.CastTransform.position : transform.position;
         float overlapRadius = this.Sphere_Radius_Detection + this.Sphere_Distance_Detection;
 
-        Collider[] colliders = Physics.OverlapSphere(castPos, overlapRadius, this._layerAttacker, QueryTriggerInteraction.Collide);
+        CastFinding.FindAllLiveObjectsInConeByComponent<IMeleeAttackerAble>(
+            castPos,
+            this.defender._defenderTransform.forward,
+            overlapRadius,
+            this.LimitAimAngleDegrees,
+            this._layerAttacker,
+            out List<IMeleeAttackerAble> attackers,
+            triggerInteraction: QueryTriggerInteraction.Collide);
 
-        foreach (Collider col in colliders)
+        foreach (IMeleeAttackerAble attacker in attackers)
         {
-            if (col.TryGetComponent<IMeleeAttackerAble>(out IMeleeAttackerAble attacker) == false)
-                continue;
-
             if (attacker._character == null || attacker._character == this.defender._character)
                 continue;
-
-            if (attacker._character.isDead)
-                continue;
-
-            Vector3 toAttacker = attacker._attackerTransform.position - this.defender._defenderTransform.position;
-            if (toAttacker.sqrMagnitude > 0.0001f)
-            {
-                float angle = Vector3.Angle(this.defender._defenderTransform.forward, toAttacker);
-                if (angle > this.LimitAimAngleDegrees)
-                    continue;
-            }
 
             MeleeAttackingPhase phase = attacker._curAttackPhase;
             if (IsNotifyPhase(phase) == false)

@@ -54,7 +54,7 @@ public class QuickShootRangeWeaponNodeLeaf : WeaponManuverLeafNode
         Vector3 castDir = this.weaponAdvanceUser._shootingPos - this.weaponAdvanceUser._character._movementCompoent.curPosition;
         castDir.Normalize();
 
-        if (CastFinding.FindObjectInConeByComponent<BodyPart>(
+        if (CastFinding.FindLiveObjectInConeByComponent<BodyPart>(
             this.weaponAdvanceUser._character._movementCompoent.curPosition
             , castDir
             , this.castFindingScriptableObject.castDistance

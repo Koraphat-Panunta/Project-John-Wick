@@ -117,9 +117,9 @@ public partial class Enemy : SubjectEnemy
     {
         switch (damageVisitor)
         {
-            case GunFuHitDownNodeLeaf gunFuHitDownNodeLeaf:
+            case OCM_HitDownNodeLeaf gunFuHitDownNodeLeaf:
                 {
-                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Attack)
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == OCM_HitDownNodeLeaf.GunFuHitDownPhase.Attack)
                     {
                         if (this.GetHP() > this.gotHitWithStandHP)
                         {
@@ -128,7 +128,7 @@ public partial class Enemy : SubjectEnemy
 
                         this._posture = Mathf.Clamp(this._posture - gunFuHitDownNodeLeaf._postureDamageVisitor, 1, this._maxPosture);
                     }
-                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.PullUp)
+                    if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == OCM_HitDownNodeLeaf.GunFuHitDownPhase.PullUp)
                     {
                         this._posture = Mathf.Clamp(this._maxPosture, 0, this._maxPosture);
                     }
@@ -241,6 +241,8 @@ public partial class Enemy : SubjectEnemy
         isTriggerMeleeWeaponAttack = false;
         _triggerEvade = false;
         _triggerBlock = false;
+
+        Debug.Log("moveInputVelocity_WorldCommand buffer update " + moveInputVelocity_WorldCommand);
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }

@@ -21,9 +21,6 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
     [SerializeField] private float Shpere_Distance_Detection;
     public float _sphere_Distance_Detection { get => this.Shpere_Distance_Detection; set => this.Shpere_Distance_Detection = value; }
 
-    [SerializeField, TextArea(10,10)]
-    private string gunFuDetectTargetDebug;
-
     public LayerMask _layerTarget;
 
     public void Initialized()
@@ -34,40 +31,22 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
     {
         gunFuGotExecuteAble = null;
         Vector3 castDir = CastDir();
-        Ray ray = new Ray(_castTransform.position, castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget, QueryTriggerInteraction.Collide);
-        foreach (RaycastHit hit in collider)
-        {
-            if (hit.collider.gameObject.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
-                continue;
 
-            if (gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
-            {
-#if UNITY_EDITOR
-                gunFuDetectTargetDebug += "cast to self \n";
-#endif
-                continue;
-            }
+        if (!CastFinding.FindLiveObjectInViewByComponent<I_Got_OCM_Attacked_Able>(
+            _castTransform.position,
+            castDir,
+            _sphere_Distance_Detection,
+            _shpere_Raduis_Detecion,
+            _layerTarget,
+            out I_Got_OCM_Attacked_Able found,
+            QueryTriggerInteraction.Collide))
+            return false;
 
-            if (gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead)
-                continue;
+        if (found.gotGunFuAttackedAble == gunFuAble || found._isGotExecutedAble == false)
+            return false;
 
-            if (gunFuGotAttackedAble.gotGunFuAttackedAble._isGotExecutedAble == false)
-                continue;
-
-
-            Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
-            if (Physics.Raycast(ray1, out RaycastHit hitInfo, 100, 0 + this._layerTarget))
-            {
-                if (hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
-                {
-                    gunFuGotExecuteAble = gunFuGotAttackedAble.gotGunFuAttackedAble;
-                    return true;
-                }
-            }
-        }
-        return false;
-
+        gunFuGotExecuteAble = found.gotGunFuAttackedAble;
+        return true;
     } // Called form gunFuAble
     public bool CastDetect(out I_Got_OCM_Attacked_Able target)
     {
@@ -84,57 +63,29 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
             return false;
         }
     } // Called form player
-    private Vector3 curPositionVolume;
-    private float curRaduis;
-    public bool CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> target,Vector3 positionVolume,float raduis,LayerMask targetMask)
+    public bool CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> target, Vector3 positionVolume, float raduis, LayerMask targetMask)
     {
-
         target = new List<I_Got_OCM_Attacked_Able>();
-        
-        Collider[] colliders = Physics.OverlapSphere(positionVolume, raduis, targetMask,QueryTriggerInteraction.Collide);
 
-#if UNITY_EDITOR
-        gunFuDetectTargetDebug += "layerTarget = " + this._layerTarget + "\n";
-#endif
-
-        curPositionVolume = positionVolume;
-        curRaduis = raduis;
-        if(colliders == null)
+        if (!CastFinding.FindAllLiveObjectsInConeByComponent<I_Got_OCM_Attacked_Able>(
+            positionVolume,
+            Vector3.forward,
+            raduis,
+            180f,
+            targetMask,
+            out List<I_Got_OCM_Attacked_Able> found,
+            triggerInteraction: QueryTriggerInteraction.Collide))
             return false;
 
-        if(colliders.Length <=0)
-            return false;
-
-        foreach (Collider item in colliders)
+        foreach (I_Got_OCM_Attacked_Able item in found)
         {
-#if UNITY_EDITOR
-            gunFuDetectTargetDebug += "in collider = " + item +"0 \n";
-#endif
-
-            if (item.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
+            if (item._isGotAttackedAble == false || item.gotGunFuAttackedAble == gunFuAble)
                 continue;
-
-#if UNITY_EDITOR
-            gunFuDetectTargetDebug += "in collider = " + item + "1 \n";
-#endif
-
-            if (gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead
-                || gunFuGotAttackedAble.gotGunFuAttackedAble._isGotAttackedAble == false
-                || gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble
-                )
-                continue;
-
-#if UNITY_EDITOR
-            gunFuDetectTargetDebug += "in collider = " + item + "2 \n";
-#endif
-
-            if(target.Contains(gunFuGotAttackedAble.gotGunFuAttackedAble) == false)
-                target.Add(gunFuGotAttackedAble.gotGunFuAttackedAble);
+            if (!target.Contains(item.gotGunFuAttackedAble))
+                target.Add(item.gotGunFuAttackedAble);
         }
 
-        if(target.Count >0)
-            return true;
-        return false;
+        return target.Count > 0;
     }// Called form gunFuAble
     public bool CastDetectTargetInVolume(out List<I_Got_OCM_Attacked_Able> target, Vector3 positionVolume, float raduis)
     {
@@ -143,38 +94,23 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
     private bool CastDetect(out I_Got_OCM_Attacked_Able target, Vector3 castDir)
     {
         target = null;
-        Ray ray = new Ray(_castTransform.position,castDir);
-        RaycastHit[] collider = Physics.SphereCastAll(ray, _shpere_Raduis_Detecion, _sphere_Distance_Detection, 0 + this._layerTarget,QueryTriggerInteraction.Collide);
-        foreach(RaycastHit hit in collider)
-        {
-            if(hit.collider.gameObject.TryGetComponent<I_Got_OCM_Attacked_Able>(out I_Got_OCM_Attacked_Able gunFuGotAttackedAble) == false)
-                continue;
 
-            if(gunFuGotAttackedAble.gotGunFuAttackedAble._character.isDead 
-                || gunFuGotAttackedAble.gotGunFuAttackedAble._isGotAttackedAble == false
-                || gunFuGotAttackedAble.gotGunFuAttackedAble == gunFuAble)
-                continue ;
+        if (!CastFinding.FindLiveObjectInViewByComponent<I_Got_OCM_Attacked_Able>(
+            _castTransform.position,
+            castDir,
+            _sphere_Distance_Detection,
+            _shpere_Raduis_Detecion,
+            _layerTarget,
+            out I_Got_OCM_Attacked_Able found,
+            QueryTriggerInteraction.Collide))
+            return false;
 
-            //if(gunFuGotAttackedAble.curNodeLeaf is FallDown_EnemyState_NodeLeaf
-            //    || gunFuGotAttackedAble.curNodeLeaf is HumandThrow_GotInteract_NodeLeaf
-            //    || gunFuGotAttackedAble.curNodeLeaf is GotKnockDown_GunFuGotHitNodeLeaf)
-            //    continue ;
+        if (found.gotGunFuAttackedAble == gunFuAble || found._isGotAttackedAble == false)
+            return false;
 
-
-            Ray ray1 = new Ray(_castTransform.position, (hit.collider.gameObject.transform.position - _castTransform.position).normalized);
-            if (Physics.Raycast(ray1,out RaycastHit hitInfo,100, 0 + this._layerTarget))
-            {
-                if(hitInfo.collider.gameObject.GetInstanceID() == hit.collider.gameObject.GetInstanceID())
-                {
-                    target = gunFuGotAttackedAble.gotGunFuAttackedAble; 
-                    return true;
-                }
-            }
-        }
-        return false;
-
-        
-    } 
+        target = found.gotGunFuAttackedAble;
+        return true;
+    }
     private Vector3 CastDir()
     {
         Vector3 casrDir;

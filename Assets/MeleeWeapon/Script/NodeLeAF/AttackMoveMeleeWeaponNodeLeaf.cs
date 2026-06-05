@@ -19,6 +19,9 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     protected float beginmoveNormalizedTime;
     protected float moveNormalizedTime;
+
+    protected float targetDistance => Vector3.Distance(this.targetPos, this.meleeWeaponUserAble._meleeWeaponUserTransform.position);
+
     public AttackMoveMeleeWeaponNodeLeaf(
         Func<bool> preCondition
         ,IMeleeWeaponUserAble meleeWeaponUserAble
@@ -156,12 +159,14 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     private void MoveToTargetPos()
     {
+
         Vector3 targetDir = (this.targetPos - this.meleeWeaponUserAble._meleeWeaponUserTransform.position);
         targetDir = new Vector3(targetDir.x, 0, targetDir.z).normalized;
 
         float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer(this.beginmoveNormalizedTime, this.moveNormalizedTime);
 
-        if (Vector3.Distance(this.targetPos, this.meleeWeaponUserAble._meleeWeaponUserTransform.position) > this.attackMoveScriptableObject._attackMove_Range)
+
+        if (this.targetDistance > this.attackMoveScriptableObject._attackMove_Range)
             this.character._movementCompoent.Move(
                 targetDir * attackMoveScriptableObject._moveVelocityCurve.Evaluate(t) * this.attackMoveScriptableObject._topVelocityMove * Time.deltaTime
                 );

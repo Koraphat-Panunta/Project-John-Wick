@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdde8c217924646b9b6366fddf8a5d, type: 3}
   m_Name: MeleeWeaponAttackMoveAnimationSCRP_I
   m_EditorClassIdentifier: Assembly-CSharp::AnimationTriggerEventSCRP
-  clip: {fileID: 4563003445152953920, guid: 393b0a198ac778d44921b58bc0d3691b, type: 3}
+  clip: {fileID: 4563003445152953920, guid: 2b8b7adcc76ff2e46bd5ae23a0898be0, type: 3}
   enterNormalizedTime: 0
   triggerEventDetail:
   - normalizedTime: 0
     eventName: Anticipate
-  - normalizedTime: 0.3
-    eventName: PreAttack
   - normalizedTime: 0.37
+    eventName: PreAttack
+  - normalizedTime: 0.475
     eventName: Attacking
-  - normalizedTime: 0.45
+  - normalizedTime: 0.517
     eventName: PostAttack
   endNormalizedTime: 1

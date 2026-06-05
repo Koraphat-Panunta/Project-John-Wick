@@ -99,6 +99,8 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     public void FreezPosition()
     {
         _enemy.isSprintCommand = false;
+
+        if(this._enemy._triggerDodge == false)
         _enemy.moveInputVelocity_WorldCommand = Vector3.zero;
     }
     public void Move(Vector3 MoveDirWorld, float velocityScale)
@@ -148,6 +150,8 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
     #endregion
     public void Dodge(Vector3 dodgeDir)
     {
+        Debug.Log("Enemy Dodge dir =" + dodgeDir);
+
         this._enemy.stanceCommand = Stance.stand;
         this._enemy.moveInputVelocity_WorldCommand = dodgeDir;
         _enemy._triggerDodge = true;

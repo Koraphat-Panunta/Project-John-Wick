@@ -72,11 +72,11 @@
 
 ## Current Work
 
-**Active Feature:** *(update this when starting a session)*  
-**Status:** *(e.g. In Progress / Blocked / Done)*  
-**Key Files:** *(list the main files you're working on)*  
-**Next Step:** *(what needs to be done next)*  
-**Known Issues:** *(any bugs or blockers to be aware of)*  
+**Active Feature:** Constrain Animation System test harness (observe constrain nodes in isolation via sliders)
+**Status:** Script done — Blocked on Unity MCP (connection revoked) for prefab/scene build + play-mode verification
+**Key Files:** `Assets/Character/Player/Script/Animation/PlayerConstraintAnimation/Test/ConstrainAnimationTester.cs`
+**Next Step:** Re-enable Unity MCP (Project Settings > AI > Unity MCP), then build a minimal rig prefab (character model + Animator with a single `Locomotion_Stand_Idle` state + RigBuilder/Rig + BodyConstraintManager + RightHand HandArmIKConstraintManager + HumanoidBone + AimPosition child), assign SCRPs (`Body_ADS_Pri`, `rightHand_AimDownSight_PrimaryWeapon_SCRP`, `rifleADSLeaningRotationConstrainScriptableObject`), add `ConstrainAnimationTester`, then enter play mode and sweep sliders.
+**Known Issues:** Does NOT run weapon-maneuver nodes; the constrain nodes coupled to IRangeWeaponAdvanceUser/Player are reproduced by subclassing the real base constrain nodes (body) / reproducing math (lean) and a recoil/block layer on the real hand-IK node — no shipping code edited.
 
 ---
 

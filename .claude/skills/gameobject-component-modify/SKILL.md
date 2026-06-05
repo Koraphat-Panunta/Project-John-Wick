@@ -1,17 +1,23 @@
 ---
 name: gameobject-component-modify
-description: |-
-  Modify a specific Component on a GameObject in opened Prefab or in a Scene. Allows direct modification of component fields and properties without wrapping in GameObject structure. Use 'gameobject-component-get' first to inspect the component structure before modifying.
-  
-  Three modification surfaces (use whichever fits the task):
-    1. 'componentDiff' — full SerializedMember diff (legacy, backwards compatible).
-    2. 'pathPatches' — list of {path, value} pairs routed through Reflector.TryModifyAt; atomic per-path modification, multiple entries can target different depths.
-    3. 'jsonPatch' — a JSON Merge Patch (RFC 7396, extended with [i]/[key] notation) routed through Reflector.TryPatch; multiple fields at any depth in a single call.
-  When more than one is supplied they run in this order: jsonPatch → pathPatches → componentDiff. At least one is required.
-  Path syntax: 'fieldName', 'nested/field', 'arrayField/[i]', 'dictField/[key]'. Leading '#/' is stripped.
+description: Modify a specific Component on a GameObject in opened Prefab or in a Scene. Allows direct modification of component fields and properties without wrapping in GameObject structure. Use 'gameobject-component-get' first to inspect the component structure before modifying. Three modification surfaces are available (componentDiff, pathPatches, jsonPatch) — see the skill body for details.
 ---
 
 # GameObject / Component / Modify
+
+## Three modification surfaces
+
+Use whichever fits the task:
+
+1. `componentDiff` — full `SerializedMember` diff (legacy, backwards compatible).
+2. `pathPatches` — list of `{path, value}` pairs routed through `Reflector.TryModifyAt`; atomic per-path modification, multiple entries can target different depths.
+3. `jsonPatch` — a JSON Merge Patch (RFC 7396, extended with `[i]`/`[key]` notation) routed through `Reflector.TryPatch`; multiple fields at any depth in a single call.
+
+When more than one is supplied they run in this order: `jsonPatch` → `pathPatches` → `componentDiff`. At least one is required.
+
+## Path syntax
+
+`fieldName`, `nested/field`, `arrayField/[i]`, `dictField/[key]`. Leading `#/` is stripped.
 
 ## How to Call
 
@@ -53,7 +59,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 Only include the fields/properties you want to change.
 Any unknown or invalid fields and properties will be reported in the response. |
 | `pathPatches` | `any` | No | Optional. List of path-scoped patches routed through Reflector.TryModifyAt. Each entry targets one field/element/entry by path. Path syntax: 'fieldName', 'nested/field', 'arrayField/[i]', 'dictField/[key]'. |
-| `jsonPatch` | `string` | No | Optional. JSON Merge Patch (RFC 7396, extended with [i]/[key] keys) routed through Reflector.TryPatch. Allows multiple fields at any depth to be updated in a single call. Use '$type' for compatible-subtype replacement. |
+| `jsonPatch` | `any` | No | Optional. JSON Merge Patch (RFC 7396, extended with [i]/[key] keys) routed through Reflector.TryPatch. Allows multiple fields at any depth to be updated in a single call. Use '$type' for compatible-subtype replacement. |
 
 ### Input JSON Schema
 
@@ -71,10 +77,18 @@ Any unknown or invalid fields and properties will be reported in the response. |
       "$ref": "#/$defs/com.IvanMurzak.ReflectorNet.Model.SerializedMember"
     },
     "pathPatches": {
-      "$ref": "#/$defs/System.Collections.Generic.List<AIGD.PathPatch>"
+      "$ref": "#/$defs/System.Collections.Generic.List(AIGD.PathPatch)"
     },
     "jsonPatch": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
     }
   },
   "$defs": {
@@ -191,7 +205,7 @@ Any unknown or invalid fields and properties will be reported in the response. |
         }
       }
     },
-    "System.Collections.Generic.List<AIGD.PathPatch>": {
+    "System.Collections.Generic.List(AIGD.PathPatch)": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.PathPatch"
@@ -263,7 +277,7 @@ Any unknown or invalid fields and properties will be reported in the response. |
         "isEnabled"
       ]
     },
-    "System.String[]": {
+    "System.String-1": {
       "type": "array",
       "items": {
         "type": "string"
@@ -289,7 +303,7 @@ Any unknown or invalid fields and properties will be reported in the response. |
           "description": "Updated component information after modification."
         },
         "Logs": {
-          "$ref": "#/$defs/System.String[]",
+          "$ref": "#/$defs/System.String-1",
           "description": "Log of modifications made and any warnings/errors encountered."
         }
       },

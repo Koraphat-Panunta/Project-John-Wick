@@ -1,17 +1,23 @@
 ---
 name: assets-modify
-description: |-
-  Modify asset file in the project. Use 'assets-get-data' tool first to inspect the asset structure before modifying. Not allowed to modify asset file in 'Packages/' folder. Please modify it in 'Assets/' folder.
-  
-  Three modification surfaces (use whichever fits the task):
-    1. 'content' — full SerializedMember override (legacy, backwards compatible).
-    2. 'pathPatches' — list of {path, value} pairs routed through Reflector.TryModifyAt.
-    3. 'jsonPatch' — JSON Merge Patch routed through Reflector.TryPatch.
-  When more than one is supplied they run in this order: jsonPatch → pathPatches → content. At least one is required.
-  Path syntax: 'fieldName', 'nested/field', 'arrayField/[i]', 'dictField/[key]'. Leading '#/' is stripped.
+description: Modify an asset file in the project. Use 'assets-get-data' first to inspect the asset structure before modifying. Not allowed to modify asset files in the 'Packages/' folder — modify them in 'Assets/'. Three modification surfaces are available (content, pathPatches, jsonPatch) — see the skill body for details.
 ---
 
 # Assets / Modify
+
+## Three modification surfaces
+
+Use whichever fits the task:
+
+1. `content` — full `SerializedMember` override (legacy, backwards compatible).
+2. `pathPatches` — list of `{path, value}` pairs routed through `Reflector.TryModifyAt`.
+3. `jsonPatch` — JSON Merge Patch routed through `Reflector.TryPatch`.
+
+When more than one is supplied they run in this order: `jsonPatch` → `pathPatches` → `content`. At least one is required.
+
+## Path syntax
+
+`fieldName`, `nested/field`, `arrayField/[i]`, `dictField/[key]`. Leading `#/` is stripped.
 
 ## How to Call
 
@@ -49,7 +55,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
 | `assetRef` | `any` | Yes | Reference to UnityEngine.Object asset instance. It could be Material, ScriptableObject, Prefab, and any other Asset. Anything located in the Assets and Packages folders. |
 | `content` | `any` | No | Optional. The asset content. It overrides the existing asset content (legacy path). |
 | `pathPatches` | `any` | No | Optional. List of path-scoped patches routed through Reflector.TryModifyAt. |
-| `jsonPatch` | `string` | No | Optional. JSON Merge Patch (RFC 7396, extended with [i]/[key] keys) routed through Reflector.TryPatch. |
+| `jsonPatch` | `any` | No | Optional. JSON Merge Patch (RFC 7396, extended with [i]/[key] keys) routed through Reflector.TryPatch. |
 
 ### Input JSON Schema
 
@@ -64,10 +70,18 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "$ref": "#/$defs/com.IvanMurzak.ReflectorNet.Model.SerializedMember"
     },
     "pathPatches": {
-      "$ref": "#/$defs/System.Collections.Generic.List<AIGD.PathPatch>"
+      "$ref": "#/$defs/System.Collections.Generic.List(AIGD.PathPatch)"
     },
     "jsonPatch": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
     }
   },
   "$defs": {
@@ -154,7 +168,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
         }
       }
     },
-    "System.Collections.Generic.List<AIGD.PathPatch>": {
+    "System.Collections.Generic.List(AIGD.PathPatch)": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.PathPatch"
@@ -176,11 +190,11 @@ Read the /unity-initial-setup skill for detailed installation instructions.
   "type": "object",
   "properties": {
     "result": {
-      "$ref": "#/$defs/System.String[]"
+      "$ref": "#/$defs/System.String-1"
     }
   },
   "$defs": {
-    "System.String[]": {
+    "System.String-1": {
       "type": "array",
       "items": {
         "type": "string"

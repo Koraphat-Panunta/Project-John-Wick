@@ -18,7 +18,7 @@ public partial class Player : I_IFrameAble
             if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<OCMReloadNodeLeaf>())
                 return true;
 
-            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>())
+            if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<OCM_HitDownNodeLeaf>())
                 return true;
 
             if ((playerStateNodeManager as INodeManager).TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>(out RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf)

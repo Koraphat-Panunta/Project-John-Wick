@@ -1,0 +1,45 @@
+var sb = new System.Text.StringBuilder();
+const string adsFolder = "Assets/Character/Shared/Asset/ScriptableObject/Procedural Animation/RightHand/RightHand_ADS";
+const string folder = adsFolder + "/RecoilBlock";
+if (!UnityEditor.AssetDatabase.IsValidFolder(folder))
+    UnityEditor.AssetDatabase.CreateFolder(adsFolder, "RecoilBlock");
+
+var recoil = ScriptableObject.CreateInstance<WeaponHandRecoilSCRP>();
+recoil.additionalPositionOffset = new Vector3(0f, 0f, -0.01f);
+recoil.additionalRotationEulerOffset = new Vector3(0f, 0f, 2f);
+recoil.positionRecoverySpeed = 4f;
+recoil.rotationRecoverySpeed = 10f;
+string recoilPath = folder + "/Rifle_ADS_Recoil_SCRP.asset";
+UnityEditor.AssetDatabase.CreateAsset(recoil, recoilPath);
+
+var block = ScriptableObject.CreateInstance<WeaponHandBlockSCRP>();
+block.positionOffset = new Vector3(-0.01f, -0.1f, 0f);
+block.rotationEulerOffset = new Vector3(18.5f, -52.52f, 0f);
+block.hintPositionOffset = new Vector3(-0.15f, 0.36f, -0.41f);
+block.raiseSpeed = 2f;
+block.lowerSpeed = 5f;
+block.smoothingSpeed = 80f;
+block.clearBuffer = 0.15f;
+block.blockMask = LayerMask.GetMask("Default");
+string blockPath = folder + "/Rifle_ADS_Block_SCRP.asset";
+UnityEditor.AssetDatabase.CreateAsset(block, blockPath);
+
+UnityEditor.AssetDatabase.SaveAssets();
+
+string[] targets = new [] {
+  adsFolder + "/rightHand_AimDownSight_PrimaryWeapon_SCRP.asset",
+  adsFolder + "/rightHand_AimDownSight_CAR_PrimaryWeapon_SCRP.asset"
+};
+foreach (var t in targets)
+{
+    var so = UnityEditor.AssetDatabase.LoadAssetAtPath<WeaponHandIK_ConstraintSCRP>(t);
+    if (so == null) { sb.Append("MISSING: " + t + "\n"); continue; }
+    so.recoilData = recoil;
+    so.blockData = block;
+    UnityEditor.EditorUtility.SetDirty(so);
+    sb.Append("assigned: " + t + "\n");
+}
+UnityEditor.AssetDatabase.SaveAssets();
+UnityEditor.AssetDatabase.Refresh();
+sb.Append("created " + recoilPath + " and " + blockPath);
+return sb.ToString();

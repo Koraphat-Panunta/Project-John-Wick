@@ -180,7 +180,7 @@ public partial class EnemyStateManagerNode : INodeManager
             this.enemy
             ,this.enemy.gotHitDown_ScriptableObject,
             ()=> this.enemy._triggerEnterGotAttacked_OCM 
-            && this.enemy.curAttackerGunFuNode is GunFuHitDownNodeLeaf);
+            && this.enemy.curAttackerGunFuNode is OCM_HitDownNodeLeaf);
         this.painStateGotHitDownNodeLeaf = new EnemyPainStateNodeLeaf(this.enemy, 
             () => true
             , this.enemy.animator, 3);

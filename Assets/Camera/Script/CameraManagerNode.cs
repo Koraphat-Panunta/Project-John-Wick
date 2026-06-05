@@ -92,7 +92,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
            ,() => cameraController.curGunFuNode != null 
            && (
            cameraController.curGunFuNode is IGunFuExecuteNodeLeaf
-           || this.cameraController.curGunFuNode is GunFuHitDownNodeLeaf
+           || this.cameraController.curGunFuNode is OCM_HitDownNodeLeaf
            || this.cameraController.curGunFuNode is OCMReloadNodeLeaf
            || this.cameraController.curGunFuNode is OCM_KnockDown_NodeLeaf)
            );

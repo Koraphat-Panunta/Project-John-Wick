@@ -51,7 +51,7 @@ public static class CastFinding
     /// <param name="origin">Cone apex (e.g. camera or player position).</param>
     /// <param name="castDir">Cone forward axis (will be normalized).</param>
     /// <param name="castDistance">Max range of the cone.</param>
-    /// <param name="halfAngleDegrees">Half-angle of the cone in degrees (e.g. 30 = 60° FOV).</param>
+    /// <param name="halfAngleDegrees">Half-angle of the cone in degrees (e.g. 30 = 60ï¿½ FOV).</param>
     /// <param name="castLayerMask">Layers to consider for targets.</param>
     /// <param name="detect">Closest-to-axis component found, or default if none.</param>
     /// <param name="obstacleLayerMask">Layers that block line of sight. Pass 0 to skip the LOS check.</param>
@@ -167,29 +167,165 @@ public static class CastFinding
         return detects.Count > 0;
     }
 
-    //public static bool FindLiveAbleThingInConeByComponent<T>(
-    //    Vector3 origin,
-    //    Vector3 castDir,
-    //    float castDistance,
-    //    float halfAngleDegrees,
-    //    LayerMask castLayerMask,
-    //    out List<T> detects,
-    //    LayerMask obstacleLayerMask = default)
-    //{
-    //    List<ILiveAbleThing> liveAbleThings = new List<ILiveAbleThing>();
+    public static bool FindLiveObjectInViewByComponent<T>(
+        Vector3 startCast,
+        Vector3 castDir,
+        float castDistance,
+        float castRadius,
+        LayerMask castLayerMask,
+        out T detect,
+        QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.UseGlobal) where T : ILiveAbleThing
+    {
+        detect = default;
+        if (Physics.Raycast(startCast, castDir, out RaycastHit hitInfo, castDistance, castLayerMask | LayerMask.GetMask("Default")))
+        {
+            if (hitInfo.collider.TryGetComponent<T>(out T component) && !component._isDead)
+            {
+                detect = component;
+                return true;
+            }
+        }
 
-    //    FindAllObjectsInConeByComponent<ILiveAbleThing>(
-    //       origin
-    //       , castDir
-    //       , castDistance
-    //       , halfAngleDegrees
-    //       , castLayerMask
-    //       , out liveAbleThings
-    //       , obstacleLayerMask);
+        Collider[] colliders = Physics.OverlapCapsule(startCast, startCast + (castDir * castDistance), castRadius, castLayerMask, triggerInteraction);
 
-    //    for (int i = 0;i < liveAbleThings.Count; i++)
-    //    {
-            
-    //    }
-    //}
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject.TryGetComponent<T>(out T colliderComponent) == false)
+                continue;
+            if (colliderComponent._isDead)
+                continue;
+
+            Vector3 toTargetVec = colliders[i].transform.position - startCast;
+            float dist = toTargetVec.magnitude;
+            if (dist < Mathf.Epsilon)
+                continue;
+
+            Vector3 toTarget = toTargetVec / dist;
+            if (Physics.Raycast(startCast, toTarget, out RaycastHit hit, dist, castLayerMask))
+            {
+                if (hit.collider.gameObject == colliders[i].gameObject)
+                {
+                    detect = colliderComponent;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static bool FindLiveObjectInConeByComponent<T>(
+        Vector3 origin,
+        Vector3 castDir,
+        float castDistance,
+        float halfAngleDegrees,
+        LayerMask castLayerMask,
+        out T detect,
+        LayerMask obstacleLayerMask = default,
+        QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.UseGlobal) where T : ILiveAbleThing
+    {
+        detect = default;
+        if (castDir.sqrMagnitude < Mathf.Epsilon)
+            return false;
+
+        castDir.Normalize();
+        float cosHalf = Mathf.Cos(halfAngleDegrees * Mathf.Deg2Rad);
+        bool checkLOS = obstacleLayerMask.value != 0;
+
+        Collider[] colliders = Physics.OverlapSphere(origin, castDistance, castLayerMask, triggerInteraction);
+
+        float bestDot = -1f;
+        T bestComponent = default;
+        bool found = false;
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject.TryGetComponent<T>(out T component) == false)
+                continue;
+            if (component._isDead)
+                continue;
+
+            Vector3 toTarget = colliders[i].transform.position - origin;
+            float dist = toTarget.magnitude;
+            if (dist < Mathf.Epsilon || dist > castDistance)
+                continue;
+
+            Vector3 dir = toTarget / dist;
+            float dot = Vector3.Dot(castDir, dir);
+            if (dot < cosHalf)
+                continue;
+
+            if (checkLOS && Physics.Raycast(origin, dir, out RaycastHit hit, dist, obstacleLayerMask, QueryTriggerInteraction.Ignore))
+            {
+                if (hit.collider.gameObject != colliders[i].gameObject)
+                    continue;
+            }
+
+            if (dot > bestDot)
+            {
+                bestDot = dot;
+                bestComponent = component;
+                found = true;
+            }
+        }
+
+        if (found)
+            detect = bestComponent;
+        return found;
+    }
+
+    public static bool FindAllLiveObjectsInConeByComponent<T>(
+        Vector3 origin,
+        Vector3 castDir,
+        float castDistance,
+        float halfAngleDegrees,
+        LayerMask castLayerMask,
+        out List<T> detects,
+        LayerMask obstacleLayerMask = default,
+        QueryTriggerInteraction triggerInteraction = QueryTriggerInteraction.UseGlobal) where T : ILiveAbleThing
+    {
+        detects = new List<T>();
+        if (castDir.sqrMagnitude < Mathf.Epsilon)
+            return false;
+
+        castDir.Normalize();
+        float cosHalf = Mathf.Cos(halfAngleDegrees * Mathf.Deg2Rad);
+        bool checkLOS = obstacleLayerMask.value != 0;
+
+        Collider[] colliders = Physics.OverlapSphere(origin, castDistance, castLayerMask, triggerInteraction);
+
+        List<(T component, float dot)> hits = new List<(T, float)>(colliders.Length);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject.TryGetComponent<T>(out T component) == false)
+                continue;
+            if (component._isDead)
+                continue;
+
+            Vector3 toTarget = colliders[i].transform.position - origin;
+            float dist = toTarget.magnitude;
+            if (dist < Mathf.Epsilon || dist > castDistance)
+                continue;
+
+            Vector3 dir = toTarget / dist;
+            float dot = Vector3.Dot(castDir, dir);
+            if (dot < cosHalf)
+                continue;
+
+            if (checkLOS && Physics.Raycast(origin, dir, out RaycastHit hit, dist, obstacleLayerMask, QueryTriggerInteraction.Ignore))
+            {
+                if (hit.collider.gameObject != colliders[i].gameObject)
+                    continue;
+            }
+
+            hits.Add((component, dot));
+        }
+
+        hits.Sort((a, b) => b.dot.CompareTo(a.dot));
+        for (int i = 0; i < hits.Count; i++)
+            detects.Add(hits[i].component);
+
+        return detects.Count > 0;
+    }
 }

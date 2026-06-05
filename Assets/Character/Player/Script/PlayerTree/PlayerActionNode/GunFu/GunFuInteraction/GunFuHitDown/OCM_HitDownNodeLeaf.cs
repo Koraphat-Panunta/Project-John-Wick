@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
+public class OCM_HitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
     ,I_OCM_Node
     ,IHPDamageVisitor
     ,IPostureDamageVisitor
@@ -26,7 +26,7 @@ public class GunFuHitDownNodeLeaf : PlayerGunFu_Interaction_NodeLeaf
 
     public GunFuHitDownPhase gunFuHitDownPhase;
 
-    public GunFuHitDownNodeLeaf(
+    public OCM_HitDownNodeLeaf(
         Player player
         , AnimationInteractScriptableObject animationInteractScriptableObject
         , GunFuHitScriptableObject gunFuHitScriptableObject

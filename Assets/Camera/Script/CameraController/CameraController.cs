@@ -171,9 +171,9 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                     break;
                 }
-                case GunFuHitDownNodeLeaf gunFuHitDownNodeLeaf:
+                case OCM_HitDownNodeLeaf gunFuHitDownNodeLeaf:
                     {
-                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Restrain)
+                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == OCM_HitDownNodeLeaf.GunFuHitDownPhase.Restrain)
                         {
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraGunFuHitDown_SCRP);
                             this.isPerformGunFu = true;
@@ -185,7 +185,7 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                             this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
                         }
                         
-                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == GunFuHitDownNodeLeaf.GunFuHitDownPhase.Attack)
+                        if(gunFuHitDownNodeLeaf.gunFuHitDownPhase == OCM_HitDownNodeLeaf.GunFuHitDownPhase.Attack)
                         {
                             cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
                             cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);

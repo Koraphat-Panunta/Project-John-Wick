@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface I_Got_OCM_Attacked_Able
+public interface I_Got_OCM_Attacked_Able : ILiveAbleThing
 {
     public bool _triggerEnterGotAttacked_OCM { get; set; }
     //public Vector3 attackerPos { get; set; }

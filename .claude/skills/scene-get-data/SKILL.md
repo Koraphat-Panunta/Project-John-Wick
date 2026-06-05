@@ -1,13 +1,26 @@
 ---
 name: scene-get-data
-description: |-
-  This tool retrieves the list of root GameObjects in the specified scene. Use 'scene-list-opened' tool to get the list of all opened scenes.
-  
-  Path-scoped reads (token-saving): supply 'paths' (a list of paths) to read only the listed fields/elements from the scene's root-GameObjects array via Reflector.TryReadAt, or 'viewQuery' (a ViewQuery) to navigate/filter the same array via Reflector.View. The result populates 'Data' on the returned SceneData. These two parameters are mutually exclusive.
-  Path syntax: 'fieldName', 'nested/field', 'arrayField/[i]', 'dictField/[key]'. Leading '#/' is stripped. Example: paths=['[0]/name'] reads the name of the first root GameObject.
+description: Retrieve the list of root GameObjects in the specified opened scene (or the active scene when `openedSceneName` is empty). Supports token-saving path-scoped reads over the root-GameObjects array via `paths` or `viewQuery`. Use 'scene-list-opened' to enumerate scenes.
 ---
 
 # Scene / Get Data
+
+This tool retrieves the list of root GameObjects in the specified scene. Use 'scene-list-opened' tool to get the list of all opened scenes.
+
+## Toggles (all default `false` to keep responses small)
+
+- `includeRootGameObjects` — include root GameObjects in the scene data.
+- `includeChildrenDepth` (default 3) — depth of the hierarchy to include.
+- `includeBounds` — include 3D bounds for GameObjects.
+- `includeData` — include serialized component data for GameObjects.
+
+## Path-scoped reads (token-saving)
+
+Supply `paths` to read only the listed fields/elements from the scene's root-GameObjects array via `Reflector.TryReadAt`, or `viewQuery` to navigate/filter the same array via `Reflector.View`. The result populates `Data` on the returned `SceneData`. These two parameters are mutually exclusive.
+
+## Path syntax
+
+`fieldName`, `nested/field`, `arrayField/[i]`, `dictField/[key]`. Leading `#/` is stripped. Example: `paths=['[0]/name']` reads the name of the first root GameObject.
 
 ## How to Call
 
@@ -75,14 +88,14 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "boolean"
     },
     "paths": {
-      "$ref": "#/$defs/System.Collections.Generic.List<System.String>"
+      "$ref": "#/$defs/System.Collections.Generic.List(System.String)"
     },
     "viewQuery": {
       "$ref": "#/$defs/com.IvanMurzak.ReflectorNet.Model.ViewQuery"
     }
   },
   "$defs": {
-    "System.Collections.Generic.List<System.String>": {
+    "System.Collections.Generic.List(System.String)": {
       "type": "array",
       "items": {
         "type": "string"
@@ -130,7 +143,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
     }
   },
   "$defs": {
-    "System.Collections.Generic.List<AIGD.GameObjectData>": {
+    "System.Collections.Generic.List(AIGD.GameObjectData)": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.GameObjectData"
@@ -156,7 +169,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
           "description": "Hierarchy metadata of the GameObject."
         },
         "Components": {
-          "$ref": "#/$defs/AIGD.ComponentDataShallow[]",
+          "$ref": "#/$defs/AIGD.ComponentDataShallow-1",
           "description": "Attached components shallow data of the GameObject (Read-only, use Component modification tool for modification)."
         }
       }
@@ -312,7 +325,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
           "type": "boolean"
         },
         "children": {
-          "$ref": "#/$defs/System.Collections.Generic.List<AIGD.GameObjectMetadata>"
+          "$ref": "#/$defs/System.Collections.Generic.List(AIGD.GameObjectMetadata)"
         }
       },
       "required": [
@@ -321,13 +334,13 @@ Read the /unity-initial-setup skill for detailed installation instructions.
         "activeInHierarchy"
       ]
     },
-    "System.Collections.Generic.List<AIGD.GameObjectMetadata>": {
+    "System.Collections.Generic.List(AIGD.GameObjectMetadata)": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.GameObjectMetadata"
       }
     },
-    "AIGD.ComponentDataShallow[]": {
+    "AIGD.ComponentDataShallow-1": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/AIGD.ComponentDataShallow"
@@ -360,7 +373,7 @@ Read the /unity-initial-setup skill for detailed installation instructions.
       "type": "object",
       "properties": {
         "RootGameObjects": {
-          "$ref": "#/$defs/System.Collections.Generic.List<AIGD.GameObjectData>"
+          "$ref": "#/$defs/System.Collections.Generic.List(AIGD.GameObjectData)"
         },
         "Data": {
           "$ref": "#/$defs/com.IvanMurzak.ReflectorNet.Model.SerializedMember",

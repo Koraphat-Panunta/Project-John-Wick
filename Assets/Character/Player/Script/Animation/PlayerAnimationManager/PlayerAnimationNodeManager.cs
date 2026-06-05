@@ -276,7 +276,7 @@ public partial class PlayerAnimationManager
         , animator, "Move/Idle", 0, .35f);
 
         this.hitDownNodeLeaf = new PlayAnimationNodeLeaf(
-            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<GunFuHitDownNodeLeaf>()
+            ()=> this.playerStateNodeMnager.TryGetCurNodeLeaf<OCM_HitDownNodeLeaf>()
             ,this.animator, "HitDown", 0
             , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
             );

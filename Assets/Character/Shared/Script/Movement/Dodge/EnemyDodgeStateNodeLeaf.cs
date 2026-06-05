@@ -60,7 +60,13 @@ public class EnemyDodgeStateNodeLeaf : EnemyStateLeafNode
     public override void Enter()
     {
         elapesTime = 0;
-        enemyMovement.AddForcePushInstantly(enemy.dodgeImpluseForce * (enemy.moveInputVelocity_WorldCommand + enemy._movementCompoent.curMoveVelocity_World.normalized).normalized, IMotionImplusePushAble.PushMode.IgnoreMomentum);
+        Vector3 dodgeForce = enemy.dodgeImpluseForce * (enemy.moveInputVelocity_WorldCommand).normalized;
+
+        Debug.Log("dodge Force = " + dodgeForce);
+        Debug.Log("enemy.moveInputVelocity_WorldCommand = " + enemy.moveInputVelocity_WorldCommand.normalized);
+        Debug.Log("enemy.dodgeImpluseForce = " + enemy.dodgeImpluseForce);
+       
+        this.enemyMovement.AddForcePushInstantly(dodgeForce, IMotionImplusePushAble.PushMode.IgnoreMomentum);
         dodgePhase = DodgePhase.pushOut;
 
         dodgeRollCoolDown = _coolDownTime;

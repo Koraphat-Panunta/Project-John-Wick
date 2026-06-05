@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IMeleeAttackerAble
+public interface IMeleeAttackerAble : ILiveAbleThing
 {
     Character _character { get; }
     Transform _attackerTransform { get; }

@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0403766b930d3f54d93589d021b09af6, type: 3}
   m_Name: MeleeWeaponAttackMoveScriptableObject_I
   m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponAttackMoveScriptableObject
-  _beginAttackDistance: 3
-  _attackMove_Range: 1.8
+  _beginAttackDistance: 5
+  _attackMove_Range: 5
   _maxAttackMove_Range: 5
   _moveVelocityCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
