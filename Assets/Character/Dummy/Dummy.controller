@@ -185,27 +185,27 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7030144205398535024
+--- !u!1102 &-7023028724222398150
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Parry
+  m_Name: OCM_Parry_Pri_I
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
+  m_WriteDefaultValues: 0
   m_Mirror: 0
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2683925459512424961, guid: 9da952940cd57d048b0f82fe9ec8a3e6,
+  m_Motion: {fileID: 6476490879975726420, guid: 3d74c7ff57407554880c6795b91662cb,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -337,7 +337,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 4864580850258439783, guid: d0d0b131453ba2f4f81f41f2e1025dd9,
+  m_Motion: {fileID: 4864580850258439783, guid: 956e30558ce3e934d82b4ef980e2b0ee,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -612,35 +612,38 @@ AnimatorStateMachine:
     m_State: {fileID: -4637456561070176395}
     m_Position: {x: 820, y: 770, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -7030144205398535024}
-    m_Position: {x: 600, y: 920, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: -5722132572613336031}
-    m_Position: {x: 820, y: 920, z: 0}
+    m_Position: {x: 820, y: 1120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6577358858587844998}
-    m_Position: {x: 600, y: 970, z: 0}
+    m_Position: {x: 600, y: 920, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3505927473903303125}
-    m_Position: {x: 820, y: 970, z: 0}
+    m_Position: {x: 820, y: 920, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4119923653858351203}
-    m_Position: {x: 820, y: 1020, z: 0}
+    m_Position: {x: 820, y: 970, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7613702016797292166}
-    m_Position: {x: 600, y: 1020, z: 0}
+    m_Position: {x: 600, y: 970, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7792061854143115152}
-    m_Position: {x: 600, y: 1070, z: 0}
+    m_Position: {x: 600, y: 1020, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -347126094843027497}
-    m_Position: {x: 600, y: 1120, z: 0}
+    m_Position: {x: 600, y: 1070, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -372237582972867443}
-    m_Position: {x: 820, y: 1070, z: 0}
+    m_Position: {x: 820, y: 1020, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7046585135910806126}
-    m_Position: {x: 820, y: 1120, z: 0}
+    m_Position: {x: 820, y: 1070, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7023028724222398150}
+    m_Position: {x: 600, y: 1120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7838064742314163100}
+    m_Position: {x: 600, y: 1170, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1495,6 +1498,33 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7507477062679052014, guid: ca751a207a1e1c34f873041442883464,
+    type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7838064742314163100
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OCM_Parry_Sec_I
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 0
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -614917731528907410, guid: cf2ccc9de4e38e04ab147c6896370ad9,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

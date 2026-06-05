@@ -16,6 +16,7 @@ public partial class CameraController
 
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraExecute_Single_SCRP;
     [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraGunFuHitDown_SCRP;
+    [SerializeField] public CameraThirdPersonControllerViewScriptableObject cameraParryView_SCRP;
 
     [SerializeField] public bool isAiming;
     public bool isSprint 

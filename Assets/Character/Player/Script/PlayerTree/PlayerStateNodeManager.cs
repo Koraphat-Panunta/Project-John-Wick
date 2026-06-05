@@ -90,7 +90,8 @@ public class PlayerStateNodeManager :
     public NodeSelector executeGunFuOnGroundSelector { get; set; }
     public OCM_Execute_Single_NodeLeaf gunFuExecute_OnGround { get; protected set; }
 
-    public ParryNodeLeaf parryNodeLeaf { get; private set; }
+    public ParryNodeLeaf parryPrimaryWeaponNodeLeaf { get; private set; }
+    public ParryNodeLeaf parrySecondaryWeaponNodeLeaf { get; private set; }
 
     public NodeSelector triggerHitGunFuSelector { get; private set; }
     public OCM_HitDownNodeLeaf hitDownNodeLeaf { get; private set; }
@@ -299,15 +300,23 @@ public class PlayerStateNodeManager :
        
        
 
-        this.parryNodeLeaf = new ParryNodeLeaf(
-            this.player,
-            () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
+        System.Func<bool> parryBase = () =>
+            (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player._currentWeapon != null
             && this.player.meleeAttackerAble != null
             && (this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Anticipate
             || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.PreAttack
-                || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Attacking),
-            this.player.parryScriptableObject);
+            || this.player.meleeAttackerAble._curAttackPhase == MeleeAttackingPhase.Attacking);
+
+        this.parryPrimaryWeaponNodeLeaf = new ParryNodeLeaf(
+            this.player,
+            () => parryBase() && this.player._currentWeapon is PrimaryWeapon,
+            this.player.parryPrimaryWeaponSCRP);
+
+        this.parrySecondaryWeaponNodeLeaf = new ParryNodeLeaf(
+            this.player,
+            () => parryBase() && this.player._currentWeapon is SecondaryWeapon,
+            this.player.parrySecondaryWeaponSCRP);
 
         this.triggerHitGunFuSelector = new NodeSelector(
             () =>this.player.attackedAbleGunFu != null
@@ -423,7 +432,8 @@ public class PlayerStateNodeManager :
         stanceSelectorNode.AddtoChildNode(this.quickShootRangeWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuOnGroundSelector);
         stanceSelectorNode.AddtoChildNode(this.executeGunFuSelector);
-        stanceSelectorNode.AddtoChildNode(this.parryNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(this.parryPrimaryWeaponNodeLeaf);
+        stanceSelectorNode.AddtoChildNode(this.parrySecondaryWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(this.triggerHitGunFuSelector);
         stanceSelectorNode.AddtoChildNode(playerThrowWeaponNodeLeaf);
         stanceSelectorNode.AddtoChildNode(playerPokePickUpWeaponNodeLeaf);

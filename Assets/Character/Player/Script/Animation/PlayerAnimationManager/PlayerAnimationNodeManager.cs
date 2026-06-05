@@ -9,7 +9,8 @@ public partial class PlayerAnimationManager
     public NodeSelector basedLayerNodeSelector { get; set; }
     public PlayAnimationNodeLeaf deadNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf throwObjectNodeLeaf { get; set; }
-    public PlayAnimationNodeLeaf parryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf parryPrimaryNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf parrySecondaryNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf quickshot_Sec_I_NodeLeaf { get; set; }
     public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
@@ -69,12 +70,14 @@ public partial class PlayerAnimationManager
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerDeadNodeLeaf, animator, "Dead", 0, 0.14f);
         throwObjectNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerThrowWeaponNodeLeaf>(), animator, "Throwing", 0, .05f,player.throwObjectAnimationTriggerEventSCRP.enterNormalizedTime);
-        parryNodeLeaf = new PlayAnimationNodeLeaf(
+        parryPrimaryNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<ParryNodeLeaf>()
-            , animator
-            , "Parry"
-            , 0
-            , .025f);
+                  && player._currentWeapon is PrimaryWeapon,
+            animator, "OCM_Parry_Pri_I", 0, .025f);
+        parrySecondaryNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<ParryNodeLeaf>()
+                  && player._currentWeapon is SecondaryWeapon,
+            animator, "OCM_Parry_Sec_I", 0, .025f);
         quickshot_Sec_I_NodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.TryGetCurNodeLeaf<QuickShootRangeWeaponNodeLeaf>()
             , animator
@@ -308,7 +311,8 @@ public partial class PlayerAnimationManager
 
                 basedLayerNodeSelector.AddtoChildNode(deadNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(throwObjectNodeLeaf);
-                basedLayerNodeSelector.AddtoChildNode(parryNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(parryPrimaryNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(parrySecondaryNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(quickshot_Sec_I_NodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(pokePickUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);

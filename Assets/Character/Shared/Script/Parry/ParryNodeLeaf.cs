@@ -9,6 +9,10 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
     private IMeleeAttackerAble parriedAttacker;
     private bool hasNotifiedParry;
 
+    //NONE-SOLID-Implement//
+    private CameraYawRotator _cameraYawRotator;
+    //NONE-SOLID-Implement//
+
     public string _stateName => this.parryScriptableObject != null ? this.parryScriptableObject.name : nameof(ParryNodeLeaf);
     public IDefendMeleeAttackAble _parrier => this.player;
     public IMeleeAttackerAble _parriedAttacker => this.parriedAttacker;
@@ -26,12 +30,15 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
 
         this.sbjectAnimationInteract_1 = new SubjectAnimationInteract(parryScriptableObject, parryScriptableObject.animationInteractCharacterDetail[0]);
         this.sbjectAnimationInteract_2 = new SubjectAnimationInteract(parryScriptableObject, parryScriptableObject.animationInteractCharacterDetail[1]);
+
+        //NONE-SOLID-Implement//
+        this._cameraYawRotator = new CameraYawRotator(player.cinemachineCamera, 90f * 4);
+        //NONE-SOLID-Implement//
     }
 
     public override void Enter()
     {
 
-        Debug.Log("ParryEnter");
         this.animationTriggerEventPlayer.Rewind();
         this.parriedAttacker = this.player.meleeAttackerAble;
         this.hasNotifiedParry = false;
@@ -47,6 +54,13 @@ public class ParryNodeLeaf : PlayerStateNodeLeaf, IParryNode
 
     public override void UpdateNode()
     {
+        if (this.hasNotifiedParry)
+        {
+            //NONE-SOLID-Implement//
+            Vector3 toAttacker = (this.parriedAttacker._character._movementCompoent.curPosition - this.player._movementCompoent.curPosition).normalized * -1;
+            this._cameraYawRotator.RotateTowards(toAttacker);
+            //NONE-SOLID-Implement//
+        }
         this.sbjectAnimationInteract_1.UpdateInteract(Time.deltaTime);
         this.sbjectAnimationInteract_2.UpdateInteract(Time.deltaTime);
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);

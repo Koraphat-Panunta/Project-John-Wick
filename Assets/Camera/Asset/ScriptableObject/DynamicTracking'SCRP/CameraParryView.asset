@@ -9,26 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0403766b930d3f54d93589d021b09af6, type: 3}
-  m_Name: MeleeWeaponAttackMoveScriptableObject_I
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeaponAttackMoveScriptableObject
-  _beginAttackDistance: 7
-  _attackMove_Range: 2
-  _moveVelocityCurve:
+  m_Script: {fileID: 11500000, guid: 4ec47217e62c0a44e8580e7f8c5222f7, type: 3}
+  m_Name: CameraParryView
+  m_EditorClassIdentifier: 
+  viewOffsetRight: {x: 0.85, y: 0, z: -1.5}
+  fov: 55
+  transitionCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.25
+      inSlope: -0.01385455
+      outSlope: -0.01385455
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.08584337
+    - serializedVersion: 3
+      time: 0.2993084
+      value: 0.30174634
+      inSlope: 0.47763866
+      outSlope: 0.47763866
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.060738686
     - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -38,8 +47,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _topVelocityMove: 7
-  _rotateVelocity: 200
-  attackMoveName: OCM_Attack_MeleeWeapon_I
-  animationTriggerEventSCRP: {fileID: 11400000, guid: 0dd0b3e82194f2244a1b6aa7317afd6c,
-    type: 2}
+  transitionInSpeed: 0.59

@@ -55,6 +55,10 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
         subject_GotGunFuAble = new SubjectAnimationInteract(animationInteractScriptableObject, animationInteractScriptableObject.animationInteractCharacterDetail[1]);
 
         this.subject_GunFuAble.finishWarpEvent += Interact;
+
+        //NONE-SOLID-Implement//
+        this._cameraYawRotator = new CameraYawRotator(player.cinemachineCamera, 90f * 1.5f);
+        //NONE-SOLID-Implement//
     }
 
     public override void Enter()
@@ -112,7 +116,9 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
         {
             case HumanShieldInteractionPhase.Enter:
                 {
-                    RotateCamera();
+                    //NONE-SOLID-Implement//
+                    this._cameraYawRotator.RotateTowards(gotGunFuAttackedAble._character.transform.forward * -1);
+                    //NONE-SOLID-Implement//
                     this.subject_GunFuAble.UpdateInteract(Time.deltaTime);
                     this.subject_GotGunFuAble.UpdateInteract(Time.deltaTime);
 
@@ -187,19 +193,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
         this.player.OnNotifyFeedBackVisitor(damageAble);
     }
 
-    //Danger_Zone_HumanShield_RotateCamera
-    private ThirdPersonCinemachineCamera thirdPersonCinemachineCamera => this.player.cinemachineCamera;
-    private float rotateRadiantSpeed = 90f * 1.5f;
-
-    private void RotateCamera()
-    {
-        Vector3 flatForward = new Vector3(gotGunFuAttackedAble._character.transform.forward.x, 0, gotGunFuAttackedAble._character.transform.forward.z).normalized;
-        if (flatForward == Vector3.zero) return;
-
-        float targetYaw = Quaternion.LookRotation(flatForward * -1, Vector3.up).eulerAngles.y;
-        thirdPersonCinemachineCamera.SetYaw(
-            Mathf.MoveTowardsAngle(thirdPersonCinemachineCamera.yaw, targetYaw, rotateRadiantSpeed * Time.deltaTime)
-        );
-    }
-    //Danger_Zone_HumanShield_RotateCamera
+    //NONE-SOLID-Implement//
+    private CameraYawRotator _cameraYawRotator;
+    //NONE-SOLID-Implement//
 }

@@ -121,7 +121,7 @@ public class AIAgent : MonoBehaviour,IInitializedAble
 
         this.isCalulatePath = false;
         if (foundPath == false)
-            Debug.LogError("Not found path");
+            Debug.LogWarning("Not found path");
 
         //Populate path.corner to cornerPosition
         if(_path.corners.Length <= 0)

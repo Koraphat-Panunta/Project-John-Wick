@@ -77,7 +77,8 @@ public class PlayerEditor : Editor
         "restrictScriptableObject",
         "gunFuReloadScripatableObject",
         "gunFuHitDownScriptableObject",
-        "parryScriptableObject",
+        "parryPrimaryWeaponSCRP",
+        "parrySecondaryWeaponSCRP",
         // GunFu - Executes
         "gunFuExecute_Single_Secondary_Dodge_ScriptableObject_I",
         "gunFuExecute_Single_Secondary_ScriptableObject_I",
@@ -189,7 +190,8 @@ public class PlayerEditor : Editor
             Field("restrictScriptableObject");
             Field("gunFuReloadScripatableObject");
             Field("gunFuHitDownScriptableObject");
-            Field("parryScriptableObject");
+            Field("parryPrimaryWeaponSCRP");
+            Field("parrySecondaryWeaponSCRP");
         });
 
         Section(ref _showGunFuExecutes, "GunFu — Executes", () =>

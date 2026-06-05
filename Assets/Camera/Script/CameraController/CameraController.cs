@@ -241,6 +241,20 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                         break;
                     }
+            case ParryNodeLeaf parryNodeLeaf: 
+                    {
+                        if (parryNodeLeaf._curPhase == NodePhase.Enter)
+                        {
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetCameraThirdPersonControllerViewSCRP(this.cameraParryView_SCRP);
+
+                            Transform[] trackTransforms = { player.humanoidBone.hips, parryNodeLeaf._parriedAttacker._character.humanoidBone._spine_2_Bone };
+                            float[] trackWeight = { .5f, .5f };
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetLookTransform(trackTransforms, trackWeight);
+                            this.cameraManagerNode.cameraDynamicTrackingNodeLeaf.SetTrackTransform(trackTransforms, trackWeight);
+                        }
+                      
+                    }
+                    break;
             case RestrainGunFuStateNodeLeaf restrictGunFuStateNodeLeaf:
                 {
                         if (restrictGunFuStateNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit)

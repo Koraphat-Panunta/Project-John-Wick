@@ -89,12 +89,14 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraPerformGunFuWeaponDisarmNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuWeaponDisarm_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is WeaponDisarm_GunFuInteraction_NodeLeaf );
         this.cameraDynamicTrackingNodeLeaf = new CameraThridPersonControllerDynamicTrackingNodeLeaf(cameraController , cameraController.cameraExecute_Single_SCRP
-           ,() => cameraController.curGunFuNode != null 
+           ,() => (cameraController.curGunFuNode != null 
            && (
            cameraController.curGunFuNode is IGunFuExecuteNodeLeaf
            || this.cameraController.curGunFuNode is OCM_HitDownNodeLeaf
            || this.cameraController.curGunFuNode is OCMReloadNodeLeaf
            || this.cameraController.curGunFuNode is OCM_KnockDown_NodeLeaf)
+           )
+           || this.playerStateManager.TryGetCurNodeLeaf<ParryNodeLeaf>()
            );
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
             () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
@@ -147,6 +149,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.startNodeSelector.AddtoChildNode(this.cameraThirdPersonControllerPlayerBasedSelector);
         this.startNodeSelector.AddtoChildNode(this.cameraRestNodeLeaf);
 
+        this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraDynamicTrackingNodeLeaf);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraPerformGunFuSelector);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSParkourViewNodeLeaf);
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSSprintViewNodeLeaf);
@@ -156,7 +159,6 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
         this.cameraThirdPersonControllerPlayerBasedSelector.AddtoChildNode(this.cameraTPSStandViewNodeLeaf);
 
         this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuWeaponDisarmNodeLeaf);
-        this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraDynamicTrackingNodeLeaf);
         this.cameraPerformGunFuSelector.AddtoChildNode(this.cameraPerformGunFuHitViewNodeLeaf);
 
         this._nodeManagerBehavior.SearchingNewNode(this);

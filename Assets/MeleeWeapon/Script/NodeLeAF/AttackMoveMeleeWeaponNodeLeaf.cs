@@ -15,7 +15,7 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     private bool triggerIsReset;
 
-    protected Vector3 targetPos;
+    protected Vector3 targetPos ;
 
     protected float beginmoveNormalizedTime;
     protected float moveNormalizedTime;
@@ -52,12 +52,7 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     public override void Enter()
     {
-        
-
         this.character._movementCompoent.CancleMomentum();
-
-        this.targetPos = this.meleeWeaponUserAble._meleeWeaponUserTransform.position
-            + (this.meleeWeaponUserAble._meleeWeaponUserTransform.forward * this.attackMoveScriptableObject._maxAttackMove_Range);
 
         this.attackingPhase = MeleeAttackingPhase.Anticipate;
         this.triggerIsReset = false;
@@ -111,6 +106,8 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
 
     private void MoveUpdate()
     {
+      
+
         switch (this.attackingPhase)
         {
             case MeleeAttackingPhase.None:
@@ -130,7 +127,10 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
             case MeleeAttackingPhase.PreAttack:
                 {
                     this.RotateUpdate();
-                    this.character.enableRootMotion = true;
+                    if (this.targetDistance > this.attackMoveScriptableObject._attackMove_Range)
+                        this.character.enableRootMotion = true;
+                    else
+                        this.character.enableRootMotion = false;
                     this.UpdateTargetPos();
                 }
                 break;
@@ -170,8 +170,6 @@ public class AttackMoveMeleeWeaponNodeLeaf : NodeLeaf , IMeleeAttackNodeLeaf
             this.character._movementCompoent.Move(
                 targetDir * attackMoveScriptableObject._moveVelocityCurve.Evaluate(t) * this.attackMoveScriptableObject._topVelocityMove * Time.deltaTime
                 );
-        else
-            this.character.enableRootMotion = true;
     }
 
 }

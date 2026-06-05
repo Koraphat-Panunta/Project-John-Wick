@@ -242,7 +242,6 @@ public partial class Enemy : SubjectEnemy
         _triggerEvade = false;
         _triggerBlock = false;
 
-        Debug.Log("moveInputVelocity_WorldCommand buffer update " + moveInputVelocity_WorldCommand);
         moveInputVelocity_WorldCommand = Vector3.zero;
 
     }

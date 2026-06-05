@@ -13,11 +13,11 @@ public class GotParriedNodeLeaf : EnemyStateLeafNode, IGotParriedNode
 
     public override void Enter()
     {
-        Debug.Log("Got Parried Enter");
+        Debug.Log("gotParry enter");
 
         if (enemy.motionControlManager.curMotionState != enemy.motionControlManager.codeDrivenMotionState)
             enemy.motionControlManager.ChangeMotionState(enemy.motionControlManager.codeDrivenMotionState);
-
+        this.enemy._triggerGotParried = false;
         this.isComplete = false;
         this.animationTriggerEventPlayer.Rewind();
         _ = SubjectAnimationInteract.DelayRootMotion(this.enemy);
@@ -27,7 +27,7 @@ public class GotParriedNodeLeaf : EnemyStateLeafNode, IGotParriedNode
 
     public override void Exit()
     {
-        this.enemy._triggerGotParried = false;
+
         this.enemy._parrier = null;
         this.enemy.enableRootMotion = false;
         base.Exit();
@@ -35,6 +35,8 @@ public class GotParriedNodeLeaf : EnemyStateLeafNode, IGotParriedNode
 
     public override void UpdateNode()
     {
+        Debug.Log("gotParryTime Normalized = " + this.animationTriggerEventPlayer.timerNormalized);
+
         this.animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
         if (this.animationTriggerEventPlayer.IsPlayFinish())
             this.isComplete = true;

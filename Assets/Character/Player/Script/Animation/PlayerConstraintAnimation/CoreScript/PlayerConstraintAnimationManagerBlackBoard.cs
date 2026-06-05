@@ -24,35 +24,23 @@ public partial class PlayerConstrainAnimationManager
     {
         get 
         {
-            if(player._currentWeapon == null)
+            if (this.player._currentWeapon == null)
                 return false;
 
-            if(this.isWeaponSwitching)
+            if ((this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
-            if(playerStateManager.TryGetCurNodeLeaf<I_OCM_Node>())
-                return false;
+            if (this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerSprintNode>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>()
+                )
+                return true;
 
-            if(playerStateManager.TryGetCurNodeLeaf<IParkourNodeLeaf>())
-                return false;
+            return false;
 
-            if (playerStateManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>(out PlayerDolphinDiveStateNodeLeaf dolphinDiveStateNodeLeaf)
-                && dolphinDiveStateNodeLeaf.isPassingJump == false)
-                return false;
-
-            if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IReloadNode>())
-                return false;
-
-            if (playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>())
-                return false;
-
-            if(playerStateManager.TryGetCurNodeLeaf<PlayerGetUpStateNodeLeaf>())
-                return false;
-
-            if (playerStateManager.TryGetCurNodeLeaf<PlayerSlideNodeLeaf>())
-                return false;
-
-            return true;
         }
     }
 

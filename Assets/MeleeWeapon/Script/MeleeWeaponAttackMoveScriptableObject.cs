@@ -8,8 +8,6 @@ public class MeleeWeaponAttackMoveScriptableObject : ScriptableObject
     public float _beginAttackDistance;
     [Range(0, 10)]
     public float _attackMove_Range;
-    [Range(0, 10)]
-    public float _maxAttackMove_Range;
 
 
     [SerializeField]
