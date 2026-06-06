@@ -66,6 +66,7 @@ public class PlayerSlideNodeLeaf : PlayerStateNodeLeaf, INodeLeafTransitionAble
     {
         playerMovement.UpdateMoveToDirWorld(Vector3.zero, this.breakDecelerate, MoveMode.IgnoreMomentumDirection);
         playerMovement.SetRotateToDirWorldSlerp(_slideDir, 1f);
+        playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

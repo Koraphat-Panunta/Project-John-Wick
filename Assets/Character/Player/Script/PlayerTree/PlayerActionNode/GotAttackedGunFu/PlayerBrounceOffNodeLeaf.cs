@@ -35,7 +35,7 @@ public class PlayerBrounceOffNodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
-       
+        //player._movementCompoent.UpdateMovement();
         base.FixedUpdateNode();
     }
 
@@ -59,9 +59,9 @@ public class PlayerBrounceOffNodeLeaf : PlayerStateNodeLeaf
     {
         _timer += Time.deltaTime;
 
-        player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero,
-         this.player.breakDecelerate,
-         MoveMode.MaintainMomentumDirection);
+        //player._movementCompoent.UpdateMoveToDirWorld(Vector3.zero,
+        // this.player.breakDecelerate,
+        // MoveMode.MaintainMomentumDirection);
 
         if (_timer >= this.downTime)
             isComplete = true;

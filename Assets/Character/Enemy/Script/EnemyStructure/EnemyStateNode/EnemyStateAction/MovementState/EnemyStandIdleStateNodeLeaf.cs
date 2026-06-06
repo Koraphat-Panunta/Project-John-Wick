@@ -30,6 +30,7 @@ public class EnemyStandIdleStateNodeLeaf : EnemyStateLeafNode
     {
         enemyMovement.UpdateMoveToDirWorld(Vector3.zero, this.enemy.breakDecelerate, MoveMode.IgnoreMomentumDirection);
         enemyMovement.SetRotateToDirWorld(this.enemy.lookRotationCommand, this.enemy.rotateSpeed);
+        enemyMovement.UpdateMovement();
 
         base.FixedUpdateNode();
     }

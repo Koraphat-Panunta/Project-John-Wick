@@ -1,8 +1,7 @@
 ﻿
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract partial class MovementCompoent : INodeManager
+public abstract partial class MovementCompoent
 {
     public MonoBehaviour userMovement { get; set; }
     public float inputAngularVelocity { get; set; }
@@ -15,15 +14,8 @@ public abstract partial class MovementCompoent : INodeManager
     public Transform transform { get; protected set; }
 
     public bool isOnUpdateEnable { get; set; }
-   
-    INodeLeaf INodeManager._curNodeLeaf { get => curNodeLeaf; set => curNodeLeaf = value; }
-    private INodeLeaf curNodeLeaf;
-    public INodeSelector startNodeSelector { get ; set ; }
-    public NodeManagerBehavior _nodeManagerBehavior { get ; set ; }
-    public OnUpdateMovementNodeLeaf onUpdateMovementNodeLeaf { get; set; }
-    public List<INodeManager> _parallelNodeManahger { get;set; }
 
-    public abstract Vector3 curPosition { get; } 
+    public abstract Vector3 curPosition { get; }
     public abstract Quaternion curRotation { get; }
 
     public Vector3 proneDir { get; protected set; }
@@ -33,24 +25,15 @@ public abstract partial class MovementCompoent : INodeManager
         isOnUpdateEnable = true;
         this.transform = transform;
         this.userMovement = myMovement;
-        _nodeManagerBehavior = new NodeManagerBehavior();
-        _parallelNodeManahger = new List<INodeManager>();
-        InitailizedNode();
     }
 
     public virtual void UpdateNode()
     {
-        _nodeManagerBehavior.UpdateNodeAndCheckFindingNode(this);
-        //Debug.DrawRay(this.userMovement.transform.position + Vector3.up, moveInputVelocity_World, Color.blue);
-        //Debug.DrawRay(this.userMovement.transform.position + Vector3.up, curMoveVelocity_World, Color.yellow);
     }
 
     public virtual void FixedUpdateNode()
     {
-        _nodeManagerBehavior.FixedUpdateNode(this);
     }
-
-    public abstract void InitailizedNode();
   
     public void UpdateAngularVelocity(float targetAngularVelocity,float accelerateAngularVelocity, MoveMode moveMode)
     {
@@ -110,7 +93,7 @@ public abstract partial class MovementCompoent : INodeManager
 
         this.UpdateMoveToDirWorld(moveInputVelocity_World, speed, moveMode);
     }
-    public void UpdateMovement()
+    public virtual void UpdateMovement()
     {
         this.Move(this.curMoveVelocity_World * Time.fixedDeltaTime);
     }

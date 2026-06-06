@@ -57,6 +57,7 @@ public class PlayerFallingStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitio
             this.playerMovement.UpdateMoveToDirWorld(player.inputMoveDir_World * this.player.StandMoveMaxSpeed * .25f, this.player.StandMoveAccelerate * .25f, MoveMode.MaintainMomentumDirection);
         else
             this.playerMovement.UpdateMoveToDirWorld(Vector3.zero,1, MoveMode.MaintainMomentumDirection);
+        this.playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

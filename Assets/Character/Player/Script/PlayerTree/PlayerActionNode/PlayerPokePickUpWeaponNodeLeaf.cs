@@ -33,6 +33,12 @@ public class PlayerPokePickUpWeaponNodeLeaf : PlayerStateNodeLeaf
 
         base.Enter();
     }
+    public override void FixedUpdateNode()
+    {
+        player._movementCompoent.UpdateMovement();
+        base.FixedUpdateNode();
+    }
+
     public override void UpdateNode()
     {
 

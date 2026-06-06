@@ -82,6 +82,7 @@ public class EnemyDodgeStateNodeLeaf : EnemyStateLeafNode
 
     public override void FixedUpdateNode()
     {
+        enemyMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

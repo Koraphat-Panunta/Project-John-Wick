@@ -25,15 +25,18 @@ public class PlayerAnimationBaseState : PlayerStateNodeLeaf, INodeLeafTransition
     public override void Enter()
     {
         this.player._movementCompoent.CancleMomentum();
+        player.rootMotionScale = new Vector3(1, 0, 1);
         isComplete = false;
         nodeLeafTransitionBehavior.DisableTransitionAbleAll(this);
         animationTriggerEventPlayer.Rewind();
-        if (EnableRootMotionOnEnter) player.enableRootMotion = true;
+        this.player.enableRootMotion = true;
         base.Enter();
+
     }
 
     public override void Exit()
     {
+        player.rootMotionScale = Vector3.one;
         player.enableRootMotion = false;
         base.Exit();
     }
@@ -46,8 +49,13 @@ public class PlayerAnimationBaseState : PlayerStateNodeLeaf, INodeLeafTransition
             isComplete = true;
             nodeLeafTransitionBehavior.TransitionAbleAll(this);
         }
+  
         TransitioningCheck();
         base.UpdateNode();
+    }
+    public override void FixedUpdateNode()
+    {
+        base.FixedUpdateNode();
     }
 
     public override bool IsComplete() => isComplete;

@@ -52,27 +52,10 @@ public class PlayerMovement : MovementCompoent
         this.parkour_CharacterControllerSCRP = parkour_CharacterControllerSCRP;
     }
 
-    public MovementNodeLeaf restMovementNodeLeaf { get; set; }
     public override void UpdateNode()
     {
         this.UpdateProximityInAir();
         base.UpdateNode();
-    }
-    public override void FixedUpdateNode()
-    {
-        base.FixedUpdateNode();
-    }
-    public override void InitailizedNode()
-    {
-        startNodeSelector = new NodeSelector(() => true, "StartNodeSelector PlayerMovement");
-
-        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(() => isOnUpdateEnable, this);
-        restMovementNodeLeaf = new MovementNodeLeaf(() => true);
-
-        startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
-        startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
-
-        _nodeManagerBehavior.SearchingNewNode(this);
     }
 
     public void SnapingMovement(Vector3 Destination, Vector3 offset, float speed)
@@ -230,5 +213,5 @@ public class PlayerMovement : MovementCompoent
         this.characterController.UpdateCharacterPosition();
         this.characterController.UpdateCharacterRotation();
     }
-    
+   
 }

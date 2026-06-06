@@ -96,6 +96,7 @@ public class RestrainGunFuStateNodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
+        player._movementCompoent.UpdateMovement();
         base.FixedUpdateNode();
     }
 

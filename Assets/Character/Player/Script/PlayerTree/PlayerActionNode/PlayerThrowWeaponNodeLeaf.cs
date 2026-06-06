@@ -47,6 +47,12 @@ public class PlayerThrowWeaponNodeLeaf : PlayerStateNodeLeaf
         this.player.enableRootMotion = false;
         base.Exit();
     }
+    public override void FixedUpdateNode()
+    {
+        this.player._movementCompoent.UpdateMovement();
+        base.FixedUpdateNode();
+    }
+
     public override void UpdateNode()
     {
         if (player.curBeenThrowObjectAt != null)

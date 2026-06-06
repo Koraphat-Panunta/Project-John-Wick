@@ -18,6 +18,7 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
         this.player.NotifyObserver(player, this);
         base.Enter();
     }
+    
     public override void FixedUpdateNode()
     {
         
@@ -26,19 +27,23 @@ public class PlayerStandMoveNodeLeaf : PlayerStateNodeLeaf
 
         float inversAccel = GetInverseDirectionalAccelMovement.GetInverseDirectionalAccel(this.player.inputMoveDir_World.normalized, this.playerMovement.curMoveVelocity_World.normalized, this.player.changeDirAccel);
 
-        this.playerMovement.UpdateMoveToDirWorld(
-            this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed
-            , this.player.StandMoveAccelerate * this.moveStanceWeight * inversAccel
-            , MoveMode.MaintainMomentumDirection
-            );
+        
         this.playerMovement.SetRotateToDirWorld(this.player.cinemachineCamera.targetDir
             , SlowDownRotateSpeed.GetSlowDownRotateSpeedOnNearlyTargetRotation(this.playerMovement.forwardDir, this.player.cinemachineCamera.targetDir,30,this.player.rotateSpeed));
 
+        this.playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 
     public override void UpdateNode()
     {
+         float inversAccel = GetInverseDirectionalAccelMovement.GetInverseDirectionalAccel(this.player.inputMoveDir_World.normalized, this.playerMovement.curMoveVelocity_World.normalized, this.player.changeDirAccel);
+        this.playerMovement.UpdateMoveToDirWorld(
+            this.player.inputMoveDir_World * this.player.StandMoveMaxSpeed
+            , this.player.StandMoveAccelerate * this.moveStanceWeight * inversAccel
+            , MoveMode.MaintainMomentumDirection
+            );
+
         base.UpdateNode();
     }
 }

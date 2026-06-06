@@ -59,6 +59,7 @@ public class PlayerDodgeRollStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransit
 
     public override void FixedUpdateNode()
     {
+        playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

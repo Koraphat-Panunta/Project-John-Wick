@@ -44,6 +44,7 @@ public class PlayerProneStateNodeLeaf : PlayerStateNodeLeaf,INodeLeafTransitionA
     {
         this.playerMovement.UpdateMoveToDirWorld(Vector3.zero, this.player.breakDecelerate , MoveMode.MaintainMomentumDirection);
         this.playerMovement.SetRotateToDirWorldSlerp(this.player.cinemachineCamera.targetDir, 1);
+        this.playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
     public override bool IsReset()

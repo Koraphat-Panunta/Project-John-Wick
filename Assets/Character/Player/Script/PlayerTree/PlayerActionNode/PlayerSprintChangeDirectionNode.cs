@@ -58,6 +58,7 @@ public class PlayerSprintChangeDirectionNode : PlayerStateNodeLeaf
             _rotateRate = Mathf.Clamp01(_rotateRate + Time.fixedDeltaTime * ROTATE_RAMP_SPEED_BRAKE);
             Brake();
         }
+        playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

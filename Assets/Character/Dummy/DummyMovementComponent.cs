@@ -8,27 +8,9 @@ public class DummyMovementComponent : MovementCompoent
         this.characterMovementController = characterController; 
     }
 
-    public MovementNodeLeaf restMovementNodeLeaf { get; set; }
-
     public override Vector3 curPosition { get => this.characterMovementController.position; }
     public override Quaternion curRotation => this.characterMovementController.rotation;
 
-    public override void InitailizedNode()
-    {
-        startNodeSelector = new NodeSelector(() => true, "StartNodeSelector PlayerMovement");
-
-        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(() => isOnUpdateEnable, this);
-        restMovementNodeLeaf = new MovementNodeLeaf(() => true);
-
-        startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
-        startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
-
-        _nodeManagerBehavior.SearchingNewNode(this);
-    }
-    public override void FixedUpdateNode()
-    {
-        base.FixedUpdateNode();
-    }
     public override void Move(Vector3 position)
     {
         this.characterMovementController.Move(position);

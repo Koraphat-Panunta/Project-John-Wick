@@ -31,6 +31,7 @@ public class PlayerLandingRollStateNodeLeaf : PlayerStateNodeLeaf
     {
         this.playerMovement.UpdateMoveToDirWorld(this.player.transform.forward * this.playerMovement.curMoveVelocity_World.magnitude, this.player.StandMoveAccelerate, MoveMode.IgnoreMomentumDirection);
         this.playerMovement.SetRotateToDirWorld(this.player.inputMoveDir_World.normalized, this.player.rotateSpeed);
+        this.playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
 

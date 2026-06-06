@@ -22,26 +22,11 @@ public class EnemyMovement : MovementCompoent
     }
 
   
-    public MovementNodeLeaf restMovementNodeLeaf { get; set; }
-
     public override void UpdateNode()
     {
         base.UpdateNode();
     }
-    public override void InitailizedNode()
-    {
-        startNodeSelector = new NodeSelector(() => true, "enemy movementComponent startSelector");
 
-        onUpdateMovementNodeLeaf = new OnUpdateMovementNodeLeaf(()=> isOnUpdateEnable 
-       
-        ,this);
-        restMovementNodeLeaf = new MovementNodeLeaf(()=> true);
-
-        startNodeSelector.AddtoChildNode(onUpdateMovementNodeLeaf);
-        startNodeSelector.AddtoChildNode(restMovementNodeLeaf);
-
-        _nodeManagerBehavior.SearchingNewNode(this);
-    }
     public void AddForcePushInstantly(Vector3 force, IMotionImplusePushAble.PushMode pushMode)
     {
         if(motionImplusePushAbleBehavior == null)

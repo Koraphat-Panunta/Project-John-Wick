@@ -24,6 +24,7 @@ public class PlayerCrouch_Move_NodeLeaf : PlayerStateNodeLeaf
             , this.player.CrouchMoveAccelerate * GetInverseDirectionalAccelMovement.GetInverseDirectionalAccel(this.player.inputMoveDir_World.normalized,this.player._movementCompoent.curMoveVelocity_World.normalized,this.player.changeDirAccel)
             , MoveMode.MaintainMomentumDirection);
         playerMovement.SetRotateToDirWorld(Camera.main.transform.forward, this.player.rotateSpeed);
+        playerMovement.UpdateMovement();
 
         base.FixedUpdateNode();
     }

@@ -93,6 +93,7 @@ public class HumanShield_GunFu_NodeLeaf : PlayerStateNodeLeaf
 
     public override void FixedUpdateNode()
     {
+        player._movementCompoent.UpdateMovement();
         base.FixedUpdateNode();
     }
 

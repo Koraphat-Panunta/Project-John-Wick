@@ -86,6 +86,7 @@ public class EnemyPainStateNodeLeaf : EnemyStateLeafNode
 
         enemy._movementCompoent.UpdateMoveToDirWorld(moveDirWorldRandom.normalized * moveSpeed ,Mathf.Clamp(moveSpeed,1, moveSpeed), MoveMode.MaintainMomentumDirection);
         enemy._movementCompoent.SetRotateToDirWorld(this.rotateDir, this.rotatePower);
+        enemy._movementCompoent.UpdateMovement();
         base.FixedUpdateNode();
     }
 
