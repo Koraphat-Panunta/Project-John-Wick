@@ -56,6 +56,8 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
     public override void UpdateNode()
     {
         this.lowReadyNode.NormalizedTimeUpdate();
+        this.lowReadyNode.TrackPosUpdate();
+        this.lowReadyNode.LookPosUpdate();
         this.lowReadyNode.OffsetUpdate();
         this.lowReadyNode.FOVUpdate();
         base.UpdateNode();
@@ -63,8 +65,7 @@ public class CameraAimDownSightViewNodeLeaf : CameraThirdPersonControllerViewNod
 
     public override void FixedUpdateNode()
     {
-        this.lowReadyNode.TrackPosUpdate();
-        this.lowReadyNode.LookPosUpdate();
+        base.FixedUpdateNode();
     }
 
     public override void Exit()

@@ -83,6 +83,8 @@ public class SubjectAnimationInteract
 
         if (isWarping)
         {
+            character._movementCompoent.CancelPhysicsVelocity();
+
             float t = animationTriggerEventPlayer.GetRemapNormalizedTimer
                 (animationInteractCharacterDetail.beginWarpingNormalizedTime_BasedOnMainSubject
                 ,animationInteractCharacterDetail.finishWarpingNormalizedTime_BasedOnMainSubject);

@@ -97,6 +97,8 @@ public abstract partial class MovementCompoent
     {
         this.Move(this.curMoveVelocity_World * Time.fixedDeltaTime);
     }
+
+    public virtual void CancelPhysicsVelocity() { }
    
     public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed)
     {

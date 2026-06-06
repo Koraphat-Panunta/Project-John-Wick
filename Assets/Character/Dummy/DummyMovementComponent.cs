@@ -26,4 +26,9 @@ public class DummyMovementComponent : MovementCompoent
         this.characterMovementController.UpdateCharacterPosition();
         this.characterMovementController.UpdateCharacterRotation();
     }
+
+    public override void CancelPhysicsVelocity()
+    {
+        this.characterMovementController.SetVelocityPhysicBased(Vector3.zero);
+    }
 }

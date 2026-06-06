@@ -65,6 +65,7 @@ public class PlayerDolphinDiveStateNodeLeaf : PlayerStateNodeLeaf
     }
     public override void FixedUpdateNode()
     {
+        this.playerMovement.UpdateMovement();
         base.FixedUpdateNode();
     }
     protected virtual void UpdateJumpOut()

@@ -59,6 +59,11 @@ public class EnemyMovement : MovementCompoent
         this.characterController.SetRotation(rotation);
     }
 
+    public override void CancelPhysicsVelocity()
+    {
+        this.characterController.SetVelocityPhysicBased(Vector3.zero);
+    }
+
     public void AddForcePushVelocityChange(Vector3 force, IMotionImplusePushAble.PushMode pushMode, float velocityChangeDuration)
     {
         if (motionImplusePushAbleBehavior == null)

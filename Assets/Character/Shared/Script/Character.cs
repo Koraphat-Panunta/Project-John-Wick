@@ -66,7 +66,6 @@ public abstract class Character : MonoBehaviour
             return; 
         }
 
-        //this.animator.updateMode = AnimatorUpdateMode.Fixed;
         this.frame++;
 
         this.SumDeltaPos += animator.deltaPosition.magnitude;

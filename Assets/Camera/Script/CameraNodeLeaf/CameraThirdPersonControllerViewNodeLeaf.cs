@@ -92,13 +92,9 @@ public class CameraThirdPersonControllerViewNodeLeaf : CameraNodeLeaf
 
     public virtual void OffsetUpdate()
     {
-        float offsetX;
-        if (this.cameraController.curSide == Side.Right)
-            offsetX = Mathf.Lerp(this.cinemachineOffset.x, this.targetOffset.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
-        else
-            offsetX = Mathf.Lerp(this.cinemachineOffset.x, -this.targetOffset.x,
-                this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
+        float targetX = this.cameraController.curSide == Side.Right ? this.targetOffset.x : -this.targetOffset.x;
+        float t = 1f - Mathf.Exp(-this.cameraController.cameraSwitchSholderVelocity * Time.unscaledDeltaTime);
+        float offsetX = Mathf.Lerp(this.cinemachineOffset.x, targetX, t);
 
         float offsetY = Mathf.Lerp(this.cinemachineOffset.y, this.targetOffset.y, this.trackingCruve);
         float offsetZ = Mathf.Lerp(this.cinemachineOffset.z, this.targetOffset.z, this.trackingCruve);

@@ -11,6 +11,7 @@ public class CodeDrivenMotionState : MotionState
     public override void Enter()
     {
         _animator.applyRootMotion = false;
+        _animator.updateMode = AnimatorUpdateMode.Normal;
         _animator.enabled = true;
 
         base.Enter();

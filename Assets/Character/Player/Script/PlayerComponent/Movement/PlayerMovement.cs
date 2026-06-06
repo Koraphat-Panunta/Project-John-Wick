@@ -206,6 +206,11 @@ public class PlayerMovement : MovementCompoent
         this.characterController.SetRotation(rotation);
     }
 
+    public override void CancelPhysicsVelocity()
+    {
+        this.characterController.SetVelocityPhysicBased(Vector3.zero);
+    }
+
     public void SetProneDir(Vector3 dir) => this.proneDir = dir;
 
     public override void ForceUpdateTransform()

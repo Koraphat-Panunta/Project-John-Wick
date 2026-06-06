@@ -11,25 +11,14 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     [SerializeField] private Transform handHint;
     [SerializeField] private Transform handTarget;
 
-    private Vector3    _handTargetLocalPos;
-    private Quaternion _handTargetLocalRot = Quaternion.identity;
-    private Vector3    _handHintLocalPos;
-
-    public Vector3    curHandTargetPosition => this.transform.TransformPoint(_handTargetLocalPos);
-    public Quaternion curHandTargetRotation => this.transform.rotation * _handTargetLocalRot;
-    public Vector3    curHandHintPosition   => this.transform.TransformPoint(_handHintLocalPos);
-
     private void Update()
     {
         if (twoBoneIKConstraint.weight <= 0)
         {
-            SetTargetHand(twoBoneIKConstraint.data.tip.position, twoBoneIKConstraint.data.tip.rotation);
-            SetHintHandPosition(twoBoneIKConstraint.data.mid.position);
+            handTarget.position = twoBoneIKConstraint.data.tip.position;
+            handTarget.rotation = twoBoneIKConstraint.data.tip.rotation;
+            handHint.position   = twoBoneIKConstraint.data.mid.position;
         }
-
-        this.handTarget.position =  curHandTargetPosition;
-        this.handTarget.rotation = curHandTargetRotation;
-        this.handHint.position   = curHandHintPosition;
     }
 
     public float GetWeight() => twoBoneIKConstraint.weight;
@@ -37,13 +26,13 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
 
     public void SetHintHandPosition(Vector3 worldHintPosition)
     {
-        _handHintLocalPos = this.transform.InverseTransformPoint(worldHintPosition);
+        handHint.position = worldHintPosition;
     }
 
     public void SetTargetHand(Vector3 worldPosition, Quaternion worldRotation)
     {
-        _handTargetLocalPos = this.transform.InverseTransformPoint(worldPosition);
-        _handTargetLocalRot = Quaternion.Inverse(this.transform.rotation) * worldRotation;
+        handTarget.position = worldPosition;
+        handTarget.rotation = worldRotation;
     }
 
     public Transform GetTargetHandTransform() => this.handTarget;

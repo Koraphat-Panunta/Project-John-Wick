@@ -514,31 +514,25 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         Ray ray = new Ray(this.player.cinemachineCamera.targetPos, this.player.cinemachineCamera.targetDir);
         Vector3 hitpos;
 
+        float distanceLerpT = 1f - Mathf.Exp(-10f * Time.deltaTime);
         if(Physics.Raycast(ray,out RaycastHit hitInfo,this.maxCastDistacne, this.castCollideMask,QueryTriggerInteraction.Ignore))
         {
             float castHitDistance = Vector3.Distance(this.player.cinemachineCamera.targetPos, hitInfo.point);
             this.distanceCast = Mathf.Clamp(
-                Mathf.Lerp(this.distanceCast, castHitDistance, Time.deltaTime * 10)
+                Mathf.Lerp(this.distanceCast, castHitDistance, distanceLerpT)
                 , this.minCastDisTance
                 , this.maxCastDistacne
-                ); 
+                );
         }
         else
             this.distanceCast = Mathf.Clamp(
-               Mathf.Lerp(this.distanceCast, maxCastDistacne, Time.deltaTime * 10)
+               Mathf.Lerp(this.distanceCast, maxCastDistacne, distanceLerpT)
                , this.minCastDisTance
                , this.maxCastDistacne
                );
 
         hitpos = ray.GetPoint(this.distanceCast);
-
-        this.aimConstrainPositionReference.transform.position = Vector3.Lerp
-            (
-            this.aimConstrainPositionReference.position
-            , Vector3.Lerp(this.aimConstrainPositionReference.position,hitpos, Time.deltaTime * 60
-            )
-            , Time.deltaTime * 60
-            );
+        this.aimConstrainPositionReference.transform.position = hitpos;
     }
 
     private void UpdateBlackBorad()

@@ -284,6 +284,12 @@ public class CharacterMovementController : MonoBehaviour
         this.UpdateCharacterPosition();
     }
 
+    private void LateUpdate()
+    {
+        this.UpdateCharacterPosition();
+        this.UpdateCharacterRotation();
+    }
+
     public void UpdateCharacterPosition()
     {
         if (this.transform.position != this.transformPositionCheck)
@@ -398,7 +404,7 @@ public class CharacterMovementController : MonoBehaviour
             this.isGrounded = true;
 
             //if (this.position.y < placePosition.y + SKIN_WIDTH_THREASHORED)
-            this.position = Vector3.Lerp(this.position, new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z),Time.deltaTime * 10);
+            this.position = Vector3.Lerp(this.position, new Vector3(this.position.x, placePosition.y + SKIN_WIDTH_THREASHORED, this.position.z), 1f - Mathf.Exp(-10f * Time.deltaTime));
 
         }
         else if (_groundTriangle.slopeAngle <= maxSlopeAngle)
