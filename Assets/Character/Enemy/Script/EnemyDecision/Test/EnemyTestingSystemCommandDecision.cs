@@ -191,7 +191,7 @@ public class EnemyTestingSystemCommandDecision : EnemyDecision
 
         sprintToSpinKick = new TaskingExecute(() => { },
             () => enemyCommand.SprintToPosition(enemy.targetKnowPos, enemy.sprintRotateSpeed, 2f));
-        spinKick = new TaskingExecute(() => enemyCommand.SpinKick(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>());
+        spinKick = new TaskingExecute(() => enemyCommand.HeavyAttack(), () => enemy.stateManagerNode.TryGetCurNodeLeaf<Enemy_OCM_Hit_NodeLeaf>());
 
         _queue.Enqueue(freez_3s);//24
         //_queue.Enqueue(dodge);//23

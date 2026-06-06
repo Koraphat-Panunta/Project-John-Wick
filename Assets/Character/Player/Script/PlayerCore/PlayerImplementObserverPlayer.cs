@@ -9,7 +9,7 @@ public partial class Player : IObserverPlayer
         
         switch (node)
         {
-            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+            case OCM_Hit_NodeLeaf gunFuHitNodeLeaf:
                 {
                     break;
                 }

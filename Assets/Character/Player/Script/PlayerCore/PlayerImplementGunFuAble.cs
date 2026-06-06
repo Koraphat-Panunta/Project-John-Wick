@@ -45,7 +45,7 @@ public partial class Player : I_OCM_Attack_Able
             if(this.curGunFuNode == null)
                 return MeleeAttackingPhase.None;
 
-            if(this.curGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+            if(this.curGunFuNode is OCM_Hit_NodeLeaf gunFuHitNodeLeaf)
                 return MeleeAttackingPhase.Attacking;
 
             return MeleeAttackingPhase.None;

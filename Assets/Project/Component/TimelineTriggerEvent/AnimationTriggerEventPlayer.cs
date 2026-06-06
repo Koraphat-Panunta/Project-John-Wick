@@ -32,7 +32,7 @@ public class AnimationTriggerEventPlayer : TimelineTriggerEvent
 
     public override bool IsPlayFinish() => timer >= endTimer;
 
-    // Kept for callers: EnemySpinKickGunFuNodeLeaf, AttackMoveMeleeWeaponNodeLeaf, QuickShootRangeWeaponNodeLeaf
+    // Kept for callers: Enemy_OCM_Hit_NodeLeaf, AttackMoveMeleeWeaponNodeLeaf, QuickShootRangeWeaponNodeLeaf
     public bool GetNormalizedTimeFromStateName(string stateName, out float normalizedTime)
     {
         normalizedTime = 0;

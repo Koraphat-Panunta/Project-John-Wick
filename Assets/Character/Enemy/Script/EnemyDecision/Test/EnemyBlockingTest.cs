@@ -14,7 +14,7 @@ public class EnemyBlockingTest : EnemyDecision
         //if (
         //     Vector3.Distance(this.enemy._movementCompoent.curPosition, this.enemy.targetKnowPos) < 3.5f
         //     && this.isSpotingTarget)
-        //    this.enemyCommand.SpinKick();
+        //    this.enemyCommand.HeavyAttack();
         
         base.Update();
     }

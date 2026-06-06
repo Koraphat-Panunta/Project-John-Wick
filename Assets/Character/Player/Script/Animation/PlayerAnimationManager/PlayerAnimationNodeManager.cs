@@ -15,6 +15,7 @@ public partial class PlayerAnimationManager
     public PlayAnimationNodeLeaf pokePickUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf getUpNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf boundOffNodeLeaf { get; set; }
+    public PlayAnimationNodeLeaf flinchNodeLeaf { get; set; }
     public NodeSelector parkourNodeSelector { get; set; }
     public PlayAnimationNodeLeaf vaultingNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf climbLowNodeLeaf { get; set; }
@@ -94,6 +95,10 @@ public partial class PlayerAnimationManager
         boundOffNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is PlayerBrounceOffNodeLeaf
             , animator, "PlayerBounceOff", 0, .05f);
+        flinchNodeLeaf = new PlayAnimationNodeLeaf(
+            () => playerStateNodeMnager.TryGetCurNodeLeaf<PlayerAnimationBaseState>(out PlayerAnimationBaseState n)
+                  && n == (playerStateNodeMnager as PlayerStateNodeManager).playerFlinchNodeLeaf
+            , animator, "Flinch_State", 0, .15f);
         parkourNodeSelector = new NodeSelector(() => playerStateNodeMnager.GetCurNodeLeaf() is IParkourNodeLeaf);
         vaultingNodeLeaf = new PlayAnimationNodeLeaf(
             () => playerStateNodeMnager.GetCurNodeLeaf() is VaultingNodeLeaf vaultingNodeLeaf
@@ -228,11 +233,11 @@ public partial class PlayerAnimationManager
         restrictShieldSelector = new NodeSelector(() => playerStateNodeMnager.TryGetCurNodeLeaf<RestrainGunFuStateNodeLeaf>());
         restrictShieldEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
         && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Enter)
-        , animator,GunFuManaverStateName.Restrain.ToString(), 0, 0.35f);
+        , animator,OCM_ManaverStateName.Restrain.ToString(), 0, 0.35f);
         restrictShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
         && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Exit
         )
-        , animator,GunFuManaverStateName.RestrainExit.ToString(), 0, .35f);
+        , animator, OCM_ManaverStateName.RestrainExit.ToString(), 0, .35f);
         restrictShieldMoveNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is RestrainGunFuStateNodeLeaf restrictNodeLeaf
         && (restrictNodeLeaf.curRestrictGunFuPhase == RestrainGunFuStateNodeLeaf.RestrictGunFuPhase.Stay)
         , animator, "Move/Idle", 0, .35f);
@@ -265,13 +270,13 @@ public partial class PlayerAnimationManager
         humanShieldEnterNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShield_GunFu_NodeLeaf humanShieldNodeLeaf
         && (humanShieldNodeLeaf.curIntphase == HumanShield_GunFu_NodeLeaf.HumanShieldInteractionPhase.Enter)
         , animator
-        , GunFuManaverStateName.HumanShield.ToString()
+        , OCM_ManaverStateName.HumanShield.ToString()
         , 0
         ,AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
         , player.humanShieldSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime);
         humanShieldExitNodeLeaf = new PlayAnimationNodeLeaf(() => playerStateNodeMnager.GetCurNodeLeaf() is HumanShieldExit_GunFu_NodeLeaf humanShieldExitNodeLeaf
         , animator
-        , GunFuManaverStateName.HumanShieldExit.ToString()
+        , OCM_ManaverStateName.HumanShieldExit.ToString()
         , 0
         , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
         , player.humanShieldSCRP.animationInteractCharacterDetail[0].enterAnimationOffsetNormalizedTime);
@@ -284,19 +289,19 @@ public partial class PlayerAnimationManager
             , AnimationInteractScriptableObject.transitionRootDrivenAnimationDuration
             );
         hit1NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            () => playerStateNodeMnager.GetCurNodeLeaf() is OCM_Hit_NodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit1",
             animator, "Hit1", 0, .1f, this.player.hit1.enterNormalizedTime);
         hit2NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            () => playerStateNodeMnager.GetCurNodeLeaf() is OCM_Hit_NodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit2",
             animator, "Hit2", 0, .1f, player.hit2.enterNormalizedTime);
         hit3NodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            () => playerStateNodeMnager.GetCurNodeLeaf() is OCM_Hit_NodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "Hit3",
             animator, "Hit3", 0, .1f, player.hit3.enterNormalizedTime);
         spinKickNodeLeaf = new PlayAnimationNodeLeaf(
-            () => playerStateNodeMnager.GetCurNodeLeaf() is GunFuHitNodeLeaf gunFuHitNodeLeaf
+            () => playerStateNodeMnager.GetCurNodeLeaf() is OCM_Hit_NodeLeaf gunFuHitNodeLeaf
             && gunFuHitNodeLeaf._stateName == "DodgeSpinKick",
             animator, "DodgeSpinKick", 0, .25f, player.dodgeSpinKick.enterNormalizedTime
             );
@@ -316,6 +321,7 @@ public partial class PlayerAnimationManager
                 basedLayerNodeSelector.AddtoChildNode(quickshot_Sec_I_NodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(pokePickUpNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(boundOffNodeLeaf);
+                basedLayerNodeSelector.AddtoChildNode(flinchNodeLeaf);
                 basedLayerNodeSelector.AddtoChildNode(parkourNodeSelector);
                 basedLayerNodeSelector.AddtoChildNode(gunFuBaseLayerNodeSelector);
                 basedLayerNodeSelector.AddtoChildNode(this.fallingNodeLeaf);

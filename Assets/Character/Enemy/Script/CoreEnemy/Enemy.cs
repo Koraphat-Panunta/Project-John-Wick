@@ -139,9 +139,9 @@ public partial class Enemy : SubjectEnemy
                     this.NotifyObserver(this, damageVisitor);
                     return;
                 }
-            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+            case OCM_Hit_NodeLeaf gunFuHitNodeLeaf:
                 {
-                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Attacking)
                     {
                         Vector3 hitDir = gunFuHitNodeLeaf.gunFuAble._character._movementCompoent.curPosition - this._movementCompoent.curPosition;
                         hitDir = new Vector3(hitDir.x, this._movementCompoent.curPosition.y , hitDir.z).normalized;
@@ -163,7 +163,7 @@ public partial class Enemy : SubjectEnemy
 
                         this.TakeDamage(gunFuHitNodeLeaf._hPDamage);
 
-                        if (gunFuHitNodeLeaf._stateName == GunFuManaverStateName.Hit3.ToString())
+                        if (gunFuHitNodeLeaf._stateName == OCM_ManaverStateName.Hit3.ToString())
                         {
                             this._posture = Mathf.Clamp(this._posture - gunFuHitNodeLeaf._postureDamageVisitor, 0, this._maxPosture);
                             

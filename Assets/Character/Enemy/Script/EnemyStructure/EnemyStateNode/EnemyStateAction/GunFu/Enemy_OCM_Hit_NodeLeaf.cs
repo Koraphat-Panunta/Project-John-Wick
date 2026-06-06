@@ -2,38 +2,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
+public class Enemy_OCM_Hit_NodeLeaf : EnemyStateLeafNode, I_OCM_Node,IHPDamageVisitor
 {
    
- 
+    public OCM_ManaverStateName ocm_ManaverState;
     public I_OCM_Attack_Able gunFuAble { get => enemy; set { } }
     public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }
 
     public override bool isComplete { get => base.isComplete; protected set => base.isComplete = value; }
 
-    private GunFuHitScriptableObject _enemySpinKickScriptable { get; set; }
+    private GunFuHitScriptableObject _enemyOCM_Hit_Scriptable { get; set; }
     public AnimationTriggerEventPlayer animationTriggerEventPlayer { get; set; }
 
     private Dictionary<I_Got_OCM_Attacked_Able, bool> alreadyHittarget;
 
     private Vector3 targetPosition => this.enemy.targetKnowPos;
-    public string _stateName { get => this._enemySpinKickScriptable.gunFuHitDetail[0].gunFuHitStateName; }
+    public string _stateName { get => this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].gunFuHitStateName; }
 
   
     public MeleeAttackingPhase curPhaseGunFuHit { get; protected set; }
 
     public NodePhase _curPhase => this.curstate;
 
+    public float _hPDamage => this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].hpHitDamage;
+
     protected float beginMoveNormalizedTime;
     protected float finishMoveWarpPos;
-
-    public EnemySpinKickGunFuNodeLeaf(GunFuHitScriptableObject enemySpinKickScriptable,Enemy enemy, Func<bool> preCondition) : base(enemy, preCondition)
+    public bool triggerAttack;
+    public Enemy_OCM_Hit_NodeLeaf(
+        GunFuHitScriptableObject enemyOCM_Hit_Scriptable
+        ,Enemy enemy
+        ,OCM_ManaverStateName oCM_ManaverState
+        , Func<bool> preCondition) : base(enemy, preCondition)
     {
-        this._enemySpinKickScriptable = enemySpinKickScriptable;
+        this.ocm_ManaverState = oCM_ManaverState;
+        this._enemyOCM_Hit_Scriptable = enemyOCM_Hit_Scriptable;
         alreadyHittarget = new Dictionary<I_Got_OCM_Attacked_Able, bool> ();
-        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this._enemySpinKickScriptable);
+        this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this._enemyOCM_Hit_Scriptable);
 
-        this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.Anticipate.ToString(), this.PreAttack);
+        this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.Anticipate.ToString(), this.Anticipate);
         this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.PreAttack.ToString(), this.PreAttack);
         this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.Attacking.ToString(), this.Attacking);
         this.animationTriggerEventPlayer.SubscribeEvent(MeleeAttackingPhase.PostAttack.ToString(), this.PostAttack);
@@ -54,6 +61,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
         isComplete = false;     
         this.alreadyHittarget.Clear();
         curPhaseGunFuHit = MeleeAttackingPhase.None;
+        this.triggerAttack = false;
         base.Enter();
     }
 
@@ -72,27 +80,29 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
         {
             case MeleeAttackingPhase.Anticipate:
                 {
-       
                     this.MoveToTargetPos();
                     break;
                 }
             case MeleeAttackingPhase.PreAttack:
                 {
-       
                     break;
                 }
             case MeleeAttackingPhase.Attacking:
                 {
                     Vector3 castPos = this.enemy.transform.position
-                + (this.enemy.transform.forward * this._enemySpinKickScriptable.gunFuHitDetail[0].attackVolumeForward)
-                + (this.enemy.transform.up * this._enemySpinKickScriptable.gunFuHitDetail[0].attackVolumeUpward)
-                + (this.enemy.transform.right * this._enemySpinKickScriptable.gunFuHitDetail[0].attackVolumeRightward);
+                + (this.enemy.transform.forward * this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackVolumeForward)
+                + (this.enemy.transform.up * this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackVolumeUpward)
+                + (this.enemy.transform.right * this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackVolumeRightward);
+
+                    DrawSphereGizmo(castPos, this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackVolumeRaduis, Color.red, 5f);
 
                     this.gunFuAble._gunFuDetectTarget.CastDetectTargetInVolume
                         (out List<I_Got_OCM_Attacked_Able> targets
                         , castPos
-                        , this._enemySpinKickScriptable.gunFuHitDetail[0].attackVolumeRaduis
+                        , this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackVolumeRaduis
                         , LayerMask.GetMask("Player") | LayerMask.GetMask("Enemy"));
+
+                    
 
                     if (targets == null)
                         return;
@@ -100,6 +110,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
                     if (targets.Count > 0)
                         targets.ForEach(target =>
                         {
+                            Debug.Log("targets = " + target._character.gameObject);
 
                             if (this.alreadyHittarget.ContainsKey(target) == false)
                             {
@@ -165,7 +176,7 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
         Debug.DrawRay(this.enemy._movementCompoent.curPosition, targetDir, Color.red, 5);
 
 
-        this.enemy._movementCompoent.SetRotateToDirWorld(targetDir, this._enemySpinKickScriptable.gunFuHitDetail[0].attackRotateVelocity);
+        this.enemy._movementCompoent.SetRotateToDirWorld(targetDir, this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackRotateVelocity);
     }
     private void MoveToTargetPos()
     {
@@ -174,12 +185,10 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
 
         float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer(this.beginMoveNormalizedTime, this.finishMoveWarpPos);
 
-        if (Vector3.Distance(this.targetPosition, this.enemy._movementCompoent.curPosition) > this._enemySpinKickScriptable.gunFuHitDetail[0].attackRange)
+        if (Vector3.Distance(this.targetPosition, this.enemy._movementCompoent.curPosition) > this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackRange)
             this.enemy._movementCompoent.Move(
-                targetDir * this._enemySpinKickScriptable.gunFuHitDetail[0].warpingMovementCurve.Evaluate(t) * this._enemySpinKickScriptable.gunFuHitDetail[0].attackMoveVelocity * Time.deltaTime
+                targetDir * this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].warpingMovementCurve.Evaluate(t) * this._enemyOCM_Hit_Scriptable.gunFuHitDetail[0].attackMoveVelocity * Time.deltaTime
                 );
-        else
-            this.enemy.enableRootMotion = true;
     }
 
     public void Anticipate()
@@ -192,11 +201,34 @@ public class EnemySpinKickGunFuNodeLeaf : EnemyStateLeafNode, I_OCM_Node
         this.curPhaseGunFuHit = MeleeAttackingPhase.PreAttack; 
         this.enemy.enableRootMotion = true;
     }
-    public void Attacking() => this.curPhaseGunFuHit = MeleeAttackingPhase.Attacking;
+    public void Attacking()
+    {
+        this.curPhaseGunFuHit = MeleeAttackingPhase.Attacking;
+
+
+
+    }
     public void PostAttack() => this.curPhaseGunFuHit = MeleeAttackingPhase.PostAttack;
+    public void TriggerAttack() => this.triggerAttack = true;
     public void OnNotifyFeedBackVisitor(IDamageAble damageAble)
     {
-        
+
+    }
+
+    private static void DrawSphereGizmo(Vector3 center, float radius, Color color, float duration)
+    {
+        const int segments = 16;
+        const float step = 2f * Mathf.PI / segments;
+        for (int i = 0; i < segments; i++)
+        {
+            float a0 = i * step;
+            float a1 = (i + 1) * step;
+            float cos0 = Mathf.Cos(a0) * radius, sin0 = Mathf.Sin(a0) * radius;
+            float cos1 = Mathf.Cos(a1) * radius, sin1 = Mathf.Sin(a1) * radius;
+            Debug.DrawLine(center + new Vector3(cos0, sin0, 0), center + new Vector3(cos1, sin1, 0), color, duration);
+            Debug.DrawLine(center + new Vector3(cos0, 0, sin0), center + new Vector3(cos1, 0, sin1), color, duration);
+            Debug.DrawLine(center + new Vector3(0, cos0, sin0), center + new Vector3(0, cos1, sin1), color, duration);
+        }
     }
 }
 

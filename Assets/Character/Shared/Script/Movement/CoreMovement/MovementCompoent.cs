@@ -77,8 +77,6 @@ public abstract partial class MovementCompoent : INodeManager
     {
         moveInputVelocity_World = new Vector3(dirWorldVelocity.x, 0, dirWorldVelocity.z);
 
-        
-
         switch (moveMode)
         {
             case MoveMode.MaintainMomentumDirection:
@@ -111,6 +109,10 @@ public abstract partial class MovementCompoent : INodeManager
          forwardDir);
 
         this.UpdateMoveToDirWorld(moveInputVelocity_World, speed, moveMode);
+    }
+    public void UpdateMovement()
+    {
+        this.Move(this.curMoveVelocity_World * Time.fixedDeltaTime);
     }
    
     public void SetRotateToDirWorld(Vector3 lookDirWorldNomalized, float rotateSpeed)

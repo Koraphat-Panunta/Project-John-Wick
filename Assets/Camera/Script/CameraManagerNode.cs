@@ -99,7 +99,7 @@ public class CameraManagerNode:INodeManager,IDebuggedAble
            || this.playerStateManager.TryGetCurNodeLeaf<ParryNodeLeaf>()
            );
         this.cameraPerformGunFuHitViewNodeLeaf = new CameraThirdPersonControllerViewNodeLeaf(cameraController, cameraController.cameraPerformGunFuHitView_SCRP,
-            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is GunFuHitNodeLeaf);
+            () => cameraController.curGunFuNode != null && cameraController.curGunFuNode is OCM_Hit_NodeLeaf);
 
         var standLowReadyNode = new CameraThridPersonControllerDynamicTrackingNodeLeaf(
             cameraController, cameraController.cameraTPSStandView_SCRP, () => false);

@@ -74,6 +74,7 @@ public class PlayerStateNodeManager :
 
     public PlayerSelectorStateNode PainStateSelectorNodeLeaf { get; private set; }
     public PlayerBrounceOffNodeLeaf playerBrounceOffNodeLeaf { get; private set; }
+    public PlayerAnimationBaseState playerFlinchNodeLeaf { get; private set; }
 
     public NodeSelector executeGunFuSelector { get; set; }
 
@@ -95,15 +96,15 @@ public class PlayerStateNodeManager :
 
     public NodeSelector triggerHitGunFuSelector { get; private set; }
     public OCM_HitDownNodeLeaf hitDownNodeLeaf { get; private set; }
-    public GunFuHitNodeLeaf hit1gunFuNodeLeaf { get; private set; }
+    public OCM_Hit_NodeLeaf hit1gunFuNodeLeaf { get; private set; }
     public OCM_KnockDown_NodeLeaf ocmKnockDownNodeLeaf { get; private set; }
     public OCMReloadNodeLeaf gunFuReloadNodeLeaf { get; private set; }
     public HumanShield_GunFu_NodeLeaf humanShield_GunFuInteraction_NodeLeaf { get; private set; }
     public HumanShieldExit_GunFu_NodeLeaf humanShieldExit_GunFu_NodeLeaf { get; private set; }
     public RestrainGunFuStateNodeLeaf restrainGunFuStateNodeLeaf { get; private set; }
-    public GunFuHitNodeLeaf Hit2GunFuNodeLeaf { get; private set; }
-    public GunFuHitNodeLeaf Hit3GunFuNodeLeaf { get; private set; }
-    public GunFuHitNodeLeaf dodgeSpinKicklGunFuNodeLeaf { get; private set; }
+    public OCM_Hit_NodeLeaf Hit2GunFuNodeLeaf { get; private set; }
+    public OCM_Hit_NodeLeaf Hit3GunFuNodeLeaf { get; private set; }
+    public OCM_Hit_NodeLeaf dodgeSpinKicklGunFuNodeLeaf { get; private set; }
     public MeleeExecute_NodeLeaf meleeExecuteNodeLeaf_I { get; private set; }
 
     public void InitailizedNode()
@@ -211,9 +212,13 @@ public class PlayerStateNodeManager :
             && player._currentWeapon != null
             );
 
-        PainStateSelectorNodeLeaf = new PlayerSelectorStateNode(this.player, 
+        PainStateSelectorNodeLeaf = new PlayerSelectorStateNode(this.player,
             () => player._triggerEnterGotAttacked_OCM);
-        playerBrounceOffNodeLeaf = new PlayerBrounceOffNodeLeaf( this.player,
+        playerBrounceOffNodeLeaf = new PlayerBrounceOffNodeLeaf(this.player,
+            () => player.curAttackerGunFuNode is Enemy_OCM_Hit_NodeLeaf n
+                  && n.ocm_ManaverState == OCM_ManaverStateName.Hit5);
+        playerFlinchNodeLeaf = new PlayerAnimationBaseState(
+            this.player, this.player.flinchAnimationSCRP,
             () => true);
 
         executeGunFuSelector = new NodeSelector(
@@ -328,7 +333,7 @@ public class PlayerStateNodeManager :
             && this.player.attackedAbleGunFu._character.stance == Stance.prone
             && this.player.attackedAbleGunFu._character.isDead == false);
 
-        this.hit1gunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+        this.hit1gunFuNodeLeaf = new OCM_Hit_NodeLeaf(this.player,
             () => true
             , this.player.hit1);
 
@@ -371,12 +376,12 @@ public class PlayerStateNodeManager :
             ,this.player.humanShield_Exit_SCRP
             ,() => true);
         
-        Hit2GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+        Hit2GunFuNodeLeaf = new OCM_Hit_NodeLeaf(this.player,
             () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
             && this.player.attackedAbleGunFu != null
             && this.player.attackedAbleGunFu._character.stance != Stance.prone
             , this.player.hit2);
-        Hit3GunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+        Hit3GunFuNodeLeaf = new OCM_Hit_NodeLeaf(this.player,
             () =>
             {
                 if((this.player._triggerAttack
@@ -388,7 +393,7 @@ public class PlayerStateNodeManager :
                 else return false;
             }
         , this.player.hit3);
-        dodgeSpinKicklGunFuNodeLeaf = new GunFuHitNodeLeaf(this.player,
+        dodgeSpinKicklGunFuNodeLeaf = new OCM_Hit_NodeLeaf(this.player,
             () => (this.player._triggerAttack || this.player.commandBufferManager.TryGetCommand(nameof(player._triggerAttack)))
        , player.dodgeSpinKick);
 
@@ -473,6 +478,7 @@ public class PlayerStateNodeManager :
         this.dodgeSpinKicklGunFuNodeLeaf.AddTransitionNode(this.Hit2GunFuNodeLeaf);
 
         PainStateSelectorNodeLeaf.AddtoChildNode(playerBrounceOffNodeLeaf);
+        PainStateSelectorNodeLeaf.AddtoChildNode(playerFlinchNodeLeaf);
 
         this.triggerHitGunFuSelector.AddtoChildNode(this.hitDownNodeLeaf);
         this.triggerHitGunFuSelector.AddtoChildNode(this.meleeExecuteNodeLeaf_I);

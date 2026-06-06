@@ -79,6 +79,7 @@ public class OCM_Offendsive_DetectTarget : MonoBehaviour,IInitializedAble
 
         foreach (I_Got_OCM_Attacked_Able item in found)
         {
+
             if (item._isGotAttackedAble == false || item.gotGunFuAttackedAble == gunFuAble)
                 continue;
             if (!target.Contains(item.gotGunFuAttackedAble))

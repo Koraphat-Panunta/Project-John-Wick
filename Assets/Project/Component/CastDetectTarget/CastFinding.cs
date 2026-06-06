@@ -298,23 +298,31 @@ public static class CastFinding
 
         for (int i = 0; i < colliders.Length; i++)
         {
+
+
             if (colliders[i].gameObject.TryGetComponent<T>(out T component) == false)
                 continue;
+
+
             if (component._isDead)
                 continue;
 
+
+
             Vector3 toTarget = colliders[i].transform.position - origin;
             float dist = toTarget.magnitude;
-            if (dist < Mathf.Epsilon || dist > castDistance)
-                continue;
+
 
             Vector3 dir = toTarget / dist;
             float dot = Vector3.Dot(castDir, dir);
             if (dot < cosHalf)
                 continue;
 
+  
+
             if (checkLOS && Physics.Raycast(origin, dir, out RaycastHit hit, dist, obstacleLayerMask, QueryTriggerInteraction.Ignore))
             {
+
                 if (hit.collider.gameObject != colliders[i].gameObject)
                     continue;
             }

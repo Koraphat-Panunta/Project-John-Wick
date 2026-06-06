@@ -62,7 +62,7 @@ public partial class Enemy : I_Got_OCM_Attacked_Able
     {
         switch (gunFu_NodeLeaf)
         {
-            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+            case OCM_Hit_NodeLeaf gunFuHitNodeLeaf:
                 {
                     Vector3 gunFuAblePos = new Vector3
                (

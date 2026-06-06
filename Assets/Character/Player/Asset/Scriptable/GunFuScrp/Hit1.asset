@@ -15,7 +15,7 @@ MonoBehaviour:
   clip: {fileID: 2786917401317576147, guid: c5533531b96b8b74c90217687d4beddc, type: 3}
   enterNormalizedTime: 0.17
   triggerEventDetail:
-  - normalizedTime: 0.17
+  - normalizedTime: 0.2
     eventName: BeginWarp
   - normalizedTime: 0.37
     eventName: OpenAttackingTime
@@ -29,6 +29,9 @@ MonoBehaviour:
     postureHitDamage: 30
     hpHitDamage: 15
     stuntingTime: 1.5
+    attackRange: 0.7
+    attackMoveVelocity: 0
+    attackRotateVelocity: 0
     hitSlowMotionCurve:
       serializedVersion: 2
       m_Curve: []

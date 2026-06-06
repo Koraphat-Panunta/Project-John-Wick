@@ -400,7 +400,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
             ,()=> 
             (
             this.playerStateManager.GetCurNodeLeaf() is OCM_Execute_Single_NodeLeaf
-            || this.playerStateManager.GetCurNodeLeaf() is GunFuHitNodeLeaf
+            || this.playerStateManager.GetCurNodeLeaf() is OCM_Hit_NodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerDodgeRollStateNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerBrounceOffNodeLeaf
             || this.playerStateManager.GetCurNodeLeaf() is PlayerGetUpStateNodeLeaf

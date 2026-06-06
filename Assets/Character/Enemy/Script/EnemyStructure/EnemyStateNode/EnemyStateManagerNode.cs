@@ -68,7 +68,8 @@ public partial class EnemyStateManagerNode : INodeManager
 
 
     public NodeSelector gunFuSelector { get; private set; }
-    public EnemySpinKickGunFuNodeLeaf enemySpinKickGunFuNodeLeaf { get; private set; }
+    public Enemy_OCM_Hit_NodeLeaf enemy_OCM_Heavy_hit_NodeLeaf { get; private set; }
+    public Enemy_OCM_Hit_NodeLeaf enemy_OCM_Normal_hit_NodeLeaf { get; private set; }
 
     public NodeSelector gotGunFuAttackSelector { get; private set; }
     public NodeSelector gotExecuteSelector { get; private set; }
@@ -241,10 +242,17 @@ public partial class EnemyStateManagerNode : INodeManager
         //    () => enemy._triggerGuardBreak,
         //    1.5f);
 
-        this.enemySpinKickGunFuNodeLeaf = new EnemySpinKickGunFuNodeLeaf(
+        this.enemy_OCM_Heavy_hit_NodeLeaf = new Enemy_OCM_Hit_NodeLeaf(
             this.enemy.spinKickScriptable
             ,this.enemy
-            ,()=>true);
+            ,OCM_ManaverStateName.Hit5
+            ,()=> this.enemy_OCM_Heavy_hit_NodeLeaf.triggerAttack);
+
+        this.enemy_OCM_Normal_hit_NodeLeaf = new Enemy_OCM_Hit_NodeLeaf(
+            this.enemy.normalHitScriptable
+            ,this.enemy
+            ,OCM_ManaverStateName.Hit4
+            ,()=> this.enemy_OCM_Normal_hit_NodeLeaf.triggerAttack);
 
         gotGunFuAttackSelector = new NodeSelector( 
             () => 
@@ -301,7 +309,7 @@ public partial class EnemyStateManagerNode : INodeManager
         this.gotGunFuHitNodeLeaf = new GotGunFuHitNodeLeaf(this.enemy,this,
             () => 
             {
-                if (enemy.curAttackerGunFuNode is GunFuHitNodeLeaf gunFuHitNodeLeaf)
+                if (enemy.curAttackerGunFuNode is OCM_Hit_NodeLeaf gunFuHitNodeLeaf)
                     return true;
                 return false;
             });
@@ -362,7 +370,8 @@ public partial class EnemyStateManagerNode : INodeManager
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyStandUpStateNodeLeaf);
         fallDown_EnemyState_NodeLeaf.AddTransitionNode(enemyPushUpStateNodeLeaf);
 
-        gunFuSelector.AddtoChildNode(enemySpinKickGunFuNodeLeaf);
+        gunFuSelector.AddtoChildNode(enemy_OCM_Heavy_hit_NodeLeaf);
+        gunFuSelector.AddtoChildNode(enemy_OCM_Normal_hit_NodeLeaf);
 
         this.gotGunFuAttackSelector.AddtoChildNode(this.gotMeleeExecuteNodeLeaf);
         this.gotGunFuAttackSelector.AddtoChildNode(this.gotExecuteSelector);

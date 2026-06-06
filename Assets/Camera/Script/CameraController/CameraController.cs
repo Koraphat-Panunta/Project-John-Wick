@@ -144,14 +144,14 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                         }
                         break;
                     }
-           case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+           case OCM_Hit_NodeLeaf gunFuHitNodeLeaf:
                 {
-                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
+                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Enter)
                     {
                         this.isPerformGunFu = true;
                         this.curGunFuNode = gunFuHitNodeLeaf;
                     }
-                    else if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Exit)
+                    else if (gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Exit)
                     {
                         this.isPerformGunFu = false;
                         if(this.curGunFuNode == gunFuHitNodeLeaf)
@@ -159,12 +159,12 @@ public partial class CameraController : MonoBehaviour,IObserverPlayer,IInitializ
                     }
 
 
-                        if (gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                        if (gunFuHitNodeLeaf._stateName == "Hit3" && gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Attacking)
                         {
                             cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration*2.5f;
                             cameraImpluse.Performed(new Vector3(-1, 0, 1f) * this.gunFuCameraKickMultiply);
                         }
-                        else if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking)
+                        else if (gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Attacking)
                         {
                             cameraImpluse.impulseSource.ImpulseDefinition.ImpulseDuration = hitImpluseDuration;
                             cameraImpluse.Performed(new Vector3(0, 0, 1f) * this.gunFuCameraKickMultiply);

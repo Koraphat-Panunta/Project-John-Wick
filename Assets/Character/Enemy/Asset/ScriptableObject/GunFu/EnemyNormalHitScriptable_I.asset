@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b13eae309dd37af49befcba4e08c790a, type: 3}
-  m_Name: Hit2
-  m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: faf44e5b64d404f4fabb2883ff9e6a2b, type: 2}
-  enterNormalizedTime: 0.07
+  m_Name: EnemyNormalHitScriptable_I
+  m_EditorClassIdentifier: Assembly-CSharp::GunFuHitScriptableObject
+  clip: {fileID: -6101052222173085032, guid: 03326208b7cba7d448472cf271e411b8, type: 3}
+  enterNormalizedTime: 0
   triggerEventDetail:
-  - normalizedTime: 0.1
-    eventName: BeginWarp
-  - normalizedTime: 0.43
-    eventName: OpenAttackingTime
-  - normalizedTime: 0.48
-    eventName: CloseAttackingTime
-  - normalizedTime: 0.66
-    eventName: TransitionAble
+  - normalizedTime: 0.01
+    eventName: Anticipate
+  - normalizedTime: 0.34
+    eventName: PreAttack
+  - normalizedTime: 0.39
+    eventName: Attacking
+  - normalizedTime: 0.56
+    eventName: PostAttack
   endNormalizedTime: 1
   gunFuHitDetail:
-  - gunFuHitStateName: Hit2
-    postureHitDamage: 15
-    hpHitDamage: 5
-    stuntingTime: 1
-    attackRange: 0.7
-    attackMoveVelocity: 0
-    attackRotateVelocity: 0
+  - gunFuHitStateName: OCM_Normal_Attack
+    postureHitDamage: 0
+    hpHitDamage: 20
+    stuntingTime: 0
+    attackRange: 2
+    attackMoveVelocity: 8.1
+    attackRotateVelocity: 300
     hitSlowMotionCurve:
       serializedVersion: 2
       m_Curve: []
@@ -44,8 +44,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -62,15 +62,15 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    warpingTime: {x: 0.1, y: 0.5}
+    warpingTime: {x: 0, y: 0}
     hitDirRotOffset: {x: 0, y: 0}
-    hitDirPoseAnimOffset: {x: 0, y: 60, z: 0}
-    hitPushForce: 2
-    hitPushAnimConstrainForce: 1
+    hitDirPoseAnimOffset: {x: 0, y: 0, z: 0}
+    hitPushForce: 0
+    hitPushAnimConstrainForce: 0
     hitStopDuration: 0
     hitResetDuration: 0
-    attackVolumeRaduis: 0.31
-    attackVolumeForward: 0.5
-    attackVolumeUpward: 1.1
+    attackVolumeRaduis: 1
+    attackVolumeForward: 1
+    attackVolumeUpward: 1
     attackVolumeRightward: 0
   audiotriggerEvents: []

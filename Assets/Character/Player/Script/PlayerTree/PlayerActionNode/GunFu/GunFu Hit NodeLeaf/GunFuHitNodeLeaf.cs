@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
+public class OCM_Hit_NodeLeaf : PlayerStateNodeLeaf
     , I_OCM_Node
     ,IHPDamageVisitor
     ,IPostureDamageVisitor
@@ -22,7 +22,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     private GunFuHitScriptableObject _gunFuHitScriptableObject { get; set; }
     public string _stateName => _gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].gunFuHitStateName;
     public int hitCount { get; protected set; }
-    private float hitDistance = 0.7f;
+    private float hitDistance => _gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].attackRange;
     private bool isWarping;
     protected bool isAttackingTime;
 
@@ -44,7 +44,18 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get;set; }
     private List<I_Got_OCM_Attacked_Able> gotAttackedAlready;
 
-    public GunFuHitNodeLeaf(Player player, Func<bool> preCondition,GunFuHitScriptableObject gunFuHitScriptableObject) : base(player, preCondition)
+    private float targetRange 
+    {
+        get
+        {
+            if (this.gotGunFuAttackedAble == null)
+                return this.hitDistance;
+
+            return Vector3.Distance(this.gotGunFuAttackedAble._character._movementCompoent.curPosition, this.player._movementCompoent.curPosition);
+        }
+    }
+
+    public OCM_Hit_NodeLeaf(Player player, Func<bool> preCondition,GunFuHitScriptableObject gunFuHitScriptableObject) : base(player, preCondition)
     {
         this._gunFuHitScriptableObject = gunFuHitScriptableObject;
         transitionAbleNode = new Dictionary<INode, bool>();
@@ -189,7 +200,6 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     protected void EndWarp() 
     {
         this.isWarping = false; 
-        this.player.enableRootMotion = true;
     }
 
     protected void TransitionAble()
@@ -200,7 +210,7 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
     public override void FixedUpdateNode()
     {
 
-        WarpingUpdate();
+        MovementUpdate();
 
         base.FixedUpdateNode();
     }
@@ -231,30 +241,36 @@ public class GunFuHitNodeLeaf : PlayerStateNodeLeaf
 
         return false;
     }
-    public void WarpingUpdate()
+    public void MovementUpdate()
     {
-        if(this.isWarping == false)
-            return;
+        if (this.isWarping == false || this.gotGunFuAttackedAble == null)
+        {
+            this.player.enableRootMotion = true;
 
-        this.UpdateExitWarp();
+            Debug.Log("MovementUpdate root = " + this.player.enableRootMotion);
+        }
+        else
+        {
 
-        float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer
-            (this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.x,
-            this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.y
-            );
+            this.UpdateExitWarp();
 
-        MovementWarper.WarpMovement(
-                    this.gunFuAble._character.transform.position
-                    , this.gunFuAble._character.transform.rotation
-                    , this.gunFuAble._character._movementCompoent
-                    , this.approuchPosition + (this.gunFuAble._character.transform.position - this.approuchPosition).normalized * this.hitDistance
-                    , this.lookAtTarget
-                    , this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingMovementCurve.Evaluate(t)
-                    );
+            float t = this.animationTriggerEventPlayer.GetRemapNormalizedTimer
+                (this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.x,
+                this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingTime.y
+                );
 
-        if(t >= 1)
-            this.EndWarp();
+            MovementWarper.WarpMovement(
+                        this.gunFuAble._character.transform.position
+                        , this.gunFuAble._character.transform.rotation
+                        , this.gunFuAble._character._movementCompoent
+                        , this.approuchPosition + (this.gunFuAble._character.transform.position - this.approuchPosition).normalized * this.hitDistance
+                        , this.lookAtTarget
+                        , this._gunFuHitScriptableObject.gunFuHitDetail[this.hitCount].warpingMovementCurve.Evaluate(t)
+                        );
 
+            if (t >= 1)
+                this.EndWarp();
+        }
 
     }
     public bool TransitioningCheck()

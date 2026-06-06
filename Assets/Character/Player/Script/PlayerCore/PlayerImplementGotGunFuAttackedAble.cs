@@ -3,6 +3,7 @@ using UnityEngine;
 public partial class Player: I_Got_OCM_Attacked_Able
 {
     #region InitializedGotAttackedGunFu
+    [SerializeField] public AnimationTriggerEventSCRP flinchAnimationSCRP;
     public bool _triggerEnterGotAttacked_OCM { get; set; }
     public I_OCM_Node curAttackerGunFuNode { get; set; }
     public INodeLeaf curNodeLeaf { get => (playerStateNodeManager as INodeManager).GetCurNodeLeaf(); set => (playerStateNodeManager as INodeManager).SetCurNodeLeaf(value); }

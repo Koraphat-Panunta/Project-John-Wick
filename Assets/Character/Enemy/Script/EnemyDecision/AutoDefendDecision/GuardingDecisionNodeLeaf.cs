@@ -45,8 +45,8 @@ public class GuardingDecisionNodeLeaf : NodeLeaf
             );
         this.couterTask = new TaskingExecute
             (
-            ()=> this._api.SpinKick()
-            ,()=> this._enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
+            ()=> this._api.HeavyAttack()
+            ,()=> this._enemy.stateManagerNode.TryGetCurNodeLeaf<Enemy_OCM_Hit_NodeLeaf>()
             );
 
         this._enemy.AddObserver(this);

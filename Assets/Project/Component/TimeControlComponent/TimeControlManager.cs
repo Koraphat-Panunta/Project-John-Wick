@@ -134,9 +134,9 @@ public class TimeControlManager : MonoBehaviour, INodeManager,IInitializedAble,I
     {
         switch (node)
         {
-            case GunFuHitNodeLeaf gunFuHitNodeLeaf:
+            case OCM_Hit_NodeLeaf gunFuHitNodeLeaf:
                 {
-                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Attacking
+                    if (gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Attacking
                         && gunFuHitNodeLeaf._stateName == "Hit3")
                         this.triggerBulletTime.TriggerSlowMotion(this.hit3_TimeCurve,this.hit3SlowMotionDuration);
                     break;

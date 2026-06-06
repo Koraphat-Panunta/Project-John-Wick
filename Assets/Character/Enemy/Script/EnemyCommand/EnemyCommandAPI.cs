@@ -258,10 +258,11 @@ public class EnemyCommandAPI : MonoBehaviour,IInitializedAble
         this._enemy._triggerEvade = true;
     }
 
-    public void SpinKick()
+    public void HeavyAttack()
     {
         this._enemy.stanceCommand = Stance.stand;
         _enemy._triggerAttack = true;
+        _enemy.enemyStateManagerNode.enemy_OCM_Normal_hit_NodeLeaf.TriggerAttack();
     }
     public void MeleeAttack()
     {

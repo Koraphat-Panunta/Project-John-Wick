@@ -20,7 +20,7 @@ public partial class Player : IDamageVisitor
         {
             if (gotGunFuAttackedAble._triggerEnterGotAttacked_OCM
                 && 
-                (gotGunFuAttackedAble.curAttackerGunFuNode is GunFuHitNodeLeaf
+                (gotGunFuAttackedAble.curAttackerGunFuNode is OCM_Hit_NodeLeaf
                 || gotGunFuAttackedAble.curAttackerGunFuNode is OCM_HitDownNodeLeaf
                 )
                 )

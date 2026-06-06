@@ -5,7 +5,7 @@ public class HumanShieldExit_GunFu_NodeLeaf :
     PlayerStateNodeLeaf
     ,I_OCM_Node
 {
-    public string _stateName => GunFuManaverStateName.HumanShieldExit.ToString();
+    public string _stateName => OCM_ManaverStateName.HumanShieldExit.ToString();
 
     public I_OCM_Attack_Able gunFuAble { get => player; set { } }
     public I_Got_OCM_Attacked_Able gotGunFuAttackedAble { get; set; }

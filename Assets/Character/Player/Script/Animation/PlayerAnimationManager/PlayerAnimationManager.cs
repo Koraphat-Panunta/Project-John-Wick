@@ -237,8 +237,8 @@ public partial class PlayerAnimationManager : MonoBehaviour, IObserverPlayer,IIn
             this.pistolTacticalReloadNodeLeaf.SetStartNormalized(reloadMagazineNode._startReloadStageNormalizedTime);
         }
 
-        if(node is GunFuHitNodeLeaf gunFuHitNodeLeaf
-            && gunFuHitNodeLeaf.curPhaseGunFuHit == GunFuHitNodeLeaf.GunFuPhaseHit.Enter)
+        if(node is OCM_Hit_NodeLeaf gunFuHitNodeLeaf
+            && gunFuHitNodeLeaf.curPhaseGunFuHit == OCM_Hit_NodeLeaf.GunFuPhaseHit.Enter)
         {
             this.hit1NodeLeaf.TriggerReset();
             this.hit2NodeLeaf.TriggerReset();

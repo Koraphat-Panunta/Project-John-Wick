@@ -10,7 +10,7 @@ public partial class PlayerConstrainAnimationManager
         get
         {
 
-            if (playerStateManager.TryGetCurNodeLeaf<GunFuHitNodeLeaf>()
+            if (playerStateManager.TryGetCurNodeLeaf<OCM_Hit_NodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<IGunFuExecuteNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<PlayerDodgeRollStateNodeLeaf>()
                 || playerStateManager.TryGetCurNodeLeaf<PlayerSprintNode>() 
@@ -34,6 +34,8 @@ public partial class PlayerConstrainAnimationManager
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Move_NodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerProneStateNodeLeaf>()
+                || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerDolphinDiveStateNodeLeaf>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerSprintNode>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerSprintChangeDirectionNode>()
                 )

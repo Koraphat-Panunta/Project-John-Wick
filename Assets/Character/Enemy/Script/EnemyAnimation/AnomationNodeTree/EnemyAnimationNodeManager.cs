@@ -22,6 +22,7 @@ public partial class EnemyAnimationManager : INodeManager
     public PlayAnimationNodeLeaf gotMeleeExecuteAnimationNodeLeaf { get; set; }
     public PlayPoseAnimationNodeLeaf painStateAnimationNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemySpinKick { get; set; }
+    public PlayAnimationNodeLeaf enemyNormalHit { get; set; }
     public PlayAnimationNodeLeaf enemyEvadeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf enemyDodgeNodeLeaf { get; set; }
     public PlayAnimationNodeLeaf sprintBaseLayerNodeLeaf { get; set; }
@@ -94,8 +95,14 @@ public partial class EnemyAnimationManager : INodeManager
             ,this.painStatePoseAnimationSCRP);
 
         this.enemySpinKick = new PlayAnimationNodeLeaf(
-            () => enemyStateManager.TryGetCurNodeLeaf<EnemySpinKickGunFuNodeLeaf>()
+            () => enemyStateManager.TryGetCurNodeLeaf<Enemy_OCM_Hit_NodeLeaf>(out Enemy_OCM_Hit_NodeLeaf n)
+                  && n == this.enemy.enemyStateManagerNode.enemy_OCM_Heavy_hit_NodeLeaf
             , animator, "OCM_SpinKick", 0, .15f);
+
+        this.enemyNormalHit = new PlayAnimationNodeLeaf(
+            () => enemyStateManager.TryGetCurNodeLeaf<Enemy_OCM_Hit_NodeLeaf>(out Enemy_OCM_Hit_NodeLeaf n)
+                  && n == this.enemy.enemyStateManagerNode.enemy_OCM_Normal_hit_NodeLeaf
+            , animator, "OCM_Normal_Attack", 0, .15f);
 
         this.sprintBaseLayerNodeLeaf = new PlayAnimationNodeLeaf(
             () => enemyStateManager.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
@@ -134,6 +141,7 @@ public partial class EnemyAnimationManager : INodeManager
         this.startNodeSelector.AddtoChildNode(this.gotRestrictExitNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.painStateAnimationNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.enemySpinKick);
+        this.startNodeSelector.AddtoChildNode(this.enemyNormalHit);
         this.startNodeSelector.AddtoChildNode(this.sprintBaseLayerNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.enemyDodgeNodeLeaf);
         this.startNodeSelector.AddtoChildNode(this.crouchBaseLayerNodeLeaf);
