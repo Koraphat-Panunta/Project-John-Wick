@@ -27,6 +27,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0.05657837
+      outSlope: 0.05657837
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.20180619
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
@@ -39,7 +48,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _topVelocityMove: 7
-  _rotateVelocity: 200
+  _rotateVelocity: 350
   attackMoveName: OCM_Attack_MeleeWeapon_I
   animationTriggerEventSCRP: {fileID: 11400000, guid: 0dd0b3e82194f2244a1b6aa7317afd6c,
     type: 2}

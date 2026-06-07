@@ -42,6 +42,8 @@ public class BodyConstraintManager : MonoBehaviour, IConstraintManager
 
     protected Quaternion restRotation;
 
+    protected Quaternion curRotation;
+
     public void SetWeight(float w)
     {
         this.weight = Mathf.Clamp01(w);
@@ -79,15 +81,12 @@ public class BodyConstraintManager : MonoBehaviour, IConstraintManager
     public void SetLookDirection(Vector3 dir)
     {
         this.targetDir = dir;
+        this.UpdateTargetRotate();
     }
 
     public void SetLookPos(Vector3 pos)
     {
         this.targetDir = (pos - this.rotationConstraint.data.constrainedObject.position).normalized;
-    }
-
-    private void Update()
-    {
         this.UpdateTargetRotate();
     }
   
@@ -126,8 +125,12 @@ public class BodyConstraintManager : MonoBehaviour, IConstraintManager
             * Vector3.forward;
 
         this.bodyRotationRef.rotation = Quaternion.LookRotation(dir.normalized, Vector3.up);
+        this.curRotation = this.bodyRotationRef.rotation;
     }
-
+    private void LateUpdate()
+    {
+        this.bodyRotationRef.rotation = this.curRotation;
+    }
     public void AssignBone(HumanoidBone humanoidBone)
     {
         this.bodyAnchor = humanoidBone.hips;

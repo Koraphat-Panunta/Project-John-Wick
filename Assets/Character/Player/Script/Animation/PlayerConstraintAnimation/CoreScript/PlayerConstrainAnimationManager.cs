@@ -498,10 +498,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
     #region UpdateConstranLookReference
 
-    private Vector3 forwardDir => player.transform.forward;
-    private float maxHorizontalRotateDegrees = 75;
-    private float maxVerticalRotateDegrees = 75;
-    private Vector3 pointingPos;
+   
     [SerializeField] Transform aimConstrainPositionReference;
     [Range(1,10)]
     [SerializeField] float maxCastDistacne;
@@ -509,13 +506,20 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
     [SerializeField] float minCastDisTance;
     float distanceCast = 5;
     [SerializeField] private LayerMask castCollideMask;
+    private Vector3 _lastAimHitPos;
+
+    private void LateUpdate()
+    {
+        this.aimConstrainPositionReference.position = _lastAimHitPos;
+    }
+
     private void UpdateConstrainLookReferencePos()
     {
         Ray ray = new Ray(this.player.cinemachineCamera.targetPos, this.player.cinemachineCamera.targetDir);
         Vector3 hitpos;
 
         float distanceLerpT = 1f - Mathf.Exp(-10f * Time.deltaTime);
-        if(Physics.Raycast(ray,out RaycastHit hitInfo,this.maxCastDistacne, this.castCollideMask,QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, this.maxCastDistacne, this.castCollideMask, QueryTriggerInteraction.Ignore))
         {
             float castHitDistance = Vector3.Distance(this.player.cinemachineCamera.targetPos, hitInfo.point);
             this.distanceCast = Mathf.Clamp(
@@ -532,7 +536,8 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
                );
 
         hitpos = ray.GetPoint(this.distanceCast);
-        this.aimConstrainPositionReference.transform.position = hitpos;
+        _lastAimHitPos = hitpos;
+        this.aimConstrainPositionReference.position = hitpos;
     }
 
     private void UpdateBlackBorad()

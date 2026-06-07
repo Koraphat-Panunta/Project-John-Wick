@@ -12,7 +12,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
 
             //Debug.DrawRay(this.rootCharacter.position, refDir * 2, Color.yellow);
 
-            Vector3 dir = (this.aimingAtTransfrom.position - this.handIK_Transform_Ref_Pos.position).normalized;
+            Vector3 dir = (this.aimingAtTransfrom.position - this.effectiveRefPos).normalized;
             dir = ClampDirection.GetClampDirection(refDir, dir,this.rootCharacter.up, this.maxHorizontalHandTargetDegree, this.maxVerticalHandTargetDegree);
             return dir;
         }
@@ -29,7 +29,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
             //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, rightWard, Color.red);
             //Debug.DrawRay(this.handIK_Transform_Ref_Pos.position, upWard, Color.green);
 
-            return this.handIK_Transform_Ref_Pos.position 
+            return this.effectiveRefPos
                 + (forward * this.handIK_ConstraintSCRP.positionOffset.z)
                 + (rightWard * this.handIK_ConstraintSCRP.positionOffset.x)
                 + (upWard * this.handIK_ConstraintSCRP.positionOffset.y);
@@ -52,6 +52,23 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
            + this.handArmIKConstraintManager.GetTargetHandTransform().right * this.handIK_ConstraintSCRP.hintPositionOffset.x;
 
             return hintHandPos;
+        }
+    }
+
+    private Vector3 _prevRefRootSpacePos;
+    private bool _hasRootSpaceRefPos;
+
+    // Predicts the current-frame arm position by extrapolating in root-local space.
+    // Root-space strips out the physics-interpolation world-shift noise; only
+    // pure animation deltas (walk cycle, body rotation) remain to predict.
+    protected virtual Vector3 effectiveRefPos
+    {
+        get
+        {
+            if (!_hasRootSpaceRefPos) return handIK_Transform_Ref_Pos.position;
+            Vector3 curLocal       = rootCharacter.InverseTransformPoint(handIK_Transform_Ref_Pos.position);
+            Vector3 predictedLocal = 2f * curLocal - _prevRefRootSpacePos;
+            return rootCharacter.TransformPoint(predictedLocal);
         }
     }
 
@@ -116,6 +133,7 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     public override void Enter()
     {
         weight = 0;
+        _hasRootSpaceRefPos = false;
         base.Enter();
     }
 
@@ -123,8 +141,9 @@ public class AimAtHandIKConstriantNodeLeaf : AnimationConstrainNodeLeaf
     {
         this.UpdateTargetHandPosition();
         this.UpdateHintHandPotation();
-        this.weight = Mathf.Clamp01(weight + Time.deltaTime );
-       
+        this.weight = Mathf.Clamp01(weight + Time.deltaTime);
+        _prevRefRootSpacePos = rootCharacter.InverseTransformPoint(handIK_Transform_Ref_Pos.position);
+        _hasRootSpaceRefPos = true;
         base.UpdateNode();
     }
     public override void FixedUpdateNode()

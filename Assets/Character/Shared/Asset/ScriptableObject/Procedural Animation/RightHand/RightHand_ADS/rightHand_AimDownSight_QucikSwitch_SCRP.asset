@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da36ddb475224c8419e9a76d4a74abe9, type: 3}
   m_Name: rightHand_AimDownSight_QucikSwitch_SCRP
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHandIK_ConstraintSCRP
-  positionOffset: {x: 0.01, y: 0.04, z: 0.52}
+  positionOffset: {x: -0.09, y: 0.04, z: 0.52}
   rotationEulerOffset: {x: 17.33, y: 270, z: 270}
   hintPositionOffset: {x: 0.35, y: -0.5, z: -0.2}
   rotateRefDirOffset: {x: 0, y: 0, z: 0}
   maxHorizontalHandAimDeg: 0
   maxVerticalHandAimDeg: 75
-  recoilData: {fileID: 11400000, guid: 2c3c4c5c6c7c8c9c0c1c2c3c4c5c6c7c, type: 2}
-  blockData: {fileID: 11400000, guid: 4e5e6e7e8e9e0e1e2e3e4e5e6e7e8e9e, type: 2}

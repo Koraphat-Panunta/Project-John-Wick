@@ -46,6 +46,10 @@ public class CharacterMovementController : MonoBehaviour
     public float maxSlopeAngle = 45f;
     
 
+    private Vector3 _prevPhysicsPos;
+    private Vector3 _curPhysicsPos;
+    private bool _physicsRanThisFrame;
+
     [SerializeField] protected CharacterMovementControllerScriptableObject characterMovementControllerScriptableObject;
     [SerializeField] CapsuleCollider capsuleCollider;
     public bool enableDynamicCollider;
@@ -157,7 +161,7 @@ public class CharacterMovementController : MonoBehaviour
                 && characterMovementController == this)
                 continue;
 
-            Vector3 dirPush = this.transform.transform.position - _overlapBuffer[i].transform.position;
+            Vector3 dirPush = this.position - _overlapBuffer[i].transform.position;
             moveMotion += new Vector3(dirPush.x, 0, dirPush.z).normalized;
 
 
@@ -192,7 +196,7 @@ public class CharacterMovementController : MonoBehaviour
             {
                dirPush = hitInfo.normal;
             }
-            dirPush = this.transform.transform.position - _overlapBuffer[i].transform.position;
+            dirPush = this.position - _overlapBuffer[i].transform.position;
             moveMotion += new Vector3(dirPush.x, 0, dirPush.z).normalized;
 
 
@@ -245,6 +249,9 @@ public class CharacterMovementController : MonoBehaviour
     private void Awake()
     {
         this.position = transform.position;
+        this.rotation = transform.rotation;
+        _prevPhysicsPos = transform.position;
+        _curPhysicsPos  = transform.position;
         this.transformPositionCheck = transform.localPosition;
     }
     private void Start()
@@ -256,20 +263,9 @@ public class CharacterMovementController : MonoBehaviour
     public Vector3 curVelocity;
     private void Update()
     {
-        this.UpdateGravity();
-        this.UpdateGroundState();
-
-
-        Vector3 currentPos = this.position;
-
-        Vector3 deltaPos = currentPos - lastPos;
-
+        Vector3 deltaPos = this.position - lastPos;
         this.curVelocity = deltaPos / Time.deltaTime;
-
-        this.lastPos = currentPos;
-
-        this.UpdateCharacterRotation();
-
+        this.lastPos = this.position;
     }
 
     
@@ -278,15 +274,35 @@ public class CharacterMovementController : MonoBehaviour
     private Quaternion transformRotationCheck;
     private void FixedUpdate()
     {
+        this.UpdateGravity();
+        this.UpdateGroundState();
         this.CharacterCollideCheck();
         this.ObstacleCollideCheck();
         this.MoveUpdate(this.velocityPhysicBased * Time.fixedDeltaTime);
-        this.UpdateCharacterPosition();
+        _physicsRanThisFrame = true;
     }
 
     private void LateUpdate()
     {
-        this.UpdateCharacterPosition();
+        // Save physics snapshot — runs after ALL FixedUpdates AND Updates have completed
+        if (_physicsRanThisFrame)
+        {
+            _prevPhysicsPos = _curPhysicsPos;
+            _curPhysicsPos  = this.position;
+            _physicsRanThisFrame = false;
+        }
+
+        // Detect external transform writes (teleports, cutscenes, etc.)
+        if (this.transform.position != this.transformPositionCheck)
+        {
+            this.position    = this.transform.position;
+            _prevPhysicsPos  = this.position;
+            _curPhysicsPos   = this.position;
+        }
+
+        float alpha = Mathf.Clamp01((Time.time - Time.fixedTime) / Time.fixedDeltaTime);
+        this.transform.position = Vector3.Lerp(_prevPhysicsPos, _curPhysicsPos, alpha);
+        this.transformPositionCheck = this.transform.position;
         this.UpdateCharacterRotation();
     }
 

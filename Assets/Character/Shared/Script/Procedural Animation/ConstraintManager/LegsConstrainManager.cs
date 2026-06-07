@@ -35,6 +35,10 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
             this.hintRightLegPos = this.rightLegTwoBoneIKConstrain.data.mid.transform.position;
         }
 
+        
+    }
+    private void LateUpdate()
+    {
         this.leftLeg_Target_Foot.position = this.leftLegTransformValue.position;
         this.leftLeg_Target_Foot.rotation = Quaternion.Euler(this.leftLegTransformValue.rotationEuler);
         this.leftLeg_Hint_Foot.position = this.hintLeftLegPos;
@@ -44,17 +48,16 @@ public class LegsConstrainManager :MonoBehaviour, IConstraintManager
         this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
         this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
     }
-
     private void Update()
     {
-        //this.leftLeg_Target_Foot.position = this.leftLegTransformValue.position;
-        //this.leftLeg_Target_Foot.rotation = Quaternion.Euler(this.leftLegTransformValue.rotationEuler);
-        //this.leftLeg_Hint_Foot.position = this.hintLeftLegPos;
+        this.leftLeg_Target_Foot.position = this.leftLegTransformValue.position;
+        this.leftLeg_Target_Foot.rotation = Quaternion.Euler(this.leftLegTransformValue.rotationEuler);
+        this.leftLeg_Hint_Foot.position = this.hintLeftLegPos;
 
 
-        //this.rightLeg_Target_Foot.position = this.rightLegTransformValue.position;
-        //this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
-        //this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
+        this.rightLeg_Target_Foot.position = this.rightLegTransformValue.position;
+        this.rightLeg_Target_Foot.rotation = Quaternion.Euler(this.rightLegTransformValue.rotationEuler);
+        this.rightLeg_Hint_Foot.position = this.hintRightLegPos;
     }
 
     public float GetWeight()

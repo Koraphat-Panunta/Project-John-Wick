@@ -11,6 +11,11 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
     [SerializeField] private Transform handHint;
     [SerializeField] private Transform handTarget;
 
+    protected Vector3 handTargetPosition;
+    protected Quaternion handTargetRotation;
+
+    protected Vector3 hintHandTargetPosition;
+   
     private void Update()
     {
         if (twoBoneIKConstraint.weight <= 0)
@@ -21,16 +26,34 @@ public class HandArmIKConstraintManager : MonoBehaviour,IConstraintManager
         }
     }
 
+    private void LateUpdate()
+    {
+        this.SteadyTransform();
+    }
+
+    public void SteadyTransform()
+    {
+        this.handTarget.position = Vector3.Lerp(this.handTarget.position, this.handTargetPosition,Time.deltaTime);
+        this.handTarget.rotation = Quaternion.Lerp(this.handTarget.rotation,this.handTargetRotation,Time.deltaTime);
+
+        this.handHint.position = Vector3.Lerp(this.handHint.position, this.hintHandTargetPosition, Time.deltaTime);
+    }
+
     public float GetWeight() => twoBoneIKConstraint.weight;
     public void SetWeight(float w) => twoBoneIKConstraint.weight = w;
 
     public void SetHintHandPosition(Vector3 worldHintPosition)
     {
         handHint.position = worldHintPosition;
+
+        this.hintHandTargetPosition = worldHintPosition;
     }
 
     public void SetTargetHand(Vector3 worldPosition, Quaternion worldRotation)
     {
+        this.handTargetPosition = worldPosition;
+        this.handTargetRotation = worldRotation;
+
         handTarget.position = worldPosition;
         handTarget.rotation = worldRotation;
     }
