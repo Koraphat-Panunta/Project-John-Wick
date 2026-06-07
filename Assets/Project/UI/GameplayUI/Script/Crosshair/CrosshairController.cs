@@ -195,8 +195,6 @@ public class CrosshairController : GameplayUI,IObserverPlayer,IPointerAble
                     }
                 case ReloadMagazineFullStageNodeLeaf:
                 case TacticalReloadMagazineFullStageNodeLeaf:
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode:
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode:
                 case DrawPrimaryWeaponManuverNodeLeaf:
                 case DrawSecondaryWeaponManuverNodeLeaf:
                 case HolsterPrimaryWeaponManuverNodeLeaf:

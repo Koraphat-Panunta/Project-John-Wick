@@ -74,6 +74,9 @@ public partial class PlayerAnimationManager
             if (this.playerWeaponManuverNodeManager.TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
+            if (this.isDrawSwitchWeapon)
+                return false;
+
             if(this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>()
                 || this.playerStateNodeMnager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
@@ -97,9 +100,7 @@ public partial class PlayerAnimationManager
     }
     private bool isDrawSwitchWeapon { get 
         { 
-            if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>()
-                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>()
-                || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
+            if(playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
                 || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>()
                 || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
                 || playerWeaponManuverNodeManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>()

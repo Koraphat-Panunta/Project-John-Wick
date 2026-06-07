@@ -9,6 +9,13 @@ public partial class Enemy : IRangeWeaponAdvanceUser
     [SerializeField] private PrimaryWeaponSocket PrimaryWeaponSocket;
     [SerializeField] private SecondaryWeaponSocket SecondaryWeaponSocket;
 
+    [SerializeField] public AnimationTriggerEventSCRP holsterPrimaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP holsterSecondaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP drawPrimaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP drawSecondaryWeaponSCRP;
+
+    [SerializeField] public TransformOffsetSCRP LeftHandHoldWeaponOffset;
+
     public bool _isPullTriggerCommand { get; set; }
     public bool _isAimingCommand { get; set; }
     public bool _isReloadCommand { get; set; }

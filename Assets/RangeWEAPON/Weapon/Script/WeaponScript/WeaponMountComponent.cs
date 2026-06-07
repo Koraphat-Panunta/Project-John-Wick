@@ -78,5 +78,5 @@ public class WeaponMountComponent : MountComponent
         }
     }
 
-    public static readonly float attatchingDurationGlobal = .75f;
+    public static readonly float attatchingDurationGlobal = .35f;
 }

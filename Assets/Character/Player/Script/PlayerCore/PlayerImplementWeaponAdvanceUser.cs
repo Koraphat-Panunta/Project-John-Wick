@@ -13,7 +13,12 @@ public partial class Player: IRangeWeaponAdvanceUser
     [SerializeField] public AnimationTriggerEventSCRP quickSiwthcHolsterPrimarySCRP;
     [SerializeField] public AnimationTriggerEventSCRP quickSwitchHoslterSecondarySCRP;
 
-    [SerializeField] public TransformOffsetSCRP quickSwitchHoldOffset;
+    [SerializeField] public AnimationTriggerEventSCRP holsterPrimaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP holsterSecondaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP drawPrimaryWeaponSCRP;
+    [SerializeField] public AnimationTriggerEventSCRP drawSecondaryWeaponSCRP;
+
+    [SerializeField] public TransformOffsetSCRP LeftHandHoldWeaponOffset;
 
     public CrosshairController crosshairController;
     

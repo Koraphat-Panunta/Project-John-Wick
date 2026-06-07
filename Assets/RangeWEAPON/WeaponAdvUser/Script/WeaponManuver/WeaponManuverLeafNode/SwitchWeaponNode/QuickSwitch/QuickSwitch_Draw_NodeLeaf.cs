@@ -10,7 +10,7 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
     private RangeWeapon secondHandWeapon;
 
     public IQuickSwitchWeaponManuverAble quickSwitchWeaponManuverAble { get ; set ; }
-    private TransformOffsetSCRP quickSwitchHoldOffset;
+    private readonly TransformOffsetSCRP quickSwitchHoldOffset;
 
     private AnimationTriggerEventPlayer animationTriggerEventPlayer;
 
@@ -27,9 +27,8 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
 
         this.animationTriggerEventPlayer = new AnimationTriggerEventPlayer(this.animationTriggerEventSCRP);
         this.animationTriggerEventPlayer.SubscribeEvent(animationTriggerEventSCRP.triggerEventDetail[0].eventName, Draw);
-
     }
-  
+
     public override void Enter()
     {
         this.animationTriggerEventPlayer.Rewind();
@@ -39,7 +38,8 @@ public class QuickSwitch_Draw_NodeLeaf : WeaponManuverLeafNode,IQuickSwitchNode
             , weaponAdvanceUser._secondHandSocket
             , quickSwitchHoldOffset.postitionOffset
             , Quaternion.Euler(quickSwitchHoldOffset.rotationEulerOffset)
-            ,WeaponMountComponent.attatchingDurationGlobal);
+            , WeaponMountComponent.attatchingDurationGlobal);
+        secondHandWeapon.WeaponAttacherComponent.curWeaponGrip = secondHandWeapon._SecondHandGripTransform;
         this.weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction<QuickSwitch_Draw_NodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive,this);
         isDrawSecondary = false;
         isComplete = false;

@@ -12,8 +12,9 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
 
     public NodeSelector curWeaponManuverSelector { get; set; }
     public override DropWeaponManuverNodeLeaf dropWeaponManuverNodeLeaf { get; protected set; }
-    public override SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode { get; protected set; }
-    public override PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode { get; protected set; }
+
+    public NodeSelector switchDrawSecondaryNodeSelector { get; set; }
+    public NodeSelector switchDrawPrimaryNodeSelector { get; set; }
 
     public NodeSelector holsterWeaponSelector { get; set; }
     public override HolsterPrimaryWeaponManuverNodeLeaf holsterPrimaryWeaponManuverNodeLeaf { get; protected set; }
@@ -27,12 +28,12 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
     public override DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf { get ; protected set; }
     public override RestWeaponManuverLeafNode restWeaponManuverLeafNode { get; protected set; }
 
-    public override bool isAimingManuverAble 
+    public override bool isAimingManuverAble
     {
-        get 
+        get
         {
             if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
                 )
@@ -55,8 +56,8 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         }
     }
 
-    public override bool isReloadManuverAble { 
-        get 
+    public override bool isReloadManuverAble {
+        get
         {
             if (enemy._isInPain)
                 return false;
@@ -67,32 +68,17 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
             if(dropWeaponManuverNodeLeaf.Precondition())
                 return false;
 
-            if(secondaryToPrimarySwitchWeaponManuverLeafNode.Precondition())
+            if(switchDrawPrimaryNodeSelector.preCondition.Invoke())
                 return false;
 
-            if(primaryToSecondarySwitchWeaponManuverLeafNode.Precondition())
+            if(switchDrawSecondaryNodeSelector.preCondition.Invoke())
                 return false;
 
             if(holsterWeaponSelector.Precondition())
                 return false;
 
-            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
-                )
-                return true;
-            return false;
-        } 
-    }
-
-    public override bool isSwitchWeaponManuverAble 
-    {
-        get 
-        {
-            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
@@ -102,12 +88,12 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         }
     }
 
-    public override bool isPickingUpWeaponManuverAble 
+    public override bool isSwitchWeaponManuverAble
     {
         get
         {
-            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>() 
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
@@ -117,15 +103,30 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         }
     }
 
-    public override bool isDropWeaponManuverAble 
+    public override bool isPickingUpWeaponManuverAble
     {
         get
         {
-            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>() 
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
+                )
+                return true;
+            return false;
+        }
+    }
+
+    public override bool isDropWeaponManuverAble
+    {
+        get
+        {
+            if (enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyStandMoveStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchIdleStateNodeLeaf>()
                 || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemyCrouchMoveStateNodeLeaf>()
-                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>() 
+                || enemy.stateManagerNode.TryGetCurNodeLeaf<EnemySprintStateNodeLeaf>()
                 )
                 return true;
             return false;
@@ -137,43 +138,46 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
     public override void InitailizedNode()
     {
         pickUpWeaponNodeLeaf = new PickUpWeaponNodeLeaf(weaponAdvanceUser,
-            ()=> 
+            () =>
             {
-
-                if (isPickingUpWeaponManuverAble 
+                if (isPickingUpWeaponManuverAble
                 && weaponAdvanceUser._isPickingUpWeaponCommand)
                 {
                     if (weaponAdvanceUser._findingWeaponBehavior.FindingWeapon())
-                    {
-                        //Debug.Log("Enemy weaponAdvanceUser._findingWeaponBehavior.FindingWeapon()");
                         return true;
-                    }
                 }
                 return false;
-            } 
-            );
+            });
 
-        curWeaponManuverSelector = new NodeSelector (
-            ()=> curWeapon != null);
+        curWeaponManuverSelector = new NodeSelector(() => curWeapon != null);
         dropWeaponManuverNodeLeaf = new DropWeaponManuverNodeLeaf(weaponAdvanceUser,
             () => (isDropWeaponManuverAble && weaponAdvanceUser._isDropWeaponCommand) || (enemy.isDead && enemy._currentWeapon != null));
-        secondaryToPrimarySwitchWeaponManuverLeafNode = new SecondaryToPrimarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
-           () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
-           && isSwitchWeaponManuverAble
-           && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon 
-           && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
-        primaryToSecondarySwitchWeaponManuverLeafNode = new PrimaryToSecondarySwitchWeaponManuverLeafNode(this.weaponAdvanceUser,
+
+        switchDrawSecondaryNodeSelector = new NodeSelector(
             () => weaponAdvanceUser._isDrawSecondaryWeaponCommand
-           && isSwitchWeaponManuverAble
-           && curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
-           && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
+            && isSwitchWeaponManuverAble
+            && curWeapon == weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
+            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
+
+        switchDrawPrimaryNodeSelector = new NodeSelector(
+            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
+            && isSwitchWeaponManuverAble
+            && curWeapon == weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon
+            && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
 
         holsterWeaponSelector = new NodeSelector(
-          () => weaponAdvanceUser._isHolsterWeaponCommand && isSwitchWeaponManuverAble);
+            () => weaponAdvanceUser._isHolsterWeaponCommand && isSwitchWeaponManuverAble);
+ 
+
         holsterPrimaryWeaponManuverNodeLeaf = new HolsterPrimaryWeaponManuverNodeLeaf(weaponAdvanceUser,
-            () => weaponAdvanceUser._currentWeapon is PrimaryWeapon);
+            () => weaponAdvanceUser._currentWeapon is PrimaryWeapon,
+            enemy.holsterPrimaryWeaponSCRP,
+            this.enemy.humanoidBone._leftHandBone,
+            enemy.LeftHandHoldWeaponOffset);
+
         holsterSecondaryWeaponManuverNodeLeaf = new HolsterSecondaryWeaponManuverNodeLeaf(weaponAdvanceUser,
-            () =>true);
+            () => true,
+            enemy.holsterSecondaryWeaponSCRP);
 
         reloadNodeAttachAbleSelector = new NodeAttachAbleSelector();
         aimDownSightWeaponManuverNodeLeaf = new AimDownSightWeaponManuverNodeLeaf(this.weaponAdvanceUser,
@@ -184,13 +188,29 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         drawPrimaryWeaponManuverNodeLeaf = new DrawPrimaryWeaponManuverNodeLeaf(weaponAdvanceUser,
            () => weaponAdvanceUser._isDrawPrimaryWeaponCommand
            && isSwitchWeaponManuverAble
-           && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
+           && weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null,
+           enemy.drawPrimaryWeaponSCRP,
+           this.enemy.humanoidBone._leftHandBone,
+           enemy.LeftHandHoldWeaponOffset);
+
         drawSecondaryWeaponManuverNodeLeaf = new DrawSecondaryWeaponManuverNodeLeaf(weaponAdvanceUser,
             () => weaponAdvanceUser._isDrawSecondaryWeaponCommand
             && isSwitchWeaponManuverAble
-            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
+            && weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null,
+            enemy.drawSecondaryWeaponSCRP);
         restWeaponManuverLeafNode = new RestWeaponManuverLeafNode(this.weaponAdvanceUser,
             () => true);
+
+        // Wire INodeLeafTransitionAble transitions on holster nodes
+        holsterPrimaryWeaponManuverNodeLeaf.nodeManager = this;
+        (holsterPrimaryWeaponManuverNodeLeaf as INodeLeafTransitionAble).AddTransitionNode(
+            drawSecondaryWeaponManuverNodeLeaf,
+            () => this.weaponAdvanceUser._weaponBelt.mySecondaryWeapon != null);
+
+        holsterSecondaryWeaponManuverNodeLeaf.nodeManager = this;
+        (holsterSecondaryWeaponManuverNodeLeaf as INodeLeafTransitionAble).AddTransitionNode(
+            drawPrimaryWeaponManuverNodeLeaf,
+            () => this.weaponAdvanceUser._weaponBelt.myPrimaryWeapon != null);
 
         startNodeSelector = new WeaponManuverSelectorNode(this.weaponAdvanceUser, () => true);
 
@@ -201,12 +221,15 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
         startNodeSelector.AddtoChildNode(restWeaponManuverLeafNode);
 
         curWeaponManuverSelector.AddtoChildNode(dropWeaponManuverNodeLeaf);
-        curWeaponManuverSelector.AddtoChildNode(primaryToSecondarySwitchWeaponManuverLeafNode);
-        curWeaponManuverSelector.AddtoChildNode(secondaryToPrimarySwitchWeaponManuverLeafNode);
+        curWeaponManuverSelector.AddtoChildNode(switchDrawSecondaryNodeSelector);
+        curWeaponManuverSelector.AddtoChildNode(switchDrawPrimaryNodeSelector);
         curWeaponManuverSelector.AddtoChildNode(holsterWeaponSelector);
         curWeaponManuverSelector.AddtoChildNode(reloadNodeAttachAbleSelector);
-        curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf); 
+        curWeaponManuverSelector.AddtoChildNode(aimDownSightWeaponManuverNodeLeaf);
         curWeaponManuverSelector.AddtoChildNode(lowReadyWeaponManuverNodeLeaf);
+
+        switchDrawSecondaryNodeSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);
+        switchDrawPrimaryNodeSelector.AddtoChildNode(holsterSecondaryWeaponManuverNodeLeaf);
 
         holsterWeaponSelector.AddtoChildNode(holsterPrimaryWeaponManuverNodeLeaf);
         holsterWeaponSelector.AddtoChildNode(holsterSecondaryWeaponManuverNodeLeaf);
@@ -217,5 +240,5 @@ public class EnemyWeaponManuver : WeaponNodeManuverManager
     {
         base.UpdateNode();
     }
-   
+
 }

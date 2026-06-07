@@ -8,19 +8,22 @@ public interface INodeLeafTransitionAble : INodeLeaf
     public Dictionary<INode, bool> transitionAbleNode { get; set; }
     public bool TransitioningCheck();
     public void AddTransitionNode(INode node);
+    public void AddTransitionNode(INode node, Func<bool> transitionCondition)
+        => nodeLeafTransitionBehavior.AddTransistionNode(this, node, transitionCondition);
     public NodeLeafTransitionBehavior nodeLeafTransitionBehavior { get; set; }
-   
+
 }
-public class NodeLeafTransitionBehavior 
+public class NodeLeafTransitionBehavior
 {
+    private readonly Dictionary<INode, Func<bool>> _transitionConditions = new Dictionary<INode, Func<bool>>();
+
     public bool TransitioningCheck(INodeLeafTransitionAble nodeLeafTransitionAble)
     {
        Dictionary<INode, bool> transitionAbleNode = nodeLeafTransitionAble.transitionAbleNode;
 
         foreach(INode node in transitionAbleNode.Keys)
         {
-            if (transitionAbleNode[node] &&
-                node.Precondition())
+            if (transitionAbleNode[node] && _transitionConditions[node].Invoke())
             {
                 if(node is INodeLeaf nodeLeaf)
                 {
@@ -42,7 +45,19 @@ public class NodeLeafTransitionBehavior
         return false;
     }
 
-    public void AddTransistionNode(INodeLeafTransitionAble nodeLeafTransitionAble,INode addNode)
+    public void AddTransistionNode(INodeLeafTransitionAble nodeLeafTransitionAble, INode addNode, Func<bool> transitionCondition)
+    {
+        _transitionConditions[addNode] = transitionCondition;
+        RegisterTransitionNode(nodeLeafTransitionAble, addNode);
+    }
+
+    public void AddTransistionNode(INodeLeafTransitionAble nodeLeafTransitionAble, INode addNode)
+    {
+        _transitionConditions[addNode] = addNode.preCondition;
+        RegisterTransitionNode(nodeLeafTransitionAble, addNode);
+    }
+
+    private void RegisterTransitionNode(INodeLeafTransitionAble nodeLeafTransitionAble, INode addNode)
     {
         if (addNode is INodeLeaf nodeLeaf)
         {
@@ -53,7 +68,6 @@ public class NodeLeafTransitionBehavior
             }
         }
         nodeLeafTransitionAble.transitionAbleNode.Add(addNode, false);
-
     }
     public void TransitionAbleAll(INodeLeafTransitionAble nodeLeafTransitionAble)
     {

@@ -51,7 +51,7 @@ public class PlayerEditor : Editor
         "quickSwitchDrawSCRP",
         "quickSiwthcHolsterPrimarySCRP",
         "quickSwitchHoslterSecondarySCRP",
-        "quickSwitchHoldOffset",
+        "LeftHandHoldWeaponOffset",
         // Sprint
         "sprintChangeDirSCRP",
         // Quick Shot
@@ -143,7 +143,7 @@ public class PlayerEditor : Editor
             Field("quickSwitchDrawSCRP");
             Field("quickSiwthcHolsterPrimarySCRP");
             Field("quickSwitchHoslterSecondarySCRP");
-            Field("quickSwitchHoldOffset");
+            Field("LeftHandHoldWeaponOffset");
         });
 
         Section(ref _showSprint, "Sprint", () =>

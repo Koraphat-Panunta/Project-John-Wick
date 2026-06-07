@@ -30,6 +30,15 @@ public partial class PlayerConstrainAnimationManager
             if ((this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IReloadNode>())
                 return false;
 
+            if ((this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<IQuickSwitchNode>())
+                return false;
+
+            if ((this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
+                || (this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>()
+                || (this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<HolsterPrimaryWeaponManuverNodeLeaf>()
+                || (this.player._weaponManuverManager as INodeManager).TryGetCurNodeLeaf<HolsterSecondaryWeaponManuverNodeLeaf>())
+                return false;
+
             if (this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerStandIdleNodeLeaf>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerStandMoveNodeLeaf>()
                 || this.player.stateNodeManager.TryGetCurNodeLeaf<PlayerCrouch_Idle_NodeLeaf>()
@@ -68,8 +77,6 @@ public partial class PlayerConstrainAnimationManager
         {
             if(playerWeaponManuverStateManager.TryGetCurNodeLeaf<DrawPrimaryWeaponManuverNodeLeaf>()
                 || playerWeaponManuverStateManager.TryGetCurNodeLeaf<DrawSecondaryWeaponManuverNodeLeaf>()
-                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<PrimaryToSecondarySwitchWeaponManuverLeafNode>()
-                || playerWeaponManuverStateManager.TryGetCurNodeLeaf<SecondaryToPrimarySwitchWeaponManuverLeafNode>()
                 || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_Draw_NodeLeaf>()
                 || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_HolsterPrimaryWeapon_NodeLeaf>()
                 || playerWeaponManuverStateManager.TryGetCurNodeLeaf<QuickSwitch_HolsterSecondaryWeapon_NodeLeaf>())

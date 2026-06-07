@@ -3,51 +3,53 @@ using UnityEngine;
 
 public class DrawSecondaryWeaponManuverNodeLeaf : WeaponManuverLeafNode
 {
-    private float duration = 0.25f;
-    private float elapseTime;
-    
-    public DrawSecondaryWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition) : base(weaponAdvanceUser, preCondition)
+    private AnimationTriggerEventSCRP _animationTriggerEventSCRP;
+    private AnimationTriggerEventPlayer _animationTriggerEventPlayer;
+    private bool _isDrawn;
+
+    public DrawSecondaryWeaponManuverNodeLeaf(IRangeWeaponAdvanceUser weaponAdvanceUser, Func<bool> preCondition, AnimationTriggerEventSCRP animationTriggerEventSCRP) : base(weaponAdvanceUser, preCondition)
     {
+        _animationTriggerEventSCRP = animationTriggerEventSCRP;
+        _animationTriggerEventPlayer = new AnimationTriggerEventPlayer(_animationTriggerEventSCRP);
+        _animationTriggerEventPlayer.SubscribeEvent(_animationTriggerEventSCRP.triggerEventDetail[0].eventName, DrawEvent);
     }
 
     public override void Enter()
     {
+        _isDrawn = false;
+        _animationTriggerEventPlayer.Rewind();
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            <DrawSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+    }
 
-        elapseTime = 0;
-
-        if (weaponAdvanceUser._currentWeapon == null)
-            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon), weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
-        else if (weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.myPrimaryWeapon as RangeWeapon
-            && weaponAdvanceUser._currentWeapon != weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon)
-        {
-            WeaponAttachingBehavior.Detach(weaponAdvanceUser._currentWeapon, weaponAdvanceUser);
-            WeaponAttachingBehavior.Attach((weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon), weaponAdvanceUser._mainHandSocket, WeaponMountComponent.attatchingDurationGlobal);
-        }
-        else
-        {
-            throw new Exception("DrawSecondaryWeaponManuver corrupt");
-        }
-        weaponAdvanceUser._weaponAfterAction.
-            SendFeedBackWeaponAfterAction<DrawSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
+    private void DrawEvent()
+    {
+        WeaponAttachingBehavior.Attach(
+            weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon,
+            weaponAdvanceUser._mainHandSocket,
+            WeaponMountComponent.attatchingDurationGlobal);
+        _isDrawn = true;
+        weaponAdvanceUser._weaponAfterAction.SendFeedBackWeaponAfterAction
+            <DrawSecondaryWeaponManuverNodeLeaf>(WeaponAfterAction.WeaponAfterActionSending.WeaponStateNodeActive, this);
     }
 
     public override void Exit()
     {
-        
+        if (_isDrawn == false)
+            WeaponAttachingBehavior.Attach(
+                weaponAdvanceUser._weaponBelt.mySecondaryWeapon as RangeWeapon,
+                weaponAdvanceUser._mainHandSocket,
+                WeaponMountComponent.attatchingDurationGlobal);
     }
 
-    public override void FixedUpdateNode()
-    {
-        
-    }
+    public override void FixedUpdateNode() { }
 
-    public override bool IsComplete()
-    {
-        return elapseTime > duration;
-    }
+    public override bool IsComplete() => _animationTriggerEventPlayer.IsPlayFinish();
+
+    public override bool IsReset() => IsComplete();
 
     public override void UpdateNode()
     {
-        elapseTime += Time.deltaTime;
+        _animationTriggerEventPlayer.UpdatePlay(Time.deltaTime);
     }
 }

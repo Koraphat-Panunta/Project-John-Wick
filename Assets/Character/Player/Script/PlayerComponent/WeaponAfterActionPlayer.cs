@@ -103,18 +103,6 @@ public class WeaponAfterActionPlayer : WeaponAfterAction
                         player.NotifyObserver(player, drawSecondaryWeaponManuverNodeLeaf);
                     }
                     break;
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode:
-                    {
-                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
-                        player.NotifyObserver(player, primaryToSecondarySwitchWeaponManuverLeafNode);
-                    }
-                    break;
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode:
-                    {
-                        player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));
-                        player.NotifyObserver(player, secondaryToPrimarySwitchWeaponManuverLeafNode);
-                    }
-                    break;
                 case RestWeaponManuverLeafNode restWeaponManuverLeafNode:
                     {
                         player.commandBufferManager.RemoveCommand(nameof(player._isPullTriggerCommand));

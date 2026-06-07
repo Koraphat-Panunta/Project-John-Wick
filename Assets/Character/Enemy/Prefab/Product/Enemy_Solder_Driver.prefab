@@ -721,7 +721,8 @@ MonoBehaviour:
   pushUpPoseSCRP: {fileID: 11400000, guid: ffd4238892b54933879b85b0f5aeffad, type: 2}
   gunFuDetectTarget: {fileID: 3462143931163896493}
   spinKickScriptable: {fileID: 11400000, guid: b704557c0fd821144abb055425abeede, type: 2}
-  normalHitScriptable: {fileID: 11400000, guid: e1f2a3b4c5d6789012345678abcdef01, type: 2}
+  normalHitScriptable: {fileID: 11400000, guid: e1f2a3b4c5d6789012345678abcdef01,
+    type: 2}
   gotRestrictScriptableObject: {fileID: 11400000, guid: 4aa7503db68cb024282ca8e98fbd4f9a,
     type: 2}
   humanShield_GotInteract_Exit_SCRP: {fileID: 11400000, guid: 442889f0c29e6aa418b8b2e9cc4a022a,
@@ -760,6 +761,14 @@ MonoBehaviour:
   SecondHandSocket: {fileID: 5525836222369067128}
   PrimaryWeaponSocket: {fileID: 6834423852344368017}
   SecondaryWeaponSocket: {fileID: 3665485677445395388}
+  holsterPrimaryWeaponSCRP: {fileID: 11400000, guid: b1c2d3e4f5a6b001c7d8e9f0a1b2c3d4,
+    type: 2}
+  holsterSecondaryWeaponSCRP: {fileID: 11400000, guid: c1d2e3f4a5b6c002d7e8f9a0b1c2d3e4,
+    type: 2}
+  drawPrimaryWeaponSCRP: {fileID: 11400000, guid: d1e2f3a4b5c6d003e7f8a9b0c1d2e3f4,
+    type: 2}
+  drawSecondaryWeaponSCRP: {fileID: 11400000, guid: e1f2a3b4c5d6e004f7a8b9c0d1e2f3a4,
+    type: 2}
   trackingTargetAccelerate: 1
   trackingTargetDecelerate: 1
   maxTrackRate: 0.7
@@ -1007,7 +1016,6 @@ MonoBehaviour:
   LimitAimAngleDegrees: 44.6
   Shpere_Raduis_Detecion: 0.45
   Shpere_Distance_Detection: 1
-  gunFuDetectTargetDebug: 
   _layerTarget:
     serializedVersion: 2
     m_Bits: 0

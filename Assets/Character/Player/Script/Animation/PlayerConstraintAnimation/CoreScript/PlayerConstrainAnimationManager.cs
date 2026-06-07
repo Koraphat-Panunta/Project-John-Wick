@@ -263,7 +263,9 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
 
         //2
         this.leftHandQuickSwitchIKNodeLeaf = new ArmIKConstriantRefTransformNodeLeaf(
-            () => this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>()
+            () => this.playerWeaponManuverStateManager.TryGetCurNodeLeaf<IQuickSwitchNode>(out IQuickSwitchNode quickSwitchNode)
+            && quickSwitchNode is QuickSwitch_HolsterPrimaryWeapon_NodeLeaf == false
+
             , this.leftHandConstraintManager
             , this.player.humanoidBone._spine_2_Bone
             , this.player.humanoidBone._spine_2_Bone
@@ -298,7 +300,7 @@ public partial class PlayerConstrainAnimationManager : AnimationConstrainNodeMan
         this.leftHandDisableWeightConstraintNodeLeaf = new SetConstraintWeightNodeLeaf(
             () => true
             , leftHandConstraintManager
-            ,5
+            ,10
             ,0);
 
 

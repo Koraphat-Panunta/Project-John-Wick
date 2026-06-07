@@ -55,11 +55,6 @@ public class WeaponAfterActionEnemy : WeaponAfterAction
                     break;
                 case DrawSecondaryWeaponManuverNodeLeaf drawSecondaryWeaponManuverNodeLeaf: enemy.NotifyObserver(enemy, drawSecondaryWeaponManuverNodeLeaf);
                     break;
-                case PrimaryToSecondarySwitchWeaponManuverLeafNode primaryToSecondarySwitchWeaponManuverLeafNode: enemy.NotifyObserver(enemy, primaryToSecondarySwitchWeaponManuverLeafNode);
-                    break;
-                case SecondaryToPrimarySwitchWeaponManuverLeafNode secondaryToPrimarySwitchWeaponManuverLeafNode: enemy.NotifyObserver(enemy, secondaryToPrimarySwitchWeaponManuverLeafNode);
-                    break;
-                  
                 case RestWeaponManuverLeafNode:
                     {
                         //No logic yet
